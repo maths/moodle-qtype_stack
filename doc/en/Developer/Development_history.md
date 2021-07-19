@@ -2,6 +2,22 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.3.9
+
+Released July 2021.
+
+Mostly minor bug fixes.
+
+* Add in additional cache `compiledcache` to reduce validation overheads by compiling questions.
+* Improve checking of teacher's code for better security, this requires a new admin setting `caspreparse` for back compatibility.
+* Add in local.mac for site specific code.
+* Move STACK admin UI scripts to `adminui`.
+* Add in ATEqualComAssRules
+* Filter student's input so groups are turned into `ntuple` inert functions.  At last students can type in coordinates as `(x,y)` as input!
+* Add in warnings of language mismatch in parts of a question.
+* Add in warnings where the answer test needs a raw input but appears to get a calculated value.
+* Expand `rand` to accept sets and make a random selection from sets.  Add `rand_selection_with_replacement`.
+
 ## Version 4.3.8
 
 Released December 2020.

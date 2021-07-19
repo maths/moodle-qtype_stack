@@ -8472,6 +8472,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1+1</td>
+  <td class="cell c3">2</td>
+  <td class="cell c4">[testdebug,zeroAdd]</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
   <td class="cell c9">ATEqualComAssRules: [1 noun+ 1,2].</td>
   <td class="cell c10"></td>
 </tr>
@@ -8506,7 +8519,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">1*a</td>
   <td class="cell c3">a</td>
-  <td class="cell c4">[zeroAdd]</td>
+  <td class="cell c4">[testdebug,zeroAdd]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -8641,7 +8654,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [0 noun* a,0].</td>
+  <td class="cell c9"></td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8675,7 +8688,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">-(-(-a))</td>
   <td class="cell c3">a</td>
-  <td class="cell c4">[negNeg]</td>
+  <td class="cell c4">[testdebug,negNeg]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -8689,6 +8702,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c2">3/(-x)</td>
   <td class="cell c3">-3/x</td>
   <td class="cell c4">ID_TRANS</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">3/(-x)</td>
+  <td class="cell c3">-3/x</td>
+  <td class="cell c4">[testdebug,ID_TRANS]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -8818,7 +8844,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">(x-y)*(y-x)</td>
   <td class="cell c3">-(x-y)^2</td>
-  <td class="cell c4">NEG_TRANS</td>
+  <td class="cell c4">[testdebug,NEG_TRANS]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -8831,7 +8857,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">-x*(x-1)*(x+1)</td>
   <td class="cell c3">x*(1-x)*(x+1)</td>
-  <td class="cell c4">[negDist,negNeg]</td>
+  <td class="cell c4">[testdebug,negDist,negNeg]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -8844,7 +8870,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">-x*(y-1)*(x-1)</td>
   <td class="cell c3">x*(x-1)*(1-y)</td>
-  <td class="cell c4">[negDist,negNeg]</td>
+  <td class="cell c4">[testdebug,negDist,negNeg]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -8883,7 +8909,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">(-a)/(-x)</td>
   <td class="cell c3">-(-a/x)</td>
-  <td class="cell c4">ID_TRANS</td>
+  <td class="cell c4">[testdebug,ID_TRANS]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -8909,7 +8935,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">(-a)/(-x)</td>
   <td class="cell c3">a/x</td>
-  <td class="cell c4">[negDiv]</td>
+  <td class="cell c4">[testdebug,negDiv]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -8959,9 +8985,48 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
   <td class="cell c1">Pass</td>
+  <td class="cell c2">(2/-3)*(x-y)</td>
+  <td class="cell c3">-(2/3)*(x-y)</td>
+  <td class="cell c4">[negDiv]</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(2/-3)*(x-y)</td>
+  <td class="cell c3">(2/3)*(y-x)</td>
+  <td class="cell c4">[negDiv]</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(2/-3)*(x-y)</td>
+  <td class="cell c3">(2/3)*(y-x)</td>
+  <td class="cell c4">[negDiv,negOrd]</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
   <td class="cell c2">-2/(1-x)</td>
   <td class="cell c3">2/(x-1)</td>
-  <td class="cell c4">[negDiv]</td>
+  <td class="cell c4">[testdebug,negDiv]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -8974,7 +9039,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">1/2*3/x</td>
   <td class="cell c3">3/(2*x)</td>
-  <td class="cell c4">ID_TRANS</td>
+  <td class="cell c4">[testdebug,ID_TRANS]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -9000,12 +9065,25 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">5/2*3/x</td>
   <td class="cell c3">15/(2*x)</td>
-  <td class="cell c4">[ID_TRANS,recipMul]</td>
+  <td class="cell c4">[testdebug,ID_TRANS,recipMul]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
   <td class="cell c9">ATEqualComAssRules: [3 noun* 5 noun* UNARY_RECIP 2 noun* x,15 noun* UNARY_RECIP 2 noun* x].</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-(x-y)</td>
+  <td class="cell c3">y-x</td>
+  <td class="cell c4">[negOrd]</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9065,7 +9143,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">(-7*x)*(-3*x)</td>
   <td class="cell c3">21*x*x</td>
-  <td class="cell c4">[ID_TRANS,intMul]</td>
+  <td class="cell c4">[testdebug,ID_TRANS,intMul]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -9104,7 +9182,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">a/b/c</td>
   <td class="cell c3">a/(b*c)</td>
-  <td class="cell c4">[ID_TRANS]</td>
+  <td class="cell c4">[testdebug,ID_TRANS]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -9156,7 +9234,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">a/(b/c)</td>
   <td class="cell c3">(a*c)/b</td>
-  <td class="cell c4">ID_TRANS</td>
+  <td class="cell c4">[testdebug,ID_TRANS]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -9169,7 +9247,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">a/(b/c)</td>
   <td class="cell c3">(a*c)/b</td>
-  <td class="cell c4">[ID_TRANS,recipMul]</td>
+  <td class="cell c4">[testdebug,ID_TRANS,recipMul]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -9234,7 +9312,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">A*a/(B*b/c)*1/d</td>
   <td class="cell c3">A*(a*c)/(B*b*d)</td>
-  <td class="cell c4">[ID_TRANS,divDiv]</td>
+  <td class="cell c4">[testdebug,ID_TRANS,divDiv]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -9260,7 +9338,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">A/(B/(C/D))</td>
   <td class="cell c3">A*C/(B*D)</td>
-  <td class="cell c4">[ID_TRANS,divDiv]</td>
+  <td class="cell c4">[testdebug,ID_TRANS,divDiv]</td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
@@ -14650,6 +14728,32 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c9">ATDiff_int.</td>
   <td class="cell c10"></td>
 </tr>
+<tr class="expectedfail">
+  <td class="cell c0">Diff</td>
+  <td class="cell c1">Expected failure</td>
+  <td class="cell c2">n*x^n</td>
+  <td class="cell c3">n*x^(n-1)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5">TEST_FAILED</td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">-1</td>
+  <td class="cell c8"><div class="text_to_html">The answer test failed to execute correctly: please alert your teacher. TIMEDOUT</div></td>
+  <td class="cell c9">ATDiff_STACKERROR_SAns.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Diff</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">n*x^n</td>
+  <td class="cell c3">(assume(n&gt;0), n*x^(n-1))</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
 <tr class=""><td colspan="11"><div class="tabledivider"></div></td>
 </tr>
 <tr class="expectedfail">
@@ -15105,6 +15209,32 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c7">0</td>
   <td class="cell c8"><div class="text_to_html">The formal derivative of your answer does equal the expression that you were asked to integrate. However, you have a strange constant of integration. Please ask your teacher about this.</div></td>
   <td class="cell c9">ATInt_weirdconst.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Int</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">n*x^n</td>
+  <td class="cell c3">n*x^(n-1)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">The derivative of your answer should be equal to the expression that you were asked to integrate, that was: <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\[\left(n-1\right)\cdot n\cdot x^{n-2}\]</span></span></span> In fact, the derivative of your answer, with respect to <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(x\)</span></span></span> is: <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\[n^2\cdot x^{n-1}\]</span></span></span> so you must have done something wrong!</div></span></td>
+  <td class="cell c9">ATInt_generic.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Int</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">n*x^n</td>
+  <td class="cell c3">(assume(n&gt;0), n*x^(n-1))</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">The derivative of your answer should be equal to the expression that you were asked to integrate, that was: <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\[\left(n-1\right)\cdot n\cdot x^{n-2}\]</span></span></span> In fact, the derivative of your answer, with respect to <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(x\)</span></span></span> is: <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\[n^2\cdot x^{n-1}\]</span></span></span> so you must have done something wrong!</div></span></td>
+  <td class="cell c9">ATInt_generic.</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="notes">
@@ -26387,4 +26517,4 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html"><span class="nolink">\[\begin{array}{lll} &amp;\frac{\mathrm{d} y}{\mathrm{d} x}-\frac{2}{x}\cdot y=x^3\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{green}{\Leftrightarrow}&amp;\frac{1}{x^2}\cdot \left(\frac{\mathrm{d} y}{\mathrm{d} x}\right)-\frac{2}{x^3}\cdot y=x\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{green}{\Leftrightarrow}&amp;\left(\frac{\mathrm{d}}{\mathrm{d} x} \frac{y}{x^2}\right)=x\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{blue}{\int\ldots\mathrm{d}x}&amp;\frac{y}{x^2}=\int {x\cdot \sin \left( 3\cdot x \right)}{\;\mathrm{d}x}&amp; \cr \color{blue}{\int\ldots\mathrm{d}x}&amp;\frac{y}{x^2}=\frac{\sin \left( 3\cdot x \right)-3\cdot x\cdot \cos \left( 3\cdot x \right)}{9}+c&amp; \cr \end{array}\]</span></div></span></td>
   <td class="cell c9">[EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,INTCHAR(x),INTCHAR(x)]</td>
   <td class="cell c10"></td>
-</tr></tbody></table></div><br/>Your site is running STACK version 2021010100 ().
+</tr></tbody></table></div><br/>Your site is running STACK version 2021071600 ().

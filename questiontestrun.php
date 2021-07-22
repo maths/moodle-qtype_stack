@@ -136,6 +136,7 @@ if ($question->deployedseeds) {
 
 $variantmatched = false;
 $variantdeployed = false;
+$questionnotes = array();
 if (!$question->has_random_variants()) {
     echo html_writer::tag('p', stack_string('questiondoesnotuserandomisation') .
             ' ' . $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
@@ -198,6 +199,8 @@ if (empty($question->deployedseeds)) {
         $qunote->set_preferred_behaviour('adaptive');
         $slotnote = $qunote->add_question($qn, $qn->defaultmark);
         $qunote->start_question($slotnote);
+        // Check for duplicate question notes.
+        $questionnotes[] = $qn->get_question_summary();
 
         // Check if the question note has already been deployed.
         if ($qn->get_question_summary() == $question->get_question_summary()) {
@@ -237,6 +240,11 @@ if (empty($question->deployedseeds)) {
 
     echo html_writer::table($notestable);
 }
+
+if (count($questionnotes) != count(array_flip($questionnotes))) {
+    echo html_writer::tag('p', stack_string_error('deployduplicateerror'));//stack_string()
+}
+
 flush();
 
 if (!$variantmatched) {

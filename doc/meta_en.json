@@ -157,6 +157,11 @@
         "description":"Advice on dealing with errors in STACK questions during a live quiz."
         },
         {
+        "file":"Errors.md",
+        "title":"Errors in question aurhoting - STACK Documentation",
+        "description":"What errors that may appear during validation/saving of a question mean and what you can do about it."
+        },
+        {
         "file":"Equivalence_reasoning.md",
         "title":"Answer Tests - STACK Documentation",
         "description":"An introduction to using equivalence reasoning in the STACK online assessment system."
@@ -502,6 +507,11 @@
         "file":"Releasing.md",
         "title":"Releasing - STACK Documentation",
         "description":"Notes documenting the process for releasing a new version of STACK."
+        },
+        {
+        "file":"Releasing_ILIAS.md",
+        "title":"Releasing STACK for ILIAS - STACK Documentation",
+        "description":"Notes documenting the process for releasing a new version of STACK for ILIAS."
         },
         {
         "file":"Running_question_tests_other_site.md",

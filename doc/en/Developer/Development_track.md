@@ -7,6 +7,8 @@ How to report bugs and make suggestions is described on the [community](../About
 
 ## Version 4.3.10
 
+* Support [variant matching](../Authoring/Variant_matching.md).
+
 ## Version 4.4
 
 1. Caching validation.

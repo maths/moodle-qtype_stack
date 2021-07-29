@@ -192,10 +192,12 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Test materials don't have an id.
         $warnings = '';
+        /*
         if (isset($this->question->id)) {
             $question = question_bank::load_question($this->question->id);
             $warnings = implode("<br />", $question->validate_warnings());
         }
+        */
 
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
         // of setDefault, because setDefault does not work for editors.

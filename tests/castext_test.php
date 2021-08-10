@@ -979,6 +979,25 @@ class stack_cas_text_test extends qtype_stack_testcase {
             $at1->get_display_castext());
     }
 
+    public function test_apply() {
+        $a2 = array('p1:apply("+",[x,y,z]);');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at1 = new stack_cas_text('{@p1@}, {@apply("*",[a,b,c])@}', $cs2, 0);
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('', $at1->get_errors(false));
+        $at1->get_display_castext();
+
+        $this->assert_equals_ignore_spaces_and_e('\({z+y+x}\), \({a\cdot b\cdot c}\)',
+            $at1->get_display_castext());
+    }
+
     public function test_stackintfmt() {
         // Note, we have set up one pattern as CAS strings because we cannot have @ symbols in CAStext at this point.
         // This will be fixed in castext2 (stateful).

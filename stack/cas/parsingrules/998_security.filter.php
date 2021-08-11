@@ -218,12 +218,6 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         switch ($node->name->value) {
                             case 'apply':
                             case 'funmake':
-                                // Note that we do not allow even constructing the function call as
-                                // it might eventtually get called.
-                                if ($node->arguments[0] instanceof MP_String) {
-                                    // Whitelist of permitted function names.
-//                                    $errors[] = trim(stack_string('stackCas_applyfunmakestring', array('type' => $node->name->value)));
-                                }
                                 $safemap = true;
 
                             default:

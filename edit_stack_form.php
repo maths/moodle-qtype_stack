@@ -191,6 +191,7 @@ class qtype_stack_edit_form extends question_edit_form {
                 $this->get_current_specific_feedback());
 
         // TODO: add in warnings here.  See b764b39675 for deleted materials.
+        $warnings = '';
 
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
         // of setDefault, because setDefault does not work for editors.

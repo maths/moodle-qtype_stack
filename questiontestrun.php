@@ -242,9 +242,8 @@ if (empty($question->deployedseeds)) {
 }
 
 if (count($questionnotes) != count(array_flip($questionnotes))) {
-    echo html_writer::tag('p', stack_string_error('deployduplicateerror'));//stack_string()
+    echo html_writer::tag('p', stack_string_error('deployduplicateerror'));
 }
-
 flush();
 
 if (!$variantmatched) {

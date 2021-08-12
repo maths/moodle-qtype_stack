@@ -2255,17 +2255,6 @@ class maxima_parser_utils {
             }
         }
 
-        /*
-        print("\n\n");
-        foreach ($output as $key => $values) {
-            print($key . ":\n");
-            foreach ($values as $k => $value) {
-                print(" $k\n");
-            }
-        }
-        print("\n\n");
-        */
-
         return $output;
     }
 

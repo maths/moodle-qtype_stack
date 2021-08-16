@@ -331,9 +331,34 @@ class stack_bulk_tester  {
         $ok = ($fails === 0);
 
         // These lines are to seed the cache and to generate any runtime errors.
-        $notused = $question->get_question_summary();
+        $slot = $quba->add_question($question, $question->defaultmark);
+        try {
+            $quba->start_question($slot);
+        } catch (stack_exception $e) {
+            return array(false, "Attempting to start the question threw an exception!");
+        }
+
+        // Prepare the display options.
+        $options = new question_display_options();
+        $options->readonly = true;
+        $options->flags = question_display_options::HIDDEN;
+        $options->suppressruntestslink = true;
+
+        // Create the question text, question note and worked solutions.
+        // This involves instantiation, which seeds the CAS cache in the cases when we have no tests.
+        $renderquestion = $quba->render_question($slot, $options);
+        $questionote = $question->get_question_summary();
         $generalfeedback = $question->get_generalfeedback_castext();
-        $notused = $generalfeedback->get_display_castext();
+        $generalfeedback->get_display_castext();
+        if ($generalfeedback->get_errors() != '') {
+            $ok = false;
+            $s = stack_string('stackInstall_testsuite_errors') . '  ' .
+                stack_string('generalfeedback') . ': ' . $generalfeedback->get_errors();
+            if ($outputmode == 'web') {
+                $s = html_writer::tag('br', $s);
+            }
+            $message .= $s;
+        }
 
         if (!empty($question->runtimeerrors)) {
             $ok = false;
@@ -402,12 +427,12 @@ class stack_bulk_tester  {
         // Create the question text, question note and worked solutions.
         // This involves instantiation, which seeds the CAS cache in the cases when we have no tests.
         $renderquestion = $quba->render_question($slot, $options);
-        $workedsolution = $qu->get_generalfeedback_castext();
-        $workedsolution->get_display_castext();
+        $generalfeedback = $qu->get_generalfeedback_castext();
+        $generalfeedback->get_display_castext();
         $questionote = $qu->get_question_summary();
 
         // As we cloned the question any and all updates to the cache will not sync.
-        // So lets do that ourselves.
+        // So let's do that ourselves.
         if ($qu->compiledcache !== $question->compiledcache) {
             $question->compiledcache = $qu->compiledcache;
         }

@@ -568,7 +568,7 @@ divDiv(ex) := block([ex2,ex3,exo,exl],
      /* Store the operator for later. */
      exo:"noun*",
      if safe_op(ex)="*" then exo:"*",
-     /* Split expression into bits. */
+     /* Split expression into bits. */
      ex2:divDivProd(ex),
      /* This should not really occur because of the predicate divDivP.... */
      if emptyp(second(ex2)) then return(ex),

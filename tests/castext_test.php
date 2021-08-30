@@ -853,6 +853,45 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 $at2->get_display_castext());
     }
 
+    public function test_numerical_display_roman_knownfail() {
+        // We should improve the castext parser to allow @ within strings within the castext.
+        // This known fail is to show when we have fixed this bug.
+        // TODO: make this testcase fail, and then update it!
+        $st = '{@(stackintfmt:"~@r",14)@} is written in Roman numerals.';
+
+        $s2 = array();
+        $cs2 = new stack_cas_session2($s2, null, 0);
+        $at2 = new stack_cas_text($st, $cs2, 0);
+
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals(
+            // Should be 'The number \({XIV}\) is written in Roman numerals.'.
+            '{@(stackintfmt:"~@r",14)@} is written in Roman numerals.',
+            $at2->get_display_castext());
+    }
+
+    public function test_numerical_display_roman() {
+        $st = 'The number {@14@} is written in Roman numerals.';
+
+        $a2 = array('stackintfmt:"~@r"');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at2 = new stack_cas_text($st, $cs2, 0);
+
+        $this->assertTrue($at2->get_valid());
+        $at2->get_display_castext();
+
+        $this->assertEquals(
+            'The number \({XIV}\) is written in Roman numerals.',
+            $at2->get_display_castext());
+    }
+
     public function test_inline_fractions() {
         $s = '{@(stack_disp_fractions("i"), 1/x)@} {@(stack_disp_fractions("d"), 1/x)@} {@(stack_disp_fractions("i"), 1/x)@}';
 

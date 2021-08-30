@@ -1403,7 +1403,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         if ($this->compiledcache === null || !array_key_exists($key, $this->compiledcache)) {
             // If not do the compilation.
             try {
-                $this->compiledcache = qtype_stack_question::compile($this->questionvariables, $this->inputs, $this->prts, $this->options);
+                $this->compiledcache = self::compile($this->questionvariables, $this->inputs, $this->prts, $this->options);
 
                 // Invalidate Moodle question-cache and add there.
                 if (is_integer($this->id) || is_numeric($this->id)) {

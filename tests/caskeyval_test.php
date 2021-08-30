@@ -148,9 +148,6 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $s = 'a:x^2; ans1:a+1; ta:a^2';
         $kv = new stack_cas_keyval($s, null, 123);
         $this->assertFalse($kv->get_valid(array('ans1')));
-        $errs = array('You may not use input names as variables.  ' .
-                'You have tried to define <code>ans1</code>');
-        $this->assertEquals($errs, $kv->get_errors());
     }
 
     public function test_remove_comment() {
@@ -195,6 +192,29 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
 
         $expected = "k1:16;\nprefix:\"[\";\nsuffix:\"]\";";
         $this->assertEquals($expected, $s->get_keyval_representation(true));
+    }
+
+    public function test_ampersand_in_strings() {
+        $tests = 'k1:"~@r";n1:2*4;';
+
+        $kv = new stack_cas_keyval($tests);
+        $this->assertTrue($kv->get_valid());
+        $kv->instantiate();
+        $s = $kv->get_session();
+        $expected = "k1:\"~@r\";\nn1:2*4;";
+        $this->assertEquals($expected, $s->get_keyval_representation());
+
+        $expected = "k1:\"~@r\";\nn1:8;";
+        $this->assertEquals($expected, $s->get_keyval_representation(true));
+    }
+
+    public function test_ampersand_outside_strings() {
+        $tests = 'k1:u@x;n1:2*4;';
+
+        $kv = new stack_cas_keyval($tests);
+        $this->assertFalse($kv->get_valid());
+        $expected = array('The characters @, $ and \ are not allowed in CAS input.');
+        $this->assertEquals($expected, $kv->get_errors());
     }
 
     public function test_needs_mbstring() {

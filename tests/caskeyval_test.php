@@ -270,4 +270,15 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $this->assertTrue(isset($usage['write']['T']));
         $this->assertTrue(isset($usage['write']['V']));
     }
+
+    public function test_unclear_subs() {
+        $tests = 'v:2;trig:[sin,cos][v];sub:[(sin(x))^2=1-(cos(x))^2,(cos(x))^2=1-(sin(x))^2][v];f:(trig(x))^n;'
+            . 'df:diff(f,x);df_simp:(subst(sub,df));ta1:expand(df_simp);';
+
+        $kv = new stack_cas_keyval($tests);
+        $this->assertFalse($kv->get_valid());
+        $expected = array('The function name "cos" is potentially redefined in unclear substitutions.',
+            'The function name "diff" is potentially redefined in unclear substitutions.');
+        $this->assertEquals($expected, $kv->get_errors());
+    }
 }

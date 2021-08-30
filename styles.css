@@ -157,6 +157,13 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     outline: none;
 }
 
+blockquote {
+    border-left: 5px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 1em 10px .1em 10px;
+    quotes: "\201C""\201D""\2018""\2019";
+}
+
 /* Support for proof. */
 .proof,
 .proof-block {

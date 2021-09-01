@@ -1458,9 +1458,10 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         // All these tests should work with simp:false.
         foreach ($tests as $key => $c) {
             if ($s1[$key]->is_correctly_evaluated()) {
-                $this->assertEquals($c[2], $s1[$key]->get_display());
-                $this->assertEquals($c[3], $s1[$key]->get_dispvalue());
-                $this->assertEquals($c[4], $s1[$key]->get_value());
+                // Turn 1.0E-5 to lower case 1.0e-5.
+                $this->assertEquals($c[2], $this->prepare_actual_maths_floats($s1[$key]->get_display()));
+                $this->assertEquals($c[3], $this->prepare_actual_maths_floats($s1[$key]->get_dispvalue()));
+                $this->assertEquals($c[4], $this->prepare_actual_maths_floats($s1[$key]->get_value()));
             } else {
                 // Help output which test fails.
 
@@ -1499,9 +1500,9 @@ class stack_cas_session2_test extends qtype_stack_testcase {
             if (array_key_exists(7, $c)) {
                 $val = $c[7];
             }
-            $this->assertEquals($simpdisp, $s2[$key]->get_display());
-            $this->assertEquals($dispval, $s2[$key]->get_dispvalue());
-            $this->assertEquals($val, $s2[$key]->get_value());
+            $this->assertEquals($simpdisp, $this->prepare_actual_maths_floats($s2[$key]->get_display()));
+            $this->assertEquals($dispval, $this->prepare_actual_maths_floats($s2[$key]->get_dispvalue()));
+            $this->assertEquals($val, $this->prepare_actual_maths_floats($s2[$key]->get_value()));
         }
     }
 

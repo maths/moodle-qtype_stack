@@ -19,6 +19,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 require_once(__DIR__ . '/cassession2.class.php');
+require_once(__DIR__ . '/../utils.class.php');
 
 /**
  * Class to parse user-entered data into CAS sessions.
@@ -76,14 +77,7 @@ class stack_cas_keyval {
             return true;
         }
 
-        // CAS keyval may not contain @ or $.
-        if (strpos($this->raw, '@') !== false || strpos($this->raw, '$') !== false) {
-            $this->errors[] = stack_string('illegalcaschars');
-            $this->valid = false;
-            return false;
-        }
-
-        // Subtle one: must protect things inside strings before we do QMCHAR tricks.
+        // Protect things inside strings before we do QMCHAR tricks, and check for @, $.
         $str = $this->raw;
         $strings = stack_utils::all_substring_strings($str);
         foreach ($strings as $key => $string) {
@@ -91,6 +85,14 @@ class stack_cas_keyval {
         }
 
         $str = str_replace('?', 'QMCHAR', $str);
+
+        // CAS keyval may not contain @ or $ outside strings.
+        // We should certainly prevent the $ to make sure statements are separated by ;, although Maxima does allow $.
+        if (strpos($str, '@') !== false || strpos($str, '$') !== false) {
+            $this->errors[] = stack_string('illegalcaschars');
+            $this->valid = false;
+            return false;
+        }
 
         foreach ($strings as $key => $string) {
             $str = str_replace('[STR:'.$key.']', '"' .$string . '"', $str);
@@ -114,18 +116,27 @@ class stack_cas_keyval {
 
         $ast = maxima_parser_utils::strip_comments($ast);
 
+        $vallist = array();
         // Update the types and values for future insert-stars and other logic.
-        $vallist = maxima_parser_utils::identify_identifier_values($ast, $this->security->get_context());
-        // Mark inputs as specific type.
-        if (is_array($inputs)) {
-            foreach ($inputs as $name) {
-                if (!isset($vallist[$name])) {
-                    $vallist[$name] = [];
-                }
-                $vallist[$name][-2] = -2;
-            }
+        $config = stack_utils::get_config();
+        if ($config->caspreparse == 'true') {
+            $vallist = maxima_parser_utils::identify_identifier_values($ast, $this->security->get_context());
         }
-        $this->security->set_context($vallist);
+        if (isset($vallist['% TIMEOUT %'])) {
+            $this->errors[] = stack_string('stackCas_overlyComplexSubstitutionGraphOrRandomisation');
+            $this->valid = false;
+        } else {
+            // Mark inputs as specific type.
+            if (is_array($inputs)) {
+                foreach ($inputs as $name) {
+                    if (!isset($vallist[$name])) {
+                        $vallist[$name] = [];
+                    }
+                    $vallist[$name][-2] = -2;
+                }
+            }
+            $this->security->set_context($vallist);
+        }
 
         $this->valid   = true;
         $this->statements   = array();

@@ -94,6 +94,8 @@ You can also force all integers to be displayed as floating point decimals or in
 
 There are many other options within the LISP format command. Please note with the rhetoric and Roman numerals that the numbers will be in LaTeX mathematics environments.
 
+Note that the `@` symbol is currently not parsed correctly inside strings within CASText.  That is to say, you cannot currently type `{@(stackintfmt:"~@r",4)@}` into CASText.  This is a known bug.  To avoid this problem, define a variable in the question variables (e.g. `roman:"~@r";`) and use the variable name in the CASText (e.g. `{@(stackintfmt:roman,4)@}`).
+
 Maxima has a separate system for controlling the number of decimal digits used in calculations and when printing the _value_ of computed results.  Trailing zeros will not be printed with the value.  This is controlled by Maxima's `fpprec` and `fpprintprec` variables.  The default for STACK is
 
     fpprec:20,          /* Work with 20 digits. */

@@ -220,8 +220,8 @@ stackjson_stringify(obj) := block([tmp,r,l],
   r:sconcat("{",simplode(l,","),"}")
  ) else if listp(obj) and length(obj) > 0 then r:sconcat("[",simplode(makelist(stackjson_stringify(x),x,obj),","),"]")
  else if listp(obj) then r:"[]"
- else if integerp(obj) then r:string(obj)
- else if numberp(obj) then r:string(float(obj))
+ else if integerp(ev(obj,simp)) then r:string(ev(obj,simp))
+ else if numberp(ev(float(obj),simp)) then r:string(float(ev(float(obj),simp)))
  else r:stackjson_stringify(string(obj)),
  return(r)
 )$

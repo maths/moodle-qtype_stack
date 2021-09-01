@@ -2466,7 +2466,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q = self::make_a_stack_question();
 
         $q->name = 'test-1';
-        // We need to check that local variable names within the block are not invalid for student's input
+        // We need to check that local variable names within the block are not invalid for student's input.
         $q->questionvariables = 'tmpf(a):=block([p,q,r],p:a,q:a,r:p+q,return(r)); cans1:p^2+p+1;';
         $q->questiontext = 'Answer {@cans1@} with input p^2+p+1.'
                 . '<p>[[input:ans1]]</p><div>[[validation:ans1]]</div>';

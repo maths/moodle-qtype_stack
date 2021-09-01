@@ -58,7 +58,9 @@ if ($options['remote']) {
     if (!$DB = moodle_database::get_driver_instance($CFG->dbtype, $CFG->dblibrary)) {
         throw new dml_exception('dbdriverproblem', "Unknown driver $CFG->dblibrary/$CFG->dbtype");
     }
+    // @codingStandardsIgnoreStart
     //$DB->connect('live.database.host.name', 'read_only_user', 'pa55w0rd', 'live_database_name', 'mdl_', $CFG->dboptions);
+    // @codingStandardsIgnoreEnd
 }
 
 $context = context_system::instance();
@@ -108,15 +110,16 @@ foreach ($contexts as $contextid => $numstackquestions) {
         list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'cli', false);
     }
 
+    $allpassed = $allpassed && $passed;
+
     echo "\n";
-    if ($allpassed) {
+    if ($passed) {
         echo "** " . stack_string('stackInstall_testsuite_pass');
     } else {
         echo "** " . stack_string('stackInstall_testsuite_fail');
     }
     echo "\n";
 
-    $allpassed = $allpassed && $passed;
     echo "\n";
     foreach ($failing as $key => $arrvals) {
         if ($arrvals !== array()) {
@@ -127,6 +130,13 @@ foreach ($contexts as $contextid => $numstackquestions) {
 }
 
 echo "\n\n";
+
+if ($allpassed) {
+    echo "** " . stack_string('stackInstall_testsuite_pass');
+} else {
+    echo "** " . stack_string('stackInstall_testsuite_fail');
+}
+echo "\n";
 
 $took = (microtime(true) - $start);
 $rtook = round($took, 5);

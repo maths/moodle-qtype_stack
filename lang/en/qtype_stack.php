@@ -408,6 +408,10 @@ $string['settingcasresultscache_desc'] = 'This setting determines whether calls 
 $string['settingcasresultscache_none'] = 'Do not cache';
 $string['settingcastimeout'] = 'CAS connection timeout';
 $string['settingcastimeout_desc'] = 'The timout to use when trying to connect to Maxima.';
+$string['settingcaspreparse'] = 'Pre-parse all code before sending to Maxima.';
+$string['settingcaspreparse_desc'] = 'We recommend all code in question variables, etc., even from trusted teachers, is pre-parsed for potentially malicious patterns.  This is especially important when accepting imported questions from known sources.  However, it is possible for this pre-parse to time-out and it would be necessary to disable this check (temporarily) to back out of a potential dead end.  This code is still under testing and development and this setting will be removed in future releases ensuring this pre-parse is always applied.';
+$string['settingcaspreparse_true'] = 'Always preparse';
+$string['settingcaspreparse_false'] = 'Do not preparse (not recommended)';
 $string['settingdefaultinputoptions'] = 'Default input options';
 $string['settingdefaultinputoptions_desc'] = 'Used when creating a new question, or adding a new input to an existing question.';
 $string['settingdefaultquestionoptions'] = 'Default input options';
@@ -487,6 +491,7 @@ $string['deployedvariants'] = 'Deployed variants';
 $string['deployedvariantsn'] = 'Deployed variants ({$a})';
 $string['deploymany'] = 'Attempt to automatically deploy the following number of variants:';
 $string['deploymanyerror'] = 'Error in user input: cannot deploy "{$a->err}" variants.';
+$string['deployduplicateerror'] = 'Duplicate question notes detected in the deployed variants.  We strongly recommend each question note is only deployed once, otherwise you will have difficulty collecting meaningful stats when grouping by variant.  Please consider deleting some variants with duplicate notes.';
 $string['deploytoomanyerror'] = 'STACK will try to deploy up to at most 100 new variants in any one request.  No new variants deployed.';
 $string['deploymanynonew'] = 'Too many repeated existing question notes were generated.';
 $string['deploymanynotes'] = 'Note, STACK will give up if there are 10 failed attempts to generate a new question note, or when one question test fails.';
@@ -517,6 +522,7 @@ $string['prtname'] = 'PRT name';
 $string['questiondoesnotuserandomisation'] = 'This question does not use randomisation.';
 $string['questionnotdeployedyet'] = 'No variants of this question have been deployed yet.';
 $string['questionpreview'] = 'Question preview';
+$string['questiontestempty'] = 'Empty question tests are not permitted!';
 $string['questiontests'] = 'Question tests';
 $string['questiontestsfor'] = 'Question tests for seed {$a}';
 $string['questiontestspass'] = 'All question tests passed.';
@@ -704,6 +710,11 @@ $string['stackCas_applyfunmakestring']      = 'The name of the function cannot b
 $string['stackCas_badpostfixop']            = 'You have a bad "postfix" operator in your expression.';
 $string['stackCas_overrecursivesignatures'] = 'The question code includes too many functions defined through mapping';
 $string['stackCas_studentInputAsFunction']  = 'Use of student input as the name of a function is not permitted.';
+$string['stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName'] = 'The function name "{$a->name}" is potentially redefined in unclear substitutions.';
+$string['stackCas_functionNameSubstitutionToForbiddenOne'] = 'The function name "{$a->name}" is potentially mapped, using substitutions, to "{$a->trg}" which is a forbidden one.';
+$string['stackCas_overlyComplexSubstitutionGraphOrRandomisation'] = 'The question code has overly complex substitutions or builds randomisation in an incremental and hard to validate way, the validation has timed out to deal with this simplify the logic, check the documentation for quidance.';
+$string['stackCas_redefine_built_in']       = 'Redefining a built in function "{$a->name}" is forbidden.';
+$string['stackCas_nested_function_declaration'] = 'Definition of a function inside another function is now forbidden, use renaming of the function if you need to switch function definitions from within another function.';
 
 // Used in cassession.class.php.
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';
@@ -781,6 +792,7 @@ $string['stackBlock_jsxgraph_param']       = 'The jsxgraph-block supports only t
 $string['stackOptions_AnsTest_values_AlgEquiv']            = "AlgEquiv";
 $string['stackOptions_AnsTest_values_AlgEquivNouns']       = "AlgEquivNouns";
 $string['stackOptions_AnsTest_values_EqualComAss']         = "EqualComAss";
+$string['stackOptions_AnsTest_values_EqualComAssRules']    = "EqualComAssRules";
 $string['stackOptions_AnsTest_values_CasEqual']            = "CasEqual";
 $string['stackOptions_AnsTest_values_SameType']            = "SameType";
 $string['stackOptions_AnsTest_values_SubstEquiv']          = "SubstEquiv";
@@ -838,6 +850,9 @@ $string['ATAlgEquiv_SA_not_string']     = 'Your answer should be a string, but i
 $string['Subst']                        = 'Your answer would be correct if you used the following substitution of variables. {$a->m0} ';
 
 $string['ATSubstEquiv_Opt_List']        = 'The option to this answer test must be a list.  This is an error.  Please contact your teacher. ';
+
+$string['ATEqualComAssRules_Opt_List']  = 'The option to this answer test must be a non-empty list of supported rules.  This is an error.  Please contact your teacher. ';
+$string['ATEqualComAssRules_Opt_Incompatible']  = 'The option to this answer test contains incompatible rules.  This is an error.  Please contact your teacher. ';
 
 $string['ATSets_SA_not_set']            = 'Your answer should be a set, but is not.  Note that the syntax to enter a set is to enclose the comma separated values with curly brackets. ';
 $string['ATSets_SB_not_set']            = 'The "Sets" answer test expects its second argument to be a set.  This is an error.  Please contact your teacher.';
@@ -956,7 +971,6 @@ $string['ATSysEquiv_SA_system_underdetermined'] = 'The equations in your system 
 $string['ATSysEquiv_SA_system_overdetermined']  = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
 $string['ATRegEx_missing_option']               = 'Missing regular expression in CAS Option field.';
-
 
 $string['ATSRegExp_SB_not_string']              = 'The second argument to the SRegExp answer test must be a string. The test failed. Please contact your teacher.';
 $string['ATSRegExp_SA_not_string']              = 'The first argument to the SRegExp answer test must be a string. The test failed. Please contact your teacher.';
@@ -1092,7 +1106,6 @@ $string['alg_quadratic_formula_fact'] = 'If we have a quadratic equation of the 
 then the solution(s) to that equation given by the quadratic formula are:
 \[x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}.\]';
 
-
 $string['alg_partial_fractions_name'] = 'Partial Fractions';
 $string['alg_partial_fractions_fact'] = 'Proper fractions occur with \[{\frac{P(x)}{Q(x)}}\]
 when \(P\) and \(Q\) are polynomials with the degree of \(P\) less than the degree of \(Q\).  This this case, we proceed
@@ -1172,7 +1185,6 @@ $string['hyp_inverse_functions_fact'] = '\[\cosh^{-1}(x)=\ln\left(x+\sqrt{x^2-1}
  \[\sinh^{-1}(x)=\ln\left(x+\sqrt{x^2+1}\right)\]
  \[\tanh^{-1}(x) = \frac{1}{2}\ln\left({1+x\over 1-x}\right) \quad \mbox{ for } -1< x < 1\]';
 
-
 $string['calc_diff_standard_derivatives_name'] = 'Standard Derivatives';
 $string['calc_diff_standard_derivatives_fact'] = 'The following table displays the derivatives of some standard functions.  It is useful to learn these standard derivatives as they are used frequently in calculus.
 
@@ -1202,8 +1214,6 @@ $string['calc_diff_standard_derivatives_fact'] = 'The following table displays t
  \[ \frac{d}{dx}\left(\sinh^{-1}(x)\right) =  \frac{1}{\sqrt{x^2+1}}\]
  \[ \frac{d}{dx}\left(\tanh^{-1}(x)\right) =  \frac{1}{1-x^2}\]
 ';
-
-
 
 $string['calc_diff_linearity_rule_name'] = 'The Linearity Rule for Differentiation';
 $string['calc_diff_linearity_rule_fact'] = '\[{{\rm d}\,\over {\rm d}x}\big(af(x)+bg(x)\big)=a{{\rm d}f(x)\over {\rm d}x}+b{{\rm d}g(x)\over {\rm d}x}\quad a,b {\rm\  constant.}\]';

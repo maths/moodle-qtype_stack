@@ -38,6 +38,27 @@ possible identifiers in the expression that the substitutions are applied
 to are being targetted by unknown values, this can be avoided by avoiding
 complex construction of the substs itself.
 
+### Example
+
+```
+v:1; /* particular case of rand([1,2]) */
+trig:[sin,cos][v];
+sub:[(sin(x))^2=1-(cos(x))^2,(cos(x))^2=1-(sin(x))^2][v];
+f:(trig(x))^3;
+df:diff(f,x);
+df_simp:subst(sub,df);
+```
+This produces the error message
+> The function name "sin" is potentially redefined in unclear substitutions.The function name "diff" is potentially redefined in unclear substitutions.
+
+The issue is that `sub` is a complicated expression here, so the validation system is not able to check that this code is not doing something suspicious.
+
+It may be worth trying to use `ev` rather than `subst` - for this example, the question works again if we change the final line to the following:
+
+```
+df_simp:ev(df, sub);
+```
+
 ## Use of the students answer
 
 Since 4.3 you have been forbidden from writing to the variable storing 

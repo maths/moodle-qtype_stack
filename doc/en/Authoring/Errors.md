@@ -1,11 +1,18 @@
-# Validation errors and what you cannot do
+# Authoring validation errors
 
-This document aims to explain certain errors that may appear during 
-validation/saving of a question. Some of these errors might be new and appear
-during upgrades, and break, previously functional materials.
+This document aims to explain certain errors that may appear during authoring, specifically during
+validation/saving of a question.  We are constantly improving the error trapping for question 
+authors and so some of these errors might be new and appear during upgrades, and break, previously functional materials.
 
-In some cases that apply to actions one just cannot do and in others one
-can do things differently to lift the suspicions of the validation system.
+In some cases we have good reasons for now preventing actions which may have been permitted in the past.
+For some situations one can do things differently to lift the suspicions of the validation system.
+
+Summary of advice.
+
+1. Do not attempt to redefine function names or constants which are already defined as part of Maxima.
+2. Avoid using the same name for functions and variables.
+3. Avoid complex substitutions.
+4. Do not attempt to redefine the variables which are the names of inputs.
 
 ## Forbidden functions and variables
 
@@ -25,15 +32,16 @@ would have significant effects around the system, this is why (re)defining
 functions with some specific names is forbidden. You are free to use other
 names for your functions. Note that not all internal functions or functions
 they use are blocked by this, they might get blocked in the future or some
-might be left as somethign that can be redefined to tune the logic.
+might be left as something that can be redefined to tune the logic.
+
+We suggest you do not attempt to redefine function names or constants which are already defined as part of Maxima.
 
 ## Substitutions unclear or otherwise
 
 Should you do substitutions of values in your code and the target of
 the substitution is an identifier that is later used as a function-name,
-things may become difficult. To evade this avoid using the same name for
-functions and variables. Also if you use complex means to construct 
-the substitutions themselves the system may need to assume that all
+things may become difficult. Avoid using the same name for functions and variables. 
+Also if you use complex means to construct the substitutions themselves the system may need to assume that all
 possible identifiers in the expression that the substitutions are applied
 to are being targetted by unknown values, this can be avoided by avoiding
 complex construction of the substs itself.
@@ -49,7 +57,7 @@ df:diff(f,x);
 df_simp:subst(sub,df);
 ```
 This produces the error message
-> The function name "sin" is potentially redefined in unclear substitutions.The function name "diff" is potentially redefined in unclear substitutions.
+> The function name "sin" is potentially redefined in unclear substitutions. The function name "diff" is potentially redefined in unclear substitutions.
 
 The issue is that `sub` is a complicated expression here, so the validation system is not able to check that this code is not doing something suspicious.
 

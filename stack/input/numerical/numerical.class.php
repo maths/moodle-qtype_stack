@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 defined('MOODLE_INTERNAL') || die();
-
+require_once(__DIR__ . '/../../localisation.php');
 /**
  * A basic text-field input.
  *
@@ -145,6 +145,6 @@ class stack_numerical_input extends stack_input {
         if (trim($value) == 'EMPTYANSWER') {
             return stack_string('teacheranswerempty');
         }
-        return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
+        return stack_string('teacheranswershow', array('value' => '<code>'.transformOutput($value).'</code>', 'display' => $display));
     }
 }

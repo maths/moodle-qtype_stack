@@ -17,7 +17,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../algebraic/algebraic.class.php');
-
+require_once(__DIR__ . '/../../localisation.php');
 /**
  * A basic text-field input which is always interpreted as a Maxima string.
  * This has been requested to support the input of things like multi-base numbers.
@@ -96,7 +96,7 @@ class stack_string_input extends stack_algebraic_input {
         }
 
         $value = stack_utils::maxima_string_to_php_string($value);
-        return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
+        return stack_string('teacheranswershow', array('value' => '<code>'.transformOutput($value).'</code>', 'display' => $display));
     }
 
     /**

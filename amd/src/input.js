@@ -34,7 +34,7 @@
  * @copyright  2018 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define([
+ define([
     'core/ajax',
     'core/event'
 ], function(
@@ -43,6 +43,15 @@ define([
 ) {
 
     "use strict";
+    function localizeToLocale(string){
+        return string.replace(/,/g,';').replace(/\./g,',');
+    }
+    function localizeToMathJaxLocale(string){
+        return string.replace(/,/g,';').replace(/\./g,'{,}');
+    }
+    function localizeFromLocaleToEnglish(string){
+        return string.replace(/,/g,'.').replace(/;/g,',');
+    }
 
     /**
      * Class constructor representing an input in a Stack question.
@@ -55,6 +64,7 @@ define([
      * @param {Object} input An object representing the input element for this input.
      */
     function StackInput(validationDiv, prefix, qaid, name, input) {
+        // console.log('StackInput:',input)
         /** @type {number} delay between the user stopping typing, and the ajax request being sent. */
         var TYPING_DELAY = 1000;
 
@@ -135,6 +145,7 @@ define([
          * @return {String}.
          */
         function getInputValue() {
+            // console.log(input.getValue)
             return input.getValue();
         }
 
@@ -267,7 +278,21 @@ define([
          * @return {String}.
          */
         this.getValue = function() {
-            return input.value.replace(/^\s+|\s+$/g, '');
+            let shadowinput =   input.parentElement.querySelector( '[name="' + input.orgname + '"]' );
+            if(shadowinput){
+                shadowinput.value = this.transform();
+                return shadowinput.value;
+            }
+            return this.getValueOrg();
+        };
+
+        this.getValueOrg = function(){
+            return input.value
+            .replace(/^\s+|\s+$/g, '');
+        };
+
+        this.transform = function(){
+            return localizeFromLocaleToEnglish(this.getValueOrg());
         };
     }
 
@@ -382,9 +407,13 @@ define([
         var numcol = 0;
         var numrow = 0;
         container.querySelectorAll('input[type=text]').forEach(function(element) {
+
             if (element.name.slice(0, idPrefix.length + 5) !== idPrefix + '_sub_') {
                 return;
             }
+
+            createShadowElement(element);
+
             var bits = element.name.substring(idPrefix.length + 5).split('_');
             numrow = Math.max(numrow, parseInt(bits[0], 10) + 1);
             numcol = Math.max(numcol, parseInt(bits[1], 10) + 1);
@@ -409,16 +438,23 @@ define([
             for (var i = 0; i < numrow; i++) {
                 values[i] = new Array(numcol);
             }
-	     container.querySelectorAll('input[type=text]').forEach(function(element) {
+            container.querySelectorAll('input[type=text]').forEach(function(element) {
                 if (element.name.slice(0, idPrefix.length + 5) !== idPrefix + '_sub_') {
                     return;
                 }
-                var bits = element.name.substring(idPrefix.length + 5).split('_');
-                values[bits[0]][bits[1]] = element.value.replace(/^\s+|\s+$/g, '');
+                if(element.name.endsWith('_translate')){
+                    let shadowinput =   element.parentElement.querySelector( '[name="' + element.orgname + '"]' );
+                    if(shadowinput){
+                        shadowinput.value = localizeFromLocaleToEnglish(element.value.replace(/^\s+|\s+$/g, ''));
+                    }
+
+                    var bits = shadowinput.name.substring(idPrefix.length + 5).split('_');
+                    values[bits[0]][bits[1]] = shadowinput.value.replace(/^\s+|\s+$/g, '');
+                }
             });
             return 'matrix([' + values.join('],[') + '])';
         };
-    };
+    }
 
     /**
      * Initialise all the inputs in a STACK question.
@@ -428,19 +464,117 @@ define([
      * @param {String} qaid Moodle question_attempt id.
      * @param {String[]} inputs names of all the inputs that should have instant validation.
      */
-    function initInputs(questionDivId, prefix, qaid, inputs) {
+    function initInputs(questionDivId, prefix, qaid, inputs, decsep) {
+        // let toUpdate = [];
+
+        // console.log('initInputs inputs', inputs)
+        let qdiv  =document.getElementById(questionDivId);
+
+        // translate all scripts that are created on server side
+        qdiv.querySelectorAll("script").forEach(script => {
+            if(script.id.includes("MathJax")){
+                // console.log('query', script.id, script.text)
+                if(script.type.includes("math/tex")){
+                    let mjscript = MathJax.Hub.getJaxFor(script.id);
+                    // MathJax.Hub.Update(element);
+                    // MathJax.Hub.Reprocess(element);
+                    if(MathJax.Localization.locale ==="de" && !script.translated){
+                        mjscript.translated=true;
+                        // % for fixing firefox by chaning the not changed text
+                        mjscript.text = localizeToMathJaxLocale(script.text) + " ";
+                        //  MathJax.Hub.Update(script);
+                        // toUpdate.push(script);
+                    }
+                }
+            }
+        });
+        // MathJax.Hub.Reprocess();
+        // console.log('all', all);
+        if(window.MathJax){
+            let timeout = null;
+            // there is, as far as I see it, no MathJax hook for 'everything' is done, 
+            // so we hope that we hit a good timing where we can and update everything once
+            // Ideally we would upate the script, once we modified it, but that is not working properly.
+            // => doublecated displays of formulars or similar
+            // so this is more of a ugly workaround ... 
+            let resettimeout = () => {
+                // console.log('Reprocess')
+                if(timeout){
+                    clearTimeout(timeout);
+                }
+                timeout = setTimeout(() => {
+                    MathJax.Hub.Reprocess(qdiv);
+                    // console.log('Reprocess done')
+                }, 500);
+            };
+            // console.log("math,", MathJax);
+            // MathJax.Hub.Startup.signal.Interest(
+            //     function (message) {console.log("Startup: "+message)}
+            //   );
+            //   MathJax.Hub.signal.Interest(
+            //     function (message) {console.log("Hub: "+message)}
+            //   );
+
+            // translate all scripts that are created on the fly ... e.g. validation fields
+            MathJax.Hub.Register.MessageHook("New Math Pending", function (message) {
+                let script = MathJax.Hub.getJaxFor(message[1]).SourceElement();
+                if(MathJax.Localization.locale ==="de" && !script.translated){
+                    // console.log("NMP:::",message[1], script.id, message, script);
+                    script.translated=true;
+                    // % for fixing firefox by chaning the not changed text
+                    script.text = localizeToMathJaxLocale(script.text) + " ";
+                    // MathJax.Hub.Update(script);
+                    // MathJax.Hub.Reprocess(script);
+                    // toUpdate.push(script);
+                }
+                }
+            );
+
+              MathJax.Hub.Register.MessageHook("End Process", (message) => {
+                //   console.log('"End Process"', message, toUpdate);
+                //   toUpdate.forEach(element => {
+                //     // MathJax.Hub.Update(element);
+                //     if(!element.reprocessd){
+                //         element.reprocessd = true;
+                //         // MathJax.Hub.Reprocess(element);
+                //     }
+                //   });
+                //   MathJax.Hub.Update();
+                // if(!once){
+                //     console.log('ONCE ONCE ONCE')
+                //     once = true;
+                // }
+                resettimeout();
+              }
+              );
+
+            // MathJax.Hub.Register.MessageHook("New Math Pending", function (message) {
+            //     let script = MathJax.Hub.getJaxFor(message[1]).SourceElement();
+            //     console.log((message.join("::")+" : '"+script.text+"'"))
+            //     // if(MathJax.Localization.locale ==="de" && !script.translated){
+            //     //     script.translated=true;
+            //     //     // % for fixing firefox by chaning the not changed text
+            //     //     script.text = localizeToMathJaxLocale(script.text) + "%";
+            //     //     MathJax.Hub.Update(script);
+            //     // }
+            // });
+        }
+
         var questionDiv = document.getElementById(questionDivId);
 
         // Initialise all inputs.
         var allok = true;
         for (var i = 0; i < inputs.length; i++) {
-            allok = initInput(questionDiv, prefix, qaid, inputs[i]) && allok;
+            allok = initInput(questionDiv, prefix, qaid, inputs[i], decsep) && allok;
         }
 
         // With JS With instant validation, we don't need the Check button, so hide it.
         if (allok && (questionDiv.classList.contains('dfexplicitvaildate') ||
                 questionDiv.classList.contains('dfcbmexplicitvaildate'))) {
-            questionDiv.querySelector('.im-controls input.submit').hidden = true;
+            let inputcontrol = questionDiv.querySelector('.im-controls input.submit');
+            if(inputcontrol) {
+                inputcontrol.hidden = true;
+            }
         }
     }
 
@@ -453,19 +587,37 @@ define([
      * @param {String} name the input to initialise.
      * @return {boolean} true if this input was successfully initialised, else false.
      */
-    function initInput(questionDiv, prefix, qaid, name) {
+    function initInput(questionDiv, prefix, qaid, name, decsep) {
         var validationDiv = document.getElementById(prefix + name + '_val');
         if (!validationDiv) {
             return false;
         }
 
-        var inputTypeHandler = getInputTypeHandler(questionDiv, prefix, name);
+        var inputTypeHandler = getInputTypeHandler(questionDiv, prefix, name,decsep);
         if (inputTypeHandler) {
             new StackInput(validationDiv, prefix, qaid, name, inputTypeHandler);
             return true;
         } else {
             return false;
         }
+    }
+
+    function createShadowElement(input){
+        let element = document.createElement('input');
+        element.type = input.type;
+        element.hidden = true;
+        input.parentElement.appendChild(element);
+        input.orgname = input.name;
+        if(input.id){
+            input.orgid = input.id;
+            element.id = input.id;
+            input.id = input.id + "_translate";
+        }
+        input.orgvalue = input.value;
+        element.value = input.value;
+        input.value = localizeToLocale(input.orgvalue);
+        element.name = input.name;
+        input.name = input.name + "_translate";
     }
 
     /**
@@ -476,10 +628,15 @@ define([
      * @param {String} name the input to initialise.
      * @return {?Object} the input hander, if we can handle it, else null.
      */
-    function getInputTypeHandler(questionDiv, prefix, name) {
+    function getInputTypeHandler(questionDiv, prefix, name,decsep) {
         // See if it is an ordinary input.
-        var input = questionDiv.querySelector('[name="' + prefix + name + '"]');
+        let input = questionDiv.querySelector('[name="' + prefix + name + '"]');
+
+        // console.log("decsep",decsep, input.name, input);
         if (input) {
+            if(decsep === ','){
+                createShadowElement(input);
+            }
             if (input.nodeName === 'TEXTAREA') {
                 return new StackTextareaInput(input);
             } else if (input.type === 'radio') {

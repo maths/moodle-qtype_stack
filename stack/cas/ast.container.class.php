@@ -15,7 +15,6 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 defined('MOODLE_INTERNAL')|| die();
-
 // Ast container and related functions, which replace "cas strings".
 //
 // @copyright  2019 University of Aalto.
@@ -30,6 +29,7 @@ require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
+require_once(__DIR__ . '/../localisation.php');
 
 
 class stack_ast_container extends stack_ast_container_silent implements cas_latex_extractor,
@@ -224,6 +224,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         $testval = self::make_from_teacher_source($dispval, '', new stack_cas_security());
         $computedinput = $testval->ast->toString(array('nounify' => 0, 'inputform' => true,
                 'qmchar' => true, 'pmchar' => 0, 'nosemicolon' => true));
+        
 
         return $computedinput;
     }

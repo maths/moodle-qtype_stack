@@ -115,7 +115,7 @@ class qtype_stack_renderer extends qtype_renderer {
             }
             $this->page->requires->js_call_amd('qtype_stack/input', 'initInputs',
                     [$questiondivid, $qa->get_field_prefix(),
-                            $qa->get_database_id(), $inputstovaldiate]);
+                            $qa->get_database_id(), $inputstovaldiate, get_string('decsep', 'langconfig') ]);
         }
 
         $result = '';
@@ -351,7 +351,6 @@ class qtype_stack_renderer extends qtype_renderer {
             $feedback = format_text(stack_maths::process_display_castext($feedback, $this),
                     $format, array('noclean' => true, 'para' => false));
         }
-
         $gradingdetails = '';
         if (!$result->errors && $qa->get_behaviour_name() == 'adaptivemultipart'
                 && $options->marks >= question_display_options::MARK_AND_MAX) {
@@ -361,7 +360,6 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         $standardfeedback = $this->standard_prt_feedback($qa, $question, $result, $feedbackstyle);
-
         $tag = 'div';
         switch ($feedbackstyle) {
             case 0:

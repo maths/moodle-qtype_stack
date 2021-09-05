@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 defined('MOODLE_INTERNAL') || die();
-
+require_once(__DIR__ . '/../../localisation.php');
 /**
  * A basic text-field input.
  *
@@ -119,7 +119,7 @@ class stack_algebraic_input extends stack_input {
     /**
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
-    public function get_teacher_answer_display($value, $display) {
+    public function get_teacher_answer_display($value, $display) {   
         if ($this->extraoptions['hideanswer']) {
             return '';
         }
@@ -129,6 +129,6 @@ class stack_algebraic_input extends stack_input {
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
         $cs->set_nounify(0);
         $value = $cs->get_inputform(true, 0, 0);
-        return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
+        return stack_string('teacheranswershow', array('value' => '<code>'.transformOutput($value).'</code>', 'display' => $display));
     }
 }

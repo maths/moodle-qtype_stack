@@ -261,6 +261,12 @@ abstract class stack_input {
                     }
                     break;
 
+                case 'consolidatesubscripts':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
                 case 'mindp':
                     if (!($arg === false || is_numeric($arg))) {
                         $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
@@ -896,6 +902,11 @@ abstract class stack_input {
         // Assume single letter variable names = 4.
         if ($grammarautofixes & self::GRAMMAR_FIX_SINGLE_CHAR) {
             $filterstoapply[] = '410_single_char_vars';
+        }
+
+        // Consolidate M_1 to M1 and so on.
+        if ($this->get_extra_option('consolidatesubscripts', false)) {
+            $filterstoapply[] = '420_consolidate_subscripts';
         }
 
         return array($secrules, $filterstoapply);

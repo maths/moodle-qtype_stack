@@ -492,6 +492,8 @@ class stack_inputvalidation_test_data {
                 '\frac{\rho\cdot z\cdot V}{4\cdot \pi\cdot \varepsilon_{0}\cdot {\left(R^2+z^2\right)}^{\frac{3}{2}}}',
                 '', "Subscripts"),
         array('a_b', 'php_true', 'a_b', 'cas_true', '{a}_{b}', '', ""),
+        array('M_1', 'php_true', 'M_1', 'cas_true', '{M}_{1}', '', ""),
+        array('xYz_123', 'php_true', 'xYz_123', 'cas_true', '{{\it xYz}}_{123}', '', ""),
         array('beta_47', 'php_true', 'beta_47', 'cas_true', '{\beta}_{47}', '', ""),
         array('3beta_47', 'php_true', '3*beta_47', 'cas_true', '3\cdot {\beta}_{47}', 'missing_stars', ""),
         array('a,b,c', 'php_false', 'a,b,c', 'cas_true', '', 'unencapsulated_comma', "Unencapsulated commas"),

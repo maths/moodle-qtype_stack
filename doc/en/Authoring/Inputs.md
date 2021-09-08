@@ -301,6 +301,23 @@ Controls if the student's answer is aligned 'left' or 'right' within the input b
 
 As of STACK 4.3, if units are declared in a question then the whole question will use a units context for parsing inputs.  For example, in a multi-part question you may use a matrix input.  If you do so, and use variable names, then these will be parsed expecting them to be usits.  To prevent this in a particular input, use the `nounits` option
 
+### Extra option: consolidatesubscripts ###
+
+As of STACK 4.3.10, there is an option to "consolidate subscripts".
+
+There is a subtle (and perhaps confusing) difference between atoms in Maxima.  The strings `a1` and `a_1` are both atoms in Maxima, and are different.  However, the display is very similar, using subscripts.  A further confusion arises since list elements are also displayed subscripted.  E.g. `a[1]` will also be displayed with a subscript.
+
+The atoms `a1` and `a_1` are not considered to be algebraically equivalent.
+
+To avoid penalising students on a technicality, if you include the extra option `consolidatesubscripts` or `consolidatesubscripts:true` then students' input will be converted to the form without the underscore.
+
+1. In students' input `M_1` is converted to `M1`.
+2. Teachers are expected to use the correct pattern `M1` in the correct answer and in PRTs.
+3. We only filter a very limited pattern, namely `^[a-zA-Z]+_[0-9]+$` which is an atom starting with one or more letters, then an underscore `_` then one or more digits.  This is the only pattern currently replaced.  Specifically double subscripts or non-numeric subscripts are ignored.
+
+(If you have genuine use for more patterns please contact the developers with examples!)
+
+
 ## Extra options ##
 
 In the future we are likely to add additional functionality via the _extra options_ fields.  This is because the form-based support becomes ever more complex, intimidating and difficult to navigate.
@@ -349,6 +366,7 @@ min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |   
 `floatnum`      |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `intnum`        |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `rationalnum`   |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
+`consolidatesubscripts` |  Y  |  .  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `negpow`        |  .  |  .  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `allowempty`   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  Y  |    .     |   .   |   Y    |   .  
 `hideanswer`   |  Y  |  Y  |  .    |   .    |   .   |   .   |   .  |  Y  |    .     |   .   |   Y    |   Y  

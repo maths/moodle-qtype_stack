@@ -1697,8 +1697,28 @@ class stack_ast_filter_auto_gen_104_no_sets_testcase extends qtype_stack_ast_tes
                       array(),
                       true, false);
 
+        $this->expect('Xy_12',
+                      'Xy_12',
+                      array(),
+                      true, false);
+
         $this->expect('x_y',
                       'x_y',
+                      array(),
+                      true, false);
+
+        $this->expect('x_y_z',
+                      'x_y_z',
+                      array(),
+                      true, false);
+
+        $this->expect('x_y_1',
+                      'x_y_1',
+                      array(),
+                      true, false);
+
+        $this->expect('x_12_z',
+                      'x_12_z',
                       array(),
                       true, false);
 
@@ -1709,6 +1729,11 @@ class stack_ast_filter_auto_gen_104_no_sets_testcase extends qtype_stack_ast_tes
 
         $this->expect('xy_12',
                       'xy_12',
+                      array(),
+                      true, false);
+
+        $this->expect('M_2*x^2+M_1*x+M_0',
+                      'M_2*x^2+M_1*x+M_0',
                       array(),
                       true, false);
 
@@ -3418,8 +3443,28 @@ class stack_ast_filter_auto_gen_104_no_sets_testcase extends qtype_stack_ast_tes
                       array(),
                       true, false);
 
+        $this->expect('Xy_12',
+                      'Xy_12',
+                      array(),
+                      true, false);
+
         $this->expect('x_y',
                       'x_y',
+                      array(),
+                      true, false);
+
+        $this->expect('x_y_z',
+                      'x_y_z',
+                      array(),
+                      true, false);
+
+        $this->expect('x_y_1',
+                      'x_y_1',
+                      array(),
+                      true, false);
+
+        $this->expect('x_12_z',
+                      'x_12_z',
                       array(),
                       true, false);
 
@@ -3430,6 +3475,11 @@ class stack_ast_filter_auto_gen_104_no_sets_testcase extends qtype_stack_ast_tes
 
         $this->expect('xy_12',
                       'xy_12',
+                      array(),
+                      true, false);
+
+        $this->expect('M_2*x^2+M_1*x+M_0',
+                      'M_2*x^2+M_1*x+M_0',
                       array(),
                       true, false);
 

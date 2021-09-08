@@ -30,7 +30,8 @@ class stack_textarea_input extends stack_input {
 
     protected $extraoptions = array(
         'nounits' => true,
-        'simp' => false
+        'simp' => false,
+        'consolidatesubscripts' => false
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

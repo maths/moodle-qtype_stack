@@ -49,7 +49,8 @@ class stack_equiv_input extends stack_input {
         // Sets the value of the assume_real variable, which affects how we deal with complex numbers.
         'assume_real' => false,
         // Sets the value of the stack_calculus variable, which affects how we deal with calulus in arguments.
-        'calculus' => false
+        'calculus' => false,
+        'consolidatesubscripts' => false
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

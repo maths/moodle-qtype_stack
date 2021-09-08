@@ -1585,8 +1585,28 @@ class stack_ast_filter_auto_gen_201_sig_figs_validation_testcase extends qtype_s
                       array(),
                       false, true);
 
+        $this->expect('Xy_12',
+                      'Xy_12',
+                      array(),
+                      false, true);
+
         $this->expect('x_y',
                       'x_y',
+                      array(),
+                      false, true);
+
+        $this->expect('x_y_z',
+                      'x_y_z',
+                      array(),
+                      false, true);
+
+        $this->expect('x_y_1',
+                      'x_y_1',
+                      array(),
+                      false, true);
+
+        $this->expect('x_12_z',
+                      'x_12_z',
                       array(),
                       false, true);
 
@@ -1597,6 +1617,11 @@ class stack_ast_filter_auto_gen_201_sig_figs_validation_testcase extends qtype_s
 
         $this->expect('xy_12',
                       'xy_12',
+                      array(),
+                      false, true);
+
+        $this->expect('M_2*x^2+M_1*x+M_0',
+                      'M_2*x^2+M_1*x+M_0',
                       array(),
                       false, true);
 
@@ -3276,8 +3301,28 @@ class stack_ast_filter_auto_gen_201_sig_figs_validation_testcase extends qtype_s
                       array(),
                       false, true);
 
+        $this->expect('Xy_12',
+                      'Xy_12',
+                      array(),
+                      false, true);
+
         $this->expect('x_y',
                       'x_y',
+                      array(),
+                      false, true);
+
+        $this->expect('x_y_z',
+                      'x_y_z',
+                      array(),
+                      false, true);
+
+        $this->expect('x_y_1',
+                      'x_y_1',
+                      array(),
+                      false, true);
+
+        $this->expect('x_12_z',
+                      'x_12_z',
                       array(),
                       false, true);
 
@@ -3288,6 +3333,11 @@ class stack_ast_filter_auto_gen_201_sig_figs_validation_testcase extends qtype_s
 
         $this->expect('xy_12',
                       'xy_12',
+                      array(),
+                      false, true);
+
+        $this->expect('M_2*x^2+M_1*x+M_0',
+                      'M_2*x^2+M_1*x+M_0',
                       array(),
                       false, true);
 

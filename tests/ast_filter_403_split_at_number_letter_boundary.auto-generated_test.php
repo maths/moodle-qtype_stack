@@ -40,6 +40,11 @@ class stack_ast_filter_auto_gen_403_split_at_number_letter_boundary_testcase ext
                       array('missing_stars'),
                       true, false);
 
+        $this->expect('x_12_z',
+                      'x_12_*z',
+                      array('missing_stars'),
+                      true, false);
+
     }
 
     public function test_affected_units() {
@@ -53,6 +58,11 @@ class stack_ast_filter_auto_gen_403_split_at_number_letter_boundary_testcase ext
 
         $this->expect('ab98cd',
                       'ab98*c*d',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('x_12_z',
+                      'x_12_*z',
                       array('missing_stars'),
                       true, false);
 
@@ -1662,8 +1672,23 @@ class stack_ast_filter_auto_gen_403_split_at_number_letter_boundary_testcase ext
                       array(),
                       true, false);
 
+        $this->expect('Xy_12',
+                      'Xy_12',
+                      array(),
+                      true, false);
+
         $this->expect('x_y',
                       'x_y',
+                      array(),
+                      true, false);
+
+        $this->expect('x_y_z',
+                      'x_y_z',
+                      array(),
+                      true, false);
+
+        $this->expect('x_y_1',
+                      'x_y_1',
                       array(),
                       true, false);
 
@@ -1674,6 +1699,11 @@ class stack_ast_filter_auto_gen_403_split_at_number_letter_boundary_testcase ext
 
         $this->expect('xy_12',
                       'xy_12',
+                      array(),
+                      true, false);
+
+        $this->expect('M_2*x^2+M_1*x+M_0',
+                      'M_2*x^2+M_1*x+M_0',
                       array(),
                       true, false);
 
@@ -3398,8 +3428,23 @@ class stack_ast_filter_auto_gen_403_split_at_number_letter_boundary_testcase ext
                       array(),
                       true, false);
 
+        $this->expect('Xy_12',
+                      'Xy_12',
+                      array(),
+                      true, false);
+
         $this->expect('x_y',
                       'x_y',
+                      array(),
+                      true, false);
+
+        $this->expect('x_y_z',
+                      'x_y_z',
+                      array(),
+                      true, false);
+
+        $this->expect('x_y_1',
+                      'x_y_1',
                       array(),
                       true, false);
 
@@ -3410,6 +3455,11 @@ class stack_ast_filter_auto_gen_403_split_at_number_letter_boundary_testcase ext
 
         $this->expect('xy_12',
                       'xy_12',
+                      array(),
+                      true, false);
+
+        $this->expect('M_2*x^2+M_1*x+M_0',
+                      'M_2*x^2+M_1*x+M_0',
                       array(),
                       true, false);
 

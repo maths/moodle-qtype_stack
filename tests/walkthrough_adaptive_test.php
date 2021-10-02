@@ -3544,6 +3544,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $q = test_question_maker::make_question('stack', 'contextvars');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
+        $generalfeedback = $q->get_generalfeedback_castext();
+        $expected = 'You should be able to type in \\({\diamond}\\) as <code>blob</code>.';
+        $this->assertEquals($expected, $generalfeedback->get_display_castext());
+
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
         $this->assertEquals('adaptivemultipart',

@@ -1312,15 +1312,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
 
-        // 2. Check alt-text exists.
+        // 2. Check alt-text exists and html integrity.
         $tocheck = array();
-        $fields = array('questiontext', 'generalfeedback');
-        foreach ($fields as $field) {
-            $text = trim($this->$field);
-            if ($text !== '') {
-                $tocheck[stack_string($field)] = $text;
-            }
+        $text = trim($this->questiontextinstantiated);
+        if ($text !== '') {
+            $tocheck[stack_string('questiontext')] = $text;
         }
+        $ct = $this->get_generalfeedback_castext();
+        $text = trim($ct->get_display_castext());
+        if ($text !== '') {
+            $tocheck[stack_string('generalfeedback')] = $text;
+        }
+        // This is a compromise.  We concatinate all nodes and we don't instantiate this!
         foreach ($this->prts as $prt) {
             $text = trim($prt->get_feedback_test());
             if ($text !== '') {
@@ -1336,7 +1339,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             libxml_clear_errors();
             $dom = new DOMDocument();
             $dom->loadHTML($text);
-            $errors = libxml_get_errors();
+            $xmlerrors = libxml_get_errors();
             // Reset the libxml error reporting flag.
             libxml_use_internal_errors($libxmlerr);
 
@@ -1348,8 +1351,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
 
             $errmsg = array();
-            if ($errors != array()) {
-                foreach ($errors as $error) {
+            if ($xmlerrors != array()) {
+                foreach ($xmlerrors as $error) {
                     $errmsg[] = stack_string('libxmlerr', array('err' => $error->message, 'line' => $error->line));
                 }
                 $warnings[] = stack_string_error('htmlproblem', array('field' => $field)) . ' ' .

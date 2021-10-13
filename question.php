@@ -1307,12 +1307,57 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($this->prts as $prt) {
             foreach ($prt->get_raw_sans_used() as $key => $sans) {
                 if (!array_key_exists(trim($sans), $this->inputs)) {
-                    $warnings[] = stack_string('AT_raw_sans_needed', array('prt' => $key));
+                    $warnings[] = stack_string_error('AT_raw_sans_needed', array('prt' => $key));
                 }
             }
         }
 
-        // 2. Language warning checks.
+        // 2. Check alt-text exists.
+        $tocheck = array();
+        $fields = array('questiontext', 'generalfeedback');
+        foreach ($fields as $field) {
+            $text = trim($this->$field);
+            if ($text !== '') {
+                $tocheck[stack_string($field)] = $text;
+            }
+        }
+        foreach ($this->prts as $prt) {
+            $text = trim($prt->get_feedback_test());
+            if ($text !== '') {
+                $tocheck[$prt->get_name()] = $text;
+            }
+        }
+
+        foreach ($tocheck as $field => $text) {
+            // Replace unprotected & symbols, which happens a lot inside LaTeX equations.
+            $text = preg_replace("/&(?!\S+;)/", "&amp;", $text);
+
+            $libxmlerr = libxml_use_internal_errors(true);
+            libxml_clear_errors();
+            $dom = new DOMDocument();
+            $dom->loadHTML($text);
+            $errors = libxml_get_errors();
+            // Reset the libxml error reporting flag.
+            libxml_use_internal_errors($libxmlerr);
+
+            foreach ($dom->getElementsByTagName('img') as $img) {
+                $alt = trim($img->getAttribute('alt'));
+                if ($alt === '' or $alt === '---') {
+                    $warnings[] = stack_string_error('alttextmissing', array('field' => $field));
+                }
+            }
+
+            $errmsg = array();
+            if ($errors != array()) {
+                foreach ($errors as $error) {
+                    $errmsg[] = stack_string('libxmlerr', array('err' => $error->message, 'line' => $error->line));
+                }
+                $warnings[] = stack_string_error('htmlproblem', array('field' => $field)) . ' ' .
+                    implode(" ", $errmsg);
+            }
+        }
+
+        // 3. Language warning checks.
         // Put language warning checks last (see guard clause below).
         // Check multi-language versions all have the same languages.
         $ml = new stack_multilang();

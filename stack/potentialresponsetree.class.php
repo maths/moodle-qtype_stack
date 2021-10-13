@@ -400,6 +400,18 @@ class stack_potentialresponse_tree {
         return $langs;
     }
 
+
+    /**
+     * @return string Raw feedback text as a single blob for checking.
+     */
+    public function get_feedback_test() {
+        $text = '';
+        foreach ($this->nodes as $node) {
+            $text .= $node->get_feedback_text();
+        }
+    return $text;
+    }
+
     /**
      * @return array All the "sans" strings used in the nodes with test requiring a raw input.
      */

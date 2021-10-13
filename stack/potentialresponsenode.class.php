@@ -391,6 +391,14 @@ class stack_potentialresponse_node {
         return $langs;
     }
 
+    /*
+     * Return the feedback used for testing HTML integrity.
+     * Could be made more specific like language testing.
+     */
+    public function get_feedback_text() {
+        return $this->branches[0]['feedback'] . $this->branches[1]['feedback'];
+    }
+
     public function get_maxima_representation() {
         $ncasoptions = null;
         if ($this->required_atoptions()) {

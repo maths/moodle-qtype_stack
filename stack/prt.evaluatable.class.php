@@ -215,8 +215,8 @@ class prt_evaluatable implements cas_raw_value_extractor {
         $err = [];
         foreach ($this->errors as $er) {
             if (strpos($er, ': feedback-variables') !== false) {
-                // Ifthese are all for FV we can drop the prefix.
-                $err[] = split(': feedback-variables', $er)[1];
+                // If these are all for FV we can drop the prefix.
+                $err[] = explode(': feedback-variables', $er)[1];
             }
         }
         return $err;

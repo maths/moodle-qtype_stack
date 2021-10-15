@@ -15,7 +15,7 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 defined('MOODLE_INTERNAL') || die();
 
-
+global $CFG;
 require_once(__DIR__ . '/../block.interface.php');
 require_once($CFG->libdir . '/questionlib.php');
 

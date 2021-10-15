@@ -187,6 +187,131 @@ class maxima_parser_utils {
 
     }
 
+    // Will generate a singular AST with position remaps and inlined included statements.
+    // Generates errors if inclusions within inclusions or inclusions in unexpected places.
+    // Returns either the AST or some form of an exception.
+    public static function parse_and_insert_missing_semicolons_with_includes($str) {
+        static $remotes = [];
+
+        $root = self::parse_and_insert_missing_semicolons($str);
+        if ($root instanceof MP_Root) {
+            if (isset($root->position['fixedsemicolons'])) {
+                $root = self::position_remap($root, $root->position['fixedsemicolons']);
+            } else {
+                $root = self::position_remap($root, $str);
+            }
+            // Ok now seek for the inclusions if any are there.
+            $includecount = 0;
+            $errors = [];
+            $include = function($node) use (&$includecount, &$errors, &$remotes) {
+                if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom &&
+                    $node->name->value === 'stack_include') {
+                    // Now the first requirement for this is that this must be a top level item
+                    // in this statement, this statement may not have flags or anythign else.
+                    if ($node->parentnode instanceof MP_Statement) {
+                        if (count($node->arguments) === 1 && $node->arguments[0] instanceof MP_String) {
+                            if ($node->parentnode->flags === null || count($node->parentnode->flags) === 0) {
+                                // Count them to give numbered errors, do not give the included address, ever.
+                                $includecount = $includecount + 1;
+                                $srccode = '1';
+                                // Various repeated validation steps may lead to multiple fetches for a single
+                                // request, lets not do those, lets save some bandwith for those that share
+                                // such stuff.
+                                if (isset($remotes[$node->arguments[0]->value])) {
+                                    $srccode = $remotes[$node->arguments[0]->value];
+                                } else {
+                                    $srccode = file_get_contents($node->arguments[0]->value);
+                                    $remotes[$node->arguments[0]->value] = $srccode;
+                                }
+                                if ($srccode === false) {
+                                    // Do not give the address in the output.
+                                    $errors[] = 'stack_include, could not retrieve: #' . $includecount;
+                                    $node->name->value = 'failed_stack_include';
+                                    $node->position['invalid'] = true;
+                                    return true;
+                                }
+                                $src = self::parse_and_insert_missing_semicolons($srccode);
+                                if ($src instanceof MP_Root) {
+                                    // For completeness sake check for the existence of includes.
+                                    $usage = self::variable_usage_finder($src);
+                                    if (isset($usage['calls']) && isset($usage['calls']['stack_include'])) {
+                                        // Whyt not is simply because we do not want to deal with cycles or
+                                        // trying to keep track of the error messages. It is better to guide
+                                        // towards less deep hierarchys of included content. And if someone
+                                        // wants to do deppeer includes they may just give an url to a serverside 
+                                        // include using system, which is a fine way for buildign a package management 
+                                        // system for thes sorts of things.
+                                        $errors[] = 'stack_include, include includes includes, we do not allow that: #' . $includecount;
+                                        $node->name->value = 'failed_stack_include';
+                                        $node->position['invalid'] = true;
+                                        return true;       
+                                    }
+
+                                    if (isset($src->position['fixedsemicolons'])) {
+                                        $src = self::position_remap($src, $src->position['fixedsemicolons']);
+                                    } else {
+                                        $src = self::position_remap($src, $srccode);
+                                    }
+                                    // Simply remove the include statement and inject the parsed ones
+                                    // in its place, tag the statements with a source detail to help error tracking.
+                                    $replacement = [];
+                                    foreach ($node->parentnode->parentnode->items as $i) {
+                                        if ($i === $node->parentnode) {
+                                            foreach ($src->items as $item) {
+                                                $item->position['included-from'] = 'inclusion #' . $includecount;
+                                                $item->parentnode = $node->parentnode->parentnode;
+                                                $replacement[] = $item;
+                                            }
+                                        } else {
+                                            $replacement[] = $i;
+                                        }
+                                    }
+                                    // This is the root node, which has the comments and statements as its items.
+                                    // We do include even the comments, maybe in the future they include annotations.
+                                    $node->parentnode->parentnode->items = $replacement;
+                                    return false;
+                                } else {
+                                    $node->name->value = 'failed_stack_include';
+                                    $errors[] = 'stack_include, a parse error inside the include #' . $includecount . ': ' . $src->getMessage();
+                                    return false;
+                                }
+                            } else {
+                                $node->name->value = 'failed_stack_include';
+                                // This is mainly because I am lazy, but it does make the handling of the include 
+                                // side error reportting quite a lot simpler.
+                                $errors[] = 'stack_include-statements may not have evaluation-flags.';
+                                return true;
+                            }
+                        } else {
+                            $node->name->value = 'failed_stack_include';
+                            $errors[] = 'stack_include must have one and only one static string value as its argument.';
+                            return true;
+                        }
+                    } else {
+                        // End this ones processing.
+                        $node->name->value = 'failed_stack_include';
+                        $errors[] = 'stack_include must not be wrapped in any complex processing, it must be a top-level statement.';
+                        return true;
+                    }
+                }
+                return true; 
+            };
+            while ($root->callbackRecurse($include) !== true) {}
+
+            // TODO: wrap those errors into something more readable.
+            if (count($errors) > 0) {
+                // Returning an exception because we already either return an excpetion or the root node, so why
+                // have even more types in play.
+                return new stack_exception(implode(',', $errors));
+            }
+            return $root;
+        } else {
+            // Even the first level was bad.
+            return $root;
+        }
+    }
+
+
     // Function to find suitable place to inject a semicolon to i.e. place into start of whitespace.
     private static function previous_non_whitespace($code, $pos) {
         $i = $pos;

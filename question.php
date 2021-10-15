@@ -324,7 +324,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * Once we know the random seed, we can initialise all the other parts of the question.
      */
     public function initialise_question_from_seed() {
-        // We can detect a logically faulty question by checkign if the cache can 
+        // We can detect a logically faulty question by checking if the cache can 
         // return anything if it can't then we can simply skip to the output of errors.
         if ($this->get_cached('units') !== null) {
             // Build up the question session out of all the bits that need to go into it.
@@ -378,28 +378,31 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $session->add_statement($cs);
             }
 
+            // 3.0 setup common CASText2 staticreplacer.
+            $static = new castext2_static_replacer($this->get_cached('static-castext-strings'));
+
             // 3. CAS bits inside the question text.
-            $questiontext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qt'), 'question-text');
+            $questiontext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qt'), 'question-text', $static);
             if ($questiontext->requires_evaluation()) {
                 $session->add_statement($questiontext);
             }
 
             // 4. CAS bits inside the specific feedback.
-            $feedbacktext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-sf'), 'specific-feedback');
+            $feedbacktext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-sf'), 'specific-feedback', $static);
             if ($feedbacktext->requires_evaluation()) {
                 $session->add_statement($feedbacktext);
             }
 
             // 5. CAS bits inside the question note.
-            $notetext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qn'), 'question-note');
+            $notetext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qn'), 'question-note', $static);
             if ($notetext->requires_evaluation()) {
                 $session->add_statement($notetext);
             }
 
             // 6. The standard PRT feedback.
-            $prtcorrect          = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-c'), 'prt-msg');
-            $prtpartiallycorrect = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-pc'), 'prt-msg');
-            $prtincorrect        = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-ic'), 'prt-msg');
+            $prtcorrect          = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-c'), 'prt-msg', $static);
+            $prtpartiallycorrect = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-pc'), 'prt-msg', $static);
+            $prtincorrect        = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-ic'), 'prt-msg', $static);
             if ($prtcorrect->requires_evaluation()) {
                 $session->add_statement($prtcorrect);
             }
@@ -545,12 +548,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         // We can have a failed question.
         if ($this->get_cached('castext-gf') === null) {
-            $ct = castext2_evaluatable::make_from_compiled('"Broken question."', 'general-feedback'); // This mainly for the bulk-test script.
+            $ct = castext2_evaluatable::make_from_compiled('"Broken question."', 'general-feedback', new castext2_static_replacer($this->get_cached('static-castext-strings'))); // This mainly for the bulk-test script.
             $ct->requires_evaluation(); // Makes it as if it were evaluated.
             return $ct;
         }
 
-        $this->generalfeedbackinstantiated = castext2_evaluatable::make_from_compiled($this->get_cached('castext-gf'), 'general-feedback');
+        $this->generalfeedbackinstantiated = castext2_evaluatable::make_from_compiled($this->get_cached('castext-gf'), 'general-feedback', new castext2_static_replacer($this->get_cached('static-castext-strings')));
         // Might not require any evaluation anyway.
         if (!$this->generalfeedbackinstantiated->requires_evaluation()) {
             return $this->generalfeedbackinstantiated;

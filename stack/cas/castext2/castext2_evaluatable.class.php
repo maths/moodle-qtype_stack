@@ -15,6 +15,7 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(__DIR__ . '/../evaluatable_object.interfaces.php');
+require_once(__DIR__ . '/castext2_static_replacer.class.php');
 require_once(__DIR__ . '/utils.php');
 require_once(__DIR__ . '/blocks/root.specialblock.php');
 
@@ -40,12 +41,16 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     private $errors = null;
     private $context = null;
 
+    // Because we do not want to transfer large static strings to CAS we use a store that contains those values
+    // and replace them into the result once eberything is complete.
+    private $statics = null;
 
-    public static function make_from_compiled(string $compiled, string $context): castext2_evaluatable {
+    public static function make_from_compiled(string $compiled, string $context, castext2_static_replacer $statics): castext2_evaluatable {
         $r = new castext2_evaluatable();
         $r->valid = true; // The compiled fragment is assumed to be validated.
         $r->compiled = $compiled;
         $r->context = $context;
+        $r->statics = $statics;
         return $r;
     }
 
@@ -194,11 +199,18 @@ class castext2_evaluatable implements cas_raw_value_extractor {
             // 
             // Note that pure strings are even simpler...
             if (mb_substr($this->value, 0, 1) === '"') {
-                // If it was flat.
+                // If it evaluated to entirely flat result.
                 $this->evaluated  = stack_utils::maxima_string_to_php_string($this->value);
+                if ($this->statics !== null) {
+                    $this->evaluated = $this->statics->replace($this->evaluated);
+                }
             } else {
                 $value = castext2_parser_utils::string_to_list($this->value, true);
                 $value = castext2_parser_utils::unpack_maxima_strings($value);
+                if ($this->statics !== null) { 
+                    // This needs to happen before the postprocessing.
+                    $value = $this->statics->replace($value);
+                }
                 $this->evaluated = castext2_parser_utils::postprocess_parsed($value, $processor);
             }
         }

@@ -15,7 +15,7 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 defined('MOODLE_INTERNAL') || die();
 
-
+global $CFG;
 require_once(__DIR__ . '/../block.interface.php');
 require_once($CFG->libdir . '/weblib.php');
 
@@ -28,7 +28,7 @@ require_once($CFG->libdir . '/weblib.php');
 class stack_cas_castext2_demoodle extends stack_cas_castext2_block {
 
     public function compile($format, $options): ?string {
-        // Basically mark the contetns for post-processing.
+        // Basically mark the contents for post-processing.
         $r = '["demoodle"';
 
         

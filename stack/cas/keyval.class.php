@@ -95,9 +95,14 @@ class stack_cas_keyval {
 
         // 6/10/18 No longer split by line change, split by statement.
         // Allow writing of loops and other long statements onto multiple lines.
-        $ast = maxima_parser_utils::parse_and_insert_missing_semicolons($str);
+        $ast = maxima_parser_utils::parse_and_insert_missing_semicolons_with_includes($str);
         if (!$ast instanceof MP_Root) {
-            // If not then it is a SyntaxError.
+            // If not then it is a SyntaxError. Or an include error.
+            if ($ast instanceof stack_exception) {
+                $this->errors[] = $ast->getMessage();
+                $this->valid = false;
+                return false;
+            }
             $syntaxerror = $ast;
             $error = $syntaxerror->getMessage();
             if (isset($syntaxerror->grammarLine) && isset($syntaxerror->grammarColumn)) {
@@ -227,6 +232,7 @@ class stack_cas_keyval {
         $bestatements = [];
         $statements = [];
         $contextvariables = [];
+        $inclusioncount = 0;
 
         $referenced = ['read' => [], 'write' => [], 'calls' => []];
 
@@ -263,7 +269,7 @@ class stack_cas_keyval {
         }
 
         // And then the parsing.
-        $ast = maxima_parser_utils::parse_and_insert_missing_semicolons($str);
+        $ast = maxima_parser_utils::parse_and_insert_missing_semicolons_with_includes($str);
 
         // Then we will build the normal filter chain for the syntax-candy. Repeat security checks just in case.
         $errors = [];
@@ -273,22 +279,24 @@ class stack_cas_keyval {
         $tostringparams = ['nosemicolon' => true, 'pmchar' => 1];
         $securitymodel = new stack_cas_security();
 
+        // For access in the function.
+        $options = $this->options;
 
         // Special rewrites filtter, might be a real AST-filter at some point.
-        $rewrite = function($node) use (&$errors) {
+        $rewrite = function($node) use (&$errors, &$bestatements, &$contextvariables, &$inclusioncount, $contextname, &$referenced, $options) {
             if ($node instanceof MP_FunctionCall) {
                 if ($node->name instanceof MP_Identifier && $node->name->value === 'castext') {
                     // The very special case of seeing the castext-function inside castext.
                     if (count($node->arguments) == 1 && !($node->arguments[0] instanceof MP_String)) {
-                        $errors[] = 'Keyval castext()-compiler, wrong argument. Only works with one direct raw string. And possibly format descriptor.';
+                        $errors[] = 'Keyval castext()-compiler, wrong argument. Only works with one direct raw string. And possibly a format descriptor.';
                         $node->position['invalid'] = true;
                         return true;
                     } else if (count($node->arguments) == 2 && (!($node->arguments[0] instanceof MP_String) || !($node->arguments[1] instanceof MP_Identifier))) {
-                        $errors[] = 'Keyval castext()-compiler, wrong argument. Only works with one direct raw string. And possibly format descriptor.';
+                        $errors[] = 'Keyval castext()-compiler, wrong argument. Only works with one direct raw string. And possibly a format descriptor.';
                         $node->position['invalid'] = true;
                         return true;
                     } else if (count($node->arguments) == 0 || count($node->arguments) > 2) {
-                        $errors[] = 'Keyval castext()-compiler, wrong argument. Only works with one direct raw string. And possibly format descriptor.';
+                        $errors[] = 'Keyval castext()-compiler, wrong argument. Only works with one direct raw string. And possibly a format descriptor.';
                         $node->position['invalid'] = true;
                         return true;
                     }
@@ -312,26 +320,21 @@ class stack_cas_keyval {
             return true;
         };
 
+        // Compile inline CASText2.
+        while ($ast->callbackRecurse($rewrite, true) !== true) {}
+        // Apply the normal filters.
+        $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
 
         // Process the AST.
         foreach ($ast->items as $item) {
             if ($item instanceof MP_Statement) {
-                // As this was already validated no need to check for parse errors.
-                // However we want to change positioning so that exceptions make sense.
-                if (isset($ast->position['fixedsemicolons'])) {
-                    $item = maxima_parser_utils::position_remap($item, $ast->position['fixedsemicolons']);
-                } else {
-                    $item = maxima_parser_utils::position_remap($item, $str);
-                }
-
-                // Filter the AST. For now do the inline CASText2 compile.
-                while ($item->callbackRecurse($rewrite, true) !== true) {}
-
-                // Apply the normal filters.
-                $item = $pipeline->filter($item, $errors, $answernotes, $securitymodel);
-
                 // Render to statement.
-                $scope = stack_utils::php_string_to_maxima_string($contextname . ': ' .
+                $cn = $contextname;
+                // If it comes from an inclusion add that into the error scoping.
+                if (isset($item->position['included-from'])) {
+                    $cn = $cn . ' ' . $item->position['included-from'];
+                }
+                $scope = stack_utils::php_string_to_maxima_string($cn . ': ' .
                         $item->position['start'] . '-' . $item->position['end']);
                 $statement = '_EC(errcatch(' . $item->toString($tostringparams) . '),' . $scope . ')';
 
@@ -354,6 +357,12 @@ class stack_cas_keyval {
                     $statements[] = $statement;
                 }
             }
+        }
+
+        // Might be that broken things were found during the deepper processing.
+        if (count($errors) > 0) {
+            $this->valid = false;
+            $this->errors = array_merge($this->errors, $errors);
         }
 
         // Construct the return value.

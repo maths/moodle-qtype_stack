@@ -30,6 +30,7 @@ require_once(__DIR__ . '/stack/input/factory.class.php');
 require_once(__DIR__ . '/stack/answertest/controller.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/castext2/castext2_evaluatable.class.php');
+require_once(__DIR__ . '/stack/cas/castext2/castext2_static_replacer.class.php');
 require_once(__DIR__ . '/stack/questiontest.php');
 require_once(__DIR__ . '/stack/prt.class.php');
 require_once(__DIR__ . '/stack/graphlayout/graph.php');
@@ -2361,6 +2362,11 @@ class qtype_stack extends question_type {
                 throw new stack_exception('Error(s) in question-variables: ' . implode('; ', $kv->get_errors()));
             }
             $c = $kv->compile('question-variables');
+
+            // The compilation process might uncover more errors.
+            if (!$kv->get_valid()) {
+                throw new stack_exception('Error(s) in question-variables: ' . implode('; ', $kv->get_errors()));
+            }
             // Store the pre-validated statement representing the whole qv.
             $cc['statement-qv'] = $c['statement'];
             // Store any contextvariables, e.g. assume statements.
@@ -2473,6 +2479,20 @@ class qtype_stack extends question_type {
         } else {
             $cc['castext-prt-ic'] = $ct->get_evaluationform();
         }
+
+        // Do static string extraction from the castext-code, save CAS-bandwidth and cache size.
+        // Note! This might be something one wants to toggle for some debug use. But that would
+        // be some other level of debug thatn what we currently have.
+        // This is one of those things that MecLib made us do.
+        $map = new castext2_static_replacer([]);
+        foreach ($cc as $k => $v) {
+            if (strpos($k, 'castext-') === 0) {
+                $val = $map->extract($v);
+                $cc[$k] = $val;
+            }
+        }
+        $cc['static-castext-strings'] = $map->get_map();
+
 
         return $cc;
     }

@@ -48,6 +48,7 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
         if ($format === castext2_parser_utils::MDFORMAT) {
             $mdsuffix = ',"1"';
             if ($this->mathmode) {
+                // Note that we need to escape those curlies in MD.
                 $r .= 'if stringp(_ct2_tmp) then sconcat("\\{",str_to_md(_ct2_tmp),"\\}") else ';
             } else {
                 $r .= 'if stringp(_ct2_tmp) then str_to_md(_ct2_tmp) else ';

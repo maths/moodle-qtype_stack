@@ -136,8 +136,13 @@ class castext2_parser_utils {
 
         // First identify skipped segments. i.e. ignore the contents of comments
         $skipmap = [];
+        // We track the format switches
+        $formatmap = [];
+        for ($i = 0; $i < mb_strlen($code); $i++) {
+            $formatmap[$i] = $format;
+        }
 
-        $populateskipmap = function ($node) use (&$skipmap) {
+        $populateskipmap = function ($node) use (&$skipmap, &$formatmap) {
             // First we skip the whole comment blocks.
             if ($node instanceof CTP_Block && $node->name === 'comment') {
                 $skipmap[$node->position['start']] = $node->position['end'];
@@ -168,6 +173,24 @@ class castext2_parser_utils {
                      */
                     }
                 }
+                // Pick the nodes that affect formats adn faint the areas that have changed their format.
+                $fmt = null;
+                switch ($node->name) {
+                    case 'demoodle':
+                    case 'moodleformat':
+                    case 'htmlformat':
+                    case 'jsxgraph':
+                        $fmt = self::RAWFORMAT;
+                        break;
+                    case 'demarkdown':
+                    case 'markdownformat':
+                        $fmt = self::MDFORMAT;
+                }
+                if ($fmt !== null) {
+                    for ($i = $node->position['start']; $i <= $node->position['end']; $i++) {
+                        $formatmap[$i] = $fmt;
+                    }
+                }
             }
             // TODO: we might also want to handle escapes and ignore {@...@} contents.
             return true;
@@ -193,20 +216,27 @@ class castext2_parser_utils {
             }
         }
 
+        $activeformat = $format;
         $mathmodes = [];
         $mathmode  = false;
         $i         = 0;
         $lastslash = false;
         $doubleslash = false; // This for MD.
         $tripleslash = false; // This for MD.
+
+
         // Then the scan
         while ($i < $len) {
+            if (isset($formatmap[$i])) {
+                // Switch format when need be.
+                $activeformat = $formatmap[$i];
+            }
             if (isset($skipmap[$i])) {
                 $i = $skipmap[$i];
             } else {
                 $c = $chars[$i];
                 if ($c === '\\') {
-                    if ($format === self::MDFORMAT) {
+                    if ($activeformat === self::MDFORMAT) {
                         if ($doubleslash) {
                             $lastslash = !$lastslash;
                             $doubleslash = false;
@@ -222,16 +252,22 @@ class castext2_parser_utils {
                     }
                 }
 
-                if ((($lastslash && $format !== self::MDFORMAT) || ($format === self::MDFORMAT && ($doubleslash || $tripleslash))) && $c !== '\\') {
-                    if (($lastslash && $format !== self::MDFORMAT) || ($format === self::MDFORMAT && $tripleslash)) {
+                if ((($lastslash && $activeformat !== self::MDFORMAT) || ($activeformat === self::MDFORMAT && ($doubleslash || $tripleslash))) && $c !== '\\') {
+                    if (($lastslash && $activeformat !== self::MDFORMAT) || ($activeformat === self::MDFORMAT && $tripleslash)) {
                         if ($c === '[' || $c === '(') {
                             $mathmode = true;
+                            $lastslash = false;
+                            $doubleslash = false;
+                            $tripleslash = false;
                         }
                         if ($c === ']' || $c === ')') {
                             $mathmode = false;
+                            $lastslash = false;
+                            $doubleslash = false;
+                            $tripleslash = false;
                         }
                     }
-                    if (($lastslash && $format !== self::MDFORMAT) || ($format === self::MDFORMAT && $doubleleslash)) {
+                    if (($lastslash && $activeformat !== self::MDFORMAT) || ($activeformat === self::MDFORMAT && $doubleslash)) {
                         if ($c === 'b') {
                             // So do we have a \begin{ here?
                             $slice = mb_substr($skipped, $j);
@@ -259,9 +295,7 @@ class castext2_parser_utils {
                             }
                         }
                     }
-                    $lastslash = false;
-                    $doubleslash = false;
-                    $tripleslash = false;
+
                 }
 
                 $mathmodes[$i] = $mathmode;
@@ -285,6 +319,33 @@ class castext2_parser_utils {
             mb_internal_encoding($old);
         }
 
+        // DBG: TODO remove, seems to paint correctly.
+        /*
+        $fmt = [];
+        $mm = [];
+        $chars = preg_split('//u', $code, -1, PREG_SPLIT_NO_EMPTY);
+        for ($i = 0; $i < mb_strlen($code); $i++) {
+            if ($chars[$i] === ' ' || $chars[$i] === "\n") {
+                $fmt[] = $chars[$i];
+                $mm[] = $chars[$i];
+            } else {
+                if ($formatmap[$i] === self::MDFORMAT) {
+                    $fmt[] = 'M';
+                } else {
+                    $fmt[] = 'H';
+                }
+
+                if (isset($mathmodes[$i])) {
+                    $mm[] = $mathmodes[$i] ? '1' : '0';
+                } else {
+                    $mm[] = '?';
+                }
+            }
+        }
+        print ("FMT: " . implode('', $fmt) . "\n\n");
+        print ("MM: " . implode('', $mm) . "\n\n");
+        */
+       
         return $ast;
     }
 

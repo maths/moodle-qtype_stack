@@ -32,9 +32,9 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
         $r = '';
         $flat = $this->is_flat();
         if (!$flat) {
-            $r .= '["%root",';
+            $r .= '["htmlformat",';
         } else {
-            $r .= 'sconcat(';
+            $r .= '["htmlformat",sconcat(';
         }
 
         $items = array();
@@ -46,11 +46,8 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
         }
         $r .= implode(',', $items);
 
-        if (!$flat) {
-            $r .= ']';
-        } else {
-            $r .= ')';
-        }
+        $r .= ']';
+        
         return $r;
     }
 
@@ -66,6 +63,21 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
         return $flat;
     }
     
+    public function postprocess(array $params, castext2_processor $processor=null): string {
+        $content = '';
+        // Jsut collapse it.
+        for ($i = 1; $i < count($params); $i++) {
+            if (is_array($params[$i])) {
+                $content .= $processor->process($params[$i][0], $params[$i]);
+            } else {
+                $content .= $params[$i];
+            }
+        }
+        
+        return $content;
+    }
+
+
     public function validate_extract_attributes(): array {
         return array();
     }

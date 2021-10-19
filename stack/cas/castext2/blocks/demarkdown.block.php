@@ -33,7 +33,7 @@ class stack_cas_castext2_demarkdown extends stack_cas_castext2_block {
 
         
         foreach ($this->children as $item) {
-            $c = $item->compile($format, $options);
+            $c = $item->compile(castext2_parser_utils::MDFORMAT, $options);
             if ($c !== null) {
                 $r .= ',' . $c;
             }   
@@ -49,25 +49,39 @@ class stack_cas_castext2_demarkdown extends stack_cas_castext2_block {
     }
     
     public function postprocess(array $params, castext2_processor $processor=null): string {
-    	// First collapse the content.
-    	$content    = '';
+        // First collapse the content.
+        $content = [''];
+        $dontproc = [];
         for ($i = 1; $i < count($params); $i++) {
-            if (is_array($params[$i])) {
-                $content .= $processor->process($params[$i][0], $params[$i]);
+            if (is_array($params[$i]) && $params[$i][0] !== 'demoodle' && $params[$i][0] !== 'demarkdown' && $params[$i][0] !== 'htmlformat') {
+                $content[count($content) - 1] .= $processor->process($params[$i][0], $params[$i]);
+            } else if (is_array($params[$i])) {
+                $dontproc[count($content)] = true;
+                $content[] = $processor->process($params[$i][0], $params[$i]);
+                $content[] = '';
             } else {
-                $content .= $params[$i];
+                $content[count($content) - 1] .= $params[$i];
             }
-		}
+        }
+        if ($content[count($content) - 1] === '') {
+            unset($content[count($content) - 1]);
+        }
+        $r = '';
+        foreach ($content as $k => $v) {
+            if (isset($dontproc[$k])) {
+                $r .= $v;
+            } else {
+                $v = markdown_to_html($v);
+                // Note that at this point most of the interesting chars are entities.
+                // We need to revert some of those conversions to allow later processign to 
+                // detect LaTeX for MathJax.
+                // This makes the text such that it should not be reprocessed in any Markdown 
+                // filter luckily we will not do that.
+                $r .= str_replace(['&#92;','&#40;','&#91;','&#123;','&#41;','&#93;','&#125;','&#95;'],["\\",'(','[','{',')',']','}','_'], $v);
+            }
+        }
         
-        $content = markdown_to_html($content);
-        // Note that at this point most of the interesting chars are entities.
-        // We need to revert some of those conversions to allow later processign to 
-        // detect LaTeX for MathJax.
-        // This makes the text such that it should not be reprocessed in any Markdown 
-        // filter luckily we will not do that.
-        $content = str_replace(['&#92;','&#40;','&#91;','&#123;','&#41;','&#93;','&#125;','&#95;'],["\\",'(','[','{',')',']','}','_'], $content);
-
-        return $content;
+        return $r;
     }
 
     public function validate_extract_attributes(): array {

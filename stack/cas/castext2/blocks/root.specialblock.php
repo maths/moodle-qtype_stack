@@ -138,20 +138,68 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                 // postprocessing step we can do that as well and see if we can simplify 
                 // further, might lead to full simplify to string and thus allow skipping
                 // the whole CAS-evaluation.
-                $params = [$node->items[0]->value, $node->items[1]->value];
-                $proc = new stack_cas_castext2_demarkdown([]);
-                $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
-                return false;
+                // Unfortunately, this cannot be done if any of the parents does formatting.
+                // Mixed formats are not liked and should be banned, but the [[include]]-logic
+                // needs to be able to deal with them and PRTs and input2 trickery become simpler
+                // if we support this.
+                $good = true;
+                $p = $node->parentnode;
+                while ($p !== null) {
+                    if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
+                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat')) {
+                        $good =false;
+                        break;
+                    }
+                    $p = $p->parentnode;
+                }
+                if ($good) {
+                    $params = [$node->items[0]->value, $node->items[1]->value];
+                    $proc = new stack_cas_castext2_demarkdown([]);
+                    $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
+                    return false;
+                }
             }
             if ($node instanceof MP_List && count($node->items) == 2 && 
                 $node->items[0] instanceof MP_String && 
                 $node->items[1] instanceof MP_String && 
                 $node->items[0]->value === 'demoodle') {
                 // Same for Moodle auto-format
-                $params = [$node->items[0]->value, $node->items[1]->value];
-                $proc = new stack_cas_castext2_demoodle([]);
-                $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
-                return false;
+                $good = true;
+                $p = $node->parentnode;
+                while ($p !== null) {
+                    if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
+                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat')) {
+                        $good =false;
+                        break;
+                    }
+                    $p = $p->parentnode;
+                }
+                if ($good) {
+                    $params = [$node->items[0]->value, $node->items[1]->value];
+                    $proc = new stack_cas_castext2_demoodle([]);
+                    $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
+                    return false;
+                }
+            }
+            if ($node instanceof MP_List && count($node->items) == 2 && 
+                $node->items[0] instanceof MP_String && 
+                $node->items[1] instanceof MP_String && 
+                $node->items[0]->value === 'htmlformat') {
+                // Same for Moodle auto-format
+                $good = true;
+                $p = $node->parentnode;
+                while ($p !== null) {
+                    if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
+                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat')) {
+                        $good =false;
+                        break;
+                    }
+                    $p = $p->parentnode;
+                }
+                if ($good) {
+                    $node->parentnode->replace($node, $node->items[1]);
+                    return false;
+                }
             }
 
             return true;

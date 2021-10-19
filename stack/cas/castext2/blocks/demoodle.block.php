@@ -33,7 +33,7 @@ class stack_cas_castext2_demoodle extends stack_cas_castext2_block {
 
         
         foreach ($this->children as $item) {
-            $c = $item->compile($format, $options);
+            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $options);
             if ($c !== null) {
                 $r .= ',' . $c;
             }   
@@ -50,17 +50,33 @@ class stack_cas_castext2_demoodle extends stack_cas_castext2_block {
     
     public function postprocess(array $params, castext2_processor $processor=null): string {
     	// First collapse the content.
-    	$content    = '';
+    	$content = [''];
+        $dontproc = [];
         for ($i = 1; $i < count($params); $i++) {
-            if (is_array($params[$i])) {
-                $content .= $processor->process($params[$i][0], $params[$i]);
+            if (is_array($params[$i]) && $params[$i][0] !== 'demoodle' && $params[$i][0] !== 'demarkdown' && $params[$i][0] !== 'htmlformat') {
+                $content[count($content) - 1] .= $processor->process($params[$i][0], $params[$i]);
+            } else if (is_array($params[$i])) {
+                $dontproc[count($content)] = true;
+                $content[] = $processor->process($params[$i][0], $params[$i]);
+                $content[] = '';
             } else {
-                $content .= $params[$i];
+                $content[count($content) - 1] .= $params[$i];
             }
 		}
+        if ($content[count($content) - 1] === '') {
+            unset($content[count($content) - 1]);
+        }
+        $r = '';
+        foreach ($content as $k => $v) {
+            if (isset($dontproc[$k])) {
+                $r .= $v;
+            } else {
+                // Parameters as they would be if this were called through the question->format_text.
+                $r .= text_to_html($v, null, false, true);
+            }
+        }
         
-        // Parameters as they woudl be if this were called through the question->format_text.
-        return text_to_html($content, null, false, true);
+        return $r;
     }
 
     public function validate_extract_attributes(): array {

@@ -46,7 +46,7 @@ possible identifiers in the expression that the substitutions are applied
 to are being targetted by unknown values, this can be avoided by avoiding
 complex construction of the substs itself.
 
-### Example
+### Example 1
 
 ```
 v:1; /* particular case of rand([1,2]) */
@@ -65,6 +65,26 @@ It may be worth trying to use `ev` rather than `subst` - for this example, the q
 
 ```
 df_simp:ev(df, sub);
+```
+
+### Example 2
+
+```
+solution : rhs(ode2(eqn,y,x));
+vars : delete(x,listofvars(solution));
+
+TAns11 : subst([vars[1]=A,vars[2]=B],solution);
+TAns12 : subst([vars[2]=A,vars[1]=B],solution);
+```
+
+Here the error messsages will claim that pretty much everything that goes into `solution` is potentially redefined in unclear substitutions. What the code above does is that it solves a differential equation with CAS and then asks the CAS for the names of the constants being used. Depending on the shape of the equation there might be more than one but in this case there are always exactly two of them. `%k1` and `%k2`, if there were only one it would probably get called `%c` so there is a reason for checking what they are.
+
+Why the example asks for those constants names is because the author has chosen to force the student to use `A` and `B` as the constants and constructs different correct answers for the two ways of selecting the order of the constants. The problem arises from the substitution of the constants which now finds the names of them from a list (`vars`) that is not directly visible to the validation system. There are two ways forward from this. Firstly, the question could use the SubstEquiv test that allows any names for those constants to be used and then just confirms that the correct ones were used if that matters, however then the teachers answer might look silly with those CAS-style constants so you would still need to replace them. Secondly, one can hard-code the names of the constants, in this case they are always the same so that should not be a problem:
+```
+solution : rhs(ode2(eqn,y,x));
+
+TAns11 : subst([%k1=A,%k2=B],solution);
+TAns12 : subst([%k2=A,%k1=B],solution);
 ```
 
 ## Use of the students answer

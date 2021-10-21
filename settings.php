@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/settingslib.php');
 require_once(__DIR__ . '/stack/options.class.php');
+require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
 
 // Useful links.
 $links = array(

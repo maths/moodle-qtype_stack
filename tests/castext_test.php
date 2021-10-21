@@ -917,7 +917,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         // This known fail is to show when we have fixed this bug.
         // TODO: make this testcase fail, and then update it!
         $st = '{@(stackintfmt:"~@r",14)@} is written in Roman numerals.';
-
+        $s2 = array();
         $cs2 = new stack_cas_session2($s2, null, 0);
 
         $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
@@ -1000,8 +1000,8 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        $this->assertEquals($at1->get_rendered(), '\({\Delta}\), \({\sin \left( \Delta^2 \right)}\), ' .
-                '\({\delta}\), \({\theta}\)');
+        $this->assertEquals('\({\Delta}\), \({\sin \left( \Delta^2 \right)}\), ' .
+                '\({\delta}\), \({\theta}\)', $at1->get_rendered());
     }
 
     public function test_subscripts() {
@@ -1106,7 +1106,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2->instantiate();
 
         $this->assert_equals_ignore_spaces_and_e('\({z+y+x}\), \({a\cdot b\cdot c}\)',
-            $at1->get_rendered());
+            $at2->get_rendered());
     }
 
     public function test_stackintfmt() {

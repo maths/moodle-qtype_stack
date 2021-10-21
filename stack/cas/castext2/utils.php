@@ -217,7 +217,7 @@ class castext2_parser_utils {
         }
 
         $activeformat = $format;
-        $mathmodes = [];
+        $mathmodes = [0 => false, 1 => false];
         $mathmode  = false;
         $i         = 0;
         $lastslash = false;

@@ -83,8 +83,8 @@ class stack_castext2_test extends qtype_stack_testcase {
         // The default format is raw HTML.
         // The actual injection is not visible here as the merkdown gets rendered, but
         // the math-mode detection should be.
-        $input = '[[markdownformat]]\\\({@sqrt(x)@}\\\)[[/markdownformat]] {@sqrt(x)@}';
-        $output = '\(\sqrt{x}\) \(\sqrt{x}\)';
+        $input = '[[markdownformat]]\\\({@sqrt(x)@}\\\) {@sqrt(x)@}[[/markdownformat]] {@sqrt(x)@}';
+        $output = '\(\sqrt{x}\) \(\sqrt{x}\) \(\sqrt{x}\)';
         $this->assertEquals($output, $this->evaluate($input));
     }
 

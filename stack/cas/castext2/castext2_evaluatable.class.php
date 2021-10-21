@@ -106,6 +106,8 @@ class castext2_evaluatable implements cas_raw_value_extractor {
                 // as the formating logic will need to also stop filtering for 
                 // this. Check /lib/weblib.php in Moodle.
                 break;
+            default:
+                $format = castext2_parser_utils::RAWFORMAT;
         }
 
 

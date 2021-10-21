@@ -197,25 +197,31 @@ stack_string_parse_number(somestring) := block([c, b, phase, neg,nege, tmp, i],
  return(c)
 )$
 
+stackjson_protect_escapes(c) := if c = "\\" then "\\\\"
+                           else if c = "\"" then "\\\""
+                           else if c = ascii(8) then "\\b"
+                           else if c = ascii(9) then "\\t"
+                           else if c = ascii(10) then "\\n"
+                           else if c = ascii(12) then "\\f"
+                           else if c = ascii(13) then "\\r"
+                           else c$
+
 /* Takes pretty much anything and turns it to a JSON string */
-stackjson_stringify(obj) := block([tmp,r,l,f],
+stackjson_stringify(obj) := block([tmp,r,l],
  r:und,
- f(c) := if c = "\\" then "\\\\" else if c = "\"" then "\\\"" else if c = ascii(8) then "\\b" 
-    else if c = ascii(9) then "\\t" else if c = ascii(10) then "\\n" else if c = ascii(12) then "\\f" 
-    else if c = ascii(13) then "\\r" else c,
  if is(obj=und) then r:"null"
  else if is(obj=false) then r:"false"
  else if is(obj=true) then r:"true"
  else if stringp(obj) then (
-  r : sconcat("\"",simplode(map(f,charlist(obj))),"\"")
+  r : sconcat("\"",simplode(map(stackjson_protect_escapes, charlist(obj))),"\"")
  ) else if is_stackmap(obj) then (
   l:[],
   for tmp in stackmap_keys(obj) do l:append(l,[sconcat(stackjson_stringify(tmp),":",stackjson_stringify(stackmap_get(obj,tmp)))]), 
   r:sconcat("{",simplode(l,","),"}")
  ) else if listp(obj) and length(obj) > 0 then r:sconcat("[",simplode(makelist(stackjson_stringify(x),x,obj),","),"]")
  else if listp(obj) then r:"[]"
- else if integerp(obj) then r:string(obj)
- else if numberp(obj) then r:string(float(obj))
+ else if integerp(ev(obj,simp)) then r:string(ev(obj,simp))
+ else if numberp(ev(float(obj),simp)) then r:string(float(ev(float(obj),simp)))
  else r:stackjson_stringify(string(obj)),
  return(r)
 )$

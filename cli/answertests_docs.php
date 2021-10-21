@@ -21,6 +21,7 @@ define('CLI_SCRIPT', true);
 
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
+require_once(__DIR__ . '/../stack/mathsoutput/fact_sheets.class.php');
 
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir . '/questionlib.php');
@@ -145,6 +146,24 @@ $table->finish_output();
 
 $output = ob_get_clean( );
 
+// This is to break up the resulting single line in the text file.
+// Otherwise editors, git, etc. have a miserable time.
+$output = str_replace('<td class=', "\n  <td class=", $output);
+$output = str_replace('<tr class=', "\n<tr class=", $output);
+$output = str_replace("</tr>", "\n</tr>", $output);
+$output = str_replace(",EQUIVCHAR", ", EQUIVCHAR", $output);
+$output = str_replace(",EMPTYCHAR", ", EMPTYCHAR", $output);
+$output = str_replace(",CHECKMARK", ", CHECKMARK", $output);
+// If we don't strip id tags the whole file will change everytime we add a test!
+// String too long for a single regular expression match.
+$lines = explode("\n", $output);
+$pat = array('/\sid="stack_answertests_r\d+_c\d+"/',
+             '/\sid="stack_answertests_r\d+"/');
+$rep = array('', '');
+foreach ($lines as $key => $line) {
+    $lines[$key] = preg_replace($pat, $rep, $line);
+}
+$output = implode("\n", $lines);
 $output = stack_string('stackDoc_AnswerTestResults') . "\n\n" . $output;
 
 // Add the Maxima version at the end of the table for reference.
@@ -156,3 +175,9 @@ $vstr = $settings->version . ' (' . $libs . ')';
 $output .= '<br/>'.stack_string('stackDoc_version', $vstr);
 
 file_put_contents('../doc/en/Authoring/Answer_tests_results.md', $output);
+
+// Output the factsheet.
+
+$page = get_string('fact_sheet_preamble', 'qtype_stack');
+$page .= stack_fact_sheets::generate_docs();
+file_put_contents('../doc/en/Authoring/Fact_sheets.md', $page);

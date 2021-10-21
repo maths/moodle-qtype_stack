@@ -291,10 +291,15 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'mindp:4, maxdp:3');
         $state = $el->validate_student_response(array('sans1' => '3.141'), $options, '10',
                 new stack_cas_security(false, '', '', array('tans')));
-        $this->assertEquals('<div class="error"><p>The input has generated the following runtime error which prevents ' .
-                'you from answering. Please contact your teacher.</p><p>The required minimum number of numerical places ' .
-                'exceeds the maximum number of places!</p></div>',
-                $el->render($state, 'stack1__ans1', false, null));
+        $this->assertEquals('<div class="error"><p>' .
+                  '<i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                  'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                  'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                  'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                  'answering. Please contact your teacher.</p>' .
+                  '<p>The required minimum number of numerical places ' .
+                  'exceeds the maximum number of places!</p></div>',
+                  $el->render($state, 'stack1__ans1', false, null));
     }
 
     public function test_validate_student_mindp_maxdp_true() {
@@ -377,10 +382,15 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'minsf:4, maxsf:3');
         $state = $el->validate_student_response(array('sans1' => '3.141'), $options, '10',
                 new stack_cas_security(false, '', '', array('tans')));
-        $this->assertEquals('<div class="error"><p>The input has generated the following runtime error which prevents ' .
-                'you from answering. Please contact your teacher.</p><p>The required minimum number of numerical places ' .
-                'exceeds the maximum number of places!</p></div>',
-                $el->render($state, 'stack1__ans1', false, null));
+        $this->assertEquals('<div class="error"><p>' .
+                  '<i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                  'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                  'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                  'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                  'answering. Please contact your teacher.</p>' .
+                  '<p>The required minimum number of numerical places ' .
+                  'exceeds the maximum number of places!</p></div>',
+                  $el->render($state, 'stack1__ans1', false, null));
     }
 
     public function test_validate_student_minsf_maxsf_true() {
@@ -421,10 +431,15 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'minsf:4, maxdp:3');
         $state = $el->validate_student_response(array('sans1' => '3.141'), $options, '10',
                 new stack_cas_security(false, '', '', array('tans')));
-        $this->assertEquals('<div class="error"><p>The input has generated the following runtime error which prevents ' .
-                'you from answering. Please contact your teacher.</p><p>Do not specify requirements for both decimal ' .
-                'places and significant figures in the same input.</p></div>',
-                $el->render($state, 'stack1__ans1', false, null));
+        $this->assertEquals('<div class="error"><p>' .
+                  '<i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                  'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                  'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                  'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                  'answering. Please contact your teacher.</p>' .
+                  '<p>Do not specify requirements for both decimal ' .
+                  'places and significant figures in the same input.</p></div>',
+                  $el->render($state, 'stack1__ans1', false, null));
     }
 
     public function test_validate_student_minsf_int_err() {
@@ -433,10 +448,15 @@ class stack_numerical_input_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'minsf:x, maxsf:7');
         $state = $el->validate_student_response(array('sans1' => '3.141'), $options, '10',
                 new stack_cas_security(false, '', '', array('tans')));
-        $this->assertEquals('<div class="error"><p>The input has generated the following runtime error which prevents ' .
-                'you from answering. Please contact your teacher.</p><p>The value of the option <code>minsf</code> ' .
-                'should be an integer, but in fact it is <code>x</code>.</p></div>',
-                $el->render($state, 'stack1__ans1', false, null));
+        $this->assertEquals('<div class="error"><p>' .
+                  '<i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                  'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                  'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                  'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                  'answering. Please contact your teacher.</p>' .
+                  '<p>The value of the option <code>minsf</code> ' .
+                  'should be an integer, but in fact it is <code>x</code>.</p></div>',
+                  $el->render($state, 'stack1__ans1', false, null));
     }
 
     public function test_validate_student_minsf_maxsf_equal_true() {

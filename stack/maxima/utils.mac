@@ -2,20 +2,23 @@
 
 /* Takes a Maxima string and converts everything that could cause trouble in a HTML/XML document to entities.
    Note that if the string already contains entities even them are converted and thus broken. */
-str_to_html(string_to_escape) := block([f,tmp],
-    f(c) := if c = "&" then "&amp;" else if c = "'" then "&#39;" else if c = "\"" then "&quot;" 
-       else if c = ">" then "&gt;" else if c = "<" then "&lt;" else c,
-    return(simplode(map(f,charlist(string_to_escape))))
-)$
+
+str_to_html_char(c) := if c = "&" then "&amp;"
+                  else if c = "'" then "&#39;" /* &apos; is for XHTML, we need to still deal with HTML. */
+                  else if c = "\"" then "&quot;"
+                  else if c = ">" then "&gt;"
+                  else if c = "<" then "&lt;"
+                  else c$
+str_to_html(string_to_escape) := simplode(map(str_to_html_char, charlist(string_to_escape)))$
 
 /* Same for generating ECMAScript strings. */
-str_to_js(string_to_escape) := block([f],
-    f(c) := if c = "\\" then "\\\\" else if c = "\"" then "\\\"" else if c = "'" then "\\'" 
-       else if c = ascii( 8) then "\\b" else if c = ascii( 9) then "\\t" 
-       else if c = ascii(10) then "\\n" else if c = ascii(12) then "\\f" 
-       else if c = ascii(13) then "\\r" else c,
-    return(simplode(map(f,charlist(string_to_escape))))
-)$
+str_to_js_char(c) := if c = "\\" then "\\\\"
+                else if c = "\"" then "\\\""
+                else if c = "'" then "\\'"
+                else if c = ascii( 8) then "\\b" else if c = ascii( 9) then "\\t"
+                else if c = ascii(10) then "\\n" else if c = ascii(12) then "\\f"
+                else if c = ascii(13) then "\\r" else c$
+str_to_js(string_to_escape) := simplode(map(str_to_js_char, charlist(string_to_escape)))$
 
 /* Defintion of characters to escape in Markdown. */
 md_escapes(c) := if c = "\\" then "\\\\" 
@@ -205,7 +208,7 @@ sig_figs_from_str(strexp) := block([leadingzeros,indefinitezeros,trailingzeros,m
 
 FORBIDDEN_SYMBOLS_SET: {"%th", "adapth_depth", "alias", "aliases", "alphabetic", "appendfile",
   "apropos", "assume_external_byte_order", "backtrace", "batch", "barsplot", "batchload",
-  "boxchar", "boxplot", "bug_report", "build_info", "catch", "close", "closefile",
+  "boxchar", "boxplot", "bug_report", "build_info", "catch", "chdir", "close", "closefile",
   "compfile", "compile", "compile_file", "concat", "current_let_rule_package",
   "data_file_name", "deactivate", "debugmode", "define", "define_variable", "del_cmd", "demo",
   "dependencies", "describe", "dimacs_export", "dimacs_import", "entermatrix",
@@ -219,7 +222,7 @@ FORBIDDEN_SYMBOLS_SET: {"%th", "adapth_depth", "alias", "aliases", "alphabetic",
   "infolists", "kill", "killcontext", "labels", "leftjust", "ldisp", "ldisplay",
   "lisp", "linechar", "linel", "linenum", "linsolvewarn", "load", "load_pathname",
   "loadfile", "loadprint", "macroexpand", "macroexpand1", "macroexpansion", "macros",
-  "manual_demo", "maxima_tempdir", "maxima_userdir", "multiplot_mode", "myoptions",
+  "manual_demo", "maxima_tempdir", "maxima_userdir", "mkdir", "multiplot_mode", "myoptions",
   "newline", "nolabels", "opena", "opena_binary", "openr", "openr_binary", "openw",
   "openw_binary", "outchar", "packagefile", "parse_string", "pathname_directory",
   "pathname_name", "pathname_type", "pickapart", "piece", "playback", "plotdf", "print",

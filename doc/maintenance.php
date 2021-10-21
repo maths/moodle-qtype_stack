@@ -62,7 +62,11 @@ function report($d) {
                         $a[] = array($fpath, 'F', 'Found file ' . "$fpath");
 
                         if ($fsize >= 18000) {
-                            $a[] = array($fpath, 'W', "Large file ($fsize bytes)");
+                            // Ignore a couple of known large files.
+                            if (substr_count($fpath, "Authoring/Answer_tests_results.md") === 0 &&
+                                substr_count($fpath, "Developer/Development_history.md") === 0) {
+                                $a[] = array($fpath, 'W', "Large file ($fsize bytes)");
+                            }
                         }
 
                         $meta = stack_docs_page_metadata($fpath);

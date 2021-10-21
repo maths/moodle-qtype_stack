@@ -52,6 +52,11 @@
         "description":"Documentation for question authors using STACK, including a quick start guide and how to use common STACK features."
         },
         {
+        "file":"Answer_tests_results.md",
+        "title":"Answer test results",
+        "description":"This page, automatically generated from the STACK unit tests, helps teachers understand what the answer tests actually consiser to be the same and different."
+        },
+        {
         "file":"Actuarial.md",
         "title":"Actuarial Notation - STACK Documentation",
         "description":"An overview of using actuarial notation in STACK."
@@ -132,6 +137,11 @@
         "description":"Information about the different answer tests supported in the STACK online assessment system."
         },
         {
+        "file":"Answer_tests_rules_based.md",
+        "title":"Rules-based answer tests",
+        "description":"Information about creating bespoke answer tests by specifying algebraic rules."
+        },
+        {
         "file":"Deploying.md",
         "title":"Deploying - STACK Documentation",
         "description":"Information about deploying random variants in the STACK online assessment system."
@@ -145,6 +155,11 @@
         "file":"Fixing_broken_questions.md",
         "title":"I have a misbehaving STACK question in a live Moodle quiz.  What should I do?",
         "description":"Advice on dealing with errors in STACK questions during a live quiz."
+        },
+        {
+        "file":"Errors.md",
+        "title":"Errors in question aurhoting - STACK Documentation",
+        "description":"What errors that may appear during validation/saving of a question mean and what you can do about it."
         },
         {
         "file":"Equivalence_reasoning.md",
@@ -492,6 +507,11 @@
         "file":"Releasing.md",
         "title":"Releasing - STACK Documentation",
         "description":"Notes documenting the process for releasing a new version of STACK."
+        },
+        {
+        "file":"Releasing_ILIAS.md",
+        "title":"Releasing STACK for ILIAS - STACK Documentation",
+        "description":"Notes documenting the process for releasing a new version of STACK for ILIAS."
         },
         {
         "file":"Running_question_tests_other_site.md",

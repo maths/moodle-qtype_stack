@@ -250,7 +250,12 @@ class stack_bulk_tester  {
                                 $qdotoutput = 0;
                             }
                         }
-                        $this->qtype_stack_seed_cache($question, $seed);
+                        try {
+                            $this->qtype_stack_seed_cache($question, $seed);
+                        } catch (stack_exception $e) {
+                            $ok = false;
+                            $message = stack_string('errors') . ' : ' . $e;
+                        }
                         $previewurl->param('seed', $seed);
                         if ($outputmode == 'web') {
                             $questionnamelink = html_writer::link($previewurl, stack_string('seedx', $seed));
@@ -326,9 +331,35 @@ class stack_bulk_tester  {
         $ok = ($fails === 0);
 
         // These lines are to seed the cache and to generate any runtime errors.
-        $notused = $question->get_question_summary();
+        $slot = $quba->add_question($question, $question->defaultmark);
+        try {
+            $quba->start_question($slot);
+        } catch (stack_exception $e) {
+            return array(false, "Attempting to start the question threw an exception!");
+        }
+
+        // Prepare the display options.
+        $options = new question_display_options();
+        $options->readonly = true;
+        $options->flags = question_display_options::HIDDEN;
+        $options->suppressruntestslink = true;
+
+        // Create the question text, question note and worked solutions.
+        // This involves instantiation, which seeds the CAS cache in the cases when we have no tests.
+        $renderquestion = $quba->render_question($slot, $options);
+        $questionote = $question->get_question_summary();
         $generalfeedback = $question->get_generalfeedback_castext();
-        $notused = $generalfeedback->get_rendered();
+
+        $generalfeedback->get_rendered();
+        if ($generalfeedback->get_errors() != '') {
+            $ok = false;
+            $s = stack_string('stackInstall_testsuite_errors') . '  ' .
+                stack_string('generalfeedback') . ': ' . $generalfeedback->get_errors();
+            if ($outputmode == 'web') {
+                $s = html_writer::tag('br', $s);
+            }
+            $message .= $s;
+        }
 
         if (!empty($question->runtimeerrors)) {
             $ok = false;
@@ -382,7 +413,11 @@ class stack_bulk_tester  {
         }
 
         $slot = $quba->add_question($qu, $qu->defaultmark);
-        $quba->start_question($slot);
+        try {
+            $quba->start_question($slot);
+        } catch (stack_exception $e) {
+            return false;
+        }
 
         // Prepare the display options.
         $options = new question_display_options();
@@ -398,7 +433,7 @@ class stack_bulk_tester  {
         $questionote = $qu->get_question_summary();
 
         // As we cloned the question any and all updates to the cache will not sync.
-        // So lets do that ourselves.
+        // So let's do that ourselves.
         if ($qu->compiledcache !== $question->compiledcache) {
             $question->compiledcache = $qu->compiledcache;
         }

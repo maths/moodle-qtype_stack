@@ -16,10 +16,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/* TODO CLEAN AWAY or map to new... */
+/*
 require_once(__DIR__ . '/../stack/potentialresponsetree.class.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
-
+*/
 // Unit tests for stack_potentialresponse_node.
 //
 // @copyright 2012 The University of Birmingham.
@@ -28,6 +30,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
+/*)
 class stack_potentialresponse_node_test extends qtype_stack_testcase {
 
     public function test_constructor() {
@@ -204,3 +207,4 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
 
     }
 }
+*/

@@ -15,6 +15,7 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(__DIR__ . '/../evaluatable_object.interfaces.php');
+require_once(__DIR__ . '/../cassecurity.class.php');
 require_once(__DIR__ . '/castext2_static_replacer.class.php');
 require_once(__DIR__ . '/utils.php');
 require_once(__DIR__ . '/blocks/root.specialblock.php');
@@ -78,9 +79,12 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     // some blocks may need details. Note though that if you give this
     // Markdown or other types of formated stuff it will do the formating
     // and the rendered output will be FORMAT_HTML.
-    public function get_valid($format=null, $options=null): bool {
+    public function get_valid($format=null, $options=null, $sec=null): bool {
         if ($this->valid !== null) {
             return $this->valid;
+        }
+        if ($sec === null) {
+            $sec = new stack_cas_security();
         }
         $ast = null;
         switch ($format) {
@@ -138,6 +142,8 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         $this->valid = $valid;
 
         foreach ($css as $statement) {
+            // Remember to check for security stuff here.
+            $statement->set_securitymodel($sec);
             $this->valid = $this->valid && $statement->get_valid();
             if ($statement->get_errors()) {
                 $this->errors = array_merge($this->errors, $statement->get_errors('array'));

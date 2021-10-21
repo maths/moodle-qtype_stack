@@ -204,6 +204,9 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $this->ast_to_string($this->evaluated);
     }
 
+    /* This function returns something a teacher might claim a student types in.
+     * This means we have to de-parse a lot of things, listed below.
+     */
     public function get_dispvalue() {
 
         /* To create test cases we need the following:
@@ -211,6 +214,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
          * (2) we don't want noun values (students do not type these in);
          * (3) we want ? characters, and no semicolons.
          * (4) we want +- and not #pm#.
+         * (5) ntuples have to be stripped off.
          */
 
         $dispval = $this->displayvalue;
@@ -223,7 +227,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
         $testval = self::make_from_teacher_source($dispval, '', new stack_cas_security());
         $computedinput = $testval->ast->toString(array('nounify' => 0, 'inputform' => true,
-                'qmchar' => true, 'pmchar' => 0, 'nosemicolon' => true));
+                'qmchar' => true, 'pmchar' => 0, 'nosemicolon' => true, 'nontuples' => true));
 
         return $computedinput;
     }

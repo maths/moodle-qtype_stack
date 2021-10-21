@@ -120,8 +120,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '2+2*sqrt(3+x)', '2+sqrt(12+4*x)', 1, '', ''),
         array('AlgEquiv', '', '6*e^(6*(y^2+x^2))+72*x^2*e^(6*(y^2+x^2))',
             '(72*x^2+6)*e^(6*(y^2+x^2))', 1, '', '', ''),
-        array('AlgEquiv', '', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 1, '',
-            'Expressions with subscripts'),
+        array('AlgEquiv', '', 'a1', 'a_1', 0, '', 'Expressions with subscripts'),
+        array('AlgEquiv', '', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 1, '', ''),
         array('AlgEquiv', '', 'rho*z*V/(4*pi*epsilon[1]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 0, '', ''),
         array('AlgEquiv', '', 'sqrt(k/m)*sqrt(m/k)', '1', 1, '', ''),
         array('AlgEquiv', '', '(2*pi)/(k/m)^(1/2)', '(2*pi)/(k/m)^(1/2)', 1, '', ''),
@@ -143,6 +143,15 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '-(2*k+6)/(k^2+4*k-12)', '-(2*k+6)/(k^2+4*k-12)', 1, '', ''),
         array('AlgEquiv', '', '1/n-1/(n+1)', '1/(n*(n+1))', 1, '', ''),
         array('AlgEquiv', '', '0.5*x^2+3*x-1', 'x^2/2+3*x-1', 1, '', ''),
+        array('AlgEquiv', '', '14336000000*x^13+250265600000*x^12+1862860800000*x^11+7623925760000*x^10+' .
+            '18290677760000*x^9+24744757985280*x^8+14567212351488*x^7-3267871272960*x^6-6408053107200*x^5+' .
+            '670406720000*x^4+1179708800000*x^3-429244800000*x^2+56696000000*x-2680000000',
+            '512*(2*x+5)^7*(5*x-1)^5*(70*x+67)', 1, '', ''),
+        array('AlgEquiv', '', '14336000000*x^13+250265600000*x^12+1862860800000*x^11+7623925760000*x^10+' .
+                '18290677760000*x^9+24744757985280*x^8+14567212351488*x^7-3267871272960*x^6-6408053107200*x^5+' .
+                '670406720000*x^4+1179708800000*x^3-429244800000*x^2+56696000000*x-2680000001',
+                '512*(2*x+5)^7*(5*x-1)^5*(70*x+67)', 0, '', ''),
+        array('AlgEquiv', '', '14336000000*x^13', '512*(2*x+5)^7*(5*x-1)^5*(70*x+67)', 0, '', ''),
 
         array('AlgEquiv', '', 'cos(x)', 'cos(-x)', 1, '', 'Trig functions'),
         array('AlgEquiv', '', 'cos(x)^2+sin(x)^2', '1', 1, '', ''),
@@ -473,21 +482,15 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'sqrt(2*x*sqrt(x^2+1)+2*x^2+1)-sqrt(x^2+1)-x', '0', -3, '', ''),
         array('AlgEquiv', '', '(77+20*sqrt(13))^(1/6)-(77-20*sqrt(13))^(1/6)', '1', -3, '', ''),
         array('AlgEquiv', '', '(930249+416020*sqrt(5))^(1/30)-(930249-416020*sqrt(5))^(1/30)', '1', -3, '', ''),
-        array('AlgEquiv', '', '14336000000*x^13+250265600000*x^12+1862860800000*x^11+7623925760000*x^10+' .
-            '18290677760000*x^9+24744757985280*x^8+14567212351488*x^7-3267871272960*x^6-6408053107200*x^5+' .
-            '670406720000*x^4+1179708800000*x^3-429244800000*x^2+56696000000*x-2680000000',
-            '512*(2*x+5)^7*(5*x-1)^5*(70*x+67)', 1, '', ''),
-        array('AlgEquiv', '', '14336000000*x^13+250265600000*x^12+1862860800000*x^11+7623925760000*x^10+' .
-            '18290677760000*x^9+24744757985280*x^8+14567212351488*x^7-3267871272960*x^6-6408053107200*x^5+' .
-            '670406720000*x^4+1179708800000*x^3-429244800000*x^2+56696000000*x-2680000001',
-            '512*(2*x+5)^7*(5*x-1)^5*(70*x+67)', 0, '', ''),
-        array('AlgEquiv', '', '14336000000*x^13', '512*(2*x+5)^7*(5*x-1)^5*(70*x+67)', 0, '', ''),
-        array('AlgEquiv', '', 'a*(1+sqrt(2))=b', 'a=b*(sqrt(2)-1)/3', -3, 'ATEquation_default', ''),
-        array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -3, '', 'This is only equivalent for x>=0...', ''),
-        array('AlgEquiv', '', 'asinh(x)', 'ln(x+sqrt(x^2+1))', -3, '', 'This is true for all x...', ''),
         // An example due to Gauss.  Just for fun!
         array('AlgEquiv', '', 'cos(2*%pi/17)', '(-1+sqrt(17)+sqrt(34-2*sqrt(17)))/16+' .
             '(2*sqrt(17+3*sqrt(17)-sqrt(34-2*sqrt(17))-2*sqrt(34+2*sqrt(17))))/16', -3, '', '', ''),
+        array('AlgEquiv', '', '(41-sqrt(511))/2', '(sqrt((4*(cos((1/2*(acos((61/1040*sqrt(130)))-atan(11/3)))))^(2))+21)' .
+            '-(2*cos((1/2*(acos((61/1040*sqrt(130)))-atan(11 / 3))))))^(2)', -3, '', '', ''),
+
+        array('AlgEquiv', '', 'a*(1+sqrt(2))=b', 'a=b*(sqrt(2)-1)/3', -3, 'ATEquation_default', ''),
+        array('AlgEquiv', '', 'atan(1/2)', '%pi/2-atan(2)', -3, '', 'This is only equivalent for x>=0...', ''),
+        array('AlgEquiv', '', 'asinh(x)', 'ln(x+sqrt(x^2+1))', -3, '', 'This is true for all x...', ''),
 
         array('AlgEquiv', '', 'true and false', 'false', 1, 'ATLogic_True.', 'Logical expressions'),
         array('AlgEquiv', '', 'true or false', 'false', 0, '', ''),
@@ -737,6 +740,112 @@ class stack_answertest_test_data {
         // These equations are not the same up to commutativity and associativity, because the algebra needed.
         array('EqualComAss', '', 'noundiff(y(x),x)=-x/4', '4*noundiff(y(x),x)+x=0', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
 
+        array('EqualComAssRules', '[]', '1/0', '0', -1, 'ATEqualComAssRules_STACKERROR_SAns.', ''),
+        array('EqualComAssRules', '[]', '0', '1/0', -1, 'ATEqualComAssRules_STACKERROR_TAns.', ''),
+        array('EqualComAssRules', '', '0+a', 'a', -1, 'STACKERROR_OPTION.', ''),
+        array('EqualComAssRules', 'x', '0+a', 'a', -1, 'ATEqualComAssRules_Opt_List.', ''),
+        array('EqualComAssRules', '[x]', '0+a', 'a', -1, 'ATEqualComAssRules_Opt_Wrong.', ''),
+        array('EqualComAssRules', '[intMul,intFac]', '0+a', 'a', -1, 'ATEqualComAssRules_Opt_Incompatible.', ''),
+        array('EqualComAssRules', '[zeroAdd]', '1+1', '3', 0, 'ATEqualComAssRules (AlgEquiv-false).', 'Basic cases'),
+        array('EqualComAssRules', '[zeroAdd]', '1+1', '2', 0, '', ''),
+        array('EqualComAssRules', '[testdebug,zeroAdd]', '1+1', '2', 0, 'ATEqualComAssRules: [1 noun+ 1,2].', ''),
+        array('EqualComAssRules', '[zeroAdd]', '0+a', 'a', 1, '', ''),
+        array('EqualComAssRules', '[zeroAdd]', 'a+0', 'a', 1, '', ''),
+        array('EqualComAssRules', '[testdebug,zeroAdd]', '1*a', 'a', 0, 'ATEqualComAssRules: [1 noun* a,a].', ''),
+        array('EqualComAssRules', '[oneMul]', '1*a', 'a', 1, '', ''),
+        array('EqualComAssRules', 'ID_TRANS', '1*a', 'a', 1, '', ''),
+        array('EqualComAssRules', 'ID_TRANS', 'a/1', 'a', 1, '', ''),
+        array('EqualComAssRules', 'ID_TRANS', '0*a', '0', 1, '', ''),
+        array('EqualComAssRules', 'ID_TRANS', '0-1*i', '-i', 1, '', ''),
+        array('EqualComAssRules', 'ID_TRANS', '0-i', '-i', 1, '', ''),
+        array('EqualComAssRules', 'ID_TRANS', '2+1*i', '2+i', 1, '', ''),
+        array('EqualComAssRules', 'ID_TRANS', 'x^0+x^1/1+x^2/2+x^3/3!+x^4/4!', '1+x+x^2/2+x^3/3!+x^4/4!', 1, '', ''),
+        // This one is tricky.  1-1 is not literally zero here, so the rule zeroPow applies.
+        // Try transl(0^(1-1),ID_TRANS); in the Maxima sandbox.
+        // The answer test avoids this by throwing a Maxima error before the rules generate a problem.
+        array('EqualComAssRules', 'ID_TRANS', '0^(1-1)', '0', 0, 'ATEqualComAssRules_STACKERROR_SAns.', ''),
+        array('EqualComAssRules', 'delete(zeroMul, ID_TRANS)', '0*a', '0', 0, '', ''),
+        array('EqualComAssRules', '[negNeg]', '-(-a)', 'a', 1, '', ''),
+        array('EqualComAssRules', '[negNeg]', '-(-(-a))', '-a', 1, '', ''),
+        array('EqualComAssRules', '[testdebug,negNeg]', '-(-(-a))', 'a', 0, 'ATEqualComAssRules (AlgEquiv-false).', ''),
+        array('EqualComAssRules', 'ID_TRANS', '3/(-x)', '-3/x', 0, '', ''),
+        array('EqualComAssRules', '[testdebug,ID_TRANS]', '3/(-x)', '-3/x', 0,
+            'ATEqualComAssRules: [3 noun* UNARY_RECIP UNARY_MINUS noun* x,UNARY_MINUS noun* 3 noun* UNARY_RECIP x].', ''),
+        array('EqualComAssRules', '[negDist]', '-x*(x+1)', 'x*(-x-1)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '-x*(x-1)', 'x*(1-x)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '-x*(x-1)', 'x*(1-x)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '-5*x*(3-x)', '5*x*(x-3)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '-x*(x-1)*(x+1)', 'x*(x-1)*(-x-1)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '-x*(x-1)*(x+1)', 'x*(1-x)*(x+1)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '-x*(y-1)*(x-1)', 'x*(1-x)*(y-1)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '-x*(y-1)*(x-1)', 'x*(x-1)*(1-y)', 1, '', ''),
+        array('EqualComAssRules', 'NEG_TRANS', '(x-y)*(y-x)', '-(x-y)*(x-y)', 1, '', ''),
+        array('EqualComAssRules', '[testdebug,NEG_TRANS]', '(x-y)*(y-x)', '-(x-y)^2', 0,
+            'ATEqualComAssRules: [UNARY_MINUS noun* (x noun+ UNARY_MINUS noun* y) noun* ' .
+            '(x noun+ UNARY_MINUS noun* y),UNARY_MINUS noun* (x noun+ UNARY_MINUS noun* y) noun^ 2].', ''),
+        // These examples illustrate the problem with distribution (which is not confluent) and factoring (which is)!
+        array('EqualComAssRules', '[testdebug,negDist,negNeg]', '-x*(x-1)*(x+1)', 'x*(1-x)*(x+1)', 0,
+            'ATEqualComAssRules: [x noun* (UNARY_MINUS noun* 1 noun+ UNARY_MINUS noun* x) noun* ' .
+            '(x noun+ UNARY_MINUS noun* 1),x noun* (1 noun+ UNARY_MINUS noun* x) noun* (1 noun+ x)].', ''),
+        array('EqualComAssRules', '[testdebug,negDist,negNeg]', '-x*(y-1)*(x-1)', 'x*(x-1)*(1-y)', 0,
+            'ATEqualComAssRules: [x noun* (1 noun+ UNARY_MINUS noun* x) noun* (y noun+ UNARY_MINUS noun* 1),' .
+            'x noun* (1 noun+ UNARY_MINUS noun* y) noun* (x noun+ UNARY_MINUS noun* 1)].', ''),
+        array('EqualComAssRules', '[negDiv]', '3/(-x)', '-3/x', 1, '', ''),
+        // When an expression comes from a previously simplified expression.
+        array('EqualComAssRules', '[negDiv]', '3/(-x)', 'ev(-3,simp)/x', 1, '', ''),
+        array('EqualComAssRules', '[testdebug,ID_TRANS]', '(-a)/(-x)', '-(-a/x)', 0,
+            'ATEqualComAssRules: [UNARY_MINUS noun* a noun* UNARY_RECIP UNARY_MINUS noun* x,' .
+                                 'UNARY_MINUS noun* UNARY_MINUS noun* a noun* UNARY_RECIP x].', ''),
+        array('EqualComAssRules', '[negDiv]', '(-a)/(-x)', '-(-a/x)', 1, '', ''),
+        array('EqualComAssRules', '[testdebug,negDiv]', '(-a)/(-x)', 'a/x', 0,
+            'ATEqualComAssRules: [UNARY_MINUS noun* UNARY_MINUS noun* a noun* UNARY_RECIP x,a noun* UNARY_RECIP x].', ''),
+        array('EqualComAssRules', '[negDiv,negNeg]', '(-a)/(-x)', 'a/x', 1, '', ''),
+        // The following passes because the (-1) is parsed as ,1 noun* UNARY_MINUS.
+        array('EqualComAssRules', '[negDiv]', '1/(-x)', '(-1)/x', 1, '', ''),
+        array('EqualComAssRules', '[negDiv]', '1/(-x)', 'ev(-1,simp)/x', 1, '', ''),
+        array('EqualComAssRules', '[negDiv]', '(2/-3)*(x-y)', '-(2/3)*(x-y)', 1, '', ''),
+        array('EqualComAssRules', '[negDiv]', '(2/-3)*(x-y)', '(2/3)*(y-x)', 0, '', ''),
+        array('EqualComAssRules', '[negDiv,negOrd]', '(2/-3)*(x-y)', '(2/3)*(y-x)', 1, '', ''),
+        array('EqualComAssRules', '[testdebug,negDiv]', '-2/(1-x)', '2/(x-1)', 0,
+            'ATEqualComAssRules: [UNARY_MINUS noun* 2 noun* UNARY_RECIP (1 noun+ UNARY_MINUS noun* x),' .
+                                 '2 noun* UNARY_RECIP (x noun+ UNARY_MINUS noun* 1)].', ''),
+        array('EqualComAssRules', '[testdebug,ID_TRANS]', '1/2*3/x', '3/(2*x)', 0,
+            'ATEqualComAssRules: [3 noun* (UNARY_RECIP 2) noun* UNARY_RECIP x,3 noun* UNARY_RECIP 2 noun* x].', ''),
+        array('EqualComAssRules', '[ID_TRANS,recipMul]', '1/2*3/x', '3/(2*x)', 1, '', ''),
+        array('EqualComAssRules', '[testdebug,ID_TRANS,recipMul]', '5/2*3/x', '15/(2*x)', 0,
+            'ATEqualComAssRules: [3 noun* 5 noun* UNARY_RECIP 2 noun* x,15 noun* UNARY_RECIP 2 noun* x].', ''),
+        array('EqualComAssRules', '[negOrd]', '-(x-y)', 'y-x', 1, '', ''),
+        array('EqualComAssRules', '[ID_TRANS,recipMul,intMul]', '5/2*3/x', '15/(2*x)', 1, '', ''),
+        array('EqualComAssRules', '[ID_TRANS,intAdd]', '(3+2)*x+x', '5*x+x', 1, '', ''),
+        array('EqualComAssRules', '[ID_TRANS,intAdd]', '(3-5)*x+x', '-2*x+x', 1, '', ''),
+        array('EqualComAssRules', '[ID_TRANS,intMul]', '7*x*(-3*x)', '-21*x*x', 1, '', ''),
+        array('EqualComAssRules', '[testdebug,ID_TRANS,intMul]', '(-7*x)*(-3*x)', '21*x*x', 0,
+            'ATEqualComAssRules: [UNARY_MINUS noun* UNARY_MINUS noun* 21 noun* x noun* x,21 noun* x noun* x].', ''),
+        array('EqualComAssRules', '[ID_TRANS,intMul,negNeg]', '(-7*x)*(-3*x)', '21*x*x', 1, '', ''),
+        // This next example is parsing rules.  In Maxima ev(a/b/c, simp)=a/(b*c).
+        array('EqualComAssRules', '[testdebug,ID_TRANS]', 'a/b/c', 'a/(b*c)', 0,
+            'ATEqualComAssRules: [a noun* (UNARY_RECIP b) noun* UNARY_RECIP c,a noun* UNARY_RECIP b noun* c].', 'ev(a/b/c, simp)=a/(b*c)'),
+        array('EqualComAssRules', '[ID_TRANS,recipMul]', 'a/b/c', 'a/(b*c)', 1, '', ''),
+        array('EqualComAssRules', '[ID_TRANS,recipMul]', '(a/b)/c', 'a/(b*c)', 1, '', ''),
+        // This next example is parsing rules.  In Maxima ev(a/(b/c), simp)=(a*c)/b.
+        array('EqualComAssRules', '[testdebug,ID_TRANS]', 'a/(b/c)', '(a*c)/b', 0,
+            'ATEqualComAssRules: [a noun* UNARY_RECIP b noun* UNARY_RECIP c,a noun* c noun* UNARY_RECIP b].', 'ev(a/(b/c), simp)=(a*c)/b'),
+        array('EqualComAssRules', '[testdebug,ID_TRANS,recipMul]', 'a/(b/c)', '(a*c)/b', 0,
+            'ATEqualComAssRules: [a noun* UNARY_RECIP b noun* UNARY_RECIP c,a noun* c noun* UNARY_RECIP b].', ''),
+        array('EqualComAssRules', '[ID_TRANS,divDiv]', 'a/(b/c)', '(a*c)/b', 1, '', ''),
+        array('EqualComAssRules', '[ID_TRANS,divDiv]', 'A*a/(B*b/c)', 'A*(a*c)/(B*b)', 1, '', ''),
+        array('EqualComAssRules', '[ID_TRANS,divDiv]', 'A*a/(B*b/c)*1/d', 'A*(a*c)/(B*b)*1/d', 1, '', ''),
+        array('EqualComAssRules', '[ID_TRANS,divDiv]', 'D*A*a/(B*b/c)*1/d', 'A*(a*c)/(B*b)*D/d', 1, '', ''),
+        array('EqualComAssRules', '[testdebug,ID_TRANS,divDiv]', 'A*a/(B*b/c)*1/d', 'A*(a*c)/(B*b*d)', 0,
+            'ATEqualComAssRules: [A noun* a noun* c noun* (UNARY_RECIP B noun* b) noun* UNARY_RECIP d,' .
+                                 'A noun* a noun* c noun* UNARY_RECIP B noun* b noun* d].', ''),
+        array('EqualComAssRules', '[ID_TRANS,divDiv,recipMul]', 'A*a/(B*b/c)*1/d', 'A*(a*c)/(B*b*d)', 1, '', ''),
+        array('EqualComAssRules', '[testdebug,ID_TRANS,divDiv]', 'A/(B/(C/D))', 'A*C/(B*D)', 0,
+            'ATEqualComAssRules: [A noun* C noun* (UNARY_RECIP B) noun* UNARY_RECIP D,' .
+                                 'A noun* C noun* UNARY_RECIP B noun* D].', ''),
+        array('EqualComAssRules', '[ID_TRANS,divDiv,recipMul]', 'A/(B/(C/D))', 'A*C/(B*D)', 1, '', ''),
+        array('EqualComAssRules', '[intFac]', '18', '2*3^2', 1, '', ''),
+
         array('CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'ATCASEqual_STACKERROR_SAns.', ''),
         array('CasEqual', '', 'x', '1/0', -1, 'ATCASEqual_STACKERROR_TAns.', ''),
         array('CasEqual', 'x', '0.5', '1/2', 0, 'ATCASEqual (AlgEquiv-true).', ''),
@@ -913,8 +1022,13 @@ class stack_answertest_test_data {
         array('FacForm', 'x', 'x*(x-4+4/x)', 'x^2-4*x+4', 0, 'ATFacForm_notfactored.', ''),
         array('FacForm', 'x', '(2-x)*(3-x)', '(x-2)*(x-3)', 1, 'ATFacForm_true.', 'These are delicate cases!'),
         array('FacForm', 'x', '(1-x)^2', '(x-1)^2', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'x', '(1-x)*(1-x)', '(x-1)^2', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '-(1-x)^2', '-(x-1)^2', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'x', '(1-x)^2', '(x-1)^2', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '4*(1-x/2)^2', '(x-2)^2', 1, 'ATFacForm_default_true.', ''),
+        array('FacForm', 'x', '-3*(x-4)*(x+1)', '-3*x^2+9*x+12', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'x', '3*(-x+4)*(x+1)', '-3*x^2+9*x+12', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'x', '3*(4-x)*(x+1)', '-3*x^2+9*x+12', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '(x-1)*(x^2+x+1)', 'x^3-1', 1, 'ATFacForm_true.', 'Cubics'),
         array('FacForm', 'x', 'x^3-x+1', 'x^3-x+1', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '7*x^3-7*x+7', '7*(x^3-x+1)', 0, 'ATFacForm_notfactored.', ''),
@@ -1141,6 +1255,10 @@ class stack_answertest_test_data {
         array('Diff', 'x', 'x^2-2*x+1', 'y^2-2*y+1', 0, 'ATDiff_var_SA_notSB.', ''),
         array('Diff', 'z', 'y^2+2*y+1', 'x^2-2*x+1', 0, 'ATDiff_var_notSASB_SAnceSB.', ''),
         array('Diff', 'y', 'x^4/4', '3*x^2', 0, '', ''),
+        array('Diff', 'x', 'e^x+c', 'e^x', 0, 'ATDiff_int.', 'Edge cases'),
+        array('Diff', 'x', 'e^x+2', 'e^x', 0, 'ATDiff_int.', ''),
+        array('Diff', 'x', 'n*x^n', 'n*x^(n-1)', -1, 'ATDiff_STACKERROR_SAns.', ''),
+        array('Diff', 'x', 'n*x^n', '(assume(n>0), n*x^(n-1))', 0, '', ''),
 
         array('Int', '', '1/0', '1', -1, 'STACKERROR_OPTION.', ''),
         array('Int', 'x', '1/0', '1', -1, 'ATInt_STACKERROR_SAns.', ''),
@@ -1175,6 +1293,8 @@ class stack_answertest_test_data {
         array('Int', '[x,NOCONST]', 'x^2/2-2*x+2', '(x-2)^2/2+k', 1, 'ATInt_const_condone.', ''),
         array('Int', '[x,NOCONST]', 'x^3/3+1', 'x^3/3', 1, 'ATInt_const_int_condone.', ''),
         array('Int', '[x,NOCONST]', 'x^3/3+c^2', 'x^3/3', 0, 'ATInt_weirdconst.', ''),
+        array('Int', 'x', 'n*x^n', 'n*x^(n-1)', 0, 'ATInt_generic.', ''),
+        array('Int', 'x', 'n*x^n', '(assume(n>0), n*x^(n-1))', 0, 'ATInt_generic.', ''),
         array('Int', 'x', 'exp(x)+c', 'exp(x)', 1, 'ATInt_true.', 'Special case'),
         array('Int', 'x', 'exp(x)', 'exp(x)', 0, 'ATInt_const.', ''),
         array('Int', '[x,NOCONST]', 'exp(x)', 'exp(x)', 1, 'ATInt_const_condone.', ''),
@@ -1202,6 +1322,8 @@ class stack_answertest_test_data {
         array('Int', 'x', 'log(x)^2-2*log(c)*log(x)+k', 'ln(c/x)^2', 0, 'ATInt_EqFormalDiff.', ''),
         array('Int', 'x', 'log(x)^2-2*log(c)*log(x)+k', 'ln(abs(c/x))^2', 0, 'ATInt_generic.', ''),
         array('Int', 'x', 'c-(log(2)-log(x))^2/2', '-1/2*log(2/x)^2', 1, 'ATInt_true_equiv.', ''),
+        // This one fails.
+        array('Int', 'x', 'ln(abs(x+3))/2+c', 'ln(abs(2*x+6))/2+c', -3, 'ATInt_EqFormalDiff.', ''),
         // In these examples there are two logarihtms.  The student should be *consistent*
         // in their use, or not, of absolute value.
         array('Int', 'x', 'log(abs(x-3))+log(abs(x+3))', 'log(abs(x-3))+log(abs(x+3))', 0, 'ATInt_const.', 'Two logs'),

@@ -70,6 +70,7 @@ abstract class qtype_stack_test_config {
         set_config('maximaversion',       QTYPE_STACK_TEST_CONFIG_MAXIMAVERSION,       'qtype_stack');
         set_config('castimeout',          QTYPE_STACK_TEST_CONFIG_CASTIMEOUT,          'qtype_stack');
         set_config('casresultscache',     QTYPE_STACK_TEST_CONFIG_CASRESULTSCACHE,     'qtype_stack');
+        set_config('caspreparse',         QTYPE_STACK_TEST_CONFIG_CASPREPARSE,         'qtype_stack');
         set_config('maximacommand',       QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND,       'qtype_stack');
         set_config('maximacommandopt',    QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDOPT,    'qtype_stack');
         set_config('maximacommandserver', QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDSERVER, 'qtype_stack');

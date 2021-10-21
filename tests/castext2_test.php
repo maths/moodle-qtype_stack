@@ -79,6 +79,15 @@ class stack_castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input));
     }
 
+    public function test_latex_injection_mixed_formats_1() {
+        // The default format is raw HTML.
+        // The actual injection is not visible here as the merkdown gets rendered, but
+        // the math-mode detection should be.
+        $input = '[[markdownformat]]\\\({@sqrt(x)@}\\\)[[/markdownformat]] {@sqrt(x)@}';
+        $output = '\(\sqrt{x}\) \(\sqrt{x}\)';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
     // Value-injection "{#value#}" functional requirements:
     //  1. Must result in Maxima code representing the value given.
     //     Equivalent to calling string() in Maxima.

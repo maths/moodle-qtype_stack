@@ -26,7 +26,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/settingslib.php');
 require_once(__DIR__ . '/stack/options.class.php');
-require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
 
 // Useful links.
 $links = array(
@@ -83,6 +82,13 @@ $settings->add(new admin_setting_configselect('qtype_stack/casresultscache',
         get_string('settingcasresultscache_desc', 'qtype_stack'), 'db', array(
             'none' => get_string('settingcasresultscache_none', 'qtype_stack'),
             'db' => get_string('settingcasresultscache_db', 'qtype_stack'),
+        )));
+
+$settings->add(new admin_setting_configselect('qtype_stack/caspreparse',
+        get_string('settingcaspreparse', 'qtype_stack'),
+        get_string('settingcaspreparse_desc', 'qtype_stack'), 'true', array(
+            'true' => get_string('settingcaspreparse_true', 'qtype_stack'),
+            'false' => get_string('settingcaspreparse_false', 'qtype_stack'),
         )));
 
 $settings->add(new admin_setting_configtext('qtype_stack/maximacommand',

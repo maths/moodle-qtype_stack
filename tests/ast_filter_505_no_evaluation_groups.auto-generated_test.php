@@ -35,6 +35,21 @@ class stack_ast_filter_auto_gen_505_no_evaluation_groups_testcase extends qtype_
                       array('Illegal_groups'),
                       false, true);
 
+        $this->expect('((a,b),c)',
+                      '((a,b),c)',
+                      array('Illegal_groups'),
+                      false, true);
+
+        $this->expect('(a,(b,c))',
+                      '(a,(b,c))',
+                      array('Illegal_groups'),
+                      false, true);
+
+        $this->expect('{(a,b),(x,y)}',
+                      '{(a,b),(x,y)}',
+                      array('Illegal_groups'),
+                      false, true);
+
     }
 
     public function test_affected_units() {
@@ -43,6 +58,21 @@ class stack_ast_filter_auto_gen_505_no_evaluation_groups_testcase extends qtype_
 
         $this->expect('(a,b,c)',
                       '(a,b,c)',
+                      array('Illegal_groups'),
+                      false, true);
+
+        $this->expect('((a,b),c)',
+                      '((a,b),c)',
+                      array('Illegal_groups'),
+                      false, true);
+
+        $this->expect('(a,(b,c))',
+                      '(a,(b,c))',
+                      array('Illegal_groups'),
+                      false, true);
+
+        $this->expect('{(a,b),(x,y)}',
+                      '{(a,b),(x,y)}',
                       array('Illegal_groups'),
                       false, true);
 
@@ -1534,6 +1564,11 @@ class stack_ast_filter_auto_gen_505_no_evaluation_groups_testcase extends qtype_
 
         $this->expect('x-(y+z)',
                       'x-(y+z)',
+                      array(),
+                      true, false);
+
+        $this->expect('x/(y+z)',
+                      'x/(y+z)',
                       array(),
                       true, false);
 
@@ -3255,6 +3290,11 @@ class stack_ast_filter_auto_gen_505_no_evaluation_groups_testcase extends qtype_
 
         $this->expect('x-(y+z)',
                       'x-(y+z)',
+                      array(),
+                      true, false);
+
+        $this->expect('x/(y+z)',
+                      'x/(y+z)',
                       array(),
                       true, false);
 

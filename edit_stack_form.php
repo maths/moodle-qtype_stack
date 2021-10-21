@@ -28,7 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/question/type/edit_question_form.php');
 require_once($CFG->dirroot . '/question/type/stack/question.php');
 require_once($CFG->dirroot . '/question/type/stack/questiontype.php');
-
+require_once($CFG->dirroot . '/question/type/stack/stack/potentialresponsetree.class.php');
+require_once($CFG->dirroot . '/question/type/stack/stack/potentialresponsetreestate.class.php');
 
 /**
  * Stack question editing form definition.
@@ -190,6 +191,9 @@ class qtype_stack_edit_form extends question_edit_form {
         $prtnames = $qtype->get_prt_names_from_question($this->get_current_question_text(),
                 $this->get_current_specific_feedback());
 
+        // TODO: add in warnings here.  See b764b39675 for deleted materials.
+        $warnings = '';
+
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
         // of setDefault, because setDefault does not work for editors.
 
@@ -209,7 +213,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $out = stack_string('runquestiontests');
             if (empty($this->question->deployedseeds) &&
                     qtype_stack_question::random_variants_check($this->question->options->questionvariables)) {
-                $out = stack_string('questionnotdeployedyet');
+                $out = stack_string_error('questionnotdeployedyet');
             }
             $qtestlink = html_writer::link($qtype->get_question_test_url($this->question),
                     $out, array('target' => '_blank'));
@@ -223,6 +227,13 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->insertElementBefore($seed, 'questiontext');
         $mform->setType('variantsselectionseed', PARAM_RAW);
         $mform->addHelpButton('variantsselectionseed', 'variantsselectionseed', 'qtype_stack');
+
+        // Question warnings, if there are any.
+        if ('' != $warnings) {
+            $qwarn = $mform->createElement('static', 'questionwarnings', '', $warnings);
+            $mform->insertElementBefore($qwarn, 'questiontext');
+            $mform->addHelpButton('questionwarnings', 'questionwarnings', 'qtype_stack');
+        }
 
         $sf = $mform->createElement('editor', 'specificfeedback',
                 get_string('specificfeedback', 'question'), array('rows' => 10), $this->editoroptions);
@@ -762,9 +773,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $errors = parent::validation($fromform, $files);
 
         $qtype = new qtype_stack();
-        list($errors, $warnings) = $qtype->validate_fromform($fromform, $errors);
-
-        return $errors;
+        return $qtype->validate_fromform($fromform, $errors);
     }
 
     public function qtype() {

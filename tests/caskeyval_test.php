@@ -148,9 +148,6 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $s = 'a:x^2; ans1:a+1; ta:a^2';
         $kv = new stack_cas_keyval($s, null, 123);
         $this->assertFalse($kv->get_valid(array('ans1')));
-        $errs = array('You may not use input names as variables.  ' .
-                'You have tried to define <code>ans1</code>');
-        $this->assertEquals($errs, $kv->get_errors());
     }
 
     public function test_remove_comment() {
@@ -197,6 +194,29 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $s->get_keyval_representation(true));
     }
 
+    public function test_ampersand_in_strings() {
+        $tests = 'k1:"~@r";n1:2*4;';
+
+        $kv = new stack_cas_keyval($tests);
+        $this->assertTrue($kv->get_valid());
+        $kv->instantiate();
+        $s = $kv->get_session();
+        $expected = "k1:\"~@r\";\nn1:2*4;";
+        $this->assertEquals($expected, $s->get_keyval_representation());
+
+        $expected = "k1:\"~@r\";\nn1:8;";
+        $this->assertEquals($expected, $s->get_keyval_representation(true));
+    }
+
+    public function test_ampersand_outside_strings() {
+        $tests = 'k1:u@x;n1:2*4;';
+
+        $kv = new stack_cas_keyval($tests);
+        $this->assertFalse($kv->get_valid());
+        $expected = array('The characters @, $ and \ are not allowed in CAS input.');
+        $this->assertEquals($expected, $kv->get_errors());
+    }
+
     public function test_needs_mbstring() {
 
         $tests = "x : rand([1,2,3])\ny : rand([2,3,4])\nA : matrix([x,2,1],[3,4,2],[1,y,5])\n" .
@@ -239,15 +259,26 @@ class stack_cas_keyval_test extends qtype_stack_testcase {
             "block([bar],push(x,bar));");
         $this->assertTrue($kv->get_valid());
         $usage = $kv->get_variable_usage();
-        // x, y, z, and bar are never globally written.
+        // Variables x, y, z, and bar are never globally written.
         $this->assertFalse(isset($usage['write']['x']));
         $this->assertFalse(isset($usage['write']['y']));
         $this->assertFalse(isset($usage['write']['z']));
         $this->assertFalse(isset($usage['write']['bar']));
-        // foo, baz, and T are being written globally.
+        // Functions foo, baz, and T are being written globally.
         $this->assertTrue(isset($usage['write']['foo']));
         $this->assertTrue(isset($usage['write']['baz']));
         $this->assertTrue(isset($usage['write']['T']));
         $this->assertTrue(isset($usage['write']['V']));
+    }
+
+    public function test_unclear_subs() {
+        $tests = 'v:2;trig:[sin,cos][v];sub:[(sin(x))^2=1-(cos(x))^2,(cos(x))^2=1-(sin(x))^2][v];f:(trig(x))^n;'
+            . 'df:diff(f,x);df_simp:(subst(sub,df));ta1:expand(df_simp);';
+
+        $kv = new stack_cas_keyval($tests);
+        $this->assertFalse($kv->get_valid());
+        $expected = array('The function name "cos" is potentially redefined in unclear substitutions.',
+            'The function name "diff" is potentially redefined in unclear substitutions.');
+        $this->assertEquals($expected, $kv->get_errors());
     }
 }

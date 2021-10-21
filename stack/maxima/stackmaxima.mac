@@ -147,6 +147,7 @@ matchfix("|", "|");
 /* ********************************** */
 
 load("assessment.mac");
+load("noun_simp.mac");
 load("inequalities.mac");
 load("intervals.mac");
 load("stackunits.mac");
@@ -319,6 +320,7 @@ stack_randseed(s) := block(RANDOM_STATE:make_random_state(s), errcatch(ev(set_ra
 
 /* The top level function */
 rand(ex) := block(
+  if setp(ex) then ex:listify(ex),
   ex:ev(ex, simp),
   if (integerp(ex)) then return(random(ex)),
   if (floatnump(ex)) then return(random(ex)),
@@ -356,11 +358,34 @@ rand_with_prohib(lower, upper, list) := block([currents, retVal, kloop],
    return(retVal)
 )$
 
-/* Make a random selection of n different items from the list ex. */
+/* CJS, 11/6/2021                                                  */
+rand_selection_with_replacement(ex, n) := block(
+  if setp(ex) then ex:listify(ex),
+  if not(listp(ex)) then (
+      error("rand_selection_with_replacement error: first argument must be a list."),
+      return([])
+      ),
+  if not(integerp(n)) then (
+      error("rand_selection_with_replacement error: second argument must be an integer."),
+      return([])
+      ),
+  return(rand_selection_with_replacement_fun(ex, n))
+)$
+
+/* We can't use makelist here because of the simp:false requirement.
+rand_selection_with_replacement_fun(ex, n) := makelist(rand(ex), k, 1, n)$
+*/
+rand_selection_with_replacement_fun(ex, n) := block(
+   if is(n<=0) then return([]),
+   append([rand(ex)], rand_selection_with_replacement_fun(ex, ev(n-1,simp)))
+)$
+
+/* Make a random selection of n different items from the list, or set ex. */
 /* CJS, 7/6/2016                                                  */
 rand_selection(ex, n) := block(
+  if setp(ex) then ex:listify(ex),
   if not(listp(ex)) then (
-      error("rand_selection error: first argument must be a list."),
+      error("rand_selection error: first argument must be a list or set."),
       return([])
       ),
   if not(integerp(n)) then (
@@ -368,7 +393,7 @@ rand_selection(ex, n) := block(
       return([])
       ),
   if is(n>length(ex)) then (
-      error("rand_selection error: insuffient elements in the list."),
+      error("rand_selection error: insuffient elements in the list/set."),
       return([])
       ),
   return(rand_selection_fun(ex, n))
@@ -3072,5 +3097,4 @@ load(linearalgebra);
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2021012000$
-
+stackmaximaversion:2021072200$

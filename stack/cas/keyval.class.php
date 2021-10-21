@@ -20,6 +20,7 @@ require_once(__DIR__ . '/../maximaparser/utils.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 require_once(__DIR__ . '/cassession2.class.php');
 require_once(__DIR__ . '/castext2/utils.php');
+require_once(__DIR__ . '/../utils.class.php');
 
 /**
  * Class to parse user-entered data into CAS sessions.
@@ -41,6 +42,9 @@ class stack_cas_keyval {
     /** @var array of error messages that can be displayed to the user. */
     private $errors;
 
+    /** @var stack_cas_security shared security to use for validation */
+    private $security;
+
     // For those using keyvals as a generator for sessions.
     private $options;
     private $seed;
@@ -51,6 +55,7 @@ class stack_cas_keyval {
         $this->errors       = array();
         $this->options      = $options;
         $this->seed         = $seed;
+        $this->security     = new stack_cas_security();
 
         if (!is_string($raw)) {
             throw new stack_exception('stack_cas_keyval: raw must be a string.');
@@ -73,14 +78,7 @@ class stack_cas_keyval {
             return true;
         }
 
-        // CAS keyval may not contain @ or $.
-        if (strpos($this->raw, '@') !== false || strpos($this->raw, '$') !== false) {
-            $this->errors[] = stack_string('illegalcaschars');
-            $this->valid = false;
-            return false;
-        }
-
-        // Subtle one: must protect things inside strings before we do QMCHAR tricks.
+        // Protect things inside strings before we do QMCHAR tricks, and check for @, $.
         $str = $this->raw;
         $strings = stack_utils::all_substring_strings($str);
         foreach ($strings as $key => $string) {
@@ -88,6 +86,14 @@ class stack_cas_keyval {
         }
 
         $str = str_replace('?', 'QMCHAR', $str);
+
+        // CAS keyval may not contain @ or $ outside strings.
+        // We should certainly prevent the $ to make sure statements are separated by ;, although Maxima does allow $.
+        if (strpos($str, '@') !== false || strpos($str, '$') !== false) {
+            $this->errors[] = stack_string('illegalcaschars');
+            $this->valid = false;
+            return false;
+        }
 
         foreach ($strings as $key => $string) {
             $str = str_replace('[STR:'.$key.']', '"' .$string . '"', $str);
@@ -116,11 +122,32 @@ class stack_cas_keyval {
 
         $ast = maxima_parser_utils::strip_comments($ast);
 
+        $vallist = array();
+        // Update the types and values for future insert-stars and other logic.
+        $config = stack_utils::get_config();
+        if ($config->caspreparse == 'true') {
+            $vallist = maxima_parser_utils::identify_identifier_values($ast, $this->security->get_context());
+        }
+        if (isset($vallist['% TIMEOUT %'])) {
+            $this->errors[] = stack_string('stackCas_overlyComplexSubstitutionGraphOrRandomisation');
+            $this->valid = false;
+        } else {
+            // Mark inputs as specific type.
+            if (is_array($inputs)) {
+                foreach ($inputs as $name) {
+                    if (!isset($vallist[$name])) {
+                        $vallist[$name] = [];
+                    }
+                    $vallist[$name][-2] = -2;
+                }
+            }
+            $this->security->set_context($vallist);
+        }
+
         $this->valid   = true;
         $this->statements   = array();
         foreach ($ast->items as $item) {
-            $cs = stack_ast_container::make_from_teacher_ast($item, '',
-                    new stack_cas_security());
+            $cs = stack_ast_container::make_from_teacher_ast($item, '', $this->security);
             if ($item instanceof MP_Statement) {
                 $op = '';
                 if ($item->statement instanceof MP_Operation) {
@@ -132,7 +159,7 @@ class stack_cas_keyval {
                 // Context variables should always be silent.  We might need a separate feature "silent" in future.
                 if (stack_cas_security::get_feature($op, 'contextvariable') !== null) {
                     $cs = stack_ast_container_silent::make_from_teacher_ast($item, '',
-                            new stack_cas_security());
+                            $this->security);
                 }
             }
             $this->valid = $this->valid && $cs->get_valid();
@@ -154,6 +181,17 @@ class stack_cas_keyval {
 
         return $this->valid;
     }
+
+    /** Specify non default security, do this before validation. */
+    public function set_security(stack_cas_security $security) {
+        $this->security = clone $security;
+    }
+
+    /** Extract a security object with type related context information, do this after validation. */
+    public function get_security(): stack_cas_security {
+        return $this->security;
+    }
+
 
     /*
      * @array $inputs Holds an array of the input names which are forbidden as keys.
@@ -232,7 +270,6 @@ class stack_cas_keyval {
         $bestatements = [];
         $statements = [];
         $contextvariables = [];
-        $inclusioncount = 0;
 
         $referenced = ['read' => [], 'write' => [], 'calls' => []];
 
@@ -277,13 +314,13 @@ class stack_cas_keyval {
         $filteroptions = ['998_security' => ['security' => 't']];
         $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['998_security', '999_strict'], $filteroptions, true);
         $tostringparams = ['nosemicolon' => true, 'pmchar' => 1];
-        $securitymodel = new stack_cas_security();
+        $securitymodel = $this->security;
 
         // For access in the function.
         $options = $this->options;
 
         // Special rewrites filtter, might be a real AST-filter at some point.
-        $rewrite = function($node) use (&$errors, &$bestatements, &$contextvariables, &$inclusioncount, $contextname, &$referenced, $options) {
+        $rewrite = function($node) use (&$errors, &$bestatements, &$contextvariables, $options) {
             if ($node instanceof MP_FunctionCall) {
                 if ($node->name instanceof MP_Identifier && $node->name->value === 'castext') {
                     // The very special case of seeing the castext-function inside castext.
@@ -338,9 +375,6 @@ class stack_cas_keyval {
                         $item->position['start'] . '-' . $item->position['end']);
                 $statement = '_EC(errcatch(' . $item->toString($tostringparams) . '),' . $scope . ')';
 
-                // Update references.
-                $referenced = maxima_parser_utils::variable_usage_finder($item, $referenced);
-
                 // Check if it is one of the block externals.
                 $op = '';
                 if ($item->statement instanceof MP_Operation) {
@@ -358,6 +392,9 @@ class stack_cas_keyval {
                 }
             }
         }
+
+        // Update references.
+        $referenced = maxima_parser_utils::variable_usage_finder($ast, $referenced);
 
         // Might be that broken things were found during the deepper processing.
         if (count($errors) > 0) {

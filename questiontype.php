@@ -33,8 +33,11 @@ require_once(__DIR__ . '/stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/stack/cas/castext2/castext2_static_replacer.class.php');
 require_once(__DIR__ . '/stack/questiontest.php');
 require_once(__DIR__ . '/stack/prt.class.php');
+require_once(__DIR__ . '/stack/potentialresponsetreestate.class.php');
 require_once(__DIR__ . '/stack/graphlayout/graph.php');
 require_once(__DIR__ . '/lang/multilang.php');
+require_once(__DIR__ . '/stack/prt.class.php');
+
 
 /**
  * Stack question type class.
@@ -1419,7 +1422,6 @@ class qtype_stack extends question_type {
      * @return array($errors, $warnings).
      */
     public function validate_fromform($fromform, $errors) {
-        $warnings = array();
 
         $fixingdollars = array_key_exists('fixdollars', $fromform);
 
@@ -1688,7 +1690,7 @@ class qtype_stack extends question_type {
             }
         }
 
-        return array($errors, $warnings);
+        return $errors;
     }
 
     /**
@@ -2263,7 +2265,7 @@ class qtype_stack extends question_type {
         $inputkeys = array();
         if (is_array($inputs)) {
             foreach ($inputs as $input) {
-                $inputkeys[] = $input->name;
+                $inputkeys[$input->name] = $input->name;
             }
         } else {
             return array();
@@ -2281,219 +2283,16 @@ class qtype_stack extends question_type {
         }
         $prt = $question->prts[$prtname];
 
-        $prtnodes = array();
-        foreach ($prt->nodes as $name => $node) {
-            $sans = stack_ast_container::make_from_teacher_source($node->sans, '', new stack_cas_security());
-            $tans = stack_ast_container::make_from_teacher_source($node->tans, '', new stack_cas_security());
-            $prtnode = new stack_potentialresponse_node($sans, $tans, $node->answertest, $node->testoptions);
-            $prtnode->add_branch(1, '+', 0, '', -1, $node->truefeedback, $node->truefeedbackformat, '');
-            $prtnode->add_branch(0, '+', 0, '', -1, $node->falsefeedback, $node->falsefeedbackformat, '');
-            $prtnodes[$name] = $prtnode;
-        }
-        $feedbackvariables = new stack_cas_keyval($prt->feedbackvariables);
-        $potentialresponsetree = new stack_potentialresponse_tree(
-                '', '', false, 0, $feedbackvariables->get_session(), $prtnodes, (string) $prt->firstnodename, 1);
-        return $potentialresponsetree->get_required_variables($inputkeys);
-    }
+        $prt = new stack_potentialresponse_tree_lite($prt);
 
-    /**
-     * Helper method for "compiling" a question, validates and finds all the things
-     * that do not change unless the question changes and stores them in a dictionary.
-     *
-     * Note that does throw exceptions about validation details.
-     *
-     * Currently the cache contaisn the following keys:
-     *  'units' for declaring the units-mode.
-     *  'forbiddenkeys' for the lsit of those.
-     *  'contextvariable-qv' the pre-validated question-variables which are context variables.
-     *  'statement-qv' the pre-validated question-variables.
-     *  'preamble-qv' the matching blockexternals.
-     *  'required' the lists of inputs required by given PRTs an array by PRT-name.
-     *
-     * In the future expect the following:
-     *  'castext-qt' for the question-text as compiled CASText2.
-     *  'castext-qn' for the question-note as compiled CASText2.
-     *  'castext-...' for the model-solution and prtpartiallycorrect etc.
-     *  'prt' the compiled PRT-logics in an array.
-     *  'security-config' extended logic for cas-security, e.g. custom-units.
-     *
-     * @param int the identifier of this question fot use if we have pluginfiles
-     * @param string the questionvariables
-     * @param array inputs as objects, keyed by input name
-     * @param array PRTs as objects
-     * @param stack_options the options in use, if they would ever matter
-     * @param string question-text
-     * @param string question-text format
-     * @param string question-note
-     * @param string general-feedback
-     * @param string general-feedback format...
-     * @param defaultpenalty
-     * @return array a dictionary of things that might be expensive to generate.
-     */
-    public static function compile($id, $questionvariables, $inputs, $prts, $options,
-        $questiontext, $questiontextformat,
-        $questionnote,
-        $generalfeedback, $generalfeedbackformat,
-        $specificfeedback, $specificfeedbackformat,
-        $prtcorrect, $prtcorrectformat,
-        $prtpartiallycorrect, $prtpartiallycorrectformat,
-        $prtincorrect, $prtincorrectformat, $defaultpenalty) {
-        // NOTE! We do not compile during question save as that would make
-        // import actions slow. We could compile during fromform-validation
-        // but we really should look at refactoring that to better interleave
-        // the compilation.
-        //
-        // As we currently compile at the first use things start slower than they could.
-
-        // The cache will be a dictionary with many things.
-        $cc = [];
-        // Some details are globals built from many sources.
-        $units = false;
-        $forbiddenkeys = [];
-
-        // First handle the question variables.
-        if ($questionvariables === null || trim($questionvariables) === '') {
-            $cc['statement-qv'] = null;
-            $cc['preamble-qv'] = null;
-            $cc['contextvariable-qv'] = null;
-        } else {
-            $kv = new stack_cas_keyval($questionvariables, $options);
-            if (!$kv->get_valid()) {
-                throw new stack_exception('Error(s) in question-variables: ' . implode('; ', $kv->get_errors()));
-            }
-            $c = $kv->compile('question-variables');
-
-            // The compilation process might uncover more errors.
-            if (!$kv->get_valid()) {
-                throw new stack_exception('Error(s) in question-variables: ' . implode('; ', $kv->get_errors()));
-            }
-            // Store the pre-validated statement representing the whole qv.
-            $cc['statement-qv'] = $c['statement'];
-            // Store any contextvariables, e.g. assume statements.
-            $cc['contextvariables-qv'] = $c['contextvariables'];
-            // Store the possible block external features.
-            $cc['preamble-qv'] = $c['blockexternal'];
-            // Finally extend the forbidden keys set if we saw any variables written.
-            if (isset($c['references']['write'])) {
-                $forbiddenkeys = array_merge($forbiddenkeys, $c['references']['write']);
-            }
+        // Just do the full compile it does all the checking including feedback.
+        $compile['required'] = array();
+        try {
+            $compile = $prt->compile($inputkeys, [], 0.0, new stack_cas_security());
+        } catch (Exception $e) {
+            // For now lets nto care about this.
         }
 
-        // Then do some basic detail collection related to the inputs and PRTs.
-        foreach ($inputs as $input) {
-            if (is_a($input, 'stack_units_input')) {
-                $units = true;
-                break;
-            }
-        }
-        $cc['required'] = [];
-        $cc['prt-preamble'] = [];
-        $cc['prt-contextvariables'] = [];
-        $cc['prt-signature'] = [];
-        $cc['prt-definition'] = [];
-        foreach ($prts as $name => $prt) {
-            $R = $prt->compile($inputs, $forbiddenkeys, $defaultpenalty);
-            $cc['required'][$name] = $R['required'];
-            if ($R['be'] !== null && $R['be'] !== '') {
-                $cc['prt-preamble'][$name] = $R['be'];
-            }
-            if ($R['cv'] !== null && $R['cv'] !== '') {
-                $cc['prt-contextvariables'][$name] = $R['cv'];
-            }
-            $cc['prt-signature'][$name] = $R['sig'];
-            $cc['prt-definition'][$name] = $R['def'];
-            $units = $units || $R['units'];
-        }
-
-        // Note that instead of just adding the unit loading to the 'preamble-qv'
-        // and forgetting about units we do keep this bit of information stored
-        // as it may be used in input configuration at some later time.
-        $cc['units'] = $units;
-        $cc['forbiddenkeys'] = $forbiddenkeys;
-
-        // Do some pluginfile mapping. Note that the PRT-nodes are mapped in PRT-compiler.
-        if (strpos($questiontext, '@@PLUGINFILE@@') !== false) {
-            $questiontext = '[[pfs component="question" filearea="questiontext" itemid="' . $id . '"]]' .
-                            $questiontext . '[[/pfs]]';
-        }
-        if (strpos($generalfeedback, '@@PLUGINFILE@@') !== false) {
-            $generalfeedback = '[[pfs component="question" filearea="generalfeedback" itemid="' . $id . '"]]' .
-                            $generalfeedback . '[[/pfs]]';
-        }
-        if (strpos($specificfeedback, '@@PLUGINFILE@@') !== false) {
-            $specificfeedback = '[[pfs component="qtype_stack" filearea="specificfeedback" itemid="' . $id . '"]]' .
-                            $specificfeedback . '[[/pfs]]';
-        }
-
-        // Compile the castext fragments.
-        $ctoptions = [
-            'bound-vars' => $forbiddenkeys, 
-            'prt-names' => array_flip(array_keys($prts)),
-            'io-blocks-as-raw' => 'pre-input2'
-        ];
-        $ct = castext2_evaluatable::make_from_source($questiontext, 'question-text');
-        if (!$ct->get_valid($questiontextformat, $ctoptions)) {
-            throw new stack_exception('Error(s) in question-text: ' . implode('; ', $ct->get_errors()));
-        } else {
-            $cc['castext-qt'] = $ct->get_evaluationform();
-        }
-
-        $ct = castext2_evaluatable::make_from_source($questionnote, 'question-note');
-        if (!$ct->get_valid(FORMAT_HTML, $ctoptions)) {
-            throw new stack_exception('Error(s) in question-note: ' . implode('; ', $ct->get_errors()));
-        } else {
-            $cc['castext-qn'] = $ct->get_evaluationform();
-        }
-
-        $ct = castext2_evaluatable::make_from_source($generalfeedback, 'general-feedback');
-        if (!$ct->get_valid($generalfeedbackformat, $ctoptions)) {
-            throw new stack_exception('Error(s) in general-feedback: ' . implode('; ', $ct->get_errors()));
-        } else {
-            $cc['castext-gf'] = $ct->get_evaluationform();
-        }
-
-        $ct = castext2_evaluatable::make_from_source($specificfeedback, 'specific-feedback');
-        if (!$ct->get_valid($specificfeedbackformat, $ctoptions)) {
-            throw new stack_exception('Error(s) in specific-feedback: ' . implode('; ', $ct->get_errors()));
-        } else {
-            $cc['castext-sf'] = $ct->get_evaluationform();
-        }
-
-        $ct = castext2_evaluatable::make_from_source($prtcorrect, 'specific-feedback');
-        if (!$ct->get_valid($prtcorrectformat, $ctoptions)) {
-            throw new stack_exception('Error(s) in PRT-correct message: ' . implode('; ', $ct->get_errors()));
-        } else {
-            $cc['castext-prt-c'] = $ct->get_evaluationform();
-        }
-
-        $ct = castext2_evaluatable::make_from_source($prtpartiallycorrect, 'specific-feedback');
-        if (!$ct->get_valid($prtpartiallycorrectformat, $ctoptions)) {
-            throw new stack_exception('Error(s) in PRT-partially correct message: ' . implode('; ', $ct->get_errors()));
-        } else {
-            $cc['castext-prt-pc'] = $ct->get_evaluationform();
-        }
-
-        $ct = castext2_evaluatable::make_from_source($prtincorrect, 'specific-feedback');
-        if (!$ct->get_valid($prtincorrectformat, $ctoptions)) {
-            throw new stack_exception('Error(s) in PRT-incorrect message: ' . implode('; ', $ct->get_errors()));
-        } else {
-            $cc['castext-prt-ic'] = $ct->get_evaluationform();
-        }
-
-        // Do static string extraction from the castext-code, save CAS-bandwidth and cache size.
-        // Note! This might be something one wants to toggle for some debug use. But that would
-        // be some other level of debug thatn what we currently have.
-        // This is one of those things that MecLib made us do.
-        $map = new castext2_static_replacer([]);
-        foreach ($cc as $k => $v) {
-            if (strpos($k, 'castext-') === 0) {
-                $val = $map->extract($v);
-                $cc[$k] = $val;
-            }
-        }
-        $cc['static-castext-strings'] = $map->get_map();
-
-
-        return $cc;
+        return $compile['required'];
     }
 }

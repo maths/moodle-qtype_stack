@@ -124,7 +124,7 @@ class stack_inputvalidation_test_data {
         array('[[1,2],[3,4]]', 'php_true', '[[1,2],[3,4]]', 'cas_true',
                 '\left[ \left[ 1 , 2 \right] , \left[ 3 , 4 \right] \right]', '', ""),
         array('{}', 'php_true', '{}', 'cas_true', '\left \{ \right \}', '', "Sets"),
-        array('{1}', 'php_true', '{1}', 'cas_true', '\left \{1 \right \}', '', ""),
+        array('{1}', 'php_true', '{1}', 'cas_true', '\left \{1 \right \}', '', ""),        
         array('{1,2,3.4}', 'php_true', '{1,2,3.4}', 'cas_true', '\left \{1 , 2 , 3.4 \right \}', '', ""),
         array('{x, y, z }', 'php_true', '{x,y,z}', 'cas_true', '\left \{x , y , z \right \}', '', ""),
         array('set(x, y, z)', 'php_false', '', '', '', 'forbiddenFunction', ""),
@@ -142,8 +142,13 @@ class stack_inputvalidation_test_data {
         array('a[2]', 'php_true', 'a[2]', 'cas_true', 'a_{2}', '', "Maxima arrays"),
         array('a[n+1]', 'php_true', 'a[n+1]', 'cas_true', 'a_{n+1}', '', ""),
         array('a[1,2]', 'php_true', 'a[1,2]', 'cas_true', 'a_{1,2}', '', ""),
-        array('(a,b,c)', 'php_true', '(a,b,c)', 'cas_true', 'c', '',
-        "In Maxima this syntax is a programme block which returns its last element."),
+        array('(a,b,c)', 'php_true', 'ntuple(a,b,c)', 'cas_true', '\left(a, b, c\right)', '',
+        "In Maxima this syntax is a programme block which we turn into an inert function for student's input."),
+        array('{(x,y),(b,c)}', 'php_true', '{ntuple(x,y),ntuple(b,c)}', 'cas_true', '\left \{\left(x, y\right) , \left(b, c\right) \right \}', '', ""),
+        array('((x,y),a)', 'php_true', 'ntuple(ntuple(x,y),a)', 'cas_true', '\left(\left(x, y\right), a\right)', '', ""),
+        array('((x,y)/2,a)', 'php_false', 'ntuple((x,y)/2,a)', 'cas_true', '', 'Illegal_groups', ""),
+        array('(x,y)+3', 'php_false', 'ntuple(x,y)+3', 'cas_true', '', 'Illegal_groups', ""),
+        array('f((x,y),2)', 'php_true', 'f(ntuple(x,y),2)', 'cas_true', 'f\left(\left(x, y\right) , 2\right)', '', ""),
         array('0..1', 'php_false', '', '', '', 'spuriousop',
         "Ranges and logical operations are currently not supported by Maxima or STACK
         - this is on our wish list. It will result in the ability to deal with systems of inequalities, e.g. \(x<1\ and\ x>-4\)."),
@@ -423,7 +428,7 @@ class stack_inputvalidation_test_data {
         array('switch(x,a,y,b,c)', 'php_false', '', '', '', 'forbiddenFunction', ""),
         array('sin(x)', 'php_true', 'sin(x)', 'cas_true', '\sin \left( x \right)', '', "Trig functions"),
         array('cos(x)', 'php_true', 'cos(x)', 'cas_true', '\cos \left( x \right)', '', ""),
-        array('cos(x)^2', 'php_true', 'cos(x)^2', 'cas_true', '\cos ^2x', '', ""),
+        array('cos(x)^2', 'php_true', 'cos(x)^2', 'cas_true', '\cos ^2\left(x\right)', '', ""),
         array('cos(x+1)^2', 'php_true', 'cos(x+1)^2', 'cas_true', '\cos ^2\left(x+1\right)', '', ""),
         array('tan(x)', 'php_true', 'tan(x)', 'cas_true', '\tan \left( x \right)', '', ""),
         array('sec(x)', 'php_true', 'sec(x)', 'cas_true', '\sec \left( x \right)', '', ""),
@@ -590,6 +595,8 @@ class stack_inputvalidation_test_data {
         $filterstoapply[] = '406_split_implied_variable_names';
 
         $filterstoapply[] = '502_replace_pm';
+        $filterstoapply[] = '504_insert_tuples_for_groups';
+        $filterstoapply[] = '505_no_evaluation_groups';
 
         // We want to apply this as our "insert stars" but not spaces...
         $filterstoapply[] = '990_no_fixing_spaces';

@@ -185,6 +185,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $el->set_parameter('insertStars', 1);
         $state = $el->validate_student_response(array('sans1' => '2x', 'sans1_val' => '2x'), $options, 'x^2/(1+x^2)',
                 new stack_cas_security());
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
 
@@ -195,6 +197,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '2x(1+x^2)'), $options, 'x^2/(1+x^2)',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars | Variable_function', $state->note);
+        $this->assertEquals('', $state->errors);
     }
 
     public function test_validate_student_response_5() {
@@ -243,6 +247,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '1<x and x<7'), $options, '1<x nounand x<8',
             new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('1 < x nounand x < 7', $state->contentsmodified);
         $this->assertEquals('\[ 1 < x\,{\mbox{ and }}\, x < 7 \]', $state->contentsdisplayed);
         $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
@@ -257,6 +263,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 'not false xor not(false)',
                 new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('nounnot false xor nounnot(false)', $state->contentsmodified);
         $this->assertEquals('\[ {\rm not}\left( \mathbf{False} \right)\,{\mbox{ xor }}\, ' .
                 '{\rm not}\left( \mathbf{False} \right) \]', $state->contentsdisplayed);
@@ -302,6 +310,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))'),
                 $options, 'x^2+1/3', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
     }
 
     public function test_validate_student_response_subscript_compare() {
@@ -311,18 +321,24 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'x_1'),
                 $options, 'x_1', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('x_1', $state->contentsmodified);
         $this->assertEquals('\[ {x}_{1} \]', $state->contentsdisplayed);
 
         $state = $el->validate_student_response(array('sans1' => 'x1'),
                 $options, 'x_1', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('x1', $state->contentsmodified);
         $this->assertEquals('\[ x_{1} \]', $state->contentsdisplayed);
 
         $state = $el->validate_student_response(array('sans1' => 'x[1]'),
                 $options, 'x_1', new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('x[1]', $state->contentsmodified);
         $this->assertEquals('\[ x_{1} \]', $state->contentsdisplayed);
     }
@@ -345,6 +361,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '2x'), $options, '2*x',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('', $state->errors);
     }
 
     public function test_validate_student_response_insertstars_false_1() {
@@ -379,6 +397,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
     }
 
     public function test_validate_student_response_sametype_true_2() {
@@ -389,6 +408,7 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
     }
 
     public function test_validate_student_response_sametype_false_1() {
@@ -529,6 +549,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '(3x+1)(x+ab)'), $options, '(3*x+1)*(x+ab)',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('(3*x+1)*(x+a*b)', $state->contentsmodified);
         $this->assertEquals('\[ \left(3\cdot x+1\right)\cdot \left(x+a\cdot b\right) \]', $state->contentsdisplayed);
         $this->assertEquals('\( \left[ a , b , x \right]\) ', $state->lvars);
@@ -542,9 +564,25 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '(3x+1)(x+ab)'), $options, '(3*x+1)*(x+ab)',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('(3*x+1)*(x+ab)', $state->contentsmodified);
         $this->assertEquals('\[ \left(3\cdot x+1\right)\cdot \left(x+{\it ab}\right) \]', $state->contentsdisplayed);
         $this->assertEquals('\( \left[ {\it ab} , x \right]\) ', $state->lvars);
+    }
+
+    public function test_validate_student_response_single_var_chars_div() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '0<x^2');
+        $el->set_parameter('insertStars', 2);
+        $state = $el->validate_student_response(array('sans1' => '4<div'), $options, '0<x^2',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('4 < d*i*v', $state->contentsmodified);
+        $this->assertEquals('\[ 4 < d\cdot \mathrm{i}\cdot v \]', $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ d , v \right]\) ', $state->lvars);
     }
 
     public function test_validate_student_response_allowwords_false() {
@@ -562,6 +600,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'unknownfunction(x^2+1)+3*x'), $options, '2*x',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
     }
 
     public function test_validate_student_response_forbidwords_none() {
@@ -572,6 +612,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'int(x^2+1,x)+c'), $options, 'int(x^2+1,x)+c',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('nounint(x^2+1,x)+c', $state->contentsmodified);
         $this->assertEquals('\[ \int {x^2+1}{\;\mathrm{d}x}+c \]', $state->contentsdisplayed);
         $this->assertEquals('\( \left[ c , x \right]\) ', $state->lvars);
@@ -586,6 +628,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         // Note the "nounint" in the contentsmodified.
         $this->assertEquals('nounint(x^2+1,x)+c', $state->contentsmodified);
         $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('forbiddenFunction', $state->note);
+        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">int</span>.', $state->errors);
         // The noun form has been converted back to "int" in the contentsdisplayed.
         $this->assertEquals('<span class="stacksyntaxexample">int(x^2+1,x)+c</span>', $state->contentsdisplayed);
     }
@@ -597,6 +641,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'integrate(x^2+1,x)+c'), $options, 'int(x^2+1,x)+c',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('nounint(x^2+1,x)+c', $state->contentsmodified);
         $this->assertEquals('\[ \int {x^2+1}{\;\mathrm{d}x}+c \]', $state->contentsdisplayed);
         $this->assertEquals('\( \left[ c , x \right]\) ', $state->lvars);
@@ -624,6 +670,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'cos(ax)/(x(ln(x)))'), $options, 'cos(a*x)/(x*(ln(x)))',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars | Variable_function', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('cos(a*x)/(x*(ln(x)))', $state->contentsmodified);
         $this->assertEquals('\[ \frac{\cos \left( a\cdot x \right)}{x\cdot \ln \left( x \right)} \]',
                 $state->contentsdisplayed);
@@ -649,6 +697,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'ab_cd'), $options, 'a*b_c*d',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('a*b_cd', $state->contentsmodified);
         $this->assertEquals('\[ a\cdot {b}_{{\it cd}} \]', $state->contentsdisplayed);
     }
@@ -661,6 +711,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'av_max'), $options, 'a*v_max',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('a*v_max', $state->contentsmodified);
         $this->assertEquals('\[ a\cdot {v}_{{\it max}} \]', $state->contentsdisplayed);
     }
@@ -673,6 +725,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'sin(ab)^2'), $options, 'sin(ab)^2',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('sin(a*b)^2', $state->contentsmodified);
         $this->assertEquals('\[ \sin ^2\left(a\cdot b\right) \]', $state->contentsdisplayed);
     }
@@ -708,6 +762,8 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => 'makelist(k^2,k,1,8)'), $options,
                 '[1,4,9,16,25,36,49,64]', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
         $content = $state->contentsmodified;
         $this->assertEquals('makelist(k^2,k,1,8)', $content);
         $this->assertEquals('\[ \left[ 1 , 4 , 9 , 16 , 25 , 36 , 49 , 64 \right] \]',
@@ -1279,11 +1335,11 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 'picture-in-picture" allowfullscreen="" width="0" height="0" frameborder="0"></iframe>}$$';
         $ta = '<span class="stacksyntaxexample">$&#8203;$ \unicode{&lt;&#8203;script>eval(atob("ZG9jdW1lb' .
                 'nQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik"))&lt;&#8' .
-                '203;/script&gt;&lt;&#8203;iframe src="https://www.youtube.com/embed/IB3d1UthDrk?autoplay' .
-                '=1&amp;loop=1;controls=0"<https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1&amp;loop=' .
-                '1;controls=0> allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-pic' .
-                'ture" allowfullscreen="" width="0" height="0" frameborder="0">&lt;&#8203;/iframe&gt;}$&#' .
-                '8203;$</span>';
+                '203;/script&gt;&lt;&#8203;iframe src&#0;&#61;"https://www.youtube.com/embed/IB3d1UthDrk?autoplay' .
+                '=1&amp;loop=1;con&#0;trols&#0;&#61;0"<https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1&amp;' .
+                'loop=1;con&#0;trols&#0;&#61;0> allow="accelerometer; autoplay; encrypted-media; gyroscope; ' .
+                'picture-in-picture" allowfullscreen="" width="0" height="0" frameborder="0">&lt;&#8203;' .
+                '/iframe&gt;}$&#8203;$</span>';
         // We don't require intervals to have real numbers in them.
         $state = $el->validate_student_response(array('sans1' => $sa), $options, '%union({3,4,5})',
                 new stack_cas_security(false, '', '', array('ta')));
@@ -1303,12 +1359,12 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 'hDrk?autoplay=1\" allow=\"autoplay\" allowfullscreen=\"\" width=\"0\" height=\"0\" framebor' .
                 'der=\"0\"></iframe>}"';
         $ta = '1+"unicode{&lt;&#8203;script>eval(atob(\"ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5p' .
-                'bm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframe src=\"https:' .
+                'bm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframe src&#0;&#61;\"https:' .
                 '//www.youtube.com/embed/IB3d1UthDrk?autoplay=1\" allow=\"autoplay\" allowfullscreen=\"\" wi' .
                 'dth=\"0\" height=\"0\" frameborder=\"0\">&lt;&#8203;/iframe&gt;}"';
         $ua = '\[ 1+\mbox{unicode{\&lt;\&#8203;script>eval(atob("ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInA' .
                 'iKVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik"))\&lt;\&#8203;/script\&gt;\&lt;\&#8203;iframe' .
-                ' src="https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1" allow="autoplay" allowfullscreen' .
+                ' src\&#0;\&#61;"https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1" allow="autoplay" allowfullscreen' .
                 '="" width="0" height="0" frameborder="0">\&lt;\&#8203;/iframe\&gt;}} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, '1+x^2',
                 new stack_cas_security(false, '', '', array('ta')));
@@ -1329,12 +1385,12 @@ class stack_algebra_input_test extends qtype_stack_testcase {
                 'k&quest;autoplay=1\"allow=\"autoplay\" allowfullscreen=\"\" width=\"0\" height=\"0\" framebo' .
                 'rder=\"0\"></iframe>}"';
         $ta = '1+"unicode{&lt;&#8203;script>eval(atob(\"ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pb' .
-                'm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframesrc=\"https://w' .
+                'm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframesrc&#0;&#61;\"https://w' .
                 'ww.youtube.com/embed/IB3d1UthDrk&quest;autoplay=1\"allow=\"autoplay\" allowfullscreen=\"\" w' .
                 'idth=\"0\" height=\"0\" frameborder=\"0\">&lt;&#8203;/iframe&gt;}"';
         $ua = '\[ 1+\mbox{unicode{\&lt;\&#8203;script>eval(atob("ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAi' .
                 'KVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik"))\&lt;\&#8203;/script\&gt;\&lt;\&#8203;iframesr' .
-                'c="https://www.youtube.com/embed/IB3d1UthDrk\&quest;autoplay=1"allow="autoplay" allowfullscr' .
+                'c\&#0;\&#61;"https://www.youtube.com/embed/IB3d1UthDrk\&quest;autoplay=1"allow="autoplay" allowfullscr' .
                 'een="" width="0" height="0" frameborder="0">\&lt;\&#8203;/iframe\&gt;}} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, '1+x^2',
                 new stack_cas_security(false, '', '', array('ta')));
@@ -1343,6 +1399,109 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
         $this->assertEquals($ta, $state->contentsmodified);
         $this->assertEquals($ua, $state->contentsdisplayed);
+
+        $sa = '1+"\\unicode{<script>eval(atob(\"ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhUT' .
+            'UwgPSAiQSIucmVwZWF0KDY2Nik\"))</script><iframe src=\"https://www.youtube.com/embed/IB3d1UthDr' .
+            'k&quest;autoplay=1\"allow=\"autoplay\" allowfullscreen=\"\" width=\"0\" height=\"0\" framebo' .
+            'rder=\"0\"></iframe>}"';
+        $ta = '1+"unicode{&lt;&#8203;script>eval(atob(\"ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pb' .
+            'm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframe src&#0;&#61;\"https://w' .
+            'ww.youtube.com/embed/IB3d1UthDrk&quest;autoplay=1\"allow=\"autoplay\" allowfullscreen=\"\" w' .
+            'idth=\"0\" height=\"0\" frameborder=\"0\">&lt;&#8203;/iframe&gt;}"';
+        $ua = '\[ 1+\mbox{unicode{\&lt;\&#8203;script>eval(atob("ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAi' .
+            'KVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik"))\&lt;\&#8203;/script\&gt;\&lt;\&#8203;iframe sr' .
+            'c\&#0;\&#61;"https://www.youtube.com/embed/IB3d1UthDrk\&quest;autoplay=1"allow="autoplay" allowfullscr' .
+            'een="" width="0" height="0" frameborder="0">\&lt;\&#8203;/iframe\&gt;}} \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, '1+x^2',
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($ta, $state->contentsmodified);
+        $this->assertEquals($ua, $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_xss_4() {
+        $options = new stack_options();
+        $ta = '"Hello world"';
+        $el = stack_input_factory::make('algebraic', 'sans1', $ta);
+
+        $sa = '"<script>RandomPresumablyBadStuff</script>"';
+        $cm = '"&lt;&#8203;script>RandomPresumablyBadStuff&lt;&#8203;/script&gt;"';
+        $cd = '\[ \&lt;\&#8203;script>RandomPresumablyBadStuff\&lt;\&#8203;/script\&gt; \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($cm, $state->contentsmodified);
+        $this->assertEquals($cd, $state->contentsdisplayed);
+
+        $sa = '"<div>WhoKnowsWhatButStudentsDontNeedHTMLInStrings</div>"';
+        $cm = '"&lt;&#8203;div>WhoKnowsWhatButStudentsDontNeedHTMLInStrings&lt;&#8203;/div&gt;"';
+        $cd = '\[ \&lt;\&#8203;div>WhoKnowsWhatButStudentsDontNeedHTMLInStrings\&lt;\&#8203;/div\&gt; \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($cm, $state->contentsmodified);
+        $this->assertEquals($cd, $state->contentsdisplayed);
+
+        $sa = '"<!-->MostlyToPreventAnnoyingInput<-->"';
+        $cm = '"&lt;!--&gt;MostlyToPreventAnnoyingInput<--&gt;"';
+        $cd = '\[ \&lt;!--\&gt;MostlyToPreventAnnoyingInput<--\&gt; \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($cm, $state->contentsmodified);
+        $this->assertEquals($cd, $state->contentsdisplayed);
+
+        $sa = '"<div onclick=\'dosuchandsuch\'></div>"';
+        $cm = '"&lt;&#8203;div on&#0;click&#0;&#61;\'dosuchandsuch\'>&lt;&#8203;/div&gt;"';
+        $cd = '\[ \&lt;\&#8203;div on\&#0;click\&#0;\&#61;\'dosuchandsuch\'>\&lt;\&#8203;/div\&gt; \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($cm, $state->contentsmodified);
+        $this->assertEquals($cd, $state->contentsdisplayed);
+
+        $sa = '"<div onmousemove     =\'dosuchandsuch\'></div>"';
+        $cm = '"&lt;&#8203;div on&#0;mousemove     &#0;&#61;\'dosuchandsuch\'>&lt;&#8203;/div&gt;"';
+        $cd = '\[ \&lt;\&#8203;div on\&#0;mousemove \&#0;\&#61;\'dosuchandsuch\'>\&lt;\&#8203;/div\&gt; \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($cm, $state->contentsmodified);
+        $this->assertEquals($cd, $state->contentsdisplayed);
+
+        $sa = '"<img src=\'picture\' />"';
+        $cm = '"<img src&#0;&#61;\'picture\' /&gt;"';
+        $cd = '\[ \mbox{<img src\&#0;\&#61;\'picture\' /\&gt;} \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($cm, $state->contentsmodified);
+        $this->assertEquals($cd, $state->contentsdisplayed);
+
+        $sa = '"<a href=\'link\' />I do not think so.</a>"';
+        $cm = '"<a href&#0;&#61;\'link\' /&gt;I do not think so.&lt;/a>"';
+        $cd = '\[ \mbox{<a href\&#0;\&#61;\'link\' /\&gt;I do not think so.\&lt;/a>} \]';
+        $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($cm, $state->contentsmodified);
+        $this->assertEquals($cd, $state->contentsdisplayed);
     }
 
     public function test_validate_hideanswer() {
@@ -1355,5 +1514,22 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('[x^3]', $state->contentsmodified);
         $this->assertEquals('\[ \left[ x^3 \right] \]', $state->contentsdisplayed);
         $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \mbox{[SOME MORE JSON]} \]"));
+    }
+
+    public function test_validate_student_response_ntuple() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'ntuple(1,-1)');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => '(1,2)'), $options, 'ntuple(1,-1)',
+                new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals($state->contentsmodified, 'ntuple(1,2)');
+        $this->assertEquals($state->contentsdisplayed,
+                '\[ \left(1, 2\right) \]');
+        $this->assertEquals('', $state->note);
+
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+                . '<span class="nolink">\( \left(1, -1\right) \)</span></span>, which can be typed in as follows: '
+                . '<code>(1,-1)</code>', $el->get_teacher_answer_display('ntuple(1,-1)', '\left(1, -1\right)'));
     }
 }

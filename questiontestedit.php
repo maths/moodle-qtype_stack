@@ -27,6 +27,7 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/questiontestform.php');
 require_once(__DIR__ . '/stack/questiontest.php');
+require_once(__DIR__ . '/stack/potentialresponsetreestate.class.php');
 
 
 // Get the parameters from the URL.

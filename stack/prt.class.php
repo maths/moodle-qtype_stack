@@ -131,6 +131,20 @@ class stack_potentialresponse_tree_lite {
     }
 
     /**
+     * @return array All the "sans" strings used in the nodes with test requiring a raw input.
+     */
+    public function get_raw_sans_used() {
+        $sans = array();
+        foreach ($this->nodes as $key => $node) {
+            if (stack_ans_test_controller::required_raw($node->answertest)) {
+                $name = (string) $this->get_name() . '-' . ($key + 1);
+                $sans[$name] = $node->sans;
+            }
+        }
+        return $sans;
+    }
+
+    /**
      * This lists all possible answer notes, used for question testing.
      * @return array string Of all the answer notes this tree might produce.
      */
@@ -183,7 +197,7 @@ class stack_potentialresponse_tree_lite {
     // what to use as local variables.
     // The returned array contains the function declaration, its call signature,
     // and any necessary additional preamble, i.e. textput rules and the like.
-    public function compile(array $inputs, array $boundvars, $defaultpenalty): array {
+    public function compile(array $inputs, array $boundvars, $defaultpenalty, $security): array {
     	$R = ['sig' => '', 'def' => '', 'cv' => null, 'be' => null, 'required' => [], 'units' => false];
     	// Note these variables are initialised before the feedback-vars and if not forbidden
     	// could be directly set in the vars. The logic does not actually require any PRT-nodes.
@@ -195,6 +209,7 @@ class stack_potentialresponse_tree_lite {
     			'%_EXITS:{},'; // This tracks the exits from nodes so that we can decide the next node.
 
     	$fv = new stack_cas_keyval($this->feedbackvariables);
+        $fv->set_security($security);
         $fv->get_valid();
     	$fv = $fv->compile('PRT:' . $this->name . ': feedback-variables');
     	$R['be'] = $fv['blockexternal'];
@@ -251,7 +266,7 @@ class stack_potentialresponse_tree_lite {
     		} else {
     			$body .= 'if not emptyp(intersection(%_EXITS,{' . implode(',', $precedence[$node->nodename]) .'})) then (';
     		}
-            [$nc, $usage] = $this->compile_node($node, $usage, $defaultpenalty);
+            [$nc, $usage] = $this->compile_node($node, $usage, $defaultpenalty, $security);
     		$body .= $nc . '),';
     	}
 
@@ -330,7 +345,7 @@ class stack_potentialresponse_tree_lite {
         return $R;
     }
 
-    private function compile_node($node, $usage, $defaultpenalty): array {
+    private function compile_node($node, $usage, $defaultpenalty, $security): array {
     	// Start by turning simplification off for the call of the answer-test.
     	// Or on...
     	// Really all tests should be so that one calls them without simplification
@@ -376,6 +391,7 @@ class stack_potentialresponse_tree_lite {
             $context .= $node->nodename . ' ';
         }
 		$cs = stack_ast_container::make_from_teacher_source($AT, $context . 'answertest');
+        $cs->set_securitymodel($security);
         if (!$cs->get_valid()) {
             throw new stack_exception('Error in ' . $context . ' answertest parameters.');
         }
@@ -412,6 +428,7 @@ class stack_potentialresponse_tree_lite {
             // To save code we only generate error catching evaluation for values that are not numbers.
             if (!is_numeric($s)) {
                 $s = stack_ast_container::make_from_teacher_source($s, $context . 'truescore');
+                $s->set_securitymodel($security);
                 if (!$s->get_valid()) {
                    throw new stack_exception('Error in ' . $context . ' true-score.');
                 }
@@ -421,6 +438,7 @@ class stack_potentialresponse_tree_lite {
             }
             if (!is_numeric($p)) {
                 $p = stack_ast_container::make_from_teacher_source($p, $context . 'truepenalty');
+                $p->set_securitymodel($security);
                 if (!$p->get_valid()) {
                    throw new stack_exception('Error in ' . $context . ' true-penalty.');
                 }
@@ -462,7 +480,7 @@ class stack_potentialresponse_tree_lite {
 	    		$body .= 'simp:false,';
 	    	}
 	    	$ct = castext2_evaluatable::make_from_source($feedback, $context . 'truefeedback');
-            if(!$ct->get_valid($node->truefeedbackformat, [])) {
+            if(!$ct->get_valid($node->truefeedbackformat, [], $security)) {
                throw new stack_exception('Error in ' . $context . ' true-feedback.');
             }
 	    	$cs = stack_ast_container::make_from_teacher_source($ct->get_evaluationform(), $context . 'truefeedback');
@@ -485,6 +503,7 @@ class stack_potentialresponse_tree_lite {
             // To save code we only generate error catching evaluation for values that are not numbers.
             if (!is_numeric($s)) {
                 $s = stack_ast_container::make_from_teacher_source($s, $context . 'falsescore');
+                $s->set_securitymodel($security);
                 if (!$s->get_valid()) {
                    throw new stack_exception('Error in ' . $context . ' false-score.');
                 }
@@ -494,6 +513,7 @@ class stack_potentialresponse_tree_lite {
             }
             if (!is_numeric($p)) {
                 $p = stack_ast_container::make_from_teacher_source($p, $context . 'falsepenalty');
+                $p->set_securitymodel($security);
                 if (!$p->get_valid()) {
                    throw new stack_exception('Error in ' . $context . ' false-penalty.');
                 }
@@ -536,7 +556,7 @@ class stack_potentialresponse_tree_lite {
 	    	}
 	    	// TODO: consider the format to be used here.
             $ct = castext2_evaluatable::make_from_source($feedback, $context . 'falsefeedback');
-            if (!$ct->get_valid($node->falsefeedbackformat, [])) {
+            if (!$ct->get_valid($node->falsefeedbackformat, [], $security)) {
                 throw new stack_exception('Error in ' . $context . ' false-feedback.');
             }
             $cs = stack_ast_container::make_from_teacher_source($ct->get_evaluationform(), $context . 'falsefeedback');

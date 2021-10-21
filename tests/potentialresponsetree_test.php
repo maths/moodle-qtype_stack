@@ -16,10 +16,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+
+/* TODO CLEAN AWAY or map to new... */
+/*
 require_once(__DIR__ . '/../stack/potentialresponsetree.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
+*/
 
 // Unit tests for stack_potentialresponse_tree.
 //
@@ -29,6 +33,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
+/*
 class stack_potentialresponsetree_test extends qtype_stack_testcase {
 
     public function test_do_test_pass() {
@@ -174,3 +179,4 @@ class stack_potentialresponsetree_test extends qtype_stack_testcase {
         $this->assertEquals(array('sa1', 'ta'), $tree->get_required_variables(array('sa1', 'sa3', 'ta', 'ssa1', 'a1', 't')));
     }
 }
+*/

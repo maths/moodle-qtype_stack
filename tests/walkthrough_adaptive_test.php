@@ -1884,7 +1884,6 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
     public function test_numsigfigs_trailing_zero() {
 
-        // Create the stack question 'test0'.
         $q = test_question_maker::make_question('stack', 'numsigfigszeros');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -1960,6 +1959,151 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('firsttree');
         $this->check_output_does_not_contain_stray_placeholders();
+
+        $question = $this->quba->get_question($this->slot);
+        $expected = array();
+        $this->assertEquals($expected, $question->validate_warnings());
+    }
+
+    public function test_numdpsfeedbackvars_basic() {
+
+        $q = test_question_maker::make_question('stack', 'numdpsfeedbackvars');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_contains_text_input('ans2');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Give me two random numbers/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '0.04', 'ans2' => '3.14', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 0.04 [valid]; ans2: 3.14 [valid]; prt1: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '0.04');
+        $this->check_output_contains_text_input('ans2', '3.14');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the answer.
+        $this->process_submission(array('ans1' => '0.04', 'ans1_val' => '0.04',
+                                        'ans2' => '3.14', 'ans2_val' => '3.14', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('prt1', 0, 0.3);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 0.04 [score]; ans2: 3.14 [score]; prt1: # = 0 | ' .
+            'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Not_equiv. | prt1-1-F';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '0.04');
+        $this->check_output_contains_text_input('ans2', '3.14');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_contains_prt_feedback('prt1');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '7.04', 'ans1_val' => '0.04',
+                                        'ans2' => '3.14', 'ans2_val' => '3.14', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 7.04 [valid]; ans2: 3.14 [score]; prt1: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '7.04');
+        $this->check_output_contains_text_input('ans2', '3.14');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the answer.
+        $this->process_submission(array('ans1' => '7.04', 'ans1_val' => '7.04',
+                                        'ans2' => '3.14', 'ans2_val' => '3.14', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('prt1', 0, 0.3);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 7.04 [score]; ans2: 3.14 [score]; prt1: # = 0 | ' .
+            'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv. | prt1-1-F';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '7.04');
+        $this->check_output_contains_text_input('ans2', '3.14');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_contains_prt_feedback('prt1');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => '7.04', 'ans1_val' => '7.04',
+                                        'ans2' => '3.140', 'ans2_val' => '3.14', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 7.04 [score]; ans2: 3.140 [valid]; prt1: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '7.04');
+        $this->check_output_contains_text_input('ans2', '3.140');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submit of the answer.
+        $this->process_submission(array('ans1' => '7.04', 'ans1_val' => '7.04',
+                                        'ans2' => '3.140', 'ans2_val' => '3.140', '-submit' => 1));
+
+        // At this point the answer of 3.140 should be correct! It has 3 decimal places.
+        // The tests below pass (erroneously) because of the "min" function in the feedbackvariables.
+        // The trailing zero has been stripped off.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('prt1', 0, 0.3);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 7.04 [score]; ans2: 3.140 [score]; prt1: # = 0 | ' .
+            'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Equiv. | prt1-1-F';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '7.04');
+        // Note, the trailing zero is in the validation feedback (numerical input type).
+        $this->check_output_contains_text_input('ans2', '3.140');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_input_validation('ans2');
+        $this->check_output_contains_prt_feedback('prt1');
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // We can really see this, as the SAns argument of the answer test is displayed in the feedback.
+        $expected = 'Your answer was received as \({3.14}\).';
+        $this->assert_content_with_maths_contains($expected, $this->currentoutput);
+
+        $question = $this->quba->get_question($this->slot);
+        $expected = array('Some answer tests rely on the raw input from a student, ' .
+            'and so the "SAns" field of the node should be the name of a question input.  ' .
+            'Please check the following (prt.node) which looks like a calculated value instead: prt1-1');
+        $this->assertEquals($expected, $question->validate_warnings());
     }
 
     public function test_test0_save_does_validate_but_does_not_submit() {
@@ -3400,6 +3544,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $q = test_question_maker::make_question('stack', 'contextvars');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
+        $generalfeedback = $q->get_generalfeedback_castext();
+        $expected = 'You should be able to type in \\({\diamond}\\) as <code>blob</code>.';
+        $this->assertEquals($expected, $generalfeedback->get_rendered());
+
         // Check the initial state.
         $this->check_current_state(question_state::$todo);
         $this->assertEquals('adaptivemultipart',
@@ -3498,6 +3646,86 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_current_mark(0.6);
         $this->check_prt_score('firsttree', 0.6, 0.35);
         $this->check_answer_note('firsttree', 'firsttree-1-F | firsttree-2-T');
+
+    }
+
+    public function test_multilang() {
+
+        $q = test_question_maker::make_question('stack', 'multilang');
+
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Compute the sum/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        $expected = array('questiontext' => 'The language tags found in your question are: en, fi.',
+            0 => '<i class="icon fa fa-exclamation-circle text-danger fa-fw " title="There are potential '
+                . 'language problems in your question." aria-label="There are potential language problems '
+                . 'in your question."></i>There are potential language problems in your question.',
+            1 => 'The language tag fi is missing from the following: firsttree-1-F.');
+        $warnings = $q->validate_warnings();
+        $this->assertEquals($expected, $warnings);
+    }
+
+    public function test_block_locals() {
+
+        $q = test_question_maker::make_question('stack', 'block_locals');
+
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+                $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+                new question_pattern_expectation('/with input/'),
+                $this->get_does_not_contain_feedback_expectation(),
+                $this->get_does_not_contain_num_parts_correct(),
+                $this->get_no_hint_visible_expectation()
+                );
+
+        $this->process_submission(array('ans1' => 'p^2+p+1', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'p^2+p+1');
+        $this->check_output_contains_input_validation('ans1');
+
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $expected = 'Seed: 1; ans1: p^2+p+1 [valid]; PotResTree_1: !';
+        $this->check_response_summary($expected);
+
+        // Process a submit of the correct answer.
+        $this->process_submission(array('ans1' => 'p^2+p+1', 'ans1_val' => 'p^2+p+1', '-submit' => 1));
+
+        // Verify.
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(1);
+        $this->check_prt_score('PotResTree_1', 1, 0);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'p^2+p+1');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('PotResTree_1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $expected = 'Seed: 1; ans1: p^2+p+1 [score]; PotResTree_1: # = 1 | PotResTree_1-0-1';
+        $this->check_response_summary($expected);
 
     }
 }

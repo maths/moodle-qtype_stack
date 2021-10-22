@@ -409,8 +409,11 @@ class qtype_stack extends question_type {
 
         $noders = $DB->get_recordset('qtype_stack_prt_nodes',
                 array('questionid' => $question->id),
-                'prtname, ' . $DB->sql_cast_char2int('nodename'));
+                'prtname, nodename');
         foreach ($noders as $node) {
+            if (!property_exists($question->prts[$node->prtname], 'nodes')) {
+                $question->prts[$node->prtname]->nodes = [];
+            }
             $question->prts[$node->prtname]->nodes[$node->nodename] = $node;
         }
         $noders->close();

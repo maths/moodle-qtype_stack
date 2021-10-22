@@ -436,4 +436,26 @@ class stack_potentialresponse_tree {
             '3' => get_string('feedbackstyle3', 'qtype_stack'),
         );
     }
+
+    /**
+     * @return string the name of the first node, for upgrade purposes.
+     */
+    public function get_firstnodename(): string {
+        // Well we don't have an accessor for that name...
+        return array_search($this->firstnode, $this->nodes);
+    }
+
+    /**
+     * @return array the nodes, for upgrade purposes.
+     */
+    public function get_nodes(): array {
+        return $this->nodes;
+    }
+
+    /**
+     * @return bool the simplify setting, for upgrade purposes.
+     */
+    public function get_simplify(): bool {
+        return $this->simplify;
+    }
 }

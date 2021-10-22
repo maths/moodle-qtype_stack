@@ -391,4 +391,36 @@ class stack_potentialresponse_node {
     public function get_test(): string {
         return $this->answertest;
     }
+
+
+
+    /**
+     * @return object with fields for the branches for the compiled PRT upgrade
+     */
+    public function summarise_branches_extended() {
+        $summary = new stdClass();
+        $summary->nodeid              = $this->nodeid;
+        $summary->nodename            = '' . $this->nodeid;
+        $summary->quiet               = $this->quiet;
+        $summary->answertest          = $this->answertest;
+        $summary->testoptions         = $this->atoptions;
+
+        $summary->falsenextnode       = '' . $this->branches[false]['nextnode'];
+        $summary->falseanswernote     = $this->branches[false]['answernote'];
+        $summary->falsescore          = $this->branches[false]['score'];
+        $summary->falsescoremode      = $this->branches[false]['scoremodification'];
+        $summary->falsepenalty        = $this->branches[false]['penalty'];
+        $summary->falsefeedback       = $this->branches[false]['feedback'];
+        $summary->falsefeedbackformat = $this->branches[false]['feedbackformat'];
+
+        $summary->truenextnode        = '' . $this->branches[true]['nextnode'];
+        $summary->trueanswernote      = $this->branches[true]['answernote'];
+        $summary->truescore           = $this->branches[true]['score'];
+        $summary->truescoremode       = $this->branches[true]['scoremodification'];
+        $summary->truepenalty         = $this->branches[true]['penalty'];
+        $summary->truefeedback        = $this->branches[true]['feedback'];
+        $summary->truefeedbackformat  = $this->branches[true]['feedbackformat'];
+
+        return $summary;
+    }
 }

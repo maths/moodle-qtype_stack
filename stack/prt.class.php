@@ -165,6 +165,12 @@ class stack_potentialresponse_tree_lite {
         // guard clauses... nice feature of acyclic graphs... drops the orphans too.
         $order   = [];
         $visited = [];
+
+        // Due to the old system we need to guess the firstnode if it is not defined.
+        if ($this->firstnode === null || $this->firstnode === '') {
+            $this->firstnode = array_keys($this->nodes)[0];
+        }
+        
         $this->po_recurse($this->nodes[$this->firstnode], $order, $visited);
         return array_reverse($order);
     }
@@ -346,6 +352,18 @@ class stack_potentialresponse_tree_lite {
     }
 
     private function compile_node($node, $usage, $defaultpenalty, $security): array {
+        // In the old system there is a hack that covers some options lets repeat that here:
+        /*
+         * For some tests there is an option assume_pos. This will be evaluated by maxima (since this is also the name
+         * of a maxima variable).  So, we need to protect the name from being evaluated.
+         */
+        $op = $node->testoptions;
+        $reps = array('assume_pos' => 'assumepos', 'assume_real' => 'assumereal');
+        foreach ($reps as $key => $val) {
+            $op = str_replace($key, $val, $op);
+        }
+        $node->testoptions = $op;
+
     	// Start by turning simplification off for the call of the answer-test.
     	// Or on...
     	// Really all tests should be so that one calls them without simplification

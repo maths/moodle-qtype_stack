@@ -54,7 +54,15 @@ class stack_potentialresponse_tree_lite {
      **/
     private $feedbackstyle;
 
-    public function __construct($prtdata) {
+    /**
+     * A reference to the question to be used for constructing debug messages.
+     * DO NOT USE FOR ANYTHING ELSE. Necessary, as we need to know about inputs
+     * and other details when building those messages but do not need about those 
+     * details otherewise.
+     */
+    private $question = null;
+
+    public function __construct($prtdata, $question = null) {
         $this->name          = $prtdata->name;
 		$this->simplify      = (bool) $prtdata->autosimplify;
 		$this->feedbackstyle = (int) $prtdata->feedbackstyle;
@@ -68,6 +76,9 @@ class stack_potentialresponse_tree_lite {
         $this->firstnode = (string) $prtdata->firstnodename;
         // Do nothing else, this is just a holder of data that will fetch things on demand
         // and even then just to be cached.
+        
+        $this->question = $question; // DO NOT USE!
+        // Only for get_maxima_representation() and other debug details.
     }
 
     public function get_value() {
@@ -123,11 +134,38 @@ class stack_potentialresponse_tree_lite {
      * @return string Representation of the PRT for Maxima offline use.
      */
     public function get_maxima_representation() {
-        // What? The full compiled thing or something else?
-        // Probably needs pretty printting if the full compiled thing.
-        // Also probably should drop the feedback bits from it if doing output.
-        // Probably parse the compiled one and filter out items dealing with feedback.
-        return 'TODO MAXIMA REPRESENTATION';
+        // Get the compiled one and work on it:
+        $code = $this->question->get_cached('prt-definition')[$this->name];
+
+        // Parse that and remove some less relevant parts.
+        $ast = maxima_parser_utils::parse($code);
+        // Remove the feedback rendering parts, no need to see that CASText2.
+        $clean = function ($node) {
+            if ($node instanceof MP_Operation && $node->op === ':'
+                && $node->lhs instanceof MP_Atom && $node->lhs->value === '%PRT_FEEDBACK') {
+                if ($node->parentnode instanceof MP_Group) {
+                    $i = array_search($node, $node->parentnode->items);
+                    unset($node->parentnode->items[$i]);
+                    return false;
+                } else if ($node->parentnode instanceof MP_FunctionCall
+                           && $node->parentnode->name instanceof MP_Atom 
+                           && $node->parentnode->name->value === 'errcatch'
+                           && $node->parentnode->parentnode->parentnode instanceof MP_Group) {
+                    $i = array_search($node->parentnode->parentnode, $node->parentnode->parentnode->parentnode->items);
+                    unset($node->parentnode->parentnode->parentnode->items[$i]);
+                    return false;
+                } else if ($node->parentnode instanceof MP_If
+                           && $node->parentnode->parentnode instanceof MP_Group) {
+                    $i = array_search($node->parentnode, $node->parentnode->parentnode->items);
+                    unset($node->parentnode->parentnode->items[$i]);
+                    return false;
+                }
+            } 
+            return true;
+        };
+        while ($ast->callbackRecurse($clean) !== true) {}
+
+        return $ast->toString(['pretty' => true]);
     }
 
     /**
@@ -251,6 +289,10 @@ class stack_potentialresponse_tree_lite {
     			'%PRT_PATH:[],' . // The nodes visited and their answertest notes.
                 '%PRT_EXIT_NOTE: [],' . // The notes for nodes not the answertests.
     			'%_EXITS:{},'; // This tracks the exits from nodes so that we can decide the next node.
+
+        if ($this->feedbackvariables === null) {
+            $this->feedbackvariables = '';
+        }
 
     	$fv = new stack_cas_keyval($this->feedbackvariables);
         $fv->set_security($security);

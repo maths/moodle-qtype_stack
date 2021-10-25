@@ -509,7 +509,7 @@ class qtype_stack extends question_type {
 
         $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
         foreach ($prtnames as $name) {
-            $question->prts[$name] = new stack_potentialresponse_tree_lite($questiondata->prts[$name]);
+            $question->prts[$name] = new stack_potentialresponse_tree_lite($questiondata->prts[$name], $question);
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);
@@ -2275,6 +2275,12 @@ class qtype_stack extends question_type {
             return array();
         }
 
+        // Note in real use we would simply read this from the compiled-cache
+        // and would let it find out if need be, but the assumption is that 
+        // at this moment it is not possible. Basically:
+        //    $question->get_cached('required')[$prtname]
+
+
         // TODO fix this. At the moment it only considers the data from the unedited
         // question. We should take into account any changes made since the
         // form was first shown, for example adding or removing nodes, or changing
@@ -2287,7 +2293,7 @@ class qtype_stack extends question_type {
         }
         $prt = $question->prts[$prtname];
 
-        $prt = new stack_potentialresponse_tree_lite($prt);
+        $prt = new stack_potentialresponse_tree_lite($prt, $question);
 
         // Just do the full compile it does all the checking including feedback.
         $compile['required'] = array();

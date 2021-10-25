@@ -2,6 +2,20 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.4
+
+To be released X 2022
+
+Major rewrite of the PRT and CASText systems, focus on performance and limitations of the previous systems.
+
+* PRTs are now true `if`-statements in the CAS and issue #150 is now handled.
+* Markdown is now a supportted format and value injections into it will get correctly escaped.
+* CASText2 is the new CASText-system and it supports mixed formats and provides new blocks for declaring formats.
+* There are now means of including external code and CASText fragments from an URL.
+* Inline CASText is now a feature, it will become relevant in the future as a way for constructing complex MCQ-labels in the future input-system.
+* The number of CAS-evaluation sessions has been cut down significantly. Conversely, the amount of things happening in a single CAS-session has grown significantly. This may affect your Maxima load and the size of the CAS-cache. You may need to retune your operation if you have fine tuned it based on those details.
+
+
 ## Version 4.3.9
 
 Released July 2021.

@@ -26,11 +26,11 @@ defined('MOODLE_INTERNAL') || die();
 
 
 $plugin->version   = 2021102100;
-$plugin->requires  = 2018051700;
+$plugin->requires  = 2020061500;
 $plugin->cron      = 0;
 $plugin->component = 'qtype_stack';
 $plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '4.3.10 for Moodle 3.5+';
+$plugin->release   = '4.4.0 (alpha) for Moodle 3.9+';
 
 $plugin->dependencies = array(
     'qbehaviour_adaptivemultipart'     => 2020103000,

@@ -57,10 +57,15 @@ class prt_evaluatable implements cas_raw_value_extractor {
 
 	private $weight = 1;
 
-    public function __construct(string $signature, $weight = 1) {
+    // Because we do not want to transfer large static strings to CAS we use a store that contains those values
+    // and replace them into the result once eberything is complete.
+    private $statics = null;
+
+    public function __construct(string $signature, $weight = 1, castext2_static_replacer $statics) {
     	$this->signature = $signature;
     	$this->weight = $weight;
         $this->errors = [];
+        $this->statics = $statics;
     }
 
 
@@ -167,8 +172,15 @@ class prt_evaluatable implements cas_raw_value_extractor {
             if (is_string($this->feedback)) {
                 // If it was flat.
                 $this->renderedfeedback  = stack_utils::maxima_string_to_php_string($this->feedback);
+                if ($this->statics !== null) {
+                    $this->evaluated = $this->statics->replace($this->evaluated);
+                }
             } else {
                 $value = castext2_parser_utils::unpack_maxima_strings($this->feedback);
+                if ($this->statics !== null) { 
+                    // This needs to happen before the postprocessing.
+                    $value = $this->statics->replace($value);
+                }
                 $this->renderedfeedback = castext2_parser_utils::postprocess_parsed($value, $processor);
             }
             

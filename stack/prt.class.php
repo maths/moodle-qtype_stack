@@ -201,6 +201,26 @@ class stack_potentialresponse_tree_lite {
         return $summary;
     }
 
+
+    /**
+     * @return array Languages used in the feedback.
+     */
+    public function get_feedback_languages() {
+        $ml = new stack_multilang();
+        $langs = array();
+        $ml = new stack_multilang();
+        foreach ($this->nodes as $key => $node) {
+            $langs[$key] = [];
+            if ($node->truefeedback !== null && $node->truefeedback !== '') {
+                $langs[$key]['true'] = $ml->languages_used($node->truefeedback);
+            }
+            if ($node->falsefeedback !== null && $node->falsefeedback !== '') {
+                $langs[$key]['false'] = $ml->languages_used($node->falsefeedback);
+            }
+        }
+        return $langs;
+    }
+
     private function po_recurse($node, array &$postorder, array &$visited): array {
         $truenode                 = $this->get_node($node->truenextnode);
         $falsenode                = $this->get_node($node->falsenextnode);
@@ -450,7 +470,7 @@ class stack_potentialresponse_tree_lite {
 
 		// Those were the branch neutral parts, now the branches.
 		$body .= 'if %_TMP[2] then (';
-        $body .= '%PRT_EXIT_NOTE:append(%PRT_EXIT_NOTE, [' . stack_utils::php_string_to_maxima_string($node->trueanswernote) . ']),';
+        $body .= '%PRT_EXIT_NOTE:append(%PRT_EXIT_NOTE, [' . stack_utils::php_string_to_maxima_string($node->trueanswernote) . '])';
 		// The true branch.
         if (!$this->is_formative()) { // No need for formative. Or do we calculate for analysis?
     		$s = $node->truescore;
@@ -486,16 +506,16 @@ class stack_potentialresponse_tree_lite {
             // TODO: trace the original logic and check how these are tied to each other.
             switch ($node->truescoremode) {
                 case '+':
-                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p;
+                    $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p;
                     break;
                 case '-':
-                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE-%_TMP,' . $p;
+                    $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE-%_TMP,' . $p;
                     break;
                 case '*':
-                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE*%_TMP,' . $p;
+                    $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE*%_TMP,' . $p;
                     break;
                 default: # '='
-                    $body .= $s . ',%PRT_SCORE:%_TMP,' . $p;
+                    $body .= ',' . $s . ',%PRT_SCORE:%_TMP,' . $p;
                     break;
             }
         }
@@ -525,7 +545,7 @@ class stack_potentialresponse_tree_lite {
 		}
 
 		$body .= ') else (';
-        $body .= '%PRT_EXIT_NOTE:append(%PRT_EXIT_NOTE, [' . stack_utils::php_string_to_maxima_string($node->falseanswernote) . ']),';
+        $body .= '%PRT_EXIT_NOTE:append(%PRT_EXIT_NOTE, [' . stack_utils::php_string_to_maxima_string($node->falseanswernote) . '])';
 		// The false branch.
         if (!$this->is_formative()) { // No need for formative.
             $s = $node->falsescore;
@@ -561,16 +581,16 @@ class stack_potentialresponse_tree_lite {
             // TODO: trace the original logic and check how these are tied to each other.
             switch ($node->falsescoremode) {
                 case '+':
-                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p;
+                    $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p;
                     break;
                 case '-':
-                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE-%_TMP,' . $p;
+                    $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE-%_TMP,' . $p;
                     break;
                 case '*':
-                    $body .= $s . ',%PRT_SCORE:%PRT_SCORE*%_TMP,' . $p;
+                    $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE*%_TMP,' . $p;
                     break;
                 default: # '='
-                    $body .= $s . ',%PRT_SCORE:%_TMP,' . $p;
+                    $body .= ',' . $s . ',%PRT_SCORE:%_TMP,' . $p;
                     break;
             }
 		}

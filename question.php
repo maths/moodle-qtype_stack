@@ -583,7 +583,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         // We can have a failed question.
         if ($this->get_cached('castext-gf') === null) {
-            $ct = castext2_evaluatable::make_from_compiled('"Broken question."', 'general-feedback', new castext2_static_replacer($this->get_cached('static-castext-strings'))); // This mainly for the bulk-test script.
+            $ct = castext2_evaluatable::make_from_compiled('"Broken question."', 'general-feedback', new castext2_static_replacer([])); // This mainly for the bulk-test script.
             $ct->requires_evaluation(); // Makes it as if it were evaluated.
             return $ct;
         }
@@ -1060,12 +1060,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Alternatively we have a question that could not be compiled.
         if (!array_key_exists($index, $this->prts) || $this->get_cached('units') === null) {
             // Bail here with an empty state to avoid a later exception which prevents question test editing.
-            return new prt_evaluatable('prt_' . $index . '(???)', 1);
+            return new prt_evaluatable('prt_' . $index . '(???)', 1, new castext2_static_replacer([]));
         }
 
         // If we do not have inputs for this then no need to continue.
         if (!$this->has_necessary_prt_inputs($this->prts[$index], $response, $acceptvalid)) {
-            $this->prtresults[$index] = new prt_evaluatable($this->get_cached('prt-signature')[$index], $this->prts[$index]->get_value());
+            $this->prtresults[$index] = new prt_evaluatable($this->get_cached('prt-signature')[$index], $this->prts[$index]->get_value(), new castext2_static_replacer($this->get_cached('static-castext-strings')));
             return $this->prtresults[$index];
         }
 
@@ -1142,7 +1142,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // Generate, cache and instantiate the results.
         foreach ($this->prts as $name => $prt) {
-            $p = new prt_evaluatable($this->get_cached('prt-signature')[$name], $prt->get_value());
+            $p = new prt_evaluatable($this->get_cached('prt-signature')[$name], $prt->get_value(), new castext2_static_replacer($this->get_cached('static-castext-strings')));
             if (isset($prts[$name])) {
                 // Always manke sure it get called wit simp:false
                 $session->add_statement(new stack_secure_loader('simp:false', 'prt-simplification'));
@@ -1518,6 +1518,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($this->prts as $prt) {
             foreach ($prt->get_feedback_languages() as $nodes) {
                 // The nodekey is really the answernote from one branch of the node.
+                // No actually it is not in the new PRT-system, it's just 'true' or 'false'.
                 foreach ($nodes as $nodekey => $langs) {
                     foreach ($qlangs as $expectedlang) {
                         if (!in_array($expectedlang, $langs)) {
@@ -1806,6 +1807,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if (strpos($k, 'castext-') === 0) {
                 $val = $map->extract($v);
                 $cc[$k] = $val;
+            }
+        }
+        // Also deal with the PRTs, the compiled function may contain large feedback portions.
+        if (isset($cc['prt-definition'])) {
+            foreach ($cc['prt-definition'] as $k => $v) {
+                $cc['prt-definition'][$k] = $map->extract($v);
             }
         }
         $cc['static-castext-strings'] = $map->get_map();

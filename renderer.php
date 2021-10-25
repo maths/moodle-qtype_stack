@@ -464,11 +464,11 @@ class qtype_stack_renderer extends qtype_renderer {
             }
 
             $result = $question->get_prt_result($name, $relevantresponse, $qa->get_state()->is_finished());
-            if (is_null($result->valid)) {
+            if (is_null($result->get_valid())) {
                 continue;
             }
 
-            $fraction += $result->fraction;
+            $fraction += $result->get_fraction();
         }
 
         if (is_null($fraction)) {

@@ -183,6 +183,24 @@ class stack_potentialresponse_tree_lite {
     	return null;
     }
 
+    // Summary of the nodes, for use in various logics that track answernotes and scores.
+    public function get_nodes_summary(): array {
+        $summary = [];
+        foreach ($this->nodes as $node) {
+            $n = new stdClass();
+            $n->truenextnode   = $node->truenextnode;
+            $n->truenote       = $node->trueanswernote;
+            $n->truescore      = $node->truescore;
+            $n->truescoremode  = $node->truescoremode;
+            $n->falsenextnode  = $node->falsenextnode;
+            $n->falsenote      = $node->falseanswernote;
+            $n->falsescore     = $node->falsescore;
+            $n->falsescoremode = $node->falsescoremode;
+            $summary[$node->nodename] = $n;
+        }
+        return $summary;
+    }
+
     private function po_recurse($node, array &$postorder, array &$visited): array {
         $truenode                 = $this->get_node($node->truenextnode);
         $falsenode                = $this->get_node($node->falsenextnode);

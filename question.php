@@ -1338,21 +1338,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 continue;
             }
 
-            $prtinput = $this->get_prt_input($index, $response, true);
+            $results = $this->get_prt_result($index, $response, true);
 
-            $results = $this->prts[$index]->evaluate_response($this->session,
-                    $this->options, $prtinput, $this->seed);
-
-            $answernotes = implode(' | ', $results->answernotes);
+            $answernotes = implode(' | ', $results->get_answernotes());
 
             foreach ($prt->get_nodes_summary() as $nodeid => $choices) {
-                if (in_array($choices->truenote, $results->answernotes)) {
+                if (in_array($choices->truenote, $results->get_answernotes())) {
                     $classification[$index . '-' . $nodeid] = new question_classified_response(
-                            $choices->truenote, $answernotes, $results->fraction);
+                            $choices->truenote, $answernotes, $results->get_fraction());
 
-                } else if (in_array($choices->falsenote, $results->answernotes)) {
+                } else if (in_array($choices->falsenote, $results->get_answernotes())) {
                     $classification[$index . '-' . $nodeid] = new question_classified_response(
-                            $choices->falsenote, $answernotes, $results->fraction);
+                            $choices->falsenote, $answernotes, $results->get_fraction());
 
                 } else {
                     $classification[$index . '-' . $nodeid] = question_classified_response::no_response();

@@ -110,6 +110,8 @@ noun_arith_full(ex) := block([a],
     ex:subst(lambda([ex1, ex2], ex1 noun* (UNARY_RECIP ex2)), "/", ex),
     /* Now we have the rules based tests we don't replace UNARY_RECIP. */
     ex:ev(subst("noun^", "^", ex)),
+    /* See docs on exp: Instances of 'exp (<x>)' in input are simplified to '%e^<x>'; 'exp' does not appear in simplified expressions. */
+    ex:ev(subst(lambda([ex2],%e noun^ ex2), exp, ex)),
     ev(ex)
 )$
 

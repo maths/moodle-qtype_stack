@@ -662,6 +662,9 @@ class stack_answertest_test_data {
         array('EqualComAss', '', '1/3*logbase(27,6)', 'logbase(27,6)/3', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', '1/3*lg(27,6)', 'lg(27,6)/3', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', 'lg(root(x, n))', 'lg(x, 10)/n', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
+        array('EqualComAss', '', 'exp(x)', '%e^x', 1, '', ''),
+        array('EqualComAss', '', 'exp(x)^2', '%e^(2*x)', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
+        array('EqualComAss', '', 'exp(x)^2', '(%e^(x))^2', 1, '', ''),
         array('EqualComAss', '', '1/3*i', 'i/3', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', '%i', 'e^(i*pi/2)', 0, 'ATEqualComAss (AlgEquiv-true).', 'Complex numbers'),
         array('EqualComAss', '', '(4*sqrt(3)*%i+4)^(1/5)', 'rectform((4*sqrt(3)*%i+4)^(1/5))', 0,
@@ -760,6 +763,11 @@ class stack_answertest_test_data {
         array('EqualComAssRules', 'ID_TRANS', '0-i', '-i', 1, '', ''),
         array('EqualComAssRules', 'ID_TRANS', '2+1*i', '2+i', 1, '', ''),
         array('EqualComAssRules', 'ID_TRANS', 'x^0+x^1/1+x^2/2+x^3/3!+x^4/4!', '1+x+x^2/2+x^3/3!+x^4/4!', 1, '', ''),
+        // Illustrate the difference between exp and e^x.
+        array('EqualComAssRules', '[testdebug,ID_TRANS]', '%e^x', 'exp(x)', 1, 'ATEqualComAssRules: [%e noun^ x,%e noun^ x].', ''),
+        array('EqualComAssRules', 'ID_TRANS', '12*%e^((2*(%pi/2)*%i)/2)', '12*exp(%i*(%pi/2))', 0, '', ''),
+        array('EqualComAssRules', '[ID_TRANS,[negNeg,negDiv,negOrd],' .
+            '[recipMul,divDiv,divCancel],[intAdd,intMul,intPow]]', '12*%e^((2*(%pi/2)*%i)/2)', '12*exp(%i*(%pi/2))', 1, '', ''),
         // This one is tricky.  1-1 is not literally zero here, so the rule zeroPow applies.
         // Try transl(0^(1-1),ID_TRANS); in the Maxima sandbox.
         // The answer test avoids this by throwing a Maxima error before the rules generate a problem.

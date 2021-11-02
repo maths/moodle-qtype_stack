@@ -3095,6 +3095,10 @@ table_difference(T1, T2) := table_zip_with(lambda([ex1,ex2], if ex1=ex2 then ex1
 /* Slight hack to compile these functions and hence suppress warnings. */
 load(linearalgebra);
 
+/* Initialise the language-code delivery, for special cases. */
+%_STACK_LANG: "en"$
+is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
+
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2021102100$
+stackmaximaversion:2021110100$

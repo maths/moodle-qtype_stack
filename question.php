@@ -334,6 +334,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // Construct the security object. But first units declaration into the session.
             $units = (boolean) $this->get_cached('units');
 
+            // If we are using localisation we should tell the CAS side logic about it.
+            // For castext rendering and other tasks.
+            if (count($this->get_cached('langs')) > 0) {
+                $ml = new stack_multilang();
+                $selected = $ml->pick_lang($this->get_cached('langs'));
+                $session->add_statement(new stack_secure_loader('%_STACK_LANG:' . stack_utils::php_string_to_maxima_string($selected),
+                        'language setting'), false);
+            }
+
             // If we have units we might as well include the units declaration in the session.
             // To simplify authors work and remove the need to call that long function.
             // TODO: Maybe add this to the preable to save lines, but for now documented here.
@@ -1634,6 +1643,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      *  'castext-...' for the model-solution and prtpartiallycorrect etc.
      *  'security-context' details about types and redefinitions of identifiers.
      *  'prt-*' the compiled PRT-logics in an array. Divided by usage.
+     *  'langs' a list of language codes used in this question.
      *
      * In the future expect the following:
      *  'security-config' extended logic for cas-security, e.g. custom-units.
@@ -1698,6 +1708,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
 
+        // Collect the language codes in use. For our purposes the question-text 
+        // is all that is needed. Other places may have other values but these are
+        // enough after all the validations have passed.
+        $ml = new stack_multilang();
+        $cc['langs'] = $ml->languages_used($questiontext);
+        
         // Then do some basic detail collection related to the inputs and PRTs.
         foreach ($inputs as $input) {
             if (is_a($input, 'stack_units_input')) {
@@ -1835,7 +1851,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $si[$key][-2] = -2;
         }
         $cc['security-context'] = $si;
-
 
         return $cc;
     }

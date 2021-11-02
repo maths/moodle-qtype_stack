@@ -58,6 +58,7 @@ class castext2_parser_utils {
             foreach ($node->validate_extract_attributes() as $cs) {
                 $css[] = $cs;
             }
+            return true;
         };
         $root->callbackRecurse($collectstrings);
         return $css;
@@ -173,7 +174,7 @@ class castext2_parser_utils {
                      */
                     }
                 }
-                // Pick the nodes that affect formats adn faint the areas that have changed their format.
+                // Pick the nodes that affect formats and paint the areas that have changed their format.
                 $fmt = null;
                 switch ($node->name) {
                     case 'demoodle':
@@ -318,33 +319,6 @@ class castext2_parser_utils {
         if ($old !== 'UTF-8') {
             mb_internal_encoding($old);
         }
-
-        // DBG: TODO remove, seems to paint correctly.
-        /*
-        $fmt = [];
-        $mm = [];
-        $chars = preg_split('//u', $code, -1, PREG_SPLIT_NO_EMPTY);
-        for ($i = 0; $i < mb_strlen($code); $i++) {
-            if ($chars[$i] === ' ' || $chars[$i] === "\n") {
-                $fmt[] = $chars[$i];
-                $mm[] = $chars[$i];
-            } else {
-                if ($formatmap[$i] === self::MDFORMAT) {
-                    $fmt[] = 'M';
-                } else {
-                    $fmt[] = 'H';
-                }
-
-                if (isset($mathmodes[$i])) {
-                    $mm[] = $mathmodes[$i] ? '1' : '0';
-                } else {
-                    $mm[] = '?';
-                }
-            }
-        }
-        print ("FMT: " . implode('', $fmt) . "\n\n");
-        print ("MM: " . implode('', $mm) . "\n\n");
-        */
        
         return $ast;
     }

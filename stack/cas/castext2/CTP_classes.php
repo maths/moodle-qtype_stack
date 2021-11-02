@@ -23,6 +23,7 @@ declare(strict_types = 1);
  */
 
  class CTP_Node {
+  public $parent = null;
   public $position = null;
   public $mathmode = false;
   public function __construct(){
@@ -41,6 +42,7 @@ declare(strict_types = 1);
   public function callbackRecurse($function) {
     $children = $this->getChildren();
    for ($i = 0; $i < count($children); $i++) {
+    $children[$i]->parent = $this;
     // Not a foreach as the list may change.
     if ($function($children[$i]) !== true) {
      return false;
@@ -50,6 +52,12 @@ declare(strict_types = 1);
     }
    }
    return true;
+  }
+  public function removeChild(CTP_Node $node) {
+   return "[NO REMOVECHILD FOR ".get_class($this)."]"; 
+  }  
+  public function insertChild(CTP_Node $node, $before = null) {
+   return "[NO INSERTCHILD FOR ".get_class($this)."]"; 
   }
  }
 
@@ -67,7 +75,25 @@ declare(strict_types = 1);
    foreach ($this->items as $item)
     $r .= $item->toString($params);
    return $r;
- }
+  }
+  public function removeChild(CTP_Node $node) {
+   $i = array_search($node, $this->items);
+   if ($i !== false) {
+    array_splice($this->items, $i, 1);
+   } 
+  }
+  public function insertChild(CTP_Node $node, $before = null) {
+   if ($before === null) {
+    $this->items[] = $node;
+   } else {
+    $i = array_search($node, $this->items, true);
+    if ($i === false) {
+      $this->items[] = $node;
+    } else {
+      $this->items = array_merge(array_slice($this->items, 0, $i), [$node], array_slice($this->items, $i));
+    }
+   }
+  }
 }
 
 
@@ -80,7 +106,7 @@ class CTP_IOBlock extends CTP_Node {
   $this->variable = $variable;
  }
  public function toString($params=array()) {
-  return "[[".$this->channel->toString($params).":".$this->variable->toString($params)."]]";
+  return "[[".$this->channel.":".$this->variable."]]";
  }
 }
 
@@ -207,5 +233,35 @@ class CTP_Block extends CTP_Node {
    }
 
    return $r;
- }
+  }
+  public function removeChild(CTP_Node $node) {
+   $i = array_search($node, $this->contents);
+   if ($i !== false) {
+    array_splice($this->contents, $i, 1);
+   }
+   if ($this->name === 'if' && array_key_exists(' branch lengths', $this->parameters)) {
+    // If we remove an item from an if-block we need to tune the branch borders.
+    foreach ($this->parameters[' branch lengths'] as $b => $v) {
+      if ($v > $i) {
+        $this->parameters[' branch lengths'][$b] = $v - 1;
+      }
+    }
+   }
+  }
+  public function insertChild(CTP_Node $node, $before = null) {
+   if ($before === null) {
+    $this->contents[] = $node;
+   } else {
+    $i = array_search($node, $this->contents);
+    $this->contents = array_merge(array_slice($this->contents, 0, $i), [$node], array_slice($this->contents, $i));
+    if ($this->name === 'if' && array_key_exists(' branch lengths', $this->parameters)) {
+     // If we add an item to an if-block we need to tune the branch borders.
+     foreach ($this->parameters[' branch lengths'] as $b => $v) {
+      if ($v >= $i) {
+       $this->parameters[' branch lengths'][$b] = $v + 1;
+      }
+     }
+    }
+   }
+  }
 }

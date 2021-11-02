@@ -3625,6 +3625,10 @@
   "is_isomorphic": {
       "function": "?"
   },
+  "is_lang": {
+      "function": "t",
+      "built-in": true
+  },
   "is_planar": {
       "function": "?"
   },

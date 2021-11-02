@@ -304,14 +304,14 @@ class stack_multilang {
         }
         $parentlangs = self::$parentcache[$currlang];
 
-        if (array_search($currlang, $langs)) {
+        if (array_search($currlang, $langs) !== false) {
             // If we have that then we use it.
             return $currlang;
         }
 
         // Do we have a parentlanguage that we could try?
         foreach ($parentlangs as $lang) {
-            if (array_search($lang, $langs)) {
+            if (array_search($lang, $langs) !== false) {
                 return $currlang;
             }            
         }
@@ -319,12 +319,12 @@ class stack_multilang {
         // If not then maybe we have a multipart locale name with no parentlang config.
         if (strlen($currlang) == 5 && substr($currlang, 2,1) === '_') {
             $currlang = substr($currlang, 0, 2);
-            if (array_search($currlang, $langs)) {
+            if (array_search($currlang, $langs) !== false) {
                 return $currlang;
             }
         }
 
-        if (array_search('other', $langs)) {
+        if (array_search('other', $langs) !== false) {
             // If 'other' is defined we use it.
             return 'other';
         }

@@ -1055,6 +1055,8 @@ class stack_answertest_test_data {
         array('FacForm', 'x', '(x-a)^6000', '(a-x)^6000', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'a', '2*a*(a*b-1)', '2*a*(a*b-1)', 1, 'ATFacForm_true.', 'Needs flattening'),
         array('FacForm', 'a', '(2*a)*(a*b-1)', '2*a*(a*b-1)', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'x', '3*x*(7*y-3)*(7*y+3)', '3*x*(7*y-3)*(7*y+3)', 1, 'ATFacForm_true.', ''),
+        array('FacForm', 'y', '3*x*(7*y-3)*(7*y+3)', '3*x*(7*y-3)*(7*y+3)', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'sin(x)', '(sin(x)+1)*(sin(x)-1)', 'sin(x)^2-1', 1, 'ATFacForm_true.', 'Not polynomials in a variable'),
         array('FacForm', 'cos(t)', '(cos(t)-sqrt(2))^2', 'cos(t)^2-2*sqrt(2)*cos(t)+2', 1, 'ATFacForm_true.', ''),
         array('FacForm', 'x', '7', '7', 1, 'ATFacForm_int_true.', ''),

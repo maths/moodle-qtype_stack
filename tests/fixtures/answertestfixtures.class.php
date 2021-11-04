@@ -293,6 +293,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x+y=i', 'y=i-x', 1, '', ''),
         array('AlgEquiv', '', '(1+%i)*(x+y)=0', 'y=-x', 1, '', ''),
         array('AlgEquiv', '', 's^2*%e^(s*t)=0', 's^2=0', 0, 'ATEquation_default', ''),
+        array('AlgEquiv', '', '0=-x+y/A+(y-z)/B', '0=x-y/A-(y-z)/B', 1, '', ''),
         array('AlgEquiv', '', 'x^6000-x^6001=x^5999', 'x^5999*(1-x+x^2)=0', 1, 'ATEquation_ratio', ''),
         array('AlgEquiv', '', 'x^6000-x^6001=x^5999', 'x^5999*(1-x+x^3)=0', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', '258552*x^7*(81*x^8+1)^398', 'x^3*(x^4+1)^399', 0, '', ''),

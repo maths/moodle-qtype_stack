@@ -1641,6 +1641,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      *  'castext-qt' for the question-text as compiled CASText2.
      *  'castext-qn' for the question-note as compiled CASText2.
      *  'castext-...' for the model-solution and prtpartiallycorrect etc.
+     *  'castext-td-...' for downloadable generated text content.
      *  'security-context' details about types and redefinitions of identifiers.
      *  'prt-*' the compiled PRT-logics in an array. Divided by usage.
      *  'langs' a list of language codes used in this question.
@@ -1770,6 +1771,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             throw new stack_exception('Error(s) in question-text: ' . implode('; ', $ct->get_errors()));
         } else {
             $cc['castext-qt'] = $ct->get_evaluationform();
+            // Note that only with "question-text" may we get inlined downloads.
+            foreach ($ct->get_special_content() as $key => $values) {
+                if ($key === 'text-download') {
+                    foreach ($values as $k => $v) {
+                        $cc['castext-td-' . $k] = $v;
+                    }
+                }
+            }
         }
 
         $ct = castext2_evaluatable::make_from_source($questionnote, 'question-note');
@@ -1816,7 +1825,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // Do static string extraction from the castext-code, save CAS-bandwidth and cache size.
         // Note! This might be something one wants to toggle for some debug use. But that would
-        // be some other level of debug thatn what we currently have.
+        // be some other level of debug than what we currently have.
         // This is one of those things that MecLib made us do.
         $map = new castext2_static_replacer([]);
         foreach ($cc as $k => $v) {

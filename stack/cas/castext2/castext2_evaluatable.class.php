@@ -19,6 +19,7 @@ require_once(__DIR__ . '/../cassecurity.class.php');
 require_once(__DIR__ . '/castext2_static_replacer.class.php');
 require_once(__DIR__ . '/utils.php');
 require_once(__DIR__ . '/blocks/root.specialblock.php');
+require_once(__DIR__ . '/blocks/textdownload.block.php');
 
 /**
  * A wrapper class encapsulating castext2 evaluation logic. Push one of
@@ -46,6 +47,9 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     // and replace them into the result once eberything is complete.
     private $statics = null;
 
+    // Values from blocks that escape the context.
+    private $special = [];
+
     public static function make_from_compiled(string $compiled, string $context, castext2_static_replacer $statics): castext2_evaluatable {
         $r = new castext2_evaluatable();
         $r->valid = true; // The compiled fragment is assumed to be validated.
@@ -60,6 +64,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         $r = new castext2_evaluatable();
         $r->source = $source;
         $r->context = $context;
+        $r->special = [];
 
         if ($source === '' || $source === null) {
             // This case is common enough to skip.
@@ -153,7 +158,36 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         }
 
         if ($this->valid) {
+            if ($this->context === 'question-text' || $this->context === 'scene-text' || $this->context === 'validation-questiontext') {
+                $options['in main content'] = true;
+            }
+
             $this->compiled = $root->compile($format, $options);
+
+            $err = [];
+            $valid = true;
+            // Check for specials. After compile.
+            // Bring out errors from them.
+            $special = [];
+            $specialsearch = function ($node) use (&$special, &$err, &$valid, &$sec) {
+                if ($node instanceof stack_cas_castext2_textdownload) {
+                    foreach ($node->params['text-download-content'] as $k => $v) {
+                        $astc = stack_ast_container::make_from_teacher_source($v, 'textdownload', $sec);
+                        if (!$astc->get_valid()) {
+                            $valid = false;
+                            $err = array_merge($err, $astc->get_errors());
+                        }
+                        if (!isset($special['text-download'])) {
+                            $special['text-download'] = [];
+                        }
+                        $special['text-download'][$k] = $v;
+                    }
+                }
+            };
+            $root->callbackRecurse($specialsearch);
+            $this->special = $special;
+            $this->valid = $this->valid && $valid;
+            $this->errors = array_merge($this->errors, $err);
         }
         return $this->valid;
     }
@@ -230,5 +264,14 @@ class castext2_evaluatable implements cas_raw_value_extractor {
             return implode(', ', $this->errors);
         }
         return $this->errors;
+    }
+
+    /**
+     * Returns special content like the separately stored code fragments
+     * related to downloadable text-files. Only call this after validation of
+     * source based construction.
+     */
+    public function get_special_content(): array {
+        return $this->special;
     }
 }

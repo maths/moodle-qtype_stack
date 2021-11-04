@@ -7242,6 +7242,10 @@
       "function": "t",
       "built-in": true
   },
+  "stack_csv_formatter": {
+      "function": "t",
+      "built-in": true
+  },
   "stack_unknown_integer": {
       "variable": "t",
       "built-in": true

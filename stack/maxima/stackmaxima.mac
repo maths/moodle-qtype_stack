@@ -1383,6 +1383,10 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, Rationalex1, Rat
     if algebraic_equivalence(lhs(SA), rhs(SA)) then SA:all,
     if algebraic_equivalence(lhs(SB), rhs(SB)) then SB:all,
 
+    /* If we have one side is zero, then make sure it is the rhs. */
+    if algebraic_equivalence(lhs(SA),0) then SA:rhs(SA)=0,
+    if algebraic_equivalence(lhs(SB),0) then SB:rhs(SB)=0,
+
     /* Trap edge cases.                                                              */
     edgecase:false,
     if logic_edgep(SA) or logic_edgep(SB) then edgecase:true,

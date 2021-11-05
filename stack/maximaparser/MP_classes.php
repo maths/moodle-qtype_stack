@@ -1450,6 +1450,20 @@ class MP_List extends MP_Node {
             }
         }
     }
+
+    public function insertChild(MP_Node $node, $before = null) {
+        if ($before === null) {
+            $this->replace(-1, $node);
+        } else {
+            $i = array_search($before, $this->items, true);
+            $this->items = array_merge(array_slice($this->items, 0, $i), [$node], array_slice($this->items, $i));
+        }
+    }
+
+    public function removeChild(MP_Node $node) {
+        $i = array_search($node, $this->items, true);
+        array_splice($this->items, $i, 1);
+    }
 }
 
 class MP_PrefixOp extends MP_Node {

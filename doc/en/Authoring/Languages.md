@@ -16,7 +16,7 @@ The block is used like this:
 
 It is also usable in inline CASText2:
 
-    labels: [castext("[[lang code='en']]Like this {@...@}[[/lang]]..."),...];
+    lbls: [castext("[[lang code='en']]Like this {@...@}[[/lang]]..."),...];
 
 Nested language blocks will not get displayed unless they have matching codes, so you may not use `en` wrapper and `en_gb`, `en_us` within it to fine tune things. Only one code will match in the whole question
 so if the VLE uses `en_us` and it is found in the question at any place then that is the only code that matches.

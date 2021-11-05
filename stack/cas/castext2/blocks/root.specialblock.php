@@ -143,11 +143,15 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                 // needs to be able to deal with them and PRTs and input2 trickery become simpler
                 // if we support this.
                 $good = true;
+                $same = false;
                 $p = $node->parentnode;
                 while ($p !== null) {
                     if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
-                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat')) {
+                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph')) {
                         $good =false;
+                        if ($p->items[0]->value === 'demarkdown') {
+                            $same = true;
+                        }
                         break;
                     }
                     $p = $p->parentnode;
@@ -158,6 +162,15 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                     $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
                     return false;
                 }
+                if ($same) {
+                    // Same format nested can merge.
+                    if ($node->parentnode instanceof MP_List) {
+                        for ($i = 1; $i < count($node->items); $i++) {
+                            $node->parentnode->insertChild($node->items[$i], $node);
+                        }
+                        $node->parentnode->removeChild($node);
+                    }
+                }
             }
             if ($node instanceof MP_List && count($node->items) == 2 && 
                 $node->items[0] instanceof MP_String && 
@@ -165,11 +178,15 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                 $node->items[0]->value === 'demoodle') {
                 // Same for Moodle auto-format
                 $good = true;
+                $same = false;
                 $p = $node->parentnode;
                 while ($p !== null) {
                     if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
-                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat')) {
+                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph')) {
                         $good =false;
+                        if ($p->items[0]->value === 'demoodle') {
+                            $same = true;
+                        }
                         break;
                     }
                     $p = $p->parentnode;
@@ -180,17 +197,30 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                     $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
                     return false;
                 }
+                if ($same) {
+                    // Same format nested can merge.
+                    if ($node->parentnode instanceof MP_List) {
+                        for ($i = 1; $i < count($node->items); $i++) {
+                            $node->parentnode->insertChild($node->items[$i], $node);
+                        }
+                        $node->parentnode->removeChild($node);
+                    }
+                }
             }
             if ($node instanceof MP_List && count($node->items) == 2 && 
                 $node->items[0] instanceof MP_String && 
                 $node->items[1] instanceof MP_String && 
                 $node->items[0]->value === 'htmlformat') {
-                // Same for Moodle auto-format
+                // Same for html-format
                 $good = true;
+                $same = false;
                 $p = $node->parentnode;
                 while ($p !== null) {
                     if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
-                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat')) {
+                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph')) {
+                        if ($p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph') {
+                            $same = true;
+                        }
                         $good =false;
                         break;
                     }
@@ -199,6 +229,15 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                 if ($good) {
                     $node->parentnode->replace($node, $node->items[1]);
                     return false;
+                }
+                if ($same) {
+                    // Same format nested can merge.
+                    if ($node->parentnode instanceof MP_List) {
+                        for ($i = 1; $i < count($node->items); $i++) {
+                            $node->parentnode->insertChild($node->items[$i], $node);
+                        }
+                        $node->parentnode->removeChild($node);
+                    }
                 }
             }
 

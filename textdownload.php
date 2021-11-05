@@ -57,6 +57,7 @@ if (!is_numeric($qaid) || !is_numeric($tdid)) {
 $dm = new question_engine_data_mapper();
 $qa = $dm->load_question_attempt($qaid);
 $question = $qa->get_question();
+$question->apply_attempt_state($qa->get_step(0));
 
 if (!$question->user_can_view()) {
     header('HTTP/1.0 403 Forbidden');
@@ -86,7 +87,7 @@ require_once(__DIR__ . '/stack/cas/castext2/castext2_evaluatable.class.php');
 $ct = castext2_evaluatable::make_from_compiled($question->compiledcache['castext-td-' . $tdid], $name, new castext2_static_replacer($question->get_cached('static-castext-strings')));
 
 // Get the context from the question.
-$ses = new stack_cas_session2([]);
+$ses = new stack_cas_session2([], $question->options, $question->seed);
 $question->add_question_vars_to_session($ses);
 
 $ses->add_statement($ct);

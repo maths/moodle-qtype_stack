@@ -86,7 +86,7 @@ declare(strict_types = 1);
    if ($before === null) {
     $this->items[] = $node;
    } else {
-    $i = array_search($node, $this->items, true);
+    $i = array_search($before, $this->items, true);
     if ($i === false) {
       $this->items[] = $node;
     } else {
@@ -252,7 +252,7 @@ class CTP_Block extends CTP_Node {
    if ($before === null) {
     $this->contents[] = $node;
    } else {
-    $i = array_search($node, $this->contents);
+    $i = array_search($before, $this->contents);
     $this->contents = array_merge(array_slice($this->contents, 0, $i), [$node], array_slice($this->contents, $i));
     if ($this->name === 'if' && array_key_exists(' branch lengths', $this->parameters)) {
      // If we add an item to an if-block we need to tune the branch borders.

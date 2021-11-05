@@ -2235,7 +2235,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_contains_prt_feedback('prt2');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assertRegExp('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
         $this->check_current_output(
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()

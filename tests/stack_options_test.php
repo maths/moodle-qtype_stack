@@ -48,12 +48,14 @@ class stack_options_set_exception_test extends basic_testcase {
     }
 
     public function test_set_exception_4() {
+        $this->expectException('stack_exception');
         $opts = new stack_options();
         $this->expectException(stack_exception::class);
         $opts->set_option('display', false);
     }
 
     public function test_set_exception_5() {
+        $this->expectException('stack_exception');
         $opts = new stack_options();
         $this->expectException(stack_exception::class);
         $opts->set_option('display', 'latex');

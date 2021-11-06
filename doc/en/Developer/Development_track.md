@@ -8,6 +8,7 @@ How to report bugs and make suggestions is described on the [community](../About
 ## Version 4.3.10
 
 1. Add in filter `420_consolidate_subscripts` to consolidate students' input with subscripts from `M_1` to `M1`.
+2. Support [variant matching](../Authoring/Variant_matching.md).
 
 ## Version 4.4
 

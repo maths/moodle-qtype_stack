@@ -195,6 +195,8 @@ class stack_answertest_test_data {
             -3, '(ATList_wrongentries 1).', '', ''),
         array('AlgEquiv', '', 'trigeval(sin([1/8,1/6, 1/4, 1/3, 1/2, 1]*%pi))', '[sqrt(2-sqrt(2))/2,1/2,1/sqrt(2),sqrt(3)/2,1,0]',
             1, '', '', ''),
+        array('AlgEquiv', '', '1+x', 'taylor(1/(1-x),x,0,1)', 1, '', ''),
+        array('AlgEquiv', '', '1', 'taylor(1/(1-x),x,0,1)', 0, '', ''),
 
         array('AlgEquiv', '', 'log(a^2*b)', '2*log(a)+log(b)', 1, '', 'Logarithms'),
         array('AlgEquiv', '', '(2*log(2*x)+x)/(2*x)', '(log(2*x)+2)/(2*sqrt(x))', 0, '', ''),

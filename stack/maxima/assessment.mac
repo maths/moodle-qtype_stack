@@ -832,8 +832,11 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
   stack_mtell_quiet:true,
   listdummyvars:false,
   /* We take the *union* of the two lists of variables, this way we
-     hedge against comparing (x+a)+(x-a) with 2*x, which are the same. */
-  pvars:listofvars([p1,p2]),
+     hedge against comparing (x+a)+(x-a) with 2*x, which are the same.
+     See issue #748 to see why listofvars([p1,p2]) was changed below.
+  */
+  pvars:append(listofvars(p1),listofvars(p2)),
+  pvars:ev(listify(setify(pvars)), simp),
   /* Evaluate as integers to start with and avoid floats.  This is safer, and works in many cases.*/
   lv:zip_with("=", pvars, makelist(ev(k+1,simp), k, length(pvars))),
   pval:errcatch(subst(lv, p1-p2)),

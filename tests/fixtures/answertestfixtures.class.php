@@ -754,10 +754,10 @@ class stack_answertest_test_data {
         array('EqualComAssRules', '[intMul,intFac]', '0+a', 'a', -1, 'ATEqualComAssRules_Opt_Incompatible.', ''),
         array('EqualComAssRules', '[zeroAdd]', '1+1', '3', 0, 'ATEqualComAssRules (AlgEquiv-false).', 'Basic cases'),
         array('EqualComAssRules', '[zeroAdd]', '1+1', '2', 0, '', ''),
-        array('EqualComAssRules', '[testdebug,zeroAdd]', '1+1', '2', 0, 'ATEqualComAssRules: [1 noun+ 1,2].', ''),
+        array('EqualComAssRules', '[testdebug,zeroAdd]', '1+1', '2', 0, 'ATEqualComAssRules: [1 nounadd 1,2].', ''),
         array('EqualComAssRules', '[zeroAdd]', '0+a', 'a', 1, '', ''),
         array('EqualComAssRules', '[zeroAdd]', 'a+0', 'a', 1, '', ''),
-        array('EqualComAssRules', '[testdebug,zeroAdd]', '1*a', 'a', 0, 'ATEqualComAssRules: [1 noun* a,a].', ''),
+        array('EqualComAssRules', '[testdebug,zeroAdd]', '1*a', 'a', 0, 'ATEqualComAssRules: [1 nounmul a,a].', ''),
         array('EqualComAssRules', '[oneMul]', '1*a', 'a', 1, '', ''),
         array('EqualComAssRules', 'ID_TRANS', '1*a', 'a', 1, '', ''),
         array('EqualComAssRules', 'ID_TRANS', 'a/1', 'a', 1, '', ''),
@@ -767,7 +767,7 @@ class stack_answertest_test_data {
         array('EqualComAssRules', 'ID_TRANS', '2+1*i', '2+i', 1, '', ''),
         array('EqualComAssRules', 'ID_TRANS', 'x^0+x^1/1+x^2/2+x^3/3!+x^4/4!', '1+x+x^2/2+x^3/3!+x^4/4!', 1, '', ''),
         // Illustrate the difference between exp and e^x.
-        array('EqualComAssRules', '[testdebug,ID_TRANS]', '%e^x', 'exp(x)', 1, 'ATEqualComAssRules: [%e noun^ x,%e noun^ x].', ''),
+        array('EqualComAssRules', '[testdebug,ID_TRANS]', '%e^x', 'exp(x)', 1, 'ATEqualComAssRules: [%e nounpow x,%e nounpow x].', ''),
         array('EqualComAssRules', 'ID_TRANS', '12*%e^((2*(%pi/2)*%i)/2)', '12*exp(%i*(%pi/2))', 0, '', ''),
         array('EqualComAssRules', '[ID_TRANS,[negNeg,negDiv,negOrd],' .
             '[recipMul,divDiv,divCancel],[intAdd,intMul,intPow]]', '12*%e^((2*(%pi/2)*%i)/2)', '12*exp(%i*(%pi/2))', 1, '', ''),
@@ -781,7 +781,7 @@ class stack_answertest_test_data {
         array('EqualComAssRules', '[testdebug,negNeg]', '-(-(-a))', 'a', 0, 'ATEqualComAssRules (AlgEquiv-false).', ''),
         array('EqualComAssRules', 'ID_TRANS', '3/(-x)', '-3/x', 0, '', ''),
         array('EqualComAssRules', '[testdebug,ID_TRANS]', '3/(-x)', '-3/x', 0,
-            'ATEqualComAssRules: [3 noun* UNARY_RECIP UNARY_MINUS noun* x,UNARY_MINUS noun* 3 noun* UNARY_RECIP x].', ''),
+            'ATEqualComAssRules: [3 nounmul UNARY_RECIP UNARY_MINUS nounmul x,UNARY_MINUS nounmul 3 nounmul UNARY_RECIP x].', ''),
         array('EqualComAssRules', '[negDist]', '-x*(x+1)', 'x*(-x-1)', 1, '', ''),
         array('EqualComAssRules', 'NEG_TRANS', '-x*(x-1)', 'x*(1-x)', 1, '', ''),
         array('EqualComAssRules', 'NEG_TRANS', '-x*(x-1)', 'x*(1-x)', 1, '', ''),
@@ -792,68 +792,68 @@ class stack_answertest_test_data {
         array('EqualComAssRules', 'NEG_TRANS', '-x*(y-1)*(x-1)', 'x*(x-1)*(1-y)', 1, '', ''),
         array('EqualComAssRules', 'NEG_TRANS', '(x-y)*(y-x)', '-(x-y)*(x-y)', 1, '', ''),
         array('EqualComAssRules', '[testdebug,NEG_TRANS]', '(x-y)*(y-x)', '-(x-y)^2', 0,
-            'ATEqualComAssRules: [UNARY_MINUS noun* (x noun+ UNARY_MINUS noun* y) noun* ' .
-            '(x noun+ UNARY_MINUS noun* y),UNARY_MINUS noun* (x noun+ UNARY_MINUS noun* y) noun^ 2].', ''),
+            'ATEqualComAssRules: [UNARY_MINUS nounmul (x nounadd UNARY_MINUS nounmul y) nounmul ' .
+            '(x nounadd UNARY_MINUS nounmul y),UNARY_MINUS nounmul (x nounadd UNARY_MINUS nounmul y) nounpow 2].', ''),
         // These examples illustrate the problem with distribution (which is not confluent) and factoring (which is)!
         array('EqualComAssRules', '[testdebug,negDist,negNeg]', '-x*(x-1)*(x+1)', 'x*(1-x)*(x+1)', 0,
-            'ATEqualComAssRules: [x noun* (UNARY_MINUS noun* 1 noun+ UNARY_MINUS noun* x) noun* ' .
-            '(x noun+ UNARY_MINUS noun* 1),x noun* (1 noun+ UNARY_MINUS noun* x) noun* (1 noun+ x)].', ''),
+            'ATEqualComAssRules: [x nounmul (UNARY_MINUS nounmul 1 nounadd UNARY_MINUS nounmul x) nounmul ' .
+            '(x nounadd UNARY_MINUS nounmul 1),x nounmul (1 nounadd UNARY_MINUS nounmul x) nounmul (1 nounadd x)].', ''),
         array('EqualComAssRules', '[testdebug,negDist,negNeg]', '-x*(y-1)*(x-1)', 'x*(x-1)*(1-y)', 0,
-            'ATEqualComAssRules: [x noun* (1 noun+ UNARY_MINUS noun* x) noun* (y noun+ UNARY_MINUS noun* 1),' .
-            'x noun* (1 noun+ UNARY_MINUS noun* y) noun* (x noun+ UNARY_MINUS noun* 1)].', ''),
+            'ATEqualComAssRules: [x nounmul (1 nounadd UNARY_MINUS nounmul x) nounmul (y nounadd UNARY_MINUS nounmul 1),' .
+            'x nounmul (1 nounadd UNARY_MINUS nounmul y) nounmul (x nounadd UNARY_MINUS nounmul 1)].', ''),
         array('EqualComAssRules', '[negDiv]', '3/(-x)', '-3/x', 1, '', ''),
         // When an expression comes from a previously simplified expression.
         array('EqualComAssRules', '[negDiv]', '3/(-x)', 'ev(-3,simp)/x', 1, '', ''),
         array('EqualComAssRules', '[testdebug,ID_TRANS]', '(-a)/(-x)', '-(-a/x)', 0,
-            'ATEqualComAssRules: [UNARY_MINUS noun* a noun* UNARY_RECIP UNARY_MINUS noun* x,' .
-                                 'UNARY_MINUS noun* UNARY_MINUS noun* a noun* UNARY_RECIP x].', ''),
+            'ATEqualComAssRules: [UNARY_MINUS nounmul a nounmul UNARY_RECIP UNARY_MINUS nounmul x,' .
+                                 'UNARY_MINUS nounmul UNARY_MINUS nounmul a nounmul UNARY_RECIP x].', ''),
         array('EqualComAssRules', '[negDiv]', '(-a)/(-x)', '-(-a/x)', 1, '', ''),
         array('EqualComAssRules', '[testdebug,negDiv]', '(-a)/(-x)', 'a/x', 0,
-            'ATEqualComAssRules: [UNARY_MINUS noun* UNARY_MINUS noun* a noun* UNARY_RECIP x,a noun* UNARY_RECIP x].', ''),
+            'ATEqualComAssRules: [UNARY_MINUS nounmul UNARY_MINUS nounmul a nounmul UNARY_RECIP x,a nounmul UNARY_RECIP x].', ''),
         array('EqualComAssRules', '[negDiv,negNeg]', '(-a)/(-x)', 'a/x', 1, '', ''),
-        // The following passes because the (-1) is parsed as ,1 noun* UNARY_MINUS.
+        // The following passes because the (-1) is parsed as ,1 nounmul UNARY_MINUS.
         array('EqualComAssRules', '[negDiv]', '1/(-x)', '(-1)/x', 1, '', ''),
         array('EqualComAssRules', '[negDiv]', '1/(-x)', 'ev(-1,simp)/x', 1, '', ''),
         array('EqualComAssRules', '[negDiv]', '(2/-3)*(x-y)', '-(2/3)*(x-y)', 1, '', ''),
         array('EqualComAssRules', '[negDiv]', '(2/-3)*(x-y)', '(2/3)*(y-x)', 0, '', ''),
         array('EqualComAssRules', '[negDiv,negOrd]', '(2/-3)*(x-y)', '(2/3)*(y-x)', 1, '', ''),
         array('EqualComAssRules', '[testdebug,negDiv]', '-2/(1-x)', '2/(x-1)', 0,
-            'ATEqualComAssRules: [UNARY_MINUS noun* 2 noun* UNARY_RECIP (1 noun+ UNARY_MINUS noun* x),' .
-                                 '2 noun* UNARY_RECIP (x noun+ UNARY_MINUS noun* 1)].', ''),
+            'ATEqualComAssRules: [UNARY_MINUS nounmul 2 nounmul UNARY_RECIP (1 nounadd UNARY_MINUS nounmul x),' .
+                                 '2 nounmul UNARY_RECIP (x nounadd UNARY_MINUS nounmul 1)].', ''),
         array('EqualComAssRules', '[testdebug,ID_TRANS]', '1/2*3/x', '3/(2*x)', 0,
-            'ATEqualComAssRules: [3 noun* (UNARY_RECIP 2) noun* UNARY_RECIP x,3 noun* UNARY_RECIP 2 noun* x].', ''),
+            'ATEqualComAssRules: [3 nounmul (UNARY_RECIP 2) nounmul UNARY_RECIP x,3 nounmul UNARY_RECIP 2 nounmul x].', ''),
         array('EqualComAssRules', '[ID_TRANS,recipMul]', '1/2*3/x', '3/(2*x)', 1, '', ''),
         array('EqualComAssRules', '[testdebug,ID_TRANS,recipMul]', '5/2*3/x', '15/(2*x)', 0,
-            'ATEqualComAssRules: [3 noun* 5 noun* UNARY_RECIP 2 noun* x,15 noun* UNARY_RECIP 2 noun* x].', ''),
+            'ATEqualComAssRules: [3 nounmul 5 nounmul UNARY_RECIP 2 nounmul x,15 nounmul UNARY_RECIP 2 nounmul x].', ''),
         array('EqualComAssRules', '[negOrd]', '-(x-y)', 'y-x', 1, '', ''),
         array('EqualComAssRules', '[ID_TRANS,recipMul,intMul]', '5/2*3/x', '15/(2*x)', 1, '', ''),
         array('EqualComAssRules', '[ID_TRANS,intAdd]', '(3+2)*x+x', '5*x+x', 1, '', ''),
         array('EqualComAssRules', '[ID_TRANS,intAdd]', '(3-5)*x+x', '-2*x+x', 1, '', ''),
         array('EqualComAssRules', '[ID_TRANS,intMul]', '7*x*(-3*x)', '-21*x*x', 1, '', ''),
         array('EqualComAssRules', '[testdebug,ID_TRANS,intMul]', '(-7*x)*(-3*x)', '21*x*x', 0,
-            'ATEqualComAssRules: [UNARY_MINUS noun* UNARY_MINUS noun* 21 noun* x noun* x,21 noun* x noun* x].', ''),
+            'ATEqualComAssRules: [UNARY_MINUS nounmul UNARY_MINUS nounmul 21 nounmul x nounmul x,21 nounmul x nounmul x].', ''),
         array('EqualComAssRules', '[ID_TRANS,intMul,negNeg]', '(-7*x)*(-3*x)', '21*x*x', 1, '', ''),
         // This next example is parsing rules.  In Maxima ev(a/b/c, simp)=a/(b*c).
         array('EqualComAssRules', '[testdebug,ID_TRANS]', 'a/b/c', 'a/(b*c)', 0,
-            'ATEqualComAssRules: [a noun* (UNARY_RECIP b) noun* UNARY_RECIP c,a noun* UNARY_RECIP b noun* c].', 'ev(a/b/c, simp)=a/(b*c)'),
+            'ATEqualComAssRules: [a nounmul (UNARY_RECIP b) nounmul UNARY_RECIP c,a nounmul UNARY_RECIP b nounmul c].', 'ev(a/b/c, simp)=a/(b*c)'),
         array('EqualComAssRules', '[ID_TRANS,recipMul]', 'a/b/c', 'a/(b*c)', 1, '', ''),
         array('EqualComAssRules', '[ID_TRANS,recipMul]', '(a/b)/c', 'a/(b*c)', 1, '', ''),
         // This next example is parsing rules.  In Maxima ev(a/(b/c), simp)=(a*c)/b.
         array('EqualComAssRules', '[testdebug,ID_TRANS]', 'a/(b/c)', '(a*c)/b', 0,
-            'ATEqualComAssRules: [a noun* UNARY_RECIP b noun* UNARY_RECIP c,a noun* c noun* UNARY_RECIP b].', 'ev(a/(b/c), simp)=(a*c)/b'),
+            'ATEqualComAssRules: [a nounmul UNARY_RECIP b nounmul UNARY_RECIP c,a nounmul c nounmul UNARY_RECIP b].', 'ev(a/(b/c), simp)=(a*c)/b'),
         array('EqualComAssRules', '[testdebug,ID_TRANS,recipMul]', 'a/(b/c)', '(a*c)/b', 0,
-            'ATEqualComAssRules: [a noun* UNARY_RECIP b noun* UNARY_RECIP c,a noun* c noun* UNARY_RECIP b].', ''),
+            'ATEqualComAssRules: [a nounmul UNARY_RECIP b nounmul UNARY_RECIP c,a nounmul c nounmul UNARY_RECIP b].', ''),
         array('EqualComAssRules', '[ID_TRANS,divDiv]', 'a/(b/c)', '(a*c)/b', 1, '', ''),
         array('EqualComAssRules', '[ID_TRANS,divDiv]', 'A*a/(B*b/c)', 'A*(a*c)/(B*b)', 1, '', ''),
         array('EqualComAssRules', '[ID_TRANS,divDiv]', 'A*a/(B*b/c)*1/d', 'A*(a*c)/(B*b)*1/d', 1, '', ''),
         array('EqualComAssRules', '[ID_TRANS,divDiv]', 'D*A*a/(B*b/c)*1/d', 'A*(a*c)/(B*b)*D/d', 1, '', ''),
         array('EqualComAssRules', '[testdebug,ID_TRANS,divDiv]', 'A*a/(B*b/c)*1/d', 'A*(a*c)/(B*b*d)', 0,
-            'ATEqualComAssRules: [A noun* a noun* c noun* (UNARY_RECIP B noun* b) noun* UNARY_RECIP d,' .
-                                 'A noun* a noun* c noun* UNARY_RECIP B noun* b noun* d].', ''),
+            'ATEqualComAssRules: [A nounmul a nounmul c nounmul (UNARY_RECIP B nounmul b) nounmul UNARY_RECIP d,' .
+                                 'A nounmul a nounmul c nounmul UNARY_RECIP B nounmul b nounmul d].', ''),
         array('EqualComAssRules', '[ID_TRANS,divDiv,recipMul]', 'A*a/(B*b/c)*1/d', 'A*(a*c)/(B*b*d)', 1, '', ''),
         array('EqualComAssRules', '[testdebug,ID_TRANS,divDiv]', 'A/(B/(C/D))', 'A*C/(B*D)', 0,
-            'ATEqualComAssRules: [A noun* C noun* (UNARY_RECIP B) noun* UNARY_RECIP D,' .
-                                 'A noun* C noun* UNARY_RECIP B noun* D].', ''),
+            'ATEqualComAssRules: [A nounmul C nounmul (UNARY_RECIP B) nounmul UNARY_RECIP D,' .
+                                 'A nounmul C nounmul UNARY_RECIP B nounmul D].', ''),
         array('EqualComAssRules', '[ID_TRANS,divDiv,recipMul]', 'A/(B/(C/D))', 'A*C/(B*D)', 1, '', ''),
         array('EqualComAssRules', '[intFac]', '18', '2*3^2', 1, '', ''),
 

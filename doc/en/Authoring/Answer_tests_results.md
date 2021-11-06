@@ -2,7 +2,7 @@
 
 This page exposes the results of running answer tests on STACK test cases.  This page is automatically generated from the STACK unit tests and is designed to show question authors what answer tests actually do.  This includes cases where answer tests currentl fail, which gives a negative expected mark.  Comments and further test cases are very welcome.
 
-<div class="no-overflow"><table class="flexible table table-striped table-hover generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Answer test<div class="commands"></div></th><th class="header c1" scope="col">Passed?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Options<div class="commands"></div></th><th class="header c5" scope="col">CAS errors<div class="commands"></div></th><th class="header c6" scope="col">Raw mark<div class="commands"></div></th><th class="header c7" scope="col">Expected mark<div class="commands"></div></th><th class="header c8" scope="col">Feedback<div class="commands"></div></th><th class="header c9" scope="col">Answer note<div class="commands"></div></th><th class="header c10" scope="col"><div class="commands"></div></th>
+<div class="no-overflow"><table class="flexible generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Answer test<div class="commands"></div></th><th class="header c1" scope="col">Passed?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Options<div class="commands"></div></th><th class="header c5" scope="col">CAS errors<div class="commands"></div></th><th class="header c6" scope="col">Raw mark<div class="commands"></div></th><th class="header c7" scope="col">Expected mark<div class="commands"></div></th><th class="header c8" scope="col">Feedback<div class="commands"></div></th><th class="header c9" scope="col">Answer note<div class="commands"></div></th><th class="header c10" scope="col"><div class="commands"></div></th>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
@@ -2745,6 +2745,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
   <td class="cell c9">ATEquation_default</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">0=-x+y/A+(y-z)/B</td>
+  <td class="cell c3">0=x-y/A-(y-z)/B</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -7397,6 +7410,45 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
   <td class="cell c1">Pass</td>
+  <td class="cell c2">exp(x)</td>
+  <td class="cell c3">%e^x</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">exp(x)^2</td>
+  <td class="cell c3">%e^(2*x)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEqualComAss (AlgEquiv-true).</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">exp(x)^2</td>
+  <td class="cell c3">(%e^(x))^2</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1">Pass</td>
   <td class="cell c2">1/3*i</td>
   <td class="cell c3">i/3</td>
   <td class="cell c4"></td>
@@ -8485,7 +8537,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [1 noun+ 1,2].</td>
+  <td class="cell c9">ATEqualComAssRules: [1 nounadd 1,2].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8524,7 +8576,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [1 noun* a,a].</td>
+  <td class="cell c9">ATEqualComAssRules: [1 nounmul a,a].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8634,6 +8686,45 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
   <td class="cell c1">Pass</td>
+  <td class="cell c2">%e^x</td>
+  <td class="cell c3">exp(x)</td>
+  <td class="cell c4">[testdebug,ID_TRANS]</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEqualComAssRules: [%e nounpow x,%e nounpow x].</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">12*%e^((2*(%pi/2)*%i)/2)</td>
+  <td class="cell c3">12*exp(%i*(%pi/2))</td>
+  <td class="cell c4">ID_TRANS</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">12*%e^((2*(%pi/2)*%i)/2)</td>
+  <td class="cell c3">12*exp(%i*(%pi/2))</td>
+  <td class="cell c4">[ID_TRANS,[negNeg,negDiv,negOrd],[recipMul,divDiv,divCancel],[intAdd,intMul,intPow]]</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
   <td class="cell c2">0^(1-1)</td>
   <td class="cell c3">0</td>
   <td class="cell c4">ID_TRANS</td>
@@ -8719,7 +8810,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [3 noun* UNARY_RECIP UNARY_MINUS noun* x,UNARY_MINUS noun* 3 noun* UNARY_RECIP x].</td>
+  <td class="cell c9">ATEqualComAssRules: [3 nounmul UNARY_RECIP UNARY_MINUS nounmul x,UNARY_MINUS nounmul 3 nounmul UNARY_RECIP x].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8849,7 +8940,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS noun* (x noun+ UNARY_MINUS noun* y) noun* (x noun+ UNARY_MINUS noun* y),UNARY_MINUS noun* (x noun+ UNARY_MINUS noun* y) noun^ 2].</td>
+  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS nounmul (x nounadd UNARY_MINUS nounmul y) nounmul (x nounadd UNARY_MINUS nounmul y),UNARY_MINUS nounmul (x nounadd UNARY_MINUS nounmul y) nounpow 2].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8862,7 +8953,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [x noun* (UNARY_MINUS noun* 1 noun+ UNARY_MINUS noun* x) noun* (x noun+ UNARY_MINUS noun* 1),x noun* (1 noun+ UNARY_MINUS noun* x) noun* (1 noun+ x)].</td>
+  <td class="cell c9">ATEqualComAssRules: [x nounmul (UNARY_MINUS nounmul 1 nounadd UNARY_MINUS nounmul x) nounmul (x nounadd UNARY_MINUS nounmul 1),x nounmul (1 nounadd UNARY_MINUS nounmul x) nounmul (1 nounadd x)].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8875,7 +8966,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [x noun* (1 noun+ UNARY_MINUS noun* x) noun* (y noun+ UNARY_MINUS noun* 1),x noun* (1 noun+ UNARY_MINUS noun* y) noun* (x noun+ UNARY_MINUS noun* 1)].</td>
+  <td class="cell c9">ATEqualComAssRules: [x nounmul (1 nounadd UNARY_MINUS nounmul x) nounmul (y nounadd UNARY_MINUS nounmul 1),x nounmul (1 nounadd UNARY_MINUS nounmul y) nounmul (x nounadd UNARY_MINUS nounmul 1)].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8914,7 +9005,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS noun* a noun* UNARY_RECIP UNARY_MINUS noun* x,UNARY_MINUS noun* UNARY_MINUS noun* a noun* UNARY_RECIP x].</td>
+  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS nounmul a nounmul UNARY_RECIP UNARY_MINUS nounmul x,UNARY_MINUS nounmul UNARY_MINUS nounmul a nounmul UNARY_RECIP x].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8940,7 +9031,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS noun* UNARY_MINUS noun* a noun* UNARY_RECIP x,a noun* UNARY_RECIP x].</td>
+  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS nounmul UNARY_MINUS nounmul a nounmul UNARY_RECIP x,a nounmul UNARY_RECIP x].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9031,7 +9122,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS noun* 2 noun* UNARY_RECIP (1 noun+ UNARY_MINUS noun* x),2 noun* UNARY_RECIP (x noun+ UNARY_MINUS noun* 1)].</td>
+  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS nounmul 2 nounmul UNARY_RECIP (1 nounadd UNARY_MINUS nounmul x),2 nounmul UNARY_RECIP (x nounadd UNARY_MINUS nounmul 1)].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9044,7 +9135,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [3 noun* (UNARY_RECIP 2) noun* UNARY_RECIP x,3 noun* UNARY_RECIP 2 noun* x].</td>
+  <td class="cell c9">ATEqualComAssRules: [3 nounmul (UNARY_RECIP 2) nounmul UNARY_RECIP x,3 nounmul UNARY_RECIP 2 nounmul x].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9070,7 +9161,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [3 noun* 5 noun* UNARY_RECIP 2 noun* x,15 noun* UNARY_RECIP 2 noun* x].</td>
+  <td class="cell c9">ATEqualComAssRules: [3 nounmul 5 nounmul UNARY_RECIP 2 nounmul x,15 nounmul UNARY_RECIP 2 nounmul x].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9148,7 +9239,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS noun* UNARY_MINUS noun* 21 noun* x noun* x,21 noun* x noun* x].</td>
+  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS nounmul UNARY_MINUS nounmul 21 nounmul x nounmul x,21 nounmul x nounmul x].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9187,7 +9278,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [a noun* (UNARY_RECIP b) noun* UNARY_RECIP c,a noun* UNARY_RECIP b noun* c].</td>
+  <td class="cell c9">ATEqualComAssRules: [a nounmul (UNARY_RECIP b) nounmul UNARY_RECIP c,a nounmul UNARY_RECIP b nounmul c].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9239,7 +9330,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [a noun* UNARY_RECIP b noun* UNARY_RECIP c,a noun* c noun* UNARY_RECIP b].</td>
+  <td class="cell c9">ATEqualComAssRules: [a nounmul UNARY_RECIP b nounmul UNARY_RECIP c,a nounmul c nounmul UNARY_RECIP b].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9252,7 +9343,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [a noun* UNARY_RECIP b noun* UNARY_RECIP c,a noun* c noun* UNARY_RECIP b].</td>
+  <td class="cell c9">ATEqualComAssRules: [a nounmul UNARY_RECIP b nounmul UNARY_RECIP c,a nounmul c nounmul UNARY_RECIP b].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9317,7 +9408,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [A noun* a noun* c noun* (UNARY_RECIP B noun* b) noun* UNARY_RECIP d,A noun* a noun* c noun* UNARY_RECIP B noun* b noun* d].</td>
+  <td class="cell c9">ATEqualComAssRules: [A nounmul a nounmul c nounmul (UNARY_RECIP B nounmul b) nounmul UNARY_RECIP d,A nounmul a nounmul c nounmul UNARY_RECIP B nounmul b nounmul d].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9343,7 +9434,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [A noun* C noun* (UNARY_RECIP B) noun* UNARY_RECIP D,A noun* C noun* UNARY_RECIP B noun* D].</td>
+  <td class="cell c9">ATEqualComAssRules: [A nounmul C nounmul (UNARY_RECIP B) nounmul UNARY_RECIP D,A nounmul C nounmul UNARY_RECIP B nounmul D].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -12055,6 +12146,32 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c2">(2*a)*(a*b-1)</td>
   <td class="cell c3">2*a*(a*b-1)</td>
   <td class="cell c4">a</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATFacForm_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">3*x*(7*y-3)*(7*y+3)</td>
+  <td class="cell c3">3*x*(7*y-3)*(7*y+3)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATFacForm_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">3*x*(7*y-3)*(7*y+3)</td>
+  <td class="cell c3">3*x*(7*y-3)*(7*y+3)</td>
+  <td class="cell c4">y</td>
   <td class="cell c5"></td>
   <td class="cell c6">1</td>
   <td class="cell c7">1</td>
@@ -26517,4 +26634,4 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html"><span class="nolink">\[\begin{array}{lll} &amp;\frac{\mathrm{d} y}{\mathrm{d} x}-\frac{2}{x}\cdot y=x^3\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{green}{\Leftrightarrow}&amp;\frac{1}{x^2}\cdot \left(\frac{\mathrm{d} y}{\mathrm{d} x}\right)-\frac{2}{x^3}\cdot y=x\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{green}{\Leftrightarrow}&amp;\left(\frac{\mathrm{d}}{\mathrm{d} x} \frac{y}{x^2}\right)=x\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{blue}{\int\ldots\mathrm{d}x}&amp;\frac{y}{x^2}=\int {x\cdot \sin \left( 3\cdot x \right)}{\;\mathrm{d}x}&amp; \cr \color{blue}{\int\ldots\mathrm{d}x}&amp;\frac{y}{x^2}=\frac{\sin \left( 3\cdot x \right)-3\cdot x\cdot \cos \left( 3\cdot x \right)}{9}+c&amp; \cr \end{array}\]</span></div></span></td>
   <td class="cell c9">[EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,INTCHAR(x),INTCHAR(x)]</td>
   <td class="cell c10"></td>
-</tr></tbody></table></div><br/>Your site is running STACK version 2021071600 ().
+</tr></tbody></table></div><br/>Your site is running STACK version 2021072200 (descriptive, distrib, simplex, stats).

@@ -66,9 +66,9 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
         // Some parser breaking cases. List calling and the wacky syntax of defines.
         $contents = str_replace('?\*autoconf\-version\*', '"cencored"', $contents);
         $contents = str_replace('define(UNARY_RECIP a, a^(-1)),', '"cencored",', $contents);
-        $contents = str_replace('ex:subst(lambda([ex], UNARY_MINUS noun* ex), "-", ex),', '"cencored",', $contents);
-        $contents = str_replace('ex:subst(lambda([ex1, ex2], ex1 noun* (UNARY_RECIP ex2)), "/", ex),', '"cencored",', $contents);
-        $contents = str_replace('define(UNARY_RECIP a, a noun^ (-1)),', '"cencored",', $contents);
+        $contents = str_replace('ex:subst(lambda([ex], UNARY_MINUS nounmul ex), "-", ex),', '"cencored",', $contents);
+        $contents = str_replace('ex:subst(lambda([ex1, ex2], ex1 nounmul (UNARY_RECIP ex2)), "/", ex),', '"cencored",', $contents);
+        $contents = str_replace('define(UNARY_RECIP a, a nounpow (-1)),', '"cencored",', $contents);
 
         $contents = str_replace('distrib_and(apply(?%and, append([apply(?%or, maplist(lambda([ex2], first(orlist2) %and ex2), ' .
                 'args(orlist1)))], rest(orlist2))))', 'distrib_and(apply(and, append([apply(or, ' .

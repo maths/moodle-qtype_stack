@@ -56,7 +56,9 @@ If the following commands appear within the question variables they will be avai
 * `assume` and `declare`.
 * `texput`, see notes directly below.
 
-Only single texput commands are gathered into the context variables, and not other functions defined in the question variables.  So, `texput(blob, "\\diamond")` is fine, but passing a function to texput to display more complex output is not currently supported.
+This collection of special variables are called "context variables".
+
+Only single texput commands are gathered into the context variables.  You cannot use other variables or other functions defined in the question variables.  So, `texput(blob, "\\diamond")` is fine, but passing a function to texput to display more complex output is not currently supported.
 
 For example, to redefine how the logarithm is displayed, use `texput(log, "\\log ", prefix);`.
 

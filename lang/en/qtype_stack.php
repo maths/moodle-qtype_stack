@@ -395,9 +395,7 @@ $string['languageproblemsexist']   = 'There are potential language problems in y
 $string['languageproblemsmissing'] = 'The language tag {$a->lang} is missing from the following: {$a->missing}.';
 $string['languageproblemsextra']   = 'The field {$a->field} has the following languages not in the question text: {$a->langs}.';
 
-$string['htmlproblem']       = 'When processing your text libxml reported the following errors/warning in "{$a->field}".';
-$string['libxmlerr']         = '{$a->err} occured in line {$a->line}. ';
-$string['alttextmissing']    = 'An image appears to be missing the \'alt\' tag in "{$a->field}".';
+$string['alttextmissing']    = 'One or more images appears to have a missing or empty \'alt\' tag in "{$a->field}" ({$a->num}).';
 
 // Admin settings.
 $string['settingajaxvalidation'] = 'Instant validation';

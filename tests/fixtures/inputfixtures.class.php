@@ -312,6 +312,7 @@ class stack_inputvalidation_test_data {
         array('+i', 'php_true', '+i', 'cas_true', '\mathrm{i}', '', ""),
         array('+x', 'php_true', '+x', 'cas_true', 'x', '', ""),
         array('sqrt(+x)', 'php_true', 'sqrt(+x)', 'cas_true', '\sqrt{x}', '', ""),
+        array('sqrt(x)^3', 'php_true', 'sqrt(x)^3', 'cas_true', '{\sqrt{x}}^3', '', ""),
         array('1/sin(+x)', 'php_true', '1/sin(+x)', 'cas_true', '\frac{1}{\sin \left( x \right)}', '', ""),
         array('"+"(a,b)', 'php_true', '"+"(a,b)', 'cas_true', 'a+b', '', "This is Maxima specific syntax."),
         array('(+1)', 'php_true', '(+1)', 'cas_true', '1', '', ""),

@@ -1039,4 +1039,29 @@ class stack_utils {
         }
         return(array($option, $arg));
     }
+
+    /*
+     * This function takes html and counts the number of img fields
+     * with missing or empty alt text.
+     */
+    public static function count_missing_alttext($text) {
+        $missingalt = 0;
+        // Yes, regular expressions can't parse html, but this should be good-enough to help users for now.
+        $r1 = "/<img[^\>]+\>/im";
+        $r2 = "/(alt|title|src)\s*=\s*(\"[^\"]*\")/i";
+        preg_match_all($r1, $text, $out);
+        foreach ($out[0] as $imgtag) {
+            preg_match_all($r2, $imgtag, $alt);
+            $missingaltlocal = true;
+            foreach ($alt[1] as $tag) {
+                if (strtolower($tag) === 'alt') {
+                    $missingaltlocal = false;
+                }
+            }
+            if ($missingaltlocal) {
+                $missingalt += 1;
+            }
+        }
+        return $missingalt;
+    }
 }

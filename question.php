@@ -1312,7 +1312,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
 
-        // 2. Check alt-text exists and html integrity.
+        // 2. Check alt-text exists.
+        // Reminder: previous approach in Oct 2021 tried to use libxml_use_internal_errors, but this was a dead end.
+
         $tocheck = array();
         $text = trim($this->questiontextinstantiated);
         if ($text !== '') {
@@ -1335,28 +1337,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // Replace unprotected & symbols, which happens a lot inside LaTeX equations.
             $text = preg_replace("/&(?!\S+;)/", "&amp;", $text);
 
-            $libxmlerr = libxml_use_internal_errors(true);
-            libxml_clear_errors();
-            $dom = new DOMDocument();
-            $dom->loadHTML($text);
-            $xmlerrors = libxml_get_errors();
-            // Reset the libxml error reporting flag.
-            libxml_use_internal_errors($libxmlerr);
-
-            foreach ($dom->getElementsByTagName('img') as $img) {
-                $alt = trim($img->getAttribute('alt'));
-                if ($alt === '' or $alt === '---') {
-                    $warnings[] = stack_string_error('alttextmissing', array('field' => $field));
-                }
-            }
-
-            $errmsg = array();
-            if ($xmlerrors != array()) {
-                foreach ($xmlerrors as $error) {
-                    $errmsg[] = stack_string('libxmlerr', array('err' => $error->message, 'line' => $error->line));
-                }
-                $warnings[] = stack_string_error('htmlproblem', array('field' => $field)) . ' ' .
-                    implode(" ", $errmsg);
+            $missingalt = stack_utils::count_missing_alttext($text);
+            if ($missingalt > 0) {
+                $warnings[] = stack_string_error('alttextmissing', array('field' => $field, 'num' => $missingalt));
             }
         }
 

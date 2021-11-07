@@ -1326,6 +1326,20 @@ linear_combination_p(ex, p) := block(
    return(apply("and", ex))  
 )$
 
+/*
+  Write the polynomial ex, in variable v, about the point v=a.
+  Ex. x^2=1-2*(x-1)+(x-1)^2 when written about x=1.
+  This is basically the Taylor series for the polynomial about x=1, but
+  it can readily be calculated by "shift-expand-shift" and without derivatives.
+  See doi:10.1017/S0025557200003569
+*/
+poly_about_a(ex, v, a) := block(
+   if not(polynomialp(ex, [v])) then return(ex),
+   ex:ev(expand(ev(ex, ev(v)=''v+a)), simp),
+   print(ex),
+   return((ev(ex, ev(v)=''v-a)))
+)$
+
 /****************************/
 /* Matrix/vector operations */
 /****************************/

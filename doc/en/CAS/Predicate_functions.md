@@ -64,7 +64,7 @@ The following are defined by STACK.
 | Function                  | Predicate
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | `expandp(ex)`             | true if \(ex\) equals its expanded form.
-| `factorp(ex) `            | true if \(ex\) equals its factored form.  Note, if you would like to know if an expression is factored you need to use the [FacForm](../Authoring/Answer_tests.md#Form) answer test.  See the notes on this for more details.
+| `factorp(ex) `            | true if \(ex\) equals its factored form.  Note, if you would like to know if an expression is factored you need to use the [FacForm](../Authoring/Answer_tests.md#Form) answer test.  Prime integers equal their factored form, composite integers do not.
 | `continuousp(ex,v,xp) `   | true if \(ex\) is continuous with respect to \(v\) at \(xp\) (unreliable).
 | `diffp(ex,v,xp,[n]) `     | true if \(ex\) is (optionally \(n\) times) differentiable with respect to \(v\) at \(xp\) (unreliable).
 

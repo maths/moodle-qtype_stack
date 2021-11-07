@@ -2,7 +2,7 @@
 
 This page exposes the results of running answer tests on STACK test cases.  This page is automatically generated from the STACK unit tests and is designed to show question authors what answer tests actually do.  This includes cases where answer tests currentl fail, which gives a negative expected mark.  Comments and further test cases are very welcome.
 
-<div class="no-overflow"><table class="flexible generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Answer test<div class="commands"></div></th><th class="header c1" scope="col">Passed?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Options<div class="commands"></div></th><th class="header c5" scope="col">CAS errors<div class="commands"></div></th><th class="header c6" scope="col">Raw mark<div class="commands"></div></th><th class="header c7" scope="col">Expected mark<div class="commands"></div></th><th class="header c8" scope="col">Feedback<div class="commands"></div></th><th class="header c9" scope="col">Answer note<div class="commands"></div></th><th class="header c10" scope="col"><div class="commands"></div></th>
+<div class="no-overflow"><table class="flexible table table-striped table-hover generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Answer test<div class="commands"></div></th><th class="header c1" scope="col">Passed?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Options<div class="commands"></div></th><th class="header c5" scope="col">CAS errors<div class="commands"></div></th><th class="header c6" scope="col">Raw mark<div class="commands"></div></th><th class="header c7" scope="col">Expected mark<div class="commands"></div></th><th class="header c8" scope="col">Feedback<div class="commands"></div></th><th class="header c9" scope="col">Answer note<div class="commands"></div></th><th class="header c10" scope="col"><div class="commands"></div></th>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
@@ -1573,6 +1573,32 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5"></td>
   <td class="cell c6">1</td>
   <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1+x</td>
+  <td class="cell c3">taylor(1/(1-x),x,0,1)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1</td>
+  <td class="cell c3">taylor(1/(1-x),x,0,1)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
   <td class="cell c8"></td>
   <td class="cell c9"></td>
   <td class="cell c10"></td>
@@ -13871,6 +13897,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
   <td class="cell c1">Pass</td>
+  <td class="cell c2">2/(x+1)-1/(x+2)</td>
+  <td class="cell c3">s/((s+1)*(s+2))</td>
+  <td class="cell c4">s</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><div class="text_to_html">The variables in your answer are different to those of the question, please check them.</div></td>
+  <td class="cell c9">ATPartFrac_diff_variables.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
   <td class="cell c2">1/n</td>
   <td class="cell c3">1/n</td>
   <td class="cell c4">n</td>
@@ -13881,8 +13920,34 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c9">ATPartFrac_true.</td>
   <td class="cell c10"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1+n+n^2+1/(n-1)</td>
+  <td class="cell c3">n^3/(n-1)</td>
+  <td class="cell c4">n</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1+n+n^2-1/(1-n)</td>
+  <td class="cell c3">n^3/(n-1)</td>
+  <td class="cell c4">n</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
 <tr class="notes">
-  <td class="cell c0">A simple cases, linear factors in denominator</td>
+  <td class="cell c0">Distinct linear factors in denominator</td>
   <td class="cell c1"></td>
   <td class="cell c2"></td>
   <td class="cell c3"></td>
@@ -13960,6 +14025,240 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c10"></td>
 </tr>
 <tr class="notes">
+  <td class="cell c0">Addition and Subtraction errors</td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1/(x+1) + 1/(x+2)</td>
+  <td class="cell c3">2/(x+1) + 1/(x+2)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x+3}{\left(x+1\right)\cdot \left(x+2\right)}\)</span></span></span></div></span></td>
+  <td class="cell c9">ATPartFrac_ret_expression.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1/(x+1) + 1/(x+2)</td>
+  <td class="cell c3">1/(x+1) + 2/(x+2)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x+3}{\left(x+1\right)\cdot \left(x+2\right)}\)</span></span></span></div></span></td>
+  <td class="cell c9">ATPartFrac_ret_expression.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="notes">
+  <td class="cell c0">Denominator Error</td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1/(x+1) + 1/(x+2)</td>
+  <td class="cell c3">1/(x+3) + 1/(x+2)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x+3}{\left(x+1\right)\cdot \left(x+2\right)}\)</span></span></span></div></span></td>
+  <td class="cell c9">ATPartFrac_ret_expression.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="notes">
+  <td class="cell c0">Repeated linear factors in denominator</td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(9*y-8)/(y-4)^2</td>
+  <td class="cell c3">(9*y-8)/(y-4)^2</td>
+  <td class="cell c4">y</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">9/(y-4)+28/(y-4)^2</td>
+  <td class="cell c3">(9*y-8)/(y-4)^2</td>
+  <td class="cell c4">y</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(-5/(x+3))+(16/(x+3)^2)-(2/(x+2))+4</td>
+  <td class="cell c3">(-5/(x+3))+(16/(x+3)^2)-(2/(x+2))+4</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(3*x^2-5)/((x-4)^2*x)</td>
+  <td class="cell c3">(3*x^2-5)/((x-4)^2*x)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-4/(16*x)+53/(16*(x-4))+43/(4*(x-4)^2)</td>
+  <td class="cell c3">(3*x^2-5)/((x-4)^2*x)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{49\cdot x^2-8\cdot x-64}{16\cdot {\left(x-4\right)}^2\cdot x}\)</span></span></span></div></span></td>
+  <td class="cell c9">ATPartFrac_ret_expression.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-5/(16*x)+53/(16*(x-4))+43/(4*(x-4)^2)</td>
+  <td class="cell c3">(3*x^2-5)/((x-4)^2*x)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(5*x+6)/((x+1)*(x+5)^2)</td>
+  <td class="cell c3">(5*x+6)/((x+1)*(x+5)^2)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-1/(16*(x+5))+19/(4*(x+5)^2)+1/(16*(x+1))</td>
+  <td class="cell c3">(5*x+6)/((x+1)*(x+5)^2)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">5/(x*(x+3)*(5*x-2))</td>
+  <td class="cell c3">5/(x*(x+3)*(5*x-2))</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">125/(34*(5*x-2))+5/(51*(x+3))-5/(6*x)</td>
+  <td class="cell c3">5/(x*(x+3)*(5*x-2))</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-4/(16*x)+1/(2*(x-1))-1/(8*(x-1)^2)</td>
+  <td class="cell c3">(3*x^2-5)/((4*x-4)^2*x)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x^2-x-2}{8\cdot {\left(x-1\right)}^2\cdot x}\)</span></span></span></div></span></td>
+  <td class="cell c9">ATPartFrac_ret_expression.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-5/(16*x)+1/(2*(x-1))-1/(8*(x-1)^2)</td>
+  <td class="cell c3">(3*x^2-5)/((4*x-4)^2*x)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="notes">
   <td class="cell c0">Irreducible quadratic in denominator</td>
   <td class="cell c1"></td>
   <td class="cell c2"></td>
@@ -14011,6 +14310,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c9">ATPartFrac_ret_expression.</td>
   <td class="cell c10"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(2*x+1)/(x^2+1)-2/(x-1)</td>
+  <td class="cell c3">(2*x+1)/(x^2+1)-2/(x-1)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0">2 answers to the same question</td>
   <td class="cell c1"></td>
@@ -14051,7 +14363,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c10"></td>
 </tr>
 <tr class="notes">
-  <td class="cell c0">Algebraically equivalent, but numerators of same order than denominator, ie not in partial fraction form.</td>
+  <td class="cell c0">Algebraically equivalent, but numerators of same order than denominator, i.e. not in partial fraction form.</td>
   <td class="cell c1"></td>
   <td class="cell c2"></td>
   <td class="cell c3"></td>
@@ -14073,7 +14385,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_false_degree.</td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -14086,7 +14398,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_false_degree.</td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -14099,7 +14411,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_false_degree.</td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="notes">
@@ -14220,32 +14532,6 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c10"></td>
 </tr>
 <tr class="notes">
-  <td class="cell c0">Different Variables</td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-  <td class="cell c7"></td>
-  <td class="cell c8"></td>
-  <td class="cell c9"></td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">2/(x+1)-1/(x+2)</td>
-  <td class="cell c3">s/((s+1)*(s+2))</td>
-  <td class="cell c4">s</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"><div class="text_to_html">The variables in your answer are different to those of the question, please check them.</div></td>
-  <td class="cell c9">ATPartFrac_diff_variables.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="notes">
   <td class="cell c0">Too many parts in the partial fraction</td>
   <td class="cell c1"></td>
   <td class="cell c2"></td>
@@ -14297,201 +14583,6 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c9">ATPartFrac_denom_ret.</td>
   <td class="cell c10"></td>
 </tr>
-<tr class="notes">
-  <td class="cell c0">Addition and Subtraction errors</td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-  <td class="cell c7"></td>
-  <td class="cell c8"></td>
-  <td class="cell c9"></td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">1/(x+1) + 1/(x+2)</td>
-  <td class="cell c3">2/(x+1) + 1/(x+2)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x+3}{\left(x+1\right)\cdot \left(x+2\right)}\)</span></span></span></div></span></td>
-  <td class="cell c9">ATPartFrac_ret_expression.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">1/(x+1) + 1/(x+2)</td>
-  <td class="cell c3">1/(x+1) + 2/(x+2)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x+3}{\left(x+1\right)\cdot \left(x+2\right)}\)</span></span></span></div></span></td>
-  <td class="cell c9">ATPartFrac_ret_expression.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="notes">
-  <td class="cell c0">Denominator Error</td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-  <td class="cell c7"></td>
-  <td class="cell c8"></td>
-  <td class="cell c9"></td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">1/(x+1) + 1/(x+2)</td>
-  <td class="cell c3">1/(x+3) + 1/(x+2)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x+3}{\left(x+1\right)\cdot \left(x+2\right)}\)</span></span></span></div></span></td>
-  <td class="cell c9">ATPartFrac_ret_expression.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">(2*x+1)/(x^2+1)-2/(x-1)</td>
-  <td class="cell c3">(2*x+1)/(x^2+1)-2/(x-1)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">1</td>
-  <td class="cell c7">1</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_true.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">(-5/(x+3))+(16/(x+3)^2)-(2/(x+2))+4</td>
-  <td class="cell c3">(-5/(x+3))+(16/(x+3)^2)-(2/(x+2))+4</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">1</td>
-  <td class="cell c7">1</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_true.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="notes">
-  <td class="cell c0">Cubic in the denominator</td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-  <td class="cell c7"></td>
-  <td class="cell c8"></td>
-  <td class="cell c9"></td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">(3*x^2-5)/((x-4)^2*x)</td>
-  <td class="cell c3">(3*x^2-5)/((x-4)^2*x)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_false_factor.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">-4/(16*x)+53/(16*(x-4))+43/(4*(x-4)^2)</td>
-  <td class="cell c3">(3*x^2-5)/((x-4)^2*x)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{49\cdot x^2-8\cdot x-64}{16\cdot {\left(x-4\right)}^2\cdot x}\)</span></span></span></div></span></td>
-  <td class="cell c9">ATPartFrac_ret_expression.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">-5/(16*x)+53/(16*(x-4))+43/(4*(x-4)^2)</td>
-  <td class="cell c3">(3*x^2-5)/((x-4)^2*x)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">1</td>
-  <td class="cell c7">1</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_true.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">(5*x+6)/((x+1)*(x+5)^2)</td>
-  <td class="cell c3">(5*x+6)/((x+1)*(x+5)^2)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_false_factor.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">-1/(16*(x+5))+19/(4*(x+5)^2)+1/(16*(x+1))</td>
-  <td class="cell c3">(5*x+6)/((x+1)*(x+5)^2)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">1</td>
-  <td class="cell c7">1</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_true.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">5/(x*(x+3)*(5*x-2))</td>
-  <td class="cell c3">5/(x*(x+3)*(5*x-2))</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_false_factor.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">125/(34*(5*x-2))+5/(51*(x+3))-5/(6*x)</td>
-  <td class="cell c3">5/(x*(x+3)*(5*x-2))</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">1</td>
-  <td class="cell c7">1</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_true.</td>
-  <td class="cell c10"></td>
-</tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
   <td class="cell c1">Pass</td>
@@ -14503,32 +14594,6 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
   <td class="cell c9">ATPartFrac_false_factor.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">-4/(16*x)+1/(2*(x-1))-1/(8*(x-1)^2)</td>
-  <td class="cell c3">(3*x^2-5)/((4*x-4)^2*x)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x^2-x-2}{8\cdot {\left(x-1\right)}^2\cdot x}\)</span></span></span></div></span></td>
-  <td class="cell c9">ATPartFrac_ret_expression.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">-5/(16*x)+1/(2*(x-1))-1/(8*(x-1)^2)</td>
-  <td class="cell c3">(3*x^2-5)/((4*x-4)^2*x)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">1</td>
-  <td class="cell c7">1</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_true.</td>
   <td class="cell c10"></td>
 </tr>
 <tr class=""><td colspan="11"><div class="tabledivider"></div></td>
@@ -25513,7 +25578,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5"></td>
   <td class="cell c6">1</td>
   <td class="cell c7">1</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html"><span class="nolink">\[\begin{array}{lll} &amp;x^2-10\cdot x+7=0&amp; \cr \color{green}{\Leftrightarrow}&amp;{\left(x-5\right)}^2-18=0&amp; \cr \color{green}{\Leftrightarrow}&amp;{\left(x-5\right)}^2={\it sqrt}^2\left(18\right)&amp; \cr \color{green}{\Leftrightarrow}&amp;{\left(x-5\right)}^2-{\it sqrt}^2\left(18\right)=0&amp; \cr \color{green}{\Leftrightarrow}&amp;\left(x-5-\sqrt{18}\right)\cdot \left(x-5+\sqrt{18}\right)=0&amp; \cr \color{green}{\Leftrightarrow}&amp;x=5-\sqrt{18}\,{\mbox{ or }}\, x=5+\sqrt{18}&amp; \cr \end{array}\]</span></div></span></td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html"><span class="nolink">\[\begin{array}{lll} &amp;x^2-10\cdot x+7=0&amp; \cr \color{green}{\Leftrightarrow}&amp;{\left(x-5\right)}^2-18=0&amp; \cr \color{green}{\Leftrightarrow}&amp;{\left(x-5\right)}^2={\sqrt{18}}^2&amp; \cr \color{green}{\Leftrightarrow}&amp;{\left(x-5\right)}^2-{\sqrt{18}}^2=0&amp; \cr \color{green}{\Leftrightarrow}&amp;\left(x-5-\sqrt{18}\right)\cdot \left(x-5+\sqrt{18}\right)=0&amp; \cr \color{green}{\Leftrightarrow}&amp;x=5-\sqrt{18}\,{\mbox{ or }}\, x=5+\sqrt{18}&amp; \cr \end{array}\]</span></div></span></td>
   <td class="cell c9">[EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR]</td>
   <td class="cell c10"></td>
 </tr>
@@ -26634,4 +26699,4 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html"><span class="nolink">\[\begin{array}{lll} &amp;\frac{\mathrm{d} y}{\mathrm{d} x}-\frac{2}{x}\cdot y=x^3\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{green}{\Leftrightarrow}&amp;\frac{1}{x^2}\cdot \left(\frac{\mathrm{d} y}{\mathrm{d} x}\right)-\frac{2}{x^3}\cdot y=x\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{green}{\Leftrightarrow}&amp;\left(\frac{\mathrm{d}}{\mathrm{d} x} \frac{y}{x^2}\right)=x\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{blue}{\int\ldots\mathrm{d}x}&amp;\frac{y}{x^2}=\int {x\cdot \sin \left( 3\cdot x \right)}{\;\mathrm{d}x}&amp; \cr \color{blue}{\int\ldots\mathrm{d}x}&amp;\frac{y}{x^2}=\frac{\sin \left( 3\cdot x \right)-3\cdot x\cdot \cos \left( 3\cdot x \right)}{9}+c&amp; \cr \end{array}\]</span></div></span></td>
   <td class="cell c9">[EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,INTCHAR(x),INTCHAR(x)]</td>
   <td class="cell c10"></td>
-</tr></tbody></table></div><br/>Your site is running STACK version 2021072200 (descriptive, distrib, simplex, stats).
+</tr></tbody></table></div><br/>Your site is running STACK version 2021072200 ().

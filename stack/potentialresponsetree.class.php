@@ -409,7 +409,7 @@ class stack_potentialresponse_tree {
         foreach ($this->nodes as $node) {
             $text .= $node->get_feedback_text();
         }
-    return $text;
+        return $text;
     }
 
     /**

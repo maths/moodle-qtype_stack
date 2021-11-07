@@ -1246,12 +1246,14 @@ abs_replace_eq(ex):=block([exn, assume_pos],
 /* The use of a strange argument to this function is caused by an extra evaluation within the function body.*/
 expandp(expandparg):= block([simp:true], if expandparg=ev(expand(expandparg),expand(1000,1000)) then true else false)$
 
-/* factorp(p) is true if p equals its factored form */
+/* factorp(p) is true if p equals its factored form. */
 factorp(argfac) := block([a],
     if safe_op(argfac)="-" then
        argfac:part(argfac,1),
     if ev(argfac=factor(argfac), simp) then
         return(true),
+    if integerp(argfac) then
+       return(false),
     if mapatom(argfac) then
         return(true),
     /* Note, in Maxima factor((1-x)) = -(x-1), so we need to fix this. */
@@ -1266,7 +1268,7 @@ factorp(argfac) := block([a],
     return(false)
 )$
 
-/*  Write the polynomial in completed square form */
+/*  Write the polynomial in completed square form. */
 comp_square(ex,var) := block([vc],
     if not(atom(var)) or numberp(var) then (
         error("comp_square: var should be an atom but not a number.  "),
@@ -1336,7 +1338,6 @@ linear_combination_p(ex, p) := block(
 poly_about_a(ex, v, a) := block(
    if not(polynomialp(ex, [v])) then return(ex),
    ex:ev(expand(ev(ex, ev(v)=''v+a)), simp),
-   print(ex),
    return((ev(ex, ev(v)=''v-a)))
 )$
 

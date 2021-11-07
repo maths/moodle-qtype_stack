@@ -2331,80 +2331,71 @@ ATPartFrac(SA, SB, SO) := block([negdistrib, Validity, rawmk, fb, ansnote, ret, 
 /* - the numerator is a polynomial of smaller degree  */
 /*   than that irreducible polynomial.                */
 PartFracfun(sExpr, tExpr, wrt) := block([val, rawmk, ansnote, fb],
-        val:true, rawmk:true, fb: "", ansnote: "",
-        ret:[val,rawmk,ansnote,fb],
-        if algebraic_equivalence(sExpr,tExpr) then
-                block([topOp, list],
-                    topOp: op( sExpr ),
-                    list: args( sExpr ),
-                    /* Sort out any factors the student may have pulled out */
-                    if topOp = "*" then block(
-                                              sExpr:expand(sExpr),
-                                              topOp: op(sExpr),
-                                              list: args(sExpr)
-                                              ),
-                    if topOp = "/" then list:[sExpr] else list: args( sExpr ),
-                    block([sargs,sdenoms],
-                                    val:true,
-                                    rawmk: true,
-                                    ansnote:StackAddNote("","ATPartFrac_true"),
-                                    /* We need to check that each term in the student's sum is in lowest terms ... */
-                                    if not all_listp(lambda([ex], real_numberp(gcd(num(ex),denom(ex)))),list) then
-                                                     block(
-                                                           rawmk: false,
-                                                           ansnote:StackAddNote("","ATPartFrac_false_lowestterms")
-                                                           ),
-                                    /* ... with the degree(num)<degree(den) */
-                                    if not all_listp(lambda([ex],if denom(ex)=1 then true else is(ev(hipow(expand(num(ex)),wrt)<hipow(expand(denom(ex)),wrt),simp))),list) then
-                                                     block(
-                                                           rawmk: false,
-                                                           ansnote:StackAddNote("","ATPartFrac_false_degree")
-                                                           ),
-                                    /* We need to check that each denominator is the power of an irreducible factor */
-                                    /* Note the slight cludge to check if we have a numerical factor */
-                                    if not all_listp(lambda([ex],irred_power_Qp(denom(ex),wrt)), list) then
-                                                     block(
-                                                          rawmk: false,
-                                                          ansnote:StackAddNote("","ATPartFrac_false_factor")
-                                                          )
-                                    ),
-                    ret: [val,rawmk,ansnote,fb],
-                    return(ret)
-                    )
-        else if sameVars(sExpr, tExpr) then
-             block([sDeg,tDeg,sNDeg,tNDeg],
-                sDeg: ev(hipow(expand(denom(factor(sExpr))),wrt),simp),
-                tDeg: ev(hipow(expand(denom(factor(tExpr))),wrt),simp),
-                sNDeg: ev(hipow(expand(num(factor(sExpr))),wrt),simp),
-                tNDeg: ev(hipow(expand(num(factor(tExpr))),wrt),simp),
-                if tDeg # sDeg then
-                    block(
-                        val:true,
-                        rawmk: false,
-                        ansnote: StackAddNote("","ATPartFrac_denom_ret"),
-                        fb: StackAddFeedback("","ATPartFrac_denom_ret", stack_disp(denom(factor(sExpr)),"i"), stack_disp(denom(factor(tExpr)),"i")),
-                        ret: [val,rawmk,ansnote,fb],
-                        return(ret)
-                    )
-                else
-                   block(
-                        val: true,
-                        rawmk: false,
-                        ansnote: StackAddNote("","ATPartFrac_ret_expression"),
-                        fb: StackAddFeedback("", "ATPartFrac_ret_expression", stack_disp(factor(sExpr),"i")),
-                        ret: [val,rawmk,ansnote,fb]
-                   )
-              )
-             else
-             block(
-                val: false,
-                rawmk: false,
-                ansnote : StackAddNote("","ATPartFrac_diff_variables"),
-                fb:StackAddFeedback("","ATPartFrac_diff_variables"),
-                ret: [val, rawmk, ansnote,fb]
-             ),
+    val:true, rawmk:true, fb: "", ansnote: "",
+    ret:[val, rawmk, ansnote, fb],
+    if algebraic_equivalence(sExpr, tExpr) then block([topOp, list],
+        topOp:op(sExpr),
+        list:args(sExpr),
+        /* Sort out any factors the student may have pulled out */
+        if topOp = "*" then block(
+            sExpr:expand(sExpr),
+            topOp:op(sExpr),
+            list:args(sExpr)
+        ),
+        if topOp = "/" then list:[sExpr] else list:args(sExpr),
+        block([sargs, sdenoms],
+            val:true,
+            rawmk:true,
+            ansnote:StackAddNote("", "ATPartFrac_true"),
+            /* We need to check that each term in the student's sum is in lowest terms ... */
+            if not all_listp(lambda([ex], real_numberp(gcd(num(ex), denom(ex)))), list) then block(
+                rawmk:false,
+                ansnote:StackAddNote("", "ATPartFrac_false_lowestterms")
+            ),
+            /* ... with the degree(num)<degree(den) */
+            if not all_listp(lambda([ex], if denom(ex)=1 then true
+            else is(ev(hipow(expand(num(ex)), wrt) < hipow(expand(denom(ex)), wrt), simp))), list) then block(
+                rawmk:false,
+                ansnote:StackAddNote("", "ATPartFrac_false_degree")
+            ),
+            /* We need to check that each denominator is the power of an irreducible factor */
+            /* Note the slight cludge to check if we have a numerical factor */
+            if not all_listp(lambda([ex], irred_power_Qp(denom(ex), wrt)), list) then block(
+                rawmk:false,
+                ansnote:StackAddNote("", "ATPartFrac_false_factor")
+            )
+        ),
+        ret:[val, rawmk, ansnote, fb],
+        return(ret)
+    )
+    else if sameVars(sExpr, tExpr) then block([sDeg, tDeg, sNDeg, tNDeg],
+        sDeg: ev(hipow(expand(denom(factor(sExpr))), wrt), simp),
+        tDeg: ev(hipow(expand(denom(factor(tExpr))), wrt), simp),
+        sNDeg: ev(hipow(expand(num(factor(sExpr))), wrt), simp),
+        tNDeg: ev(hipow(expand(num(factor(tExpr))), wrt), simp),
+        if tDeg # sDeg then block(
+            val:true,
+            rawmk:false,
+            ansnote:StackAddNote("", "ATPartFrac_denom_ret"),
+            fb: StackAddFeedback("", "ATPartFrac_denom_ret", stack_disp(denom(factor(sExpr)), "i"), stack_disp(denom(factor(tExpr)), "i")),
+            ret: [val, rawmk, ansnote, fb],
+            return(ret)
+        ) else block(
+            val:true,
+            rawmk:false,
+            ansnote:StackAddNote("", "ATPartFrac_ret_expression"),
+            fb:StackAddFeedback("",  "ATPartFrac_ret_expression", stack_disp(factor(sExpr), "i")),
+            ret:[val, rawmk, ansnote, fb]
+        )
+    ) else block(
+        val:false,
+        rawmk:false,
+        ansnote:StackAddNote("", "ATPartFrac_diff_variables"),
+        fb:StackAddFeedback("", "ATPartFrac_diff_variables"),
+        ret:[val, rawmk, ansnote, fb]
+     ),
      return(ret)
-     )$
+)$
 
 /* ************************ATSingFracTest****************************** */
 ATSingleFrac(SA, SB) := block(

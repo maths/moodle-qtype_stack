@@ -713,6 +713,7 @@ $string['stackCas_callingasfunction']       = 'Calling the result of a function 
 $string['stackCas_applyfunmakestring']      = 'The name of the function cannot be a string in <code>{$a->type}</code>.';
 $string['stackCas_badpostfixop']            = 'You have a bad "postfix" operator in your expression.';
 $string['stackCas_overrecursivesignatures'] = 'The question code includes too many functions defined through mapping';
+$string['stackCas_reserved_function']       = 'The function name "{$a->name}" is not permitted in this question. Please contact your teacher.';
 $string['stackCas_studentInputAsFunction']  = 'Use of student input as the name of a function is not permitted.';
 $string['stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName'] = 'The function name "{$a->name}" is potentially redefined in unclear substitutions.';
 $string['stackCas_functionNameSubstitutionToForbiddenOne'] = 'The function name "{$a->name}" is potentially mapped, using substitutions, to "{$a->trg}" which is a forbidden one.';

@@ -81,10 +81,10 @@ class stack_castext2_test extends qtype_stack_testcase {
 
     public function test_latex_injection_mixed_formats_1() {
         // The default format is raw HTML.
-        // The actual injection is not visible here as the merkdown gets rendered, but
+        // The actual injection is not visible here as the markdown gets rendered, but
         // the math-mode detection should be.
-        $input = '[[markdownformat]]\\\({@sqrt(x)@}\\\) {@sqrt(x)@}[[/markdownformat]] {@sqrt(x)@}';
-        $output = '\(\sqrt{x}\) \(\sqrt{x}\) \(\sqrt{x}\)';
+        $input = '[[markdownformat]]\\\\\\({@sqrt(x)@}\\\\\\) {@sqrt(x)@}[[/markdownformat]] {@sqrt(x)@}';
+        $output = '<p>\({\sqrt{x}}\) \({\sqrt{x}}\)</p>' . "\n " . '\({\sqrt{x}}\)';
         $this->assertEquals($output, $this->evaluate($input));
     }
 

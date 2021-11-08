@@ -110,9 +110,16 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                 }
             }
             // We may also have simplified everything out.
-            if ($node instanceof MP_List && count($node->items) > 0 && 
+            if ($node instanceof MP_List && count($node->items) >= 2 && 
                 $node->items[0] instanceof MP_String && 
                 $node->items[0]->value === '%root') {
+
+                if (count($node->items) === 2 && $node->items[1] instanceof MP_String) {
+                    // A concatenation of a single string, can be removed.
+                    $node->parentnode->replace($node, $node->items[1]);
+                    return false;
+                }
+
                 // The root nodes represent simple string concateations
                 // if the arguments are strings we can simply do
                 // the concatenation in advance and if we end with
@@ -130,117 +137,65 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                     return false;
                 }
             }
-            if ($node instanceof MP_List && count($node->items) == 2 && 
-                $node->items[0] instanceof MP_String && 
-                $node->items[1] instanceof MP_String && 
-                $node->items[0]->value === 'demarkdown') {
-                // If we have simplified it down to a string and we still have a markdown 
-                // postprocessing step we can do that as well and see if we can simplify 
-                // further, might lead to full simplify to string and thus allow skipping
-                // the whole CAS-evaluation.
-                // Unfortunately, this cannot be done if any of the parents does formatting.
-                // Mixed formats are not liked and should be banned, but the [[include]]-logic
-                // needs to be able to deal with them and PRTs and input2 trickery become simpler
-                // if we support this.
-                $good = true;
-                $same = false;
-                $p = $node->parentnode;
-                while ($p !== null) {
-                    if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
-                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph')) {
-                        $good =false;
-                        if ($p->items[0]->value === 'demarkdown') {
-                            $same = true;
-                        }
-                        break;
-                    }
-                    $p = $p->parentnode;
-                }
-                if ($good) {
-                    $params = [$node->items[0]->value, $node->items[1]->value];
-                    $proc = new stack_cas_castext2_demarkdown([]);
-                    $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
-                    return false;
-                }
-                if ($same) {
-                    // Same format nested can merge.
-                    if ($node->parentnode instanceof MP_List) {
-                        for ($i = 1; $i < count($node->items); $i++) {
-                            $node->parentnode->insertChild($node->items[$i], $node);
-                        }
-                        $node->parentnode->removeChild($node);
-                    }
-                }
-            }
-            if ($node instanceof MP_List && count($node->items) == 2 && 
-                $node->items[0] instanceof MP_String && 
-                $node->items[1] instanceof MP_String && 
-                $node->items[0]->value === 'demoodle') {
+            // Eliminate extra format declarations and render static content in other formats.
+            if ($node instanceof MP_List && count($node->items) >= 2 && 
+                $node->items[0] instanceof MP_String &&  
+                ($node->items[0]->value === 'demoodle' || $node->items[0]->value === 'demarkdown' || $node->items[0]->value === 'htmlformat')) {
                 // Same for Moodle auto-format
                 $good = true;
                 $same = false;
                 $p = $node->parentnode;
                 while ($p !== null) {
                     if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
-                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph')) {
-                        $good =false;
-                        if ($p->items[0]->value === 'demoodle') {
+                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph' || $p->items[0]->value === 'textdownload')) {
+                        // That or above is soemthign one needs to update if we add new format tuning blocks.
+                        $good = false;
+                        if ($p->items[0]->value === $node->items[0]->value) {
+                            $same = true;
+                        }
+                        if ($node->items[0]->value === 'htmlformat' && ($p->items[0]->value === 'jsxgraph' || $p->items[0]->value === 'textdownload')) {
+                            // JSXGraph and textdownload are blocks that enforce specific formats
                             $same = true;
                         }
                         break;
                     }
                     $p = $p->parentnode;
                 }
-                if ($good) {
+                if ($p === null && $good && $node->items[0]->value === 'htmlformat') {
+                    // The root format if not defined is htmlformat. So we can stop defining it.
+                    $same = true;
+                }
+
+                // Static ones can be replaced if we don't have complex wrapping.
+                if ($good && $node->items[0]->value === 'demoodle' && $node->items[1] instanceof MP_String && count($node->items) === 2) {
                     $params = [$node->items[0]->value, $node->items[1]->value];
                     $proc = new stack_cas_castext2_demoodle([]);
                     $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
                     return false;
                 }
-                if ($same) {
-                    // Same format nested can merge.
-                    if ($node->parentnode instanceof MP_List) {
-                        for ($i = 1; $i < count($node->items); $i++) {
-                            $node->parentnode->insertChild($node->items[$i], $node);
-                        }
-                        $node->parentnode->removeChild($node);
-                    }
-                }
-            }
-            if ($node instanceof MP_List && count($node->items) == 2 && 
-                $node->items[0] instanceof MP_String && 
-                $node->items[1] instanceof MP_String && 
-                $node->items[0]->value === 'htmlformat') {
-                // Same for html-format
-                $good = true;
-                $same = false;
-                $p = $node->parentnode;
-                while ($p !== null) {
-                    if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
-                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph')) {
-                        if ($p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph') {
-                            $same = true;
-                        }
-                        $good =false;
-                        break;
-                    }
-                    $p = $p->parentnode;
-                }
-                if ($good) {
+                if ($good && $node->items[0]->value === 'htmlformat' && $node->items[1] instanceof MP_String && count($node->items) === 2) {
                     $node->parentnode->replace($node, $node->items[1]);
                     return false;
                 }
+                if ($good && $node->items[0]->value === 'demarkdown' && $node->items[1] instanceof MP_String && count($node->items) === 2) {
+                    $params = [$node->items[0]->value, $node->items[1]->value];
+                    $proc = new stack_cas_castext2_demarkdown([]);
+                    $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
+                    return false;
+                }
+
+                // If the context is of the same format we do not need to define the format.
                 if ($same) {
-                    // Same format nested can merge.
                     if ($node->parentnode instanceof MP_List) {
                         for ($i = 1; $i < count($node->items); $i++) {
                             $node->parentnode->insertChild($node->items[$i], $node);
                         }
                         $node->parentnode->removeChild($node);
+                        return false;
                     }
                 }
             }
-
+            
             return true;
         };
         while ($ast->callbackRecurse($simplifier) !== true) {};

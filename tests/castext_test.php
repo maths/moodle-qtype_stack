@@ -50,11 +50,14 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
 
         $at1 = castext2_evaluatable::make_from_source($strin, 'stack_cas_text_test::basic_castext_instantiation');
-        $at1->get_valid();
-        $cs1->add_statement($at1);
-        $cs1->instantiate();
         $this->assertEquals($val, $at1->get_valid());
-        $this->assertEquals($disp, $at1->get_rendered());
+        if ($at1->get_valid()) {
+            // Currently (4.4), you need to be sure that it is valid before you instantiate it.
+            // The error that happens happens in a slightly different way now.
+            $cs1->add_statement($at1);
+            $cs1->instantiate();
+            $this->assertEquals($disp, $at1->get_rendered());
+        }        
     }
 
     public function test_basic_castext_instantiation() {
@@ -74,9 +77,10 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('{@a@}', $a1, true, '\({x^2}\)'),
                 array('{@sin(x)@}', $a1, true, '\({\sin \left( x \right)}\)'),
                 array('\[{@a*b@}\]', $a1, true, '\[{x^2\cdot {\left(x+1\right)}^2}\]'),
-                array('{@', null, false, false),
+                array('{@', null, true, '{@'), // The new parser allwos use of this text fragemt everywhere.
                 array('{@(x^2@}', null, false, false),
-                array('{@1/0@}', null, true, '1/0'),
+                array('{@1/0@}', null, true, '1/0'), // ! do we want this to work when simp:true?
+                // If so then the compiler will need to generate separate errcatch logic for everything just in case.
                 array('\(1+{@1/0@}\)', null, true, '\(1+1/0\)'),
                 array('{@x^2@}', $a2, false, null),
                 array('\(\frac{@"0.10"@}{@"0.10"@}\)', null, true, '\(\frac{0.10}{0.10}\)'),

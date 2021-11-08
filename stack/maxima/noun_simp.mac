@@ -240,7 +240,7 @@ ATEqualComAssRules(sa, sb, so) :=
         return([false,false,StackAddNote("", "ATEqualComAssRules_Opt_List"), StackAddFeedback("", "ATEqualComAssRules_Opt_List")]),
 
     /* Make sure commutativity and associativity are always in, and tidy up the options. */
-    so:ev(listify(setify(flatten(append(so, ALG_TRANS)))), simp),
+    so:ev(unique(flatten(append(so, ALG_TRANS))), simp),
     if ev(elementp(testdebug, setify(so)), simp) then block(
         debugtest:true,
         so:delete(testdebug, so)
@@ -268,9 +268,9 @@ ATEqualComAssRules(sa, sb, so) :=
     sa:equals_commute_prepare(sa),
     sb:equals_commute_prepare(sb),
 
-    if debug then print([sa,sb]),
-
+    if debug then print(["Transforming",sa]),
     sa:transl(sa, so),
+    if debug then print(["Transforming",sb]),
     sb:transl(sb, so),
 
     AnswerNote:"",
@@ -602,9 +602,10 @@ divCancel(ex) := block([ex1, ex2, ex3],
   return(apply("nounmul", ex1))
 )$ 
 
-/*******************************************/
+/**********************************************************/
+/* We either have an integer, or "UNARY_MINUS * integer". */
 noun_simp_integerp(ex) := if atom(ex) then integerp(ex) else
-                      if (safe_op(ex)="*" or safe_op(ex)="nounmul") and part(ex, 1)=UNARY_MINUS and atom(part(ex, 2)) and integerp(part(ex, 2)) then true else false$
+                      if (safe_op(ex)="*" or safe_op(ex)="nounmul") and length(args(ex))=2 and part(ex, 1)=UNARY_MINUS and atom(part(ex, 2)) and integerp(part(ex, 2)) then true else false$
 notnoun_simp_integerp(ex):=not(noun_simp_integerp(ex))$
 
 /* Evaluate integer arithmetic */

@@ -856,6 +856,10 @@ class stack_answertest_test_data {
                                  'A nounmul C nounmul UNARY_RECIP B nounmul D].', ''),
         array('EqualComAssRules', '[ID_TRANS,divDiv,recipMul]', 'A/(B/(C/D))', 'A*C/(B*D)', 1, '', ''),
         array('EqualComAssRules', '[intFac]', '18', '2*3^2', 1, '', ''),
+        array('EqualComAssRules',
+            '[[zeroAdd,zeroMul,oneMul,onePow,idPow,zeroPow,zPow,oneDiv],' .
+            '[negNeg,negDiv,negOrd],[recipMul,divDiv,divCancel],[intAdd,intMul,intPow]]',
+            '0+%i*(-(1/27))', '-(%i/27)', 1, '', ''),
 
         array('CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'ATCASEqual_STACKERROR_SAns.', ''),
         array('CasEqual', '', 'x', '1/0', -1, 'ATCASEqual_STACKERROR_TAns.', ''),

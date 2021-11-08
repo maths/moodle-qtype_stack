@@ -253,7 +253,13 @@ class castext2_evaluatable implements cas_raw_value_extractor {
                     // This needs to happen before the postprocessing.
                     $value = $this->statics->replace($value);
                 }
-                $this->evaluated = castext2_parser_utils::postprocess_parsed($value, $processor);
+                if ($value === null || $this->errors) {
+                    $this->evaluated = '<h3>' . stack_string('castext_error_header') . '</h3><ul><li>';
+                    $this->evaluated .= implode('</li><li>', $this->errors);
+                    $this->evaluated .= '</li></ul>';
+                } else {
+                    $this->evaluated = castext2_parser_utils::postprocess_parsed($value, $processor);
+                }
             }
         }
         return $this->evaluated;

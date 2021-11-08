@@ -41,7 +41,7 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
         // So we need to know if there is simplification in play
         // from the given expression.
         // TODO: remove the extra ev-wrap if possible and do static type
-        // identification so that we can dorp that if.
+        // identification so that we can drop that if.
         $forcesimp = mb_strpos($ev, ',simp=true') !== false;
         $disablesimp = mb_strpos($ev, ',simp=false') !== false;
 

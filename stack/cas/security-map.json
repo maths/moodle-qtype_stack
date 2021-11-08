@@ -408,6 +408,10 @@
       "function": "f",
       "built-in": true
   },
+  "_UNDO_ERR": {
+      "function": "f",
+      "built-in": true
+  },
   "__": {
       "globalyforbiddenvariable": true,
       "variable": "f"

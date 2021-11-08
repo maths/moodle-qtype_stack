@@ -51,6 +51,8 @@ class stack_cas_castext2_special_stack_maxima_latex_tidy extends stack_cas_caste
 
         // If this is coming from CAS tagged to be markdown escaped we need to do
         // some escaping. Currently the md-tag is the only tag.
+        // Note this is md-mode pretty dead now. But this might return.
+        // Currently md-replaces happen on the CAS-side.
         $mdmode = false;
         $t = $params[1];
         if (count($params) > 2) {

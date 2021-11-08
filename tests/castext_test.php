@@ -50,14 +50,18 @@ class stack_cas_text_test extends qtype_stack_testcase {
         }
 
         $at1 = castext2_evaluatable::make_from_source($strin, 'stack_cas_text_test::basic_castext_instantiation');
-        $this->assertEquals($val, $at1->get_valid());
         if ($at1->get_valid()) {
             // Currently (4.4), you need to be sure that it is valid before you instantiate it.
             // The error that happens happens in a slightly different way now.
             $cs1->add_statement($at1);
-            $cs1->instantiate();
-            $this->assertEquals($disp, $at1->get_rendered());
-        }        
+            $this->assertEquals($val, $cs1->get_valid());
+            if ($cs1->get_valid()) {
+                $cs1->instantiate();
+                $this->assertEquals($disp, $at1->get_rendered());
+            }
+        } else {
+            $this->assertEquals($val, $at1->get_valid());
+        }
     }
 
     public function test_basic_castext_instantiation() {
@@ -81,7 +85,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
                 array('{@(x^2@}', null, false, false),
                 array('{@1/0@}', null, true, '1/0'), // ! do we want this to work when simp:true?
                 // If so then the compiler will need to generate separate errcatch logic for everything just in case.
-                array('\(1+{@1/0@}\)', null, true, '\(1+1/0\)'),
+                array('\(1+{@1/0@}\)', null, true, '\(1+{1/0}\)'),
                 array('{@x^2@}', $a2, false, null),
                 array('\(\frac{@"0.10"@}{@"0.10"@}\)', null, true, '\(\frac{0.10}{0.10}\)'),
                 // This last one looks very odd.  It records a change in v4.0 where we stop supporting dollars.
@@ -125,6 +129,11 @@ class stack_cas_text_test extends qtype_stack_testcase {
     }
 
     public function test_if_block_error() {
+        // NOTE... These syntax error tests should be removed. All blocks either work or they do not
+        // if they do not work you see them not being replaced in the output. The old parser
+        // spent way too much time figuring out if a opening block closed or not and that
+        // made it unable to deal with comments and other details. Now we have comments and
+        // much less complexity in the parser.
         $a = array('a:true', 'b:is(1>2)');
         $cs = array();
         foreach ($a as $var) {
@@ -852,7 +861,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2->instantiate();
 
         $this->assert_content_with_maths_equals(
-                'Decimal numbers \({1.0e-1}\), \({1.0e-2}\), \({1.0e-3}\), \({1.0e-4}\), \({1.0e-5}\).',
+                'Decimal numbers \({1.0E-1}\), \({1.0E-2}\), \({1.0E-3}\), \({1.0E-4}\), \({1.0E-5}\).',
                 $at2->get_rendered());
     }
 
@@ -875,7 +884,7 @@ class stack_cas_text_test extends qtype_stack_testcase {
         $cs2->instantiate();
 
         $this->assert_content_with_maths_equals(
-                'Decimal number \({1.0e-6}\).',
+                'Decimal number \({1.0E-6}\).',
                 $at2->get_rendered());
     }
 

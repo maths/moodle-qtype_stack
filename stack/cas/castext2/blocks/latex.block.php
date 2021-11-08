@@ -37,48 +37,33 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
         $forcesimp = mb_strpos($ev, ',simp=true') !== false;
         $disablesimp = mb_strpos($ev, ',simp=false') !== false;
 
-        $r = 'block([_ct2_tmp],_ct2_tmp:' . $ev . ',';
-        if ($forcesimp) {
-            $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:true,_ct2_tmp:' . $ev . ',';
-        } else if ($disablesimp) {
-            $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:false,_ct2_tmp:' . $ev . ',';
-        }
-        $mdsuffix = ''; // Special parameter for "smlt" to do Markdown escaping.
-        // So if it is a string then we print it out as is. But in math-mode add the
-        // customary {wrapping}, just in case. If markdown is in play we escape it.
+        $mode = '""';
         if ($format === castext2_parser_utils::MDFORMAT) {
-            $mdsuffix = ',"1"';
             if ($this->mathmode) {
-                // Note that we need to escape those curlies in MD.
-                $r .= 'if stringp(_ct2_tmp) then sconcat("\\{",str_to_md(_ct2_tmp),"\\}") else ';
+                $mode = '"m"';
             } else {
-                $r .= 'if stringp(_ct2_tmp) then str_to_md(_ct2_tmp) else ';
+                $mode = '"im"';    
             }
         } else {
             if ($this->mathmode) {
-                $r .= 'if stringp(_ct2_tmp) then sconcat("{",_ct2_tmp,"}") else ';
+                $mode = '""';
             } else {
-                $r .= 'if stringp(_ct2_tmp) then _ct2_tmp else ';
+                $mode = '"i"';
             }
         }
 
-        // Otherwise we output different things depending on whether we are 
-        // in mathmode or not.
-        if ($this->mathmode) {
-            if ($forcesimp || $disablesimp) {
-                $r .= '(simp:false,_ct2_tmp:stack_disp(_ct2_tmp, "{"),simp:_ct2_simp,["smlt",_ct2_tmp'. $mdsuffix .'])';
-            } else {
-                $r .= '["smlt",stack_disp(_ct2_tmp, "{")'. $mdsuffix .']';
-            }
-        } else {
-            if ($forcesimp || $disablesimp) {
-                $r .= '(simp:false,_ct2_tmp:stack_disp(_ct2_tmp, "i{"),simp:_ct2_simp,["smlt",_ct2_tmp'. $mdsuffix .'])';
-            } else {
-                $r .= '["smlt",stack_disp(_ct2_tmp, "i{")'. $mdsuffix .']';
-            }
-        }
 
-        $r .= ')';
+        $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,';
+        $r .= '_ct2_tmp:' . stack_utils::php_string_to_maxima_string($this->content) . ',';
+        if ($forcesimp) {
+            $r .= 'simp:true,';
+        } else if ($disablesimp) {
+            $r .= 'simp:false,';
+        } 
+        $r .= 'errcatch(_ct2_tmp:' . $ev . '),';
+        
+        $r .= 'simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,'. $mode . '),simp:_ct2_simp,_ct2_tmp)';
+            
         return $r;
     }
 

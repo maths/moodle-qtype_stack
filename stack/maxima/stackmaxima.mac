@@ -558,6 +558,14 @@ _APPEND_ERR(err_list, reference) := if ev(stackmap_has_key(%ERR, %stmt), simp)
  else
   %ERR:stackmap_set(%ERR, %stmt, [[err_list,reference]])$
 
+_UNDO_ERR(err_list, reference) := block([%_tmp],
+  if (ev(stackmap_has_key(%ERR, %stmt), simp)) then (
+    %_tmp: stackmap_get(%ERR,%stmt),
+    %_tmp: delete([err_list,reference], %_tmp),
+    %ERR: stackmap_set(%ERR, %stmt, %_tmp)
+  )
+)$
+
 /* Function to attach a note to the current statement. */
 _APPEND_NOTE(note) := if ev(stackmap_has_key(%NOTES, %stmt), simp)
  then

@@ -398,3 +398,36 @@ stack_csv_formatter(_data, _labels) := block([_sep,simp,_out,_rowcount,_sepcount
 ")
  /* We might want to add a line change to the end. */
 )$
+
+
+
+/** 
+ * The logic for turning {@%_val@} to a string, this exists to simplify
+ * castext2 compilation results.
+ * %_mode has the following values:
+ *  "i" => sconcat("\({",...,"}\)") or ... for strings
+ *  "im" => sconcat("\\\\\\({",str_to_md(...),"}\\\\\\)") or str_to_md(...) for strings
+ *  "" => ...
+ *  "m" => str_to_md(...)
+ * Basically the mode tells if we are to wrap things in math-delimiters and if we are in 
+ * markdown mode.
+ */
+ct2_latex(%_val, %_mode):=block([%_tmp],
+ %_tmp: %_val,
+ /* Strings */
+ if stringp(%_tmp) then (
+   /* If in math-mode, i.e. not requesting wrapping wrap with braces. */
+   if %_mode = "" or %_mode = "m" then %_tmp: sconcat("{", %_tmp, "}"),
+   if %_mode = "m" or %_mode = "im" then %_tmp: str_to_md(%_tmp),
+   return(%_tmp)
+ ) else (
+   %_tmp: stack_disp(%_tmp, ""), /* Do our own wrapping. */
+   %_tmp: sconcat("{", strimr(" ", %_tmp), "}"),
+   if %_mode = "i" or %_mode = "im" then %_tmp: sconcat("\\(", %_tmp, "\\)")
+ ),
+ if %_mode = "m" or %_mode = "im" then (
+  %_tmp: str_to_md(%_tmp)
+ ),
+ /* Finally give it to PHP side translations. Maybe move them here as well? */
+ return(["smlt", %_tmp])
+)$

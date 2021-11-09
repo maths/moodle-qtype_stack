@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 /**
  * @group qtype_stack
  */
-class stack_cas_session2_test extends qtype_stack_testcase {
+class cassession2_test extends qtype_stack_testcase {
 
     public function test_internal_config() {
         // This test checks if the version number returned by Maxima matches our internal config.
@@ -853,7 +853,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('0', $s1[0]->get_value());
-        $this->assertRegExp('/Division by (zero|0)/', trim($s1[1]->get_errors()));
+        $this->assertMatchesRegularExpression('/Division by (zero|0)/', trim($s1[1]->get_errors()));
         $this->assertFalse(strpos($s1[1]->get_value(), 'STACK auto-generated plot of 0 with parameters'));
     }
 

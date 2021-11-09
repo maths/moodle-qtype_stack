@@ -77,6 +77,4 @@ class stack_ast_filter_999_strict implements stack_cas_astfilter_exclusion {
         }
         return false;
     }
-
-
 }

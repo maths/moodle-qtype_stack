@@ -157,11 +157,12 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
     /**
      * Initialise the fields of this class that contin the delimiters to use.
      */
-    protected abstract function initialise_delimiters();
+    abstract protected function initialise_delimiters();
 
     /**
      * @return moodle_text_filter an newly created instance of the text filter
      * to use to render equations.
      */
-    protected abstract function make_filter();
+    abstract protected function make_filter();
 }
+

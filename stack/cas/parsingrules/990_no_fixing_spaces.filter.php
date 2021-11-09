@@ -58,6 +58,4 @@ class stack_ast_filter_990_no_fixing_spaces implements stack_cas_astfilter_exclu
         }
         return false;
     }
-
-
 }

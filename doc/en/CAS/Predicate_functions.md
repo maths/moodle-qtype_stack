@@ -41,8 +41,8 @@ The following type predicates are defined by STACK.
 | `simp_numberp(ex)`         | Determines if \(ex\) is a number when `simp:false`.
 | `simp_integerp(ex)`        | Determines if \(ex\) is an integer when `simp:false`.
 | `real_numberp(ex)`         | Determines if \(ex\) is a real number.
-| `rational_numberp(ex)`     | Determines if \(ex\) is a rational number.
-| `lowesttermsp(ex)`         | Determines if a fraction \(ex\) is in lowest terms.
+| `rational_numberp(ex)`     | Determines if \(ex\) is written as a fraction.  For a true mathematical rational number use `rational_numberp(ex) or simp_integerp(ex)`
+| `lowesttermsp(ex)`         | Determines if a fraction \(ex\) is in lowest terms.  
 | `complex_exponentialp(ex)` | Determines if \(ex\) is written in complex exponential form, \(r e^{i\theta} \).  Needs `simp:false`.
 | `imag_numberp(ex)`         | Determines if \(ex\) is a purely imaginary number.
 

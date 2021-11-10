@@ -703,6 +703,8 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'matrix([x+x, 1],[1, 1])', 'matrix([2*x, 1],[1, 1])', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', 'sum(k^n,n,0,3)', 'sum(k^n,n,0,3)', 1, '', 'Sums and products'),
         array('EqualComAss', '', '1+k+k^2+k^3', 'sum(k^n,n,0,3)', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
+        array('EqualComAss', '', 'sum(k,k,0,1+n)', 'sum(k,k,0,n+1)', 1, '', ''),
+        array('EqualComAss', '', '(n+1)*(n+2)/2', 'sum(k,k,0,n+1)', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', 'product(cos(k*x),k,1,3)', 'product(cos(k*x),k,1,3)', 1, '', ''),
         array('EqualComAss', '', 'cos(x)*cos(2*x)*cos(3*x)', 'product(cos(k*x),k,1,3)', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
         array('EqualComAss', '', '-6/5 > x', 'x < -6/5', 0, 'ATEqualComAss (AlgEquiv-true).',

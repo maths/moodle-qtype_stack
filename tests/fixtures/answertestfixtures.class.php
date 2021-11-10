@@ -467,6 +467,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'sum(k^n,n,0,3)', 'sum(k^n,n,0,3)', 1, '', 'Sums and products'),
         array('AlgEquiv', '', '1+k+k^2+k^3', 'sum(k^n,n,0,3)', 1, '', ''),
         array('AlgEquiv', '', '1+k+k^2', 'sum(k^n,n,0,3)', 0, '', ''),
+        array('AlgEquiv', '', 'n*(n+1)*(2*n+1)/6', 'sum(k^2,k,1,n)', 1, '', ''),
+        array('AlgEquiv', '', 'sum((k+1)^2,k,0,n-1)', 'sum(k^2,k,1,n)', 1, '', ''),
         array('AlgEquiv', '', 'product(cos(k*x),k,1,3)', 'product(cos(k*x),k,1,3)', 1, '', ''),
         array('AlgEquiv', '', 'cos(x)*cos(2*x)*cos(3*x)', 'product(cos(k*x),k,1,3)', 1, '', ''),
         array('AlgEquiv', '', 'cos(x)*cos(2*x)', 'product(cos(k*x),k,1,3)', 0, '', ''),

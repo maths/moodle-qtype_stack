@@ -24,7 +24,7 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
  * @group qtype_stack_ast_filters
  */
 
-class stack_ast_filter_auto_gen_210_x_used_as_multiplication_testcase extends qtype_stack_ast_testcase {
+class ast_filter_210_x_used_as_multiplication_auto_generated_test extends qtype_stack_ast_testcase {
 
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);

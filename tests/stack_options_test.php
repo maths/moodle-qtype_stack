@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../stack/options.class.php');
 /**
  * @group qtype_stack
  */
-class stack_options_set_exception_test extends basic_testcase {
+class stack_options_test extends basic_testcase {
 
     public function test_set_exception_1() {
         $opts = new stack_options();

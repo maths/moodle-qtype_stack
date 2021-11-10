@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../doc/docslib.php');
 /**
  * @group qtype_stack
  */
-class stack_maths_maths_test extends advanced_testcase {
+class mathsoutputmaths_test extends advanced_testcase {
 
     public function test_maths_rendering() {
         if (!stack_maths_output_maths::filter_is_installed()) {

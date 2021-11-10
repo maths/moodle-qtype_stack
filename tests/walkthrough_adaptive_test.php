@@ -28,7 +28,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
-class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
+class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test0_validate_then_submit_right_first_time() {
 

@@ -29,7 +29,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
-class stack_boolean_input_validation_test extends qtype_stack_testcase {
+class input_boolean_validation_test extends qtype_stack_testcase {
     public function test_validate_student_response_true() {
         $options = new stack_options();
         $el = stack_input_factory::make('boolean', 'sans1', 'true');

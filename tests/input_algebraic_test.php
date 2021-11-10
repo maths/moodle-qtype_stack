@@ -30,7 +30,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 /**
  * @group qtype_stack
  */
-class stack_algebra_input_test extends qtype_stack_testcase {
+class input_algebraic_test extends qtype_stack_testcase {
 
     public function test_internal_validate_parameter() {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');

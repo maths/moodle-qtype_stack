@@ -31,7 +31,7 @@ require_once(__DIR__ . '/fixtures/subscriptsfixtures.class.php');
 /**
  * @group qtype_stack
  */
-class stack_subscript_testcase extends qtype_stack_testcase {
+class subscript_test extends qtype_stack_testcase {
 
     /**
      * @dataProvider stack_subscripts_test_data::get_raw_test_data

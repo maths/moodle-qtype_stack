@@ -25,7 +25,7 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/201_sig_figs_validation.filte
  * @group qtype_stack
  * @group qtype_stack_ast_filters
  */
-class stack_parser_rule_201_test extends qtype_stack_testcase {
+class parser_rule_201_test extends qtype_stack_testcase {
 
     public function filter(string $input, int $min = -1, int $max = -1, bool $strict = false): array {
         $ast = maxima_parser_utils::parse($input);

@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../doc/docslib.php');
 /**
  * @group qtype_stack
  */
-class stack_maths_tex_test extends advanced_testcase {
+class mathsoutputtex_test extends qtype_stack_testcase {
 
     public function test_tex_rendering() {
         $this->resetAfterTest();

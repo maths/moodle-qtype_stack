@@ -14,9 +14,11 @@ Please continue to report any bugs you find at https://github.com/maths/moodle-q
 
 The [current state of development](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/Development_track.md) is explained more fully in the [developer documentation](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/index.md).
 
+The STACK project has been running since 2005, and we are committed to long term support within Moodle.  We aim to maintain this plugin to work with versions of Moodle, both currently supported and current security releases, see [Moodle versions](https://docs.moodle.org/dev/Releases#Version_support) for more details.  We are also committed to support STACK within ILIAS.  If your version of Moodle or ILIAS is not listed as supported please do contact the developers for more information.
+
 ## Documentation
 
-The [documentation is here](https://stack-assessment.org/), including the installation instructions.
+The [documentation is here](https://stack-assessment.org/), including the [installation instructions](https://docs.stack-assessment.org/en/Installation/).
 
 ## License
 

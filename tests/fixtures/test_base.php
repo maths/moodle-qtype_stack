@@ -205,6 +205,24 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
         $this->assertEquals($e, $a);
     }
+
+    public function assertMatchesRegularExpression($pat, $str) {
+        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        if (method_exists('Assert', 'assertMatchesRegularExpression')) {
+            parent::assertMatchesRegularExpression($pat, $str);
+        } else {
+            parent::assertRegExp($pat, $str);
+        }
+    }
+
+    public function assertDoesNotMatchRegularExpression($pat, $str) {
+        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        if (method_exists('Assert', 'assertDoesNotMatchRegularExpression')) {
+            parent::assertDoesNotMatchRegularExpression($pat, $str);
+        } else {
+            parent::assertNotRegExp($pat, $str);
+        }
+    }
 }
 
 
@@ -432,5 +450,23 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
     protected function assert_same_select_html($expected, $actual) {
         $actual = str_replace('class="select custom-select', 'class="select', $actual);
         $this->assertEquals($expected, $actual);
+    }
+
+    public function assertMatchesRegularExpression($pat, $str) {
+        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        if (method_exists('Assert', 'assertMatchesRegularExpression')) {
+            parent::assertMatchesRegularExpression($pat, $str);
+        } else {
+            parent::assertRegExp($pat, $str);
+        }
+    }
+
+    public function assertDoesNotMatchRegularExpression($pat, $str) {
+        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        if (method_exists('Assert', 'assertDoesNotMatchRegularExpression')) {
+            parent::assertDoesNotMatchRegularExpression($pat, $str);
+        } else {
+            parent::assertNotRegExp($pat, $str);
+        }
     }
 }

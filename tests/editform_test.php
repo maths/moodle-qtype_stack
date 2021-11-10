@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../edit_stack_form.php');
 /**
  * @group qtype_stack
  */
-class qtype_stack_edit_form_testable extends qtype_stack_edit_form {
+class editform_test extends qtype_stack_edit_form {
 
     public function __construct($questiontext, $specificfeedback) {
         global $USER;

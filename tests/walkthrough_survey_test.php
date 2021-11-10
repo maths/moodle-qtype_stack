@@ -31,7 +31,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
-class qtype_stack_walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
+class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
 
     public function test_neither_inputs_nor_prts() {
 

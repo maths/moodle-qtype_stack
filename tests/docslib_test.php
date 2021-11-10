@@ -27,7 +27,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
-class stack_docslib_test extends qtype_stack_testcase {
+class docslib_test extends qtype_stack_testcase {
 
     public function test_stack_docs_title_from_filename() {
         $this->assertEquals('About', stack_docs_title_from_filename('About'));

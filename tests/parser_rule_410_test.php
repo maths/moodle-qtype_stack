@@ -25,7 +25,7 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/410_single_char_vars.filter.p
  * @group qtype_stack
  * @group qtype_stack_ast_filters
  */
-class stack_parser_rule_410_test extends qtype_stack_testcase {
+class parser_rule_410_test extends qtype_stack_testcase {
 
     public function test_nothing_to_do() {
         $teststring = '2*a*b;';

@@ -30,7 +30,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 /**
  * @group qtype_stack
  */
-class stack_singlechar_input_test extends qtype_stack_testcase {
+class input_singlechar_test extends qtype_stack_testcase {
 
     public function test_render_blank() {
         $el = stack_input_factory::make('singleChar', 'ans1', null);

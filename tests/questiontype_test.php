@@ -31,7 +31,7 @@ require_once(__DIR__ . '/../questiontype.php');
 /**
  * @group qtype_stack
  */
-class qtype_stack_test extends qtype_stack_walkthrough_test_base {
+class questiontype_test extends qtype_stack_walkthrough_test_base {
 
     /** @var qtype_stack */
     private $qtype;

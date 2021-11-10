@@ -32,7 +32,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
-class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_base {
+class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_save_answers_to_all_parts_and_stubmit() {
         // Create a stack question.

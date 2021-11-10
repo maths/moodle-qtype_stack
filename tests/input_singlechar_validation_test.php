@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 /**
  * @group qtype_stack
  */
-class stack_singlechar_input_validation_test extends qtype_stack_testcase {
+class input_singlechar_validation_test extends qtype_stack_testcase {
     public function test_validate_student_response_true() {
         $options = new stack_options();
         $el = stack_input_factory::make('singleChar', 'sans1', 'true');

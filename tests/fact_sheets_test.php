@@ -25,7 +25,7 @@ require_once(__DIR__ . '/../stack/cas/castext.class.php');
 /**
  * @group qtype_stack
  */
-class stack_fact_sheets_test extends qtype_stack_testcase {
+class fact_sheets_test extends qtype_stack_testcase {
 
     public function test_basic_castext_instantiation() {
         $this->assertEquals(array(), stack_fact_sheets::get_unrecognised_tags('Hello world'));

@@ -25,7 +25,7 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/801_singleton_numeric.filter.
  * @group qtype_stack
  * @group qtype_stack_ast_filters
  */
-class stack_parser_rule_801_test extends qtype_stack_testcase {
+class parser_rule_801_test extends qtype_stack_testcase {
 
     public function filter(string $input, bool $floats = true, bool $ints = true, bool $power = true,
             string $convert = 'none'): array {

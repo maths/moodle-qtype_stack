@@ -333,7 +333,7 @@ ESCAPE;
 
 cli_heading('Comparing to existing tests');
 foreach ($generatedcode as $key => $code) {
-    $name = __DIR__ . '/../tests/ast_filter_' . $key . '.auto-generated_test.php';
+    $name = __DIR__ . '/../tests/ast_filter_' . $key . '_auto_generated_test.php';
     $old = false;
     if (file_exists($name)) {
         $old = file_get_contents($name);

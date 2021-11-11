@@ -890,7 +890,6 @@ $string['FacForm_UnPick_morework']      = 'You could still do some more work on 
 $string['FacForm_UnPick_intfac']        = 'You need to take out a common factor. ';
 
 $string['ATFacForm_error_list']         = 'The answer test failed.  Please contact your systems administrator';
-$string['ATFacForm_error_degreeSA']     = 'The CAS could not establish the algebraic degree of your answer.';
 $string['ATFacForm_isfactored']         = 'Your answer is factored, well done. ';  // Needs a space at the end.
 $string['ATFacForm_notfactored']        = 'Your answer is not factored. '; // Needs a space at the end.
 $string['ATFacForm_notpoly']            = 'This term is expected to be a polynomial, but is not.';

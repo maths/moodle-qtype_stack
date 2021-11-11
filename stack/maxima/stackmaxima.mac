@@ -2108,77 +2108,76 @@ ATGTE(SA,SB) :=
 /* Is p an irreducible polynomial term in v, over the rationals Q? */
 /* Returns a list, of [true/false, FeedBack, true/false] */
 /* The third argument is the special case when we just have an integer factor to pull out. Needed for PartFrac. */
-irred_Q(p,v) := block([ret,deg,cl,ci],
-  if ev(not(polynomialp(p, [v])), simp) then return([false, StackAddFeedback("", "ATFacForm_notpoly")]),
-  deg:ev(hipow(expand(p),v),simp),
-  /* Now perform the general test */
-  cl:ev(map(second,coeff_list_nz(expand(p),v)),simp),
-  /* all coefficients of p are integers?  (note, negative number don't count as integers here!)  */
-  ci:all_listp(lambda([ex],integerp(ev(abs(ex),simp))),cl),
-  /* General starting position */
-  ret:[factorp(p),"",false],
-  /* Special cases */
-  if deg=0 then ret:[true,"",false],
-  /* Special situation for the linear case to avoid strange results */
-  if deg=1 then block([lt],
-    lt:ev(bothcoef(p,v),simp),
-    if lt[1]=1 or lt[2]=1 then ret:[true,"",false]
+
+irred_Q(p, v) := block([ret,deg,cl,ci],
+  if ev(not(polynomialpsimp(p)), simp) then return([false, StackAddFeedback("", "ATFacForm_notpoly")]),
+  deg:ev(hipow(expand(p), v), simp),
+  /* Now perform the general test. */
+  cl:ev(map(second, coeff_list_nz(expand(p), v)), simp),
+  /* Are all coefficients of p are integers?  (note, negative number don't count as integers here!)  */
+  ci:all_listp(lambda([ex], integerp(ev(abs(ex), simp))), cl),
+  /* General starting position. */
+  ret:[factorp(p), "", false],
+  /* Special cases. */
+  if is(deg=0) then ret:[true,"",false],
+  /* Special situation for the linear case to avoid strange results. */
+  if is(deg=1) then block([lt],
+    lt:ev(bothcoef(p, v), simp),
+    if lt[1]=1 or lt[2]=1 then ret:[true, "", false]
   ),
-  /* Special case of quadratics, which are irreducible over the rationals */
-  if deg=2 then block([a,b,c,q],
-       q:ev(expand(p),simp),
-       a:ev(coeff(q,v,2),simp),
-       b:ev(coeff(q,v,1),simp),
-       c:ev(coeff(q,v,0),simp),
-       if (b=0 and c=0 and a>1 and ratnump(ev(sqrt(a),simp))) then ret:[true,StackAddFeedback("","irred_Q_optional_fac",stack_disp(p,"i")),false]
-       else if (b=0 and c=0) then ret:[true,"",false]
-       else if ratnump(ev(sqrt(b^2-4*a*c),simp)) then ret:[false,"",false]
+  /* Special case of quadratics, which are irreducible over the rationals. */
+  if is(deg=2) then block([a, b, c, q],
+       q:ev(expand(p), simp),
+       a:ev(coeff(q, v, 2), simp),
+       b:ev(coeff(q, v, 1), simp),
+       c:ev(coeff(q, v, 0), simp),
+       if (b=0 and c=0 and a>1 and ratnump(ev(sqrt(a), simp))) then ret:[true, StackAddFeedback("", "irred_Q_optional_fac", stack_disp(p,"i")), false]
+       else if (b=0 and c=0) then ret:[true, "", false]
+       else if ratnump(ev(sqrt(b^2-4*a*c), simp)) then ret:[false, "", false]
   ),
-  /* Check we have a common integer factor: note can't use GCD function which only allows 2 arguments */
-  if length(cl)>1 and ci and commonfaclist(cl)>1 then ret:[false,StackAddFeedback("","irred_Q_commonint"),true],
+  /* Check we have a common integer factor: note can't use GCD function which only allows 2 arguments. */
+  if length(cl)>1 and ci and commonfaclist(cl)>1 then ret:[false, StackAddFeedback("", "irred_Q_commonint"), true],
   if deg>2 then block([q],
-    /* take out any integer common factor */
+    /* Take out any integer common factor. */
     q:p,
-    if length(cl)>1 and ci then q:ev(expand(p/commonfaclist(cl)),simp),
-    if is(ev(q#factor(q),simp)) then ret:[false,ret[2],false]
+    if length(cl)>1 and ci then q:ev(expand(p/commonfaclist(cl)), simp),
+    if is(ev(q#factor(q), simp)) then ret:[false, ret[2], false]
   ),
   return(ret)
 )$
 
-/* Picks apart an expression p of v, and gives some feedback */
-/* on why this is not a factored expression */
-FacForm_UnPick(SA, SO) := block([negdistrib, PARTSWITCH, fb, kloop, irred, res],
+/* Picks apart an expression and gives some feedback */
+/* on why this is not a factored expression.         */
+FacForm_UnPick(SA, SO) := block([negdistrib, partswitch, fb, kloop, irred, res],
   negdistrib:false,
   partswitch:true,
   fb:"",
   res:true,
-  if atom(SA) then return([true, ""]),
   if safe_op(SA) = "-" then SA:part(SA,1),
+  if atom(SA) then return([true, ""]),
   if op(SA) = "+" then return(irred_Q(SA, SO)) else
-    if op(SA) = "^" then return(irred_Q(part(SA, 1), SO)),
+  if op(SA) = "^" then return(irred_Q(part(SA, 1), SO)),
   /* So we have a *, or a / */
-  for kloop:1 step 1 while ev(part(SA, kloop),simp)#end do block(
+  for kloop:1 step 1 while ev(part(SA, kloop), simp)#end do block(
     /* We just need to go one level down! */
     irred:block([SB],
       SB:part(SA, ev(kloop, simp)),
-      if atom(SB) then return([true,""]),
-      if safe_op(SB) = "-" then SA:part(SB,1),
-      if op(SB) = "+" then return(irred_Q(SB, SO)),
-      if op(SB) = "^" then return(irred_Q(part(SB, 1), SO)) else return([false, ""])
+      if safe_op(SB) = "-" then SB:part(SB, 1),
+      if atom(SB) then return([true, ""]),
+      if safe_op(SB) = "+" then return(irred_Q(SB, SO)),
+      if safe_op(SB) = "^" then return(irred_Q(part(SB, 1), SO)) else return([false, ""])
     ),
     res:res and irred[1],
     if irred[1] = false then block(
-      fb:StackAddFeedback(fb, "FacForm_UnPick_morework",stack_disp(part(SA, ev(kloop, simp)), "i")),
+      fb:StackAddFeedback(fb, "FacForm_UnPick_morework", stack_disp(part(SA, ev(kloop, simp)), "i")),
       fb:concat(fb, irred[2])
     )
   ),
   return([res,fb])
-  )$
+)$
 
 
 /* Factored form of a polynomial? */
-/* Assumes all coefficients are integers. */
-
 ATFacForm(SA, SB, SO) := block([negdistrib, RawMark, FeedBack, AnswerNote, ret, str, SAA, SBB, SOO, coefl, facdum],
     negdistrib:false,
     Validity:true, RawMark:true, FeedBack:"", AnswerNote:"",
@@ -2206,52 +2205,48 @@ ATFacForm(SA, SB, SO) := block([negdistrib, RawMark, FeedBack, AnswerNote, ret, 
 FacFormfun(SA, SB, SO) := block([val, rawmk, ansnote, fb, ret, deg, aequiv, up, cont],
     val:true, rawmk:true, fb: "", ansnote: "",
     ret:[val, rawmk, ansnote, fb],
-    if errcatch(deg:hipow(expand(SA), SO)) = [] then block(
-        val: false,
-        rawmk: false,
-        ansnote: StackAddNote("", "ATFacForm_error_degreeSA"),
-        fb: StackAddFeedback("", "ATFacForm_error_degreeSA")
-        ),
     aequiv:algebraic_equivalence(SA, SB),
     SA:flatten(SA),
     /* An integer answer is always correct. */
     if (integerp(SA)) then
         if (SA=SB) then
-            ansnote: StackAddNote("", "ATFacForm_int_true")
+            ansnote:StackAddNote(ansnote, "ATFacForm_int_true")
         else block(
             rawmk: false,
-            ansnote: StackAddNote("", "ATFacForm_int_false")
-            )
+            ansnote:StackAddNote(ansnote, "ATFacForm_int_false")
+            ) 
     else block(
         /* Check for the correct answer. */
         if (aequiv and factorp(SA)) then
-            ansnote: StackAddNote("", "ATFacForm_true")
+            ansnote:StackAddNote("", "ATFacForm_true")
         else block(
-            if (factorp(SA)) then ( /* We need to provide some feedback, if possible */
+            if (factorp(SA)) then block( 
+                /* We need to provide some feedback, if possible. */
                 ansnote:StackAddNote(ansnote, "ATFacForm_isfactored"),
                 fb:StackAddFeedback(fb, "ATFacForm_isfactored")
                 )
-            else
-                (up:FacForm_UnPick(SA, SO) ),
-            if (up[1]=false) then (
-               rawmk: false,
-               ansnote:StackAddNote(ansnote, "ATFacForm_notfactored"),
-               fb:StackAddFeedback(fb, "ATFacForm_notfactored"),
-               fb:concat(fb, up[2])
-               )
-            else
-               (ansnote:StackAddNote(ansnote,"ATFacForm_default_true") ),
+            else block(
+                up:FacForm_UnPick(SA, SO),
+                if (up[1]=false) then block(
+                    rawmk:false,
+                    ansnote:StackAddNote(ansnote, "ATFacForm_notfactored"),
+                    fb:StackAddFeedback(fb, "ATFacForm_notfactored"),
+                    fb:concat(fb, up[2])
+                ) else block(
+                    ansnote:StackAddNote(ansnote, "ATFacForm_default_true")
+                )
+            ),
             /* Check for algebraic equivalence */
             if (true#aequiv) then (
-              rawmk:false,
-              ansnote:StackAddNote(ansnote, "ATFacForm_notalgequiv"),
-              fb:StackAddFeedback(fb, "ATFacForm_notalgequiv")
-              )
+                rawmk:false,
+                ansnote:StackAddNote(ansnote, "ATFacForm_notalgequiv"),
+                fb:StackAddFeedback(fb, "ATFacForm_notalgequiv")
             )
-        ),
-    ret: [val, rawmk, ansnote, fb],
+        )
+    ),
+    ret:[val, rawmk, ansnote, fb],
     return(ret)
-    )$
+)$
 
 /* An answer test based expandp(sa). */
 /* Note, the SB is a dummy to allow one mechanism for calling functions. */

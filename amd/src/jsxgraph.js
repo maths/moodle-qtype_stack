@@ -1,553 +1,491 @@
-/// NOTE! This code does eval() a string with no validation.
-// So lets hope this is the correct way to name a Moodle AMD module
 define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
+    // 4.4 rewrite, now with groups and ability to mark as moved.
+    // Should perform better and have less listeners.
+
+    // Functions that generate the value for an input. By input then  by object.
+    var serializers = {};
+
+    // Functions that extract values from inputs. Lists of them by input.
+    // Single argument functions taking the value of the input.
+    var deserializers = {};
+
+    // Initial values for input serialisations before restore, if an object set of an input
+    // serialises to something else this value will be nulled otherwise if the values match
+    // the input won't get updated.
+    var initials = {};
+
+    // Object groups, if any of these objects moves consider others to have moved as well.
+    // Moving an object only considers those groups the object itself belongs to touching
+    // "part A" does not cascade to "part B" if they overlap unless the moved thing is in
+    // the intersection.
+    var objectgroups = [];
+
+    // Object input mappings. Which inputs tie to this object. Object.id to lists of inputs.
+    var objectinput = {};
+
+    // Flag to stop propagation.
+    var active = false;
+
+    function _commonsetup(inputname) {
+        if (!(inputname in serializers)) {
+            serializers[inputname] = {};
+            deserializers[inputname] = [];
+
+            var input = document.getElementById(inputname);
+            input.addEventListener('input', () => generalinputupdatehandler(inputname));
+            input.addEventListener('change', () => generalinputupdatehandler(inputname));
+            input.addEventListener('change', function() {
+                M.core_formchangechecker.set_form_changed();
+            });
+        }
+    }
+
+
+    function pointserializer(point) {
+        return JSON.stringify([point.X(), point.Y()]);
+    }
+
+    function pointdeserializer(point, data) {
+        try {
+            var tmp = JSON.parse(data);
+            if (typeof tmp[0] == 'number' && typeof tmp[1] == 'number') {
+                point.setPosition(JXG.COORDS_BY_USER, tmp);
+                point.board.update();
+                point.update();
+            }
+        } catch (err) {
+            // We do not care about this. What could we even do?
+        }
+    }
+    // And for cases where we have already parsed that.
+    function pointdeserializerparsed(point, data) {
+        try {
+            if (typeof data[0] == 'number' && typeof data[1] == 'number') {
+                point.setPosition(JXG.COORDS_BY_USER, data);
+                point.board.update();
+                point.update();
+            }
+        } catch (err) {
+            // We do not care about this. What could we even do?
+        }
+    }
+
+
+    function sliderserializer(slider) {
+        return JSON.stringify(slider.Value());
+    }
+
+    function sliderdeserializer(slider, data) {
+        try {
+            slider.setValue(JSON.parse(data));
+            slider.board.update();
+            slider.update();
+        } catch (err) {
+            // We do not care about this.
+        }
+    }
+
+    function generalobjectupdatehandler(object) {
+        if (!active) {
+            active = true;
+            try {
+                var handledinputs = [];
+                if (object.id in objectinput) {
+                    for (var inputname of objectinput[object.id]) {
+                        if (handledinputs.indexOf(inputname) === -1) {
+                            handledinputs.push(inputname);
+                            var input = document.getElementById(inputname);
+                            var val = serializers[inputname][object.id]();
+                            if (val !== initials[inputname]) {
+                                initials[inputname] = null;
+                                input.value = val;
+                            } else {
+                                // Exit.
+                                active = false;
+                                return;
+                            }
+                        }
+                    }
+                }
+                // Update groups at the same time. Here the initial value matters not a bit.
+                for (var group of objectgroups) {
+                    if (group.indexOf(object.id) !== -1) {
+                        for (var obj of group) {
+                            if (obj !== object.id) {
+                                if (obj in objectinput) {
+                                    for (var inputname of objectinput[obj]) {
+                                        if (handledinputs.indexOf(inputname) === -1) {
+                                            initials[inputname] = null;
+                                            handledinputs.push(inputname);
+                                            var input = document.getElementById(inputname);
+                                            input.value = serializers[inputname][obj]();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                for (var inputname of handledinputs) {
+                    var input = document.getElementById(inputname);
+                    if (window.location.pathname.indexOf('preview.php') === -1) {
+                        var e = new Event('change');
+                        input.dispatchEvent(e);
+                    }
+                    var e = new Event('input');
+                    input.dispatchEvent(e);
+                }
+            } catch (err) {
+                // If there is an error there we want to reset active anyway.
+                // Might be that some serializer explodes if some scripting
+                // messes with things.
+            }
+            active = false;
+        }
+    }
+
+    // Updates to inputs coming from outside are handled like this.
+    function generalinputupdatehandler(inputname) {
+        if (inputname in deserializers) {
+            // Only trigger everything if the value has truly changed.
+            // Check for one of the objects serialising to this input.
+            var old = serializers[inputname][Object.keys(serializers[inputname])[0]]();
+
+            var input = document.getElementById(inputname);
+            if (old !== input.value) {
+                for (var ds of deserializers[inputname]) {
+                    ds(input.value);
+                }
+            }
+        }
+    }
+
+
+
     return {
             find_input_id: function(divid, name) {
+                // Note this is here for compatibility and for documentation.
+                // Not used since CASText2.
                 var tmp = document.getElementById(divid);
-                while ((tmp = tmp.parentElement) && !(tmp.classList.contains("formulation") && tmp.parentElement.classList.contains("content"))) {}
+                while ((tmp = tmp.parentElement) &&
+                       !(tmp.classList.contains("formulation") &&
+                       tmp.parentElement.classList.contains("content"))) {}
                 tmp = tmp.querySelector('input[id$="_' + name + '"]');
                 // We use this function to also tie into the change tracking of Moodle.
                 // We do it here so that all possible code written by authors will also be tracked.
                 // The author just needst to generate a change event they do not need to know how the VLE works.
-                tmp.addEventListener('change', function(e) {
+                tmp.addEventListener('change', function() {
                     M.core_formchangechecker.set_form_changed();
                 });
                 return tmp.id;
             },
 
+            define_group: function(list) {
+                // Moving any of these objects (points sliders) leads to all of them
+                // being considered moved.
+                var l = [];
+                for (var obj of list) {
+                    if (!(obj.id in l)) {
+                        l.push(obj.id);
+                    }
+                }
+                objectgroups.push(l);
+            },
+
+            starts_moved: function(obj) {
+                // Makes this object start its life as moved.
+                // Call after bindings have been defined and possible groups declared.
+                if (obj.id in objectinput) {
+                    for (var inputname of objectinput[obj.id]) {
+                        initials[inputname] = null;
+                    }
+                    generalobjectupdatehandler(obj);
+                }
+            },
+
             bind_point: function(inputRef, point) {
+                _commonsetup(inputRef);
                 // This function takes a JXG point object and binds its coordinates to a given input.
                 var theInput = document.getElementById(inputRef);
+
+                initials[inputRef] = pointserializer(point);
+
                 if (theInput.value && theInput.value != '') {
-                    // if a value exists move the point to it.
-                    // the value is stored as a list of float values e.g. "[1,0.43]"
-                    var coords = JSON.parse(theInput.value);
-                    try {
-                        point.setPosition(JXG.COORDS_BY_USER, coords);
-                    } catch (err) {
-                        // We do not care about this.
+                    pointdeserializer(point, theInput.value);
+                }
+                serializers[inputRef][point.id] = () => {
+                    return pointserializer(point);
+                };
+
+                deserializers[inputRef].push((value) => {
+                    pointdeserializer(point, value);
+                });
+
+                if (point.id in objectinput) {
+                    if (!(inputRef in objectinput[point.id])) {
+                        objectinput[point.id].push(inputRef);
                     }
-                    point.board.update();
-                    point.update();
+                } else {
+                    objectinput[point.id] = [inputRef];
                 }
 
-                var initialX = point.X();
-                var initialY = point.Y();
-
                 // Then the binding from graph to input.
-                point.board.on('update', function() {
-                    // We do not want to set the input before the point actually moves.
-                    if (initialX !== point.X() || initialY !== point.Y()) {
-                        var tmp = JSON.stringify([point.X(), point.Y()]);
-                        initialX = false; // ignore these after initial change.
-                        initialY = false;
-                        if (theInput.value != tmp) {
-                            // Avoid resetting this, as some event models migth trigger
-                            // change events even when no change actually happens.
-                            theInput.value = tmp;
-                            // As we set the inputs value programmatically no events
-                            // will be fired. But for two way binding we want to fire them...
-                            // However we do not need this in the preview where it annoys people.
-                            if (window.location.pathname.indexOf('preview.php') === -1) {
-                                var e = new Event('change');
-                                theInput.dispatchEvent(e);
-                            }
-                        }
-                    }
-                });
-
-                var lastValue = JSON.stringify([point.X(), point.Y()]);
-
-                // Then from input to graph. 'input' for live stuff and 'change' for other.
-                theInput.addEventListener('input', function(e) {
-                    if (theInput.value != lastValue) {
-                        // Only when something changed.
-                        try {
-                            var tmp = JSON.parse(theInput.value);
-                            if (typeof tmp[0] == 'number' && typeof tmp[1] == 'number') {
-                                point.setPosition(JXG.COORDS_BY_USER, tmp);
-                                point.board.update();
-                                point.update();
-                            }
-                        } catch (err) {
-                            // We do not care about this.
-                        }
-                        lastValue = theInput.value;
-                    }
-                });
-                theInput.addEventListener('change', function(e) {
-                    if (theInput.value != lastValue) {
-                        // Only when something changed.
-                        try {
-                            var tmp = JSON.parse(theInput.value);
-                            if (typeof tmp[0] == 'number' && typeof tmp[1] == 'number') {
-                                point.setPosition(JXG.COORDS_BY_USER, tmp);
-                                point.board.update();
-                                point.update();
-                            }
-                        } catch (err) {
-                            // We do not care about this.
-                        }
-                        lastValue = theInput.value;
-                    }
-                });
+                point.board.on('update', () => generalobjectupdatehandler(point));
             },
 
             bind_point_dual: function(inputRef, point1, point2) {
-                // This function takes two JXG point object and binds their coordinates to a given input.
+                _commonsetup(inputRef);
+                // This function takes a JXG point object and binds its coordinates to a given input.
                 var theInput = document.getElementById(inputRef);
+
+                var serializer = (p1, p2) => {
+                    return JSON.stringify([[p1.X(),p1.Y()],[p2.X(),p2.Y()]]);
+                };
+
+                initials[inputRef] = serializer(point1, point2);
+
                 if (theInput.value && theInput.value != '') {
-                    // if a value exists move the points there.
-                    // the value is stored as a list of float values e.g. "[[1,0.43],[2.1,-4]]"
-                    var coords = JSON.parse(theInput.value);
-                    try {
-                        point1.setPosition(JXG.COORDS_BY_USER, coords[0]);
-                        point2.setPosition(JXG.COORDS_BY_USER, coords[1]);
-                    } catch (err) {
-                        // We do not care about this.
-                    }
-                    point1.board.update();
-                    point1.update();
-                    point2.board.update();
-                    point2.update();
+                    var tmp = JSON.parse(theInput.value);
+                    pointdeserializerparsed(point1, tmp[0]);
+                    pointdeserializerparsed(point2, tmp[1]);
                 }
 
-                var initial1X = point1.X();
-                var initial1Y = point1.Y();
+                serializers[inputRef][point1.id] = () => {
+                    return serializer(point1, point2);
+                };
+                serializers[inputRef][point2.id] = () => {
+                    return serializer(point1, point2);
+                };
+
+                deserializers[inputRef].push((value) => {
+                    var tmp = JSON.parse(value);
+                    pointdeserializerparsed(point1, tmp[0]);
+                    pointdeserializerparsed(point2, tmp[1]);
+                });
+
+                if (point1.id in objectinput) {
+                    if (!(inputRef in objectinput[point1.id])) {
+                        objectinput[point1.id].push(inputRef);
+                    }
+                } else {
+                    objectinput[point1.id] = [inputRef];
+                }
+
+                if (point2.id in objectinput) {
+                    if (!(inputRef in objectinput[point2.id])) {
+                        objectinput[point2.id].push(inputRef);
+                    }
+                } else {
+                    objectinput[point2.id] = [inputRef];
+                }
 
                 // Then the binding from graph to input.
-                point1.board.on('update', function() {
-                    // We do not want to set the input before the point actually moves.
-                    if (initial1X !== point1.X() || initial1Y !== point1.Y()) {
-                        var tmp = JSON.stringify([[point1.X(), point1.Y()],[point2.X(), point2.Y()]]);
-                        initial1X = false; // ignore these after initial change.
-                        initial1Y = false;
-                        if (theInput.value != tmp) {
-                            // Avoid resetting this, as some event models migth trigger
-                            // change events even when no change actually happens.
-                            theInput.value = tmp;
-                            // As we set the inputs value programmatically no events
-                            // will be fired. But for two way binding we want to fire them...
-                            // However we do not need this in the preview where it annoys people.
-                            if (window.location.pathname.indexOf('preview.php') === -1) {
-                                var e = new Event('change');
-                                theInput.dispatchEvent(e);
-                            }
-                        }
-                    }
-                });
-
-                var initial2X = point2.X();
-                var initial2Y = point2.Y();
-
-                // Then the binding from graph to input.
-                point2.board.on('update', function() {
-                    // We do not want to set the input before the point actually moves.
-                    if (initial2X !== point2.X() || initial2Y !== point2.Y()) {
-                        var tmp = JSON.stringify([[point1.X(), point1.Y()],[point2.X(), point2.Y()]]);
-                        initial2X = false; // ignore these after initial change.
-                        initial2Y = false;
-                        if (theInput.value != tmp) {
-                            // Avoid resetting this, as some event models migth trigger
-                            // change events even when no change actually happens.
-                            theInput.value = tmp;
-                            // As we set the inputs value programmatically no events
-                            // will be fired. But for two way binding we want to fire them...
-                            // However we do not need this in the preview where it annoys people.
-                            if (window.location.pathname.indexOf('preview.php') === -1) {
-                                var e = new Event('change');
-                                theInput.dispatchEvent(e);
-                            }
-                        }
-                    }
-                });
-
-                var lastValue = JSON.stringify([[point1.X(), point1.Y()],[point2.X(), point2.Y()]]);
-
-                // Then from input to graph. 'input' for live stuff and 'change' for other.
-                theInput.addEventListener('input', function(e) {
-                    if (theInput.value != lastValue) {
-                        // Only when something changed.
-                        try {
-                            var tmp = JSON.parse(theInput.value);
-                            if (typeof tmp[0][0] == 'number' && typeof tmp[0][1] == 'number') {
-                                point1.setPosition(JXG.COORDS_BY_USER, tmp[0]);
-                            }
-                            if (typeof tmp[1][0] == 'number' && typeof tmp[1][1] == 'number') {
-                                point2.setPosition(JXG.COORDS_BY_USER, tmp[1]);
-                                point1.board.update();
-                                point1.update();
-                                point2.board.update();
-                                point2.update();
-                            }
-                        } catch (err) {
-                            // We do not care about this.
-                        }
-                        lastValue = theInput.value;
-                    }
-                });
-                theInput.addEventListener('change', function(e) {
-                    if (theInput.value != lastValue) {
-                        // Only when something changed.
-                        try {
-                            var tmp = JSON.parse(theInput.value);
-                            if (typeof tmp[0][0] == 'number' && typeof tmp[0][1] == 'number') {
-                                point1.setPosition(JXG.COORDS_BY_USER, tmp[0]);
-
-                            }
-                            if (typeof tmp[1][0] == 'number' && typeof tmp[1][1] == 'number') {
-                                point2.setPosition(JXG.COORDS_BY_USER, tmp[1]);
-                                point1.board.update();
-                                point1.update();
-                                point2.board.update();
-                                point2.update();
-                            }
-                        } catch (err) {
-                            // We do not care about this.
-                        }
-                        lastValue = theInput.value;
-                    }
-                });
-
+                point1.board.on('update', () => generalobjectupdatehandler(point1));
+                point2.board.on('update', () => generalobjectupdatehandler(point2));
             },
 
             bind_point_relative: function(inputRef, point1, point2) {
-                // This function takes two JXG point object and binds their coordinates to a given input.
+                _commonsetup(inputRef);
+                // This function takes a JXG point object and binds its coordinates to a given input.
                 var theInput = document.getElementById(inputRef);
+
+                var serializer = (p1, p2) => {
+                    return JSON.stringify([[p1.X(),p1.Y()],[p2.X()-p1.X(),p2.Y()-p1.Y()]]);
+                };
+
+                var deserializer = (value) => {
+                    var tmp = JSON.parse(value);
+                    pointdeserializerparsed(point1, tmp[0]);
+                    tmp[1][0] = tmp[1][0] + tmp[0][0];
+                    tmp[1][1] = tmp[1][1] + tmp[0][1];
+                    pointdeserializerparsed(point2, tmp[1]);
+                };
+
+                initials[inputRef] = serializer(point1, point2);
+
                 if (theInput.value && theInput.value != '') {
-                    // if a value exists move the points there.
-                    // the value is stored as a list of float values e.g. "[[1,0.43],[2.1,-4]]"
-                    var coords = JSON.parse(theInput.value);
-                    try {
-                        point1.setPosition(JXG.COORDS_BY_USER, coords[0]);
-                        var b = [coords[0][0] + coords[1][0], coords[0][1] + coords[1][1]];
-                        point2.setPosition(JXG.COORDS_BY_USER, b);
-                    } catch (err) {
-                        // We do not care about this.
-                    }
-                    point1.board.update();
-                    point1.update();
-                    point2.board.update();
-                    point2.update();
+                    deserializer(theInput.value);
                 }
 
-                var initial1X = point1.X();
-                var initial1Y = point1.Y();
+                serializers[inputRef][point1.id] = () => {
+                    return serializer(point1, point2);
+                };
+                serializers[inputRef][point2.id] = () => {
+                    return serializer(point1, point2);
+                };
+
+                deserializers[inputRef].push((value) => {
+                    deserializer(value);
+                });
+
+                if (point1.id in objectinput) {
+                    if (!(inputRef in objectinput[point1.id])) {
+                        objectinput[point1.id].push(inputRef);
+                    }
+                } else {
+                    objectinput[point1.id] = [inputRef];
+                }
+
+                if (point2.id in objectinput) {
+                    if (!(inputRef in objectinput[point2.id])) {
+                        objectinput[point2.id].push(inputRef);
+                    }
+                } else {
+                    objectinput[point2.id] = [inputRef];
+                }
 
                 // Then the binding from graph to input.
-                point1.board.on('update', function() {
-                    // We do not want to set the input before the point actually moves.
-                    if (initial1X !== point1.X() || initial1Y !== point1.Y()) {
-                        var tmp = JSON.stringify([[point1.X(), point1.Y()],[point2.X() - point1.X(), point2.Y() - point1.Y()]]);
-                        initial1X = false; // ignore these after initial change.
-                        initial1Y = false;
-                        if (theInput.value != tmp) {
-                            // Avoid resetting this, as some event models migth trigger
-                            // change events even when no change actually happens.
-                            theInput.value = tmp;
-                            // As we set the inputs value programmatically no events
-                            // will be fired. But for two way binding we want to fire them...
-                            // However we do not need this in the preview where it annoys people.
-                            if (window.location.pathname.indexOf('preview.php') === -1) {
-                                var e = new Event('change');
-                                theInput.dispatchEvent(e);
-                            }
-                        }
-                    }
-                });
-
-                var initial2X = point2.X();
-                var initial2Y = point2.Y();
-
-                // Then the binding from graph to input.
-                point2.board.on('update', function() {
-                    // We do not want to set the input before the point actually moves.
-                    if (initial2X !== point2.X() || initial2Y !== point2.Y()) {
-                        var tmp = JSON.stringify([[point1.X(), point1.Y()],[point2.X() - point1.X(), point2.Y() - point1.Y()]]);
-                        initial2X = false; // ignore these after initial change.
-                        initial2Y = false;
-                        if (theInput.value != tmp) {
-                            // Avoid resetting this, as some event models migth trigger
-                            // change events even when no change actually happens.
-                            theInput.value = tmp;
-                            // As we set the inputs value programmatically no events
-                            // will be fired. But for two way binding we want to fire them...
-                            // However we do not need this in the preview where it annoys people.
-                            if (window.location.pathname.indexOf('preview.php') === -1) {
-                                var e = new Event('change');
-                                theInput.dispatchEvent(e);
-                            }
-                        }
-                    }
-                });
-
-                var lastValue = JSON.stringify([[point1.X(), point1.Y()],[point2.X() - point1.X(), point2.Y() - point1.Y()]]);
-
-                // Then from input to graph. 'input' for live stuff and 'change' for other.
-                theInput.addEventListener('input', function(e) {
-                    if (theInput.value != lastValue) {
-                        // Only when something changed.
-                        try {
-                            var tmp = JSON.parse(theInput.value);
-                            if (typeof tmp[0][0] == 'number' && typeof tmp[0][1] == 'number') {
-                                point1.setPosition(JXG.COORDS_BY_USER, tmp[0]);
-                            }
-                            if (typeof tmp[1][0] == 'number' && typeof tmp[1][1] == 'number') {
-                                var b = [tmp[0][0] + tmp[1][0], tmp[0][1] + tmp[1][1]];
-                                point2.setPosition(JXG.COORDS_BY_USER, b);
-                                point1.board.update();
-                                point1.update();
-                                point2.board.update();
-                                point2.update();
-                            }
-                        } catch (err) {
-                            // We do not care about this.
-                        }
-                        lastValue = theInput.value;
-                    }
-                });
-                theInput.addEventListener('change', function(e) {
-                    if (theInput.value != lastValue) {
-                        // Only when something changed.
-                        try {
-                            var tmp = JSON.parse(theInput.value);
-                            if (typeof tmp[0][0] == 'number' && typeof tmp[0][1] == 'number') {
-                                point1.setPosition(JXG.COORDS_BY_USER, tmp[0]);
-                        }
-                            if (typeof tmp[1][0] == 'number' && typeof tmp[1][1] == 'number') {
-                                var b = [tmp[0][0] + tmp[1][0], tmp[0][1] + tmp[1][1]];
-                                point2.setPosition(JXG.COORDS_BY_USER, b);
-                                point1.board.update();
-                                point1.update();
-                                point2.board.update();
-                                point2.update();
-                            }
-                        } catch (err) {
-                            // We do not care about this.
-                        }
-                        lastValue = theInput.value;
-                    }
-                });
+                point1.board.on('update', () => generalobjectupdatehandler(point1));
+                point2.board.on('update', () => generalobjectupdatehandler(point2));
             },
 
             bind_point_direction: function(inputRef, point1, point2) {
-                // This function takes two JXG point object and binds their coordinates to a given input.
+                _commonsetup(inputRef);
                 var theInput = document.getElementById(inputRef);
+
+                var serializer = (p1, p2) => {
+                    return JSON.stringify([[p1.X(),p1.Y()],[Math.atan2(p2.Y()-p1.Y(),p2.X()-p1.X()),
+                        Math.sqrt((p2.X()-p1.X())*(p2.X()-p1.X())+(p2.Y()-p1.Y())*(p2.Y()-p1.Y()))]]);
+                };
+
+                var deserializer = (value) => {
+                    var tmp = JSON.parse(value);
+                    pointdeserializerparsed(point1, tmp[0]);
+                    var angle = tmp[1][0];
+                    var len = tmp[1][1];
+                    tmp[1][0] = tmp[0][0] + len*Math.cos(angle);
+                    tmp[1][1] = tmp[0][1] + len*Math.sin(angle);
+                    pointdeserializerparsed(point2, tmp[1]);
+                };
+
+                initials[inputRef] = serializer(point1, point2);
+
                 if (theInput.value && theInput.value != '') {
-                    // if a value exists move the points there.
-                    // the value is stored as a list of float values e.g. "[[1,0.43],[2.1,1.1]]"
-                    // The second pair is now the angle in radians and the length.
-                    var coords = JSON.parse(theInput.value);
-                    try {
-                        point1.setPosition(JXG.COORDS_BY_USER, coords[0]);
-                        var angle = coords[1][0];
-                        var len = coords[1][1];
-                        var b = [coords[0][0], coords[0][1]];
-                        if (len > 0) {
-                            b[0] = b[0] + len*Math.cos(angle);
-                            b[1] = b[1] + len*Math.sin(angle);
-                        }
-                        point2.setPosition(JXG.COORDS_BY_USER, b);
-                    } catch (err) {
-                        // We do not care about this.
-                    }
-                    point1.board.update();
-                    point1.update();
-                    point2.board.update();
-                    point2.update();
+                    deserializer(theInput.value);
                 }
 
-                var initial1X = point1.X();
-                var initial1Y = point1.Y();
+                serializers[inputRef][point1.id] = () => {
+                    return serializer(point1, point2);
+                };
+                serializers[inputRef][point2.id] = () => {
+                    return serializer(point1, point2);
+                };
+
+                deserializers[inputRef].push((value) => {
+                    deserializer(value);
+                });
+
+                if (point1.id in objectinput) {
+                    if (!(inputRef in objectinput[point1.id])) {
+                        objectinput[point1.id].push(inputRef);
+                    }
+                } else {
+                    objectinput[point1.id] = [inputRef];
+                }
+
+                if (point2.id in objectinput) {
+                    if (!(inputRef in objectinput[point2.id])) {
+                        objectinput[point2.id].push(inputRef);
+                    }
+                } else {
+                    objectinput[point2.id] = [inputRef];
+                }
 
                 // Then the binding from graph to input.
-                point1.board.on('update', function() {
-                    // We do not want to set the input before the point actually moves.
-                    if (initial1X !== point1.X() || initial1Y !== point1.Y()) {
-                        var tmp = JSON.stringify([[point1.X(), point1.Y()],
-                        [Math.atan2(point2.Y() - point1.Y(), point2.X() - point1.X()),
-                        Math.sqrt((point2.X() - point1.X())*(point2.X() - point1.X()) + (point2.Y() - point1.Y())*(point2.Y() - point1.Y()))]]);
-                        initial1X = false; // ignore these after initial change.
-                        initial1Y = false;
-                        if (theInput.value != tmp) {
-                            // Avoid resetting this, as some event models migth trigger
-                            // change events even when no change actually happens.
-                            theInput.value = tmp;
-                            // As we set the inputs value programmatically no events
-                            // will be fired. But for two way binding we want to fire them...
-                            // However we do not need this in the preview where it annoys people.
-                            if (window.location.pathname.indexOf('preview.php') === -1) {
-                                var e = new Event('change');
-                                theInput.dispatchEvent(e);
-                            }
-                        }
-                    }
-                });
-
-                var initial2X = point2.X();
-                var initial2Y = point2.Y();
-
-                // Then the binding from graph to input.
-                point2.board.on('update', function() {
-                    // We do not want to set the input before the point actually moves.
-                    if (initial2X !== point2.X() || initial2Y !== point2.Y()) {
-                        var tmp = JSON.stringify([[point1.X(), point1.Y()],
-                        [Math.atan2(point2.Y() - point1.Y(), point2.X() - point1.X()),
-                        Math.sqrt((point2.X() - point1.X())*(point2.X() - point1.X()) + (point2.Y() - point1.Y())*(point2.Y() - point1.Y()))]]);
-                        initial2X = false; // ignore these after initial change.
-                        initial2Y = false;
-                        if (theInput.value != tmp) {
-                            // Avoid resetting this, as some event models migth trigger
-                            // change events even when no change actually happens.
-                            theInput.value = tmp;
-                            // As we set the inputs value programmatically no events
-                            // will be fired. But for two way binding we want to fire them...
-                            // However we do not need this in the preview where it annoys people.
-                            if (window.location.pathname.indexOf('preview.php') === -1) {
-                                var e = new Event('change');
-                                theInput.dispatchEvent(e);
-                            }
-                        }
-                    }
-                });
-
-
-                var lastValue = JSON.stringify([[point1.X(), point1.Y()],
-                        [Math.atan2(point2.Y() - point1.Y(), point2.X() - point1.X()),
-                        Math.sqrt((point2.X() - point1.X())*(point2.X() - point1.X()) + (point2.Y() - point1.Y())*(point2.Y() - point1.Y()))]]);
-
-                // Then from input to graph. 'input' for live stuff and 'change' for other.
-                theInput.addEventListener('input', function(e) {
-                    if (theInput.value != lastValue) {
-                        // Only when something changed.
-                        try {
-                            var tmp = JSON.parse(theInput.value);
-                            if (typeof tmp[0][0] == 'number' && typeof tmp[0][1] == 'number') {
-                                point1.setPosition(JXG.COORDS_BY_USER, tmp[0]);
-                            }
-                            if (typeof tmp[1][0] == 'number' && typeof tmp[1][1] == 'number') {
-                                var angle = tmp[1][0];
-                                var len = tmp[1][1];
-                                var b = [tmp[0][0], tmp[0][1]];
-                                if (len > 0) {
-                                    b[0] = b[0] + len*Math.cos(angle);
-                                    b[1] = b[1] + len*Math.sin(angle);
-                                }
-                                point2.setPosition(JXG.COORDS_BY_USER, b);
-                                point1.board.update();
-                                point1.update();
-                                point2.board.update();
-                                point2.update();
-                            }
-                        } catch (err) {
-                            // We do not care about this.
-                        }
-                        lastValue = theInput.value;
-                    }
-                });
-                theInput.addEventListener('change', function(e) {
-                    if (theInput.value != lastValue) {
-                        // Only when something changed.
-                        try {
-                            var tmp = JSON.parse(theInput.value);
-                            if (typeof tmp[0][0] == 'number' && typeof tmp[0][1] == 'number') {
-                                point1.setPosition(JXG.COORDS_BY_USER, tmp[0]);
-                            }
-                            if (typeof tmp[1][0] == 'number' && typeof tmp[1][1] == 'number') {
-                                var angle = tmp[1][0];
-                                var len = tmp[1][1];
-                                var b = [tmp[0][0], tmp[0][1]];
-                                if (len > 0) {
-                                    b[0] = b[0] + len*Math.cos(angle);
-                                    b[1] = b[1] + len*Math.sin(angle);
-                                }
-                                point2.setPosition(JXG.COORDS_BY_USER, b);
-                                point1.board.update();
-                                point1.update();
-                                point2.board.update();
-                                point2.update();
-                            }
-                        } catch (err) {
-                            // We do not care about this.
-                        }
-                        lastValue = theInput.value;
-                    }
-                });
-
+                point1.board.on('update', () => generalobjectupdatehandler(point1));
+                point2.board.on('update', () => generalobjectupdatehandler(point2));
             },
 
             bind_slider: function(inputRef, slider) {
+                _commonsetup(inputRef);
                 // This function takes a JXG slider object and binds its value to a given input.
                 var theInput = document.getElementById(inputRef);
+
+                initials[inputRef] = sliderserializer(slider);
+
                 if (theInput.value && theInput.value != '') {
-                    // if a value exists move the slider to it.
-                    // the value is stored as a float value "0.43"
-                    try {
-                        slider.setValue(JSON.parse(theInput.value));
-                    } catch (err) {
-                        // We do not care about this.
-                    }
-                    slider.board.update();
-                    slider.update();
+                    sliderdeserializer(slider, theInput.value);
                 }
 
-                var initialValue = slider.Value();
+                serializers[inputRef][slider.id] = () => {
+                    return sliderserializer(slider);
+                };
 
-                // The binding from graph to input.
-                slider.board.on('update', function() {
-                    // We do not want to set the input before the point actually moves.
-                    if (initialValue != slider.Value()) {
-                        var tmp = JSON.stringify(slider.Value());
-                        initialValue = false;
-                        if (theInput.value != tmp) {
-                            // Avoid resetting this, as some event models migth trigger
-                            // change events even when no change actually happens.
-                            theInput.value = tmp;
-                            // As we set the inputs value programmatically no events
-                            // will be fired. But for two way binding we want to fire them...
-                            // However we do not need this in the preview where it annoys people.
-                            if (window.location.pathname.indexOf('preview.php') === -1) {
-                                var e = new Event('change');
-                                theInput.dispatchEvent(e);
-                            }
-                        }
-                    }
+                deserializers[inputRef].push((value) => {
+                    sliderdeserializer(slider, value);
                 });
 
-                var lastValue = JSON.stringify(slider.Value());
+                if (slider.id in objectinput) {
+                    if (!(inputRef in objectinput[slider.id])) {
+                        objectinput[slider.id].push(inputRef);
+                    }
+                } else {
+                    objectinput[slider.id] = [inputRef];
+                }
 
-                // Then from input to graph. 'input' for live stuff and 'change' for other.
-                theInput.addEventListener('input', function(e) {
-                    if (theInput.value !== lastValue) {
-                        // Only when something changed.
-                        try {
-                            var tmp = JSON.parse(theInput.value);
-                            if (typeof tmp == 'number') {
-                                slider.setValue(tmp);
-                                slider.board.update();
-                                slider.update();
-                            }
-                        } catch (err) {
-                            // We do not care about this.
+                // Then the binding from graph to input.
+                slider.board.on('update', () => generalobjectupdatehandler(slider));
+            },
+
+            bind_list_of: function(inputRef, list_of_objects) {
+                _commonsetup(inputRef);
+                // Takes a list of objects (points or sliders) and binds them to a single input.
+                // The number and order of the elements in that list may not vary between page
+                // loads for this same question seed.
+                var theInput = document.getElementById(inputRef);
+
+                var serializer = (objects) => {
+                    var r =  '[';
+                    for (var obj of objects) {
+                        if (obj.getType() === 'slider') {
+                            r = r + JSON.stringify(obj.Value()) + ',';
+                        } else {
+                            // Assume all else to be points.
+                            r = r + pointserializer(obj) + ',';
                         }
-                        lastValue = theInput.value;
                     }
+                    r = r.substring(0, r.length - 1);
+                    return r + ']';
+                };
+
+                var deserializer = (value) => {
+                    var tmp = JSON.parse(value);
+                    var i = 0;
+                    for (var obj of list_of_objects) {
+                        if (obj.getType() === 'slider') {
+                            obj.setValue(tmp[i]);
+                        } else {
+                            pointdeserializerparsed(obj, tmp[i]);
+                        }
+                        i = i + 1;
+                    }
+                };
+
+                initials[inputRef] = serializer(list_of_objects);
+
+                if (theInput.value && theInput.value != '') {
+                    deserializer(theInput.value);
+                }
+
+                deserializers[inputRef].push((value) => {
+                    deserializer(value);
                 });
-                theInput.addEventListener('change', function(e) {
-                    if (theInput.value !== lastValue) {
-                        // Only when something changed.
-                        try {
-                            var tmp = JSON.parse(theInput.value);
-                            if (typeof tmp == 'number') {
-                                slider.setValue(tmp);
-                                slider.board.update();
-                                slider.update();
-                            }
-                        } catch (err) {
-                            // We do not care about this.
+
+                list_of_objects.forEach((obj) => {
+                    serializers[inputRef][obj.id] = () => {
+                        return serializer(list_of_objects);
+                    };
+
+                    if (obj.id in objectinput) {
+                        if (!(inputRef in objectinput[obj.id])) {
+                            objectinput[obj.id].push(inputRef);
                         }
-                        lastValue = theInput.value;
+                    } else {
+                        objectinput[obj.id] = [inputRef];
                     }
+
+                    // Then the binding from graph to input.
+                    obj.board.on('update', () => generalobjectupdatehandler(obj));
                 });
             }
         };

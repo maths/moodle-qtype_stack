@@ -25,7 +25,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
     private static $countgraphs = 1;
 
-    public function compile($format, $options):  ? string{
+    public function compile($format, $options):  ? string {
         $r = '["jsxgraph"';
 
         // We need to transfer the parameters forward.
@@ -71,11 +71,24 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         $divid  = 'stateful-jsxgraph-' . self::$countgraphs;
         $width  = '500px';
         $height = '400px';
+        $aspectratio = false;
         if (array_key_exists('width', $parameters)) {
             $width = $parameters['width'];
         }
         if (array_key_exists('height', $parameters)) {
             $height = $parameters['height'];
+        }
+
+        $style = "width:$width;height:$height;";
+
+        if (array_key_exists('aspect-ratio', $parameters)) {
+            $aspectratio = $parameters['aspect-ratio'];
+            // Unset the undefined dimension, if both are defined then we have a problem.
+            if (array_key_exists('height', $parameters)) {
+                $style = "height:$height;aspect-ratio:$aspectratio;";
+            } else if (array_key_exists('width', $parameters)) {
+                $style = "width:$width;aspect-ratio:$aspectratio;";
+            }
         }
 
         $code = $content;
@@ -88,12 +101,21 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         // needs to be fixed to match the environment.
         // And in any case in Moodle at the time we render this we do not know.
         // The prefix.
+        // NOTE! We should validate that we never have input-refs-outside 
+        // question-text, but for now lets use the old seek code to work with
+        // them out if that happens. We now can directly access the identtifier.
         foreach ($parameters as $key => $value) {
             if (substr($key, 0, 10) === 'input-ref-') {
-                $varname  = substr($key, 10);
-                $seekcode = "var $value=stack_jxg.find_input_id(divid,'" .
-                    $varname . "');";
-                $code = "$seekcode\n$code";
+                $inputname  = substr($key, 10);
+                if (property_exists($processor, 'qa') && $processor->qa !== null) {
+                    // For contents useing the new renderer we have access to
+                    // the identifier at this phase.
+                    $namecode = "var $value='" . $processor->qa->get_qt_field_name($inputname) . "';\n";
+                    $code = "$namecode\n$code";
+                } else {
+                    $seekcode = "var $value=stack_jxg.find_input_id(divid,'$inputname');";
+                    $code = "$seekcode\n$code";
+                }
             }
         }
 
@@ -115,8 +137,6 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 '\", (note a slight varying offset in the error position due to possible input references):");'
             . 'console.log(err);}';
 
-        $style = "width:$width;height:$height;";
-
         $attributes = ['class' => 'jxgbox', 'style' => $style, 'id' => $divid];
 
         $PAGE->requires->js_amd_inline(
@@ -130,14 +150,14 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         return html_writer::tag('div', '', $attributes);
     }
 
-    public function validate_extract_attributes(): array{
+    public function validate_extract_attributes(): array {
         return [];
     }
 
     public function validate(
         &$errors = [],
         array $prts
-    ): bool{
+    ): bool {
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.
         $valid  = true;
@@ -192,6 +212,19 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             $errors[] = stack_string('stackBlock_jsxgraph_height_num');
         }
 
+        if (array_key_exists('width', $this->params) &&
+            array_key_exists('height', $this->params) &&
+            array_key_exists('aspect-ratio', $this->params)) {
+            $valid    = false;
+            $errors[] = stack_string('stackBlock_jsxgraph_overdefined_dimension');
+        }
+        if (!(array_key_exists('width', $this->params) ||
+            array_key_exists('height', $this->params)) &&
+            array_key_exists('aspect-ratio', $this->params)) {
+            $valid    = false;
+            $errors[] = stack_string('stackBlock_jsxgraph_underdefined_dimension');
+        }
+
         $valids = null;
         foreach ($this->params as $key => $value) {
             if (substr($key, 0, 10) === 'input-ref-') {
@@ -203,11 +236,11 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
                         ['var' => $varname]);
                 }
                 */
-            } else if ($key !== 'width' && $key !== 'height') {
+            } else if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio') {
                 $errors[] = "Unknown parameter '$key' for jsxgraph-block.";
                 $valid    = false;
                 if ($valids === null) {
-                    $valids = ['width', 'height'];
+                    $valids = ['width', 'height', 'aspect-ratio'];
                     if ($input_definitions !== null) {
                         $tmp    = $root->get_parameter('ioblocks');
                         $inputs = [];

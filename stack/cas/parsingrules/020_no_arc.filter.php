@@ -32,7 +32,11 @@ class stack_ast_filter_020_no_arc implements stack_cas_astfilter {
              'arcsinh' => 'asinh', 'arccosh' => 'acosh',
              'arctanh' => 'atanh', 'arcsech' => 'asech',
              'arccoth' => 'acoth', 'arccsch' => 'acsch',
-             'arccosec' => 'acsc');
+             'arccosec' => 'acsc',
+             'arsinh' => 'asinh', 'arcosh' => 'acosh',
+             'artanh' => 'atanh', 'arsech' => 'asech',
+             'arcoth' => 'acoth', 'arcsch' => 'acsch'
+        );
 
         $process = function($node) use (&$errors, &$answernotes, $selectednames) {
             if ($node instanceof MP_Functioncall &&

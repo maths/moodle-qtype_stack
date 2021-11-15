@@ -447,6 +447,7 @@ class stack_inputvalidation_test_data {
         array('asin(x)', 'php_true', 'asin(x)', 'cas_true', '\sin^{-1}\left( x \right)', '',
             "Maxima uses the asin pattern"),
         array('arcsin(x)', 'php_false', 'arcsin(x)', 'cas_true', '', 'triginv', "Not the arcsin"),
+        array('arsinh(x)', 'php_false', 'arsinh(x)', 'cas_true', '', 'triginv', ""),
         array('sin^-1(x)', 'php_false', 'sin^-1(x)', 'cas_false', '', 'missing_stars | trigexp', ""),
         array('cos^2(x)', 'php_false', 'cos^2(x)', 'cas_false', '', 'missing_stars | trigexp', ""),
         array('sin*2*x', 'php_false', 'sin*2*x', 'cas_false', '', 'forbiddenVariable', ""),

@@ -79,7 +79,6 @@
 (defprop $texcolorplain tex-texcolorplain tex)
 
 ;; Changed log to ln, and other things.
-;; If changes are made here, then we also need to update arccos.lisp
 
 (mapc #'tex-setup
       '(

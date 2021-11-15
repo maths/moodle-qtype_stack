@@ -276,6 +276,20 @@ make_arccos(OPT_ACOS) := block(
        ?tex\-setup(?cdr([?%asech, "{\\rm asech}"])),
        ?tex\-setup(?cdr([?%acsch, "{\\rm acsch}"])),
        ?tex\-setup(?cdr([?%acoth, "{\\rm acoth}"]))
+    ),
+    if OPT_ACOS = "arccos-arcosh" then block(
+       ?tex\-setup(?cdr([?%asin, "\\arcsin "])),
+       ?tex\-setup(?cdr([?%acos, "\\arccos "])),
+       ?tex\-setup(?cdr([?%atan, "\\arctan "])),
+       ?tex\-setup(?cdr([?%asec, "{\\rm arcsec}"])),
+       ?tex\-setup(?cdr([?%acsc, "{\\rm arccsc}"])),
+       ?tex\-setup(?cdr([?%acot, "{\\rm arccot}"])),
+       ?tex\-setup(?cdr([?%asinh, "{\\rm arsinh}"])),
+       ?tex\-setup(?cdr([?%acosh, "{\\rm arcosh}"])),
+       ?tex\-setup(?cdr([?%atanh, "{\\rm artanh}"])),
+       ?tex\-setup(?cdr([?%asech, "{\\rm arsech}"])),
+       ?tex\-setup(?cdr([?%acsch, "{\\rm arcsch}"])),
+       ?tex\-setup(?cdr([?%acoth, "{\\rm arcoth}"]))
     )
 )$
 
@@ -2110,7 +2124,7 @@ ATGTE(SA,SB) :=
 /* The third argument is the special case when we just have an integer factor to pull out. Needed for PartFrac. */
 
 irred_Q(p, v) := block([ret,deg,cl,ci],
-  if ev(not(polynomialpsimp(p)), simp) then return([false, StackAddFeedback("", "ATFacForm_notpoly")]),
+  if ev(not(polynomialp(p, [v], lambda([ex], freeof(v, ex)))), simp) then return([false, StackAddFeedback("", "ATFacForm_notpoly")]),
   deg:ev(hipow(expand(p), v), simp),
   /* Now perform the general test. */
   cl:ev(map(second, coeff_list_nz(expand(p), v)), simp),

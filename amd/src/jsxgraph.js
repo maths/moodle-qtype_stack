@@ -165,11 +165,23 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
     function generalinputupdatehandler(inputname) {
         if (inputname in deserializers) {
             // Only trigger everything if the value has truly changed.
-            // Check for one of the objects serialising to this input.
-            var old = serializers[inputname][Object.keys(serializers[inputname])[0]]();
-
+            // Check all the objects serializing to this input. Note that
+            // some of them may exist in different graphs.
             var input = document.getElementById(inputname);
-            if (old !== input.value) {
+            var keys = Object.keys(serializers[inputname]);
+            var ok = false;
+            for (var i = 0; i < keys.length; i++) {
+                var old = serializers[inputname][keys[i]]();
+                if (old !== input.value) {
+                    ok = true;
+                    i = keys.length + 1;
+                }
+            }
+
+            if (ok) {
+                // And yes we trigger everything as we do not actually
+                // keep track of the ones that truly need to be triggered.
+                // But this is fast and converges in a few iterations.
                 for (var i = 0; i < deserializers[inputname].length; i++) {
                     deserializers[inputname][i](input.value);
                 }
@@ -261,7 +273,7 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                 serializers[input][object.id] = serializer;
 
                 registerobject(object);
-            }
+            },
 
             bind_point: function(inputRef, point) {
                 var serializer = () => pointserializer(point);

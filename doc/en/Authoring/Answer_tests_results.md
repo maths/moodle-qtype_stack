@@ -4921,6 +4921,32 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1">Pass</td>
+  <td class="cell c2">n*(n+1)*(2*n+1)/6</td>
+  <td class="cell c3">sum(k^2,k,1,n)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">sum((k+1)^2,k,0,n-1)</td>
+  <td class="cell c3">sum(k^2,k,1,n)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
   <td class="cell c2">product(cos(k*x),k,1,3)</td>
   <td class="cell c3">product(cos(k*x),k,1,3)</td>
   <td class="cell c4"></td>
@@ -7956,6 +7982,32 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
   <td class="cell c1">Pass</td>
+  <td class="cell c2">sum(k,k,0,1+n)</td>
+  <td class="cell c3">sum(k,k,0,n+1)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(n+1)*(n+2)/2</td>
+  <td class="cell c3">sum(k,k,0,n+1)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEqualComAss (AlgEquiv-true).</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1">Pass</td>
   <td class="cell c2">product(cos(k*x),k,1,3)</td>
   <td class="cell c3">product(cos(k*x),k,1,3)</td>
   <td class="cell c4"></td>
@@ -9482,6 +9534,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c2">18</td>
   <td class="cell c3">2*3^2</td>
   <td class="cell c4">[intFac]</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">0+%i*(-(1/27))</td>
+  <td class="cell c3">-(%i/27)</td>
+  <td class="cell c4">[[zeroAdd,zeroMul,oneMul,onePow,idPow,zeroPow,zPow,oneDiv],[negNeg,negDiv,negOrd],[recipMul,divDiv,divCancel],[intAdd,intMul,intPow]]</td>
   <td class="cell c5"></td>
   <td class="cell c6">1</td>
   <td class="cell c7">1</td>
@@ -11500,7 +11565,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"><div class="text_to_html">Your answer is factored, well done. Note that your answer is not algebraically equivalent to the correct answer. You must have done something wrong.</div></td>
-  <td class="cell c9">ATFacForm_isfactored. ATFacForm_default_true. ATFacForm_notalgequiv.</td>
+  <td class="cell c9">ATFacForm_isfactored. ATFacForm_notalgequiv.</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -11564,7 +11629,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
-  <td class="cell c8"><div class="text_to_html">Your answer is not factored. This term is expected to be a polynomial, but is not.</div></td>
+  <td class="cell c8"><div class="text_to_html">Your answer is not factored.</div></td>
   <td class="cell c9">ATFacForm_notfactored.</td>
   <td class="cell c10"></td>
 </tr>
@@ -11668,7 +11733,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(z\cdot x+z\)</span></span></span>. This term is expected to be a polynomial, but is not. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(2\cdot x+6\)</span></span></span>. You need to take out a common factor.</div></span></td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(z\cdot x+z\)</span></span></span>. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(2\cdot x+6\)</span></span></span>. You need to take out a common factor.</div></span></td>
   <td class="cell c9">ATFacForm_notfactored.</td>
   <td class="cell c10"></td>
 </tr>
@@ -11753,7 +11818,20 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">FacForm</td>
   <td class="cell c1">Pass</td>
-  <td class="cell c2">-(6*k*(4*b-k-1))</td>
+  <td class="cell c2">-6*k*(4*b-k-1)</td>
+  <td class="cell c3">6*k*(1+k-4*b)</td>
+  <td class="cell c4">k</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATFacForm_default_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-2*3*k*(4*b-k-1)</td>
   <td class="cell c3">6*k*(1+k-4*b)</td>
   <td class="cell c4">k</td>
   <td class="cell c5"></td>
@@ -11761,6 +11839,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c7">1</td>
   <td class="cell c8"></td>
   <td class="cell c9">ATFacForm_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-(6*k*(4*b-k-1))</td>
+  <td class="cell c3">6*k*(1+k-4*b)</td>
+  <td class="cell c4">k</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATFacForm_default_true.</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">

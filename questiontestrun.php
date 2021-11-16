@@ -70,12 +70,15 @@ require_login();
 $qbankparams = $urlparams;
 unset($qbankparams['questionid']);
 unset($qbankparams['seed']);
+$editparams = $qbankparams;
+$editparams['id'] = $question->id;
 $qbankparams['qperpage'] = 1000; // Should match MAXIMUM_QUESTIONS_PER_PAGE but that constant is not easily accessible.
 $qbankparams['category'] = $questiondata->category . ',' . $question->contextid;
 $qbankparams['lastchanged'] = $question->id;
 if ($questiondata->hidden) {
     $qbankparams['showhidden'] = 1;
 }
+$questionbanklinkedit = new moodle_url('/question/question.php', $editparams);
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/type/stack/exportone.php', $urlparams);
 $exportquestionlink->param('sesskey', sesskey());
@@ -496,23 +499,21 @@ foreach ($testresults as $key => $result) {
     }
 }
 
-// Display the question.
-echo $OUTPUT->heading(stack_string('questionpreview'), 3);
-
-echo html_writer::tag('p', html_writer::link($questionbanklink,
-        stack_string('seethisquestioninthequestionbank')));
-
+$links = array();
+$links[] = html_writer::link($questionbanklink, stack_string('seethisquestioninthequestionbank'));
 if ($canedit) {
-    echo html_writer::tag('p',
-            html_writer::link($exportquestionlink, stack_string('exportthisquestion')) .
-            $OUTPUT->help_icon('exportthisquestion', 'qtype_stack'));
+    $links[] = html_writer::link($questionbanklinkedit, stack_string('editquestioninthequestionbank'));
+    $links[] = html_writer::link($exportquestionlink, stack_string('exportthisquestion')) .
+            $OUTPUT->help_icon('exportthisquestion', 'qtype_stack');
 }
-
+echo html_writer::tag('p', implode(' | ', $links));
 
 echo html_writer::tag('p',
         html_writer::link(new moodle_url('/question/type/stack/questiontestreport.php', $urlparams),
                 stack_string('basicquestionreport')) . $OUTPUT->help_icon('basicquestionreport', 'qtype_stack'));
 
+// Display the question.
+echo $OUTPUT->heading(stack_string('questionpreview'), 3);
 echo $renderquestion;
 
 // Display the question note.

@@ -207,7 +207,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      */
     protected function unpack_raw_result($rawresult) {
         $result = '';
-        $errors = false;
+        $errors = array();
         // This adds sufficient closing brackets to make sure we have enough to match.
         $rawresult .= ']]]]';
         if ('' == trim($rawresult)) {
@@ -293,7 +293,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $offset = 0;
         $rawresultfragmentlen = strlen($rawresultfragment);
         $unparsed = array();
-        $errors = '';
+        $errors = array();
 
         $eqpos = strpos($rawresultfragment, '=', $offset);
         if ($eqpos) {
@@ -317,7 +317,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             $errors['PREPARSE'] = "There are no ='s in the raw output from the CAS!";
         }
 
-        if ('' != $errors) {
+        if (array() != $errors) {
             $unparsed['errors'] = $errors;
         }
 

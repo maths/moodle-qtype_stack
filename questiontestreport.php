@@ -33,7 +33,7 @@ $questionid = required_param('questionid', PARAM_INT);
 // Load the necessary data.
 $questiondata = question_bank::load_question_data($questionid);
 if (!$questiondata) {
-    print_error('questiondoesnotexist', 'question');
+    throw new stack_exception('questiondoesnotexist');
 }
 $question = question_bank::load_question($questionid);
 

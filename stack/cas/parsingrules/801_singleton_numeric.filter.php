@@ -302,5 +302,4 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
         }
         return $replacement;
     }
-
 }

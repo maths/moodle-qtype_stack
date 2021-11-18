@@ -1158,7 +1158,7 @@ abstract class stack_input {
      * @param array $tavalue the value of the teacher's answer for this input.
      * @return string HTML for this input.
      */
-    public abstract function render(stack_input_state $state, $fieldname, $readonly, $tavalue);
+    abstract public function render(stack_input_state $state, $fieldname, $readonly, $tavalue);
 
     /*
      * Render any error messages.
@@ -1182,7 +1182,7 @@ abstract class stack_input {
      * variable, or using Maxima's syntax matrix([...]).
      * @param MoodleQuickForm $mform the form to add elements to.
      */
-    public abstract function add_to_moodleform_testinput(MoodleQuickForm $mform);
+    abstract public function add_to_moodleform_testinput(MoodleQuickForm $mform);
 
     /**
      * Generate the HTML that gives the results of validating the student's input.

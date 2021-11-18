@@ -139,6 +139,11 @@ class stack_multilang {
         $mylang = $this->lang;
         $parentlang = 'en';
 
+        // If nto lang is defined like in some tests assume lang to be $parentlang.
+        if ($mylang === null) {
+            $mylang = $parentlang;
+        }
+
         if (!preg_match_all($this->searchtosplit, $langblock[0], $rawlanglist)) {
             // Skip malformed blocks.
             return $langblock[0];

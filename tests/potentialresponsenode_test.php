@@ -103,7 +103,7 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $this->assertEquals(false, $result->valid);
         $this->assertNotEquals('', $result->errors);
         $this->assertEquals(2, count($result->feedback));
-        $this->assertRegExp('~The answer test failed to execute correctly: ' .
+        $this->assertMatchesRegularExpression('~The answer test failed to execute correctly: ' .
                 'please alert your teacher. Division by (zero\.|0)~',
                 $result->feedback[0]->feedback);
         $this->assertEquals('Boo!', $result->feedback[1]->feedback);

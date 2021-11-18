@@ -29,7 +29,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
-class stack_astcontainer_test extends qtype_stack_testcase {
+class ast_container_test extends qtype_stack_testcase {
 
     public function test_types() {
         $matrix = stack_ast_container::make_from_teacher_source('foo:matrix([1,2],[3,4])', 'type test', new stack_cas_security());

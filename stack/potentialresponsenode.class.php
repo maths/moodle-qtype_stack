@@ -376,6 +376,31 @@ class stack_potentialresponse_node {
         return $summary;
     }
 
+    /**
+     * @return array Languages used in the feedback.
+     */
+    public function get_feedback_languages() {
+        $ml = new stack_multilang();
+        $langs = array();
+        $feedback = $this->branches[0]['feedback'];
+        if ($ml->non_trivial_content_for_check($feedback)) {
+            $langs[$this->branches[0]['answernote']] = $ml->languages_used($feedback);
+        }
+        $feedback = $this->branches[1]['feedback'];
+        if ($ml->non_trivial_content_for_check($feedback)) {
+            $langs[$this->branches[1]['answernote']] = $ml->languages_used($feedback);
+        }
+        return $langs;
+    }
+
+    /*
+     * Return the feedback used for testing HTML integrity.
+     * Could be made more specific like language testing.
+     */
+    public function get_feedback_text() {
+        return $this->branches[0]['feedback'] . $this->branches[1]['feedback'];
+    }
+
     public function get_maxima_representation() {
         $ncasoptions = null;
         if ($this->required_atoptions()) {

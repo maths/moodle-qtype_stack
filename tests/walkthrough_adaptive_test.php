@@ -28,7 +28,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
-class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
+class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test0_validate_then_submit_right_first_time() {
 
@@ -2100,8 +2100,14 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->assert_content_with_maths_contains($expected, $this->currentoutput);
 
         $question = $this->quba->get_question($this->slot);
-        $expected = array('Some answer tests rely on the raw input from a student, ' .
-            'and so the "SAns" field of the node should be the name of a question input.  ' .
+        $expected = array('<i class="icon fa fa-exclamation-circle text-danger fa-fw " ' .
+            'title="Some answer tests rely on the raw input from a student, and so the "SAns" ' .
+            'field of the node should be the name of a question input.  Please check the following ' .
+            '(prt.node) which looks like a calculated value instead: prt1-1" ' .
+            'aria-label="Some answer tests rely on the raw input from a student, and so the "SAns" ' .
+            'field of the node should be the name of a question input.  Please check the following (prt.node) ' .
+            'which looks like a calculated value instead: prt1-1"></i>Some answer tests rely on the raw input from ' .
+            'a student, and so the "SAns" field of the node should be the name of a question input.  ' .
             'Please check the following (prt.node) which looks like a calculated value instead: prt1-1');
         $this->assertEquals($expected, $question->validate_warnings());
     }

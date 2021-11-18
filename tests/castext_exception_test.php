@@ -31,7 +31,7 @@ require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
 /**
  * @group qtype_stack
  */
-class stack_cas_text_exception_test extends basic_testcase {
+class castext_exception_test extends basic_testcase {
 
     public function test_exception_1() {
         $this->expectException(TypeError::class);

@@ -29,7 +29,7 @@ require_once(__DIR__ . '/../locallib.php');
 /**
  * @group qtype_stack
  */
-class stack_answertest_general_cas_test extends qtype_stack_testcase {
+class answertest_general_cas_test extends qtype_stack_testcase {
 
     public function stack_answertest_general_cas_builder($sans, $tans, $atname,
             $atop = 'null', $options = null) {

@@ -25,7 +25,7 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/202_decimal_places_validation
  * @group qtype_stack
  * @group qtype_stack_ast_filters
  */
-class stack_parser_rule_202_test extends qtype_stack_testcase {
+class parser_rule_202_test extends qtype_stack_testcase {
 
     public function filter(string $input, int $min = -1, int $max = -1): array {
         $ast = maxima_parser_utils::parse($input);

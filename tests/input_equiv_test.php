@@ -33,7 +33,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
  */
-class stack_equiv_input_test extends qtype_stack_testcase {
+class input_equiv_test extends qtype_stack_testcase {
 
     public function test_internal_validate_parameter() {
         $el = stack_input_factory::make('equiv', 'input', 'x^2');

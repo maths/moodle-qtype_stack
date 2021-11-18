@@ -125,13 +125,13 @@ irred_Q(1-x,x);
 irred_Q(2-3*x,x); 
 [true,"",false]$ 
 irred_Q(2*x-2,x); 
-[false,"stack_trans('irred_Q_commonint'); ",true]$ 
+[false,"stack_trans('irred_Q_commonint'); !NEWLINE!",true]$ 
 irred_Q(t+t*x,x); 
-[false,"",false]$ 
+[false,"stack_trans('ATFacForm_notpoly'); !NEWLINE!"]$
 irred_Q(3*x^2,x); 
 [true,"",false]$ 
 irred_Q(4*x^2,x); 
-[true,"stack_trans('irred_Q_optional_fac' , !quot!\\(4\\,x^2\\)!quot! ); ",false]$ 
+[true,"stack_trans('irred_Q_optional_fac' , !quot!\\(4\\,x^2\\)!quot! ); !NEWLINE!",false]$ 
 irred_Q(x^2-4,x); 
 [false,"",false]$ 
 irred_Q(x^2-2,x); 
@@ -151,22 +151,24 @@ irred_Q(1+x^2+x^5,x);
 irred_Q(n^3-1,n); 
 [false,"",false]$
 irred_Q(3*x-6*x^3+3*x^6,x); 
-[false,"stack_trans('irred_Q_commonint'); ",false]$ 
+[false,"stack_trans('irred_Q_commonint'); !NEWLINE!",false]$ 
 irred_Q(9-3*x+3*x^5,x); 
-[false,"stack_trans('irred_Q_commonint'); ",true]$ 
+[false,"stack_trans('irred_Q_commonint'); !NEWLINE!",true]$ 
 
-irred_power_Qp(2,x);
+PartFrac_term_p(2,x);
 true$
-irred_power_Qp((x-1)^2,x);
+PartFrac_term_p(1/(x-1)^2,x);
 true$
-irred_power_Qp((3*x-6)^4,x);
+PartFrac_term_p(1/(3*x-6)^4,x);
 true$
-irred_power_Qp(x^2-1,x);
+PartFrac_term_p(1/(x^2-1),x);
 false$
-irred_power_Qp(3*x-6*x^3+3*x^6,x);
+PartFrac_term_p(1/(3*x-6*x^3+3*x^6),x);
 false$
-irred_power_Qp(9-3*x+3*x^5,x);
+PartFrac_term_p(1/(9-3*x+3*x^5),x);
 true$
+PartFrac_term_p(x/(x-1),x);
+false$
 
 continuousp(x^2,x,1); 
 true$ 
@@ -312,7 +314,7 @@ stack_disp(a+1, "i");
 stack_disp(1, "i");
 "\\(1\\)"$
 stack_disp(false, "i");
-"\\(\\mathbf{False}\\)"$
+"\\(\\mathbf{!BOOLFALSE!}\\)"$
 stack_disp(ab0, "i");
 "\\({{\\it ab}}_{0}\\)"$
 stack_disp(epsilon0345, "i");

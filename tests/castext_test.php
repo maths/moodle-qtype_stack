@@ -34,7 +34,7 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
  * @group qtype_stack
  * @group qtype_stack_castext_module
  */
-class stack_cas_text_test extends qtype_stack_testcase {
+class castext_test extends qtype_stack_testcase {
 
     public function basic_castext_instantiation($strin, $sa, $val, $disp) {
 

@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../stack/graphlayout/graph.php');
 /**
  * @group qtype_stack
  */
-class stack_abstract_graph_test extends basic_testcase {
+class graphlayout_test extends basic_testcase {
 
     /**
      * This graph has 4 nodes and should look like:

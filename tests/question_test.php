@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../stack/potentialresponsetree.class.php');
 /**
  * @group qtype_stack
  */
-class qtype_stack_question_test extends qtype_stack_testcase {
+class question_test extends qtype_stack_testcase {
     /**
      * @return qtype_stack_question the requested question object.
      */

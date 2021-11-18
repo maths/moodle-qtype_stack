@@ -70,12 +70,15 @@ require_login();
 $qbankparams = $urlparams;
 unset($qbankparams['questionid']);
 unset($qbankparams['seed']);
+$editparams = $qbankparams;
+$editparams['id'] = $question->id;
 $qbankparams['qperpage'] = 1000; // Should match MAXIMUM_QUESTIONS_PER_PAGE but that constant is not easily accessible.
 $qbankparams['category'] = $questiondata->category . ',' . $question->contextid;
 $qbankparams['lastchanged'] = $question->id;
 if ($questiondata->hidden) {
     $qbankparams['showhidden'] = 1;
 }
+$questionbanklinkedit = new moodle_url('/question/question.php', $editparams);
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/type/stack/exportone.php', $urlparams);
 $exportquestionlink->param('sesskey', sesskey());
@@ -266,6 +269,17 @@ if (!$variantmatched) {
             array('class' => 'undeployedvariant'));
 }
 
+if (!(empty($question->deployedseeds)) && $canedit) {
+    // Undeploy all the variants.
+    echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
+        'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
+    echo stack_string('deployremoveall');
+    echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey(),
+        'undeployall' => 'true')));
+    echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
+    echo html_writer::end_tag('form');
+}
+
 // Add in some logic for a case where the author removes randomization after variants have been deployed.
 if ($question->has_random_variants()) {
     echo html_writer::start_tag('p');
@@ -280,15 +294,6 @@ if ($question->has_random_variants()) {
     echo html_writer::end_tag('form');
 
     if ($canedit) {
-        // Run tests on all the variants.
-        echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
-            'action' => new moodle_url('/question/type/stack/questiontestrun.php', $urlparams)));
-        echo stack_string('deploytestall');
-        echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey(),
-            'testall' => '1')));
-        echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
-        echo html_writer::end_tag('form');
-
         // Deploy many variants.
         echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
                 'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
@@ -299,19 +304,41 @@ if ($question->has_random_variants()) {
         echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
         echo ' ' . stack_string('deploymanynotes');
         echo html_writer::end_tag('form');
+
+        // Deploy many from a CS list of integer seeds.
+        echo "\n" . html_writer::start_tag('form', array('method' => 'get', 'class' => 'deployfromlist',
+            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
+        echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey())), array('seed'));
+        echo "\n<table>" . html_writer::start_tag('table');
+        echo html_writer::start_tag('tr');
+        echo html_writer::start_tag('td');
+        echo stack_string('deployfromlist');
+        echo html_writer::end_tag('td');
+        echo html_writer::start_tag('td');
+        echo ' ' . html_writer::start_tag('textarea', array('cols' => 15, 'rows' => count($question->deployedseeds),
+            'id' => 'deployfromlist', 'name' => 'deployfromlist', 'value' => ''));
+        echo html_writer::end_tag('textarea');
+        echo html_writer::end_tag('td');
+        echo html_writer::start_tag('td');
+        echo ' ' . html_writer::tag('tt', implode("<br />", $question->deployedseeds));
+        echo html_writer::end_tag('td');
+        echo html_writer::start_tag('td');
+        echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
+        echo html_writer::end_tag('td');
+        echo html_writer::end_tag('tr');
+        echo "\n" . html_writer::end_tag('table');
+        echo "\n" . html_writer::end_tag('form');
+
+        // Run tests on all the variants.
+        echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
+            'action' => new moodle_url('/question/type/stack/questiontestrun.php', $urlparams)));
+        echo stack_string('deploytestall');
+        echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey(),
+            'testall' => '1')));
+        echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
+        echo html_writer::end_tag('form');
     }
     echo html_writer::end_tag('p');
-}
-
-if (!(empty($question->deployedseeds)) && $canedit) {
-    // Undeploy all the variants.
-    echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploymany',
-            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
-    echo stack_string('deployremoveall');
-    echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey(),
-            'undeployall' => 'true')));
-    echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'value' => get_string('go')));
-    echo html_writer::end_tag('form');
 }
 
 echo $OUTPUT->heading(stack_string('questiontestsfor', $seed), 2);
@@ -472,23 +499,21 @@ foreach ($testresults as $key => $result) {
     }
 }
 
-// Display the question.
-echo $OUTPUT->heading(stack_string('questionpreview'), 3);
-
-echo html_writer::tag('p', html_writer::link($questionbanklink,
-        stack_string('seethisquestioninthequestionbank')));
-
+$links = array();
+$links[] = html_writer::link($questionbanklink, stack_string('seethisquestioninthequestionbank'));
 if ($canedit) {
-    echo html_writer::tag('p',
-            html_writer::link($exportquestionlink, stack_string('exportthisquestion')) .
-            $OUTPUT->help_icon('exportthisquestion', 'qtype_stack'));
+    $links[] = html_writer::link($questionbanklinkedit, stack_string('editquestioninthequestionbank'));
+    $links[] = html_writer::link($exportquestionlink, stack_string('exportthisquestion')) .
+            $OUTPUT->help_icon('exportthisquestion', 'qtype_stack');
 }
-
+echo html_writer::tag('p', implode(' | ', $links));
 
 echo html_writer::tag('p',
         html_writer::link(new moodle_url('/question/type/stack/questiontestreport.php', $urlparams),
                 stack_string('basicquestionreport')) . $OUTPUT->help_icon('basicquestionreport', 'qtype_stack'));
 
+// Display the question.
+echo $OUTPUT->heading(stack_string('questionpreview'), 3);
 echo $renderquestion;
 
 // Display the question note.

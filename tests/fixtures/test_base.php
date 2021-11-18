@@ -205,6 +205,24 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
         $this->assertEquals($e, $a);
     }
+
+    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
+        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
+            parent::assertMatchesRegularExpression($pattern, $string, $message);
+        } else {
+            parent::assertRegExp($pattern, $string);
+        }
+    }
+
+    public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void {
+        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        if (method_exists('advanced_testcase', 'assertDoesNotMatchRegularExpression')) {
+            parent::assertDoesNotMatchRegularExpression($pattern, $string, $message);
+        } else {
+            parent::assertNotRegExp($pattern, $string);
+        }
+    }
 }
 
 
@@ -432,5 +450,23 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
     protected function assert_same_select_html($expected, $actual) {
         $actual = str_replace('class="select custom-select', 'class="select', $actual);
         $this->assertEquals($expected, $actual);
+    }
+
+    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
+        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
+            parent::assertMatchesRegularExpression($pattern, $string, $message);
+        } else {
+            parent::assertRegExp($pattern, $string);
+        }
+    }
+
+    public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void {
+        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        if (method_exists('advanced_testcase', 'assertDoesNotMatchRegularExpression')) {
+            parent::assertDoesNotMatchRegularExpression($pattern, $string, $message);
+        } else {
+            parent::assertNotRegExp($pattern, $string);
+        }
     }
 }

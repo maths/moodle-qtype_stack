@@ -198,7 +198,7 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
 
 ESCAPE;
-    $code .= "class stack_ast_filter_auto_gen_${key}_testcase extends qtype_stack_ast_testcase {" . $nl;
+    $code .= "class ast_filter_{$key}_auto_generated_test extends qtype_stack_ast_testcase {" . $nl;
 
     $testactiveunits = $indent . 'public function test_affected_units() {' . $nl;
     $testactiveunits .= $indent2 . '$this->security = new stack_cas_security(true);' . $nl;
@@ -333,7 +333,7 @@ ESCAPE;
 
 cli_heading('Comparing to existing tests');
 foreach ($generatedcode as $key => $code) {
-    $name = __DIR__ . '/../tests/ast_filter_' . $key . '.auto-generated_test.php';
+    $name = __DIR__ . '/../tests/ast_filter_' . $key . '_auto_generated_test.php';
     $old = false;
     if (file_exists($name)) {
         $old = file_get_contents($name);

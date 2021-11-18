@@ -31,7 +31,7 @@ require_once(__DIR__ . '/fixtures/answertestfixtures.class.php');
 /**
  * @group qtype_stack
  */
-class stack_answertest_fixtures_cas_testcase extends qtype_stack_testcase {
+class answertest_general_fixtures_test extends qtype_stack_testcase {
 
     /**
      * @dataProvider answertest_fixtures

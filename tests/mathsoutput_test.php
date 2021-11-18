@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
 /**
  * @group qtype_stack
  */
-class stack_maths_stack_maths_test extends advanced_testcase {
+class mathsoutput_test extends advanced_testcase {
 
     public function test_replace_dollars_and_abacus() {
         $test0 = 'Test $\frac12$ $$\frac14$$ @1/8@ \(\frac{@a@}{2}\).';

@@ -23,17 +23,6 @@ COLOR_LIST:["red", "Blue"  , "YellowOrange", "Bittersweet"  , "BlueViolet" , "Aq
 COLOR_LIST_LENGTH:length(COLOR_LIST)$
 
 
-/* This function applies the binary function f to two lists a and b
-   returning a list [ f(a[1],b[1]), f(a[2],b[2]), ... ]
-   zip_with quietly gives up when one of the list runs out of elements.  */
-zip_with(f,a,b) := block(
-  if listp(a)= false then return(false),
-  if listp(b)= false then return(false),
-  if a = [] then return([]),
-  if b = [] then return([]),
-  cons(f(first(a),first(b)),zip_with(f,rest(a),rest(b)))
-)$
-
 /* We want a list of the summands, but you cannot apply args to an atom */
 make_args_sum(ex) := if atom(ex) then [ex] else 
                          if op(ex)#"+" then [ex] else args(ex)$
@@ -130,10 +119,4 @@ tut_expand_full(ex) := block([ret,seps],
   ret:append(ret,[ [["Hence"],[],[]], [[ex],["="],[ev(expand(ex),simp)]] ]),
   display_steps(ret)
 )$
-
-
-
-
-
-
 

@@ -29,7 +29,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 /**
  * @group qtype_stack
  */
-class stack_checkbox_input_test extends qtype_stack_walkthrough_test_base {
+class input_checkbox_test extends qtype_stack_walkthrough_test_base {
 
     protected function expected_choices() {
         return array(

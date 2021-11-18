@@ -1,5 +1,6 @@
 # STACK 4.4 (alpha) [![Build Status](https://api.travis-ci.org/maths/moodle-qtype_stack.svg?branch=master)](https://travis-ci.org/github/maths/moodle-qtype_stack/)
 
+
 STACK is an assessment system for mathematics, science and related disciplines.  STACK is a question type for the Moodle learning management system, and also the ILIAS learning management system.
 
 STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh, and includes the work of many [other contributors](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/Credits.md). A demonstration server is available at the University of Edinburgh:  [https://stack.maths.ed.ac.uk/](https://stack.maths.ed.ac.uk/).
@@ -18,9 +19,11 @@ Please continue to report any bugs you find at https://github.com/maths/moodle-q
 
 The [current state of development](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/Development_track.md) is explained more fully in the [developer documentation](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/Developer/index.md).
 
+The STACK project has been running since 2005, and we are committed to long term support within Moodle.  We aim to maintain this plugin to work with versions of Moodle, both currently supported and current security releases, see [Moodle versions](https://docs.moodle.org/dev/Releases#Version_support) for more details.  We are also committed to support STACK within ILIAS.  If your version of Moodle or ILIAS is not listed as supported please do contact the developers for more information.
+
 ## Documentation
 
-The [documentation is here](https://stack-assessment.org/), including the installation instructions.
+The [documentation is here](https://stack-assessment.org/), including the [installation instructions](https://docs.stack-assessment.org/en/Installation/).
 
 ## License
 

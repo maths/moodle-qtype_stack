@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../lang/multilang.php');
 /**
  * @group qtype_stack
  */
-class stack_multilang_test extends qtype_stack_testcase {
+class multilang_test extends qtype_stack_testcase {
 
     public function test_get_languages() {
         $enfi = '<span lang="en" class="multilang"><p>Let \[ A = {@mat1@} \quad \textrm{and} \quad B = {@mat2@}. \] '

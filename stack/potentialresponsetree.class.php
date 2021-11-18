@@ -390,6 +390,43 @@ class stack_potentialresponse_tree {
     }
 
     /**
+     * @return array Languages used in the feedback.
+     */
+    public function get_feedback_languages() {
+        $langs = array();
+        foreach ($this->nodes as $key => $node) {
+            $langs[$key] = $node->get_feedback_languages();
+        }
+        return $langs;
+    }
+
+
+    /**
+     * @return string Raw feedback text as a single blob for checking.
+     */
+    public function get_feedback_test() {
+        $text = '';
+        foreach ($this->nodes as $node) {
+            $text .= $node->get_feedback_text();
+        }
+        return $text;
+    }
+
+    /**
+     * @return array All the "sans" strings used in the nodes with test requiring a raw input.
+     */
+    public function get_raw_sans_used() {
+        $sans = array();
+        foreach ($this->nodes as $key => $node) {
+            if (stack_ans_test_controller::required_raw($node->get_test())) {
+                $name = (string) $this->get_name() . '-' . ($key + 1);
+                $sans[$name] = $node->sans->get_inputform(true, 1);
+            }
+        }
+        return $sans;
+    }
+
+    /**
      * @return boolean whether this PRT contains any tests that use units.
      */
     public function has_units(): bool {

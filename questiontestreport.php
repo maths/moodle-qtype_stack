@@ -145,7 +145,7 @@ foreach ($summary as $variant => $vdata) {
         foreach ($rawdat as $data) {
             $data = trim($data);
             foreach ($qinputs as $input => $notused) {
-                if (substr($data, 0, strlen($input)) === $input) {
+                if (substr($data, 0, strlen($input . ':')) === $input . ':') {
                     $datas = trim(substr($data, strlen($input . ':')));
                     $status = 'other';
                     if (strpos($datas, '[score]') !== false) {
@@ -177,7 +177,7 @@ foreach ($summary as $variant => $vdata) {
                 }
             }
             foreach ($qprts as $prt => $notused) {
-                if (substr($data, 0, strlen($prt)) === $prt) {
+                if (substr($data, 0, strlen($prt . ':')) === $prt . ':') {
                     $datas = trim(substr($data, strlen($prt . ':')));
                     if (array_key_exists($datas, $prtreport[$variant][$prt])) {
                         $prtreport[$variant][$prt][$datas] += (int) $num;

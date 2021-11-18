@@ -267,6 +267,11 @@
         "description":"STACK supports the use of scientific units in its questions. This is particularly useful in physics questions."
         },
         {
+        "file":"Variant_matching.md",
+        "title":"Variant matching - STACK Documentation",
+        "description":"This is a relatively advanced feature which links together random variables between questions."
+        },
+        {
         "file":"Numerical_input.md",
         "title":"Numerical Input - STACK Documentation",
         "description":"Information on STACK's numerical input type."

@@ -49,7 +49,7 @@ require_once(__DIR__ . '/../stack/cas/evaluatable_object.interfaces.php');
  * @group qtype_stateful
  * @group qtype_stack_compatibility
  */
-class stack_api_compatibility_stateful_test extends qtype_stack_testcase {
+class api_tests_stateful_test extends qtype_stack_testcase {
 
     public function test_security_map_path() {
         $this->assertTrue(file_exists(__DIR__ . '/../stack/cas/security-map.json'));

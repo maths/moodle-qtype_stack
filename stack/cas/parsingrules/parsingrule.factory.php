@@ -43,6 +43,7 @@ require_once(__DIR__ . '/403_split_at_number_letter_boundary.filter.php');
 require_once(__DIR__ . '/404_split_at_number_letter_number_boundary.filter.php');
 require_once(__DIR__ . '/406_split_implied_variable_names.filter.php');
 require_once(__DIR__ . '/410_single_char_vars.filter.php');
+require_once(__DIR__ . '/420_consolidate_subscripts.filter.php');
 require_once(__DIR__ . '/441_split_unknown_functions.filter.php');
 require_once(__DIR__ . '/442_split_all_functions.filter.php');
 require_once(__DIR__ . '/450_split_floats.filter.php');
@@ -122,6 +123,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_406_split_implied_variable_names();
             case '410_single_char_vars':
                 return new stack_ast_filter_410_single_char_vars();
+            case '420_consolidate_subscripts':
+                return new stack_ast_filter_420_consolidate_subscripts();
             case '441_split_unknown_functions':
                 return new stack_ast_filter_441_split_unknown_functions();
             case '442_split_all_functions':
@@ -178,7 +181,9 @@ class stack_parsing_rule_factory {
                            '403_split_at_number_letter_boundary',
                            '404_split_at_number_letter_number_boundary',
                            '406_split_implied_variable_names',
-                           '410_single_char_vars', '441_split_unknown_functions',
+                           '410_single_char_vars',
+                           '420_consolidate_subscripts',
+                           '441_split_unknown_functions',
                            '442_split_all_functions', '450_split_floats',
                            '502_replace_pm',
                            '504_insert_tuples_for_groups',

@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 /**
  * @group qtype_stack
  */
-class stack_varmatrix_input_test extends qtype_stack_testcase {
+class input_varmatrix_test extends qtype_stack_testcase {
 
     public function test_render_blank() {
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');

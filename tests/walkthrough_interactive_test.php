@@ -28,7 +28,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
-class qtype_stack_walkthrough_interactive_testcase extends qtype_stack_walkthrough_test_base {
+class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_partially_right_the_right() {
         // Create a stack question.

@@ -259,6 +259,25 @@ class stack_potentialresponse_tree_lite {
         return $langs;
     }
 
+    /**
+     * This is only for testing, you need to do more to actually check
+     * the actual text.
+     * 
+     * @return string Raw feedback text as a single blob for checking.
+     */
+    public function get_feedback_test() {
+        $text = '';
+        foreach ($this->nodes as $node) {
+            if ($node->truefeedback !== null) {
+                $text .= $node->truefeedback;
+            }
+            if ($node->falsefeedback !== null) {
+                $text .= $node->falsefeedback;
+            }
+        }
+        return $text;
+    }
+
     private function po_recurse($node, array &$postorder, array &$visited): array {
         $truenode                 = $this->get_node($node->truenextnode);
         $falsenode                = $this->get_node($node->falsenextnode);

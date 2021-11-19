@@ -200,7 +200,7 @@ class stack_multilang {
             return $text;
         }
         $filtered = [];
-        foreach ($langs as $lang) {
+        foreach ($langs as $lang => $duh) {
             if ($mode === 1) {
                 $filtered[$lang] = '<span lang="' . $lang . '" class="multilang">' . $this->filter($text, $lang) . '</span>';
             } else if ($mode === 2) {

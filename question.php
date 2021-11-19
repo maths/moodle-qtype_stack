@@ -670,7 +670,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Add in the answer note for this response.
         foreach ($this->prts as $name => $prt) {
             $state = $this->get_prt_result($name, $response, false);
-            $note = implode(' | ', $state->get_answernotes());
+            $note = implode(' | ', array_map('trim', $state->get_answernotes()));
             $score = '';
             if (trim($note) == '') {
                 $note = '!';
@@ -1349,7 +1349,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
             $results = $this->get_prt_result($index, $response, true);
 
-            $answernotes = implode(' | ', $results->get_answernotes());
+            $answernotes = implode(' | ', array_map('trim', $results->get_answernotes()));
 
             foreach ($prt->get_nodes_summary() as $nodeid => $choices) {
                 if (in_array($choices->truenote, $results->get_answernotes())) {
@@ -1483,7 +1483,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Reminder: previous approach in Oct 2021 tried to use libxml_use_internal_errors, but this was a dead end.
 
         $tocheck = array();
-        $text = trim($this->questiontextinstantiated);
+        $text = '';
+        if ($this->questiontextinstantiated !== null) {
+            $text = trim($this->questiontextinstantiated->get_rendered());
+        }
         if ($text !== '') {
             $tocheck[stack_string('questiontext')] = $text;
         }
@@ -1633,14 +1636,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     // First from the next sessions.
                     cache::make('core', 'questiondata')->delete($this->id);
                 }
-            } catch (exception $e) {
-                var_dump($e);
+            } catch (stack_exception $e) {
                 // TODO: what exactly do we use here as the key
                 // and what sort of errors does the compilation generate.
                 // CHRIS: The compilation generates errors that relate to the static validation of 
                 // the question, any such errors are fatal and will be apparent on the first opening
                 // of the question in bulk tests or elsewhere, silencing them makes no sense. 
-                // These ase not runtime errors they are validation errors for materials that should
+                // These are not runtime errors they are validation errors for materials that should
                 // not have managed to get through the editor.
                 $this->runtimeerrors[$e->getMessage()] = true;
                 $this->compiledcache = ['FAIL' => $e->getMessage()];

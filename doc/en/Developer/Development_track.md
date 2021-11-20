@@ -10,6 +10,7 @@ How to report bugs and make suggestions is described on the [community](../About
 1. Add in filter `420_consolidate_subscripts` to consolidate students' input with subscripts from `M_1` to `M1`.
 2. Support [variant matching](../Authoring/Variant_matching.md).
 3. Add in the option `arccos(x)/arcosh(x)` for display of trig.  This notation exists becase `arcsin` gives the arc length on the unit circle for a given y-coordinate. `arsinh` gives an area enclosed by a hyperbola and two rays from the origin for a given y-coordinate.
+4. Allow students to type `arccos` etc. and treat these as synonyms of the trig functions.
 
 ## Version 4.4
 

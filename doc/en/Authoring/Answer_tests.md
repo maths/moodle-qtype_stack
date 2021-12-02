@@ -114,7 +114,11 @@ Please see the [separate documentation](Answer_tests_rules_based.md).
 
 Algebraic equivalence evaluates as much as possible, to try to establish equivalence.  This means, e.g. that `diff(y,x)` is always evaluated to \(0\).  If you use AlgEquivNouns then noun forms of operators are not evaluated, so `diff(y,x)` will be evaluated but `'diff(y,x)` and `noundiff(y,x)` will not.
 
-Note, however that logic nouns such as `nounand` are still evaluated by this test!  Sorry, but logical noun functions are dealt with internally in a very different way than Maxima noun functions such as `'diff(y,x)` and the parallel `noundiff`.  Use a different test, such as `EqualComAss`.
+Even with this answer test `noundiff(y,x)` and `noundiff(y(x),x)` are different!
+
+Note, that logic nouns such as `nounand` are still evaluated by this test!  Sorry, but logical noun functions are dealt with internally in a very different way than Maxima noun functions such as `'diff(y,x)` and the parallel `noundiff`.  Use a different test, such as `EqualComAss`.
+
+It was the need to selectively evaluate some nouns but not others that led to the development of the [rule-based answer tests](Answer_tests_rules_based.md) to deal with the need for these options in a coherent way.
 
 ### CasEqual ###
 

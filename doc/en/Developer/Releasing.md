@@ -23,7 +23,7 @@ Check
 * Check version numbers on stackmaxima.mac.
 * Run unit tests.
 * Run code checker.
-* Commit all changes to git, e.g. "Update version number for the 4.3.6 release."
+* Commit all changes to git, e.g. "Update version number for the 4.3.11 release."
 
 ## 2. Create new tag with version name
 
@@ -32,7 +32,7 @@ E.g. "v4.3.6".
 * Push to GitHub.
 * Push tags to GitHub 
  * Tortoise git: pulldown from push
- * Linux: `git tag -a v4.3.6 -m "Update version number for the 4.3.6 release."`
+ * Linux: `git tag -a v4.3.11 -m "Update version number for the 4.3.11 release."`
  * Linux: `git push`
  * Linux: `git push --tags`
 

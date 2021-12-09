@@ -371,6 +371,7 @@ class stack_potentialresponse_node {
         $summary->truenote       = $this->branches[true]['answernote'];
         $summary->truescore      = $this->branches[true]['score'];
         $summary->truescoremode  = $this->branches[true]['scoremodification'];
+        $summary->test           = $this->get_maxima_representation();
         return $summary;
     }
 

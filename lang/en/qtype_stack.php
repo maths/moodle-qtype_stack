@@ -552,10 +552,10 @@ $string['variant'] = 'Variant';
 $string['basicquestionreport'] = 'Basic question use report';
 $string['basicquestionreport_help'] = 'Generates a very basic report on attempts at this question on the server. Useful for deciding which PRT test can be added to improve feedback in the light of what the student actually does.  (Most questions are only used in one place)';
 $string['basicreportraw'] = 'Raw data';
-$string['basicreportnotes'] = 'Frequency of answer notes, for each PRT, regardless of which variant was used.';
-$string['basicreportnotessplit'] = 'Frequency of answer notes, for each PRT, split by |, regardless of which variant was used.';
-$string['basicreportvariants'] = 'Raw inputs and PRT answer notes by variant.';
-$string['basicreportinputsummary'] = 'Raw inputs, regardless of which variant was used.';
+$string['basicreportnotes'] = 'Frequency of answer notes, for each PRT, regardless of which variant was used';
+$string['basicreportnotessplit'] = 'Frequency of answer notes, for each PRT, split by |, regardless of which variant was used';
+$string['basicreportvariants'] = 'Raw inputs and PRT answer notes by variant';
+$string['basicreportinputsummary'] = 'Raw inputs, regardless of which variant was used';
 
 // Equiv input specific string.
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';

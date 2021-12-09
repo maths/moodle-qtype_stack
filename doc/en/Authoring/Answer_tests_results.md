@@ -5672,6 +5672,32 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c9"></td>
   <td class="cell c10"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">diff(y(x),x)</td>
+  <td class="cell c3">diff(y,x)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">diff(y,x)</td>
+  <td class="cell c3">diff(y,x,2)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0">Basic support for strings</td>
   <td class="cell c1"></td>
@@ -5904,6 +5930,162 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">&#039;diff(y,x,1)</td>
+  <td class="cell c3">&#039;diff(y,x,2)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">&#039;diff(y(x),x)</td>
+  <td class="cell c3">&#039;diff(y,x)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">subst(y,y(x),&#039;diff(y,x)+y=1)</td>
+  <td class="cell c3">&#039;diff(y,x)+y=1</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEquation_sides</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">subst(y,y(x),&#039;diff(y(x),x)+y(x)=1)</td>
+  <td class="cell c3">&#039;diff(y,x)+y=1</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEquation_sides</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">subst(y(x),y,&#039;diff(y,x)+y=1)</td>
+  <td class="cell c3">&#039;diff(y(x),x)+y(x)=1</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEquation_sides</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">subst(y(x),y,&#039;diff(y,x)+y=1)</td>
+  <td class="cell c3">&#039;diff(y,x)+y=1</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEquation_default</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Expected failure</td>
+  <td class="cell c2">subst(y(x),y,&#039;diff(y(x),x)+y(x)=1)</td>
+  <td class="cell c3">&#039;diff(y,x)+y=1</td>
+  <td class="cell c4"></td>
+  <td class="cell c5">TEST_FAILED</td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">-1</td>
+  <td class="cell c8"><div class="text_to_html">The answer test failed to execute correctly: please alert your teacher. subst: cannot substitute y(x) for operator y in expression y(x)<br /></div></td>
+  <td class="cell c9">ATAlgEquivNouns_STACKERROR_SAns.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">y_x</td>
+  <td class="cell c3">&#039;diff(y,x)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="notes">
+  <td class="cell c0">Partials</td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">noundiff(f,x,1,y,1)</td>
+  <td class="cell c3">noundiff(noundiff(f,x),y)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">noundiff(noundiff(f,y),x)</td>
+  <td class="cell c3">noundiff(noundiff(f,x),y)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">noundiff(noundiff(f,x),x)</td>
+  <td class="cell c3">noundiff(f,x,2)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
   <td class="cell c8"></td>
   <td class="cell c9"></td>
   <td class="cell c10"></td>
@@ -26790,4 +26972,4 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html"><span class="nolink">\[\begin{array}{lll} &amp;\frac{\mathrm{d} y}{\mathrm{d} x}-\frac{2}{x}\cdot y=x^3\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{green}{\Leftrightarrow}&amp;\frac{1}{x^2}\cdot \left(\frac{\mathrm{d} y}{\mathrm{d} x}\right)-\frac{2}{x^3}\cdot y=x\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{green}{\Leftrightarrow}&amp;\left(\frac{\mathrm{d}}{\mathrm{d} x} \frac{y}{x^2}\right)=x\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{blue}{\int\ldots\mathrm{d}x}&amp;\frac{y}{x^2}=\int {x\cdot \sin \left( 3\cdot x \right)}{\;\mathrm{d}x}&amp; \cr \color{blue}{\int\ldots\mathrm{d}x}&amp;\frac{y}{x^2}=\frac{\sin \left( 3\cdot x \right)-3\cdot x\cdot \cos \left( 3\cdot x \right)}{9}+c&amp; \cr \end{array}\]</span></div></span></td>
   <td class="cell c9">[EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,INTCHAR(x),INTCHAR(x)]</td>
   <td class="cell c10"></td>
-</tr></tbody></table></div><br/>Your site is running STACK version 2021072200 ().
+</tr></tbody></table></div><br/>Your site is running STACK version 2021120900 ().

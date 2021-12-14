@@ -528,6 +528,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'noundiff(y,x)', '0', 1, '', ''),
         // Note evaluated functions.
         array('AlgEquiv', '', 'diff(y(x),x)', '0', 0, '', ''),
+        array('AlgEquiv', '', 'diff(y(x),x)', 'diff(y,x)', 0, '', ''),
+        // Both get evaluated to zero.
+        array('AlgEquiv', '', 'diff(y,x)', 'diff(y,x,2)', 1, '', ''),
 
         array('AlgEquiv', '', '"Hello"', '"Hello"', 1, 'ATAlgEquiv_String', 'Basic support for strings'),
         array('AlgEquiv', '', '"hello"', '"Hello"', 0, 'ATAlgEquiv_String', ''),
@@ -548,6 +551,20 @@ class stack_answertest_test_data {
         array('AlgEquivNouns', '', '\'diff(y,x)', '0', 0, '', ''),
         array('AlgEquivNouns', '', 'noundiff(y,x)', '0', 0, '', ''),
         array('AlgEquivNouns', '', 'diff(y(x),x)', '0', 0, '', ''),
+        array('AlgEquivNouns', '', '\'diff(y,x,1)', '\'diff(y,x,2)', 0, '', ''),
+        // A function and a function evaluated at a point are not the same thing.
+        array('AlgEquivNouns', '', '\'diff(y(x),x)', '\'diff(y,x)', 0, '', ''),
+        // Use subst here to move y(x)->y.
+        array('AlgEquivNouns', '', 'subst(y,y(x),\'diff(y,x)+y=1)', '\'diff(y,x)+y=1', 1, 'ATEquation_sides', ''),
+        array('AlgEquivNouns', '', 'subst(y,y(x),\'diff(y(x),x)+y(x)=1)', '\'diff(y,x)+y=1', 1, 'ATEquation_sides', ''),
+        array('AlgEquivNouns', '', 'subst(y(x),y,\'diff(y,x)+y=1)', '\'diff(y(x),x)+y(x)=1', 1, 'ATEquation_sides', ''),
+        array('AlgEquivNouns', '', 'subst(y(x),y,\'diff(y,x)+y=1)', '\'diff(y,x)+y=1', 0, 'ATEquation_default', ''),
+        array('AlgEquivNouns', '', 'subst(y(x),y,\'diff(y(x),x)+y(x)=1)', '\'diff(y,x)+y=1', -1, 'ATAlgEquivNouns_STACKERROR_SAns.', ''),
+        // y_x is an atom in Maxima and we can't have subscripts as a derivative operator.
+        array('AlgEquivNouns', '', 'y_x', '\'diff(y,x)', 0, '', ''),
+        array('AlgEquivNouns', '', 'noundiff(f,x,1,y,1)', 'noundiff(noundiff(f,x),y)', 1, '', 'Partials'),
+        array('AlgEquivNouns', '', 'noundiff(noundiff(f,y),x)', 'noundiff(noundiff(f,x),y)', 1, '', ''),
+        array('AlgEquivNouns', '', 'noundiff(noundiff(f,x),x)', 'noundiff(f,x,2)', 1, '', ''),
         array('AlgEquivNouns', '', 'noundiff(H,x,2) = -R/T', 'noundiff(H,x,2) + R/T = 0', 1, 'ATEquation_ratio',
                 'Differential equations'),
         array('AlgEquivNouns', '', '\'diff(H,x,2) = -R/T', 'noundiff(H,x,2) + R/T = 0', 1, 'ATEquation_ratio', ''),

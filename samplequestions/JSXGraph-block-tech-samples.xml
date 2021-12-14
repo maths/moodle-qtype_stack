@@ -268,14 +268,13 @@ document.getElementById(ans1Ref).style.display = 'none';
       <text><![CDATA[3. "Two-way binding", what does that mean?]]></text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p>In the previous example the binding transfers the position of both something in the graph to the input and retrieves the stored value of the input on page reload. Basically, one way binging is when the action in a graph changes setting the input value. For two way binding we also track the input value after the page has loaded so that if it changes due to any action we change the graph.</p>
+      <text><![CDATA[<p>In the previous example the binding transfers the position of both something in the graph to the input and retrieves the stored value of the input on page reload. Basically, one way binding is when the action in a graph changes setting the input value. For two way binding we also track the input value after the page has loaded so that if it changes due to any action we change the graph.</p>
 
-<p><b>Now why would we want to do that when the graph itself set the value!?</b></p>
+<p><b>Now why would we want to do that when the graph itself sets the value!?</b></p>
 <ul>
 <li>We might want to provide the input field as a visible editable field so that if the student cannot drag e.g. the slider in the graph they can write the value into the input and the graph reacts as if the thing was moved there, this may be necessary in some cases, but it is not that useful generally.</li>
 <li>More likely is the case where we have multiple graphs connected to the same input and we want them to move in sync when something is done in any one of them.</li>
 <li>We could also have scripting outside the graph that could act on the value on the input(s) in some way and connecting to that might be difficult, but it is much simpler to connect to the input directly and our binding does just that.</li>
-<li></li>
 </ul>
 
 
@@ -683,7 +682,9 @@ board.update();
 document.getElementById(ans1Ref).style.display = 'none';
 [[/jsxgraph]]
 
-<p>Drag some points around and pres check, as expected the points stay in place. The feedback should also show you the raw stored state and some very simple numbers collected from it. You may wish to check the feedback logic but it has very little to show.</p>
+<p>Drag some points around and press check, as expected the points stay in place. The feedback should also show you the raw stored state and some very simple numbers collected from it. You may wish to check the feedback logic but it has very little to show.</p>
+
+<p>In STACK 4.4 a simplified way of doing custom binding was added, if you need to do this you might wish to look into it, there should be a new sample of that.</p>
 
 <p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>

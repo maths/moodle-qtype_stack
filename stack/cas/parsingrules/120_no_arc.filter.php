@@ -20,8 +20,10 @@ require_once(__DIR__ . '/filter.interface.php');
 /**
  * AST filter that identifies a particular family of function names
  * and marks them invalid.
+ *
+ * Note, given 022 is always applied by the pipeline, nothing should get this far.
  */
-class stack_ast_filter_020_no_arc implements stack_cas_astfilter {
+class stack_ast_filter_120_no_arc implements stack_cas_astfilter {
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 

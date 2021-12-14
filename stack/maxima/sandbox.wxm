@@ -39,8 +39,8 @@ stacklocation:"c:/tmp/stackroot/stack"$
    
    These commands add the location to Maxima's search path. 
 */
-file_search_maxima:append( [sconcat(stacklocation, "/maxima/###.{mac,mc}")] , file_search_maxima)$
-file_search_lisp:append( [sconcat(stacklocation, "/maxima/###.{lisp}")] , file_search_lisp)$
+file_search_maxima:append( [sconcat(stacklocation, "/stack/maxima/###.{mac,mc}")] , file_search_maxima)$
+file_search_lisp:append( [sconcat(stacklocation, "/stack/maxima/###.{lisp}")] , file_search_lisp)$
 file_search_maxima:append( [sconcat(stacktmplocation, "/###.{mac,mc}")] , file_search_maxima)$
 file_search_lisp:append( [sconcat(stacktmplocation, "/###.{lisp}")] , file_search_lisp)$
 

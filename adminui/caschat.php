@@ -97,13 +97,14 @@ if ($string) {
 
     $ct = null;
     if (!$varerrs) {
-        $ct           = castext2_evaluatable::make_from_source($string, 'caschat');
+        $ct = castext2_evaluatable::make_from_source($string, 'caschat');
         $session->add_statement($ct);
         if ($ct->get_valid()) {
             $session->instantiate();
             $displaytext  = $ct->get_rendered();
         }
         $errs         = $ct->get_errors();
+        $errs        .= $session->get_errors();
         $debuginfo    = $session->get_debuginfo();
     }
 

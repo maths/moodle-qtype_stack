@@ -550,6 +550,7 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
+        // This is another run-time errror.
         $this->assertTrue(is_int(strpos($cs2->get_errors(),
                 "Plot error: the alt tag definition must be a string, but it is not.")));
     }
@@ -568,7 +569,7 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        $this->assertTrue(is_int(strpos($at1->get_rendered(), "width='200'")));
+        $this->assertEquals(183, strpos($at1->get_rendered(), "width='200'"));
     }
 
     public function test_plot_nottags() {
@@ -610,10 +611,10 @@ class castext_test extends qtype_stack_testcase {
 
     public function test_forbidden_words() {
 
-        $at1 = castext2_evaluatable::make_from_source('This is system cost {@system("rm /tmp/test")@} to create.', 'test-case');
+        $at1 = castext2_evaluatable::make_from_source('This is system cost {@system("rm /tmp/test")@} to create.',
+            'test-case');
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('<span class="error">CASText failed validation. </span>CAS commands not valid.  ' .
-                'Forbidden function: <span class="stacksyntaxexample">system</span>.', $at1->get_errors());
+        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">system</span>.', $at1->get_errors());
     }
 
     public function test_mathdelimiters1() {

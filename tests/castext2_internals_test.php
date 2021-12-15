@@ -1,9 +1,24 @@
 <?php
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// These tests do not declare castext2 requirements they just test 
+defined('MOODLE_INTERNAL') || die();
+
+// These tests do not declare castext2 requirements they just test
 // the implementation. Do not port these over to castext3.
 require_once(__DIR__ . '/fixtures/test_base.php');
-
 require_once(__DIR__ . '/../stack/cas/castext2/utils.php');
 
 /**
@@ -13,7 +28,6 @@ require_once(__DIR__ . '/../stack/cas/castext2/utils.php');
  * @group qtype_stack_castext_module
  */
 class stack_castext_internals_test extends qtype_stack_testcase {
-
 
     public function test_parser() {
         $parser = new CTP_Parser();
@@ -93,7 +107,6 @@ class stack_castext_internals_test extends qtype_stack_testcase {
         $code  .= '[[else]]\[{@true@}\][[/if]]';
         $ast    = $parser->parse($code);
 
-        
         $check  = function($node) {
             if ($node instanceof CTP_Block) {
                 if ($node->name === 'raw' || $node->name === 'latex') {
@@ -107,9 +120,8 @@ class stack_castext_internals_test extends qtype_stack_testcase {
             return true;
         };
 
-        $ast = castext2_parser_utils::math_paint($ast, $code, FORMAT_HTML);      
+        $ast = castext2_parser_utils::math_paint($ast, $code, FORMAT_HTML);
         $ast->callbackRecurse($check);
     }
-
 
 }

@@ -325,15 +325,19 @@ class stack_cas_keyval {
                 if ($node->name instanceof MP_Identifier && $node->name->value === 'castext') {
                     // The very special case of seeing the castext-function inside castext.
                     if (count($node->arguments) == 1 && !($node->arguments[0] instanceof MP_String)) {
-                        $errors[] = 'Keyval castext()-compiler, wrong argument. Only works with one direct raw string. And possibly a format descriptor.';
+                        $errors[] = 'Keyval castext()-compiler, wrong argument. ' .
+                            'Only works with one direct raw string. And possibly a format descriptor.';
                         $node->position['invalid'] = true;
                         return true;
-                    } else if (count($node->arguments) == 2 && (!($node->arguments[0] instanceof MP_String) || !($node->arguments[1] instanceof MP_Identifier))) {
-                        $errors[] = 'Keyval castext()-compiler, wrong argument. Only works with one direct raw string. And possibly a format descriptor.';
+                    } else if (count($node->arguments) == 2 && (!($node->arguments[0] instanceof MP_String) ||
+                            !($node->arguments[1] instanceof MP_Identifier))) {
+                        $errors[] = 'Keyval castext()-compiler, wrong argument. ' .
+                            'Only works with one direct raw string. And possibly a format descriptor.';
                         $node->position['invalid'] = true;
                         return true;
                     } else if (count($node->arguments) == 0 || count($node->arguments) > 2) {
-                        $errors[] = 'Keyval castext()-compiler, wrong argument. Only works with one direct raw string. And possibly a format descriptor.';
+                        $errors[] = 'Keyval castext()-compiler, wrong argument. ' .
+                            'Only works with one direct raw string. And possibly a format descriptor.';
                         $node->position['invalid'] = true;
                         return true;
                     }

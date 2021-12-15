@@ -235,16 +235,17 @@ class maxima_parser_utils {
                                     // For completeness sake check for the existence of includes.
                                     $usage = self::variable_usage_finder($src);
                                     if (isset($usage['calls']) && isset($usage['calls']['stack_include'])) {
-                                        // Whyt not is simply because we do not want to deal with cycles or
+                                        // Why not is simply because we do not want to deal with cycles or
                                         // trying to keep track of the error messages. It is better to guide
                                         // towards less deep hierarchys of included content. And if someone
-                                        // wants to do deppeer includes they may just give an url to a serverside 
-                                        // include using system, which is a fine way for buildign a package management 
+                                        // wants to do deppeer includes they may just give an url to a serverside
+                                        // include using system, which is a fine way for buildign a package management
                                         // system for thes sorts of things.
-                                        $errors[] = 'stack_include, include includes includes, we do not allow that: #' . $includecount;
+                                        $errors[] = 'stack_include, include includes includes, we do not allow that: #' .
+                                            $includecount;
                                         $node->name->value = 'failed_stack_include';
                                         $node->position['invalid'] = true;
-                                        return true;       
+                                        return true;
                                     }
 
                                     if (isset($src->position['fixedsemicolons'])) {
@@ -272,12 +273,13 @@ class maxima_parser_utils {
                                     return false;
                                 } else {
                                     $node->name->value = 'failed_stack_include';
-                                    $errors[] = 'stack_include, a parse error inside the include #' . $includecount . ': ' . $src->getMessage();
+                                    $errors[] = 'stack_include, a parse error inside the include #' . $includecount .
+                                        ': ' . $src->getMessage();
                                     return false;
                                 }
                             } else {
                                 $node->name->value = 'failed_stack_include';
-                                // This is mainly because I am lazy, but it does make the handling of the include 
+                                // This is mainly because I am lazy, but it does make the handling of the include
                                 // side error reportting quite a lot simpler.
                                 $errors[] = 'stack_include-statements may not have evaluation-flags.';
                                 return true;
@@ -290,11 +292,12 @@ class maxima_parser_utils {
                     } else {
                         // End this ones processing.
                         $node->name->value = 'failed_stack_include';
-                        $errors[] = 'stack_include must not be wrapped in any complex processing, it must be a top-level statement.';
+                        $errors[] = 'stack_include must not be wrapped in any complex processing, ' .
+                            'it must be a top-level statement.';
                         return true;
                     }
                 }
-                return true; 
+                return true;
             };
             while ($root->callbackRecurse($include) !== true) {}
 

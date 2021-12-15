@@ -22,19 +22,19 @@ require_once(__DIR__ . '/../../../utils.class.php');
 
 
 /**
- * Special block handling the post processing using 
+ * Special block handling the post processing using
  * stack_maxima_latex_tidy() function.
  */
 class stack_cas_castext2_special_stack_maxima_latex_tidy extends stack_cas_castext2_block {
     public $content;
 
-    public function __construct($params, $children=array(), $mathmode=false, $value='') {
+    public function __construct($params, $children = array(), $mathmode = false, $value = '') {
         parent::__construct($params, $children, $mathmode);
         $this->content = $value;
     }
 
     public function compile($format, $options): ?string {
-        // Should not even happen. This is not a block that makes sense for 
+        // Should not even happen. This is not a block that makes sense for
         // end users.
         return '["smlt",' . stack_utils::php_string_to_maxima_string($this->content) . ']';
     }
@@ -61,7 +61,7 @@ class stack_cas_castext2_special_stack_maxima_latex_tidy extends stack_cas_caste
         if ($mdmode) {
             $toproc = stack_maxima_latex_tidy($t);
             return str_replace(['\\', '-', '#', '*', '+', '`', '.', '[', ']', '(', ')',
-                '{', '}', '!', '&', '<', '>', '_'], 
+                '{', '}', '!', '&', '<', '>', '_'],
                 ['\\\\', '\-', '\#', '\*', '\+', '\`', '\.', '\[', '\]', '\(', '\)',
                 '\{', '\}', '\!', '\&', '\<', '\>', '\_'],
                  $toproc);

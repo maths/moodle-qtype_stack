@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * This script serves text files generated on demand by rendering CASText
  * of a given question with a given seed. For generated data transfer needs.
@@ -24,13 +26,12 @@
 
 require_once(__DIR__ . '/../../../config.php');
 
-
 global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
 
 require_login();
 
-// Start by checking that we have what we need:
+// Start by checking that we have what we need.
 if (!(isset($_GET['qaid']) && isset($_GET['id']) && isset($_GET['name']))) {
     header('HTTP/1.0 404 Not Found');
     header('Content-Type: text/plain;charset=UTF-8');
@@ -48,7 +49,7 @@ if (!is_numeric($qaid) || !is_numeric($tdid)) {
     header('HTTP/1.0 404 Not Found');
     header('Content-Type: text/plain;charset=UTF-8');
     echo 'Incomplete request';
-    die();   
+    die();
 }
 
 // So what we are doing is that we need to instanttiate the question
@@ -63,7 +64,7 @@ if (!$question->user_can_view()) {
     header('HTTP/1.0 403 Forbidden');
     header('Content-Type: text/plain;charset=UTF-8');
     echo 'This question is not accessible for the active user';
-    die();  
+    die();
 }
 // Unlock session during instantiation.
 \core\session\manager::write_close();
@@ -74,17 +75,18 @@ if (!$question->user_can_view()) {
 // to be regenerated.
 
 // This will generate the cache if it is missing, which is highly unlikely.
-$question->get_cached('units'); 
+$question->get_cached('units');
 
 if (!isset($question->compiledcache['castext-td-' . $tdid])) {
     header('HTTP/1.0 404 Not Found');
     header('Content-Type: text/plain;charset=UTF-8');
     echo 'No such textdownload object in this question';
-    die();  
+    die();
 }
 
 require_once(__DIR__ . '/stack/cas/castext2/castext2_evaluatable.class.php');
-$ct = castext2_evaluatable::make_from_compiled($question->compiledcache['castext-td-' . $tdid], $name, new castext2_static_replacer($question->get_cached('static-castext-strings')));
+$ct = castext2_evaluatable::make_from_compiled($question->compiledcache['castext-td-' .
+    $tdid], $name, new castext2_static_replacer($question->get_cached('static-castext-strings')));
 
 // Get the context from the question.
 $ses = new stack_cas_session2([], $question->options, $question->seed);
@@ -97,14 +99,14 @@ if (!$ses->get_valid()) {
     header('HTTP/1.0 500 Internal Server Error');
     header('Content-Type: text/plain;charset=UTF-8');
     echo 'Unknown issue related to the generation of this data';
-    die();     
+    die();
 }
 
 // Render it.
 $ses->instantiate();
 $content = $ct->get_rendered();
 
-// Now pick some sensible headers:
+// Now pick some sensible headers.
 header('HTTP/1.0 200 OK');
 header("Content-Disposition: attachment; filename=\"$name\"");
 if (strripos($name, '.csv') === strlen($name) - 4) {

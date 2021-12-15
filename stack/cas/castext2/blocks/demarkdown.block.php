@@ -19,9 +19,8 @@ global $CFG;
 require_once(__DIR__ . '/../block.interface.php');
 require_once($CFG->libdir . '/weblib.php');
 
-
-/** 
- * Block that will simply convert anything inside it from Markdown 
+/**
+ * Block that will simply convert anything inside it from Markdown
  * to HTML. Allowing certain types of mixed contents. Primarily exists
  * to map the problem of Markdown back to the normal HTML-processing.
  */
@@ -31,14 +30,12 @@ class stack_cas_castext2_demarkdown extends stack_cas_castext2_block {
         // Basically mark the contetns for post-processing.
         $r = '["demarkdown"';
 
-        
         foreach ($this->children as $item) {
             $c = $item->compile(castext2_parser_utils::MDFORMAT, $options);
             if ($c !== null) {
                 $r .= ',' . $c;
-            }   
+            }
         }
-        
         $r .= ']';
 
         return $r;
@@ -47,13 +44,14 @@ class stack_cas_castext2_demarkdown extends stack_cas_castext2_block {
     public function is_flat(): bool {
         return false;
     }
-    
+
     public function postprocess(array $params, castext2_processor $processor=null): string {
         // First collapse the content.
         $content = [''];
         $dontproc = [];
         for ($i = 1; $i < count($params); $i++) {
-            if (is_array($params[$i]) && $params[$i][0] !== 'demoodle' && $params[$i][0] !== 'demarkdown' && $params[$i][0] !== 'htmlformat') {
+            if (is_array($params[$i]) && $params[$i][0] !== 'demoodle' &&
+                    $params[$i][0] !== 'demarkdown' && $params[$i][0] !== 'htmlformat') {
                 $content[count($content) - 1] .= $processor->process($params[$i][0], $params[$i]);
             } else if (is_array($params[$i])) {
                 $dontproc[count($content)] = true;
@@ -73,14 +71,15 @@ class stack_cas_castext2_demarkdown extends stack_cas_castext2_block {
             } else {
                 $v = markdown_to_html($v);
                 // Note that at this point most of the interesting chars are entities.
-                // We need to revert some of those conversions to allow later processign to 
+                // We need to revert some of those conversions to allow later processign to
                 // detect LaTeX for MathJax.
-                // This makes the text such that it should not be reprocessed in any Markdown 
+                // This makes the text such that it should not be reprocessed in any Markdown
                 // filter luckily we will not do that.
-                $r .= str_replace(['&#92;','&#40;','&#91;','&#123;','&#41;','&#93;','&#125;','&#95;'],["\\",'(','[','{',')',']','}','_'], $v);
+                $r .= str_replace(['&#92;', '&#40;', '&#91;', '&#123;', '&#41;', '&#93;', '&#125;', '&#95;'],
+                    ["\\", '(', '[', '{', ')', ']', '}', '_'], $v);
             }
         }
-        
+
         return $r;
     }
 

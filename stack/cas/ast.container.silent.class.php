@@ -429,7 +429,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     public function get_securitymodel(): stack_cas_security {
         return $this->securitymodel;
     }
-    
+
     public function set_securitymodel(stack_cas_security $sec) {
         $this->securitymodel = $sec;
     }

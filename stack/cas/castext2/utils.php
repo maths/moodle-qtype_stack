@@ -13,7 +13,10 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+
 declare(strict_types = 1);
+
+defined('MOODLE_INTERNAL') || die();
 
 /* CASText2 parser utils */
 
@@ -21,7 +24,6 @@ require_once(__DIR__ . '/CTP_classes.php');
 require_once(__DIR__ . '/processor.class.php');
 require_once(__DIR__ . '/../../utils.class.php');
 require_once(__DIR__ . '/autogen/parser.mbstring.php');
-
 
 class castext2_parser_utils {
 
@@ -45,7 +47,7 @@ class castext2_parser_utils {
         return $root->compile($format, $options);
     }
 
-    public static function get_casstrings(string $castext): array{
+    public static function get_casstrings(string $castext): array {
         if ($castext === '' || $castext === null) {
             return [];
         }
@@ -81,7 +83,7 @@ class castext2_parser_utils {
 
     // Postprocesses the result from CAS. For those that have parsed the response
     // to PHP array/string form. Note that you need to give unescaped strings...
-    public static function postprocess_parsed(array $casresult, castext2_processor $processor=null): string{
+    public static function postprocess_parsed(array $casresult, castext2_processor $processor=null): string {
         if ($processor === null) {
             $processor = new castext2_default_processor();
         }
@@ -104,7 +106,7 @@ class castext2_parser_utils {
     }
 
     // Parses a string of castext code to an AST tree for use elsewhere.
-    public static function parse(string $code, $format=null): CTP_Root{
+    public static function parse(string $code, $format=null): CTP_Root {
         $parser = new CTP_Parser();
         $ast    = $parser->parse($code);
 
@@ -117,7 +119,7 @@ class castext2_parser_utils {
     }
 
     // Searches mathmode information and sets the nodes to match. Note that
-    // This aims to ignore comments
+    // This aims to ignore comments.
     public static function math_paint(
         CTP_Root $ast,
         string $code,
@@ -133,11 +135,10 @@ class castext2_parser_utils {
         if ($old !== 'UTF-8') {
             mb_internal_encoding('UTF-8');
         }
-        
 
-        // First identify skipped segments. i.e. ignore the contents of comments
+        // First identify skipped segments. i.e. ignore the contents of comments.
         $skipmap = [];
-        // We track the format switches
+        // We track the format switches.
         $formatmap = [];
         for ($i = 0; $i < mb_strlen($code); $i++) {
             $formatmap[$i] = $format;
@@ -152,7 +153,7 @@ class castext2_parser_utils {
                 // get to be outputted atleast at that position.
                 foreach ($node->parameters as $key => $value) {
                     if ($node->name === 'if') {
-                        // if is magical.
+                        // If is magical.
                         if ($key !== ' branch lengths' && $key === 'test') {
                             if (is_array($value)) {
                                 foreach ($value as $item) {
@@ -161,17 +162,11 @@ class castext2_parser_utils {
                                         ->position['end'];
                                 }
                             } else {
-                                // single branch case.
+                                // Single branch case.
                                 $skipmap[$value->position['start']] = $value->
                                 position['end'];
                             }
                         }
-                    } else {
-                        // This probs has nothing that matters?
-                        /*
-                    $value[$value->position['start']] = $value->position[
-                    'end'];
-                     */
                     }
                 }
                 // Pick the nodes that affect formats and paint the areas that have changed their format.
@@ -199,7 +194,7 @@ class castext2_parser_utils {
         $ast->callbackRecurse($populateskipmap);
 
         // Then we scan the string for mathmode status shifts.
-        $i = 0; // The current char
+        $i = 0; // The current char.
         $j = 0; // The current char with skipping taken into account.
 
         $skipped = ''; // A string that has had all the skipped parts removed.
@@ -225,8 +220,7 @@ class castext2_parser_utils {
         $doubleslash = false; // This for MD.
         $tripleslash = false; // This for MD.
 
-
-        // Then the scan
+        // Then the scan.
         while ($i < $len) {
             if (isset($formatmap[$i])) {
                 // Switch format when need be.
@@ -253,8 +247,10 @@ class castext2_parser_utils {
                     }
                 }
 
-                if ((($lastslash && $activeformat !== self::MDFORMAT) || ($activeformat === self::MDFORMAT && ($doubleslash || $tripleslash))) && $c !== '\\') {
-                    if (($lastslash && $activeformat !== self::MDFORMAT) || ($activeformat === self::MDFORMAT && $tripleslash)) {
+                if ((($lastslash && $activeformat !== self::MDFORMAT) ||
+                        ($activeformat === self::MDFORMAT && ($doubleslash || $tripleslash))) && $c !== '\\') {
+                    if (($lastslash && $activeformat !== self::MDFORMAT) ||
+                            ($activeformat === self::MDFORMAT && $tripleslash)) {
                         if ($c === '[' || $c === '(') {
                             $mathmode = true;
                             $lastslash = false;
@@ -268,7 +264,8 @@ class castext2_parser_utils {
                             $tripleslash = false;
                         }
                     }
-                    if (($lastslash && $activeformat !== self::MDFORMAT) || ($activeformat === self::MDFORMAT && $doubleslash)) {
+                    if (($lastslash && $activeformat !== self::MDFORMAT) ||
+                            ($activeformat === self::MDFORMAT && $doubleslash)) {
                         if ($c === 'b') {
                             // So do we have a \begin{ here?
                             $slice = mb_substr($skipped, $j);
@@ -319,22 +316,21 @@ class castext2_parser_utils {
         if ($old !== 'UTF-8') {
             mb_internal_encoding($old);
         }
-       
+
         return $ast;
     }
 
-    // This takes a top level list, set or group and splits it taking into account
-    // strings...
+    // This takes a top level list, set or group and splits it taking into account strings...
     // The original versions of those stack_utils functions should really be
     // resurrected as they did this already but were lost due to fear of strings.
     public static function string_to_list(
-        string $string_with_commas_and_nesting,
+        string $stringwithcommasandnesting,
         bool $deep = false
-    ): array{
+    ): array {
         $strings = stack_utils::all_substring_strings(
-            $string_with_commas_and_nesting);
+            $stringwithcommasandnesting);
         $safe = stack_utils::eliminate_strings(
-            $string_with_commas_and_nesting);
+            $stringwithcommasandnesting);
         $elems = stack_utils::list_to_array($safe, false);
         if (count($strings) == 0) {
             return $elems;
@@ -344,15 +340,15 @@ class castext2_parser_utils {
         for ($i = 0; $i < count($elems); $i++) {
             $split = explode('""', $elems[$i]);
             if (count($split) > 1) {
-                $to_implode = [];
+                $toimplode = [];
                 for ($j = 0; $j < count($split); $j++) {
-                    $to_implode[] = $split[$j];
+                    $toimplode[] = $split[$j];
                     if ($j < (count($split) - 1)) {
-                        $to_implode[] = $strings[$c];
+                        $toimplode[] = $strings[$c];
                         $c            = $c + 1;
                     }
                 }
-                $elems[$i] = implode('"', $to_implode);
+                $elems[$i] = implode('"', $toimplode);
             }
             if ($deep) {
                 $chr = mb_substr($elems[$i], 0, 1);
@@ -364,7 +360,7 @@ class castext2_parser_utils {
         return $elems;
     }
 
-    // Takes a nested array with string valued elements assumed to 
+    // Takes a nested array with string valued elements assumed to
     // represent Maxima escaped strings and turns them to raw PHP-strings.
     public static function unpack_maxima_strings(array $context): array {
         $r = [];
@@ -381,7 +377,7 @@ class castext2_parser_utils {
     }
 
     // Reduces a list that has MP_String-elements mixed with other stuff.
-    // By reduce we mean that it merges the adjacent MP_Strings to cut 
+    // By reduce we mean that it merges the adjacent MP_Strings to cut
     // down the parsers work.
     public static function string_list_reduce(array $list, bool $ignorefirst=false): array {
         $r = [];
@@ -400,14 +396,14 @@ class castext2_parser_utils {
                 }
             } else {
                 if ($tmp !== null) {
-                    $r[] = $tmp;    
+                    $r[] = $tmp;
                 }
                 $r[] = $item;
                 $tmp = null;
             }
         }
         if ($tmp !== null) {
-            $r[] = $tmp;    
+            $r[] = $tmp;
         }
         return $r;
     }

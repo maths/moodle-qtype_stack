@@ -38,10 +38,9 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $response = $qa->get_last_qt_data();
 
-        // We need to provide a processor for the CASText2 post-processing, 
+        // We need to provide a processor for the CASText2 post-processing,
         // basically for targetting pluginfiles.
         $question->castextprocessor = new castext2_qa_processor($qa);
-
 
         if (is_string($question->questiontextinstantiated)) {
             // The question has not been instantiated successfully, at this level it is likely
@@ -210,14 +209,14 @@ class qtype_stack_renderer extends qtype_renderer {
         if ($question->castextprocessor === null) {
             $question->castextprocessor = new castext2_qa_processor($qa);
         }
-        
+
         $feedbacktext = $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor);
         if (!$feedbacktext) {
             return '';
         }
 
         $feedbacktext = stack_maths::process_display_castext($feedbacktext, $this);
-        $feedbacktext = $question->format_text($feedbacktext, 
+        $feedbacktext = $question->format_text($feedbacktext,
                 FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
                 $qa, 'qtype_stack', 'specificfeedback', $question->id);
 
@@ -266,7 +265,7 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         $feedbacktext = stack_maths::process_display_castext($feedbacktext, $this);
-        $feedbacktext = $question->format_text($feedbacktext, 
+        $feedbacktext = $question->format_text($feedbacktext,
                 FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
                 $qa, 'qtype_stack', 'specificfeedback', $question->id);
 
@@ -370,7 +369,6 @@ class qtype_stack_renderer extends qtype_renderer {
         // and CASText converts any formats to HTML already, pluginfiles as well.
         $feedback = format_text(stack_maths::process_display_castext($feedback, $this),
             FORMAT_HTML, array('noclean' => true, 'para' => false));
-
 
         $gradingdetails = '';
         if ($result->get_valid() && $qa->get_behaviour_name() == 'adaptivemultipart'
@@ -519,7 +517,7 @@ class qtype_stack_renderer extends qtype_renderer {
 
         return $qa->get_question()->format_text(stack_maths::process_display_castext(
                 $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor), $this),
-                FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML. 
+                FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
                 $qa, 'question', 'generalfeedback', $question->id);
     }
 

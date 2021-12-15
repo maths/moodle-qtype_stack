@@ -22,8 +22,8 @@ require_once($CFG->libdir . '/questionlib.php');
 
 /**
  * Special block allowing one to define plugin file details for subtrees
- * pf the concatenated CASText. Basically, tag content like 
- * the PRT-feedback that can consist of multiple sources with different 
+ * pf the concatenated CASText. Basically, tag content like
+ * the PRT-feedback that can consist of multiple sources with different
  * filestores.
  */
 class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_castext2_block {
@@ -39,8 +39,8 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
         $this->filearea = $params['filearea'];
         $this->itemid = $params['itemid'];
         if (isset($params['component'])) {
-        	// For times when this library is in use on the other side.
-        	$this->component = $params['component'];
+            // For times when this library is in use on the other side.
+            $this->component = $params['component'];
         } else {
             $this->component = 'qtype_stack'; // Just in case.
         }
@@ -51,8 +51,8 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
         // for now we prefer to leave it as a latter step, just in case someone
         // has managed to construct urls with parameters.
         $r = '["%pfs",' . stack_utils::php_string_to_maxima_string($this->component) .
-        	',' . stack_utils::php_string_to_maxima_string($this->filearea) .
-        	',' . stack_utils::php_string_to_maxima_string($this->itemid) . ',';
+            ',' . stack_utils::php_string_to_maxima_string($this->filearea) .
+            ',' . stack_utils::php_string_to_maxima_string($this->itemid) . ',';
 
         $flat = true;
         foreach ($this->children as $child) {
@@ -70,7 +70,7 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
             $c = $item->compile($format, $options);
             if ($c !== null) {
                 $items[] = $c;
-            }   
+            }
         }
         $r .= implode(',', $items);
 
@@ -89,8 +89,8 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
     }
 
     public function postprocess(array $params, castext2_processor $processor): string {
-    	// First collapse the content.
-    	$content    = '';
+        // First collapse the content.
+        $content    = '';
         for ($i = 4; $i < count($params); $i++) {
             if (is_array($params[$i])) {
                 $content .= $processor->process($params[$i][0], $params[$i]);

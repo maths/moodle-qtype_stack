@@ -31,8 +31,8 @@ class stack_cas_castext2_special_stack_translate extends stack_cas_castext2_bloc
     }
 
     /**
-     * If this is not a flat block this will be called with the response from CAS and 
-     * should execute whatever additional logic is needed. Register JavaScript and such 
+     * If this is not a flat block this will be called with the response from CAS and
+     * should execute whatever additional logic is needed. Register JavaScript and such
      * things it must then return the content that will take this blocks place.
      */
     public function postprocess(array $params, castext2_processor $processor): string {
@@ -42,7 +42,7 @@ class stack_cas_castext2_special_stack_translate extends stack_cas_castext2_bloc
         }
 
         $t = $params[1];
-        
+
         return stack_maxima_translate($t);
     }
 

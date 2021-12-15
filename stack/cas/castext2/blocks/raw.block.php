@@ -34,7 +34,7 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
         $ev = stack_ast_container::make_from_teacher_source($this->content);
         $ev = $ev->get_evaluationform();
 
-        // If the author enforces simplification on the content we need 
+        // If the author enforces simplification on the content we need
         // to not simplify when we reuse that content.
         // Also we only evaluate it only once.
 
@@ -48,9 +48,11 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
         $r = 'string(' . $ev . ')';
         if ($forcesimp) {
             // We need the temp to hold the value while we return simp to what it was.
-            $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:true,_ct2_tmp:' . $ev . ',_ct2_tmp:string(_ct2_tmp),simp:_ct2_simp,_ct2_tmp)';
+            $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:true,_ct2_tmp:' . $ev .
+                ',_ct2_tmp:string(_ct2_tmp),simp:_ct2_simp,_ct2_tmp)';
         } else if ($disablesimp) {
-            $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:false,_ct2_tmp:' . $ev . ',_ct2_tmp:string(_ct2_tmp),simp:_ct2_simp,_ct2_tmp)';
+            $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:false,_ct2_tmp:' . $ev .
+                ',_ct2_tmp:string(_ct2_tmp),simp:_ct2_simp,_ct2_tmp)';
         } else {
             $r = 'block([_ct2_tmp],_ct2_tmp:' . $ev . ',string(_ct2_tmp))';
         }

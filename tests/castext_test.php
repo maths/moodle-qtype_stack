@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 
 // Unit tests for {@link stack_cas_text}.
 // Castext2 has no such class the repalcement is castext2_evaluatable
-// which insteas of being given a cassession is expected to be placed
+// which instead of being given a cassession is expected to be placed
 // into a cassession, allowing evaluation of multiple evaluatables in
 // the same session.
 
@@ -83,7 +83,7 @@ class castext_test extends qtype_stack_testcase {
                 array('\[{@a*b@}\]', $a1, true, '\[{x^2\cdot {\left(x+1\right)}^2}\]'),
                 array('{@', null, true, '{@'), // The new parser allwos use of this text fragemt everywhere.
                 array('{@(x^2@}', null, false, false),
-                array('{@1/0@}', null, true, '1/0'), // ! do we want this to work when simp:true?
+                array('{@1/0@}', null, true, '1/0'), // Do we want this to work when simp:true?
                 // If so then the compiler will need to generate separate errcatch logic for everything just in case.
                 array('\(1+{@1/0@}\)', null, true, '\(1+{1/0}\)'),
                 array('{@x^2@}', $a2, false, null),
@@ -279,8 +279,7 @@ class castext_test extends qtype_stack_testcase {
         $raws = castext2_parser_utils::get_casstrings($raw);
         $session = new stack_cas_session2($raws);
         $kv = $session->get_keyval_representation();
-        // Now we only receive the values before evaluation and the evaluation 
-        // is single pass.
+        // Now we only receive the values before evaluation and the evaluation is single pass.
         $val = "x^2+2*x;\nt:[1,2,3];\nt;";
         $this->assertEquals($val, $kv);
 
@@ -434,7 +433,8 @@ class castext_test extends qtype_stack_testcase {
         $s2 = array();
         $cs2 = new stack_cas_session2($s2, null, 0);
 
-        $at1 = castext2_evaluatable::make_from_source('This {@plot(x^2, [x,-2,3], [alt,"Hello < World!"])@} has < in the alt text.', 'test-case');
+        $at1 = castext2_evaluatable::make_from_source('This {@plot(x^2, [x,-2,3], [alt,"Hello < World!"])@} has < ' .
+            'in the alt text.', 'test-case');
         $cs2->add_statement($at1);
         $cs2->instantiate();
         $this->assertTrue(is_int(strpos($at1->get_rendered(), ".svg' alt='Hello &lt; World!'")));
@@ -1032,7 +1032,6 @@ class castext_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $cs2->add_statement($at1);
         $cs2->instantiate();
-
 
         $expected = '\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), '.
             '\({\beta_{47}}\), \({{\beta}_{47}}\)';

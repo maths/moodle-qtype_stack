@@ -40,7 +40,7 @@ abstract class stack_cas_castext2_block {
     }
 
     /**
-     * The compile function is suposed to generate a CAS expression that generates
+     * The compile function is supposed to generate a CAS expression that generates
      * the output of this block. Should this block not generate any output return NULL.
      * Otherwise the ouput should either create a string or a list as described elsewhere.
      *
@@ -49,8 +49,8 @@ abstract class stack_cas_castext2_block {
      * escape output for example markdown.
      *
      * The options parameter may contain details that will define the behaviour
-     * of specific blocks, for example the debug-block will receive the lsit of
-     * identifiers to output though it as it cannot extract those from a session 
+     * of specific blocks, for example the debug-block will receive the list of
+     * identifiers to output though it as it cannot extract those from a session
      * like in the old times.
      */
     abstract public function compile($format, $options):  ? string;

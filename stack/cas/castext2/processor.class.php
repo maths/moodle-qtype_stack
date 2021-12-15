@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 require_once(__DIR__ . '/blocks/root.specialblock.php');
 require_once(__DIR__ . '/blocks/commonstring.block.php');
 require_once(__DIR__ . '/blocks/stack_translate.specialblock.php');
@@ -24,16 +26,16 @@ require_once(__DIR__ . '/block.factory.php');
 
 /**
  * In certain cases one may wish to collect a specialised processor to
- * override processing specific blocks. To do that one can provide a wrapper over 
+ * override processing specific blocks. To do that one can provide a wrapper over
  * the normal processor.
  *
- * Typical use case is to override the handling of e.g. `[[validation:ans1]]` or 
+ * Typical use case is to override the handling of e.g. `[[validation:ans1]]` or
  * similar io-blocks.
  */
 
 interface castext2_processor {
-    // The override helps when you want to chain things. Basically, use it to 
-    // give the top most processor to the lower ones so that they can pass things 
+    // The override helps when you want to chain things. Basically, use it to
+    // give the top most processor to the lower ones so that they can pass things
     // back when processing nested things.
     public function process(string $blocktype, array $arguments, castext2_processor $override = null): string;
 }
@@ -65,7 +67,7 @@ class castext2_default_processor implements castext2_processor {
 }
 
 class castext2_qa_processor extends castext2_default_processor {
-    // Special one giving access to a question-attempt so that the blocks 
+    // Special one giving access to a question-attempt so that the blocks
     // can call things like `rewrite_pluginfile_urls`.
     public $qa;
     public function __construct($qa) {

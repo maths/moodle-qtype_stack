@@ -2276,10 +2276,9 @@ class qtype_stack extends question_type {
         }
 
         // Note in real use we would simply read this from the compiled-cache
-        // and would let it find out if need be, but the assumption is that 
+        // and would let it find out if need be, but the assumption is that
         // at this moment it is not possible. Basically:
-        //    $question->get_cached('required')[$prtname]
-
+        //    $question->get_cached('required')[$prtname].
 
         // TODO fix this. At the moment it only considers the data from the unedited
         // question. We should take into account any changes made since the
@@ -2300,7 +2299,7 @@ class qtype_stack extends question_type {
         try {
             $compile = $prt->compile($inputkeys, [], 0.0, new stack_cas_security());
         } catch (Exception $e) {
-            // For now lets nto care about this.
+            // For now let's not care about this.
         }
 
         return $compile['required'];

@@ -310,7 +310,8 @@ class stack_dropdown_input extends stack_input {
             $display = trim($ddlvalues[$key]['display']);
             if (substr($display, 0, 9) === '["%root",') {
                 // In case we saw CASText2 values we need to postproc them.
-                $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_mp_parsed($at1->get_by_key('val'.$key)->get_evaluated());
+                $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_mp_parsed(
+                    $at1->get_by_key('val'.$key)->get_evaluated());
             } else if (substr($display, 0, 1) == '"') {
                 $ddlvalues[$key]['display'] = stack_utils::maxima_string_to_php_string($display);
             } else {

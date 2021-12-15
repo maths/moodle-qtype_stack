@@ -26,7 +26,7 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
         $ev = stack_ast_container::make_from_teacher_source($this->content);
         $ev = $ev->get_evaluationform();
 
-        // If the author enforces simplification on the content we need 
+        // If the author enforces simplification on the content we need
         // to not simplify when we reuse that content.
         // Also we only evaluate it only once.
 
@@ -42,7 +42,7 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
             if ($this->mathmode) {
                 $mode = '"m"';
             } else {
-                $mode = '"im"';    
+                $mode = '"im"';
             }
         } else {
             if ($this->mathmode) {
@@ -52,18 +52,17 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
             }
         }
 
-
         $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,';
         $r .= '_ct2_tmp:' . stack_utils::php_string_to_maxima_string($this->content) . ',';
         if ($forcesimp) {
             $r .= 'simp:true,';
         } else if ($disablesimp) {
             $r .= 'simp:false,';
-        } 
+        }
         $r .= 'errcatch(_ct2_tmp:' . $ev . '),';
-        
+
         $r .= 'simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,'. $mode . '),simp:_ct2_simp,_ct2_tmp)';
-            
+
         return $r;
     }
 

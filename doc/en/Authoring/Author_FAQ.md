@@ -53,6 +53,8 @@ Note there is a subtle (and perhaps confusing) difference between atoms in Maxim
 
 The atoms `a1` and `a_1` are not considered to be algebraically equivalent.
 
+See the inputs extra option [consolidatesubscripts](Inputs.md).
+
 Normally an atom `theta2` is displayed by Maxima as `{\it theta_2}`. This is problematic as the Greek letter is not rendered as LaTeX `\theta`, and the subscript is in italic which is wrong.  We have fixed this in STACK. Maxima "atoms" with a subscript will be displayed using subscripts.  For example
 
     theta_2

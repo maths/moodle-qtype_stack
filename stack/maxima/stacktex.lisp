@@ -79,7 +79,6 @@
 (defprop $texcolorplain tex-texcolorplain tex)
 
 ;; Changed log to ln, and other things.
-;; If changes are made here, then we also need to update arccos.lisp
 
 (mapc #'tex-setup
       '(
@@ -239,7 +238,7 @@
 ;; Powers of functions are displayed by tex as f^2(x), not f(x)^2.
 ;; This list is an exception, e.g. conjugate(x)^2.
 ;; We use this list because tex-mexpt is also defined in stacktex40.lisp for earlier versions of Maxima.
-(defvar tex-mexpt-fnlist '(%sum %product %derivative %integrate %at $conjugate $texsub $lg $logbase
+(defvar tex-mexpt-fnlist '(%sum %product %derivative %integrate %at $conjugate $texsub $lg $logbase %sqrt
                                          %lsum %limit $pderivop $#pm#))
 
 ;; insert left-angle-brackets for mncexpt. a^<n> is how a^^n looks.

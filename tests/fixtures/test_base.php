@@ -205,6 +205,24 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
         $this->assertEquals($e, $a);
     }
+
+    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
+        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
+            parent::assertMatchesRegularExpression($pattern, $string, $message);
+        } else {
+            parent::assertRegExp($pattern, $string);
+        }
+    }
+
+    public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void {
+        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        if (method_exists('advanced_testcase', 'assertDoesNotMatchRegularExpression')) {
+            parent::assertDoesNotMatchRegularExpression($pattern, $string, $message);
+        } else {
+            parent::assertNotRegExp($pattern, $string);
+        }
+    }
 }
 
 
@@ -318,7 +336,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
                 $this->currentoutput);
 
         if ($content) {
-            $this->assertRegExp('/' . preg_quote(s($content), '/') . '/', $this->currentoutput);
+            $this->assertMatchesRegularExpression('/' . preg_quote(s($content), '/') . '/', $this->currentoutput);
         }
 
         if ($enabled) {
@@ -331,22 +349,24 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
 
     protected function check_output_contains_input_validation($name) {
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
-        $this->assertRegExp('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' . $id . '")~',
+        $this->assertMatchesRegularExpression('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' .
+                $id . '")~',
                 $this->currentoutput,
                 'Input validation for ' . $name . ' not found in ' . $this->currentoutput);
     }
 
     protected function check_output_contains_input_validation_compact($name) {
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
-        $this->assertRegExp('~<span (?=[^>]*\bclass="stackinputfeedback compact")(?=[^>]*\bid="' . $id . '")~',
+        $this->assertMatchesRegularExpression('~<span (?=[^>]*\bclass="stackinputfeedback compact")(?=[^>]*\bid="' .
+                $id . '")~',
                 $this->currentoutput,
                 'Input validation for ' . $name . ' not found in ' . $this->currentoutput);
     }
 
     protected function check_output_does_not_contain_any_input_validation() {
-        $this->assertNotRegExp('~<div [^>]*\bclass="stackinputfeedback standard(?:(?! empty)[^"])*"~',
+        $this->assertDoesNotMatchRegularExpression('~<div [^>]*\bclass="stackinputfeedback standard(?:(?! empty)[^"])*"~',
                 $this->currentoutput, 'Input validation should not be present in ' . $this->currentoutput);
-        $this->assertNotRegExp('~<div [^>]*\bclass="stackinputfeedback compact(?:(?! empty)[^"])*"~',
+        $this->assertDoesNotMatchRegularExpression('~<div [^>]*\bclass="stackinputfeedback compact(?:(?! empty)[^"])*"~',
                 $this->currentoutput, 'Input validation should not be present in ' . $this->currentoutput);
     }
 
@@ -356,7 +376,8 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
             return;
         }
         $id = $this->quba->get_question_attempt($this->slot)->get_qt_field_name($name . '_val');
-        $this->assertNotRegExp('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="' . $id . '")~',
+        $this->assertDoesNotMatchRegularExpression('~<div (?=[^>]*\bclass="stackinputfeedback standard")(?=[^>]*\bid="'
+                . $id . '")~',
                 $this->currentoutput,
                 'Input validation for ' . $name . ' should not be present in ' . $this->currentoutput);
     }
@@ -380,7 +401,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
     }
 
     protected function check_output_does_not_contain_stray_placeholders() {
-        $this->assertNotRegExp('~\[\[|\]\]~', $this->currentoutput, 'Not all placehoders were replaced.');
+        $this->assertDoesNotMatchRegularExpression('~\[\[|\]\]~', $this->currentoutput, 'Not all placehoders were replaced.');
     }
 
     protected function check_output_contains_lang_string($identifier, $component = '', $a = null) {
@@ -429,5 +450,23 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
     protected function assert_same_select_html($expected, $actual) {
         $actual = str_replace('class="select custom-select', 'class="select', $actual);
         $this->assertEquals($expected, $actual);
+    }
+
+    public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
+        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
+            parent::assertMatchesRegularExpression($pattern, $string, $message);
+        } else {
+            parent::assertRegExp($pattern, $string);
+        }
+    }
+
+    public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void {
+        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        if (method_exists('advanced_testcase', 'assertDoesNotMatchRegularExpression')) {
+            parent::assertDoesNotMatchRegularExpression($pattern, $string, $message);
+        } else {
+            parent::assertNotRegExp($pattern, $string);
+        }
     }
 }

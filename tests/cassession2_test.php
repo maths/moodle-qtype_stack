@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 /**
  * @group qtype_stack
  */
-class stack_cas_session2_test extends qtype_stack_testcase {
+class cassession2_test extends qtype_stack_testcase {
 
     public function test_internal_config() {
         // This test checks if the version number returned by Maxima matches our internal config.
@@ -490,6 +490,28 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $this->assertEquals('\arcsin ^{30}\left(x^2+1\right)', $s1[4]->get_display());
     }
 
+    public function test_acos_option_arcosh() {
+
+        $cs = array('a:acos(x)', 'b:asin(x)', 'c:asinh(x)', 'd:asin(x)^3', 'e:asin(x^2+1)^30',
+            'f:asinh(x)^7', 'g:asinh(x)^70');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('inversetrig', 'arccos-arcosh');
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('\arccos \left( x \right)', $s1[0]->get_display());
+        $this->assertEquals('\arcsin \left( x \right)', $s1[1]->get_display());
+        $this->assertEquals('{\rm arsinh}\left( x \right)', $s1[2]->get_display());
+        $this->assertEquals('\arcsin ^3\left(x\right)', $s1[3]->get_display());
+        $this->assertEquals('\arcsin ^{30}\left(x^2+1\right)', $s1[4]->get_display());
+        $this->assertEquals('{\rm arsinh}^7\left(x\right)', $s1[5]->get_display());
+        $this->assertEquals('{\rm arsinh}^{70}\left(x\right)', $s1[6]->get_display());
+    }
+
     public function test_logicsymbol_option_lang() {
 
         $cs = array('a:A and B', 'b:A nounand B', 'c:A and (B or C)', 'd:A nounand (B nounor C)');
@@ -853,7 +875,7 @@ class stack_cas_session2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, null, 0);
         $at1->instantiate();
         $this->assertEquals('0', $s1[0]->get_value());
-        $this->assertRegExp('/Division by (zero|0)/', trim($s1[1]->get_errors()));
+        $this->assertMatchesRegularExpression('/Division by (zero|0)/', trim($s1[1]->get_errors()));
         $this->assertFalse(strpos($s1[1]->get_value(), 'STACK auto-generated plot of 0 with parameters'));
     }
 

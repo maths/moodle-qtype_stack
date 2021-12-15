@@ -150,7 +150,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      * @param string $path the path to the stack workspace folder.
      * @return string Maxima executable name.
      */
-    protected abstract function guess_maxima_command($path);
+    abstract protected function guess_maxima_command($path);
 
     /**
      * Connect directly to the CAS, and return the raw string result.
@@ -158,7 +158,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      * @param string $command The string of CAS commands to be processed.
      * @return string|boolean The converted HTML string or FALSE if there was an error.
      */
-    protected abstract function call_maxima($command);
+    abstract protected function call_maxima($command);
 
     /**
      * Constructor.
@@ -207,7 +207,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      */
     protected function unpack_raw_result($rawresult) {
         $result = '';
-        $errors = false;
+        $errors = array();
         // This adds sufficient closing brackets to make sure we have enough to match.
         $rawresult .= ']]]]';
         if ('' == trim($rawresult)) {
@@ -293,7 +293,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $offset = 0;
         $rawresultfragmentlen = strlen($rawresultfragment);
         $unparsed = array();
-        $errors = '';
+        $errors = array();
 
         $eqpos = strpos($rawresultfragment, '=', $offset);
         if ($eqpos) {
@@ -317,7 +317,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             $errors['PREPARSE'] = "There are no ='s in the raw output from the CAS!";
         }
 
-        if ('' != $errors) {
+        if (array() != $errors) {
             $unparsed['errors'] = $errors;
         }
 

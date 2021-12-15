@@ -114,7 +114,11 @@ Please see the [separate documentation](Answer_tests_rules_based.md).
 
 Algebraic equivalence evaluates as much as possible, to try to establish equivalence.  This means, e.g. that `diff(y,x)` is always evaluated to \(0\).  If you use AlgEquivNouns then noun forms of operators are not evaluated, so `diff(y,x)` will be evaluated but `'diff(y,x)` and `noundiff(y,x)` will not.
 
-Note, however that logic nouns such as `nounand` are still evaluated by this test!  Sorry, but logical noun functions are dealt with internally in a very different way than Maxima noun functions such as `'diff(y,x)` and the parallel `noundiff`.  Use a different test, such as `EqualComAss`.
+Even with this answer test `noundiff(y,x)` and `noundiff(y(x),x)` are different!
+
+Note, that logic nouns such as `nounand` are still evaluated by this test!  Sorry, but logical noun functions are dealt with internally in a very different way than Maxima noun functions such as `'diff(y,x)` and the parallel `noundiff`.  Use a different test, such as `EqualComAss`.
+
+It was the need to selectively evaluate some nouns but not others that led to the development of the [rule-based answer tests](Answer_tests_rules_based.md) to deal with the need for these options in a coherent way.
 
 ### CasEqual ###
 
@@ -225,6 +229,31 @@ Instead, switch off simplification and define
 and use EqualComAss as the answer test.
 
 Note however that EqualComAss does not think that `2^2*3` and `2*2*3` are the same!
+
+### Partial fractions ###
+
+To help provide feedback to students on how to calculate the partial fraction form we have special function `poly_about_a(ex, v, a)` which writes the polynomial `ex` in variable `v` about the point `v=a`.  E.g. \(x^2=1-2(x-1)+(x-1)^2\) when written about \(x=1\). This is basically the complete finite Taylor series for the polynomial about \(x=1\).  The form "about \(x=a\)" can readily be calculated by "shift-expand-shift" and without derivatives.  It is, in my view, somewhat neglected. See [doi:10.1017/S0025557200003569](https://www.cambridge.org/core/journals/mathematical-gazette/article/abs/limitfree-derivatives/3410B7A9E318FAAD27C2948EED073DCF) for applications to a limit-free derivative for polynomials.
+
+Here, e.g. if we have the question variables
+
+    n1:4;
+    p1:(9*y-8)/(y-n1)^2
+    p2:poly_about_a(num(p1), y, n1);
+    p3:map(lambda([ex], ex/denom(p1)), p2);
+
+then feedback of the following form
+
+    You need to do more work on the term {@p1@}.
+    In particular, write the numerator {@num(p1)@} about the point {@y=n1@}.
+    This gives {@num(p1)=p2@}, which allows us to complete the partial fraction form as follows:
+    \[ {@p1@} = \frac{ {@p2@} }{ {@denom(p1)@} } = {@p3@} = {@ev(p3,simp)@}. \]
+
+is rendered as:
+
+You need to do more work on the term \({\frac{9 y-8}{{\left(y-4\right)}^2}}\).
+In particular, write the numerator \({9 y-8}\) about the point \({y=4}\).
+This gives \({9 y-8=28+9 \left(y-4\right)}\), which allows us to complete the partial fraction form as follows:
+\[ {\frac{9 y-8}{{\left(y-4\right)}^2}} = \frac{ {28+9 \left(y-4\right)} }{ {{\left(y-4\right)}^2} } = {\frac{28}{{\left(y-4\right)}^2}+\frac{9 \left(y-4\right)}{{\left(y-4\right)}^2}} = {\frac{9}{y-4}+\frac{28}{{\left(y-4\right)}^2}}. \]
 
 # Numerical Precision {#Precision}
 

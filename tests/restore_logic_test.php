@@ -31,7 +31,7 @@ require_once($CFG->dirroot . '/question/type/stack/backup/moodle2/restore_qtype_
 /**
  *
  */
-class testable_restore_qtype_stack_plugin extends restore_qtype_stack_plugin {
+class restore_logic_test extends restore_qtype_stack_plugin {
     private $log = '';
 
     public function __construct() {

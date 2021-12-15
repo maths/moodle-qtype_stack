@@ -42,6 +42,8 @@ class stack_subscripts_test_data {
         array('Delta*v_x0', 'Delta*v_x0', '!', '\Delta\,{v}_{x_{0}}', '!'),
         array('Delta*v_xi', 'Delta*v_xi', '!', '\Delta\,{v}_{\xi}', '!', 'xi is a Greek letter...'),
         array('v_0', 'v_0', '!', '{v}_{0}', '!'),
+        array('M_1', 'M_1', '!', '{M}_{1}', '!'),
+        array('Mz_23', 'Mz_23', '!', '{{\it Mz}}_{23}', '!'),
         array('v_y0', 'v_y0', '!', '{v}_{y_{0}}', '!'),
         array('v_x0^2', 'v_x0^2', '!', '{{v}_{x_{0}}}^2', '!'),
         array('v_1^2', 'v_1^2', '!', '{{v}_{1}}^2', '!'),

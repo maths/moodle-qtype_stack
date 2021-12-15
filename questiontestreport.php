@@ -33,7 +33,7 @@ $questionid = required_param('questionid', PARAM_INT);
 // Load the necessary data.
 $questiondata = question_bank::load_question_data($questionid);
 if (!$questiondata) {
-    print_error('questiondoesnotexist', 'question');
+    throw new stack_exception('questiondoesnotexist');
 }
 $question = question_bank::load_question($questionid);
 
@@ -60,6 +60,9 @@ echo $OUTPUT->header();
 $renderer = $PAGE->get_renderer('qtype_stack');
 echo $OUTPUT->heading($question->name, 2);
 
+
+// Link back to question tests.
+
 $out = html_writer::link($testquestionlink, stack_string('runquestiontests'), array('target' => '_blank'));
 
 // If question has no random variants.
@@ -73,7 +76,52 @@ echo html_writer::tag('p', $out . ' ' .
         $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
         new pix_icon('t/preview', get_string('preview'))));
 
+// Display a representation of the question, variables and PRTs for easy reference.
+echo $OUTPUT->heading(stack_string('questiontext'), 3);
+echo html_writer::tag('pre', $question->questiontext, array('class' => 'questiontext'));
+
+$vars = $question->questionvariables;
+if ($vars != '') {
+    $vars = trim($vars) . "\n\n";
+}
+$inputdisplay = array($vars);
+foreach ($question->inputs as $inputname => $input) {
+    $vars .= $inputname . ':' . $input->get_teacher_answer() . ";\n";
+}
+$maxima = html_writer::start_tag('div', array('class' => 'questionvariables'));
+$maxima .= html_writer::tag('pre', s(trim($vars)));
+$maxima .= html_writer::end_tag('div');
+echo $maxima;
+
+$offlinemaxima = array();
+$nodesummary1 = array();
+$nodesummary2 = array();
+$graphrepresentation = array();
+foreach ($question->prts as $prtname => $prt) {
+    $nodes = $prt->get_nodes_summary();
+    $nodesummary1[$prtname] = '';
+    $nodesummary2[$prtname] = '';
+    $nodesummary3[$prtname] = '';
+    $offlinemaxima[$prtname] = $prt->get_maxima_representation();
+
+    foreach ($nodes as $key => $node) {
+        $nodesummary1[$prtname] .= ($key + 1). ': ' . $node->test . "\n";
+        $nodesummary2[$prtname] .= $node->truenote . "\n";
+        $nodesummary3[$prtname] .= $node->falsenote . "\n";
+    }
+
+    $graph = $prt->get_prt_graph();
+    $graphrepresentation[$prtname] = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
+}
+
 flush();
+
+// Later we only display inputs relevant to a particular PTR, so we sort out prt input requirements here.
+$allinputs = array_keys($question->inputs);
+$inputsbyprt = array();
+foreach ($question->prts as $prtname => $prt) {
+    $inputsbyprt[$prtname] = $prt->get_required_variables($allinputs);
+}
 
 $query = 'SELECT qa.*, qas_last.*
 FROM {question_attempts} qa
@@ -132,6 +180,7 @@ foreach ($qprts as $key => $notused) {
     $qprts[$key] = array();
 }
 $prtreport = array();
+$prtreportinputs = array();
 
 // Create a summary of the data without different variants.
 $prtreportsummary = array();
@@ -139,13 +188,16 @@ $prtreportsummary = array();
 foreach ($summary as $variant => $vdata) {
     $inputreport[$variant] = $qinputs;
     $prtreport[$variant] = $qprts;
+    $prtreportinputs[$variant] = $qprts;
 
     foreach ($vdata as $attemptsummary => $num) {
+        $inputvals = array();
         $rawdat = explode(';', $attemptsummary);
         foreach ($rawdat as $data) {
             $data = trim($data);
             foreach ($qinputs as $input => $notused) {
-                if (substr($data, 0, strlen($input)) === $input) {
+                if (substr($data, 0, strlen($input . ':')) === $input . ':') {
+                    // Tidy up inputs by (i) trimming status and whitespace, and (2) removing input name.
                     $datas = trim(substr($data, strlen($input . ':')));
                     $status = 'other';
                     if (strpos($datas, '[score]') !== false) {
@@ -158,6 +210,9 @@ foreach ($summary as $variant => $vdata) {
                         $status = 'invalid';
                         $datas = trim(substr($datas, 0, -9));
                     }
+                    // Reconstruct input string but whitespace is trimmed.
+                    $inputvals[$input] = $input . ':' . $datas;
+                    // Add data.
                     if (array_key_exists($datas, $inputreport[$variant][$input][$status])) {
                         $inputreport[$variant][$input][$status][$datas] += (int) $num;
                     } else {
@@ -177,12 +232,25 @@ foreach ($summary as $variant => $vdata) {
                 }
             }
             foreach ($qprts as $prt => $notused) {
-                if (substr($data, 0, strlen($prt)) === $prt) {
+                // Only create an input summary of the inputs required for this PRT.
+                $inputsummary = '';
+                foreach ($inputsbyprt[$prt] as $input) {
+                    if (array_key_exists($input, $inputvals)) {
+                        $inputsummary .= $inputvals[$input] . '; ';
+                    }
+                }
+                if (substr($data, 0, strlen($prt . ':')) === $prt . ':') {
                     $datas = trim(substr($data, strlen($prt . ':')));
                     if (array_key_exists($datas, $prtreport[$variant][$prt])) {
                         $prtreport[$variant][$prt][$datas] += (int) $num;
+                        if (array_key_exists($inputsummary, $prtreportinputs[$variant][$prt][$datas])) {
+                            $prtreportinputs[$variant][$prt][$datas][$inputsummary] += (int) $num;
+                        } else {
+                            $prtreportinputs[$variant][$prt][$datas][$inputsummary] = (int) $num;
+                        }
                     } else {
                         $prtreport[$variant][$prt][$datas] = $num;
+                        $prtreportinputs[$variant][$prt][$datas] = array($inputsummary => (int) $num);
                     }
                     if (!array_key_exists($prt, $prtreportsummary)) {
                         $prtreportsummary[$prt] = array();
@@ -240,6 +308,11 @@ foreach ($prtreportsummary as $prt => $tdata) {
             }
         }
     }
+
+    foreach ($prtreportinputs[$variant][$prt] as $note => $ipts) {
+        arsort($ipts);
+        $prtreportinputs[$variant][$prt][$note] = $ipts;
+    }
 }
 
 foreach ($notesummary as $prt => $tdata) {
@@ -247,7 +320,10 @@ foreach ($notesummary as $prt => $tdata) {
     $notesummary[$prt] = $tdata;
 }
 
-$sumout = '';
+// Frequency of answer notes, for each PRT, split by |, regardless of which variant was used.
+echo html_writer::tag('h3', stack_string('basicreportnotes'));
+
+$sumout = array();
 foreach ($prtreportsummary as $prt => $data) {
     $sumouti = '';
     $tot = 0;
@@ -258,39 +334,177 @@ foreach ($prtreportsummary as $prt => $data) {
     if ($data !== array()) {
         foreach ($data as $dat => $num) {
             $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
-                    str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
-                    '%); ' . $dat . "\n";
+                str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                '%); ' . $dat . "\n";
         }
     }
     if (trim($sumouti) !== '') {
-        $sumout .= '## ' . $prt . ' ('. $tot . ")\n" . $sumouti . "\n";;
+        $sumout[$prt] = '## ' . $prt . ' ('. $tot . ")\n" . $sumouti . "\n";;
     }
 }
-if (trim($sumout) !== '') {
-    echo html_writer::tag('h3', stack_string('basicreportnotes'));
-    echo html_writer::tag('pre', trim($sumout));
+
+foreach ($question->prts as $prtname => $prt) {
+    echo html_writer::start_tag('table');
+    echo html_writer::start_tag('tr');
+
+    echo html_writer::tag('td', $graphrepresentation[$prtname]);
+
+    $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
+    $node .= html_writer::tag('pre', s($nodesummary1[$prtname]));
+    $node .= html_writer::end_tag('div');
+    echo html_writer::tag('td', $node);
+
+    $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
+    $node .= html_writer::tag('pre', s($nodesummary2[$prtname]));
+    $node .= html_writer::end_tag('div');
+    echo html_writer::tag('td', $node);
+
+    $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
+    $node .= html_writer::tag('pre', s($nodesummary3[$prtname]));
+    $node .= html_writer::end_tag('div');
+    echo html_writer::tag('td', $node);
+
+    $maxima = html_writer::start_tag('div', array('class' => 'questionvariables'));
+    $maxima .= html_writer::tag('pre', s($offlinemaxima[$prtname]));
+    $maxima .= html_writer::end_tag('div');
+    echo html_writer::tag('td', $maxima);
+
+    echo html_writer::end_tag('tr');
+    echo html_writer::end_tag('table');
+
+    if (array_key_exists($prtname, $sumout)) {
+        echo html_writer::tag('pre', trim($sumout[$prtname]));
+    }
 }
 
-$sumout = '';
+$sumout = array();
+$prtlabels = array();
 foreach ($notesummary as $prt => $data) {
     $sumouti = '';
     if ($data !== array()) {
         foreach ($data as $dat => $num) {
             // Use the old $tot, to give meaningful percentages of which individual notes occur overall.
+            $prtlabels[$prt][$dat] = $num;
             $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
-                    str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
-                    '%); ' . $dat . "\n";
+                str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) . '%); '.
+                $dat . "\n";
         }
     }
     if (trim($sumouti) !== '') {
-        $sumout .= '## ' . $prt . ' ('. $tot . ")\n" . $sumouti . "\n";;
+        $sumout[$prt] = '## ' . $prt . ' ('. $tot . ")\n" . $sumouti . "\n";;
     }
 }
-if (trim($sumout) !== '') {
+if (trim(implode($sumout)) !== '') {
     echo html_writer::tag('h3', stack_string('basicreportnotessplit'));
-    echo html_writer::tag('pre', trim($sumout));
 }
 
+echo html_writer::start_tag('table');
+foreach ($question->prts as $prtname => $prt) {
+    if (array_key_exists($prtname, $prtlabels)) {
+        echo html_writer::start_tag('tr');
+
+        echo html_writer::tag('td', $prtname);
+        echo html_writer::tag('td', $graphrepresentation[$prtname]);
+
+        $graph = $prt->get_prt_graph($prtlabels[$prtname]);
+        echo html_writer::tag('td', stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg'));
+
+        $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
+        $node .= html_writer::tag('pre', s($nodesummary1[$prtname]));
+        $node .= html_writer::end_tag('div');
+        echo html_writer::tag('td', $node);
+
+        $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
+        $node .= html_writer::tag('pre', s($nodesummary2[$prtname]));
+        $node .= html_writer::end_tag('div');
+        echo html_writer::tag('td', $node);
+
+        $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
+        $node .= html_writer::tag('pre', s($nodesummary3[$prtname]));
+        $node .= html_writer::end_tag('div');
+        echo html_writer::tag('td', $node);
+
+        $maxima = html_writer::start_tag('div', array('class' => 'questionvariables'));
+        $maxima .= html_writer::tag('pre', s($sumout[$prtname]));
+        $maxima .= html_writer::end_tag('div');
+        echo html_writer::tag('td', $maxima);
+
+        echo html_writer::end_tag('tr');
+    }
+}
+echo html_writer::end_tag('table');
+
+// Raw inputs and PRT answer notes by variant.
+if (array_keys($summary) !== array()) {
+    echo html_writer::tag('h3', stack_string('basicreportvariants'));
+}
+
+foreach (array_keys($summary) as $variant) {
+    $sumout = '';
+    foreach ($prtreport[$variant] as $prt => $idata) {
+        $pad = 0;
+        $tot = 0;
+        foreach ($idata as $dat => $num) {
+            $tot += $num;
+        }
+        if ($idata !== array()) {
+            $sumout .= '## ' . $prt . ' ('. $tot . ")\n";
+            $pad = max($idata);
+        }
+        foreach ($idata as $dat => $num) {
+            $sumout .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                '%); ' . $dat . "\n";
+            foreach ($prtreportinputs[$variant][$prt][$dat] as $inputsummary => $inum) {
+                $sumout .= str_pad($inum, strlen((string) $pad) + 1) . '(' .
+                    str_pad(number_format((float) 100 * $inum / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                    '%); ' . $inputsummary . "\n";
+            }
+            $sumout .= "\n";
+        }
+        $sumout .= "\n";
+    }
+    if (trim($sumout) !== '') {
+        echo html_writer::tag('h3', $variant);
+        echo html_writer::tag('pre', $sumout);
+    }
+}
+
+
+foreach (array_keys($summary) as $variant) {
+    // TODO: how do we go from a variant to a seed (if there is one....)?
+    $sumout = '';
+    foreach ($inputreport[$variant] as $input => $idata) {
+        $sumouti = '';
+        $tot = 0;
+        foreach ($idata as $key => $data) {
+            foreach ($data as $dat => $num) {
+                $tot += $num;
+            }
+        }
+        foreach ($idata as $key => $data) {
+            if ($data !== array()) {
+                $sumouti .= '### ' . $key . "\n";
+                $pad = max($data);
+                foreach ($data as $dat => $num) {
+                    $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
+                        str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
+                        '%); ' . $dat . "\n";
+                }
+                $sumouti .= "\n";
+            }
+        }
+        if (trim($sumouti) !== '') {
+            $sumout .= '## ' . $input . ' ('. $tot . ")\n" . $sumouti;
+        }
+    }
+    if (trim($sumout) !== '') {
+        echo html_writer::tag('h3', $variant);
+        echo html_writer::tag('pre', $sumout);
+    }
+}
+
+// Summary of just the inputs.
 $sumout = '';
 foreach ($inputreportsummary as $input => $idata) {
     $sumouti = '';
@@ -321,66 +535,8 @@ if (trim($sumout) !== '') {
     echo html_writer::tag('pre', $sumout);
 }
 
-// Output a report.
-if (array_keys($summary) !== array()) {
-    echo html_writer::tag('h2', stack_string('basicreportvariants'));
-}
-foreach (array_keys($summary) as $variant) {
-    // TODO: how do we go from a variant to a seed (if there is one....)?
-    echo html_writer::tag('h3', $variant);
-    $sumout = '';
-    foreach ($inputreport[$variant] as $input => $idata) {
-        $sumouti = '';
-        $tot = 0;
-        foreach ($idata as $key => $data) {
-            foreach ($data as $dat => $num) {
-                $tot += $num;
-            }
-        }
-        foreach ($idata as $key => $data) {
-            if ($data !== array()) {
-                $sumouti .= '### ' . $key . "\n";
-                $pad = max($data);
-                foreach ($data as $dat => $num) {
-                    $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
-                        str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
-                        '%); ' . $dat . "\n";
-                }
-                $sumouti .= "\n";
-            }
-        }
-        if (trim($sumouti) !== '') {
-            $sumout .= '## ' . $input . ' ('. $tot . ")\n" . $sumouti;
-        }
-    }
-    if (trim($sumout) !== '') {
-        echo html_writer::tag('pre', $sumout);
-    }
-
-    $sumout = '';
-    foreach ($prtreport[$variant] as $prt => $idata) {
-        $pad = 0;
-        $tot = 0;
-        foreach ($idata as $dat => $num) {
-            $tot += $num;
-        }
-        if ($idata !== array()) {
-            $sumout .= '## ' . $prt . ' ('. $tot . ")\n";
-            $pad = max($idata);
-        }
-        foreach ($idata as $dat => $num) {
-            $sumout .= str_pad($num, strlen((string) $pad) + 1) . '(' .
-                    str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
-                    '%); ' . $dat . "\n";
-        }
-        $sumout .= "\n";
-    }
-    if (trim($sumout) !== '') {
-        echo html_writer::tag('pre', $sumout);
-    }
-}
-
-echo html_writer::tag('h2', stack_string('basicreportraw'));
+// Output the raw data.
+echo html_writer::tag('h3', stack_string('basicreportraw'));
 $sumout = '';
 foreach ($summary as $variant => $vdata) {
     if ($vdata !== array()) {

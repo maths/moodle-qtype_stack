@@ -29,7 +29,7 @@ require_once(__DIR__ . '/../locallib.php');
 /**
  * @group qtype_stack
  */
-class stack_answertest_general_cas_test extends qtype_stack_testcase {
+class answertest_general_cas_test extends qtype_stack_testcase {
 
     public function stack_answertest_general_cas_builder($sans, $tans, $atname,
             $atop = 'null', $options = null) {
@@ -456,6 +456,18 @@ class stack_answertest_general_cas_test extends qtype_stack_testcase {
                '\[x\cdot e^{5\cdot x+7}\] In fact, the derivative of your answer, with respect to \(x\) is: '.
                '\[5\cdot e^{5\cdot x+7}+5\cdot \left(5\cdot e^7\cdot x-e^7\right) \cdot e^{5\cdot x}\] '.
                'so you must have done something wrong!';
+        $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
+    }
+
+    public function test_stack_maxima_int_feedback_3() {
+        $at = $this->stack_answertest_general_cas_builder('e^-(4*pi*x)/(4*pi)',
+            'int(exp(-4*pi*x),x)', 'Int', '[x,NOCONST]');
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+
+        $fbt = 'The derivative of your answer should be equal to the expression that you were asked to integrate, ' .
+            'that was: \[e^ {- 4\cdot \pi\cdot x }\] In fact, the derivative of your answer, with respect to \(x\) is: ' .
+            '\[-e^ {- 4\cdot \pi\cdot x }\] so you must have done something wrong!';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 

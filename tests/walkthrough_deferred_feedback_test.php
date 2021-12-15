@@ -32,7 +32,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
-class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_base {
+class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_save_answers_to_all_parts_and_stubmit() {
         // Create a stack question.
@@ -549,7 +549,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback(); // Since there is no feedback for right.
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assertRegExp('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
         $this->check_current_output(
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
@@ -574,9 +574,9 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
 
         // Check how the image is rendered.
         $this->render();
-        $this->assertNotRegExp('~PLUGINFILE~', $this->currentoutput,
+        $this->assertDoesNotMatchRegularExpression('~PLUGINFILE~', $this->currentoutput,
                 'Embedded image not displayed correctly in ' . $this->currentoutput);
-        $this->assertRegExp('~' . preg_quote($CFG->wwwroot) . '/pluginfile.php/~', $this->currentoutput,
+        $this->assertMatchesRegularExpression('~' . preg_quote($CFG->wwwroot) . '/pluginfile.php/~', $this->currentoutput,
                 'Embedded image not displayed correctly in ' . $this->currentoutput);
     }
 }

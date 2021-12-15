@@ -31,7 +31,7 @@ require_once(__DIR__ . '/fixtures/inputfixtures.class.php');
 /**
  * @group qtype_stack
  */
-class stack_studentinput_testcase extends qtype_stack_testcase {
+class studentinput_test extends qtype_stack_testcase {
 
     /**
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data

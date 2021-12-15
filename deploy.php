@@ -77,6 +77,60 @@ if (!is_null($undeploy) && $question->deployedseeds) {
     redirect($nexturl);
 }
 
+// Process undeployall if applicable.
+$deployfromlist = optional_param('deployfromlist', null, PARAM_INT);
+if (!is_null($deployfromlist)) {
+
+    // Check data integrity.
+    $dataproblem = false;
+
+    $deploytxt = optional_param('deployfromlist', null, PARAM_TEXT);
+    $newseeds = explode("\n", $deploytxt);
+    foreach ($newseeds as $var => $seed) {
+        // Clean up whitespace.
+        $newseeds[$var] = trim($seed);
+        // Force the entry to be a positive integer.
+        $newseeds[$var] = (int) ($newseeds[$var]);
+        if ($newseeds[$var] <= 0) {
+            $dataproblem = true;
+        }
+        $newseeds[$var] = (string) ($newseeds[$var]);
+    }
+
+    // No action to take?
+    if ($newseeds === $question->deployedseeds) {
+        redirect($nexturl);
+    }
+
+    if (count($newseeds) > 100) {
+        $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', array('err' => count($newseeds))));
+        redirect($nexturl);
+    }
+
+    // Check the entries are all different.
+    if (count($newseeds) !== count(array_flip($newseeds))) {
+        // TODO: specific feedback for each error.
+        $dataproblem = true;
+    }
+
+    if ($dataproblem) {
+        $nexturl->param('deployfeedbackerr', stack_string('deployfromlisterror'));
+        redirect($nexturl);
+    }
+
+    // Undeploy all existing variants.
+    if ($question->deployedseeds) {
+        foreach ($question->deployedseeds as $seed) {
+            $question->undeploy_variant($seed);
+        }
+    }
+    // Deploy all new variants.
+    foreach ($newseeds as $seed) {
+        $question->deploy_variant($seed);
+    }
+    redirect($nexturl);
+}
+
 $deploy = optional_param('deploymany', null, PARAM_INT);
 $deploytxt = optional_param('deploymany', null, PARAM_TEXT);
 $starttime = time();

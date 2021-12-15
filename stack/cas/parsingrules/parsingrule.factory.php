@@ -23,7 +23,7 @@ require_once(__DIR__ . '/001_fix_call_of_a_group_or_function.filter.php');
 require_once(__DIR__ . '/002_log_candy.filter.php');
 require_once(__DIR__ . '/003_no_dot_dot.filter.php');
 require_once(__DIR__ . '/005_i_is_never_a_function.filter.php');
-require_once(__DIR__ . '/020_no_arc.filter.php');
+require_once(__DIR__ . '/022_trig_replace_synonyms.filter.php');
 require_once(__DIR__ . '/025_no_trig_power.filter.php');
 require_once(__DIR__ . '/030_no_trig_space.filter.php');
 require_once(__DIR__ . '/031_no_trig_brackets.filter.php');
@@ -35,6 +35,7 @@ require_once(__DIR__ . '/103_no_lists.filter.php');
 require_once(__DIR__ . '/104_no_sets.filter.php');
 require_once(__DIR__ . '/105_no_grouppings.filter.php');
 require_once(__DIR__ . '/106_no_control_flow.filter.php');
+require_once(__DIR__ . '/120_no_arc.filter.php');
 require_once(__DIR__ . '/201_sig_figs_validation.filter.php');
 require_once(__DIR__ . '/202_decimal_places_validation.filter.php');
 require_once(__DIR__ . '/210_x_used_as_multiplication.filter.php');
@@ -43,6 +44,7 @@ require_once(__DIR__ . '/403_split_at_number_letter_boundary.filter.php');
 require_once(__DIR__ . '/404_split_at_number_letter_number_boundary.filter.php');
 require_once(__DIR__ . '/406_split_implied_variable_names.filter.php');
 require_once(__DIR__ . '/410_single_char_vars.filter.php');
+require_once(__DIR__ . '/420_consolidate_subscripts.filter.php');
 require_once(__DIR__ . '/441_split_unknown_functions.filter.php');
 require_once(__DIR__ . '/442_split_all_functions.filter.php');
 require_once(__DIR__ . '/450_split_floats.filter.php');
@@ -82,8 +84,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_003_no_dot_dot();
             case '005_i_is_never_a_function':
                 return new stack_ast_filter_005_i_is_never_a_function();
-            case '020_no_arc':
-                return new stack_ast_filter_020_no_arc();
+            case '022_trig_replace_synonyms':
+                return new stack_ast_filter_022_trig_replace_synonyms();
             case '025_no_trig_power':
                 return new stack_ast_filter_025_no_trig_power();
             case '030_no_trig_space':
@@ -106,6 +108,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_105_no_grouppings();
             case '106_no_control_flow':
                 return new stack_ast_filter_106_no_control_flow();
+            case '120_no_arc':
+                return new stack_ast_filter_120_no_arc();
             case '201_sig_figs_validation':
                 return new stack_ast_filter_201_sig_figs_validation();
             case '202_decimal_places_validation':
@@ -122,6 +126,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_406_split_implied_variable_names();
             case '410_single_char_vars':
                 return new stack_ast_filter_410_single_char_vars();
+            case '420_consolidate_subscripts':
+                return new stack_ast_filter_420_consolidate_subscripts();
             case '441_split_unknown_functions':
                 return new stack_ast_filter_441_split_unknown_functions();
             case '442_split_all_functions':
@@ -164,13 +170,15 @@ class stack_parsing_rule_factory {
             // If the static set has not been initialised do so.
             foreach (array('001_fix_call_of_a_group_or_function', '002_log_candy',
                            '003_no_dot_dot', '005_i_is_never_a_function',
-                           '020_no_arc', '025_no_trig_power',
+                           '022_trig_replace_synonyms',
+                           '025_no_trig_power',
                            '030_no_trig_space', '031_no_trig_brackets',
                            '050_no_chained_inequalities',
                            '090_special_forbidden_characters',
                            '101_no_floats', '102_no_strings',
                            '103_no_lists', '104_no_sets',
                            '105_no_grouppings', '106_no_control_flow',
+                           '120_no_arc',
                            '201_sig_figs_validation',
                            '202_decimal_places_validation',
                            '210_x_used_as_multiplication',
@@ -178,7 +186,9 @@ class stack_parsing_rule_factory {
                            '403_split_at_number_letter_boundary',
                            '404_split_at_number_letter_number_boundary',
                            '406_split_implied_variable_names',
-                           '410_single_char_vars', '441_split_unknown_functions',
+                           '410_single_char_vars',
+                           '420_consolidate_subscripts',
+                           '441_split_unknown_functions',
                            '442_split_all_functions', '450_split_floats',
                            '502_replace_pm',
                            '504_insert_tuples_for_groups',

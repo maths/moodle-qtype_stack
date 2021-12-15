@@ -25,7 +25,7 @@ require_once(__DIR__ . '/../stack/cas/castext.class.php');
 /**
  * @group qtype_stack
  */
-class stack_cas_text_exception_test extends basic_testcase {
+class castext_exception_test extends basic_testcase {
 
     public function test_exception_1() {
         $session = new stack_cas_session2(array());

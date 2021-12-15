@@ -30,7 +30,7 @@ require_once(__DIR__ . '/fixtures/maximacorrectiveparser.class.php');
 /**
  * @group qtype_stack
  */
-class stack_maxima_corrective_parser_test extends qtype_stack_testcase {
+class maxima_corrective_parser_test extends qtype_stack_testcase {
 
     /**
      * @dataProvider maxima_corrective_parser_test_data::get_raw_test_data

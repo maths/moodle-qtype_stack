@@ -25,7 +25,7 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 /**
  * @group qtype_stack
  */
-class stack_cas_session2_exception_test extends qtype_stack_testcase {
+class cassession2_exception_test extends qtype_stack_testcase {
 
     public function test_exception_1() {
         $this->expectException(TypeError::class);

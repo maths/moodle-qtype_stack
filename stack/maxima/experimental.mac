@@ -106,31 +106,6 @@ traverse_prt(inputs) := block(
 print("[ STACK-reports started. ]")$
 
 /****************************************************************/
-/*  Unary minus functions for STACK                             */
-/*                                                              */
-/*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                       */
-/*  V0.1 March 2014                                             */
-/*                                                              */
-/****************************************************************/
-
-/* Transforms --x into x recursively in the case simp:false */
-unary_minus_minus_simp(ex) := block(
-  if atom(ex) then return(ex),
-  if op(ex) = "-" and first(args(ex))<0 then return(ev(ex,simp)),
-  if op(ex) = "-" and atom(first(args(ex))) then return(ex),
-  if op(ex) = "-" and op(first(args(ex))) = "-" then return(first(args(first(args(ex))))),
-  apply(op(ex), map(unary_minus_minus_simp, args(ex)) )
-)$
-
-/* Transforms --x into x recursively in the case simp:false */
-unary_minus_add_distrib(ex) := block(
-  if atom(ex) then return(ex),
-  if op(ex) = "-" and atom(first(args(ex))) then return(ex),
-  if op(ex) = "-" and op(first(args(ex))) = "+" then return(apply("+", map(lambda([ex2],-ex2), args(first(args(ex)))))),
-  apply(op(ex), map(unary_minus_add_distrib, args(ex)) )
-)$
-
-/****************************************************************/
 /*  Square root functions for STACK                             */
 /*                                                              */
 /*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                       */

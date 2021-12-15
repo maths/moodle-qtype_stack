@@ -33,9 +33,13 @@
     border: 1px solid #ccc;
     padding: 0.3em;
 }
+.stackinputfeedback .MathJax_Display {
+    margin: 0.5em 0;
+}
 .que.stack .stackinputerror {
     padding: 0.2em 0.2em 0.2em;
     margin: 3px 3px 3px;
+    display: block;
 }
 .que.stack .stackinputnotice {
     font-size: x-small;
@@ -88,6 +92,7 @@
 .que.stack .formulation .stackprtfeedback .partiallycorrect,
 .que.stack .formulation .stackprtfeedback .incorrect {
     background: transparent;
+    font-weight: 700;
 }
 .que.stack .formulation .questiontestslink {
     float: right;
@@ -155,6 +160,13 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     width: 3rem;
     height: 3rem;
     outline: none;
+}
+
+blockquote {
+    border-left: 5px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 1em 10px .1em 10px;
+    quotes: "\201C""\201D""\2018""\2019";
 }
 
 /* Support for proof. */
@@ -362,6 +374,21 @@ body.path-question-type-stack table.stacktestsuite .expectedfail td {
 }
 body.path-question-type-stack table.stacktestsuite pre {
     font-size: 0.7em;
+    background: #ffffff99;
+    padding: 0.25rem;
+    max-width: 60em;
+}
+body.path-question-type-stack .stacktestsuite td {
+    padding: 0.3rem;
+}
+body.path-question-type-stack .stacktestsuite .MathJax_Display {
+    margin: 0;
+}
+body.path-question-type-stack .stacktestsuite {
+    margin-bottom: 0.5rem;
+}
+.questionvariables pre {
+    white-space: pre-wrap;
 }
 body.path-question-type-stack h2.fail,
 body.path-question-type-stack h3 span.fail {

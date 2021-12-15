@@ -395,6 +395,8 @@ $string['languageproblemsexist']   = 'There are potential language problems in y
 $string['languageproblemsmissing'] = 'The language tag {$a->lang} is missing from the following: {$a->missing}.';
 $string['languageproblemsextra']   = 'The field {$a->field} has the following languages not in the question text: {$a->langs}.';
 
+$string['alttextmissing']    = 'One or more images appears to have a missing or empty \'alt\' tag in "{$a->field}" ({$a->num}).';
+
 // Admin settings.
 $string['settingajaxvalidation'] = 'Instant validation';
 $string['settingajaxvalidation_desc'] = 'With this setting turned on, the students current input will be validated whenever they pause in their typing. This gives a better user experience, but is likely to increase the server load.';
@@ -499,6 +501,8 @@ $string['deploymanysuccess'] = 'Number of new variants successfully created, tes
 $string['deployoutoftime'] = 'Time limit exceeded by using approx {$a->time} seconds.  Please try again to deploy more.';
 $string['deployremoveall'] = 'Undeploy all variants: ';
 $string['deploytestall'] = 'Run all tests on all deployed variants (slow): ';
+$string['deployfromlist'] = 'Remove all existing variants and deploy from a list of positive integer seeds, one on each line: ';
+$string['deployfromlisterror'] = 'An error was detected in your list of integers, and so no changes were made to the list of deployed variants.';
 $string['editingtestcase'] = 'Editing test case {$a->no} for question {$a->question}';
 $string['editthistestcase'] = 'Edit this test case...';
 $string['expectedanswernote'] = 'Expected answer note';
@@ -531,6 +535,7 @@ $string['runquestiontests'] = 'Question tests & deployed variants';
 $string['runquestiontests_help'] = 'The question tests unit-test the questions to ensure the behaviour matches expectations expressed by the teacher, and deployed variants ensure random versions seen by a student are pre-tested against the question tests. These are tools to help you create and test reliable questions and should be used in all cases a question will be used by students.';
 $string['runquestiontests_alert'] = 'Question is missing tests or variants.';
 $string['seethisquestioninthequestionbank'] = 'See this question in the question bank';
+$string['editquestioninthequestionbank'] = 'Edit this question';
 $string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';
 $string['switchtovariant'] = 'Switch to arbitrary variant';
 $string['testcasexresult'] = 'Test case {$a->no} {$a->result}';
@@ -547,10 +552,10 @@ $string['variant'] = 'Variant';
 $string['basicquestionreport'] = 'Basic question use report';
 $string['basicquestionreport_help'] = 'Generates a very basic report on attempts at this question on the server. Useful for deciding which PRT test can be added to improve feedback in the light of what the student actually does.  (Most questions are only used in one place)';
 $string['basicreportraw'] = 'Raw data';
-$string['basicreportnotes'] = 'Frequency of answer notes, for each PRT, regardless of which variant was used.';
-$string['basicreportnotessplit'] = 'Frequency of answer notes, for each PRT, split by |, regardless of which variant was used.';
-$string['basicreportvariants'] = 'Raw inputs and PRT answer notes by variant.';
-$string['basicreportinputsummary'] = 'Raw inputs, regardless of which variant was used.';
+$string['basicreportnotes'] = 'Frequency of answer notes, for each PRT, regardless of which variant was used';
+$string['basicreportnotessplit'] = 'Frequency of answer notes, for each PRT, split by |, regardless of which variant was used';
+$string['basicreportvariants'] = 'Raw inputs and PRT answer notes by variant';
+$string['basicreportinputsummary'] = 'Raw inputs, regardless of which variant was used';
 
 // Equiv input specific string.
 $string['equivnocomments'] = 'You are not permitted to use comments in this input type.  Please just work line by line.';
@@ -709,6 +714,7 @@ $string['stackCas_callingasfunction']       = 'Calling the result of a function 
 $string['stackCas_applyfunmakestring']      = 'The name of the function cannot be a string in <code>{$a->type}</code>.';
 $string['stackCas_badpostfixop']            = 'You have a bad "postfix" operator in your expression.';
 $string['stackCas_overrecursivesignatures'] = 'The question code includes too many functions defined through mapping';
+$string['stackCas_reserved_function']       = 'The function name "{$a->name}" is not permitted in this question. Please contact your teacher.';
 $string['stackCas_studentInputAsFunction']  = 'Use of student input as the name of a function is not permitted.';
 $string['stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName'] = 'The function name "{$a->name}" is potentially redefined in unclear substitutions.';
 $string['stackCas_functionNameSubstitutionToForbiddenOne'] = 'The function name "{$a->name}" is potentially mapped, using substitutions, to "{$a->trg}" which is a forbidden one.';
@@ -885,7 +891,6 @@ $string['FacForm_UnPick_morework']      = 'You could still do some more work on 
 $string['FacForm_UnPick_intfac']        = 'You need to take out a common factor. ';
 
 $string['ATFacForm_error_list']         = 'The answer test failed.  Please contact your systems administrator';
-$string['ATFacForm_error_degreeSA']     = 'The CAS could not establish the algebraic degree of your answer.';
 $string['ATFacForm_isfactored']         = 'Your answer is factored, well done. ';  // Needs a space at the end.
 $string['ATFacForm_notfactored']        = 'Your answer is not factored. '; // Needs a space at the end.
 $string['ATFacForm_notpoly']            = 'This term is expected to be a polynomial, but is not.';

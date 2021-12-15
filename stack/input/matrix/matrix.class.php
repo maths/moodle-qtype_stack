@@ -29,7 +29,8 @@ class stack_matrix_input extends stack_input {
     protected $extraoptions = array(
         'nounits' => false,
         'simp' => false,
-        'allowempty' => false
+        'allowempty' => false,
+        'consolidatesubscripts' => false
     );
 
     public function adapt_to_model_answer($teacheranswer) {

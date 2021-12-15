@@ -371,6 +371,7 @@ class stack_potentialresponse_node {
         $summary->truenote       = $this->branches[true]['answernote'];
         $summary->truescore      = $this->branches[true]['score'];
         $summary->truescoremode  = $this->branches[true]['scoremodification'];
+        $summary->test           = $this->get_maxima_representation();
         return $summary;
     }
 
@@ -389,6 +390,14 @@ class stack_potentialresponse_node {
             $langs[$this->branches[1]['answernote']] = $ml->languages_used($feedback);
         }
         return $langs;
+    }
+
+    /*
+     * Return the feedback used for testing HTML integrity.
+     * Could be made more specific like language testing.
+     */
+    public function get_feedback_text() {
+        return $this->branches[0]['feedback'] . $this->branches[1]['feedback'];
     }
 
     public function get_maxima_representation() {

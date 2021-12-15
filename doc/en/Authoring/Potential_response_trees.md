@@ -94,7 +94,7 @@ With a formative potential response tree, there is no general feedback such as "
 
 ## Response tree feedback: feedbackstyle ##
 
-The feedback created by PRTs has the following parts concatinated together.
+The feedback created by PRTs has the following parts concatenated together.
 
     [Generic feedback] [Runtime errors] [PRT generated feedback] [Score ?]
 

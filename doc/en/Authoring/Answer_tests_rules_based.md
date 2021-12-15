@@ -24,9 +24,9 @@ Notes
 
 In order to understand how the tests work it is essential to understand how we represent unary minus and division internally.
 
-Without simplification, Maxima has a unary minus function.  Litterally `minus(x)`.  This is transformed into `UNARY_MINUS noun* ex`  The use of multiplication here allows `-` to commute with other multiplication, so we can spot things like \(-x \times -y = --xy\) using associativity and commutativity.
+Without simplification, Maxima has a unary minus function.  Litterally `minus(x)`.  This is transformed into `UNARY_MINUS nounmul ex`  The use of multiplication here allows `-` to commute with other multiplication, so we can spot things like \(-x \times -y = --xy\) using associativity and commutativity.
 
-Similarly, we replace division \(a/b\) with `a noun* UNARY_RECIP(b)`.  This means that `UNARY_RECIP(b)` is not automatically the same as `1 noun* UNARY_RECIP(b)`, without an additional rule.
+Similarly, we replace division \(a/b\) with `a nounmul UNARY_RECIP(b)`.  This means that `UNARY_RECIP(b)` is not automatically the same as `1 nounmul UNARY_RECIP(b)`, without an additional rule.
 
 ### EqualComAssRules ###
 
@@ -92,7 +92,7 @@ If you add the rule `testdebug` then you will see both expressions in the answer
 
 This functionality was introduced in April 2021.  It is essential that the rules, and any combination of the rules, can only proceed in a single direction and that no infinite loops are created.  So, `intAdd` is fine because adding together two integers will make an expression _simpler_ which in this case is shorter.  For this reason we do not have expanding out (i.e. distribution) rules in the above set, and no rules of indices (which readily lead to mathemtical errors).  Use Maxima's simplifier if you want to include such rules.
 
-The rules names are Maxima functions, but they assume `simp:false` and that the expression has noun forms e.g. `noun+` instead of `+`.  You can use `equals_commute_prepare(ex)` to change an expression into this noun form.  The goal of this code is to create reliable equivalence classes of expressions, not perform algebraic manipulation as we traditionally know it. In particular the way unary minus is transformed into multiplication with a special tag `UNARY_MINUS` is likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The transoformation is designed to go in one direction only, and we do not support displaying the resulting manipulated expressions in traditional form.
+The rules names are Maxima functions, but they assume `simp:false` and that the expression has noun forms e.g. `nounadd` instead of `+`.  You can use `equals_commute_prepare(ex)` to change an expression into this noun form.  The goal of this code is to create reliable equivalence classes of expressions, not perform algebraic manipulation as we traditionally know it. In particular the way unary minus is transformed into multiplication with a special tag `UNARY_MINUS` is likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The transoformation is designed to go in one direction only, and we do not support displaying the resulting manipulated expressions in traditional form.
 
 __As of June 2021, these rules are not intended as an end-user simplifier and we do not currently support user-defined rules (sorry!).__
 

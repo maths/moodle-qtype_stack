@@ -2373,6 +2373,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->name = 'contextvars';
         $q->questionvariables = "texput(blob, \"\\\\diamond\");\n assume(x>2);\n texput(log, \"\\\\log \", prefix);";
         $q->questiontext = 'What is {@blob@}? [[input:ans1]] [[validation:ans1]]';
+        $q->generalfeedback = 'You should be able to type in {@blob@} as <code>blob</code>.';
 
         $q->specificfeedback = '[[feedback:firsttree]]';
         $q->penalty = 0.35; // Non-zero and not the default.

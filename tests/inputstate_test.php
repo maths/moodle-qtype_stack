@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../stack/input/inputbase.class.php');
 /**
  * @group qtype_stack
  */
-class stack_input_state_test extends basic_testcase {
+class inputstate_test extends basic_testcase {
 
     public function test_create_and_get() {
         $state = new stack_input_state(stack_input::INVALID, array('frog'),

@@ -30,7 +30,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
-class stack_potentialresponsetree_test extends qtype_stack_testcase {
+class potentialresponsetree_test extends qtype_stack_testcase {
 
     public function test_do_test_pass() {
 

@@ -59,7 +59,7 @@ class stack_options {
                 'type'       => 'list',
                 'value'      => 'cos-1',
                 'strict'     => true,
-                'values'     => array('cos-1', 'acos', 'arccos'),
+                'values'     => array('cos-1', 'acos', 'arccos', 'arccos-arcosh'),
                 'caskey'     => 'make_arccos',
                 'castype'    => 'fun',
             ),
@@ -284,9 +284,10 @@ class stack_options {
      */
     public static function get_inverse_trig_options() {
         return array(
-            'cos-1'  => "cos\xe2\x81\xbb\xc2\xb9(x)",
-            'acos'   => 'acos(x)',
-            'arccos' => 'arccos(x)',
+            'cos-1'         => "cos\xe2\x81\xbb\xc2\xb9(x)",
+            'acos'          => 'acos(x)',
+            'arccos'        => 'arccos(x)',
+            'arccos-arcosh' => 'arccos(x)/arcosh(x)'
         );
     }
 

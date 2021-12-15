@@ -37,7 +37,8 @@ class stack_varmatrix_input extends stack_input {
     protected $extraoptions = array(
         'simp' => false,
         'rationalized' => false,
-        'allowempty' => false
+        'allowempty' => false,
+        'consolidatesubscripts' => false
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

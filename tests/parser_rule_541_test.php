@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/541_no_unknown_functions.filt
  * @group qtype_stack
  * @group qtype_stack_ast_filters
  */
-class stack_parser_rule_541_test extends qtype_stack_testcase {
+class parser_rule_541_test extends qtype_stack_testcase {
 
     public function test_no_functions_0() {
         $teststring = '1+x^2/2!-x^3/3!;';

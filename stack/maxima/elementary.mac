@@ -17,20 +17,6 @@
 /* THIS IS EXPERIMENTAL CODE */
 /* Most of the code is now in noun_simp.mac.  This is the remainder. */
 
-/* NOTE: all these operations really need three separate
-things, as with zeroAdd:
-
-zeroAddp - the predicate which matches to the pattern zeroAdd -
-perform the rule on the top level. zeroAddr - recurse over the
-whole expression applying the rule.
-
-What about working through to the first occurance of the
-pattern?
-
-What about identifying the first occurance of where a rule is
-satisfied?
-
-*/
 
 /*******************************************/
 /* Control functions                       */
@@ -206,19 +192,4 @@ powLaw(ex):= block([B,l1,l2],
    if length(l2)=1 then l2:first(l2) else l2:apply("*",l2),
    return(B^apply("+",l1)*l2)
 );
-
-/*******************************************/
-/* Buggy rules */
-
-/* (a+b)^n -> a^n+b^n */
-buggyPowp(ex):=block(
-  if safe_op(ex)#"^" then return(false),
-  if safe_op(part(ex,1))="+" then true else false
-)$
-
-buggyPow(ex):= if buggyPowp(ex) then apply("+",map(lambda([ex2],ex2^part(ex,2)),args(part(ex,1)))) else ex$
-
-/* -(a+b) -> -a+b */
-buggyNegDistAddp(ex) := negDistAddp(ex)$
-buggyNegDistAdd(ex)  := if buggyNegDistAddp(ex) then apply("+",append([-first(args(part(ex,1)))],rest(args(part((ex),1))))) else ex$
 

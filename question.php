@@ -1307,12 +1307,43 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($this->prts as $prt) {
             foreach ($prt->get_raw_sans_used() as $key => $sans) {
                 if (!array_key_exists(trim($sans), $this->inputs)) {
-                    $warnings[] = stack_string('AT_raw_sans_needed', array('prt' => $key));
+                    $warnings[] = stack_string_error('AT_raw_sans_needed', array('prt' => $key));
                 }
             }
         }
 
-        // 2. Language warning checks.
+        // 2. Check alt-text exists.
+        // Reminder: previous approach in Oct 2021 tried to use libxml_use_internal_errors, but this was a dead end.
+
+        $tocheck = array();
+        $text = trim($this->questiontextinstantiated);
+        if ($text !== '') {
+            $tocheck[stack_string('questiontext')] = $text;
+        }
+        $ct = $this->get_generalfeedback_castext();
+        $text = trim($ct->get_display_castext());
+        if ($text !== '') {
+            $tocheck[stack_string('generalfeedback')] = $text;
+        }
+        // This is a compromise.  We concatinate all nodes and we don't instantiate this!
+        foreach ($this->prts as $prt) {
+            $text = trim($prt->get_feedback_test());
+            if ($text !== '') {
+                $tocheck[$prt->get_name()] = $text;
+            }
+        }
+
+        foreach ($tocheck as $field => $text) {
+            // Replace unprotected & symbols, which happens a lot inside LaTeX equations.
+            $text = preg_replace("/&(?!\S+;)/", "&amp;", $text);
+
+            $missingalt = stack_utils::count_missing_alttext($text);
+            if ($missingalt > 0) {
+                $warnings[] = stack_string_error('alttextmissing', array('field' => $field, 'num' => $missingalt));
+            }
+        }
+
+        // 3. Language warning checks.
         // Put language warning checks last (see guard clause below).
         // Check multi-language versions all have the same languages.
         $ml = new stack_multilang();

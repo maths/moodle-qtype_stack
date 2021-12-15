@@ -39,7 +39,8 @@ class stack_units_input extends stack_input {
         'minsf' => false,
         'maxsf' => false,
         'allowempty' => false,
-        'align' => 'left'
+        'align' => 'left',
+        'consolidatesubscripts' => false
     );
 
 

@@ -29,7 +29,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
-class stack_boolean_input_rendering_test extends question_testcase {
+class input_boolean_rendering_test extends question_testcase {
 
     protected function expected_choices() {
         return array(

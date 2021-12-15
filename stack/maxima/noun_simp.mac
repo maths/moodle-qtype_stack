@@ -31,11 +31,12 @@
 
 /*  Create noun forms of the functions of +, -, *, / and ^
     as follows.
-    + noun+
-    - noun-
-    * noun*
-    / noun/
-    ^ noun^
+    + nounadd
+    - nounsub
+    * nounmul
+    / noundiv
+    ^ nounpow
+    = nouneq
 */
 
 /*  For each of these we do the following.
@@ -51,86 +52,88 @@
 */
 
 /* (1) */
-nary("noun=", 150);
-nary("noun+", 100);
-prefix("noun-", 100);
-nary("noun*", 120);
-infix("noun/", 122, 123);
-infix("noun^", 140, 139);
+nary("nouneq", 150);
+nary("nounadd", 100);
+prefix("nounsub", 100);
+nary("nounmul", 120);
+infix("noundiv", 122, 123);
+infix("nounpow", 140, 139);
 prefix("UNARY_RECIP", 100);
 
-declare("noun*", commutative);
-declare("noun+", commutative);
+declare("nounmul", commutative);
+declare("nounadd", commutative);
 
 /* (2) */
 load("noun_arith.lisp");
 
 /* (3) */
-declare("noun=", commutative);
-declare("noun=", lassociative);
-declare("noun=", rassociative);
+declare("nouneq", commutative);
+declare("nouneq", lassociative);
+declare("nouneq", rassociative);
 
 verb_arith(ex) := block([a],
-    ex:subst("=", "noun=", ex),
-    ex:subst("+", "noun+", ex),
-    ex:subst("*", "noun*", ex),
-    ex:subst("-", "noun-", ex),
-    ex:subst("/", "noun/", ex),
-    ex:subst("^", "noun^", ex),
+    ex:subst("=", "nouneq", ex),
+    ex:subst("+", "nounadd", ex),
+    ex:subst("*", "nounmul", ex),
+    ex:subst("-", "nounsub", ex),
+    ex:subst("/", "noundiv", ex),
+    ex:subst("^", "nounpow", ex),
     define(UNARY_RECIP a, a^(-1)),
     ex:ev(ex, UNARY_MINUS=-1),
-    remfunction("noun+", "noun*", "noun/", "noun^", "noun-", "UNARY_RECIP"),
+    remfunction("nounadd", "nounmul", "noundiv", "nounpow", "nounsub", "nouneq", "UNARY_RECIP"),
     ex
 )$
 
 /* (4) */
 noun_arith(ex) := block([a],
-    ex:subst("noun=", "=", ex),
-    ex:subst("noun+", "+", ex),
-    ex:subst("noun*", "*", ex),
+    ex:subst("nouneq", "=", ex),
+    ex:subst("nounadd", "+", ex),
+    ex:subst("nounmul", "*", ex),
     /* Unary minus really communtes with multiplication. */
-    ex:subst(lambda([ex], UNARY_MINUS noun* ex), "-", ex),
+    ex:subst(lambda([ex], UNARY_MINUS nounmul ex), "-", ex),
     /* Turn 1/x into x^(-1), in a special form */
-    ex:subst(lambda([ex1, ex2], ex1 noun* (UNARY_RECIP ex2)), "/", ex),
-    define(UNARY_RECIP a, a noun^ (-1)),
-    ex:ev(subst("noun^", "^", ex)),
+    ex:subst(lambda([ex1, ex2], ex1 nounmul (UNARY_RECIP ex2)), "/", ex),
+    define(UNARY_RECIP a, a nounpow (-1)),
+    ex:ev(subst("nounpow", "^", ex)),
     remfunction("UNARY_RECIP"),
     ev(ex)
 )$
 
 noun_arith_full(ex) := block([a],
-    ex:subst("noun=", "=", ex),
-    ex:subst("noun+", "+", ex),
-    ex:subst("noun*", "*", ex),
+    ex:subst("nouneq", "=", ex),
+    ex:subst("nounadd", "+", ex),
+    ex:subst("nounmul", "*", ex),
     /* Turn -(7) into integer -7. */
     ex:transr(ex, mminusInt),
     /* Unary minus really communtes with multiplication. */
-    ex:subst(lambda([ex], UNARY_MINUS noun* ex), "-", ex),
+    ex:subst(lambda([ex], UNARY_MINUS nounmul ex), "-", ex),
     /* Turn 1/x into x^(-1), in a special form */
-    ex:subst(lambda([ex1, ex2], ex1 noun* (UNARY_RECIP ex2)), "/", ex),
+    ex:subst(lambda([ex1, ex2], ex1 nounmul (UNARY_RECIP ex2)), "/", ex),
     /* Now we have the rules based tests we don't replace UNARY_RECIP. */
-    ex:ev(subst("noun^", "^", ex)),
+    ex:ev(subst("nounpow", "^", ex)),
+    /* See docs on exp: Instances of 'exp (<x>)' in input are simplified to '%e^<x>'; 'exp' does not appear in simplified expressions. */
+    ex:ev(subst(lambda([ex2],%e nounpow ex2), exp, ex)),
     ev(ex)
 )$
 
 /*  Assumes we are working in the context of noun operators. */
 gather_reduce(ex) := block(
-    ex:subst("=", "noun=", ex),
-    ex:subst("+", "noun+", ex),
-    ex:subst("*", "noun*", ex),
-    ex:subst("-", "noun-", ex),
+    ex:subst("=", "nouneq", ex),
+    ex:subst("+", "nounadd", ex),
+    ex:subst("*", "nounmul", ex),
+    ex:subst("-", "nounsub", ex),
     ex:ev(flatten(ex), simp),
-    ex:subst("noun=", "=", ex),
-    ex:subst("noun+", "+", ex),
-    ex:subst("noun*", "*", ex), --
-    ex:subst("noun-", "-", ex),
+    ex:subst("nouneq", "=", ex),
+    ex:subst("nounadd", "+", ex),
+    ex:subst("nounmul", "*", ex), --
+    ex:subst("nounsub", "-", ex),
     ex
 )$
 
 /* This function recursively applies flatten, i.e. this implements nary simplification. */
 flatten_recurse_nouns(ex) := block(
     if atom(ex) then return(ex),
-    if op(ex)="noun+" or op(ex)="noun*" then
+    if op(ex)="nounadd" or op(ex)="nounmul" then
         return(flatten(apply(op(ex), maplist(flatten_recurse_nouns, args(ex))))),
     if safe_op(ex)="nounset" then
         return((apply(op(ex), maplist(flatten_recurse_nouns, sort(args(ex)))))),
@@ -140,23 +143,23 @@ flatten_recurse_nouns(ex) := block(
 sort_nouns(ex) := block([exl],
     if atom(ex) then return(ex),
     exl:maplist(sort_nouns, args(ex)),
-    if safe_op(ex)="noun=" or safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="nounnot" or safe_op(ex)="nounset" or op(ex)="noun+" or op(ex)="noun*" then
+    if safe_op(ex)="nouneq" or safe_op(ex)="nounand" or safe_op(ex)="nounor" or safe_op(ex)="nounnot" or safe_op(ex)="nounset" or op(ex)="nounadd" or op(ex)="nounmul" then
         exl:sort(exl),
     apply(op(ex), exl)
 )$
 
 /* Rule which takes (a^n)^-1 when n is an integer to a^-n */
 flatten_pow_minus_one(ex):= block(
-    if not(safe_op(ex)="noun^") then return(ex),
+    if not(safe_op(ex)="nounpow") then return(ex),
     if not(second(args(ex))=-1) then return(ex),
-    if safe_op(first(args(ex)))="noun^" and integerp(second(args(first(args(ex))))) then return("noun^"(first(args(first(args(ex)))),-second(args(first(args(ex)))))),
+    if safe_op(first(args(ex)))="nounpow" and integerp(second(args(first(args(ex))))) then return("nounpow"(first(args(first(args(ex)))),-second(args(first(args(ex)))))),
     ex
 )$
 
-/* Recursive rule which takes UNARY_MINUS noun* n, where n is an integer to -n */
+/* Recursive rule which takes UNARY_MINUS nounmul n, where n is an integer to -n */
 unary_minus_remove(ex):= block(
     if atom(ex) then return(ex),
-    if safe_op(ex)="noun*" and is(first(args(ex))=UNARY_MINUS) and integerp(second(args(ex))) then return(-second(args(ex))),
+    if safe_op(ex)="nounmul" and is(first(args(ex))=UNARY_MINUS) and integerp(second(args(ex))) then return(-second(args(ex))),
     apply(op(ex), maplist(unary_minus_remove, args(ex)))
 )$
 
@@ -237,7 +240,7 @@ ATEqualComAssRules(sa, sb, so) :=
         return([false,false,StackAddNote("", "ATEqualComAssRules_Opt_List"), StackAddFeedback("", "ATEqualComAssRules_Opt_List")]),
 
     /* Make sure commutativity and associativity are always in, and tidy up the options. */
-    so:ev(listify(setify(flatten(append(so, ALG_TRANS)))), simp),
+    so:ev(unique(flatten(append(so, ALG_TRANS))), simp),
     if ev(elementp(testdebug, setify(so)), simp) then block(
         debugtest:true,
         so:delete(testdebug, so)
@@ -265,9 +268,9 @@ ATEqualComAssRules(sa, sb, so) :=
     sa:equals_commute_prepare(sa),
     sb:equals_commute_prepare(sb),
 
-    if debug then print([sa,sb]),
-
+    if debug then print(["Transforming",sa]),
     sa:transl(sa, so),
+    if debug then print(["Transforming",sb]),
     sb:transl(sb, so),
 
     AnswerNote:"",
@@ -355,14 +358,14 @@ transl(ex,rll) := block([ex2],
    We essentially "unsimplify" here to disambiguate.
    This rule is not included in the main transformation rule base.        */
 mminusIntp(ex):= if integerp(ex) and ex<0 then true else false$
-mminusInt(ex) := if mminusIntp(ex) then (UNARY_MINUS noun* ev(-1*ex, simp)) else ex$
+mminusInt(ex) := if mminusIntp(ex) then (UNARY_MINUS nounmul ev(-1*ex, simp)) else ex$
 
 /*******************************************/
 /* Transformation rules.                   */
 /*******************************************/
 
 /* 0+x -> x.  Assumes commutativity. */
-zeroAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="noun+") and length(sublist(args(ex), lambda([ex2], ex2=0)))>0 then true else false$
+zeroAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="nounadd") and length(sublist(args(ex), lambda([ex2], ex2=0)))>0 then true else false$
 zeroAdd(ex) := block([ex2],
     if not(zeroAddp(ex)) then return(ex),
     ex2:sublist(args(ex), lambda([ex2], not(is(ex2=0)))),
@@ -371,13 +374,13 @@ zeroAdd(ex) := block([ex2],
 )$
 
 /* zeroMul transform 0*x to 0. Assumes commutativity. */ 
-zeroMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="noun*") and length(sublist(args(ex), lambda([ex2], ex2=0)))>0 then true else false$
+zeroMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and length(sublist(args(ex), lambda([ex2], ex2=0)))>0 then true else false$
 zeroMul(ex) := block(
     if zeroMulp(ex) then return(0) else return (ex)
 )$
 
 /* oneMul transform 1*x to x. Assumes commutaivity. */ 
-oneMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="noun*") and length(sublist(args(ex), lambda([ex2], ex2=1)))>0 then true else false$
+oneMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and length(sublist(args(ex), lambda([ex2], ex2=1)))>0 then true else false$
 oneMul(ex) := block([ex2],
     if not(oneMulp(ex)) then return(ex),
     ex2:sublist(args(ex), lambda([ex2], not(is(ex2=1)))),
@@ -386,23 +389,23 @@ oneMul(ex) := block([ex2],
 )$
 
 /* 1^x -> 1 */
-onePowp(ex):= if (safe_op(ex)="^" or safe_op(ex)="noun^") and is(part(ex, 1)=1) then true else false$
+onePowp(ex):= if (safe_op(ex)="^" or safe_op(ex)="nounpow") and is(part(ex, 1)=1) then true else false$
 onePow(ex) := if onePowp(ex) then 1 else ex$
 
 /* x^1 -> x */
-idPowp(ex):= if (safe_op(ex)="^" or safe_op(ex)="noun^") and is(part(ex, 2)=1) then true else false$
+idPowp(ex):= if (safe_op(ex)="^" or safe_op(ex)="nounpow") and is(part(ex, 2)=1) then true else false$
 idPow(ex) := if idPowp(ex) then part(ex,1) else ex$
 
 /* 0^x -> 0*/
 zeroPowp(ex):= block(
-    if not(safe_op(ex)="^" or safe_op(ex)="noun^") or is(part(ex, 2)=0) then return(false),
+    if not(safe_op(ex)="^" or safe_op(ex)="nounpow") or is(part(ex, 2)=0) then return(false),
     if is(part(ex,1)=0) then true else false
 )$
 zeroPow(ex) := if zeroPowp(ex) then 0 else ex$
 
 /* x^0 -> 1*/
 zPowp(ex):= block(
-    if not(safe_op(ex)="^" or safe_op(ex)="noun^") or is(part(ex, 1)=0) then return(false),
+    if not(safe_op(ex)="^" or safe_op(ex)="nounpow") or is(part(ex, 1)=0) then return(false),
     if is(part(ex, 2)=0) then true else false
 )$
 zPow(ex) := if zPowp(ex) then 1 else ex$
@@ -416,10 +419,10 @@ oneDiv(ex) := if oneDivp(ex) then 1 else ex$
 /* These functions "flatten" sums or products by removing uncessary parentheses
    i.e. it enforces associativity. */
 /* Note that the predicates only return true if the rule changes the expression */
-assAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="noun+") and flatten(ex)#ex then true else false$
+assAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="nounadd") and flatten(ex)#ex then true else false$
 assAdd(ex) := if assAddp(ex) then flatten(ex) else ex$
 
-assMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="noun*") and flatten(ex)#ex then true else false$
+assMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and flatten(ex)#ex then true else false$
 assMul(ex) := if assMulp(ex) then flatten(ex) else ex$
 
 /* Define a predicate to sort elements, UNARY_MINUS at the front, UNARY_RECIP at the end. */
@@ -441,16 +444,16 @@ elsort(l) := block([l1, l2, la],
 
 /* Sort out the order of elements, i.e. commutativity. */
 /* NOTE: sort(args(ex), orderelementaryp)) should work but does not... */
-comAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="noun+") and apply(op(ex), elsort(args(ex)))#ex then true else false$
+comAddp(ex):= if (safe_op(ex)="+" or safe_op(ex)="nounadd") and apply(op(ex), elsort(args(ex)))#ex then true else false$
 comAdd(ex) := if comAddp(ex) then apply(op(ex),elsort(args(ex))) else ex$
 
-comMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="noun*") and apply(op(ex), elsort(args(ex)))#ex then true else false$
+comMulp(ex):= if (safe_op(ex)="*" or safe_op(ex)="nounmul") and apply(op(ex), elsort(args(ex)))#ex then true else false$
 comMul(ex) := if comMulp(ex) then apply(op(ex),elsort(args(ex))) else ex$
 
 
 /* Consolidate products of division: a*UNARY_RECIP(b)*UNARY_RECIP(c) -> a*UNARY_RECIP(b*c) */
 recipMulp(ex) := block([ex2],
-    if not(safe_op(ex)="*" or safe_op(ex)="noun*") then return(false),
+    if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
     if length(args(ex))=1 then return(false),
     ex2:reverse(args(ex)),
     if safe_op(first(ex2))="UNARY_RECIP" and safe_op(second(ex2))="UNARY_RECIP" then true else false
@@ -464,7 +467,7 @@ recipMul(ex) := block([ex2],
 /*******************************************/
 /* Double negation -(-(a)). (Assumes unary minus has been replaced by products of UNARY_MINUS */ 
 negNegp(ex):= block(
-    if not(safe_op(ex)="noun*" or safe_op(ex)="*") then return(false),
+    if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
     if length(sublist(args(ex), lambda([ex2], is(ex2=UNARY_MINUS))))>1 then return(true) else return(false)
 )$
 negNeg(ex) := block([ex0,ex1,ex2],
@@ -481,7 +484,7 @@ negDivp(ex):= block(
     if not(safe_op(ex)="UNARY_RECIP") then return(false),
     /* Edge case we have only 1/- left. */
     if part(ex, 1)=UNARY_MINUS then return(true),
-    if not(safe_op(part(ex, 1))="noun*" or safe_op(part(ex, 1))="*") then return(false),
+    if not(safe_op(part(ex, 1))="*" or safe_op(part(ex, 1))="nounmul") then return(false),
     if is(length(sublist(args(part(ex, 1)), lambda([ex2], is(ex2=UNARY_MINUS))))>0) then return(true) else return(false)
 )$
 negDiv(ex) := block([ex0, ex1, ex2],
@@ -493,14 +496,14 @@ negDiv(ex) := block([ex0, ex1, ex2],
     ex2:sublist(args(part(ex, 1)), lambda([ex0], not(is(ex0=UNARY_MINUS)))),
     if length(ex1)>1 then ex1:apply(op(part(ex, 1)), ex1) else ex1:UNARY_MINUS,
     if length(ex2)>1 then ex2:apply(op(part(ex, 1)), ex2) else ex2:first(ex2),
-    return (ex1 noun* UNARY_RECIP(ex2))
+    return (ex1 nounmul UNARY_RECIP(ex2))
 )$
 
 negOrdp(ex) := block([ex2,ex3],
-    if not(safe_op(ex)="+" or safe_op(ex)="noun+") then return(false),
+    if not(safe_op(ex)="+" or safe_op(ex)="nounadd") then return(false),
     /* Order the terms in the sum, strip off any UNARY_MINUS, and compare the leading term. */
     ex2:elsort(args(ex)),
-    ex3:map(lambda([ex0], if not(safe_op(ex0)="*" or safe_op(ex0)="noun*") then ex0 
+    ex3:map(lambda([ex0], if not(safe_op(ex0)="*" or safe_op(ex0)="nounmul") then ex0 
             else block([a1], a1:sublist(args(ex0), lambda([ex1], not(ex1=UNARY_MINUS))), if length(a1)=1 then first(a1) else apply(op(ex0), a1) )), ex2),
     ex3:elsort(ex3),
     not(is(first(ex2)=first(ex3)))
@@ -509,24 +512,24 @@ negOrd(ex) := block([ex0],
     if not(negOrdp(ex)) then return(ex),
     /* We use commutativity of multiplication to pull UNARY_MINUS to the front. */
     ex0:map(comMul, args(ex)),
-    ex0:map(lambda([ex1], if (atom(ex1) or not(safe_op(ex1)="*" or safe_op(ex1)="noun*")) then (UNARY_MINUS noun* ex1) 
-            else if not(first(args(ex1))=UNARY_MINUS) then (UNARY_MINUS noun* ex1) 
+    ex0:map(lambda([ex1], if (atom(ex1) or not(safe_op(ex1)="*" or safe_op(ex1)="nounmul")) then (UNARY_MINUS nounmul ex1) 
+            else if not(first(args(ex1))=UNARY_MINUS) then (UNARY_MINUS nounmul ex1) 
             else if length(rest(args(ex1)))=1 then first(rest(args(ex1))) else apply(op(ex1), rest(args(ex1)))), ex0),
-    return(UNARY_MINUS noun* (apply(op(ex), ex0)))
+    return(UNARY_MINUS nounmul (apply(op(ex), ex0)))
 )$
 
 /* Distribute negation over addition. (Assumes unary minus has been replaced by products of UNARY_MINUS */ 
 negDistp(ex):= block(
-    if not(safe_op(ex)="noun*" or safe_op(ex)="*") then return(false),
+    if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
     if length(sublist(args(ex), lambda([ex2], is(ex2=UNARY_MINUS))))=0 then return(false),
-    if length(sublist(args(ex), lambda([ex2], is(safe_op(ex2)="noun+" or safe_op(ex2)="+"))))=0 then return(false),
+    if length(sublist(args(ex), lambda([ex2], is(safe_op(ex2)="+" or safe_op(ex2)="nounadd"))))=0 then return(false),
     return(true)
 )$
 negDist(ex) := block([ex0,ex1,ex2,ex3],
     if not(negDistp(ex)) then return(ex),
     ex1:sublist(args(ex), lambda([ex0], is(ex0=UNARY_MINUS))),
-    ex2:sublist(args(ex), lambda([ex0], is(safe_op(ex0)="noun+" or safe_op(ex0)="+"))),
-    ex3:sublist(args(ex), lambda([ex0], not(is(ex0=UNARY_MINUS)) and not(is(safe_op(ex0)="noun+" or safe_op(ex0)="+")))),
+    ex2:sublist(args(ex), lambda([ex0], is(safe_op(ex0)="+" or safe_op(ex0)="nounadd"))),
+    ex3:sublist(args(ex), lambda([ex0], not(is(ex0=UNARY_MINUS)) and not(is(safe_op(ex0)="+" or safe_op(ex0)="nounadd")))),
     ex0:apply(op(first(ex2)),map(lambda([ex4],apply(op(ex),[UNARY_MINUS,ex4])),args(first(ex2)))),
     apply(op(ex),append(rest(ex1),rest(ex2),[ex0],ex3))
 )$
@@ -535,12 +538,12 @@ negDist(ex) := block([ex0,ex1,ex2,ex3],
 /* Helper which establishes an expression is "UNARY_RECIP" or a product which contains at least one "UNARY_RECIP" */
 divDivProdp(ex):= block(
     if safe_op(ex)="UNARY_RECIP" then return(true),
-    if not(safe_op(ex)="noun*" or safe_op(ex)="*") then return(false),
+    if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
     return(any_listp(lambda([ex2], is(safe_op(ex2)="UNARY_RECIP")), args(ex)))
 )$
 divDivp(ex):= block([ex2],
     if safe_op(ex)="UNARY_RECIP" then return(divDivProdp(part(ex,1))),
-    if not(safe_op(ex)="noun*" or safe_op(ex)="*") then return(false),
+    if not(safe_op(ex)="*" or safe_op(ex)="nunmul") then return(false),
     ex2:sublist(args(ex),lambda([ex3], safe_op(ex3)="UNARY_RECIP")),
     if emptyp(ex2) then return(false),
     ex2:map(first,ex2),
@@ -551,12 +554,12 @@ divDivp(ex):= block([ex2],
   TP is the top product: things which don't get changed (retain original operator).
   TR is the argument of the first occurance of UNARY_RECIP.
   Returns [TP,TR]: things which don't change and thing which do.
-  This is complex because we have uncertain numbersof arguments in an nary noun*, and might be left with none!
+  This is complex because we have uncertain numbersof arguments in an nary nounmul, and might be left with none!
 */
 divDivProd(ex):= block([TP,TR],
     TP:[],
     if safe_op(ex)="UNARY_RECIP" then return([TP,part(ex,1)]),
-    if not(safe_op(ex)="noun*" or safe_op(ex)="*") then return([ex],[]),
+    if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return([ex],[]),
     TR:first(sublist(args(ex),lambda([ex3], safe_op(ex3)="UNARY_RECIP"))),
     if emptyp(TR) then return(ex,[]),
     TP:removeonce(TR, args(ex)),
@@ -566,7 +569,7 @@ divDivProd(ex):= block([TP,TR],
 divDiv(ex) := block([ex2,ex3,exo,exl],
      if not(divDivp(ex)) then return(ex),
      /* Store the operator for later. */
-     exo:"noun*",
+     exo:"nounmul",
      if safe_op(ex)="*" then exo:"*",
      /* Split expression into bits. */
      ex2:divDivProd(ex),
@@ -581,32 +584,33 @@ divDiv(ex) := block([ex2,ex3,exo,exl],
 /* We have a product containing a division. */
 /* This rule implicitly assumes recipMul, i.e. it takes everything in the product. */
 /* This rule will also cancel NEG tokens as needed.                                */
-divCancelp(ex) := if (safe_op(ex)="*" or safe_op(ex)="noun*") and length(sublist(args(ex), lambda([ex2], safe_op(ex2)="UNARY_RECIP")))>0 then true else false$
+divCancelp(ex) := if (safe_op(ex)="*" or safe_op(ex)="nounmul") and length(sublist(args(ex), lambda([ex2], safe_op(ex2)="UNARY_RECIP")))>0 then true else false$
 
 divCancel(ex) := block([ex1, ex2, ex3],
   if not(divCancelp(ex)) then return(ex),
   ex1:sublist(args(ex), lambda([l1], not(safe_op(l1)="UNARY_RECIP"))),
   ex2:flatten(map(args, sublist(args(ex), lambda([l1], safe_op(l1)="UNARY_RECIP")))),
-  ex2:flatten(map(lambda([ex3],  if (safe_op(ex3)="*" or safe_op(ex3)="noun*") then args(ex3) else ex3), ex2)),
+  ex2:flatten(map(lambda([ex3],  if (safe_op(ex3)="*" or safe_op(ex3)="nounmul") then args(ex3) else ex3), ex2)),
   /* At this point ex1 is a list of factors in the numerator, and ex2 is a list of factors in the denominator. */
   ex3:list_cancel([ex1,ex2]),
   ex1:first(ex3),
   ex2:second(ex3),
   if emptyp(ex1) and emptyp(ex2) then return(1),
   if length(ex2)=1 then ex1:append(ex1,[UNARY_RECIP(first(ex2))]),
-  if length(ex2)>1 then ex1:append(ex1,[UNARY_RECIP(apply("noun*", ex2))]),
+  if length(ex2)>1 then ex1:append(ex1,[UNARY_RECIP(apply("nounmul", ex2))]),
   if length(ex1)=1 then return(first(ex1)),
-  return(apply("noun*", ex1))
+  return(apply("nounmul", ex1))
 )$ 
 
-/*******************************************/
+/**********************************************************/
+/* We either have an integer, or "UNARY_MINUS * integer". */
 noun_simp_integerp(ex) := if atom(ex) then integerp(ex) else
-                      if (safe_op(ex)="*" or safe_op(ex)="noun*") and part(ex, 1)=UNARY_MINUS and atom(part(ex, 2)) and integerp(part(ex, 2)) then true else false$
+                      if (safe_op(ex)="*" or safe_op(ex)="nounmul") and length(args(ex))=2 and part(ex, 1)=UNARY_MINUS and atom(part(ex, 2)) and integerp(part(ex, 2)) then true else false$
 notnoun_simp_integerp(ex):=not(noun_simp_integerp(ex))$
 
 /* Evaluate integer arithmetic */
 intAddp(ex):= block(
-    if not(safe_op(ex)="noun+" or safe_op(ex)="+") then return(false),
+    if not(safe_op(ex)="+" or safe_op(ex)="nounadd") then return(false),
     if length(sublist(args(ex), noun_simp_integerp))>1 then return(true) else return(false)
 )$
 intAdd(ex) := block([a1, a2], 
@@ -620,7 +624,7 @@ intAdd(ex) := block([a1, a2],
 )$
 
 intMulp(ex):= block(
-    if not(safe_op(ex)="noun*" or safe_op(ex)="*") then return(false),
+    if not(safe_op(ex)="*" or safe_op(ex)="nounmul") then return(false),
     if length(sublist(args(ex), integerp))>1 then return(true) else return(false)
 )$
 intMul(ex) := block([a1, a2], 
@@ -634,7 +638,7 @@ intMul(ex) := block([a1, a2],
 )$
 
 intPowp(ex):= block(
-    if not(safe_op(ex)="noun^" or safe_op(ex)="^") then return(false),
+    if not(safe_op(ex)="^" or safe_op(ex)="nounpow") then return(false),
     if integerp(part((ex),1)) and part((ex),1)#0 and integerp(part((ex),2)) and part((ex),2)#0 then return(true) else return(false)
 )$
 intPow(ex) := block([a1, a2], 

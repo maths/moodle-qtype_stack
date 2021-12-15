@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../doc/docslib.php');
 /**
  * @group qtype_stack
  */
-class stack_maths_mathjax_test extends qtype_stack_testcase {
+class mathsoutputmathjax_test extends qtype_stack_testcase {
 
     public function test_maths_output_mathsjax() {
 

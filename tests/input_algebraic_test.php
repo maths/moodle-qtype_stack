@@ -30,7 +30,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 /**
  * @group qtype_stack
  */
-class stack_algebra_input_test extends qtype_stack_testcase {
+class input_algebraic_test extends qtype_stack_testcase {
 
     public function test_internal_validate_parameter() {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');
@@ -1531,5 +1531,16 @@ class stack_algebra_input_test extends qtype_stack_testcase {
         $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
                 . '<span class="nolink">\( \left(1, -1\right) \)</span></span>, which can be typed in as follows: '
                 . '<code>(1,-1)</code>', $el->get_teacher_answer_display('ntuple(1,-1)', '\left(1, -1\right)'));
+    }
+
+    public function test_validate_consolidatesubscripts() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'state', 'M_1');
+        $el->set_parameter('options', 'consolidatesubscripts');
+        $state = $el->validate_student_response(array('state' => 'M_1'), $options, 'M_1',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('M1', $state->contentsmodified);
+        $this->assertEquals('\[ M_{1} \]', $state->contentsdisplayed);
     }
 }

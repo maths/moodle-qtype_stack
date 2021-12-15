@@ -25,7 +25,7 @@ require_once(__DIR__ . '/../stack/cas/castext/autogen/castextparser.class.php');
  * Unit tests for {@link stack_cas_castext_castextparser}.
  * @group qtype_stack
  */
-class stack_cas_castext_parser_test extends qtype_stack_testcase {
+class parser_test extends qtype_stack_testcase {
 
     /**
      * Does some common actions related to the parser as well as counts some values that can be used to check the result.

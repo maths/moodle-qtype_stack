@@ -1577,6 +1577,32 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c9"></td>
   <td class="cell c10"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1+x</td>
+  <td class="cell c3">taylor(1/(1-x),x,0,1)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1</td>
+  <td class="cell c3">taylor(1/(1-x),x,0,1)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0">Logarithms</td>
   <td class="cell c1"></td>
@@ -2745,6 +2771,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
   <td class="cell c9">ATEquation_default</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">0=-x+y/A+(y-z)/B</td>
+  <td class="cell c3">0=x-y/A-(y-z)/B</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -4882,6 +4921,32 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1">Pass</td>
+  <td class="cell c2">n*(n+1)*(2*n+1)/6</td>
+  <td class="cell c3">sum(k^2,k,1,n)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">sum((k+1)^2,k,0,n-1)</td>
+  <td class="cell c3">sum(k^2,k,1,n)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
   <td class="cell c2">product(cos(k*x),k,1,3)</td>
   <td class="cell c3">product(cos(k*x),k,1,3)</td>
   <td class="cell c4"></td>
@@ -5607,6 +5672,32 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c9"></td>
   <td class="cell c10"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">diff(y(x),x)</td>
+  <td class="cell c3">diff(y,x)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">diff(y,x)</td>
+  <td class="cell c3">diff(y,x,2)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0">Basic support for strings</td>
   <td class="cell c1"></td>
@@ -5839,6 +5930,162 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">&#039;diff(y,x,1)</td>
+  <td class="cell c3">&#039;diff(y,x,2)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">&#039;diff(y(x),x)</td>
+  <td class="cell c3">&#039;diff(y,x)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">subst(y,y(x),&#039;diff(y,x)+y=1)</td>
+  <td class="cell c3">&#039;diff(y,x)+y=1</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEquation_sides</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">subst(y,y(x),&#039;diff(y(x),x)+y(x)=1)</td>
+  <td class="cell c3">&#039;diff(y,x)+y=1</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEquation_sides</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">subst(y(x),y,&#039;diff(y,x)+y=1)</td>
+  <td class="cell c3">&#039;diff(y(x),x)+y(x)=1</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEquation_sides</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">subst(y(x),y,&#039;diff(y,x)+y=1)</td>
+  <td class="cell c3">&#039;diff(y,x)+y=1</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEquation_default</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="expectedfail">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Expected failure</td>
+  <td class="cell c2">subst(y(x),y,&#039;diff(y(x),x)+y(x)=1)</td>
+  <td class="cell c3">&#039;diff(y,x)+y=1</td>
+  <td class="cell c4"></td>
+  <td class="cell c5">TEST_FAILED</td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">-1</td>
+  <td class="cell c8"><div class="text_to_html">The answer test failed to execute correctly: please alert your teacher. subst: cannot substitute y(x) for operator y in expression y(x)<br /></div></td>
+  <td class="cell c9">ATAlgEquivNouns_STACKERROR_SAns.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">y_x</td>
+  <td class="cell c3">&#039;diff(y,x)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="notes">
+  <td class="cell c0">Partials</td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">noundiff(f,x,1,y,1)</td>
+  <td class="cell c3">noundiff(noundiff(f,x),y)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">noundiff(noundiff(f,y),x)</td>
+  <td class="cell c3">noundiff(noundiff(f,x),y)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquivNouns</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">noundiff(noundiff(f,x),x)</td>
+  <td class="cell c3">noundiff(f,x,2)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
   <td class="cell c8"></td>
   <td class="cell c9"></td>
   <td class="cell c10"></td>
@@ -7397,6 +7644,45 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
   <td class="cell c1">Pass</td>
+  <td class="cell c2">exp(x)</td>
+  <td class="cell c3">%e^x</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">exp(x)^2</td>
+  <td class="cell c3">%e^(2*x)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEqualComAss (AlgEquiv-true).</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">exp(x)^2</td>
+  <td class="cell c3">(%e^(x))^2</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1">Pass</td>
   <td class="cell c2">1/3*i</td>
   <td class="cell c3">i/3</td>
   <td class="cell c4"></td>
@@ -7867,6 +8153,32 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c1">Pass</td>
   <td class="cell c2">1+k+k^2+k^3</td>
   <td class="cell c3">sum(k^n,n,0,3)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEqualComAss (AlgEquiv-true).</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">sum(k,k,0,1+n)</td>
+  <td class="cell c3">sum(k,k,0,n+1)</td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAss</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(n+1)*(n+2)/2</td>
+  <td class="cell c3">sum(k,k,0,n+1)</td>
   <td class="cell c4"></td>
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
@@ -8485,7 +8797,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [1 noun+ 1,2].</td>
+  <td class="cell c9">ATEqualComAssRules: [1 nounadd 1,2].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8524,7 +8836,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [1 noun* a,a].</td>
+  <td class="cell c9">ATEqualComAssRules: [1 nounmul a,a].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8634,6 +8946,45 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
   <td class="cell c1">Pass</td>
+  <td class="cell c2">%e^x</td>
+  <td class="cell c3">exp(x)</td>
+  <td class="cell c4">[testdebug,ID_TRANS]</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATEqualComAssRules: [%e nounpow x,%e nounpow x].</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">12*%e^((2*(%pi/2)*%i)/2)</td>
+  <td class="cell c3">12*exp(%i*(%pi/2))</td>
+  <td class="cell c4">ID_TRANS</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">12*%e^((2*(%pi/2)*%i)/2)</td>
+  <td class="cell c3">12*exp(%i*(%pi/2))</td>
+  <td class="cell c4">[ID_TRANS,[negNeg,negDiv,negOrd],[recipMul,divDiv,divCancel],[intAdd,intMul,intPow]]</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
   <td class="cell c2">0^(1-1)</td>
   <td class="cell c3">0</td>
   <td class="cell c4">ID_TRANS</td>
@@ -8719,7 +9070,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [3 noun* UNARY_RECIP UNARY_MINUS noun* x,UNARY_MINUS noun* 3 noun* UNARY_RECIP x].</td>
+  <td class="cell c9">ATEqualComAssRules: [3 nounmul UNARY_RECIP UNARY_MINUS nounmul x,UNARY_MINUS nounmul 3 nounmul UNARY_RECIP x].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8849,7 +9200,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS noun* (x noun+ UNARY_MINUS noun* y) noun* (x noun+ UNARY_MINUS noun* y),UNARY_MINUS noun* (x noun+ UNARY_MINUS noun* y) noun^ 2].</td>
+  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS nounmul (x nounadd UNARY_MINUS nounmul y) nounmul (x nounadd UNARY_MINUS nounmul y),UNARY_MINUS nounmul (x nounadd UNARY_MINUS nounmul y) nounpow 2].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8862,7 +9213,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [x noun* (UNARY_MINUS noun* 1 noun+ UNARY_MINUS noun* x) noun* (x noun+ UNARY_MINUS noun* 1),x noun* (1 noun+ UNARY_MINUS noun* x) noun* (1 noun+ x)].</td>
+  <td class="cell c9">ATEqualComAssRules: [x nounmul (UNARY_MINUS nounmul 1 nounadd UNARY_MINUS nounmul x) nounmul (x nounadd UNARY_MINUS nounmul 1),x nounmul (1 nounadd UNARY_MINUS nounmul x) nounmul (1 nounadd x)].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8875,7 +9226,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [x noun* (1 noun+ UNARY_MINUS noun* x) noun* (y noun+ UNARY_MINUS noun* 1),x noun* (1 noun+ UNARY_MINUS noun* y) noun* (x noun+ UNARY_MINUS noun* 1)].</td>
+  <td class="cell c9">ATEqualComAssRules: [x nounmul (1 nounadd UNARY_MINUS nounmul x) nounmul (y nounadd UNARY_MINUS nounmul 1),x nounmul (1 nounadd UNARY_MINUS nounmul y) nounmul (x nounadd UNARY_MINUS nounmul 1)].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8914,7 +9265,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS noun* a noun* UNARY_RECIP UNARY_MINUS noun* x,UNARY_MINUS noun* UNARY_MINUS noun* a noun* UNARY_RECIP x].</td>
+  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS nounmul a nounmul UNARY_RECIP UNARY_MINUS nounmul x,UNARY_MINUS nounmul UNARY_MINUS nounmul a nounmul UNARY_RECIP x].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -8940,7 +9291,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS noun* UNARY_MINUS noun* a noun* UNARY_RECIP x,a noun* UNARY_RECIP x].</td>
+  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS nounmul UNARY_MINUS nounmul a nounmul UNARY_RECIP x,a nounmul UNARY_RECIP x].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9031,7 +9382,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS noun* 2 noun* UNARY_RECIP (1 noun+ UNARY_MINUS noun* x),2 noun* UNARY_RECIP (x noun+ UNARY_MINUS noun* 1)].</td>
+  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS nounmul 2 nounmul UNARY_RECIP (1 nounadd UNARY_MINUS nounmul x),2 nounmul UNARY_RECIP (x nounadd UNARY_MINUS nounmul 1)].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9044,7 +9395,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [3 noun* (UNARY_RECIP 2) noun* UNARY_RECIP x,3 noun* UNARY_RECIP 2 noun* x].</td>
+  <td class="cell c9">ATEqualComAssRules: [3 nounmul (UNARY_RECIP 2) nounmul UNARY_RECIP x,3 nounmul UNARY_RECIP 2 nounmul x].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9070,7 +9421,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [3 noun* 5 noun* UNARY_RECIP 2 noun* x,15 noun* UNARY_RECIP 2 noun* x].</td>
+  <td class="cell c9">ATEqualComAssRules: [3 nounmul 5 nounmul UNARY_RECIP 2 nounmul x,15 nounmul UNARY_RECIP 2 nounmul x].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9148,7 +9499,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS noun* UNARY_MINUS noun* 21 noun* x noun* x,21 noun* x noun* x].</td>
+  <td class="cell c9">ATEqualComAssRules: [UNARY_MINUS nounmul UNARY_MINUS nounmul 21 nounmul x nounmul x,21 nounmul x nounmul x].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9187,7 +9538,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [a noun* (UNARY_RECIP b) noun* UNARY_RECIP c,a noun* UNARY_RECIP b noun* c].</td>
+  <td class="cell c9">ATEqualComAssRules: [a nounmul (UNARY_RECIP b) nounmul UNARY_RECIP c,a nounmul UNARY_RECIP b nounmul c].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9239,7 +9590,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [a noun* UNARY_RECIP b noun* UNARY_RECIP c,a noun* c noun* UNARY_RECIP b].</td>
+  <td class="cell c9">ATEqualComAssRules: [a nounmul UNARY_RECIP b nounmul UNARY_RECIP c,a nounmul c nounmul UNARY_RECIP b].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9252,7 +9603,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [a noun* UNARY_RECIP b noun* UNARY_RECIP c,a noun* c noun* UNARY_RECIP b].</td>
+  <td class="cell c9">ATEqualComAssRules: [a nounmul UNARY_RECIP b nounmul UNARY_RECIP c,a nounmul c nounmul UNARY_RECIP b].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9317,7 +9668,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [A noun* a noun* c noun* (UNARY_RECIP B noun* b) noun* UNARY_RECIP d,A noun* a noun* c noun* UNARY_RECIP B noun* b noun* d].</td>
+  <td class="cell c9">ATEqualComAssRules: [A nounmul a nounmul c nounmul (UNARY_RECIP B nounmul b) nounmul UNARY_RECIP d,A nounmul a nounmul c nounmul UNARY_RECIP B nounmul b nounmul d].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9343,7 +9694,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATEqualComAssRules: [A noun* C noun* (UNARY_RECIP B) noun* UNARY_RECIP D,A noun* C noun* UNARY_RECIP B noun* D].</td>
+  <td class="cell c9">ATEqualComAssRules: [A nounmul C nounmul (UNARY_RECIP B) nounmul UNARY_RECIP D,A nounmul C nounmul UNARY_RECIP B nounmul D].</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -9365,6 +9716,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c2">18</td>
   <td class="cell c3">2*3^2</td>
   <td class="cell c4">[intFac]</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">0+%i*(-(1/27))</td>
+  <td class="cell c3">-(%i/27)</td>
+  <td class="cell c4">[[zeroAdd,zeroMul,oneMul,onePow,idPow,zeroPow,zPow,oneDiv],[negNeg,negDiv,negOrd],[recipMul,divDiv,divCancel],[intAdd,intMul,intPow]]</td>
   <td class="cell c5"></td>
   <td class="cell c6">1</td>
   <td class="cell c7">1</td>
@@ -11383,7 +11747,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"><div class="text_to_html">Your answer is factored, well done. Note that your answer is not algebraically equivalent to the correct answer. You must have done something wrong.</div></td>
-  <td class="cell c9">ATFacForm_isfactored. ATFacForm_default_true. ATFacForm_notalgequiv.</td>
+  <td class="cell c9">ATFacForm_isfactored. ATFacForm_notalgequiv.</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -11447,7 +11811,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
-  <td class="cell c8"><div class="text_to_html">Your answer is not factored. This term is expected to be a polynomial, but is not.</div></td>
+  <td class="cell c8"><div class="text_to_html">Your answer is not factored.</div></td>
   <td class="cell c9">ATFacForm_notfactored.</td>
   <td class="cell c10"></td>
 </tr>
@@ -11551,7 +11915,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5"></td>
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(z\cdot x+z\)</span></span></span>. This term is expected to be a polynomial, but is not. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(2\cdot x+6\)</span></span></span>. You need to take out a common factor.</div></span></td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer is not factored. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(z\cdot x+z\)</span></span></span>. You could still do some more work on the term <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(2\cdot x+6\)</span></span></span>. You need to take out a common factor.</div></span></td>
   <td class="cell c9">ATFacForm_notfactored.</td>
   <td class="cell c10"></td>
 </tr>
@@ -11636,7 +12000,20 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">FacForm</td>
   <td class="cell c1">Pass</td>
-  <td class="cell c2">-(6*k*(4*b-k-1))</td>
+  <td class="cell c2">-6*k*(4*b-k-1)</td>
+  <td class="cell c3">6*k*(1+k-4*b)</td>
+  <td class="cell c4">k</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATFacForm_default_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-2*3*k*(4*b-k-1)</td>
   <td class="cell c3">6*k*(1+k-4*b)</td>
   <td class="cell c4">k</td>
   <td class="cell c5"></td>
@@ -11644,6 +12021,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c7">1</td>
   <td class="cell c8"></td>
   <td class="cell c9">ATFacForm_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-(6*k*(4*b-k-1))</td>
+  <td class="cell c3">6*k*(1+k-4*b)</td>
+  <td class="cell c4">k</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATFacForm_default_true.</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -12055,6 +12445,32 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c2">(2*a)*(a*b-1)</td>
   <td class="cell c3">2*a*(a*b-1)</td>
   <td class="cell c4">a</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATFacForm_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">3*x*(7*y-3)*(7*y+3)</td>
+  <td class="cell c3">3*x*(7*y-3)*(7*y+3)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATFacForm_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">3*x*(7*y-3)*(7*y+3)</td>
+  <td class="cell c3">3*x*(7*y-3)*(7*y+3)</td>
+  <td class="cell c4">y</td>
   <td class="cell c5"></td>
   <td class="cell c6">1</td>
   <td class="cell c7">1</td>
@@ -13754,6 +14170,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
   <td class="cell c1">Pass</td>
+  <td class="cell c2">2/(x+1)-1/(x+2)</td>
+  <td class="cell c3">s/((s+1)*(s+2))</td>
+  <td class="cell c4">s</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><div class="text_to_html">The variables in your answer are different to those of the question, please check them.</div></td>
+  <td class="cell c9">ATPartFrac_diff_variables.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
   <td class="cell c2">1/n</td>
   <td class="cell c3">1/n</td>
   <td class="cell c4">n</td>
@@ -13764,8 +14193,34 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c9">ATPartFrac_true.</td>
   <td class="cell c10"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1+n+n^2+1/(n-1)</td>
+  <td class="cell c3">n^3/(n-1)</td>
+  <td class="cell c4">n</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1+n+n^2-1/(1-n)</td>
+  <td class="cell c3">n^3/(n-1)</td>
+  <td class="cell c4">n</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
 <tr class="notes">
-  <td class="cell c0">A simple cases, linear factors in denominator</td>
+  <td class="cell c0">Distinct linear factors in denominator</td>
   <td class="cell c1"></td>
   <td class="cell c2"></td>
   <td class="cell c3"></td>
@@ -13843,6 +14298,240 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c10"></td>
 </tr>
 <tr class="notes">
+  <td class="cell c0">Addition and Subtraction errors</td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1/(x+1) + 1/(x+2)</td>
+  <td class="cell c3">2/(x+1) + 1/(x+2)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x+3}{\left(x+1\right)\cdot \left(x+2\right)}\)</span></span></span></div></span></td>
+  <td class="cell c9">ATPartFrac_ret_expression.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1/(x+1) + 1/(x+2)</td>
+  <td class="cell c3">1/(x+1) + 2/(x+2)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x+3}{\left(x+1\right)\cdot \left(x+2\right)}\)</span></span></span></div></span></td>
+  <td class="cell c9">ATPartFrac_ret_expression.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="notes">
+  <td class="cell c0">Denominator Error</td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">1/(x+1) + 1/(x+2)</td>
+  <td class="cell c3">1/(x+3) + 1/(x+2)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x+3}{\left(x+1\right)\cdot \left(x+2\right)}\)</span></span></span></div></span></td>
+  <td class="cell c9">ATPartFrac_ret_expression.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="notes">
+  <td class="cell c0">Repeated linear factors in denominator</td>
+  <td class="cell c1"></td>
+  <td class="cell c2"></td>
+  <td class="cell c3"></td>
+  <td class="cell c4"></td>
+  <td class="cell c5"></td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+  <td class="cell c9"></td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(9*y-8)/(y-4)^2</td>
+  <td class="cell c3">(9*y-8)/(y-4)^2</td>
+  <td class="cell c4">y</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">9/(y-4)+28/(y-4)^2</td>
+  <td class="cell c3">(9*y-8)/(y-4)^2</td>
+  <td class="cell c4">y</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(-5/(x+3))+(16/(x+3)^2)-(2/(x+2))+4</td>
+  <td class="cell c3">(-5/(x+3))+(16/(x+3)^2)-(2/(x+2))+4</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(3*x^2-5)/((x-4)^2*x)</td>
+  <td class="cell c3">(3*x^2-5)/((x-4)^2*x)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-4/(16*x)+53/(16*(x-4))+43/(4*(x-4)^2)</td>
+  <td class="cell c3">(3*x^2-5)/((x-4)^2*x)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{49\cdot x^2-8\cdot x-64}{16\cdot {\left(x-4\right)}^2\cdot x}\)</span></span></span></div></span></td>
+  <td class="cell c9">ATPartFrac_ret_expression.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-5/(16*x)+53/(16*(x-4))+43/(4*(x-4)^2)</td>
+  <td class="cell c3">(3*x^2-5)/((x-4)^2*x)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(5*x+6)/((x+1)*(x+5)^2)</td>
+  <td class="cell c3">(5*x+6)/((x+1)*(x+5)^2)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-1/(16*(x+5))+19/(4*(x+5)^2)+1/(16*(x+1))</td>
+  <td class="cell c3">(5*x+6)/((x+1)*(x+5)^2)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">5/(x*(x+3)*(5*x-2))</td>
+  <td class="cell c3">5/(x*(x+3)*(5*x-2))</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">125/(34*(5*x-2))+5/(51*(x+3))-5/(6*x)</td>
+  <td class="cell c3">5/(x*(x+3)*(5*x-2))</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-4/(16*x)+1/(2*(x-1))-1/(8*(x-1)^2)</td>
+  <td class="cell c3">(3*x^2-5)/((4*x-4)^2*x)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">0</td>
+  <td class="cell c7">0</td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x^2-x-2}{8\cdot {\left(x-1\right)}^2\cdot x}\)</span></span></span></div></span></td>
+  <td class="cell c9">ATPartFrac_ret_expression.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">-5/(16*x)+1/(2*(x-1))-1/(8*(x-1)^2)</td>
+  <td class="cell c3">(3*x^2-5)/((4*x-4)^2*x)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
+<tr class="notes">
   <td class="cell c0">Irreducible quadratic in denominator</td>
   <td class="cell c1"></td>
   <td class="cell c2"></td>
@@ -13894,6 +14583,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c9">ATPartFrac_ret_expression.</td>
   <td class="cell c10"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">PartFrac</td>
+  <td class="cell c1">Pass</td>
+  <td class="cell c2">(2*x+1)/(x^2+1)-2/(x-1)</td>
+  <td class="cell c3">(2*x+1)/(x^2+1)-2/(x-1)</td>
+  <td class="cell c4">x</td>
+  <td class="cell c5"></td>
+  <td class="cell c6">1</td>
+  <td class="cell c7">1</td>
+  <td class="cell c8"></td>
+  <td class="cell c9">ATPartFrac_true.</td>
+  <td class="cell c10"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0">2 answers to the same question</td>
   <td class="cell c1"></td>
@@ -13934,7 +14636,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c10"></td>
 </tr>
 <tr class="notes">
-  <td class="cell c0">Algebraically equivalent, but numerators of same order than denominator, ie not in partial fraction form.</td>
+  <td class="cell c0">Algebraically equivalent, but numerators of same order than denominator, i.e. not in partial fraction form.</td>
   <td class="cell c1"></td>
   <td class="cell c2"></td>
   <td class="cell c3"></td>
@@ -13956,7 +14658,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_false_degree.</td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -13969,7 +14671,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_false_degree.</td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="pass">
@@ -13982,7 +14684,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">0</td>
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_false_degree.</td>
+  <td class="cell c9">ATPartFrac_false_factor.</td>
   <td class="cell c10"></td>
 </tr>
 <tr class="notes">
@@ -14103,32 +14805,6 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c10"></td>
 </tr>
 <tr class="notes">
-  <td class="cell c0">Different Variables</td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-  <td class="cell c7"></td>
-  <td class="cell c8"></td>
-  <td class="cell c9"></td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">2/(x+1)-1/(x+2)</td>
-  <td class="cell c3">s/((s+1)*(s+2))</td>
-  <td class="cell c4">s</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"><div class="text_to_html">The variables in your answer are different to those of the question, please check them.</div></td>
-  <td class="cell c9">ATPartFrac_diff_variables.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="notes">
   <td class="cell c0">Too many parts in the partial fraction</td>
   <td class="cell c1"></td>
   <td class="cell c2"></td>
@@ -14180,201 +14856,6 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c9">ATPartFrac_denom_ret.</td>
   <td class="cell c10"></td>
 </tr>
-<tr class="notes">
-  <td class="cell c0">Addition and Subtraction errors</td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-  <td class="cell c7"></td>
-  <td class="cell c8"></td>
-  <td class="cell c9"></td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">1/(x+1) + 1/(x+2)</td>
-  <td class="cell c3">2/(x+1) + 1/(x+2)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x+3}{\left(x+1\right)\cdot \left(x+2\right)}\)</span></span></span></div></span></td>
-  <td class="cell c9">ATPartFrac_ret_expression.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">1/(x+1) + 1/(x+2)</td>
-  <td class="cell c3">1/(x+1) + 2/(x+2)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x+3}{\left(x+1\right)\cdot \left(x+2\right)}\)</span></span></span></div></span></td>
-  <td class="cell c9">ATPartFrac_ret_expression.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="notes">
-  <td class="cell c0">Denominator Error</td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-  <td class="cell c7"></td>
-  <td class="cell c8"></td>
-  <td class="cell c9"></td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">1/(x+1) + 1/(x+2)</td>
-  <td class="cell c3">1/(x+3) + 1/(x+2)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x+3}{\left(x+1\right)\cdot \left(x+2\right)}\)</span></span></span></div></span></td>
-  <td class="cell c9">ATPartFrac_ret_expression.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">(2*x+1)/(x^2+1)-2/(x-1)</td>
-  <td class="cell c3">(2*x+1)/(x^2+1)-2/(x-1)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">1</td>
-  <td class="cell c7">1</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_true.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">(-5/(x+3))+(16/(x+3)^2)-(2/(x+2))+4</td>
-  <td class="cell c3">(-5/(x+3))+(16/(x+3)^2)-(2/(x+2))+4</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">1</td>
-  <td class="cell c7">1</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_true.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="notes">
-  <td class="cell c0">Cubic in the denominator</td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-  <td class="cell c7"></td>
-  <td class="cell c8"></td>
-  <td class="cell c9"></td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">(3*x^2-5)/((x-4)^2*x)</td>
-  <td class="cell c3">(3*x^2-5)/((x-4)^2*x)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_false_factor.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">-4/(16*x)+53/(16*(x-4))+43/(4*(x-4)^2)</td>
-  <td class="cell c3">(3*x^2-5)/((x-4)^2*x)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{49\cdot x^2-8\cdot x-64}{16\cdot {\left(x-4\right)}^2\cdot x}\)</span></span></span></div></span></td>
-  <td class="cell c9">ATPartFrac_ret_expression.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">-5/(16*x)+53/(16*(x-4))+43/(4*(x-4)^2)</td>
-  <td class="cell c3">(3*x^2-5)/((x-4)^2*x)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">1</td>
-  <td class="cell c7">1</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_true.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">(5*x+6)/((x+1)*(x+5)^2)</td>
-  <td class="cell c3">(5*x+6)/((x+1)*(x+5)^2)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_false_factor.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">-1/(16*(x+5))+19/(4*(x+5)^2)+1/(16*(x+1))</td>
-  <td class="cell c3">(5*x+6)/((x+1)*(x+5)^2)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">1</td>
-  <td class="cell c7">1</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_true.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">5/(x*(x+3)*(5*x-2))</td>
-  <td class="cell c3">5/(x*(x+3)*(5*x-2))</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_false_factor.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">125/(34*(5*x-2))+5/(51*(x+3))-5/(6*x)</td>
-  <td class="cell c3">5/(x*(x+3)*(5*x-2))</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">1</td>
-  <td class="cell c7">1</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_true.</td>
-  <td class="cell c10"></td>
-</tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
   <td class="cell c1">Pass</td>
@@ -14386,32 +14867,6 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c7">0</td>
   <td class="cell c8"></td>
   <td class="cell c9">ATPartFrac_false_factor.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">-4/(16*x)+1/(2*(x-1))-1/(8*(x-1)^2)</td>
-  <td class="cell c3">(3*x^2-5)/((4*x-4)^2*x)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">0</td>
-  <td class="cell c7">0</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html">Your answer as a single fraction is <span class="filter_mathjaxloader_equation"><span class="nolink"><span class="nolink">\(\frac{2\cdot x^2-x-2}{8\cdot {\left(x-1\right)}^2\cdot x}\)</span></span></span></div></span></td>
-  <td class="cell c9">ATPartFrac_ret_expression.</td>
-  <td class="cell c10"></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">PartFrac</td>
-  <td class="cell c1">Pass</td>
-  <td class="cell c2">-5/(16*x)+1/(2*(x-1))-1/(8*(x-1)^2)</td>
-  <td class="cell c3">(3*x^2-5)/((4*x-4)^2*x)</td>
-  <td class="cell c4">x</td>
-  <td class="cell c5"></td>
-  <td class="cell c6">1</td>
-  <td class="cell c7">1</td>
-  <td class="cell c8"></td>
-  <td class="cell c9">ATPartFrac_true.</td>
   <td class="cell c10"></td>
 </tr>
 <tr class=""><td colspan="11"><div class="tabledivider"></div></td>
@@ -25396,7 +25851,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5"></td>
   <td class="cell c6">1</td>
   <td class="cell c7">1</td>
-  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html"><span class="nolink">\[\begin{array}{lll} &amp;x^2-10\cdot x+7=0&amp; \cr \color{green}{\Leftrightarrow}&amp;{\left(x-5\right)}^2-18=0&amp; \cr \color{green}{\Leftrightarrow}&amp;{\left(x-5\right)}^2={\it sqrt}^2\left(18\right)&amp; \cr \color{green}{\Leftrightarrow}&amp;{\left(x-5\right)}^2-{\it sqrt}^2\left(18\right)=0&amp; \cr \color{green}{\Leftrightarrow}&amp;\left(x-5-\sqrt{18}\right)\cdot \left(x-5+\sqrt{18}\right)=0&amp; \cr \color{green}{\Leftrightarrow}&amp;x=5-\sqrt{18}\,{\mbox{ or }}\, x=5+\sqrt{18}&amp; \cr \end{array}\]</span></div></span></td>
+  <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html"><span class="nolink">\[\begin{array}{lll} &amp;x^2-10\cdot x+7=0&amp; \cr \color{green}{\Leftrightarrow}&amp;{\left(x-5\right)}^2-18=0&amp; \cr \color{green}{\Leftrightarrow}&amp;{\left(x-5\right)}^2={\sqrt{18}}^2&amp; \cr \color{green}{\Leftrightarrow}&amp;{\left(x-5\right)}^2-{\sqrt{18}}^2=0&amp; \cr \color{green}{\Leftrightarrow}&amp;\left(x-5-\sqrt{18}\right)\cdot \left(x-5+\sqrt{18}\right)=0&amp; \cr \color{green}{\Leftrightarrow}&amp;x=5-\sqrt{18}\,{\mbox{ or }}\, x=5+\sqrt{18}&amp; \cr \end{array}\]</span></div></span></td>
   <td class="cell c9">[EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR]</td>
   <td class="cell c10"></td>
 </tr>
@@ -26517,4 +26972,4 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c8"><span class="filter_mathjaxloader_equation"><div class="text_to_html"><span class="nolink">\[\begin{array}{lll} &amp;\frac{\mathrm{d} y}{\mathrm{d} x}-\frac{2}{x}\cdot y=x^3\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{green}{\Leftrightarrow}&amp;\frac{1}{x^2}\cdot \left(\frac{\mathrm{d} y}{\mathrm{d} x}\right)-\frac{2}{x^3}\cdot y=x\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{green}{\Leftrightarrow}&amp;\left(\frac{\mathrm{d}}{\mathrm{d} x} \frac{y}{x^2}\right)=x\cdot \sin \left( 3\cdot x \right)&amp; \cr \color{blue}{\int\ldots\mathrm{d}x}&amp;\frac{y}{x^2}=\int {x\cdot \sin \left( 3\cdot x \right)}{\;\mathrm{d}x}&amp; \cr \color{blue}{\int\ldots\mathrm{d}x}&amp;\frac{y}{x^2}=\frac{\sin \left( 3\cdot x \right)-3\cdot x\cdot \cos \left( 3\cdot x \right)}{9}+c&amp; \cr \end{array}\]</span></div></span></td>
   <td class="cell c9">[EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,INTCHAR(x),INTCHAR(x)]</td>
   <td class="cell c10"></td>
-</tr></tbody></table></div><br/>Your site is running STACK version 2021071600 ().
+</tr></tbody></table></div><br/>Your site is running STACK version 2021120900 ().

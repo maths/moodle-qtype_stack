@@ -118,7 +118,7 @@ comMul(2*3.0*%pi);
 2*3.0*%pi$
 
 
-intAddp(3 noun+ UNARY_MINUS noun* 2);
+intAddp(3 nounadd UNARY_MINUS nounmul 2);
 true$
 
 intAdd(1+2);
@@ -130,8 +130,8 @@ intMul(2*3);
 6$
 intMul(2*x*3);
 6*x$
-intMul(UNARY_MINUS noun* 2 noun* UNARY_MINUS noun* 6);
-12 noun* UNARY_MINUS noun* UNARY_MINUS$
+intMul(UNARY_MINUS nounmul 2 nounmul UNARY_MINUS nounmul 6);
+12 nounmul UNARY_MINUS nounmul UNARY_MINUS$
 
 intPow(2^3);
 8$
@@ -143,66 +143,66 @@ intPow(0^0);
 intFac(7);
 7$
 intFac(18);
-2 noun\* 3 noun\^ 2$
+2 nounmul 3 nounpow 2$
 
 equals_commute_prepare((a/b)/c);
-a noun* (UNARY_RECIP(b)) noun* (UNARY_RECIP(c))$
+a nounmul (UNARY_RECIP(b)) nounmul (UNARY_RECIP(c))$
 equals_commute_prepare(a/(b/c));
-a noun* UNARY_RECIP(b noun* UNARY_RECIP(c))$
+a nounmul UNARY_RECIP(b nounmul UNARY_RECIP(c))$
 
-divDivp(a noun* UNARY_RECIP(b noun* UNARY_RECIP(c)))$
+divDivp(a nounmul UNARY_RECIP(b nounmul UNARY_RECIP(c)))$
 true$
 divDivp(UNARY_RECIP(UNARY_RECIP(b)));
 true$
-divDivp(a noun* UNARY_RECIP(UNARY_RECIP(b)));
+divDivp(a nounmul UNARY_RECIP(UNARY_RECIP(b)));
 true$
-divDivp(a noun* (UNARY_RECIP(b)) noun* (UNARY_RECIP(c)));
+divDivp(a nounmul (UNARY_RECIP(b)) nounmul (UNARY_RECIP(c)));
 false;
 divDivp(UNARY_RECIP(b));
 false$
-divDivp(UNARY_RECIP(b noun* c));
+divDivp(UNARY_RECIP(b nounmul c));
 false$
 
 divDiv(UNARY_RECIP(UNARY_RECIP(b)));
 b$
-divDiv(a noun* UNARY_RECIP(UNARY_RECIP(b)));
-a noun* b$
-divDiv(a noun* UNARY_RECIP(b noun* UNARY_RECIP(c)));
-a noun* c noun* UNARY_RECIP(b)$
-divDiv(a noun* UNARY_RECIP(b noun* B noun* UNARY_RECIP(c)));
-a noun* c noun* UNARY_RECIP(b noun* B)$
-divDiv(A noun* a noun* (UNARY_RECIP(b noun* UNARY_RECIP(c))) noun* (UNARY_RECIP(B noun* UNARY_RECIP(C))));
-A noun* a noun* (UNARY_RECIP(B noun* UNARY_RECIP(C))) noun* c noun* UNARY_RECIP(b)$
+divDiv(a nounmul UNARY_RECIP(UNARY_RECIP(b)));
+a nounmul b$
+divDiv(a nounmul UNARY_RECIP(b nounmul UNARY_RECIP(c)));
+a nounmul c nounmul UNARY_RECIP(b)$
+divDiv(a nounmul UNARY_RECIP(b nounmul B nounmul UNARY_RECIP(c)));
+a nounmul c nounmul UNARY_RECIP(b nounmul B)$
+divDiv(A nounmul a nounmul (UNARY_RECIP(b nounmul UNARY_RECIP(c))) nounmul (UNARY_RECIP(B nounmul UNARY_RECIP(C))));
+A nounmul a nounmul (UNARY_RECIP(B nounmul UNARY_RECIP(C))) nounmul c nounmul UNARY_RECIP(b)$
 
-divDiv(a noun* (UNARY_RECIP(b)) noun* (UNARY_RECIP(c)));
-a noun* (UNARY_RECIP(b)) noun* (UNARY_RECIP(c))$
+divDiv(a nounmul (UNARY_RECIP(b)) nounmul (UNARY_RECIP(c)));
+a nounmul (UNARY_RECIP(b)) nounmul (UNARY_RECIP(c))$
 divDiv(UNARY_RECIP(b));
 UNARY_RECIP(b)$
-divDiv(UNARY_RECIP(b noun* c));
-UNARY_RECIP(b noun* c)$
+divDiv(UNARY_RECIP(b nounmul c));
+UNARY_RECIP(b nounmul c)$
 
-divCancel(a noun* b noun* UNARY_RECIP(a noun* c));
-b noun* UNARY_RECIP(c)$
-divCancel(a noun* UNARY_RECIP(a noun* c));
+divCancel(a nounmul b nounmul UNARY_RECIP(a nounmul c));
+b nounmul UNARY_RECIP(c)$
+divCancel(a nounmul UNARY_RECIP(a nounmul c));
 UNARY_RECIP(c)$
-divCancel((a noun+ b) noun* UNARY_RECIP(a noun+ c));
-(a noun+ b) noun* UNARY_RECIP(a noun+ c)$
-divCancel(A noun* (a noun+ b) noun* UNARY_RECIP(a noun+ b));
+divCancel((a nounadd b) nounmul UNARY_RECIP(a nounadd c));
+(a nounadd b) nounmul UNARY_RECIP(a nounadd c)$
+divCancel(A nounmul (a nounadd b) nounmul UNARY_RECIP(a nounadd b));
 A$
-divCancel(UNARY_MINUS noun* a noun* UNARY_RECIP(UNARY_MINUS noun* b));
-a noun* UNARY_RECIP(b)$
+divCancel(UNARY_MINUS nounmul a nounmul UNARY_RECIP(UNARY_MINUS nounmul b));
+a nounmul UNARY_RECIP(b)$
 
-negDist(UNARY_MINUS noun* x noun* (UNARY_MINUS noun* x noun+ 1));
-(UNARY_MINUS noun* (UNARY_MINUS noun* x) noun+ UNARY_MINUS noun* 1) noun* x$
+negDist(UNARY_MINUS nounmul x nounmul (UNARY_MINUS nounmul x nounadd 1));
+(UNARY_MINUS nounmul (UNARY_MINUS nounmul x) nounadd UNARY_MINUS nounmul 1) nounmul x$
 
-negOrd(a+UNARY_MINUS noun* b);
-a + UNARY_MINUS noun\* b$
+negOrd(a+UNARY_MINUS nounmul b);
+a + UNARY_MINUS nounmul b$
 
-negOrd(b+UNARY_MINUS noun* a);
-UNARY_MINUS noun* (UNARY_MINUS noun* b+a)$
+negOrd(b+UNARY_MINUS nounmul a);
+UNARY_MINUS nounmul (UNARY_MINUS nounmul b+a)$
 
-negOrd(b+UNARY_MINUS noun* 3 noun* a);
-b+UNARY_MINUS noun\* 3 noun\* a$
+negOrd(b+UNARY_MINUS nounmul 3 nounmul a);
+b+UNARY_MINUS nounmul 3 nounmul a$
 
-negOrd(b+UNARY_MINUS noun* a+c);
-UNARY_MINUS noun\* (UNARY_MINUS noun\* b+a+UNARY_MINUS noun\* c)$
+negOrd(b+UNARY_MINUS nounmul a+c);
+UNARY_MINUS nounmul (UNARY_MINUS nounmul b+a+UNARY_MINUS nounmul c)$

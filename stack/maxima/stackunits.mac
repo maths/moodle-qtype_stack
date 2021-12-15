@@ -206,8 +206,8 @@ stackunits_make(ex) := block([oldsimp, exn, exu, exl],
   if is_simp(listofunits(ex)=[]) then
     return(stackunits(ex, NULLUNITS)),
   /* Edge case like s^(-1). */
-  if is_simp(op(exn)="noun^") then
-    exn:[exn] elseif not(is_simp(op(exn)="noun*")) then
+  if is_simp(op(exn)="nounpow") then
+    exn:[exn] elseif not(is_simp(op(exn)="nounmul")) then
     return(stackunits(ex, NULLUNITS)),
   exu:sublist(args(exn), lambda([ex2], not(stackunits_make_p(ex2)))),
   exn:sublist(args(exn), lambda([ex2], stackunits_make_p(ex2))),
@@ -232,8 +232,8 @@ stackunits_make(ex) := block([oldsimp, exn, exu, exl],
       exn:rest(exn),
       exn[1]:ev(-1*exn[1],simp)
     ),
-  if length(exn)=1 then exn:first(exn) else exn:apply("noun*", exn),
-  if length(exu)=1 then exu:first(exu) else exu:apply("noun*", exu),
+  if length(exn)=1 then exn:first(exn) else exn:apply("nounmul", exn),
+  if length(exu)=1 then exu:first(exu) else exu:apply("nounmul", exu),
   if (debug) then (print("stackunits_make: (3) reformulated units as "), print(exu)),
   verb_arith(stackunits(exn, exu))
 )$
@@ -265,11 +265,11 @@ stackunits_make_p(ex) := block(
 
 /* Does something look like a rational number? */
 stack_units_rational_number(ex) := block(
-  if length(ex)=1 and safe_op(first(ex))="noun^" and is(second(args(first(ex)))=-1) then return([1/first(args(first(ex)))]),
+  if length(ex)=1 and safe_op(first(ex))="nounpow" and is(second(args(first(ex)))=-1) then return([1/first(args(first(ex)))]),
   if not(length(ex)=2) then
     return(ex),
   if not(integerp(first(ex))) or atom(second(ex)) then return(ex),
-  if safe_op(second(ex))="noun^" and is(second(args(second(ex)))=-1) then return([first(ex)/first(args(second(ex)))]),
+  if safe_op(second(ex))="nounpow" and is(second(args(second(ex)))=-1) then return([first(ex)/first(args(second(ex)))]),
   ex
 )$
 

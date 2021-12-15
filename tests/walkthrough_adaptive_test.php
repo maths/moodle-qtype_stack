@@ -28,7 +28,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
-class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
+class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test0_validate_then_submit_right_first_time() {
 
@@ -2100,8 +2100,14 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->assert_content_with_maths_contains($expected, $this->currentoutput);
 
         $question = $this->quba->get_question($this->slot);
-        $expected = array('Some answer tests rely on the raw input from a student, ' .
-            'and so the "SAns" field of the node should be the name of a question input.  ' .
+        $expected = array('<i class="icon fa fa-exclamation-circle text-danger fa-fw " ' .
+            'title="Some answer tests rely on the raw input from a student, and so the "SAns" ' .
+            'field of the node should be the name of a question input.  Please check the following ' .
+            '(prt.node) which looks like a calculated value instead: prt1-1" ' .
+            'aria-label="Some answer tests rely on the raw input from a student, and so the "SAns" ' .
+            'field of the node should be the name of a question input.  Please check the following (prt.node) ' .
+            'which looks like a calculated value instead: prt1-1"></i>Some answer tests rely on the raw input from ' .
+            'a student, and so the "SAns" field of the node should be the name of a question input.  ' .
             'Please check the following (prt.node) which looks like a calculated value instead: prt1-1');
         $this->assertEquals($expected, $question->validate_warnings());
     }
@@ -2235,7 +2241,7 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
         $this->check_output_contains_prt_feedback('prt1');
         $this->check_output_contains_prt_feedback('prt2');
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assertRegExp('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
         $this->check_current_output(
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
@@ -3543,6 +3549,10 @@ class qtype_stack_walkthrough_adaptive_test extends qtype_stack_walkthrough_test
 
         $q = test_question_maker::make_question('stack', 'contextvars');
         $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        $generalfeedback = $q->get_generalfeedback_castext();
+        $expected = 'You should be able to type in \\({\diamond}\\) as <code>blob</code>.';
+        $this->assertEquals($expected, $generalfeedback->get_display_castext());
 
         // Check the initial state.
         $this->check_current_state(question_state::$todo);

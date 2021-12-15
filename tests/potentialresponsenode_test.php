@@ -29,7 +29,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 /**
  * @group qtype_stack
  */
-class stack_potentialresponse_node_test extends qtype_stack_testcase {
+class potentialresponsenode_test extends qtype_stack_testcase {
 
     public function test_constructor() {
         $sans = stack_ast_container::make_from_teacher_source('x^2+2*x+1');
@@ -101,7 +101,7 @@ class stack_potentialresponse_node_test extends qtype_stack_testcase {
         $this->assertEquals(false, $result->valid);
         $this->assertNotEquals('', $result->errors);
         $this->assertEquals(2, count($result->feedback));
-        $this->assertRegExp('~The answer test failed to execute correctly: ' .
+        $this->assertMatchesRegularExpression('~The answer test failed to execute correctly: ' .
                 'please alert your teacher. Division by (zero\.|0)~',
                 $result->feedback[0]->feedback);
         $this->assertEquals('Boo!', $result->feedback[1]->feedback);

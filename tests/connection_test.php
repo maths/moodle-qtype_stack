@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 /**
  * @group qtype_stack
  */
-class stack_cas_connection_base_test extends qtype_stack_testcase {
+class connection_test extends qtype_stack_testcase {
 
     public function test_compute_true() {
         $connection = stack_connection_helper::make();

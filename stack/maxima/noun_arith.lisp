@@ -4,28 +4,28 @@
 ;; \Maxima-5.9.0\share\maxima\5.9.0\share\utils\mactex-utilities.lisp
 ;; \Maxima-5.9.0\share\maxima\5.9.0\src\mactex.lisp
 
-(defprop $noun+ tex-mplus tex)
-(defprop $noun+ ("+") texsym)
-(defprop $noun+ 100. tex-lbp)
-(defprop $noun+ 100. tex-rbp)
+(defprop $nounadd tex-mplus tex)
+(defprop $nounadd ("+") texsym)
+(defprop $nounadd 100. tex-lbp)
+(defprop $nounadd 100. tex-rbp)
 
-(defprop $noun- tex-prefix tex)
-(defprop $noun- ("-") texsym)
-(defprop $noun- 100. tex-rbp)
-(defprop $noun- 100. tex-lbp)
+(defprop $nounsub tex-prefix tex)
+(defprop $nounsub ("-") texsym)
+(defprop $nounsub 100. tex-rbp)
+(defprop $nounsub 100. tex-lbp)
 
-(defprop $noun* tex-nary tex)
-(defprop $noun* "\\," texsym)
-(defprop $noun* 120. tex-lbp)
-(defprop $noun* 120. tex-rbp)
+(defprop $nounmul tex-nary tex)
+(defprop $nounmul "\\," texsym)
+(defprop $nounmul 120. tex-lbp)
+(defprop $nounmul 120. tex-rbp)
 
-(defprop $noun/ tex-mquotient tex)
-(defprop $noun/ 122. tex-lbp) ;;dunno about this
-(defprop $noun/ 123. tex-rbp)
+(defprop $noundiv tex-mquotient tex)
+(defprop $noundiv 122. tex-lbp) ;;dunno about this
+(defprop $noundiv 123. tex-rbp)
 
-(defprop $noun^ tex-mexpt tex)
-(defprop $noun^ 140. tex-lbp)
-(defprop $noun^ 139. tex-rbp)
+(defprop $nounpow tex-mexpt tex)
+(defprop $nounpow 140. tex-lbp)
+(defprop $nounpow 139. tex-rbp)
 
 (defprop $nounand tex-nary tex)
 ;;(defprop $nounand ("\\land ") texsym)

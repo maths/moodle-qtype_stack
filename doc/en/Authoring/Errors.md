@@ -1,11 +1,18 @@
-# Validation errors and what you cannot do
+# Authoring validation errors
 
-This document aims to explain certain errors that may appear during 
-validation/saving of a question. Some of these errors might be new and appear
-during upgrades, and break, previously functional materials.
+This document aims to explain certain errors that may appear during authoring, specifically during
+validation/saving of a question.  We are constantly improving the error trapping for question 
+authors and so some of these errors might be new and appear during upgrades, and break, previously functional materials.
 
-In some cases that apply to actions one just cannot do and in others one
-can do things differently to lift the suspicions of the validation system.
+In some cases we have good reasons for now preventing actions which may have been permitted in the past.
+For some situations one can do things differently to lift the suspicions of the validation system.
+
+Summary of advice.
+
+1. Do not attempt to redefine function names or constants which are already defined as part of Maxima.
+2. Avoid using the same name for functions and variables.
+3. Avoid complex substitutions.
+4. Do not attempt to redefine the variables which are the names of inputs.
 
 ## Forbidden functions and variables
 
@@ -25,18 +32,60 @@ would have significant effects around the system, this is why (re)defining
 functions with some specific names is forbidden. You are free to use other
 names for your functions. Note that not all internal functions or functions
 they use are blocked by this, they might get blocked in the future or some
-might be left as somethign that can be redefined to tune the logic.
+might be left as something that can be redefined to tune the logic.
+
+We suggest you do not attempt to redefine function names or constants which are already defined as part of Maxima.
 
 ## Substitutions unclear or otherwise
 
 Should you do substitutions of values in your code and the target of
 the substitution is an identifier that is later used as a function-name,
-things may become difficult. To evade this avoid using the same name for
-functions and variables. Also if you use complex means to construct 
-the substitutions themselves the system may need to assume that all
+things may become difficult. Avoid using the same name for functions and variables. 
+Also if you use complex means to construct the substitutions themselves the system may need to assume that all
 possible identifiers in the expression that the substitutions are applied
 to are being targetted by unknown values, this can be avoided by avoiding
 complex construction of the substs itself.
+
+### Example 1
+
+```
+v:1; /* particular case of rand([1,2]) */
+trig:[sin,cos][v];
+sub:[(sin(x))^2=1-(cos(x))^2,(cos(x))^2=1-(sin(x))^2][v];
+f:(trig(x))^3;
+df:diff(f,x);
+df_simp:subst(sub,df);
+```
+This produces the error message
+> The function name "sin" is potentially redefined in unclear substitutions. The function name "diff" is potentially redefined in unclear substitutions.
+
+The issue is that `sub` is a complicated expression here, so the validation system is not able to check that this code is not doing something suspicious.
+
+It may be worth trying to use `ev` rather than `subst` - for this example, the question works again if we change the final line to the following:
+
+```
+df_simp:ev(df, sub);
+```
+
+### Example 2
+
+```
+solution : rhs(ode2(eqn,y,x));
+vars : delete(x,listofvars(solution));
+
+TAns11 : subst([vars[1]=A,vars[2]=B],solution);
+TAns12 : subst([vars[2]=A,vars[1]=B],solution);
+```
+
+Here the error messsages will claim that pretty much everything that goes into `solution` is potentially redefined in unclear substitutions. What the code above does is that it solves a differential equation with CAS and then asks the CAS for the names of the constants being used. Depending on the shape of the equation there might be more than one but in this case there are always exactly two of them. `%k1` and `%k2`, if there were only one it would probably get called `%c` so there is a reason for checking what they are.
+
+Why the example asks for those constants names is because the author has chosen to force the student to use `A` and `B` as the constants and constructs different correct answers for the two ways of selecting the order of the constants. The problem arises from the substitution of the constants which now finds the names of them from a list (`vars`) that is not directly visible to the validation system. There are two ways forward from this. Firstly, the question could use the SubstEquiv test that allows any names for those constants to be used and then just confirms that the correct ones were used if that matters, however then the teachers answer might look silly with those CAS-style constants so you would still need to replace them. Secondly, one can hard-code the names of the constants, in this case they are always the same so that should not be a problem:
+```
+solution : rhs(ode2(eqn,y,x));
+
+TAns11 : subst([%k1=A,%k2=B],solution);
+TAns12 : subst([%k2=A,%k1=B],solution);
+```
 
 ## Use of the students answer
 

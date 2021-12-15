@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 /**
  * @group qtype_stack
  */
-class stack_cas_keyval_test extends qtype_stack_testcase {
+class caskeyval_test extends qtype_stack_testcase {
 
     public function get_valid($s, $val, $session) {
         $kv = new stack_cas_keyval($s, null, 123);

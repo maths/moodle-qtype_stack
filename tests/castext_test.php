@@ -569,7 +569,7 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        $this->assertEquals(183, strpos($at1->get_rendered(), "width='200'"));
+        $this->assertEquals(176, strpos($at1->get_rendered(), "width='200'"));
     }
 
     public function test_plot_nottags() {

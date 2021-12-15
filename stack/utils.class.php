@@ -158,7 +158,7 @@ class stack_utils {
 
     /**
      * Check whether the number of left and right substrings match, for example
-     * whether every <html> has a matching </html>.
+     * whether every 'left' has a matching 'right'.
      * Returns true if equal, 'left' left is missing, 'right' if right is missing.
      *
      * @param string $string the string to test.

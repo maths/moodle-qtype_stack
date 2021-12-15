@@ -1102,7 +1102,6 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     ufn: concat("<img src='", URL_BASE, filename, ".", PLOT_TERMINAL, "' alt='", str_to_html(alttext), "' width='", string(plot_size[1]), "' />"),
     if plot_tags then
         ufn: concat("<div class='stack_plot'>", ufn, "</div>"),
-    ufn: concat(" <html>", ufn, "</html> "),
     /* Sort out plot_options and preamble*/
     preamble: "",
     if not(member(xlabel, maplist(first, ral))) then ral: append(ral, [[xlabel, ""]]),

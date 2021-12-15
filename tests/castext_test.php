@@ -80,6 +80,24 @@ class castext_test extends qtype_stack_testcase {
         }
     }
 
+    public function test_runtime_error() {
+        $a = array();
+        $cs = array();
+        foreach ($a as $var) {
+            $cs[] = stack_ast_container::make_from_teacher_source($var, '', new stack_cas_security(), array());
+        }
+        $session = new stack_cas_session2($cs, null, 0);
+
+        $c = '{@1/0@}';
+        $ct = new stack_cas_text($c, $session, null);
+        $ct->get_display_castext();
+
+        $this->assertEquals('1/0', $ct->get_display_castext());
+        $this->assertTrue($ct->get_valid());
+        $this->assertEquals('<span class="error">CASText failed validation. </span> Division by zero.',
+            $ct->get_errors(false));
+    }
+
     public function test_if_block() {
         $a1 = array('a:true', 'b:is(1>2)', 'c:false');
         // From iss309.

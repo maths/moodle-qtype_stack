@@ -97,22 +97,99 @@ class castext_test extends qtype_stack_testcase {
         }
     }
 
-    public function test_runtime_error() {
+    public function test_validation_error_castext_text() {
         $a = array();
         $cs = array();
         foreach ($a as $var) {
             $cs[] = stack_ast_container::make_from_teacher_source($var, '', new stack_cas_security(), array());
         }
-        $session = new stack_cas_session2($cs, null, 0);
+        $cs1 = new stack_cas_session2($cs, null, 0);
+
+        $c = '{@x+1)^2@}';
+        $ct = castext2_evaluatable::make_from_source($c, 'test-case');
+
+        $cs1->add_statement($ct);
+        $this->assertFalse($cs1->get_valid());
+        // Hence do not try to instantiate, or get the rendered text.
+
+        $errmsg = 'You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
+            '<span class="stacksyntaxexample">x+1)^2</span>.';
+        $this->assertEquals($errmsg, $cs1->get_errors());
+        // The castext here is not valid because one of the casstrings inside is invalid.
+        $this->assertFalse($ct->get_valid());
+        // The same error occurs in the castext as the session.
+        $this->assertEquals($errmsg, $ct->get_errors());
+    }
+
+    public function test_runtime_error_castext_text() {
+        $a = array();
+        $cs = array();
+        foreach ($a as $var) {
+            $cs[] = stack_ast_container::make_from_teacher_source($var, '', new stack_cas_security(), array());
+        }
+        $cs1 = new stack_cas_session2($cs, null, 0);
 
         $c = '{@1/0@}';
-        $ct = new stack_cas_text($c, $session, null);
-        $ct->get_display_castext();
+        $ct = castext2_evaluatable::make_from_source($c, 'test-case');
 
-        $this->assertEquals('1/0', $ct->get_display_castext());
+        $cs1->add_statement($ct);
+        $this->assertTrue($cs1->get_valid());
+        $cs1->instantiate();
+
+        // This error is currently empty because errors from statements in the castext are currently not caught.
+        $this->assertEquals('', $cs1->get_errors());
+        $this->assertEquals('1/0', $ct->get_rendered());
         $this->assertTrue($ct->get_valid());
         $this->assertEquals('<span class="error">CASText failed validation. </span> Division by zero.',
-            $ct->get_errors(false));
+            $ct->get_errors());
+    }
+
+    public function test_validation_error_castext_session() {
+        $a = array('a:x+1)^2');
+        $cs = array();
+        foreach ($a as $var) {
+            $cs[] = stack_ast_container::make_from_teacher_source($var, '', new stack_cas_security(), array());
+        }
+        $cs1 = new stack_cas_session2($cs, null, 0);
+
+        $c = '{@a@}';
+        $ct = castext2_evaluatable::make_from_source($c, 'test-case');
+
+        $cs1->add_statement($ct);
+        $this->assertFalse($cs1->get_valid());
+        // Hence do not try to instantiate, or get the rendered text.
+
+        $errmsg = 'You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
+            '<span class="stacksyntaxexample">a:x+1)^2</span>.';
+        $this->assertEquals($errmsg, $cs1->get_errors());
+
+        // The castext here is valid because no errors occur in the vastext itself.
+        $this->assertTrue($ct->get_valid());
+        // There is no error in the castext itself (any more).
+        $this->assertEquals('', $ct->get_errors());
+    }
+
+    public function test_runtime_error_castext_session() {
+        $a = array('a:1/0');
+        $cs = array();
+        foreach ($a as $var) {
+            $cs[] = stack_ast_container::make_from_teacher_source($var, '', new stack_cas_security(), array());
+        }
+        $cs1 = new stack_cas_session2($cs, null, 0);
+
+        $c = '{@a@}';
+        $ct = castext2_evaluatable::make_from_source($c, 'test-case');
+
+        $cs1->add_statement($ct);
+        $this->assertTrue($cs1->get_valid());
+        $cs1->instantiate();
+        $this->assertEquals('Division by zero.', $cs1->get_errors());
+
+        // It is correct to return the un-evaluated variable name here.
+        $this->assertEquals('\({a}\)', $ct->get_rendered());
+        $this->assertTrue($ct->get_valid());
+        // There is no error in the castext itself (any more).
+        $this->assertEquals('', $ct->get_errors());
     }
 
     public function test_if_block() {

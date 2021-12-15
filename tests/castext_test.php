@@ -943,11 +943,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
-    public function test_numerical_display_roman_knownfail() {
-        // We should improve the castext parser to allow @ within strings within the castext.
-        // This known fail is to show when we have fixed this bug.
-        // TODO: make this testcase fail, and then update it!
-        $st = '{@(stackintfmt:"~@r",14)@} is written in Roman numerals.';
+    public function test_numerical_display_ampersand_roman() {
+        // This test makes sure the castext parser to allows @ within strings within the castext.
+        $st = 'The number {@(stackintfmt:"~@r",14)@} is written in Roman numerals.';
         $s2 = array();
         $cs2 = new stack_cas_session2($s2, null, 0);
 
@@ -958,8 +956,7 @@ class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
 
         $this->assertEquals(
-            // Should be 'The number \({XIV}\) is written in Roman numerals.'.
-            '{@(stackintfmt:"~@r",14)@} is written in Roman numerals.',
+            'The number \({XIV}\) is written in Roman numerals.',
             $at2->get_rendered());
     }
 

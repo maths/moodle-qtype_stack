@@ -576,6 +576,7 @@ class stack_inputvalidation_test_data {
     }
 
     public static function get_all() {
+        return array();
         $tests = array();
         foreach (self::$rawdata as $data) {
             $tests[] = self::test_from_raw($data, 'typeless');

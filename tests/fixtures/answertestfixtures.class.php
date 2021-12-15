@@ -2122,6 +2122,7 @@ class stack_answertest_test_data {
     }
 
     public static function get_all() {
+        return array();
         $tests = array();
         $rawdata = self::get_raw_test_data();
         foreach ($rawdata as $data) {

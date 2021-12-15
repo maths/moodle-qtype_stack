@@ -233,7 +233,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     public function get_trace(): array {
-        // TODO: Do we need to generate feedback-vars? Jsut answer test results?
+        // TODO: Do we need to generate feedback-vars? Just answer test results?
         // Would we need to get the inputs to those tests as well? This would
         // require some extra logic to be evaluated. Or an addition of complex
         // additional output to the compiled function.

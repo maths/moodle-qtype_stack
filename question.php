@@ -1349,13 +1349,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $answernotes = implode(' | ', array_map('trim', $results->get_answernotes()));
 
             foreach ($prt->get_nodes_summary() as $nodeid => $choices) {
-                if (in_array($choices->truenote, $results->get_answernotes())) {
+                if (in_array($choices->trueanswernote, $results->get_answernotes())) {
                     $classification[$index . '-' . $nodeid] = new question_classified_response(
-                            $choices->truenote, $answernotes, $results->get_fraction());
+                            $choices->trueanswernote, $answernotes, $results->get_fraction());
 
-                } else if (in_array($choices->falsenote, $results->get_answernotes())) {
+                } else if (in_array($choices->falseanswernote, $results->get_answernotes())) {
                     $classification[$index . '-' . $nodeid] = new question_classified_response(
-                            $choices->falsenote, $answernotes, $results->get_fraction());
+                            $choices->falseanswernote, $answernotes, $results->get_fraction());
 
                 } else {
                     $classification[$index . '-' . $nodeid] = question_classified_response::no_response();

@@ -101,10 +101,10 @@ class qtype_stack_question_test_form extends moodleform {
 
         foreach ($question->prts as $prtname => $prt) {
             $result = $question->get_prt_result($prtname, $response, false);
-            $answernotes = $result->answernotes;
+            $answernotes = $result->get_answernotes();
             $mform->getElement($prtname . 'group')->setValue(array(
-                    $prtname . 'score'      => $result->score,
-                    $prtname . 'penalty'    => $result->penalty,
+                    $prtname . 'score'      => $result->get_score(),
+                    $prtname . 'penalty'    => $result->get_penalty(),
                     $prtname . 'answernote' => end($answernotes)));
         }
     }

@@ -495,39 +495,4 @@ class stack_potentialresponse_tree {
     public function get_simplify(): bool {
         return $this->simplify;
     }
-
-    /*
-     * @param array $labels an array of labels for the branches.
-     */
-    public function get_prt_graph($labels = false) {
-        $graph = new stack_abstract_graph();
-        foreach ($this->nodes as $key => $node) {
-            $summary = $node->summarise_branches();
-
-            if ($summary->truenextnode == -1) {
-                $left = null;
-            } else {
-                $left = $summary->truenextnode + 1;
-            }
-            if ($summary->falsenextnode == -1) {
-                $right = null;
-            } else {
-                $right = $summary->falsenextnode + 1;
-            }
-            $llabel = $summary->truescoremode . round($summary->truescore, 2);
-            if ($labels && array_key_exists($summary->truenote, $labels)) {
-                $llabel = $labels[$summary->truenote];
-            }
-            $rlabel = $summary->falsescoremode . round($summary->falsescore, 2);
-            if ($labels && array_key_exists($summary->falsenote, $labels)) {
-                $rlabel = $labels[$summary->falsenote];
-            }
-
-            $graph->add_node($key + 1, $left, $right, $llabel, $rlabel,
-                '#fgroup_id_' . $this->name . 'node_' . $key);
-        }
-
-        $graph->layout();
-        return $graph;
-    }
 }

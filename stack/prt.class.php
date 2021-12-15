@@ -224,15 +224,17 @@ class stack_potentialresponse_tree_lite {
     public function get_nodes_summary(): array {
         $summary = [];
         foreach ($this->nodes as $node) {
+            print_r($node);
             $n = new stdClass();
-            $n->truenextnode   = $node->truenextnode;
-            $n->truenote       = $node->trueanswernote;
-            $n->truescore      = $node->truescore;
-            $n->truescoremode  = $node->truescoremode;
-            $n->falsenextnode  = $node->falsenextnode;
-            $n->falsenote      = $node->falseanswernote;
-            $n->falsescore     = $node->falsescore;
-            $n->falsescoremode = $node->falsescoremode;
+            $n->truenextnode    = $node->truenextnode;
+            $n->trueanswernote  = $node->trueanswernote;
+            $n->truescore       = $node->truescore;
+            $n->truescoremode   = $node->truescoremode;
+            $n->falsenextnode   = $node->falsenextnode;
+            $n->falseanswernote = $node->falseanswernote;
+            $n->falsescore      = $node->falsescore;
+            $n->falsescoremode  = $node->falsescoremode;
+            $n->answertest      = $node->answertest;
             $summary[$node->nodename] = $n;
         }
         return $summary;
@@ -693,5 +695,39 @@ class stack_potentialresponse_tree_lite {
 
         $body .= ')';
         return [$body, $usage];
+    }
+
+    /*
+     * @param array $labels an array of labels for the branches.
+     */
+    public function get_prt_graph($labels = false) {
+        $graph = new stack_abstract_graph();
+        foreach ($this->nodes as $key => $node) {
+
+            if ($node->truenextnode == -1) {
+                $left = null;
+            } else {
+                $left = $node->truenextnode + 1;
+            }
+            if ($node->falsenextnode == -1) {
+                $right = null;
+            } else {
+                $right = $node->falsenextnode + 1;
+            }
+            $llabel = $node->truescoremode . round($node->truescore, 2);
+            if ($labels && array_key_exists($node->trueanswernote, $labels)) {
+                $llabel = $labels[$node->trueanswernote];
+            }
+            $rlabel = $node->falsescoremode . round($node->falsescore, 2);
+            if ($labels && array_key_exists($node->falseanswernote, $labels)) {
+                $rlabel = $labels[$node->falseanswernote];
+            }
+
+            $graph->add_node($key + 1, $left, $right, $llabel, $rlabel,
+                '#fgroup_id_' . $this->name . 'node_' . $key);
+        }
+
+        $graph->layout();
+        return $graph;
     }
 }

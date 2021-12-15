@@ -136,11 +136,10 @@ class castext_test extends qtype_stack_testcase {
         $this->assertTrue($cs1->get_valid());
         $cs1->instantiate();
 
-        // This error is currently empty because errors from statements in the castext are currently not caught.
-        $this->assertEquals('', $cs1->get_errors());
+        $this->assertEquals('Division by zero.', $cs1->get_errors());
         $this->assertEquals('1/0', $ct->get_rendered());
         $this->assertTrue($ct->get_valid());
-        $this->assertEquals('<span class="error">CASText failed validation. </span> Division by zero.',
+        $this->assertEquals('Division by zero.',
             $ct->get_errors());
     }
 

@@ -940,6 +940,20 @@ class stack_utils {
     }
 
     /**
+     * Translate some strings from Maxima.
+     * @param string $string
+     */
+    public static function maxima_translate_string(string $string){
+        $fixed = $string;
+        if (strpos($string, '0 to a negative exponent') !== false) {
+            $fixed = stack_string('Maxima_DivisionZero');
+        } else if (strpos($string, 'args: argument must be a non-atomic expression;') !== false) {
+            $fixed = stack_string('Maxima_Args');
+        }
+        return $fixed;
+    }
+
+    /**
      * Find a rational approximation to $n
      * @param float $n
      * @param int $accuracy Stop when we get within this many decimal places of $n

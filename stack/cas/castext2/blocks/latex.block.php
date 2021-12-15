@@ -59,7 +59,7 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
         } else if ($disablesimp) {
             $r .= 'simp:false,';
         }
-        $r .= 'errcatch(_ct2_tmp:' . $ev . '),';
+        $r .= '_EC(errcatch(_ct2_tmp:' . $ev . '),"error with..."),';
 
         $r .= 'simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,'. $mode . '),simp:_ct2_simp,_ct2_tmp)';
 

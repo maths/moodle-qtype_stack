@@ -104,8 +104,12 @@ if ($string) {
             $session->instantiate();
             $displaytext  = $ct->get_rendered();
         }
-        $errs         = $ct->get_errors();
-        $errs        .= $session->get_errors();
+        // Only print each error once.
+        $errs = $ct->get_errors(false);
+        foreach ($session->get_errors(false) as $err) {
+            $errs = array_merge($errs, $err);
+        }
+        $errs = stack_string_error('exceptionmessage', implode(' ', array_unique($errs)));
         $debuginfo    = $session->get_debuginfo();
     }
 }

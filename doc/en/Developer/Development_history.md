@@ -20,6 +20,16 @@ Major rewrite of the PRT and CASText systems, focus on performance and limitatio
 TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
  #702, #671, #581, #492, #420, #150
 
+## Version 4.3.10
+
+Released December 2021.
+
+1. Add in filter `420_consolidate_subscripts` to consolidate students' input with subscripts from `M_1` to `M1`.
+2. Support [variant matching](../Authoring/Variant_matching.md).
+3. Add in the option `arccos(x)/arcosh(x)` for display of trig.  This notation exists becase `arcsin` gives the arc length on the unit circle for a given y-coordinate. `arsinh` gives an area enclosed by a hyperbola and two rays from the origin for a given y-coordinate.
+4. Allow students to type `arccos` etc. and treat these as synonyms of the trig functions.
+5. Substantially improve the basic question usage report.
+
 ## Version 4.3.9
 
 Released July 2021.

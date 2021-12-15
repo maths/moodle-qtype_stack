@@ -1,12 +1,12 @@
 # Installation instructions.
 
-STACK is being used live at a number of institutions, including the University of Edinburgh, the UK Open University, Aalto, Loughborough University, and the University of Birmingham in the UK.
+STACK is being used live at many institutions, including the University of Edinburgh, the UK Open University, Aalto, Loughborough University, and the University of Birmingham in the UK.
 
 STACK is designed to be used on a Linux-based server.  The Windows/MS option exists to help teachers author questions offline, and for demonstration and development.  However, for demonstration, development and offline use we strongly recommend using VirtualBox instead of the Windows port.  Note also that support for the optimized Maxima image is not available on Windows platforms, which is a substantial performance improvement.
 
 ## 0. Set up PHP with mbstring
 
-STACK v4.3 and later require the `mbstring` library.   While this is included in many distros, it is not yet included by default in all.
+STACK v4.3 and later require the PHP `mbstring` library.   While this is included in many distros, it is not yet included by default in all.
 
 On an existing Moodle site navigate to
 

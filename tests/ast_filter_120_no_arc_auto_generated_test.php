@@ -24,11 +24,11 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
  * @group qtype_stack_ast_filters
  */
 
-class ast_filter_020_no_arc_auto_generated_test extends qtype_stack_ast_testcase {
+class ast_filter_120_no_arc_auto_generated_test extends qtype_stack_ast_testcase {
 
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('020_no_arc');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('120_no_arc');
 
         $this->expect('arcsin(x)',
                       'arcsin(x)',
@@ -39,7 +39,7 @@ class ast_filter_020_no_arc_auto_generated_test extends qtype_stack_ast_testcase
 
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('020_no_arc');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('120_no_arc');
 
         $this->expect('arcsin(x)',
                       'arcsin(x)',
@@ -50,7 +50,7 @@ class ast_filter_020_no_arc_auto_generated_test extends qtype_stack_ast_testcase
 
     public function test_non_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('020_no_arc');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('120_no_arc');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',
@@ -1816,7 +1816,7 @@ class ast_filter_020_no_arc_auto_generated_test extends qtype_stack_ast_testcase
 
     public function test_non_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_by_common_name('020_no_arc');
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('120_no_arc');
 
         $this->expect('"+"(a,b)',
                       '"+"(a,b)',

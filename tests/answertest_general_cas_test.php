@@ -459,6 +459,18 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
+    public function test_stack_maxima_int_feedback_3() {
+        $at = $this->stack_answertest_general_cas_builder('e^-(4*pi*x)/(4*pi)',
+            'int(exp(-4*pi*x),x)', 'Int', '[x,NOCONST]');
+        $this->assertFalse($at->do_test());
+        $this->assertEquals(0, $at->get_at_mark());
+
+        $fbt = 'The derivative of your answer should be equal to the expression that you were asked to integrate, ' .
+            'that was: \[e^ {- 4\cdot \pi\cdot x }\] In fact, the derivative of your answer, with respect to \(x\) is: ' .
+            '\[-e^ {- 4\cdot \pi\cdot x }\] so you must have done something wrong!';
+        $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
+    }
+
     public function test_is_true_units_relative() {
         $at = $this->stack_answertest_general_cas_builder('3.1*m/s', '3.2*m/s', 'UnitsRelative', '0.1');
         $this->assertTrue($at->do_test());

@@ -60,6 +60,7 @@ $title = stack_string('chattitle');
 $PAGE->set_title($title);
 
 
+$displaytext = '';
 $debuginfo = '';
 $errs = '';
 $varerrs = array();
@@ -107,7 +108,6 @@ if ($string) {
         $errs        .= $session->get_errors();
         $debuginfo    = $session->get_debuginfo();
     }
-
 }
 
 echo $OUTPUT->header();

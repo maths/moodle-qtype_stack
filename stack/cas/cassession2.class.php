@@ -468,7 +468,13 @@ class stack_cas_session2 {
                             // TODO: fix the tests again, I want these context details out.
                             // $err = array_merge($err, $errs[0]);
                             foreach ($errs[0] as $er) {
-                                $err[] = $errs[1] . ': ' . $er;
+                                // Matti, I don't understand the context (see TODO above).
+                                // Can you explain this please?
+                                if ($errs[1] = '') {
+                                    $err[] = $errs[1] . ': ' . $er;
+                                } else {
+                                    $err[] = $er;
+                                }
                             }
                         }
                     }

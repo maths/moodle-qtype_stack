@@ -347,6 +347,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
+        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
 
         $this->start_attempt_at_question($q, 'deferredcbm', $outof);
 

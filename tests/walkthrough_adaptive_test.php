@@ -2588,6 +2588,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // This is the point of the test: we explicitly set a zero penalty here.
         $node2->add_branch(1, '=', 0.5, 0.3, -1, '', FORMAT_HTML, 'firsttree-2-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0', 1);
+        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
+
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         $this->render();
@@ -2657,6 +2659,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $node->add_branch(0, '=', 0, 0.1, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, 0.1, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
+        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
+
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         $this->render();
@@ -2732,6 +2736,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // This is the point of the test: we explicitly set a zero penalty here.
         $node2->add_branch(1, '=', 0.5, 0, -1, '', FORMAT_HTML, 'firsttree-2-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0', 1);
+        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
+
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         $this->render();
@@ -2811,6 +2817,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // This is the point of the test: we explicitly set a zero penalty here.
         $node2->add_branch(1, '=', 0.5, 0, -1, '', FORMAT_HTML, 'firsttree-2-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0', 1);
+        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
+
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         $this->render();

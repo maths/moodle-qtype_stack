@@ -33,7 +33,7 @@ require_once(__DIR__ . '/../stack/options.class.php');
  * @group qtype_stack
  * @group qtype_stack_castext_module
  */
-class stack_castext2_test extends qtype_stack_testcase {
+class castext2_test extends qtype_stack_testcase {
 
     // This function maps a given set of CASText code, CASString
     // style preamble statements and STACK options to the current
@@ -270,7 +270,7 @@ class stack_castext2_test extends qtype_stack_testcase {
     }
 
     public function test_blocks_if_3() {
-        $input = '{#a#}, [[ if test="a=x" ]]yes[[define a="3"/]][[ else ]]no[[/if]],' .
+        $input = '{#a#}, [[ if test="a=x" ]]yes[[define a="3"/]][[ else ]]no[[/if]], ' .
             '[[ if test="a=x"]]no[[elif test="a=3"]]maybe[[/ if ]]';
         $preamble = array('a:x');
         $output = 'x, yes, maybe';

@@ -109,7 +109,8 @@ class qtype_stack_renderer extends qtype_renderer {
                 // behaviour or adaptivemulipart does not show feedback if the input
                 // is invalid, but we want to show the CAS errors from the PRT.
                 $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
-                $feedback = html_writer::nonempty_tag('span', $result->errors,
+                $errors = implode(' ', $result->get_errors());
+                $feedback = html_writer::nonempty_tag('span', $errors,
                         array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
             }
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
@@ -225,8 +226,9 @@ class qtype_stack_renderer extends qtype_renderer {
         foreach ($question->prts as $name => $prt) {
             $feedback = '';
             $result = $question->get_prt_result($name, $response, $qa->get_state()->is_finished());
-            if ($result->errors) {
-                $feedback = html_writer::nonempty_tag('span', $result->errors,
+            if ($result->get_errors() != array()) {
+                $errors = implode(' ', $result->get_errors());
+                $feedback = html_writer::nonempty_tag('span', $errors,
                         array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
             }
             $allempty = $allempty && !$feedback;

@@ -556,7 +556,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public function get_hint_castext(question_hint $hint) {
         // TODO: These are not currently cached as compiled fragments, maybe they should be.
 
-        $hinttext = castext2_evaluatable::make_from_source($hint, 'hint');
+        $hinttext = castext2_evaluatable::make_from_source($hint->hint, 'hint');
 
         $session = null;
         if ($this->session === null) {
@@ -951,6 +951,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $results = new stdClass();
             $results->fraction = 0;
 
+            $frac = 0;
             foreach ($responses as $response) {
                 $prtinput = $this->get_prt_input($index, $response, true);
 
@@ -963,10 +964,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     $results = $this->get_prt_result($index, $response, true);
 
                     $accumulatedpenalty += $results->get_fractionalpenalty();
+                    $frac = $results->get_fraction();
                 }
             }
 
-            $fraction += max($results->fraction - $penaltytoapply, 0);
+            $fraction += max($frac - $penaltytoapply, 0);
         }
 
         return $fraction;

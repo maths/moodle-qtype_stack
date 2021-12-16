@@ -3737,6 +3737,5 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
         $expected = 'Seed: 1; ans1: p^2+p+1 [score]; PotResTree_1: # = 1 | PotResTree_1-0-1';
         $this->check_response_summary($expected);
-
     }
 }

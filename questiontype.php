@@ -1047,7 +1047,7 @@ class qtype_stack extends question_type {
                 $parts[$index . '-' . $nodeid] = array(
                     $choices->falseanswernote => new question_possible_response(
                             $choices->falseanswernote, $choices->falsescore * $prt->get_value()),
-                    $choices->truenote => new question_possible_response(
+                    $choices->trueanswernote => new question_possible_response(
                             $choices->trueanswernote, $choices->truescore * $prt->get_value()),
                     null              => question_possible_response::no_response(),
                 );

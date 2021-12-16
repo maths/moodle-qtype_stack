@@ -59,7 +59,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
     private $weight = 1;
 
     // Because we do not want to transfer large static strings to CAS we use a store that contains those values
-    // and replace them into the result once eberything is complete.
+    // and replace them into the result once everything is complete.
     private $statics = null;
 
     public function __construct(string $signature, $weight = 1, castext2_static_replacer $statics) {

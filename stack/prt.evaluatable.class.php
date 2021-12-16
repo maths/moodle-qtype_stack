@@ -197,7 +197,9 @@ class prt_evaluatable implements cas_raw_value_extractor {
             if ($atresult[2] !== '""') {
                 $notes[] = $atresult[2];
             }
-            if ($this->notes[$i] !== '""') {
+            // We need to check the array_key_exists because in the case of a guard clause it will not.
+            // Do we actually want to ignore the missing note here or indicate the note is missing with a note?
+            if (array_key_exists($i, $this->notes) && $this->notes[$i] !== '""') {
                 $notes[] = $this->notes[$i];
             }
             $i = $i + 1;

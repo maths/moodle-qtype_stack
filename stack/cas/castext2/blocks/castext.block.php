@@ -32,13 +32,15 @@ class stack_cas_castext2_castext extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        $r = [stack_ast_container_silent::make_from_teacher_source($this->params['evaluated'], 'ct2:castext', new stack_cas_security())];
+        $r = [stack_ast_container_silent::make_from_teacher_source($this->params['evaluated'],
+            'ct2:castext', new stack_cas_security())];
         return $r;
     }
 
     public function validate(&$errors=array(), array $prts): bool {
         if (!array_key_exists('evaluated', $this->params)) {
-            $errors[] = 'The castext block must be empty and needs to have the "evaluated" attribute providing the castext-fragment.';
+            $errors[] = 'The castext block must be empty and needs to have the "evaluated" ' .
+                'attribute providing the castext-fragment.';
             return false;
         }
 

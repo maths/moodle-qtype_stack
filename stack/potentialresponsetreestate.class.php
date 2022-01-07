@@ -234,8 +234,8 @@ class stack_potentialresponse_tree_state {
 
         $cleansession = new stack_cas_session2($cleanvars, $options, $this->seed);
         $feedbackct = castext2_evaluatable::make_from_source($feedback, 'PRT-feedback');
-        $result = ''; 
-        if($feedbackct->get_valid()) {
+        $result = '';
+        if ($feedbackct->get_valid()) {
             $cleansession->add_statement($feedbackct);
             $cleansession->instantiate();
             $result = $feedbackct->get_rendered();

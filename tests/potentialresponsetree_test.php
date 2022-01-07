@@ -16,7 +16,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 /* TODO CLEAN AWAY or map to new... */
 /*
 require_once(__DIR__ . '/../stack/potentialresponsetree.class.php');

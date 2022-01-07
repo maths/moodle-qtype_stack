@@ -26,7 +26,7 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 
 // Unit tests for {@link stack_cas_text}.
 // Castext2 has no such class the repalcement is castext2_evaluatable
-// which insteas of being given a cassession is expected to be placed
+// which instead of being given a cassession is expected to be placed
 // into a cassession, allowing evaluation of multiple evaluatables in
 // the same session.
 
@@ -83,7 +83,7 @@ class castext_test extends qtype_stack_testcase {
                 array('\[{@a*b@}\]', $a1, true, '\[{x^2\cdot {\left(x+1\right)}^2}\]'),
                 array('{@', null, true, '{@'), // The new parser allwos use of this text fragemt everywhere.
                 array('{@(x^2@}', null, false, false),
-                array('{@1/0@}', null, true, '1/0'), // ! do we want this to work when simp:true?
+                array('{@1/0@}', null, true, '1/0'), // Do we want this to work when simp:true?
                 // If so then the compiler will need to generate separate errcatch logic for everything just in case.
                 array('\(1+{@1/0@}\)', null, true, '\(1+{1/0}\)'),
                 array('{@x^2@}', $a2, false, null),
@@ -95,6 +95,100 @@ class castext_test extends qtype_stack_testcase {
         foreach ($cases as $case) {
             $this->basic_castext_instantiation($case[0], $case[1], $case[2], $case[3]);
         }
+    }
+
+    public function test_validation_error_castext_text() {
+        $a = array();
+        $cs = array();
+        foreach ($a as $var) {
+            $cs[] = stack_ast_container::make_from_teacher_source($var, '', new stack_cas_security(), array());
+        }
+        $cs1 = new stack_cas_session2($cs, null, 0);
+
+        $c = '{@x+1)^2@}';
+        $ct = castext2_evaluatable::make_from_source($c, 'test-case');
+
+        $cs1->add_statement($ct);
+        $this->assertFalse($cs1->get_valid());
+        // Hence do not try to instantiate, or get the rendered text.
+
+        $errmsg = 'You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
+            '<span class="stacksyntaxexample">x+1)^2</span>.';
+        $this->assertEquals($errmsg, $cs1->get_errors());
+        // The castext here is not valid because one of the casstrings inside is invalid.
+        $this->assertFalse($ct->get_valid());
+        // The same error occurs in the castext as the session.
+        $this->assertEquals($errmsg, $ct->get_errors());
+    }
+
+    public function test_runtime_error_castext_text() {
+        $a = array();
+        $cs = array();
+        foreach ($a as $var) {
+            $cs[] = stack_ast_container::make_from_teacher_source($var, '', new stack_cas_security(), array());
+        }
+        $cs1 = new stack_cas_session2($cs, null, 0);
+
+        $c = '{@1/0@}';
+        $ct = castext2_evaluatable::make_from_source($c, 'test-case');
+
+        $cs1->add_statement($ct);
+        $this->assertTrue($cs1->get_valid());
+        $cs1->instantiate();
+
+        $this->assertEquals('Division by zero.', $cs1->get_errors());
+        $this->assertEquals('1/0', $ct->get_rendered());
+        $this->assertTrue($ct->get_valid());
+        $this->assertEquals('Division by zero.',
+            $ct->get_errors());
+    }
+
+    public function test_validation_error_castext_session() {
+        $a = array('a:x+1)^2');
+        $cs = array();
+        foreach ($a as $var) {
+            $cs[] = stack_ast_container::make_from_teacher_source($var, '', new stack_cas_security(), array());
+        }
+        $cs1 = new stack_cas_session2($cs, null, 0);
+
+        $c = '{@a@}';
+        $ct = castext2_evaluatable::make_from_source($c, 'test-case');
+
+        $cs1->add_statement($ct);
+        $this->assertFalse($cs1->get_valid());
+        // Hence do not try to instantiate, or get the rendered text.
+
+        $errmsg = 'You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
+            '<span class="stacksyntaxexample">a:x+1)^2</span>.';
+        $this->assertEquals($errmsg, $cs1->get_errors());
+
+        // The castext here is valid because no errors occur in the vastext itself.
+        $this->assertTrue($ct->get_valid());
+        // There is no error in the castext itself (any more).
+        $this->assertEquals('', $ct->get_errors());
+    }
+
+    public function test_runtime_error_castext_session() {
+        $a = array('a:1/0');
+        $cs = array();
+        foreach ($a as $var) {
+            $cs[] = stack_ast_container::make_from_teacher_source($var, '', new stack_cas_security(), array());
+        }
+        $cs1 = new stack_cas_session2($cs, null, 0);
+
+        $c = '{@a@}';
+        $ct = castext2_evaluatable::make_from_source($c, 'test-case');
+
+        $cs1->add_statement($ct);
+        $this->assertTrue($cs1->get_valid());
+        $cs1->instantiate();
+        $this->assertEquals('Division by zero.', $cs1->get_errors());
+
+        // It is correct to return the un-evaluated variable name here.
+        $this->assertEquals('\({a}\)', $ct->get_rendered());
+        $this->assertTrue($ct->get_valid());
+        // There is no error in the castext itself (any more).
+        $this->assertEquals('', $ct->get_errors());
     }
 
     public function test_if_block() {
@@ -279,8 +373,7 @@ class castext_test extends qtype_stack_testcase {
         $raws = castext2_parser_utils::get_casstrings($raw);
         $session = new stack_cas_session2($raws);
         $kv = $session->get_keyval_representation();
-        // Now we only receive the values before evaluation and the evaluation 
-        // is single pass.
+        // Now we only receive the values before evaluation and the evaluation is single pass.
         $val = "x^2+2*x;\nt:[1,2,3];\nt;";
         $this->assertEquals($val, $kv);
 
@@ -434,7 +527,8 @@ class castext_test extends qtype_stack_testcase {
         $s2 = array();
         $cs2 = new stack_cas_session2($s2, null, 0);
 
-        $at1 = castext2_evaluatable::make_from_source('This {@plot(x^2, [x,-2,3], [alt,"Hello < World!"])@} has < in the alt text.', 'test-case');
+        $at1 = castext2_evaluatable::make_from_source('This {@plot(x^2, [x,-2,3], [alt,"Hello < World!"])@} has < ' .
+            'in the alt text.', 'test-case');
         $cs2->add_statement($at1);
         $cs2->instantiate();
         $this->assertTrue(is_int(strpos($at1->get_rendered(), ".svg' alt='Hello &lt; World!'")));
@@ -455,6 +549,7 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
+        // This is another run-time errror.
         $this->assertTrue(is_int(strpos($cs2->get_errors(),
                 "Plot error: the alt tag definition must be a string, but it is not.")));
     }
@@ -473,7 +568,7 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        $this->assertTrue(is_int(strpos($at1->get_rendered(), "width='200'")));
+        $this->assertEquals(176, strpos($at1->get_rendered(), "width='200'"));
     }
 
     public function test_plot_nottags() {
@@ -515,10 +610,10 @@ class castext_test extends qtype_stack_testcase {
 
     public function test_forbidden_words() {
 
-        $at1 = castext2_evaluatable::make_from_source('This is system cost {@system("rm /tmp/test")@} to create.', 'test-case');
+        $at1 = castext2_evaluatable::make_from_source('This is system cost {@system("rm /tmp/test")@} to create.',
+            'test-case');
         $this->assertFalse($at1->get_valid());
-        $this->assertEquals('<span class="error">CASText failed validation. </span>CAS commands not valid.  ' .
-                'Forbidden function: <span class="stacksyntaxexample">system</span>.', $at1->get_errors());
+        $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">system</span>.', $at1->get_errors());
     }
 
     public function test_mathdelimiters1() {
@@ -925,11 +1020,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
-    public function test_numerical_display_roman_knownfail() {
-        // We should improve the castext parser to allow @ within strings within the castext.
-        // This known fail is to show when we have fixed this bug.
-        // TODO: make this testcase fail, and then update it!
-        $st = '{@(stackintfmt:"~@r",14)@} is written in Roman numerals.';
+    public function test_numerical_display_ampersand_roman() {
+        // This test makes sure the castext parser to allows @ within strings within the castext.
+        $st = 'The number {@(stackintfmt:"~@r",14)@} is written in Roman numerals.';
         $s2 = array();
         $cs2 = new stack_cas_session2($s2, null, 0);
 
@@ -940,8 +1033,7 @@ class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
 
         $this->assertEquals(
-            // Should be 'The number \({XIV}\) is written in Roman numerals.'.
-            '{@(stackintfmt:"~@r",14)@} is written in Roman numerals.',
+            'The number \({XIV}\) is written in Roman numerals.',
             $at2->get_rendered());
     }
 
@@ -1032,7 +1124,6 @@ class castext_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $cs2->add_statement($at1);
         $cs2->instantiate();
-
 
         $expected = '\({{v}_{2\cdot \alpha}}\), \({{v}_{{m}_{n}}}\), '.
             '\({\beta_{47}}\), \({{\beta}_{47}}\)';

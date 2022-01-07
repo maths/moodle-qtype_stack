@@ -29,56 +29,56 @@ require_once(__DIR__ . '/cas/castext2/utils.php');
  */
 class prt_evaluatable implements cas_raw_value_extractor {
 
-	// The function to call.
-	private $signature;
+    // The function to call.
+    private $signature;
 
-	// The generated feedback.
-	private $feedback = null;
-	// Render the castext only if specifically asked.
-	private $renderedfeedback = null;
+    // The generated feedback.
+    private $feedback = null;
 
-	// The generated path.
-	private $path = null;
+    // Render the castext only if specifically asked.
+    private $renderedfeedback = null;
+
+    // The generated path.
+    private $path = null;
 
     // Node notes, i.e. not the test notes.
     private $notes = null;
 
-	// The generated score.
-	private $score = null;
+    // The generated score.
+    private $score = null;
 
-	// The generated penalty.
-	private $penalty = null;
+    // The generated penalty.
+    private $penalty = null;
 
-	// The value from CAS.
-	private $evaluated = null;
+    // The value from CAS.
+    private $evaluated = null;
 
-	// Cas errors.
-	private $errors;
+    // Cas errors.
+    private $errors;
 
-	private $weight = 1;
+    private $weight = 1;
 
     // Because we do not want to transfer large static strings to CAS we use a store that contains those values
-    // and replace them into the result once eberything is complete.
+    // and replace them into the result once everything is complete.
     private $statics = null;
 
     public function __construct(string $signature, $weight = 1, castext2_static_replacer $statics) {
-    	$this->signature = $signature;
-    	$this->weight = $weight;
+        $this->signature = $signature;
+        $this->weight = $weight;
         $this->errors = [];
         $this->statics = $statics;
     }
 
-
     public function set_cas_evaluated_value(string $value) {
-    	$this->evaluated = $value;
+        $this->evaluated = $value;
     }
 
     public function get_valid(): bool {
-    	return count($this->errors) === 0;
+        return count($this->errors) === 0;
     }
 
     public function get_evaluationform(): string {
-    	return $this->signature;
+        return $this->signature;
     }
 
     public function set_cas_status(array $errors, array $answernotes, array $feedback) {
@@ -86,22 +86,22 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     public function get_source_context(): string {
-    	// Assume the signature has the PRT-name... and use it.
-    	return explode('(',substr($this->signature, 4))[0];
+        // Assume the signature has the PRT-name... and use it.
+        return explode('(', substr($this->signature, 4))[0];
     }
 
     public function get_key(): string {
-    	return '';
+        return '';
     }
 
     public function is_evaluated(): bool {
-    	return $this->evaluated !== null;
+        return $this->evaluated !== null;
     }
 
-    // Some spaghetti. TODO: eliminate
+    // Some spaghetti. TODO: eliminate.
     public function override_feedback(string $feedback) {
-    	$this->_feedback = 'spaghetti';
-    	$this->renderedfeedback = $feedback;
+        $this->_feedback = 'spaghetti';
+        $this->renderedfeedback = $feedback;
     }
 
     private function unpack() {
@@ -122,38 +122,37 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     public function get_score() {
-    	if ($this->score === null) {
-    		$this->unpack();
-    	}
-    	return $this->score;
+        if ($this->score === null) {
+            $this->unpack();
+        }
+        return $this->score;
     }
 
     public function get_fraction() {
-    	return $this->weight * $this->get_score();
+        return $this->weight * $this->get_score();
     }
 
     public function get_fractionalpenalty() {
-    	return $this->weight * $this->get_penalty();
+        return $this->weight * $this->get_penalty();
     }
 
-
     public function get_penalty() {
-    	if ($this->penalty === null) {
-    		$this->unpack();
-    	}
+        if ($this->penalty === null) {
+            $this->unpack();
+        }
         // The penalty is 0 if the score is 1. No matter what.
         if ($this->score == 1) {
             return 0;
         }
 
-    	return $this->penalty;
+        return $this->penalty;
     }
 
     public function get_path() {
-    	if ($this->path === null) {
-    		$this->unpack();
-    	}
-    	return $this->path;
+        if ($this->path === null) {
+            $this->unpack();
+        }
+        return $this->path;
     }
 
     public function get_feedback($processor=null) {
@@ -161,9 +160,9 @@ class prt_evaluatable implements cas_raw_value_extractor {
             // If not procesed return undefined or any overrides.
             return $this->renderedfeedback;
         }
-    	if ($this->feedback === null) {
-    		$this->unpack();
-    	}
+        if ($this->feedback === null) {
+            $this->unpack();
+        }
         if ($this->feedback === null) {
             return null;
         }
@@ -177,44 +176,45 @@ class prt_evaluatable implements cas_raw_value_extractor {
                 }
             } else {
                 $value = castext2_parser_utils::unpack_maxima_strings($this->feedback);
-                if ($this->statics !== null) { 
+                if ($this->statics !== null) {
                     // This needs to happen before the postprocessing.
                     $value = $this->statics->replace($value);
                 }
                 $this->renderedfeedback = castext2_parser_utils::postprocess_parsed($value, $processor);
             }
-            
         }
-    	return $this->renderedfeedback;
+        return $this->renderedfeedback;
     }
 
     public function get_answernotes() {
-    	$path = $this->get_path();
-    	$notes = [];
+        $path = $this->get_path();
+        $notes = [];
         if ($path === null || !is_array($path)) {
             return $notes;
         }
         $i = 0;
-    	foreach ($path as $atresult) {
-    		if ($atresult[2] !== '""') {
-    			$notes[] = $atresult[2];
-    		}
-            if ($this->notes[$i] !== '""') {
-                $notes[] = $this->notes[$i];
+        foreach ($path as $atresult) {
+            if ($atresult[2] !== '""') {
+                $notes[] = trim($atresult[2]);
+            }
+            // We need to check the array_key_exists because in the case of a guard clause it will not.
+            // Do we actually want to ignore the missing note here or indicate the note is missing with a note?
+            if (array_key_exists($i, $this->notes) && $this->notes[$i] !== '""') {
+                $notes[] = trim($this->notes[$i]);
             }
             $i = $i + 1;
-    	}
+        }
         // Note at this point those values are still Maxima string so unwrap them.
         for ($i = 0; $i < count($notes); $i++) {
-            $notes[$i] = stack_utils::maxima_string_to_php_string($notes[$i]);
+            $notes[$i] = trim(stack_utils::maxima_string_to_php_string($notes[$i]));
         }
 
-    	return $notes;
+        return $notes;
     }
 
     public function get_errors() {
         // Apparently one wants to separate feedback-var errors?
-    	$err = [];
+        $err = [];
         foreach ($this->errors as $er) {
             if (strpos($er, ': feedback-variables') === false) {
                 $err[] = $er;
@@ -235,8 +235,8 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     public function get_trace(): array {
-        // TODO: Do we need to generate feedback-vars? Jsut answer test results?
-        // Would we need to get the inputs to those tests as well? This woudl 
+        // TODO: Do we need to generate feedback-vars? Just answer test results?
+        // Would we need to get the inputs to those tests as well? This would
         // require some extra logic to be evaluated. Or an addition of complex
         // additional output to the compiled function.
         return ['TODO TRACE'];

@@ -101,7 +101,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         // needs to be fixed to match the environment.
         // And in any case in Moodle at the time we render this we do not know.
         // The prefix.
-        // NOTE! We should validate that we never have input-refs-outside 
+        // NOTE! We should validate that we never have input-refs-outside
         // question-text, but for now lets use the old seek code to work with
         // them out if that happens. We now can directly access the identtifier.
         foreach ($parameters as $key => $value) {
@@ -132,16 +132,13 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         $code = '"use strict";try{if(document.getElementById("' . $divid .
             '")){' . $code . '}} '
             . 'catch(err) {console.log("STACK JSXGraph error in \"' . $divid
-            .
-
-'\", (note a slight varying offset in the error position due to possible input references):");'
+            . '\", (note a slight varying offset in the error position due to possible input references):");'
             . 'console.log(err);}';
 
         $attributes = ['class' => 'jxgbox', 'style' => $style, 'id' => $divid];
 
         $PAGE->requires->js_amd_inline(
-
- 'require(["qtype_stack/jsxgraph","qtype_stack/jsxgraphcore-lazy","core/yui"], '
+            'require(["qtype_stack/jsxgraph","qtype_stack/jsxgraphcore-lazy","core/yui"], '
             . 'function(stack_jxg, JXG, Y){Y.use("mathjax",function(){' . $code
             . '});});');
 

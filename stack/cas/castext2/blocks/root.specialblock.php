@@ -29,7 +29,7 @@ require_once(__DIR__ . '/demarkdown.block.php');
 require_once(__DIR__ . '/demoodle.block.php');
 
 class stack_cas_castext2_special_root extends stack_cas_castext2_block {
-    public function compile($format, $options):  ? string{
+    public function compile($format, $options):  ? string {
         $r = '';
 
         if ($this->is_flat()) {
@@ -53,12 +53,12 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
             $r .= ']';
         }
 
-        // Essenttialy we now have an expression where anything could happen.
+        // Essentially we now have an expression where anything could happen.
         // We do not want it to affect the surroundings. So.
         $ast    = maxima_parser_utils::parse($r);
 
-        // At this point we want to simplify things, it is entirelly
-        // possible that there are sconcats in play with overt number 
+        // At this point we want to simplify things, it is entirely
+        // possible that there are sconcats in play with overt number
         // of arguments and we may need to turn them to reduce-calls
         // to deal with GCL-limits.
         $simplifier = function($node) use ($options) {
@@ -88,14 +88,16 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                     }
                     // The GCL thing. Old used lreduce/sconcat but simplode is probably faster.
                     if (count($node->arguments) > 40) {
-                        $replacement = new MP_FunctionCall(new MP_Identifier('simplode'),[new MP_List($node->arguments)]);
+                        $replacement = new MP_FunctionCall(new MP_Identifier('simplode'),
+                            [new MP_List($node->arguments)]);
                         $node->parentnode->replace($node, $replacement);
                         return false;
                     }
                 } else if ($node->name instanceof MP_Identifier && $node->name->value === 'castext') {
                     // The very special case of seeing the castext-function inside castext.
                     if (count($node->arguments) !== 1 || !($node->arguments[0] instanceof MP_String)) {
-                        throw new stateful_exception('Inline castext()-compiler, wrong argument. Only works with one direct raw string.');
+                        throw new stateful_exception('Inline castext()-compiler, wrong argument. ' .
+                            'Only works with one direct raw string.');
                     }
                     $compiled = castext2_parser_utils::compile($node->arguments[0]->value, $format, $options);
                     $compiled = maxima_parser_utils::parse($compiled);
@@ -110,8 +112,8 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                 }
             }
             // We may also have simplified everything out.
-            if ($node instanceof MP_List && count($node->items) >= 2 && 
-                $node->items[0] instanceof MP_String && 
+            if ($node instanceof MP_List && count($node->items) >= 2 &&
+                $node->items[0] instanceof MP_String &&
                 $node->items[0]->value === '%root') {
 
                 if (count($node->items) === 2 && $node->items[1] instanceof MP_String) {
@@ -138,23 +140,26 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                 }
             }
             // Eliminate extra format declarations and render static content in other formats.
-            if ($node instanceof MP_List && count($node->items) >= 2 && 
-                $node->items[0] instanceof MP_String &&  
-                ($node->items[0]->value === 'demoodle' || $node->items[0]->value === 'demarkdown' || $node->items[0]->value === 'htmlformat')) {
-                // Same for Moodle auto-format
+            if ($node instanceof MP_List && count($node->items) >= 2 && $node->items[0] instanceof MP_String &&
+                ($node->items[0]->value === 'demoodle' || $node->items[0]->value === 'demarkdown' ||
+                        $node->items[0]->value === 'htmlformat')) {
+                // Same for Moodle auto-format.
                 $good = true;
                 $same = false;
                 $p = $node->parentnode;
                 while ($p !== null) {
                     if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
-                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' || $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph' || $p->items[0]->value === 'textdownload')) {
+                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' ||
+                                $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph' ||
+                                $p->items[0]->value === 'textdownload')) {
                         // That or above is soemthign one needs to update if we add new format tuning blocks.
                         $good = false;
                         if ($p->items[0]->value === $node->items[0]->value) {
                             $same = true;
                         }
-                        if ($node->items[0]->value === 'htmlformat' && ($p->items[0]->value === 'jsxgraph' || $p->items[0]->value === 'textdownload')) {
-                            // JSXGraph and textdownload are blocks that enforce specific formats
+                        if ($node->items[0]->value === 'htmlformat' && ($p->items[0]->value === 'jsxgraph' ||
+                                $p->items[0]->value === 'textdownload')) {
+                            // JSXGraph and textdownload are blocks that enforce specific formats.
                             $same = true;
                         }
                         break;
@@ -167,17 +172,20 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                 }
 
                 // Static ones can be replaced if we don't have complex wrapping.
-                if ($good && $node->items[0]->value === 'demoodle' && $node->items[1] instanceof MP_String && count($node->items) === 2) {
+                if ($good && $node->items[0]->value === 'demoodle' &&
+                        $node->items[1] instanceof MP_String && count($node->items) === 2) {
                     $params = [$node->items[0]->value, $node->items[1]->value];
                     $proc = new stack_cas_castext2_demoodle([]);
                     $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
                     return false;
                 }
-                if ($good && $node->items[0]->value === 'htmlformat' && $node->items[1] instanceof MP_String && count($node->items) === 2) {
+                if ($good && $node->items[0]->value === 'htmlformat' && $node->items[1]
+                        instanceof MP_String && count($node->items) === 2) {
                     $node->parentnode->replace($node, $node->items[1]);
                     return false;
                 }
-                if ($good && $node->items[0]->value === 'demarkdown' && $node->items[1] instanceof MP_String && count($node->items) === 2) {
+                if ($good && $node->items[0]->value === 'demarkdown' && $node->items[1]
+                        instanceof MP_String && count($node->items) === 2) {
                     $params = [$node->items[0]->value, $node->items[1]->value];
                     $proc = new stack_cas_castext2_demarkdown([]);
                     $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
@@ -195,17 +203,15 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                     }
                 }
             }
-            
+
             return true;
         };
         while ($ast->callbackRecurse($simplifier) !== true) {};
         $r = $ast->toString(['nosemicolon' => true]);
 
-
         $varref = maxima_parser_utils::variable_usage_finder($ast);
 
-        // This may break with GCL as there is a limit for that local
-        // call there.
+        // This may break with GCL as there is a limit for that local call there.
         if (count($varref['write']) > 0) {
             $r = 'block(local(' . implode(',', array_keys($varref['write'])) .
                 '),castext_simplify(' . $r . '))';
@@ -214,7 +220,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         return $r;
     }
 
-    public function is_flat() : bool{
+    public function is_flat() : bool {
         // Now then the problem here is that the flatness depends on the flatness of
         // the blocks contents. If they all generate strings then we are flat but if not...
         $flat = true;
@@ -254,7 +260,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         return $r;
     }
 
-    public function validate_extract_attributes(): array{
+    public function validate_extract_attributes(): array {
         return [];
     }
 
@@ -272,22 +278,21 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
             foreach ($node->items as $item) {
                 $children[] = self::make($item);
             }
-            return new stack_cas_castext2_special_root([], $children, $node
-                    ->mathmode);
-            }
-            // What remains are blocks.
+            return new stack_cas_castext2_special_root([], $children, $node->mathmode);
+        }
+        // What remains are blocks.
 
-            $children = [];
-            foreach ($node->contents as $item) {
+        $children = [];
+        foreach ($node->contents as $item) {
             $children[] = self::make($item);
         }
 
         $params = [];
         if ($node->name === 'define') {
-            // Define is a very special block in the sense that it can actually have 
-            // multiple values for the same key. This due to it being mostly 
+            // Define is a very special block in the sense that it can actually have
+            // multiple values for the same key. This due to it being mostly
             // compatible with keyvals.
-            // The parser returns a differently encoded result that needs 
+            // The parser returns a differently encoded result that needs
             // to be unpacked here and in the define block itself.
             foreach ($node->parameters as $param) {
                 $params[] = ['key' => $param['key'], 'value' => $param['value']->value];
@@ -308,7 +313,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                 }
                 $params[$key] = $t;
             } else {
-                // If branches
+                // If branches.
                 $params[$key] = $value;
             }
         }

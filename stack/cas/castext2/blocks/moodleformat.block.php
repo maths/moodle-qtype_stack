@@ -19,8 +19,8 @@ global $CFG;
 require_once(__DIR__ . '/demoodle.block.php');
 
 
-/** 
- * Block that will simply convert anything inside it from Moodle-auto-format 
+/**
+ * Block that will simply convert anything inside it from Moodle-auto-format
  * to HTML. Allowing certain types of mixed contents. Primarily exists
  * to map the problem of Moodle auto-format back to the normal HTML-processing.
  */

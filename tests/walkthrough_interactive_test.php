@@ -64,7 +64,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
                 '-submit' => 1));
 
-        $this->check_current_state(question_state::$invalid);
+        $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'x^3');

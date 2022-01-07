@@ -23,7 +23,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 /**
  * Interface for a class that stores debug information (or not).
  *
@@ -159,7 +158,7 @@ class stack_utils {
 
     /**
      * Check whether the number of left and right substrings match, for example
-     * whether every <html> has a matching </html>.
+     * whether every 'left' has a matching 'right'.
      * Returns true if equal, 'left' left is missing, 'right' if right is missing.
      *
      * @param string $string the string to test.
@@ -938,6 +937,20 @@ class stack_utils {
         $converted = str_replace("\\\\", "\\", $string);
         $converted = str_replace("\\\"", '"', $converted);
         return substr($converted, 1, -1);
+    }
+
+    /**
+     * Translate some strings from Maxima.
+     * @param string $string
+     */
+    public static function maxima_translate_string(string $string){
+        $fixed = $string;
+        if (strpos($string, '0 to a negative exponent') !== false) {
+            $fixed = stack_string('Maxima_DivisionZero');
+        } else if (strpos($string, 'args: argument must be a non-atomic expression;') !== false) {
+            $fixed = stack_string('Maxima_Args');
+        }
+        return $fixed;
     }
 
     /**

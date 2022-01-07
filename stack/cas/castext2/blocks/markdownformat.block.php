@@ -18,8 +18,8 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once(__DIR__ . '/demarkdown.block.php');
 
-/** 
- * Block that will simply convert anything inside it from Markdown 
+/**
+ * Block that will simply convert anything inside it from Markdown
  * to HTML. Allowing certain types of mixed contents. Primarily exists
  * to map the problem of Markdown back to the normal HTML-processing.
  */

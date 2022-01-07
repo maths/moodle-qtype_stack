@@ -20,8 +20,8 @@ require_once(__DIR__ . '/../block.interface.php');
 require_once($CFG->libdir . '/weblib.php');
 
 
-/** 
- * Block that will simply convert anything inside it from Moodle-auto-format 
+/**
+ * Block that will simply convert anything inside it from Moodle-auto-format
  * to HTML. Allowing certain types of mixed contents. Primarily exists
  * to map the problem of Moodle auto-format back to the normal HTML-processing.
  */
@@ -31,14 +31,12 @@ class stack_cas_castext2_demoodle extends stack_cas_castext2_block {
         // Basically mark the contents for post-processing.
         $r = '["demoodle"';
 
-        
         foreach ($this->children as $item) {
             $c = $item->compile(castext2_parser_utils::RAWFORMAT, $options);
             if ($c !== null) {
                 $r .= ',' . $c;
-            }   
+            }
         }
-        
         $r .= ']';
 
         return $r;
@@ -47,13 +45,14 @@ class stack_cas_castext2_demoodle extends stack_cas_castext2_block {
     public function is_flat(): bool {
         return false;
     }
-    
+
     public function postprocess(array $params, castext2_processor $processor=null): string {
-    	// First collapse the content.
-    	$content = [''];
+        // First collapse the content.
+        $content = [''];
         $dontproc = [];
         for ($i = 1; $i < count($params); $i++) {
-            if (is_array($params[$i]) && $params[$i][0] !== 'demoodle' && $params[$i][0] !== 'demarkdown' && $params[$i][0] !== 'htmlformat') {
+            if (is_array($params[$i]) && $params[$i][0] !== 'demoodle' &&
+                    $params[$i][0] !== 'demarkdown' && $params[$i][0] !== 'htmlformat') {
                 $content[count($content) - 1] .= $processor->process($params[$i][0], $params[$i]);
             } else if (is_array($params[$i])) {
                 $dontproc[count($content)] = true;
@@ -62,7 +61,7 @@ class stack_cas_castext2_demoodle extends stack_cas_castext2_block {
             } else {
                 $content[count($content) - 1] .= $params[$i];
             }
-		}
+        }
         if ($content[count($content) - 1] === '') {
             unset($content[count($content) - 1]);
         }
@@ -75,7 +74,7 @@ class stack_cas_castext2_demoodle extends stack_cas_castext2_block {
                 $r .= text_to_html($v, null, false, true);
             }
         }
-        
+
         return $r;
     }
 

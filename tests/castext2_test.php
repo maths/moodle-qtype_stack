@@ -1,4 +1,20 @@
 <?php
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+
+defined('MOODLE_INTERNAL') || die();
 
 // We run tests using STACKs CAS-sessions.
 require_once(__DIR__ . '/fixtures/test_base.php');
@@ -9,7 +25,6 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 require_once(__DIR__ . '/../stack/options.class.php');
 
-
 /**
  * This set of tests tests the behaviour of a CASText implementation.
  *
@@ -18,10 +33,10 @@ require_once(__DIR__ . '/../stack/options.class.php');
  * @group qtype_stack
  * @group qtype_stack_castext_module
  */
-class stack_castext2_test extends qtype_stack_testcase {
+class castext2_test extends qtype_stack_testcase {
 
-    // This function maps a given set of CASText code, CASString 
-    // style preamble statements and STACK options to the current 
+    // This function maps a given set of CASText code, CASString
+    // style preamble statements and STACK options to the current
     // implementation and generates the end result.
     // Validation is not being tested, here.
     private function evaluate(string $code, array $preamble=array(), stack_options $options=null): string {
@@ -38,18 +53,21 @@ class stack_castext2_test extends qtype_stack_testcase {
         return $result->get_rendered();
     }
 
-    // LaTeX-injection "{@value@}" functional requirements:
-    //  1. Must result in LaTeX code representing the value given.
-    //     Note! Finer details of this need additional tests but are not
-    //     really CASText related issues. e.g. extra parentheses.
-    //  2. Must allow references to previous code. Both within CASText
-    //     and outside.
-    //  3. Must support statement level overriding of simplification.
-    //  4. Must follow global simplification otherwise.
-    //  5. If injected outside LaTeX math-mode must wrap the generated
-    //     code to inline math delimiters, otherwise no wrapping.
-    //  6. When injecting within math-mode wraps result in extra braces.
-    //  7. "string" values are outputted as they are.
+    /*
+     *
+     * LaTeX-injection "{@value@}" functional requirements:
+     *  1. Must result in LaTeX code representing the value given.
+     *     Note! Finer details of this need additional tests but are not
+     *     really CASText related issues. e.g. extra parentheses.
+     *  2. Must allow references to previous code. Both within CASText
+     *     and outside.
+     *  3. Must support statement level overriding of simplification.
+     *  4. Must follow global simplification otherwise.
+     *  5. If injected outside LaTeX math-mode must wrap the generated
+     *     code to inline math delimiters, otherwise no wrapping.
+     *  6. When injecting within math-mode wraps result in extra braces.
+     *  7. "string" values are outputted as they are.
+     */
     public function test_latex_injection_1() {
         $input = '{@1+2@}, \[{@sqrt(2)@}\]';
         $output = '\({3}\), \[{\sqrt{2}}\]';
@@ -88,13 +106,15 @@ class stack_castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input));
     }
 
-    // Value-injection "{#value#}" functional requirements:
-    //  1. Must result in Maxima code representing the value given.
-    //     Equivalent to calling string() in Maxima.
-    //  2. Must allow references to previous code. Both within CASText
-    //     and outside.
-    //  3. Must support statement level overriding of simplification.
-    //  4. Must follow global simplification otherwise.
+    /*
+     * Value-injection "{#value#}" functional requirements:
+     *  1. Must result in Maxima code representing the value given.
+     *     Equivalent to calling string() in Maxima.
+     *  2. Must allow references to previous code. Both within CASText
+     *     and outside.
+     *  3. Must support statement level overriding of simplification.
+     *  4. Must follow global simplification otherwise.
+     */
     public function test_value_injection_1() {
         $input = '{#1+2#}, {#sqrt(2)#}';
         $output = '3, sqrt(2)';
@@ -212,11 +232,13 @@ class stack_castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
-    // Block-system "define"-block, functional requirements:
-    //  1. Allow inline changes to any value.
-    //  2. Handle simplification.
-    //  3. Single block may redefine same value, needs to respect
-    //     declaration order.
+    /*
+     * Block-system "define"-block, functional requirements:
+     *  1. Allow inline changes to any value.
+     *  2. Handle simplification.
+     *  3. Single block may redefine same value, needs to respect
+     *     declaration order.
+     */
     public function test_blocks_define() {
         $input = '{#a#}, [[ define a="a+1" a="a*a" b="3/9" c="3/9,simp"/]] {#a#} {#b#} {#b,simp#} {#c#}';
         $preamble = array('a:x');
@@ -225,10 +247,12 @@ class stack_castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
-    // Block-system "if"-block, functional requirements:
-    //  1. Conditional evaluation and display of contents.
-    //  2. Else and else if behaviour.
-    //  3. Maxima if equivalent conditions.
+    /*
+     * Block-system "if"-block, functional requirements:
+     *  1. Conditional evaluation and display of contents.
+     *  2. Else and else if behaviour.
+     *  3. Maxima if equivalent conditions.
+     */
     public function test_blocks_if_1() {
         $input = '{#a#}, [[ if test="a=x" ]]yes[[ else ]]no[[define a="3"/]][[/if]], [[ if test="a=3"]]maybe[[/ if ]]';
         $preamble = array('a:x');
@@ -246,7 +270,8 @@ class stack_castext2_test extends qtype_stack_testcase {
     }
 
     public function test_blocks_if_3() {
-        $input = '{#a#}, [[ if test="a=x" ]]yes[[define a="3"/]][[ else ]]no[[/if]], [[ if test="a=x"]]no[[elif test="a=3"]]maybe[[/ if ]]';
+        $input = '{#a#}, [[ if test="a=x" ]]yes[[define a="3"/]][[ else ]]no[[/if]], ' .
+            '[[ if test="a=x"]]no[[elif test="a=3"]]maybe[[/ if ]]';
         $preamble = array('a:x');
         $output = 'x, yes, maybe';
         $options = new stack_options(array('simplify' => true));
@@ -261,15 +286,17 @@ class stack_castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
-    // Block-system "foreach"-block, functional requirements:
-    //  1. Iterates over elements of a list or a set assigning the values
-    //     to the defined variable.
-    //  2. Can iterate over multiple such things simultaneously, but limits
-    //     to the length of the shortest one.
-    //  3. Simplification is not perfectly maintained as indefinite depth is 
-    //     not reasonably maintainable. Applying simplification even when its 
-    //     off globaly is supportted but not disabling simplification.
-    //  4. In the case of sets the ordering is not well defined.
+    /*
+     * Block-system "foreach"-block, functional requirements:
+     *  1. Iterates over elements of a list or a set assigning the values
+     *     to the defined variable.
+     *  2. Can iterate over multiple such things simultaneously, but limits
+     *     to the length of the shortest one.
+     *  3. Simplification is not perfectly maintained as indefinite depth is
+     *     not reasonably maintainable. Applying simplification even when its
+     *     off globaly is supportted but not disabling simplification.
+     *  4. In the case of sets the ordering is not well defined.
+     */
     public function test_blocks_foreach_1() {
         $input = '[[ foreach foo="a"]][[ foreach bar="foo"]]{#bar#}, [[/foreach]] - [[/foreach]]';
         $preamble = array('a:[[1,1+1,1+1+1],[1,2,3]]');
@@ -302,18 +329,22 @@ class stack_castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
-    // Block-system "comment"-block, functional requirements:
-    //  1. Comments out itself and contents.
-    //  2. Even if contents are invalid or incomplete.
+    /*
+     * Block-system "comment"-block, functional requirements:
+     *  1. Comments out itself and contents.
+     *  2. Even if contents are invalid or incomplete.
+     */
     public function test_blocks_comment() {
         $input = '1[[ comment]] [[ foreach bar="foo"]] {#y@} [[/comment]]2';
         $output = '12';
         $this->assertEquals($output, $this->evaluate($input));
     }
 
-    // Block-system "escape"-block, functional requirements:
-    //  1. Escapes the contents so that they will not be processed.
-    //  2. Outputs contents as they are.
+    /*
+     * Block-system "escape"-block, functional requirements:
+     *  1. Escapes the contents so that they will not be processed.
+     *  2. Outputs contents as they are.
+     */
     public function test_blocks_escape() {
         $input = '1[[ escape ]] [[ foreach bar="foo"]] {#y@} [[/escape]]2';
         $output = '1 [[ foreach bar="foo"]] {#y@} 2';
@@ -327,7 +358,7 @@ class stack_castext2_test extends qtype_stack_testcase {
         $preamble = array('texput(foo, "\\\\frac{foo}{bar}")');
         $output = '\({\frac{foo}{bar}}\)';
         $this->assertEquals($output, $this->evaluate($input, $preamble));
-    }   
+    }
 
     public function test_texput_2() {
         $input = '{@x^2+foo(a,sqrt(b))@}';
@@ -337,7 +368,7 @@ class stack_castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
 
-    // stackfltfmt for presentation of floating point numbers.
+    // Check stackfltfmt for presentation of floating point numbers.
     public function test_stackfltfmt() {
         $input = '{@a@}, {@(stackfltfmt:"~f",a)@}';
         $preamble = array('stackfltfmt:"~e"', 'a:0.000012');
@@ -345,7 +376,7 @@ class stack_castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, strtolower($this->evaluate($input, $preamble)));
     }
 
-    // stackintfmt for presentation of integers.    
+    // Check stackintfmt for presentation of integers.
     public function test_stackintfmt() {
         $input = '{@(stackintfmt:"~:r",a)@}, {@(stackintfmt:"~@R",a)@}';
         $preamble = array('a:1998');

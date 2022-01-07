@@ -13,26 +13,26 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../utils.php');
 
 /**
- * This is a block allowing one to share content between questions, it 
+ * This is a block allows one to share content between questions, it
  * allows one to include CASText2 fragments into CASText2. For example,
  * one could have a finely tuned generic JSXGraph plotting logic stored
  * somewhere and simply include it with WYSIWYG-safe block notation:
- * 
+ *
  *  [[include src="http://example.com/fragments/myplot.txt"/]]
  *
  * Note that this inclusion does not update automatically when the source
  * updates, the value is included only at the time the question gets
- * compiled i.e. during the first use after saving or cache clear. Make 
+ * compiled i.e. during the first use after saving or cache clear. Make
  * sure that the source is accesible then, if it is not things will break.
  * Cache will always get cleared when one updates STACK.
- *  
+ *
  * We expect that the server serves the file out as text and that it is
  * encoded in UTF-8 if it has anything interesting, if one needs other
  * encodings one can tune the default encoding of the server executing
@@ -56,12 +56,13 @@ class stack_cas_castext2_include extends stack_cas_castext2_block {
         if (isset($options['in include'])) {
             // We will need to rethink the validate_extract_attributes()-logic
             // to extract casstrings from nested inclusions. Also loops...
-            throw new stack_exception('CASText2 inclusions within inclusions are not currently supportted, due to security validation logic: ' . $this->params['src']);
+            throw new stack_exception('CASText2 inclusions within inclusions are not currently supportted, ' .
+                'due to security validation logic: ' . $this->params['src']);
         }
         if ($src === false) {
             throw new stack_exception('Include block source not accessible: ' . $this->params['src']);
         }
-        // Ok we have the source, we will simply compile it. 
+        // Ok we have the source, we will simply compile it.
         // And finally return it as the content matching this block.
         $opt2 = [];
         if ($options !== null) {

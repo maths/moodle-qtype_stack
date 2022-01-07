@@ -140,7 +140,7 @@ class qtype_stack_test_helper extends question_test_helper {
         // We have "simplify:true" in this prt so that we really check the arguments to EqualComAss are not simplified.
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -188,7 +188,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-1');
         $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -313,7 +313,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-1');
         $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -420,7 +420,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->deployedseeds = array();
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -518,7 +518,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['unique']  = new stack_potentialresponse_tree('unique',
                 '', true, 0.25, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -556,7 +556,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['plots'] = new stack_potentialresponse_tree('plots',
                 '', true, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -665,7 +665,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['short'] = new stack_potentialresponse_tree('short',
                             '', true, 0.3333333, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -699,7 +699,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -775,7 +775,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
                 true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -840,7 +840,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['ans'] = new stack_potentialresponse_tree('ans', '',
                 true, 1, null, array($node0, $node1, $node2), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -909,7 +909,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-T');
         $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -942,7 +942,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-T');
         $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', false, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -977,7 +977,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -1012,7 +1012,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -1053,7 +1053,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 1,
             $feedbackvars->get_session(), array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -1088,7 +1088,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -1123,7 +1123,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -1158,7 +1158,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -1201,7 +1201,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt2-0-1');
         $q->prts['prt2'] = new stack_potentialresponse_tree('prt1', '', true, 0.5, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -1276,7 +1276,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -1328,7 +1328,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
                 true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -1362,7 +1362,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
                 true, 1, $feedbackvars->get_session(), array($node0), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -1396,7 +1396,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
                 true, 1, $feedbackvars->get_session(), array($node0), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -2217,7 +2217,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -2256,7 +2256,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
                 $fv->get_session(), array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -2290,7 +2290,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -2335,7 +2335,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
                 null, array($node1, $node2), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -2375,7 +2375,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
                 null, array($node1), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -2446,7 +2446,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['prt3'] = new stack_potentialresponse_tree('prt3', '', true, 1,
                $feedbackvars->get_session(), array($node1), '0', 0);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -2493,7 +2493,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, $feedbackvars->get_session(),
                 array($node1, $node2), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -2549,7 +2549,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, $feedbackvars->get_session(),
             array($node1, $node2), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;
@@ -2585,7 +2585,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-1');
         $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), '0', 1);
 
-        // Do the translate:
+        // Do the translation.
         $q->prts = self::prt_translator($q->prts, $q);
 
         return $q;

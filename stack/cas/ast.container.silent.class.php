@@ -433,7 +433,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     public function get_securitymodel(): stack_cas_security {
         return $this->securitymodel;
     }
-    
+
     public function set_securitymodel(stack_cas_security $sec) {
         $this->securitymodel = $sec;
     }
@@ -471,10 +471,11 @@ class stack_ast_container_silent implements cas_evaluatable {
         if (null === $this->valid) {
             $this->get_valid();
         }
+        $errors = array_unique($this->errors);
         if ($raw === 'implode') {
-            return implode(' ', array_unique($this->errors));
+            return implode(' ', $errors);
         }
-        return $this->errors;
+        return $errors;
     }
 
     public function get_answernote($raw = 'implode') {
@@ -525,12 +526,7 @@ class stack_ast_container_silent implements cas_evaluatable {
      *  */
     public function decode_maxima_errors(string $error, bool $feedback=false) {
         $foundone = false;
-        $fixed = $error;
-        if (strpos($error, '0 to a negative exponent') !== false) {
-            $fixed = stack_string('Maxima_DivisionZero');
-        } else if (strpos($error, 'args: argument must be a non-atomic expression;') !== false) {
-            $fixed = stack_string('Maxima_Args');
-        }
+        $fixed = stack_utils::maxima_translate_string($error);
 
         foreach (self::$maximastrings as $s) {
             if (false !== strpos($fixed, $s)) {

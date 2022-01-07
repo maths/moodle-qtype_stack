@@ -18,7 +18,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../utils.class.php');
 
-/** 
+/**
  * Special block allowing swithing the injection formating back to RAW.
  * Useful if writing something one does not want to be escaped on output
  * within a context that requires escaping. For example, JavaScript
@@ -42,17 +42,17 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
             $c = $item->compile(castext2_parser_utils::RAWFORMAT, $options);
             if ($c !== null) {
                 $items[] = $c;
-            }   
+            }
         }
         $r .= implode(',', $items);
 
         $r .= ']';
-        
+
         return $r;
     }
 
     public function is_flat(): bool {
-        // Now then the problem here is that the flatness depends on the flatness of 
+        // Now then the problem here is that the flatness depends on the flatness of
         // the blocks contents. If they all generate strings then we are flat but if not...
         $flat = true;
 
@@ -62,7 +62,7 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
 
         return $flat;
     }
-    
+
     public function postprocess(array $params, castext2_processor $processor=null): string {
         $content = '';
         // Jsut collapse it.
@@ -73,10 +73,9 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
                 $content .= $params[$i];
             }
         }
-        
+
         return $content;
     }
-
 
     public function validate_extract_attributes(): array {
         return array();

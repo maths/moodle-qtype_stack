@@ -15,7 +15,6 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 defined('MOODLE_INTERNAL') || die();
 
-
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../ast.container.class.php');
 
@@ -32,7 +31,9 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
 
         if (count($this->params) > 1) {
 
-            $r = 'block(local(__ct2_foreach___iter,__ct2_foreach___tmp,' . implode(',', array_keys($this->params)). ',__ct2_foreach___'.  implode(',__ct2_foreach___', array_keys($this->params)). ')';
+            $r = 'block(local(__ct2_foreach___iter,__ct2_foreach___tmp,' .
+                implode(',', array_keys($this->params)). ',__ct2_foreach___' .
+                implode(',__ct2_foreach___', array_keys($this->params)). ')';
 
             if ($flat) {
                 $r .= ',__ct2_foreach___tmp:""';
@@ -44,8 +45,9 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
                 $ev = $ev->get_evaluationform();
                 $r .= ',__ct2_foreach___' . $key . ':listify(' . $ev . ')';
             }
-            $r .= ',for __ct2_foreach___iter:1 thru ev(min(length(__ct2_foreach___' . implode('),length(__ct2_foreach___', array_keys($this->params)) .')),simp) do (';
-            
+            $r .= ',for __ct2_foreach___iter:1 thru ev(min(length(__ct2_foreach___' .
+                implode('),length(__ct2_foreach___', array_keys($this->params)) .')),simp) do (';
+
             $sets = array();
             foreach ($this->params as $key => $value) {
                 $ev = stack_ast_container::make_from_teacher_source($value);
@@ -81,14 +83,13 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
             $r .= '__ct2_foreach___tmp:append(__ct2_foreach___tmp,[' . implode(',', $internal). '])';
         }
 
-
         $r .= '),__ct2_foreach___tmp)';
-        
+
         return $r;
     }
 
     public function is_flat(): bool {
-        // Now then the problem here is that the flatness depends on the flatness of 
+        // Now then the problem here is that the flatness depends on the flatness of
         // the blocks contents. If they all generate strings then we are flat but if not...
         $flat = true;
 
@@ -102,7 +103,8 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
     public function validate_extract_attributes(): array {
         $r = array();
         foreach ($this->params as $key => $value) {
-            $r[] = stack_ast_container_silent::make_from_teacher_source($key . ':' . $value, 'ct2:foreach', new stack_cas_security());
+            $r[] = stack_ast_container_silent::make_from_teacher_source($key . ':' . $value, 'ct2:foreach',
+                new stack_cas_security());
         }
         return $r;
     }

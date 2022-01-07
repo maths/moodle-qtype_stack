@@ -41,7 +41,7 @@ class stack_cas_castext2_lang extends stack_cas_castext2_block {
             $c = $item->compile($format, $options);
             if ($c !== null) {
                 $items[] = $c;
-            }   
+            }
         }
         // If only one thing then no need to wrap it, save space and processing...
         if (count($items) === 1) {

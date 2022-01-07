@@ -46,7 +46,7 @@ class stack_multilang {
     private $searchtosplit = '/<(?:lang|span)[^>]+lang="([a-zA-Z0-9_-]+)"[^>]*>(.*?)<\/(?:lang|span)>/is';
 
     // The search pattern as seen in filter/multilang2.
-    private $search2 = 
+    private $search2 =
                   '/{\s*mlang\s+(                               # Look for the leading {mlang
                                     (?:[a-z0-9_-]+)             # At least one language must be present
                                                                 # (but dont capture it individually).
@@ -56,7 +56,6 @@ class stack_multilang {
                    (.*?)                                        # Now capture the text to be filtered.
                    {\s*mlang\s*}                                # And look for the trailing {mlang}.
                    /isx';
-
 
     /*
      * Filter text for the specified language.
@@ -105,7 +104,7 @@ class stack_multilang {
             }
             return $result;
         } else if ($mode === 3) {
-            $parsed = castext2_parser_utils::parse($text, castext2_parser_utils::RAWFORMAT);   
+            $parsed = castext2_parser_utils::parse($text, castext2_parser_utils::RAWFORMAT);
             $search = function ($node) use (&$parsed) {
                 if ($node instanceof CTP_Block && $node->name === 'lang' && isset($node->parameters['code'])) {
                     $codes = explode(',', $node->parameters['code']->value);
@@ -224,7 +223,7 @@ class stack_multilang {
         return true;
     }
 
-    /* 
+    /*
      * Identify used filter. We know of a few tools that are used for this.
      * Will return the first matching in this list, we do not deal with mixed ones.
      *  0 for no match
@@ -275,7 +274,7 @@ class stack_multilang {
         }
         if ((mb_strpos($text, '[[') !== false) && (mb_strpos($text, 'lang') !== false) && (mb_strpos($text, 'code') !== false)) {
             // Try to parse and check for language blocks.
-            $parsed = castext2_parser_utils::parse($text, castext2_parser_utils::RAWFORMAT);    
+            $parsed = castext2_parser_utils::parse($text, castext2_parser_utils::RAWFORMAT);
             $gotlangs = [];
             $search = function ($node) use (&$gotlangs) {
                 if ($node instanceof CTP_Block && $node->name === 'lang' && isset($node->parameters['code'])) {
@@ -318,11 +317,11 @@ class stack_multilang {
         foreach ($parentlangs as $lang) {
             if (array_search($lang, $langs) !== false) {
                 return $currlang;
-            }            
+            }
         }
 
         // If not then maybe we have a multipart locale name with no parentlang config.
-        if (strlen($currlang) == 5 && substr($currlang, 2,1) === '_') {
+        if (strlen($currlang) == 5 && substr($currlang, 2, 1) === '_') {
             $currlang = substr($currlang, 0, 2);
             if (array_search($currlang, $langs) !== false) {
                 return $currlang;

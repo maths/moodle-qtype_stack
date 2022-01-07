@@ -20,6 +20,9 @@ Major rewrite of the PRT and CASText systems, focus on performance and limitatio
 TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
  #702, #671, #581, #492, #420, #150
 
+
+TODO: reinstate the answer test and student input unit tests.
+
 ## Version 4.3.10
 
 Released December 2021.

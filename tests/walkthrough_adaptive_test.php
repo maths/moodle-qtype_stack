@@ -2561,11 +2561,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->render();
 
         $rte = implode(' ', array_keys($q->runtimeerrors));
-        $err = 'The field ""Question text"" generated the following error: ' .
-            '<span class="error">CASText failed validation. </span> Division by zero. The field ' .
-            '""Specific feedback"" generated the following error: <span class="error">CASText failed validation. ' .
-            '</span>Division by zero. The field ""Question note"" generated the following error: ' .
-            '<span class="error">CASText failed validation. </span>Division by zero.';
+        $err = 'Division by zero. The field ""Question text"" generated the following error: Division by zero. ' .
+            'The field ""Question variables"" generated the following error: Division by zero.';
         $this->assertEquals($err, $rte);
     }
 
@@ -2588,6 +2585,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // This is the point of the test: we explicitly set a zero penalty here.
         $node2->add_branch(1, '=', 0.5, 0.3, -1, '', FORMAT_HTML, 'firsttree-2-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0', 1);
+        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
+
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         $this->render();
@@ -2657,6 +2656,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $node->add_branch(0, '=', 0, 0.1, -1, '', FORMAT_HTML, 'firsttree-1-F');
         $node->add_branch(1, '=', 1, 0.1, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
+        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
+
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         $this->render();
@@ -2732,6 +2733,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // This is the point of the test: we explicitly set a zero penalty here.
         $node2->add_branch(1, '=', 0.5, 0, -1, '', FORMAT_HTML, 'firsttree-2-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0', 1);
+        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
+
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         $this->render();
@@ -2811,6 +2814,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // This is the point of the test: we explicitly set a zero penalty here.
         $node2->add_branch(1, '=', 0.5, 0, -1, '', FORMAT_HTML, 'firsttree-2-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0', 1);
+        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
+
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         $this->render();
@@ -3732,6 +3737,5 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
         $expected = 'Seed: 1; ans1: p^2+p+1 [score]; PotResTree_1: # = 1 | PotResTree_1-0-1';
         $this->check_response_summary($expected);
-
     }
 }

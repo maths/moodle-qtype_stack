@@ -32,7 +32,7 @@ class stack_cas_castext2_define extends stack_cas_castext2_block {
 
         // TODO: consider a define that would define something for only its contents?
         // For now however define is assumed to be an empty block.
-        // block(local(foo,bar),foo:1,bar:3,contents)
+        // block(local(foo,bar),foo:1,bar:3,contents).
         return $r;
     }
 
@@ -43,7 +43,8 @@ class stack_cas_castext2_define extends stack_cas_castext2_block {
     public function validate_extract_attributes(): array {
         $r = array();
         foreach ($this->params as $param) {
-            $r[] = stack_ast_container_silent::make_from_teacher_source($param['key'] . ':' . $param['value'], 'ct2:define', new stack_cas_security());
+            $r[] = stack_ast_container_silent::make_from_teacher_source($param['key'] . ':' .
+                $param['value'], 'ct2:define', new stack_cas_security());
         }
         return $r;
     }

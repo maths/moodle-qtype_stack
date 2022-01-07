@@ -22,7 +22,7 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
 
     public function compile($format, $options): ?string {
         // If we are flat we just sconcat stuff to return but if not then we need to
-        // generate the list version like the root-block
+        // generate the list version like the root-block.
 
         $flat = $this->is_flat();
 
@@ -41,7 +41,7 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
                 $c = $item->compile($format, $options);
                 if ($c !== null) {
                     $items[] = $c;
-                }   
+                }
             }
             $r .= implode(',', $items);
 
@@ -53,9 +53,9 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
 
             $r .= ' else ""';
         } else {
-            $i = 0; // Total iterator
-            $j = 0; // In block iterator
-            $b = 0; // Branch iterator
+            $i = 0; // Total iterator.
+            $j = 0; // In block iterator.
+            $b = 0; // Branch iterator.
             $r = 'if (' . $this->params['test'][$b] . ') then ';
 
             if (!$flat) {
@@ -66,12 +66,12 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
 
             $items = array();
             while ($j < $this->params[' branch lengths'][$b]) {
-             $c = $this->children[$i]->compile($format, $options);
+                $c = $this->children[$i]->compile($format, $options);
                 if ($c !== null) {
                     $items[] = $c;
-             }  
-             $i = $i + 1;
-             $j = $j + 1;
+                }
+                $i = $i + 1;
+                $j = $j + 1;
             }
             $r .= implode(',', $items);
 
@@ -80,65 +80,64 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
             } else {
                 $r .= ')';
             }
-            
+
             $j = 0;
             $b = $b + 1;
 
             while ($b < count($this->params['test'])) {
-             $r .= ' elseif (' . $this->params['test'][$b] . ') then ';
+                $r .= ' elseif (' . $this->params['test'][$b] . ') then ';
 
-            if (!$flat) {
-                $r .= '["%root",';
-            } else {
-                $r .= 'sconcat(';
-            }
+                if (!$flat) {
+                    $r .= '["%root",';
+                } else {
+                    $r .= 'sconcat(';
+                }
 
-            $items = array();
-             while ($j < $this->params[' branch lengths'][$b]) {
-              $c = $this->children[$i]->compile($format, $options);
-                if ($c !== null) {
-                    $items[] = $c;
-             }  
-              $i = $i + 1;
-              $j = $j + 1;
-             }
-             $j = 0;
-             $b = $b + 1;
-             $r .= implode(',', $items);
+                $items = array();
+                while ($j < $this->params[' branch lengths'][$b]) {
+                    $c = $this->children[$i]->compile($format, $options);
+                    if ($c !== null) {
+                        $items[] = $c;
+                    }
+                    $i = $i + 1;
+                    $j = $j + 1;
+                }
+                $j = 0;
+                $b = $b + 1;
+                $r .= implode(',', $items);
 
-            if (!$flat) {
-                $r .= ']';
-            } else {
-                $r .= ')';
-            }
-
+                if (!$flat) {
+                    $r .= ']';
+                } else {
+                    $r .= ')';
+                }
             }
 
             if ($b < count($this->params[' branch lengths'])) {
-             $r .= ' else ';
+                $r .= ' else ';
 
-            if (!$flat) {
-                $r .= '["%root",';
-            } else {
-                $r .= 'sconcat(';
-            }
+                if (!$flat) {
+                    $r .= '["%root",';
+                } else {
+                    $r .= 'sconcat(';
+                }
 
-            $items = array();
-             while ($j < $this->params[' branch lengths'][$b]) {
-              $c = $this->children[$i]->compile($format, $options);
-                if ($c !== null) {
-                    $items[] = $c;
-             }  
-              $i = $i + 1;
-              $j = $j + 1;
-             }
-             $r .= implode(',', $items);
+                $items = array();
+                while ($j < $this->params[' branch lengths'][$b]) {
+                    $c = $this->children[$i]->compile($format, $options);
+                    if ($c !== null) {
+                        $items[] = $c;
+                    }
+                    $i = $i + 1;
+                    $j = $j + 1;
+                }
+                $r .= implode(',', $items);
 
-            if (!$flat) {
-                $r .= ']';
-            } else {
-                $r .= ')';
-            }
+                if (!$flat) {
+                    $r .= ']';
+                } else {
+                    $r .= ')';
+                }
             }
         }
 
@@ -146,7 +145,7 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
     }
 
     public function is_flat(): bool {
-        // Now then the problem here is that the flatness depends on the flatness of 
+        // Now then the problem here is that the flatness depends on the flatness of
         // the blocks contents. If they all generate strings then we are flat but if not...
         $flat = true;
 
@@ -168,7 +167,8 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
                 $r[] = stack_ast_container_silent::make_from_teacher_source($item, 'ct2:if', new stack_cas_security());;
             }
         } else {
-            $r[] = stack_ast_container_silent::make_from_teacher_source($this->params['test'], 'ct2:if', new stack_cas_security());;
+            $r[] = stack_ast_container_silent::make_from_teacher_source($this->params['test'], 'ct2:if',
+                new stack_cas_security());;
         }
 
         return $r;

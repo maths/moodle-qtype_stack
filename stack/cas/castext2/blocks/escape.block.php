@@ -62,5 +62,4 @@ class stack_cas_castext2_escape extends stack_cas_castext2_block {
 
         return true;
     }
-
 }

@@ -60,6 +60,7 @@ $title = stack_string('chattitle');
 $PAGE->set_title($title);
 
 
+$displaytext = '';
 $debuginfo = '';
 $errs = '';
 $varerrs = array();
@@ -97,16 +98,20 @@ if ($string) {
 
     $ct = null;
     if (!$varerrs) {
-        $ct           = castext2_evaluatable::make_from_source($string, 'caschat');
+        $ct = castext2_evaluatable::make_from_source($string, 'caschat');
         $session->add_statement($ct);
         if ($ct->get_valid()) {
             $session->instantiate();
             $displaytext  = $ct->get_rendered();
         }
-        $errs         = $ct->get_errors();
+        // Only print each error once.
+        $errs = $ct->get_errors(false);
+        foreach ($session->get_errors(false) as $err) {
+            $errs = array_merge($errs, $err);
+        }
+        $errs = stack_string_error('exceptionmessage', implode(' ', array_unique($errs)));
         $debuginfo    = $session->get_debuginfo();
     }
-
 }
 
 echo $OUTPUT->header();

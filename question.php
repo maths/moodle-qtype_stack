@@ -403,35 +403,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
 
             // Add the context to the security, needs some unpacking of the cached.
-            if ($this->get_cached('security-context') === null || count($this->get_cached('security-context')) === 0) {
+            if ($this->get_cached('security-context') === null) {
                 $this->security->set_context([]);
             } else {
-                // Combine to a single statement to keep the parser cache small.
-                // We need to turn a set of code-fragments into ASTs.
-                $tmp = '[';
-                foreach ($this->get_cached('security-context') as $key => $values) {
-                    $tmp .= '[';
-                    $tmp .= implode(',', $values);
-                    $tmp .= '],';
-                }
-                $tmp = mb_substr($tmp, 0, -1);
-                $tmp .= ']';
-                $ast = maxima_parser_utils::parse($tmp)->items[0]->statement->items;
-                $ctx = [];
-                $i = 0;
-                foreach ($this->get_cached('security-context') as $key => $values) {
-                    $ctx[$key] = [];
-                    $j = 0;
-                    foreach ($values as $k) {
-                        $ctx[$key][$k] = $ast[$i]->items[$j];
-                        $j = $j + 1;
-                        if ($k === -1 || $k === -2) {
-                            $ctx[$key][$k] = $k;
-                        }
-                    }
-                    $i = $i + 1;
-                }
-                $this->security->set_context($ctx);
+                $this->security->set_context($this->get_cached('security-context'));
             }
 
             // The session to keep. Note we do not need to reinstantiate the teachers answers.
@@ -1675,7 +1650,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      *  'castext-qn' for the question-note as compiled CASText2.
      *  'castext-...' for the model-solution and prtpartiallycorrect etc.
      *  'castext-td-...' for downloadable generated text content.
-     *  'security-context' details about types and redefinitions of identifiers.
+     *  'security-context' mainly lists keys that are student inputs.
      *  'prt-*' the compiled PRT-logics in an array. Divided by usage.
      *  'langs' a list of language codes used in this question.
      *
@@ -1875,15 +1850,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         $cc['static-castext-strings'] = $map->get_map();
 
-
-        // Collect the types from all the usages over all the parts.
-        $ti = $sec->get_context();
+        // The time of the security context as it were during 2021 was short, now only 
+        // the input variables remain.
         $si = [];
-        foreach ($ti as $key => $value) {
-            // We should not directly serialize the ASTs they have too much context in them.
-            // Unfortunately that means we need to parse them back on every init.
-            $si[$key] = array_keys($value);
-        }
 
         // Mark all inputs. To let us know that they have special types.
         foreach ($inputs as $key => $value) {

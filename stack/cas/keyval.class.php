@@ -123,26 +123,17 @@ class stack_cas_keyval {
         $ast = maxima_parser_utils::strip_comments($ast);
 
         $vallist = array();
-        // Update the types and values for future insert-stars and other logic.
-        $config = stack_utils::get_config();
-        if ($config->caspreparse == 'true') {
-            $vallist = maxima_parser_utils::identify_identifier_values($ast, $this->security->get_context());
-        }
-        if (isset($vallist['% TIMEOUT %'])) {
-            $this->errors[] = stack_string('stackCas_overlyComplexSubstitutionGraphOrRandomisation');
-            $this->valid = false;
-        } else {
-            // Mark inputs as specific type.
-            if (is_array($inputs)) {
-                foreach ($inputs as $name) {
-                    if (!isset($vallist[$name])) {
-                        $vallist[$name] = [];
-                    }
-                    $vallist[$name][-2] = -2;
+        // Mark inputs as specific type.
+        if (is_array($inputs)) {
+            foreach ($inputs as $name) {
+                if (!isset($vallist[$name])) {
+                    $vallist[$name] = [];
                 }
+                $vallist[$name][-2] = -2;
             }
-            $this->security->set_context($vallist);
         }
+        $this->security->set_context($vallist);
+    
 
         $this->valid   = true;
         $this->statements   = array();
@@ -312,7 +303,7 @@ class stack_cas_keyval {
         $errors = [];
         $answernotes = [];
         $filteroptions = ['998_security' => ['security' => 't']];
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['998_security', '999_strict'], $filteroptions, true);
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['996_call_modification', '998_security', '999_strict'], $filteroptions, true);
         $tostringparams = ['nosemicolon' => true, 'pmchar' => 1];
         $securitymodel = $this->security;
 

@@ -2235,6 +2235,8 @@ function opRBind($op) {
         case 'not ':
         case 'nounnot ':
             return 70;
+        case "'":
+            return 81;
     }
     return 0;
 }

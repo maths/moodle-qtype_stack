@@ -97,41 +97,45 @@ class maxima_parser_utils {
     // Takes a raw tree and the matching source code and remaps the positions from char to line:linechar
     // use when you need to have pretty printed position data.
     public static function position_remap(MP_Node $ast, string $code, array $limits = null) {
-        if ($ast instanceof MP_Statement) {
-            if ($limits === null) {
-                $limits = array();
-                foreach (explode("\n", $code) as $line) {
-                    $limits[] = strlen($line) + 1;
-                }
+        if ($limits === null) {
+            $limits = array();
+            foreach (explode("\n", $code) as $line) {
+                $limits[] = strlen($line) + 1;
             }
+        }
 
-            $c = $ast->position['start'];
-            $l = 1;
-            foreach ($limits as $ll) {
-                if ($c < $ll) {
-                    break;
-                } else {
-                    $c -= $ll;
-                    $l += 1;
-                }
+        $trg= $ast->position['start'];
+        $c = 1;
+        $l = 0;
+        $count = 0;
+        foreach ($limits as $ll) {
+            $count += $ll;
+            $l++;
+            if ($trg < $count) {
+                $count -= $ll;
+                $c = $trg - $count;
+                break;
             }
-            $c += 1;
-            $ast->position['start'] = "$l:$c";
-            $c = $ast->position['end'];
-            $l = 1;
-            foreach ($limits as $ll) {
-                if ($c < $ll) {
-                    break;
-                } else {
-                    $c -= $ll;
-                    $l += 1;
-                }
+        }
+        $c += 1;
+        $ast->position['start'] = "$l:$c";
+        $trg = $ast->position['end'];
+        $c = 1;
+        $l = 0;
+        $count = 0;
+        foreach ($limits as $ll) {
+            $count += $ll;
+            $l++;
+            if ($trg < $count) {
+                $count -= $ll;
+                $c = $trg - $count;
+                break;
             }
-            $c += 1;
-            $ast->position['end'] = "$l:$c";
-            foreach ($ast->getChildren() as $node) {
-                self::position_remap($node, $code, $limits);
-            }
+        }
+        $c += 1;
+        $ast->position['end'] = "$l:$c";
+        foreach ($ast->getChildren() as $node) {
+            self::position_remap($node, $code, $limits);
         }
 
         return $ast;

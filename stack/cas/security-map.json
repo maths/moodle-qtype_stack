@@ -380,6 +380,14 @@
       "function": "f",
       "built-in": true
   },
+  "_C": {
+      "function": "s",
+      "built-in": true
+  },
+  "_CE": {
+      "function": "s",
+      "built-in": true
+  },
   "_CS2dv": {
       "function": "f",
       "built-in": true
@@ -7242,63 +7250,7 @@
   "ssubstfirst": {
       "function": "?"
   },
-  "stack_complex_expression": {
-      "function": "t",
-      "built-in": true
-  },
   "stack_csv_formatter": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_unknown_integer": {
-      "variable": "t",
-      "built-in": true
-  },
-  "stack_unknown_float": {
-      "variable": "t",
-      "built-in": true
-  },
-  "stack_cyclic": {
-      "variable": "f",
-      "built-in": true
-  },
-  "stack_integer_set": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_float_set": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_expression_set": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_integer_list": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_float_list": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_expression_list": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_integer_matrix": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_float_matrix": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_complex_unknown": {
-      "function": "f",
-      "built-in": true
-  },
-  "stack_expression_matrix": {
       "function": "t",
       "built-in": true
   },

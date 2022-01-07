@@ -246,3 +246,39 @@ vconcat([ex]) := block([tmp],
    error(sconcat("concat: '", tmp, "' is a forbidden symbol and cannot be constructed.")),
  return(tmp)
 )$
+
+all_ops(%_expr) := block([%_edge, %_next_edge, %_tmp, %_op, %_result],
+ /* Returns a list of all the operators and functions
+    in use in the expression. Turn it to a bag if you need
+    the counts or a set if only the existence matters. */
+ %_next_edge : [%_expr],
+ %_result : [],
+ while length(%_next_edge) > 0 do (
+  %_edge : %_next_edge,
+  %_next_edge : [],
+  for %_tmp in %_edge do (
+   %_op : safe_op(%_tmp),
+   if not (%_op = "") then (
+    %_result : append(%_result, [%_op]),
+    %_next_edge : append(%_next_edge, args(%_tmp))
+   )
+  )
+ ),
+ %_result
+)$
+
+_C(%_id) := block([simp],simp:true,
+ if elementp(sconcat(%_id), FORBIDDEN_SYMBOLS_SET) then (
+  error(sconcat("Attempt to call forbidden function detected: ", %_id))
+ )
+)$ 
+
+_CE(%_expr) := block([simp,%_tmp],
+ simp: false,
+ /* Also forbid these inside this context. */
+ %_tmp: intersection(union(FORBIDDEN_SYMBOLS_SET,{"map", "subst", "at", "apply", "fullmap", "fullmapl", "funmake", "maplist", "matrixmap", "outermap", "scanmap"}), setify(all_ops(%_expr))),
+ if cardinality(%_tmp) > 0 then (
+  error(sconcat("Attempt to call forbidden function detected: ", simplode(listify(%_tmp), ", ")))
+ ),
+ %_expr
+)$

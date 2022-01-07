@@ -153,27 +153,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         $processedfuns = []; // To stop specific loops.
 
         // Some focusing to avoid pointles checks.
-        $ctx1 = $identifierrules->get_context();
-        $ctx = [];
-        foreach ($ctx1 as $key => $values) {
-            foreach ($values as $k => $value) {
-                if (!is_integer($k)) {
-                    if ($value instanceof MP_Integer || $value instanceof MP_Float
-                            || $value instanceof MP_Boolean
-                            || ($value instanceof MP_PrefixOp
-                                    && ($value->rhs instanceof MP_Integer || $value->rhs instanceof MP_Float))) {
-                        continue;
-                    }
-                    if ($value instanceof MP_Operation && $value->op !== '*') {
-                        continue;
-                    }
-                }
-                if (!isset($ctx[$key])) {
-                    $ctx[$key] = [];
-                }
-                $ctx[$key][$k] = $value;
-            }
-        }
+        $ctx = $identifierrules->get_context();
 
         while ($i < count($ofinterest)) {
             $node = $ofinterest[$i];
@@ -412,48 +392,6 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             $errors[] = trim(stack_string('stackCas_studentInputAsFunction'));
                         }
                         $valid = false;
-                    }
-                    if ($key === -3) {
-                        if ($this->source === 's') {
-                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));
-                        } else {
-                            $errors[] = trim(stack_string('stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName',
-                                    ['name' => $name]));
-                        }
-                        $valid = false;
-                    }
-                    if (($value instanceof MP_Identifier || $value instanceof MP_String) &&
-                        !$identifierrules->is_allowed_to_call($this->source, $value->value)) {
-                        if ($this->source === 's') {
-                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));
-                        } else {
-                            $errors[] = trim(stack_string('stackCas_functionNameSubstitutionToForbiddenOne',
-                                    ['name' => $name, 'trg' => $value->value]));
-                        }
-                        $valid = false;
-                    } else if ($value instanceof MP_FunctionCall && $value->name->toString() === 'stack_complex_unknown') {
-                        if ($this->source === 's') {
-                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));
-                        } else {
-                            $errors[] = trim(stack_string('stackCas_unknownSubstitutionPotenttiallyMaskingAFunctionName',
-                                    ['name' => $name]));
-                        }
-                        $valid = false;
-                    } else if ($value instanceof MP_FunctionCall && $value->name->toString() === 'stack_complex_expression') {
-                        $tmp = $value->type_count();
-                        $tmp = array_merge(array_keys($tmp['strings']), array_keys($tmp['vars']));
-                        foreach ($tmp as $arg) {
-                            if (!$identifierrules->is_allowed_to_call($this->source, $arg)) {
-                                $valid = false;
-                                if ($this->source === 's') {
-                                    $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));
-                                    break;
-                                } else {
-                                    $errors[] = trim(stack_string('stackCas_functionNameSubstitutionToForbiddenOne',
-                                            ['name' => $name, 'trg' => $arg]));
-                                }
-                            }
-                        }
                     }
                 }
             }

@@ -120,6 +120,8 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         // If not already valid then not compiled either.
         try {
             $ast = castext2_parser_utils::parse($this->source);
+            // Turn the char indexes to line:column ones.
+            $ast = castext2_parser_utils::position_remap($ast, $this->source);
         } catch (SyntaxError $e) {
             $this->valid = false;
             $this->errors = [$e->getMessage()];

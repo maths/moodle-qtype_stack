@@ -28,6 +28,8 @@ abstract class stack_cas_castext2_block {
     public $children;
     // We have no clue what this would be in postprocess phase.
     public $mathmode = false;
+    // Position data from the parser
+    public $position = null;
 
     public function __construct(
         $params,
@@ -37,6 +39,7 @@ abstract class stack_cas_castext2_block {
         $this->params   = $params;
         $this->children = $children;
         $this->mathmode = $mathmode;
+        $this->position = [];
     }
 
     /**

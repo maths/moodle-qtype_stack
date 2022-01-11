@@ -268,17 +268,23 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
     // TODO: pick another place for this function.
     public static function make(CTP_Node $node): stack_cas_castext2_block {
         if ($node instanceof CTP_IOBlock) {
-            return new stack_cas_castext2_special_ioblock([], [], $node->
+            $r = new stack_cas_castext2_special_ioblock([], [], $node->
                 mathmode, $node->channel, $node->variable);
+            $r->position = $node->position;
+            return $r;
         } else if ($node instanceof CTP_Raw) {
-            return new stack_cas_castext2_special_raw([], [], $node->
+            $r = new stack_cas_castext2_special_raw([], [], $node->
                 mathmode, $node->value);
+            $r->position = $node->position;
+            return $r;
         } else if ($node instanceof CTP_Root) {
             $children = [];
             foreach ($node->items as $item) {
                 $children[] = self::make($item);
             }
-            return new stack_cas_castext2_special_root([], $children, $node->mathmode);
+            $r = new stack_cas_castext2_special_root([], $children, $node->mathmode);
+            $r->position = $node->position;
+            return $r;
         }
         // What remains are blocks.
 
@@ -297,8 +303,10 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
             foreach ($node->parameters as $param) {
                 $params[] = ['key' => $param['key'], 'value' => $param['value']->value];
             }
-            return castext2_block_factory::make($node->name, $params, $children,
+            $r = castext2_block_factory::make($node->name, $params, $children,
                 $node->mathmode);
+            $r->position = $node->position;
+            return $r;
         }
 
         // IF-blocks do also have special encoding in the params.
@@ -317,7 +325,9 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                 $params[$key] = $value;
             }
         }
-        return castext2_block_factory::make($node->name, $params, $children,
+        $r = castext2_block_factory::make($node->name, $params, $children,
             $node->mathmode);
+        $r->position = $node->position;
+        return $r;
     }
 }

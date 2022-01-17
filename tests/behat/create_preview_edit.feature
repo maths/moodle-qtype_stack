@@ -58,7 +58,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I should see "Marks for this submission: 1.00/1.00. Accounting for previous tries, this gives 0.90/1.00."
 
     # Create a question test.
-    When I follow "Question tests & deployed variants"
+    When I follow "Question is missing tests or variants"
     Then I should see "This question does not use randomisation."
     When I press "Add a test case..."
     And I set the following fields to these values:

@@ -140,7 +140,7 @@ class stack_ast_container_conditional_value extends stack_ast_container_silent i
         if (null === $this->evaluated) {
             throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
         }
-        return $this->ast_to_string($this->evaluated);
+        return $this->ast_to_string($this->evaluated, array('checkinggroup' => true));
     }
 }
 
@@ -206,7 +206,7 @@ class stack_ast_container_conditional_latex_and_value extends stack_ast_containe
         if (null === $this->evaluated) {
             throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
         }
-        return $this->ast_to_string($this->evaluated);
+        return $this->ast_to_string($this->evaluated, array('checkinggroup' => true));
     }
 
     public function set_cas_latex_value(string $latex) {

@@ -834,7 +834,8 @@ class castext_test extends qtype_stack_testcase {
     }
 
     public function test_strings_in_castext() {
-        $vars = "st1:[\"\;\sin(x^2)\",\"\;\cos(x^2)\"]\n/* And a comment: with LaTeX \;\sin(x) */\n a:3;";
+        $vars = "st1:[\"\;\sin(x^2)\",\"\;\cos(x^2)\"]\n/* And a comment: with LaTeX \;\sin(x) */
+        /*\n a:3;";
         $at1 = new stack_cas_keyval($vars, null, 123);
         $this->assertTrue($at1->get_valid());
         $cs2 = $at1->get_session();

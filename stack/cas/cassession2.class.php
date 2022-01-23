@@ -538,6 +538,16 @@ class stack_cas_session2 {
      */
     public function get_keyval_representation($evaluatedvalues = false): string {
         $keyvals = '';
+        $params = array('checkinggroup' => true,
+            'qmchar' => false,
+            'pmchar' => false,
+            'nosemicolon' => true,
+            'keyless' => false,
+            'dealias' => true, // This is needed to stop pi->%pi etc.
+            'nounify' => 0,
+            'nontuples' => false
+        );
+
         foreach ($this->statements as $statement) {
             if ($evaluatedvalues) {
                 if (is_a($statement, 'stack_ast_container') && $statement->is_correctly_evaluated()) {
@@ -549,7 +559,7 @@ class stack_cas_session2 {
                 }
             } else {
                 if ($statement->get_valid()) {
-                    $val = trim($statement->get_evaluationform());
+                    $val = trim($statement->ast_to_string(null, $params));
                     $keyvals .= $val . ";\n";
                 } else {
                     $keyvals .= "/* " . stack_string('stackInstall_testsuite_errors') . " */\n";

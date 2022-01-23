@@ -17,23 +17,27 @@
 
 /*
  * Class defintions for the PHP version of the PEGJS parser.
- * toString functions are mainly to document what the objects parts mean. But
- * you can do some debugging with them.
- * end of the file contains functions the parser uses...
+ * toString functions are mainly to document what the objects parts mean.
+ * But you can do some debugging and unit testing with them.
+ * The end of the file contains functions the parser uses...
  *
- * function toString should return something which is completely correct in Maxima.
+ * The function toString should return something which is completely correct in Maxima.
  * Known parameter values for toString.
  *
  * 'pretty'                  Used for debug pretty-printing of the statement.
  * 'insertstars_as_red'      All * operators created by insert stars logic will be marked with red.
  * 'fixspaces_as_red_spaces' Similar to above, but for spaces.
  * 'inputform'               Something a user (normally student) would expect to type.
+ *                           (a) _C(...) is removed.
+ *                           (b) stackeq and stacklet are removed.
+ * 'checkinggroup'           If true then _C(...) are removed.
  * 'nounify'                 If 0 removes all nouns.
  *                           If defined and 1 nounifies all operators and functions.
  *                           If 2, adds logic nouns.
  * 'dealias'                 If defined unpacks potential aliases.
- * 'qmchar'                  If defined prints question marks directly if present as QMCHAR.
+ * 'qmchar'                  If defined and true prints question marks directly if present as QMCHAR.
  * 'pmchar'                  If defined prints +- marks directly if present as #pm#.
+ * 'flattree'                Used for debugging of the internals.  Does not print MP_Checking_Group by design.
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -68,8 +72,8 @@ class MP_Node {
     // If it does structural changes it must return false so that the recursion may be repeated on
     // the changed structure.
     // Calling with null function will upgrade parentnodes, but does nothing else.
-    // Which may be necessary in some cases, where modifications are heavy and the paintting
-    // cannot paint fast enough, should you parentnode happen to be null then this might
+    // Which may be necessary in some cases, where modifications are heavy and the painting
+    // cannot paint fast enough, should your parentnode happen to be null then this might
     // have happened we do not do this automatically as most code works without back referencing.
     // One may also declare that invalid subtrees are not to be processed.
     public function callbackRecurse($function = null, $skipinvalid = false) {
@@ -820,7 +824,7 @@ class MP_Identifier extends MP_Atom {
             }
         }
 
-        if ($params !== null && isset($params['qmchar'])) {
+        if ($params !== null && isset($params['qmchar']) && $params['qmchar']) {
             return $indent . str_replace('QMCHAR', '?', $op);
         }
 
@@ -1043,8 +1047,8 @@ class MP_FunctionCall extends MP_Node {
     public function toString($params = null): string {
         $n = $this->name->toString($params);
 
-        $feat = null;
         if ($params !== null && isset($params['dealias'])) {
+            $feat = null;
             if ($params['dealias'] === true) {
                 $feat = stack_cas_security::get_feature($n, 'aliasvariable');
             }
@@ -1054,6 +1058,7 @@ class MP_FunctionCall extends MP_Node {
         }
 
         if ($params !== null && isset($params['nounify'])) {
+            $feat = null;
             if ($this->name instanceof MP_Identifier || $this->name instanceof MP_String) {
                 if ($params['nounify'] === 0) {
                     $feat = stack_cas_security::get_feature($n, 'nounfunctionfor');
@@ -1263,6 +1268,21 @@ class MP_Group extends MP_Node {
                 }
             }
         }
+    }
+}
+
+/* The purpose of this class is to keep the checking relatively a relatively private affair. */
+class MP_Checking_Group extends MP_Group {
+    public function toString($params = null): string {
+        if ($params !== null) {
+            if ((isset($params['inputform']) && $params['inputform']) ||
+                (isset($params['checkinggroup']) && $params['checkinggroup']) ||
+                (isset($params['flattree']) && $params['flattree'])) {
+                $val = end($this->items);
+                return $val->toString($params);
+            }
+        }
+        return parent::toString($params);
     }
 }
 

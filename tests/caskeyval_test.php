@@ -276,9 +276,20 @@ class caskeyval_test extends qtype_stack_testcase {
             . 'df:diff(f,x);df_simp:(subst(sub,df));ta1:expand(df_simp);';
 
         $kv = new stack_cas_keyval($tests);
-        $this->assertFalse($kv->get_valid());
-        $expected = array('The function name "cos" is potentially redefined in unclear substitutions.',
-            'The function name "diff" is potentially redefined in unclear substitutions.');
+        // This changed since we check Maxima-side.
+        $this->assertTrue($kv->get_valid());
+        $expected = array();
         $this->assertEquals($expected, $kv->get_errors());
+
+        $kv->instantiate();
+        $s = $kv->get_session();
+        $expected = "v:2;\n" .
+                    "trig:[sin,cos][v];\n" .
+                    "sub:[(sin(x))^2 = 1-(cos(x))^2,(cos(x))^2 = 1-(sin(x))^2][v];\n" .
+                    "f:(trig(x))^n;\n" .
+                    "df:diff(f,x);\n" .
+                    "df_simp:(subst(sub,df));\n" .
+                    "ta1:expand(df_simp);";
+        $this->assertEquals($expected, $s->get_keyval_representation());
     }
 }

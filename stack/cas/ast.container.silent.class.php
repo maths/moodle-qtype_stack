@@ -769,6 +769,11 @@ class stack_ast_container_silent implements cas_evaluatable {
             $root->lhs instanceof MP_Identifier) {
             $root = $root->rhs;
         }
+        if ($root instanceof MP_Checking_Group) {
+            if (array_key_exists(0, $root->items)) {
+                $root = end($root->items);
+            }
+        }
         if ($root instanceof MP_Functioncall &&
             $root->name instanceof MP_Identifier &&
             $root->name->value === 'matrix') {

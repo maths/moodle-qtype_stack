@@ -485,8 +485,8 @@ class qtype_stack_renderer extends qtype_renderer {
         if (empty($hint->hint)) {
             return '';
         }
-
-        $hinttext = $qa->get_question()->get_hint_castext($hint);
+        $question = $qa->get_question();
+        $hinttext = $question->get_hint_castext($hint);
 
         // If called out of order.
         if ($question->castextprocessor === null) {
@@ -499,7 +499,7 @@ class qtype_stack_renderer extends qtype_renderer {
             );
 
         return html_writer::nonempty_tag('div',
-                $qa->get_question()->format_hint($newhint, $qa), array('class' => 'hint'));
+            $question->format_hint($newhint, $qa), array('class' => 'hint'));
     }
 
     public function correct_response(question_attempt $qa) {

@@ -238,10 +238,10 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
                 $valid    = false;
                 if ($valids === null) {
                     $valids = ['width', 'height', 'aspect-ratio'];
-                    if ($input_definitions !== null) {
+                    if ($inputdefinitions !== null) {
                         $tmp    = $root->get_parameter('ioblocks');
                         $inputs = [];
-                        foreach ($input_definitions->get_names() as $key) {
+                        foreach ($inputdefinitions->get_names() as $key) {
                             $inputs[] = "input-ref-$key";
                         }
                         $valids = array_merge($valids, $inputs);

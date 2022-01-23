@@ -1849,7 +1849,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         $cc['static-castext-strings'] = $map->get_map();
 
-        // The time of the security context as it were during 2021 was short, now only 
+        // The time of the security context as it were during 2021 was short, now only
         // the input variables remain.
         $si = [];
 

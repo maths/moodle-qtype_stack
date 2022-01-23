@@ -28,26 +28,27 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
         $process = function($node) use ($mapfuns) {
             if ($node instanceof MP_Functioncall && !isset($node->position['997']) && !$node->is_definition()) {
                 if ($node->name instanceof MP_Atom && ($node->name->value === 'apply' || isset($mapfuns[$node->name->value]))) {
-                    // apply(foo,...) => (_C(foo),_C(apply),apply(foo,...))
-                    $replacement = new MP_Group([new MP_FunctionCall(new MP_Identifier('_C'),[$node->arguments[0]]), new MP_FunctionCall(new MP_Identifier('_C'),[$node->name]), $node]);
+                    // E.g. apply(foo,...) => (_C(foo),_C(apply),apply(foo,...)).
+                    $replacement = new MP_Group([new MP_FunctionCall(new MP_Identifier('_C'),
+                        [$node->arguments[0]]), new MP_FunctionCall(new MP_Identifier('_C'), [$node->name]), $node]);
                     $replacement->items[0]->position['997'] = true;
                     $replacement->items[1]->position['997'] = true;
                     $replacement->items[2]->position['997'] = true;
                     $node->parentnode->replace($node, $replacement);
                     return false;
                 } else if ($node->name instanceof MP_Atom && ($node->name->value === 'at' || $node->name->value === 'subst')) {
-                    // subst([f=g],g(x)) => (_C(subst),_CE(subst([f=g],g(x))))
-                    $replacement = new MP_Group([new MP_FunctionCall(new MP_Identifier('_C'),[$node->name]), new MP_Functioncall(new MP_Identifier('_CE'),[$node])]);
+                    // E.g. subst([f=g],g(x)) => (_C(subst),_CE(subst([f=g],g(x)))).
+                    $replacement = new MP_Group([new MP_FunctionCall(new MP_Identifier('_C'), [$node->name]),
+                        new MP_Functioncall(new MP_Identifier('_CE'), [$node])]);
                     $replacement->items[0]->position['997'] = true;
                     $replacement->items[1]->position['997'] = true;
                     $replacement->items[1]->arguments[0]->position['997'] = true;
                     $node->parentnode->replace($node, $replacement);
                     return false;
                 } else {
-                    // f(x) => (_C(f),f(x))
-                    $replacement = new MP_Group([new MP_FunctionCall(new MP_Identifier('_C'),[$node->name]), $node]);
+                    // E.g. f(x) => (_C(f),f(x)).
+                    $replacement = new MP_Group([new MP_FunctionCall(new MP_Identifier('_C'), [$node->name]), $node]);
                     $replacement->items[0]->position['997'] = true;
-                    
                     // 'f(x) => (_C(f),'f(x))
                     if ($node->parentnode instanceof MP_PrefixOp) {
                         $replacement->items[1] = $node->parentnode;

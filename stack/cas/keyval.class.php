@@ -133,7 +133,6 @@ class stack_cas_keyval {
             }
         }
         $this->security->set_context($vallist);
-    
 
         $this->valid   = true;
         $this->statements   = array();
@@ -303,7 +302,8 @@ class stack_cas_keyval {
         $errors = [];
         $answernotes = [];
         $filteroptions = ['998_security' => ['security' => 't']];
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['996_call_modification', '998_security', '999_strict'], $filteroptions, true);
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['996_call_modification', '998_security',
+            '999_strict'], $filteroptions, true);
         $tostringparams = ['nosemicolon' => true, 'pmchar' => 1];
         $securitymodel = $this->security;
 

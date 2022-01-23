@@ -943,7 +943,7 @@ class stack_utils {
      * Translate some strings from Maxima.
      * @param string $string
      */
-    public static function maxima_translate_string(string $string){
+    public static function maxima_translate_string(string $string) {
         $fixed = $string;
         if (strpos($string, '0 to a negative exponent') !== false) {
             $fixed = stack_string('Maxima_DivisionZero');

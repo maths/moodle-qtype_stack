@@ -198,7 +198,8 @@ class stack_ast_container_silent implements cas_evaluatable {
 
         // Get the filter pipeline. Now we only want the core filtters and
         // append the strict syntax check to the end.
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('996_call_modification', '998_security', '999_strict'), $filteroptions, true);
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('996_call_modification', '998_security',
+            '999_strict'), $filteroptions, true);
 
         if ($ast !== null) {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);

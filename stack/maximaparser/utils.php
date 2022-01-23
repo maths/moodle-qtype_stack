@@ -104,7 +104,7 @@ class maxima_parser_utils {
             }
         }
 
-        $trg= $ast->position['start'];
+        $trg = $ast->position['start'];
         $c = 1;
         $l = 0;
         $count = 0;

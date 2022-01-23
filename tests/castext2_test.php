@@ -346,7 +346,25 @@ class castext2_test extends qtype_stack_testcase {
      *  2. Outputs contents as they are.
      */
     public function test_blocks_escape() {
+        $input = '1[[ escape]] [[ foreach bar="foo"]] {#y@} [[/escape]]2';
+        $output = '1 [[ foreach bar="foo"]] {#y@} 2';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    /*
+     * Should we condone a space at the end of the block name?
+     */
+    public function test_blocks_escape_space_end() {
         $input = '1[[ escape ]] [[ foreach bar="foo"]] {#y@} [[/escape]]2';
+        $output = '1 [[ foreach bar="foo"]] {#y@} 2';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    /*
+     * Should we condone lack of any spaces in the block name?
+     */
+    public function test_blocks_escape_space_none() {
+        $input = '1[[escape]] [[ foreach bar="foo"]] {#y@} [[/escape]]2';
         $output = '1 [[ foreach bar="foo"]] {#y@} 2';
         $this->assertEquals($output, $this->evaluate($input));
     }

@@ -37,7 +37,7 @@
  * 'dealias'                 If defined unpacks potential aliases.
  * 'qmchar'                  If defined and true prints question marks directly if present as QMCHAR.
  * 'pmchar'                  If defined prints +- marks directly if present as #pm#.
- * 'flattree'                Used for debugging of the internals.  Does not print MP_Checking_Group by design.
+ * 'flattree'                Used for debugging of the internals.  Does not print checking groups by design.
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -1186,6 +1186,7 @@ class MP_FunctionCall extends MP_Node {
 
 class MP_Group extends MP_Node {
     public $items = null;
+    public $checkinggroup = false;
 
     public function __construct($items) {
         parent::__construct();
@@ -1219,6 +1220,18 @@ class MP_Group extends MP_Node {
 
     public function toString($params = null): string {
         $indent = '';
+
+        // Now establish if we have a "Checking group" added by the 996 filter.
+        if ($this->checkinggroup && $params !== null) {
+            if ((isset($params['inputform']) && $params['inputform']) ||
+                (isset($params['checkinggroup']) && $params['checkinggroup']) ||
+                (isset($params['flattree']) && $params['flattree'])) {
+
+                $val = end($this->items);
+                return $val->toString($params);
+            }
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             if (is_integer($params['pretty'])) {
                 $indent           = str_pad($indent, $params['pretty']);
@@ -1268,21 +1281,6 @@ class MP_Group extends MP_Node {
                 }
             }
         }
-    }
-}
-
-/* The purpose of this class is to keep the checking relatively a relatively private affair. */
-class MP_Checking_Group extends MP_Group {
-    public function toString($params = null): string {
-        if ($params !== null) {
-            if ((isset($params['inputform']) && $params['inputform']) ||
-                (isset($params['checkinggroup']) && $params['checkinggroup']) ||
-                (isset($params['flattree']) && $params['flattree'])) {
-                $val = end($this->items);
-                return $val->toString($params);
-            }
-        }
-        return parent::toString($params);
     }
 }
 

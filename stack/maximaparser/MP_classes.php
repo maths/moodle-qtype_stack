@@ -1186,7 +1186,6 @@ class MP_FunctionCall extends MP_Node {
 
 class MP_Group extends MP_Node {
     public $items = null;
-    public $checkinggroup = false;
 
     public function __construct($items) {
         parent::__construct();
@@ -1218,11 +1217,19 @@ class MP_Group extends MP_Node {
         }
     }
 
+    public function isSynthetic() {
+        if (count($this->items) < 1 || !array_key_exists(0, $this->items)) {
+            return false;
+        }
+        return $this->items[0] instanceof MP_FunctionCall &&
+            $this->items[0]->name instanceof MP_Atom &&
+            $this->items[0]->name->value === '_C';
+}
     public function toString($params = null): string {
         $indent = '';
 
         // Now establish if we have a "Checking group" added by the 996 filter.
-        if ($this->checkinggroup && $params !== null) {
+        if ($this->isSynthetic() && $params !== null) {
             if ((isset($params['inputform']) && $params['inputform']) ||
                 (isset($params['checkinggroup']) && $params['checkinggroup']) ||
                 (isset($params['flattree']) && $params['flattree'])) {

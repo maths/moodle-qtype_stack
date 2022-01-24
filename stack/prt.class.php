@@ -164,7 +164,7 @@ class stack_potentialresponse_tree_lite {
         };
         while ($ast->callbackRecurse($clean) !== true) {}
 
-        return $ast->toString(['pretty' => true]);
+        return $ast->toString(array('pretty' => true, 'checkinggroup' => true));
     }
 
     /**

@@ -64,7 +64,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         $nestedfunction = false;
         $extraction = function($node) use (&$ofinterest, &$commas, &$parenthesis, &$brackets, &$braces, &$evflags, $protected) {
             // Only the last item in a checking group should be checked.
-            if ($node instanceof MP_Group && $node->checkinggroup) {
+            if ($node instanceof MP_Group && $node->isSynthetic()) {
                 $node = end($node->items);
             }
             if ($node instanceof MP_Identifier ||

@@ -81,7 +81,9 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         if ('' == trim($err)) {
             return false;
         } else {
-            $this->errors[] = $err;
+            // Force validation first so that all the errors are in the same form.
+            $this->get_valid();
+            $this->errors[] = new $this->errclass($err, $this->get_source_context());
             // Old behaviour was to return the combined errors, but apparently it was not used in master?
             // TODO: maybe remove the whole return?
             return $this->get_errors();

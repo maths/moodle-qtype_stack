@@ -212,23 +212,30 @@ class prt_evaluatable implements cas_raw_value_extractor {
         return $notes;
     }
 
-    public function get_errors() {
+    public function get_errors($format='strings') {
         // Apparently one wants to separate feedback-var errors?
         $err = [];
         foreach ($this->errors as $er) {
-            if (strpos($er, ': feedback-variables') === false) {
-                $err[] = $er;
+            if (strpos($er->get_context(), '/fv') === false) {
+                if ($format === 'strings') {
+                    $err[] = $er->get_legacy_error();
+                } else {
+                    $err[] = $er;
+                }
             }
         }
         return $err;
     }
 
-    public function get_fverrors() {
+    public function get_fverrors($format='strings') {
         $err = [];
         foreach ($this->errors as $er) {
-            if (strpos($er, ': feedback-variables') !== false) {
-                // If these are all for FV we can drop the prefix.
-                $err[] = explode(': feedback-variables', $er)[1];
+            if (strpos($er->get_context(), '/fv') !== false) {
+                if ($format === 'strings') {
+                    $err[] = $er->get_legacy_error();
+                } else {
+                    $err[] = $er;
+                }
             }
         }
         return $err;

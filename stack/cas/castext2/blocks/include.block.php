@@ -87,9 +87,9 @@ class stack_cas_castext2_include extends stack_cas_castext2_block {
         return castext2_parser_utils::get_casstrings($src);
     }
 
-    public function validate(&$errors=array(), array $prts): bool {
+    public function validate(&$errors=array(), array $options): bool {
         if (!array_key_exists('src', $this->params)) {
-            $errors[] = 'Include block requires a src parameter.';
+            $errors[] = new $options['errclass']('Include block requires a src parameter.', $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);
             return false;
         }
 

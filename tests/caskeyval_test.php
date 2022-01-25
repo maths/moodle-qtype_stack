@@ -138,7 +138,7 @@ class caskeyval_test extends qtype_stack_testcase {
         $kv = new stack_cas_keyval($tests);
         $this->assertTrue($kv->get_valid());
         $kv->instantiate();
-        foreach ($kv->get_session() as $cs) {
+        foreach ($kv->get_session()->get_session() as $cs) {
             $expect = (strpos($cs->get_key(), 't') === 0) ? 'true' : 'false';
             $this->assertEquals($expect, $cs->get_value());
         }

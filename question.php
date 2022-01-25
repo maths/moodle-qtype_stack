@@ -356,10 +356,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
             // Context variables should be first.
             if ($this->get_cached('contextvariables-qv') !== null) {
-                $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), 'qv'));
+                $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
             }
             if ($this->get_cached('statement-qv') !== null) {
-                $session->add_statement(new stack_secure_loader($this->get_cached('statement-qv'), 'qv'));
+                $session->add_statement(new stack_secure_loader($this->get_cached('statement-qv'), '/qv'));
             }
 
             // Note that at this phase the security object has no "words".
@@ -391,13 +391,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $static = new castext2_static_replacer($this->get_cached('static-castext-strings'));
 
             // 3. CAS bits inside the question text.
-            $questiontext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qt'), 'question-text', $static);
+            $questiontext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qt'), '/qt', $static);
             if ($questiontext->requires_evaluation()) {
                 $session->add_statement($questiontext);
             }
 
             // 4. CAS bits inside the specific feedback.
-            $feedbacktext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-sf'), 'specific-feedback', $static);
+            $feedbacktext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-sf'), '/sf', $static);
             if ($feedbacktext->requires_evaluation()) {
                 $session->add_statement($feedbacktext);
             }
@@ -413,18 +413,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $sessiontokeep = new stack_cas_session2($session->get_session(), $this->options, $this->seed);
 
             // 5. CAS bits inside the question note.
-            $notetext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qn'), 'question-note', $static);
+            $notetext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qn'), '/qn', $static);
             if ($notetext->requires_evaluation()) {
                 $session->add_statement($notetext);
             }
 
             // 6. The standard PRT feedback.
             $prtcorrect          = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-c'),
-                'prt-msg', $static);
+                '/pc', $static);
             $prtpartiallycorrect = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-pc'),
-                'prt-msg', $static);
+                '/pp', $static);
             $prtincorrect        = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-ic'),
-                'prt-msg', $static);
+                '/pi', $static);
             if ($prtcorrect->requires_evaluation()) {
                 $session->add_statement($prtcorrect);
             }
@@ -517,9 +517,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
             $input->adapt_to_model_answer($teacheranswer);
             if ($this->get_cached('contextvariables-qv') !== null) {
-                $input->add_contextsession(new stack_secure_loader($this->get_cached('contextvariables-qv'), 'qv'));
+                $input->add_contextsession(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
             }
-
         }
     }
 
@@ -560,14 +559,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         // We can have a failed question.
         if ($this->get_cached('castext-gf') === null) {
-            $ct = castext2_evaluatable::make_from_compiled('"Broken question."', 'general-feedback',
+            $ct = castext2_evaluatable::make_from_compiled('"Broken question."', '/gf',
                 new castext2_static_replacer([])); // This mainly for the bulk-test script.
             $ct->requires_evaluation(); // Makes it as if it were evaluated.
             return $ct;
         }
 
         $this->generalfeedbackinstantiated = castext2_evaluatable::make_from_compiled($this->get_cached('castext-gf'),
-            'general-feedback', new castext2_static_replacer($this->get_cached('static-castext-strings')));
+            '/gf', new castext2_static_replacer($this->get_cached('static-castext-strings')));
         // Might not require any evaluation anyway.
         if (!$this->generalfeedbackinstantiated->requires_evaluation()) {
             return $this->generalfeedbackinstantiated;
@@ -579,10 +578,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
         }
         if ($this->get_cached('contextvariables-qv') !== null) {
-            $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), 'qv'));
+            $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
         }
         if ($this->get_cached('statement-qv') !== null) {
-            $session->add_statement(new stack_secure_loader($this->get_cached('statement-qv'), 'qv'));
+            $session->add_statement(new stack_secure_loader($this->get_cached('statement-qv'), '/qv'));
         }
 
         // Then add the general-feedback code.
@@ -1087,7 +1086,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // Context variables should be first.
         if ($this->get_cached('contextvariables-qv') !== null) {
-            $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), 'qv'));
+            $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
         }
         // Add contextvars from PRTs as well.
         foreach ($this->get_cached('prt-contextvariables') as $name => $stmt) {
@@ -1097,7 +1096,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         if ($this->get_cached('statement-qv') !== null) {
-            $session->add_statement(new stack_secure_loader($this->get_cached('statement-qv'), 'qv'));
+            $session->add_statement(new stack_secure_loader($this->get_cached('statement-qv'), '/qv'));
         }
 
         // Then the definitions of the PRT-functions. Note not just statements for a reason.
@@ -1703,7 +1702,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if (!$kv->get_valid()) {
                 throw new stack_exception('Error(s) in question-variables: ' . implode('; ', $kv->get_errors()));
             }
-            $c = $kv->compile('question-variables');
+            $c = $kv->compile('/qv');
             // Store the pre-validated statement representing the whole qv.
             $cc['statement-qv'] = $c['statement'];
             // Store any contextvariables, e.g. assume statements.
@@ -1734,8 +1733,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $cc['prt-contextvariables'] = [];
         $cc['prt-signature'] = [];
         $cc['prt-definition'] = [];
+        $i = 0;
         foreach ($prts as $name => $prt) {
-            $r = $prt->compile($inputs, $forbiddenkeys, $defaultpenalty, $sec);
+            $path = '/p/' . $i;
+            $i = $i + 1;
+            $r = $prt->compile($inputs, $forbiddenkeys, $defaultpenalty, $sec, $path);
             $cc['required'][$name] = $r['required'];
             if ($r['be'] !== null && $r['be'] !== '') {
                 $cc['prt-preamble'][$name] = $r['be'];
@@ -1773,7 +1775,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             'prt-names' => array_flip(array_keys($prts)),
             'io-blocks-as-raw' => 'pre-input2'
         ];
-        $ct = castext2_evaluatable::make_from_source($questiontext, 'question-text');
+        $ct = castext2_evaluatable::make_from_source($questiontext, '/qt');
         if (!$ct->get_valid($questiontextformat, $ctoptions, $sec)) {
             throw new stack_exception('Error(s) in question-text: ' . implode('; ', $ct->get_errors()));
         } else {
@@ -1788,42 +1790,42 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
 
-        $ct = castext2_evaluatable::make_from_source($questionnote, 'question-note');
+        $ct = castext2_evaluatable::make_from_source($questionnote, '/qn');
         if (!$ct->get_valid(FORMAT_HTML, $ctoptions, $sec)) {
             throw new stack_exception('Error(s) in question-note: ' . implode('; ', $ct->get_errors()));
         } else {
             $cc['castext-qn'] = $ct->get_evaluationform();
         }
 
-        $ct = castext2_evaluatable::make_from_source($generalfeedback, 'general-feedback');
+        $ct = castext2_evaluatable::make_from_source($generalfeedback, '/gf');
         if (!$ct->get_valid($generalfeedbackformat, $ctoptions, $sec)) {
             throw new stack_exception('Error(s) in general-feedback: ' . implode('; ', $ct->get_errors()));
         } else {
             $cc['castext-gf'] = $ct->get_evaluationform();
         }
 
-        $ct = castext2_evaluatable::make_from_source($specificfeedback, 'specific-feedback');
+        $ct = castext2_evaluatable::make_from_source($specificfeedback, '/sf');
         if (!$ct->get_valid($specificfeedbackformat, $ctoptions, $sec)) {
             throw new stack_exception('Error(s) in specific-feedback: ' . implode('; ', $ct->get_errors()));
         } else {
             $cc['castext-sf'] = $ct->get_evaluationform();
         }
 
-        $ct = castext2_evaluatable::make_from_source($prtcorrect, 'specific-feedback');
+        $ct = castext2_evaluatable::make_from_source($prtcorrect, '/pc');
         if (!$ct->get_valid($prtcorrectformat, $ctoptions, $sec)) {
             throw new stack_exception('Error(s) in PRT-correct message: ' . implode('; ', $ct->get_errors()));
         } else {
             $cc['castext-prt-c'] = $ct->get_evaluationform();
         }
 
-        $ct = castext2_evaluatable::make_from_source($prtpartiallycorrect, 'specific-feedback');
+        $ct = castext2_evaluatable::make_from_source($prtpartiallycorrect, '/pp');
         if (!$ct->get_valid($prtpartiallycorrectformat, $ctoptions, $sec)) {
             throw new stack_exception('Error(s) in PRT-partially correct message: ' . implode('; ', $ct->get_errors()));
         } else {
             $cc['castext-prt-pc'] = $ct->get_evaluationform();
         }
 
-        $ct = castext2_evaluatable::make_from_source($prtincorrect, 'specific-feedback');
+        $ct = castext2_evaluatable::make_from_source($prtincorrect, '/pi');
         if (!$ct->get_valid($prtincorrectformat, $ctoptions, $sec)) {
             throw new stack_exception('Error(s) in PRT-incorrect message: ' . implode('; ', $ct->get_errors()));
         } else {
@@ -1849,7 +1851,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         $cc['static-castext-strings'] = $map->get_map();
 
-        // The time of the security context as it were during 2021 was short, now only
+        // The time of the security context as it were during 2021 was short, now only 
         // the input variables remain.
         $si = [];
 

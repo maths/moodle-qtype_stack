@@ -418,7 +418,12 @@ class castext2_parser_utils {
             }
         }
 
-        $trg = $ast->position['start'];
+        $trg = 0;
+        if ($ast->position !== null && isset($ast->position['start'])) {
+            $trg = $ast->position['start'];
+        } else if ($ast->position === null) {
+            $ast->position = [];
+        }
         $c = 1;
         $l = 0;
         $count = 0;
@@ -433,7 +438,11 @@ class castext2_parser_utils {
         }
         $c += 1;
         $ast->position['start'] = "$l:$c";
-        $trg = $ast->position['end'];
+        if ($ast->position !== null && isset($ast->position['end'])) {
+            $trg = $ast->position['end'];
+        } else {
+            $trg = mb_strlen($code);
+        }
         $c = 1;
         $l = 0;
         $count = 0;

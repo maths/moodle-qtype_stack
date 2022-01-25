@@ -49,12 +49,22 @@ class stack_cas_keyval {
     private $options;
     private $seed;
 
-    public function __construct($raw, $options = null, $seed=null) {
+    // For error mapping keyvals do need a context.
+    private $context;
+
+    /**
+     * @var string the name of the error-wrapper-class, tunable for use in
+     * other contexts, e.g. Stateful.
+     */
+    public $errclass = 'stack_cas_error';
+
+    public function __construct($raw, $options = null, $seed=null, $ctx='') {
         $this->raw          = $raw;
         $this->statements   = array();
         $this->errors       = array();
         $this->options      = $options;
         $this->seed         = $seed;
+        $this->context      = $ctx;
         $this->security     = new stack_cas_security();
 
         if (!is_string($raw)) {
@@ -90,7 +100,7 @@ class stack_cas_keyval {
         // CAS keyval may not contain @ or $ outside strings.
         // We should certainly prevent the $ to make sure statements are separated by ;, although Maxima does allow $.
         if (strpos($str, '@') !== false || strpos($str, '$') !== false) {
-            $this->errors[] = stack_string('illegalcaschars');
+            $this->errors[] = new $this->errclass(stack_string('illegalcaschars'), $this->context);
             $this->valid = false;
             return false;
         }
@@ -105,7 +115,7 @@ class stack_cas_keyval {
         if (!$ast instanceof MP_Root) {
             // If not then it is a SyntaxError. Or an include error.
             if ($ast instanceof stack_exception) {
-                $this->errors[] = $ast->getMessage();
+                $this->errors[] = new $this->errclass($ast->getMessage(), $this->context);
                 $this->valid = false;
                 return false;
             }
@@ -115,7 +125,7 @@ class stack_cas_keyval {
                 $error .= ' (' . stack_string('stackCas_errorpos',
                         ['line' => $syntaxerror->grammarLine, 'col' => $syntaxerror->grammarColumn]) . ')';
             }
-            $this->errors[] = $error;
+            $this->errors[] = new $this->errclass($error, $this->context);
             $this->valid = false;
             return false;
         }
@@ -133,6 +143,7 @@ class stack_cas_keyval {
             }
         }
         $this->security->set_context($vallist);
+    
 
         $this->valid   = true;
         $this->statements   = array();
@@ -153,7 +164,7 @@ class stack_cas_keyval {
                 }
             }
             $this->valid = $this->valid && $cs->get_valid();
-            $this->errors = array_merge($this->errors, $cs->get_errors(true));
+            $this->errors = array_merge($this->errors, $cs->get_errors('objects'));
             $this->statements[] = $cs;
         }
 
@@ -164,7 +175,7 @@ class stack_cas_keyval {
             foreach ($usage['write'] as $key => $used) {
                 if (in_array($key, $inputs)) {
                     $this->valid = false;
-                    $this->errors[] = stack_string('stackCas_inputsdefined', $key);
+                    $this->errors[] = new $this->errclass(stack_string('stackCas_inputsdefined', $key), $this->context);
                 }
             }
         }
@@ -194,14 +205,32 @@ class stack_cas_keyval {
         return $this->valid;
     }
 
-    public function get_errors($casdebug = false) {
+    public function get_errors($casdebug = false, $raw = 'strings') {
         if (null === $this->valid) {
             $this->validate(null);
         }
-        if ($casdebug) {
-            $this->errors[] = $this->session->get_debuginfo();
+        $errors = [];
+        if ($raw === 'objects') {
+            $errors = array_merge([], $this->errors);
+            if ($casdebug) {
+                $errors[] = new $this->errclass($this->session->get_debuginfo(), $this->context);
+            }
+            return $this->errors;
+        } else {
+            foreach ($this->errors as $err) {
+                if ($err instanceof stack_cas_error) {
+                    $errors[] = $err->get_legacy_error();
+                } else {
+                    $errors[] = $err;
+                }
+            }
+            $errors = array_unique($errors);
         }
-        return $this->errors;
+
+        if ($casdebug) {
+            $errors[] = $this->session->get_debuginfo();
+        }
+        return $errors;
     }
 
     public function instantiate() {
@@ -302,33 +331,34 @@ class stack_cas_keyval {
         $errors = [];
         $answernotes = [];
         $filteroptions = ['998_security' => ['security' => 't']];
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['996_call_modification', '998_security',
-            '999_strict'], $filteroptions, true);
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['996_call_modification', '998_security', '999_strict'], $filteroptions, true);
         $tostringparams = ['nosemicolon' => true, 'pmchar' => 1];
         $securitymodel = $this->security;
 
         // For access in the function.
         $options = $this->options;
+        $ctx = $contextname;
+        $errclass = $this->errclass;
 
         // Special rewrites filtter, might be a real AST-filter at some point.
-        $rewrite = function($node) use (&$errors, &$bestatements, &$contextvariables, $options) {
+        $rewrite = function($node) use (&$errors, &$bestatements, &$contextvariables, $options, $ctx) {
             if ($node instanceof MP_FunctionCall) {
                 if ($node->name instanceof MP_Identifier && $node->name->value === 'castext') {
                     // The very special case of seeing the castext-function inside castext.
                     if (count($node->arguments) == 1 && !($node->arguments[0] instanceof MP_String)) {
-                        $errors[] = 'Keyval castext()-compiler, wrong argument. ' .
-                            'Only works with one direct raw string. And possibly a format descriptor.';
+                        $errors[] = new $errclass('Keyval castext()-compiler, wrong argument. ' .
+                            'Only works with one direct raw string. And possibly a format descriptor.', $ctx);
                         $node->position['invalid'] = true;
                         return true;
                     } else if (count($node->arguments) == 2 && (!($node->arguments[0] instanceof MP_String) ||
                             !($node->arguments[1] instanceof MP_Identifier))) {
-                        $errors[] = 'Keyval castext()-compiler, wrong argument. ' .
-                            'Only works with one direct raw string. And possibly a format descriptor.';
+                        $errors[] =  new $errclass('Keyval castext()-compiler, wrong argument. ' .
+                            'Only works with one direct raw string. And possibly a format descriptor.', $ctx);
                         $node->position['invalid'] = true;
                         return true;
                     } else if (count($node->arguments) == 0 || count($node->arguments) > 2) {
-                        $errors[] = 'Keyval castext()-compiler, wrong argument. ' .
-                            'Only works with one direct raw string. And possibly a format descriptor.';
+                        $errors[] =  new $errclass('Keyval castext()-compiler, wrong argument. ' .
+                            'Only works with one direct raw string. And possibly a format descriptor.', $ctx);
                         $node->position['invalid'] = true;
                         return true;
                     }
@@ -361,12 +391,12 @@ class stack_cas_keyval {
         foreach ($ast->items as $item) {
             if ($item instanceof MP_Statement) {
                 // Render to statement.
-                $cn = $contextname;
+                $cn = $contextname . '/';
                 // If it comes from an inclusion add that into the error scoping.
                 if (isset($item->position['included-from'])) {
-                    $cn = $cn . ' ' . $item->position['included-from'];
+                    $cn = $cn . 'external:' . $item->position['included-from'] . ' ';
                 }
-                $scope = stack_utils::php_string_to_maxima_string($cn . ': ' .
+                $scope = stack_utils::php_string_to_maxima_string($cn .
                         $item->position['start'] . '-' . $item->position['end']);
                 $statement = '_EC(errcatch(' . $item->toString($tostringparams) . '),' . $scope . ')';
 

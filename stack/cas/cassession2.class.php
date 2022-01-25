@@ -29,6 +29,7 @@ require_once(__DIR__ . '/connectorhelper.class.php');
 require_once(__DIR__ . '/../options.class.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/evaluatable_object.interfaces.php');
+require_once(__DIR__ . '/caserror.class.php');
 
 class stack_cas_session2 {
     /**
@@ -51,6 +52,13 @@ class stack_cas_session2 {
     private $seed;
 
     private $errors;
+
+    /**
+     * @var string the name of the error-wrapper-class, tunable for use in
+     * other contexts, e.g. Stateful.
+     */
+    public $errclass = 'stack_cas_error';
+
 
     /**
      * @var string
@@ -142,7 +150,7 @@ class stack_cas_session2 {
      */
     public function prepend_to_session(stack_cas_session2 $target) {
         $target->statements = array_merge($this->statements, $target->statements);
-        $this->instantiated = false;
+        $target->instantiated = false;
     }
 
     /**
@@ -152,7 +160,7 @@ class stack_cas_session2 {
      */
     public function append_to_session(stack_cas_session2 $target) {
         $target->statements = array_merge($target->statements, $this->statements);
-        $this->instantiated = false;
+        $target->instantiated = false;
     }
 
     public function get_variable_usage(array $updatearray = array()): array {
@@ -412,7 +420,7 @@ class stack_cas_session2 {
                 $this->timeouterrmessage = $results['timeouterrmessage'];
             }
             foreach ($this->statements as $num => $statement) {
-                $errors = array('TIMEDOUT');
+                $errors = array(new $this->errclass('TIMEDOUT', ''));
                 $statement->set_cas_status($errors, array(), array());
             }
         } else {
@@ -465,17 +473,10 @@ class stack_cas_session2 {
                         foreach ($results['errors']['s' . $num] as $errs) {
                             // The first element is a list of errors declared
                             // at a given position in the logic.
-                            // There can be errors from multiple positions.
-                            // TODO: fix the tests again, I want these context details out.
-                            // $err = array_merge($err, $errs[0]);
+                            // There can be multiple errors from multiple positions.
+                            // The second element is the position.
                             foreach ($errs[0] as $er) {
-                                // Matti, I don't understand the context (see TODO above).
-                                // Can you explain this please?
-                                if ($errs[1] = '') {
-                                    $err[] = $errs[1] . ': ' . stack_utils::maxima_translate_string($er);
-                                } else {
-                                    $err[] = stack_utils::maxima_translate_string($er);
-                                }
+                                $err[] = new $this->errclass(stack_utils::maxima_translate_string($er), $errs[1]);
                             }
                         }
                     }
@@ -484,7 +485,7 @@ class stack_cas_session2 {
                 $last = null;
                 $errb = array();
                 foreach ($err as $error) {
-                    if (strpos($error, 'STACK: ignore previous error.') !== false) {
+                    if (strpos($error->get_legacy_error(), 'STACK: ignore previous error.') !== false) {
                         $last = null;
                     } else {
                         if ($last !== null) {

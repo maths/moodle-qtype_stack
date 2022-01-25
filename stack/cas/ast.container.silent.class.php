@@ -105,6 +105,12 @@ class stack_ast_container_silent implements cas_evaluatable {
                 'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units',
                 'Units_SA_errorbounds_invalid', 'Variable_function', 'Bad_assignment');
 
+    /**
+     * @var string the name of the error-wrapper-class, tunable for use in
+     * other contexts, e.g. Stateful.
+     */
+    public $errclass = 'stack_cas_error';
+
     /*
      * NOTES:
      *  1. this does not provide means of storing the results of evaluation.
@@ -260,6 +266,12 @@ class stack_ast_container_silent implements cas_evaluatable {
             if ($this->ast === null) {
                 // In case parsing was impossible we store the errors in this class.
                 $this->valid = false;
+                // All errors are traditional strings at this point. Turn them to the new objects.
+                $errors = [];
+                foreach ($this->errors as $err) {
+                    $errors[] = new $this->errclass($err, $this->context);
+                }
+                $this->errors = $errors;
                 return false;
             }
 
@@ -275,6 +287,13 @@ class stack_ast_container_silent implements cas_evaluatable {
             $this->ast->callbackRecurse($findinvalid, false);
 
             $this->valid = !$hasinvalid;
+
+            // All errors are traditional strings at this point. Turn them to the new objects.
+            $errors = [];
+            foreach ($this->errors as $err) {
+                $errors[] = new $this->errclass($err, $this->context);
+            }
+            $this->errors = $errors;
         }
         return $this->valid;
     }
@@ -408,9 +427,10 @@ class stack_ast_container_silent implements cas_evaluatable {
         if (count($errors) > 0) {
             $errs = array_merge($this->errors, $errors);
             foreach ($errs as $value) {
-                if ($value !== '' && $value !== null) {
+                if ($value->get_legacy_error() !== '' && $value->get_legacy_error() !== null) {
                     $this->valid = false;
-                    $this->errors[] = $this->decode_maxima_errors($value, false);
+                    // Hmm what is the point for this? Maybe do this filtering in the error class?
+                    $this->errors[] = new $this->errclass($this->decode_maxima_errors($value->get_legacy_error(), false), $value->get_context());
                 }
             }
         }
@@ -468,11 +488,29 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // General accessors.
+    
+    // When asking for errors the default is to implode them into a string.
+    // One can also have an array of strings or objects depending on which
+    // is more convenient.
     public function get_errors($raw = 'implode') {
         if (null === $this->valid) {
             $this->get_valid();
         }
-        $errors = array_unique($this->errors);
+
+        $errors = [];
+        if ($raw === 'objects') {
+            return $this->errors;
+        } else {
+            foreach ($this->errors as $err) {
+                if ($err instanceof stack_cas_error) {
+                    $errors[] = $err->get_legacy_error();
+                } else {
+                    $errors[] = $err;
+                }
+            }
+            $errors = array_unique($errors);
+        }
+
         if ($raw === 'implode') {
             return implode(' ', $errors);
         }

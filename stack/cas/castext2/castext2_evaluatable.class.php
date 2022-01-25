@@ -52,6 +52,12 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     // Values from blocks that escape the context.
     private $special = [];
 
+    /**
+     * @var string the name of the error-wrapper-class, tunable for use in
+     * other contexts, e.g. Stateful.
+     */
+    public $errclass = 'stack_cas_error';
+
     public static function make_from_compiled(string $compiled, string $context,
             castext2_static_replacer $statics): castext2_evaluatable {
         $r = new castext2_evaluatable();
@@ -59,6 +65,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         $r->compiled = $compiled;
         $r->context = $context;
         $r->statics = $statics;
+        $r->errclass = 'stack_cas_error';
         return $r;
     }
 
@@ -67,6 +74,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         $r->source = $source;
         $r->context = $context;
         $r->special = [];
+        $r->errclass = 'stack_cas_error';
 
         if ($source === '' || $source === null) {
             // This case is common enough to skip.
@@ -124,7 +132,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
             $ast = castext2_parser_utils::position_remap($ast, $this->source);
         } catch (SyntaxError $e) {
             $this->valid = false;
-            $this->errors = [$e->getMessage()];
+            $this->errors = [new $this->errclass($e->getMessage(), $this->context)];
             return false;
         }
         $root = stack_cas_castext2_special_root::make($ast);
@@ -133,18 +141,16 @@ class castext2_evaluatable implements cas_raw_value_extractor {
         $css  = [];
 
         $err = [];
-        $prtnames = [];
-        if (isset($options['prt-names'])) {
-            $prtnames = $options['prt-names'];
-        }
+        $options['errclass'] = $this->errclass;
+        $options['context'] = $this->context;
         $valid = true;
 
-        $collectstrings = function ($node) use (&$css, &$err, &$valid, $prtnames) {
+        $collectstrings = function ($node) use (&$css, &$err, &$valid, $options) {
             foreach ($node->validate_extract_attributes() as $cs) {
                 $css[] = $cs;
             }
             // Also node specific validation.
-            $valid = $node->validate($err, $prtnames) && $valid;
+            $valid = $node->validate($err, $options) && $valid;
         };
         $this->errors = array_merge($this->errors, $err);
         $root->callbackRecurse($collectstrings);
@@ -156,12 +162,12 @@ class castext2_evaluatable implements cas_raw_value_extractor {
             $statement->set_securitymodel($sec);
             $this->valid = $this->valid && $statement->get_valid();
             if ($statement->get_errors()) {
-                $this->errors = array_merge($this->errors, $statement->get_errors('array'));
+                $this->errors = array_merge($this->errors, $statement->get_errors('objects'));
             }
         }
 
         if ($this->valid) {
-            if ($this->context === 'question-text' || $this->context === 'scene-text' ||
+            if ($this->context === '/qt' || strpos($this->context, 'scenetext') !== false ||
                     $this->context === 'validation-questiontext') {
                 $options['in main content'] = true;
             }
@@ -176,10 +182,10 @@ class castext2_evaluatable implements cas_raw_value_extractor {
             $specialsearch = function ($node) use (&$special, &$err, &$valid, &$sec) {
                 if ($node instanceof stack_cas_castext2_textdownload) {
                     foreach ($node->params['text-download-content'] as $k => $v) {
-                        $astc = stack_ast_container::make_from_teacher_source($v, 'textdownload', $sec);
+                        $astc = stack_ast_container::make_from_teacher_source($v, '/td/' . $k, $sec);
                         if (!$astc->get_valid()) {
                             $valid = false;
-                            $err = array_merge($err, $astc->get_errors());
+                            $err = array_merge($err, $astc->get_errors('objects'));
                         }
                         if (!isset($special['text-download'])) {
                             $special['text-download'] = [];
@@ -233,6 +239,11 @@ class castext2_evaluatable implements cas_raw_value_extractor {
             // If the compiled value is already a string this does not need
             // to go to the CAS for evaluation.
             $this->evaluated = stack_utils::maxima_string_to_php_string($this->compiled);
+            if ($this->statics !== null) {
+                // Even CASText2 that does not require evaluation goes through the common
+                // static string extraction, so return those into the string.
+                $this->evaluated = $this->statics->replace($this->evaluated);
+            }
             return false;
         }
         return true;
@@ -259,7 +270,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
                 }
                 if ($value === null || $this->errors) {
                     $this->evaluated = '<h3>' . stack_string('castext_error_header') . '</h3><ul><li>';
-                    $this->evaluated .= implode('</li><li>', $this->errors);
+                    $this->evaluated .= implode('</li><li>', $this->get_errors('strings'));
                     $this->evaluated .= '</li></ul>';
                 } else {
                     $this->evaluated = castext2_parser_utils::postprocess_parsed($value, $processor);
@@ -270,10 +281,18 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     }
 
     public function get_errors($implode = true) {
-        if ($implode) {
-            return implode(', ', $this->errors);
+        if ($implode === 'objects') {
+            return $this->errors;
         }
-        return $this->errors;
+        $errors = [];
+        foreach ($this->errors as $err) {
+            $errors[] = $err->get_legacy_error();
+        }
+
+        if ($implode) {
+            return implode(', ', $errors);
+        }
+        return $errors;
     }
 
     /**

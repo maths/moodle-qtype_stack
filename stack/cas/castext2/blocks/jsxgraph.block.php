@@ -153,7 +153,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
     public function validate(
         &$errors = [],
-        array $prts
+        array $options
     ): bool {
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.
@@ -191,65 +191,68 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
                 break;
             }
         }
+        $err = [];
 
         if (!$widthend) {
             $valid    = false;
-            $errors[] = stack_string('stackBlock_jsxgraph_width');
+            $err[] = stack_string('stackBlock_jsxgraph_width');
         }
         if (!$heightend) {
             $valid    = false;
-            $errors[] = stack_string('stackBlock_jsxgraph_height');
+            $err[] = stack_string('stackBlock_jsxgraph_height');
         }
         if (!preg_match('/^[0-9]*[\.]?[0-9]+$/', $widthtrim)) {
             $valid    = false;
-            $errors[] = stack_string('stackBlock_jsxgraph_width_num');
+            $err[] = stack_string('stackBlock_jsxgraph_width_num');
         }
         if (!preg_match('/^[0-9]*[\.]?[0-9]+$/', $heighttrim)) {
             $valid    = false;
-            $errors[] = stack_string('stackBlock_jsxgraph_height_num');
+            $err[] = stack_string('stackBlock_jsxgraph_height_num');
         }
 
         if (array_key_exists('width', $this->params) &&
             array_key_exists('height', $this->params) &&
             array_key_exists('aspect-ratio', $this->params)) {
             $valid    = false;
-            $errors[] = stack_string('stackBlock_jsxgraph_overdefined_dimension');
+            $err[] = stack_string('stackBlock_jsxgraph_overdefined_dimension');
         }
         if (!(array_key_exists('width', $this->params) ||
             array_key_exists('height', $this->params)) &&
             array_key_exists('aspect-ratio', $this->params)) {
             $valid    = false;
-            $errors[] = stack_string('stackBlock_jsxgraph_underdefined_dimension');
+            $err[] = stack_string('stackBlock_jsxgraph_underdefined_dimension');
         }
 
         $valids = null;
         foreach ($this->params as $key => $value) {
             if (substr($key, 0, 10) === 'input-ref-') {
                 $varname = substr($key, 10);
-                /* We need the input definitions to deal with this.
-                if ($input_definitions === null
-                    || !$input_definitions->exists($varname)) {
-                    $errors[] = stack_string('stackBlock_jsxgraph_input_missing',
+                if (isset($options['inputs']) && !isset($options['inputs'][$varname])) {
+                    $err[] = stack_string('stackBlock_jsxgraph_input_missing',
                         ['var' => $varname]);
                 }
-                */
             } else if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio') {
-                $errors[] = "Unknown parameter '$key' for jsxgraph-block.";
+                $err[] = "Unknown parameter '$key' for jsxgraph-block.";
                 $valid    = false;
                 if ($valids === null) {
                     $valids = ['width', 'height', 'aspect-ratio'];
-                    if ($inputdefinitions !== null) {
+                    if ($input_definitions !== null) {
                         $tmp    = $root->get_parameter('ioblocks');
                         $inputs = [];
-                        foreach ($inputdefinitions->get_names() as $key) {
+                        foreach ($input_definitions->get_names() as $key) {
                             $inputs[] = "input-ref-$key";
                         }
                         $valids = array_merge($valids, $inputs);
                     }
-                    $errors[] = stack_string('stackBlock_jsxgraph_param', [
+                    $err[] = stack_string('stackBlock_jsxgraph_param', [
                         'param' => implode(', ', $valids)]);
                 }
             }
+        }
+
+        // Wrap the old string errors with the context details.
+        foreach ($err as $er) {
+            $errors[] = new $options['errclass']($er, $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);
         }
 
         return $valid;

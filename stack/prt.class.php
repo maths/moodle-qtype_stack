@@ -164,7 +164,7 @@ class stack_potentialresponse_tree_lite {
         };
         while ($ast->callbackRecurse($clean) !== true) {}
 
-        return $ast->toString(array('pretty' => true, 'checkinggroup' => true));
+        return $ast->toString(['pretty' => true, 'checkinggroup' => true]);
     }
 
     /**
@@ -296,7 +296,7 @@ class stack_potentialresponse_tree_lite {
     // what to use as local variables.
     // The returned array contains the function declaration, its call signature,
     // and any necessary additional preamble, i.e. textput rules and the like.
-    public function compile(array $inputs, array $boundvars, $defaultpenalty, $security): array {
+    public function compile(array $inputs, array $boundvars, $defaultpenalty, $security, $pathprefix): array {
         $r = ['sig' => '', 'def' => '', 'cv' => null, 'be' => null, 'required' => [], 'units' => false];
         // Note these variables are initialised before the feedback-vars and if not forbidden
         // could be directly set in the vars. The logic does not actually require any PRT-nodes.
@@ -314,7 +314,7 @@ class stack_potentialresponse_tree_lite {
         $fv = new stack_cas_keyval($this->feedbackvariables);
         $fv->set_security($security);
         $fv->get_valid();
-        $fv = $fv->compile('PRT:' . $this->name . ': feedback-variables');
+        $fv = $fv->compile($pathprefix . '/fv');
         $r['be'] = $fv['blockexternal'];
         $r['cv'] = $fv['contextvariables'];
         $usage = $fv['references']; // We need to track the usage of vars over the whole thing.
@@ -324,6 +324,11 @@ class stack_potentialresponse_tree_lite {
         $usage['write']['%PRT_PATH'] = true;
         $usage['write']['%PRT_EXIT_NOTE'] = true;
         $usage['write']['%_EXITS'] = true;
+
+        // For the feedback we might want to provide extra information related to 
+        // feedback vars. Basically, for the debug-block we tell that these are 
+        // the bound ones.
+        $ct2options = ['bound-vars' => $fv['references']['write']];
 
         if ($fv['statement'] !== null) {
             // The simplification status for feedback vars. If we have any.
@@ -361,6 +366,8 @@ class stack_potentialresponse_tree_lite {
         // Then we need to iterate the nodes and generate the matching logic for them all.
         $first = true;
         foreach ($nodes as $node) {
+            // The error path needs indexing that differs from execution order.
+            $path = $pathprefix . '/n/' . array_search($node, $this->nodes);
             if (strpos($node->answertest, 'Units') === 0) {
                 $r['units'] = true;
             }
@@ -371,7 +378,7 @@ class stack_potentialresponse_tree_lite {
             } else {
                 $body .= 'if not emptyp(intersection(%_EXITS,{' . implode(',', $precedence[$node->nodename]) .'})) then (';
             }
-            [$nc, $usage] = $this->compile_node($node, $usage, $defaultpenalty, $security);
+            [$nc, $usage] = $this->compile_node($node, $usage, $defaultpenalty, $security, $path, $ct2options);
             $body .= $nc . '),';
         }
 
@@ -450,7 +457,7 @@ class stack_potentialresponse_tree_lite {
         return $r;
     }
 
-    private function compile_node($node, $usage, $defaultpenalty, $security): array {
+    private function compile_node($node, $usage, $defaultpenalty, $security, $path, $ct2options): array {
         /* In the old system there is a hack that covers some options let's repeat that here.
          * For some tests there is an option assume_pos. This will be evaluated by maxima (since this is also the name
          * of a maxima variable).  So, we need to protect the name from being evaluated.
@@ -498,15 +505,8 @@ class stack_potentialresponse_tree_lite {
         $at .= ')';
 
         // Do a parse at this point to normalise the statement. And to collect usages.
-        $context = 'PRT:' . $this->name . ' NODE:';
-        // The context needs to note that in STACK the nodes are numbered and not named.
-        // And those numbers are displayed from 1 while actually are from 0...
-        if (is_numeric($node->nodename)) {
-            $context .= (1 + $node->nodename) . ' ';
-        } else {
-            $context .= $node->nodename . ' ';
-        }
-        $cs = stack_ast_container::make_from_teacher_source($at, $context . 'answertest');
+        $context = $path;
+        $cs = stack_ast_container::make_from_teacher_source($at, $context . '/at');
         $cs->set_securitymodel($security);
         if (!$cs->get_valid()) {
             throw new stack_exception('Error in ' . $context . ' answertest parameters.');
@@ -515,7 +515,7 @@ class stack_potentialresponse_tree_lite {
 
         // Add the error catching wrapping.
         $body .= '_EC(errcatch(' . $cs->get_evaluationform() . '),' .
-            stack_utils::php_string_to_maxima_string($context . 'answertest') . '),';
+            stack_utils::php_string_to_maxima_string($context . '/at') . '),';
 
         // Now based on the results we update things. For the updates we need simp:true.
         $body .= 'simp:true,'; // Hold until score math done.
@@ -547,24 +547,24 @@ class stack_potentialresponse_tree_lite {
             }
             // To save code we only generate error catching evaluation for values that are not numbers.
             if (!is_numeric($s)) {
-                $s = stack_ast_container::make_from_teacher_source($s, $context . 'truescore');
+                $s = stack_ast_container::make_from_teacher_source($s, $context . '/st');
                 $s->set_securitymodel($security);
                 if (!$s->get_valid()) {
                     throw new stack_exception('Error in ' . $context . ' true-score.');
                 }
                 $s = '_EC(errcatch(%_TMP:' . $s->get_evaluationform() . '),' .
-                    stack_utils::php_string_to_maxima_string($context . 'truescore') . ')';
+                    stack_utils::php_string_to_maxima_string($context . '/st') . ')';
             } else {
                 $s = '%_TMP:' . $s;
             }
             if (!is_numeric($p)) {
-                $p = stack_ast_container::make_from_teacher_source($p, $context . 'truepenalty');
+                $p = stack_ast_container::make_from_teacher_source($p, $context . '/pt');
                 $p->set_securitymodel($security);
                 if (!$p->get_valid()) {
                     throw new stack_exception('Error in ' . $context . ' true-penalty.');
                 }
                 $p = '_EC(errcatch(%PRT_PENALTY:' . $p->get_evaluationform() . '),' .
-                    stack_utils::php_string_to_maxima_string($context . 'truepenalty') . ')';
+                    stack_utils::php_string_to_maxima_string($context . '/pt') . ')';
             } else {
                 $p = '%PRT_PENALTY:' . $p;
             }
@@ -602,14 +602,14 @@ class stack_potentialresponse_tree_lite {
             } else {
                 $body .= 'simp:false,';
             }
-            $ct = castext2_evaluatable::make_from_source($feedback, $context . 'truefeedback');
-            if (!$ct->get_valid($node->truefeedbackformat, [], $security)) {
+            $ct = castext2_evaluatable::make_from_source($feedback, $context . '/ft');
+            if (!$ct->get_valid($node->truefeedbackformat, $ct2options, $security)) {
                 throw new stack_exception('Error in ' . $context . ' true-feedback.');
             }
-            $cs = stack_ast_container::make_from_teacher_source($ct->get_evaluationform(), $context . 'truefeedback');
+            $cs = stack_ast_container::make_from_teacher_source($ct->get_evaluationform(), $context . '/ft');
             $usage = $cs->get_variable_usage($usage); // Update the references.
             $body .= '_EC(errcatch(%PRT_FEEDBACK:castext_concat(%PRT_FEEDBACK,' . $ct->get_evaluationform() . ')),' .
-                stack_utils::php_string_to_maxima_string($context . 'truefeedback') . ')';
+                stack_utils::php_string_to_maxima_string($context . '/ft') . ')';
         }
 
         $body .= ') else (';
@@ -627,24 +627,24 @@ class stack_potentialresponse_tree_lite {
             }
             // To save code we only generate error catching evaluation for values that are not numbers.
             if (!is_numeric($s)) {
-                $s = stack_ast_container::make_from_teacher_source($s, $context . 'falsescore');
+                $s = stack_ast_container::make_from_teacher_source($s, $context . '/sf');
                 $s->set_securitymodel($security);
                 if (!$s->get_valid()) {
                     throw new stack_exception('Error in ' . $context . ' false-score.');
                 }
                 $s = '_EC(errcatch(%_TMP:' . $s->get_evaluationform() . '),' .
-                    stack_utils::php_string_to_maxima_string($context . 'falsescore') . ')';
+                    stack_utils::php_string_to_maxima_string($context . '/sf') . ')';
             } else {
                 $s = '%_TMP:' . $s;
             }
             if (!is_numeric($p)) {
-                $p = stack_ast_container::make_from_teacher_source($p, $context . 'falsepenalty');
+                $p = stack_ast_container::make_from_teacher_source($p, $context . '/pf');
                 $p->set_securitymodel($security);
                 if (!$p->get_valid()) {
                     throw new stack_exception('Error in ' . $context . ' false-penalty.');
                 }
                 $p = '_EC(errcatch(%PRT_PENALTY:' . $p->get_evaluationform() . '),' .
-                    stack_utils::php_string_to_maxima_string($context . 'falsepenalty') . ')';
+                    stack_utils::php_string_to_maxima_string($context . '/pf') . ')';
             } else {
                 $p = '%PRT_PENALTY:' . $p;
             }
@@ -682,14 +682,14 @@ class stack_potentialresponse_tree_lite {
                 $body .= 'simp:false,';
             }
             // TODO: consider the format to be used here.
-            $ct = castext2_evaluatable::make_from_source($feedback, $context . 'falsefeedback');
-            if (!$ct->get_valid($node->falsefeedbackformat, [], $security)) {
+            $ct = castext2_evaluatable::make_from_source($feedback, $context . '/ff');
+            if (!$ct->get_valid($node->falsefeedbackformat, $ct2options, $security)) {
                 throw new stack_exception('Error in ' . $context . ' false-feedback.');
             }
-            $cs = stack_ast_container::make_from_teacher_source($ct->get_evaluationform(), $context . 'falsefeedback');
+            $cs = stack_ast_container::make_from_teacher_source($ct->get_evaluationform(), $context . '/ff');
             $usage = $cs->get_variable_usage($usage); // Update the references.
             $body .= '_EC(errcatch(%PRT_FEEDBACK:castext_concat(%PRT_FEEDBACK,' . $ct->get_evaluationform() . ')),' .
-                stack_utils::php_string_to_maxima_string($context . 'falsefeedback') . ')';
+                stack_utils::php_string_to_maxima_string($context . '/ff') . ')';
         }
 
         $body .= ')';

@@ -28,7 +28,7 @@ abstract class stack_cas_castext2_block {
     public $children;
     // We have no clue what this would be in postprocess phase.
     public $mathmode = false;
-    // Position data from the parser.
+    // Position data from the parser
     public $position = null;
 
     public function __construct(
@@ -86,12 +86,14 @@ abstract class stack_cas_castext2_block {
      * Validates the parameters and potenttially the contents. Whatever matter to this
      * block e.g. some blocks might want all their contents to be flat-blocks.
      *
-     * NOTE THIS APPLIES TO Stateful and input2, and as long as input2 is not here,
-     * we do not give the input references. Which are needed for [reveal].
-     * Currently, the only reference we give to the actual question are the input objects
-     * active in this scope and the names of PRTs.
+     * Note that the error array is built of `stack_cas_error` objects the specific class
+     * defined by the options array.
+     * 
+     * Note the second argument is now a generic array of options, not just the
+     * list of PRTs. What it contains in use case specific. One can typically assume
+     * that it contaisn the same values as the simillar aray for `compile`.
      */
-    public function validate(&$errors = [], array $prts): bool {
+    public function validate(&$errors = [], array $options): bool {
         return true;
     }
 

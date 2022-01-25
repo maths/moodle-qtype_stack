@@ -174,9 +174,9 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
         return $r;
     }
 
-    public function validate(&$errors=array(), array $prts): bool {
+    public function validate(&$errors=array(), array $options): bool {
         if (!array_key_exists('test', $this->params)) {
-            $errors[] = 'If block requires a test parameter.';
+            $errors[] = new $options['errclass']('If block requires a test parameter.', $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);
             return false;
         }
 

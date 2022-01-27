@@ -34,7 +34,7 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
 
         $mapfuns = stack_cas_security::get_all_with_feature('mapfunction');
         $process = function($node) use ($mapfuns) {
-            if ($node instanceof MP_Functioncall) {
+            if ($node instanceof MP_Functioncall && !$node->is_definition()) {
                 if ($node->name instanceof MP_Atom && ($node->name->value === self::IDCHECK || $node->name->value === self::EXPCHECK)) {
                     // No checks for the checks themselves. They are protected using other means.
                     return true;

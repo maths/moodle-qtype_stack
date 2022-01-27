@@ -267,13 +267,13 @@ all_ops(%_expr) := block([%_edge, %_next_edge, %_tmp, %_op, %_result],
  %_result
 )$
 
-_C(%_id) := block([simp],simp:true,
+%_C(%_id) := block([simp],simp:true,
  if elementp(sconcat(%_id), FORBIDDEN_SYMBOLS_SET) then (
   error(sconcat("Attempt to call forbidden function detected: ", %_id))
  )
 )$ 
 
-_CE(%_expr) := block([simp,%_tmp],
+%_E(%_expr) := block([simp,%_tmp],
  simp: false,
  /* Also forbid these inside this context. */
  %_tmp: intersection(union(FORBIDDEN_SYMBOLS_SET,{"map", "subst", "at", "apply", "fullmap", "fullmapl", "funmake", "maplist", "matrixmap", "outermap", "scanmap"}), setify(all_ops(%_expr))),

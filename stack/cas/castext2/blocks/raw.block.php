@@ -46,15 +46,18 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
         $disablesimp = mb_strpos($ev, ',simp=false') !== false;
 
         $r = 'string(' . $ev . ')';
+        $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
+        $epos = stack_utils::php_string_to_maxima_string($epos);
+        $ev = "_EC(errcatch(_ct2_tmp:$ev),$epos)";
         if ($forcesimp) {
             // We need the temp to hold the value while we return simp to what it was.
-            $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:true,_ct2_tmp:' . $ev .
+            $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:true,' . $ev .
                 ',_ct2_tmp:string(_ct2_tmp),simp:_ct2_simp,_ct2_tmp)';
         } else if ($disablesimp) {
-            $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:false,_ct2_tmp:' . $ev .
+            $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:false,' . $ev .
                 ',_ct2_tmp:string(_ct2_tmp),simp:_ct2_simp,_ct2_tmp)';
         } else {
-            $r = 'block([_ct2_tmp],_ct2_tmp:' . $ev . ',string(_ct2_tmp))';
+            $r = 'block([_ct2_tmp],' . $ev . ',string(_ct2_tmp))';
         }
         return $r;
     }

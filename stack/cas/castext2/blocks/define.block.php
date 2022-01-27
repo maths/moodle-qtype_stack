@@ -21,11 +21,13 @@ require_once(__DIR__ . '/../../ast.container.class.php');
 class stack_cas_castext2_define extends stack_cas_castext2_block {
 
     public function compile($format, $options): ?string {
+        $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
+        $epos = stack_utils::php_string_to_maxima_string($epos);
         $r = '(';
         foreach ($this->params as $param) {
             $ev = stack_ast_container::make_from_teacher_source($param['value']);
             $ev = $ev->get_evaluationform();
-            $r .= $param['key'] . ':' . $ev . ',';
+            $r .= '_EC(errcatch(' . $param['key'] . ':' . $ev . '),' . $epos . '),';
         }
 
         $r .= '"")'; // At the end just return an empty string.

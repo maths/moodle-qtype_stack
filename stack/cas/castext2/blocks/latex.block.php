@@ -59,7 +59,9 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
         } else if ($disablesimp) {
             $r .= 'simp:false,';
         }
-        $r .= '_EC(errcatch(_ct2_tmp:' . $ev . '),"error with..."),';
+        $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
+        $epos = stack_utils::php_string_to_maxima_string($epos);
+        $r .= '_EC(errcatch(_ct2_tmp:' . $ev . '),' . $epos . '),';
 
         $r .= 'simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,'. $mode . '),simp:_ct2_simp,_ct2_tmp)';
 

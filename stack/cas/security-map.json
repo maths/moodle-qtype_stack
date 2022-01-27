@@ -575,6 +575,10 @@
   "all": {
       "constant": "s"
   },
+  "all_ops": {
+      "function": "t",
+      "built-in": true
+  },
   "all_dotsimp_denoms": {
       "variable": "f"
   },

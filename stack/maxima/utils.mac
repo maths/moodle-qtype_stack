@@ -276,9 +276,9 @@ all_ops(%_expr) := block([%_edge, %_next_edge, %_tmp, %_op, %_result],
 %_E(%_expr) := block([simp,%_tmp],
  simp: false,
  /* Also forbid these inside this context. */
- %_tmp: intersection(union(FORBIDDEN_SYMBOLS_SET,{"map", "subst", "at", "apply", "fullmap", "fullmapl", "funmake", "maplist", "matrixmap", "outermap", "scanmap"}), setify(all_ops(%_expr))),
+ %_tmp: intersection(union(FORBIDDEN_SYMBOLS_SET,{"map", "subst", "at", "apply", "fullmap", "fullmapl", "funmake", "maplist", "matrixmap", "outermap", "scanmap", ":", ":="}), setify(all_ops(%_expr))),
  if cardinality(%_tmp) > 0 then (
-  error(sconcat("Attempt to call forbidden function detected: ", simplode(listify(%_tmp), ", ")))
+  error(sconcat("Attempt to evaluate a constructed: ", simplode(listify(%_tmp), ", ")))
  ),
  %_expr
 )$

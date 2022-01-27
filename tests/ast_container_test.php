@@ -609,7 +609,7 @@ class ast_container_test extends qtype_stack_testcase {
         $s = '-(1/512)+i(sqrt(3)/512)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
-        $this->assertEquals('-(1/512)+i*((_C(sqrt),sqrt(3))/512)', $at1->get_evaluationform());
+        $this->assertEquals('-(1/512)+i*((%_C(sqrt),sqrt(3))/512)', $at1->get_evaluationform());
         $this->assertEquals('-(1/512)+i*(sqrt(3)/512)', $at1->get_inputform());
     }
 
@@ -632,7 +632,7 @@ class ast_container_test extends qtype_stack_testcase {
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
         // Note that get_evaluationform is the string actually sent to Maxima, so this test case should have _C.
-        $this->assertEquals('(_C(log),log(x))', $at1->get_evaluationform());
+        $this->assertEquals('(%_C(log),log(x))', $at1->get_evaluationform());
         $this->assertEquals('log(x)', $at1->get_inputform());
     }
 
@@ -640,7 +640,7 @@ class ast_container_test extends qtype_stack_testcase {
         $s = 'log_10(a+x^2)+log_a(b)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
-        $this->assertEquals('(_C(lg),lg(a+x^2,10))+(_C(lg),lg(b,a))', $at1->get_evaluationform());
+        $this->assertEquals('(%_C(lg),lg(a+x^2,10))+(%_C(lg),lg(b,a))', $at1->get_evaluationform());
         $this->assertEquals('lg(a+x^2,10)+lg(b,a)', $at1->get_inputform());
         $this->assertEquals('logsubs', $at1->get_answernote());
     }
@@ -662,7 +662,7 @@ class ast_container_test extends qtype_stack_testcase {
         $s = 'log_5x(3)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
-        $this->assertEquals('(_C(lg),lg(3,5*x))', $at1->get_evaluationform());
+        $this->assertEquals('(%_C(lg),lg(3,5*x))', $at1->get_evaluationform());
         $this->assertEquals('lg(3,5*x)', $at1->get_inputform());
         $this->assertEquals('missing_stars | logsubs', $at1->get_answernote());
     }
@@ -671,7 +671,7 @@ class ast_container_test extends qtype_stack_testcase {
         $s = 'log_x^2(3)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
-        $this->assertEquals('(_C(lg),lg(3,x^2))', $at1->get_evaluationform());
+        $this->assertEquals('(%_C(lg),lg(3,x^2))', $at1->get_evaluationform());
         $this->assertEquals('lg(3,x^2)', $at1->get_inputform());
         $this->assertEquals('missing_stars | logsubs', $at1->get_answernote());
     }
@@ -680,7 +680,7 @@ class ast_container_test extends qtype_stack_testcase {
         $s = 'log_%e(%e)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
-        $this->assertEquals('(_C(lg),lg(%e,%e))', $at1->get_evaluationform());
+        $this->assertEquals('(%_C(lg),lg(%e,%e))', $at1->get_evaluationform());
         $this->assertEquals('lg(%e,%e)', $at1->get_inputform());
         $this->assertEquals('logsubs', $at1->get_answernote());
     }
@@ -775,8 +775,8 @@ class ast_container_test extends qtype_stack_testcase {
         $err = '';
         $this->assertEquals($err, $at1->get_errors());
 
-        $s = "[(_C(sum),'sum(k^2,k,1,n)),(_C(product),'product(k^2,k,1,n)),a nounand b," .
-            "(_C(noundiff),noundiff(y,x))+y = 0,nounnot false,nounnot(false)]";
+        $s = "[(%_C(sum),'sum(k^2,k,1,n)),(%_C(product),'product(k^2,k,1,n)),a nounand b," .
+            "(%_C(noundiff),noundiff(y,x))+y = 0,nounnot false,nounnot(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         // The subtle change of spaces after commas and equals signs shows the parser is re-displaying the expression.
         $this->assertEquals("['sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,noundiff(y,x)+y = 0," .
@@ -785,7 +785,7 @@ class ast_container_test extends qtype_stack_testcase {
 
         $at1->set_nounify(0);
         // Remove all nouns when evaluating.
-        $s = "[(_C(sum),sum(k^2,k,1,n)),(_C(product),product(k^2,k,1,n)),a and b,(_C(noundiff)," .
+        $s = "[(%_C(sum),sum(k^2,k,1,n)),(%_C(product),product(k^2,k,1,n)),a and b,(%_C(noundiff)," .
                 "diff(y,x))+y = 0,not false,not(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         // Get input form also removes noun forms.
@@ -799,14 +799,14 @@ class ast_container_test extends qtype_stack_testcase {
         $err = '';
         $this->assertEquals($err, $at1->get_errors());
 
-        $s = "[(_C(sum),sum(k^2,k,1,n)),(_C(product),'product(k^2,k,1,n)),a and b,(_C(diff),diff(y,x))+y = 0," .
+        $s = "[(%_C(sum),sum(k^2,k,1,n)),(%_C(product),'product(k^2,k,1,n)),a and b,(%_C(diff),diff(y,x))+y = 0," .
                 "not false,not(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a and b,diff(y,x)+y = 0,not false,not(false)]",
                 $at1->get_inputform());
 
         $at1->set_nounify(0);
-        $s = "[(_C(sum),sum(k^2,k,1,n)),(_C(product),product(k^2,k,1,n)),a and b,(_C(diff),diff(y,x))+y = 0," .
+        $s = "[(%_C(sum),sum(k^2,k,1,n)),(%_C(product),product(k^2,k,1,n)),a and b,(%_C(diff),diff(y,x))+y = 0," .
                 "not false,not(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         $this->assertEquals("[sum(k^2,k,1,n),product(k^2,k,1,n),a and b,diff(y,x)+y = 0,not false,not(false)]",
@@ -814,7 +814,7 @@ class ast_container_test extends qtype_stack_testcase {
 
         $at1->set_nounify(1);
         // We don't add apostophies where they don't exist.
-        $s = "[(_C(sum),sum(k^2,k,1,n)),(_C(product),'product(k^2,k,1,n)),a nounand b,(_C(diff)," .
+        $s = "[(%_C(sum),sum(k^2,k,1,n)),(%_C(product),'product(k^2,k,1,n)),a nounand b,(%_C(diff)," .
                 "noundiff(y,x))+y = 0,nounnot false,nounnot(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,noundiff(y,x)+y = 0," .
@@ -823,7 +823,7 @@ class ast_container_test extends qtype_stack_testcase {
 
         $at1->set_nounify(2);
         // We only add apostophies to logic nouns.
-        $s = "[(_C(sum),sum(k^2,k,1,n)),(_C(product),'product(k^2,k,1,n)),a nounand b,(_C(diff)," .
+        $s = "[(%_C(sum),sum(k^2,k,1,n)),(%_C(product),'product(k^2,k,1,n)),a nounand b,(%_C(diff)," .
                 "diff(y,x))+y = 0,nounnot false,nounnot(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,diff(y,x)+y = 0," .
@@ -841,7 +841,7 @@ class ast_container_test extends qtype_stack_testcase {
         $expected = '([FunctionCall: ([Id] stacklet)] ([Id] a),([Op: +] ([Op: *] ([Id] x), ([Id] %i)), ([Id] y)))';
         $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
 
-        $this->assertEquals('(_C(stacklet),stacklet(a,x*%i+y))', $at1->get_evaluationform());
+        $this->assertEquals('(%_C(stacklet),stacklet(a,x*%i+y))', $at1->get_evaluationform());
         $this->assertEquals('stacklet(a,x*%i+y)', $at1->get_inputform());
         // Must have nounify=0 here to force into "let ...." style.
         $this->assertEquals('let a=x*%i+y', $at1->get_inputform(true, 0));
@@ -956,7 +956,7 @@ class ast_container_test extends qtype_stack_testcase {
         $expected = '([FunctionCall: ([Id] ntuple)] ([Id] x),([Id] y))';
         $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
 
-        $this->assertEquals('(_C(ntuple),ntuple(x,y))', $at1->get_evaluationform());
+        $this->assertEquals('(%_C(ntuple),ntuple(x,y))', $at1->get_evaluationform());
         $this->assertEquals('ntuple(x,y)', $at1->get_inputform());
         $this->assertEquals('(x,y)', $at1->get_inputform(true, 0, true));
 
@@ -969,7 +969,7 @@ class ast_container_test extends qtype_stack_testcase {
         $expected = '([FunctionCall: ([Id] ntuple)] ([Id] a),([FunctionCall: ([Id] ntuple)] ([Id] x),([Id] y)))';
         $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
 
-        $this->assertEquals('(_C(ntuple),ntuple(a,(_C(ntuple),ntuple(x,y))))', $at1->get_evaluationform());
+        $this->assertEquals('(%_C(ntuple),ntuple(a,(%_C(ntuple),ntuple(x,y))))', $at1->get_evaluationform());
         $this->assertEquals('ntuple(a,ntuple(x,y))', $at1->get_inputform());
         $this->assertEquals('(a,(x,y))', $at1->get_inputform(true, 0, true));
 
@@ -981,7 +981,7 @@ class ast_container_test extends qtype_stack_testcase {
         $expected = '([FunctionCall: ([Id] ntuple)] ([FunctionCall: ([Id] ntuple)] ([Id] x),([Id] y)),([Id] a))';
         $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
 
-        $this->assertEquals('(_C(ntuple),ntuple((_C(ntuple),ntuple(x,y)),a))', $at1->get_evaluationform());
+        $this->assertEquals('(%_C(ntuple),ntuple((%_C(ntuple),ntuple(x,y)),a))', $at1->get_evaluationform());
         $this->assertEquals('ntuple(ntuple(x,y),a)', $at1->get_inputform());
         $this->assertEquals('((x,y),a)', $at1->get_inputform(true, 0, true));
 

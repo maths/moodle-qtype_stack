@@ -27,6 +27,14 @@
       "globalyforbiddenvariable": true,
       "variable": "f"
   },
+  "%_C": {
+      "function": "s",
+      "built-in": true
+  },
+  "%_E": {
+      "function": "s",
+      "built-in": true
+  },
   "%ERR": {
       "variable": "f"
   },
@@ -378,14 +386,6 @@
   },
   "_APPEND_NOTE": {
       "function": "f",
-      "built-in": true
-  },
-  "_C": {
-      "function": "s",
-      "built-in": true
-  },
-  "_CE": {
-      "function": "s",
       "built-in": true
   },
   "_CS2dv": {

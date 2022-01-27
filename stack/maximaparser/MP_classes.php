@@ -43,6 +43,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../cas/cassecurity.class.php');
+require_once(__DIR__ . '/../cas/parsingrules/996_call_modification.filter.php');
 
 // @codingStandardsIgnoreStart
 // We ignore coding in this file, because the library is used outside Moodle.
@@ -1223,8 +1224,9 @@ class MP_Group extends MP_Node {
         }
         return $this->items[0] instanceof MP_FunctionCall &&
             $this->items[0]->name instanceof MP_Atom &&
-            $this->items[0]->name->value === '_C';
-}
+            $this->items[0]->name->value === stack_ast_filter_996_call_modification::IDCHECK;
+    }
+    
     public function toString($params = null): string {
         $indent = '';
 

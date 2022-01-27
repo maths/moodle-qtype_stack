@@ -490,7 +490,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $errmsg .= html_writer::tag('li', $key);
             }
             $s .= html_writer::tag('ul', $errmsg);
-            $this->questiontextinstantiated = $s;
+            // So we have this logic where a raw string needs to turn to a CASText2 object. As we do not know what it contains we escape it.
+            $this->questiontextinstantiated = castext2_evaluatable::make_from_source('[[escape]]' . $s . '[[/escape]]', '/qt');
+            // It is a stateic string and by calling this we make it look like it was evaluated.
+            $this->questiontextinstantiated->requires_evaluation();
 
             // Do some setup for the features that do not work.
             $this->security = new stack_cas_security();
@@ -1299,7 +1302,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @param string $vname variable name.
      */
     public function get_ta_for_input(string $vname): string {
-        if ($this->tas[$vname]->is_correctly_evaluated()) {
+        if (isset($this->tas[$vname]) && $this->tas[$vname]->is_correctly_evaluated()) {
             return $this->tas[$vname]->get_value();
         }
         return '';

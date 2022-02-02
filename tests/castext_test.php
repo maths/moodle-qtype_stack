@@ -560,6 +560,22 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\({3\cdot x^2}\), \({-4.000}\), \({-4.000}\)', $at1->get_display_castext());
     }
 
+    public function test_disp_decimalplaces_error() {
+        $a2 = array('a:float(%e)', 'b:-3.99999');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at1 = new stack_cas_text('{@dispdp(a1,0)*x^2@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}', $cs2, 0);
+        $this->assertTrue($at1->get_valid());
+        $at1->get_display_castext();
+
+        $err = "<span class=\"error\">CASText failed validation. </span> dispdp requires a real number argument.";
+        $this->assertEquals($err, $at1->get_errors(false));
+    }
+
     public function test_disp_mult_blank() {
         $a2 = array('make_multsgn("blank")', 'b:x*y');
         $s2 = array();

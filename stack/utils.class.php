@@ -1047,21 +1047,42 @@ class stack_utils {
     public static function count_missing_alttext($text) {
         $missingalt = 0;
         // Yes, regular expressions can't parse html, but this should be good-enough to help users for now.
-        $r1 = "/<img[^\>]+\>/im";
-        $r2 = "/(alt|title|src)\s*=\s*(\"[^\"]*\")/i";
-        preg_match_all($r1, $text, $out);
-        foreach ($out[0] as $imgtag) {
-            preg_match_all($r2, $imgtag, $alt);
+        $matchentireimagetags = '
+                /
+                <img\b   # Start of an image tag.
+                [^>]+    # Any other characters until the closing >.
+                >        # Closing >.
+                /imx';
+        $matchkeyattributes = '
+                /
+                \b(alt|title|src)  # The attributes we care about (captured).
+                \s*                # Possibly some whitespace.
+                =                  # Equals sign.
+                \s*                # Possibly more whitespace.
+                ([\'"])            # Opening quote.
+                \s*                # Possibly some whitespace.
+                (?!\2|\s).         # One character which is not the closing quote or a space.
+                (?:(?!\2).)*       # More characters which are not a matching quote.
+                \2                 # Then the matching quote.
+                /imx';
+
+        preg_match_all($matchentireimagetags, $text, $imgtags);
+        foreach ($imgtags[0] as $imgtag) {
+
+            preg_match_all($matchkeyattributes, $imgtag, $attributes);
+
             $missingaltlocal = true;
-            foreach ($alt[1] as $tag) {
-                if (strtolower($tag) === 'alt') {
+            foreach ($attributes[1] as $attribute) {
+                if (strtolower($attribute) === 'alt') {
                     $missingaltlocal = false;
                 }
             }
+
             if ($missingaltlocal) {
                 $missingalt += 1;
             }
         }
+
         return $missingalt;
     }
 }

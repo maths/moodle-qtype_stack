@@ -398,7 +398,11 @@ class stack_cas_keyval {
                 }
                 $scope = stack_utils::php_string_to_maxima_string($cn .
                         $item->position['start'] . '-' . $item->position['end']);
-                $statement = '_EC(errcatch(' . $item->toString($tostringparams) . '),' . $scope . ')';
+                $payload = $item->toString($tostringparams);
+                if ($item->flags !== null && count($item->flags) > 0) {
+                    $payload = 'ev(' . $payload . ')';
+                }
+                $statement = '_EC(errcatch(' . $payload . '),' . $scope . ')';
 
                 // Check if it is one of the block externals.
                 $op = '';

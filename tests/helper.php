@@ -2615,6 +2615,8 @@ class qtype_stack_test_helper extends question_test_helper {
             $newprt->autosimplify = $oldprt->get_simplify();
 
             foreach ($oldprt->get_nodes() as $nname => $oldnode) {
+                // Make sure old nodes have the correct nodeid set.
+                $oldnode->nodeid = $nname;
                 $newnode = $oldnode->summarise_branches_extended();
                 // In the new world we don't parse these to AST-containers in general execution
                 // as that is a waste of time, we only do that during compilation of the whole PRT.

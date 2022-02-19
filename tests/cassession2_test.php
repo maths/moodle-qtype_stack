@@ -2213,7 +2213,7 @@ class cassession2_test extends qtype_stack_testcase {
         $s->instantiate();
 
         $a = array();
-        foreach($s->get_contextvariables() as $i => $v) {
+        foreach ($s->get_contextvariables() as $i => $v) {
             $a[$i] = $v->get_evaluationform();
         }
         $this->assertEquals(array('(%_C(ordergreat),ordergreat(x,y,z))'), $a);

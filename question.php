@@ -96,7 +96,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public $inputs = array();
 
     /**
-     * @var stack_potentialresponse_tree[] STACK specific: respones tree number => ...
+     * @var stack_potentialresponse_tree_lite[] STACK specific: respones tree number => ...
      */
     public $prts = array();
 
@@ -764,7 +764,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public function is_complete_response(array $response) {
 
         // If all PRTs are gradable, then the question is complete. Optional inputs may be blank.
-        foreach ($this->prts as $index => $prt) {
+        foreach ($this->prts as $prt) {
             // Formative PRTs do not contribute to complete responses.
             if (!$prt->is_formative() && !$this->can_execute_prt($prt, $response, false)) {
                 return false;
@@ -991,7 +991,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // has_necessary_prt_inputs, and then does the computation, which ensures
         // there are no CAS errors.
         $result = $this->get_prt_result($prt->get_name(), $response, $acceptvalid);
-        return null !== $result->is_evaluated() && !$result->get_errors();
+        return $result->is_evaluated() && !$result->get_errors();
     }
 
     /**
@@ -1130,7 +1130,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $p = new prt_evaluatable($this->get_cached('prt-signature')[$name],
                 $prt->get_value(), new castext2_static_replacer($this->get_cached('static-castext-strings')));
             if (isset($prts[$name])) {
-                // Always manke sure it get called wit simp:false.
+                // Always make sure it gets called with simp:false.
                 $session->add_statement(new stack_secure_loader('simp:false', 'prt-simplification'));
                 $session->add_statement($p);
             }

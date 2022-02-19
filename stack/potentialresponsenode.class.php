@@ -421,7 +421,7 @@ class stack_potentialresponse_node {
 
 
     /**
-     * @return object with fields for the branches for the compiled PRT upgrade
+     * @return object with fields for the branches for the compiled PRT upgrade.
      */
     public function summarise_branches_extended() {
         $summary = new stdClass();

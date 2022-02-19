@@ -673,7 +673,9 @@ stack_disp(expr, exprm) := block([str:"", expru],
 alias(StackDISP, stack_disp)$
 
 /* Remove blocks starting with %_C and %_E from the expression.*/
-stack_rem_c(ex) := block([ex2],
+stack_rem_c(ex) := block([ex2,simp],
+  /* We need to assume simp:false, so unevaluated/simplified expressions don't potentially throw errors here. */
+  simp:false,
   /* The case below is atoms and things like m[k], which should not be processed further. */
   if safe_op(ex) = "" then return(ex),
   if safe_op(ex) = "(" and safe_op(first(args(ex))) = "%_C" then return(stack_rem_c(second(args(ex)))),

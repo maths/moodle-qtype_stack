@@ -262,8 +262,13 @@ class castext2_evaluatable implements cas_raw_value_extractor {
                     $this->evaluated = $this->statics->replace($this->evaluated);
                 }
             } else {
-                $value = castext2_parser_utils::string_to_list($this->value, true);
-                $value = castext2_parser_utils::unpack_maxima_strings($value);
+                $value = array();
+                if ($this->value != null) {
+                    $value = castext2_parser_utils::string_to_list($this->value, true);
+                }
+                if (is_array($value)) {
+                    $value = castext2_parser_utils::unpack_maxima_strings($value);
+                }
                 if ($this->statics !== null) {
                     // This needs to happen before the postprocessing.
                     $value = $this->statics->replace($value);

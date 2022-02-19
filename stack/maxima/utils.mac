@@ -267,11 +267,11 @@ all_ops(%_expr) := block([%_edge, %_next_edge, %_tmp, %_op, %_result],
  %_result
 )$
 
-%_C(%_id) := block([simp],simp:true,
+%_C(%_id) := block([simp], simp:true,
  if elementp(sconcat(%_id), FORBIDDEN_SYMBOLS_SET) then (
   error(sconcat("Attempt to call forbidden function detected: ", %_id))
  )
-)$ 
+)$
 
 %_E(%_expr) := block([simp,%_tmp],
  simp: false,

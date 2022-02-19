@@ -773,6 +773,13 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
             $root = $root->statement;
         }
+        if ($root instanceof MP_Group) {
+            $r0 = $root->items[0];
+            if ($r0 instanceof MP_FunctionCall && $r0->name->value = '%_C') {
+                $root = $root->items[1];
+            }
+        }
+
         $op = '';
         if ($root instanceof MP_Operation) {
             $op = $root->op;

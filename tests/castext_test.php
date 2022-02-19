@@ -496,12 +496,17 @@ class castext_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session2($s2, null, 0);
 
-        $at1 = castext2_evaluatable::make_from_source("This is some text {@plot(p, [x,-2,3])@}", 'test-case');
+        $at1 = castext2_evaluatable::make_from_source("<p>This is some text</p><p>{@plot(p, [x,-2,3])@}</p>", 'test-case');
         $cs2->add_statement($at1);
         $cs2->instantiate();
         $this->assertTrue($at1->get_valid());
 
-        $this->assertTrue(is_int(strpos($at1->get_rendered(),
+        $rendered = $at1->get_rendered();
+        $expected = "<p>This is some text</p><p><div class='stack_plot'><img src='!ploturl!";
+        // Make sure the curly brackets are not left within rendered castext with plots.
+        $this->assertEquals($expected, substr($rendered, 0, 70));
+
+        $this->assertTrue(is_int(strpos($rendered,
                 ".svg' alt='STACK auto-generated plot of x^3 with parameters [[x,-2,3]]'")));
     }
 

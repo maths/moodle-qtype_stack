@@ -490,7 +490,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $errmsg .= html_writer::tag('li', $key);
             }
             $s .= html_writer::tag('ul', $errmsg);
-            // So we have this logic where a raw string needs to turn to a CASText2 object. As we do not know what it contains we escape it.
+            // So we have this logic where a raw string needs to turn to a CASText2 object.
+            // As we do not know what it contains we escape it.
             $this->questiontextinstantiated = castext2_evaluatable::make_from_source('[[escape]]' . $s . '[[/escape]]', '/qt');
             // It is a stateic string and by calling this we make it look like it was evaluated.
             $this->questiontextinstantiated->requires_evaluation();
@@ -1854,7 +1855,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         $cc['static-castext-strings'] = $map->get_map();
 
-        // The time of the security context as it were during 2021 was short, now only 
+        // The time of the security context as it were during 2021 was short, now only
         // the input variables remain.
         $si = [];
 

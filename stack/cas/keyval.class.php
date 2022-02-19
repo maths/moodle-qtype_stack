@@ -143,7 +143,6 @@ class stack_cas_keyval {
             }
         }
         $this->security->set_context($vallist);
-    
 
         $this->valid   = true;
         $this->statements   = array();
@@ -331,7 +330,8 @@ class stack_cas_keyval {
         $errors = [];
         $answernotes = [];
         $filteroptions = ['998_security' => ['security' => 't']];
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['996_call_modification', '998_security', '999_strict'], $filteroptions, true);
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['996_call_modification', '998_security', '999_strict'],
+            $filteroptions, true);
         $tostringparams = ['nosemicolon' => true, 'pmchar' => 1];
         $securitymodel = $this->security;
 
@@ -352,12 +352,12 @@ class stack_cas_keyval {
                         return true;
                     } else if (count($node->arguments) == 2 && (!($node->arguments[0] instanceof MP_String) ||
                             !($node->arguments[1] instanceof MP_Identifier))) {
-                        $errors[] =  new $errclass('Keyval castext()-compiler, wrong argument. ' .
+                        $errors[] = new $errclass('Keyval castext()-compiler, wrong argument. ' .
                             'Only works with one direct raw string. And possibly a format descriptor.', $ctx);
                         $node->position['invalid'] = true;
                         return true;
                     } else if (count($node->arguments) == 0 || count($node->arguments) > 2) {
-                        $errors[] =  new $errclass('Keyval castext()-compiler, wrong argument. ' .
+                        $errors[] = new $errclass('Keyval castext()-compiler, wrong argument. ' .
                             'Only works with one direct raw string. And possibly a format descriptor.', $ctx);
                         $node->position['invalid'] = true;
                         return true;
@@ -383,7 +383,9 @@ class stack_cas_keyval {
         };
 
         // Compile inline CASText2.
+        // @codingStandardsIgnoreStart
         while ($ast->callbackRecurse($rewrite, true) !== true) {}
+        // @codingStandardsIgnoreEnd
         // Apply the normal filters.
         $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
 

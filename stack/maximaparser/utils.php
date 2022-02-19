@@ -303,7 +303,9 @@ class maxima_parser_utils {
                 }
                 return true;
             };
+            // @codingStandardsIgnoreStart
             while ($root->callbackRecurse($include) !== true) {}
+            // @codingStandardsIgnoreEnd
 
             // TODO: wrap those errors into something more readable.
             if (count($errors) > 0) {

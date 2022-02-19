@@ -28,7 +28,7 @@ abstract class stack_cas_castext2_block {
     public $children;
     // We have no clue what this would be in postprocess phase.
     public $mathmode = false;
-    // Position data from the parser
+    // Position data from the parser.
     public $position = null;
 
     public function __construct(
@@ -88,7 +88,7 @@ abstract class stack_cas_castext2_block {
      *
      * Note that the error array is built of `stack_cas_error` objects the specific class
      * defined by the options array.
-     * 
+     *
      * Note the second argument is now a generic array of options, not just the
      * list of PRTs. What it contains in use case specific. One can typically assume
      * that it contaisn the same values as the simillar aray for `compile`.

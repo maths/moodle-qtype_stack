@@ -127,7 +127,9 @@ class stack_multilang {
                 }
                 return true;
             };
+            // @codingStandardsIgnoreStart
             while ($parsed->callbackRecurse($search) !== true) {}
+            // @codingStandardsIgnoreEnd
             return $parsed->toString();
         }
         return $text;

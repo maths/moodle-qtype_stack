@@ -429,8 +429,9 @@ class stack_ast_container_silent implements cas_evaluatable {
             foreach ($errs as $value) {
                 if ($value->get_legacy_error() !== '' && $value->get_legacy_error() !== null) {
                     $this->valid = false;
-                    // Hmm what is the point for this? Maybe do this filtering in the error class?
-                    $this->errors[] = new $this->errclass($this->decode_maxima_errors($value->get_legacy_error(), false), $value->get_context());
+                    // Hmm what is the point of this? Maybe do this filtering in the error class?
+                    $this->errors[] = new $this->errclass($this->decode_maxima_errors($value->get_legacy_error(), false),
+                        $value->get_context());
                 }
             }
         }
@@ -488,7 +489,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // General accessors.
-    
+
     // When asking for errors the default is to implode them into a string.
     // One can also have an array of strings or objects depending on which
     // is more convenient.

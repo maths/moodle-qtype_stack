@@ -18,11 +18,10 @@ defined('MOODLE_INTERNAL') || die();
 
 /**
  * Encapsulates the location of an error happening in CAS with the actual error.
- * Allows deciding of the level of error message specificity at the point of output.
+ * Allows us to decide the level of error message specificity at the point of output.
  *
  * This class also defines the syntax for those context/location paths.
- * 
- * 
+ *
  * @copyright  2022 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -53,7 +52,7 @@ class stack_cas_error {
         /* NOTE! Only CAS valued items have paths, for now.
          * In the future various meta fields might also have paths, but now
          * we deal with the things that can error out in CAS.
-         */ 
+         */
 
         // Short names for the root level items.
         static $qlevelfields = [
@@ -104,75 +103,74 @@ class stack_cas_error {
         // For indexing we go for the definition order and do it zero-based.
         switch ($parts[1]) {
             case 'p':
-            $prt = $question->prts[array_keys($question->prts)[intval($parts[2])]];
-            $interpreted['prt'] = $prt->get_name();
-            if (count($parts) > 2) {
-                if ($parts[3] === 'fv') {
-                    $interpreted['field'] = 'feedbackvariables';
+                $prt = $question->prts[array_keys($question->prts)[intval($parts[2])]];
+                $interpreted['prt'] = $prt->get_name();
+                if (count($parts) > 2) {
+                    if ($parts[3] === 'fv') {
+                        $interpreted['field'] = 'feedbackvariables';
+                        if (count($parts) > 3) {
+                            // If we have line:char level location data.
+                            $interpreted['detail'] = $parts[4];
+                        }
+                    } else if ($parts[3] === 'n') {
+                        // Note that once we have names for the nodes we don't need these
+                        // offsets and prefixes.
+                        $interpreted['node'] = 'node ' .
+                            (array_keys($prt->get_nodes_summary())[intval($parts[4])]->nodename + 1);
+                        if (count($parts) > 5 && isset($nodefields[$parts[5]])) {
+                            $interpreted['field'] = $nodefields[$parts[5]];
+                            if (count($parts) > 6) {
+                                $interpreted['detail'] = $parts[6];
+                            }
+                        }
+                    }
+                }
+                break;
+            case 'i':
+                $input = $question->inputs[array_keys($question->prts)[intval($parts[2])]];
+                $interpreted['input'] = $input->get_name();
+                // The input options in the old world are limited to tans.
+                // All others are input2 and will get their names written out in full.
+                if (count($parts) > 2) {
+                    if ($parts[3] === 'a') {
+                        $interpreted['field'] = 'tans';
+                    } else {
+                        $interpreted['field'] = $parts[3];
+                    }
                     if (count($parts) > 3) {
                         // If we have line:char level location data.
                         $interpreted['detail'] = $parts[4];
                     }
-                } else if ($parts[3] === 'n') {
-                    // Note that once we have names for the nodes we don't need these
-                    // offsets and prefixes.
-                    $interpreted['node'] = 'node ' . (array_keys($prt->get_nodes_summary())[intval($parts[4])]->nodename + 1);
-                    if (count($parts) > 5 && isset($nodefields[$parts[5]])) {
-                        $interpreted['field'] = $nodefields[$parts[5]];
-                        if (count($parts) > 6) {
-                            $interpreted['detail'] = $parts[6];
-                        }
+                }
+                break;
+            case 't':
+                // As the question tests are not in the question mode we need to fetch them.
+                $tests = $question->qtype->load_question_tests();
+                $test = $tests[array_keys($tests)[intval($parts[2])]];
+                $interpreted['questiontest'] = $test->testcase;
+
+                // For question tests instead of indexing we use the input names directly.
+                if (count($parts) > 2) {
+                    $interpreted['testinput'] = $parts[3];
+                    if (count($parts) > 3) {
+                        // If we have line:char level location data.
+                        $interpreted['detail'] = $parts[4];
                     }
                 }
-            }
-            break;
-            case 'i':
-            $input = $question->inputs[array_keys($question->prts)[intval($parts[2])]];
-            $interpreted['input'] = $input->get_name();
-            // The input options in the old world are limited to tans.
-            // All others are input2 and will get their names written out in full.
-            if (count($parts) > 2) {
-                if ($parts[3] === 'a') {
-                    $interpreted['field'] = 'tans';
-                } else {
-                    $interpreted['field'] = $parts[3];
-                }
-                if (count($parts) > 3) {
-                    // If we have line:char level location data.
-                    $interpreted['detail'] = $parts[4];
-                }
-            }
-            break;
-            case 't':
-            // As the question tests are not in the question mode we need to fetch them.
-            $tests = $question->qtype->load_question_tests();
-            $test = $tests[array_keys($tests)[intval($parts[2])]];
-            $interpreted['questiontest'] = $test->testcase;
-
-            // For question tests instead of indexing we use the input names directly.
-            if (count($parts) > 2) {
-                $interpreted['testinput'] = $parts[3];
-                if (count($parts) > 3) {
-                    // If we have line:char level location data.
-                    $interpreted['detail'] = $parts[4];
-                }
-            }
-            break;
+                break;
             default:
-            // All the root fields, vars and texts
-            $interpreted['field'] = $qlevelfields[$parts[1]];
-            if (count($parts)> 2) {
-                // If we have line:char level location data.
-                $interpreted['detail'] = $parts[2];
-            }
+                // All the root fields, vars and texts.
+                $interpreted['field'] = $qlevelfields[$parts[1]];
+                if (count($parts) > 2) {
+                    // If we have line:char level location data.
+                    $interpreted['detail'] = $parts[2];
+                }
         }
-
         return $interpreted;
     }
 
-
     /**
-     * For use in old tests, validation and editors, where ever the context is
+     * For use in old tests, validation and editors, whereever the context is
      * clear from the placement of the error message.
      * @return string raw error without context.
      */
@@ -196,7 +194,7 @@ class stack_cas_error {
      *
      * Note that we do not define the type of a question in the function declaration
      * this makes it simpler for other systems (i.e. Stateful) to extend this class.
-     * 
+     *
      * @param $question a question that can be used to interpret the path and that can
      * tell us if the user can edit it and should therefore see more descriptive errors.
      * @return string
@@ -206,7 +204,7 @@ class stack_cas_error {
         // 'errorinfeedbackvarswithdetail' = '{$a->err} in feedback-variables of {$a->prt} specifically at {$a->detail}.'
         // 'errorinfeedbackvars' = '{$a->err} in feedback-variables of {$a->prt}.'
         // Order as you want and there are other vars available.
-        
+
         $ctx = $this->get_interpreted_context($question);
         if ($question->user_can_edit($question)) {
             // Only editing people can have the error itself in the template.
@@ -237,12 +235,12 @@ class stack_cas_error {
             }
         } else {
             if (isset($ctx['prt'])) {
-                if (isset($ctx['field']) 
+                if (isset($ctx['field'])
                     && ($ctx['field'] === 'truefeedback' || $ctx['field'] === 'falsefeedback')) {
                     return stack_string('errorinfeedback');
                 }
                 return stack_string('erroringrading');
-            } else if (isset($ctx['input']) && isset($ctx['field']) 
+            } else if (isset($ctx['input']) && isset($ctx['field'])
                 && $ctx['field'] === 'validation') { // This is a special field-name.
                 return stack_string('errorininputvalidation');
             } else if (isset($ctx['input'])) {
@@ -262,7 +260,7 @@ class stack_cas_error {
             return stack_string('generalfielderror', $ctx);
         }
 
-        // Everyhing else is a general error.
+        // Everything else is a general error.
         return stack_string('generalerrorhappened');
     }
 }

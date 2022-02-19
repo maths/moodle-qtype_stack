@@ -206,7 +206,9 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
 
             return true;
         };
+        // @codingStandardsIgnoreStart
         while ($ast->callbackRecurse($simplifier) !== true) {};
+        // @codingStandardsIgnoreEnd
         $r = $ast->toString(['nosemicolon' => true]);
 
         $varref = maxima_parser_utils::variable_usage_finder($ast);

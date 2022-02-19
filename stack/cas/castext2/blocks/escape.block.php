@@ -56,7 +56,8 @@ class stack_cas_castext2_escape extends stack_cas_castext2_block {
         // the old way of defining the value as an parameter but not both ways at the same time.
 
         if ($this->content !== null && array_key_exists('value', $this->params)) {
-            $errors[] = new $options['errclass']('Cannot use both old value-attribute and block-content in escape-block.', $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);
+            $errors[] = new $options['errclass']('Cannot use both old value-attribute and block-content in escape-block.',
+                $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);
             return false;
         }
 

@@ -162,7 +162,9 @@ class stack_potentialresponse_tree_lite {
             }
             return true;
         };
+        // @codingStandardsIgnoreStart
         while ($ast->callbackRecurse($clean) !== true) {}
+        // @codingStandardsIgnoreEnd
 
         return $ast->toString(['pretty' => true, 'checkinggroup' => true]);
     }
@@ -325,8 +327,8 @@ class stack_potentialresponse_tree_lite {
         $usage['write']['%PRT_EXIT_NOTE'] = true;
         $usage['write']['%_EXITS'] = true;
 
-        // For the feedback we might want to provide extra information related to 
-        // feedback vars. Basically, for the debug-block we tell that these are 
+        // For the feedback we might want to provide extra information related to
+        // feedback vars. Basically, for the debug-block we tell that these are
         // the bound ones.
         $ct2options = ['bound-vars' => $fv['references']['write']];
 

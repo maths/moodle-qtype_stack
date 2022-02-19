@@ -2006,10 +2006,9 @@ class cassession2_test extends qtype_stack_testcase {
                     '', new stack_cas_security(), array());
         }
 
-        $expected = '([Root] ([Op: :] ([Id] ta), ([FunctionCall: ([Id] ev)] ' .
-            '([FunctionCall: ([Id] taylor)] ([Op: *] ([Int] 10), ' .
-            '([FunctionCall: ([Id] cos)] ([Op: *] ([Int] 2), ([Id] x)))),([Id] x),([Op: /] ' .
-            '([Id] %pi), ([Int] 4)),([Int] 2)),([Id] simp))))';
+        $expected = '([Root] ([Op: :] ([Id] ta), ([FunctionCall: ([Id] ev)] ([FunctionCall: ([Id] %_E)] ([FunctionCall: ' .
+            '([Id] %_E)] ([FunctionCall: ([Id] taylor)] ([Op: *] ([Int] 10), ([FunctionCall: ([Id] cos)] ' .
+            '([Op: *] ([Int] 2), ([Id] x)))),([Id] x),([Op: /] ([Id] %pi), ([Int] 4)),([Int] 2)))),([Id] simp))))';
         $this->assertEquals($expected, $s1[0]->get_ast_test());
 
         $options = new stack_options();

@@ -35,6 +35,10 @@
       "function": "s",
       "built-in": true
   },
+  "%_ce_rem": {
+      "function": "f",
+      "globalyforbiddenvariable": true
+  },
   "%ERR": {
       "variable": "f"
   },

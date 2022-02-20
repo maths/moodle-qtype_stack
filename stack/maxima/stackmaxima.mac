@@ -146,25 +146,28 @@ matchfix("|", "|");
 /* Load STACK packages                */
 /* ********************************** */
 
+/* This must come before stacktex.lisp as the latter relies on compiled functions in utils.mac. */
+load("utils.mac");
+load("errortostring.lisp");
+
 load("assessment.mac");
 load("noun_simp.mac");
 load("inequalities.mac");
 load("intervals.mac");
 load("stackunits.mac");
-load("stacktex.lisp");
 load("stackstrings.mac");
+
+load("stacktex.lisp");
+/* Ensure back compatability with versions before 5.41.0. */
+if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
+if is(MAXIMA_VERSION_NUM<44.0) then load("stack44.mac");
 
 /* This file is a modified core Maxima function with local variable name clashes fixed. */
 load("trigrat.lisp");
 load("trigtools");
 
 load("sregex");
-/* Ensure back compatability with versions before 5.41.0. */
-if is(MAXIMA_VERSION_NUM<40.1) then load("stacktex40.lisp");
-if is(MAXIMA_VERSION_NUM<44.0) then load("stack44.mac");
-load("utils.mac");
 load("numericaltest.mac");
-load("errortostring.lisp");
 
 load("local.mac");
 
@@ -643,7 +646,7 @@ stack_disp(expr, exprm) := block([str:"", expru],
     if OPT_OUTPUT = "LaTeX" then
         if not(ev(elementp(exprm, {"", "i", "d", "id", "i{", "{"}), simp)) then print(concat("ERROR: illegal delimiter option found: ", exprm)),
     /* Fine tune display, e.g. sort out display of atoms like theta0. */
-    expru: stack_rem_c(expr),
+    expru: %_ce_rem(expr),
     if not(stack_disp_control_structurep(expr)) then block(
         expru: unary_minus_sort(expr),
         expru: stack_disp_sub_script(expru)),
@@ -671,18 +674,6 @@ stack_disp(expr, exprm) := block([str:"", expru],
 /* We continue to support the old name, since question authors may have used */
 /* it, even though that was not recommended practice. */
 alias(StackDISP, stack_disp)$
-
-/* Remove blocks starting with %_C and %_E from the expression.*/
-stack_rem_c(ex) := block([ex2,simp],
-  /* We need to assume simp:false, so unevaluated/simplified expressions don't potentially throw errors here. */
-  simp:false,
-  /* The case below is atoms and things like m[k], which should not be processed further. */
-  if safe_op(ex) = "" then return(ex),
-  if safe_op(ex) = "(" and safe_op(first(args(ex))) = "%_C" then return(stack_rem_c(second(args(ex)))),
-  if safe_op(ex) = "(" and safe_op(first(args(ex))) = "%_E" then return(stack_rem_c(second(args(ex)))),
-  ex2:map(stack_rem_c, args(ex)),
-  substpart(op(ex), ex2, 0)
-)$
 
 /* If an expression contains these control structures then we don't fine-tune the display. */
 stack_disp_control_structurep(ex) := not(freeof(?mdoin, ?mdo, ?mcond, catch, throw, ":=", lambda, setelmx, ex))$

@@ -28,12 +28,12 @@ defined('MOODLE_INTERNAL') || die();
 class stack_cas_error {
 
     /**
-     * @var string the location where things went wrong.
+     * @var string The location where things went wrong.
      */
     private $context;
 
     /**
-     * @var string how things went wrong.
+     * @var string How things went wrong.
      */
     private $error;
 
@@ -190,12 +190,12 @@ class stack_cas_error {
     }
 
     /**
-     * Gives an error message customised to the users role.
+     * Gives an error message customised to the user's role.
      *
      * Note that we do not define the type of a question in the function declaration
      * this makes it simpler for other systems (i.e. Stateful) to extend this class.
      *
-     * @param $question a question that can be used to interpret the path and that can
+     * @param $question A question that can be used to interpret the path and that can
      * tell us if the user can edit it and should therefore see more descriptive errors.
      * @return string
      */

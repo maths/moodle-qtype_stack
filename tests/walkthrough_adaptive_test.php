@@ -1790,7 +1790,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_current_mark(null);
         $this->check_prt_score('prt1', null, null);
         $this->render();
-        $expected = 'Seed: 1; ans1: 0 [score]; prt1: [RUNTIME_ERROR] !';
+        $expected = 'Seed: 1; ans1: 0 [score]; prt1: [RUNTIME_ERROR] Division by zero.|length: argument cannot be a symbol; found %_TMP!';
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '0');
         $this->check_output_contains_input_validation('ans1');
@@ -2476,7 +2476,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_current_mark(null);
         $this->check_prt_score('Result', null, null);
         $this->render();
-        $expected = 'Seed: 1; ans1: [2*sin(x)*y=1,x+y=1] [score]; Result: [RUNTIME_ERROR] # =  | ATLogic_True. | Result-0-T';
+        $expected = "Seed: 1; ans1: [2*sin(x)*y=1,x+y=1] [score]; Result: [RUNTIME_ERROR] " .
+            "algsys: Couldn't reduce system to a polynomial in one variable." .
+            "|apply: found %_TMP evaluates to 0 where an array was expected.\n!";
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '[2*sin(x)*y=1,x+y=1]');
         $this->check_output_contains_input_validation('ans1');

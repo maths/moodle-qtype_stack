@@ -236,7 +236,8 @@ FORBIDDEN_SYMBOLS_SET: {"%th", "adapth_depth", "alias", "aliases", "alphabetic",
   "stringout", "supcontext", "system", "tcl_output", "terminal", "tex", "testsuite_files",
   "throw", "time", "timer", "timer_devalue", "timer_info", "to_lisp", "trace", "trace_options",
   "transcompile", "translate", "translate_file", "transrun", "ttyoff", "untimer",
-  "untrace", "user_preamble", "values", "with_stdout", "write_binary_data", "write_data", "writefile"
+  "untrace", "user_preamble", "values", "with_stdout", "write_binary_data", "write_data", "writefile",
+  "%_ce_rem"
 }$
 
 /* This is the allowed version of concat that blocks the possibility to construct certain dangerous things. */

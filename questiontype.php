@@ -509,7 +509,12 @@ class qtype_stack extends question_type {
 
         $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
         foreach ($prtnames as $name) {
-            $question->prts[$name] = new stack_potentialresponse_tree_lite($questiondata->prts[$name], $question);
+            $prtvalue = 0;
+            if (!$allformative) {
+                $prtvalue = $prtdata->value / $totalvalue;
+            }
+            $question->prts[$name] = new stack_potentialresponse_tree_lite($questiondata->prts[$name],
+                $prtvalue, $question);
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);
@@ -2292,7 +2297,8 @@ class qtype_stack extends question_type {
         }
         $prt = $question->prts[$prtname];
 
-        $prt = new stack_potentialresponse_tree_lite($prt, $question);
+        // Safe to hard-wire the value as 1 here as this PRT is not used for scoreing.
+        $prt = new stack_potentialresponse_tree_lite($prt, 1, $question);
 
         // Just do the full compile it does all the checking including feedback.
         $compile['required'] = array();

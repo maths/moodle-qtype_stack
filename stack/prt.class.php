@@ -32,7 +32,7 @@ class stack_potentialresponse_tree_lite {
     /** @var bool Should this PRT simplify when its arguments are evaluated? */
     private $simplify;
 
-    /** @var float total amount of fraction available from this PRT. Zero is possible for formative PRT questions. */
+    /** @var float Total amount of fraction available from this PRT. Zero is possible for formative PRT questions. */
     private $value;
 
     /** @var stack_cas_session2 Feeback variables. */
@@ -61,13 +61,13 @@ class stack_potentialresponse_tree_lite {
      */
     private $question = null;
 
-    public function __construct($prtdata, $question = null) {
+    public function __construct($prtdata, $value, $question = null) {
         $this->name          = $prtdata->name;
         $this->simplify      = (bool) $prtdata->autosimplify;
         $this->feedbackstyle = (int) $prtdata->feedbackstyle;
 
-        // Note let's leave the scaling to other levels.
-        $this->value         = $prtdata->value;
+        // TODO move the scaling to other levels.
+        $this->value         = $value;
 
         $this->feedbackvariables = $prtdata->feedbackvariables;
 

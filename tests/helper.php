@@ -2640,7 +2640,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 $newprt->nodes[$newnode->nodename] = $newnode;
             }
 
-            $r[$name] = new stack_potentialresponse_tree_lite($newprt, $question);
+            $r[$name] = new stack_potentialresponse_tree_lite($newprt, $oldprt->get_value(), $question);
             // If you want to replace an old style PRT definition the easiest way is
             // to dump out the $newprt object here as JSON and use it as the definition
             // the JSON-parser by default generates stdClass objects.

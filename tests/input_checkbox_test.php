@@ -297,7 +297,7 @@ class input_checkbox_test extends qtype_stack_walkthrough_test_base {
                 '<span class="nolink">\(\int {y}{\;\mathrm{d}x}+1=0\)</span></span></label></div>' .
                 '<div class="option"><input type="checkbox" name="stack1__ans1_4" value="4" id="stack1__ans1_4" />' .
                 '<label for="stack1__ans1_4"><span class="filter_mathjaxloader_equation">' .
-                '<span class="nolink">\(7\cdot {\it noundiff}\left(y , x , 3\right)+5\cdot y=0\)</span></span></label></div></div>';
+                '<span class="nolink">\(7\cdot \left(\frac{\mathrm{d}^3 y}{\mathrm{d} x^3}\right)+5\cdot y=0\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
         $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', new stack_cas_security());

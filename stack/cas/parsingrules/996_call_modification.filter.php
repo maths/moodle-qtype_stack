@@ -33,6 +33,24 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
         $mapfuns = stack_cas_security::get_all_with_feature('mapfunction');
         $process = function($node) use ($mapfuns) {
             if ($node instanceof MP_Functioncall && !$node->is_definition()) {
+                // '-operator makes the IDCHECK not work at the correct time, 
+                // so detect if that op is in the ancestry of this node and skip if so.
+                $p = $node;
+                while ($p !== null) {
+                    if ($p instanceof MP_PrefixOp && $p->op === "'") {
+                        return true;
+                    }
+                    // Also break on assingments.
+                    if ($p->parentnode instanceof MP_Operation && $p->parentnode->op === ':') {
+                        break;
+                    }
+                    // And specific types of equations.
+                    if ($p->parentnode instanceof MP_Operation && $p->parentnode->op === '=' && $p->parentnode->rhs === $p) {
+                        break;
+                    }
+                    $p = $p->parentnode;
+                }
+
                 if ($node->name instanceof MP_Atom && ($node->name->value === self::IDCHECK ||
                     $node->name->value === self::EXPCHECK || $node->name->value === 'lambda')) {
                     // No checks for the checks themselves. They are protected using other means.

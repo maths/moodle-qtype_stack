@@ -176,12 +176,11 @@ For example `sequence(1,2,3,4)` is displayed \(1,2,3,4\). STACK provides conveni
 
 * `sequenceify`, creates a sequence from the arguments of the expression.  This turns lists, sets etc. into a sequence.
 * `sequencep` is a predicate to decide if the expression is a sequence.
+* The atom `dotdotdot` is displayed using the tex `\ldots` which looks like \(\ldots\).  This atom cannot be entered by students.
 
 STACK provides an inert function `ntuple`.  All this does is display its arguments with round brackets.
 For example `ntuple(1,2,3,4)` is displayed \((1,2,3,4)\).  `ntupleify` and `ntuplep` construct and test for ntuples.
 In strict Maxima syntax `(a,b,c)` is equivalent to `block(a,b,c)`.  If students type in `(a,b,c)` using a STACK input it is filtered to `ntuple(a,b,c)`. Teachers must use the `ntuple` function explicitly to construct question variables, teacher's answers, test cases and so on. The `ntuple` is useful for students to type in coordinates.
-
-The atom `dotdotdot` is displayed using the tex `\ldots` which looks like \(\ldots\).  This atom cannot be entered by students.
 
 If you want to use these functions, then you can create question variables as follows
 
@@ -198,6 +197,12 @@ You can, of course, apply these functions directly.
     S1:sequence(a,b,c,dotdotdot);
 
 If you want to use `sequence` or `ntuple` in a PRT comparison, you probably want to turn them back into lists. E.g. `ntuple(1,2,3)` is not algebraically equivalent to `[1,2,3]`.  To do this use the `args` function.   We may, in the future, give more active meaning to the data types of `sequence` and `ntuple`.
+
+Currently, students can enter expressions with "implied ntuples" E.g
+
+* Student input of `(1,2,3)` is interpreted as `ntuple(1,2,3)`.
+* Student input of `{(1,2,3),(4,5,6)}` is interpreted as `{ntuple(1,2,3),ntuple(4,5,6)}.
+* Since no operations are defined on ntuples, students cannot currenlty enter things like `(1,2,3)+s*(1,0,0)`.  There is nothing to stop a teacher defining the expression tree `ntuple(1,2,3)+s*ntuple(1,0,0)`, but the operations `+` and `*` are not defined for ntuples and so nothing will happen!  If you want a student to enter the equation of a line/plane they should probably use the matrix syntax for vectors.  (This may change in the future).
 
 Matrices have options to control the display of the braces.  Matrices are displayed without commas.
 

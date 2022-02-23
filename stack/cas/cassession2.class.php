@@ -385,23 +385,16 @@ class stack_cas_session2 {
             $command .= ',' . $key . ')';
         }
 
-        // Pack values to the response.
-        $command .= self::SEP . '_RESPONSE:stackmap_set(_RESPONSE,"timeout",false)';
-        $command .= self::SEP . '_RESPONSE:stackmap_set(_RESPONSE,"values",_VALUES)';
+        // Pack optional values to the response.
         if (count($collectlatex) > 0) {
             $command .= self::SEP . '_RESPONSE:stackmap_set(_RESPONSE,"presentation",_LATEX)';
         }
         if ((count($collectdvs) + count($collectdvsandvalues)) > 0) {
             $command .= self::SEP . '_RESPONSE:stackmap_set(_RESPONSE,"display",_DVALUES)';
         }
-        $command .= self::SEP . 'if length(%ERR)>1 then _RESPONSE:stackmap_set(_RESPONSE,"errors",%ERR)';
-        $command .= self::SEP . 'if length(%NOTES)>1 then _RESPONSE:stackmap_set(_RESPONSE,"notes",%NOTES)';
-        $command .= self::SEP . 'if length(%FEEDBACK)>1 then _RESPONSE:stackmap_set(_RESPONSE,"feedback",%FEEDBACK)';
 
-        // Then output them.
-        $command .= self::SEP . 'print("STACK-OUTPUT-BEGINS>")';
-        $command .= self::SEP . 'print(stackjson_stringify(_RESPONSE))';
-        $command .= self::SEP . 'print("<STACK-OUTPUT-ENDS")';
+        // Then output the response.
+        $command .= self::SEP . '_CS2out()';
         $command .= "\n)$\n";
 
         // Prepend those statements which should be outside the block.

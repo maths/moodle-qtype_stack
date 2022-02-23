@@ -631,6 +631,20 @@ _CS2dv(_k,_v) := block([%_tmp],
  0)$
 _CS2dvv(_k,_v) := (_CS2v(_k,_v),_CS2dv(_k,_v),0)$
 
+_CS2out() := (
+ _RESPONSE : stackmap_set(_RESPONSE, "timeout", false),
+ _RESPONSE : stackmap_set(_RESPONSE, "values", _VALUES),
+ if length(%ERR) > 1 then
+   _RESPONSE : stackmap_set(_RESPONSE, "errors", %ERR),
+ if length(%NOTES) > 1 then
+   _RESPONSE : stackmap_set(_RESPONSE, "notes", %NOTES),
+ if length(%FEEDBACK) > 1 then
+   _RESPONSE : stackmap_set(_RESPONSE, "feedback", %FEEDBACK),
+ print("STACK-OUTPUT-BEGINS>"),
+ print(stackjson_stringify(_RESPONSE)),
+ print("<STACK-OUTPUT-ENDS")
+)$
+
 /* ********************************** */
 /* Display                            */
 /* ********************************** */
@@ -3121,4 +3135,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2022012700$
+stackmaximaversion:2022022300$

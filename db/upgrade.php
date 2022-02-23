@@ -863,17 +863,8 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021010100, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2021102100) {
-        upgrade_plugin_savepoint(true, 2021102100, 'qtype', 'stack');
-    }
-
-    if ($oldversion < 2022010700) {
-        upgrade_plugin_savepoint(true, 2022010700, 'qtype', 'stack');
-    }
-
-    if ($oldversion < 2022012700) {
-        // TODO: merge these empty updates after the branches have merged.
-        upgrade_plugin_savepoint(true, 2022012700, 'qtype', 'stack');
+    if ($oldversion < 2022022300) {
+        upgrade_plugin_savepoint(true, 2022022300, 'qtype', 'stack');
     }
 
     // Add new upgrade blocks just above here.

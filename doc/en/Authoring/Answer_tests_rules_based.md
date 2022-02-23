@@ -88,7 +88,18 @@ Note that we do not gurantee the simplification is mathematically correct!  E.g.
 
 If you add the rule `testdebug` then you will see both expressions in the answer note.  This is useful for debugging, but would clutter up things in a production setting.
 
-## Developer notes
+## Examples of use ##
+
+### Unique prime factorisation ###
+
+Imagine we have asked students to find the prime decomposition of \(1617 = 3^1\cdot 7^2\cdot 11^1\).  This is the answer we are aiming at, but we also want to condone the answer
+\(3\cdot 7^2\cdot 11\).   We can do this with the rule `[idPow]`.  We might also (being generous perhaps) want to also accept \( 2^0\cdot 3^1\cdot 5^0\cdot 7^2\cdot 11^1 \).  We can do this with the three rules `[oneMul,idPow,zPow]`.  You can try this code in the sandbox.
+
+    ATEqualComAssRules(2^0*3^1*5^0*7^2*11^1, 3^1*7^2*11^1, [oneMul,idPow,zPow]);
+
+Note, this test always assumes commutativity so you can't (currently) enforce the order of writing the prime factors.
+
+## Developer notes ##
 
 This functionality was introduced in April 2021.  It is essential that the rules, and any combination of the rules, can only proceed in a single direction and that no infinite loops are created.  So, `intAdd` is fine because adding together two integers will make an expression _simpler_ which in this case is shorter.  For this reason we do not have expanding out (i.e. distribution) rules in the above set, and no rules of indices (which readily lead to mathemtical errors).  Use Maxima's simplifier if you want to include such rules.
 

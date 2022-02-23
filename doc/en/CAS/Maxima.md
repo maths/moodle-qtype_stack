@@ -201,7 +201,7 @@ If you want to use `sequence` or `ntuple` in a PRT comparison, you probably want
 Currently, students can enter expressions with "implied ntuples" E.g
 
 * Student input of `(1,2,3)` is interpreted as `ntuple(1,2,3)`.
-* Student input of `{(1,2,3),(4,5,6)}` is interpreted as `{ntuple(1,2,3),ntuple(4,5,6)}.
+* Student input of `{(1,2,3),(4,5,6)}` is interpreted as `{ntuple(1,2,3),ntuple(4,5,6)}`.
 * Since no operations are defined on ntuples, students cannot currenlty enter things like `(1,2,3)+s*(1,0,0)`.  There is nothing to stop a teacher defining the expression tree `ntuple(1,2,3)+s*ntuple(1,0,0)`, but the operations `+` and `*` are not defined for ntuples and so nothing will happen!  If you want a student to enter the equation of a line/plane they should probably use the matrix syntax for vectors.  (This may change in the future).
 
 Matrices have options to control the display of the braces.  Matrices are displayed without commas.

@@ -1,111 +1,30 @@
-# STACK Sandbox
+# STACK - Maxima Sandbox
 
-It is very useful when authoring questions to be able to test out Maxima code in the same environment in which STACK uses [Maxima](Maxima.md).
-That is to say, to run a desktop version of Maxima with the local settings and STACK specific functions loaded.  This is also used in [reporting](../Authoring/Reporting.md) and analysis of students' responses.
-To do this you will need to load your local settings, and also the libraries of Maxima functions specific to STACK.
+It is very useful when authoring questions to be able to test out Maxima code on your local machine in the same environment in which STACK uses [Maxima](Maxima.md) on your server. That is to say, to run a desktop version of Maxima with the local settings and STACK specific functions loaded.  You can copy the Maxima code from the question testing page into the sandbox for offline testing and debugging of a question.  This is also used in [reporting](../Authoring/Reporting.md) and analysis of students' responses. To do this you will need to load the libraries of Maxima functions specific to STACK. You may also want to copy some of your local settings from the server to your local machine to ensure an identical setup, but this is not strictly necessary for most purposes.
 
-## Setup Maxima and wxMaxima
+The first step is to install wxMaxima on your local machine (http://maxima.sourceforge.net/).
 
-Install Maxima (http://maxima.sourceforge.net/) and wxMaxima (https://wxmaxima-developers.github.io/wxmaxima/).
+### Getting the STACK libraries
 
-## STACK - Maxima sandbox (without access to a server)
+You will need to download the STACK files onto your local machine.  Download all the STACK files from GitHub (git or as a .zip).   E.g. try `https://github.com/maths/moodle-qtype_stack/archive/master.zip`
 
-If you don't have access to a STACK server then you will need to download the files.   Download all the STACK files from GitHub (git or as a .zip).   E.g. try `https://github.com/maths/moodle-qtype_stack/archive/master.zip`
+The only files you need to run the sandbox are in the directory
 
-The only files you need are in
+    stack/maxima/
 
-    .../stack/maxima/
+This directory also contains the wxMaxima file `sandbox.wmx` which is the "sandbox" interface file. Your goals are (i) to set Maxima's path so it can find all the files you have downloaded, and (ii) to load the file
 
-In this directory open the file `sandbox.wmx` with wxMaxima and edit it to your needs.
+    stack/maxima/stackmaxima.mac
 
-## STACK - Maxima sandbox (with access to a server)
+Copy `sandbox.wmx` somewhere you can find it later and edit this file to reflect the location of the above file on your local machine.  Open `sandbox.wmx` with wxMaxima and follow the further instructions it contains to setup the path for Maxima.  Execute the sandbox file with wxMaxima when you have updated the settings with `cell > Evaluate all cells`.  If you see something like the following you have set this up correctly (version numbers will vary).
 
-It is very useful when authoring questions to be able to test out Maxima code in the same environment in which STACK uses [Maxima](Maxima.md).
-That is to say, to run a desktop version of Maxima with the local settings and STACK specific functions loaded.  This is also used in [reporting](../Authoring/Reporting.md) and analysis of students' responses.
-To do this you will need to load your local settings, and also the libraries of Maxima functions specific to STACK.
-
-For example, many of the functions are defined in
-~~~~~~~~~
-        stack/stack/maxima/stackmaxima.mac
-~~~~~~~~~
-Hence, on a typical Moodle installation you will find the file at
-~~~~~~~~~
-        /moodle/question/type/stack/stack/maxima/stackmaxima.mac
-~~~~~~~~~
-
-The first part of the instructions work on a Microsoft platform, but instructions for Linux can also be found below. Please note that having a properly set up STACK - Maxima sandbox is <i>not</i> equivalent to running an optimized Maxima.
-
-### Setting Maxima's Path ###
-
-Setting the path in Maxima is a problem on a Microsoft platform.  Maxima does not deal well with spaces in filenames, for example.  The simplest solution is to create a directory
-
-    C:/maxima
-
-and add this to Maxima's path.  Place all Maxima files in this directory, so they will then be seen by Maxima.
-For Maxima 5.26.0, edit, or create, the file
-
-    C:/Program Files/Maxima-5.26.0/share/maxima/5.26.0/share/maxima-init.mac
-
-ensure it contains the following lines, possibly modified to reflect the directory you have chosen
-
-    file_search_maxima:append([sconcat("C:/maxima/###.{mac,mc}")],file_search_maxima)$
-    file_search_lisp:append([sconcat("C:/maxima/###.{lisp}")],file_search_lisp)$
-
-Other versions of Maxima are similar.
-
-### Loading STACK's functions ###
-
-STACK automatically adjusts Maxima's path and loads a number of files. These define STACK specific functions and reflect your local settings. To do this, STACK loads a file which is automatically created at install time.  This is placed within the `moodledata` directory, typically as
-
-    moodledata/stack/maximalocal.mac
-
-For example, the value might look like
-
-    C:/xampp/data/moodledata/stack/maximalocal.mac
-
-You need to load this file into Maxima to recreate the setup of Maxima as seen by STACK.  Assuming you have created a directory `C:/maxima` as suggested above and added it to Maxima's path, the simplest way to do this is to create a file
-
-    C:/maxima/sm.mac
-
-and into this file add the line
-
-    load("C:/xampp/data/moodledata/stack/maximalocal.mac");
-
-To load this into Maxima simply type
-
-    load(sm);
-
-at Maxima's command line. The time spent setting the path in this way is soon repaid in not having to type the following line each time you want the sandbox.
-Your path to `maximalocal.mac` might be significantly longer....!   You will know the file is loaded correctly if you see a message such as the following
-
-    (%i1) load(sm);
-    Loading maxima-grobner $Revision: 1.6 $ $Date: 2009-06-02 07:49:49 $
-    [Stack-Maxima started V3.0, 13/2/12]
-    (%o0) "C:/maxima/sm.mac"
+    [ STACK-Maxima started, library version 2022022300 ] 
 
 You can test this out by using, for example, the `rand()` function.
 
     rand(matrix([5,5],[5,5]));
 
 to create a pseudo-random matrix.  If `rand` returns unevaluated, then you have not loaded the libraries correctly.
-
-### Linux instructions ###
-
-In a terminal window, execute the following commands, e.g., in your home folder:
-
-     mkdir stack-maxima
-     cd stack-maxima
-     pico maxima-init.mac
-
-Put the following three lines into maxima-init.mac:
-
-    file_search_maxima:append([sconcat("<path to your home folder>/stack-maxima/###.{mac,mc}")],file_search_maxima)$
-    file_search_lisp:append([sconcat("<path to your home folder>/stack-maxima/###.{lisp}")],file_search_lisp)$
-    load("<path to your moodledata>/stack/maximalocal.mac");
-
-Note that the paths above need to be completed. The following command is useful for finding the path to maximalocal.mac:
-
-    locate maximalocal.mac
 
 ### Using the answer tests
 
@@ -141,19 +60,36 @@ If you just want to decide if two expressions are considered to be algebraically
 
 This is the function the answer test `ATAlgEquiv` uses without all the wrapper of a full answer test.
 
-### Where is the Maxima code?
-
-All the maxima code is kept in
-
-    ...\moodle\question\type\stack\stack\maxima
-
-The bulk of the functions are defined in
-
-    ...\moodle\question\type\stack\stack\maxima\stackmaxima.mac
-    ...\moodle\question\type\stack\stack\maxima\assessment.mac
-
 ### Useful tips
 
 STACK turns off the traditional two-dimensional display, which we can turn back on with the following command.
 
     display2d:true;
+
+## Setting Maxima's Global Path (Microsoft) ###
+
+Setting the path in Maxima is a problem on a Microsoft platform.  Maxima does not deal well with spaces in filenames, for example.  The simplest solution is to create a directory
+
+    C:/maxima
+
+and add this to Maxima's path.  Place all Maxima files in this directory, so they will then be seen by Maxima.
+For Maxima 5.43.2, edit, or create, the file
+
+    C:/Program Files/maxima-5.43.2/share/maxima/5.43.2/share/maxima-init.mac
+
+ensure it contains the following lines, possibly modified to reflect the directory you have chosen
+
+    file_search_maxima:append([sconcat("C:/maxima/###.{mac,mc}")],file_search_maxima)$
+    file_search_lisp:append([sconcat("C:/maxima/###.{lisp}")],file_search_lisp)$
+
+Other versions of Maxima are similar.
+
+## Reflecting the settings on your server
+
+The healtcheck page (Moodle admin access only) displays the contents of the Maxima configuration file which is written to the sever.  This contains Maxima commands to update the path (which you probably don't want to copy) and also the function `STACK_SETUP(ex)` which configures your particular version of STACK.  You may want to replace `STACK_SETUP(ex)` in the sandbox with `STACK_SETUP(ex)` from the Moodle server. For most users this should not be needed, and is most useful for advanced debugging where significant differences between versions matters.
+
+It is more important to match the version of the STACK code you downloaded from github with the version you have on your server.  The STACK documentation page on your server gives the version number of the STACK code at the bottom of the documentation front page.  For example
+
+    https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/doc/doc.php/
+
+shows the version of the STACK code the demo site is running.

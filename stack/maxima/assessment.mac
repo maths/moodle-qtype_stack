@@ -374,6 +374,13 @@ simp_numberp(ex) := block(
   false
 )$
 
+simp_floatnump(ex) := block(
+  if floatnump(ex) then return(true),
+  if atom(ex) then return(false),
+  if op(ex)="-" and floatnump(first(args(ex))) then return(true),
+  false
+)$
+
 simp_integerp(ex) := block(
   if integerp(ex) then return(true),
   if atom(ex) then return(false),

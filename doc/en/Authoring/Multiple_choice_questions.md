@@ -59,19 +59,23 @@ HTML dropdowns cannot display LaTeX within the options.  This is a restriction o
 
 Note here that an integer will returned internally.
 
-Similarly, you can include logical symbols.
+Similarly, you can include logical symbols. For example
 
     ta1:[[0, false, "&#8658;"], [1, true, "&#8656;"], [2, false, "&#8660;"]];
 
-This will give a choice, e.g. a dropdown, from &#8658;, &#8656; and &#8660; and an integer will returned internally.
+will give a choice, e.g. a dropdown, from &#8658;, &#8656; and &#8660; and an integer will returned internally.
 
     ta1:[[0, false, "&#8704;"], [1, true, "&#8707;"]];
 
-This will give a choice, e.g. a dropdown, from &#8704; and &#8707;.
+will give a choice, e.g. a dropdown, from &#8704; and &#8707;.
 
     ta1:[[0, true, "c &#8712;"], [1, false, "c &#8713;"]];
 
-This will give a choice, e.g. a dropdown, from "c &#8712;" and "c &#8713;".
+will give a choice, e.g. a dropdown, from "c &#8712;" and "c &#8713;".
+
+    ta1:[[N, false, "&#8469"], [Z, true, "&#8484"], [Q, false, "&#8474"], [R, false, "&#8477"], [C, false, "&#8450"]];
+
+will give a choice between sets of numbers &#8469;, &#8484;, &#8474;, &#8477;, and &#8450;.
 
 ### Example: degree of a polynomial ###
 

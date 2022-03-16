@@ -6,9 +6,9 @@ The first step is to install wxMaxima on your local machine (http://maxima.sourc
 
 ### Getting the STACK libraries
 
-You will need to download the STACK files onto your local machine.  Download all the STACK files from GitHub (git or as a .zip).   E.g. try `https://github.com/maths/moodle-qtype_stack/archive/master.zip`
+You will need to download the STACK files onto your local machine.  Download all the STACK files from GitHub (git clone or as a .zip).  E.g. try `https://github.com/maths/moodle-qtype_stack/archive/master.zip` 
 
-The only files you need to run the sandbox are in the directory
+The only files you need to run the sandbox are contained within the directory
 
     stack/maxima/
 
@@ -16,7 +16,13 @@ This directory also contains the wxMaxima file `sandbox.wmx` which is the "sandb
 
     stack/maxima/stackmaxima.mac
 
-Copy `sandbox.wmx` somewhere you can find it later and edit this file to reflect the location of the above file on your local machine.  Open `sandbox.wmx` with wxMaxima and follow the further instructions it contains to setup the path for Maxima.  Execute the sandbox file with wxMaxima when you have updated the settings with `cell > Evaluate all cells`.  If you see something like the following you have set this up correctly (version numbers will vary).
+Copy `sandbox.wmx` somewhere you can find it later and edit this file to reflect the location of the above file on your local machine.  
+
+On a Microsoft operating system, if you place the all the files (i.e. clone or unzip the download) into 
+
+    c:/tmp/stackroot
+
+the `sandbox.wmx` should work without further adjustment.  Otherwise open `sandbox.wmx` with wxMaxima and follow the further instructions it contains to setup the path for Maxima.  Execute the sandbox file with wxMaxima when you have updated the settings with `cell > Evaluate all cells`.  If you see something like the following you have set this up correctly (version numbers will vary).
 
     [ STACK-Maxima started, library version 2022022300 ] 
 
@@ -25,6 +31,12 @@ You can test this out by using, for example, the `rand()` function.
     rand(matrix([5,5],[5,5]));
 
 to create a pseudo-random matrix.  If `rand` returns unevaluated, then you have not loaded the libraries correctly.
+
+An alternative approach on a Microsoft operating system is to copy the contents of (a working) `sandbox.wmx` file into a
+
+    %USERPROFILE%/Maxima/stacklocal.mac
+
+Using `load("stacklocal")` in any worksheet will load the STACK environement.
 
 ### Using the answer tests
 

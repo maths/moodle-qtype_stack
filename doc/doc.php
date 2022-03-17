@@ -157,4 +157,10 @@ if (array_key_exists('description', $meta)) {
 }
 echo $header;
 echo $body;
+
+$webpix  = $CFG->wwwroot . '/question/type/stack/doc/content/by-sa.png';
+$ccbysa = '<img width="88" alt="' . stack_string('stackDoc_licence_alt') . '" src="' . $webpix .
+    '" style="margin-right: 10px;" />' . stack_string('stackDoc_licence');
+echo '<p>' . $ccbysa . '</p>';
+
 echo $OUTPUT->footer();

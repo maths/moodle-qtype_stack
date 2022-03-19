@@ -34,7 +34,7 @@ require_once(__DIR__ . '/stack/cas/castext2/castext2_static_replacer.class.php')
 require_once(__DIR__ . '/stack/questiontest.php');
 require_once(__DIR__ . '/stack/prt.class.php');
 require_once(__DIR__ . '/stack/potentialresponsetreestate.class.php');
-require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
+require_once(__DIR__ . '/stack/prt.class.php');
 require_once(__DIR__ . '/stack/graphlayout/graph.php');
 require_once(__DIR__ . '/lang/multilang.php');
 require_once(__DIR__ . '/stack/prt.class.php');

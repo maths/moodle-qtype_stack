@@ -261,6 +261,18 @@ class stack_potentialresponse_tree_lite {
     }
 
     /**
+     * @return array of choices for the show validation select menu.
+     */
+    public static function get_feedbackstyle_options() {
+        return array(
+            '0' => get_string('feedbackstyle0', 'qtype_stack'),
+            '1' => get_string('feedbackstyle1', 'qtype_stack'),
+            '2' => get_string('feedbackstyle2', 'qtype_stack'),
+            '3' => get_string('feedbackstyle3', 'qtype_stack'),
+        );
+    }
+
+    /**
      * This is only for testing, you need to do more to actually check the actual text.
      *
      * @return string Raw feedback text as a single blob for checking.

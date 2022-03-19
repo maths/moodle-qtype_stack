@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/question/type/edit_question_form.php');
 require_once($CFG->dirroot . '/question/type/stack/question.php');
 require_once($CFG->dirroot . '/question/type/stack/questiontype.php');
-require_once($CFG->dirroot . '/question/type/stack/stack/potentialresponsetree.class.php');
+require_once($CFG->dirroot . '/question/type/stack/stack/prt.class.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/potentialresponsetreestate.class.php');
 
 /**
@@ -459,7 +459,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($prtname . 'autosimplify', 'autosimplifyprt', 'qtype_stack');
 
         $mform->addElement('select', $prtname . 'feedbackstyle',
-                stack_string('feedbackstyle'), stack_potentialresponse_tree::get_feedbackstyle_options());
+                stack_string('feedbackstyle'), stack_potentialresponse_tree_lite::get_feedbackstyle_options());
         $mform->setDefault($prtname . 'feedbackstyle', $this->stackconfig->feedbackstyle);
         $mform->addHelpButton($prtname . 'feedbackstyle', 'feedbackstyle', 'qtype_stack');
 

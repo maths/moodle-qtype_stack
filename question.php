@@ -1114,7 +1114,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Note these have been validated in the input system.
         $is = '_INPUT_STRING:["stack_map"';
         foreach ($inputs as $key => $value) {
-            $session->add_statement(new stack_secure_loader($key . ':' . $value, 'input ' . $name));
+            $session->add_statement(new stack_secure_loader($key . ':' . $value, 'input ' . $key));
             $is .= ',[' . stack_utils::php_string_to_maxima_string($key) . ',';
             if (strpos($value, 'ev(') === 0) { // Unpack the value if we have simp...
                 $is .= stack_utils::php_string_to_maxima_string(mb_substr($value, 3, -6)) . ']';

@@ -183,7 +183,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
                 $this->renderedfeedback = castext2_parser_utils::postprocess_parsed($value, $processor);
             }
         }
-        return $this->renderedfeedback;
+        return trim($this->renderedfeedback);
     }
 
     public function get_answernotes() {

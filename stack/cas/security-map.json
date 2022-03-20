@@ -134,7 +134,7 @@
       "variable": "f"
   },
   "%union": {
-      "operator": "t",
+      "function": "t",
       "nounfunctionfor": "union"
   },
   "%unitexpand": {

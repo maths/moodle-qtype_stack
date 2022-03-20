@@ -62,6 +62,12 @@ class stack_potentialresponse_tree_lite {
      */
     private $question = null;
 
+    /**
+     * Stores the trace string while being compiled.
+     * @var array
+     */
+    private $trace = [];
+
     public function __construct($prtdata, $value, $question = null) {
         $this->name          = $prtdata->name;
         $this->simplify      = (bool) $prtdata->autosimplify;
@@ -322,8 +328,14 @@ class stack_potentialresponse_tree_lite {
                 '%PRT_EXIT_NOTE: [],' . // The notes for nodes not the answertests.
                 '%_EXITS:{},'; // This tracks the exits from nodes so that we can decide the next node.
 
+        // We build a trace here to help question authors understand and debug questions.
         if ($this->feedbackvariables === null) {
             $this->feedbackvariables = '';
+        }
+
+        if ($this->feedbackvariables != '') {
+            $this->trace[] = $this->feedbackvariables;
+            $this->trace[] = '/* ------------------- */';
         }
 
         $fv = new stack_cas_keyval($this->feedbackvariables);
@@ -464,11 +476,11 @@ class stack_potentialresponse_tree_lite {
             }
         }
 
+        $r['trace'] = $this->trace;
         // Then the definition of the function.
         $r['sig'] = 'prt_' . $this->name . '(' . implode(',', array_keys($asarg)) . ')';
 
         $r['def'] = $r['sig'] . ':=block([' . implode(',', array_keys($aslocal)) . '],' . $body . ')';
-
         return $r;
     }
 
@@ -500,7 +512,7 @@ class stack_potentialresponse_tree_lite {
         // We have no validation for these requirements.
         // TODO: choose whether we error catch sans/tans/options separately or
         // at the whole test level. Now at test level.
-        $at = '%_TMP:AT' . $node->answertest . '(' . $node->sans;
+        $at = 'AT' . $node->answertest . '(' . $node->sans;
 
         if ($node->tans === null || trim($node->tans) === '') {
             $at .= ',""';
@@ -520,6 +532,8 @@ class stack_potentialresponse_tree_lite {
                 stack_utils::php_string_to_maxima_string(trim($node->sans)) . ')';
         }
         $at .= ')';
+        $this->trace[] = $at . ';';
+        $at = '%_TMP:' . $at;
 
         // Do a parse at this point to normalise the statement. And to collect usages.
         $context = $path;
@@ -747,5 +761,12 @@ class stack_potentialresponse_tree_lite {
 
         $graph->layout();
         return $graph;
+    }
+
+    /*
+     * Returns the trace of the PRT.
+     */
+    public function get_trace() {
+        return $this->trace;
     }
 }

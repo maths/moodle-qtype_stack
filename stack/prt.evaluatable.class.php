@@ -62,11 +62,15 @@ class prt_evaluatable implements cas_raw_value_extractor {
     // and replace them into the result once everything is complete.
     private $statics = null;
 
-    public function __construct(string $signature, $weight = 1, castext2_static_replacer $statics) {
+    // Stores the human readable trace created at compile time.
+    private $trace = array();
+
+    public function __construct(string $signature, $weight = 1, castext2_static_replacer $statics, $trace) {
         $this->signature = $signature;
         $this->weight = $weight;
         $this->errors = [];
         $this->statics = $statics;
+        $this->trace = $trace;
     }
 
     public function set_cas_evaluated_value(string $value) {
@@ -242,11 +246,8 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     public function get_trace(): array {
-        // TODO: Do we need to generate feedback-vars? Just answer test results?
-        // Would we need to get the inputs to those tests as well? This would
-        // require some extra logic to be evaluated. Or an addition of complex
-        // additional output to the compiled function.
-        return ['TODO TRACE'];
+        // TODO: Add in answer test results to the trace array?
+        return $this->trace;
     }
 
     public function get_debuginfo(): string {

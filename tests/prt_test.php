@@ -62,7 +62,7 @@ class prt_test extends qtype_stack_testcase {
         return $node;
     }
 
-    public function test_do_test_pass() {
+    public function test_single_node_prt() {
 
         $newprt = new stdClass;
         $newprt->name = 'testprt';
@@ -126,7 +126,7 @@ class prt_test extends qtype_stack_testcase {
         }
         $is .= ']';
         $session->add_statement(new stack_secure_loader($is, 'input-strings'));
-        $prtev = new prt_evaluatable($sig['sig'], 1, new castext2_static_replacer([]));
+        $prtev = new prt_evaluatable($sig['sig'], 1, new castext2_static_replacer([]), $prt->get_trace());
         $session->add_statement(new stack_secure_loader('simp:false', 'prt-simplification'));
         $session->add_statement($prtev);
         $session->instantiate();
@@ -135,6 +135,8 @@ class prt_test extends qtype_stack_testcase {
         $expected = 'Yeah!';
         $this->assertEquals($expected, $prtev->get_feedback());
         $this->assertEquals(array('ATInt_true.', '1-0-1'), $prtev->get_answernotes());
+        $expected = array('ATInt(sans,(x+1)^3/3+c,ev(x,simp));');
+        $this->assertEquals($expected, $prtev->get_trace());
 
         // Test 2 - an incorrect answer.
         $inputs = array('sans' => '(x+1)^3/3');
@@ -163,7 +165,7 @@ class prt_test extends qtype_stack_testcase {
         }
         $is .= ']';
         $session->add_statement(new stack_secure_loader($is, 'input-strings'));
-        $prtev = new prt_evaluatable($sig['sig'], 1, new castext2_static_replacer([]));
+        $prtev = new prt_evaluatable($sig['sig'], 1, new castext2_static_replacer([]), $prt->get_trace());
         $session->add_statement(new stack_secure_loader('simp:false', 'prt-simplification'));
         $session->add_statement($prtev);
         $session->instantiate();
@@ -173,5 +175,102 @@ class prt_test extends qtype_stack_testcase {
             'Well done. Boo!';
         $this->assertEquals($expected, $prtev->get_feedback());
         $this->assertEquals(array('ATInt_const.', '1-0-0'), $prtev->get_answernotes());
+        $expected = array('ATInt(sans,(x+1)^3/3+c,ev(x,simp));');
+        $this->assertEquals($expected, $prtev->get_trace());
+    }
+
+    public function test_multi_node_prt() {
+
+        $newprt = new stdClass;
+        $newprt->name = 'multiprt';
+        $newprt->value = 5;
+        $newprt->feedbackstyle = 1;
+        // Opportunities for runtime errors in the PRT.
+        $newprt->feedbackvariables = 'sa1:1/(2-ans1);';
+        $newprt->firstnodename = '0';
+        $newprt->nodes = [];
+        $newprt->autosimplify = true;
+
+        $node = $this->create_default_node();
+        $node->nodeid          = 0;
+        $node->nodename        = '0';
+        $node->sans            = 'sa1';
+        $node->tans            = '1';
+        $node->answertest      = 'AlgEquiv';
+        $node->truefeedback    = 'Yeah!';
+        $node->trueanswernote  = '1-0-1';
+        $node->falsefeedback   = 'Wait for it...';
+        $node->falseanswernote = '1-0-0';
+        $node->falsenextnode   = 1;
+        $newprt->nodes[] = $node;
+
+        $node = $this->create_default_node();
+        $node->nodeid          = 1;
+        $node->nodename        = '1';
+        $node->sans            = '1/(1+ans1)';
+        $node->tans            = '1/3';
+        $node->answertest      = 'AlgEquiv';
+        $node->truefeedback    = 'Yeah good!';
+        $node->truescore       = 0.7;
+        $node->trueanswernote  = '1-1-1';
+        $node->falsefeedback   = 'Boo!';
+        $node->falseanswernote = '1-1-0';
+        $newprt->nodes[] = $node;
+
+        $prt = new stack_potentialresponse_tree_lite($newprt, 5);
+
+        $this->assertFalse($prt->is_formative());
+        $this->assertEquals(array('AlgEquiv' => true), $prt->get_answertests());
+        $expected = array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
+            '1-1-1' => '1-1-1', '1-1-0' => '1-1-0');
+        $this->assertEquals($expected, $prt->get_all_answer_notes());
+
+        // For $inputs we only need the names of the inputs, not the full inputs.
+        $inputs = array('ans1' => true);
+        $boundvars = array();
+        $defaultpenalty = 0.1;
+        $security = new stack_cas_security();
+        $pathprefix = '/p/' . '0';
+        $sig = $prt->compile($inputs, $boundvars, $defaultpenalty, $security, $pathprefix);
+
+        // Test 1 - a correct answer.
+        $inputs = array('ans1' => '2');
+
+        $session = new stack_cas_session2([], new stack_options(), 123);
+        // Add preamble from PRTs as well.
+        if ($sig['be'] != '') {
+            $session->add_statement(new stack_secure_loader($sig['be'], 'preamble PRT: ' . $prt->get_name()));
+        }
+        if ($sig['cv'] != '') {
+            $session->add_statement(new stack_secure_loader($sig['cv'], 'contextvariables PRT: ' . $prt->get_name()));
+        }
+        // The prt definition itself.
+        $session->add_statement(new stack_secure_loader($sig['def'], 'definition PRT: ' . $prt->get_name()));
+        // Suppress simplification of raw inputs.
+        $session->add_statement(new stack_secure_loader('simp:false', 'input-simplification'));
+        $is = '_INPUT_STRING:["stack_map"';
+        foreach ($inputs as $key => $value) {
+            $session->add_statement(new stack_secure_loader($key . ':' . $value, 'input ' . $key));
+            $is .= ',[' . stack_utils::php_string_to_maxima_string($key) . ',';
+            if (strpos($value, 'ev(') === 0) { // Unpack the value if we have simp...
+                $is .= stack_utils::php_string_to_maxima_string(mb_substr($value, 3, -6)) . ']';
+            } else {
+                $is .= stack_utils::php_string_to_maxima_string($value) . ']';
+            }
+        }
+        $is .= ']';
+        $session->add_statement(new stack_secure_loader($is, 'input-strings'));
+        $prtev = new prt_evaluatable($sig['sig'], 1, new castext2_static_replacer([]), $prt->get_trace());
+        $session->add_statement(new stack_secure_loader('simp:false', 'prt-simplification'));
+        $session->add_statement($prtev);
+        $session->instantiate();
+
+        $this->assertEquals(0.7, $prtev->get_score());
+        $expected = 'Wait for it... Yeah good!';
+        $this->assertEquals($expected, $prtev->get_feedback());
+        $this->assertEquals(array('1-0-0', '1-1-1'), $prtev->get_answernotes());
+        $expected = array('sa1:1/(2-ans1);', '/* ------------------- */', 'ATAlgEquiv(sa1,1);',
+            'ATAlgEquiv(1/(1+ans1),1/3);');
+        $this->assertEquals($expected, $prtev->get_trace());
     }
 }

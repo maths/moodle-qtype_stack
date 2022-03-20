@@ -353,7 +353,7 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param string $name the PRT name.
      * @param question_attempt $qa the question attempt to display.
      * @param question_definition $question the question being displayed.
-     * @param stack_potentialresponse_tree_state $result the results to display.
+     * @param prt_evaluatable $result the results to display.
      * @param question_display_options $options controls what should and should not be displayed.
      * @param feedbackstyle styles the type of feedback.
      * @return string nicely formatted feedback, for display.
@@ -476,7 +476,7 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
-        $result = new prt_evaluatable('', $fraction, new castext2_static_replacer([]));
+        $result = new prt_evaluatable('', $fraction, new castext2_static_replacer([]), array());
         // This is overall, so we fix the PRT feedbackstyle style = 1 to get the default type of feedback.
         return $this->standard_prt_feedback($qa, $qa->get_question(), $result, 1);
     }

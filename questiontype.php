@@ -2308,6 +2308,6 @@ class qtype_stack extends question_type {
             // For now let's not care about this.
         }
 
-        return $compile['required'];
+        return array_keys($compile['required']);
     }
 }

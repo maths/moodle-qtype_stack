@@ -1030,8 +1030,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @param array $response the response to process.
      * @param bool $acceptvalid if this is true, then we will grade things even
      *      if the corresponding inputs are only VALID, and not SCORE.
-     * @return stack_potentialresponse_tree_state the result from $prt->evaluate_response(),
-     *      or a fake state object if the tree cannot be executed.
+     * @return prt_evaluatable the result from traversing the prt.
      */
     public function get_prt_result($index, $response, $acceptvalid) {
         $this->validate_cache($response, $acceptvalid);
@@ -1044,13 +1043,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Alternatively we have a question that could not be compiled.
         if (!array_key_exists($index, $this->prts) || $this->get_cached('units') === null) {
             // Bail here with an empty state to avoid a later exception which prevents question test editing.
-            return new prt_evaluatable('prt_' . $index . '(???)', 1, new castext2_static_replacer([]));
+            return new prt_evaluatable('prt_' . $index . '(???)', 1, new castext2_static_replacer([]), array());
         }
 
         // If we do not have inputs for this then no need to continue.
         if (!$this->has_necessary_prt_inputs($this->prts[$index], $response, $acceptvalid)) {
             $this->prtresults[$index] = new prt_evaluatable($this->get_cached('prt-signature')[$index],
-                $this->prts[$index]->get_value(), new castext2_static_replacer($this->get_cached('static-castext-strings')));
+                $this->prts[$index]->get_value(),
+                new castext2_static_replacer($this->get_cached('static-castext-strings')),
+                $this->get_cached('prt-trace')[$index]);
             return $this->prtresults[$index];
         }
 
@@ -1131,7 +1132,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Generate, cache and instantiate the results.
         foreach ($this->prts as $name => $prt) {
             $p = new prt_evaluatable($this->get_cached('prt-signature')[$name],
-                $prt->get_value(), new castext2_static_replacer($this->get_cached('static-castext-strings')));
+                $prt->get_value(), new castext2_static_replacer($this->get_cached('static-castext-strings')),
+                $this->get_cached('prt-trace')[$name]);
             if (isset($prts[$name])) {
                 // Always make sure it gets called with simp:false.
                 $session->add_statement(new stack_secure_loader('simp:false', 'prt-simplification'));
@@ -1140,7 +1142,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $this->prtresults[$name] = $p;
         }
         $session->instantiate();
-
         return $this->prtresults[$index];
     }
 
@@ -1740,6 +1741,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $cc['prt-contextvariables'] = [];
         $cc['prt-signature'] = [];
         $cc['prt-definition'] = [];
+        $cc['prt-trace'] = [];
         $i = 0;
         foreach ($prts as $name => $prt) {
             $path = '/p/' . $i;
@@ -1754,6 +1756,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
             $cc['prt-signature'][$name] = $r['sig'];
             $cc['prt-definition'][$name] = $r['def'];
+            $cc['prt-trace'][$name] = $r['trace'];
             $units = $units || $r['units'];
         }
 

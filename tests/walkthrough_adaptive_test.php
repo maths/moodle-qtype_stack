@@ -234,6 +234,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->process_submission(array('ans1' => '1+1', 'ans1_val' => '1+1', '-submit' => 1));
 
         // Verify.
+        $expected = 'Seed: 1; ans1: 1+1 [score]; firsttree: # = 0 | ATEqualComAss (AlgEquiv-true). | firsttree-1-F';
+        $this->check_response_summary($expected);
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.3);
@@ -1676,7 +1678,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_contains_input_validation('ans3');
         $this->check_output_does_not_contain_input_validation('ans4');
         $this->check_output_does_not_contain_prt_feedback('odd');
-        $this->check_output_does_not_contain_prt_feedback('even');
+        // Although the student removed x^2 in step 8, step 9 is unchanged from step 7 when they put it back.
+        $this->check_output_contains_prt_feedback('even');
         $this->check_output_does_not_contain_prt_feedback('oddeven');
         $this->check_output_contains_prt_feedback('unique');
         $this->check_output_does_not_contain_stray_placeholders();
@@ -2007,13 +2010,14 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->process_submission(array('ans1' => '0.04', 'ans1_val' => '0.04',
                                         'ans2' => '3.14', 'ans2_val' => '3.14', '-submit' => 1));
 
+        $expected = 'Seed: 1; ans1: 0.04 [score]; ans2: 3.14 [score]; prt1: # = 0 | ' .
+            'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Not_equiv. | prt1-1-F';
+        $this->check_response_summary($expected);
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->check_prt_score('prt1', 0, 0.3);
         $this->render();
-        $expected = 'Seed: 1; ans1: 0.04 [score]; ans2: 3.14 [score]; prt1: # = 0 | ' .
-            'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Not_equiv. | prt1-1-F';
-        $this->check_response_summary($expected);
+
         $this->check_output_contains_text_input('ans1', '0.04');
         $this->check_output_contains_text_input('ans2', '3.14');
         $this->check_output_contains_input_validation('ans1');
@@ -2407,12 +2411,15 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->process_submission(array('ans1' => '[3*x+1+5]', 'ans1_val' => '[3*x+1+5]', '-submit' => 1));
 
         // Verify.
-        $this->check_current_state(question_state::$todo);
-        $this->check_current_mark(0);
-        $this->check_prt_score('Result', 0, 0);
-        $this->render();
         $expected = 'Seed: 1; ans1: [3*x+1+5] [score]; Result: # = 0 | Result-0-F';
         $this->check_response_summary($expected);
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        // The penalty here should be zero because a runtime error has occured.
+        $this->check_prt_score('Result', 0, 0);
+
+        $this->render();
         $this->check_output_contains_text_input('ans1', '[3*x+1+5]');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('Result');

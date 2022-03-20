@@ -1110,6 +1110,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
 
+        // Suppress simplification of raw inputs.
+        $session->add_statement(new stack_secure_loader('simp:false', 'input-simplification'));
+
         // Now push in the input values and the new _INPUT_STRING.
         // Note these have been validated in the input system.
         $is = '_INPUT_STRING:["stack_map"';

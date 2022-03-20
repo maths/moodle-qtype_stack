@@ -17,6 +17,12 @@ stackmap_get(m, k) := block([],
  return(assoc(k,rest(m,1),und))
 )$
 
+/* Either take the value from the map, or use the value of the atom. */
+stackmap_get_ifexists(m, k) := block([],
+ if not is_stackmap(m) then return(m),
+ return(assoc(k,rest(m,1),und))
+)$
+
 stackmap_set(m, k, v) := block([],
  /* If we are given anything else than a map as the map we make a new map. */
  if not is_stackmap(m) then return(["stack_map",[k,v]]),

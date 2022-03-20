@@ -221,6 +221,7 @@ ATNumSigFigs(SA, SB, SO, SR) := block([simp, Validity, RawMark, FeedBack, Answer
     ),
 
     /* Find the number of digits. */
+    if not(stringp(SR)) then SR:string(SR),
     digits:sig_figs_from_str(SR),
 
     if allowextra = true then (
@@ -359,6 +360,7 @@ ATNumDecPlaces(sans,tans,options,rawsans) := block([digits,Validity,RawMark,Feed
     ),
 
     if Validity then (
+        if not(stringp(rawsans)) then rawsans:string(rawsans),
         /* Find the number of digits. */
         digits: sig_figs_from_str(rawsans),
 

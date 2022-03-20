@@ -112,6 +112,8 @@ class prt_test extends qtype_stack_testcase {
         }
         // The prt definition itself.
         $session->add_statement(new stack_secure_loader($sig['def'], 'definition PRT: ' . $prt->get_name()));
+        // Suppress simplification of raw inputs.
+        $session->add_statement(new stack_secure_loader('simp:false', 'input-simplification'));
         $is = '_INPUT_STRING:["stack_map"';
         foreach ($inputs as $key => $value) {
             $session->add_statement(new stack_secure_loader($key . ':' . $value, 'input ' . $key));
@@ -147,6 +149,8 @@ class prt_test extends qtype_stack_testcase {
         }
         // The prt definition itself.
         $session->add_statement(new stack_secure_loader($sig['def'], 'definition PRT: ' . $prt->get_name()));
+        // Suppress simplification of raw inputs.
+        $session->add_statement(new stack_secure_loader('simp:false', 'input-simplification'));
         $is = '_INPUT_STRING:["stack_map"';
         foreach ($inputs as $key => $value) {
             $session->add_statement(new stack_secure_loader($key . ':' . $value, 'input ' . $key));

@@ -17,6 +17,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '../../stack/potentialresponsetreestate.class.php');
+require_once(__DIR__ . '../../stack/potentialresponsetree.class.php');
 
 // Test helper code for the Stack question type.
 //
@@ -1305,8 +1306,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = stack_ast_container::make_from_teacher_source('true');
         $tans->get_valid();
         $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
-        $node0->add_branch(0, '=', 0, '', -1, 'Your answer should be a list of equations!', FORMAT_HTML, 'Result-0-F');
-        $node0->add_branch(1, '=', 0, '', 1, 'Your answer is a list of equations.', FORMAT_HTML, 'Result-0-T');
+        $node0->add_branch(0, '=', 0, 0, -1, 'Your answer should be a list of equations!', FORMAT_HTML, 'Result-0-F');
+        $node0->add_branch(1, '=', 0, $q->penalty, 1, 'Your answer is a list of equations.', FORMAT_HTML, 'Result-0-T');
 
         $sans = stack_ast_container::make_from_teacher_source('solve(ans1,listofvars(ans1))');
         $sans->get_valid();

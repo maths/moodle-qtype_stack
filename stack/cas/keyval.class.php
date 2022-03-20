@@ -392,6 +392,15 @@ class stack_cas_keyval {
         // Process the AST.
         foreach ($ast->items as $item) {
             if ($item instanceof MP_Statement) {
+
+                // Strip off the %_C protection at the top level to establish if this is a context variable.
+                if ($item->statement instanceof MP_Group) {
+                    $r0 = $item->statement->items[0];
+                    if ($r0 instanceof MP_FunctionCall && $r0->name->value = '%_C') {
+                        $item->statement = $item->statement->items[1];
+                    }
+                }
+
                 // Render to statement.
                 $cn = $contextname . '/';
                 // If it comes from an inclusion add that into the error scoping.

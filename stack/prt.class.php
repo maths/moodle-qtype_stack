@@ -63,7 +63,7 @@ class stack_potentialresponse_tree_lite {
     private $question = null;
 
     /**
-     * Stores the trace string while being compiled.
+     * Stores the trace array while being compiled.
      * @var array
      */
     private $trace = [];

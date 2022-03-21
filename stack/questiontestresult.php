@@ -151,6 +151,7 @@ class stack_question_test_result {
                 $state->score = '';
                 $state->penalty = '';
                 $state->answernote = '';
+                $state->trace = '';
                 $state->feedback = '';
                 $state->debuginfo = '';
             }

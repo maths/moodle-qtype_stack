@@ -333,6 +333,8 @@ class stack_potentialresponse_tree_lite {
             $this->feedbackvariables = '';
         }
 
+        // Start a fresh trace with each compile.
+        $this->trace = array();
         if ($this->feedbackvariables != '') {
             $this->trace[] = $this->feedbackvariables;
             $this->trace[] = '/* ------------------- */';

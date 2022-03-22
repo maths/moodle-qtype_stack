@@ -444,9 +444,11 @@ foreach ($testresults as $key => $result) {
     foreach ($result->get_prt_states() as $prtname => $state) {
 
         $prtinputs = array();
-        foreach(array_keys($inputsneeded[$prtname]) as $inputname) {
-            if (array_key_exists($inputname, $typeininputs)) {
-                $prtinputs[] = $typeininputs[$inputname];
+        if ($inputsneeded != null) {
+            foreach(array_keys($inputsneeded[$prtname]) as $inputname) {
+                if (array_key_exists($inputname, $typeininputs)) {
+                    $prtinputs[] = $typeininputs[$inputname];
+                }
             }
         }
         if ($prtinputs != array()) {

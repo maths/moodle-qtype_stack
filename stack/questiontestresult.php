@@ -136,7 +136,15 @@ class stack_question_test_result {
 
             $state = new stdClass();
             $state->expectedscore = $expectedresult->score;
+            if (!is_null($state->expectedscore)) {
+                // Single PRTs only work to three decimal places, so we only expect that level.
+                $state->expectedscore = round($state->expectedscore + 0, 3);
+            }
             $state->expectedpenalty = $expectedresult->penalty;
+            if (!is_null($state->expectedpenalty)) {
+                // Single PRTs only work to three decimal places, so we only expect that level.
+                $state->expectedpenalty = round($state->expectedpenalty + 0, 3);
+            }
             $state->expectedanswernote = reset($expectedanswernote);
 
             if (array_key_exists($prtname, $this->actualresults)) {

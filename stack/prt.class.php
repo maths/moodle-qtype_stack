@@ -143,6 +143,12 @@ class stack_potentialresponse_tree_lite {
         // Get the compiled one and work on it.
         $code = $this->question->get_cached('prt-definition')[$this->name];
 
+        // The bulk tester will get called on questions which no longer work.
+        // In this case we want to bail here and not try to parse null in the line below which
+        // throws an exception and halts the bulk tester.
+        if ($code === null) {
+            return stack_string('errors');
+        }
         // Parse that and remove some less relevant parts.
         $ast = maxima_parser_utils::parse($code);
         // Remove the feedback rendering parts, no need to see that CASText2.

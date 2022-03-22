@@ -282,6 +282,7 @@ The second argument is the model answer. The answer test option needs to be the 
 
 Getting this test to work in a general setting is a very difficult challenge.
 In particular, the test assumes that the constant of integration is expressed in a form similar to +c, although which variable used is not important.
+This test, in particular, has a lot of test cases which really document what the test does in detail.  E.g. what mark would you give a student who integrated \( \int \frac{1}{x} dx = \log(k\times abs(x))\)?  The test cases document what design decisions we have made.
 
 The issue of \( \int \frac{1}{x} dx = \log(x)+c\) vs  \( \int \frac{1}{x} dx 
 = \log(|x|)+c\) is a particular challenge.  The test is currently defined in 

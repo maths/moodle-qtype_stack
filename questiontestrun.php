@@ -408,7 +408,7 @@ foreach ($testresults as $key => $result) {
             $inputval = '';
         } else {
             if ($inputval !== '') {
-                $typeininputs[] = $inputname . ':' . $inputstate->modified . ";\n";
+                $typeininputs[$inputname] = $inputname . ':' . $inputstate->modified . ";\n";
             }
         }
         $inputstable->data[] = array(
@@ -419,9 +419,6 @@ foreach ($testresults as $key => $result) {
                 stack_string('inputstatusname' . $inputstate->status),
                 $inputstate->errors,
         );
-    }
-    if ($typeininputs != array()) {
-        $typeininputs[] = "/* ------------------- */\n";
     }
 
     echo html_writer::table($inputstable);
@@ -443,7 +440,17 @@ foreach ($testresults as $key => $result) {
     $prtstable->attributes['class'] = 'generaltable stacktestsuite';
 
     $debuginfo = '';
+    $inputsneeded = $question->get_cached('required');
     foreach ($result->get_prt_states() as $prtname => $state) {
+
+        $prtinputs = array();
+        foreach(array_keys($inputsneeded[$prtname]) as $inputname) {
+            $prtinputs[] = $typeininputs[$inputname];
+        }
+        if ($prtinputs != array()) {
+            $prtinputs[] = "/* ------------------- */\n";
+        }
+
         if ($state->testoutcome) {
             $prtstable->rowclasses[] = 'pass';
             $passedcol = stack_string('testsuitepass');
@@ -470,7 +477,7 @@ foreach ($testresults as $key => $result) {
                 $expectedscore,
                 $state->penalty,
                 $expectedpenalty,
-                s($state->answernote) . html_writer::tag('pre', implode('', $typeininputs) . $state->trace),
+                s($state->answernote) . html_writer::tag('pre', implode('', $prtinputs) . $state->trace),
                 s($state->expectedanswernote),
                 format_text($state->feedback),
                 $passedcol,

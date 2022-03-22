@@ -695,11 +695,12 @@ class castext_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session2($s2, null, 0);
 
-        $at1 = new stack_cas_text('{@dispdp(a1,0)*x^2@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}', $cs2, 0);
+        $at1 = castext2_evaluatable::make_from_source('{@dispdp(a1,0)*x^2@}, {@dispdp(b,3)@}, {@dispsf(b,4)@}', 'test-case');
         $this->assertTrue($at1->get_valid());
-        $at1->get_display_castext();
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
 
-        $err = "<span class=\"error\">CASText failed validation. </span> dispdp requires a real number argument.";
+        $err = array('dispdp requires a real number argument.');
         $this->assertEquals($err, $at1->get_errors(false));
     }
 
@@ -1540,5 +1541,19 @@ class castext_test extends qtype_stack_testcase {
                 '& \mathbf{T} \\\\ \mathbf{T} & \mathbf{F} & \color{red}{\underline{\mathbf{T} }} \\\\ \mathbf{T} & ' .
                 '\mathbf{T} & \color{red}{\underline{\mathbf{F} }}\end{array}}\)',
                 $at2->get_rendered());
+    }
+
+    public function test_display_equation_match_brackets() {
+        $vars = "p1:x+1;\np2:expand(p1^3);";
+        $at1 = new stack_cas_keyval($vars, null, 123);
+        $this->assertTrue($at1->get_valid());
+
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('\[ \left({@p1@}\right)^3 = {@p2@}.\]', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals('\[ \left({x+1}\right)^3 = {x^3+3\cdot x^2+3\cdot x+1}.\]', $at2->get_rendered());
     }
 }

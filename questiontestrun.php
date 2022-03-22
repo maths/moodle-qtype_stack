@@ -445,7 +445,9 @@ foreach ($testresults as $key => $result) {
 
         $prtinputs = array();
         foreach(array_keys($inputsneeded[$prtname]) as $inputname) {
-            $prtinputs[] = $typeininputs[$inputname];
+            if (array_key_exists($inputname, $typeininputs)) {
+                $prtinputs[] = $typeininputs[$inputname];
+            }
         }
         if ($prtinputs != array()) {
             $prtinputs[] = "/* ------------------- */\n";
@@ -482,10 +484,7 @@ foreach ($testresults as $key => $result) {
                 format_text($state->feedback),
                 $passedcol,
         );
-        if ($state->debuginfo != '') {
-            $debuginfo .= "\n<h2>".$prtname."</h2>\n\n";
-            $debuginfo .= $state->debuginfo;
-        }
+        // TODO: reinstate debuginfo here.
     }
 
     echo html_writer::table($prtstable);

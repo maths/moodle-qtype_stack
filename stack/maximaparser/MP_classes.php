@@ -28,9 +28,9 @@
  * 'insertstars_as_red'      All * operators created by insert stars logic will be marked with red.
  * 'fixspaces_as_red_spaces' Similar to above, but for spaces.
  * 'inputform'               Something a user (normally student) would expect to type.
- *                           (a) _C(...) is removed.
+ *                           (a) %_C(...) is removed.
  *                           (b) stackeq and stacklet are removed.
- * 'checkinggroup'           If true then _C(...) are removed.
+ * 'checkinggroup'           If true then %_C(...) are removed.
  * 'nounify'                 If 0 removes all nouns.
  *                           If defined and 1 nounifies all operators and functions.
  *                           If 2, adds logic nouns.

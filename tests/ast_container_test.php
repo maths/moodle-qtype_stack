@@ -775,7 +775,8 @@ class ast_container_test extends qtype_stack_testcase {
         $err = '';
         $this->assertEquals($err, $at1->get_errors());
 
-        $s = "[(%_C(sum),'sum(k^2,k,1,n)),(%_C(product),'product(k^2,k,1,n)),a nounand b," .
+        // Noun operators protected by ' are skipped in the 996 filter..
+        $s = "['sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b," .
             "(%_C(noundiff),noundiff(y,x))+y = 0,nounnot false,nounnot(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         // The subtle change of spaces after commas and equals signs shows the parser is re-displaying the expression.
@@ -785,7 +786,8 @@ class ast_container_test extends qtype_stack_testcase {
 
         $at1->set_nounify(0);
         // Remove all nouns when evaluating.
-        $s = "[(%_C(sum),sum(k^2,k,1,n)),(%_C(product),product(k^2,k,1,n)),a and b,(%_C(noundiff)," .
+        // Since 'sum was not protected by 996, it is not protected now.
+        $s = "[sum(k^2,k,1,n),product(k^2,k,1,n),a and b,(%_C(noundiff)," .
                 "diff(y,x))+y = 0,not false,not(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         // Get input form also removes noun forms.
@@ -793,20 +795,21 @@ class ast_container_test extends qtype_stack_testcase {
             $at1->get_inputform(true, 0));
 
         // This example has only one noun on the product.
+        // Sum will get protected by %_C in the evaluation form, but product will not.
         $s = "[sum(k^2,k,1,n),'product(k^2,k,1,n),a and b, diff(y,x)+y=0, not false, not(false)]";
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $this->assertTrue($at1->get_valid());
         $err = '';
         $this->assertEquals($err, $at1->get_errors());
 
-        $s = "[(%_C(sum),sum(k^2,k,1,n)),(%_C(product),'product(k^2,k,1,n)),a and b,(%_C(diff),diff(y,x))+y = 0," .
+        $s = "[(%_C(sum),sum(k^2,k,1,n)),'product(k^2,k,1,n),a and b,(%_C(diff),diff(y,x))+y = 0," .
                 "not false,not(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a and b,diff(y,x)+y = 0,not false,not(false)]",
                 $at1->get_inputform());
 
         $at1->set_nounify(0);
-        $s = "[(%_C(sum),sum(k^2,k,1,n)),(%_C(product),product(k^2,k,1,n)),a and b,(%_C(diff),diff(y,x))+y = 0," .
+        $s = "[(%_C(sum),sum(k^2,k,1,n)),product(k^2,k,1,n),a and b,(%_C(diff),diff(y,x))+y = 0," .
                 "not false,not(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         $this->assertEquals("[sum(k^2,k,1,n),product(k^2,k,1,n),a and b,diff(y,x)+y = 0,not false,not(false)]",
@@ -814,7 +817,7 @@ class ast_container_test extends qtype_stack_testcase {
 
         $at1->set_nounify(1);
         // We don't add apostophies where they don't exist.
-        $s = "[(%_C(sum),sum(k^2,k,1,n)),(%_C(product),'product(k^2,k,1,n)),a nounand b,(%_C(diff)," .
+        $s = "[(%_C(sum),sum(k^2,k,1,n)),'product(k^2,k,1,n),a nounand b,(%_C(diff)," .
                 "noundiff(y,x))+y = 0,nounnot false,nounnot(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,noundiff(y,x)+y = 0," .
@@ -823,7 +826,7 @@ class ast_container_test extends qtype_stack_testcase {
 
         $at1->set_nounify(2);
         // We only add apostophies to logic nouns.
-        $s = "[(%_C(sum),sum(k^2,k,1,n)),(%_C(product),'product(k^2,k,1,n)),a nounand b,(%_C(diff)," .
+        $s = "[(%_C(sum),sum(k^2,k,1,n)),'product(k^2,k,1,n),a nounand b,(%_C(diff)," .
                 "diff(y,x))+y = 0,nounnot false,nounnot(false)]";
         $this->assertEquals($s, $at1->get_evaluationform());
         $this->assertEquals("[sum(k^2,k,1,n),'product(k^2,k,1,n),a nounand b,diff(y,x)+y = 0," .

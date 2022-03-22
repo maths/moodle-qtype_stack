@@ -64,10 +64,12 @@ class multilang_test extends qtype_stack_testcase {
     public function test_filter_langs_other() {
         $mlang = '{mlang fi}foo{mlang}{mlang en,other}foo{mlang}';
         $block = '[[lang code="fi"]]foo[[/lang]][[lang code="EN-us,other"]]foo[[/lang]]';
+        $other  = '<span lang="en" class="multilang">Looks good to me.</span>';
 
         $ml = new stack_multilang();
         $this->assertEquals(['fi', 'en', 'other'], $ml->languages_used($mlang));
         $this->assertEquals(['fi', 'en_us', 'other'], $ml->languages_used($block));
+        $this->assertEquals(['en'], $ml->languages_used($other));
     }
 
     public function test_filter_identify_other() {

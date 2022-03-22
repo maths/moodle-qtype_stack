@@ -991,7 +991,7 @@ abstract class stack_input {
         $additionalvars = array();
 
         if (array_key_exists('floatnum', $this->extraoptions) && $this->extraoptions['floatnum']) {
-            $additionalvars['floatnum'] = stack_ast_container::make_from_teacher_source('floatnump('.$this->name.')',
+            $additionalvars['floatnum'] = stack_ast_container::make_from_teacher_source('simp_floatnump('.$this->name.')',
                     '', new stack_cas_security(), array());
         }
 

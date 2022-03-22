@@ -374,6 +374,13 @@ simp_numberp(ex) := block(
   false
 )$
 
+simp_floatnump(ex) := block(
+  if floatnump(ex) then return(true),
+  if atom(ex) then return(false),
+  if op(ex)="-" and floatnump(first(args(ex))) then return(true),
+  false
+)$
+
 simp_integerp(ex) := block(
   if integerp(ex) then return(true),
   if atom(ex) then return(false),
@@ -583,7 +590,11 @@ decimalplacesfun(ex, n, dispdps) := block([ex2],
     return(ex2)
     )$
 decimalplaces(ex, n) := decimalplacesfun(ex, n, false)$
-dispdp(ex, n) := decimalplacesfun(ex, n, true)$
+dispdp(ex, n) := block(
+    if not(real_numberp(ex)) then error("dispdp requires a real number argument."),
+    if not(integerp(n)) then error("dispdp cannot create a non-integer number of decimal places."),
+    decimalplacesfun(ex, n, true)
+)$
 
 /* Write numbers in significant figures */
 /* Matti Pauna, Sun, 23 Oct 2011        */

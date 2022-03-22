@@ -21,29 +21,20 @@ STACK provides its own function `rand()`.
 * `rand({a,b,...,z})` makes a random selection from a set.
 * `rand(matrix(..))` applies rand to each element of the matrix.
 
+STACK provides the following functions for random generation of sets.
+
+* `random_subset(u)` returns a random subset of `u`.
+* `random_subset_n(u,n)` returns a random subset of `u` with `n` elements (if possible).
+* `random_ne_subset(u)` returns a non-empty random subset of `u`.
+
+There are also Maxima's random functions.  For example, to create a random list use `random_permutation`.
+
 It is probably much better **not** to use conditional statements when creating random objects.
 For example, if you would like to create a random small prime number, try
 
     p : rand([2,3,5,7,11,13,17,19]);
 
 This might not appear to be the neatest mathematical solution, but it is probably the most reliable.
-Usually we need to combine `rand()` with some code to generate objects.
-For example, if you want a matrix with integer elements in the range -5..5 you need something like
-
-    A:matrix([5,5],[5,5])-rand(matrix([11,11],[11,11]));
-
-There are also Maxima's random functions.  For example, to create a random list use `random_permutation`.
-
-### Sets ###
-
-STACK provides the following functions for random generation of sets.
-
-`random_subset(u)` returns a random subset of `u`.
-
-`random_subset_n(u,n)` returns a random subset of `u` with `n` elements (if possible).
-
-`random_ne_subset(u)` returns a non-empty random subset of `u`.
-
 
 ### rand_with_step(lower,upper,step) ###
 
@@ -69,6 +60,10 @@ Examples:
 This can be used with matrices, to generate a matrix with non-zero entries for example.  The unnamed function in this example ignores its arguments.
 
     matrixmap(lambda([ex],rand_with_prohib(-5,5,[0])),zeromatrix(5,5));
+
+To create a matrix of a random size you can use Maxima's `makelist` function, e.g.
+
+    M1:apply(matrix, makelist(makelist(2^n/3^m, n,1,4), m,1,3));
 
 ### rand_selection(ex, n) ###
 

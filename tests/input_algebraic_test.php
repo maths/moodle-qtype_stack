@@ -270,6 +270,30 @@ class input_algebraic_test extends qtype_stack_testcase {
                 '{\rm not}\left( \mathbf{False} \right) \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_ex() {
+        /* The variable ex is used an argument to some Maxima functions and as a local variable. */
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '3*ex+2*ey+5*ez');
+        $state = $el->validate_student_response(array('sans1' => '3*ex+2*ey+5*ez'), $options,
+            '3*ex+2*ey+5*ez',
+            new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('3*ex+2*ey+5*ez', $state->contentsmodified);
+        $this->assertEquals('\[ 3\cdot {\it ex}+2\cdot {\it ey}+5\cdot {\it ez} \]',
+            $state->contentsdisplayed);
+
+        $el->set_parameter('showValidation', 1);
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as ' .
+            'follows: <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+            '\[ 3\cdot {\it ex}+2\cdot {\it ey}+5\cdot {\it ez} \]</span></span></p>' .
+            '<input type="hidden" name="sans1_val" value="3*ex+2*ey+5*ez" />The variables found in your answer ' .
+            'were: <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+            '\( \left[ {\it ex} , {\it ey} , {\it ez} \right]\)</span></span> </div>';
+        $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
+    }
+
     public function test_validate_student_lowest_terms_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '12/4');

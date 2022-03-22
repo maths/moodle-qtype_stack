@@ -59,20 +59,43 @@ HTML dropdowns cannot display LaTeX within the options.  This is a restriction o
 
 Note here that an integer will returned internally.
 
-Similarly, you can include logical symbols.
+Similarly, you can include logical symbols. For example
 
     ta1:[[0, false, "&#8658;"], [1, true, "&#8656;"], [2, false, "&#8660;"]];
 
-This will give a choice, e.g. a dropdown, from &#8658;, &#8656; and &#8660; and an integer will returned internally.
+will give a choice, e.g. a dropdown, from &#8658;, &#8656; and &#8660; and an integer will returned internally.
 
     ta1:[[0, false, "&#8704;"], [1, true, "&#8707;"]];
 
-This will give a choice, e.g. a dropdown, from &#8704; and &#8707;.
+will give a choice, e.g. a dropdown, from &#8704; and &#8707;.
 
     ta1:[[0, true, "c &#8712;"], [1, false, "c &#8713;"]];
 
-This will give a choice, e.g. a dropdown, from "c &#8712;" and "c &#8713;".
+will give a choice, e.g. a dropdown, from "c &#8712;" and "c &#8713;".
 
+    ta1:[[N, false, "&#8469"], [Z, true, "&#8484"], [Q, false, "&#8474"], [R, false, "&#8477"], [C, false, "&#8450"]];
+
+will give a choice between sets of numbers &#8469;, &#8484;, &#8474;, &#8477;, and &#8450;.
+
+### Example: degree of a polynomial ###
+
+Here is an example where the teacher would like the student to state the degree of a polynomial using the adjectives, rather than a number.
+
+    pol:sum(rand_with_prohib(-9,9,[0])*x^k,k,0,1+rand(5));
+    deg:hipow(pol,x);
+    /* Use strings, and not keywords. */
+    l1:["constant", "linear", "quadratic", "cubic", "quartic", "quintic"];
+    /* Create a matching list of true/false values as to whether each option is correct. */
+    a1:maplist(lambda([ex], is(ex=deg)), makelist(k,k,0,length(l1)));
+    /* Basic answer list for MCQ in the correct format. This returns the string to the PRT. */
+    ta1:zip_with("[",l1,a1);
+    /* Since lists index at one, you need this for the correct answer! */
+    tac:l1[deg+1];
+    /* Returns the degree as the student's answer, not the word. */
+    ta2:maplist(flatten, zip_with("[",makelist(k,k,0,length(l1)), zip_with("[",a1,l1)));
+    /* Feedback can turn this into a word using indexing, e.g. l1[ans1+1] in the PRT. */
+
+Either `ta1` or `ta2` can be used with the MCQ inputs, in this case dropdown probably makes most sense and checkbox least sense!  With the `ta2` option you probably want to hide the validation feedback.
 
 ## Internals ##
 

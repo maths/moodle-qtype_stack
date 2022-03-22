@@ -185,7 +185,7 @@ alias(sgn,signum);                 /* Corresponds to current student expectation
 texput(signum, "\\mathrm{sgn}");
 
 simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
-degree(ex,v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
+degree(ex, v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
 
 
 make_complexJ(OPT_COMPLEXJ) := block(
@@ -665,7 +665,7 @@ stack_disp(expr, exprm) := block([str:"", expru],
         expru: unary_minus_sort(expr),
         expru: stack_disp_sub_script(expru)),
 
-    str: block([expstr, offset, ld, rd],
+    str: block([expstr, ld, rd],
         ld: "",
         rd: "",
         if exprm = "i" then block(ld: "\\(", rd:"\\)"),
@@ -913,8 +913,8 @@ StackBasicReturn(validity, result, note) := [validity, result, StackAddNote("", 
 /* ******************************************* */
 
 /* List of variables, without some specific tokens in. */
-stack_validate_listofvars(ex) := block([lvars],
-   lvars:ev(setify(listofvars(ex)), simp),
+stack_validate_listofvars(_exunlikelyatom) := block([lvars],
+   lvars:ev(setify(listofvars(_exunlikelyatom)), simp),
    lvars:ev(setdifference(lvars,{null, QMCHAR, EMPTYANSWER}), simp),
    lvars:ev(sort(listify(lvars)), simp)
 )$

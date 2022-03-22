@@ -96,8 +96,8 @@
 }
 .que.stack .formulation .questiontestslink {
     float: right;
-    font-size: 0.7em;
-    margin: -1.3em -3em;
+    font-size: 0.8em;
+    margin: -0.3em -0.3em;
 }
 body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     display: none;
@@ -271,7 +271,6 @@ ol.proof-steps > li:before {
     z-index: 2;
     background-color: #039;
     color: white;
-    font-size: 14px;
     font-weight: 600;
     vertical-align: middle;
     padding-top: 1px;
@@ -339,7 +338,6 @@ body.path-question-type-stack dd {
 }
 body#page-question-type-stack-healthcheck textarea {
     font-family: monospace;
-    font-size: 0.8em;
     width: 100%;
     white-space: pre;
 }
@@ -373,7 +371,7 @@ body.path-question-type-stack table.stacktestsuite .expectedfail td {
     background-color: #ffd;
 }
 body.path-question-type-stack table.stacktestsuite pre {
-    font-size: 0.7em;
+    font-size: 0.8em;
     background: #ffffff99;
     padding: 0.25rem;
     max-width: 60em;
@@ -492,13 +490,13 @@ body.ie:not(.ie11) .stack_abstract_graph {
     font-family: Verdana, Sans-Serif;
 }
 .stack_abstract_graph text.nodelabel {
-    font-size: 14px;
+    font-size: 0.8em;
     fill: #fff;
     alignment-baseline: middle;
     text-anchor: middle;
 }
 .stack_abstract_graph text.edgelabel {
-    font-size: 10px;
+    font-size: 0.8em;
     fill: #000;
     alignment-baseline: middle;
 }

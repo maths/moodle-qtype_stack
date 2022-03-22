@@ -178,6 +178,15 @@ See also the Maxima documentation on `radexpand`.  For example
 
 The first of these does not pull out a numerical denominator.  The second does.
 
+### Trig simplification ###
+
+Maxima does have the ability to make assumptions, e.g. to assume that \(n\) is an integer and then simplify \(3\cos(n\pi/2)^2\) to \( \frac{3}{2}(1+(-1)^n)\).  Assume the student's answer is `ans1` then then define the following feedback variables:
+
+    declare(n,integer);
+    sans1:ev(trigrat(ans1),simp);
+
+The variable `sans1` can then be used in the PRT.  Just note that `trigrat` writes powers of trig functions in terms of multiple angles.  This can have an effect of "expanding" out an expression.  E.g. `trigrat(cos(n)^20)` is probably still fine, but `trigrat(cos(n)^2000)` is probably not!  For this reason `trigrat` is not part of the default routines to establish equivalence.  Trig simplification, especially when we make assumptions on variables like \(n\), needs to be done on a question by question basis.
+
 ## Boolean functions
 
 See the page on [propositional logic](Propositional_Logic.md).

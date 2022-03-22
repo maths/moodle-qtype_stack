@@ -121,7 +121,7 @@ class input_numerical_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
     }
 
-    public function test_validate_student_response_with_floatnum() {
+    public function test_validate_student_response_with_floatnum_true() {
         $options = new stack_options();
         $el = stack_input_factory::make('numerical', 'sans1', '3.14');
         $el->set_parameter('options', 'floatnum');
@@ -130,6 +130,17 @@ class input_numerical_test extends qtype_stack_testcase {
         $this->assertEquals('3.14', $state->contentsmodified);
         $this->assertEquals('\[ 3.14 \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_response_with_floatnum_false() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '0.33333');
+        $el->set_parameter('options', 'floatnum');
+        $state = $el->validate_student_response(array('sans1' => "-27"), $options, '0.33333', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('-27', $state->contentsmodified);
+        $this->assertEquals('\[ -27 \]', $state->contentsdisplayed);
+        $this->assertEquals('This input expects a floating point number.', $state->errors);
     }
 
     public function test_validate_student_response_without_floatnum() {
@@ -143,6 +154,17 @@ class input_numerical_test extends qtype_stack_testcase {
         $this->assertEquals('This input expects a floating point number.', $state->errors);
     }
 
+    public function test_validate_student_response_with_floatnum_negative() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '-3.14');
+        $el->set_parameter('options', 'floatnum');
+        $state = $el->validate_student_response(array('sans1' => "-3.14"), $options, '-3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('-3.14', $state->contentsmodified);
+        $this->assertEquals('\[ -3.14 \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
     public function test_validate_student_response_with_rationalnum() {
         $options = new stack_options();
         $el = stack_input_factory::make('numerical', 'sans1', '1/2');
@@ -151,6 +173,28 @@ class input_numerical_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('3/7', $state->contentsmodified);
         $this->assertEquals('\[ \frac{3}{7} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_response_with_rationalnum_negative() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1/2');
+        $el->set_parameter('options', 'rationalnum');
+        $state = $el->validate_student_response(array('sans1' => "-3/7"), $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('-3/7', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{-3}{7} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_response_with_rationalnum_integer() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1/2');
+        $el->set_parameter('options', 'rationalnum');
+        $state = $el->validate_student_response(array('sans1' => "-37"), $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('-37', $state->contentsmodified);
+        $this->assertEquals('\[ -37 \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
 
@@ -191,6 +235,17 @@ class input_numerical_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
     }
 
+    public function test_validate_student_response_with_rationalized_negative() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1/2');
+        $el->set_parameter('options', 'rationalized');
+        $state = $el->validate_student_response(array('sans1' => "-3/7"), $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('-3/7', $state->contentsmodified);
+        $this->assertEquals('\[ \frac{-3}{7} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
     public function test_validate_student_lowest_terms_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('numerical', 'sans1', '12/4');
@@ -210,6 +265,16 @@ class input_numerical_test extends qtype_stack_testcase {
                 new stack_cas_security(false, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Lowest_Terms', $state->note);
+    }
+
+    public function test_validate_student_lowest_terms_3() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '-1/4');
+        $el->set_parameter('lowestTerms', true);
+        $state = $el->validate_student_response(array('sans1' => '-1/4'), $options, '3',
+            new stack_cas_security(false, '', '', array('tans')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
     }
 
     public function test_validate_student_set_1() {

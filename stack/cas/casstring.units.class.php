@@ -104,7 +104,7 @@ class stack_cas_casstring_units {
         array('rad', 'rad', 'rad', 'radian'),
         array('sr', 'sr', 'sr', 'steradian'),
         array('K', 'K', 'K', 'Kelvin'),
-        array('VA', '(kg*m^2)/(s^3)', 'VA', 'volt-ampere'),
+        array('VA', 'VA', 'VA', 'volt-ampere'),
         array('eV', '1.602176634E-19*J', 'eV', 'electronvolt'),
         array('Ci', 'Ci', 'Ci', 'curie'),
         // @codingStandardsIgnoreStart

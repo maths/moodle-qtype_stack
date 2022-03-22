@@ -209,22 +209,40 @@ class stack_utils_test extends qtype_stack_testcase {
         $this->assertEquals('ssubst("","",x)', stack_utils::eliminate_strings('ssubst("times",",",x)'));
     }
 
-    public function test_alttext() {
-        $this->assertEquals(0, stack_utils::count_missing_alttext(
-            'random <img alt="Hello world!" src="https://nowhere.com/images/image0.png" > stuff'));
-        $this->assertEquals(0, stack_utils::count_missing_alttext(
-            'random <IMG alt="Hello world!" src="https://nowhere.com/images/image0.png" > stuff'));
-        $this->assertEquals(0, stack_utils::count_missing_alttext(
-            'random <img ALT = "Hello world!" src="https://nowhere.com/images/image0.png" > stuff'));
-        $this->assertEquals(0, stack_utils::count_missing_alttext(
-            'random <img src="https://nowhere.com/images/image0.png" alt="Hello world!" /> stuff'));
-        $this->assertEquals(1, stack_utils::count_missing_alttext(
-            'random <img src = "https://nowhere.com/images/image0.png" > stuff'));
-        $this->assertEquals(1, stack_utils::count_missing_alttext(
-            'random <img alt = \'\' src="https://nowhere.com/images/image0.png" > stuff'));
-        $this->assertEquals(1, stack_utils::count_missing_alttext(
-            'random <img alt = \'  \' src="https://nowhere.com/images/image0.png" > stuff'));
-        $this->assertEquals(2, stack_utils::count_missing_alttext(
-            '<img src="https://nowhere.com/images/image0.png" > stuff <img src="https://nowhere.com/images/image1.png" >'));
+    /**
+     * Test cases for test_count_missing_alttext.
+     *
+     * @return array of test cases.
+     */
+    public function count_missing_alttext_cases(): array {
+        return [
+            [0, 'random <img alt="Hello world!" src="https://nowhere.com/images/image0.png" > stuff'],
+            [0, 'random <IMG alt="Hello world!" src="https://nowhere.com/images/image0.png" > stuff'],
+            [0, 'random <img ALT = "Hello world!" src="https://nowhere.com/images/image0.png" > stuff'],
+            [0, 'random <img src="https://nowhere.com/images/image0.png" alt="Hello world!" /> stuff'],
+            [1, 'random <img src = "https://nowhere.com/images/image0.png"> stuff'],
+            [1, 'random <IMG src = "https://nowhere.com/images/image0.png"> stuff'],
+            // Re the next line, generally alt="" is the right way to indicate that an image
+            // is purely decorative, and screen readers should ignore it. However, I will
+            // not change the intent of this code while just fixing a bug.
+            [1, 'random <img alt = \'\' src="https://nowhere.com/images/image0.png" > stuff'],
+            [1, 'random <img alt = \'  \' src="https://nowhere.com/images/image0.png" > stuff'],
+            [2, 'random <img src="https://nowhere.com/images/image0.png" > stuff <img src="https://nowhere.com/image1.png" >'],
+            [0, "<img src='!ploturl!stackplot-38527-796.svg' alt='Line gradient -1/3 though the points (5,-5)' width='450' />"],
+            [0, 'test <img alt="It\'s mine!" src="https://nowhere.com/images/image0.png" > stuff'],
+            [0, 'test <img alt=\'Say "hello".\' src="https://nowhere.com/images/image0.png" > stuff'],
+            [0, 'test <imgination>stuff</imgination>'],
+        ];
+    }
+
+    /**
+     * Test count_missing_alttext.
+     *
+     * @param int $expectedcount Number of images without alt text we expect to find in the HTML.
+     * @param string $html Some HTML to analyse.
+     * @dataProvider count_missing_alttext_cases
+     */
+    public function test_count_missing_alttext(int $expectedcount, string $html): void {
+        $this->assertEquals($expectedcount, stack_utils::count_missing_alttext($html));
     }
 }

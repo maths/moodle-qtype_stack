@@ -5,15 +5,12 @@ past development history is documented on [Development history](Development_hist
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-## Version 4.3.11
-
-1. Release documentation under CC-BY-SA.
-
 ## Version 4.4
 
-1. Caching validation.
-2. Compiled PRTs.
-3. CASText2.
+1. Release documentation under CC-BY-SA.
+2. Caching validation.
+3. Compiled PRTs.
+4. CASText2.
 
 ## Maxima side PRTs.
 

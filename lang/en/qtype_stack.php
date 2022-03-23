@@ -844,6 +844,9 @@ $string['AT_EmptySA']               = 'Attempted to execute an answer test with 
 $string['AT_EmptyTA']               = 'Attempted to execute an answer test with an empty teacher answer, probably a CAS validation problem when authoring the question.';
 $string['AT_raw_sans_needed']       = 'Some answer tests rely on the raw input from a student, and so the "SAns" field of the node should be the name of a question input.  Please check the following (prt.node) which looks like a calculated value instead: {$a->prt}';
 
+$string['ATString_SA_not_string']     = 'Your answer should be a string, but is not. ';
+$string['ATString_SB_not_string']     = 'The teacher\'s answer should be a string, but is not. ';
+
 $string['ATAlgEquiv_SA_not_expression'] = 'Your answer should be an expression, not an equation, inequality, list, set or matrix. ';
 $string['ATAlgEquiv_SA_not_matrix']     = 'Your answer should be a matrix, but is not. ';
 $string['ATAlgEquiv_SA_not_list']       = 'Your answer should be a list, but is not.  Note that the syntax to enter a list is to enclose the comma separated values with square brackets. ';

@@ -3053,7 +3053,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->check_prt_score('firsttree', 0, 0.2);
-        $this->check_answer_note('firsttree', '[EMPTYCHAR,EQUIVCHAR,QMCHAR] | firsttree-1-F');
+        $this->check_answer_note('firsttree', '(EMPTYCHAR,EQUIVCHAR,QMCHAR) | firsttree-1-F');
         $this->render();
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=-1 and x=-2");
         $this->check_output_does_not_contain_stray_placeholders();
@@ -3080,10 +3080,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(0.8);
         $this->check_prt_score('firsttree', 1, 0);
-        $this->check_answer_note('firsttree', '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR] | firsttree-1-T');
+        $this->check_answer_note('firsttree', '(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR) | firsttree-1-T');
         $this->render();
         $expected = 'Seed: 1; ans1: [x^2-3*x+2=0,(x-2)*(x-1)=0,x=1 or x=2] [score]; firsttree: # = 1 | ' .
-                '[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR] | firsttree-1-T';
+                '(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR) | firsttree-1-T';
         $this->check_response_summary($expected);
         $this->check_output_contains_textarea_input('ans1', "x^2-3*x+2=0\n(x-2)*(x-1)=0\nx=1 or x=2");
         $this->check_output_does_not_contain_stray_placeholders();

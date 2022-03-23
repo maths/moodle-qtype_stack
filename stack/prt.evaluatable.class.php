@@ -115,6 +115,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
         // Do the simpler parse of the value. The full MaximaParser
         // would obviously work but would be more expensive.
         $value = castext2_parser_utils::string_to_list($this->evaluated, true);
+        // Note, the above means we can't have lists in the answer notes currently.
         if (count($value) < 4) {
             return;
         }

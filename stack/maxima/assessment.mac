@@ -2209,7 +2209,8 @@ stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block(
     ret:transpose(ret),
     ret:apply(argument, args(ret)),
     /* Construct a separate note. The note should be the same length as the argument, so normally has "EMPTYCHAR" as the first entry.*/
-    note:second(A),
+    /* If we return a list, then the PHP unpacking side now has problems, but we want to encapsulate the note as a single object, without | characters */
+    note:sconcat("(", simplode(second(A), ","), ")"),
     return([res, ret, note])
 )$
 

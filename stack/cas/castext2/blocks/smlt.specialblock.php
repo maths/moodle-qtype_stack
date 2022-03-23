@@ -60,11 +60,13 @@ class stack_cas_castext2_special_stack_maxima_latex_tidy extends stack_cas_caste
         }
         if ($mdmode) {
             $toproc = stack_maxima_latex_tidy($t);
+            // @codingStandardsIgnoreStart
             return str_replace(['\\', '-', '#', '*', '+', '`', '.', '[', ']', '(', ')',
                 '{', '}', '!', '&', '<', '>', '_'],
                 ['\\\\', '\-', '\#', '\*', '\+', '\`', '\.', '\[', '\]', '\(', '\)',
                 '\{', '\}', '\!', '\&', '\<', '\>', '\_'],
                  $toproc);
+            // @codingStandardsIgnoreEnd
         }
         return stack_maxima_latex_tidy($t);
     }

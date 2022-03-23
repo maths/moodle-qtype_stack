@@ -33,7 +33,7 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
         $mapfuns = stack_cas_security::get_all_with_feature('mapfunction');
         $process = function($node) use ($mapfuns) {
             if ($node instanceof MP_Functioncall && !$node->is_definition()) {
-                // '-operator makes the IDCHECK not work at the correct time, 
+                // The '-operator makes the IDCHECK not work at the correct time,
                 // so detect if that op is in the ancestry of this node and skip if so.
                 $p = $node;
                 while ($p !== null) {
@@ -68,8 +68,8 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                     if ($node->parentnode instanceof MP_PrefixOp ||
                         ($node->parentnode instanceof MP_FunctionCall &&
                             $node->parentnode->name instanceof MP_Atom && $node->parentnode->name->value === self::EXPCHECK)) {
-                        // %_E(subst(...)) => (%_C(subst),%_E(subst(...)))
-                        // 'f(x) => (%_C(f),'f(x))
+                        // Pattern %_E(subst(...)) => (%_C(subst),%_E(subst(...))).
+                        // Pattern 'f(x) => (%_C(f),'f(x)).
                         // This needs to be indempotent.
                         if ($node->parentnode->parentnode instanceof MP_Group &&
                             $node->parentnode->parentnode->items[0]->toString() === $replacement->items[0]->toString()) {
@@ -80,7 +80,7 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                             return false;
                         }
                     } else {
-                        // f(x) => (%_C(f),f(x))
+                        // Pattern f(x) => (%_C(f),f(x)).
                         $node->parentnode->replace($node, $replacement);
                         return false;
                     }
@@ -117,7 +117,7 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
             }
             if ($node instanceof MP_PrefixOp && $node->op === "''" && !($node->rhs instanceof MP_FunctionCall &&
                 $node->rhs->name instanceof MP_Atom && $node->rhs->name->value === self::EXPCHECK)) {
-                // ''x => ''%_E(x)
+                // Pattern ''x => ''%_E(x).
                 $node->replace($node->rhs, new MP_FunctionCall(new MP_Identifier(self::EXPCHECK), [$node->rhs]));
                 return false;
             }

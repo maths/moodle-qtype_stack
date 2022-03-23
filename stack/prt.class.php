@@ -528,7 +528,7 @@ class stack_potentialresponse_tree_lite {
             $at .= ',' . $node->tans;
         }
 
-        if (stack_ans_test_controller::required_atoptions($node->answertest) === true or 
+        if (stack_ans_test_controller::required_atoptions($node->answertest) === true or
                 (stack_ans_test_controller::required_atoptions($node->answertest) === 'optional' &&
                 trim($node->testoptions) !== '')) {
             // Simplify these. Mainly the sigfigs as the test has a history of not doing it.
@@ -536,7 +536,7 @@ class stack_potentialresponse_tree_lite {
         }
 
         if (stack_ans_test_controller::required_raw($node->answertest)) {
-            // The sans better be just a raw input ref... 
+            // The sans better be just a raw input ref.
             // If not then just use the expression.
             $at .= ',stackmap_get_ifexists(_INPUT_STRING,' .
                 stack_utils::php_string_to_maxima_string(trim($node->sans)) . ')';

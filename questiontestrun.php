@@ -445,7 +445,7 @@ foreach ($testresults as $key => $result) {
 
         $prtinputs = array();
         if ($inputsneeded != null) {
-            foreach(array_keys($inputsneeded[$prtname]) as $inputname) {
+            foreach (array_keys($inputsneeded[$prtname]) as $inputname) {
                 if (array_key_exists($inputname, $typeininputs)) {
                     $prtinputs[] = $typeininputs[$inputname];
                 }

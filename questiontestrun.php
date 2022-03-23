@@ -529,22 +529,6 @@ echo $OUTPUT->heading(stack_string('questionnote'), 3);
 echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()),
         array('class' => 'questionnote'));
 
-// Display the question variables.
-echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
-echo html_writer::start_tag('div', array('class' => 'questionvariables'));
-echo html_writer::tag('pre', $questionvariablevalues);
-echo html_writer::end_tag('div');
-
-// Display a representation of the PRT for offline use.
-$offlinemaxima = array();
-foreach ($question->prts as $name => $prt) {
-    $offlinemaxima[] = $prt->get_maxima_representation();
-}
-$offlinemaxima = s(implode("\n", $offlinemaxima));
-echo html_writer::start_tag('div', array('class' => 'questionvariables'));
-echo html_writer::tag('pre', $offlinemaxima);
-echo html_writer::end_tag('div');
-
 // Display the general feedback, aka "Worked solution".
 echo $OUTPUT->heading(stack_string('generalfeedback'), 3);
 echo html_writer::tag('div', html_writer::tag('div', $renderer->general_feedback(
@@ -578,6 +562,22 @@ if ($question->stackversion == null) {
     echo html_writer::tag('p', stack_string('stackversionedited', $question->stackversion)
             . stack_string('stackversionnow', get_config('qtype_stack', 'version')));
 }
+
+// Display the question variables.
+echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
+echo html_writer::start_tag('div', array('class' => 'questionvariables'));
+echo html_writer::tag('pre', $questionvariablevalues);
+echo html_writer::end_tag('div');
+
+// Display a representation of the PRT for offline use.
+$offlinemaxima = array();
+foreach ($question->prts as $name => $prt) {
+    $offlinemaxima[] = $prt->get_maxima_representation();
+}
+$offlinemaxima = s(implode("\n", $offlinemaxima));
+echo html_writer::start_tag('div', array('class' => 'questionvariables'));
+echo html_writer::tag('pre', $offlinemaxima);
+echo html_writer::end_tag('div');
 
 // Finish output.
 echo $OUTPUT->footer();

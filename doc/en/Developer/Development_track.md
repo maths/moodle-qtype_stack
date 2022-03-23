@@ -12,6 +12,11 @@ How to report bugs and make suggestions is described on the [community](../About
 3. Compiled PRTs.
 4. CASText2.
 
+TODO
+
+1. Error messages and guard clauses in PRTs
+2. Formative PRTs should score as normal and then ignore the score later. (For testing)
+
 ## Maxima side PRTs.
 
 * Change behaviour of UnitsAbsolute in response to discussion of issue #448.

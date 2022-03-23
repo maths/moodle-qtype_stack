@@ -1171,6 +1171,7 @@ class stack_answertest_test_data {
         array('EquivFirst', '', '[x^2=4,x= #pm#2, x=2 or x=-2]', '[x^2=4,x=2 or x=-2]', 1,
             '(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', ''),
         array('EquivFirst', '', '[x^2-6*x+9=0,x=3]', '[x^2-6*x+9=0,x=3]', 1, '(EMPTYCHAR,SAMEROOTS)', ''),
+        array('EquivFirst', '[assumepos]', '[x^2=4,x=2]', '[x^2=4,x=2]', 1, '(ASSUMEPOSVARS,EQUIVCHAR)', ''),
 
         array('SingleFrac', '', '1/0', '1/n', -1, 'ATSingleFrac_STACKERROR_SAns.', ''),
         array('SingleFrac', '', '0', '1/0', -1, 'ATSingleFrac_STACKERROR_TAns.', ''),

@@ -92,7 +92,7 @@ class stack_ans_test_controller {
         'CompSquare'           => array(true, true, true, false),
         'PropLogic'            => array(false, false, true, false),
         'Equiv'                => array(false, true, false, false),
-        'EquivFirst'           => array(true, true, false, false),
+        'EquivFirst'           => array(false, true, false, false),
         'GT'                   => array(false, false, true, false),
         'GTE'                  => array(false, false, true, false),
         'SigFigsStrict'        => array(true, true, true, true),

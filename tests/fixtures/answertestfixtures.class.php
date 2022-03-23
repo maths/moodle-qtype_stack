@@ -1221,6 +1221,7 @@ class stack_answertest_test_data {
         array('PartFrac', 'n', '1/m', '1/n', 0, 'ATPartFrac_diff_variables.', 'Basic tests'),
         array('PartFrac', 's', '2/(x+1)-1/(x+2)', 's/((s+1)*(s+2))', 0, 'ATPartFrac_diff_variables.', ''),
         array('PartFrac', 'n', '1/n', '1/n', 1, 'ATPartFrac_true.', ''),
+        array('PartFrac', 'n', 'n^3/(n-1)', 'n^3/(n-1)', 0, 'ATPartFrac_false_factor.', ''),
         array('PartFrac', 'n', '1+n+n^2+1/(n-1)', 'n^3/(n-1)', 1, 'ATPartFrac_true.', ''),
         // 1/(1-n) vs -1/(n-1).
         array('PartFrac', 'n', '1+n+n^2-1/(1-n)', 'n^3/(n-1)', 1, 'ATPartFrac_true.', ''),
@@ -1272,6 +1273,7 @@ class stack_answertest_test_data {
             'Correct Answer, Numerator > Denominator'),
         array('PartFrac', 'x', '2*x+1/(x+1)+1/(x-1)', '2*x^3/(x^2-1)', 1, 'ATPartFrac_true.', ''),
         array('PartFrac', 'n', '1/(n*(n-1))', '1/(n*(n-1))', 0, 'ATPartFrac_false_factor.', 'Simple mistakes'),
+        array('PartFrac', 'x', '((1-x)^4*x^4)/(x^2+1)', '((1-x)^4*x^4)/(x^2+1)', 0, 'ATPartFrac_false_factor.', ''),
         array('PartFrac', 'n', '1/(n-1)-1/n^2', '1/((n+1)*n)', 0, 'ATPartFrac_denom_ret.', ''),
         array('PartFrac', 'n', '1/(n-1)-1/n', '1/(n-1)+1/n', 0, 'ATPartFrac_ret_expression.', ''),
         array('PartFrac', 'x', '1/(x+1)-1/x', '1/(x-1)+1/x', 0, 'ATPartFrac_ret_expression.', ''),

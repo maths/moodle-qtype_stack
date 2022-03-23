@@ -2377,7 +2377,7 @@ ATPartFrac(SA, SB, SO) := block([negdistrib, Validity, rawmk, fb, ansnote, ret, 
 /* (i) partfrac returns terms like (1+n)^-1 not 1/(1+n), */
 /* which are problematic with simp:false.                */
 /* (ii) ATEqualComAss does not accept -1/(1-n) = 1/(n-1) */
-PartFracfun(sExpr, tExpr, wrt) := block([val, rawmk, ansnote, fb],
+PartFracfun(sExpr, tExpr, wrt) := block([val, rawmk, ansnote, fb, ret],
     val:true, rawmk:true, fb: "", ansnote: "",
     ret:[val, rawmk, ansnote, fb],
     if algebraic_equivalence(sExpr, tExpr) then block([topOp, list],
@@ -2439,10 +2439,13 @@ PartFracfun(sExpr, tExpr, wrt) := block([val, rawmk, ansnote, fb],
 
 /* Is ex a single rational expression in the correct form?  */
 /* p/q^n, where q is an irreducible term in v, over the rationals Q, disregarding the special case of a numerical factor? */
+/* We also make sure we can't do long division to divide p by p^n first. */
 /* Returns true/false */
 PartFrac_term_p(ex, v) := block([n1, d1, ret],
  n1:num(ex),
  d1:denom(ex),
+ /* Can we divide through? */
+ if is((degree(d1, v) < degree(n1, v)) and degree(d1, v) > 0) then return(false),  
  /* Ignore any power here. */
  if safe_op(d1)="^" then d1:first(args(d1)),
  /* Terms of the form n1/(v-a)^m must have a numerical n1! */ 

@@ -2017,7 +2017,7 @@ class qtype_stack extends question_type {
         if (stack_ans_test_controller::required_atoptions($atname)) {
             $opt = trim($fromform[$prtname . 'testoptions'][$nodekey]);
 
-            if ('' === trim($opt)) {
+            if ('' === trim($opt) && stack_ans_test_controller::required_atoptions($atname) === true) {
                 $errors[$nodegroup][] = stack_string('testoptionsrequired');
 
             } else if (strlen($opt) > 255) {

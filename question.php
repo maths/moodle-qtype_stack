@@ -648,7 +648,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if (trim($note) == '') {
                 $note = '!';
             } else {
-                $score = "# = " . $state->get_score() . " | ";
+                $score = "# = " . $state->get_score();
+                if ($prt->is_formative()) {
+                    $score .= ' [formative]';
+                }
+                $score .= " | ";
             }
             if ($state->get_errors()) {
                 $score = '[RUNTIME_ERROR] ' . $score . implode("|", $state->get_errors());

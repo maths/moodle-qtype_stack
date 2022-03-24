@@ -577,54 +577,53 @@ class stack_potentialresponse_tree_lite {
         $body .= '%PRT_EXIT_NOTE:append(%PRT_EXIT_NOTE, [' .
             stack_utils::php_string_to_maxima_string($node->trueanswernote) . '])';
         // The true branch.
-        if (!$this->is_formative()) { // No need for formative. Or do we calculate for analysis?
-            $s = $node->truescore;
-            if ($s === null || trim($s) == '') {
-                $s = '0';
+        // Even if the branch is formative we do calculate score for analysis.
+        $s = $node->truescore;
+        if ($s === null || trim($s) == '') {
+            $s = '0';
+        }
+        $p = $node->truepenalty;
+        if ($p === null || trim($p) == '') {
+            $p = $defaultpenalty;
+        }
+        // To save code we only generate error catching evaluation for values that are not numbers.
+        if (!is_numeric($s)) {
+            $s = stack_ast_container::make_from_teacher_source($s, $context . '/st');
+            $s->set_securitymodel($security);
+            if (!$s->get_valid()) {
+                throw new stack_exception('Error in ' . $context . ' true-score.');
             }
-            $p = $node->truepenalty;
-            if ($p === null || trim($p) == '') {
-                $p = $defaultpenalty;
+            $s = '_EC(errcatch(%_TMP:' . $s->get_evaluationform() . '),' .
+                stack_utils::php_string_to_maxima_string($context . '/st') . ')';
+        } else {
+            $s = '%_TMP:' . $s;
+        }
+        if (!is_numeric($p)) {
+            $p = stack_ast_container::make_from_teacher_source($p, $context . '/pt');
+            $p->set_securitymodel($security);
+            if (!$p->get_valid()) {
+                throw new stack_exception('Error in ' . $context . ' true-penalty.');
             }
-            // To save code we only generate error catching evaluation for values that are not numbers.
-            if (!is_numeric($s)) {
-                $s = stack_ast_container::make_from_teacher_source($s, $context . '/st');
-                $s->set_securitymodel($security);
-                if (!$s->get_valid()) {
-                    throw new stack_exception('Error in ' . $context . ' true-score.');
-                }
-                $s = '_EC(errcatch(%_TMP:' . $s->get_evaluationform() . '),' .
-                    stack_utils::php_string_to_maxima_string($context . '/st') . ')';
-            } else {
-                $s = '%_TMP:' . $s;
-            }
-            if (!is_numeric($p)) {
-                $p = stack_ast_container::make_from_teacher_source($p, $context . '/pt');
-                $p->set_securitymodel($security);
-                if (!$p->get_valid()) {
-                    throw new stack_exception('Error in ' . $context . ' true-penalty.');
-                }
-                $p = '_EC(errcatch(%PRT_PENALTY:' . $p->get_evaluationform() . '),' .
-                    stack_utils::php_string_to_maxima_string($context . '/pt') . ')';
-            } else {
-                $p = '%PRT_PENALTY:' . $p;
-            }
-            // Now the score mode based logic, I wonder why both score and penalty use the same.
-            // TODO: trace the original logic and check how these are tied to each other.
-            switch ($node->truescoremode) {
-                case '+':
-                    $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p;
-                    break;
-                case '-':
-                    $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE-%_TMP,' . $p;
-                    break;
-                case '*':
-                    $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE*%_TMP,' . $p;
-                    break;
-                default: // Which is '='.
-                    $body .= ',' . $s . ',%PRT_SCORE:%_TMP,' . $p;
-                    break;
-            }
+            $p = '_EC(errcatch(%PRT_PENALTY:' . $p->get_evaluationform() . '),' .
+                stack_utils::php_string_to_maxima_string($context . '/pt') . ')';
+        } else {
+        $p = '%PRT_PENALTY:' . $p;
+        }
+        // Now the score mode based logic, I wonder why both score and penalty use the same.
+        // TODO: trace the original logic and check how these are tied to each other.
+        switch ($node->truescoremode) {
+            case '+':
+                $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p;
+                break;
+            case '-':
+                $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE-%_TMP,' . $p;
+                break;
+            case '*':
+                $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE*%_TMP,' . $p;
+                break;
+            default: // Which is '='.
+                $body .= ',' . $s . ',%PRT_SCORE:%_TMP,' . $p;
+                break;
         }
 
         if ($node->truefeedback !== null && trim($node->truefeedback) !== '') {
@@ -658,54 +657,52 @@ class stack_potentialresponse_tree_lite {
         $body .= '%PRT_EXIT_NOTE:append(%PRT_EXIT_NOTE, [' .
             stack_utils::php_string_to_maxima_string($node->falseanswernote) . '])';
         // The false branch.
-        if (!$this->is_formative()) { // No need for formative.
-            $s = $node->falsescore;
-            if ($s === null || trim($s) == '') {
-                $s = '0';
+        $s = $node->falsescore;
+        if ($s === null || trim($s) == '') {
+            $s = '0';
+        }
+        $p = $node->falsepenalty;
+        if ($p === null || trim($p) == '') {
+            $p = $defaultpenalty;
+        }
+        // To save code we only generate error catching evaluation for values that are not numbers.
+        if (!is_numeric($s)) {
+            $s = stack_ast_container::make_from_teacher_source($s, $context . '/sf');
+            $s->set_securitymodel($security);
+            if (!$s->get_valid()) {
+                throw new stack_exception('Error in ' . $context . ' false-score.');
             }
-            $p = $node->falsepenalty;
-            if ($p === null || trim($p) == '') {
-                $p = $defaultpenalty;
+            $s = '_EC(errcatch(%_TMP:' . $s->get_evaluationform() . '),' .
+                stack_utils::php_string_to_maxima_string($context . '/sf') . ')';
+        } else {
+            $s = '%_TMP:' . $s;
+        }
+        if (!is_numeric($p)) {
+            $p = stack_ast_container::make_from_teacher_source($p, $context . '/pf');
+            $p->set_securitymodel($security);
+            if (!$p->get_valid()) {
+                throw new stack_exception('Error in ' . $context . ' false-penalty.');
             }
-            // To save code we only generate error catching evaluation for values that are not numbers.
-            if (!is_numeric($s)) {
-                $s = stack_ast_container::make_from_teacher_source($s, $context . '/sf');
-                $s->set_securitymodel($security);
-                if (!$s->get_valid()) {
-                    throw new stack_exception('Error in ' . $context . ' false-score.');
-                }
-                $s = '_EC(errcatch(%_TMP:' . $s->get_evaluationform() . '),' .
-                    stack_utils::php_string_to_maxima_string($context . '/sf') . ')';
-            } else {
-                $s = '%_TMP:' . $s;
-            }
-            if (!is_numeric($p)) {
-                $p = stack_ast_container::make_from_teacher_source($p, $context . '/pf');
-                $p->set_securitymodel($security);
-                if (!$p->get_valid()) {
-                    throw new stack_exception('Error in ' . $context . ' false-penalty.');
-                }
-                $p = '_EC(errcatch(%PRT_PENALTY:' . $p->get_evaluationform() . '),' .
-                    stack_utils::php_string_to_maxima_string($context . '/pf') . ')';
-            } else {
-                $p = '%PRT_PENALTY:' . $p;
-            }
-            // Now the score mode based logic, I wonder why both score and penalty use the same.
-            // TODO: trace the original logic and check how these are tied to each other.
-            switch ($node->falsescoremode) {
-                case '+':
-                    $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p;
-                    break;
-                case '-':
-                    $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE-%_TMP,' . $p;
-                    break;
-                case '*':
-                    $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE*%_TMP,' . $p;
-                    break;
-                default: // Which is '='.
-                    $body .= ',' . $s . ',%PRT_SCORE:%_TMP,' . $p;
-                    break;
-            }
+            $p = '_EC(errcatch(%PRT_PENALTY:' . $p->get_evaluationform() . '),' .
+                stack_utils::php_string_to_maxima_string($context . '/pf') . ')';
+        } else {
+            $p = '%PRT_PENALTY:' . $p;
+        }
+        // Now the score mode based logic, I wonder why both score and penalty use the same.
+        // TODO: trace the original logic and check how these are tied to each other.
+        switch ($node->falsescoremode) {
+            case '+':
+                $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p;
+                break;
+            case '-':
+                $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE-%_TMP,' . $p;
+                break;
+            case '*':
+                $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE*%_TMP,' . $p;
+                break;
+            default: // Which is '='.
+                $body .= ',' . $s . ',%PRT_SCORE:%_TMP,' . $p;
+                break;
         }
 
         if ($node->falsefeedback !== null && trim($node->falsefeedback) !== '') {

@@ -3520,7 +3520,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_answer_note('prt3', 'ATLogic_True. | prt3-1-T');
         $this->render();
         $expected = 'Seed: 1; ans1: x^2 [score]; ans2: x^4 [score]; prt1: # = 0 | prt1-1-F; prt2: # = 0 | ' .
-                'prt2-1-F; prt3: # = 0.5 | ATLogic_True. | prt3-1-T';
+                'prt2-1-F; prt3: # = 0.5 [formative] | ATLogic_True. | prt3-1-T';
         $this->check_response_summary($expected);
         $this->check_current_output(
                 new question_pattern_expectation('/Give two examples of odd functions./'),
@@ -3546,7 +3546,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_answer_note('prt3', 'prt3-1-F');
         $this->render();
         $expected = 'Seed: 1; ans1: x^3 [score]; ans2: sin(x) [score]; prt1: # = 1 | prt1-1-T; prt2: # = 1 | ' .
-                'prt2-1-T; prt3: # = 0.4 | prt3-1-F';
+                'prt2-1-T; prt3: # = 0.4 [formative] | prt3-1-F';
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', 'sin(x)');

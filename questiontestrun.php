@@ -500,6 +500,10 @@ foreach ($testresults as $key => $result) {
                 $urlparams + array('testcase' => $key)),
                 stack_string('editthistestcase', 'qtype_stack'), 'get');
 
+        echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
+            $urlparams + array('testcase' => $key, 'confirmthistestcase' => true)),
+            stack_string('confirmthistestcase', 'qtype_stack'), 'get');
+
         echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestdelete.php',
                 $urlparams + array('testcase' => $key)),
                 stack_string('deletethistestcase', 'qtype_stack'), 'get');

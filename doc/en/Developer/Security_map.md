@@ -1,13 +1,28 @@
 ## Security-map
 
-In STACK 4.3 the new Maxima statement parser infrastruture transfers 
-the old listings of identifiers that are forbidden for students or simply 
-globally forbidden to a JSON file describing all identifiers of functions, 
-variables, constants, and operators and features we attach to them. This
-JSON file is being updated manually and through the data collected by 
+It is important that students do not evaluate expressions such as the following with the CAS :
+
+    system("rm /*");
+
+for somewhat obvious reasons!  Hence, we need to restrict the availability of certain functions to users.  STACK "trusts" the teacher.  Therefore there are three levels of Maxima functions.
+
+1. Forbidden.  No string containing anything which might look like this should ever get near the CAS.
+2. Teacher.  Teacher's answers cannot contain these, but they are not a security risk.  Usually these have side effects within the Maxima code, e.g. setting a global variable which might cause problems later/elsewhere.
+3. Student.  Student's expressions can only contain these.
+
+Since STACK 4.3 the Maxima statement parser infrastruture uses a JSON file
+describing all identifiers of functions,  variables, constants, and operators
+and features we attach to them. The catalogue is stored in
+
+    stack/cas/security-map.json
+
+This JSON file is being updated manually and through the data collected by 
 the [census](Census.md) and can be extended freely to track new features 
 as things progress. This documentation section describes what is currently 
 being contained in that map.
+
+If a function from a maxima library is not in the security map then it is most likley
+that we have not reviewed it.  Please contact the developers.
 
 ### Units
 
@@ -93,4 +108,5 @@ they tend to map things so that they point to the version that is
 shortest to minimise space usage, e.g. while some might think 
 `int => integrate` here we rather have `integrate => int`.
 
-The base alias is sent to the CAS.  This enables support for some unicode, e.g. pi, which does not break the CAS.
+The base alias is sent to the CAS.  This enables support for some unicode, 
+e.g. pi, which does not break the CAS.

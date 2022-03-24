@@ -16,6 +16,7 @@ TODO
 
 1. Error messages and guard clauses in PRTs
 2. Formative PRTs should score as normal and then ignore the score later. (For testing)
+3. Remove all "cte" code from Maxima - mostly install.
 
 ## Maxima side PRTs.
 

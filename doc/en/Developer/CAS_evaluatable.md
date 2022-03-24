@@ -10,9 +10,9 @@ those objects implement additional interfaces that receive those values.
 
 ## cas_evaluatable
 
-Anything that can generate an CAS-statement string, responds to a question
+Anything that can generate a CAS-statement string, responds to a question
 about its validity, can tell some backreference information to be displayed
-in potenttial error messages, and provides a function that receives
+in potential error messages, and provides a function that receives
 information about the success or failure of the statement.
 
 In general if one is only loading values into the CAS and does not need to

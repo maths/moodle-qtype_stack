@@ -411,7 +411,7 @@ real_numberp(ex):= block([keepfloat, trigexpand, logexpand],
 
 /* Do we have a real number, inf or -inf?  */
 extended_real_numberp(ex) := block(
-    if ex=inf or ex=-inf then return(true),
+    if (ex=inf or ex=-inf or ex=minf or ex=-minf) then return(true),
     return(real_numberp(ex))
 )$
 

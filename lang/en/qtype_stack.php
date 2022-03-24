@@ -697,6 +697,7 @@ $string['stackCas_unknownFunctionCase']     = 'Input is case sensitive: {$a->for
 $string['stackCas_unknownVariableCase']     = 'Input is case sensitive: {$a->forbid} is an unknown variable. Did you mean {$a->lower}?';
 $string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: {$a->forbid}.';
 $string['stackCas_forbiddenWord']           = 'The expression {$a->forbid} is forbidden.';
+$string['stackCas_forbiddenntuple']         = 'Coordinates are not permitted in this input.';
 $string['stackCas_bracketsdontmatch']       = 'The brackets are incorrectly nested in the expression: {$a->cmd}.';
 $string['stackCas_chained_inequalities']    = 'You appear to have "chained inequalities" e.g. \(a &lt b &lt c\).  You need to connect individual inequalities with logical operations such as \(and\) or \(or\).';
 $string['stackCas_backward_inequalities']   = 'Non-strict inequalities e.g. \( \leq \) or \( \geq \) must be entered as <= or >=.  You have {$a->cmd} in your expression, which is backwards.';

@@ -380,8 +380,12 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 }
                 $valid = false;
             } else if (!$identifierrules->is_allowed_to_call($this->source, $name)) {
-                $errors[] = trim(stack_string('stackCas_forbiddenFunction',
+                if ($name === 'ntuple') {
+                    $errors[] = stack_string('stackCas_forbiddenntuple');
+                } else {
+                    $errors[] = trim(stack_string('stackCas_forbiddenFunction',
                         array('forbid' => stack_maxima_format_casstring($name))));
+                }
                 if (array_search('forbiddenFunction', $answernotes) === false) {
                     $answernotes[] = 'forbiddenFunction';
                 }

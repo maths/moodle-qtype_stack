@@ -1557,6 +1557,20 @@ class input_algebraic_test extends qtype_stack_testcase {
                 . '<code>(1,-1)</code>', $el->get_teacher_answer_display('ntuple(1,-1)', '\left(1, -1\right)'));
     }
 
+    public function test_validate_student_response_ntuple_forbid() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '[1,2]');
+        $el->set_parameter('forbidWords', 'ntuple');
+        $state = $el->validate_student_response(array('sans1' => '(1,2)'), $options, '[1,2]',
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::INVALID);
+        $this->assertEquals($state->contentsmodified, 'ntuple(1,2)');
+        $this->assertEquals($state->contentsdisplayed,
+            '<span class="stacksyntaxexample">(1,2)</span>');
+        $this->assertEquals('forbiddenFunction', $state->note);
+        $this->assertEquals('Coordinates are not permitted in this input.', $state->errors);
+    }
+
     public function test_validate_consolidatesubscripts() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'state', 'M_1');

@@ -155,6 +155,16 @@ STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-
 
 In general CASText is assumed to be written in the format (Markdown, raw HTML, Moodle auto-format) that Moodle defines and which can be selected in the editor if one uses the plain text area editor. However, there are cases where one might need to mix formats withing the CASText itself, one of those cases is the inclusion of content written in another format. In these cases one can wrap the differing part in blocks that declare the format to use for that portion. The blocks used for this are named `[[moodleformat]]`, `[[markdownformat]]`, and `[[htmlformat]]`. In the end all CASText evaluates down to HTML, even if it were written in Markdown-format it will be rendered down to HTML.
 
+## JSString block ##
+
+A new feature in 4.4 is the `[[jsstring]]` which makes it simpler to produce JavaScript string values out of CASText content. This may be useful for example when generating labels in JSXGraph. The block takes its content and evaluates it as normal CASText and then excapes it as JavaScript string literal.
+
+```
+var label = [[jsstring]]{@f(x)=sqrt(x)@}[[/jsstring]];
+/* Would generate, without the need to manually escape things. */
+var label = "\\({f\\left(x\\right)=\\sqrt{x}}\\)";
+```
+
 ## Include block ##
 
 A new feature in 4.4 is the ability to include content from an URL. The include block allows one to do that. However, it is not a recommended tool for novices and all users choosing to use it should consider what it means for the future maintenance and shareability of your questions. See the specific documentation on [include logic](Inclusions.md).

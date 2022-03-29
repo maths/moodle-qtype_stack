@@ -408,4 +408,16 @@ class castext2_test extends qtype_stack_testcase {
         $output = '\({{a}/{b}}\), \({\frac{a}{b}}\)';
         $this->assertEquals($output, $this->evaluate($input));
     }
+
+    // JavaScript string generation
+    public function test_jsstring() {
+        $input = 'var feedback = [[jsstring]]Something \({@sqrt(2)@}\) {@sqrt(2)@}.[[/jsstring]];';
+        $output = 'var feedback = "Something \\\\({\\\\sqrt{2}}\\\\) \\\\({\\\\sqrt{2}}\\\\).";';
+        $this->assertEquals($output, $this->evaluate($input));
+
+        // Separate for completely static no CAS evaluatable content.
+        $input = 'var feedback = [[jsstring]]Something "static".[[/jsstring]];';
+        $output = 'var feedback = "Something \"static\".";';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
 }

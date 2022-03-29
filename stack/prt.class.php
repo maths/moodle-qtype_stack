@@ -258,16 +258,15 @@ class stack_potentialresponse_tree_lite {
      * @return array Languages used in the feedback.
      */
     public function get_feedback_languages() {
-        $ml = new stack_multilang();
         $langs = array();
         $ml = new stack_multilang();
         foreach ($this->nodes as $key => $node) {
             $langs[$key] = [];
             if ($node->truefeedback !== null && $node->truefeedback !== '') {
-                $langs[$key]['true'] = $ml->languages_used($node->truefeedback);
+                $langs[$key][$node->trueanswernote] = $ml->languages_used($node->truefeedback);
             }
             if ($node->falsefeedback !== null && $node->falsefeedback !== '') {
-                $langs[$key]['false'] = $ml->languages_used($node->falsefeedback);
+                $langs[$key][$node->falseanswernote] = $ml->languages_used($node->falsefeedback);
             }
         }
         return $langs;

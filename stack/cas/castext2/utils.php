@@ -253,15 +253,9 @@ class castext2_parser_utils {
                             ($activeformat === self::MDFORMAT && $tripleslash)) {
                         if ($c === '[' || $c === '(') {
                             $mathmode = true;
-                            $lastslash = false;
-                            $doubleslash = false;
-                            $tripleslash = false;
                         }
                         if ($c === ']' || $c === ')') {
                             $mathmode = false;
-                            $lastslash = false;
-                            $doubleslash = false;
-                            $tripleslash = false;
                         }
                     }
                     if (($lastslash && $activeformat !== self::MDFORMAT) ||
@@ -293,7 +287,10 @@ class castext2_parser_utils {
                             }
                         }
                     }
-
+                    // Always zero these after finding a non slash char.
+                    $lastslash = false;
+                    $doubleslash = false;
+                    $tripleslash = false;
                 }
 
                 $mathmodes[$i] = $mathmode;

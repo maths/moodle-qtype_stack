@@ -68,7 +68,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             }
         }
 
-        $divid  = 'stateful-jsxgraph-' . self::$countgraphs;
+        $divid  = 'stack-jsxgraph-' . self::$countgraphs;
         $width  = '500px';
         $height = '400px';
         $aspectratio = false;

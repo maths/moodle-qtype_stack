@@ -22,6 +22,7 @@ require_once(__DIR__ . '/castext2_static_replacer.class.php');
 require_once(__DIR__ . '/utils.php');
 require_once(__DIR__ . '/blocks/root.specialblock.php');
 require_once(__DIR__ . '/blocks/textdownload.block.php');
+require_once(__DIR__ . '/blocks/include.block.php');
 
 /**
  * A wrapper class encapsulating castext2 evaluation logic. Push one of
@@ -191,6 +192,12 @@ class castext2_evaluatable implements cas_raw_value_extractor {
                             $special['text-download'] = [];
                         }
                         $special['text-download'][$k] = $v;
+                    }
+                } else if ($node instanceof stack_cas_castext2_include) {
+                    if (!isset($special['castext-includes'])) {
+                        $special['castext-includes'] = [$node->params['src']];
+                    } else if (array_search($node->params['src'], $special['castext-includes']) === false) {
+                        $special['castext-includes'][] = $node->params['src'];
                     }
                 }
             };

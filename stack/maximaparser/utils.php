@@ -264,6 +264,7 @@ class maxima_parser_utils {
                                         if ($i === $node->parentnode) {
                                             foreach ($src->items as $item) {
                                                 $item->position['included-from'] = 'inclusion #' . $includecount;
+                                                $item->position['included-src'] = $node->arguments[0]->value;
                                                 $item->parentnode = $node->parentnode->parentnode;
                                                 $replacement[] = $item;
                                             }

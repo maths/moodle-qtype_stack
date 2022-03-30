@@ -341,7 +341,7 @@ class stack_cas_keyval {
         $errclass = $this->errclass;
 
         // Special rewrites filtter, might be a real AST-filter at some point.
-        $rewrite = function($node) use (&$errors, &$bestatements, &$contextvariables, $options, $ctx) {
+        $rewrite = function($node) use (&$errors, &$bestatements, &$contextvariables, $options, $ctx, $errclass) {
             if ($node instanceof MP_FunctionCall) {
                 if ($node->name instanceof MP_Identifier && $node->name->value === 'castext') {
                     // The very special case of seeing the castext-function inside castext.
@@ -367,7 +367,7 @@ class stack_cas_keyval {
                     if (count($node->arguments) == 2 && strtolower($node->arguments[1]->value) === 'md') {
                         $format = castext2_parser_utils::MDFORMAT;
                     }
-                    $compiled = castext2_parser_utils::compile($node->arguments[0]->value);
+                    $compiled = castext2_parser_utils::compile($node->arguments[0]->value, $format, ['errclass' => $errclass, 'context' => $ctx]);
                     $compiled = maxima_parser_utils::parse($compiled);
                     if ($compiled instanceof MP_Root) {
                         $compiled = $compiled->items[0];

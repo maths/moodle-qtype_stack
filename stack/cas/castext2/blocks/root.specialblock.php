@@ -61,7 +61,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         // possible that there are sconcats in play with overt number
         // of arguments and we may need to turn them to reduce-calls
         // to deal with GCL-limits.
-        $simplifier = function($node) use ($options) {
+        $simplifier = function($node) use ($options, $format) {
             if ($node instanceof MP_FunctionCall) {
                 if ($node->name instanceof MP_Identifier && $node->name->value === 'sconcat') {
                     if (count($node->arguments) == 0) {

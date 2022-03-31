@@ -22,6 +22,8 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 // Current requirements are these, if changed update the mapping function.
 require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
+require_once(__DIR__ . '/../stack/cas/keyval.class.php');
+require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
 require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 require_once(__DIR__ . '/../stack/options.class.php');
 
@@ -39,12 +41,12 @@ class castext2_test extends qtype_stack_testcase {
     // style preamble statements and STACK options to the current
     // implementation and generates the end result.
     // Validation is not being tested, here.
-    private function evaluate(string $code, array $preamble=array(), stack_options $options=null): string {
+    private function evaluate(string $code, array $preamble=array(), stack_options $options=null, $context='castext-test-case'): string {
         $statements = array();
         foreach ($preamble as $statement) {
             $statements[] = stack_ast_container::make_from_teacher_source($statement, 'castext-test-case');
         }
-        $result = castext2_evaluatable::make_from_source($code, 'castext-test-case');
+        $result = castext2_evaluatable::make_from_source($code, $context);
         $statements[] = $result;
         $session = new stack_cas_session2($statements, $options);
 
@@ -409,7 +411,7 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input));
     }
 
-    // JavaScript string generation
+    // JavaScript string generation.
     public function test_jsstring() {
         $input = 'var feedback = [[jsstring]]Something \({@sqrt(2)@}\) {@sqrt(2)@}.[[/jsstring]];';
         $output = 'var feedback = "Something \\\\({\\\\sqrt{2}}\\\\) \\\\({\\\\sqrt{2}}\\\\).";';
@@ -418,6 +420,34 @@ class castext2_test extends qtype_stack_testcase {
         // Separate for completely static no CAS evaluatable content.
         $input = 'var feedback = [[jsstring]]Something "static".[[/jsstring]];';
         $output = 'var feedback = "Something \"static\".";';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    // Inline castext
+    public function test_inline_castext() {
+        $keyval = 'B:castext("B");sq:castext("{@sqrt(2)@}");';
+        // The inline castext compilation currently only happens for keyvals, not for 
+        // singular statements so we need to do something special to get this done.
+        $kv = new stack_cas_keyval($keyval);
+        $kv->get_valid();
+        $kvcode = $kv->compile('test')['statement'];
+        $statements = [new stack_secure_loader($kvcode, 'test-kv')];
+        
+        $input = 'A [[castext evaluated="B"/]] C, [[castext evaluated="sq"/]]';
+        $output = 'A B C, \\({\\sqrt{2}}\\)';
+        
+        $result = castext2_evaluatable::make_from_source($input, 'castext-test-case');
+        $statements[] = $result;
+        $session = new stack_cas_session2($statements);
+        $session->instantiate();
+
+        $this->assertEquals($output, $result->get_rendered());
+    }
+
+    // Inline castext inline castext, not something you see in many places.
+    public function test_inline_castext_inline() {
+        $input = 'A [[castext evaluated="castext(\\"B\\")"/]] C, [[castext evaluated="castext(\\"{@sqrt(2)@}\\")"/]]';
+        $output = 'A B C, \\({\\sqrt{2}}\\)';
         $this->assertEquals($output, $this->evaluate($input));
     }
 }

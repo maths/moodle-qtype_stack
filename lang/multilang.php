@@ -82,7 +82,7 @@ class stack_multilang {
         } else if ($mode === 2) {
             $this->replacementdone = false;
             if (!array_key_exists($lang, self::$parentcache)) {
-                $parentlangs = get_string_manager()->get_language_dependencies($currlang);
+                $parentlangs = get_string_manager()->get_language_dependencies($lang);
                 self::$parentcache[$lang] = $parentlangs;
             }
             $result = preg_replace_callback($this->search2,

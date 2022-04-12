@@ -27,11 +27,17 @@ require_once($CFG->libdir . '/weblib.php');
 class stack_cas_castext2_demarkdown extends stack_cas_castext2_block {
 
     public function compile($format, $options): ?string {
-        // Basically mark the contetns for post-processing.
+        // Basically mark the contents for post-processing.
         $r = '["demarkdown"';
 
+        // Problem is that we need to figure out if the content has HTML-blocks.
+        // https://spec.commonmark.org/0.30/#html-block
+        // We do not consider the injected values or any line changes they may contain.
+        // Luckily the math-paint logic already does this and brings an estimate of format to
+        // us.
+
         foreach ($this->children as $item) {
-            $c = $item->compile(castext2_parser_utils::MDFORMAT, $options);
+            $c = $item->compile($item->paintformat === null ? castext2_parser_utils::MDFORMAT : $item->paintformat, $options);
             if ($c !== null) {
                 $r .= ',' . $c;
             }

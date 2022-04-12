@@ -103,8 +103,9 @@ class castext2_test extends qtype_stack_testcase {
         // The default format is raw HTML.
         // The actual injection is not visible here as the markdown gets rendered, but
         // the math-mode detection should be.
-        $input = '[[markdownformat]]\\\\\\({@sqrt(x)@}\\\\\\) {@sqrt(x)@}[[/markdownformat]] {@sqrt(x)@}';
-        $output = '<p>\({\sqrt{x}}\) \({\sqrt{x}}\)</p>' . "\n " . '\({\sqrt{x}}\)';
+        // Note that Markdown escape rules change if the line is a HTML-block
+        $input = '[[markdownformat]]\\\\\\({@sqrt(x)@}\\\\\\) {@sqrt(x)@}[[/markdownformat]] {@sqrt(x)@} [[markdownformat]]<p>\({@sqrt(y)@}\) {@sqrt(y)@}</p>[[/markdownformat]]';
+        $output = '<p>\({\sqrt{x}}\) \({\sqrt{x}}\)</p>' . "\n " . '\({\sqrt{x}}\) <p>\({\sqrt{y}}\) \({\sqrt{y}}\)</p>' . "\n";
         $this->assertEquals($output, $this->evaluate($input));
     }
 

@@ -50,7 +50,7 @@ if (isset($options['string'])) {
 }
 
 try {
-    $result = castext2_parser_utils::compile($teststring);
+    $result = castext2_parser_utils::compile($teststring, null, ['context' => 'test']);
     print("\nSuccess:\n");
     $ast = maxima_parser_utils::parse($result);
     print($ast->toString(['pretty' => true]) . "\n");

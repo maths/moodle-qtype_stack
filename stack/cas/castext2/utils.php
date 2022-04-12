@@ -141,7 +141,8 @@ class castext2_parser_utils {
         $skipmap = [];
         // We track the format switches.
         $formatmap = [];
-        for ($i = 0; $i < mb_strlen($code); $i++) {
+        $len = mb_strlen($code);
+        for ($i = 0; $i < $len; $i++) {
             $formatmap[$i] = $format;
         }
 
@@ -193,12 +194,9 @@ class castext2_parser_utils {
                         $offset = mb_strpos($content, ']]')+2; // Track the distance to the start of the block.
                         $content = mb_substr($content, $offset);
                         $lines = mb_split("\n", $content);
-                        for ($i = 0; $i < count($lines) - 1; $i++) {
-                            // Return the line change to ease calculations.
-                            $lines[$i] = $lines[$i] . "\n";
-                        }
                         $endcond = false;
                         foreach ($lines as $line) {
+                            $ll = mb_strlen($line); 
                             if ($endcond === false) {
                                 $type = self::is_html_block_markdown($line);
                                 $endcond = $type;
@@ -218,7 +216,7 @@ class castext2_parser_utils {
 
                             if ($endcond !== false) {
                                 // If this line has an end cond then this line must be marked as RAW.
-                                for ($i = 0; $i < mb_strlen($line); $i++) {
+                                for ($i = 0; $i < $ll; $i++) {
                                     $formatmap[$i + $node->position['start'] + $offset] = self::RAWFORMAT;
                                 }
                             }
@@ -226,7 +224,7 @@ class castext2_parser_utils {
                             if ($endafter) {
                                 $endcond = false;
                             }
-                            $offset = $offset + mb_strlen($line);
+                            $offset = $offset + $ll + 1; // One for the line change.
                         }
                     } 
                 }
@@ -243,7 +241,6 @@ class castext2_parser_utils {
         $skipped = ''; // A string that has had all the skipped parts removed.
         // First generate the skipped one. We use this to match long strings that
         // might go over a skipped bit.
-        $len = mb_strlen($code);
         // Do a single splitting of the unicode string to chars.
         $chars = preg_split('//u', $code, -1, PREG_SPLIT_NO_EMPTY);
         while ($i < $len) {
@@ -342,46 +339,6 @@ class castext2_parser_utils {
                 $j = $j + 1;
             }
         }
-
-        if (false) {
-            // TODO: remove this debug block.
-            $debug = '<pre>';
-            $rawline = 'RAW :';
-            $mathline = 'MATH:';
-            $fmtline = 'FMT :';
-            $i = 0;
-            foreach ($chars as $char) {
-                if ($char === "\n") {
-                    $debug = $debug . $rawline . "\n";
-                    $debug = $debug . $mathline . "\n";
-                    $debug = $debug . $fmtline . "\n";
-                    $rawline = 'RAW :';
-                    $mathline = 'MATH:';
-                    $fmtline = 'FMT :';
-                } else {
-                    $rawline .= $char;
-                    if (isset($mathmodes[$i]) && $mathmodes[$i]) {
-                        $mathline .= 'T';
-                    } else {
-                        $mathline .= ' ';
-                    }
-                    if (isset($formatmap[$i]) && $formatmap[$i] === self::MDFORMAT) {
-                        $fmtline .= 'M';
-                    } else {
-                        $fmtline .= 'R';
-                    }
-                }
-
-                $i = $i + 1;
-            }
-            $debug = $debug . $rawline . "\n";
-            $debug = $debug . $mathline . "\n";
-            $debug = $debug . $fmtline . "\n";
-
-            $debug .= '</pre>';
-            echo($debug);
-        }
-
 
         // Now we have the map for the mathmode of each char in the code.
         // Then to apply it.

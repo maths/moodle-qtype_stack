@@ -22,6 +22,7 @@ require_once(__DIR__ . '/castext2_static_replacer.class.php');
 require_once(__DIR__ . '/utils.php');
 require_once(__DIR__ . '/blocks/root.specialblock.php');
 require_once(__DIR__ . '/blocks/textdownload.block.php');
+require_once(__DIR__ . '/blocks/include.block.php');
 
 /**
  * A wrapper class encapsulating castext2 evaluation logic. Push one of
@@ -182,7 +183,10 @@ class castext2_evaluatable implements cas_raw_value_extractor {
             $specialsearch = function ($node) use (&$special, &$err, &$valid, &$sec) {
                 if ($node instanceof stack_cas_castext2_textdownload) {
                     foreach ($node->params['text-download-content'] as $k => $v) {
-                        $astc = stack_ast_container::make_from_teacher_source($v, '/td/' . $k, $sec);
+                        // _EC logic is present in this from the error tracking of
+                        // castext, we don't consider it as evil at this point.
+                        $vec = str_replace('_EC(', 'MAGIC(', $v);
+                        $astc = stack_ast_container::make_from_teacher_source($vec, '/td/' . $k, $sec);
                         if (!$astc->get_valid()) {
                             $valid = false;
                             $err = array_merge($err, $astc->get_errors('objects'));
@@ -191,6 +195,12 @@ class castext2_evaluatable implements cas_raw_value_extractor {
                             $special['text-download'] = [];
                         }
                         $special['text-download'][$k] = $v;
+                    }
+                } else if ($node instanceof stack_cas_castext2_include) {
+                    if (!isset($special['castext-includes'])) {
+                        $special['castext-includes'] = [$node->params['src']];
+                    } else if (array_search($node->params['src'], $special['castext-includes']) === false) {
+                        $special['castext-includes'][] = $node->params['src'];
                     }
                 }
             };

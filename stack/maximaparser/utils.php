@@ -25,6 +25,7 @@ require_once(__DIR__ . '/autogen/parser.mbstring.php');
 // Also needs stack_string().
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
+require_once(__DIR__ . '/MP_classes.php');
 
 class maxima_parser_utils {
 
@@ -264,6 +265,7 @@ class maxima_parser_utils {
                                         if ($i === $node->parentnode) {
                                             foreach ($src->items as $item) {
                                                 $item->position['included-from'] = 'inclusion #' . $includecount;
+                                                $item->position['included-src'] = $node->arguments[0]->value;
                                                 $item->parentnode = $node->parentnode->parentnode;
                                                 $replacement[] = $item;
                                             }

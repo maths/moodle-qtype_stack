@@ -258,16 +258,15 @@ class stack_potentialresponse_tree_lite {
      * @return array Languages used in the feedback.
      */
     public function get_feedback_languages() {
-        $ml = new stack_multilang();
         $langs = array();
         $ml = new stack_multilang();
         foreach ($this->nodes as $key => $node) {
             $langs[$key] = [];
             if ($node->truefeedback !== null && $node->truefeedback !== '') {
-                $langs[$key]['true'] = $ml->languages_used($node->truefeedback);
+                $langs[$key][$node->trueanswernote] = $ml->languages_used($node->truefeedback);
             }
             if ($node->falsefeedback !== null && $node->falsefeedback !== '') {
-                $langs[$key]['false'] = $ml->languages_used($node->falsefeedback);
+                $langs[$key][$node->falseanswernote] = $ml->languages_used($node->falsefeedback);
             }
         }
         return $langs;
@@ -352,6 +351,10 @@ class stack_potentialresponse_tree_lite {
         $fv = $fv->compile($pathprefix . '/fv');
         $r['be'] = $fv['blockexternal'];
         $r['cv'] = $fv['contextvariables'];
+        if (isset($fv['includes'])) {
+            $r['includes'] = [];
+            $r['includes']['keyval'] = $fv['includes'];
+        }
         $usage = $fv['references']; // We need to track the usage of vars over the whole thing.
         $usage['write']['%PRT_FEEDBACK'] = true;
         $usage['write']['%PRT_SCORE'] = true;
@@ -413,7 +416,20 @@ class stack_potentialresponse_tree_lite {
             } else {
                 $body .= 'if not emptyp(intersection(%_EXITS,{' . implode(',', $precedence[$node->nodename]) .'})) then (';
             }
-            [$nc, $usage] = $this->compile_node($node, $usage, $defaultpenalty, $security, $path, $ct2options);
+            [$nc, $usage, $ctincludes] = $this->compile_node($node, $usage, $defaultpenalty, $security, $path, $ct2options);
+            if (count($ctincludes) > 0) {
+                if (!isset($r['includes'])) {
+                    $r['includes'] = ['castext' => $ctincludes];
+                } else if (!isset($r['includes']['castext'])) {
+                    $r['includes']['castext'] = $ctincludes;
+                } else {
+                    foreach ($ctincludes as $url) {
+                        if (array_search($url, $r['includes']['castext']) === false) {
+                            $r['includes']['castext'][] = $url;
+                        }
+                    }
+                }
+            }
             $body .= $nc . '),';
         }
 
@@ -503,6 +519,9 @@ class stack_potentialresponse_tree_lite {
             $op = str_replace($key, $val, $op);
         }
         $node->testoptions = $op;
+
+        // Track inclusions inside CASText.
+        $ctincludes = [];
 
         // Start by turning simplification off for the call of the answer-test.
         // Or on...
@@ -647,6 +666,13 @@ class stack_potentialresponse_tree_lite {
             if (!$ct->get_valid($node->truefeedbackformat, $ct2options, $security)) {
                 throw new stack_exception('Error in ' . $context . ' true-feedback.');
             }
+            if (isset($ct->get_special_content()['castext-includes'])) {
+                foreach ($ct->get_special_content()['castext-includes'] as $url) {
+                    if (array_search($url, $ctincludes) === false) {
+                        $ctincludes[] = $url;
+                    }
+                }
+            }
             $cs = stack_ast_container::make_from_teacher_source($ct->get_evaluationform(), $context . '/ft');
             $usage = $cs->get_variable_usage($usage); // Update the references.
             $body .= '_EC(errcatch(%PRT_FEEDBACK:castext_concat(%PRT_FEEDBACK,' . $ct->get_evaluationform() . ')),' .
@@ -726,6 +752,13 @@ class stack_potentialresponse_tree_lite {
             if (!$ct->get_valid($node->falsefeedbackformat, $ct2options, $security)) {
                 throw new stack_exception('Error in ' . $context . ' false-feedback.');
             }
+            if (isset($ct->get_special_content()['castext-includes'])) {
+                foreach ($ct->get_special_content()['castext-includes'] as $url) {
+                    if (array_search($url, $ctincludes) === false) {
+                        $ctincludes[] = $url;
+                    }
+                }
+            }
             $cs = stack_ast_container::make_from_teacher_source($ct->get_evaluationform(), $context . '/ff');
             $usage = $cs->get_variable_usage($usage); // Update the references.
             $body .= '_EC(errcatch(%PRT_FEEDBACK:castext_concat(%PRT_FEEDBACK,' . $ct->get_evaluationform() . ')),' .
@@ -733,7 +766,7 @@ class stack_potentialresponse_tree_lite {
         }
 
         $body .= ')';
-        return [$body, $usage];
+        return [$body, $usage, $ctincludes];
     }
 
     /*

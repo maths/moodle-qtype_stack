@@ -26,6 +26,7 @@ declare(strict_types = 1);
   public $parent = null;
   public $position = null;
   public $mathmode = false;
+  public $paintformat = null;
   public function __construct(){
    $this->position = null;
   }

@@ -1726,6 +1726,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if (isset($c['references']['write'])) {
                 $forbiddenkeys = array_merge($forbiddenkeys, $c['references']['write']);
             }
+            if (isset($c['includes'])) {
+                $cc['includes']['keyval'] = $c['includes'];
+            }
         }
 
         // Collect the language codes in use. For our purposes the question-text
@@ -1763,6 +1766,24 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $cc['prt-definition'][$name] = $r['def'];
             $cc['prt-trace'][$name] = $r['trace'];
             $units = $units || $r['units'];
+            if (isset($r['includes'])) {
+                if (!isset($cc['includes'])) {
+                    $cc['includes'] = $r['includes'];
+                } else {
+                    if (isset($r['includes']['keyval'])) {
+                        if (!isset($cc['includes']['keyval'])) {
+                            $cc['includes']['keyval'] = [];
+                        }
+                        $cc['includes']['keyval'] = array_unique(array_merge($cc['includes']['keyval'], $r['includes']['keyval']));
+                    }
+                    if (isset($r['includes']['castext'])) {
+                        if (!isset($cc['includes']['castext'])) {
+                            $cc['includes']['castext'] = [];
+                        }
+                        $cc['includes']['castext'] = array_unique(array_merge($cc['includes']['castext'], $r['includes']['castext']));
+                    }
+                }
+            }
         }
 
         // Note that instead of just adding the unit loading to the 'preamble-qv'
@@ -1800,6 +1821,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 if ($key === 'text-download') {
                     foreach ($values as $k => $v) {
                         $cc['castext-td-' . $k] = $v;
+                    }
+                } else if ($key === 'castext-includes') {
+                    if (!isset($cc['includes'])) {
+                        $cc['includes'] = ['castext' => $values];
+                    } else if (!isset($cc['includes']['castext'])) {
+                        $cc['includes']['castext'] = $values;
+                    } else {
+                        foreach ($values as $url) {
+                            if (array_search($url, $cc['includes']['castext']) === false) {
+                                $cc['includes']['castext'][] = $url;
+                            }
+                        }
                     }
                 }
             }

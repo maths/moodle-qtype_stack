@@ -2297,8 +2297,8 @@
       "function": "?"
   },
   "errcatch": {
-      "function": "f",
-      "globalyforbiddenfunction": true
+      "function": "t",
+      "built-in": true
   },
   "error": {
       "function": "f",

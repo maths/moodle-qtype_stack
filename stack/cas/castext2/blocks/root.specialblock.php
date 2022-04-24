@@ -61,7 +61,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         // possible that there are sconcats in play with overt number
         // of arguments and we may need to turn them to reduce-calls
         // to deal with GCL-limits.
-        $simplifier = function($node) use ($options) {
+        $simplifier = function($node) use ($options, $format) {
             if ($node instanceof MP_FunctionCall) {
                 if ($node->name instanceof MP_Identifier && $node->name->value === 'sconcat') {
                     if (count($node->arguments) == 0) {
@@ -273,11 +273,13 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
             $r = new stack_cas_castext2_special_ioblock([], [], $node->
                 mathmode, $node->channel, $node->variable);
             $r->position = $node->position;
+            $r->paintformat = $node->paintformat;
             return $r;
         } else if ($node instanceof CTP_Raw) {
             $r = new stack_cas_castext2_special_raw([], [], $node->
                 mathmode, $node->value);
             $r->position = $node->position;
+            $r->paintformat = $node->paintformat;
             return $r;
         } else if ($node instanceof CTP_Root) {
             $children = [];
@@ -286,6 +288,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
             }
             $r = new stack_cas_castext2_special_root([], $children, $node->mathmode);
             $r->position = $node->position;
+            $r->paintformat = $node->paintformat;
             return $r;
         }
         // What remains are blocks.
@@ -308,6 +311,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
             $r = castext2_block_factory::make($node->name, $params, $children,
                 $node->mathmode);
             $r->position = $node->position;
+            $r->paintformat = $node->paintformat;
             return $r;
         }
 
@@ -330,6 +334,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         $r = castext2_block_factory::make($node->name, $params, $children,
             $node->mathmode);
         $r->position = $node->position;
+        $r->paintformat = $node->paintformat;
         return $r;
     }
 }

@@ -40,8 +40,7 @@ class stack_multilang {
     protected static $parentcache = [];
 
     // Note, we only support the new style language tags.  For more information see Moodle's filter/multilang.php class.
-    private $search = '/(<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang"){2}\s*>.*?<\/span>)' .
-            '(\s*<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang"){2}\s*>.*?<\/span>)+/is';
+    private $search = '/(<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang"){2}\s*>.*?<\/span>)+/is';
 
     private $searchtosplit = '/<(?:lang|span)[^>]+lang="([a-zA-Z0-9_-]+)"[^>]*>(.*?)<\/(?:lang|span)>/is';
 
@@ -83,7 +82,7 @@ class stack_multilang {
         } else if ($mode === 2) {
             $this->replacementdone = false;
             if (!array_key_exists($lang, self::$parentcache)) {
-                $parentlangs = get_string_manager()->get_language_dependencies($currlang);
+                $parentlangs = get_string_manager()->get_language_dependencies($lang);
                 self::$parentcache[$lang] = $parentlangs;
             }
             $result = preg_replace_callback($this->search2,
@@ -245,6 +244,7 @@ class stack_multilang {
             $gotlangs = [];
             $duh = preg_replace_callback($this->search,
                 function ($matches) use (&$gotlangs) {
+                    $rawlanglist = [];
                     if (!preg_match_all($this->searchtosplit, $matches[0], $rawlanglist)) {
                         return '';
                     }

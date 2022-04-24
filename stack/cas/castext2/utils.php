@@ -43,6 +43,7 @@ class castext2_parser_utils {
         }
 
         $ast  = self::parse($castext, $format);
+        $ast = castext2_parser_utils::position_remap($ast, $castext);
         $root = stack_cas_castext2_special_root::make($ast);
         return $root->compile($format, $options);
     }
@@ -140,11 +141,12 @@ class castext2_parser_utils {
         $skipmap = [];
         // We track the format switches.
         $formatmap = [];
-        for ($i = 0; $i < mb_strlen($code); $i++) {
+        $len = mb_strlen($code);
+        for ($i = 0; $i < $len; $i++) {
             $formatmap[$i] = $format;
         }
 
-        $populateskipmap = function ($node) use (&$skipmap, &$formatmap) {
+        $populateskipmap = function ($node) use (&$skipmap, &$formatmap, $code) {
             // First we skip the whole comment blocks.
             if ($node instanceof CTP_Block && $node->name === 'comment') {
                 $skipmap[$node->position['start']] = $node->position['end'];
@@ -186,6 +188,45 @@ class castext2_parser_utils {
                     for ($i = $node->position['start']; $i <= $node->position['end']; $i++) {
                         $formatmap[$i] = $fmt;
                     }
+                    if ($fmt === self::MDFORMAT) {
+                        // We need to identify HTML-blocks and revert them to the correct format.
+                        $content = mb_substr($code, $node->position['start'], $node->position['end'] - $node->position['start']);
+                        $offset = mb_strpos($content, ']]')+2; // Track the distance to the start of the block.
+                        $content = mb_substr($content, $offset);
+                        $lines = mb_split("\n", $content);
+                        $endcond = false;
+                        foreach ($lines as $line) {
+                            $ll = mb_strlen($line); 
+                            if ($endcond === false) {
+                                $type = self::is_html_block_markdown($line);
+                                $endcond = $type;
+                            }
+                            // Remember that this may start and end at the same line.
+                            // But the whole line is still in this context.
+                            $endafter = false;
+                            if ($endcond === null && trim($line) === '') {
+                                $endafter = true;
+                            } else if ($endcond !== false && $endcond !== null) {
+                                foreach ($endcond as $endcon) {
+                                    if (mb_stripos($endcon, $line) !== false) {
+                                        $endafter = true;
+                                    }
+                                }
+                            }
+
+                            if ($endcond !== false) {
+                                // If this line has an end cond then this line must be marked as RAW.
+                                for ($i = 0; $i < $ll; $i++) {
+                                    $formatmap[$i + $node->position['start'] + $offset] = self::RAWFORMAT;
+                                }
+                            }
+
+                            if ($endafter) {
+                                $endcond = false;
+                            }
+                            $offset = $offset + $ll + 1; // One for the line change.
+                        }
+                    } 
                 }
             }
             // TODO: we might also want to handle escapes and ignore {@...@} contents.
@@ -200,7 +241,6 @@ class castext2_parser_utils {
         $skipped = ''; // A string that has had all the skipped parts removed.
         // First generate the skipped one. We use this to match long strings that
         // might go over a skipped bit.
-        $len = mb_strlen($code);
         // Do a single splitting of the unicode string to chars.
         $chars = preg_split('//u', $code, -1, PREG_SPLIT_NO_EMPTY);
         while ($i < $len) {
@@ -253,15 +293,9 @@ class castext2_parser_utils {
                             ($activeformat === self::MDFORMAT && $tripleslash)) {
                         if ($c === '[' || $c === '(') {
                             $mathmode = true;
-                            $lastslash = false;
-                            $doubleslash = false;
-                            $tripleslash = false;
                         }
                         if ($c === ']' || $c === ')') {
                             $mathmode = false;
-                            $lastslash = false;
-                            $doubleslash = false;
-                            $tripleslash = false;
                         }
                     }
                     if (($lastslash && $activeformat !== self::MDFORMAT) ||
@@ -293,7 +327,10 @@ class castext2_parser_utils {
                             }
                         }
                     }
-
+                    // Always zero these after finding a non slash char.
+                    $lastslash = false;
+                    $doubleslash = false;
+                    $tripleslash = false;
                 }
 
                 $mathmodes[$i] = $mathmode;
@@ -305,9 +342,12 @@ class castext2_parser_utils {
 
         // Now we have the map for the mathmode of each char in the code.
         // Then to apply it.
-        $paint = function ($node) use ($mathmodes) {
-            if ($node->position !== null && array_key_exists($node->position['start'], $mathmodes)) {
+        $paint = function ($node) use ($mathmodes, $formatmap) {
+            if ($node->position !== null && isset($mathmodes[$node->position['start']])) {
                 $node->mathmode = $mathmodes[$node->position['start']];
+            }
+            if ($node->position !== null && isset($formatmap[$node->position['start']])) {
+                $node->paintformat = $formatmap[$node->position['start']];
             }
             return true;
         };
@@ -462,5 +502,67 @@ class castext2_parser_utils {
         }
 
         return $ast;
+    }
+
+    /**
+     * Checks if the line given is one of the types described in:
+     * https://spec.commonmark.org/0.30/#html-block
+     * Returns false if not, null if any blank line ends this block or an array of 
+     * substrings that are enough to make a line end this block.
+     */
+    public static function is_html_block_markdown($line) {
+        static $tagnames = [
+            'address', 'article', 'aside', 'base', 'basefont', 'blockquote', 'body',
+            'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dialog', 'dir',
+            'div', 'dl', 'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form', 'frame',
+            'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html',
+            'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav', 'noframes',
+            'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table',
+            'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul'
+        ];
+
+        // Case 1.
+        if (mb_stripos($line, '<pre') === 0 || mb_stripos($line, '<script') === 0 ||
+            mb_stripos($line, '<style') === 0 || mb_stripos($line, '<textarea') === 0) {
+            return ['</pre>', '</script>', '</style>', '</textarea>'];
+        }
+        // Case 2.
+        if (mb_stripos($line, '<!--') === 0) {
+            return ['-->'];
+        }
+        // Case 3.
+        if (mb_stripos($line, '<?') === 0) {
+            return ['?>'];
+        }
+        // Case 4.
+        if (mb_stripos($line, '<!') === 0 && mb_strlen($line) > 2 && ctype_alpha(mb_substr($line, 2, 1))) {
+            return ['>'];
+        }
+        // Case 5.
+        if (mb_stripos($line, '<![CDATA[') === 0) {
+            return [']]>'];
+        }
+        // Case 6.
+        if (mb_stripos($line, '</') === 0 || mb_stripos($line, '<') === 0) {
+            $name = mb_substr($line, 1);
+            if (mb_substr($name, 0, 1) === '/') {
+                $name = mb_substr($name, 1);
+            }
+            foreach (['>','/>', ' ', "\t", "\n"] as $nameend) {
+                $tmp = mb_strpos($name, $nameend);
+                if ($tmp !== false) {
+                    $name = mb_substr($name, 0, $tmp);
+                }
+            }
+            $name = strtolower($name);
+            if (array_search($name, $tagnames) !== false) {
+                return null;
+            }
+        }
+        // Case 7.
+        // TODO.
+
+        // Not a case
+        return false;
     }
 }

@@ -341,7 +341,7 @@ class stack_cas_keyval {
         $errclass = $this->errclass;
 
         // Special rewrites filtter, might be a real AST-filter at some point.
-        $rewrite = function($node) use (&$errors, &$bestatements, &$contextvariables, $options, $ctx) {
+        $rewrite = function($node) use (&$errors, &$bestatements, &$contextvariables, $options, $ctx, $errclass) {
             if ($node instanceof MP_FunctionCall) {
                 if ($node->name instanceof MP_Identifier && $node->name->value === 'castext') {
                     // The very special case of seeing the castext-function inside castext.
@@ -367,7 +367,7 @@ class stack_cas_keyval {
                     if (count($node->arguments) == 2 && strtolower($node->arguments[1]->value) === 'md') {
                         $format = castext2_parser_utils::MDFORMAT;
                     }
-                    $compiled = castext2_parser_utils::compile($node->arguments[0]->value);
+                    $compiled = castext2_parser_utils::compile($node->arguments[0]->value, $format, ['errclass' => $errclass, 'context' => $ctx]);
                     $compiled = maxima_parser_utils::parse($compiled);
                     if ($compiled instanceof MP_Root) {
                         $compiled = $compiled->items[0];
@@ -389,6 +389,8 @@ class stack_cas_keyval {
         // Apply the normal filters.
         $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
 
+        $includes = [];
+
         // Process the AST.
         foreach ($ast->items as $item) {
             if ($item instanceof MP_Statement) {
@@ -406,6 +408,9 @@ class stack_cas_keyval {
                 // If it comes from an inclusion add that into the error scoping.
                 if (isset($item->position['included-from'])) {
                     $cn = $cn . 'external:' . $item->position['included-from'] . ' ';
+                }
+                if (isset($item->position['included-src'])) {
+                    $includes[$item->position['included-src']] = true;
                 }
                 $scope = stack_utils::php_string_to_maxima_string($cn .
                         $item->position['start'] . '-' . $item->position['end']);
@@ -460,6 +465,15 @@ class stack_cas_keyval {
         } else {
             // These statement groups always end with a 'true' to ensure minimal output.
             $contextvariables = '(' . implode(',', $contextvariables) . ',true)';
+        }
+
+        if (count($includes) > 0) {
+            // Now output them for use elsewhere.
+            return ['blockexternal' => $bestatements,
+                'statement' => $statements,
+                'contextvariables' => $contextvariables,
+                'references' => $referenced,
+                'includes' => array_keys($includes)];
         }
 
         // Now output them for use elsewhere.

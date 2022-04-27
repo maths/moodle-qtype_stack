@@ -1317,6 +1317,7 @@ class stack_answertest_test_data {
         array('Int', 'x', 'x^3/3+c', 'x^3/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'x^3/3+c+1', 'x^3/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'x^3/3+3*c', 'x^3/3', 1, 'ATInt_true.', ''),
+        array('Int', 'x', '(x^3+c)/3', 'x^3/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'x^3/3-c', 'x^3/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'x^3/3+c+k', 'x^3/3', 0, 'ATInt_weirdconst.', ''),
         array('Int', 'x', 'x^3/3+c^2', 'x^3/3', 0, 'ATInt_weirdconst.', ''),

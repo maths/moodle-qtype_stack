@@ -446,6 +446,11 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x^2<=9', 'abs(x)<=3', -3, '', ''),
         array('AlgEquiv', '', 'x^6<1', 'abs(x)<1', -3, '', ''),
         array('AlgEquiv', '', 'abs(x)>1', 'x<-1 or x>1', -3, '', ''),
+        array('AlgEquiv', '', 'x#1', 'x#1', 1, '', 'Not equal to'),
+        array('AlgEquiv', '', 'x#(1+1)', 'x#2', 1, '', ''),
+        array('AlgEquiv', '', '1#x', 'x#1', 1, '', ''),
+        // We probably need to think about what this really means...
+        array('AlgEquiv', '', 'x#1', 'x#0', 0, '', ''),
 
         array('AlgEquiv', '', 'sqrt(12)', '2*sqrt(3)', 1, '', 'Surds'),
         array('AlgEquiv', '', 'sqrt(11+6*sqrt(2))', '3+sqrt(2)', 1, '', ''),

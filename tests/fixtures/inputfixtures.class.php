@@ -175,6 +175,7 @@ class stack_inputvalidation_test_data {
         array('x < y', 'php_true', 'x < y', 'cas_true', 'x < y', '', ""),
         array('x > y', 'php_true', 'x > y', 'cas_true', 'x > y', '', ""),
         array('x = y', 'php_true', 'x = y', 'cas_true', 'x=y', '', ""),
+        array('x # y', 'php_true', 'x#y', 'cas_true', 'x\neq y', '', ""),
         array('x!', 'php_true', 'x!', 'cas_true', 'x!', '', ""),
         array('!x', 'php_false', '!x', 'cas_false', '', 'badpostfixop', ""),
         array('x_1', 'php_true', 'x_1', 'cas_true', '{x}_{1}', '', ""),

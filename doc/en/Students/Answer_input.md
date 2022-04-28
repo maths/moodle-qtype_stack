@@ -155,6 +155,8 @@ Inequalities can be entered using the greater than and less than signs on the ke
 Notice that there are four possibilities for you to choose from: `<` or `>` or `<=` or `>=`.
 Note there is no space between these symbols, and the equality must come second when it is used, i.e. you cannot use `=<`.
 
+You can enter "not equals to" using the `#` symbol.  E.g. `x#1` is interpreted as \(x\neq 1\).
+
 Sometimes you will need to connect inequalities together as `x>1 and x<=5`.  You must use the logical connectives `and` and `or`.  "Chained inequalities" such as \(1<x<5\) are not permitted as input syntax.  You should enter this as `1<x and x<5`.
 
 ### Reasoning line by line ###

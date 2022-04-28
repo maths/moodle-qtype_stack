@@ -181,6 +181,8 @@ alias(cosech,csch);                /* Corresponds to current student expectation
 alias(sgn,signum);                 /* Corresponds to current student expectations. */
 texput(signum, "\\mathrm{sgn}");
 
+declare ("#", commutative);
+
 simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
 degree(ex, v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
 

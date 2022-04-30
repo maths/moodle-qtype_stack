@@ -101,6 +101,12 @@ Maxima has a separate system for controlling the number of decimal digits used i
     fpprec:20,          /* Work with 20 digits. */
     fpprintprec:12,     /* Print only 12 digits. */
 
+## Changing the decimal separator, e.g. using a comma for separating decimals ##
+
+STACK now supports a mechanism for changing the decimal separator and using a comma for separating decimals.  Using the following will print floating point numbers with a comma instead of the decimal point.
+
+    stackfltfmt:"comma";
+
 ## Notes about numerical rounding ##
 
 There are two ways to round numbers ending in a digit \(5\).  

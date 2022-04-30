@@ -152,6 +152,7 @@ load("inequalities.mac");
 load("intervals.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
+load("print-comma.lisp");
 load("stackstrings.mac");
 
 /* This file is a modified core Maxima function with local variable name clashes fixed. */
@@ -677,8 +678,12 @@ stack_disp_strip_dollars(ex) := block(
 /* Display of numbers. Thanks to Robert Dodier. */
 stackintfmt: "~d";
 stackfltfmt: "~a";
-?texnumformat(x) := if ev(floatnump(x),simp) then
-    ev(printf(false, stackfltfmt, x), simp) else if ev(integerp(x),simp) then (
+?texnumformat(x) := if ev(floatnump(x),simp) then (
+    if stackfltfmt = "comma" then
+        ev(printf_float(false, x, false, false, ",", ".", 3), simp)
+    else 
+        ev(printf(false, stackfltfmt, x), simp)
+    ) else if ev(integerp(x),simp) then (
         if (is(stackintfmt="~r") or is(stackintfmt="~:r")) then
             sconcat("\\mbox{",ev(printf(false, stackintfmt, x), simp),"}")
         else

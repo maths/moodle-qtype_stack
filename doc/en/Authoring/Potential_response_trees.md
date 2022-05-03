@@ -4,8 +4,7 @@ The potential response tree is the algorithm which establishes the mathematical 
 
 ## When is the tree used? ##
 
-Each potential response tree relies on one or more of the [inputs](Inputs.md). STACK automatically detects which elements are needed in the [answer tests](Answer_tests.md) or [feedback variables](Variables.md#Feedback_variables). The first time a student submits an input it is validated. The second time it is submitted it is available for assessment by a potential response tree. Only when all inputs upon which a tree relies are valid and submitted 
-will the tree be traversed.
+Each potential response tree relies on one or more of the [inputs](Inputs.md). STACK automatically detects which elements are needed in the [answer tests](Answer_tests.md) or [feedback variables](Variables.md#Feedback_variables). The first time a student submits an input it is validated. The second time it is submitted it is available for assessment by a potential response tree. Only when all inputs upon which a tree relies are valid and submitted will the tree be traversed.
 
 ## Before the tree is traversed ##
 
@@ -23,10 +22,9 @@ A potential response tree (technically an acyclic directed graph) consists of an
 
 In each node two expressions are compared using a specified [answer tests](Answer_tests.md), and the result is either `true` or `false`. A corresponding branch of the tree has the opportunity to each of the following.
 
-1. Adjust the score, (e.g. assign a value, add or subtract a value)
+1. Adjust the score, (e.g. assign a value, add or subtract a value).  Scores can be floating point numbers or variables defined elsewhere (e.g. question variables/feedback variables).
 2. Add written feedback specifically for the student
-3. Generate an "[answer 
-note](Potential_response_trees.md#Answer_note)", used by the teacher for evaluative assessment
+3. Generate an "[answer note](Potential_response_trees.md#Answer_note)", used by the teacher for evaluative assessment
 4. Nominate the next node, or end the process.
 5. Any run-time error during traversing the tree will cause an error.  This error will stop further exectution of the tree, and students will see a runtime error message.  This will be flagged in the response summary as `[RUNTIME_ERROR]`.  If you have statements likely to throw an error you should evaluate them in the feedback variables first.
 

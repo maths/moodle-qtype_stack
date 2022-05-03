@@ -9,6 +9,7 @@ To be released X 2022
 Major rewrite of the PRT and CASText systems, focus on performance and limitations of the previous systems.
 
 * PRTs are now true `if`-statements in the CAS and issue #150 is now handled.
+* The marks and penalty fields in the PRTs can be numbers, or other variables defined elsewhere in the question.
 * Markdown is now a supportted format and value injections into it will get correctly escaped. Use triple slashes for math-mode...
 * CASText2 is the new [CASText-system](../Authoring/Question_blocks.md) and it supports mixed formats and provides new blocks for declaring formats.
 * There are now means of [including external](../Authoring/Inclusions.md) code and CASText fragments from an URL.

@@ -674,13 +674,14 @@ class qtype_stack_test_helper extends question_test_helper {
 
     /**
      * @return qtype_stack_question in which the expected answer in the true/false input is generated from the question variables...
+     *                              and the question variables define the scrores in the PRT.
      */
     public static function make_stack_question_test_boolean() {
         $q = self::make_a_stack_question();
 
         $q->stackversion = '2019072900';
         $q->name = 'test-boolean';
-        $q->questionvariables = 'ta:true;';
+        $q->questionvariables = 'ta:true;sc1:0.2;sc2:0.9;';
         $q->questiontext = 'What is {@ta@}? [[input:ans1]]
                            [[validation:ans1]]';
 
@@ -696,8 +697,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $tans = stack_ast_container::make_from_teacher_source('ta');
         $tans->get_valid();
         $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $node->add_branch(0, '=', 'sc1', $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
+        $node->add_branch(1, '=', 'sc2', $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
         $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), '0', 1);
 
         // Do the translation.

@@ -329,6 +329,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // @codingStandardsIgnoreEnd
 
         // Now use the correct answer.
+
         $ta = $q->get_correct_response();
         $sa = $ta['ans1'];
         $this->process_submission(array('ans1' => $sa, '-submit' => 1));
@@ -2187,10 +2188,11 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->process_submission(array('ans1' => 'false', '-submit' => 1));
 
         $this->check_current_state(question_state::$todo);
-        $this->check_prt_score('firsttree', 0, 0.3);
-        $this->check_current_mark(0);
+        $this->check_prt_score('firsttree', 0.2, 0.3);
+        // This question also checks marks can be defined by question variables.
+        $this->check_current_mark(0.2);
         $this->render();
-        $expected = 'Seed: 1; ans1: false [score]; firsttree: # = 0 | firsttree-1-F';
+        $expected = 'Seed: 1; ans1: false [score]; firsttree: # = 0.2 | firsttree-1-F';
         $this->check_response_summary($expected);
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_contains_prt_feedback('firsttree');
@@ -2200,11 +2202,11 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->process_submission(array('ans1' => 'true', 'ans1_val' => 'false', '-submit' => 1));
 
         // Verify.
-        $this->check_current_state(question_state::$complete);
-        $this->check_prt_score('firsttree', 1, 0);
-        $this->check_current_mark(0.7);
+        $this->check_current_state(question_state::$todo);
+        $this->check_prt_score('firsttree', 0.9, 0.3);
+        $this->check_current_mark(0.6);
         $this->render();
-        $expected = 'Seed: 1; ans1: true [score]; firsttree: # = 1 | ATLogic_True. | firsttree-1-T';
+        $expected = 'Seed: 1; ans1: true [score]; firsttree: # = 0.9 | ATLogic_True. | firsttree-1-T';
         $this->check_response_summary($expected);
         $this->check_output_does_not_contain_input_validation();
         $this->check_output_contains_prt_feedback('firsttree');

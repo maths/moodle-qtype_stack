@@ -41,7 +41,8 @@ class castext2_test extends qtype_stack_testcase {
     // style preamble statements and STACK options to the current
     // implementation and generates the end result.
     // Validation is not being tested, here.
-    private function evaluate(string $code, array $preamble=array(), stack_options $options=null, $context='castext-test-case'): string {
+    private function evaluate(string $code, array $preamble=array(), stack_options $options=null,
+            $context='castext-test-case'): string {
         $statements = array();
         foreach ($preamble as $statement) {
             $statements[] = stack_ast_container::make_from_teacher_source($statement, 'castext-test-case');
@@ -103,9 +104,11 @@ class castext2_test extends qtype_stack_testcase {
         // The default format is raw HTML.
         // The actual injection is not visible here as the markdown gets rendered, but
         // the math-mode detection should be.
-        // Note that Markdown escape rules change if the line is a HTML-block
-        $input = '[[markdownformat]]\\\\\\({@sqrt(x)@}\\\\\\) {@sqrt(x)@}[[/markdownformat]] {@sqrt(x)@} [[markdownformat]]<p>\({@sqrt(y)@}\) {@sqrt(y)@}</p>[[/markdownformat]]';
-        $output = '<p>\({\sqrt{x}}\) \({\sqrt{x}}\)</p>' . "\n " . '\({\sqrt{x}}\) <p>\({\sqrt{y}}\) \({\sqrt{y}}\)</p>' . "\n";
+        // Note that Markdown escape rules change if the line is a HTML-block.
+        $input = '[[markdownformat]]\\\\\\({@sqrt(x)@}\\\\\\) {@sqrt(x)@}[[/markdownformat]] {@sqrt(x)@} ' .
+            '[[markdownformat]]<p>\({@sqrt(y)@}\) {@sqrt(y)@}</p>[[/markdownformat]]';
+        $output = '<p>\({\sqrt{x}}\) \({\sqrt{x}}\)</p>' . "\n " .
+            '\({\sqrt{x}}\) <p>\({\sqrt{y}}\) \({\sqrt{y}}\)</p>' . "\n";
         $this->assertEquals($output, $this->evaluate($input));
     }
 
@@ -424,19 +427,19 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input));
     }
 
-    // Inline castext
+    // Inline castext.
     public function test_inline_castext() {
         $keyval = 'B:castext("B");sq:castext("{@sqrt(2)@}");';
-        // The inline castext compilation currently only happens for keyvals, not for 
+        // The inline castext compilation currently only happens for keyvals, not for
         // singular statements so we need to do something special to get this done.
         $kv = new stack_cas_keyval($keyval);
         $kv->get_valid();
         $kvcode = $kv->compile('test')['statement'];
         $statements = [new stack_secure_loader($kvcode, 'test-kv')];
-        
+
         $input = 'A [[castext evaluated="B"/]] C, [[castext evaluated="sq"/]]';
         $output = 'A B C, \\({\\sqrt{2}}\\)';
-        
+
         $result = castext2_evaluatable::make_from_source($input, 'castext-test-case');
         $statements[] = $result;
         $session = new stack_cas_session2($statements);

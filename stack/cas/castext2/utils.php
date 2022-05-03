@@ -42,8 +42,8 @@ class castext2_parser_utils {
             return '""';
         }
 
-        $ast  = self::parse($castext, $format);
-        $ast = castext2_parser_utils::position_remap($ast, $castext);
+        $ast = self::parse($castext, $format);
+        $ast = self::position_remap($ast, $castext);
         $root = stack_cas_castext2_special_root::make($ast);
         return $root->compile($format, $options);
     }
@@ -191,12 +191,12 @@ class castext2_parser_utils {
                     if ($fmt === self::MDFORMAT) {
                         // We need to identify HTML-blocks and revert them to the correct format.
                         $content = mb_substr($code, $node->position['start'], $node->position['end'] - $node->position['start']);
-                        $offset = mb_strpos($content, ']]')+2; // Track the distance to the start of the block.
+                        $offset = mb_strpos($content, ']]') + 2; // Track the distance to the start of the block.
                         $content = mb_substr($content, $offset);
                         $lines = mb_split("\n", $content);
                         $endcond = false;
                         foreach ($lines as $line) {
-                            $ll = mb_strlen($line); 
+                            $ll = mb_strlen($line);
                             if ($endcond === false) {
                                 $type = self::is_html_block_markdown($line);
                                 $endcond = $type;
@@ -226,7 +226,7 @@ class castext2_parser_utils {
                             }
                             $offset = $offset + $ll + 1; // One for the line change.
                         }
-                    } 
+                    }
                 }
             }
             // TODO: we might also want to handle escapes and ignore {@...@} contents.
@@ -507,7 +507,7 @@ class castext2_parser_utils {
     /**
      * Checks if the line given is one of the types described in:
      * https://spec.commonmark.org/0.30/#html-block
-     * Returns false if not, null if any blank line ends this block or an array of 
+     * Returns false if not, null if any blank line ends this block or an array of
      * substrings that are enough to make a line end this block.
      */
     public static function is_html_block_markdown($line) {
@@ -548,7 +548,7 @@ class castext2_parser_utils {
             if (mb_substr($name, 0, 1) === '/') {
                 $name = mb_substr($name, 1);
             }
-            foreach (['>','/>', ' ', "\t", "\n"] as $nameend) {
+            foreach (['>', '/>', ' ', "\t", "\n"] as $nameend) {
                 $tmp = mb_strpos($name, $nameend);
                 if ($tmp !== false) {
                     $name = mb_substr($name, 0, $tmp);
@@ -562,7 +562,7 @@ class castext2_parser_utils {
         // Case 7.
         // TODO.
 
-        // Not a case
+        // Not a case.
         return false;
     }
 }

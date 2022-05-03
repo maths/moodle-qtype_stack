@@ -367,7 +367,8 @@ class stack_cas_keyval {
                     if (count($node->arguments) == 2 && strtolower($node->arguments[1]->value) === 'md') {
                         $format = castext2_parser_utils::MDFORMAT;
                     }
-                    $compiled = castext2_parser_utils::compile($node->arguments[0]->value, $format, ['errclass' => $errclass, 'context' => $ctx]);
+                    $compiled = castext2_parser_utils::compile($node->arguments[0]->value,
+                        $format, ['errclass' => $errclass, 'context' => $ctx]);
                     $compiled = maxima_parser_utils::parse($compiled);
                     if ($compiled instanceof MP_Root) {
                         $compiled = $compiled->items[0];

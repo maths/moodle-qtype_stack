@@ -626,7 +626,7 @@ class stack_potentialresponse_tree_lite {
             $p = '_EC(errcatch(%PRT_PENALTY:' . $p->get_evaluationform() . '),' .
                 stack_utils::php_string_to_maxima_string($context . '/pt') . ')';
         } else {
-        $p = '%PRT_PENALTY:' . $p;
+            $p = '%PRT_PENALTY:' . $p;
         }
         // Now the score mode based logic, I wonder why both score and penalty use the same.
         // TODO: trace the original logic and check how these are tied to each other.

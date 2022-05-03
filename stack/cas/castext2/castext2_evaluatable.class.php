@@ -183,7 +183,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
             $specialsearch = function ($node) use (&$special, &$err, &$valid, &$sec) {
                 if ($node instanceof stack_cas_castext2_textdownload) {
                     foreach ($node->params['text-download-content'] as $k => $v) {
-                        // _EC logic is present in this from the error tracking of
+                        // Note that _EC logic is present in this from the error tracking of
                         // castext, we don't consider it as evil at this point.
                         $vec = str_replace('_EC(', 'MAGIC(', $v);
                         $astc = stack_ast_container::make_from_teacher_source($vec, '/td/' . $k, $sec);

@@ -1774,13 +1774,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                         if (!isset($cc['includes']['keyval'])) {
                             $cc['includes']['keyval'] = [];
                         }
-                        $cc['includes']['keyval'] = array_unique(array_merge($cc['includes']['keyval'], $r['includes']['keyval']));
+                        $cc['includes']['keyval'] = array_unique(array_merge($cc['includes']['keyval'],
+                            $r['includes']['keyval']));
                     }
                     if (isset($r['includes']['castext'])) {
                         if (!isset($cc['includes']['castext'])) {
                             $cc['includes']['castext'] = [];
                         }
-                        $cc['includes']['castext'] = array_unique(array_merge($cc['includes']['castext'], $r['includes']['castext']));
+                        $cc['includes']['castext'] = array_unique(array_merge($cc['includes']['castext'],
+                            $r['includes']['castext']));
                     }
                 }
             }

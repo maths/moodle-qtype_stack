@@ -665,6 +665,12 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals('0*s', $state->contentsmodified);
         $this->assertEquals('\[ 0\, \mathrm{s} \]', $state->contentsdisplayed);
         $this->assertEquals('\( \left[ \mathrm{s} \right]\) ', $state->lvars);
+
+        $state = $el->validate_student_response(array('sans1' => '-0*s'), $options, '0*s', new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('-0*s', $state->contentsmodified);
+        $this->assertEquals('\[ 0\, \mathrm{s} \]', $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ \mathrm{s} \right]\) ', $state->lvars);
     }
 
     public function test_validate_student_response_display_one() {
@@ -1041,6 +1047,45 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('520*Btu', $state->contentsmodified);
         $this->assertEquals('\[ 520\, \mathrm{Btu} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_response_edge_cases() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '1*cm');
+        $el->set_parameter('forbidFloats', false);
+
+        $state = $el->validate_student_response(array('sans1' => '1*cm'), $options, '1*cm',
+            new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('1*cm', $state->contentsmodified);
+        $this->assertEquals('\[ 1\, \mathrm{c}\mathrm{m} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+
+        $state = $el->validate_student_response(array('sans1' => '-1*cm'), $options, '1*cm',
+            new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('-1*cm', $state->contentsmodified);
+        $this->assertEquals('\[ -1\, \mathrm{c}\mathrm{m} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+
+        $state = $el->validate_student_response(array('sans1' => '-(1*cm)'), $options, '1*cm',
+            new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('-(1*cm)', $state->contentsmodified);
+        $this->assertEquals('\[ -1\, \mathrm{c}\mathrm{m} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+
+        $el->set_parameter('insertStars', 5);
+        $state = $el->validate_student_response(array('sans1' => '-1cm'), $options, '1*cm',
+            new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('missing_stars', $state->note);
+        $this->assertEquals('-1*cm', $state->contentsmodified);
+        $this->assertEquals('\[ -1\, \mathrm{c}\mathrm{m} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
 }

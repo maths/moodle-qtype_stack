@@ -285,7 +285,8 @@ class qtype_stack extends question_type {
                 $node->quiet               = $fromform->{$prtname . 'quiet'}[$nodename];
                 $node->truescoremode       = $fromform->{$prtname . 'truescoremode'}[$nodename];
                 $node->truescore           = $fromform->{$prtname . 'truescore'}[$nodename];
-                $node->truepenalty         = $fromform->{$prtname . 'truepenalty'}[$nodename];
+                $node->truepenalty         = stack_utils::fix_approximate_thirds(
+                    $fromform->{$prtname . 'truepenalty'}[$nodename]);
                 $node->truenextnode        = $fromform->{$prtname . 'truenextnode'}[$nodename];
                 $node->trueanswernote      = $fromform->{$prtname . 'trueanswernote'}[$nodename];
                 $node->truefeedback        = $this->import_or_save_files(
@@ -294,7 +295,8 @@ class qtype_stack extends question_type {
                 $node->truefeedbackformat  = $fromform->{$prtname . 'truefeedback'}[$nodename]['format'];
                 $node->falsescoremode      = $fromform->{$prtname . 'falsescoremode'}[$nodename];
                 $node->falsescore          = $fromform->{$prtname . 'falsescore'}[$nodename];
-                $node->falsepenalty        = $fromform->{$prtname . 'falsepenalty'}[$nodename];
+                $node->falsepenalty        = stack_utils::fix_approximate_thirds(
+                    $fromform->{$prtname . 'falsepenalty'}[$nodename]);
                 $node->falsenextnode       = $fromform->{$prtname . 'falsenextnode'}[$nodename];
                 $node->falseanswernote     = $fromform->{$prtname . 'falseanswernote'}[$nodename];
                 $node->falsefeedback        = $this->import_or_save_files(
@@ -2199,9 +2201,17 @@ class qtype_stack extends question_type {
                 } else {
                     $right = $falsenextnode[$key] + 1;
                 }
+                $ts = $truescore[$key];
+                if (is_numeric($ts)) {
+                    $ts = round($ts, 2);
+                }
+                $fs = $falsescore[$key];
+                if (is_numeric($fs)) {
+                    $fs = round($fs, 2);
+                }
                 $graph->add_node($key + 1, $left, $right,
-                        $truescoremode[$key] . $truescore[$key],
-                        $falsescoremode[$key] . $falsescore[$key],
+                        $truescoremode[$key] . $ts,
+                        $falsescoremode[$key] . $fs,
                         '#fgroup_id_' . $prtname . 'node_' . $key);
 
                 $lastkey = max($lastkey, $key);

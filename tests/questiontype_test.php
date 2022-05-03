@@ -110,11 +110,6 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $expectedq->stamp = $q->stamp;
         $expectedq->version = $q->version;
         $expectedq->timemodified = $q->timemodified;
-
-        $eprts = $expectedq->prts;
-        foreach ($q->prts as $key => $prt) {
-            $this->assertEquals($eprts[$key]->get_maxima_representation(), $prt->get_maxima_representation());
-        }
         $expectedq->prts = null;
         $q->prts = null;
         $this->assertEquals($expectedq, $q);

@@ -285,8 +285,7 @@ class qtype_stack extends question_type {
                 $node->quiet               = $fromform->{$prtname . 'quiet'}[$nodename];
                 $node->truescoremode       = $fromform->{$prtname . 'truescoremode'}[$nodename];
                 $node->truescore           = $fromform->{$prtname . 'truescore'}[$nodename];
-                $node->truepenalty         = stack_utils::fix_approximate_thirds(
-                                $fromform->{$prtname . 'truepenalty'}[$nodename]);
+                $node->truepenalty         = $fromform->{$prtname . 'truepenalty'}[$nodename];
                 $node->truenextnode        = $fromform->{$prtname . 'truenextnode'}[$nodename];
                 $node->trueanswernote      = $fromform->{$prtname . 'trueanswernote'}[$nodename];
                 $node->truefeedback        = $this->import_or_save_files(
@@ -295,8 +294,7 @@ class qtype_stack extends question_type {
                 $node->truefeedbackformat  = $fromform->{$prtname . 'truefeedback'}[$nodename]['format'];
                 $node->falsescoremode      = $fromform->{$prtname . 'falsescoremode'}[$nodename];
                 $node->falsescore          = $fromform->{$prtname . 'falsescore'}[$nodename];
-                $node->falsepenalty        = stack_utils::fix_approximate_thirds(
-                                $fromform->{$prtname . 'falsepenalty'}[$nodename]);
+                $node->falsepenalty        = $fromform->{$prtname . 'falsepenalty'}[$nodename];
                 $node->falsenextnode       = $fromform->{$prtname . 'falsenextnode'}[$nodename];
                 $node->falseanswernote     = $fromform->{$prtname . 'falseanswernote'}[$nodename];
                 $node->falsefeedback        = $this->import_or_save_files(
@@ -1169,15 +1167,15 @@ class qtype_stack extends question_type {
                 $output .= "        <testoptions>{$format->xml_escape($node->testoptions)}</testoptions>\n";
                 $output .= "        <quiet>{$node->quiet}</quiet>\n";
                 $output .= "        <truescoremode>{$node->truescoremode}</truescoremode>\n";
-                $output .= "        <truescore>{$node->truescore}</truescore>\n";
-                $output .= "        <truepenalty>{$node->truepenalty}</truepenalty>\n";
+                $output .= "        <truescore>{$format->xml_escape($node->truescore)}</truescore>\n";
+                $output .= "        <truepenalty>{$format->xml_escape($node->truepenalty)}</truepenalty>\n";
                 $output .= "        <truenextnode>{$node->truenextnode}</truenextnode>\n";
                 $output .= "        <trueanswernote>{$format->xml_escape($node->trueanswernote)}</trueanswernote>\n";
                 $output .= $this->export_xml_text($format, 'truefeedback', $node->truefeedback, $node->truefeedbackformat,
                                 $contextid, 'prtnodetruefeedback', $node->id, '        ');
                 $output .= "        <falsescoremode>{$node->falsescoremode}</falsescoremode>\n";
-                $output .= "        <falsescore>{$node->falsescore}</falsescore>\n";
-                $output .= "        <falsepenalty>{$node->falsepenalty}</falsepenalty>\n";
+                $output .= "        <falsescore>{$format->xml_escape($node->falsescore)}</falsescore>\n";
+                $output .= "        <falsepenalty>{$format->xml_escape($node->falsepenalty)}</falsepenalty>\n";
                 $output .= "        <falsenextnode>{$node->falsenextnode}</falsenextnode>\n";
                 $output .= "        <falseanswernote>{$format->xml_escape($node->falseanswernote)}</falseanswernote>\n";
                 $output .= $this->export_xml_text($format, 'falsefeedback', $node->falsefeedback, $node->falsefeedbackformat,
@@ -2037,6 +2035,7 @@ class qtype_stack extends question_type {
         foreach (array('true', 'false') as $branch) {
             $branchgroup = $prtname . 'nodewhen' . $branch . '[' . $nodekey . ']';
 
+	/* TODO: give better feedback if not evaluatable. i.e. check that is parseable.
             $score = $fromform[$prtname . $branch . 'score'][$nodekey];
             if (!is_numeric($score) || $score < 0 || $score > 1) {
                  $errors[$branchgroup][] = stack_string('scoreerror');
@@ -2046,7 +2045,7 @@ class qtype_stack extends question_type {
             if ('' != $penalty && (!is_numeric($penalty) || $penalty < 0 || $penalty > 1)) {
                 $errors[$branchgroup][] = stack_string('penaltyerror2');
             }
-
+	*/
             $answernote = $fromform[$prtname . $branch . 'answernote'][$nodekey];
             if ('' == $answernote) {
                 $errors[$branchgroup][] = stack_string('answernoterequired');
@@ -2201,8 +2200,8 @@ class qtype_stack extends question_type {
                     $right = $falsenextnode[$key] + 1;
                 }
                 $graph->add_node($key + 1, $left, $right,
-                        $truescoremode[$key] . round($truescore[$key], 2),
-                        $falsescoremode[$key] . round($falsescore[$key], 2),
+                        $truescoremode[$key] . $truescore[$key],
+                        $falsescoremode[$key] . $falsescore[$key],
                         '#fgroup_id_' . $prtname . 'node_' . $key);
 
                 $lastkey = max($lastkey, $key);
@@ -2238,8 +2237,8 @@ class qtype_stack extends question_type {
                     $right = $node->falsenextnode + 1;
                 }
                 $graph->add_node($node->nodename + 1, $left, $right,
-                        $node->truescoremode . round($node->truescore, 2),
-                        $node->falsescoremode . round($node->falsescore, 2),
+                        $node->truescoremode . $node->truescore,
+                        $node->falsescoremode . $node->falsescore,
                         '#fgroup_id_' . $prtname . 'node_' . $node->nodename);
             }
             $graph->layout();

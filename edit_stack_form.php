@@ -709,13 +709,10 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->{$prtname . 'testoptions'}[$nodename] = $node->testoptions;
         $question->{$prtname . 'quiet'      }[$nodename] = $node->quiet;
 
-        // 0 + bit is to eliminate excessive decimal places from the DB.
         $question->{$prtname . 'truescoremode' }[$nodename] = $node->truescoremode;
-        $question->{$prtname . 'truescore'     }[$nodename] = 0 + $node->truescore;
+        $question->{$prtname . 'truescore'     }[$nodename] = $node->truescore;
         $penalty = $node->truepenalty;
-        if ('' != trim($penalty)) {
-            $penalty = 0 + $penalty;
-        }
+
         $question->{$prtname . 'truepenalty'   }[$nodename] = $penalty;
         $question->{$prtname . 'truenextnode'  }[$nodename] = $node->truenextnode;
         $question->{$prtname . 'trueanswernote'}[$nodename] = $node->trueanswernote;
@@ -724,11 +721,9 @@ class qtype_stack_edit_form extends question_edit_form {
                 $node->truefeedbackformat, $node->id, 'prtnodetruefeedback');
 
         $question->{$prtname . 'falsescoremode' }[$nodename] = $node->falsescoremode;
-        $question->{$prtname . 'falsescore'     }[$nodename] = 0 + $node->falsescore;
+        $question->{$prtname . 'falsescore'     }[$nodename] = $node->falsescore;
         $penalty = $node->falsepenalty;
-        if ('' != trim($penalty)) {
-            $penalty = 0 + $penalty;
-        }
+
         $question->{$prtname . 'falsepenalty'   }[$nodename] = $penalty;
         $question->{$prtname . 'falsenextnode'  }[$nodename] = $node->falsenextnode;
         $question->{$prtname . 'falseanswernote'}[$nodename] = $node->falseanswernote;

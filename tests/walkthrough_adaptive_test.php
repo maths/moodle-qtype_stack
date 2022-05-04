@@ -1837,6 +1837,56 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_lang_string('TEST_FAILED', 'qtype_stack', array('errors' => 'Division by zero.'));
     }
 
+    public function test_divide_by_7() {
+        // This tests use of errcatch in the feedback variables.
+        $q = test_question_maker::make_question('stack', 'divide');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('prt1', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Validate the response 7.
+        $this->process_submission(array('ans1' => '7', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('prt1', null, null);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 7 [valid]; prt1: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '7');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Now submit the response 7. Causes a divide by 0 in the feedback variables.
+        $this->process_submission(array('ans1' => '7', 'ans1_val' => '7', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('prt1', 0, 0.333);
+        $this->render();
+        // Note, there is no error recorded in this response as the 1/0 in the feedback variables was caught.
+        $expected = 'Seed: 1; ans1: 7 [score]; prt1: # = 0 | prt1-1-F';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '7');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('prt1');
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
     public function test_numsigfigs_validate_then_submit_right_first_time() {
 
         // Create the stack question 'test0'.

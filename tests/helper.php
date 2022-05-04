@@ -1102,7 +1102,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->name              = 'prt1';
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
-        $prt->feedbackvariables = 'g:lambda([x],if (x<0) then p else ans1*exp(ans2*x));';
+        // Question authors are now able to use errcatch.
+        $prt->feedbackvariables = 'S1:errcatch(1/(ans1-7));';
+        // Without the errcatch we would get [RUNTIME_FV_ERROR].
         $prt->firstnodename     = '0';
         $prt->nodes             = [];
         $prt->autosimplify      = true;

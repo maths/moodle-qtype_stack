@@ -21,7 +21,7 @@ Major rewrite of the PRT and CASText systems, focus on performance and limitatio
 * The security system now does runtime checks and no longer tries to catch evil things through static analysis in advance.
 
 TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
- #702, #671, #581, #492, #420, #150
+ #702, #671, #581, #492, #420
 
 
 ## Version 4.3.10

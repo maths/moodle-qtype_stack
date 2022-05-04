@@ -24,8 +24,6 @@ TODO: List of long lasting issues dealt with, that might need to be notified/clo
  #702, #671, #581, #492, #420, #150
 
 
-TODO: reinstate the answer test and student input unit tests.
-
 ## Version 4.3.10
 
 Released December 2021.

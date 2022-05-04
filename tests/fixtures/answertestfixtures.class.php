@@ -1911,7 +1911,7 @@ class stack_answertest_test_data {
         array('Units', '2', '18.1*kJ', '18000.0*J', 0, 'ATNumSigFigs_WrongDigits. ATUnits_compatible_units (kg*m^2)/s^2.', ''),
         array('Units', '2', '120*kWh', '0.12*MWh', 1, 'ATUnits_compatible_units (kg*m^2)/s^2.', ''),
         array('Units', '2', '2.0*hh', '720000*s', 1, 'ATUnits_compatible_units s.', ''),
-        array('Units', '3', '723*kVA', '0.723*MVA', 1, 'ATUnits_compatible_units (kg*m^2)/s^3.', ''),
+        array('Units', '3', '723*kVA', '0.723*MVA', 1, 'ATUnits_compatible_units VA.', ''),
         array('Units', '1', '0*m/s', '0*m/s', 1, 'ATUnits_units_match.', 'Edge case'),
         array('Units', '1', '0.0*m/s', '0*m/s', 1, 'ATUnits_units_match.', ''),
         array('Units', '1', '0*m/s', '0.0*m/s', 1, 'ATUnits_units_match.', ''),
@@ -2125,7 +2125,6 @@ class stack_answertest_test_data {
     }
 
     public static function get_all() {
-        return array();
         $tests = array();
         $rawdata = self::get_raw_test_data();
         foreach ($rawdata as $data) {

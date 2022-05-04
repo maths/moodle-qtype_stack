@@ -17,7 +17,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '../../stack/potentialresponsetreestate.class.php');
-require_once(__DIR__ . '../../stack/potentialresponsetree.class.php');
 
 // Test helper code for the Stack question type.
 //
@@ -3329,62 +3328,5 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
-    }
-
-    // A tool for dealing with old style PRTs in the new world. Give the array with the PRTs
-    // and this will turn them to new style ones. Not necessary when working with form-data
-    // or XML.
-    // Do not use the old style in the future and every old one you can replace is a good thing.
-    public static function prt_translator($prts, $question): array {
-        $r = [];
-        foreach ($prts as $name => $oldprt) {
-            if ($oldprt instanceof stack_potentialresponse_tree_lite) {
-                // Should someone get the bright idea of extending an existing question.
-                $r[$name] = $oldprt;
-                continue;
-            }
-
-            $newprt = new stdClass;
-            $newprt->name = $name;
-            $newprt->value = $oldprt->get_value();
-            $newprt->feedbackstyle = $oldprt->get_feedbackstyle();
-            $newprt->feedbackvariables = $oldprt->get_feedbackvariables_keyvals();
-            $newprt->firstnodename = '' . $oldprt->get_firstnodename();
-            $newprt->nodes = [];
-            $newprt->autosimplify = $oldprt->get_simplify();
-
-            foreach ($oldprt->get_nodes() as $nname => $oldnode) {
-                // Make sure old nodes have the correct nodeid set.
-                $oldnode->nodeid = $nname;
-                $newnode = $oldnode->summarise_branches_extended();
-                // In the new world we don't parse these to AST-containers in general execution
-                // as that is a waste of time, we only do that during compilation of the whole PRT.
-                if ($oldnode->sans instanceof stack_ast_container) {
-                    $newnode->sans = $oldnode->sans->get_evaluationform();
-                } else {
-                    $newnode->sans = $oldnode->sans;
-                }
-                if ($oldnode->tans instanceof stack_ast_container) {
-                    $newnode->tans = $oldnode->tans->get_evaluationform();
-                } else {
-                    $newnode->tans = $oldnode->tans;
-                }
-
-                if ($newnode->nodeid === 0 && $newnode->nodename === '') {
-                    $newnode->nodename = '0';
-                }
-
-                // In the new world we would like to move towards named nodes
-                // instead of numbered ones, so turn the old form integer back to string.
-                $newprt->nodes[$newnode->nodename] = $newnode;
-            }
-
-            $r[$name] = new stack_potentialresponse_tree_lite($newprt, $oldprt->get_value(), $question);
-            // If you want to replace an old style PRT definition the easiest way is
-            // to dump out the $newprt object here as JSON and use it as the definition
-            // the JSON-parser by default generates stdClass objects.
-        }
-        echo "Please update question: " .$question->name;
-        return $r;
     }
 }

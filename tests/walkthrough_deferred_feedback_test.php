@@ -388,17 +388,6 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
                 'dropdown', 'ans1', '[[1,false],[2,true]]');
         // @codingStandardsIgnoreEnd
 
-        // Dropdowns always return a list, so adapt the PRT to take the first element of ans1.
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('2');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
-        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
-
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 
         // Check the right behaviour is used.

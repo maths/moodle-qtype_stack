@@ -258,6 +258,9 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         $question = $this->quba->get_question($this->slot);
         $attempt  = $this->quba->get_question_attempt($this->slot);
         $qa       = $attempt->get_last_qt_data();
+        if (!array_key_exists($index, $question->prts)) {
+            throw new Exception("The PRT $index does not exist in this question!");
+        }
         $result   = $question->get_prt_result($index, $qa, $finalsubmit);
 
         if (is_null($score)) {

@@ -874,6 +874,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // behaviour acutally counted this response as a try.
 
         // Create a stack question.
+
         $q = test_question_maker::make_question('stack', 'test3_penalty0_1');
 
         $this->start_attempt_at_question($q, 'adaptive', 4);
@@ -1997,7 +1998,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
-        $this->check_prt_score('firsttree', null, null);
+        $this->check_prt_score('prt1', null, null);
         $this->render();
         $expected = 'Seed: 1; ans1: 0.04 [valid]; ans2: 3.14 [valid]; prt1: !';
         $this->check_response_summary($expected);
@@ -2033,7 +2034,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
-        $this->check_prt_score('firsttree', null, null);
+        $this->check_prt_score('prt1', null, null);
         $this->render();
         $expected = 'Seed: 1; ans1: 7.04 [valid]; ans2: 3.14 [score]; prt1: !';
         $this->check_response_summary($expected);
@@ -2068,7 +2069,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
-        $this->check_prt_score('firsttree', null, null);
+        $this->check_prt_score('prt1', null, null);
         $this->render();
         $expected = 'Seed: 1; ans1: 7.04 [score]; ans2: 3.140 [valid]; prt1: !';
         $this->check_response_summary($expected);
@@ -2322,7 +2323,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
     }
 
-
     public function test_single_char_vars() {
 
         // Create the stack question 'test-single-char_vars'.
@@ -2446,12 +2446,12 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // Process a submit of the correct answer.
         $this->process_submission(array('ans1' => '[3*x+1=5]', 'ans1_val' => '[3*x+1=5]', '-submit' => 1));
 
-        $this->check_current_state(question_state::$todo);
-        $this->check_current_mark(0);
-        $this->check_prt_score('Result', 0, 0.1);
+        $this->check_current_state(question_state::$complete);
+        $this->check_current_mark(1);
+        $this->check_prt_score('Result', 1, 0);
         $this->render();
-        $expected = 'Seed: 1; ans1: [3*x+1=5] [score]; Result: # = 0 | ATLogic_True. | Result-0-T | ' .
-                'ATList_wronglen. | Result-1-F';
+        $expected = 'Seed: 1; ans1: [3*x+1=5] [score]; Result: # = 1 | ATLogic_True. | Result-0-T | ' .
+                'ATList_wronglen. | Result-1-F | Result-2-T';
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '[3*x+1=5]');
         $this->check_output_contains_input_validation('ans1');
@@ -2530,15 +2530,15 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // That is the intended behaviour, unlike entries to PRT nodes themselves which must be error free.
 
         // Verify.
-        $this->check_current_state(question_state::$todo);
+        $this->check_current_state(question_state::$complete);
         $this->render();
-        $this->check_current_mark(0);
+        $this->check_current_mark(1);
         // The PRT executed, so this generates the normal score and penalty.
-        $this->check_prt_score('Result', 0, 0.1);
+        $this->check_prt_score('Result', 1, 0);
         // We do expect to see that a runtime error has occured in the trace for debugging other people's questions!
         $expected = 'Seed: 1; ans1: [x=7,2*sin(x)*y=1] [score]; Result: ' .
-            '[RUNTIME_FV_ERROR] # = 0 | Division by zero. | ATLogic_True. | Result-0-T | ' .
-            'ATList_wronglen. | Result-1-F';
+            '[RUNTIME_FV_ERROR] # = 1 | Division by zero. | ATLogic_True. | Result-0-T | ' .
+            'ATList_wronglen. | Result-1-F | Result-2-T';
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '[x=7,2*sin(x)*y=1]');
         $this->check_output_contains_input_validation('ans1');
@@ -2582,23 +2582,63 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     public function test_test0_validate_then_submit_wrong_answer_default_penalty() {
         // Create the stack question based on 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');
-        $sans1 = stack_ast_container::make_from_teacher_source('ans1');
-        $sans1->get_valid();
-        $tans1 = stack_ast_container::make_from_teacher_source('2');
-        $tans1->get_valid();
-        $node1 = new stack_potentialresponse_node($sans1, $tans1, 'EqualComAss');
-        $node1->add_branch(0, '=', 0, 0.3, 1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node1->add_branch(1, '=', 1, 0.3, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $sans2 = stack_ast_container::make_from_teacher_source('ans1');
-        $sans2->get_valid();
-        $tans2 = stack_ast_container::make_from_teacher_source('3');
-        $tans2->get_valid();
-        $node2 = new stack_potentialresponse_node($sans2, $tans2, 'EqualComAss');
-        $node2->add_branch(0, '=', 0, 0.3, -1, '', FORMAT_HTML, 'firsttree-2-F');
-        // This is the point of the test: we explicitly set a zero penalty here.
-        $node2->add_branch(1, '=', 0.5, 0.3, -1, '', FORMAT_HTML, 'firsttree-2-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0', 1);
-        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '2';
+        $newnode->answertest          = 'EqualComAss';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '1';
+        $newnode->nodename            = '1';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '3';
+        $newnode->answertest          = 'EqualComAss';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-2-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '0.5';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-2-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -2660,16 +2700,42 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
         // Create the stack question 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');
+
         // Modify the PRT to that the penalty on the false branch is 0.1.
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('2');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
-        $node->add_branch(0, '=', 0, 0.1, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, 0.1, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
-        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '2';
+        $newnode->answertest          = 'EqualComAss';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = '0.1';
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = '0.1';
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -2730,23 +2796,62 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
         // Create the stack question based on 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');
-        $sans1 = stack_ast_container::make_from_teacher_source('ans1');
-        $sans1->get_valid();
-        $tans1 = stack_ast_container::make_from_teacher_source('2');
-        $tans1->get_valid();
-        $node1 = new stack_potentialresponse_node($sans1, $tans1, 'EqualComAss');
-        $node1->add_branch(0, '=', 0, 0.1, 1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node1->add_branch(1, '=', 1, 0.3, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $sans2 = stack_ast_container::make_from_teacher_source('ans1');
-        $sans2->get_valid();
-        $tans2 = stack_ast_container::make_from_teacher_source('3');
-        $tans2->get_valid();
-        $node2 = new stack_potentialresponse_node($sans2, $tans2, 'EqualComAss');
-        $node2->add_branch(0, '=', 0, 0.2, -1, '', FORMAT_HTML, 'firsttree-2-F');
-        // This is the point of the test: we explicitly set a zero penalty here.
-        $node2->add_branch(1, '=', 0.5, 0, -1, '', FORMAT_HTML, 'firsttree-2-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0', 1);
-        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '2';
+        $newnode->answertest          = 'EqualComAss';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = '0.1';
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '1';
+        $newnode->nodename            = '1';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '3';
+        $newnode->answertest          = 'EqualComAss';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = '0.2';
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-2-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '0.5';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = '0';
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-2-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -2810,24 +2915,64 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
          // accrues no penalty.  This makes use of the PRT "penalty" field.
 
         // Create the stack question based on 'test0'.
+        // Create the stack question based on 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');
-        $sans1 = stack_ast_container::make_from_teacher_source('ans1');
-        $sans1->get_valid();
-        $tans1 = stack_ast_container::make_from_teacher_source('2');
-        $tans1->get_valid();
-        $node1 = new stack_potentialresponse_node($sans1, $tans1, 'EqualComAss');
-        $node1->add_branch(0, '=', 0, 0.1, 1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node1->add_branch(1, '=', 1, 0.3, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $sans2 = stack_ast_container::make_from_teacher_source('ans1');
-        $sans2->get_valid();
-        $tans2 = stack_ast_container::make_from_teacher_source('3');
-        $tans2->get_valid();
-        $node2 = new stack_potentialresponse_node($sans2, $tans2, 'EqualComAss');
-        $node2->add_branch(0, '=', 0, 0.2, -1, '', FORMAT_HTML, 'firsttree-2-F');
-        // This is the point of the test: we explicitly set a zero penalty here.
-        $node2->add_branch(1, '=', 0.5, 0, -1, '', FORMAT_HTML, 'firsttree-2-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node1, $node2), '0', 1);
-        $q->prts = qtype_stack_test_helper::prt_translator($q->prts, $q);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '2';
+        $newnode->answertest          = 'EqualComAss';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = '0.1';
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '1';
+        $newnode->nodename            = '1';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '3';
+        $newnode->answertest          = 'EqualComAss';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = '0.2';
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-2-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '0.5';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = '0';
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-2-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -3733,7 +3878,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
-        $expected = 'Seed: 1; ans1: p^2+p+1 [valid]; PotResTree_1: !';
+        $expected = 'Seed: 1; ans1: p^2+p+1 [valid]; firsttree: !';
         $this->check_response_summary($expected);
 
         // Process a submit of the correct answer.
@@ -3742,13 +3887,13 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // Verify.
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(1);
-        $this->check_prt_score('PotResTree_1', 1, 0);
+        $this->check_prt_score('firsttree', 1, 0);
         $this->render();
         $this->check_output_contains_text_input('ans1', 'p^2+p+1');
         $this->check_output_contains_input_validation('ans1');
-        $this->check_output_contains_prt_feedback('PotResTree_1');
+        $this->check_output_contains_prt_feedback('firsttree');
         $this->check_output_does_not_contain_stray_placeholders();
-        $expected = 'Seed: 1; ans1: p^2+p+1 [score]; PotResTree_1: # = 1 | PotResTree_1-0-1';
+        $expected = 'Seed: 1; ans1: p^2+p+1 [score]; firsttree: # = 1 | firsttree-0-1';
         $this->check_response_summary($expected);
     }
 }

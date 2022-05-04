@@ -22,7 +22,7 @@ require_once($CFG->libdir . '/questionlib.php');
 
 /**
  * Special block allowing one to define plugin file details for subtrees
- * pf the concatenated CASText. Basically, tag content like
+ * of the concatenated CASText. Basically, tag content like
  * the PRT-feedback that can consist of multiple sources with different
  * filestores.
  */

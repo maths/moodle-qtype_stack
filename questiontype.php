@@ -2037,17 +2037,20 @@ class qtype_stack extends question_type {
         foreach (array('true', 'false') as $branch) {
             $branchgroup = $prtname . 'nodewhen' . $branch . '[' . $nodekey . ']';
 
-	/* TODO: give better feedback if not evaluatable. i.e. check that is parseable.
             $score = $fromform[$prtname . $branch . 'score'][$nodekey];
-            if (!is_numeric($score) || $score < 0 || $score > 1) {
-                 $errors[$branchgroup][] = stack_string('scoreerror');
+            if (is_numeric($score)) {
+                if ($score < 0 || $score > 1) {
+                    $errors[$branchgroup][] = stack_string('scoreerror');
+                }
             }
 
             $penalty = $fromform[$prtname . $branch . 'penalty'][$nodekey];
-            if ('' != $penalty && (!is_numeric($penalty) || $penalty < 0 || $penalty > 1)) {
-                $errors[$branchgroup][] = stack_string('penaltyerror2');
+            if ('' != $penalty && is_numeric($penalty)) {
+                if ($penalty < 0 || $penalty > 1) {
+                    $errors[$branchgroup][] = stack_string('penaltyerror2');
+                }
             }
-	*/
+
             $answernote = $fromform[$prtname . $branch . 'answernote'][$nodekey];
             if ('' == $answernote) {
                 $errors[$branchgroup][] = stack_string('answernoterequired');

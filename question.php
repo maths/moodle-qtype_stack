@@ -658,7 +658,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $score = '[RUNTIME_ERROR] ' . $score . implode("|", $state->get_errors());
             }
             if ($state->get_fverrors()) {
-                $score = '[RUNTIME_FV_ERROR] ' . $score . implode("|", $state->get_fverrors()) . ' | '; 
+                $score = '[RUNTIME_FV_ERROR] ' . $score . implode("|", $state->get_fverrors()) . ' | ';
             }
             $bits[] = $name . ": " . $score . $note;
         }
@@ -958,7 +958,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     /**
      * Do we have all the necessary inputs to execute one of the potential response trees?
-     * @param stack_potentialresponse_tree $prt the tree in question.
+     * @param stack_potentialresponse_tree_lite $prt the tree in question.
      * @param array $response the response.
      * @param bool $acceptvalid if this is true, then we will grade things even
      *      if the corresponding inputs are only VALID, and not SCORE.
@@ -983,7 +983,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     /**
      * Do we have all the necessary inputs to execute one of the potential response trees?
-     * @param stack_potentialresponse_tree $prt the tree in question.
+     * @param stack_potentialresponse_tree_lite $prt the tree in question.
      * @param array $response the response.
      * @param bool $acceptvalid if this is true, then we will grade things even
      *      if the corresponding inputs are only VALID, and not SCORE.

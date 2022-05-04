@@ -658,7 +658,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $score = '[RUNTIME_ERROR] ' . $score . implode("|", $state->get_errors());
             }
             if ($state->get_fverrors()) {
-                $score = '[RUNTIME_FV_ERROR] ' . $score;
+                $score = '[RUNTIME_FV_ERROR] ' . $score . implode("|", $state->get_fverrors()) . ' | '; 
             }
             $bits[] = $name . ": " . $score . $note;
         }
@@ -995,6 +995,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // has_necessary_prt_inputs, and then does the computation, which ensures
         // there are no CAS errors.
         $result = $this->get_prt_result($prt->get_name(), $response, $acceptvalid);
+
         return $result->is_evaluated() && !$result->get_errors();
     }
 

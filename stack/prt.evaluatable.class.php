@@ -78,7 +78,8 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     public function get_valid(): bool {
-        return count($this->errors) === 0;
+        // We count only errors from nodes, and ignore feebdack variable errors.
+        return count($this->get_errors()) === 0;
     }
 
     public function get_evaluationform(): string {
@@ -130,6 +131,10 @@ class prt_evaluatable implements cas_raw_value_extractor {
         if ($this->score === null) {
             $this->unpack();
         }
+        // The score is null when we have errors. No matter what.
+        if ($this->get_errors() !== array()) {
+            return null;
+        }
         return $this->score;
     }
 
@@ -144,6 +149,10 @@ class prt_evaluatable implements cas_raw_value_extractor {
     public function get_penalty() {
         if ($this->penalty === null) {
             $this->unpack();
+        }
+        // The penalty is null when we have errors. No matter what.
+        if ($this->get_errors() !== array()) {
+            return null;
         }
         // The penalty is 0 if the score is 1. No matter what.
         if ($this->score == 1) {

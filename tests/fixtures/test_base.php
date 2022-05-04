@@ -30,7 +30,7 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 
 
 /**
- * Base class for Stack unit tests. If you subclass this class, then code that
+ * Base class for STACK unit tests. If you subclass this class, then code that
  * needs to call maxima will work (providing you have set up the neccessary
  * defines in phpunit.xml.
  *
@@ -227,7 +227,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
 
 /**
- * Base class for Stack walkthrough tests.
+ * Base class for STACK walkthrough tests.
  *
  * Sets up the Maxima connection, and provides some additional asserts.
  *

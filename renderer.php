@@ -340,11 +340,7 @@ class qtype_stack_renderer extends qtype_renderer {
         if (is_null($relevantresponse)) {
             return '';
         }
-
         $result = $question->get_prt_result($name, $relevantresponse, $qa->get_state()->is_finished());
-        if (!$result->get_valid()) {
-            return '';
-        }
         return $this->prt_feedback_display($name, $qa, $question, $result, $options, $feedbackstyle);
     }
 
@@ -363,7 +359,8 @@ class qtype_stack_renderer extends qtype_renderer {
             question_display_options $options, $feedbackstyle) {
         $err = '';
         if ($result->get_errors()) {
-            $err = $result->get_errors();
+            $err = stack_string('prtruntimeerror',
+                array('prt' => $name, 'error' => implode(' ', $result->get_errors())));
         }
 
         $feedback = $result->get_feedback(new castext2_qa_processor($qa));
@@ -419,6 +416,10 @@ class qtype_stack_renderer extends qtype_renderer {
     protected function standard_prt_feedback(question_attempt $qa, question_definition $question,
             prt_evaluatable $result, $feedbackstyle) {
         if (!$result->is_evaluated()) {
+            return '';
+        }
+        // Don't give standard feedback when we have errors.
+        if (count($result->get_errors()) != 0) {
             return '';
         }
 

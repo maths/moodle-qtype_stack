@@ -587,7 +587,7 @@ class stack_potentialresponse_tree_lite {
             // We need to connect any possible test feedback to the feedback.
             // Note that as long as the CAS side tests rely on the old translation
             // logic we need to wrap them to the special `%strans` block.
-            $body .= 'if length(%_TMP) > 3 and slength(%_TMP[4]) > 0 then ' .
+            $body .= 'if not(atom(%_TMP)) and length(%_TMP) > 3 and slength(%_TMP[4]) > 0 then ' .
                 '%PRT_FEEDBACK:castext_concat(%PRT_FEEDBACK,["%strans",%_TMP[4]]),';
         }
 

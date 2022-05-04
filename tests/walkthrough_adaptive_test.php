@@ -1411,6 +1411,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // @codingStandardsIgnoreEnd
 
         // Create a stack question.
+
         $q = test_question_maker::make_question('stack', 'test3_penalty0_1');
         $this->start_attempt_at_question($q, 'adaptive', 4);
 
@@ -1794,8 +1795,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_current_mark(null);
         $this->check_prt_score('prt1', null, null);
         $this->render();
-        $expected = 'Seed: 1; ans1: 0 [score]; prt1: [RUNTIME_ERROR] Division by zero.' .
-            '|length: argument cannot be a symbol; found %_TMP!';
+        $expected = 'Seed: 1; ans1: 0 [score]; prt1: [RUNTIME_ERROR] Division by zero.!';
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '0');
         $this->check_output_contains_input_validation('ans1');
@@ -2531,12 +2531,14 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
         // Verify.
         $this->check_current_state(question_state::$todo);
-        $this->check_current_mark(0);
-        $this->check_prt_score('Result', 0, 0);
         $this->render();
-        // But, we do expect to see that a runtime error has occured in the trace for debugging other people's questions!
+        $this->check_current_mark(0);
+        // The PRT executed, so this generates the normal score and penalty.
+        $this->check_prt_score('Result', 0, 0.1);
+        // We do expect to see that a runtime error has occured in the trace for debugging other people's questions!
         $expected = 'Seed: 1; ans1: [x=7,2*sin(x)*y=1] [score]; Result: ' .
-                '[RUNTIME_FV_ERROR] # = 0 | ATAlgEquiv_SA_not_logic. | Result-0-F';
+            '[RUNTIME_FV_ERROR] # = 0 | Division by zero. | ATLogic_True. | Result-0-T | ' .
+            'ATList_wronglen. | Result-1-F';
         $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', '[x=7,2*sin(x)*y=1]');
         $this->check_output_contains_input_validation('ans1');
@@ -2544,9 +2546,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
         // Note from version 5.37.0 of Maxima the precise form of the error message changed.
 
+        // We ignore errors in feedback variables, so "Division by zero." no longer appears in output.
         $this->check_current_output(
-                // Some inconsistencey in Maxima error messages, so shortening search string.
-                new question_pattern_expectation('/Division by zero./'),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
                 );

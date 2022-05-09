@@ -317,6 +317,20 @@ To avoid penalising students on a technicality, if you include the extra option 
 
 (If you have genuine use for more patterns please contact the developers with examples!)
 
+### Extra option: checkvars ###
+
+As of STACK 4.4.0, there is an option to check, or allow comparison between, variables which occur in the student's answer and the teacher's answer.
+
+This option takes the form of `checkvars:n`, where `n` is an integer. Ommiting this option is equivalent to setting `n=0`.
+
+The binary bits are used to set this options.
+
+1. If the 1st binary bit of `n` is 1 (i.e. `n` is odd) then we flag up spurious variables.
+2. If the 2nd binary bit of `n` is 1 then we flag up missing variables.
+
+So, to check both set `checkvars:3`.
+
+The numerical argument provides potential for future-proofing features (e.g. case sensitivity).
 
 ## Extra options ##
 
@@ -373,6 +387,7 @@ min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |   
 `simp`            |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   .   |   .    |   .  
 `align`        |  Y  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `nounits`      |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  .  |    .     |   Y   |   .    |   .  
+`checkvars`    |  Y  |  .  |  .    |   Y    |   .   |   .   |   .  |  .  |    .     |   Y   |   .    |   .  
 
 For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.
 

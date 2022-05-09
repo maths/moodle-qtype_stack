@@ -118,13 +118,16 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
         $validationmethod = $this->validationcontext['validationmethod'];
 
-        $vcmd = 'stack_validate(['.$starredanswer.'], '.$lowestterms.','.$tans.','.$fltfmt.')';
+        $checkvars = $this->validationcontext['checkvars'];
+
+        $vcmd = 'stack_validate(['.$starredanswer.'], '.$lowestterms.','.$tans.','.$fltfmt.','.$checkvars.')';
         if ($validationmethod == 'typeless') {
-            // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
-            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', false,'.$fltfmt.')';
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.','.$tans.','.
+                $fltfmt.','.$checkvars.', false)';
         }
         if ($validationmethod == 'equiv') {
-            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', true,'.$fltfmt.')';
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.','.$tans.','.
+                $fltfmt.','.$checkvars.', true)';
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
@@ -177,7 +180,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
-    public function set_cas_validation_context($vname, $lowestterms, $tans, $validationmethod, $simp) {
+    public function set_cas_validation_context($vname, $lowestterms, $tans, $validationmethod, $simp, $checkvars) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
                 || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')) {
@@ -189,7 +192,8 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
             'lowestterms'      => $lowestterms,
             'tans'             => $tans,
             'validationmethod' => $validationmethod,
-            'simp'             => $simp
+            'simp'             => $simp,
+            'checkvars'        => $checkvars,
         );
     }
 

@@ -50,7 +50,8 @@ class stack_equiv_input extends stack_input {
         'assume_real' => false,
         // Sets the value of the stack_calculus variable, which affects how we deal with calulus in arguments.
         'calculus' => false,
-        'consolidatesubscripts' => false
+        'consolidatesubscripts' => false,
+        'checkvars' => 0
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

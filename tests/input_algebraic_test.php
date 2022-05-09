@@ -1567,4 +1567,37 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('M1', $state->contentsmodified);
         $this->assertEquals('\[ M_{1} \]', $state->contentsdisplayed);
     }
+
+    public function test_validate_checkvars() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'ans2', 'a+b+c');
+
+        $el->set_parameter('options', 'checkvars:1');
+        $state = $el->validate_student_response(array('ans2' => 'x^2+z'), $options, 'a+b+c',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('x^2+z', $state->contentsmodified);
+        $this->assertEquals('\[ x^2+z \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('These variables are not needed: x, z.', $state->errors);
+
+        $el->set_parameter('options', 'checkvars:2');
+        $state = $el->validate_student_response(array('ans2' => 'x^2+z'), $options, 'a+b+c',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('x^2+z', $state->contentsmodified);
+        $this->assertEquals('\[ x^2+z \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('These variables are missing: a, b, c.', $state->errors);
+
+        $el->set_parameter('options', 'checkvars:3');
+        $state = $el->validate_student_response(array('ans2' => 'x^2+z'), $options, 'a+b+c',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('x^2+z', $state->contentsmodified);
+        $this->assertEquals('\[ x^2+z \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('These variables are not needed: x, z. ' .
+            'These variables are missing: a, b, c.', $state->errors);
+    }
 }

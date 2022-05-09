@@ -616,7 +616,7 @@ class stack_inputvalidation_test_data {
         $filterstoapply[] = '990_no_fixing_spaces';
 
         $cs = stack_ast_container::make_from_student_source($test->rawstring, '', new stack_cas_security(), $filterstoapply);
-        $cs->set_cas_validation_context('ans1', true, '', $test->validationmethod, false);
+        $cs->set_cas_validation_context('ans1', true, '', $test->validationmethod, false, 0);
 
         $phpvalid     = $cs->get_valid();
         $phpcasstring = $cs->get_inputform();

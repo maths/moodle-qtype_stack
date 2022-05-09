@@ -267,6 +267,12 @@ abstract class stack_input {
                     }
                     break;
 
+                case 'checkvars':
+                    if (!($arg === false || is_numeric($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
                 case 'mindp':
                     if (!($arg === false || is_numeric($arg))) {
                         $this->errors[] = stack_string('numericalinputoptinterr', array('opt' => $option, 'val' => $arg));
@@ -705,7 +711,7 @@ abstract class stack_input {
             if (array_key_exists($index, $errors) && '' == $errors[$index]) {
                 $cs->set_cas_validation_context($this->name.$index, $this->get_parameter('lowestTerms', false),
                         $ta, $ivalidationmethod,
-                    $this->get_extra_option('simp', false));
+                        $this->get_extra_option('simp', false),  $this->get_extra_option('checkvars', 0));
                 $sessionvars[] = $cs;
             }
         }
@@ -716,7 +722,7 @@ abstract class stack_input {
         if ($valid && $answer->get_valid()) {
             $answer->set_cas_validation_context($this->name, $this->get_parameter('lowestTerms', false),
                     $teacheranswer, $validationmethod,
-                    $this->get_extra_option('simp', false));
+                    $this->get_extra_option('simp', false),  $this->get_extra_option('checkvars', 0));
             // Evaluate both the answer, and the validation context separately.
             // This allows us to display 1/0 type errors without actually evaluating them.
             $sessionvars[] = $answer;

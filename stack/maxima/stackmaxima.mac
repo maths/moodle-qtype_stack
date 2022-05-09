@@ -889,12 +889,27 @@ StackBasicReturn(validity, result, note) := [validity, result, StackAddNote("", 
 
 /* List of variables, without some specific tokens in. */
 stack_validate_listofvars(_exunlikelyatom) := block([lvars],
-   lvars:ev(setify(listofvars(_exunlikelyatom)), simp),
-   lvars:ev(setdifference(lvars,{null, QMCHAR, EMPTYANSWER}), simp),
-   lvars:ev(sort(listify(lvars)), simp)
+    lvars:ev(setify(listofvars(_exunlikelyatom)), simp),
+    lvars:ev(setdifference(lvars,{null, QMCHAR, EMPTYANSWER}), simp),
+    lvars:ev(sort(listify(lvars)), simp)
 )$
 
-stack_validate(expr, LowestTerms, TAns, fltfmt) := block([simp:false, exs, SameType, fvs, fvs1, fvs2],
+stack_validate_checkvars(sexpr, texpr, chkopt) := block([%_sansvar,%_tansvar,%_extras,%_errstr],
+    if is(chkopt = 0) then return(""),
+    %_sansvar:setify(stack_validate_listofvars(sexpr)),
+    %_tansvar:setify(stack_validate_listofvars(texpr)),
+    %_extras: setdifference(%_sansvar, %_tansvar),
+    %_missing:setdifference(%_tansvar, %_sansvar),
+    %_errstr: "",
+    if ev(length(%_extras) > 0 and mod(chkopt, 2) = 1,simp) then
+      %_errstr:StackAddFeedback(%_errstr, "ValidateVarsSpurious" , stack_disp_comma_separate(listify(%_extras))),
+    if ev(length(%_missing) > 0 and (mod(chkopt, 4)-mod(chkopt, 2)) = 2, simp) then
+      %_errstr:StackAddFeedback(%_errstr, "ValidateVarsMissing" , stack_disp_comma_separate(listify(%_missing))),
+    /* A non-empty string means invalid. */
+    return(%_errstr)
+)$
+
+stack_validate(expr, LowestTerms, TAns, fltfmt, chkopt) := block([simp:false, exs, SameType, fvs, fvs1, fvs2, chkvars],
   /* If we have a float format, then use it. */
   if not(is(fltfmt=false)) then
     stackfltfmt:fltfmt,
@@ -910,6 +925,9 @@ stack_validate(expr, LowestTerms, TAns, fltfmt) := block([simp:false, exs, SameT
   SameType:ATSameTypefun(expr, TAns),
   if ev(is(SameType[2]=false),simp) then print(SameType[4])
     else (_RESET_NOTES(),_RESET_FEEDBACK()),
+  /* Check variables in the answer. */
+  chkvars:stack_validate_checkvars(expr, TAns, chkopt),
+  if ev(not(is(chkvars="")), simp) then print(chkvars),
   /* Check for malformed real sets. */
   if realset_surface_p(expr) then block([ret],
     ret:interval_validate_realset(expr),
@@ -935,7 +953,7 @@ stack_validate(expr, LowestTerms, TAns, fltfmt) := block([simp:false, exs, SameT
 )$
 
 /* Validate an expression without type checking. Floats and mathematical errors only. */
-stack_validate_typeless(expr, LowestTerms, Equiv, fltfmt) := block([simp:false, exs, fvs, fvs1, fvs2],
+stack_validate_typeless(expr, LowestTerms, TAns, fltfmt, chkopt, Equiv) := block([simp:false, exs, fvs, fvs1, fvs2],
   /* If we have a float format, then use it. */
   if not(is(fltfmt=false)) then
     stackfltfmt:fltfmt,
@@ -947,6 +965,9 @@ stack_validate_typeless(expr, LowestTerms, Equiv, fltfmt) := block([simp:false, 
   ),
   if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
   expr: first(expr),
+  /* Check variables in the answer. */
+  chkvars:stack_validate_checkvars(expr, TAns, chkopt),
+  if ev(not(is(chkvars="")), simp) then print(chkvars),
   /* Check for malformed real sets. */
   if realset_surface_p(expr) then block([ret],
     ret:interval_validate_realset(expr),

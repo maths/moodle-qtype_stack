@@ -311,6 +311,22 @@ class castext2_parser_utils {
                                         break;
                                     }
                                 }
+                            } else if ($activeformat == self::MDFORMAT) {
+                                // Maybe that "{" has been escaped or one of them? The rules say it should be even though things do work without.
+                                if (mb_strpos($slice, 'begin\\{') === 0) {
+                                    foreach ($mathmodeenvs as $envname) {
+                                        if (mb_strpos($slice, 'begin\\{' .
+                                            $envname . '}') === 0) {
+                                            $mathmode = true;
+                                            break;
+                                        }
+                                        if (mb_strpos($slice, 'begin\\{' .
+                                            $envname . '\\}') === 0) {
+                                            $mathmode = true;
+                                            break;
+                                        }
+                                    }
+                                }
                             }
                         }
                         if ($c === 'e') {
@@ -322,6 +338,22 @@ class castext2_parser_utils {
                                         . '}') === 0) {
                                         $mathmode = false;
                                         break;
+                                    }
+                                }
+                            } else if ($activeformat == self::MDFORMAT) {
+                                // Maybe that "{" has been escaped or one of them? The rules say it should be even though things do work without.
+                                if (mb_strpos($slice, 'end\\{') === 0) {
+                                    foreach ($mathmodeenvs as $envname) {
+                                        if (mb_strpos($slice, 'end\\{' .
+                                            $envname . '}') === 0) {
+                                            $mathmode = true;
+                                            break;
+                                        }
+                                        if (mb_strpos($slice, 'end\\{' .
+                                            $envname . '\\}') === 0) {
+                                            $mathmode = true;
+                                            break;
+                                        }
                                     }
                                 }
                             }

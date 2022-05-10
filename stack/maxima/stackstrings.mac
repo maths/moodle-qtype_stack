@@ -426,6 +426,11 @@ ct2_latex(%_val, %_mode):=block([%_tmp],
    if %_mode = "" or %_mode = "m" then %_tmp: sconcat("{", %_tmp, "}"),
    if %_mode = "m" or %_mode = "im" then %_tmp: str_to_md(%_tmp),
    return(%_tmp)
+ ) else if listp(%_tmp) and length(%_tmp) > 0 and is(%_tmp[1] = "%root") then (
+   /* If we receive inline CASText then pass it through. */
+   if is(length(%_tmp) = 2) then
+      return(%_tmp[2]), /* Unwrap it as it does not need that wrapping anymore. Unfortunately can only do this for the single elemetn case here. */
+   return(%_tmp)
  ) else (
    %_tmp: stack_disp(%_tmp, ""), /* Do our own wrapping. */
    %_tmp: sconcat("{", strimr(" ", %_tmp), "}"),

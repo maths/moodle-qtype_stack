@@ -448,6 +448,26 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $result->get_rendered());
     }
 
+    public function test_inline_castext_normal_injection() {
+        $keyval = 'B:castext("B");sq:castext("{@sqrt(2)@}");';
+        // The inline castext compilation currently only happens for keyvals, not for
+        // singular statements so we need to do something special to get this done.
+        $kv = new stack_cas_keyval($keyval);
+        $kv->get_valid();
+        $kvcode = $kv->compile('test')['statement'];
+        $statements = [new stack_secure_loader($kvcode, 'test-kv')];
+
+        $input = 'A {@B@} C, {@sq@}';
+        $output = 'A B C, \\({\\sqrt{2}}\\)';
+
+        $result = castext2_evaluatable::make_from_source($input, 'castext-test-case');
+        $statements[] = $result;
+        $session = new stack_cas_session2($statements);
+        $session->instantiate();
+
+        $this->assertEquals($output, $result->get_rendered());
+    }
+
     // Inline castext inline castext, not something you see in many places.
     public function test_inline_castext_inline() {
         $input = 'A [[castext evaluated="castext(\\"B\\")"/]] C, [[castext evaluated="castext(\\"{@sqrt(2)@}\\")"/]]';

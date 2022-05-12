@@ -273,8 +273,13 @@ class castext2_evaluatable implements cas_raw_value_extractor {
                 }
             } else {
                 $value = array();
-                if ($this->value != null) {
+                if ($this->value !== null) {
                     $value = castext2_parser_utils::string_to_list($this->value, true);
+                } else {
+                    $this->evaluated = '<h3>' . stack_string('castext_error_header') . '</h3><ul><li>';
+                    $this->evaluated .= stack_string('castext_error_unevaluated');
+                    $this->evaluated .= '</li></ul>';
+                    return $this->evaluated;
                 }
                 if (is_array($value)) {
                     $value = castext2_parser_utils::unpack_maxima_strings($value);

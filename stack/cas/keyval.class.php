@@ -326,68 +326,18 @@ class stack_cas_keyval {
         // And then the parsing.
         $ast = maxima_parser_utils::parse_and_insert_missing_semicolons_with_includes($str);
 
-        // Then we will build the normal filter chain for the syntax-candy. Repeat security checks just in case.
+        // Then we will build the filter chain for the syntax-candy. Repeat security checks just in case.
+        // Note that we add special 600-series filters.
         $errors = [];
         $answernotes = [];
-        $filteroptions = ['998_security' => ['security' => 't']];
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['996_call_modification', '998_security', '999_strict'],
+        $filteroptions = ['998_security' => ['security' => 't'], '601_castext' => ['context' => $contextname, 'errclass' => $this->errclass]];
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['601_castext', '602_castext_simplifier', '680_gcl_sconcat', '996_call_modification', '998_security', '999_strict'],
             $filteroptions, true);
         $tostringparams = ['nosemicolon' => true, 'pmchar' => 1];
         $securitymodel = $this->security;
 
-        // For access in the function.
-        $options = $this->options;
-        $ctx = $contextname;
-        $errclass = $this->errclass;
 
-        // Special rewrites filtter, might be a real AST-filter at some point.
-        $rewrite = function($node) use (&$errors, &$bestatements, &$contextvariables, $options, $ctx, $errclass) {
-            if ($node instanceof MP_FunctionCall) {
-                if ($node->name instanceof MP_Identifier && $node->name->value === 'castext') {
-                    // The very special case of seeing the castext-function inside castext.
-                    if (count($node->arguments) == 1 && !($node->arguments[0] instanceof MP_String)) {
-                        $errors[] = new $errclass('Keyval castext()-compiler, wrong argument. ' .
-                            'Only works with one direct raw string. And possibly a format descriptor.', $ctx);
-                        $node->position['invalid'] = true;
-                        return true;
-                    } else if (count($node->arguments) == 2 && (!($node->arguments[0] instanceof MP_String) ||
-                            !($node->arguments[1] instanceof MP_Identifier))) {
-                        $errors[] = new $errclass('Keyval castext()-compiler, wrong argument. ' .
-                            'Only works with one direct raw string. And possibly a format descriptor.', $ctx);
-                        $node->position['invalid'] = true;
-                        return true;
-                    } else if (count($node->arguments) == 0 || count($node->arguments) > 2) {
-                        $errors[] = new $errclass('Keyval castext()-compiler, wrong argument. ' .
-                            'Only works with one direct raw string. And possibly a format descriptor.', $ctx);
-                        $node->position['invalid'] = true;
-                        return true;
-                    }
-                    $format = castext2_parser_utils::RAWFORMAT;
-                    // Special handling for generating fragments to be injected in Markdown formated contexts.
-                    if (count($node->arguments) == 2 && strtolower($node->arguments[1]->value) === 'md') {
-                        $format = castext2_parser_utils::MDFORMAT;
-                    }
-                    $compiled = castext2_parser_utils::compile($node->arguments[0]->value,
-                        $format, ['errclass' => $errclass, 'context' => $ctx]);
-                    $compiled = maxima_parser_utils::parse($compiled);
-                    if ($compiled instanceof MP_Root) {
-                        $compiled = $compiled->items[0];
-                    }
-                    if ($compiled instanceof MP_Statement) {
-                        $compiled = $compiled->statement;
-                    }
-                    $node->parentnode->replace($node, $compiled);
-                    return false;
-                }
-            }
-            return true;
-        };
-
-        // Compile inline CASText2.
-        // @codingStandardsIgnoreStart
-        while ($ast->callbackRecurse($rewrite, true) !== true) {}
-        // @codingStandardsIgnoreEnd
-        // Apply the normal filters.
+        // Apply the filters.
         $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
 
         $includes = [];

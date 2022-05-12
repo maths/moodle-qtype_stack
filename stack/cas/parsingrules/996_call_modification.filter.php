@@ -80,6 +80,11 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                             return false;
                         }
                     } else {
+                        // Except block() and block(local()...)
+                        if ($node->name instanceof MP_Identifier && ($node->name->value === 'block' || ($node->name->value === 'local' && $node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Identifier && $node->parentnode->name->value === 'block' &&$node->parentnode->arguments[0] === $node))) {
+                            return true;
+                        }
+
                         // Pattern f(x) => (%_C(f),f(x)).
                         $node->parentnode->replace($node, $replacement);
                         return false;

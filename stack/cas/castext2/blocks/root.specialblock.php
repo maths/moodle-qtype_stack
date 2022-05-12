@@ -54,169 +54,34 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         }
 
         // Essentially we now have an expression where anything could happen.
-        // We do not want it to affect the surroundings. So.
+        // We do not want it to affect the surroundings. So parse and
+        // find the used variables.
         $ast    = maxima_parser_utils::parse($r);
 
         // At this point we want to simplify things, it is entirely
         // possible that there are sconcats in play with overt number
         // of arguments and we may need to turn them to reduce-calls
         // to deal with GCL-limits.
-        $simplifier = function($node) use ($options, $format) {
-            if ($node instanceof MP_FunctionCall) {
-                if ($node->name instanceof MP_Identifier && $node->name->value === 'sconcat') {
-                    if (count($node->arguments) == 0) {
-                        $node->parentnode->replace($node, new MP_String(""));
-                        return false;
-                    }
 
-                    if (count($node->arguments) == 1 && $node->arguments[0] instanceof MP_String) {
-                        $node->parentnode->replace($node, new MP_String($node->arguments[0]->value));
-                        return false;
-                    }
+        $filteroptions = ['601_castext' => $options];
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['601_castext', '602_castext_simplifier', '680_gcl_sconcat'], $filteroptions, false);
 
-                    if (count($node->arguments) > 1) {
-                        $newargs = castext2_parser_utils::string_list_reduce($node->arguments);
-                        if (count($newargs) < count($node->arguments)) {
-                            if (count($newargs) === 1 && $newargs[0] instanceof MP_String) {
-                                $node->parentnode->replace($node, $newargs[0]);
-                                return false;
-                            }
-                            $node->arguments = $newargs;
-                            return false;
-                        }
+        $errors = [];
+        $answernotes = [];
+        $ast = $pipeline->filter($ast, $errors, $answernotes, new stack_cas_security());
 
-                    }
-                    // The GCL thing. Old used lreduce/sconcat but simplode is probably faster.
-                    if (count($node->arguments) > 40) {
-                        $replacement = new MP_FunctionCall(new MP_Identifier('simplode'),
-                            [new MP_List($node->arguments)]);
-                        $node->parentnode->replace($node, $replacement);
-                        return false;
-                    }
-                } else if ($node->name instanceof MP_Identifier && $node->name->value === 'castext') {
-                    // The very special case of seeing the castext-function inside castext.
-                    if (count($node->arguments) !== 1 || !($node->arguments[0] instanceof MP_String)) {
-                        throw new stateful_exception('Inline castext()-compiler, wrong argument. ' .
-                            'Only works with one direct raw string.');
-                    }
-                    $compiled = castext2_parser_utils::compile($node->arguments[0]->value, $format, $options);
-                    $compiled = maxima_parser_utils::parse($compiled);
-                    if ($compiled instanceof MP_Root) {
-                        $compiled = $compiled->items[0];
-                    }
-                    if ($compiled instanceof MP_Statement) {
-                        $compiled = $compiled->statement;
-                    }
-                    $node->parentnode->replace($node, $compiled);
-                    return false;
-                }
-            }
-            // We may also have simplified everything out.
-            if ($node instanceof MP_List && count($node->items) >= 2 &&
-                $node->items[0] instanceof MP_String &&
-                $node->items[0]->value === '%root') {
+        if (count($errors) > 0) {
+            throw new stack_exception(implode('; ', $errors));
+        }
 
-                if (count($node->items) === 2 && $node->items[1] instanceof MP_String) {
-                    // A concatenation of a single string, can be removed.
-                    $node->parentnode->replace($node, $node->items[1]);
-                    return false;
-                }
-
-                // The root nodes represent simple string concateations
-                // if the arguments are strings we can simply do
-                // the concatenation in advance and if we end with
-                // 1 argument we can unwrap the thing.
-                $newitems = castext2_parser_utils::string_list_reduce($node->items, true);
-                if (count($newitems) < count($node->items)) {
-                    if (count($newitems) === 2) {
-                        // The second term is something evaluating to
-                        // string.
-                        $node->parentnode->replace($node, $newitems[1]);
-                        return false;
-                    }
-
-                    $node->items = $newitems;
-                    return false;
-                }
-            }
-            // Eliminate extra format declarations and render static content in other formats.
-            if ($node instanceof MP_List && count($node->items) >= 2 && $node->items[0] instanceof MP_String &&
-                ($node->items[0]->value === 'demoodle' || $node->items[0]->value === 'demarkdown' ||
-                        $node->items[0]->value === 'htmlformat')) {
-                // Same for Moodle auto-format.
-                $good = true;
-                $same = false;
-                $p = $node->parentnode;
-                while ($p !== null) {
-                    if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
-                        ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' ||
-                                $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph' ||
-                                $p->items[0]->value === 'textdownload')) {
-                        // That or above is soemthign one needs to update if we add new format tuning blocks.
-                        $good = false;
-                        if ($p->items[0]->value === $node->items[0]->value) {
-                            $same = true;
-                        }
-                        if ($node->items[0]->value === 'htmlformat' && ($p->items[0]->value === 'jsxgraph' ||
-                                $p->items[0]->value === 'textdownload')) {
-                            // JSXGraph and textdownload are blocks that enforce specific formats.
-                            $same = true;
-                        }
-                        break;
-                    }
-                    $p = $p->parentnode;
-                }
-                if ($p === null && $good && $node->items[0]->value === 'htmlformat') {
-                    // The root format if not defined is htmlformat. So we can stop defining it.
-                    $same = true;
-                }
-
-                // Static ones can be replaced if we don't have complex wrapping.
-                if ($good && $node->items[0]->value === 'demoodle' &&
-                        $node->items[1] instanceof MP_String && count($node->items) === 2) {
-                    $params = [$node->items[0]->value, $node->items[1]->value];
-                    $proc = new stack_cas_castext2_demoodle([]);
-                    $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
-                    return false;
-                }
-                if ($good && $node->items[0]->value === 'htmlformat' && $node->items[1]
-                        instanceof MP_String && count($node->items) === 2) {
-                    $node->parentnode->replace($node, $node->items[1]);
-                    return false;
-                }
-                if ($good && $node->items[0]->value === 'demarkdown' && $node->items[1]
-                        instanceof MP_String && count($node->items) === 2) {
-                    $params = [$node->items[0]->value, $node->items[1]->value];
-                    $proc = new stack_cas_castext2_demarkdown([]);
-                    $node->parentnode->replace($node, new MP_String($proc->postprocess($params)));
-                    return false;
-                }
-
-                // If the context is of the same format we do not need to define the format.
-                if ($same) {
-                    if ($node->parentnode instanceof MP_List) {
-                        for ($i = 1; $i < count($node->items); $i++) {
-                            $node->parentnode->insertChild($node->items[$i], $node);
-                        }
-                        $node->parentnode->removeChild($node);
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        };
-        // @codingStandardsIgnoreStart
-        while ($ast->callbackRecurse($simplifier) !== true) {};
-        // @codingStandardsIgnoreEnd
         $r = $ast->toString(['nosemicolon' => true]);
 
         $varref = maxima_parser_utils::variable_usage_finder($ast);
 
         // This may break with GCL as there is a limit for that local call there.
         if (count($varref['write']) > 0) {
-            $r = 'block(local(' . implode(',', array_keys($varref['write'])) .
-                '),castext_simplify(' . $r . '))';
+            $r = 'castext_simplify(block(local(' . implode(',', array_keys($varref['write'])) .
+                '),' . $r . '))';
         }
 
         return $r;

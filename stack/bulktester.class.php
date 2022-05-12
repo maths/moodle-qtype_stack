@@ -21,7 +21,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class stack_bulk_tester  {
+class stack_bulk_tester {
 
     /**
      * Get all the contexts that contain at least one STACK question, with a

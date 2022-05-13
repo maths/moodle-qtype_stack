@@ -100,6 +100,8 @@ Because \( \int \frac{1}{x}dx = \log(|x|) \) is OK on either the negative or pos
     (%i200) integrate(1/x,x), logabs : true;
     (%o200) log(abs(x))
 
+Furthermore, the [integration answer test](Answer_tests.md#Int) will allow teachers to accept either `log(x)` or `log(abs(x))` (or both) from a student.
+
 ## Why don't I get anything back from the CAS?
 
 Debugging questions can be difficult.  We have not written a full parser, so we cannot trap all the errors.  If all else fails, you may need to examine exactly the expression which is being sent to Maxima.

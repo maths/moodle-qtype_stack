@@ -101,9 +101,6 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
 
         // Then do the rewrite. Note we expect the processor used to have access to the relevant details.
         // You will need a parametric processor to do this.
-        if ($processor === null or !property_exists($processor, 'qa')) {
-            return $content;
-        }
         $content = $processor->qa->rewrite_pluginfile_urls($content, $params[1], $params[2], $params[3]);
         return $content;
     }

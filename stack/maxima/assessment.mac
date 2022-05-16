@@ -135,13 +135,16 @@ op_usedp(ex, opused) := block(
    apply("or", maplist(lambda([ex2], op_usedp(ex2, opused)), args(ex)))
 )$
 
-/* Count the occurances of v in ex. */
-count_occurances(ex, v):=block(
+/* Count the occurances of v in ex. 
+   v can be a string (for safe_op) or atom.
+*/
+count_occurances(ex, v):=block([isop],
   if ex=v then return(1),
   if atom(ex) then return(0),
-  apply("+", map(lambda([ex2], count_occurances(ex2, v)), args(ex)))
+  isop:0,
+  if safe_op(ex)=v then isop:1,
+  isop+apply("+", map(lambda([ex2], count_occurances(ex2, v)), args(ex)))
 )$
-
 /* Recurse over a whole expression tree to see if the predicate is satisfied anywhere. */
 recurse_predp(ex, pr):= block(
   if mapatom(ex) then return(pr(ex)),
@@ -1133,6 +1136,7 @@ logic_to_poly(ex) := block(
     if polynomialp(ex, listofvars(ex)) then return(ex),
 
     /* Solve an equation by factoring and joining each factor with =0 */
+    if equationp(ex) then ex:subst("%or", "nounor", pm_replace(ex)),
     if equationp(ex) then return(ineqprepare(ex)),
 
     if not(logicp(ex) or safe_op(ex) = "%and" or safe_op(ex) = "%or") then return(ex),

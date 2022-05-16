@@ -314,6 +314,11 @@ class stack_answertest_test_data {
             'Equations: Loose/gain roots with nth powers of each side.'),
         // Note that algebraic equivalence does check multiplicity of roots.
         array('AlgEquiv', '', '(x-2)^2=0', 'x=2', 0, 'ATEquation_default', ''),
+        array('AlgEquiv', '', '4*x^2-71*x+220 = 0 or 14*x^2-91*x+140 = 0',
+            'x = 5/2 or x = 4 or x = 55/4', 0, 'ATEquation_default', ''),
+        array('AlgEquiv', '', '4*x^2-71*x+220 = 0 or 14*x^2-91*x+140 = 0',
+            'x = 5/2 or x = 4 or x=4 or x = 55/4', 1, 'ATEquation_sides', ''),
+        array('AlgEquiv', '', 'x^2=4', 'x=2 or x=-2', 1, 'ATEquation_ratio', ''),
         array('AlgEquiv', '', 'a^3*b^3=0', 'a=0 or b=0', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', 'a^3*b^3=0', 'a*b=0', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', '(x-y)*(x+y)=0', 'x^2=y^2', 1, 'ATEquation_ratio', ''),

@@ -550,6 +550,8 @@ interval_intersect(X,Y) := block([A, B, Ans:[], temp, m, n, i:1, j:1],
     if is(B=all) then return(A),
     if atom(A) then return({}),
     if atom(B) then return({}),
+    if is(A={}) then return({}),
+    if is(B={}) then return({}),
 
     if op(A)=%union then A:args(A),
     if op(B)=%union then B:args(B),
@@ -863,6 +865,7 @@ single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
     /* Equations should look real. */
     if not(freeof(%i,ex)) then return(ex),
 
+    if equationp(ex) then ex:subst("%or", "nounor", pm_replace(ex)),
     if equationp(ex) then return(ev(equation_to_intervals(ex, v), simp)),
     if linear_inequalityp(ex) then return(ev(linear_inequality_to_interval(ex), simp)),
 

@@ -116,10 +116,7 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     border: 0;
     border-left: 2px solid #000;
     border-right: 2px solid #000;
-    border-top-left-radius: 1em;
-    border-top-right-radius: 1em;
-    border-bottom-left-radius: 1em;
-    border-bottom-right-radius: 1em;
+    border-radius: 1em;
     padding: 0.5em;
 }
 
@@ -162,7 +159,7 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     outline: none;
 }
 
-blockquote {
+body.path-question-type-stack-doc blockquote {
     border-left: 5px solid #ccc;
     margin: 1.5em 10px;
     padding: 1em 10px .1em 10px;
@@ -177,10 +174,7 @@ blockquote {
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 3px;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    margin-right: 4px;
-    margin-left: 4px;
+    margin: 2px 4px;
     overflow: hidden;
 }
 .proof-block {
@@ -487,7 +481,7 @@ body.ie:not(.ie11) .stack_abstract_graph {
     stroke-linecap: round;
 }
 .stack_abstract_graph text {
-    font-family: Verdana, Sans-Serif;
+    font-family: Verdana, sans-serif;
 }
 .stack_abstract_graph text.nodelabel {
     font-size: 0.8em;

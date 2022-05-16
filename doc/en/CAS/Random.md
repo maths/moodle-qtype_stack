@@ -109,6 +109,14 @@ The question text can then be
 
 This indexing with the variable `idx` is quite robust.  Note that indexes in Maxima start at \(1\), whereas `rand(n)` could return zero.
 
+Another option is to use `rand()` on a list of lists, allowing to group the information of an object in a slick way:
+
+    t:rand(5)+3;
+    [p, g] : rand([["Mercury",3.61], ["Earth",9.81], ["Mars",3.75]]);
+    ta:t*g/(4*%pi^2);
+
+Here, `rand()` will return one random list of the given lists, say `["Earth",9.81]`. The assigment `[p, g] : ["Earth",9.81]` then works as one would expect, namely just as `p : "Earth"; g : 9.81;` would.
+
 ## Random objects satisfying a condition
 
 It is often necessary to create random objects which satisfy constraints.  For example, if you want to randomly generate a "small" prime number, just select one from a list.

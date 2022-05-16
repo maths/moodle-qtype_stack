@@ -55,11 +55,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     private $validationcontext = null;
 
     /**
-     * @var string Used by the testing setup only.
-     */
-    private $testclean;
-
-    /**
      * AST value coming back from CAS.
      */
     private $evaluated;
@@ -300,17 +295,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         // Otherwise set a key.
         $nop = new MP_Operation(':', new MP_Identifier($key), $root);
         $root->parentnode->replace($root, $nop);
-    }
-
-    /**
-     * Replace the ast, with a human readable value, so we can test equality cleanly and dump values.
-     */
-    public function test_clean() {
-        if ($this->ast) {
-            $this->testclean = $this->ast->toString(array('nosemicolon' => true));
-        }
-        $this->ast = null;
-        return true;
     }
 
     /**

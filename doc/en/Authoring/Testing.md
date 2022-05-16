@@ -108,7 +108,7 @@ In this case, you can prevent evaluation of limits by using an apostrophie in th
 
 ### Test case construction and MCQ
 
-Remember that MCQ input types return a CAS expression.  However, you must ensure each testcase actually corresponds to an option provided to the student, otherwise STACK will generate a run-time error.  Hence you cannot construct a test case from the list provided as the "Teacher's answer" in these input types!
+Remember that MCQ input types return a CAS expression.  However, you must ensure each testcase actually corresponds to an option provided to the student, otherwise STACK will generate a runtime error.  Hence you cannot construct a test case from the list provided as the "Teacher's answer" in these input types!
 
 It is sensible to use the helper functions.  E.g. for a radio/dropdown use
 

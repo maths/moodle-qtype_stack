@@ -1636,7 +1636,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
 
-        // A run-time error means we don't have the $key in the cache.
+        // A runtime error means we don't have the $key in the cache.
         // We don't want an error here, we want to degrade gracefully.
         $ret = null;
         if (is_array($this->compiledcache) && array_key_exists($key, $this->compiledcache)) {

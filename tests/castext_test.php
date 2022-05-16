@@ -551,7 +551,7 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        // This is another run-time errror.
+        // This is another runtime errror.
         $this->assertTrue(is_int(strpos($cs2->get_errors(),
                 "Plot error: the alt tag definition must be a string, but it is not.")));
     }

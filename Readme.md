@@ -9,7 +9,7 @@ STACK is based on continuing research and use at the University of Edinburgh, th
 
 ## Current state of development
 
-STACK 4.4 replaces core features with ones implemented using re-engineered core components. Primary focus has been in run-time performance improvements and finalising multi-year projects related to PRT logic improvements.
+STACK 4.4 replaces core features with ones implemented using re-engineered core components. Primary focus has been in runtime performance improvements and finalising multi-year projects related to PRT logic improvements.
 
 In addition to that the CASText templating system has been replaced with a new version that fixes some issues with the old and provides better support for Markdown. The new version of this templating system will play a role in the next major re-engineering project that relates to the inputs and their validation.
 

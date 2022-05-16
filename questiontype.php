@@ -1797,7 +1797,7 @@ class qtype_stack extends question_type {
      * This is done last, and separate from the other validation for two reasons:
      * 1. The rest of the validation is organised to validate the form in order,
      *    to match the way the form is defined. Here we need to validate in the
-     *    order that the CAS is evaluated at run-time.
+     *    order that the CAS is evaluated at runtime.
      * 2. This is the slowest part of validation, so we only do it at the end if
      *    everything else is OK.
      *

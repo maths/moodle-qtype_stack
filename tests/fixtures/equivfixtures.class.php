@@ -287,6 +287,18 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "More substantial example involving (+-)";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[9*x^2/2-81*x/2+90=5*x^2/2-5*x-20 nounor 9*x^2/2-81*x/2+90=-(5*x^2/2-5*x-20)," .
+            "9*x^2-81*x+180=5*x^2-10*x-40 nounor 9*x^2-81*x+180=-5*x^2+10*x+40," .
+            "4*x^2-71*x+220=0 nounor 14*x^2-91*x+140=0," .
+            "x=(71 #pm# sqrt(71^2-4*4*220))/(2*4) nounor x=(91 #pm# sqrt(91^2-4*14*140))/(2*14)," .
+            "x=55/4 nounor x=4 nounor x=5/2]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,SAMEROOTS]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Absolute value";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[a=b,abs(a)=abs(b),a=b]";
@@ -625,6 +637,15 @@ class stack_equiv_test_data {
         $newarg['casstring'] = "[x^2-10*x+7=0,(x-5)^2-18=0,(x-5)^2=sqrt(18)^2,(x-5)^2-sqrt(18)^2=0,".
                 "(x-5-sqrt(18))*(x-5+sqrt(18))=0,x=5-sqrt(18) or x=5+sqrt(18)]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "Solving quadratic equations 9";
+        $newarg['narrative'] = 'Non-trivial non-monic quadratic.';
+        $newarg['casstring'] = "[9*x^2/2-81*x/2+90=5*x^2/2-5*x-20,4*x^2-71*x+220 = 0," .
+            "x = (71 #pm# 39)/8,x=55/4 nounor x=4]";
+        $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 

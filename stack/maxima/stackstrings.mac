@@ -307,3 +307,4 @@ regex_match_exactp(regex, str) := block([l1, bool1],
     bool1:sequal(str, strmatch)
   ),
 return(bool1))$
+

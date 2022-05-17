@@ -197,6 +197,11 @@
         "description":"JSXGraph is a useful tool for creating graphs in your STACK questions."
         },
         {
+        "file":"Levenshtein_distance.md",
+        "title":"Levenshtein distance and strings",
+        "description":"Levenshtein distance is a metric on strings which can be used to assess short (typically single word) text strings."
+        },
+        {
         "file":"Proof.md",
         "title":"Assessment of proof",
         "description":"This file contains advice on assessing mathematical proof."

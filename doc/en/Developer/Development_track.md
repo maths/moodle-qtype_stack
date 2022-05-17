@@ -15,6 +15,8 @@ How to report bugs and make suggestions is described on the [community](../About
 2. Compiled PRTs.
 3. CASText2.
 4. Added `checkvars` option to inputs.
+5. Add in support for the [Levenshtein distance](../Authoring/Levenshtein_distance.md).
+
 
 ## Maxima side PRTs.
 

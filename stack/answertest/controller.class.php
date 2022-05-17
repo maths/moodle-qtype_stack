@@ -65,6 +65,7 @@ class stack_ans_test_controller {
               'Int'                  => 'stackOptions_AnsTest_values_Int',
               'String'               => 'stackOptions_AnsTest_values_String',
               'StringSloppy'         => 'stackOptions_AnsTest_values_StringSloppy',
+              'Levenshtein'          => 'stackOptions_AnsTest_values_Levenshtein',
               'SRegExp'              => 'stackOptions_AnsTest_values_SRegExp',
     );
 
@@ -112,6 +113,7 @@ class stack_ans_test_controller {
         'Int'                  => array(true, true, false, false),
         'String'               => array(false, false, false, false),
         'StringSloppy'         => array(false, false, false, false),
+        'Levenshtein'          => array(true, true, true, false),
         'SRegExp'              => array(false, false, true, false),
     );
 
@@ -166,6 +168,7 @@ class stack_ans_test_controller {
             case 'UnitsStrict':
             case 'NumDecPlaces':
             case 'NumDecPlacesWrong':
+            case 'Levenshtein':
                 $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, $contextsession);
                 break;
 

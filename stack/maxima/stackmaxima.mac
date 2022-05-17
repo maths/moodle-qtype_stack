@@ -1747,6 +1747,121 @@ ATStringSloppy(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, 
     return([true, false, AnswerNote, FeedBack])
 )$
 
+/* ********************************** */
+/* Levenshtein distance               */
+/* ********************************** */
+
+/*
+  levenshtein
+  s,t: strings to compare
+  Returns integer d, the Levensthein distance between s and t.
+  author Achim Eichhorn Achim.Eichhorn(at)hs-esslingen.de
+*/
+levenshtein(s, t) := block([m, n, XY, i, j, d, temp],
+    if(s=t) then return(0.0), /* Equal strings result in 0, nothing to do. */
+    m:slength(s),
+    n:slength(t),
+    XY: matrix(makelist(i,i,0,n), makelist(0,i,1,n+1)),
+    for i:1 thru m do (
+        XY[2][1]:i,
+        for j:1 thru n do(
+            c:if(cequal(charat(s,i), charat(t,j))) then 0 else 1,
+            XY[2][j+1]:min(XY[2][j]+1, XY[1][j+1]+1, XY[1][j]+c)
+        ),
+        /* swap */
+        XY:rowswap(XY, 1, 2)
+      ),
+    d:XY[1][n+1],
+    return(d)
+)$
+
+/*
+  levenshtein_plv: weights the levenshtein distance between 0 (unequal) and 1 (equal).
+  s,t: strings to compare
+  Returns the weighted Levensthein distance of s and t.
+  author Achim Eichhorn Achim.Eichhorn(at)hs-esslingen.de
+*/
+levenshtein_plv(s, t) := 1.0-levenshtein(s, t)/max(slength(s), slength(t))$
+
+/*
+  compare_strings
+  needle: user input
+  haystack: list of possible answers.
+  upper: if true, compare case insensitive.
+  returns list, list[1]=score, list[2]=which string of haystack was the best match.
+  author Achim Eichhorn Achim.Eichhorn(at)hs-esslingen.de
+*/
+compare_strings(needle, haystack, upper):=block([maxscore, index, i, compare, score],
+    maxscore:0.0,
+    index:1,
+    if(upper=true) then needle:supcase(needle), 
+    for i:1 thru length(haystack) do(
+        compare:haystack[i],
+        if(upper=true) then compare:supcase(compare),
+        score:levenshtein_plv(needle, compare),
+        if(score >= maxscore) then block (maxscore:score, index:i)
+    ),
+    return([decimalplaces(maxscore, 5), haystack[index]])
+)$
+
+ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, SOsimp, tol, levupper, allowf, denyf],
+    RawMark:true, FeedBack:"", AnswerNote:"",
+    /* Turn on simplification and error catch. */
+    if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATString_STACKERROR_SAns"),""]),
+    if (is(_EC(errcatch(SBsimp:ev(SB, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATString_STACKERROR_TAns"),""]),
+    if (is(_EC(errcatch(SOsimp:ev(SO, simp, nouns)), "") = false)) then
+        return([false,false,StackAddNote("","ATString_STACKERROR_TAns"),""]),
+
+    if not(stringp(SAsimp)) then
+        return(StackBasicReturn(false, false, "ATLevenshtein_SA_not_string")),
+    /* The teacher's answer must be the [allow,deny] lists of strings. */
+    if not(listp(SBsimp)) then
+        return(StackBasicReturn(false, false, "ATLevenshtein_SB_malformed")),
+    if not(is(length(SBsimp)=2)) or not(listp(first(SBsimp))) or not(listp(second(SBsimp))) or not(all_listp(stringp, flatten(SBsimp))) then
+        return(StackBasicReturn(false, false, "ATLevenshtein_SB_malformed")),
+    if emptyp(first(SBsimp)) then
+        return(StackBasicReturn(false, false, "ATLevenshtein_SB_malformed")),
+
+    /* Sort out options. */
+    tol:SOsimp,
+    levupper:true,
+    if listp(SOsimp) then block(
+        tol:first(SOsimp),
+        SOsimp:setify(rest(SOsimp)),
+        if elementp(CASE, SOsimp) then levupper:false
+    ), 
+
+    if not(numberp(tol)) then
+        return(StackBasicReturn(false, false, "ATLevenshtein_tol_not_number")),
+    if not(booleanp(levupper)) then
+        return(StackBasicReturn(false, false, "ATLevenshtein_upper_not_boolean")),
+
+    /* Find the closest allow string. */
+    allowf:compare_strings(SAsimp, first(SBsimp), levupper),
+    /* Find the closest deny string. */
+    denyf:[0, []],
+    if not(emptyp(second(SBsimp))) then
+        denyf:compare_strings(SAsimp, second(SBsimp), levupper),
+
+    if debug then print(allowf),
+    if debug then print(denyf),
+
+    AnswerNote:sconcat(": ", string([allowf, denyf])),
+    /* Are we closer to a deny string? */
+    if first(allowf)<first(denyf) then
+        return([true, false, StackAddNote("ATLevenshtein_deny", AnswerNote), ""]),
+    /* Are we sufficiently close to an allow string? */
+    if is(first(allowf)<tol) then
+        return([true, false, StackAddNote("ATLevenshtein_far", AnswerNote), ""]),
+
+    /* Is this basically a perfect match? */
+    if first(allowf)>=0.9999 then
+        return([true, true, StackAddNote("ATLevenshtein_true", AnswerNote), ""]),
+
+    return([true, true, StackAddNote("ATLevenshtein_match", AnswerNote), StackAddFeedback("", "ATLevenshtein_match", stack_disp(second(allowf), "i"))])
+)$
 
 /* A wrapper for an all purpose answer test which checks things are of the
    same "type".   Based upon the results of AtAlgEquivfun(SA,SB)

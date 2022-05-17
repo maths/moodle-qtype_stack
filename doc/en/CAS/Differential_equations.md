@@ -176,6 +176,16 @@ In particular, to find if `c` appears in an expression `ans` we can use the pred
 
 However, it is unusual to want to specify the name of a constant.  A student may choose another name.  The example below may be helpful here.
 
+Sometimes students use the \(\pm\) operator, e.g. instead of typing in \( Ae^{\lambda t} \) they type in \( \pm Ae^{\lambda_1 t} \) as `+-A*e^(lambda*t)`.  The \(\pm\) has a somewhat ambiguous status in mathematics, but it is likely that many people will want to condone its use here.
+
+Internally, the \(\pm\) operator is represented with an infix (or prefix) operation `#pm#`, which is part of STACK but not core Maxima.  Instead of `a+-b` teachers must type `a#pm#b`.  Students' answers get translated into this format.
+Mostly when dealing with expressions you need to remove the \(\pm\) operator.  To remove the \(\pm\) operator STACK provides the function `pm_replace(ex)` which performs the re-write rules 
+\[ a\pm b \rightarrow (a+b) \vee (a-b) \]
+\[ \pm a \rightarrow a \vee -a \]
+(actually using STACK's `nounor` operator to prevent evaluation).
+
+If you simply want to implement the re-write rule \( a\pm b \rightarrow a+b, \) i.e. ignore the \(\pm\) operator, then you can use `subst( "+","#pm#", ex)`.  For example, this substitution can be done in the feebdack variables on a student's answer.  If you would like to test code offline with `#pm#` then you will need to make use of the [Maxima sandbox](STACK-Maxima_sandbox.md).
+
 ## Second order linear differential equations with constant coefficients ##
 
 One important class of ODEs are the second order linear differential equations with constant coefficients.

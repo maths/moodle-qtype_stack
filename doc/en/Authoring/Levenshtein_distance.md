@@ -15,12 +15,12 @@ STACK provides an answer test based on the Levenshtein distance.  Rather than "d
 
 This test seeks to match the student's answer (a string) with two lists of strings and a numerical tolerance option. The first list (`allow`) is the list of acceptable strings.  The second list (`deny`) is the list of unacceptable strings.
 
-When you test the student's answer the test finds the closest string in `allow` and the closest string in `deny` and the corresponding normalised Levenshtein closeness (see `levenshtein_plv(s, t)` below).  The test makes sure that the closest string is within the `allow` list, and then that the closeness of the student's string to an allow string is better than the specified tollerance.  
+When you test the student's answer the test finds the closest string in `allow` and the closest string in `deny` and the corresponding normalised Levenshtein closeness (see `levenshtein_plv(s, t)` below).  The test makes sure that the closest string is within the `allow` list, and then that the closeness of the student's string to an allow string is better than the specified tolerance.
 
-1. The first argument to the test (the "sudent's answer") must be a string.
+1. The first argument to the test (the "student's answer") must be a string.
 2. The second argument to the test (the "teacher's answer") must be a list in the form `[allow, deny]` where both `allow` and `deny` are themselves lists of strings.  The `allow` list must be non-empty, but the `deny` list could be empty.
 3. The option must be used.  Either give the numerical tolerance as a number, or a list of options.  The numerical tolerance must be the first element of the list.
-4. By default the test is case-insensitive.  If you include the atom `CASE` in the list of options then the matching is case sensitive.
+4. By default the test is case-insensitive.  If you include the atom `CASE` in the list of options then the matching is case sensitive, potentially increasing the Levenshtein distance between strings.
 
 ## STACK functions
 

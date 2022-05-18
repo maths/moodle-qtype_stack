@@ -1794,6 +1794,7 @@ levenshtein_plv(s, t) := 1.0-levenshtein(s, t)/max(slength(s), slength(t))$
 compare_strings(needle, haystack, upper):=block([maxscore, index, i, compare, score],
     maxscore:0.0,
     index:1,
+    /* It seems a little odd to do the case sensitivity here, but we can keep the original strings for feeedback. */
     if(upper=true) then needle:supcase(needle), 
     for i:1 thru length(haystack) do(
         compare:haystack[i],
@@ -1801,6 +1802,7 @@ compare_strings(needle, haystack, upper):=block([maxscore, index, i, compare, sc
         score:levenshtein_plv(needle, compare),
         if(score >= maxscore) then block (maxscore:score, index:i)
     ),
+    /* We could return the index if we want a wider range of pre-processing options, but retain the original strings for feedback. */
     return([decimalplaces(maxscore, 5), haystack[index]])
 )$
 

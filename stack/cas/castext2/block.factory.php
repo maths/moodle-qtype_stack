@@ -17,6 +17,12 @@ defined('MOODLE_INTERNAL') || die();
 
 class castext2_block_factory {
     /**
+     * Cache the block types so that we do not need to check from the 
+     * filesystem every time.
+     */
+    private static $types = array();
+
+    /**
      * Creates a block of a given type. Or null if non existing type.
      */
     public static function make($type, $params=array(), $children=array(), $mathmode=false) {
@@ -32,9 +38,9 @@ class castext2_block_factory {
      * @return string corresponding class name. Or NULL.
      */
     protected static function class_for_type($type) {
-        $types = self::get_available_types();
-        if (array_key_exists($type, $types)) {
-            return $types[$type];
+        $ts = self::get_available_types();
+        if (array_key_exists($type, $ts)) {
+            return $ts[$type];
         }
         return null;
     }
@@ -42,9 +48,8 @@ class castext2_block_factory {
      * @return array of available type names.
      */
     public static function get_available_types() {
-        static $types = array();
-        if (count($types) > 0) {
-            return $types;
+        if (count(self::$types) > 0) {
+            return self::$types;
         }
         foreach (new DirectoryIterator(__DIR__ . '/blocks') as $item) {
             // Skip . and .. and dirs.
@@ -60,11 +65,21 @@ class castext2_block_factory {
                 if (!class_exists($class)) {
                     continue;
                 }
-                $types[$blockname] = $class;
+                self::$types[$blockname] = $class;
             }
         }
         // Add some specials, not all of them.
-        $types['pfs'] = 'stack_cas_castext2_special_rewrite_pluginfile_urls';
-        return $types;
+        self::$types['pfs'] = 'stack_cas_castext2_special_rewrite_pluginfile_urls';
+        return self::$types;
+    }
+    /**
+     * Register a new block type from outside the normal logic.
+     */
+    public static function register($blockname, $class) {
+        if (count(self::$types) === 0) {
+            // Make sure the normal types have been loaded.
+            self::get_available_types();
+        }
+        self::$types[$blockname] = $class;
     }
 }

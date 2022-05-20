@@ -114,6 +114,36 @@ ALTER TABLE mdl_qtype_stack_inputs CHANGE name name VARCHAR(32) CHARACTER SET ut
 
 STACK will work without this fix, but input names will not be case sensitive (!) as far as Moodle's database is concerned.  This will throw errors for some questions.
 
+# Updating within STACK 4.X
+
+If Stack 4 is installed like described above, it can be updated via git, like this:
+
+
+1. Go into your moodle-dir and execute:
+
+        cd question/type/stack
+        git pull
+        cd ..
+        cd ..
+        cd behaviour/dfcbmexplicitvaildate/
+        git pull
+        cd ..
+        cd dfcbmexplicitvaildate/
+        git pull
+        cd ..
+        cd adaptivemultipart/
+        git pull
+        
+2. Then login as admin in your moodle and update the database.
+
+3. As admin user, navigate to yourmoodle/admin/settings.php?section=qtypesettingstack 
+
+4. Check for the correct maxima version.
+
+5. Click on the link to the healthcheck script.  This writes local configuration files and then helps you verify that all aspects of STACK are working properly.
+
+6. On the same site, you might need to create a new maxima image, by using the button at the end of the side.
+
 # Migration from STACK 3.X to STACK 4.0
 
 STACK 4.0 has one important change in the question authoring.  [CAS text](../Authoring/CASText.md) now uses `{@...@}` in include mathematics in the text.  The change from `@...@` to `{@...@}` gives us matching parentheses to parse, which is much better.  The `{..}` will not break LaTeX.

@@ -190,6 +190,9 @@ class qtype_stack_edit_form extends question_edit_form {
         $prtnames = $qtype->get_prt_names_from_question($this->get_current_question_text(),
                 $this->get_current_specific_feedback());
 
+        // TODO: add in warnings here.  See b764b39675 for deleted materials.
+        $warnings = '';
+
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
         // of setDefault, because setDefault does not work for editors.
 
@@ -206,10 +209,16 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
 
         if (isset($this->question->id)) {
+            $out = stack_string('runquestiontests');
+            if (empty($this->question->deployedseeds) &&
+                    qtype_stack_question::random_variants_check($this->question->options->questionvariables)) {
+                $out = stack_string_error('questionnotdeployedyet');
+            }
             $qtestlink = html_writer::link($qtype->get_question_test_url($this->question),
-                    stack_string('runquestiontests'), array('target' => '_blank'));
-            $qtlink = $mform->createElement('static', 'qtestlink', '', $qtestlink);
+                    $out, array('target' => '_blank'));
+            $qtlink = $mform->createElement('static', 'runquestiontests', '', $qtestlink);
             $mform->insertElementBefore($qtlink, 'questionvariables');
+            $mform->addHelpButton('runquestiontests', 'runquestiontests', 'qtype_stack');
         }
 
         $seed = $mform->createElement('text', 'variantsselectionseed',
@@ -217,6 +226,13 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->insertElementBefore($seed, 'questiontext');
         $mform->setType('variantsselectionseed', PARAM_RAW);
         $mform->addHelpButton('variantsselectionseed', 'variantsselectionseed', 'qtype_stack');
+
+        // Question warnings, if there are any.
+        if ('' != $warnings) {
+            $qwarn = $mform->createElement('static', 'questionwarnings', '', $warnings);
+            $mform->insertElementBefore($qwarn, 'questiontext');
+            $mform->addHelpButton('questionwarnings', 'questionwarnings', 'qtype_stack');
+        }
 
         $sf = $mform->createElement('editor', 'specificfeedback',
                 get_string('specificfeedback', 'question'), array('rows' => 10), $this->editoroptions);
@@ -356,17 +372,11 @@ class qtype_stack_edit_form extends question_edit_form {
         // That stops the input sections collapsing by default. Instead, we enforce
         // that it is non-blank in the server-side validation.
 
-        $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), array('size' => 20));
+        $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), array('size' => 3));
         $mform->setDefault($inputname . 'boxsize', $this->stackconfig->inputboxsize);
         $mform->setType($inputname . 'boxsize', PARAM_INT);
         $mform->addHelpButton($inputname . 'boxsize', 'boxsize', 'qtype_stack');
         $mform->hideIf($inputname . 'boxsize', $inputname . 'type', 'in', ['radio','checkbox','dropdown','boolean'] );
-        
-
-        $mform->addElement('text', $inputname . 'difficulty', stack_string('difficulty'), array('size' => 20));
-        $mform->setDefault($inputname . 'difficulty', $this->stackconfig->inputdifficulty);
-        $mform->setType($inputname . 'boxsidifficultyze', PARAM_INT);
-        $mform->addHelpButton($inputname . 'difficulty', 'difficulty', 'qtype_stack');
 
         $mform->addElement('select', $inputname . 'insertstars',
                 stack_string('insertstars'), stack_options::get_insert_star_options());
@@ -773,8 +783,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $errors = parent::validation($fromform, $files);
 
         $qtype = new qtype_stack();
-        list($errors, $warnings) = $qtype->validate_fromform($fromform, $errors);
-        return $errors;
+        return $qtype->validate_fromform($fromform, $errors);
     }
 
     public function qtype() {

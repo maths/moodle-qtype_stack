@@ -1556,4 +1556,26 @@ class castext_test extends qtype_stack_testcase {
 
         $this->assertEquals('\[ \left({x+1}\right)^3 = {x^3+3\cdot x^2+3\cdot x+1}.\]', $at2->get_rendered());
     }
+
+    public function test_display_apply() {
+        $vars = "ans1:transpose(matrix([1,1,0,0])); ans2:transpose(matrix([0,1,1,0])); ans3:transpose(matrix([0,0,1,1])); " .
+            "ans4:transpose(matrix([1,0,1,1])); /* The standard basis for R^4 */ " .
+            "SB:setify(maplist(transpose,apply(matrix,args(ident(4))))); /* Form a matrix of the student's vectors.*/ " .
+            "SA1:map(lambda([ex], first(args(transpose(ex)))), [ans1,ans2,ans3,ans4]); SA2:transpose(apply(matrix,SA1)); " .
+            "SA3:ev(determinant(SA2),simp); /* Find any standard basis vectors. */ ".
+            "SB1:ev(sublist([ans1,ans2,ans3,ans4],lambda([ex],elementp(ex,SB))),simp); /* Sort out feedback. */ " .
+            "SA4:SA2.matrix([w],[x],[y],[z]); SA5:ev(stack_strip_percent(first(solve(flatten(args(SA4)))),[a,b,c,d]),simp); " .
+            "SA6:ev(maplist(lambda([ex1], rhs(first(sublist(SA5, lambda([ex2],is(lhs(ex2)=ex1)))))), [w,x,y,z]),simp); " .
+            "SA7:zip_with(\"*\",SA6,[ans1,ans2,ans3,ans4]); SA8:apply(\"+\",SA7);";
+        $at1 = new stack_cas_keyval($vars, null, 123);
+        $this->assertTrue($at1->get_valid());
+
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('\[ {@SA8@}.\]', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals('\[ {\left[\begin{array}{c} 0 \\\\ 0 \\\\ 0 \\\\ 0 \end{array}\right]}.\]', $at2->get_rendered());
+    }
 }

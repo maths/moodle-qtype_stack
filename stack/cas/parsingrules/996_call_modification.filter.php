@@ -113,7 +113,7 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                 if ($node->name instanceof MP_Atom && ($node->name->value === 'apply' || isset($mapfuns[$node->name->value]))) {
                     // E.g. apply(foo,...) => (%_C(foo),%_C(apply),apply(foo,...)).
                     $check = new MP_FunctionCall(new MP_Identifier(self::IDCHECK), [$node->arguments[0]]);
-                    if ($node->parentnode->items[1]->toString() !== $check->toString()) {
+                    if (isset($node->parentnode->items) && $node->parentnode->items[1]->toString() !== $check->toString()) {
                         $node->parentnode->items = array_merge([$node->parentnode->items[0], $check],
                             array_slice($node->parentnode->items, 1));
                         return false;

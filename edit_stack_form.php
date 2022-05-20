@@ -190,9 +190,6 @@ class qtype_stack_edit_form extends question_edit_form {
         $prtnames = $qtype->get_prt_names_from_question($this->get_current_question_text(),
                 $this->get_current_specific_feedback());
 
-        // TODO: add in warnings here.  See b764b39675 for deleted materials.
-        $warnings = '';
-
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
         // of setDefault, because setDefault does not work for editors.
 
@@ -209,16 +206,10 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
 
         if (isset($this->question->id)) {
-            $out = stack_string('runquestiontests');
-            if (empty($this->question->deployedseeds) &&
-                    qtype_stack_question::random_variants_check($this->question->options->questionvariables)) {
-                $out = stack_string_error('questionnotdeployedyet');
-            }
             $qtestlink = html_writer::link($qtype->get_question_test_url($this->question),
-                    $out, array('target' => '_blank'));
-            $qtlink = $mform->createElement('static', 'runquestiontests', '', $qtestlink);
+                    stack_string('runquestiontests'), array('target' => '_blank'));
+            $qtlink = $mform->createElement('static', 'qtestlink', '', $qtestlink);
             $mform->insertElementBefore($qtlink, 'questionvariables');
-            $mform->addHelpButton('runquestiontests', 'runquestiontests', 'qtype_stack');
         }
 
         $seed = $mform->createElement('text', 'variantsselectionseed',
@@ -226,13 +217,6 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->insertElementBefore($seed, 'questiontext');
         $mform->setType('variantsselectionseed', PARAM_RAW);
         $mform->addHelpButton('variantsselectionseed', 'variantsselectionseed', 'qtype_stack');
-
-        // Question warnings, if there are any.
-        if ('' != $warnings) {
-            $qwarn = $mform->createElement('static', 'questionwarnings', '', $warnings);
-            $mform->insertElementBefore($qwarn, 'questiontext');
-            $mform->addHelpButton('questionwarnings', 'questionwarnings', 'qtype_stack');
-        }
 
         $sf = $mform->createElement('editor', 'specificfeedback',
                 get_string('specificfeedback', 'question'), array('rows' => 10), $this->editoroptions);
@@ -372,59 +356,76 @@ class qtype_stack_edit_form extends question_edit_form {
         // That stops the input sections collapsing by default. Instead, we enforce
         // that it is non-blank in the server-side validation.
 
-        $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), array('size' => 3));
+        $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), array('size' => 20));
         $mform->setDefault($inputname . 'boxsize', $this->stackconfig->inputboxsize);
         $mform->setType($inputname . 'boxsize', PARAM_INT);
         $mform->addHelpButton($inputname . 'boxsize', 'boxsize', 'qtype_stack');
+        $mform->hideIf($inputname . 'boxsize', $inputname . 'type', 'in', ['radio','checkbox','dropdown','boolean'] );
+        
+
+        $mform->addElement('text', $inputname . 'difficulty', stack_string('difficulty'), array('size' => 20));
+        $mform->setDefault($inputname . 'difficulty', $this->stackconfig->inputdifficulty);
+        $mform->setType($inputname . 'boxsidifficultyze', PARAM_INT);
+        $mform->addHelpButton($inputname . 'difficulty', 'difficulty', 'qtype_stack');
 
         $mform->addElement('select', $inputname . 'insertstars',
                 stack_string('insertstars'), stack_options::get_insert_star_options());
         $mform->setDefault($inputname . 'insertstars', $this->stackconfig->inputinsertstars);
         $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
+        $mform->hideIf($inputname . 'insertstars', $inputname . 'type', 'in', ['radio','checkbox','dropdown','boolean','string','notes'] );
 
         $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), array('size' => 20));
         $mform->setType($inputname . 'syntaxhint', PARAM_RAW);
         $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
+        $mform->hideIf($inputname . 'syntaxhint', $inputname . 'type', 'in', ['radio','checkbox','dropdown','boolean'] );
 
         $mform->addElement('select', $inputname . 'syntaxattribute',
                 stack_string('syntaxattribute'), stack_options::get_syntax_attribute_options());
         $mform->setDefault($inputname . 'syntaxattribute', '0');
         $mform->addHelpButton($inputname . 'syntaxattribute', 'syntaxattribute', 'qtype_stack');
+        $mform->hideIf($inputname . 'syntaxattribute', $inputname . 'type', 'in', ['radio','checkbox','dropdown','boolean'] );
 
         $mform->addElement('text', $inputname . 'forbidwords', stack_string('forbidwords'), array('size' => 20));
         $mform->setType($inputname . 'forbidwords', PARAM_RAW);
         $mform->setDefault($inputname . 'forbidwords', $this->stackconfig->inputforbidwords);
         $mform->addHelpButton($inputname . 'forbidwords', 'forbidwords', 'qtype_stack');
+        $mform->hideIf($inputname . 'forbidwords', $inputname . 'type', 'in', ['radio','checkbox','dropdown','boolean','string','notes'] );
 
         $mform->addElement('text', $inputname . 'allowwords', stack_string('allowwords'), array('size' => 20));
         $mform->setType($inputname . 'allowwords', PARAM_RAW);
         $mform->setDefault($inputname . 'allowwords', '');
         $mform->addHelpButton($inputname . 'allowwords', 'allowwords', 'qtype_stack');
+        $mform->hideIf($inputname . 'allowwords', $inputname . 'type', 'in', ['radio','checkbox','dropdown','boolean','string','notes'] );
 
         $mform->addElement('selectyesno', $inputname . 'forbidfloat',
                 stack_string('forbidfloat'));
         $mform->setDefault($inputname . 'forbidfloat', $this->stackconfig->inputforbidfloat);
         $mform->addHelpButton($inputname . 'forbidfloat', 'forbidfloat', 'qtype_stack');
+        $mform->hideIf($inputname . 'forbidfloat', $inputname . 'type', 'in', ['radio','checkbox','dropdown','boolean','string','notes'] );
 
         $mform->addElement('selectyesno', $inputname . 'requirelowestterms',
                 stack_string('requirelowestterms'));
         $mform->setDefault($inputname . 'requirelowestterms', $this->stackconfig->inputrequirelowestterms);
         $mform->addHelpButton($inputname . 'requirelowestterms', 'requirelowestterms', 'qtype_stack');
+        $mform->hideIf($inputname . 'requirelowestterms', $inputname . 'type', 'in', ['radio','checkbox','dropdown','boolean','string','notes'] );
 
         $mform->addElement('selectyesno', $inputname . 'checkanswertype',
                 stack_string('checkanswertype'));
         $mform->setDefault($inputname . 'checkanswertype', $this->stackconfig->inputcheckanswertype);
         $mform->addHelpButton($inputname . 'checkanswertype', 'checkanswertype', 'qtype_stack');
+        $mform->hideIf($inputname . 'checkanswertype', $inputname . 'type', 'in', ['radio','checkbox','dropdown','boolean','textarea','equiv','string','notes'] );
 
         $mform->addElement('selectyesno', $inputname . 'mustverify',
                 stack_string('mustverify'));
         $mform->setDefault($inputname . 'mustverify', $this->stackconfig->inputmustverify);
         $mform->addHelpButton($inputname . 'mustverify', 'mustverify', 'qtype_stack');
+        $mform->hideIf($inputname . 'mustverify', $inputname . 'type', 'in', ['notes'] );
 
         $mform->addElement('select', $inputname . 'showvalidation',
                 stack_string('showvalidation'), stack_options::get_showvalidation_options());
         $mform->setDefault($inputname . 'showvalidation', $this->stackconfig->inputshowvalidation);
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
+        $mform->hideIf($inputname . 'showvalidation', $inputname . 'type', 'in', ['notes'] );
 
         $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), array('size' => 20));
         $mform->setType($inputname . 'options', PARAM_RAW);
@@ -772,7 +773,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $errors = parent::validation($fromform, $files);
 
         $qtype = new qtype_stack();
-        return $qtype->validate_fromform($fromform, $errors);
+        list($errors, $warnings) = $qtype->validate_fromform($fromform, $errors);
+        return $errors;
     }
 
     public function qtype() {

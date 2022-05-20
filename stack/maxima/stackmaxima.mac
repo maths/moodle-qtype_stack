@@ -1784,29 +1784,23 @@ levenshtein(s, t) := block([m, n, XY, i, j, d, temp],
 levenshtein_plv(s, t) := 1.0-levenshtein(s, t)/max(slength(s), slength(t))$
 
 /*
-  compare_strings
+  levenshtein_compare_strings
   needle: user input
   haystack: list of possible answers.
-  upper: if true, compare case insensitive.
-  returns list, list[1]=score, list[2]=which string of haystack was the best match.
+  returns list, list[1]=score, list[2]=index of which string of haystack was the best match.
   author Achim Eichhorn Achim.Eichhorn(at)hs-esslingen.de
 */
-compare_strings(needle, haystack, upper):=block([maxscore, index, i, compare, score],
+levenshtein_compare_strings(needle, haystack):=block([maxscore, index, i, score],
     maxscore:0.0,
     index:1,
-    /* It seems a little odd to do the case sensitivity here, but we can keep the original strings for feeedback. */
-    if(upper=true) then needle:supcase(needle), 
     for i:1 thru length(haystack) do(
-        compare:haystack[i],
-        if(upper=true) then compare:supcase(compare),
-        score:levenshtein_plv(needle, compare),
+        score:levenshtein_plv(needle, haystack[i]),
         if(score >= maxscore) then block (maxscore:score, index:i)
     ),
-    /* We could return the index if we want a wider range of pre-processing options, but retain the original strings for feedback. */
-    return([decimalplaces(maxscore, 5), haystack[index]])
+    return([decimalplaces(maxscore, 5), index])
 )$
 
-ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, SOsimp, tol, levupper, allowf, denyf],
+ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, SBsimpmod, SOsimp, tol, levupper, allowf, denyf],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Turn on simplification and error catch. */
     if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
@@ -1840,12 +1834,22 @@ ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsim
     if not(booleanp(levupper)) then
         return(StackBasicReturn(false, false, "ATLevenshtein_upper_not_boolean")),
 
+    /* Pre-process strings to upper case. */
+    SBsimpmod:SBsimp,
+    if(levupper=true) then block(
+        SAsimp:supcase(SAsimp),
+        SBsimpmod:maplist(lambda([ex2], maplist(supcase, ex2)), SBsimp)
+    ),
+
     /* Find the closest allow string. */
-    allowf:compare_strings(SAsimp, first(SBsimp), levupper),
+    allowf:levenshtein_compare_strings(SAsimp, first(SBsimpmod)),
+    allowf:[first(allowf), SBsimp[1][second(allowf)]],
     /* Find the closest deny string. */
     denyf:[0, []],
-    if not(emptyp(second(SBsimp))) then
-        denyf:compare_strings(SAsimp, second(SBsimp), levupper),
+    if not(emptyp(second(SBsimp))) then block(
+        denyf:levenshtein_compare_strings(SAsimp, second(SBsimpmod)),
+        denyf:[first(denyf), SBsimp[2][second(denyf)]]
+    ),
 
     if debug then print(allowf),
     if debug then print(denyf),

@@ -59,18 +59,18 @@ STACK requires these.
 
 1. Obtain Deferred feedback with explicit validation behaviour code. You can [download the zip file](https://github.com/maths/moodle-qbehaviour_dfexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle/question/behaviour/dfexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfexplicitvaildate -> dfexplicitvaildate`.) 
 
-    Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
+Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
 
         git clone https://github.com/maths/moodle-qbehaviour_dfexplicitvaildate.git question/behaviour/dfexplicitvaildate
 
 2. Obtain Deferred feedback with CBM and explicit validation behaviour code. You can [download the zip file](https://github.com/maths/moodle-qbehaviour_dfcbmexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle/question/behaviour/dfcbmexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfcbmexplicitvaildate -> dfcbmexplicitvaildate`.) 
 
-    Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
-    
+Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
+
         git clone https://github.com/maths/moodle-qbehaviour_dfcbmexplicitvaildate.git question/behaviour/dfcbmexplicitvaildate
 2. Obtain adaptivemutlipart behaviour code. You can [download the zip file](https://github.com/maths/moodle-qbehaviour_adaptivemultipart/zipball/master), unzip it, and place it in the directory `moodle/question/behaviour/adaptivemultipart`. (You will need to rename the directory `moodle-qbehaviour_adaptivemultipart  -> adaptivemultipart`.) 
 
-    Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
+Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
     
         git clone https://github.com/maths/moodle-qbehaviour_adaptivemultipart.git question/behaviour/adaptivemultipart
 3. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
@@ -113,6 +113,37 @@ ALTER TABLE mdl_qtype_stack_inputs CHANGE name name VARCHAR(32) CHARACTER SET ut
 ```
 
 STACK will work without this fix, but input names will not be case sensitive (!) as far as Moodle's database is concerned.  This will throw errors for some questions.
+
+# Updating within STACK 4.X
+
+If STACK is already installed, as described above, it can be updated via git, like this:
+
+1. Go into your moodle-dir and execute:
+
+        cd question/type/stack
+        git pull
+        cd ..
+        cd ..
+        cd behaviour/dfcbmexplicitvaildate/
+        git pull
+        cd ..
+        cd dfcbmexplicitvaildate/
+        git pull
+        cd ..
+        cd adaptivemultipart/
+        git pull
+
+2. Then login as admin in your moodle and update the database.
+
+3. As admin user, navigate to yourmoodle/admin/settings.php?section=qtypesettingstack 
+
+4. Check for the correct maxima version.
+
+5. Click on the link to the healthcheck script.  This writes local configuration files and then helps you verify that all aspects of STACK are working properly.
+
+6. On the same site, you might need to create a new maxima image, by using the button at the end of the page.
+
+It is a good idea to bulk test your materials with the new version.
 
 # Migration from STACK 3.X to STACK 4.0
 

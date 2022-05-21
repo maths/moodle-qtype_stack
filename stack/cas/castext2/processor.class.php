@@ -1,5 +1,5 @@
 <?php
-// This file is part of Stateful
+// This file is part of Stateful.
 //
 // Stateful is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -71,6 +71,9 @@ class castext2_qa_processor extends castext2_default_processor {
     // can call things like `rewrite_pluginfile_urls`.
     public $qa;
     public function __construct($qa) {
+        if (!method_exists($qa, 'rewrite_pluginfile_urls')) {
+            stack_exception('Error in constructing castext2_qa_processor: argument must provide rewrite_pluginfile_urls.');
+        }
         $this->qa = $qa;
     }
 }

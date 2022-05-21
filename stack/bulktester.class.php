@@ -161,6 +161,8 @@ class stack_bulk_tester  {
                     $qdotoutput = 0;
                 }
 
+                // At this point we have no question context and so we can't possibly correctly evaluate URLs.
+                $question->castextprocessor = new castext2_qa_processor(new stack_outofcontext_process());
                 $upgradeerrors = $question->validate_against_stackversion();
                 if ($upgradeerrors != '') {
                     if ($outputmode == 'web') {

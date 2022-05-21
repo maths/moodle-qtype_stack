@@ -2317,7 +2317,8 @@ class qtype_stack extends question_type {
         try {
             $compile = $prt->compile($inputkeys, [], 0.0, new stack_cas_security(), '/p/0');
         } catch (Exception $e) {
-            // For now let's not care about this.
+            // Avoids dealing with an error in the PRT definition that a latter part handles.
+            return array();
         }
 
         return array_keys($compile['required']);

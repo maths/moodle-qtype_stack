@@ -24,7 +24,7 @@ require_once(__DIR__ . '/filter.interface.php');
 class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
 
 
-    // Is a node of the form ["%root",...]
+    // Is a node of the form ["%root",...].
     private static function is_castext($node) {
         if ($node instanceof MP_List && count($node->items) > 0 && $node->items[0] instanceof MP_String) {
             return $node->items[0] === "%root";
@@ -66,7 +66,9 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                                 return false;
                             }
                         }
-                    } else if ($node->name instanceof MP_Identifier && $node->name->value === 'simplode' && count($node->arguments) == 1 && $node->arguments[0] instanceof MP_List) {
+                    } else if ($node->name instanceof MP_Identifier &&
+                        $node->name->value === 'simplode' && count($node->arguments) == 1 &&
+                        $node->arguments[0] instanceof MP_List) {
 
                         if (count($node->arguments[0]->items) == 0) {
                             $n = new MP_String("");
@@ -97,7 +99,8 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                             }
 
                         }
-                    } else if ($node->name instanceof MP_Identifier && $node->name->value === 'castext_concat' && count($node->arguments) === 2) {
+                    } else if ($node->name instanceof MP_Identifier && $node->name->value === 'castext_concat' &&
+                        count($node->arguments) === 2) {
                         // We could have concatenations that can be pre-evaluated.
                         if ($node->arguments[0] instanceof MP_String && $node->arguments[1] instanceof MP_String) {
                             $n = new MP_String($node->arguments[0]->value . $node->arguments[1]->value);
@@ -122,8 +125,11 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                             if (self::is_castext($a) || $a instanceof MP_String) {
                                 $root[] = $a;
                                 $a = null;
-                            } else if ($a instanceof MP_FunctionCall && $a->name instanceof MP_Identifier && $a->name->value === 'block' && count($a->arguments) === 2) {
-                                if ($a->arguments[0] instanceof MP_FunctionCall && $a->arguments[0]->name instanceof MP_Identifier && $a->arguments[0]->name->value === 'local') {
+                            } else if ($a instanceof MP_FunctionCall && $a->name instanceof MP_Identifier &&
+                                $a->name->value === 'block' && count($a->arguments) === 2) {
+                                if ($a->arguments[0] instanceof MP_FunctionCall &&
+                                    $a->arguments[0]->name instanceof MP_Identifier &&
+                                    $a->arguments[0]->name->value === 'local') {
                                     foreach ($a->arguments[0]->arguments as $arg) {
                                         $locals[$arg->value] = $arg;
                                     }
@@ -131,7 +137,8 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                                     $a = null;
                                 }
 
-                            } else if ($a instanceof MP_FunctionCall && $a->name instanceof MP_Identifier && $a->name->value === 'sconcat') {
+                            } else if ($a instanceof MP_FunctionCall && $a->name instanceof MP_Identifier &&
+                                $a->name->value === 'sconcat') {
                                 $root = array_merge($root, $a->arguments);
                                 $a = null;
                             }
@@ -150,16 +157,20 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                             if (self::is_castext($b) || $b instanceof MP_String) {
                                 $root[] = $b;
                                 $b = null;
-                            } else if ($b instanceof MP_FunctionCall && $b->name instanceof MP_Identifier && $b->name->value === 'block' && count($b->arguments) === 2) {
+                            } else if ($b instanceof MP_FunctionCall && $b->name instanceof MP_Identifier &&
+                                $b->name->value === 'block' && count($b->arguments) === 2) {
                                 // Note these block+local constructs only appea at the root-block level.
-                                if ($b->arguments[0] instanceof MP_FunctionCall && $b->arguments[0]->name instanceof MP_Identifier && $b->arguments[0]->name->value === 'local') {
+                                if ($b->arguments[0] instanceof MP_FunctionCall &&
+                                    $b->arguments[0]->name instanceof MP_Identifier &&
+                                    $b->arguments[0]->name->value === 'local') {
                                     foreach ($b->arguments[0]->arguments as $arg) {
                                         $locals[$arg->value] = $arg;
                                     }
                                     $root[] = $b->arguments[1];
                                     $b = null;
                                 }
-                            } else if ($b instanceof MP_FunctionCall && $b->name instanceof MP_Identifier && $b->name->value === 'sconcat') {
+                            } else if ($b instanceof MP_FunctionCall && $b->name instanceof MP_Identifier &&
+                                $b->name->value === 'sconcat') {
                                 $root = array_merge($root, $b->arguments);
                                 $b = null;
                             }
@@ -170,7 +181,8 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                             $replacement = new MP_List($root);
                             $replacement->position['castext'] = true;
                             if (count($locals) > 0) {
-                                $replacement = new MP_FunctionCall(new MP_Identifier('block'), [new MP_FunctionCall(new MP_Identifier('local'), array_values($locals)), $replacement]);
+                                $replacement = new MP_FunctionCall(new MP_Identifier('block'),
+                                    [new MP_FunctionCall(new MP_Identifier('local'), array_values($locals)), $replacement]);
                                 $replacement->position['castext'] = true;
                             }
                             if ($simplifywrapper) {
@@ -179,10 +191,11 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                             }
                             $node->parentnode->replace($node, $replacement);
                         }
-                    } else if ($node->name instanceof MP_Identifier && $node->name->value === 'castext_simplify' && count($node->arguments) == 1) {
+                    } else if ($node->name instanceof MP_Identifier && $node->name->value === 'castext_simplify' &&
+                        count($node->arguments) == 1) {
                         if ($node->arguments[0] instanceof MP_String) {
                             $node->parentnode->replace($node, $node->arguments[0]);
-                            return false;   
+                            return false;
                         }
                     }
                 }
@@ -288,7 +301,9 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
             return true;
         };
 
+        // @codingStandardsIgnoreStart
         $ast->callbackRecurse($process, true);
+        // @codingStandardsIgnoreEnd
 
         return $ast;
     }

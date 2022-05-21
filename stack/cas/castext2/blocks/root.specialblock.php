@@ -64,7 +64,8 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         // to deal with GCL-limits.
 
         $filteroptions = ['601_castext' => $options];
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['601_castext', '602_castext_simplifier', '680_gcl_sconcat'], $filteroptions, false);
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['601_castext',
+            '602_castext_simplifier', '680_gcl_sconcat'], $filteroptions, false);
 
         $errors = [];
         $answernotes = [];

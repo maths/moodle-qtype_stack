@@ -18,14 +18,15 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/filter.interface.php');
 
 /**
- * AST filter that rewrites `sconcat` calls to `simplode` calls if 
- * the argument count is too high. To be used whenever we might 
+ * AST filter that rewrites `sconcat` calls to `simplode` calls if
+ * the argument count is too high. To be used whenever we might
  * have built these calls.
- * 
- * The reason for this is that GCL Lisp has had an issue with functions 
+ *
+ * The reason for this is that GCL Lisp has had an issue with functions
  * that have large numbers of arguments.
  */
 class stack_ast_filter_680_gcl_sconcat implements stack_cas_astfilter {
+
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $simplode = function($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_Functioncall) {
@@ -37,7 +38,7 @@ class stack_ast_filter_680_gcl_sconcat implements stack_cas_astfilter {
                         $node->parentnode->replace($node, $replacement);
                         return false;
                     }
-				}
+                }
             }
             return true;
         };

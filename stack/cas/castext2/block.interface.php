@@ -104,10 +104,13 @@ abstract class stack_cas_castext2_block {
      * Generic recurse tool for checking whether something is present in the children
      * of a block.
      */
+    // We ignore code standard here because this function hooks into CTP_classes.php which are auto-generated.
+    // @codingStandardsIgnoreStart
     public function callbackRecurse($function) {
         for ($i = 0; $i < count($this->children); $i++) {
             $function($this->children[$i]);
             $this->children[$i]->callbackRecurse($function);
         }
     }
+    // @codingStandardsIgnoreEnd
 }

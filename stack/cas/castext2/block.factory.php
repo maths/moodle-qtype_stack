@@ -17,7 +17,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class castext2_block_factory {
     /**
-     * Cache the block types so that we do not need to check from the 
+     * Cache the block types so that we do not need to check from the
      * filesystem every time.
      */
     private static $types = array();

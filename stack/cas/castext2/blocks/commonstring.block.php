@@ -20,12 +20,12 @@ require_once(__DIR__ . '/../../../utils.class.php');
 
 /**
  * The commonstring block is used to ouput string templates that
- * come from the localised strings. It requires that one defined 
+ * come from the localised strings. It requires that one defined
  * the key of the template and allows one to declare named parameters
- * to be placed into it. When declaring named parameters one can prefix 
+ * to be placed into it. When declaring named parameters one can prefix
  * the parameter name with one of these strings:
  *
- *   "" or no prefix will just act like {@...@} but will follow 
+ *   "" or no prefix will just act like {@...@} but will follow
  *      the local simplification setting
  *   "nosimp_" will do normal {@...@} rendering but without
  *      simplification.
@@ -46,7 +46,7 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
         if (count($this->params) == 1) {
             return '["%cs",' . stack_utils::php_string_to_maxima_string($this->params['key']) . ']';
         } else {
-            $r = ['["%cs"',stack_utils::php_string_to_maxima_string($this->params['key'])];
+            $r = ['["%cs"', stack_utils::php_string_to_maxima_string($this->params['key'])];
 
             $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
             $epos = stack_utils::php_string_to_maxima_string($epos);
@@ -57,14 +57,14 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                     $ev = $ev->get_evaluationform();
                     $ev = "_EC(errcatch(_ct2_tmp:$ev),$epos)";
 
-
                     if (strpos($key, 'nosimp_raw_') === 0) {
                         $r[] = stack_utils::php_string_to_maxima_string(mb_substr($key, 11));
                         $r[] = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:false,' . $ev .
-                ',_ct2_tmp:string(_ct2_tmp),simp:_ct2_simp,_ct2_tmp)';
+                             ',_ct2_tmp:string(_ct2_tmp),simp:_ct2_simp,_ct2_tmp)';
                     } else if (strpos($key, 'nosimp_') === 0) {
                         $r[] = stack_utils::php_string_to_maxima_string(mb_substr($key, 7));
-                        $r[] = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:false,' . $ev . ',simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,"i"),simp:_ct2_simp,_ct2_tmp)';
+                        $r[] = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:false,' . $ev .
+                            ',simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,"i"),simp:_ct2_simp,_ct2_tmp)';
                     } else if (strpos($key, 'raw_') === 0) {
                         $r[] = stack_utils::php_string_to_maxima_string(mb_substr($key, 4));
                         // If prefixed by raw output as {#...#} would do.
@@ -73,13 +73,13 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                         // By default assume the value is to be handled like {@...@} would handle it.
                         $r[] = stack_utils::php_string_to_maxima_string($key);
 
-                        $r[] = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,' . $ev . ',simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,"i"),simp:_ct2_simp,_ct2_tmp)';
+                        $r[] = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,' . $ev .
+                            ',simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,"i"),simp:_ct2_simp,_ct2_tmp)';
                     }
                 }
             }
 
-
-            $r[count($r)-1] .= ']';
+            $r[count($r) - 1] .= ']';
             return implode(',', $r);
         }
     }
@@ -105,10 +105,10 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
         $args = [];
         for ($i = 2; $i < count($params); $i += 2) {
             $val = '';
-            if (is_array($params[$i+1])) {
-                $val = $processor->process($params[$i+1][0], $params[$i+1]);
+            if (is_array($params[$i + 1])) {
+                $val = $processor->process($params[$i + 1][0], $params[$i + 1]);
             } else {
-                $val = $params[$i+1];
+                $val = $params[$i + 1];
             }
 
             $args[$params[$i]] = $val;

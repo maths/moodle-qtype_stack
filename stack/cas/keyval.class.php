@@ -330,12 +330,13 @@ class stack_cas_keyval {
         // Note that we add special 600-series filters.
         $errors = [];
         $answernotes = [];
-        $filteroptions = ['998_security' => ['security' => 't'], '601_castext' => ['context' => $contextname, 'errclass' => $this->errclass]];
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['601_castext', '602_castext_simplifier', '680_gcl_sconcat', '996_call_modification', '998_security', '999_strict'],
+        $filteroptions = ['998_security' => ['security' => 't'],
+            '601_castext' => ['context' => $contextname, 'errclass' => $this->errclass]];
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['601_castext',
+            '602_castext_simplifier', '680_gcl_sconcat', '996_call_modification', '998_security', '999_strict'],
             $filteroptions, true);
         $tostringparams = ['nosemicolon' => true, 'pmchar' => 1];
         $securitymodel = $this->security;
-
 
         // Apply the filters.
         $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);

@@ -477,8 +477,9 @@ class castext2_test extends qtype_stack_testcase {
 
     // Test common string population.
     public function test_commonsstring() {
-        $preamble = array('simp:false','a:52+x-x', 'b:"text"', 'c:sqrt(5)','simp:true');
-        // The string "stackversionerror" jsut happens to have multiple named parameters so we use it, feel free to use any other if things change.
+        $preamble = array('simp:false', 'a:52+x-x', 'b:"text"', 'c:sqrt(5)', 'simp:true');
+        // The string "stackversionerror" just happens to have multiple named parameters so we use it,
+        // feel free to use any other if things change.
         $input = '[[commonstring key="stackversionerror" nosimp_pat="a" qfield="b" raw_ver="c"/]]';
         $output = stack_string('stackversionerror', ['qfield' => 'text', 'ver' => 'sqrt(5)', 'pat' => '\({52+x-x}\)']);
 

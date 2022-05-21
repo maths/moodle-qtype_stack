@@ -19,7 +19,7 @@ require_once(__DIR__ . '/filter.interface.php');
 
 /**
  * AST filter that compiles inline CASText2.
- * It also marks anything it sees that looks like CASText2, 
+ * It also marks anything it sees that looks like CASText2,
  * even manually written CASText2.
  */
 class stack_ast_filter_601_castext implements stack_cas_astfilter_parametric {
@@ -31,12 +31,11 @@ class stack_ast_filter_601_castext implements stack_cas_astfilter_parametric {
     public function set_filter_parameters(array $parameters) {
         if (isset($parameters['context'])) {
             $this->context = $parameters['context'];
-        }        
+        }
         if (isset($parameters['errclass'])) {
             $this->errclass = $parameters['errclass'];
         }
     }
-
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $ctx = $this->context;

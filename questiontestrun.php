@@ -454,9 +454,6 @@ foreach ($testresults as $key => $result) {
                 }
             }
         }
-        if ($prtinputs != array()) {
-            $prtinputs[] = "/* ------------------- */\n";
-        }
 
         if ($state->testoutcome) {
             $prtstable->rowclasses[] = 'pass';

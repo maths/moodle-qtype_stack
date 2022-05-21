@@ -434,8 +434,8 @@ class stack_potentialresponse_tree_lite {
         }
 
         // Finally round the score and return the relevant details.
-        $body .= '%PRT_SCORE:ev(float(floor(max(min(%PRT_SCORE,1.0),0.0)*1000)/1000),simp),';
-        $body .= '%PRT_PENALTY:ev(float(floor(max(min(%PRT_PENALTY,1.0),0.0)*1000)/1000),simp),';
+        $body .= '%PRT_SCORE:ev(float(round(max(min(%PRT_SCORE,1.0),0.0)*1000)/1000),simp),';
+        $body .= '%PRT_PENALTY:ev(float(round(max(min(%PRT_PENALTY,1.0),0.0)*1000)/1000),simp),';
         $body .= '[%PRT_PATH,%PRT_SCORE,%PRT_PENALTY,%PRT_FEEDBACK,%PRT_EXIT_NOTE]';
         $body .= ')'; // The first char.
 
@@ -500,9 +500,13 @@ class stack_potentialresponse_tree_lite {
             }
         }
 
-        $r['trace'] = $this->trace;
+
         // Then the definition of the function.
         $r['sig'] = 'prt_' . $this->name . '(' . implode(',', array_keys($asarg)) . ')';
+
+        $this->trace[] = '/* ------------------- */';
+        $this->trace[] = $r['sig'] . ';';
+        $r['trace'] = $this->trace;
 
         $r['def'] = $r['sig'] . ':=block([' . implode(',', array_keys($aslocal)) . '],' . $body . ')';
         return $r;
@@ -809,4 +813,5 @@ class stack_potentialresponse_tree_lite {
     public function get_trace() {
         return $this->trace;
     }
+
 }

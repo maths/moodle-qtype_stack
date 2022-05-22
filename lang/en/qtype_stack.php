@@ -833,6 +833,7 @@ $string['stackOptions_AnsTest_values_Diff']                = "Diff";
 $string['stackOptions_AnsTest_values_Int']                 = "Int";
 $string['stackOptions_AnsTest_values_String']              = "String";
 $string['stackOptions_AnsTest_values_StringSloppy']        = "StringSloppy";
+$string['stackOptions_AnsTest_values_Levenshtein']         = "Levenshtein";
 $string['stackOptions_AnsTest_values_SRegExp']             = "SRegExp";
 
 $string['AT_NOTIMPLEMENTED']        = 'This answer test has not been implemented. ';
@@ -977,7 +978,11 @@ $string['ATSysEquiv_SA_wrong_variables']        = 'Your answer uses the wrong va
 $string['ATSysEquiv_SA_system_underdetermined'] = 'The equations in your system appear to be correct, but you need others besides.';
 $string['ATSysEquiv_SA_system_overdetermined']  = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
-$string['ATRegEx_missing_option']               = 'Missing regular expression in CAS Option field.';
+$string['ATLevenshtein_SA_not_string']          = 'The first argument to the Levenshtein answer test must be a string. The test failed. Please contact your teacher.';
+$string['ATLevenshtein_SB_malformed']           = 'The second argument to the Levenshtein answer test must be in the form [allow, deny] where each item is a list of strings.  This argument is malformed and so the test failed. Please contact your teacher.';
+$string['ATLevenshtein_tol_not_number']         = 'The tolerance in the Levenshtein answer test must be a number, but is not. The test failed. Please contact your teacher.';
+$string['ATLevenshtein_upper_not_boolean']      = 'The case sensitivity option in the Levenshtein answer test must be a boolean, but is not. The test failed. Please contact your teacher.';
+$string['ATLevenshtein_match']                  = 'The closest match was "{$a->m0}".';
 
 $string['ATSRegExp_SB_not_string']              = 'The second argument to the SRegExp answer test must be a string. The test failed. Please contact your teacher.';
 $string['ATSRegExp_SA_not_string']              = 'The first argument to the SRegExp answer test must be a string. The test failed. Please contact your teacher.';

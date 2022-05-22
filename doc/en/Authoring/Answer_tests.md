@@ -315,6 +315,8 @@ The test cannot cope with some situations.  Please contact the developers when y
 
 `StringSloppy` This function first converts both inputs to lower case, then removes all white space from the string and finally performs a strict string comparison.
 
+`Levenshtein` is an answer test based on the Damerau-Levenshtein distance between two strings.  See the specific documentation on [Damerau-Levenshtein distance](Levenshtein_distance.md).
+
 ### SRegExp ###
 
 This test uses Maxima's `regex_match` function.

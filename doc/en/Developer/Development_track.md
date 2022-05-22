@@ -12,9 +12,9 @@ How to report bugs and make suggestions is described on the [community](../About
 3. Compiled PRTs.
 4. CASText2.
 
-TODO
+## Version 4.5
 
-1. Error messages and guard clauses in PRTs
+1. Error messages: use caserror.class more fully to use user information to target error messages.
 2. Remove all "cte" code from Maxima - mostly install.
 
 ## Maxima side PRTs.

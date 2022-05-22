@@ -54,7 +54,7 @@ class stack_cas_session2 {
     private $errors;
 
     /**
-     * @var string the name of the error-wrapper-class, tunable for use in
+     * @var string the name of the error-wrapper-class, tuneable for use in
      * other contexts, e.g. Stateful.
      */
     public $errclass = 'stack_cas_error';

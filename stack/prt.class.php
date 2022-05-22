@@ -500,7 +500,6 @@ class stack_potentialresponse_tree_lite {
             }
         }
 
-
         // Then the definition of the function.
         $r['sig'] = 'prt_' . $this->name . '(' . implode(',', array_keys($asarg)) . ')';
 

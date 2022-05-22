@@ -345,6 +345,7 @@ class stack_bulk_tester  {
         $options->readonly = true;
         $options->flags = question_display_options::HIDDEN;
         $options->suppressruntestslink = true;
+        $question->castextprocessor = new castext2_qa_processor($quba->get_question_attempt($slot));
 
         // Create the question text, question note and worked solutions.
         // This involves instantiation, which seeds the CAS cache in the cases when we have no tests.
@@ -352,7 +353,7 @@ class stack_bulk_tester  {
         $questionote = $question->get_question_summary();
         $generalfeedback = $question->get_generalfeedback_castext();
 
-        $generalfeedback->get_rendered();
+        $generalfeedback->get_rendered($question->castextprocessor);
         if ($generalfeedback->get_errors() != '') {
             $ok = false;
             $s = stack_string('stackInstall_testsuite_errors') . '  ' .

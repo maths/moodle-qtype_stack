@@ -97,7 +97,7 @@ class stack_cas_error {
         $parts = explode('/', $context);
 
         // Note that we are checking for location data even for single statement fields,
-        // it is not impossible that in the future we compiel even them so that there are
+        // it is not impossible that in the future we compile even them so that there are
         // substatement errors in them as well.
 
         // For indexing we go for the definition order and do it zero-based.
@@ -200,7 +200,9 @@ class stack_cas_error {
      * @return string
      */
     public function get_error($question): string {
-        // NOTE the lang strings have not been created, the idea si to have something like:
+        // NOTES:
+        // (1) this code is not currently "plumbed in" to the rest of the code base (TODO).
+        // (2) the lang strings have not been created, the idea is to have something like:
         // 'errorinfeedbackvarswithdetail' = '{$a->err} in feedback-variables of {$a->prt} specifically at {$a->detail}.'
         // 'errorinfeedbackvars' = '{$a->err} in feedback-variables of {$a->prt}.'
         // Order as you want and there are other vars available.
@@ -230,8 +232,10 @@ class stack_cas_error {
                 return stack_string('generalerrorinprt', $ctx);
             } else if (isset($ctx['input'])) {
                 // TODO errors in inputs, tans, options, validation.
+                return stack_string('errorininput', $ctx);
             } else if (isset($ctx['questiontest'])) {
                 // TODO errors in evalution of specific inputs to tests.
+                return stack_string('errorinquestiontest', $ctx);
             }
         } else {
             if (isset($ctx['prt'])) {

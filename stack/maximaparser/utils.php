@@ -142,6 +142,49 @@ class maxima_parser_utils {
         return $ast;
     }
 
+    // This one removes comments before parsing.
+    // For those cases where you just must check for some chars.
+    public static function remove_comments(string $src): string {
+        $chars = preg_split('//u', $src, -1, PREG_SPLIT_NO_EMPTY);
+
+        $r = '';
+
+        $instring = false;
+        $incomment = false;
+        $lastslash = false;
+        $cc = count($chars);
+        for ($i = 0; $i < $cc; $i++) {
+            $c = $chars[$i];
+            if ($instring) {
+                if ($c === "\\") {
+                    $lastslash = !$lastslash;
+                } else if ($c === '"' && !$lastslash) {
+                    $instring = false;
+                }
+            } else if ($incomment) {
+                if ($c === '*' && $i+1 < $cc && $chars[$i+1] === '/') {
+                    $i++;
+                    $incomment = false;
+                    continue;
+                }
+            } else {
+                if ($c === '/' && $i+1 < $cc && $chars[$i+1] === '*') {
+                    $i++;
+                    $incomment = true;
+                    continue;
+                } else if ($c === '"') {
+                    $instring = false;
+                }
+            }
+            if (!$incomment) {
+                $r .= $c;
+            }
+        }
+
+        return $r;
+    }
+
+
     // Takes a raw tree and drops the comments sections from it.
     public static function strip_comments(MP_Root $ast) {
         // For now comments exist only at the top level and there are no "inline"

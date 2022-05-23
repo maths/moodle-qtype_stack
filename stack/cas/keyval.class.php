@@ -89,7 +89,7 @@ class stack_cas_keyval {
         }
 
         // Protect things inside strings before we do QMCHAR tricks, and check for @, $.
-        $str = $this->raw;
+        $str = maxima_parser_utils::remove_comments($this->raw);
         $strings = stack_utils::all_substring_strings($str);
         foreach ($strings as $key => $string) {
             $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);
@@ -262,6 +262,14 @@ class stack_cas_keyval {
             $updatearray = $statement->get_variable_usage($updatearray);
         }
         return $updatearray;
+    }
+
+    /**
+     * Remove the ast, and other clutter from casstrings, so we can test equality cleanly and dump values.
+     */
+    public function test_clean() {
+        $this->session->test_clean();
+        return true;
     }
 
     /**

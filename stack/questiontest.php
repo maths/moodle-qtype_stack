@@ -22,7 +22,6 @@ defined('MOODLE_INTERNAL') || die();
 // @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 require_once(__DIR__ . '/questiontestresult.php');
-require_once(__DIR__ . '/potentialresponsetree.class.php');
 
 class stack_question_test {
     /**
@@ -117,33 +116,11 @@ class stack_question_test {
             }
             $result = $question->get_prt_result($prtname, $response, false);
             // Adapted from renderer.php prt_feedback_display.
-            $feedback = '';
-            $feedbackbits = $result->get_feedback();
-            if ($feedbackbits) {
-                $feedback = array();
-                $format = null;
-                foreach ($feedbackbits as $bit) {
-                    // Removed $qa->rewrite_pluginfile_urls which will break some links in questions here.
-                    $feedback[] = $bit->feedback;
-                    if (!is_null($bit->format)) {
-                        if (is_null($format)) {
-                            $format = $bit->format;
-                        }
-                        if ($bit->format != $format) {
-                            throw new coding_exception('Inconsistent feedback formats found in PRT ' . $name);
-                        }
-                    }
-                }
-                if (is_null($format)) {
-                    $format = FORMAT_HTML;
-                }
+            $feedback = $result->get_feedback();
+            $feedback = format_text(stack_maths::process_display_castext($feedback),
+                    FORMAT_HTML, array('noclean' => true, 'para' => false));
 
-                $feedback = $result->substitue_variables_in_feedback(implode(' ', $feedback));
-                $feedback = format_text(stack_maths::process_display_castext($feedback),
-                    $format, array('noclean' => true, 'para' => false));
-            }
-
-            $result->feedback = $feedback;
+            $result->override_feedback($feedback);
             $results->set_prt_result($prtname, $result);
 
         }

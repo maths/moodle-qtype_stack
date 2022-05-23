@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/settingslib.php');
 require_once(__DIR__ . '/stack/options.class.php');
-require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
+require_once(__DIR__ . '/stack/prt.class.php');
 
 // Useful links.
 $links = array(
@@ -224,7 +224,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/assumereal',
 $settings->add(new admin_setting_configselect('qtype_stack/feedbackstyle',
         get_string('feedbackstyle', 'qtype_stack'),
         get_string('feedbackstyle', 'qtype_stack'), '1',
-        stack_potentialresponse_tree::get_feedbackstyle_options()));
+        stack_potentialresponse_tree_lite::get_feedbackstyle_options()));
 
 $settings->add(new admin_setting_configtextarea('qtype_stack/prtcorrect',
         get_string('prtcorrectfeedback', 'qtype_stack'), '',

@@ -4,8 +4,7 @@ The potential response tree is the algorithm which establishes the mathematical 
 
 ## When is the tree used? ##
 
-Each potential response tree relies on one or more of the [inputs](Inputs.md). STACK automatically detects which elements are needed in the [answer tests](Answer_tests.md) or [feedback variables](Variables.md#Feedback_variables). The first time a student submits an input it is validated. The second time it is submitted it is available for assessment by a potential response tree. Only when all inputs upon which a tree relies are valid and submitted 
-will the tree be traversed.
+Each potential response tree relies on one or more of the [inputs](Inputs.md). STACK automatically detects which elements are needed in the [answer tests](Answer_tests.md) or [feedback variables](Variables.md#Feedback_variables). The first time a student submits an input it is validated. The second time it is submitted it is available for assessment by a potential response tree. Only when all inputs upon which a tree relies are valid and submitted will the tree be traversed.
 
 ## Before the tree is traversed ##
 
@@ -15,7 +14,7 @@ Notes:
 
 1. You cannot define a feedback variable with the same name as an input.  For example, if your input is `ans1` then it is tempting to define a feedback variable `ans1:exdowncase(ans1)` to ensure it is in lower case.  Do not do this!  Please use a different variable name.  This is because in some situations the answer test will choose to take the raw value of `ans1` exactly as the student typed it.  Any redefinition will interfere with this process.
 
-2. If one of the feedback variables throws an error then this will not stop the PRT executing.  If there is an error, this will be flagged in the response summary as `[RUNTIME_FV_ERROR]` (fv here means feedback variables).
+2. If one of the feedback variables throws an error then this will not stop the PRT executing.  If there is an error, this will be flagged in the response summary as `[RUNTIME_FV_ERROR]` (fv here means feedback variables).  See notes on [error trapping](Error_trapping.md) for advice on how to use this.
 
 ## Traversing the tree ##
 
@@ -23,12 +22,11 @@ A potential response tree (technically an acyclic directed graph) consists of an
 
 In each node two expressions are compared using a specified [answer tests](Answer_tests.md), and the result is either `true` or `false`. A corresponding branch of the tree has the opportunity to each of the following.
 
-1. Adjust the score, (e.g. assign a value, add or subtract a value)
+1. Adjust the score, (e.g. assign a value, add or subtract a value).  Scores can be floating point numbers or variables defined elsewhere (e.g. question variables/feedback variables).
 2. Add written feedback specifically for the student
-3. Generate an "[answer 
-note](Potential_response_trees.md#Answer_note)", used by the teacher for evaluative assessment
+3. Generate an "[answer note](Potential_response_trees.md#Answer_note)", used by the teacher for evaluative assessment
 4. Nominate the next node, or end the process.
-5. Any run-time error during traversing the tree will cause an error.  This error will stop further exectution of the tree, and students will see a runtime error message.  This will be flagged in the response summary as `[RUNTIME_ERROR]`.  If you have statements likely to throw an error you should evaluate them in the feedback variables first.
+5. Any runtime error during traversing the tree will cause an error.  This error will stop further exectution of the tree, and students will see a runtime error message.  This will be flagged in the response summary as `[RUNTIME_ERROR]`.  If you have statements likely to throw an error you should evaluate them in the feedback variables first. See notes on [error trapping](Error_trapping.md) for advice on how to use this.
 
 ## Outcomes  ##
 

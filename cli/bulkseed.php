@@ -159,6 +159,7 @@ foreach ($questions as $id) {
         $options->readonly = true;
         $options->flags = question_display_options::HIDDEN;
         $options->suppressruntestslink = true;
+        $question->castextprocessor = new castext2_qa_processor($quba->get_question_attempt($slot));
 
         // Create the question text, question note and worked solutions.
         // This involves instantiation, which may fail.
@@ -171,7 +172,7 @@ foreach ($questions as $id) {
         try {
             if (trim($question->generalfeedback) !== '') {
                 $workedsolution = $question->get_generalfeedback_castext();
-                $workedsolution->get_display_castext();
+                $workedsolution->get_rendered($question->castextprocessor);
             }
         } catch (Exception $erendersolution) {
             cli_writeln(' Solution render issues in ' . $id->id . ': ' . $question->name);

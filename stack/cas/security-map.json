@@ -27,6 +27,18 @@
       "globalyforbiddenvariable": true,
       "variable": "f"
   },
+  "%_C": {
+      "function": "s",
+      "built-in": true
+  },
+  "%_E": {
+      "function": "s",
+      "built-in": true
+  },
+  "%_ce_rem": {
+      "function": "f",
+      "globalyforbiddenvariable": true
+  },
   "%ERR": {
       "variable": "f"
   },
@@ -122,7 +134,7 @@
       "variable": "f"
   },
   "%union": {
-      "operator": "t",
+      "function": "t",
       "nounfunctionfor": "union"
   },
   "%unitexpand": {
@@ -408,6 +420,10 @@
       "function": "f",
       "built-in": true
   },
+  "_UNDO_ERR": {
+      "function": "f",
+      "built-in": true
+  },
   "__": {
       "globalyforbiddenvariable": true,
       "variable": "f"
@@ -562,6 +578,10 @@
   },
   "all": {
       "constant": "s"
+  },
+  "all_ops": {
+      "function": "t",
+      "built-in": true
   },
   "all_dotsimp_denoms": {
       "variable": "f"
@@ -2277,8 +2297,8 @@
       "function": "?"
   },
   "errcatch": {
-      "function": "f",
-      "globalyforbiddenfunction": true
+      "function": "t",
+      "built-in": true
   },
   "error": {
       "function": "f",
@@ -3624,6 +3644,10 @@
   },
   "is_isomorphic": {
       "function": "?"
+  },
+  "is_lang": {
+      "function": "t",
+      "built-in": true
   },
   "is_planar": {
       "function": "?"
@@ -7234,59 +7258,7 @@
   "ssubstfirst": {
       "function": "?"
   },
-  "stack_complex_expression": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_unknown_integer": {
-      "variable": "t",
-      "built-in": true
-  },
-  "stack_unknown_float": {
-      "variable": "t",
-      "built-in": true
-  },
-  "stack_cyclic": {
-      "variable": "f",
-      "built-in": true
-  },
-  "stack_integer_set": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_float_set": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_expression_set": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_integer_list": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_float_list": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_expression_list": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_integer_matrix": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_float_matrix": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_complex_unknown": {
-      "function": "f",
-      "built-in": true
-  },
-  "stack_expression_matrix": {
+  "stack_csv_formatter": {
       "function": "t",
       "built-in": true
   },

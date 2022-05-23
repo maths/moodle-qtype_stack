@@ -70,7 +70,7 @@ Note that you may have to evaluate your expression explicitly.  Maxima does not 
     \(p\) is not less than 1.
     [[/ if ]]
 
-However, it remains unevaluated.  The true branch is therefore not satisfied.  Also, the else branch is literally converted to a condition `not(p<1)` which in this case is also unevaluated.  The overall effect is that **neither** the if or the else branch is included.  This might be not be the expected behaviour!
+However, it remains unevaluated. The true branch is therefore not satisfied. Since 4.4 the behaviour of this block matches normal if-else behaviour in Maxima, you may still meet this problem if you happen to turn simplification off.
 
 To address this explicitly evaluate your expressions as predicates.
 
@@ -117,7 +117,7 @@ Comment blocks allow you to put content into CASText which will not be seen by s
 
     [[ comment ]] Place comments here which will not appear to students. [[/ comment ]]
 
-Note that, in the current form the comment block requires that the contents are syntactically correct so no mismatched blocks are possible inside comments.  (We intend to change this in the future.)
+Before 4.4 the contents of the block needed to be syntactically correct CASText. That is no longer the case and you can much more easily use this block to comment our unfinished stuff.
 
 ## The debug block ##
 
@@ -140,9 +140,9 @@ There are other kinds of `[[ emptyblocks /]]`, which are useful in certain cases
 
 While the define block does not generate any visible content like all block also empty blocks may be used to generate output. `[[ debug /]]` is an example of this.
 
-## JSXGraph blocks ##
+## JSXGraph block ##
 
-STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/).   See the specific documentation on including [JSXGraph](JSXGraph.md) elements.
+STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/). The key feature of this block is the ability to bind elements of the graph to inputs of the question. See the specific documentation on including [JSXGraph](JSXGraph.md) elements.
 
     [[jsxgraph]]
       // boundingbox:[left, top, right, bottom]
@@ -151,4 +151,44 @@ STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-
       board.create('functiongraph', [f,-3,3]);
     [[/jsxgraph]]
 
+## Format blocks ##
 
+In general CASText is assumed to be written in the format (Markdown, raw HTML, Moodle auto-format) that Moodle defines and which can be selected in the editor if one uses the plain text area editor. However, there are cases where one might need to mix formats withing the CASText itself, one of those cases is the inclusion of content written in another format. In these cases one can wrap the differing part in blocks that declare the format to use for that portion. The blocks used for this are named `[[moodleformat]]`, `[[markdownformat]]`, and `[[htmlformat]]`. In the end all CASText evaluates down to HTML, even if it were written in Markdown-format it will be rendered down to HTML.
+
+## JSString block ##
+
+A new feature in 4.4 is the `[[jsstring]]` which makes it simpler to produce JavaScript string values out of CASText content. This may be useful for example when generating labels in JSXGraph. The block takes its content and evaluates it as normal CASText and then excapes it as JavaScript string literal.
+
+```
+var label = [[jsstring]]{@f(x)=sqrt(x)@}[[/jsstring]];
+/* Would generate, without the need to manually escape things. */
+var label = "\\({f\\left(x\\right)=\\sqrt{x}}\\)";
+```
+
+## Include block ##
+
+A new feature in 4.4 is the ability to include content from an URL. The include block allows one to do that. However, it is not a recommended tool for novices and all users choosing to use it should consider what it means for the future maintenance and shareability of your questions. See the specific documentation on [include logic](Inclusions.md).
+
+## Lang block ##
+
+A new feature in 4.4 is a STACK specific localisation mechanism that allows one to output differing text based on the language the student has chosen in their VLE.
+
+    [[lang code='fi']]...Text in Finnish...[[/lang]]
+
+Read more about this in the [languages](Languages.md) documentation.
+
+## Textdownload block ##
+
+A new feature in 4.4 is the ability to construct a text-file using CASText and to provide a link to it for download. This is obviously a way for serving out randomised data to the student. Do note that you can generate whatever you want as the content of that file, one could even generate a LaTeX template with question specific values for the student to fill things in. Read more about [serving data out](Serving_out_data.md).
+
+## Commonstring block ##
+
+In some circumstances one might see the `[[commonstring/]]` block. While it might not be one that an author would use it might appear when working with built-in labels and their localisations. What it does is that it gets a `key` as a parameter and fetches the matching localised string from STACKs language packs and replaces the block with it.
+
+### Blocks that exist but should not be used ###
+
+There are other blocks that have roles inside the system and that transfer information required for the operation of the system. If you look at the code these are often called "specialblocks". You can rest assured that there are no realistic use cases for them, even in advanced authoring proceses. Practically, none of these blocks ever exist in written out CASText and are only added in as virtual objects during processing. However, if you ever look at the commands going into the CAS you might see these block names going in and coming out.
+
+For example, `[[pfs]]` is a special block that gets generated by internal logic when we see plugin files (if you place an image into the WYSIWYG editor) in the text, it works as a marker for those files context so that we can combine text from multiple contexts together and still keep track of the origins when the final product gets rendered.
+
+There are blocks that handle the placeholders for inputs, validation, and feedback. Some others deal with translations between forms and postprocessing special types of content.

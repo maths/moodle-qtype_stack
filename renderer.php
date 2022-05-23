@@ -38,7 +38,18 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $response = $qa->get_last_qt_data();
 
-        $questiontext = $question->questiontextinstantiated;
+        // We need to provide a processor for the CASText2 post-processing,
+        // basically for targetting pluginfiles.
+        $question->castextprocessor = new castext2_qa_processor($qa);
+
+        if (is_string($question->questiontextinstantiated)) {
+            // The question has not been instantiated successfully, at this level it is likely
+            // a failure at compilation and that means invalid teacher code.
+            return $question->questiontextinstantiated;
+        }
+
+        $questiontext = $question->questiontextinstantiated->get_rendered($question->castextprocessor);
+
         // Replace inputs.
         $inputstovaldiate = array();
 
@@ -51,7 +62,7 @@ class qtype_stack_renderer extends qtype_renderer {
         // Now format the questiontext.
         $questiontext = $question->format_text(
                 stack_maths::process_display_castext($questiontext, $this),
-                $question->questiontextformat,
+                FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
                 $qa, 'question', 'questiontext', $question->id);
 
         // Get the list of placeholders after format_text.
@@ -98,7 +109,8 @@ class qtype_stack_renderer extends qtype_renderer {
                 // behaviour or adaptivemulipart does not show feedback if the input
                 // is invalid, but we want to show the CAS errors from the PRT.
                 $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
-                $feedback = html_writer::nonempty_tag('span', $result->errors,
+                $errors = implode(' ', $result->get_errors());
+                $feedback = html_writer::nonempty_tag('span', $errors,
                         array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
             }
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
@@ -194,13 +206,19 @@ class qtype_stack_renderer extends qtype_renderer {
     protected function stack_specific_feedback_errors_only(question_attempt $qa) {
         $question = $qa->get_question();
         $response = $qa->get_last_qt_data();
-        $feedbacktext = $question->specificfeedbackinstantiated;
+        // If called out of order.
+        if ($question->castextprocessor === null) {
+            $question->castextprocessor = new castext2_qa_processor($qa);
+        }
+
+        $feedbacktext = $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor);
         if (!$feedbacktext) {
             return '';
         }
 
         $feedbacktext = stack_maths::process_display_castext($feedbacktext, $this);
-        $feedbacktext = $question->format_text($feedbacktext, $question->specificfeedbackformat,
+        $feedbacktext = $question->format_text($feedbacktext,
+                FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
                 $qa, 'qtype_stack', 'specificfeedback', $question->id);
 
         // Replace any PRT feedback.
@@ -208,8 +226,9 @@ class qtype_stack_renderer extends qtype_renderer {
         foreach ($question->prts as $name => $prt) {
             $feedback = '';
             $result = $question->get_prt_result($name, $response, $qa->get_state()->is_finished());
-            if ($result->errors) {
-                $feedback = html_writer::nonempty_tag('span', $result->errors,
+            if ($result->get_errors() != array()) {
+                $errors = implode(' ', $result->get_errors());
+                $feedback = html_writer::nonempty_tag('span', $errors,
                         array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
             }
             $allempty = $allempty && !$feedback;
@@ -234,13 +253,22 @@ class qtype_stack_renderer extends qtype_renderer {
 
         $question = $qa->get_question();
         $response = $qa->get_last_qt_data();
-        $feedbacktext = $question->specificfeedbackinstantiated;
+        // If called out of order.
+        if ($question->castextprocessor === null) {
+            $question->castextprocessor = new castext2_qa_processor($qa);
+        }
+        if ($question->specificfeedbackinstantiated === null) {
+            // Invalid question, otherwise this would be here.
+            return '';
+        }
+        $feedbacktext = $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor);
         if (!$feedbacktext) {
             return '';
         }
 
         $feedbacktext = stack_maths::process_display_castext($feedbacktext, $this);
-        $feedbacktext = $question->format_text($feedbacktext, $question->specificfeedbackformat,
+        $feedbacktext = $question->format_text($feedbacktext,
+                FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
                 $qa, 'qtype_stack', 'specificfeedback', $question->id);
 
         $individualfeedback = count($question->prts) == 1;
@@ -312,11 +340,7 @@ class qtype_stack_renderer extends qtype_renderer {
         if (is_null($relevantresponse)) {
             return '';
         }
-
         $result = $question->get_prt_result($name, $relevantresponse, $qa->get_state()->is_finished());
-        if (is_null($result->valid)) {
-            return '';
-        }
         return $this->prt_feedback_display($name, $qa, $question, $result, $options, $feedbackstyle);
     }
 
@@ -325,48 +349,28 @@ class qtype_stack_renderer extends qtype_renderer {
      * @param string $name the PRT name.
      * @param question_attempt $qa the question attempt to display.
      * @param question_definition $question the question being displayed.
-     * @param stack_potentialresponse_tree_state $result the results to display.
+     * @param prt_evaluatable $result the results to display.
      * @param question_display_options $options controls what should and should not be displayed.
      * @param feedbackstyle styles the type of feedback.
      * @return string nicely formatted feedback, for display.
      */
     protected function prt_feedback_display($name, question_attempt $qa,
-            question_definition $question, stack_potentialresponse_tree_state $result,
+            question_definition $question, prt_evaluatable $result,
             question_display_options $options, $feedbackstyle) {
         $err = '';
-        if ($result->errors) {
-            $err = $result->errors;
+        if ($result->get_errors()) {
+            $err = stack_string('prtruntimeerror',
+                array('prt' => $name, 'error' => implode(' ', $result->get_errors())));
         }
 
-        $feedback = '';
-        $feedbackbits = $result->get_feedback();
-        if ($feedbackbits) {
-            $feedback = array();
-            $format = null;
-            foreach ($feedbackbits as $bit) {
-                $feedback[] = $qa->rewrite_pluginfile_urls(
-                        $bit->feedback, 'qtype_stack', $bit->filearea, $bit->itemid);
-                if (!is_null($bit->format)) {
-                    if (is_null($format)) {
-                        $format = $bit->format;
-                    }
-                    if ($bit->format != $format) {
-                        throw new coding_exception('Inconsistent feedback formats found in PRT ' . $name);
-                    }
-                }
-            }
-
-            if (is_null($format)) {
-                $format = FORMAT_HTML;
-            }
-
-            $feedback = $result->substitue_variables_in_feedback(implode(' ', $feedback));
-            $feedback = format_text(stack_maths::process_display_castext($feedback, $this),
-                    $format, array('noclean' => true, 'para' => false));
-        }
+        $feedback = $result->get_feedback(new castext2_qa_processor($qa));
+        // The feedback does not come as bits anymore the whole thing is concatenated in CAS
+        // and CASText converts any formats to HTML already, pluginfiles as well.
+        $feedback = format_text(stack_maths::process_display_castext($feedback, $this),
+            FORMAT_HTML, array('noclean' => true, 'para' => false));
 
         $gradingdetails = '';
-        if (!$result->errors && $qa->get_behaviour_name() == 'adaptivemultipart'
+        if ($result->get_valid() && $qa->get_behaviour_name() == 'adaptivemultipart'
                 && $options->marks >= question_display_options::MARK_AND_MAX) {
             $renderer = $this->page->get_renderer('qbehaviour_adaptivemultipart');
             $gradingdetails = $renderer->render_adaptive_marks(
@@ -405,16 +409,21 @@ class qtype_stack_renderer extends qtype_renderer {
      * Generate the standard PRT feedback for a particular score.
      * @param question_attempt $qa the question attempt to display.
      * @param question_definition $question the question being displayed.
-     * @param stack_potentialresponse_tree_state $result the results to display.
+     * @param prt_evaluatable $result the results to display.
      * @param feedbackstyle styles the type of feedback.
      * @return string nicely standard feedback, for display.
      */
-    protected function standard_prt_feedback($qa, $question, $result, $feedbackstyle) {
-        if ($result->errors) {
+    protected function standard_prt_feedback(question_attempt $qa, question_definition $question,
+            prt_evaluatable $result, $feedbackstyle) {
+        if (!$result->is_evaluated()) {
+            return '';
+        }
+        // Don't give standard feedback when we have errors.
+        if (count($result->get_errors()) != 0) {
             return '';
         }
 
-        $state = question_state::graded_state_for_fraction($result->score);
+        $state = question_state::graded_state_for_fraction($result->get_score());
         $class = $state->get_feedback_class();
 
         // Compact and symbolic only.
@@ -423,12 +432,17 @@ class qtype_stack_renderer extends qtype_renderer {
             return html_writer::tag('span', $s, array('class' => $class));
         }
 
+        // If called out of order.
+        if ($question->castextprocessor === null) {
+            $question->castextprocessor = new castext2_qa_processor($qa);
+        }
+
         $field = 'prt' . $class . 'instantiated';
-        $format = 'prt' . $class . 'format';
         if ($question->$field) {
             return html_writer::tag('div', $question->format_text(
-                    stack_maths::process_display_castext($question->$field, $this),
-                    $question->$format, $qa, 'qtype_stack', $field, $question->id), array('class' => $class));
+                    stack_maths::process_display_castext($question->$field->get_rendered($question->castextprocessor), $this),
+                    FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
+                    $qa, 'qtype_stack', $field, $question->id), array('class' => $class));
         }
         return '';
     }
@@ -452,18 +466,18 @@ class qtype_stack_renderer extends qtype_renderer {
             }
 
             $result = $question->get_prt_result($name, $relevantresponse, $qa->get_state()->is_finished());
-            if (is_null($result->valid)) {
+            if (is_null($result->get_valid())) {
                 continue;
             }
 
-            $fraction += $result->fraction;
+            $fraction += $result->get_fraction();
         }
 
         if (is_null($fraction)) {
             return '';
         }
 
-        $result = new stack_potentialresponse_tree_state(1, true, $fraction);
+        $result = new prt_evaluatable('', $fraction, new castext2_static_replacer([]), array());
         // This is overall, so we fix the PRT feedbackstyle style = 1 to get the default type of feedback.
         return $this->standard_prt_feedback($qa, $qa->get_question(), $result, 1);
     }
@@ -472,15 +486,21 @@ class qtype_stack_renderer extends qtype_renderer {
         if (empty($hint->hint)) {
             return '';
         }
+        $question = $qa->get_question();
+        $hinttext = $question->get_hint_castext($hint);
 
-        $hinttext = $qa->get_question()->get_hint_castext($hint);
+        // If called out of order.
+        if ($question->castextprocessor === null) {
+            $question->castextprocessor = new castext2_qa_processor($qa);
+        }
 
         $newhint = new question_hint($hint->id,
-                stack_maths::process_display_castext($hinttext->get_display_castext(), $this),
-                $hint->hintformat);
+                stack_maths::process_display_castext($hinttext->get_rendered($question->castextprocessor), $this),
+                FORMAT_HTML // All CASText2 processed content has already been formatted to HTML.
+            );
 
         return html_writer::nonempty_tag('div',
-                $qa->get_question()->format_hint($newhint, $qa), array('class' => 'hint'));
+            $question->format_hint($newhint, $qa), array('class' => 'hint'));
     }
 
     public function correct_response(question_attempt $qa) {
@@ -494,9 +514,15 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
+        // If called out of order.
+        if ($question->castextprocessor === null) {
+            $question->castextprocessor = new castext2_qa_processor($qa);
+        }
+
         return $qa->get_question()->format_text(stack_maths::process_display_castext(
-                $question->get_generalfeedback_castext()->get_display_castext(), $this),
-                $question->generalfeedbackformat, $qa, 'question', 'generalfeedback', $question->id);
+                $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor), $this),
+                FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
+                $qa, 'question', 'generalfeedback', $question->id);
     }
 
     /**

@@ -457,3 +457,9 @@
 (defprop $true  "\\mathbf{!BOOLTRUE!}"  texword)
 (defprop $false "\\mathbf{!BOOLFALSE!}" texword)
 
+
+;; *************************************************************************************************
+;; Added 20 Feb 2022.
+;; Remove %_C and %_E for display purposes.  The Maxima function %_ce_rem is defined in utils.mac
+
+(defmfun $tex1 (x) (reduce #'strcat (tex ($%_ce_rem x) nil nil 'mparen 'mparen)))

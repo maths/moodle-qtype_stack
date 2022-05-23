@@ -28,7 +28,7 @@ require_once($CFG->libdir . '/formslib.php');
 
 
 /**
- * The editing form for editing question tests.
+ * The editing form for editing STACK question tests.
  *
  * @copyright 2012 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -57,7 +57,7 @@ class qtype_stack_question_test_form extends moodleform {
 
         $allinputs = array_keys($question->inputs);
         foreach ($question->prts as $prtname => $prt) {
-            $inputsused = $prt->get_required_variables($allinputs);
+            $inputsused = array_keys($question->get_cached('required')[$prtname]);
             $inputsused = ': [' . implode(', ' , $inputsused) . ']';
 
             $elements = array(
@@ -101,10 +101,10 @@ class qtype_stack_question_test_form extends moodleform {
 
         foreach ($question->prts as $prtname => $prt) {
             $result = $question->get_prt_result($prtname, $response, false);
-            $answernotes = $result->answernotes;
+            $answernotes = $result->get_answernotes();
             $mform->getElement($prtname . 'group')->setValue(array(
-                    $prtname . 'score'      => $result->score,
-                    $prtname . 'penalty'    => $result->penalty,
+                    $prtname . 'score'      => $result->get_score(),
+                    $prtname . 'penalty'    => $result->get_penalty(),
                     $prtname . 'answernote' => end($answernotes)));
         }
     }

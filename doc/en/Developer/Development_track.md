@@ -5,22 +5,20 @@ past development history is documented on [Development history](Development_hist
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-## Version 4.3.11
-
-1. Release documentation under CC-BY-SA.
-
 ## Version 4.4
 
-1. Caching validation.
-2. Compiled PRTs.
-3. CASText2.
-4. Added `checkvars` option to inputs.
-5. Add in support for the [Damerau-Levenshtein distance](../Authoring/Levenshtein_distance.md).
+1. Release documentation under CC-BY-SA.
+2. Caching validation.
+3. Compiled PRTs.
+4  Change behaviour of UnitsAbsolute in response to discussion of issue #448.
+5. CASText2.
+6. Added `checkvars` option to inputs.
+7. Add in support for the [Damerau-Levenshtein distance](../Authoring/Levenshtein_distance.md).
 
+## Version 4.5
 
-## Maxima side PRTs.
-
-* Change behaviour of UnitsAbsolute in response to discussion of issue #448.
+1. Error messages: use caserror.class more fully to use user information to target error messages.
+2. Remove all "cte" code from Maxima - mostly install.
 
 ## For "inputs 2"?
 

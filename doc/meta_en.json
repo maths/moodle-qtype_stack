@@ -157,8 +157,13 @@
         "description":"Advice on dealing with errors in STACK questions during a live quiz."
         },
         {
+        "file":"Error_trapping.md",
+        "title":"Runtime errors and error trapping in STACK questions",
+        "description":"How STACK deals with runtime errors and how to trap errors and create guard clauses."
+        },
+        {
         "file":"Errors.md",
-        "title":"Errors in question aurhoting - STACK Documentation",
+        "title":"Errors when question authoring",
         "description":"What errors that may appear during validation/saving of a question mean and what you can do about it."
         },
         {
@@ -185,6 +190,11 @@
         "file":"ImportExport.md",
         "title":"Importing and Exporting - STACK Documentation",
         "description":"Information on importing and exporting questions in STACK."
+        },
+        {
+        "file":"Inclusions.md",
+        "title":"Including external content in questions",
+        "description":"Advice on including external content in questions."
         },
         {
         "file":"Inputs.md",
@@ -222,9 +232,9 @@
         "description":"Information on creating and manipulating multiple choice questions in STACk."
         },
         {
-        "file":"Question_bank.md",
-        "title":"Moodle Question Bank - STACK Documentation",
-        "description":"Information on finding the Moodle question bank."
+        "file":"Notes_about_performance.md",
+        "title":"Notes about question performance",
+        "description":"Notes about question performance, and how to write questions which are efficient."
         },
         {
         "file":"Options.md",
@@ -235,6 +245,11 @@
         "file":"Potential_response_trees.md",
         "title":"Potential Response Trees - STACK Documentation",
         "description":"Information on using potential response trees in the STACK online assessment system."
+        },
+        {
+        "file":"Question_bank.md",
+        "title":"Moodle Question Bank - STACK Documentation",
+        "description":"Information on finding the Moodle question bank."
         },
         {
         "file":"Question_blocks.md",
@@ -255,6 +270,11 @@
         "file":"Reporting.md",
         "title":"Reporting - STACK Documentation",
         "description":"You can generate detailed reports for quizzes using STACK to assess how successful they are."
+        },
+        {
+        "file":"Serving_out_data.md",
+        "title":"Serving out data",
+        "description":"How data sets can be served and downloaded by students, e.g. in statistics questions."
         },
         {
         "file":"Tables.md",

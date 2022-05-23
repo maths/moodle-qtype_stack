@@ -76,7 +76,9 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         if ('' == trim($err)) {
             return false;
         } else {
-            $this->errors[] = $err;
+            // Force validation first so that all the errors are in the same form.
+            $this->get_valid();
+            $this->errors[] = new $this->errclass($err, $this->get_source_context());
             // Old behaviour was to return the combined errors, but apparently it was not used in master?
             // TODO: maybe remove the whole return?
             return $this->get_errors();
@@ -200,7 +202,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         if (null === $this->evaluated) {
             throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
         }
-        return $this->ast_to_string($this->evaluated);
+        return $this->ast_to_string($this->evaluated, array('checkinggroup' => true));
     }
 
     /* This function returns something a teacher might claim a student types in.

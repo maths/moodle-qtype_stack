@@ -17,6 +17,12 @@ stackmap_get(m, k) := block([],
  return(assoc(k,rest(m,1),und))
 )$
 
+/* Either take the value from the map, or use the value of the atom. */
+stackmap_get_ifexists(m, k) := block([],
+ if not is_stackmap(m) then return(m),
+ return(assoc(k,rest(m,1),und))
+)$
+
 stackmap_set(m, k, v) := block([],
  /* If we are given anything else than a map as the map we make a new map. */
  if not is_stackmap(m) then return(["stack_map",[k,v]]),
@@ -289,10 +295,10 @@ castext_simplify(ct2) := block([_r,_i,_t,_redo],
 /**
  * A concat for castext2. If you need to concat more terms lreduce...
  */
-castext_concat(a, b) := block([_tmp,_a,_b],
+castext_concat(a, b) := block([_tmp, _a, _b],
  _a: castext_simplify(a),
  _b: castext_simplify(b),
- if stringp(_a) and stringp(_b) then return(sconcat(_a,_b)),
+ if stringp(_a) and stringp(_b) then return(sconcat(_a, _b)),
  return(castext_simplify(["%root", _a, _b]))
 )$
 
@@ -307,4 +313,132 @@ regex_match_exactp(regex, str) := block([l1, bool1],
     bool1:sequal(str, strmatch)
   ),
 return(bool1))$
+
+/* STACK csv-helpper special tool for file output generation.
+ * Generates a string in CSV format of a list of lists or a matrix
+ * with an optional list of labels
+ * Will use normal grind/string style value form output but will return string
+ * values without Maxima style escapes. Special handling for pure float
+ * values, with them will use `stackfltfmt` to tune display.
+ * Uses "-wrapped strings when need be and picks , or ; as the separator
+ * based on how many values would need to be wrapped.
+ * We could do this with numericalio but we like to have that float formatting there.
+ */
+stack_csv_formatter(_data, _labels) := block([_sep,simp,_out,_rowcount,_sepcount1,_sepcount2],
+ _out:args(_data),
+ _sepcount1:0, /* for , */
+ _sepcount2:0, /* for ; */
+ /* Start by joining the values to labels if any */
+ if (listp(_labels)) then (
+  _out: append([_labels], _out)
+ ),
+
+ /* Render */
+ for _rowcount:1 thru length(_out) do (
+  _out[_rowcount]:maplist(lambda([_v],block([_tmp,_wrap],
+   _tmp: "NULL",
+   if (stringp(_v)) then (
+    _tmp: _v
+   ) else if ev(numberp(_v) and not integerp(_v), simp) then (
+    /* Those special floats, simp for the unary minus. */
+    _tmp: stack_disp(_v, "")
+   ) else (
+    _tmp: string(_v)
+   ),
+   _wrap: false,
+   if (integerp(sposition("\"", _tmp))) then (
+    _wrap: true,
+    /* Tricky bit we need to replace " with "" here, so ssubst just won't do. */
+    _tmp: simplode(maplist(lambda([c],if is(c="\"") then "\"\"" else c), charlist(_tmp)))
+   ),
+   /* If any line changes are in play wrap. */
+   if (integerp(sposition("
+", _tmp))) then _wrap: true,
+   /* If we have special whitespace at the ends of the value we need that wrapping. */
+   /* NOTE that the tab on the next line matters. */
+   if is(_tmp#strim("   
+",_tmp)) then _wrap:true,
+
+   /* Check the separator situation */
+   if (not _wrap) then (
+    if (integerp(sposition(",", _tmp))) then _sepcount1: _sepcount1+1,
+    if (integerp(sposition(";", _tmp))) then _sepcount2: _sepcount2+1
+   ),
+
+
+   if (_wrap) then (
+    _tmp: sconcat("\"", _tmp, "\"")
+   ),
+   _tmp
+  )),_out[_rowcount])
+ ),
+
+ _sep:"fail",
+ /* Pick the separator. */
+ if _sepcount1 = 0 then (
+  _sep: ","
+ ) else if _sepcount2 = 0 then (
+  _sep: ";"
+ ),
+
+ if sep = "fail" then (
+  /* We need to wrap things to allow the use of our separator. */
+  _sep: ",",
+  for _rowcount:1 thru length(_out) do (
+   _out[_rowcount]:maplist(lambda([_v],block([_tmp],
+    _tmp: _v,
+    if not integerp(sposition("\"", _tmp)) then (
+     if integerp(strpos(_sep, _tmp)) then _tmp: sconcat("\"", _tmp, "\"")
+    ),
+    _tmp
+   )),_out[_rowcount])
+  )
+ ),
+
+ /* TODO: do we want to do padding and formatting to help reading in text-editors? */
+
+ /* Now lets join everyhing up. */
+ _out: maplist(lambda([_row],simplode(_row, _sep)), _out),
+ _out: simplode(_out,"
+")
+ /* We might want to add a line change to the end. */
+)$
+
+
+
+/** 
+ * The logic for turning {@%_val@} to a string, this exists to simplify
+ * castext2 compilation results.
+ * %_mode has the following values:
+ *  "i" => sconcat("\({",...,"}\)") or ... for strings
+ *  "im" => sconcat("\\\\\\({",str_to_md(...),"}\\\\\\)") or str_to_md(...) for strings
+ *  "" => ...
+ *  "m" => str_to_md(...)
+ * Basically the mode tells if we are to wrap things in math-delimiters and if we are in 
+ * markdown mode.
+ */
+ct2_latex(%_val, %_mode):=block([%_tmp],
+ %_tmp: %_val,
+ /* Strings */
+ if stringp(%_tmp) then (
+   /* If in math-mode, i.e. not requesting wrapping wrap with braces. */
+   if %_mode = "" or %_mode = "m" then %_tmp: sconcat("{", %_tmp, "}"),
+   if %_mode = "m" or %_mode = "im" then %_tmp: str_to_md(%_tmp),
+   return(%_tmp)
+ ) else if listp(%_tmp) and length(%_tmp) > 0 and is(%_tmp[1] = "%root") then (
+   /* If we receive inline CASText then pass it through. */
+   if is(length(%_tmp) = 2) then
+      return(%_tmp[2]), /* Unwrap it as it does not need that wrapping anymore. Unfortunately can only do this for the single elemetn case here. */
+   return(%_tmp)
+ ) else (
+   %_tmp: stack_disp(%_tmp, ""), /* Do our own wrapping. */
+   %_tmp: sconcat("{", strimr(" ", %_tmp), "}"),
+   if %_mode = "i" or %_mode = "im" then %_tmp: sconcat("\\(", %_tmp, "\\)")
+ ),
+ if %_mode = "m" or %_mode = "im" then (
+  %_tmp: str_to_md(%_tmp)
+ ),
+ /* Finally give it to PHP side translations. Maybe move them here as well? */
+ return(["smlt", %_tmp])
+)$
 

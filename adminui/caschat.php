@@ -29,7 +29,7 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/options.class.php');
-require_once(__DIR__ . '/../stack/cas/castext.class.php');
+require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 require_login();
@@ -60,6 +60,7 @@ $title = stack_string('chattitle');
 $PAGE->set_title($title);
 
 
+$displaytext = '';
 $debuginfo = '';
 $errs = '';
 $varerrs = array();
@@ -95,11 +96,21 @@ if ($string) {
         $varerrs = $keyvals->get_errors();
     }
 
+    $ct = null;
     if (!$varerrs) {
-        $ct           = new stack_cas_text($string, $session, 0);
-        $displaytext  = $ct->get_display_castext();
-        $errs         = $ct->get_errors();
-        $debuginfo    = $ct->get_debuginfo();
+        $ct = castext2_evaluatable::make_from_source($string, 'caschat');
+        $session->add_statement($ct);
+        if ($ct->get_valid()) {
+            $session->instantiate();
+            $displaytext  = $ct->get_rendered();
+        }
+        // Only print each error once.
+        $errs = $ct->get_errors(false);
+        foreach ($session->get_errors(false) as $err) {
+            $errs = array_merge($errs, $err);
+        }
+        $errs = stack_string_error('exceptionmessage', implode(' ', array_unique($errs)));
+        $debuginfo    = $session->get_debuginfo();
     }
 }
 

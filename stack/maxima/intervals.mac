@@ -203,13 +203,7 @@ inintervalp(p, A) := block ([Ans, Args, x, y, Atemp, cc:cc(0,1), oo:oo(0,1), co:
         Ans
 )$
 
-intervalp(X) := block([A:X, cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1)],
-    if atom(A) then return(false),
-
-    cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
-    if (op(A)=cc or op(A)=oo or op(A)=co or op(A)=oc) then return(true),
-    false
-)$
+intervalp(X) := if (safe_op(X)="cc" or safe_op(X)="oo" or safe_op(X)="oc" or safe_op(X)="co") then true else false$
 
 realsetp(ex) := block(
     if is(ex=all) then return(true),

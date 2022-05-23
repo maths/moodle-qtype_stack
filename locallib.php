@@ -238,3 +238,25 @@ function qtype_stack_setup_question_test_page($question) {
 
     return array($context, $seed, $urlparams);
 }
+
+/* This class is needed to ignore requests for pluginfile rewrites in the bulk tester
+ * and possibly elsewhere, e.g. API.
+ */
+class stack_outofcontext_process {
+
+    public function __construct() {
+    }
+
+    /**
+     * Calls {@link question_rewrite_question_urls()} with appropriate parameters
+     * for content belonging to this question.
+     * @param string $text the content to output.
+     * @param string $component the component name (normally 'question' or 'qtype_...')
+     * @param string $filearea the name of the file area.
+     * @param int $itemid the item id.
+     * @return string the content with the URLs rewritten.
+     */
+    public function rewrite_pluginfile_urls($text, $component, $filearea, $itemid) {
+        return $text;
+    }
+}

@@ -31,12 +31,6 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
  */
 class stack_utils_test extends qtype_stack_testcase {
 
-    public function test_matching_pairs() {
-        $this->assertTrue(stack_utils::check_matching_pairs('Hello $world$!', '$'));
-        $this->assertFalse(stack_utils::check_matching_pairs('Hello @world!', '@'));
-        $this->assertTrue(stack_utils::check_matching_pairs('', '$'));
-    }
-
     public function test_check_bookends() {
         $this->assertSame('left', stack_utils::check_bookends('x+1)^2', '(', ')'));
         $this->assertSame('right', stack_utils::check_bookends('(x+1', '(', ')'));

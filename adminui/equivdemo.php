@@ -25,7 +25,7 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/options.class.php');
-require_once(__DIR__ . '/../stack/cas/castext.class.php');
+require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
 require_once(__DIR__ . '/../stack/input/inputbase.class.php');
@@ -163,10 +163,11 @@ foreach ($samplearguments as $argument) {
                 $expected = 'false';
             }
             $string       = "\[{@second(S1)@}\]";
-            $ct           = new stack_cas_text($string, $session, 0);
-
+            $ct = castext2_evaluatable::make_from_source($string, 'equivdemo');
+            $session->add_statement($ct);
+            $session->instantiate();
             $start = microtime(true);
-            $displaytext  = $ct->get_display_castext();
+            $displaytext  = $ct->get_rendered();
             $took = (microtime(true) - $start);
             $rtook = round($took, 5);
 
@@ -192,9 +193,9 @@ foreach ($samplearguments as $argument) {
             $errs = '';
             if ($ct->get_errors() != '') {
                 $errs = html_writer::tag('span', $ct->get_errors(), array('class' => 'stacksyntaxexamplehighlight'));
-                $errs .= $ct->get_debuginfo();
+                $errs .= $session->get_debuginfo();
             }
-            $debuginfo = $ct->get_debuginfo();
+            $debuginfo = $session->get_debuginfo();
 
             $title = $argument['title'];
             if ('unsupported' === $argument['outcome']) {
@@ -309,10 +310,12 @@ if ($string) {
     }
 
     if (!$varerrs) {
-        $ct           = new stack_cas_text($string, $session, 0);
-        $displaytext  = $ct->get_display_castext();
+        $ct = castext2_evaluatable::make_from_source($string, 'equivdemo');
+        $session->add_statement($ct);
+        $session->instantiate();
+        $displaytext  = $ct->get_rendered();
         $errs         = $ct->get_errors();
-        $debuginfo    = $ct->get_debuginfo();
+        $debuginfo    = $session->get_debuginfo();
     }
 }
 

@@ -104,18 +104,25 @@ class stack_textarea_input extends stack_input {
 
     protected function caslines_to_answer($caslines, $secrules = false) {
         $vals = array();
+        // We don't use full "inputform" here as we need to keep stacklet and stackeq as is.
+        $params = array('checkinggroup' => true,
+            'qmchar' => false,
+            'pmchar' => 1,
+            'nosemicolon' => true,
+            'keyless' => true,
+            'dealias' => false, // This is needed to stop pi->%pi etc.
+            'nounify' => 1,
+            'nontuples' => false
+        );
         foreach ($caslines as $line) {
             if ($line->get_valid()) {
-                $vals[] = $line->get_evaluationform();
+                $vals[] = $line->ast_to_string(null, $params);
             } else {
                 // This is an empty place holder for an invalid expression.
                 $vals[] = 'EMPTYCHAR';
             }
         }
         $s = '['.implode(',', $vals).']';
-        if (!$secrules) {
-            $secrules = $caslines[0]->get_securitymodel();
-        }
         return stack_ast_container::make_from_student_source($s, '', $secrules);
     }
 

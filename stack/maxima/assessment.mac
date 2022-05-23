@@ -414,7 +414,7 @@ real_numberp(ex):= block([keepfloat, trigexpand, logexpand],
 
 /* Do we have a real number, inf or -inf?  */
 extended_real_numberp(ex) := block(
-    if ex=inf or ex=-inf then return(true),
+    if (ex=inf or ex=-inf or ex=minf or ex=-minf) then return(true),
     return(real_numberp(ex))
 )$
 
@@ -2213,7 +2213,8 @@ stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block(
     ret:transpose(ret),
     ret:apply(argument, args(ret)),
     /* Construct a separate note. The note should be the same length as the argument, so normally has "EMPTYCHAR" as the first entry.*/
-    note:second(A),
+    /* If we return a list, then the PHP unpacking side now has problems, but we want to encapsulate the note as a single object, without | characters */
+    note:sconcat("(", simplode(second(A), ","), ")"),
     return([res, ret, note])
 )$
 
@@ -2274,7 +2275,11 @@ check_stack_eval_arg(ex) := block([ret],
 )$
 
 /* An answer test based on equivalence reasoning. */
-ATEquiv(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos:false],
+ATEquiv([ex]) := block([SA, SB, SO, SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos:false],
+    SA:first(ex),
+    SB:second(ex),
+    SO:[],
+    if length(ex)>2 then SO:third(ex),
 
     /* Turn on simplification and error catch. */
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -2308,7 +2313,11 @@ ATEquiv(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack,
 )$
 
 /* An answer test based on equivalence reasoning. */
-ATEquivFirst(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos:false],
+ATEquivFirst([ex]) := block([SA, SB, SO, SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos:false],
+    SA:first(ex),
+    SB:second(ex),
+    SO:[],
+    if length(ex)>2 then SO:third(ex),
 
     /* Turn on simplification and error catch. */
     SAA:errcatch(ev(SA, simp, nouns)),

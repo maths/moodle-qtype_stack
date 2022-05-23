@@ -161,6 +161,8 @@ class stack_bulk_tester {
                     $qdotoutput = 0;
                 }
 
+                // At this point we have no question context and so we can't possibly correctly evaluate URLs.
+                $question->castextprocessor = new castext2_qa_processor(new stack_outofcontext_process());
                 $upgradeerrors = $question->validate_against_stackversion();
                 if ($upgradeerrors != '') {
                     if ($outputmode == 'web') {
@@ -343,13 +345,15 @@ class stack_bulk_tester {
         $options->readonly = true;
         $options->flags = question_display_options::HIDDEN;
         $options->suppressruntestslink = true;
+        $question->castextprocessor = new castext2_qa_processor($quba->get_question_attempt($slot));
 
         // Create the question text, question note and worked solutions.
         // This involves instantiation, which seeds the CAS cache in the cases when we have no tests.
         $renderquestion = $quba->render_question($slot, $options);
         $questionote = $question->get_question_summary();
         $generalfeedback = $question->get_generalfeedback_castext();
-        $generalfeedback->get_display_castext();
+
+        $generalfeedback->get_rendered($question->castextprocessor);
         if ($generalfeedback->get_errors() != '') {
             $ok = false;
             $s = stack_string('stackInstall_testsuite_errors') . '  ' .
@@ -427,8 +431,8 @@ class stack_bulk_tester {
         // Create the question text, question note and worked solutions.
         // This involves instantiation, which seeds the CAS cache in the cases when we have no tests.
         $renderquestion = $quba->render_question($slot, $options);
-        $generalfeedback = $qu->get_generalfeedback_castext();
-        $generalfeedback->get_display_castext();
+        $workedsolution = $qu->get_generalfeedback_castext();
+        $workedsolution->get_rendered();
         $questionote = $qu->get_question_summary();
 
         // As we cloned the question any and all updates to the cache will not sync.

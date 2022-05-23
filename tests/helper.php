@@ -16,6 +16,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '../../stack/potentialresponsetreestate.class.php');
+
 // Test helper code for the Stack question type.
 //
 // @package   qtype_stack.
@@ -38,9 +40,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'test3', // Four inputs, four PRTs, not randomised. Even and odd functions.
             'test3_penalty0_1', // Four inputs, four PRTs, not randomised. Even and odd functions.
             'test4', // One input, one PRT, not randomised, has a plot. What is the equation of this graph? x^2.
-            'test5', // Three inputs, three PRTs, one with 4 nodes, randomised. Three steps, rectangle side length from area.
             'test6', // Test of the matrix input type.
-            'test7', // 1 input, 1 PRT with 3 nodes. Solving a diff equation, with interesting feedback.
             'test8', // 1 input, 1 PRT with 3 nodes. Roots of unity. Input has a syntax hint.
             'test9', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
             'test_boolean', // 2 inputs, 1 PRT, randomised, worked solution with CAS & plot. Make function continuous.
@@ -128,15 +128,40 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('2');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        // We have "simplify:true" in this prt so that we really check the arguments to EqualComAss are not simplified.
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '2';
+        $newnode->answertest          = 'EqualComAss';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -174,14 +199,21 @@ class qtype_stack_test_helper extends question_test_helper {
         // and not the raw student input.  This is to make sure the student's answer is evaluated in the context of
         // question variables.  Normally we don't want the student's answer to be evaluated in this way,
         // but in this question we do to ensure the random values are used.
-        $sans = stack_ast_container::make_from_teacher_source('ans1+0');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('ta');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'Int', 'x');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-1');
-        $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), '0', 1);
+        $prt = json_decode('{"name":"PotResTree_1","value":1,"feedbackstyle":1,"autosimplify":true,
+            "feedbackvariables":"",
+            "firstnodename":"",
+            "nodes":[
+                {"nodeid":0,"nodename":"0","quiet":false,
+                 "sans":"ans1+0","tans":"ta","answertest":"Int","testoptions":"x",
+                 "falsenextnode":"-1","falseanswernote":"PotResTree_1-0-0",
+                 "falsescore":0,"falsescoremode":"=",
+                 "falsepenalty":0.25,"falsefeedback":"","falsefeedbackformat":"1",
+                 "truenextnode":"-1","trueanswernote":"PotResTree_1-0-1",
+                 "truescore":1,"truescoremode":"=",
+                 "truepenalty":0.25,"truefeedback":"","truefeedbackformat":"1"
+                }
+              ]}');
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -292,18 +324,25 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->specificfeedback = '[[feedback:PotResTree_1]]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', '5', null, array('boxWidth' => 3));
+                    'algebraic', 'ans1', '5', null, array('boxWidth' => 3));
         $q->inputs['ans2'] = stack_input_factory::make(
-                        'algebraic', 'ans2', '6', null, array('boxWidth' => 3));
+                    'algebraic', 'ans2', '6', null, array('boxWidth' => 3));
 
-        $sans = stack_ast_container::make_from_teacher_source('x^2-ans1*x+ans2');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('(x-2)*(x-3)');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-1');
-        $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), '0', 1);
+        $prt = json_decode('{"name":"PotResTree_1","value":1,"feedbackstyle":1,"autosimplify":true,
+            "feedbackvariables":"",
+            "firstnodename":"",
+            "nodes":[
+                {"nodeid":0,"nodename":"0","quiet":false,
+                 "sans":"x^2-ans1*x+ans2","tans":"(x-2)*(x-3)","answertest":"AlgEquiv","testoptions":"",
+                 "falsenextnode":"-1","falseanswernote":"PotResTree_1-0-0",
+                 "falsescore":0,"falsescoremode":"=",
+                 "falsepenalty":0.1,"falsefeedback":"","falsefeedbackformat":"1",
+                 "truenextnode":"-1","trueanswernote":"PotResTree_1-0-1",
+                 "truescore":1,"truescoremode":"=",
+                 "truepenalty":0.1,"truefeedback":"","truefeedbackformat":"1"
+                }
+              ]}');
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -343,64 +382,170 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans3'] = stack_input_factory::make('algebraic', 'ans3', '0', $options,
                         array('boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false));
         $q->inputs['ans4'] = stack_input_factory::make('boolean', 'ans4', 'true', $options);
+        $q->prts = [];
 
-        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans1)+ans1', null, null);
+        $prt = new stdClass;
+        $prt->name              = 'odd';
+        $prt->value             = 0.25;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'sa:subst(x=-x,ans1)+ans1;';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
 
-        $sans = stack_ast_container::make_from_teacher_source('sa');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'odd-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
-        $q->prts['odd'] = new stack_potentialresponse_tree('odd',
-                '', true, 0.25, $feedbackvars->get_session(), array($node), '0', 1);
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'sa';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'odd-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'odd-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
 
-        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null);
-        $sans = stack_ast_container::make_from_teacher_source('sa');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'even-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'even-0-1');
-        $q->prts['even'] = new stack_potentialresponse_tree('even',
-                '', true, 0.25, $feedbackvars->get_session(), array($node), '0', 1);
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $feedbackvars = new stack_cas_keyval('sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)');
+        $prt = new stdClass;
+        $prt->name              = 'even';
+        $prt->value             = 0.25;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'sa:subst(x=-x,ans2)-ans2;';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
 
-        $sans = stack_ast_container::make_from_teacher_source('sa1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0');
-        $tans->get_valid();
-        $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node0->add_branch(0, '=', 0, $q->penalty, 1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa1@} \neq 0.\]', FORMAT_HTML, 'oddeven-0-0');
-        $node0->add_branch(1, '=', 0.5, $q->penalty, 1, '', FORMAT_HTML, 'oddeven-0-1');
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'sa';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'even-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'even-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
 
-        $sans = stack_ast_container::make_from_teacher_source('sa2');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0');
-        $tans->get_valid();
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node1->add_branch(0, '+', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa2@} \neq 0.\]', FORMAT_HTML, 'oddeven-1-0');
-        $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', FORMAT_HTML, 'oddeven-1-1');
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
-                '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'oddeven';
+        $prt->value             = 0.25;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3);';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans4');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('true');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, 1, -1, '', FORMAT_HTML, 'unique-0-0');
-        $node->add_branch(1, '=', 1, 1, -1, '', FORMAT_HTML, 'unique-0-1');
-        $q->prts['unique']  = new stack_potentialresponse_tree('unique',
-                '', true, 0.25, null, array($node), '0', 1);
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'sa1';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->truescore           = '0.5';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'oddeven-0-1';
+        $newnode->truenextnode        = '1';
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa1@} \neq 0.\]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'oddeven-0-0';
+        $newnode->falsenextnode       = '1';
+        $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '1';
+        $newnode->nodename            = '1';
+        $newnode->sans                = 'sa2';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '+';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa2@} \neq 0.\]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'oddeven-1-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '0.5';
+        $newnode->truescoremode       = '+';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'oddeven-1-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        $prt = new stdClass;
+        $prt->name              = 'unique';
+        $prt->value             = 0.25;
+        $prt->feedbackstyle     = '1';
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans4';
+        $newnode->tans                = 'true';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = '1';
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'unique-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = '1';
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'unique-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         $q->hints = array(
             new question_hint(1, 'Hint 1', FORMAT_HTML),
@@ -447,62 +592,179 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans4'] = stack_input_factory::make(
                         'boolean',   'ans4', 'true');
 
-        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans1)+ans1', null, null);
-        $sans = stack_ast_container::make_from_teacher_source('sa');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'odd-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'odd-0-1');
-        $q->prts['odd']     = new stack_potentialresponse_tree('odd',
-                '', true, 0.25, $feedbackvars->get_session(), array($node), '0', 1);
+        $q->penalty = 0.1;
 
-        $feedbackvars = new stack_cas_keyval('sa:subst(x=-x,ans2)-ans2', null, null);
-        $sans = stack_ast_container::make_from_teacher_source('sa');
-        $tans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]', FORMAT_HTML, 'even-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'even-0-1');
-        $q->prts['even']    = new stack_potentialresponse_tree('even',
-                '', true, 0.25, $feedbackvars->get_session(), array($node), '0', 1);
+        $q->prts = [];
 
-        $feedbackvars = new stack_cas_keyval('sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)');
+        $prt = new stdClass;
+        $prt->name              = 'odd';
+        $prt->value             = 0.25;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'sa:subst(x=-x,ans1)+ans1;';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
 
-        $sans = stack_ast_container::make_from_teacher_source('sa1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0');
-        $tans->get_valid();
-        $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node0->add_branch(0, '=', 0, $q->penalty, 1,
-                'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa1@} \neq 0.\]', FORMAT_HTML, 'oddeven-0-0');
-        $node0->add_branch(1, '=', 0.5, $q->penalty, 1, '', FORMAT_HTML, 'oddeven-0-1');
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'sa';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = '0.3';
+        $newnode->falsefeedback       = 'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa@} \neq 0.\]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'odd-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = '0.3';
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'odd-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
 
-        $sans = stack_ast_container::make_from_teacher_source('sa2');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0');
-        $tans->get_valid();
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node1->add_branch(0, '+', 0, $q->penalty, -1,
-                'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa2@} \neq 0.\]', FORMAT_HTML, 'oddeven-1-0');
-        $node1->add_branch(1, '+', 0.5, $q->penalty, -1, '', FORMAT_HTML, 'oddeven-1-1');
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $q->prts['oddeven'] = new stack_potentialresponse_tree('oddeven',
-                '', true, 0.25, $feedbackvars->get_session(), array($node0, $node1), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'even';
+        $prt->value             = 0.25;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'sa:subst(x=-x,ans2)-ans2;';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans4');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('true');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'unique-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'unique-0-1');
-        $q->prts['unique']  = new stack_potentialresponse_tree('unique',
-                '', true, 0.25, null, array($node), '0', 1);
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'sa';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = '0.3';
+        $newnode->falsefeedback       = 'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa@} \neq 0.\]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'even-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = '0.3';
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'even-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        $prt = new stdClass;
+        $prt->name              = 'oddeven';
+        $prt->value             = 0.25;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3);';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'sa1';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Your answer is not an odd function. Look, \[ f(x)+f(-x)={@sa1@} \neq 0.\]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'oddeven-0-0';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '0.5';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'oddeven-0-1';
+        $newnode->truenextnode        = '1';
+        $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '1';
+        $newnode->nodename            = '1';
+        $newnode->sans                = 'sa2';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '+';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Your answer is not an even function. Look, \[ f(x)-f(-x)={@sa2@} \neq 0.\]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'oddeven-1-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '0.5';
+        $newnode->truescoremode       = '+';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'oddeven-1-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        $prt = new stdClass;
+        $prt->name              = 'unique';
+        $prt->value             = 0.25;
+        $prt->feedbackstyle     = '1';
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans4';
+        $newnode->tans                = 'true';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'unique-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'unique-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        $q->hints = array(
+            new question_hint(1, 'Hint 1', FORMAT_HTML),
+            new question_hint(2, 'Hint 2', FORMAT_HTML),
+        );
+
+        $q->deployedseeds = array();
 
         return $q;
     }
@@ -527,136 +789,53 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'x^2', null, array('boxWidth' => 15));
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('x^2');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Your answer and my answer are plotted below. Look they are different! {@plot([p,ans1],[x,-2,2])@}',
-                FORMAT_HTML, 'plots-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'plots-0-1');
-        $q->prts['plots'] = new stack_potentialresponse_tree('plots',
-                '', true, 1, null, array($node), '0', 1);
-
-        return $q;
-    }
-
-    /**
-     * @return qtype_stack_question the question from the test5.xml file.
-     */
-    public static function make_stack_question_test5() {
-        $q = self::make_a_stack_question();
-
-        $q->stackversion = '2019072900';
-        $q->name = 'test-5';
-        $q->questionvariables = 'rn : -1*(rand(4)+1); rp : 8+rand(6); ar : rn*rp; sg : rn+rp; ' .
-                'ta1 : x*(x+sg)=-ar; ta2 : x*(x-sg)=-ar; tas : setify(map(rhs,solve(ta1,x)))';
-        $q->questiontext = '<p>A rectangle has length {@sg@}cm greater than its width.
-                            If it has an area of ${@abs(ar)@}cm^2$, find the dimensions of the rectangle.</p>
-                            <p>1. Write down an equation which relates the side lengths to the
-                                  area of the rectangle.<br />
-                                  [[input:ans1]]
-                                  [[validation:ans1]]
-                                  [[feedback:eq]]</p>
-                            <p>2. Solve your equation. Enter your answer as a set of numbers.<br />
-                                  [[input:ans2]]
-                                  [[validation:ans2]]
-                                  [[feedback:sol]]</p>
-                            <p>3. Hence, find the length of the shorter side.<br />
-                                  [[input:ans3]] cm
-                                  [[validation:ans3]]
-                                  [[feedback:short]]</p>';
-        $q->generalfeedback = 'If $x$cm is the width then $(x+{@sg@})$ is the length.
-                               Now the area is ${@abs(ar)@}cm^2$ and so
-                               \[ {@x*(x+sg)=-ar@}. \]
-                               \[ {@x^2+sg*x+ar@}=0 \]
-                               \[ {@(x+rp)*(x+rn)=0@} \]
-                               So that $x={@-rp@}$ or $x={@-rn@}$. Since lengths are positive quantities $x>0$
-                               and we discard the negative root. Hence the length of the shorter side is
-                               $x={@-rn@}$cm.';
-
-        $q->questionnote = '{@ta1@}, {@rp@}.';
-
-        $q->inputs['ans1'] = stack_input_factory::make(
-                            'algebraic', 'ans1', 'ta1', null, array('boxWidth' => 15));
-        $q->inputs['ans2'] = stack_input_factory::make(
-                            'algebraic', 'ans2', 'tas', null, array('boxWidth' => 15));
-        $q->inputs['ans3'] = stack_input_factory::make(
-                            'algebraic', 'ans3', 'rp', null, array('boxWidth' => 5));
-
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('ta1');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'SubstEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1, 'Not correct.', FORMAT_HTML, 'eq-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'eq-0-1');
-        $q->prts['eq'] = new stack_potentialresponse_tree('eq',
-                    '', true, 0.3333333, null, array($node), '0', 1);
-
-        $feedbackvars = new stack_cas_keyval('v1 : first(listofvars(ans1)); ftm : setify(map(rhs,solve(ans1,v1)))');
-
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('ta1');
-        $tans->get_valid();
-        $node0 = new stack_potentialresponse_node($sans, $tans, 'SubstEquiv', null);
-        $node0->add_branch(0, '=', 0, $q->penalty, 1, '', FORMAT_HTML, 'sol-0-0');
-        $node0->add_branch(1, '=', 1, $q->penalty, 3, '', FORMAT_HTML, 'sol-0-1');
-
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('ta2');
-        $tans->get_valid();
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'SubstEquiv', null);
-        $node1->add_branch(0, '=', 0, $q->penalty, 2, '', FORMAT_HTML, 'sol-1-0');
-        $node1->add_branch(1, '=', 1, $q->penalty, 3, '', FORMAT_HTML, 'sol-1-1');
-
-        $sans = stack_ast_container::make_from_teacher_source('ans2');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('ftm');
-        $tans->get_valid();
-        $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node2->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'sol-2-0');
-        $node2->add_branch(1, '=', 1, $q->penalty, -1,
-                'You have correctly solved the equation you have entered in part 1. Please try both parts again!',
-                FORMAT_HTML, 'sol-2-1');
-
-        $sans = stack_ast_container::make_from_teacher_source('ans2');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('tas');
-        $tans->get_valid();
-        $node3 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node3->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'sol-3-0');
-        $node3->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'sol-3-1');
-
-        $q->prts['sol'] = new stack_potentialresponse_tree('sol',
-                    '', true, 0.3333333, $feedbackvars->get_session(),
-                    array($node0, $node1, $node2, $node3), '0', 1);
-
-        $sans = stack_ast_container::make_from_teacher_source('ans3');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('rn');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1, 'Not correct.', FORMAT_HTML, 'short-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'short-0-1');
-        $q->prts['short'] = new stack_potentialresponse_tree('short',
-                            '', true, 0.3333333, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'plots';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'x^2';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'plots-0-1';
+        $newnode->truenextnode        = '-1';
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       =
+            'Your answer and my answer are plotted below. Look they are different! {@plot([p,ans1],[x,-2,2])@}';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'plots-0-0';
+        $newnode->falsenextnode       = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
 
     /**
      * @return qtype_stack_question in which the expected answer in the true/false input is generated from the question variables...
+     *                              and the question variables define the scores in the PRT.
      */
     public static function make_stack_question_test_boolean() {
         $q = self::make_a_stack_question();
 
         $q->stackversion = '2019072900';
         $q->name = 'test-boolean';
-        $q->questionvariables = 'ta:true;';
+        $q->questionvariables = 'ta:true;sc1:0.2;sc2:0.9;';
         $q->questiontext = 'What is {@ta@}? [[input:ans1]]
                            [[validation:ans1]]';
 
@@ -667,91 +846,41 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 1;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('ta');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', null);
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = 'sc1';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = 'sc2';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
-
-    /**
-     * @return qtype_stack_question the question from the test7.xml file.
-     */
-    public static function make_stack_question_test7() {
-        $q = self::make_a_stack_question();
-
-        $q->stackversion = '2019072900';
-        $q->name = 'test-7';
-        $q->questionvariables = "l1 : 1+(-1)^rand(1)*rand(6); " .
-                                "l2 : l1+(-1)^rand(1)*(1+rand(4)); " .
-                                "c1 : -1*(l1+l2); c2 = l1*l2; " .
-                                "ode : 'diff(y(t),t,2)+c1*'diff(y(t),t)+c2*y(t); " .
-                                "ta : A*e^(l1*t)+B*e^(l2*t)";
-        $q->questiontext = '<p>Find the general solution to \[ {@ode@} =0. \]</p>
-                            <p>$y(t)=$ [[input:ans1]]</p>
-                            [[validation:ans1]]';
-
-        $q->specificfeedback = '[[feedback:Result]]';
-        $q->questionnote = '{@ta@}';
-
-        $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'ta', array('boxWidth' => 15));
-
-        $feedbackvars = new stack_cas_keyval('sa1 : subst(y(t)=ans1,ode); ' .
-                                             'sa2 : ev(sa1,nouns); ' .
-                                             'sa3 : fullratsimp(expand(sa2)); ' .
-                                             'l : delete(t,listofvars(ans1)); ' .
-                                             'lv : length(l); ' .
-                                             'b1 : ev(ans1,t=0,fullratsimp); ' .
-                                             'b2 : ev(ans1,t=1,fullratsimp); ' .
-                                             'm : float(if not(equal(b2,0)) then fullratsimp(b1/b2) else 0)');
-
-        $sans = stack_ast_container::make_from_teacher_source('sa3');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0');
-        $tans->get_valid();
-        $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
-        $node0->add_branch(0, '=', 0, '', -1, '<p>Your answer should satisfy the differential equation.
-                In fact, when we substitute your expression into the differential equation we get</p>
-                \[ {@sa1@} =0, \]
-                <p>evaluating the derivatives we have</p>
-                \[ {@sa2@} =0 \]
-                <p>This simplifies to</p>
-                \[ {@sa3@} = 0,\]
-                <p>so you must have done something wrong.</p>', FORMAT_HTML, 'Fails to satisfy DE');
-        $node0->add_branch(1, '=', 1, '', 1, '', FORMAT_HTML, 'Result-0-T');
-
-        $sans = stack_ast_container::make_from_teacher_source('lv');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('2');
-        $tans->get_valid();
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
-        $node1->add_branch(0, '=', 0.75, $q->penalty, -1, '<p>You should have a general solution, which
-                includes unknown constants. Your answer satisfies the differential equation,
-                but does not have the correct number of unknown constants.</p>', FORMAT_HTML, 'Insufficient constants');
-        $node1->add_branch(1, '=', 1, $q->penalty, 2, '', FORMAT_HTML, 'Result-1-T');
-
-        $sans = stack_ast_container::make_from_teacher_source('numberp(m)');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('true');
-        $tans->get_valid();
-        $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
-        $node2->add_branch(0, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'Result-2-F');
-        $node2->add_branch(1, '=', 0, $q->penalty, -1,
-                'Your general solution should be a sum of two linearly independent components, but is not.', FORMAT_HTML,
-                'Not two lin ind parts');
-
-        $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
-                true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), '0', 1);
-
-        return $q;
-    }
-
 
     /**
      * @return qtype_stack_question the question from the test8.xml file.
@@ -776,40 +905,90 @@ class qtype_stack_test_helper extends question_test_helper {
                         'algebraic', 'ans1', 'ta', null,
                         array('boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}'));
 
-        $feedbackvars = new stack_cas_keyval('a1 : listify(ans1);' .
-                                             'a1 : maplist(lambda([x],x^n-p^n),a1);' .
-                                             'a1 : setify(a1)');
+        $feedbackvars = 'a1 : listify(ans1);' .
+                        'a1 : maplist(lambda([x],x^n-p^n),a1);' .
+                        'a1 : setify(a1)';
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('ta');
-        $tans->get_valid();
-        $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '');
-        $node0->add_branch(0, '=', 0, $q->penalty, 1, '', FORMAT_HTML, 'ans-0-F');
-        $node0->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'ans-0-T');
-
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('{p}');
-        $tans->get_valid();
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
-        $node1->add_branch(0, '=', 0, $q->penalty, 2, '', FORMAT_HTML, 'ans-1-F');
-        $node1->add_branch(1, '=', 0, $q->penalty, -1,
-                '<p>There are more answers that just the single real number.
-                 Please consider complex solutions to this problem!</p>', FORMAT_HTML, 'ans-1-T');
-
-        $sans = stack_ast_container::make_from_teacher_source('a1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('{0}');
-        $tans->get_valid();
-        $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
-        $node2->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'ans-2-F');
-        $node2->add_branch(1, '=', 0, $q->penalty, -1,
-                'All your answers satisfy the equation. But, you have missed some of the solutions.', FORMAT_HTML,
-                'ans-2-T');
-
-        $q->prts['ans'] = new stack_potentialresponse_tree('ans', '',
-                true, 1, null, array($node0, $node1, $node2), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'ans';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = $feedbackvars;
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'ans-0-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = 'sc2';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'ans-0-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '1';
+        $newnode->nodename            = '1';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '{p}';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'ans-1-F';
+        $newnode->falsenextnode       = '2';
+        $newnode->truescore           = '0';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '<p>There are more answers that just the single real number.
+                 Please consider complex solutions to this problem!</p>';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'ans-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '2';
+        $newnode->nodename            = '2';
+        $newnode->sans                = 'a1';
+        $newnode->tans                = '{0}';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = true;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'ans-2-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = 'sc2';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        =
+            'All your answers satisfy the equation. But, you have missed some of the solutions.';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'ans-2-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -865,23 +1044,44 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans2'] = stack_input_factory::make(
                                     'algebraic', 'ans2', 'ta2', null, array('boxWidth' => 4));
 
-        $feedbackvars = new stack_cas_keyval('g : lambda([x],if (x<0) then p else ans1*exp(ans2*x))');
-
-        $sans = stack_ast_container::make_from_teacher_source('[ans1,ans2]');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('[ta1,ta2]');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'Int', 'x');
-        $node->add_branch(0, '=', 0, $q->penalty, -1,
-                'Compare your answer with the correct one {@plot([f(x),g(x)],[x,-1,1])@}', FORMAT_HTML, 'prt1-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-T');
-        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'prt1';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'g:lambda([x],if (x<0) then p else ans1*exp(ans2*x));';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = '[ans1,ans2]';
+        $newnode->tans                = '[ta1,ta2]';
+        $newnode->answertest          = 'Int';
+        $newnode->testoptions         = 'x';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Compare your answer with the correct one {@plot([f(x),g(x)],[x,-1,1])@}';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt1-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt1-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
 
     /**
-     * @return qtype_stack_question the question from the test0.xml file.
+     * @return qtype_stack_question.
      */
     public static function make_stack_question_divide() {
         $q = self::make_a_stack_question();
@@ -898,14 +1098,40 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '1/2', null, array('boxWidth' => 5));
 
-        $sans = stack_ast_container::make_from_teacher_source('1/ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('2');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '3');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-1-T');
-        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', false, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'prt1';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        // Question authors are now able to use errcatch.
+        $prt->feedbackvariables = 'S1:errcatch(1/(ans1-7));';
+        // Without the errcatch we would get [RUNTIME_FV_ERROR].
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = '1/ans1';
+        $newnode->tans                = '2';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt1-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt1-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -930,14 +1156,38 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('3.14');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'NumSigFigs', '3');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '3.14';
+        $newnode->answertest          = 'NumSigFigs';
+        $newnode->testoptions         = '3';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -962,14 +1212,38 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0.040');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'NumSigFigs', '2');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '0.040';
+        $newnode->answertest          = 'NumSigFigs';
+        $newnode->testoptions         = '2';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -997,17 +1271,38 @@ class qtype_stack_test_helper extends question_test_helper {
         $feedbackvars = new stack_cas_keyval('sa:min(ans1,ans2);', null, null);
 
         // Check if the smallest of the two random numbers is within 3dps of pi.
-        $sans = stack_ast_container::make_from_teacher_source('sa');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('3.14');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'NumDecPlaces', '3');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, 'Your answer was received as {@sa@}.',
-            FORMAT_HTML, 'prt1-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, 'You are within 3 dps of pi! Was that random?!',
-            FORMAT_HTML, 'prt1-1-T');
-        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 1,
-            $feedbackvars->get_session(), array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'prt1';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'sa:min(ans1,ans2);';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'sa';
+        $newnode->tans                = '3.14';
+        $newnode->answertest          = 'NumDecPlaces';
+        $newnode->testoptions         = '3';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Your answer was received as {@sa@}.';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt1-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = 'You are within 3 dps of pi! Was that random?!';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt1-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -1032,14 +1327,40 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('9.81*m/s^2');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'Units', '3');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '9.81*m/s^2';
+        $newnode->answertest          = 'Units';
+        $newnode->testoptions         = '3';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -1064,14 +1385,40 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('9.81*m/s^2');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'Units', '[n0,n0-1]');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '9.81*m/s^2';
+        $newnode->answertest          = 'Units';
+        $newnode->testoptions         = '[n0,n0-1]';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -1096,14 +1443,40 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('ta');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'Equiv', '');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta';
+        $newnode->answertest          = 'Equiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -1127,23 +1500,71 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', '6', null, array('boxWidth' => 15));
 
-        $sans = stack_ast_container::make_from_teacher_source('mod(ans1,2)');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, 'Your answer is not even.', FORMAT_HTML, 'prt1-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt1-0-1');
-        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 0.5, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'prt1';
+        $prt->value             = 0.5;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'mod(ans1,2)';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Your answer is not even.';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt1-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt1-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $sans = stack_ast_container::make_from_teacher_source('mod(ans1,3)');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, 'Your answer is not divisible by three.', FORMAT_HTML, 'prt2-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'prt2-0-1');
-        $q->prts['prt2'] = new stack_potentialresponse_tree('prt1', '', true, 0.5, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'prt2';
+        $prt->value             = 0.5;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'mod(ans1,2)';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Your answer is not divisible by three.';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt2-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt2-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -1208,14 +1629,38 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1+0');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('sin(x*y)');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1+0';
+        $newnode->tans                = 'sin(x*y)';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -1236,35 +1681,87 @@ class qtype_stack_test_helper extends question_test_helper {
                 'algebraic', 'ans1', '[x+y=1,x-y=1]', null, array('boxWidth' => 25));
 
         // This will generate a runtime error in the feedback variables.
-        $feedbackvars = new stack_cas_keyval('S1:1/(7-rhs(first(ans1)));');
+        $feedbackvars = new stack_cas_keyval('');
 
-        $sans = stack_ast_container::make_from_teacher_source('all_listp(equationp,ans1)');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('true');
-        $tans->get_valid();
-        $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
-        $node0->add_branch(0, '=', 0, '', -1, 'Your answer should be a list of equations!', FORMAT_HTML, 'Result-0-F');
-        $node0->add_branch(1, '=', 0, '', 1, 'Your answer is a list of equations.', FORMAT_HTML, 'Result-0-T');
+        $prt = new stdClass;
+        $prt->name              = 'Result';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'S1:1/(7-rhs(first(ans1)));';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'all_listp(equationp,ans1)';
+        $newnode->tans                = 'true';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = true;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = 0;
+        $newnode->falsefeedback       = 'Your answer should be a list of equations!';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'Result-0-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '0';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = 'Your answer is a list of equations.';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'Result-0-T';
+        $newnode->truenextnode        = '1';
+        $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '1';
+        $newnode->nodename            = '1';
+        $newnode->sans                = 'solve(ans1,listofvars(ans1))';
+        $newnode->tans                = '[]';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = true;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'You have some solutions!';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'Result-1-F';
+        $newnode->falsenextnode       = '2';
+        $newnode->truescore           = '0';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = 'Your equations have no solution!';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'Result-1-T';
+        $newnode->truenextnode        = '-2';
+        $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '2';
+        $newnode->nodename            = '2';
+        $newnode->sans                = 'length(solve(ans1,listofvars(ans1)))';
+        $newnode->tans                = '1';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = true;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'You should have only one solution.';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'Result-2-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = 'Good, you have one solution.';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'Result-2-T';
+        $newnode->truenextnode        = '-2';
+        $prt->nodes[] = $newnode;
 
-        $sans = stack_ast_container::make_from_teacher_source('solve(ans1,listofvars(ans1))');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('[]');
-        $tans->get_valid();
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
-        $node1->add_branch(0, '=', 0, $q->penalty, -1, 'Your equations have no solution!', FORMAT_HTML, 'Result-1-F');
-        $node1->add_branch(1, '=', 0, $q->penalty, 2, 'You have some solutions!', FORMAT_HTML, 'Result-1-T');
-
-        $sans = stack_ast_container::make_from_teacher_source('length(solve(ans1,listofvars(ans1)))');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('1');
-        $tans->get_valid();
-        $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
-        $node2->add_branch(0, '=', 0, $q->penalty, -1, 'You should have only one solution.', FORMAT_HTML, 'Result-2-F');
-        $node2->add_branch(1, '=', 1, $q->penalty, -1,
-                'Good, you have one solution.', FORMAT_HTML, 'Result-2-T');
-
-        $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
-                true, 1, $feedbackvars->get_session(), array($node0, $node1, $node2), '0', 1);
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -1284,18 +1781,38 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', 'ta', null, array('boxWidth' => 25));
 
-        $feedbackvars = new stack_cas_keyval('');
-
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('ta');
-        $tans->get_valid();
-        $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
-        $node0->add_branch(0, '=', 0, '', -1, 'Not quite..', FORMAT_HTML, 'Result-0-F');
-        $node0->add_branch(1, '=', 1, '', -1, 'Correct', FORMAT_HTML, 'Result-0-T');
-
-        $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
-                true, 1, $feedbackvars->get_session(), array($node0), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'Result';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = true;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Not quite.';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'Result-0-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = 'Correct.';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'Result-0-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -1315,18 +1832,38 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', 'ta', null, array('boxWidth' => 25));
 
-        $feedbackvars = new stack_cas_keyval('');
-
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('ta');
-        $tans->get_valid();
-        $node0 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', '', true);
-        $node0->add_branch(0, '=', 0, '', -1, 'Not quite..', FORMAT_HTML, 'Result-0-F');
-        $node0->add_branch(1, '=', 1, '', -1, 'Correct', FORMAT_HTML, 'Result-0-T');
-
-        $q->prts['Result'] = new stack_potentialresponse_tree('Result', '',
-                true, 1, $feedbackvars->get_session(), array($node0), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'Result';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = true;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Not quite.';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'Result-0-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = 'Correct.';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'Result-0-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -2137,14 +2674,40 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('[]');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '[]';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -2170,23 +2733,47 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('2');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
         // This is to check the upgrade process spots addrow in the PRT feedback variables.
-        $fv = new stack_cas_keyval('sa:addrow(ans1,2,1,1)');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
-                $fv->get_session(), array($node), '0', 1);
+        $prt->feedbackvariables = 'sa:addrow(ans1,2,1,1);';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '2';
+        $newnode->answertest          = 'EqualComAss';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
 
     /**
-     * @return qtype_stack_question a question which tests checking for addrow in an older question.
+     * @return qtype_stack_question.
      */
     public static function make_stack_question_mul() {
         $q = self::make_a_stack_question();
@@ -2204,14 +2791,40 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('2');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'UnitsStrict');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '2';
+        $newnode->answertest          = 'UnitsStrict';
+        $newnode->testoptions         = '3';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -2236,24 +2849,63 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('ta1');
-        $tans->get_valid();
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'String');
-        $node1->add_branch(0, '=', 0, $q->penalty, 1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node1->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('ta1');
-        $tans->get_valid();
-        $node2 = new stack_potentialresponse_node($sans, $tans, 'StringSloppy');
-        $node2->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-F');
-        $node2->add_branch(1, '=', 0.75, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-T');
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta1';
+        $newnode->answertest          = 'String';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '1';
+        $newnode->nodename            = '1';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta1';
+        $newnode->answertest          = 'StringSloppy';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-2-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '0.75';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-2-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
 
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
-                null, array($node1, $node2), '0', 1);
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -2279,18 +2931,42 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('tregex');
-        $tans->get_valid();
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'SRegExp');
-        $fb = '<p>The word {@ans1@} is&nbsp; an element&nbsp; of the language described by {@regex@}<br></p>';
-        $node1->add_branch(0, '=', 0, $q->penalty, -1, $fb, FORMAT_HTML, 'firsttree-1-F');
-        $fb = '<p>The word {@ans1@} is not an element of the language described by {@regex@}</p>';
-        $node1->add_branch(1, '=', 1, $q->penalty, -1, $fb, FORMAT_HTML, 'firsttree-1-T');
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
 
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1,
-                null, array($node1), '0', 1);
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'tregex';
+        $newnode->answertest          = 'SRegExp';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       =
+            '<p>The word {@ans1@} is&nbsp; an element&nbsp; of the language described by {@regex@}<br></p>';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        =
+            '<p>The word {@ans1@} is not an element of the language described by {@regex@}</p>';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -2319,46 +2995,110 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 1;
 
-        $feedbackvars = new stack_cas_keyval('sa:ev(ans1,x=-x)+ans1;');
-        $sans = stack_ast_container::make_from_teacher_source('sa');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0');
-        $tans->get_valid();
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
-        $fb = 'Your first function is not odd:  \[ f(x)+f(-x)={@sa@} \neq 0\]';
-        $node1->add_branch(0, '=', 0, $q->penalty, -1, $fb, FORMAT_HTML, 'prt1-1-F');
-        $fb = '';
-        $node1->add_branch(1, '=', 1, $q->penalty, -1, $fb, FORMAT_HTML, 'prt1-1-T');
+        $prt = new stdClass;
+        $prt->name              = 'prt1';
+        $prt->value             = 1;
         // Set feedbackstyle=2 to test compact feedback.
-        $q->prts['prt1'] = new stack_potentialresponse_tree('prt1', '', true, 2,
-               $feedbackvars->get_session(), array($node1), '0', 2);
+        $prt->feedbackstyle     = 2;
+        $prt->feedbackvariables = 'sa:ev(ans1,x=-x)+ans1;';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
 
-        $feedbackvars = new stack_cas_keyval('sa:ev(ans2,x=-x)+ans2;');
-        $sans = stack_ast_container::make_from_teacher_source('sa');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('0');
-        $tans->get_valid();
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
-        $fb = 'Your second function is not odd:  \[ f(x)+f(-x)={@sa@} \neq 0\]';
-        $node1->add_branch(0, '=', 0, $q->penalty, -1, $fb, FORMAT_HTML, 'prt2-1-F');
-        $fb = '';
-        $node1->add_branch(1, '=', 1, $q->penalty, -1, $fb, FORMAT_HTML, 'prt2-1-T');
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'sa';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Your first function is not odd:  \[ f(x)+f(-x)={@sa@} \neq 0\]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt1-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt1-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        $prt = new stdClass;
+        $prt->name              = 'prt2';
+        $prt->value             = 1;
         // Set feedbackstyle=3 to test symbolic feedback.
-        $q->prts['prt2'] = new stack_potentialresponse_tree('prt2', '', true, 2,
-               $feedbackvars->get_session(), array($node1), '0', 3);
+        $prt->feedbackstyle     = 3;
+        $prt->feedbackvariables = 'sa:ev(ans2,x=-x)+ans2;';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
 
-        $sans = stack_ast_container::make_from_teacher_source('all_listp(polynomialpsimp,[ans1,ans2])');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('true');
-        $tans->get_valid();
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
-        $fb = 'Try to think of something more imaginative than just polynomials!';
-        $node1->add_branch(1, '=', 0.5, 0.2, -1, $fb, FORMAT_HTML, 'prt3-1-T');
-        $fb = 'Non-polynomials included.';
-        $node1->add_branch(0, '=', 0.4, 0.2, -1, $fb, FORMAT_HTML, 'prt3-1-F');
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'sa';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = 'Your second function is not odd:  \[ f(x)+f(-x)={@sa@} \neq 0\]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt2-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt2-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        $prt = new stdClass;
+        $prt->name              = 'prt3';
+        $prt->value             = 1;
         // Set feedbackstyle=0 to test formative potential response trees.
-        $q->prts['prt3'] = new stack_potentialresponse_tree('prt3', '', true, 1,
-               $feedbackvars->get_session(), array($node1), '0', 0);
+        $prt->feedbackstyle     = 0;
+        $prt->feedbackvariables = 'sa:ev(ans2,x=-x)+ans2;';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'all_listp(polynomialpsimp,[ans1,ans2])';
+        $newnode->tans                = 'true';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0.4';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = '0.2';
+        $newnode->falsefeedback       = 'Non-polynomials included.';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt3-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '0.5';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = '0.2';
+        $newnode->truefeedback        = 'Try to think of something more imaginative than just polynomials!';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt3-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -2383,26 +3123,63 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('6*(x-2)^(2*k)');
-        $tans->get_valid();
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
-        $node1->add_branch(0, '=', 0, $q->penalty, 1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node1->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'assume(a>0);';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('a^(x*y)');
-        $tans->get_valid();
-        $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
-        $node2->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-F');
-        $node2->add_branch(1, '=', 0.6, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-T');
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '6*(x-2)^(2*k)';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '1';
+        $newnode->nodename            = '1';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'a^(x*y)';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-2-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '0.6';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-2-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
 
-        $feedbackvars = new stack_cas_keyval('assume(a>0);', null, null);
-
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, $feedbackvars->get_session(),
-                array($node1, $node2), '0', 1);
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -2435,27 +3212,63 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options->questionsimplify = 0;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('ta');
-        $tans->get_valid();
-        $node1 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
-        $enfb = '  <span lang="en" class="multilang">Looks good to me.</span>';
-        $node1->add_branch(0, '=', 0, $q->penalty, 1, $enfb, FORMAT_HTML, 'firsttree-1-F');
-        $node1->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'assume(a>0);';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('mat1.mat2');
-        $tans->get_valid();
-        $node2 = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv');
-        $node2->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-F');
-        $node2->add_branch(1, '=', 0.6, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-2-T');
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '  <span lang="en" class="multilang">Looks good to me.</span>';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->nodeid              = '1';
+        $newnode->nodename            = '1';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'mat1.mat2';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-2-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '0.6';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-2-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
 
-        $feedbackvars = new stack_cas_keyval('assume(a>0);', null, null);
-
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', true, 1, $feedbackvars->get_session(),
-            array($node1, $node2), '0', 1);
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }
@@ -2466,7 +3279,7 @@ class qtype_stack_test_helper extends question_test_helper {
     public static function make_stack_question_block_locals() {
         $q = self::make_a_stack_question();
 
-        $q->name = 'test-1';
+        $q->name = 'block_locals';
         // We need to check that local variable names within the block are not invalid for student's input.
         $q->questionvariables = 'tmpf(a):=block([p,q,r],p:a,q:a,r:p+q,return(r)); cans1:p^2+p+1;';
         $q->questiontext = 'Answer {@cans1@} with input p^2+p+1.'
@@ -2474,21 +3287,47 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->generalfeedback = '';
         $q->questionnote = '';
 
-        $q->specificfeedback = '[[feedback:PotResTree_1]]';
+        $q->specificfeedback = '[[feedback:firsttree]]';
         $q->penalty = 0.25; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', 'p^2+p+1', null,
                 array('boxWidth' => 20, 'forbidWords' => '', 'allowWords' => ''));
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('cans1');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'AlgEquiv', 'x');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-0');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'PotResTree_1-0-1');
-        $q->prts['PotResTree_1'] = new stack_potentialresponse_tree('PotResTree_1', '', true, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->nodeid              = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'cans1';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
     }

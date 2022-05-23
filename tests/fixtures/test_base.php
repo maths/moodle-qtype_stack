@@ -30,7 +30,7 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 
 
 /**
- * Base class for Stack unit tests. If you subclass this class, then code that
+ * Base class for STACK unit tests. If you subclass this class, then code that
  * needs to call maxima will work (providing you have set up the neccessary
  * defines in phpunit.xml.
  *
@@ -227,7 +227,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
 
 /**
- * Base class for Stack walkthrough tests.
+ * Base class for STACK walkthrough tests.
  *
  * Sets up the Maxima connection, and provides some additional asserts.
  *
@@ -258,28 +258,31 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         $question = $this->quba->get_question($this->slot);
         $attempt  = $this->quba->get_question_attempt($this->slot);
         $qa       = $attempt->get_last_qt_data();
+        if (!array_key_exists($index, $question->prts)) {
+            throw new Exception("The PRT $index does not exist in this question!");
+        }
         $result   = $question->get_prt_result($index, $qa, $finalsubmit);
 
         if (is_null($score)) {
-            $this->assertNull($result->score);
+            $this->assertNull($result->get_score());
         } else {
             if ($score == 0) {
                 // PHP will think a null and are equal, so explicity check not null.
-                $this->assertNotNull($result->score);
+                $this->assertNotNull($result->get_score());
             }
-            $this->assertEquals($score, $result->score, 'Wrong score.  The PRT returned ' .
-                    $result->score . ' but we expected ' . $score . '.');
+            $this->assertEquals($score, $result->get_score(), 'Wrong score.  The PRT returned ' .
+                    $result->get_score() . ' but we expected ' . $score . '.');
         }
 
         if (is_null($penalty)) {
-            $this->assertNull($result->penalty);
+            $this->assertNull($result->get_penalty());
         } else {
             if ($penalty == 0) {
                 // PHP will think a null and are equal, so explicity check not null.
-                $this->assertNotNull($result->penalty);
+                $this->assertNotNull($result->get_penalty());
             }
-            $this->assertEquals($penalty, $result->penalty, 'Wrong penalty.  The PRT returned ' .
-                    $result->penalty . ' but we expected ' . $penalty . '.');
+            $this->assertEquals($penalty, $result->get_penalty(), 'Wrong penalty.  The PRT returned ' .
+                    $result->get_penalty() . ' but we expected ' . $penalty . '.');
         }
     }
 
@@ -289,7 +292,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         $qa       = $attempt->get_last_qt_data();
         $result   = $question->get_prt_result($index, $qa, false);
 
-        $this->assertEquals($note, implode(' | ', $result->__get('answernotes')));
+        $this->assertEquals($note, implode(' | ', $result->get_answernotes()));
     }
 
     protected function check_response_summary($note) {

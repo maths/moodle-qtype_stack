@@ -105,9 +105,9 @@ foreach ($question->prts as $prtname => $prt) {
     $offlinemaxima[$prtname] = $prt->get_maxima_representation();
 
     foreach ($nodes as $key => $node) {
-        $nodesummary1[$prtname] .= ($key + 1). ': ' . $node->test . "\n";
-        $nodesummary2[$prtname] .= $node->truenote . "\n";
-        $nodesummary3[$prtname] .= $node->falsenote . "\n";
+        $nodesummary1[$prtname] .= ($key + 1). ': ' . $node->answertest . 'TODO TRACE' . "\n";
+        $nodesummary2[$prtname] .= $node->trueanswernote . "\n";
+        $nodesummary3[$prtname] .= $node->falseanswernote . "\n";
     }
 
     $graph = $prt->get_prt_graph();
@@ -117,10 +117,8 @@ foreach ($question->prts as $prtname => $prt) {
 flush();
 
 // Later we only display inputs relevant to a particular PTR, so we sort out prt input requirements here.
-$allinputs = array_keys($question->inputs);
-$inputsbyprt = array();
 foreach ($question->prts as $prtname => $prt) {
-    $inputsbyprt[$prtname] = $prt->get_required_variables($allinputs);
+    $inputsbyprt[$prtname] = $prt->get_raw_sans_used();
 }
 
 $query = 'SELECT qa.*, qas_last.*

@@ -114,7 +114,7 @@ abstract class stack_input {
     protected $rawcontents = array();
 
     /**
-     * Decide if the input is being used at run-time or just constructed elswhere.
+     * Decide if the input is being used at runtime or just constructed elsewhere.
      * @var bool.
      */
     protected $runtime = true;
@@ -785,11 +785,16 @@ abstract class stack_input {
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
         // We make sure +- -> #pm# here so that +- can be interpreted at +(-....).
-        if ($valid && $answerd->is_correctly_evaluated()) {
-            $interpretedanswer = $answerd->get_evaluationform();
-        } else {
-            $interpretedanswer = $answerd->get_inputform(true, 1, false);
-        }
+        $params = array('inputform' => true,
+                        'qmchar' => false,
+                        'pmchar' => 1,
+                        'nosemicolon' => true,
+                        'keyless' => true,
+                        'dealias' => true, // This is needed to stop pi->%pi etc.
+                        'nounify' => 1,
+                        'nontuples' => false
+        );
+        $interpretedanswer = $answerd->ast_to_string(null, $params);
         // TODO: apply a filter to check the ast!
         if (!(strpos($interpretedanswer, '?') === false) ||
             !(strpos($interpretedanswer, 'QMCHAR') === false)) {
@@ -959,7 +964,7 @@ abstract class stack_input {
         }
 
         // Construct one final "answer" as a single maxima object.
-        $answer = $this->caslines_to_answer($caslines);
+        $answer = $this->caslines_to_answer($caslines, $basesecurity);
 
         return array($valid, $errors, $notes, $answer, $caslines);
     }
@@ -1325,8 +1330,18 @@ abstract class stack_input {
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
         $cs->set_nounify(0);
         $val = '';
+
+        $params = array('checkinggroup' => true,
+            'qmchar' => false,
+            'pmchar' => 1,
+            'nosemicolon' => true,
+            'keyless' => true,
+            'dealias' => false, // This is needed to stop pi->%pi etc.
+            'nounify' => 0,
+            'nontuples' => false
+        );
         if ($cs->get_valid()) {
-            $value = $cs->get_evaluationform();
+            $value = $cs->ast_to_string(null, $params);
         }
         return $this->maxima_to_response_array($value);
     }

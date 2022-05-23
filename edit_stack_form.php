@@ -28,7 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/question/type/edit_question_form.php');
 require_once($CFG->dirroot . '/question/type/stack/question.php');
 require_once($CFG->dirroot . '/question/type/stack/questiontype.php');
-
+require_once($CFG->dirroot . '/question/type/stack/stack/prt.class.php');
+require_once($CFG->dirroot . '/question/type/stack/stack/potentialresponsetreestate.class.php');
 
 /**
  * Stack question editing form definition.
@@ -478,7 +479,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($prtname . 'autosimplify', 'autosimplifyprt', 'qtype_stack');
 
         $mform->addElement('select', $prtname . 'feedbackstyle',
-                stack_string('feedbackstyle'), stack_potentialresponse_tree::get_feedbackstyle_options());
+                stack_string('feedbackstyle'), stack_potentialresponse_tree_lite::get_feedbackstyle_options());
         $mform->setDefault($prtname . 'feedbackstyle', $this->stackconfig->feedbackstyle);
         $mform->addHelpButton($prtname . 'feedbackstyle', 'feedbackstyle', 'qtype_stack');
 
@@ -728,14 +729,9 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->{$prtname . 'testoptions'}[$nodename] = $node->testoptions;
         $question->{$prtname . 'quiet'      }[$nodename] = $node->quiet;
 
-        // 0 + bit is to eliminate excessive decimal places from the DB.
         $question->{$prtname . 'truescoremode' }[$nodename] = $node->truescoremode;
-        $question->{$prtname . 'truescore'     }[$nodename] = 0 + $node->truescore;
-        $penalty = $node->truepenalty;
-        if ('' != trim($penalty)) {
-            $penalty = 0 + $penalty;
-        }
-        $question->{$prtname . 'truepenalty'   }[$nodename] = $penalty;
+        $question->{$prtname . 'truescore'     }[$nodename] = stack_utils::fix_trailing_zeros($node->truescore);
+        $question->{$prtname . 'truepenalty'   }[$nodename] = stack_utils::fix_trailing_zeros($node->truepenalty);
         $question->{$prtname . 'truenextnode'  }[$nodename] = $node->truenextnode;
         $question->{$prtname . 'trueanswernote'}[$nodename] = $node->trueanswernote;
         $question->{$prtname . 'truefeedback'  }[$nodename] = $this->prepare_text_field(
@@ -743,12 +739,8 @@ class qtype_stack_edit_form extends question_edit_form {
                 $node->truefeedbackformat, $node->id, 'prtnodetruefeedback');
 
         $question->{$prtname . 'falsescoremode' }[$nodename] = $node->falsescoremode;
-        $question->{$prtname . 'falsescore'     }[$nodename] = 0 + $node->falsescore;
-        $penalty = $node->falsepenalty;
-        if ('' != trim($penalty)) {
-            $penalty = 0 + $penalty;
-        }
-        $question->{$prtname . 'falsepenalty'   }[$nodename] = $penalty;
+        $question->{$prtname . 'falsescore'     }[$nodename] = stack_utils::fix_trailing_zeros($node->falsescore);
+        $question->{$prtname . 'falsepenalty'   }[$nodename] = stack_utils::fix_trailing_zeros($node->falsepenalty);
         $question->{$prtname . 'falsenextnode'  }[$nodename] = $node->falsenextnode;
         $question->{$prtname . 'falseanswernote'}[$nodename] = $node->falseanswernote;
         $question->{$prtname . 'falsefeedback'  }[$nodename] = $this->prepare_text_field(

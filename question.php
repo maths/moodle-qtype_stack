@@ -26,13 +26,14 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/stack/input/factory.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
-require_once(__DIR__ . '/stack/cas/castext.class.php');
+require_once(__DIR__ . '/stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/stack/cas/cassecurity.class.php');
-require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
 require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/questiontype.php');
 require_once(__DIR__ . '/stack/cas/secure_loader.class.php');
+require_once(__DIR__ . '/stack/prt.class.php');
+require_once(__DIR__ . '/stack/prt.evaluatable.class.php');
 
 /**
  * Represents a Stack question.
@@ -95,7 +96,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public $inputs = array();
 
     /**
-     * @var stack_potentialresponse_tree[] STACK specific: respones tree number => ...
+     * @var stack_potentialresponse_tree_lite[] STACK specific: respones tree number => ...
      */
     public $prts = array();
 
@@ -134,39 +135,52 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     private $security;
 
     /**
-     * @var stack_cas_session2 STACK specific: session of variables.
+     * @var castext2_evaluatable STACK specific: variant specifying castext fragment.
      */
-    protected $questionnoteinstantiated;
+    protected $questionnoteinstantiated = null;
 
     /**
-     * @var string instantiated version of questiontext.
+     * @var castext2_evaluatable instantiated version of questiontext.
      * Initialised in start_attempt / apply_attempt_state.
      */
     public $questiontextinstantiated;
 
     /**
-     * @var string instantiated version of specificfeedback.
+     * @var castext2_evaluatable instantiated version of specificfeedback.
      * Initialised in start_attempt / apply_attempt_state.
      */
     public $specificfeedbackinstantiated;
 
     /**
-     * @var string instantiated version of prtcorrect.
+     * @var castext2_evaluatable instantiated version of generalfeedback.
+     * Init depends of config.
+     */
+    private $generalfeedbackinstantiated = null;
+
+    /**
+     * @var castext2_evaluatable instantiated version of prtcorrect.
      * Initialised in start_attempt / apply_attempt_state.
+     * NOTE: used in rederer.php:standard_prt_feedback() in an uncommon way.
      */
     public $prtcorrectinstantiated;
 
     /**
-     * @var string instantiated version of prtpartiallycorrect.
+     * @var castext2_evaluatable instantiated version of prtpartiallycorrect.
      * Initialised in start_attempt / apply_attempt_state.
      */
     public $prtpartiallycorrectinstantiated;
 
     /**
-     * @var string instantiated version of prtincorrect.
+     * @var castext2_evaluatable instantiated version of prtincorrect.
      * Initialised in start_attempt / apply_attempt_state.
      */
     public $prtincorrectinstantiated;
+
+    /**
+     * @var castext2_processor an accesspoint to the question attempt for
+     * the castext2 post-processing logic for pluginfile url-writing.
+     */
+    public $castextprocessor = null;
 
     /**
      * @var array Errors generated at runtime.
@@ -310,180 +324,183 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * Once we know the random seed, we can initialise all the other parts of the question.
      */
     public function initialise_question_from_seed() {
-        // Build up the question session out of all the bits that need to go into it.
-        // 1. question variables.
+        // We can detect a logically faulty question by checking if the cache can
+        // return anything if it can't then we can simply skip to the output of errors.
+        if ($this->get_cached('units') !== null) {
+            // Build up the question session out of all the bits that need to go into it.
+            // 1. question variables.
+            $session = new stack_cas_session2([], $this->options, $this->seed);
 
-        $session = new stack_cas_session2([], $this->options, $this->seed);
-        if ($this->get_cached('preamble-qv') !== null) {
-            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
-        }
-        // Context variables should be first.
-        if ($this->get_cached('contextvariables-qv') !== null) {
-            $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), 'qv'));
-        }
-        if ($this->get_cached('statement-qv') !== null) {
-            $session->add_statement(new stack_secure_loader($this->get_cached('statement-qv'), 'qv'));
-        }
+            // Construct the security object. But first units declaration into the session.
+            $units = (boolean) $this->get_cached('units');
 
-        // Construct the security object.
-        $units = (boolean) $this->get_cached('units');
-
-        // If we have units we might as well include the units declaration in the session.
-        // To simplify authors work and remove the need to call that long function.
-        // TODO: Maybe add this to the preable to save lines, but for now documented here.
-        if ($units) {
-            $session->add_statement(stack_ast_container_silent::make_from_teacher_source('stack_unit_si_declare(true)',
-                    'automatic unit declaration'), false);
-        }
-
-        // Note that at this phase the security object has no "words".
-        // The student's answer may not contain any of the variable names with which
-        // the teacher has defined question variables. Otherwise when it is evaluated
-        // in a PRT, the student's answer will take these values.   If the teacher defines
-        // 'ta' to be the answer, the student could type in 'ta'!  We forbid this.
-
-        // TODO: shouldn't we also protect variables used in PRT logic? Feedback vars
-        // and so on?
-        $forbiddenkeys = array();
-        if ($this->get_cached('forbiddenkeys') !== null) {
-            $forbiddenkeys = $this->get_cached('forbiddenkeys');
-        }
-        $this->security = new stack_cas_security($units, '', '', $forbiddenkeys);
-
-        // Add the context to the security, needs some unpacking of the cached.
-        if ($this->get_cached('security-context') === null || count($this->get_cached('security-context')) === 0) {
-            $this->security->set_context([]);
-        } else {
-            // Combine to a single statement to keep the parser cache small.
-            // We need to turn a set of code-fragments into ASTs.
-            $tmp = '[';
-            foreach ($this->get_cached('security-context') as $key => $values) {
-                $tmp .= '[';
-                $tmp .= implode(',', $values);
-                $tmp .= '],';
+            // If we are using localisation we should tell the CAS side logic about it.
+            // For castext rendering and other tasks.
+            if (count($this->get_cached('langs')) > 0) {
+                $ml = new stack_multilang();
+                $selected = $ml->pick_lang($this->get_cached('langs'));
+                $session->add_statement(new stack_secure_loader('%_STACK_LANG:' .
+                    stack_utils::php_string_to_maxima_string($selected), 'language setting'), false);
             }
-            $tmp = mb_substr($tmp, 0, -1);
-            $tmp .= ']';
-            $ast = maxima_parser_utils::parse($tmp)->items[0]->statement->items;
-            $ctx = [];
-            $i = 0;
-            foreach ($this->get_cached('security-context') as $key => $values) {
-                $ctx[$key] = [];
-                $j = 0;
-                foreach ($values as $k) {
-                    $ctx[$key][$k] = $ast[$i]->items[$j];
-                    $j = $j + 1;
-                    if ($k === -1 || $k === -2) {
-                        $ctx[$key][$k] = $k;
-                    }
-                }
-                $i = $i + 1;
+
+            // If we have units we might as well include the units declaration in the session.
+            // To simplify authors work and remove the need to call that long function.
+            // TODO: Maybe add this to the preable to save lines, but for now documented here.
+            if ($units) {
+                $session->add_statement(new stack_secure_loader('stack_unit_si_declare(true)',
+                        'automatic unit declaration'), false);
             }
-            $this->security->set_context($ctx);
-        }
 
-        // The session to keep. Note we do not need to reinstantiate the teachers answers.
-        $sessiontokeep = new stack_cas_session2($session->get_session(), $this->options, $this->seed);
-
-        // 2. correct answer for all inputs.
-        foreach ($this->inputs as $name => $input) {
-            $cs = stack_ast_container::make_from_teacher_source($input->get_teacher_answer(),
-                    '', $this->security);
-            $this->tas[$name] = $cs;
-            $session->add_statement($cs);
-        }
-
-        // 3. CAS bits inside the question text.
-        $questiontext = $this->prepare_cas_text($this->questiontext, $session);
-
-        // 4. CAS bits inside the specific feedback.
-        $feedbacktext = $this->prepare_cas_text($this->specificfeedback, $session);
-
-        // 5. CAS bits inside the question note.
-        $notetext = $this->prepare_cas_text($this->questionnote, $session);
-
-        // 6. The standard PRT feedback.
-        $prtcorrect          = $this->prepare_cas_text($this->prtcorrect, $session);
-        $prtpartiallycorrect = $this->prepare_cas_text($this->prtpartiallycorrect, $session);
-        $prtincorrect        = $this->prepare_cas_text($this->prtincorrect, $session);
-
-        // Now instantiate the session.
-        if ($session->get_valid()) {
-            $session->instantiate();
-        }
-        if ($session->get_errors()) {
-            // In previous versions we threw an exception here.
-            // Upgrade and import stops errors being caught during validation when the question was edited or deployed.
-            // This breaks bulk testing in a nasty way.
-            $this->runtimeerrors[$session->get_errors(true)] = true;
-        }
-
-        // Finally, store only those values really needed for later.
-        $this->questiontextinstantiated        = $questiontext->get_display_castext();
-        if ($questiontext->get_errors()) {
-            $s = stack_string('runtimefielderr',
-                array('field' => stack_string('questiontext'), 'err' => $questiontext->get_errors()));
-            $this->runtimeerrors[$s] = true;
-        }
-        $this->specificfeedbackinstantiated    = $feedbacktext->get_display_castext();
-        if ($feedbacktext->get_errors()) {
-            $s = stack_string('runtimefielderr',
-                array('field' => stack_string('specificfeedback'), 'err' => $feedbacktext->get_errors()));
-            $this->runtimeerrors[$s] = true;
-        }
-        $this->questionnoteinstantiated        = $notetext->get_display_castext();
-        if ($notetext->get_errors()) {
-            $s = stack_string('runtimefielderr',
-                array('field' => stack_string('questionnote'), 'err' => $notetext->get_errors()));
-            $this->runtimeerrors[$s] = true;
-        }
-        $this->prtcorrectinstantiated          = $prtcorrect->get_display_castext();
-        $this->prtpartiallycorrectinstantiated = $prtpartiallycorrect->get_display_castext();
-        $this->prtincorrectinstantiated        = $prtincorrect->get_display_castext();
-        $this->session = $sessiontokeep;
-        if ($sessiontokeep->get_errors()) {
-            $s = stack_string('runtimefielderr',
-                array('field' => stack_string('questionvariables'), 'err' => $sessiontokeep->get_errors(true)));
-            $this->runtimeerrors[$s] = true;
-        }
-
-        if ($this->get_cached('contextvariables-qv') !== null) {
-            foreach ($this->prts as $name => $prt) {
-                $prt->add_contextsession(new stack_secure_loader($this->get_cached('contextvariables-qv'), 'qv'));
+            if ($this->get_cached('preamble-qv') !== null) {
+                $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
             }
+            // Context variables should be first.
+            if ($this->get_cached('contextvariables-qv') !== null) {
+                $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
+            }
+            if ($this->get_cached('statement-qv') !== null) {
+                $session->add_statement(new stack_secure_loader($this->get_cached('statement-qv'), '/qv'));
+            }
+
+            // Note that at this phase the security object has no "words".
+            // The student's answer may not contain any of the variable names with which
+            // the teacher has defined question variables. Otherwise when it is evaluated
+            // in a PRT, the student's answer will take these values.   If the teacher defines
+            // 'ta' to be the answer, the student could type in 'ta'!  We forbid this.
+
+            // TODO: shouldn't we also protect variables used in PRT logic? Feedback vars
+            // and so on?
+            $forbiddenkeys = array();
+            if ($this->get_cached('forbiddenkeys') !== null) {
+                $forbiddenkeys = $this->get_cached('forbiddenkeys');
+            }
+            $this->security = new stack_cas_security($units, '', '', $forbiddenkeys);
+
+            // The session to keep. Note we do not need to reinstantiate the teachers answers.
+            $sessiontokeep = new stack_cas_session2($session->get_session(), $this->options, $this->seed);
+
+            // 2. correct answer for all inputs.
+            foreach ($this->inputs as $name => $input) {
+                $cs = stack_ast_container::make_from_teacher_source($input->get_teacher_answer(),
+                        '', $this->security);
+                $this->tas[$name] = $cs;
+                $session->add_statement($cs);
+            }
+
+            // 3.0 setup common CASText2 staticreplacer.
+            $static = new castext2_static_replacer($this->get_cached('static-castext-strings'));
+
+            // 3. CAS bits inside the question text.
+            $questiontext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qt'), '/qt', $static);
+            if ($questiontext->requires_evaluation()) {
+                $session->add_statement($questiontext);
+            }
+
+            // 4. CAS bits inside the specific feedback.
+            $feedbacktext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-sf'), '/sf', $static);
+            if ($feedbacktext->requires_evaluation()) {
+                $session->add_statement($feedbacktext);
+            }
+
+            // Add the context to the security, needs some unpacking of the cached.
+            if ($this->get_cached('security-context') === null) {
+                $this->security->set_context([]);
+            } else {
+                $this->security->set_context($this->get_cached('security-context'));
+            }
+
+            // The session to keep. Note we do not need to reinstantiate the teachers answers.
+            $sessiontokeep = new stack_cas_session2($session->get_session(), $this->options, $this->seed);
+
+            // 5. CAS bits inside the question note.
+            $notetext = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qn'), '/qn', $static);
+            if ($notetext->requires_evaluation()) {
+                $session->add_statement($notetext);
+            }
+
+            // 6. The standard PRT feedback.
+            $prtcorrect          = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-c'),
+                '/pc', $static);
+            $prtpartiallycorrect = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-pc'),
+                '/pp', $static);
+            $prtincorrect        = castext2_evaluatable::make_from_compiled($this->get_cached('castext-prt-ic'),
+                '/pi', $static);
+            if ($prtcorrect->requires_evaluation()) {
+                $session->add_statement($prtcorrect);
+            }
+            if ($prtpartiallycorrect->requires_evaluation()) {
+                $session->add_statement($prtpartiallycorrect);
+            }
+            if ($prtincorrect->requires_evaluation()) {
+                $session->add_statement($prtincorrect);
+            }
+
+            // Now instantiate the session.
+            if ($session->get_valid()) {
+                $session->instantiate();
+            }
+            if ($session->get_errors()) {
+                // In previous versions we threw an exception here.
+                // Upgrade and import stops errors being caught during validation when the question was edited or deployed.
+                // This breaks bulk testing in a nasty way.
+                $this->runtimeerrors[$session->get_errors(true)] = true;
+            }
+
+            // Finally, store only those values really needed for later.
+            $this->questiontextinstantiated        = $questiontext;
+            if ($questiontext->get_errors()) {
+                $s = stack_string('runtimefielderr',
+                    array('field' => stack_string('questiontext'), 'err' => $questiontext->get_errors()));
+                $this->runtimeerrors[$s] = true;
+            }
+            $this->specificfeedbackinstantiated    = $feedbacktext;
+            if ($feedbacktext->get_errors()) {
+                $s = stack_string('runtimefielderr',
+                    array('field' => stack_string('specificfeedback'), 'err' => $feedbacktext->get_errors()));
+                $this->runtimeerrors[$s] = true;
+            }
+            $this->questionnoteinstantiated        = $notetext;
+            if ($notetext->get_errors()) {
+                $s = stack_string('runtimefielderr',
+                    array('field' => stack_string('questionnote'), 'err' => $notetext->get_errors()));
+                $this->runtimeerrors[$s] = true;
+            }
+            $this->prtcorrectinstantiated          = $prtcorrect;
+            $this->prtpartiallycorrectinstantiated = $prtpartiallycorrect;
+            $this->prtincorrectinstantiated        = $prtincorrect;
+            $this->session = $sessiontokeep;
+            if ($sessiontokeep->get_errors()) {
+                $s = stack_string('runtimefielderr',
+                    array('field' => stack_string('questionvariables'), 'err' => $sessiontokeep->get_errors(true)));
+                $this->runtimeerrors[$s] = true;
+            }
+
+            // Allow inputs to update themselves based on the model answers.
+            $this->adapt_inputs();
         }
 
-        // Allow inputs to update themselves based on the model answers.
-        $this->adapt_inputs();
         if ($this->runtimeerrors) {
             // It is quite possible that questions will, legitimately, throw some kind of error.
             // For example, if one of the question variables is 1/0.
             // This should not be a show stopper.
-            if (trim($this->questiontext) !== '' && trim($this->questiontextinstantiated) === '') {
-                // Something has gone wrong here, and the student will be shown nothing.
-                $s = html_writer::tag('span', stack_string('runtimeerror'), array('class' => 'stackruntimeerrror'));
-                $errmsg = '';
-                foreach ($this->runtimeerrors as $key => $val) {
-                    $errmsg .= html_writer::tag('li', $key);
-                }
-                $s .= html_writer::tag('ul', $errmsg);
-                $this->questiontextinstantiated .= $s;
+            // Something has gone wrong here, and the student will be shown nothing.
+            $s = html_writer::tag('span', stack_string('runtimeerror'), array('class' => 'stackruntimeerrror'));
+            $errmsg = '';
+            foreach ($this->runtimeerrors as $key => $val) {
+                $errmsg .= html_writer::tag('li', $key);
             }
-        }
-    }
+            $s .= html_writer::tag('ul', $errmsg);
+            // So we have this logic where a raw string needs to turn to a CASText2 object.
+            // As we do not know what it contains we escape it.
+            $this->questiontextinstantiated = castext2_evaluatable::make_from_source('[[escape]]' . $s . '[[/escape]]', '/qt');
+            // It is a stateic string and by calling this we make it look like it was evaluated.
+            $this->questiontextinstantiated->requires_evaluation();
 
-    /**
-     * Helper method used by initialise_question_from_seed.
-     * @param string $text a textual part of the question that is CAS text.
-     * @param stack_cas_session2 $session the question's CAS session.
-     * @return stack_cas_text the CAS text version of $text.
-     */
-    protected function prepare_cas_text($text, $session) {
-        $castext = new stack_cas_text($text, $session, $this->seed);
-        if ($castext->get_errors()) {
-            $this->runtimeerrors[$castext->get_errors()] = true;
+            // Do some setup for the features that do not work.
+            $this->security = new stack_cas_security();
+            $this->tas = [];
+            $this->session = new stack_cas_session2([]);
         }
-        return $castext;
     }
 
     public function apply_attempt_state(question_attempt_step $step) {
@@ -504,9 +521,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
             $input->adapt_to_model_answer($teacheranswer);
             if ($this->get_cached('contextvariables-qv') !== null) {
-                $input->add_contextsession(new stack_secure_loader($this->get_cached('contextvariables-qv'), 'qv'));
+                $input->add_contextsession(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
             }
-
         }
     }
 
@@ -516,7 +532,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return stack_cas_text the castext.
      */
     public function get_hint_castext(question_hint $hint) {
-        $hinttext = new stack_cas_text($hint->hint, $this->session, $this->seed);
+        // TODO: These are not currently cached as compiled fragments, maybe they should be.
+
+        $hinttext = castext2_evaluatable::make_from_source($hint->hint, 'hint');
+
+        $session = null;
+        if ($this->session === null) {
+            $session = new stack_cas_session2([], $this->options, $this->seed);
+        } else {
+            $session = new stack_cas_session2($this->session->get_session(), $this->options, $this->seed);
+        }
+        $session->add_statement($hinttext);
+        $session->instantiate();
 
         if ($hinttext->get_errors()) {
             $this->runtimeerrors[$hinttext->get_errors()] = true;
@@ -530,13 +557,46 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return stack_cas_text the castext.
      */
     public function get_generalfeedback_castext() {
-        $gftext = new stack_cas_text($this->generalfeedback, $this->session, $this->seed);
-
-        if ($gftext->get_errors()) {
-            $this->runtimeerrors[$gftext->get_errors()] = true;
+        // Could be that this is instantiated already.
+        if ($this->generalfeedbackinstantiated !== null) {
+            return $this->generalfeedbackinstantiated;
+        }
+        // We can have a failed question.
+        if ($this->get_cached('castext-gf') === null) {
+            $ct = castext2_evaluatable::make_from_compiled('"Broken question."', '/gf',
+                new castext2_static_replacer([])); // This mainly for the bulk-test script.
+            $ct->requires_evaluation(); // Makes it as if it were evaluated.
+            return $ct;
         }
 
-        return $gftext;
+        $this->generalfeedbackinstantiated = castext2_evaluatable::make_from_compiled($this->get_cached('castext-gf'),
+            '/gf', new castext2_static_replacer($this->get_cached('static-castext-strings')));
+        // Might not require any evaluation anyway.
+        if (!$this->generalfeedbackinstantiated->requires_evaluation()) {
+            return $this->generalfeedbackinstantiated;
+        }
+
+        // Init a session with question-variables ant the related details.
+        $session = new stack_cas_session2([], $this->options, $this->seed);
+        if ($this->get_cached('preamble-qv') !== null) {
+            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
+        }
+        if ($this->get_cached('contextvariables-qv') !== null) {
+            $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
+        }
+        if ($this->get_cached('statement-qv') !== null) {
+            $session->add_statement(new stack_secure_loader($this->get_cached('statement-qv'), '/qv'));
+        }
+
+        // Then add the general-feedback code.
+        $session->add_statement($this->generalfeedbackinstantiated);
+        $session->instantiate();
+
+        if ($this->generalfeedbackinstantiated->get_errors()) {
+            $this->runtimeerrors[$this->generalfeedbackinstantiated->get_errors()] = true;
+        }
+
+        return $this->generalfeedbackinstantiated;
     }
 
     /**
@@ -546,7 +606,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function format_correct_response($qa) {
         $feedback = '';
-        $inputs = stack_utils::extract_placeholders($this->questiontextinstantiated, 'input');
+        $inputs = stack_utils::extract_placeholders($this->questiontextinstantiated->get_rendered(), 'input');
         foreach ($inputs as $name) {
             $input = $this->inputs[$name];
             $feedback .= html_writer::tag('p', $input->get_teacher_answer_display($this->tas[$name]->get_dispvalue(),
@@ -564,8 +624,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function get_question_summary() {
-        if ('' !== $this->questionnoteinstantiated) {
-            return $this->questionnoteinstantiated;
+        if ($this->questionnoteinstantiated !== null &&
+            '' !== $this->questionnoteinstantiated->get_rendered()) {
+            return $this->questionnoteinstantiated->get_rendered();
         }
         return parent::get_question_summary();
     }
@@ -582,18 +643,22 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Add in the answer note for this response.
         foreach ($this->prts as $name => $prt) {
             $state = $this->get_prt_result($name, $response, false);
-            $note = implode(' | ', $state->answernotes);
+            $note = implode(' | ', array_map('trim', $state->get_answernotes()));
             $score = '';
             if (trim($note) == '') {
                 $note = '!';
             } else {
-                $score = "# = " . $state->score . " | ";
+                $score = "# = " . $state->get_score();
+                if ($prt->is_formative()) {
+                    $score .= ' [formative]';
+                }
+                $score .= " | ";
             }
-            if (trim($state->errors) != '') {
-                $score = '[RUNTIME_ERROR] ' . $score;
+            if ($state->get_errors()) {
+                $score = '[RUNTIME_ERROR] ' . $score . implode("|", $state->get_errors());
             }
-            if (trim($state->fverrors) != '') {
-                $score = '[RUNTIME_FV_ERROR] ' . $score;
+            if ($state->get_fverrors()) {
+                $score = '[RUNTIME_FV_ERROR] ' . $score . implode("|", $state->get_fverrors()) . ' | ';
             }
             $bits[] = $name . ": " . $score . $note;
         }
@@ -612,6 +677,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     public function get_correct_response() {
         $teacheranswer = array();
+        if ($this->runtimeerrors || $this->get_cached('units') === null) {
+            return [];
+        }
         foreach ($this->inputs as $name => $input) {
             $teacheranswer = array_merge($teacheranswer,
                     $input->get_correct_response($this->tas[$name]->get_dispvalue()));
@@ -687,9 +755,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         // ... or any PRT gives an error.
-        foreach ($this->prts as $index => $prt) {
-            $result = $this->get_prt_result($index, $response, false);
-            if ($result->errors) {
+        foreach ($this->prts as $name => $prt) {
+            $result = $this->get_prt_result($name, $response, false);
+            if ($result->get_errors()) {
                 return true;
             }
         }
@@ -700,7 +768,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public function is_complete_response(array $response) {
 
         // If all PRTs are gradable, then the question is complete. Optional inputs may be blank.
-        foreach ($this->prts as $index => $prt) {
+        foreach ($this->prts as $prt) {
             // Formative PRTs do not contribute to complete responses.
             if (!$prt->is_formative() && !$this->can_execute_prt($prt, $response, false)) {
                 return false;
@@ -774,17 +842,17 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 }
             }
         }
-        foreach ($this->prts as $index => $prt) {
+        foreach ($this->prts as $name => $prt) {
             if (!$prt->is_formative()) {
-                $results = $this->get_prt_result($index, $response, true);
-                $fraction += $results->fraction;
+                $results = $this->get_prt_result($name, $response, true);
+                $fraction += $results->get_fraction();
             }
         }
         return array($fraction, question_state::graded_state_for_fraction($fraction));
     }
 
     protected function is_same_prt_input($index, $prtinput1, $prtinput2) {
-        foreach ($this->get_cached('required')[$this->prts[$index]->get_name()] as $name) {
+        foreach ($this->get_cached('required')[$this->prts[$index]->get_name()] as $name => $ignore) {
             if (!question_utils::arrays_same_at_key_missing_is_blank($prtinput1, $prtinput2, $name)) {
                 return false;
             }
@@ -810,13 +878,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Once we are confident enough, we can try to optimise.
 
         foreach ($this->prts as $index => $prt) {
-
+            // Some optimisation now hidden behind this, it will eval all PRTs
+            // of the question for this input.
             $results = $this->get_prt_result($index, $response, $finalsubmit);
-            if ($results->valid === null) {
+            if (!$results->is_evaluated()) {
                 continue;
             }
 
-            if ($results->errors) {
+            if (!$results->get_valid()) {
                 $partresults[$index] = new qbehaviour_adaptivemultipart_part_result($index, null, null, true);
                 continue;
             }
@@ -835,7 +904,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
 
             $partresults[$index] = new qbehaviour_adaptivemultipart_part_result(
-                    $index, $results->score, $results->penalty);
+                    $index, $results->get_score(), $results->get_penalty());
         }
 
         return $partresults;
@@ -850,6 +919,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Once we are confident enough, we could try switching the nesting
         // of the loops to increase efficiency.
 
+        // TODO: switch the nesting, now that the eval is by response and not by PRT.
+        // Current CAS-cache helps but it is wasted cycles to go to it so many times.
         $fraction = 0;
         foreach ($this->prts as $index => $prt) {
             if ($prt->is_formative()) {
@@ -862,6 +933,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $results = new stdClass();
             $results->fraction = 0;
 
+            $frac = 0;
             foreach ($responses as $response) {
                 $prtinput = $this->get_prt_input($index, $response, true);
 
@@ -871,14 +943,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 }
 
                 if ($this->can_execute_prt($this->prts[$index], $response, true)) {
-                    $results = $this->prts[$index]->evaluate_response($this->session,
-                            $this->options, $prtinput, $this->seed);
+                    $results = $this->get_prt_result($index, $response, true);
 
-                    $accumulatedpenalty += $results->fractionalpenalty;
+                    $accumulatedpenalty += $results->get_fractionalpenalty();
+                    $frac = $results->get_fraction();
                 }
             }
 
-            $fraction += max($results->fraction - $penaltytoapply, 0);
+            $fraction += max($frac - $penaltytoapply, 0);
         }
 
         return $fraction;
@@ -886,20 +958,20 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     /**
      * Do we have all the necessary inputs to execute one of the potential response trees?
-     * @param stack_potentialresponse_tree $prt the tree in question.
+     * @param stack_potentialresponse_tree_lite $prt the tree in question.
      * @param array $response the response.
      * @param bool $acceptvalid if this is true, then we will grade things even
      *      if the corresponding inputs are only VALID, and not SCORE.
      * @return bool can this PRT be executed for that response.
      */
-    protected function has_necessary_prt_inputs(stack_potentialresponse_tree $prt, $response, $acceptvalid) {
+    protected function has_necessary_prt_inputs(stack_potentialresponse_tree_lite $prt, $response, $acceptvalid) {
 
         // Some kind of time-time error in the question, so bail here.
         if ($this->get_cached('required') === null) {
             return false;
         }
 
-        foreach ($this->get_cached('required')[$prt->get_name()] as $name) {
+        foreach ($this->get_cached('required')[$prt->get_name()] as $name => $ignore) {
             $status = $this->get_input_state($name, $response)->status;
             if (!(stack_input::SCORE == $status || ($acceptvalid && stack_input::VALID == $status))) {
                 return false;
@@ -911,19 +983,20 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     /**
      * Do we have all the necessary inputs to execute one of the potential response trees?
-     * @param stack_potentialresponse_tree $prt the tree in question.
+     * @param stack_potentialresponse_tree_lite $prt the tree in question.
      * @param array $response the response.
      * @param bool $acceptvalid if this is true, then we will grade things even
      *      if the corresponding inputs are only VALID, and not SCORE.
      * @return bool can this PRT be executed for that response.
      */
-    protected function can_execute_prt(stack_potentialresponse_tree $prt, $response, $acceptvalid) {
+    protected function can_execute_prt(stack_potentialresponse_tree_lite $prt, $response, $acceptvalid) {
 
         // The only way to find out is to actually try evaluating it. This calls
         // has_necessary_prt_inputs, and then does the computation, which ensures
         // there are no CAS errors.
         $result = $this->get_prt_result($prt->get_name(), $response, $acceptvalid);
-        return null !== $result->valid && !$result->errors;
+
+        return $result->is_evaluated() && !$result->get_errors();
     }
 
     /**
@@ -942,7 +1015,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         $prt = $this->prts[$index];
         $prtinput = array();
-        foreach ($this->get_cached('required')[$prt->get_name()] as $name) {
+        foreach ($this->get_cached('required')[$prt->get_name()] as $name => $ignore) {
             $state = $this->get_input_state($name, $response);
             if (stack_input::SCORE == $state->status || ($acceptvalid && stack_input::VALID == $state->status)) {
                 $val = $state->contentsmodified;
@@ -962,8 +1035,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @param array $response the response to process.
      * @param bool $acceptvalid if this is true, then we will grade things even
      *      if the corresponding inputs are only VALID, and not SCORE.
-     * @return stack_potentialresponse_tree_state the result from $prt->evaluate_response(),
-     *      or a fake state object if the tree cannot be executed.
+     * @return prt_evaluatable the result from traversing the prt.
      */
     public function get_prt_result($index, $response, $acceptvalid) {
         $this->validate_cache($response, $acceptvalid);
@@ -973,23 +1045,111 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         // We can end up with a null prt at this point if we have question tests for a deleted PRT.
-        if (!array_key_exists($index, $this->prts)) {
+        // Alternatively we have a question that could not be compiled.
+        if (!array_key_exists($index, $this->prts) || $this->get_cached('units') === null) {
             // Bail here with an empty state to avoid a later exception which prevents question test editing.
-            return new stack_potentialresponse_tree_state(null, null, null, null);
+            return new prt_evaluatable('prt_' . $index . '(???)', 1, new castext2_static_replacer([]), array());
         }
-        $prt = $this->prts[$index];
 
-        if (!$this->has_necessary_prt_inputs($prt, $response, $acceptvalid)) {
-            $this->prtresults[$index] = new stack_potentialresponse_tree_state(
-                    $prt->get_value(), null, null, null);
+        // If we do not have inputs for this then no need to continue.
+        if (!$this->has_necessary_prt_inputs($this->prts[$index], $response, $acceptvalid)) {
+            $this->prtresults[$index] = new prt_evaluatable($this->get_cached('prt-signature')[$index],
+                $this->prts[$index]->get_value(),
+                new castext2_static_replacer($this->get_cached('static-castext-strings')),
+                $this->get_cached('prt-trace')[$index]);
             return $this->prtresults[$index];
         }
 
-        $prtinput = $this->get_prt_input($index, $response, $acceptvalid);
+        // First figure out which PRTs can be called.
+        $prts = [];
+        $inputs = [];
+        foreach ($this->prts as $name => $prt) {
+            if ($this->has_necessary_prt_inputs($prt, $response, $acceptvalid)) {
+                $prts[$name] = $prt;
+                $inputs += $this->get_prt_input($name, $response, $acceptvalid);
+            }
+        }
 
-        $this->prtresults[$index] = $prt->evaluate_response($this->session,
-                $this->options, $prtinput, $this->seed);
+        // So now we build a session to evaluate all the PRTs.
+        $session = new stack_cas_session2([], $this->options, $this->seed);
 
+        // Construct the security object. But first units declaration into the session.
+        $units = (boolean) $this->get_cached('units');
+
+        // If we have units we might as well include the units declaration in the session.
+        // To simplify authors work and remove the need to call that long function.
+        // TODO: Maybe add this to the preable to save lines, but for now documented here.
+        if ($units) {
+            $session->add_statement(new stack_secure_loader('stack_unit_si_declare(true)',
+                    'automatic unit declaration'), false);
+        }
+
+        if ($this->get_cached('preamble-qv') !== null) {
+            $session->add_statement(new stack_secure_loader($this->get_cached('preamble-qv'), 'preamble'));
+        }
+        // Add preamble from PRTs as well.
+        foreach ($this->get_cached('prt-preamble') as $name => $stmt) {
+            if (isset($prts[$name])) {
+                $session->add_statement(new stack_secure_loader($stmt, 'preamble PRT: ' . $name));
+            }
+        }
+
+        // Context variables should be first.
+        if ($this->get_cached('contextvariables-qv') !== null) {
+            $session->add_statement(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
+        }
+        // Add contextvars from PRTs as well.
+        foreach ($this->get_cached('prt-contextvariables') as $name => $stmt) {
+            if (isset($prts[$name])) {
+                $session->add_statement(new stack_secure_loader($stmt, 'contextvariables PRT: ' . $name));
+            }
+        }
+
+        if ($this->get_cached('statement-qv') !== null) {
+            $session->add_statement(new stack_secure_loader($this->get_cached('statement-qv'), '/qv'));
+        }
+
+        // Then the definitions of the PRT-functions. Note not just statements for a reason.
+        foreach ($this->get_cached('prt-definition') as $name => $stmt) {
+            if (isset($prts[$name])) {
+                $session->add_statement(new stack_secure_loader($stmt, 'definition PRT: ' . $name));
+            }
+        }
+
+        // Suppress simplification of raw inputs.
+        $session->add_statement(new stack_secure_loader('simp:false', 'input-simplification'));
+
+        // Now push in the input values and the new _INPUT_STRING.
+        // Note these have been validated in the input system.
+        $is = '_INPUT_STRING:["stack_map"';
+        foreach ($inputs as $key => $value) {
+            $session->add_statement(new stack_secure_loader($key . ':' . $value, 'i/' .
+                array_search($key, array_keys($this->inputs)) . '/s'));
+            $is .= ',[' . stack_utils::php_string_to_maxima_string($key) . ',';
+            if (strpos($value, 'ev(') === 0) { // Unpack the value if we have simp...
+                $is .= stack_utils::php_string_to_maxima_string(mb_substr($value, 3, -6)) . ']';
+            } else {
+                $is .= stack_utils::php_string_to_maxima_string($value) . ']';
+            }
+        }
+        $is .= ']';
+        $session->add_statement(new stack_secure_loader($is, 'input-strings'));
+
+        // Put the input string map in the trace.
+        $trace = array_merge(array($is . '$', '/* ------------------- */'), $this->get_cached('prt-trace')[$name]);
+        // Generate, cache and instantiate the results.
+        foreach ($this->prts as $name => $prt) {
+            $p = new prt_evaluatable($this->get_cached('prt-signature')[$name],
+                $prt->get_value(), new castext2_static_replacer($this->get_cached('static-castext-strings')),
+                $trace);
+            if (isset($prts[$name])) {
+                // Always make sure it gets called with simp:false.
+                $session->add_statement(new stack_secure_loader('simp:false', 'prt-simplification'));
+                $session->add_statement($p);
+            }
+            $this->prtresults[$name] = $p;
+        }
+        $session->instantiate();
         return $this->prtresults[$index];
     }
 
@@ -1028,8 +1188,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Set the cached prt results as if the feedback for each PRT was
         // "Feedback from PRT {name}".
         foreach ($this->prtresults as $name => $prtresult) {
-            $prtresult->_feedback = array();
-            $prtresult->add_feedback(stack_string('feedbackfromprtx', $name));
+            $prtresult->override_feedback(stack_string('feedbackfromprtx', $name));
         }
     }
 
@@ -1156,7 +1315,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @param string $vname variable name.
      */
     public function get_ta_for_input(string $vname): string {
-        if ($this->tas[$vname]->is_correctly_evaluated()) {
+        if (isset($this->tas[$vname]) && $this->tas[$vname]->is_correctly_evaluated()) {
             return $this->tas[$vname]->get_value();
         }
         return '';
@@ -1177,21 +1336,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 continue;
             }
 
-            $prtinput = $this->get_prt_input($index, $response, true);
+            $results = $this->get_prt_result($index, $response, true);
 
-            $results = $this->prts[$index]->evaluate_response($this->session,
-                    $this->options, $prtinput, $this->seed);
-
-            $answernotes = implode(' | ', $results->answernotes);
+            $answernotes = implode(' | ', array_map('trim', $results->get_answernotes()));
 
             foreach ($prt->get_nodes_summary() as $nodeid => $choices) {
-                if (in_array($choices->truenote, $results->answernotes)) {
+                if (in_array($choices->trueanswernote, $results->get_answernotes())) {
                     $classification[$index . '-' . $nodeid] = new question_classified_response(
-                            $choices->truenote, $answernotes, $results->fraction);
+                            $choices->trueanswernote, $answernotes, $results->get_fraction());
 
-                } else if (in_array($choices->falsenote, $results->answernotes)) {
+                } else if (in_array($choices->falseanswernote, $results->get_answernotes())) {
                     $classification[$index . '-' . $nodeid] = new question_classified_response(
-                            $choices->falsenote, $answernotes, $results->fraction);
+                            $choices->falseanswernote, $answernotes, $results->get_fraction());
 
                 } else {
                     $classification[$index . '-' . $nodeid] = question_classified_response::no_response();
@@ -1316,12 +1472,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Reminder: previous approach in Oct 2021 tried to use libxml_use_internal_errors, but this was a dead end.
 
         $tocheck = array();
-        $text = trim($this->questiontextinstantiated);
+        $text = '';
+        if ($this->questiontextinstantiated !== null) {
+            $text = trim($this->questiontextinstantiated->get_rendered());
+        }
         if ($text !== '') {
             $tocheck[stack_string('questiontext')] = $text;
         }
         $ct = $this->get_generalfeedback_castext();
-        $text = trim($ct->get_display_castext());
+        $text = trim($ct->get_rendered($this->castextprocessor));
         if ($text !== '') {
             $tocheck[stack_string('generalfeedback')] = $text;
         }
@@ -1391,6 +1550,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($this->prts as $prt) {
             foreach ($prt->get_feedback_languages() as $nodes) {
                 // The nodekey is really the answernote from one branch of the node.
+                // No actually it is not in the new PRT-system, it's just 'true' or 'false'.
                 foreach ($nodes as $nodekey => $langs) {
                     foreach ($qlangs as $expectedlang) {
                         if (!in_array($expectedlang, $langs)) {
@@ -1428,13 +1588,29 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * Returns named items from the cache and rebuilds it if the cache
      * has been cleared.
      */
-    private function get_cached(string $key) {
+    public function get_cached(string $key) {
         global $DB;
+        if ($this->compiledcache !== null and isset($this->compiledcache['FAIL'])) {
+            // This question failed compilation, no need to try again in this request.
+            // Make sure the error is back in the error list.
+            $this->runtimeerrors[$this->compiledcache['FAIL']] = true;
+            return null;
+        }
+
         // Do we have that particular thing in the cache?
         if ($this->compiledcache === null || !array_key_exists($key, $this->compiledcache)) {
             // If not do the compilation.
             try {
-                $this->compiledcache = self::compile($this->questionvariables, $this->inputs, $this->prts, $this->options);
+                $this->compiledcache = self::compile($this->id,
+                    $this->questionvariables, $this->inputs, $this->prts,
+                    $this->options, $this->questiontext,
+                    $this->questiontextformat,
+                    $this->questionnote,
+                    $this->generalfeedback, $this->generalfeedbackformat,
+                    $this->specificfeedback, $this->specificfeedbackformat,
+                    $this->prtcorrect, $this->prtcorrectformat,
+                    $this->prtpartiallycorrect, $this->prtpartiallycorrectformat,
+                    $this->prtincorrect, $this->prtincorrectformat, $this->penalty);
 
                 // Invalidate Moodle question-cache and add there.
                 if (is_integer($this->id) || is_numeric($this->id)) {
@@ -1449,14 +1625,20 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     // First from the next sessions.
                     cache::make('core', 'questiondata')->delete($this->id);
                 }
-            } catch (exception $e) {
+            } catch (stack_exception $e) {
                 // TODO: what exactly do we use here as the key
                 // and what sort of errors does the compilation generate.
+                // CHRIS: The compilation generates errors that relate to the static validation of
+                // the question, any such errors are fatal and will be apparent on the first opening
+                // of the question in bulk tests or elsewhere, silencing them makes no sense.
+                // These are not runtime errors they are validation errors for materials that should
+                // not have managed to get through the editor.
                 $this->runtimeerrors[$e->getMessage()] = true;
+                $this->compiledcache = ['FAIL' => $e->getMessage()];
             }
         }
 
-        // A run-time error means we don't have the $key in the cache.
+        // A runtime error means we don't have the $key in the cache.
         // We don't want an error here, we want to degrade gracefully.
         $ret = null;
         if (is_array($this->compiledcache) && array_key_exists($key, $this->compiledcache)) {
@@ -1471,28 +1653,45 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      *
      * Note that does throw exceptions about validation details.
      *
-     * Currently the cache contaisn the following keys:
+     * Currently the cache contains the following keys:
      *  'units' for declaring the units-mode.
      *  'forbiddenkeys' for the lsit of those.
      *  'contextvariable-qv' the pre-validated question-variables which are context variables.
      *  'statement-qv' the pre-validated question-variables.
      *  'preamble-qv' the matching blockexternals.
      *  'required' the lists of inputs required by given PRTs an array by PRT-name.
-     *
-     * In the future expect the following:
      *  'castext-qt' for the question-text as compiled CASText2.
      *  'castext-qn' for the question-note as compiled CASText2.
      *  'castext-...' for the model-solution and prtpartiallycorrect etc.
-     *  'prt' the compiled PRT-logics in an array.
+     *  'castext-td-...' for downloadable generated text content.
+     *  'security-context' mainly lists keys that are student inputs.
+     *  'prt-*' the compiled PRT-logics in an array. Divided by usage.
+     *  'langs' a list of language codes used in this question.
+     *
+     * In the future expect the following:
      *  'security-config' extended logic for cas-security, e.g. custom-units.
      *
+     * @param int the identifier of this question fot use if we have pluginfiles
      * @param string the questionvariables
      * @param array inputs as objects, keyed by input name
      * @param array PRTs as objects
      * @param stack_options the options in use, if they would ever matter
+     * @param string question-text
+     * @param string question-text format
+     * @param string question-note
+     * @param string general-feedback
+     * @param string general-feedback format...
+     * @param defaultpenalty
      * @return array a dictionary of things that might be expensive to generate.
      */
-    private static function compile($questionvariables, $inputs, $prts, $options) {
+    public static function compile($id, $questionvariables, $inputs, $prts, $options,
+        $questiontext, $questiontextformat,
+        $questionnote,
+        $generalfeedback, $generalfeedbackformat,
+        $specificfeedback, $specificfeedbackformat,
+        $prtcorrect, $prtcorrectformat,
+        $prtpartiallycorrect, $prtpartiallycorrectformat,
+        $prtincorrect, $prtincorrectformat, $defaultpenalty) {
         // NOTE! We do not compile during question save as that would make
         // import actions slow. We could compile during fromform-validation
         // but we really should look at refactoring that to better interleave
@@ -1505,6 +1704,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Some details are globals built from many sources.
         $units = false;
         $forbiddenkeys = [];
+        $sec = new stack_cas_security();
 
         // First handle the question variables.
         if ($questionvariables === null || trim($questionvariables) === '') {
@@ -1514,10 +1714,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $cc['security-context'] = [];
         } else {
             $kv = new stack_cas_keyval($questionvariables, $options);
+            $kv->get_security($sec);
             if (!$kv->get_valid()) {
                 throw new stack_exception('Error(s) in question-variables: ' . implode('; ', $kv->get_errors()));
             }
-            $c = $kv->compile('question-variables');
+            $c = $kv->compile('/qv');
             // Store the pre-validated statement representing the whole qv.
             $cc['statement-qv'] = $c['statement'];
             // Store any contextvariables, e.g. assume statements.
@@ -1528,24 +1729,16 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if (isset($c['references']['write'])) {
                 $forbiddenkeys = array_merge($forbiddenkeys, $c['references']['write']);
             }
-            // Collect type information and condense it.
-            $ti = $kv->get_security()->get_context();
-            $si = [];
-            foreach ($ti as $key => $value) {
-                // We should not directly serialize the ASTs they have too much context in them.
-                // Unfortunately that means we need to parse them back on every init.
-                $si[$key] = array_keys($value);
+            if (isset($c['includes'])) {
+                $cc['includes']['keyval'] = $c['includes'];
             }
-
-            // Mark all inputs. To let us know that they have special types.
-            foreach ($inputs as $key => $value) {
-                if (!isset($si[$key])) {
-                    $si[$key] = [];
-                }
-                $si[$key][-2] = -2;
-            }
-            $cc['security-context'] = $si;
         }
+
+        // Collect the language codes in use. For our purposes the question-text
+        // is all that is needed. Other places may have other values but these are
+        // enough after all the validations have passed.
+        $ml = new stack_multilang();
+        $cc['langs'] = $ml->languages_used($questiontext);
 
         // Then do some basic detail collection related to the inputs and PRTs.
         foreach ($inputs as $input) {
@@ -1555,13 +1748,47 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
         $cc['required'] = [];
-        foreach ($prts as $prt) {
-            if ($prt->has_units()) {
-                $units = true;
+        $cc['prt-preamble'] = [];
+        $cc['prt-contextvariables'] = [];
+        $cc['prt-signature'] = [];
+        $cc['prt-definition'] = [];
+        $cc['prt-trace'] = [];
+        $i = 0;
+        foreach ($prts as $name => $prt) {
+            $path = '/p/' . $i;
+            $i = $i + 1;
+            $r = $prt->compile($inputs, $forbiddenkeys, $defaultpenalty, $sec, $path);
+            $cc['required'][$name] = $r['required'];
+            if ($r['be'] !== null && $r['be'] !== '') {
+                $cc['prt-preamble'][$name] = $r['be'];
             }
-            // This is surprisingly expensive to do, simpler to extract from compiled.
-            $cc['required'][$prt->get_name()] = $prt->get_required_variables(array_keys($inputs));
-            // TODO: compile PRTs.
+            if ($r['cv'] !== null && $r['cv'] !== '') {
+                $cc['prt-contextvariables'][$name] = $r['cv'];
+            }
+            $cc['prt-signature'][$name] = $r['sig'];
+            $cc['prt-definition'][$name] = $r['def'];
+            $cc['prt-trace'][$name] = $r['trace'];
+            $units = $units || $r['units'];
+            if (isset($r['includes'])) {
+                if (!isset($cc['includes'])) {
+                    $cc['includes'] = $r['includes'];
+                } else {
+                    if (isset($r['includes']['keyval'])) {
+                        if (!isset($cc['includes']['keyval'])) {
+                            $cc['includes']['keyval'] = [];
+                        }
+                        $cc['includes']['keyval'] = array_unique(array_merge($cc['includes']['keyval'],
+                            $r['includes']['keyval']));
+                    }
+                    if (isset($r['includes']['castext'])) {
+                        if (!isset($cc['includes']['castext'])) {
+                            $cc['includes']['castext'] = [];
+                        }
+                        $cc['includes']['castext'] = array_unique(array_merge($cc['includes']['castext'],
+                            $r['includes']['castext']));
+                    }
+                }
+            }
         }
 
         // Note that instead of just adding the unit loading to the 'preamble-qv'
@@ -1569,6 +1796,126 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // as it may be used in input configuration at some later time.
         $cc['units'] = $units;
         $cc['forbiddenkeys'] = $forbiddenkeys;
+
+        // Do some pluginfile mapping. Note that the PRT-nodes are mapped in PRT-compiler.
+        if (strpos($questiontext, '@@PLUGINFILE@@') !== false) {
+            $questiontext = '[[pfs component="question" filearea="questiontext" itemid="' . $id . '"]]' .
+                            $questiontext . '[[/pfs]]';
+        }
+        if (strpos($generalfeedback, '@@PLUGINFILE@@') !== false) {
+            $generalfeedback = '[[pfs component="question" filearea="generalfeedback" itemid="' . $id . '"]]' .
+                            $generalfeedback . '[[/pfs]]';
+        }
+        if (strpos($specificfeedback, '@@PLUGINFILE@@') !== false) {
+            $specificfeedback = '[[pfs component="qtype_stack" filearea="specificfeedback" itemid="' . $id . '"]]' .
+                            $specificfeedback . '[[/pfs]]';
+        }
+        // Compile the castext fragments.
+        $ctoptions = [
+            'bound-vars' => $forbiddenkeys,
+            'prt-names' => array_flip(array_keys($prts)),
+            'io-blocks-as-raw' => 'pre-input2'
+        ];
+        $ct = castext2_evaluatable::make_from_source($questiontext, '/qt');
+        if (!$ct->get_valid($questiontextformat, $ctoptions, $sec)) {
+            throw new stack_exception('Error(s) in question-text: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-qt'] = $ct->get_evaluationform();
+            // Note that only with "question-text" may we get inlined downloads.
+            foreach ($ct->get_special_content() as $key => $values) {
+                if ($key === 'text-download') {
+                    foreach ($values as $k => $v) {
+                        $cc['castext-td-' . $k] = $v;
+                    }
+                } else if ($key === 'castext-includes') {
+                    if (!isset($cc['includes'])) {
+                        $cc['includes'] = ['castext' => $values];
+                    } else if (!isset($cc['includes']['castext'])) {
+                        $cc['includes']['castext'] = $values;
+                    } else {
+                        foreach ($values as $url) {
+                            if (array_search($url, $cc['includes']['castext']) === false) {
+                                $cc['includes']['castext'][] = $url;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        $ct = castext2_evaluatable::make_from_source($questionnote, '/qn');
+        if (!$ct->get_valid(FORMAT_HTML, $ctoptions, $sec)) {
+            throw new stack_exception('Error(s) in question-note: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-qn'] = $ct->get_evaluationform();
+        }
+
+        $ct = castext2_evaluatable::make_from_source($generalfeedback, '/gf');
+        if (!$ct->get_valid($generalfeedbackformat, $ctoptions, $sec)) {
+            throw new stack_exception('Error(s) in general-feedback: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-gf'] = $ct->get_evaluationform();
+        }
+
+        $ct = castext2_evaluatable::make_from_source($specificfeedback, '/sf');
+        if (!$ct->get_valid($specificfeedbackformat, $ctoptions, $sec)) {
+            throw new stack_exception('Error(s) in specific-feedback: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-sf'] = $ct->get_evaluationform();
+        }
+
+        $ct = castext2_evaluatable::make_from_source($prtcorrect, '/pc');
+        if (!$ct->get_valid($prtcorrectformat, $ctoptions, $sec)) {
+            throw new stack_exception('Error(s) in PRT-correct message: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-prt-c'] = $ct->get_evaluationform();
+        }
+
+        $ct = castext2_evaluatable::make_from_source($prtpartiallycorrect, '/pp');
+        if (!$ct->get_valid($prtpartiallycorrectformat, $ctoptions, $sec)) {
+            throw new stack_exception('Error(s) in PRT-partially correct message: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-prt-pc'] = $ct->get_evaluationform();
+        }
+
+        $ct = castext2_evaluatable::make_from_source($prtincorrect, '/pi');
+        if (!$ct->get_valid($prtincorrectformat, $ctoptions, $sec)) {
+            throw new stack_exception('Error(s) in PRT-incorrect message: ' . implode('; ', $ct->get_errors()));
+        } else {
+            $cc['castext-prt-ic'] = $ct->get_evaluationform();
+        }
+
+        // Do static string extraction from the castext-code, save CAS-bandwidth and cache size.
+        // Note! This might be something one wants to toggle for some debug use. But that would
+        // be some other level of debug than what we currently have.
+        // This is one of those things that MecLib made us do.
+        $map = new castext2_static_replacer([]);
+        foreach ($cc as $k => $v) {
+            if (strpos($k, 'castext-') === 0) {
+                $val = $map->extract($v);
+                $cc[$k] = $val;
+            }
+        }
+        // Also deal with the PRTs, the compiled function may contain large feedback portions.
+        if (isset($cc['prt-definition'])) {
+            foreach ($cc['prt-definition'] as $k => $v) {
+                $cc['prt-definition'][$k] = $map->extract($v);
+            }
+        }
+        $cc['static-castext-strings'] = $map->get_map();
+
+        // The time of the security context as it were during 2021 was short, now only
+        // the input variables remain.
+        $si = [];
+
+        // Mark all inputs. To let us know that they have special types.
+        foreach ($inputs as $key => $value) {
+            if (!isset($si[$key])) {
+                $si[$key] = [];
+            }
+            $si[$key][-2] = -2;
+        }
+        $cc['security-context'] = $si;
 
         return $cc;
     }

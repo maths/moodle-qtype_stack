@@ -705,7 +705,7 @@ class input_numerical_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'intnum');
         $state = $el->validate_student_response(array('sans1' => "sin(pi/2)"), $options, '1729', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assert_equals_ignore_spaces_and_e('sin(pi/2)', $state->contentsmodified);
+        $this->assert_equals_ignore_spaces_and_e('sin(%pi/2)', $state->contentsmodified);
         $this->assertEquals('\[ \sin \left( \frac{\pi}{2} \right) \]', $state->contentsdisplayed);
         $this->assertEquals('This input expects an explicit integer.', $state->errors);
     }

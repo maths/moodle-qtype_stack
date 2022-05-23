@@ -164,7 +164,10 @@ unary_minus_remove(ex):= block(
 )$
 
 equals_commute_prepare(ex):=block([ex1n],
-    ex1n:subst(nounset, set, ex),
+    /* We need to strip out any internal simplification. */
+    ex1n:parse_string(string(ex)),
+
+    ex1n:subst(nounset, set, ex1n),
     ex1n:noun_arith_full(ex1n),
     ex1n:flatten_recurse_nouns(ex1n),
     ex1n:sort_nouns(ex1n),
@@ -200,7 +203,6 @@ ATEqualComAss(sa, sb) :=
 
     sa:remove_stackeq(sa),
     sb:remove_stackeq(sb),
-
     /* We need to check things are of the same type */
     ret:ATSameTypefun(sa,sb),
     if ret[2]=false then

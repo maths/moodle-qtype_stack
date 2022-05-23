@@ -27,16 +27,18 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/questiontestform.php');
 require_once(__DIR__ . '/stack/questiontest.php');
+require_once(__DIR__ . '/stack/potentialresponsetreestate.class.php');
 
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
 $testcase = optional_param('testcase', null, PARAM_INT);
+$confirmthistestcase = optional_param('confirmthistestcase', null, PARAM_INT);
 
 // Load the necessary data.
 $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
-if ($testcase) {
+if ($testcase || $confirmthistestcase) {
     $qtest = question_bank::get_qtype('stack')->load_question_test($questionid, $testcase);
 }
 
@@ -56,18 +58,6 @@ if (!is_null($testcase)) {
     $submitlabel = stack_string('createtestcase');
 }
 
-// Initialise $PAGE.
-$backurl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
-if (!is_null($testcase)) {
-    $urlparams['testcase'] = $testcase;
-}
-$PAGE->set_url('/question/type/stack/questiontestedit.php', $urlparams);
-$PAGE->set_title($title);
-$PAGE->set_heading($title);
-$PAGE->set_pagelayout('popup');
-
-require_login();
-
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
 $quba->set_preferred_behaviour('adaptive');
@@ -79,6 +69,20 @@ if (!is_null($seed)) {
 
 $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
+
+
+// Initialise $PAGE.
+$backurl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
+if (!is_null($testcase)) {
+    $urlparams['testcase'] = $testcase;
+}
+
+$PAGE->set_url('/question/type/stack/questiontestedit.php', $urlparams);
+$PAGE->set_title($title);
+$PAGE->set_heading($title);
+$PAGE->set_pagelayout('popup');
+
+require_login();
 
 // Create the editing form.
 $mform = new qtype_stack_question_test_form($PAGE->url,
@@ -113,7 +117,25 @@ if ($testcase) {
 if ($mform->is_cancelled()) {
     unset($urlparams['testcase']);
     redirect($backurl);
+} else if ($confirmthistestcase) {
+    $inputs = array();
+    foreach ($qtest->inputs as $name => $value) {
+        $inputs[$name] = $value;
+    }
+    $qtest = new stack_question_test($inputs);
 
+    $response = stack_question_test::compute_response($question, $inputs);
+
+    foreach ($question->prts as $prtname => $prt) {
+        $result = $question->get_prt_result($prtname, $response, false);
+        // For testing purposes we just take the last note.
+        $answernotes = $result->get_answernotes();
+        $answernote = array(end($answernotes));
+        $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
+            1, true, $result->get_score(), $result->get_penalty(), '', $answernote));
+    }
+    question_bank::get_qtype('stack')->save_question_test($questionid, $qtest, $testcase);
+    redirect($backurl);
 } else if ($data = $mform->get_data()) {
     // Process form submission.
     $inputs = array();

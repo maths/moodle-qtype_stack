@@ -153,8 +153,11 @@ class question_test extends qtype_stack_testcase {
         $q = $this->get_test_stack_question('test3');
         $q->start_attempt(new question_attempt_step(), 1);
 
-        $this->assertEquals(array(2.5 / 4, question_state::$gradedpartial),
-                $q->grade_response(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false')));
+        $result = $q->grade_response(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x^2', 'ans4' => 'false'));
+        $this->assertEquals(array(2.5 / 4, question_state::$gradedpartial), $result);
+
+        $result = $q->grade_response(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false'));
+        $this->assertEquals(array(2.5 / 4, question_state::$gradedpartial), $result);
     }
 
     public function test_grade_response_test3_incomplete() {

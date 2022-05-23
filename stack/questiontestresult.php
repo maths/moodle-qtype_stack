@@ -95,7 +95,7 @@ class stack_question_test_result {
         $this->inputerrors[$inputname]         = $error;
     }
 
-    public function set_prt_result($prtname, stack_potentialresponse_tree_state $actualresult) {
+    public function set_prt_result($prtname, prt_evaluatable $actualresult) {
         $this->actualresults[$prtname] = $actualresult;
     }
 
@@ -136,21 +136,30 @@ class stack_question_test_result {
 
             $state = new stdClass();
             $state->expectedscore = $expectedresult->score;
+            if (!is_null($state->expectedscore)) {
+                // Single PRTs only work to three decimal places, so we only expect that level.
+                $state->expectedscore = round($state->expectedscore + 0, 3);
+            }
             $state->expectedpenalty = $expectedresult->penalty;
+            if (!is_null($state->expectedpenalty)) {
+                // Single PRTs only work to three decimal places, so we only expect that level.
+                $state->expectedpenalty = round($state->expectedpenalty + 0, 3);
+            }
             $state->expectedanswernote = reset($expectedanswernote);
 
             if (array_key_exists($prtname, $this->actualresults)) {
                 $actualresult = $this->actualresults[$prtname];
-                $state->score = $actualresult->score;
-                $state->penalty = $actualresult->penalty;
-                $state->answernote = implode(' | ', $actualresult->answernotes);
-                $state->trace = implode("\n", $actualresult->trace);
-                $state->feedback = $actualresult->feedback;
-                $state->debuginfo = $actualresult->debuginfo;
+                $state->score = $actualresult->get_score();
+                $state->penalty = $actualresult->get_penalty();
+                $state->answernote = implode(' | ', $actualresult->get_answernotes());
+                $state->trace = implode("\n", $actualresult->get_trace());
+                $state->feedback = $actualresult->get_feedback();
+                $state->debuginfo = $actualresult->get_debuginfo();
             } else {
                 $state->score = '';
                 $state->penalty = '';
                 $state->answernote = '';
+                $state->trace = '';
                 $state->feedback = '';
                 $state->debuginfo = '';
             }
@@ -175,7 +184,7 @@ class stack_question_test_result {
                     $reason[] = stack_string('penalty');
                 }
             }
-            if (!$this->test_answer_note($state->expectedanswernote, $actualresult->answernotes)) {
+            if (!$this->test_answer_note($state->expectedanswernote, $actualresult->get_answernotes())) {
                 $state->testoutcome = false;
                 $reason[] = stack_string('answernote');
             }

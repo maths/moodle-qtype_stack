@@ -42,6 +42,12 @@ You can control the size of the JSXGraph board with the `width` and `height` opt
 
     [[jsxgraph width="200px" height="200px"]]
 
+The option `aspect-ratio` combinet with the ability to use relative dimensions allows for graphs to resize and maintain its shape if the viewport changes. When using `aspect-ratio` it is necessary to define one and only one of the above lengths.
+
+    [[jsxgraph width="80%" aspect-ratio="3/2"]]
+
+If no size is defined the default is to have `width="500px" height="400px"` and these are also the dimensions used if values are missing and no `aspect-ratio` has been defined.
+
 ## Automatic identifier for the div-element
 
 As initialisation of the JSXGraph board requires you to give it a reference to the div-element that will contain the graph you will need to know what that id is. With the JSXGraph-block that identifier is present in a variable named `divid`. Since, 4.3.3 we also provide that same identifier in a variable named `BOARDID` to match the behaviour of the JSXGraph Moodle filter. We generate that identifier automatically to allow one to have multiple plots even multiple copies of the same question on the same page without anyone having to worry about accidental identifier clashing.
@@ -186,6 +192,10 @@ For sliders you use the function `stack_jxg.bind_slider(inputRef, slider)` and i
 You should check the sample questions about JSXGraph binding for examples of these functions in action.
 
 Starting from version 4.3 there are three functions for dealing with pairs of points. Basically, if you want to represent vectors, lines or circles or anything that can be defined with just two points. `stack_jxg.bind_point_dual(inputRef, point1, point2)` will store the positions of the points into a single input as a list of lists, `stack_jxg.bind_point_relative(inputRef, point1, point2)` will also generate a list but in it the second point is represented relative to the first, and finally `stack_jxg.bind_point_direction(inputRef, point1, point2)` will provide the first point as coordinates and the second point as an angle and distance from the first.
+
+Starting from 4.4 there is only one new bind function `stack_jxg.bind_list_of(inputRef, list)` which takes a list of points and/or sliders and stores it into a single input. It only works if he size or order of the list does not change during page loads, however the list can change its shape for variants of the question. The primary use target for this are the vertices of polygons, but one can probably come up with something else as well, it does work as a quick and dirty way of storing the whole graph state if the graph can be defined just by points and sliders.
+
+There are also two new functions realted to dealing with groups of objects and matching inputs. For situations where the answer consists of multiple elements and it is possible that not all get moved one can use `stack_jxg.define_group(list)` which takes a list of points and/or sliders and makes it so that touching any one of them will trigger them all to be considered as touched and thus generates inputs. There is also `stack_jxg.starts_moved(object)` which takes a point or a slider and marks it as touched from the start, this may be of use if the graph is an optional part and the actual grading depends of other parts or if one wants to use PRT feedback as a way for describing the status of the graph and needs the objects to be transferred onto the CAS side without interaction from the student.
 
 ## Convenience tools for generating lists of values.
 

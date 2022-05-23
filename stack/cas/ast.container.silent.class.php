@@ -105,6 +105,12 @@ class stack_ast_container_silent implements cas_evaluatable {
                 'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units',
                 'Units_SA_errorbounds_invalid', 'Variable_function', 'Bad_assignment');
 
+    /**
+     * @var string the name of the error-wrapper-class, tunable for use in
+     * other contexts, e.g. Stateful.
+     */
+    public $errclass = 'stack_cas_error';
+
     /*
      * NOTES:
      *  1. this does not provide means of storing the results of evaluation.
@@ -132,6 +138,10 @@ class stack_ast_container_silent implements cas_evaluatable {
             $filteroptions['998_security']['security'] = 's';
         } else {
             $filteroptions['998_security'] = array('security' => 's');
+        }
+        // If the call modification filter is not included include it.
+        if (array_search('996_call_modification', $filterstoapply) === false) {
+            $filterstoapply[] = '996_call_modification';
         }
         // If security filter is not included include it.
         if (array_search('998_security', $filterstoapply) === false) {
@@ -194,7 +204,8 @@ class stack_ast_container_silent implements cas_evaluatable {
 
         // Get the filter pipeline. Now we only want the core filtters and
         // append the strict syntax check to the end.
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('998_security', '999_strict'), $filteroptions, true);
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('996_call_modification', '998_security',
+            '999_strict'), $filteroptions, true);
 
         if ($ast !== null) {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
@@ -255,6 +266,12 @@ class stack_ast_container_silent implements cas_evaluatable {
             if ($this->ast === null) {
                 // In case parsing was impossible we store the errors in this class.
                 $this->valid = false;
+                // All errors are traditional strings at this point. Turn them to the new objects.
+                $errors = [];
+                foreach ($this->errors as $err) {
+                    $errors[] = new $this->errclass($err, $this->context);
+                }
+                $this->errors = $errors;
                 return false;
             }
 
@@ -270,6 +287,13 @@ class stack_ast_container_silent implements cas_evaluatable {
             $this->ast->callbackRecurse($findinvalid, false);
 
             $this->valid = !$hasinvalid;
+
+            // All errors are traditional strings at this point. Turn them to the new objects.
+            $errors = [];
+            foreach ($this->errors as $err) {
+                $errors[] = new $this->errclass($err, $this->context);
+            }
+            $this->errors = $errors;
         }
         return $this->valid;
     }
@@ -403,9 +427,11 @@ class stack_ast_container_silent implements cas_evaluatable {
         if (count($errors) > 0) {
             $errs = array_merge($this->errors, $errors);
             foreach ($errs as $value) {
-                if ($value !== '' && $value !== null) {
+                if ($value->get_legacy_error() !== '' && $value->get_legacy_error() !== null) {
                     $this->valid = false;
-                    $this->errors[] = $this->decode_maxima_errors($value, false);
+                    // Hmm what is the point of this? Maybe do this filtering in the error class?
+                    $this->errors[] = new $this->errclass($this->decode_maxima_errors($value->get_legacy_error(), false),
+                        $value->get_context());
                 }
             }
         }
@@ -428,6 +454,10 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     public function get_securitymodel(): stack_cas_security {
         return $this->securitymodel;
+    }
+
+    public function set_securitymodel(stack_cas_security $sec) {
+        $this->securitymodel = $sec;
     }
 
     public function get_source_context(): string {
@@ -459,14 +489,33 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // General accessors.
+
+    // When asking for errors the default is to implode them into a string.
+    // One can also have an array of strings or objects depending on which
+    // is more convenient.
     public function get_errors($raw = 'implode') {
         if (null === $this->valid) {
             $this->get_valid();
         }
-        if ($raw === 'implode') {
-            return implode(' ', array_unique($this->errors));
+
+        $errors = [];
+        if ($raw === 'objects') {
+            return $this->errors;
+        } else {
+            foreach ($this->errors as $err) {
+                if ($err instanceof stack_cas_error) {
+                    $errors[] = $err->get_legacy_error();
+                } else {
+                    $errors[] = $err;
+                }
+            }
+            $errors = array_unique($errors);
         }
-        return $this->errors;
+
+        if ($raw === 'implode') {
+            return implode(' ', $errors);
+        }
+        return $errors;
     }
 
     public function get_answernote($raw = 'implode') {
@@ -517,12 +566,7 @@ class stack_ast_container_silent implements cas_evaluatable {
      *  */
     public function decode_maxima_errors(string $error, bool $feedback=false) {
         $foundone = false;
-        $fixed = $error;
-        if (strpos($error, '0 to a negative exponent') !== false) {
-            $fixed = stack_string('Maxima_DivisionZero');
-        } else if (strpos($error, 'args: argument must be a non-atomic expression;') !== false) {
-            $fixed = stack_string('Maxima_Args');
-        }
+        $fixed = stack_utils::maxima_translate_string($error);
 
         foreach (self::$maximastrings as $s) {
             if (false !== strpos($fixed, $s)) {
@@ -729,6 +773,13 @@ class stack_ast_container_silent implements cas_evaluatable {
             }
             $root = $root->statement;
         }
+        if ($root instanceof MP_Group) {
+            $r0 = $root->items[0];
+            if ($r0 instanceof MP_FunctionCall && $r0->name->value = '%_C') {
+                $root = $root->items[1];
+            }
+        }
+
         $op = '';
         if ($root instanceof MP_Operation) {
             $op = $root->op;
@@ -763,6 +814,11 @@ class stack_ast_container_silent implements cas_evaluatable {
             $root->op === ':' &&
             $root->lhs instanceof MP_Identifier) {
             $root = $root->rhs;
+        }
+        if ($root instanceof MP_Group) {
+            if (array_key_exists(0, $root->items)) {
+                $root = end($root->items);
+            }
         }
         if ($root instanceof MP_Functioncall &&
             $root->name instanceof MP_Identifier &&

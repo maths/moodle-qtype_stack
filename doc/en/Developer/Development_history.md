@@ -2,6 +2,28 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.4
+
+To be released X 2022
+
+Major rewrite of the PRT and CASText systems, focus on performance and limitations of the previous systems.
+
+* PRTs are now true `if`-statements in the CAS and issue #150 is now handled.
+* The marks and penalty fields in the PRTs can be numbers, or other variables defined elsewhere in the question.
+* Markdown is now a supportted format and value injections into it will get correctly escaped. Use triple slashes for math-mode...
+* CASText2 is the new [CASText-system](../Authoring/Question_blocks.md) and it supports mixed formats and provides new blocks for declaring formats.
+* There are now means of [including external](../Authoring/Inclusions.md) code and CASText fragments from an URL.
+* One can now generate [text-files for download](../Authoring/Serving_out_data.md) with a special block in the question-text. CSV:s of student specific random data etc.
+* Inline CASText is now a feature, it will become more relevant in the future input-system. For now you may [use it in MCQ labels](../Authoring/Multiple_choice_questions.md#castextlabels).
+* A new CASText block `[[jsstring]]` for generating JavaScript strings to be used in scripting is now available. It should help when one wants to construct complex values.
+* There now exists a built in [language localisation system](../Authoring/Languages.md), that allows access to the language setting over at the CAS side. This mixes well with inline castext and allows localisation of MCQ labels.
+* The number of CAS-evaluation sessions has been cut down significantly. Conversely, the amount of things happening in a single CAS-session has grown significantly. This may affect your Maxima load and the size of the CAS-cache. You may need to retune your operation if you have fine tuned it based on those details. This will also affect cache keys and values so tuning caching may also matter if one tunes everything.
+* The security system now does runtime checks and no longer tries to catch evil things through static analysis in advance.
+
+TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
+ #671, #581, #420
+
+
 ## Version 4.3.10
 
 Released December 2021.

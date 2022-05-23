@@ -198,7 +198,7 @@ class cassession2_test extends qtype_stack_testcase {
         // Add the shared stuff there naturelly before those...
         $basesession->prepend_to_session($prtsession);
 
-        // Now then lets make some statements. No options now.
+        // Now then let's make some statements. No options now.
         $sans = 'ans1';
         $tans = 'ta';
 
@@ -214,7 +214,7 @@ class cassession2_test extends qtype_stack_testcase {
         $prtsession->add_statement($tans);
         $prtsession->add_statement($result);
 
-        // Instanttiate.
+        // Instantiate.
         $prtsession->instantiate();
 
         // Check parameters.
@@ -2006,10 +2006,9 @@ class cassession2_test extends qtype_stack_testcase {
                     '', new stack_cas_security(), array());
         }
 
-        $expected = '([Root] ([Op: :] ([Id] ta), ([FunctionCall: ([Id] ev)] ' .
-            '([FunctionCall: ([Id] taylor)] ([Op: *] ([Int] 10), ' .
-            '([FunctionCall: ([Id] cos)] ([Op: *] ([Int] 2), ([Id] x)))),([Id] x),([Op: /] ' .
-            '([Id] %pi), ([Int] 4)),([Int] 2)),([Id] simp))))';
+        $expected = '([Root] ([Op: :] ([Id] ta), ([FunctionCall: ([Id] ev)] ([FunctionCall: ([Id] %_E)] ([FunctionCall: ' .
+            '([Id] %_E)] ([FunctionCall: ([Id] taylor)] ([Op: *] ([Int] 10), ([FunctionCall: ([Id] cos)] ' .
+            '([Op: *] ([Int] 2), ([Id] x)))),([Id] x),([Op: /] ([Id] %pi), ([Int] 4)),([Int] 2)))),([Id] simp))))';
         $this->assertEquals($expected, $s1[0]->get_ast_test());
 
         $options = new stack_options();
@@ -2213,6 +2212,12 @@ class cassession2_test extends qtype_stack_testcase {
         $s = new stack_cas_session2($s1, $options, 0);
         $s->instantiate();
 
+        $a = array();
+        foreach ($s->get_contextvariables() as $i => $v) {
+            $a[$i] = $v->get_evaluationform();
+        }
+        $this->assertEquals(array('(%_C(ordergreat),ordergreat(x,y,z))'), $a);
+
         foreach ($t1 as $i => $t) {
             $this->assertEquals($t[1], $s1[$i]->get_value());
         }
@@ -2229,5 +2234,24 @@ class cassession2_test extends qtype_stack_testcase {
         $at1->instantiate();
         $cs = $at1->get_by_key('p1');
         $this->assertEquals("b^2#pm#c", $cs->get_value());
+    }
+
+    public function test_eval_in_block() {
+        $qv = "f:ev(2*x,x=2);\n" .
+            "ev(g:3*x,x=3);\n" .
+            "h:5*x,x=5;\n".
+            "k:36;";
+        $qv = new stack_cas_keyval($qv, null, 123);
+        $this->assertTrue($qv->get_valid());
+
+        $session = $qv->get_session();
+        $s1 = stack_ast_container::make_from_teacher_source('[f,g,h,k]', '', new stack_cas_security(), array());
+        $session->add_statement($s1);
+        $this->assertTrue($session->get_valid());
+
+        $session->instantiate();
+        $this->assertTrue($session->is_instantiated());
+
+        $this->assertEquals('[4,9,25,36]', $s1->get_value());
     }
 }

@@ -265,14 +265,6 @@ class stack_cas_keyval {
     }
 
     /**
-     * Remove the ast, and other clutter from casstrings, so we can test equality cleanly and dump values.
-     */
-    public function test_clean() {
-        $this->session->test_clean();
-        return true;
-    }
-
-    /**
      * Compiles the keyval to a single statement with substatement
      * error tracking wrappings. The wrappings can contain a context-name
      * so that one can read the error messages with references like:

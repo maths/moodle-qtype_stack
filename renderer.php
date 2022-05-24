@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/vle_specific.php');
+
 /**
  * Generates the output for Stack questions.
  *
@@ -152,14 +154,14 @@ class qtype_stack_renderer extends qtype_renderer {
         if (!empty($options->suppressruntestslink)) {
             return '';
         }
-        if (!$question->user_can_view()) {
+        if (!stack_user_can_view_question($question)) {
             return '';
         }
 
         $urlparams = array('questionid' => $question->id);
 
         $links = array();
-        if ($question->user_can_edit()) {
+        if (stack_user_can_edit_question($question)) {
             $links[] = html_writer::link(
                     $question->qtype->get_tidy_question_url($question),
                     stack_string('tidyquestion'));

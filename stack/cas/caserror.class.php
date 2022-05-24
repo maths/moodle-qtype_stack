@@ -16,6 +16,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/../../vle_specific.php');
+
 /**
  * Encapsulates the location of an error happening in CAS with the actual error.
  * Allows us to decide the level of error message specificity at the point of output.
@@ -208,7 +210,7 @@ class stack_cas_error {
         // Order as you want and there are other vars available.
 
         $ctx = $this->get_interpreted_context($question);
-        if ($question->user_can_edit($question)) {
+        if (stack_user_can_edit_question($question)) {
             // Only editing people can have the error itself in the template.
             $ctx['err'] = $this->error;
             if (isset($ctx['prt'])) {

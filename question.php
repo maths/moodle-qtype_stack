@@ -34,6 +34,7 @@ require_once(__DIR__ . '/questiontype.php');
 require_once(__DIR__ . '/stack/cas/secure_loader.class.php');
 require_once(__DIR__ . '/stack/prt.class.php');
 require_once(__DIR__ . '/stack/prt.evaluatable.class.php');
+require_once(__DIR__ . '/vle_specific.php');
 
 /**
  * Represents a Stack question.
@@ -1263,14 +1264,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 ($USER->id == $this->createdby && has_capability("moodle/question:{$type}mine", $context));
     }
 
-    public function user_can_view() {
-        return $this->has_question_capability('view');
-    }
-
-    public function user_can_edit() {
-        return $this->has_question_capability('edit');
-    }
-
     /* Get the values of all variables which have a key.  So, function definitions
      * and assignments are ignored by this method.  Used to display the values of
      * variables used in a question variant.  Beware that some functions have side
@@ -1798,18 +1791,32 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $cc['forbiddenkeys'] = $forbiddenkeys;
 
         // Do some pluginfile mapping. Note that the PRT-nodes are mapped in PRT-compiler.
-        if (strpos($questiontext, '@@PLUGINFILE@@') !== false) {
-            $questiontext = '[[pfs component="question" filearea="questiontext" itemid="' . $id . '"]]' .
-                            $questiontext . '[[/pfs]]';
-        }
-        if (strpos($generalfeedback, '@@PLUGINFILE@@') !== false) {
-            $generalfeedback = '[[pfs component="question" filearea="generalfeedback" itemid="' . $id . '"]]' .
-                            $generalfeedback . '[[/pfs]]';
-        }
-        if (strpos($specificfeedback, '@@PLUGINFILE@@') !== false) {
-            $specificfeedback = '[[pfs component="qtype_stack" filearea="specificfeedback" itemid="' . $id . '"]]' .
-                            $specificfeedback . '[[/pfs]]';
-        }
+        $questiontext = stack_castext_file_filter($questiontext, [
+            'questionid' => $id,
+            'field' => 'questiontext'
+        ]);
+        $generalfeedback = stack_castext_file_filter($generalfeedback, [
+            'questionid' => $id,
+            'field' => 'generalfeedback'
+        ]);
+        $specificfeedback = stack_castext_file_filter($specificfeedback, [
+            'questionid' => $id,
+            'field' => 'specificfeedback'
+        ]);
+        $prtcorrect = stack_castext_file_filter($prtcorrect, [
+            'questionid' => $id,
+            'field' => 'prtcorrect'
+        ]);
+        $prtpartiallycorrect = stack_castext_file_filter($prtpartiallycorrect, [
+            'questionid' => $id,
+            'field' => 'prtpartiallycorrect'
+        ]);
+        $prtincorrect = stack_castext_file_filter($prtincorrect, [
+            'questionid' => $id,
+            'field' => 'prtincorrect'
+        ]);
+
+
         // Compile the castext fragments.
         $ctoptions = [
             'bound-vars' => $forbiddenkeys,

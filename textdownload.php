@@ -23,6 +23,7 @@
  */
 
 require_once(__DIR__ . '/../../../config.php');
+require_once(__DIR__ . '/vle_specific.php');
 
 global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
@@ -58,7 +59,7 @@ $qa = $dm->load_question_attempt($qaid);
 $question = $qa->get_question();
 $question->apply_attempt_state($qa->get_step(0));
 
-if (!$question->user_can_view()) {
+if (!stack_user_can_view_question($question)) {
     header('HTTP/1.0 403 Forbidden');
     header('Content-Type: text/plain;charset=UTF-8');
     echo 'This question is not accessible for the active user';

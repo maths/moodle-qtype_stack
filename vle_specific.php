@@ -76,7 +76,7 @@
  */
 function stack_user_can_edit_question($question): bool {
     // In Moodle we can get this directly from the question itself.
-    return $question->has_question_capability('edit');
+    return $question->has_cap('edit');
 }
 
 /**
@@ -90,7 +90,7 @@ function stack_user_can_edit_question($question): bool {
  */
 function stack_user_can_view_question($question): bool {
     // In Moodle we can get this directly from the question itself.
-    return $question->has_question_capability('view');
+    return $question->has_cap('view');
 }
 
 

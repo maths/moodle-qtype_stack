@@ -1926,4 +1926,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         return $cc;
     }
+
+    /**
+     * Moodle specific acessor for question capabilities.
+     */
+    public function has_cap(string $capname): bool {
+        return $this->has_question_capability($capname);
+    }
 }

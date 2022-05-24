@@ -130,8 +130,6 @@ class stack_cas_keyval {
             return false;
         }
 
-        $ast = maxima_parser_utils::strip_comments($ast);
-
         $vallist = array();
         // Mark inputs as specific type.
         if (is_array($inputs)) {

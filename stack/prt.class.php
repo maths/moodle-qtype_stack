@@ -87,6 +87,13 @@ class stack_potentialresponse_tree_lite {
         }
 
         $this->nodes = $prtdata->nodes;
+        foreach ($this->nodes as $node) {
+            if (!property_exists($node, 'id')) {
+                // Fill in missing values if we have a system
+                // that does not have these values.
+                $node->id = null;
+            }
+        }
         $this->firstnode = (string) $prtdata->firstnodename;
         // Do nothing else, this is just a holder of data that will fetch things on demand
         // and even then just to be cached.

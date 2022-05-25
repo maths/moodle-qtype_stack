@@ -341,6 +341,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = '0';
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -349,7 +350,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '2+x';

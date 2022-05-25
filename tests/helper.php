@@ -130,6 +130,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -138,7 +139,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '2';
@@ -199,11 +200,11 @@ class qtype_stack_test_helper extends question_test_helper {
         // and not the raw student input.  This is to make sure the student's answer is evaluated in the context of
         // question variables.  Normally we don't want the student's answer to be evaluated in this way,
         // but in this question we do to ensure the random values are used.
-        $prt = json_decode('{"name":"PotResTree_1","value":1,"feedbackstyle":1,"autosimplify":true,
+        $prt = json_decode('{"name":"PotResTree_1","id":"0","value":1,"feedbackstyle":1,"autosimplify":true,
             "feedbackvariables":"",
             "firstnodename":"",
             "nodes":[
-                {"nodeid":0,"nodename":"0","quiet":false,
+                {"id":0,"nodename":"0","quiet":false,
                  "sans":"ans1+0","tans":"ta","answertest":"Int","testoptions":"x",
                  "falsenextnode":"-1","falseanswernote":"PotResTree_1-0-0",
                  "falsescore":0,"falsescoremode":"=",
@@ -328,11 +329,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans2'] = stack_input_factory::make(
                     'algebraic', 'ans2', '6', null, array('boxWidth' => 3));
 
-        $prt = json_decode('{"name":"PotResTree_1","value":1,"feedbackstyle":1,"autosimplify":true,
+        $prt = json_decode('{"name":"PotResTree_1","id":"0","value":1,"feedbackstyle":1,"autosimplify":true,
             "feedbackvariables":"",
             "firstnodename":"",
             "nodes":[
-                {"nodeid":0,"nodename":"0","quiet":false,
+                {"id":0,"nodename":"0","quiet":false,
                  "sans":"x^2-ans1*x+ans2","tans":"(x-2)*(x-3)","answertest":"AlgEquiv","testoptions":"",
                  "falsenextnode":"-1","falseanswernote":"PotResTree_1-0-0",
                  "falsescore":0,"falsescoremode":"=",
@@ -386,6 +387,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'odd';
+        $prt->id                = 0;
         $prt->value             = 0.25;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'sa:subst(x=-x,ans1)+ans1;';
@@ -394,7 +396,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'sa';
         $newnode->tans                = '0';
@@ -421,6 +423,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'even';
+        $prt->id                = 1;
         $prt->value             = 0.25;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'sa:subst(x=-x,ans2)-ans2;';
@@ -429,7 +432,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'sa';
         $newnode->tans                = '0';
@@ -456,6 +459,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'oddeven';
+        $prt->id                = 2;
         $prt->value             = 0.25;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3);';
@@ -464,7 +468,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'sa1';
         $newnode->tans                = '0';
@@ -487,7 +491,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->falsenextnode       = '1';
         $prt->nodes[] = $newnode;
         $newnode = new stdClass;
-        $newnode->nodeid              = '1';
+        $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->sans                = 'sa2';
         $newnode->tans                = '0';
@@ -514,6 +518,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'unique';
+        $prt->id                = 3;
         $prt->value             = 0.25;
         $prt->feedbackstyle     = '1';
         $prt->feedbackvariables = '';
@@ -522,7 +527,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans4';
         $newnode->tans                = 'true';
@@ -598,6 +603,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'odd';
+        $prt->id                = 0;
         $prt->value             = 0.25;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'sa:subst(x=-x,ans1)+ans1;';
@@ -606,7 +612,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'sa';
         $newnode->tans                = '0';
@@ -633,6 +639,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'even';
+        $prt->id                = 1;
         $prt->value             = 0.25;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'sa:subst(x=-x,ans2)-ans2;';
@@ -641,7 +648,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'sa';
         $newnode->tans                = '0';
@@ -668,6 +675,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'oddeven';
+        $prt->id                = 2;
         $prt->value             = 0.25;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3);';
@@ -676,7 +684,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'sa1';
         $newnode->tans                = '0';
@@ -699,7 +707,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->truenextnode        = '1';
         $prt->nodes[] = $newnode;
         $newnode = new stdClass;
-        $newnode->nodeid              = '1';
+        $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->sans                = 'sa2';
         $newnode->tans                = '0';
@@ -726,6 +734,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'unique';
+        $prt->id                = 3;
         $prt->value             = 0.25;
         $prt->feedbackstyle     = '1';
         $prt->feedbackvariables = '';
@@ -734,7 +743,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans4';
         $newnode->tans                = 'true';
@@ -791,6 +800,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'plots';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -798,7 +808,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'x^2';
@@ -848,6 +858,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -855,7 +866,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta';
@@ -911,6 +922,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'ans';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = $feedbackvars;
@@ -918,7 +930,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta';
@@ -941,7 +953,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
         $newnode = new stdClass;
-        $newnode->nodeid              = '1';
+        $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '{p}';
@@ -965,7 +977,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
         $newnode = new stdClass;
-        $newnode->nodeid              = '2';
+        $newnode->id                  = '2';
         $newnode->nodename            = '2';
         $newnode->sans                = 'a1';
         $newnode->tans                = '{0}';
@@ -1046,6 +1058,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'prt1';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'g:lambda([x],if (x<0) then p else ans1*exp(ans2*x));';
@@ -1053,7 +1066,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = '[ans1,ans2]';
         $newnode->tans                = '[ta1,ta2]';
@@ -1100,6 +1113,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'prt1';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         // Question authors are now able to use errcatch.
@@ -1109,7 +1123,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = '1/ans1';
         $newnode->tans                = '2';
@@ -1158,6 +1172,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -1165,7 +1180,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '3.14';
@@ -1214,6 +1229,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -1221,7 +1237,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '0.040';
@@ -1273,6 +1289,7 @@ class qtype_stack_test_helper extends question_test_helper {
         // Check if the smallest of the two random numbers is within 3dps of pi.
         $prt = new stdClass;
         $prt->name              = 'prt1';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'sa:min(ans1,ans2);';
@@ -1280,7 +1297,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'sa';
         $newnode->tans                = '3.14';
@@ -1329,6 +1346,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -1337,7 +1355,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '9.81*m/s^2';
@@ -1387,6 +1405,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -1395,7 +1414,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '9.81*m/s^2';
@@ -1445,6 +1464,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -1453,7 +1473,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = false;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta';
@@ -1502,6 +1522,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'prt1';
+        $prt->id                = 0;
         $prt->value             = 0.5;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -1509,7 +1530,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'mod(ans1,2)';
         $newnode->tans                = '0';
@@ -1535,6 +1556,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'prt2';
+        $prt->id                = 1;
         $prt->value             = 0.5;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -1542,7 +1564,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'mod(ans1,2)';
         $newnode->tans                = '0';
@@ -1631,6 +1653,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -1638,7 +1661,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = false;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1+0';
         $newnode->tans                = 'sin(x*y)';
@@ -1685,6 +1708,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'Result';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'S1:1/(7-rhs(first(ans1)));';
@@ -1692,7 +1716,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'all_listp(equationp,ans1)';
         $newnode->tans                = 'true';
@@ -1715,7 +1739,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->truenextnode        = '1';
         $prt->nodes[] = $newnode;
         $newnode = new stdClass;
-        $newnode->nodeid              = '1';
+        $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->sans                = 'solve(ans1,listofvars(ans1))';
         $newnode->tans                = '[]';
@@ -1738,7 +1762,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->truenextnode        = '-2';
         $prt->nodes[] = $newnode;
         $newnode = new stdClass;
-        $newnode->nodeid              = '2';
+        $newnode->id                  = '2';
         $newnode->nodename            = '2';
         $newnode->sans                = 'length(solve(ans1,listofvars(ans1)))';
         $newnode->tans                = '1';
@@ -1783,6 +1807,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'Result';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -1790,7 +1815,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta';
@@ -1834,6 +1859,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'Result';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -1841,7 +1867,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes             = [];
         $prt->autosimplify      = true;
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta';
@@ -1930,6 +1956,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass();
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->id                = '0';
         $prt->questionid        = '0';
         $prt->value             = 1;
@@ -2118,6 +2145,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass();
         $prt->name              = 'odd';
+        $prt->id                = 0;
         $prt->id                = '0';
         $prt->questionid        = '0';
         $prt->value             = 1;
@@ -2155,6 +2183,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass();
         $prt->name              = 'even';
+        $prt->id                = 1;
         $prt->id                = '0';
         $prt->questionid        = '0';
         $prt->value             = 1;
@@ -2192,6 +2221,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass();
         $prt->name              = 'oddeven';
+        $prt->id                = 2;
         $prt->id                = '0';
         $prt->questionid        = '0';
         $prt->value             = 1;
@@ -2255,6 +2285,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass();
         $prt->name              = 'unique';
+        $prt->id                = 3;
         $prt->id                = '0';
         $prt->questionid        = '0';
         $prt->value             = 1;
@@ -2676,6 +2707,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -2684,7 +2716,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = false;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '[]';
@@ -2735,6 +2767,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         // This is to check the upgrade process spots addrow in the PRT feedback variables.
@@ -2744,7 +2777,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = false;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '2';
@@ -2793,6 +2826,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -2801,7 +2835,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '2';
@@ -2851,6 +2885,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -2859,7 +2894,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = false;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta1';
@@ -2882,7 +2917,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
         $newnode = new stdClass;
-        $newnode->nodeid              = '1';
+        $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta1';
@@ -2933,6 +2968,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -2941,7 +2977,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = false;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'tregex';
@@ -2997,6 +3033,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'prt1';
+        $prt->id                = 0;
         $prt->value             = 1;
         // Set feedbackstyle=2 to test compact feedback.
         $prt->feedbackstyle     = 2;
@@ -3006,7 +3043,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'sa';
         $newnode->tans                = '0';
@@ -3032,6 +3069,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'prt2';
+        $prt->id                = 1;
         $prt->value             = 1;
         // Set feedbackstyle=3 to test symbolic feedback.
         $prt->feedbackstyle     = 3;
@@ -3041,7 +3079,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'sa';
         $newnode->tans                = '0';
@@ -3067,6 +3105,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'prt3';
+        $prt->id                = 2;
         $prt->value             = 1;
         // Set feedbackstyle=0 to test formative potential response trees.
         $prt->feedbackstyle     = 0;
@@ -3076,7 +3115,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'all_listp(polynomialpsimp,[ans1,ans2])';
         $newnode->tans                = 'true';
@@ -3125,6 +3164,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'assume(a>0);';
@@ -3133,7 +3173,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '6*(x-2)^(2*k)';
@@ -3156,7 +3196,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
         $newnode = new stdClass;
-        $newnode->nodeid              = '1';
+        $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'a^(x*y)';
@@ -3214,6 +3254,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = 'assume(a>0);';
@@ -3222,7 +3263,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta';
@@ -3245,7 +3286,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
         $newnode = new stdClass;
-        $newnode->nodeid              = '1';
+        $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'mat1.mat2';
@@ -3296,6 +3337,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -3304,7 +3346,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'cans1';

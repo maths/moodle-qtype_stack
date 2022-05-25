@@ -35,12 +35,12 @@ class prt_test extends qtype_stack_testcase {
 
     private function create_default_node() {
         $node = new stdClass();
-        $node->nodeid              = '';
+        $node->id                  = '';
         $node->nodename            = '';
         $node->quiet               = false;
         $node->answertest          = 'AlgEquiv';
-        $node->sans             = '';
-        $node->tans             = '';
+        $node->sans                = '';
+        $node->tans                = '';
         $node->testoptions         = '';
 
         $node->falsenextnode       = -1;
@@ -51,13 +51,13 @@ class prt_test extends qtype_stack_testcase {
         $node->falsefeedback       = '';
         $node->falsefeedbackformat = FORMAT_HTML;
 
-        $node->truenextnode       = -1;
-        $node->trueanswernote     = '';
-        $node->truescore          = 1;
-        $node->truescoremode      = '=';
-        $node->truepenalty        = null;
-        $node->truefeedback       = '';
-        $node->truefeedbackformat = FORMAT_HTML;
+        $node->truenextnode        = -1;
+        $node->trueanswernote      = '';
+        $node->truescore           = 1;
+        $node->truescoremode       = '=';
+        $node->truepenalty         = null;
+        $node->truefeedback        = '';
+        $node->truefeedbackformat  = FORMAT_HTML;
 
         return $node;
     }
@@ -66,6 +66,7 @@ class prt_test extends qtype_stack_testcase {
 
         $newprt = new stdClass;
         $newprt->name = 'testprt';
+        $newprt->id = '0';
         $newprt->value = 5;
         $newprt->feedbackstyle = 1;
         $newprt->feedbackvariables = null;
@@ -74,6 +75,7 @@ class prt_test extends qtype_stack_testcase {
         $newprt->autosimplify = true;
 
         $node = $this->create_default_node();
+        $node->id              = '0';
         $node->sans            = 'sans';
         $node->tans            = '(x+1)^3/3+c';
         $node->answertest      = 'Int';
@@ -185,6 +187,7 @@ class prt_test extends qtype_stack_testcase {
 
         $newprt = new stdClass;
         $newprt->name = 'multiprt';
+        $newprt->id = '0';
         $newprt->value = 5;
         $newprt->feedbackstyle = 1;
         // Opportunities for runtime errors in the PRT.
@@ -194,7 +197,7 @@ class prt_test extends qtype_stack_testcase {
         $newprt->autosimplify = true;
 
         $node = $this->create_default_node();
-        $node->nodeid          = 0;
+        $node->id              = 0;
         $node->nodename        = '0';
         $node->sans            = 'sa1';
         $node->tans            = '1';
@@ -207,7 +210,7 @@ class prt_test extends qtype_stack_testcase {
         $newprt->nodes[] = $node;
 
         $node = $this->create_default_node();
-        $node->nodeid          = 1;
+        $node->id              = 1;
         $node->nodename        = '1';
         $node->sans            = '1/(1+ans1)';
         $node->tans            = '1/3';

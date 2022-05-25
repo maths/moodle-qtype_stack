@@ -2635,6 +2635,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -2643,7 +2644,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '2';
@@ -2666,7 +2667,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
         $newnode = new stdClass;
-        $newnode->nodeid              = '1';
+        $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '3';
@@ -2754,6 +2755,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // Modify the PRT to that the penalty on the false branch is 0.1.
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -2762,7 +2764,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $prt->autosimplify      = true;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '2';
@@ -2848,6 +2850,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $q = test_question_maker::make_question('stack', 'test0');
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -2856,7 +2859,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $prt->autosimplify      = false;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '2';
@@ -2879,7 +2882,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
         $newnode = new stdClass;
-        $newnode->nodeid              = '1';
+        $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '3';
@@ -2965,10 +2968,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
          // accrues no penalty.  This makes use of the PRT "penalty" field.
 
         // Create the stack question based on 'test0'.
-        // Create the stack question based on 'test0'.
         $q = test_question_maker::make_question('stack', 'test0');
         $prt = new stdClass;
         $prt->name              = 'firsttree';
+        $prt->id                = 0;
         $prt->value             = 1;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
@@ -2977,7 +2980,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $prt->autosimplify      = false;
 
         $newnode = new stdClass;
-        $newnode->nodeid              = '0';
+        $newnode->id                  = '0';
         $newnode->nodename            = '0';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '2';
@@ -3000,7 +3003,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
         $newnode = new stdClass;
-        $newnode->nodeid              = '1';
+        $newnode->id                  = '1';
         $newnode->nodename            = '1';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '3';

@@ -669,7 +669,7 @@ class stack_potentialresponse_tree_lite {
                 ['field' => 'prtnodetruefeedback',
                  'prtnodeid' => $node->id,
                  'prtid' => $this->id, // For completeness sake.
-                 'questionid' => $this->question->id
+                 'questionid' => $this->question !== null && property_exists($this->question, 'id') ? $this->question->id : null
                 ]);
             if (substr($body, -1) !== '(') {
                 // Depends on whether the score math was done.
@@ -756,7 +756,7 @@ class stack_potentialresponse_tree_lite {
                 ['field' => 'prtnodefalsefeedback',
                  'prtnodeid' => $node->id,
                  'prtid' => $this->id, // For completeness sake.
-                 'questionid' => $this->question->id
+                 'questionid' => $this->question !== null && property_exists($this->question, 'id') ? $this->question->id : null
                 ]);
             if (substr($body, -1) !== '(') { // Depends on whether the score math was done.
                 $body .= ',';

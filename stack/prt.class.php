@@ -74,7 +74,6 @@ class stack_potentialresponse_tree_lite {
 
     public function __construct($prtdata, $value, $question = null) {
         $this->name          = $prtdata->name;
-        $this->id            = $prtdata->id;
         $this->simplify      = (bool) $prtdata->autosimplify;
         $this->feedbackstyle = (int) $prtdata->feedbackstyle;
 
@@ -82,6 +81,10 @@ class stack_potentialresponse_tree_lite {
         $this->value         = $value;
 
         $this->feedbackvariables = $prtdata->feedbackvariables;
+
+        if (property_exists($prtdata, 'id')) {
+            $this->id        = $prtdata->id; 
+        }
 
         $this->nodes = $prtdata->nodes;
         $this->firstnode = (string) $prtdata->firstnodename;

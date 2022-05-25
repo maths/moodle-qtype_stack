@@ -74,7 +74,6 @@ class stack_potentialresponse_tree_lite {
 
     public function __construct($prtdata, $value, $question = null) {
         $this->name          = $prtdata->name;
-        $this->id            = $prtdata->id;
         $this->simplify      = (bool) $prtdata->autosimplify;
         $this->feedbackstyle = (int) $prtdata->feedbackstyle;
 
@@ -83,7 +82,18 @@ class stack_potentialresponse_tree_lite {
 
         $this->feedbackvariables = $prtdata->feedbackvariables;
 
+        if (property_exists($prtdata, 'id')) {
+            $this->id        = $prtdata->id; 
+        }
+
         $this->nodes = $prtdata->nodes;
+        foreach ($this->nodes as $node) {
+            if (!property_exists($node, 'id')) {
+                // Fill in missing values if we have a system
+                // that does not have these values.
+                $node->id = null;
+            }
+        }
         $this->firstnode = (string) $prtdata->firstnodename;
         // Do nothing else, this is just a holder of data that will fetch things on demand
         // and even then just to be cached.
@@ -659,7 +669,7 @@ class stack_potentialresponse_tree_lite {
                 ['field' => 'prtnodetruefeedback',
                  'prtnodeid' => $node->id,
                  'prtid' => $this->id, // For completeness sake.
-                 'questionid' => $this->question->id
+                 'questionid' => $this->question !== null && property_exists($this->question, 'id') ? $this->question->id : null
                 ]);
             if (substr($body, -1) !== '(') {
                 // Depends on whether the score math was done.
@@ -746,7 +756,7 @@ class stack_potentialresponse_tree_lite {
                 ['field' => 'prtnodefalsefeedback',
                  'prtnodeid' => $node->id,
                  'prtid' => $this->id, // For completeness sake.
-                 'questionid' => $this->question->id
+                 'questionid' => $this->question !== null && property_exists($this->question, 'id') ? $this->question->id : null
                 ]);
             if (substr($body, -1) !== '(') { // Depends on whether the score math was done.
                 $body .= ',';

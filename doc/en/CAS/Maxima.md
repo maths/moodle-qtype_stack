@@ -97,7 +97,6 @@ documentation.  See also [Predicate functions](Predicate_functions.md).
 | `degree(ex,v)`                  | Returns the degree of the expanded form of `ex` in the variable `v`. See also Maxima's `hipow` command.
 | `unary_minus_sort(ex)`          | Tidies up the way unary minus is represented within expressions when `simp:false`.  See also [simplification](Simplification.md).
 | `texboldatoms(ex)`              | Displays all non-numeric atoms in bold.  Useful for vector questions.
-| `exdowncase(ex)`                | This function makes a substitution of all variables for their lower case equivalents.
 
 ## Assignment ## {#assignment}
 

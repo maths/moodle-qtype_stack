@@ -138,7 +138,7 @@ But we think the following is much more direct, and clean.
 
 There are other kinds of `[[ emptyblocks /]]`, which are useful in certain cases and developers of new blocks might like to consider this as a possibility.
 
-While the define block does not generate any visible content like all block also empty blocks may be used to generate output. `[[ debug /]]` is an example of this.
+While the define block does not generate any visible content, empty blocks may be used to generate output. For example `[[ debug /]]` does generate output.
 
 ## JSXGraph block ##
 

@@ -1334,6 +1334,7 @@ $string['castext_debug_header_value_simp'] = 'Simplified value';
 $string['castext_debug_header_value_no_simp'] = 'Value';
 $string['castext_debug_header_disp_simp'] = 'Simplified displayed value';
 $string['castext_debug_header_disp_no_simp'] = 'Displayed value';
+$string['castext_debug_no_vars'] = 'This question has no question variables to debug!';
 
 $string['castext_error_header'] = 'Rendering of text content failed this question is broken. Please contact your teacher.';
 $string['castext_error_unevaluated'] = 'This text content was never evaluated.';

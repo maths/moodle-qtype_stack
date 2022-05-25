@@ -1816,7 +1816,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             'field' => 'prtincorrect'
         ]);
 
-
         // Compile the castext fragments.
         $ctoptions = [
             'bound-vars' => $forbiddenkeys,

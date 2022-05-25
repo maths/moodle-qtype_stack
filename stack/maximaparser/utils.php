@@ -162,13 +162,13 @@ class maxima_parser_utils {
                     $instring = false;
                 }
             } else if ($incomment) {
-                if ($c === '*' && $i+1 < $cc && $chars[$i+1] === '/') {
+                if ($c === '*' && $i + 1 < $cc && $chars[$i + 1] === '/') {
                     $i++;
                     $incomment = false;
                     continue;
                 }
             } else {
-                if ($c === '/' && $i+1 < $cc && $chars[$i+1] === '*') {
+                if ($c === '/' && $i + 1 < $cc && $chars[$i + 1] === '*') {
                     $i++;
                     $incomment = true;
                     continue;

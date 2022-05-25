@@ -105,7 +105,7 @@ foreach ($question->prts as $prtname => $prt) {
     $offlinemaxima[$prtname] = $prt->get_maxima_representation();
 
     foreach ($nodes as $key => $node) {
-        $nodesummary1[$prtname] .= ($key + 1). ': ' . $node->answertest . 'TODO TRACE' . "\n";
+        $nodesummary1[$prtname] .= ($key + 1). ': ' . $node->answertest . "\n";
         $nodesummary2[$prtname] .= $node->trueanswernote . "\n";
         $nodesummary3[$prtname] .= $node->falseanswernote . "\n";
     }
@@ -117,9 +117,7 @@ foreach ($question->prts as $prtname => $prt) {
 flush();
 
 // Later we only display inputs relevant to a particular PTR, so we sort out prt input requirements here.
-foreach ($question->prts as $prtname => $prt) {
-    $inputsbyprt[$prtname] = $prt->get_raw_sans_used();
-}
+$inputsbyprt = $question->get_cached('required');
 
 $query = 'SELECT qa.*, qas_last.*
 FROM {question_attempts} qa
@@ -140,7 +138,6 @@ ORDER BY u.username, qas_last.timecreated';
 global $DB;
 
 $result = $DB->get_records_sql($query);
-
 $summary = array();
 foreach ($result as $qattempt) {
     if (!array_key_exists($qattempt->variant, $summary)) {
@@ -232,7 +229,7 @@ foreach ($summary as $variant => $vdata) {
             foreach ($qprts as $prt => $notused) {
                 // Only create an input summary of the inputs required for this PRT.
                 $inputsummary = '';
-                foreach ($inputsbyprt[$prt] as $input) {
+                foreach ($inputsbyprt[$prt] as $input => $alsonotused) {
                     if (array_key_exists($input, $inputvals)) {
                         $inputsummary .= $inputvals[$input] . '; ';
                     }
@@ -436,7 +433,6 @@ echo html_writer::end_tag('table');
 if (array_keys($summary) !== array()) {
     echo html_writer::tag('h3', stack_string('basicreportvariants'));
 }
-
 foreach (array_keys($summary) as $variant) {
     $sumout = '';
     foreach ($prtreport[$variant] as $prt => $idata) {

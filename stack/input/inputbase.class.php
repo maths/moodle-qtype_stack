@@ -43,7 +43,7 @@ abstract class stack_input {
     /**
      * @var string the name of the input.
      * This name has two functions
-     *  (1) it is the name of thename of the POST variable that the input from this
+     *  (1) it is the name of the POST variable that the input from this
      *  element will be submitted as.
      *  (2) it is the name of the CAS variable to which the student's answer is assigned.
      *  Note, that during authoring, the teacher simply types [[input:name]] in the question stem to

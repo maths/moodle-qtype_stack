@@ -47,6 +47,34 @@ It is likely this test will benefit from a wide range of text pre-processing opt
 
 At this point we do not propose to add these as options to the test itself as the pre-processing can be done in the feedback variables as required.  However, pre-processing does affect the feedback given by the test and so test options might be very useful.  If you create such processing functions and have compelling use-cases we would appreciate an opportinity to document, and support them as core functionality: please contact the developers.
 
+## Writing a STACK question
+
+Here is a very simple question using the Damerau-Levenshtein distance.  Define the question variables as follows.
+
+    allow1:["Completing the square", "Complete the square"];
+    deny1:["Factoring", "Factorising", "Expanding", "Square"];
+    p1:(x-1)^2-3;
+    p0:expand(p1);
+    ta:first(allow1);
+
+Define the question text as
+
+    <p>What is the following transformation called? \[ {@p0@} \quad{\color{blue}\rightarrow}\quad {@p1@}\]</p>
+    <p>[[input:ans1]] [[validation:ans1]]</p>
+
+Then:
+
+1. The input `ans1` should be a string input, with `ta` as the teacher's answer.
+2. Decide if the students should validate and whether you want validation feedback (probably not).
+3. The PRT uses a single node and single answer test: `Levenshtein(ans1, [allow1,deny1], 0.8)` here 0.8 is the (somewhat arbitrary) similarity.
+4. Add in question tests, but remember the test cases should be entered as strings, e.g. `"complete square"`.
+
+With this set of allow strings we have `ans1:"complete square"` gives the following answer note from the potential response tree
+
+    ATLevenshtein_far: [[0.78947,"Complete the square"],[0.4,"Square"]]. 
+
+The note `ATLevenshtein_far` means the closest string was in the allow list, but it was too far away.  The rest of the note means that the closest string found in `allow1` was "Complete the square" with similarity 0.78947. The closest string found in `deny1` was "Square" with similarity 0.4.  If you want to accept "complete square" as a correct answer you have two choices: (i) add it to `allow1`, or (ii) reduce the required similarity below 0.789.
+
 ## STACK functions
 
 You can test in other ways using the feedback variables and the following functions.

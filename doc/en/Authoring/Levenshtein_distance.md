@@ -47,6 +47,10 @@ It is likely this test will benefit from a wide range of text pre-processing opt
 
 At this point we do not propose to add these as options to the test itself as the pre-processing can be done in the feedback variables as required.  However, pre-processing does affect the feedback given by the test and so test options might be very useful.  If you create such processing functions and have compelling use-cases we would appreciate an opportinity to document, and support them as core functionality: please contact the developers.
 
+## Advice on processing strings in this context.
+
+1. To trim whitespace and full stops from each end of a string, you can define `sans1:strim(" .",ans1);` in the feedback variables.
+
 ## Writing a STACK question
 
 Here is a very simple question using the Damerau-Levenshtein distance.  Define the question variables as follows.

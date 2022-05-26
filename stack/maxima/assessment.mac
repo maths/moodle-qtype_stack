@@ -570,14 +570,15 @@ texdisp_complex(ex) := block([ps, sxr, exi, simp],
     ) else sxr:tex1(first(args(ex))),
     exi:second(args(ex)),
 
-    if real_numberp(second(args(ex))) then block(
-        if ev(is(second(args(ex))<0), simp) then ps: "",
-        return(sconcat(sxr, ps, tex1(second(args(ex))), "\\,", tex1(%i)))
-    ) else if ev(is(exi=null),simp) then return(sconcat(sxr, ps, tex1(%i))) 
-      else if ev(is(exi=-1*null),simp) then return(sconcat(sxr, "-",tex1(%i))) 
+    if real_numberp(exi) then block(
+        if ev(is(exi < 0), simp) then ps: "",
+        return(sconcat(sxr, ps, tex1(exi), "\\,", tex1(%i)))
+    ) else if ev(is(exi=null), simp) then return(sconcat(sxr, ps, tex1(%i))) 
+      else if ev(is(exi=-1*null), simp) then return(sconcat(sxr, "-", tex1(%i))) 
       else block(
        if not(freeof_mminusp(exi)) then block(
          ps:"-",
+         /* TODO: more subtle removal of the minus sign?! */
          exi:ev(-1*exi, simp)
        ),
        sconcat(sxr, ps, tex1(%i), "\\,", tex1(exi))
@@ -586,7 +587,7 @@ texdisp_complex(ex) := block([ps, sxr, exi, simp],
 texput(disp_complex, texdisp_complex)$
 
 /* Because we have null being used differently in two places we need a remove function. */
-remove_disp_complex(ex1, ex2) := ev(ex1,null=0)+ev(ex2,null=1)*%i$
+remove_disp_complex(ex1, ex2) := ev(ex1, null=0)+ev(ex2, null=1)*%i$
 
 /* This function is a display-level way to ensure brackets get displayed. */
 texdisp_parens(ex) := sconcat("\\left( ", tex1(first(args(ex))), " \\right)")$

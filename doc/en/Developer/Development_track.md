@@ -14,6 +14,7 @@ How to report bugs and make suggestions is described on the [community](../About
 5. CASText2.
 6. Added `checkvars` option to inputs.
 7. Add in support for the [Damerau-Levenshtein distance](../Authoring/Levenshtein_distance.md).
+8. Add in suppprt for the display of [Complex Numbers](../CAS/Complex_numbers.md).
 
 ## Version 4.5
 

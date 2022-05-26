@@ -1,6 +1,10 @@
 # Numbers in STACK
 
-Numerical answer tests are documented in a page dedicated to [numerical answer tests](../Authoring/Answer_tests_numerical.md).
+Separate pages document
+
+1. [numerical answer tests](../Authoring/Answer_tests_numerical.md),
+2. [complex numbers](Complex_numbers.md).
+
 
 ## Precise Constants ##
 

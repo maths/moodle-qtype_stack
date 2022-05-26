@@ -1136,10 +1136,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $is .= ']';
         $session->add_statement(new stack_secure_loader($is, 'input-strings'));
 
-        // Put the input string map in the trace.
-        $trace = array_merge(array($is . '$', '/* ------------------- */'), $this->get_cached('prt-trace')[$name]);
         // Generate, cache and instantiate the results.
         foreach ($this->prts as $name => $prt) {
+            // Put the input string map in the trace.
+            $trace = array_merge(array($is . '$', '/* ------------------- */'), $this->get_cached('prt-trace')[$name]);
             $p = new prt_evaluatable($this->get_cached('prt-signature')[$name],
                 $prt->get_value(), new castext2_static_replacer($this->get_cached('static-castext-strings')),
                 $trace);

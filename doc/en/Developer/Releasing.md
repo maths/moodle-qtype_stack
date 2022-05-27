@@ -7,6 +7,15 @@ Release needs to be done for the whole "set".  Do we increment the numbers of al
 * for key releases, we do them all.
 * for bug fixes just the question type.
 
+## 0. Code on github
+
+The STACK code is stored on github, e.g. in [https://github.com/maths/moodle-qtype_stack](https://github.com/maths/moodle-qtype_stack). In general the code branches are arranged as follows.
+
+* The `master` branch should always be either (i) an official release, (ii) contain minor but critical bug fixes, or (iii) contain updates to the docs.  The STACK documentation on [https://docs.stack-assessment.org/](https://docs.stack-assessment.org/) auto-builds from the master branch, and so it is normal to update the docs between official releases.
+* The `dev` branch normally contains features which will in the next release.  The `dev` branch should normally work out of the box, but expect unfinished features and bugs!  
+* Development of new features often takes place in a specific branch named to correspond to an issue in the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues), normally forked from `dev`.  E.g. if you raise [issue 802](https://github.com/maths/moodle-qtype_stack/issues/802) then code related to this can start life in a branch `iss802`.  If you put `#802` in the commit message then github will pick this up in the issue discussion.  New features can be merged back into `dev` before they are completely finished, but please do add documentation, unit tests etc. first and make sure we at least have consensus on the design!
+
+Unless you want to discuss something confidential with the developers, please do raise issues on github!
 
 ## 1. Pre-release checks
 

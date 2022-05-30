@@ -440,7 +440,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'abs(x)<1', 'abs(x)<2', 0, '', ''),
         array('AlgEquiv', '', 'abs(x)<1', 'abs(x)>1', 0, 'ATInequality_backwards.', ''),
         array('AlgEquiv', '', 'abs(x)<2', '-2<x and x<2', -3, '', ''),
-        array('AlgEquiv', '', '-2<x and x<2', 'abs(x)<2',-3, '', ''),
+        array('AlgEquiv', '', '-2<x and x<2', 'abs(x)<2', -3, '', ''),
         array('AlgEquiv', '', 'abs(x)<2', '-1<x and x<1', 0, '', ''),
         array('AlgEquiv', '', 'x^2<=9', 'abs(x)<3', 0, '', ''),
         array('AlgEquiv', '', 'x^2<=9', 'abs(x)<=3', -3, '', ''),
@@ -559,8 +559,9 @@ class stack_answertest_test_data {
         array('AlgEquivNouns', '', 'subst(y,y(x),\'diff(y(x),x)+y(x)=1)', '\'diff(y,x)+y=1', 1, 'ATEquation_sides', ''),
         array('AlgEquivNouns', '', 'subst(y(x),y,\'diff(y,x)+y=1)', '\'diff(y(x),x)+y(x)=1', 1, 'ATEquation_sides', ''),
         array('AlgEquivNouns', '', 'subst(y(x),y,\'diff(y,x)+y=1)', '\'diff(y,x)+y=1', 0, 'ATEquation_default', ''),
-        array('AlgEquivNouns', '', 'subst(y(x),y,\'diff(y(x),x)+y(x)=1)', '\'diff(y,x)+y=1', -1, 'ATAlgEquivNouns_STACKERROR_SAns.', ''),
-        // y_x is an atom in Maxima and we can't have subscripts as a derivative operator.
+        array('AlgEquivNouns', '', 'subst(y(x),y,\'diff(y(x),x)+y(x)=1)', '\'diff(y,x)+y=1', -1,
+            'ATAlgEquivNouns_STACKERROR_SAns.', ''),
+        // The Maxima atom y_x means we can't have subscripts as a derivative operator.
         array('AlgEquivNouns', '', 'y_x', '\'diff(y,x)', 0, '', ''),
         array('AlgEquivNouns', '', 'noundiff(f,x,1,y,1)', 'noundiff(noundiff(f,x),y)', 1, '', 'Partials'),
         array('AlgEquivNouns', '', 'noundiff(noundiff(f,y),x)', 'noundiff(noundiff(f,x),y)', 1, '', ''),
@@ -788,7 +789,8 @@ class stack_answertest_test_data {
         array('EqualComAssRules', 'ID_TRANS', '2+1*i', '2+i', 1, '', ''),
         array('EqualComAssRules', 'ID_TRANS', 'x^0+x^1/1+x^2/2+x^3/3!+x^4/4!', '1+x+x^2/2+x^3/3!+x^4/4!', 1, '', ''),
         // Illustrate the difference between exp and e^x.
-        array('EqualComAssRules', '[testdebug,ID_TRANS]', '%e^x', 'exp(x)', 1, 'ATEqualComAssRules: [%e nounpow x,%e nounpow x].', ''),
+        array('EqualComAssRules', '[testdebug,ID_TRANS]', '%e^x', 'exp(x)', 1,
+            'ATEqualComAssRules: [%e nounpow x,%e nounpow x].', ''),
         array('EqualComAssRules', 'ID_TRANS', '12*%e^((2*(%pi/2)*%i)/2)', '12*exp(%i*(%pi/2))', 0, '', ''),
         array('EqualComAssRules', '[ID_TRANS,[negNeg,negDiv,negOrd],' .
             '[recipMul,divDiv,divCancel],[intAdd,intMul,intPow]]', '12*%e^((2*(%pi/2)*%i)/2)', '12*exp(%i*(%pi/2))', 1, '', ''),
@@ -856,12 +858,14 @@ class stack_answertest_test_data {
         array('EqualComAssRules', '[ID_TRANS,intMul,negNeg]', '(-7*x)*(-3*x)', '21*x*x', 1, '', ''),
         // This next example is parsing rules.  In Maxima ev(a/b/c, simp)=a/(b*c).
         array('EqualComAssRules', '[testdebug,ID_TRANS]', 'a/b/c', 'a/(b*c)', 0,
-            'ATEqualComAssRules: [a nounmul (UNARY_RECIP b) nounmul UNARY_RECIP c,a nounmul UNARY_RECIP b nounmul c].', 'ev(a/b/c, simp)=a/(b*c)'),
+            'ATEqualComAssRules: [a nounmul (UNARY_RECIP b) nounmul UNARY_RECIP c,a nounmul UNARY_RECIP b nounmul c].',
+            'ev(a/b/c, simp)=a/(b*c)'),
         array('EqualComAssRules', '[ID_TRANS,recipMul]', 'a/b/c', 'a/(b*c)', 1, '', ''),
         array('EqualComAssRules', '[ID_TRANS,recipMul]', '(a/b)/c', 'a/(b*c)', 1, '', ''),
         // This next example is parsing rules.  In Maxima ev(a/(b/c), simp)=(a*c)/b.
         array('EqualComAssRules', '[testdebug,ID_TRANS]', 'a/(b/c)', '(a*c)/b', 0,
-            'ATEqualComAssRules: [a nounmul UNARY_RECIP b nounmul UNARY_RECIP c,a nounmul c nounmul UNARY_RECIP b].', 'ev(a/(b/c), simp)=(a*c)/b'),
+            'ATEqualComAssRules: [a nounmul UNARY_RECIP b nounmul UNARY_RECIP c,a nounmul c nounmul UNARY_RECIP b].',
+            'ev(a/(b/c), simp)=(a*c)/b'),
         array('EqualComAssRules', '[testdebug,ID_TRANS,recipMul]', 'a/(b/c)', '(a*c)/b', 0,
             'ATEqualComAssRules: [a nounmul UNARY_RECIP b nounmul UNARY_RECIP c,a nounmul c nounmul UNARY_RECIP b].', ''),
         array('EqualComAssRules', '[ID_TRANS,divDiv]', 'a/(b/c)', '(a*c)/b', 1, '', ''),

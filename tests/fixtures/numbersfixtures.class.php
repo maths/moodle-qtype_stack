@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * This script provides test cases for the numerical rounding tests.
  *
@@ -23,7 +21,6 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2016 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 
 class stack_numbers_test_data {
 

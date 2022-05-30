@@ -1557,6 +1557,18 @@ class stack_equiv_test_data {
         $samplearguments[]   = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "More substantial example involving (+-)";
+        $newarg['narrative'] = 'TODO: Make sure this case does not get lost when we merge 4.3.11 into dev.';
+        $newarg['casstring'] = "[9*x^2/2-81*x/2+90=5*x^2/2-5*x-20 nounor 9*x^2/2-81*x/2+90=-(5*x^2/2-5*x-20)," .
+            "9*x^2-81*x+180=5*x^2-10*x-40 nounor 9*x^2-81*x+180=-5*x^2+10*x+40," .
+            "4*x^2-71*x+220=0 nounor 14*x^2-91*x+140=0," .
+            "x=(71 #pm# sqrt(71^2-4*4*220))/(2*4) nounor x=(91 #pm# sqrt(91^2-4*14*140))/(2*14)," .
+            "x=55/4 nounor x=4 nounor x=5/2]";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,SAMEROOTS)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "";
         $newarg['narrative'] = 'This argument is aspirational.';
         $newarg['casstring'] = '[y=int(1/(x^2+1),x),y=int(1/((1+%i*x)*(1-%i*x)),x),'.

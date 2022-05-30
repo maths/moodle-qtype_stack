@@ -1277,7 +1277,7 @@ class stack_equiv_test_data {
         $newarg['debuglist']  = "[EMPTYCHAR,EMPTYCHAR,EQUIVCHAR,EQUATECOEFFLOSS(x),EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EQUIVCHAR," .
                 "EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR]";
         $newarg['outcome']   = 'unsupported';
-        $samplearguments[]    = $newarg;
+        $samplearguments[]   = $newarg;
 
         /* ....................................... */
 
@@ -1293,7 +1293,7 @@ class stack_equiv_test_data {
                 "(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=-2]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
-        $samplearguments[] = $newarg;
+        $samplearguments[]   = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Solving a quadratic inequality";
@@ -1303,7 +1303,7 @@ class stack_equiv_test_data {
                 "(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=-2]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
-        $samplearguments[] = $newarg;
+        $samplearguments[]   = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Solving a quadratic inequality";
@@ -1313,7 +1313,7 @@ class stack_equiv_test_data {
                 "(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=2]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,QMCHAR]";
         $newarg['outcome']   = false;
-        $samplearguments[] = $newarg;
+        $samplearguments[]   = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Solving an inequality (remove redundant inequalities)";
@@ -1321,7 +1321,7 @@ class stack_equiv_test_data {
         $newarg['casstring'] = "[x^2>=9 and x>3, x^2-9>=0 and x>3, (x>=3 or x<=-3) and x>3, x>3]";
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
-        $samplearguments[] = $newarg;
+        $samplearguments[]   = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Find the values of a which satisfy this inequality for all x.";

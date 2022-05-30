@@ -368,7 +368,7 @@ body.path-question-type-stack table.stacktestsuite .expectedfail td {
 }
 body.path-question-type-stack table.stacktestsuite pre {
     font-size: 0.7em;
-    background: #ffffff99;
+    background: #fff9;
     padding: 0.25rem;
     max-width: 60em;
 }

@@ -68,7 +68,7 @@ class input_matrix_test extends qtype_stack_testcase {
                       'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
                       'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
                       'answering. Please contact your teacher.</p>' .
-                      '<p>The first argument of the function matrix_size must be a matrix</p></div>';
+                      '<p>The $first argument of the function $matrix_size must be a matrix</p></div>';
         }
         $this->assertEquals($errmsg, $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'ans1', false, null));

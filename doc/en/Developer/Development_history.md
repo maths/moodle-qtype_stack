@@ -6,7 +6,8 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 Released May 2022.
 
-This release contains an update of JSXGraph (in advance of the forthcoming 4.4 release) to facilitate immediate materials development.
+1. This release contains an update of JSXGraph (in advance of the forthcoming 4.4 release) to facilitate immediate materials development.
+2. Adopt moodle-ci.
 
 ## Version 4.3.10
 

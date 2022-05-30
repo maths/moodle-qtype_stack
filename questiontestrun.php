@@ -461,7 +461,8 @@ foreach ($testresults as $key => $result) {
         if (is_null($state->expectedpenalty) || '' === $state->expectedpenalty) {
             $expectedpenalty = stack_string('questiontestsdefault');
         } else {
-            $expectedpenalty = $state->expectedpenalty + 0;
+            // Single PRTs only work to four decimal places, so we only expect that level.
+            $expectedpenalty = round($state->expectedpenalty + 0, 4);
         }
 
         $prtstable->data[] = array(

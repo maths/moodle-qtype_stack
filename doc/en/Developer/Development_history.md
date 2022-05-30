@@ -2,6 +2,12 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.3.11
+
+Released May 2022.
+
+This release contains an update of JSXGraph (in advance of the forthcoming 4.4 release) to facilitate immediate materials development.
+
 ## Version 4.3.10
 
 Released December 2021.

@@ -30,18 +30,18 @@ Check
  * check both the Moodle versions, and the required number. (https://docs.moodle.org/dev/Releases)
  * `MATURITY_STABLE`?
 * Check version numbers on stackmaxima.mac.
-* Run unit tests.
+* Run [unit tests](Unit_tests.md).
 * Run code checker.
-* Commit all changes to git, e.g. "Update version number for the 4.3.6 release."
+* Commit all changes to git, e.g. "Update version number for the 4.3.11 release."
 
 ## 2. Create new tag with version name
 
-E.g. "v4.3.6".
+E.g. "v4.3.11".
 
 * Push to GitHub.
 * Push tags to GitHub 
  * Tortoise git: pulldown from push
- * Linux: `git tag -a v4.3.6 -m "Update version number for the 4.3.6 release."`
+ * Linux: `git tag -a v4.3.11 -m "Update version number for the 4.3.11 release."`
  * Linux: `git push`
  * Linux: `git push --tags`
 
@@ -65,3 +65,4 @@ Add a new version to the Moodle plugins database entry for the plugin.
 Then check updated information on the form.
 
 (don't add "master" to branch info)
+

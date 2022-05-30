@@ -20,7 +20,14 @@ Insert
 
 as the new first line.
 
-Change the last line (`}));`) to `}());`.
+Change the last line from
+
+    }));
+
+to
+
+    }());
+
 
 
 ## 3. Replace
@@ -30,4 +37,5 @@ Copy the file to `amd/src`.
 ## 4. Create minified file
 
 Use `grunt amd` in the `amd` folder to create the minified versions in `amd/build`.
-See [https://docs.moodle.org/dev/Javascript_Modules](https://docs.moodle.org/dev/Javascript_Modules) how to properly setup nodejs and grunt.
+
+See [https://docs.moodle.org/dev/Javascript_Modules](https://docs.moodle.org/dev/Javascript_Modules) on how to properly setup nodejs and grunt.

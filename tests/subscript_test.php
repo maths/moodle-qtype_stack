@@ -21,6 +21,11 @@ require_once(__DIR__ . '/../stack/answertest/controller.class.php');
 require_once(__DIR__ . '/../stack/options.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/fixtures/subscriptsfixtures.class.php');
+require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
+require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
+require_once(__DIR__ . '/../stack/cas/keyval.class.php');
+require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
+require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 
 // Add in all the tests from subscriptsfixtures.php into the unit testing framework.
 // These are exposed to users as documentation and the Travis integration should also run all the tests.
@@ -101,5 +106,53 @@ class subscript_test extends qtype_stack_testcase {
             }
             $this->assertEquals($target, $resulttrue->display);
         }
+    }
+
+    public function test_texput_overide() {
+
+        $preamble   = array();
+        $preamble[] = 'texput(F, "{\\mathcal F}");';
+        $preamble[] = 'texput(F_1, "F_1");';
+        $preamble[] = 'texput(F_x, "F_x");';
+        $statements = array();
+        foreach ($preamble as $statement) {
+            $statements[] = stack_ast_container::make_from_teacher_source($statement, 'castext-test-case');
+        }
+        $code = '{@F@}, {@F_1@}, {@F_2@}, {@F_x@}, {@F_y@}.';
+        $result = castext2_evaluatable::make_from_source($code, 'castext-test-case');
+
+        $options = new stack_options(array('simplify' => false));
+        $statements[] = $result;
+        $session = new stack_cas_session2($statements, $options);
+        $session->instantiate();
+
+        $rendered = $result->get_rendered();
+
+        $output = '\({{mathcal F}}\), \({F_1}\), \({{{mathcal F}}_{2}}\), \({F_x}\), \({{{mathcal F}}_{y}}\).';
+        $this->assertEquals($output, $rendered);
+    }
+
+    public function test_texput_overide_units() {
+
+        $preamble   = array();
+        $preamble[] = 'stack_unit_si_declare(true);';
+        $preamble[] = 'texput(F_1, "F_1");';
+        $preamble[] = 'texput(F_x, "F_x");';
+        $statements = array();
+        foreach ($preamble as $statement) {
+            $statements[] = stack_ast_container::make_from_teacher_source($statement, 'castext-test-case');
+        }
+        $code = '{@F@}, {@F_1@}, {@F_2@}, {@F_x@}, {@F_y@}.';
+        $result = castext2_evaluatable::make_from_source($code, 'castext-test-case');
+
+        $options = new stack_options(array('simplify' => false));
+        $statements[] = $result;
+        $session = new stack_cas_session2($statements, $options);
+        $session->instantiate();
+
+        $rendered = $result->get_rendered();
+
+        $output = '\({\mathrm{F}}\), \({F_1}\), \({{\mathrm{F}}_{2}}\), \({F_x}\), \({{\mathrm{F}}_{y}}\).';
+        $this->assertEquals($output, $rendered);
     }
 }

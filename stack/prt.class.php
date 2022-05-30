@@ -83,7 +83,7 @@ class stack_potentialresponse_tree_lite {
         $this->feedbackvariables = $prtdata->feedbackvariables;
 
         if (property_exists($prtdata, 'id')) {
-            $this->id        = $prtdata->id; 
+            $this->id        = $prtdata->id;
         }
 
         $this->nodes = $prtdata->nodes;
@@ -678,7 +678,7 @@ class stack_potentialresponse_tree_lite {
                 ['field' => 'prtnodetruefeedback',
                  'prtnodeid' => $node->id,
                  'prtid' => $this->id, // For completeness sake.
-                 'questionid' => 
+                 'questionid' =>
                     $this->question !== null && property_exists($this->question, 'id') ? $this->question->id : null
                 ]);
             if (substr($body, -1) !== '(') {

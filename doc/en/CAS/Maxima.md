@@ -30,18 +30,18 @@ then `A_B` is now displayed as \({{{\mathcal A}}_{\diamond}}\).
 
 Below are some examples.
 
-| Maxima code  | Maxima's `tex()` command (raw output and displayed) | STACK  (raw output and displayed)          |
-|--------------|------------------------------------------------------|--------------------------------------------|
-| `A_B`       | `{\it A\_B}` \({\it A\_B}\)                         | `{{A}_{B}}` \( {{A}_{B}} \)              |
-| `A[1]`      | `A_{1}` \( A_{1}\)                                  | `{A_{1}}` \( {A_{1}} \)                   |
-| `A1`        | `A_{1}` \( A_{1} \)                                  | `{A_{1}}` \( {A_{1}} \)                  |
-| `A_1`       | `A_{1}` \( A_{1} \)                                  | `{A_{1}}` \( {A_{1}} \)                  |
-| `A_x1`      | `{\it A\_x}_{1}` \( {\it A\_x}_{1} \)              | `{{A}_{x_{1}}}` \( {{A}_{x_1}} \)        |
-| `A_alpha`  | `{\it A\_alpha}` \( {\it A\_alpha}\)                 | `{{A}_{\alpha}}` \( {{A}_{\alpha}} \)    |
-| `A_B_C`    | `{\it A\_B\_C}` \( {\it A\_B\_C} \)                 | `{{{A}_{B}}_{C}}` \( {A_B}_C \) |
-| `x_t(1)`  | `{\it x\_t}\left(1\right)` \( {\it x\_t}\left(1\right) \) | `{{\it x\_t}\left(1\right)}` \( {{\it x\_t}\left(1\right)} \) |
+| Maxima code  | Maxima's `tex()` command (raw output and displayed)       | STACK  (raw output and displayed)                             |
+|--------------|-----------------------------------------------------------|---------------------------------------------------------------|
+| `A_B`        | `{\it A\_B}` \({\it A\_B}\)                               | `{{A}_{B}}` \( {{A}_{B}} \)                                   |
+| `A[1]`       | `A_{1}` \( A_{1}\)                                        | `{A_{1}}` \( {A_{1}} \)                                       |
+| `A1`         | `A_{1}` \( A_{1} \)                                       | `{A_{1}}` \( {A_{1}} \)                                       |
+| `A_1`        | `A_{1}` \( A_{1} \)                                       | `{A_{1}}` \( {A_{1}} \)                                       |
+| `A_x1`       | `{\it A\_x}_{1}` \( {\it A\_x}_{1} \)                     | `{{A}_{x_{1}}}` \( {{A}_{x_1}} \)                             |
+| `A_alpha`    | `{\it A\_alpha}` \( {\it A\_alpha}\)                      | `{{A}_{\alpha}}` \( {{A}_{\alpha}} \)                         |
+| `A_B_C`      | `{\it A\_B\_C}` \( {\it A\_B\_C} \)                       | `{{{A}_{B}}_{C}}` \( {A_B}_C \)                               |
+| `x_t(1)`     | `{\it x\_t}\left(1\right)` \( {\it x\_t}\left(1\right) \) | `{{\it x\_t}\left(1\right)}` \( {{\it x\_t}\left(1\right)} \) |
 
-Notes 
+Notes
 
 1. in the above examples three different expressions (atoms `A1`, `A_1` and the expression `A[1]`) generate the same tex code `A_{1}` \( A_{1}\), and so are indistinguishable at the display level.
 2. The expression `x_t(1)` refers to the function `x_t` which is not an atom, and hence STACK's logic for displaying atoms with underscores does not apply (by design).  If you want to display a function name including a subscript you can explicitly use, e.g. `texput(x_t, "x_t");` to control the display, this is just not done automatically.
@@ -51,14 +51,14 @@ One situation where this design is not satisfactory is when you want to use both
     texput(F, "{\\mathcal F}");
     texput(F_1, "{F_1}");
 
-With this code `F` displays as \({\mathcal F}\), the atom `F_1` displays as \( F_1 \), and every subscript will display with caligraphic, e.g. `F_alpha` displays as \({\mathcal F}_{\alpha}\).  There is no way to code the reverse logic, i.e. define a special display only for the unique atom `F`.
+With this code `F` displays as \({\mathcal F}\), the atom `F_1` displays as \( F_1 \), and every subscript will display with calligraphic, e.g. `F_alpha` displays as \({\mathcal F}_{\alpha}\).  There is no way to code the reverse logic, i.e. define a special display only for the unique atom `F`.
 
 Note that the [scientific units](../Authoring/Units.md) code redefines and then assumes that symbols represent units.  E.g. `F` is assumed to represent Farad, and all units are typeset in Roman type, e.g. \( \mathrm{F} \) rather than the normal \( F \). This is typically the right thing to do, but it does restrict the number of letters which can be used for variable names in a particular question.  To overcome this problem you will have to redefine some atoms with texput.  For example,
 
     stack_unit_si_declare(true);
     texput(F_a, "F_a");
 
-will display the atom `F_a` as \(F_a\), i.e. not in Roman.  If you `texput(F, "F")` the sumbol `F` is no longer written in Roman, as you would expect from units.  This may be sensible if Farad could not possibly appear in context, but students might type a range of subscripted atoms involving `F`.
+will display the atom `F_a` as \(F_a\), i.e. not in Roman.  If you `texput(F, "F")` the symbol `F` is no longer written in Roman, as you would expect from units.  This may be sensible if Farad could not possibly appear in context, but students might type a range of subscripted atoms involving `F`.
 
 The use of texput is global to a question. There is no way to display a particular atom differently in different places (except perhaps in the feedback variables, which is currently untested: assume texput is global).
 
@@ -71,7 +71,7 @@ is typeset as \({a}_{b}\) i.e. `{a}_{b}` in LaTeX.  For example,
 * `texsub(A, sequence(1,2))` will display as \({{A}_{1, 2}}\),
 * with simplification off, `texsub(F,1-2)` will be displayed as \({F}_{1-2}\).
 
-Note that the process of converting `theta_07` into the intermediate `texsub` form internally results in the `texsub(theta,7)` which removes the leading zero.  This is a known issue, for which a workaround is to directly use `texput(theta_07, "{{\\theta}_{07}}")` or `texsub(theta,"07")`.  The second option does not produce optimal LaTeX, since it uses TeX `mbox`, e.g. `{{\theta}_{\mbox{07}}}`.
+Note that the process of converting `theta_07` into the intermediate `texsub` form internally results in the `texsub(theta,7)` which removes the leading zero.  This is a known issue, for which a work around is to directly use `texput(theta_07, "{{\\theta}_{07}}")` or `texsub(theta,"07")`.  The second option does not produce optimal LaTeX, since it uses TeX `mbox`, e.g. `{{\theta}_{\mbox{07}}}`.
 
 ## Types of object {#Types_of_object}
 
@@ -110,10 +110,7 @@ STACK also redefined a small number of functions
 
 ### `op(x)` - the top operator
 
-It is often very useful to take apart a Maxima expression. To
-help with this Maxima has a number of commands, including
-`op(ex)`, `args(ex)` and `part(ex,n)`. Maxima has specific
-documentation on this.
+It is often very useful to take apart a Maxima expression. To help with this Maxima has a number of commands, including `op(ex)`, `args(ex)` and `part(ex,n)`. Maxima has specific documentation on this.
 
 In particular,  `op(ex)` returns the main operator of the expression `ex`.  This command has some problems for STACK.
 
@@ -126,8 +123,7 @@ To overcome these problems STACK has a command
 
     safe_op(ex)
 
-This always returns a string.  For an atom this is empty, i.e.
-`""`.  It also sorts out some unary minus problems.
+This always returns a string.  For an atom this is empty, i.e. `""`.  It also sorts out some unary minus problems.
 
 ### `get_ops(ex)` - all operators
 
@@ -135,13 +131,9 @@ This function returns a set of all operators in an expression.  Useful if you wa
 
 # Maxima commands defined by STACK {#Maxima_commands_defined_by_STACK}
 
-It is very useful when authoring questions to be able to test out Maxima code in the same environment which STACK uses Maxima.
-That is to say, with the settings and STACK specific functions loaded.
-To do this see [STACK-Maxima sandbox](STACK-Maxima_sandbox.md).
+It is very useful when authoring questions to be able to test out Maxima code in the same environment which STACK uses Maxima. That is to say, with the settings and STACK specific functions loaded. To do this see [STACK-Maxima sandbox](STACK-Maxima_sandbox.md).
 
-STACK creates a range of additional functions and restricts
-those available, many of which are described within this
-documentation.  See also [Predicate functions](Predicate_functions.md).
+STACK creates a range of additional functions and restricts those available, many of which are described within this documentation.  See also [Predicate functions](Predicate_functions.md).
 
 | Command                         | Description
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -178,46 +170,29 @@ Of course, these assignments can make use of Maxima's functions to manipulate ex
 
     p : expand( (x-3)*(x-4) );
 
-Another common task is that of _substitution_. This can be
-performed with Maxima's `subst` command. This is quite useful,
-for example if we define \(p\)  as follows, in the then we can
-use this in response processing to determine if the student's
-answer is odd.
+Another common task is that of _substitution_. This can be performed with Maxima's `subst` command. This is quite useful, for example if we define \(p\)  as follows, in the then we can use this in response processing to determine if the student's answer is odd.
 
     p : ans1 + subst(-x,x,ans1);
 
-All sorts of properties can be checked for in this way. For
-example, interpolates. Another example is a stationary point of
-\(f(x)\) at \(x=a\), which can be checked for using
+All sorts of properties can be checked for in this way. For example, interpolates. Another example is a stationary point of \(f(x)\) at \(x=a\), which can be checked for using
 
     p : subst(a,x,diff(ans1,x));
 
 Here we have assumed `a` is some point given to the student, `ans1` is the answer and that \(p\) will be used in the response processing tree.
 
-You can use Maxima's looping structures within Question
-variables, although the syntax requires this to be of the form
-`key = value`. In this case, the key will be assigned the value
-`DONE` at the end of the process, unless another value is
-returned. For example
+You can use Maxima's looping structures within Question variables. For example
 
     n : 1;
-    dum1 : for a:-3 thru 26 step 7 do n:n+a;
+    for a:-3 thru 26 step 7 do n:n+a;
 
-Note, you must use Maxima's syntax `a:-3` here for assignment of \(-3\) to the variable `a`. 
-The assignment to the dummy variable `dum1` is to ensure every command is of the form `key : value`. 
-Please look at Maxima's documentation for the command `do`.
+The result will be \(n=56\). It is also possible to define functions within the question variables for use within a question. 
 
-It is also possible to define functions within the Question
-Variables for use within a question. This is not recommended,
-and has not been widely tested. For example
-
-    dum1 : f(x) := x^2;
+    f(x) := x^2;
     n : f(4);
 
 ## Logarithms ##
 
-STACK loads the contributed Maxima package `log10`.  This defines logarithms to base \(10\) automatically.
-STACK also creates two aliases
+STACK loads the contributed Maxima package `log10`.  This defines logarithms to base \(10\) automatically. STACK also creates two aliases
 
 1. `ln` is an alias for \(\log\), which are natural logarithms
 2. `lg` is an alias for \(\log_{10}\), which are logarithms to base \(10\).
@@ -231,16 +206,13 @@ It is very useful to be able to display expressions such as comma separated list
 Maxima has in-built functions for lists, which are displayed with square brackets \([1,2,3,4]\), and sets with curly braces \( \{1,2,3,4\} \).
 Maxima has no default functions for n-tuples or for sequences.
 
-STACK provides an inert function `sequence`.  All this does is display its arguments without brackets.
-For example `sequence(1,2,3,4)` is displayed \(1,2,3,4\). STACK provides convenience functions.
+STACK provides an inert function `sequence`.  All this does is display its arguments without brackets. For example `sequence(1,2,3,4)` is displayed \(1,2,3,4\). STACK provides convenience functions.
 
 * `sequenceify`, creates a sequence from the arguments of the expression.  This turns lists, sets etc. into a sequence.
 * `sequencep` is a predicate to decide if the expression is a sequence.
 * The atom `dotdotdot` is displayed using the tex `\ldots` which looks like \(\ldots\).  This atom cannot be entered by students.
 
-STACK provides an inert function `ntuple`.  All this does is display its arguments with round brackets.
-For example `ntuple(1,2,3,4)` is displayed \((1,2,3,4)\).  `ntupleify` and `ntuplep` construct and test for ntuples.
-In strict Maxima syntax `(a,b,c)` is equivalent to `block(a,b,c)`.  If students type in `(a,b,c)` using a STACK input it is filtered to `ntuple(a,b,c)`. Teachers must use the `ntuple` function explicitly to construct question variables, teacher's answers, test cases and so on. The `ntuple` is useful for students to type in coordinates.
+STACK provides an inert function `ntuple`.  All this does is display its arguments with round brackets. For example `ntuple(1,2,3,4)` is displayed \((1,2,3,4)\).  `ntupleify` and `ntuplep` construct and test for ntuples. In strict Maxima syntax `(a,b,c)` is equivalent to `block(a,b,c)`.  If students type in `(a,b,c)` using a STACK input it is filtered to `ntuple(a,b,c)`. Teachers must use the `ntuple` function explicitly to construct question variables, teacher's answers, test cases and so on. The `ntuple` is useful for students to type in coordinates.
 
 If you want to use these functions, then you can create question variables as follows
 

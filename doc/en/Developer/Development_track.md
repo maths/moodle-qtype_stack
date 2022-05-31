@@ -15,6 +15,8 @@ How to report bugs and make suggestions is described on the [community](../About
 6. Added `checkvars` option to inputs.
 7. Add in support for the [Damerau-Levenshtein distance](../Authoring/Levenshtein_distance.md).
 
+TODO: resolve issue #805 before confirming support for Moodle 4.0.
+
 ## Version 4.5
 
 1. Error messages: use caserror.class more fully to use user information to target error messages.

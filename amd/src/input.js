@@ -30,7 +30,7 @@
  *     - StackMatrixInput
  *    objects of these types need to implement the two methods addEventHandlers and getValue().
  *
- * @package    qtype_stack
+ * @module     qtype_stack/input
  * @copyright  2018 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

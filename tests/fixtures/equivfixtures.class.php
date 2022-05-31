@@ -156,8 +156,6 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        /* ....................................... */
-
         $newarg = array();
         $newarg['section'] = 'Numerical arguments.';
         $samplearguments[] = $newarg;
@@ -210,8 +208,6 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        /* ....................................... */
-
         $newarg = array();
         $newarg['section'] = 'Things students will get wrong.';
         $samplearguments[] = $newarg;
@@ -239,8 +235,6 @@ class stack_equiv_test_data {
         $newarg['debuglist'] = "[EMPTYCHAR,ANDOR]";
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
-
-        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Roots, powers and absolute value';
@@ -342,8 +336,6 @@ class stack_equiv_test_data {
         $newarg['debuglist'] = "[EMPTYCHAR,EQUIVCHAR]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
-
-        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Assume positive values, to condone squaring.';
@@ -496,8 +488,6 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $newarg['assumepos'] = true;
         $samplearguments[] = $newarg;
-
-        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Solving simple equations';
@@ -720,8 +710,6 @@ class stack_equiv_test_data {
         $newarg['outcome']   = false;
         $samplearguments[] = $newarg;
 
-        /* ....................................... */
-
         $newarg = array();
         $newarg['section'] = 'Multiplicities of roots';
         $samplearguments[] = $newarg;
@@ -757,8 +745,6 @@ class stack_equiv_test_data {
         $newarg['debuglist'] = "[EMPTYCHAR,SAMEROOTS,SAMEROOTS]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
-
-        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Exponential and logarithmic equations';
@@ -797,8 +783,6 @@ class stack_equiv_test_data {
         $newarg['outcome']   = 'unspported';
         $samplearguments[] = $newarg;
 
-        /* ....................................... */
-
         $newarg = array();
         $newarg['section'] = 'Working over the real numbers';
         $samplearguments[] = $newarg;
@@ -829,8 +813,6 @@ class stack_equiv_test_data {
         $newarg['assumereal'] = true;
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
-
-        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Difficult cases and nonsense arguments';
@@ -893,8 +875,6 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        /* ....................................... */
-
         $newarg = array();
         $newarg['section'] = 'Rational expressions';
         $samplearguments[] = $newarg;
@@ -954,8 +934,6 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        /* ....................................... */
-
         $newarg = array();
         $newarg['section'] = 'Equate coefficients';
         $samplearguments[] = $newarg;
@@ -975,8 +953,6 @@ class stack_equiv_test_data {
         $newarg['debuglist'] = "[EMPTYCHAR,EQUATECOEFFLOSS(x),EQUATECOEFFGAIN(x)]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
-
-        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Equational reasoning';
@@ -1126,8 +1102,6 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[]   = $newarg;
 
-        /* ....................................... */
-
         $newarg = array();
         $newarg['section'] = 'Mix of equations and expressions';
         $samplearguments[] = $newarg;
@@ -1163,8 +1137,6 @@ class stack_equiv_test_data {
         $newarg['debuglist'] = "[CHECKMARK,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
-
-        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Simultaneous equations and substitution';
@@ -1266,8 +1238,6 @@ class stack_equiv_test_data {
                 "EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR]";
         $newarg['outcome']   = 'unsupported';
         $samplearguments[]   = $newarg;
-
-        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Inequalities';
@@ -1411,8 +1381,6 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        /* ....................................... */
-
         $newarg = array();
         $newarg['section'] = 'Limits';
         $samplearguments[] = $newarg;
@@ -1434,8 +1402,6 @@ class stack_equiv_test_data {
         $newarg['debuglist'] = "[EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK]";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
-
-        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Calculus';
@@ -1559,8 +1525,6 @@ class stack_equiv_test_data {
         $newarg['calculus']  = true;
         $newarg['outcome']   = 'unsupported';
         $samplearguments[]   = $newarg;
-
-        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Other cases';

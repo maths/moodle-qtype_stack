@@ -669,7 +669,8 @@ class stack_inputvalidation_test_data {
             }
             if ($casdisplay != $test->display) {
                 $passed = false;
-                $errors .= ' ' . stack_string('displaymismatch') . html_writer::tag('pre', s($test->display)) . html_writer::tag('pre', s($casdisplay));
+                $errors .= ' ' . stack_string('displaymismatch') . html_writer::tag('pre', s($test->display)) .
+                    html_writer::tag('pre', s($casdisplay));
             }
         }
 

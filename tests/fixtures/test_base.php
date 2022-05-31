@@ -190,10 +190,10 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     public function assert_equals_ignore_spaces_and_e(string $expected, string $actual) {
 
         // Data gathered on 26/06/2021.
-        // Maxima 5.38.0 SBCL 1.2.4.debian.                1.0e-5
-        // Maxima 5.43.2 SBCL 1.4.14 (x86_64-w64-mingw32). 1.0e-5
-        // Maxima 5.42.1 GCL 2.6.12.                       1.0E-5
-        // Maxima 5.44.0 CLISP 2.49 (2010-07-07).          1.0E-5
+        // Maxima 5.38.0 SBCL 1.2.4.debian.                1.0e-5.
+        // Maxima 5.43.2 SBCL 1.4.14 (x86_64-w64-mingw32). 1.0e-5.
+        // Maxima 5.42.1 GCL 2.6.12.                       1.0E-5.
+        // Maxima 5.44.0 CLISP 2.49 (2010-07-07).          1.0E-5.
 
         $e = trim(preg_replace('/[\t\n\r\s]+/', ' ', $expected));
         $a = trim(preg_replace('/[\t\n\r\s]+/', ' ', $actual));
@@ -206,6 +206,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         $this->assertEquals($e, $a);
     }
 
+    // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
         // TODO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
@@ -214,7 +215,9 @@ abstract class qtype_stack_testcase extends advanced_testcase {
             parent::assertRegExp($pattern, $string);
         }
     }
+    // phpcs:enable
 
+    // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void {
         // TODO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertDoesNotMatchRegularExpression')) {
@@ -223,6 +226,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
             parent::assertNotRegExp($pattern, $string);
         }
     }
+    // phpcs:enable
 }
 
 
@@ -452,6 +456,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         $this->assertEquals($expected, $actual);
     }
 
+    // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
         // TODO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
@@ -460,7 +465,9 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
             parent::assertRegExp($pattern, $string);
         }
     }
+    // phpcs:enable
 
+    // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void {
         // TODO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertDoesNotMatchRegularExpression')) {
@@ -469,4 +476,5 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
             parent::assertNotRegExp($pattern, $string);
         }
     }
+    // phpcs:enable
 }

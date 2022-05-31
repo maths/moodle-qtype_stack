@@ -1,5 +1,12 @@
 # Updating JSXGraph
 
+JSXGraph support in STACK relies on two parts.
+
+1. `jsxgraph.js` is not part of jsxgraph. Its task is to include the (modified) official jsxgraph file and it adds some additional functions (like bind_point).
+2. `jsxgraphcore-lazy.js` is the official jsxgraph fil.
+
+These, and other JS, files are in `amd/src`.
+
 ## 1. Get JSXGraph
 
 Download JSXGraph from here: [https://github.com/jsxgraph/jsxgraph](https://github.com/jsxgraph/jsxgraph).

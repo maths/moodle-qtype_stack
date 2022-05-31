@@ -23,6 +23,8 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 // Unit tests for {@link stack_cas_keyval}.
 
+namespace qtype_stack;
+
 /**
  * @group qtype_stack
  */

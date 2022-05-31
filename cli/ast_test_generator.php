@@ -190,6 +190,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 
+namespace qtype_stack;
+
 // Auto-generated unit tests for AST-filter DO NOT EDIT!
 /**
  * @group qtype_stack

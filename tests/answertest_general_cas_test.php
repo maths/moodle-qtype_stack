@@ -26,6 +26,8 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/answertest/at_general_cas.class.php');
 require_once(__DIR__ . '/../locallib.php');
 
+namespace qtype_stack;
+
 /**
  * @group qtype_stack
  * @covers stack_answertest_general_cas

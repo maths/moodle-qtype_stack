@@ -8,7 +8,7 @@ Unit testing for STACK comes in the following three parts.
 
 These three mechanisms aim to provide comprehensive testing of STACK.  The last category are a compromise, and are designed to expose the results of unit tests to question authors in a reasonably attractive manner to inform them of what each answer test is actually supposed to do.  Links to these tests are in the healthcheck page.
 
-STACK uses the google-ci continuous integration mechanism so that all unit tests are triggered when a commit is pushed to github.
+STACK uses the moodle-ci continuous integration mechanism via github actions so that all unit tests are triggered when a commit is pushed to github.
 
 # PHP Unit tests
 

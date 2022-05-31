@@ -539,6 +539,11 @@
         "description":"Information on the three types of unit tests supported by STACK; PHP Unit tests, Maxima unit tests and tests scripts exposed to the question author."
         },
         {
+        "file":"Updating_JSXGraph.md",
+        "title":"Updating JSXGraph - STACK Documentation",
+        "description":"How to obtain, edit and minify the JSXGraph javascript."
+        },
+        {
         "file":"UpgradeDefaults.md",
         "title":"Upgrading Question Details - STACK Documentation",
         "description":"Information on upgrading question defaults. This may be necessary if you have recently upgraded from an old version of STACK."

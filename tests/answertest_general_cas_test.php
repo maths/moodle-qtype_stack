@@ -28,6 +28,8 @@ require_once(__DIR__ . '/../locallib.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_answertest_general_cas
+ * @covers \stack_anstest
  */
 class answertest_general_cas_test extends qtype_stack_testcase {
 

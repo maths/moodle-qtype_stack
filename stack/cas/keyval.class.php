@@ -83,13 +83,20 @@ class stack_cas_keyval {
 
     private function validate($inputs) {
 
-        if (empty($this->raw) or '' == trim($this->raw)) {
+        if (empty($this->raw) or '' == trim($this->raw) or null == $this->raw) {
             $this->valid = true;
             return true;
         }
 
         // Protect things inside strings before we do QMCHAR tricks, and check for @, $.
         $str = maxima_parser_utils::remove_comments($this->raw);
+
+        // Check again whether the string is now empty.
+        if (trim($str) == '') {
+            $this->valid = true;
+            return true;
+        }
+
         $strings = stack_utils::all_substring_strings($str);
         foreach ($strings as $key => $string) {
             $str = str_replace('"'.$string.'"', '[STR:'.$key.']', $str);

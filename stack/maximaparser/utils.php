@@ -105,7 +105,7 @@ class maxima_parser_utils {
             }
         }
 
-        $trg = $ast->position['start'];
+        $trg = isset($ast->position['start']) ? $ast->position['start'] : 0;
         $c = 1;
         $l = 0;
         $count = 0;
@@ -119,8 +119,8 @@ class maxima_parser_utils {
             }
         }
         $c += 1;
+        $trg = isset($ast->position['end']) ? isset($ast->position['end']) : $trg + mb_strlen($ast->toString());
         $ast->position['start'] = "$l:$c";
-        $trg = $ast->position['end'];
         $c = 1;
         $l = 0;
         $count = 0;

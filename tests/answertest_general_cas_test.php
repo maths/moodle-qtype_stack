@@ -14,6 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_ans_test_controller;
+use stack_answertest_general_cas;
+use stack_ast_container;
+use stack_cas_security;
+
+
 defined('MOODLE_INTERNAL') || die();
 
 // Unit tests for stack_answertest_general_cas.

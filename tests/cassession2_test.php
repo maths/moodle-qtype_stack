@@ -23,8 +23,6 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 
-namespace qtype_stack;
-
 /**
  * @group qtype_stack
  */

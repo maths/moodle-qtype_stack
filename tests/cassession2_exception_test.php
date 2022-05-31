@@ -22,8 +22,6 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 
 // Unit tests for {@link stack_cas_session} that involve exceptions.
 
-namespace qtype_stack;
-
 /**
  * @group qtype_stack
  */

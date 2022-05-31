@@ -15,14 +15,12 @@ Feature: STACK input vaidation works even if there is no maths in the question
     And the following "course enrolments" exist:
       | user    | course | role           |
       | teacher | C1     | editingteacher |
-    And I log in as "teacher"
-    And I am on "Course 1" course homepage
-    And I navigate to "Question bank" in current page administration
 
   @javascript
   Scenario: Create, preview, test, tidy and edit STACK questions
     # Create a new question.
-    When I add a "STACK" question filling the form with:
+    When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
+    And I add a "STACK" question filling the form with:
       | Question name      | Test STACK question                               |
       | Question text      | What is 1 + 1? [[input:ans1]] [[validation:ans1]] |
       | Model answer       | 2                                                 |
@@ -31,8 +29,7 @@ Feature: STACK input vaidation works even if there is no maths in the question
     Then I should see "Test STACK question"
 
     # Preview it.
-    When I choose "Preview" action for "Test STACK question" in the question bank
-    And I switch to "questionpreview" window
+    When I am on the "Test STACK question" "core_question > preview" page logged in as teacher
     And I set the following fields to these values:
       | How questions behave | Adaptive          |
       | Marks                | Show mark and max |
@@ -41,4 +38,3 @@ Feature: STACK input vaidation works even if there is no maths in the question
     And I wait "2" seconds
     Then I should see "Your last answer was interpreted as follows"
     And I should not see "\("
-    And I switch to the main window

@@ -14,6 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack;
+use qtype_stack_walkthrough_test_base;
+use stack_potentialresponse_tree_state;
+use stack_question_test;
+use test_question_maker;
+use question_possible_response;
+use question_check_specified_fields_expectation;
+use context_system;
+use stdClass;
+use function stack_utils\get_config;
+use qformat_xml;
+
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -181,7 +196,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>' . get_config('qtype_stack', 'version') . '</text>
+      <text>' . \get_config('qtype_stack', 'version') . '</text>
     </stackversion>
     <questionvariables>
       <text></text>

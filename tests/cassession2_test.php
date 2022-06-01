@@ -37,6 +37,7 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_cas_session2
  */
 class cassession2_test extends qtype_stack_testcase {
 

@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_walkthrough_test_base;
+use stack_boolean_input;
+use question_state;
+use question_pattern_expectation;
+use question_hint;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -32,7 +40,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_partially_right_the_right() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $q->hints = array(
             new question_hint(1, 'This is the first hint.', FORMAT_HTML),
             new question_hint(2, 'This is the second hint.', FORMAT_HTML),
@@ -184,7 +192,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_partially_right_three_times_no_validation() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $q->hints = array(
             new question_hint(1, 'This is the first hint.', FORMAT_HTML),
             new question_hint(2, 'This is the second hint.', FORMAT_HTML),
@@ -348,7 +356,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_sumbit_and_finish_before_validating() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $q->hints = array(
             new question_hint(1, 'This is the first hint.', FORMAT_HTML),
             new question_hint(2, 'This is the second hint.', FORMAT_HTML),
@@ -422,7 +430,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_divide_by_0() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'divide');
+        $q = \test_question_maker::make_question('stack', 'divide');
         $this->start_attempt_at_question($q, 'interactive', 1);
 
         // Check the initial state.
@@ -491,7 +499,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_submit_and_finish_incomplete() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $q->hints = array(
             new question_hint(1, 'This is the first hint.', FORMAT_HTML),
             new question_hint(2, 'This is the second hint.', FORMAT_HTML),

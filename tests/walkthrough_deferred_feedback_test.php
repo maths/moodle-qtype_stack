@@ -14,6 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_walkthrough_test_base;
+use stack_ast_container;
+use stack_boolean_input;
+use stack_input_factory;
+use stack_potentialresponse_node;
+use stack_potentialresponse_tree;
+use question_state;
+use question_pattern_expectation;
+
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -36,7 +48,7 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
 
     public function test_test3_save_answers_to_all_parts_and_stubmit() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
 
         // Check the right behaviour is used.
@@ -108,7 +120,7 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
 
     public function test_test3_save_answers_to_all_parts_confirm_valid_and_stubmit() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
 
         // Check the initial state.
@@ -200,7 +212,7 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
 
     public function test_test3_save_partially_complete_and_partially_invalid_response_then_stubmit() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
 
         // Check the initial state.
@@ -269,7 +281,7 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
 
     public function test_test3_save_completely_blank_response_then_stubmit() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
 
         // Check the initial state.
@@ -315,7 +327,7 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
 
     public function test_test3_save_partial_purely_invalid_response_then_stubmit() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
 
         // Check the initial state.
@@ -382,7 +394,7 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
     public function test_test0_no_validation_required() {
         // Create a stack question - we use test0, then replace the input with
         // a dropdown, to get a question that does not require validation.
-        $q = test_question_maker::make_question('stack', 'test0');
+        $q = \test_question_maker::make_question('stack', 'test0');
         // @codingStandardsIgnoreStart
         $q->inputs['ans1'] = stack_input_factory::make(
                 'dropdown', 'ans1', '[[1,false],[2,true]]');
@@ -454,7 +466,7 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
 
     public function test_divide_by_0() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'divide');
+        $q = \test_question_maker::make_question('stack', 'divide');
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 
         // Check the initial state.
@@ -503,7 +515,7 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
 
     public function test_1input2prts_specific_feedback_handling() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', '1input2prts');
+        $q = \test_question_maker::make_question('stack', '1input2prts');
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 
         // Check the right behaviour is used.
@@ -561,7 +573,7 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
 
         // Create a stack question - we use test0, then change the question text
         // to show a particular bug.
-        $q = test_question_maker::make_question('stack', 'test0');
+        $q = \test_question_maker::make_question('stack', 'test0');
 
         // Comment out the following line, and the test passes.
         $q->questionvariables = 'PrintVect(v):= sconcat("\\,\\!",ssubst("\\mathbf{j}","YY",   ' .

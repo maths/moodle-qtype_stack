@@ -33,6 +33,7 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_cas_keyval
  */
 class caskeyval_test extends qtype_stack_testcase {
 

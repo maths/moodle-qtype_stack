@@ -47,14 +47,23 @@ for testing in order to test a new release of Maxima, for example.
 
 If you want to run just the unit tests for STACK, you can use the command
 
-    vendor\bin\phpunit --group qtype_stack
     vendor/bin/phpunit --group qtype_stack
 
 To make sure this keeps working, please annotate all test classes with
 
     /**
      * @group qtype_stack
+     * @covers class_name
      */
+
+To generate coverage reports you need to install xdebug.  Then modify php.ini configuration file to include xdebug.mode=coverage.
+
+Commands are
+
+    vendor/bin/phpunit --testsuite qtype_stack_testsuite --coverage-html folder-name 
+    vendor/bin/phpunit question/type/stack/tests/test.php --coverage-html folder-name 
+
+(where folder-name is the folder that you want to contains the report)
 
 ## Stop resetting the dataroot directory.
 

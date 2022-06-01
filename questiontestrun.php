@@ -75,7 +75,7 @@ $editparams['id'] = $question->id;
 $qbankparams['qperpage'] = 1000; // Should match MAXIMUM_QUESTIONS_PER_PAGE but that constant is not easily accessible.
 $qbankparams['category'] = $questiondata->category . ',' . $question->contextid;
 $qbankparams['lastchanged'] = $question->id;
-if ($questiondata->hidden) {
+if (property_exists($questiondata, 'hidden') && $questiondata->hidden) {
     $qbankparams['showhidden'] = 1;
 }
 $questionbanklinkedit = new moodle_url('/question/question.php', $editparams);
@@ -461,7 +461,8 @@ foreach ($testresults as $key => $result) {
         if (is_null($state->expectedpenalty) || '' === $state->expectedpenalty) {
             $expectedpenalty = stack_string('questiontestsdefault');
         } else {
-            $expectedpenalty = $state->expectedpenalty + 0;
+            // Single PRTs only work to four decimal places, so we only expect that level.
+            $expectedpenalty = round($state->expectedpenalty + 0, 4);
         }
 
         $prtstable->data[] = array(

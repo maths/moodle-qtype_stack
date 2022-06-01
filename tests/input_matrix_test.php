@@ -14,6 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_cas_security;
+use stack_input;
+use stack_input_factory;
+use stack_input_state;
+use stack_options;
+use function stack_utils\get_config;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/test_base.php');
@@ -55,7 +65,7 @@ class input_matrix_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('[[1,0],[0,1]]');
 
-        $versionused = get_config('qtype_stack', 'maximaversion');
+        $versionused = \get_config('qtype_stack', 'maximaversion');
         $errmsg = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
                       'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
                       'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
@@ -68,7 +78,7 @@ class input_matrix_test extends qtype_stack_testcase {
                       'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
                       'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
                       'answering. Please contact your teacher.</p>' .
-                      '<p>The first argument of the function matrix_size must be a matrix</p></div>';
+                      '<p>The $first argument of the function $matrix_size must be a matrix</p></div>';
         }
         $this->assertEquals($errmsg, $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'ans1', false, null));

@@ -14,22 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Unit tests for the restore logic.
- *
- * @copyright  2017 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
 require_once($CFG->dirroot . '/backup/util/includes/restore_includes.php');
 require_once($CFG->dirroot . '/question/type/stack/backup/moodle2/restore_qtype_stack_plugin.class.php');
 
-
 /**
+ * Unit tests for the restore logic.
  *
+ * @copyright  2017 The Open University
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_logic_test extends restore_qtype_stack_plugin {
     private $log = '';

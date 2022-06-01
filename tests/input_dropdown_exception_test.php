@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_cas_security;
+use stack_exception;
+use stack_input_factory;
+use stack_options;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -29,7 +37,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 /**
  * @group qtype_stack
  */
-class input_dropdown_exception_test extends basic_testcase {
+class input_dropdown_exception_test extends qtype_stack_testcase {
 
     protected function make_dropdown($parameters = array()) {
         $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), null, $parameters);

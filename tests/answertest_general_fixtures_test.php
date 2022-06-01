@@ -14,10 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_answertest_test_data;
+
 defined('MOODLE_INTERNAL') || die();
 
 // Add in all the tests from answertestsfixtures.class into the unit testing framework.
-// These are exposed to users as documentation and Travis integration should also run all the tests.
+// These are exposed to users as documentation and google-ci should also run all the tests.
 //
 // @copyright  2016 The University of Edinburgh.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.

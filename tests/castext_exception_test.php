@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_cas_session2;
+use stack_cas_text;
+use stack_exception;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
@@ -25,7 +32,7 @@ require_once(__DIR__ . '/../stack/cas/castext.class.php');
 /**
  * @group qtype_stack
  */
-class castext_exception_test extends basic_testcase {
+class castext_exception_test extends qtype_stack_testcase {
 
     public function test_exception_1() {
         $session = new stack_cas_session2(array());

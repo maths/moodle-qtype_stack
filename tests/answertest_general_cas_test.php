@@ -14,6 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_ans_test_controller;
+use stack_answertest_general_cas;
+use stack_ast_container;
+use stack_cas_security;
+
+
 defined('MOODLE_INTERNAL') || die();
 
 // Unit tests for stack_answertest_general_cas.
@@ -28,6 +37,8 @@ require_once(__DIR__ . '/../locallib.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_answertest_general_cas
+ * @covers \stack_anstest
  */
 class answertest_general_cas_test extends qtype_stack_testcase {
 

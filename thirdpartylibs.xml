@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <libraries>
     <library>
-        <location>amd</location>
+        <location>amd/src/jsxgraphcore-lazy.js</location>
         <name>JSXGraph</name>
-        <version>0.99.7</version>
+        <version>1.4.4</version>
         <license>GNU LGPL or MIT License</license>
     </library>
     <library>
@@ -25,7 +25,4 @@
         <license>MIT License</license>
     </library>
 </libraries>
-
-
-
 

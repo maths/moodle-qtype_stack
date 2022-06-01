@@ -23,10 +23,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
-defined('MOODLE_INTERNAL') || die();
-
-
 /**
  * Used by {@link stack_abstract_graph} during the layout algorithm.
  * This represents a group of nodes that have been laid out relative to each other.

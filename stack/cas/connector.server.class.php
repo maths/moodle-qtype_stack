@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Connection to Maxima running in a tomcat-server using the MaximaPool-servlet.
  * This version handles transfer of the plots generated on possibly remote servlet.

@@ -4,12 +4,13 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
     return {
             find_input_id: function(divid, name) {
                 var tmp = document.getElementById(divid);
-                while ((tmp = tmp.parentElement) && !(tmp.classList.contains("formulation") && tmp.parentElement.classList.contains("content"))) {}
+                while ((tmp = tmp.parentElement) && !(tmp.classList.contains("formulation") &&
+                        tmp.parentElement.classList.contains("content"))) {}
                 tmp = tmp.querySelector('input[id$="_' + name + '"]');
                 // We use this function to also tie into the change tracking of Moodle.
                 // We do it here so that all possible code written by authors will also be tracked.
                 // The author just needst to generate a change event they do not need to know how the VLE works.
-                tmp.addEventListener('change', function(e) {
+                tmp.addEventListener('change', function() {
                     M.core_formchangechecker.set_form_changed();
                 });
                 return tmp.id;
@@ -59,7 +60,7 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                 var lastValue = JSON.stringify([point.X(), point.Y()]);
 
                 // Then from input to graph. 'input' for live stuff and 'change' for other.
-                theInput.addEventListener('input', function(e) {
+                theInput.addEventListener('input', function() {
                     if (theInput.value != lastValue) {
                         // Only when something changed.
                         try {
@@ -75,7 +76,7 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                         lastValue = theInput.value;
                     }
                 });
-                theInput.addEventListener('change', function(e) {
+                theInput.addEventListener('change', function() {
                     if (theInput.value != lastValue) {
                         // Only when something changed.
                         try {
@@ -165,7 +166,7 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                 var lastValue = JSON.stringify([[point1.X(), point1.Y()],[point2.X(), point2.Y()]]);
 
                 // Then from input to graph. 'input' for live stuff and 'change' for other.
-                theInput.addEventListener('input', function(e) {
+                theInput.addEventListener('input', function() {
                     if (theInput.value != lastValue) {
                         // Only when something changed.
                         try {
@@ -186,7 +187,7 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                         lastValue = theInput.value;
                     }
                 });
-                theInput.addEventListener('change', function(e) {
+                theInput.addEventListener('change', function() {
                     if (theInput.value != lastValue) {
                         // Only when something changed.
                         try {
@@ -284,7 +285,7 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                 var lastValue = JSON.stringify([[point1.X(), point1.Y()],[point2.X() - point1.X(), point2.Y() - point1.Y()]]);
 
                 // Then from input to graph. 'input' for live stuff and 'change' for other.
-                theInput.addEventListener('input', function(e) {
+                theInput.addEventListener('input', function() {
                     if (theInput.value != lastValue) {
                         // Only when something changed.
                         try {
@@ -306,7 +307,7 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                         lastValue = theInput.value;
                     }
                 });
-                theInput.addEventListener('change', function(e) {
+                theInput.addEventListener('change', function() {
                     if (theInput.value != lastValue) {
                         // Only when something changed.
                         try {
@@ -366,7 +367,8 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                     if (initial1X !== point1.X() || initial1Y !== point1.Y()) {
                         var tmp = JSON.stringify([[point1.X(), point1.Y()],
                         [Math.atan2(point2.Y() - point1.Y(), point2.X() - point1.X()),
-                        Math.sqrt((point2.X() - point1.X())*(point2.X() - point1.X()) + (point2.Y() - point1.Y())*(point2.Y() - point1.Y()))]]);
+                        Math.sqrt((point2.X() - point1.X())*(point2.X() - point1.X()) +
+                                (point2.Y() - point1.Y())*(point2.Y() - point1.Y()))]]);
                         initial1X = false; // ignore these after initial change.
                         initial1Y = false;
                         if (theInput.value != tmp) {
@@ -393,7 +395,8 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                     if (initial2X !== point2.X() || initial2Y !== point2.Y()) {
                         var tmp = JSON.stringify([[point1.X(), point1.Y()],
                         [Math.atan2(point2.Y() - point1.Y(), point2.X() - point1.X()),
-                        Math.sqrt((point2.X() - point1.X())*(point2.X() - point1.X()) + (point2.Y() - point1.Y())*(point2.Y() - point1.Y()))]]);
+                        Math.sqrt((point2.X() - point1.X())*(point2.X() - point1.X()) +
+                            (point2.Y() - point1.Y())*(point2.Y() - point1.Y()))]]);
                         initial2X = false; // ignore these after initial change.
                         initial2Y = false;
                         if (theInput.value != tmp) {
@@ -414,10 +417,11 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
 
                 var lastValue = JSON.stringify([[point1.X(), point1.Y()],
                         [Math.atan2(point2.Y() - point1.Y(), point2.X() - point1.X()),
-                        Math.sqrt((point2.X() - point1.X())*(point2.X() - point1.X()) + (point2.Y() - point1.Y())*(point2.Y() - point1.Y()))]]);
+                        Math.sqrt((point2.X() - point1.X())*(point2.X() - point1.X()) +
+                            (point2.Y() - point1.Y())*(point2.Y() - point1.Y()))]]);
 
                 // Then from input to graph. 'input' for live stuff and 'change' for other.
-                theInput.addEventListener('input', function(e) {
+                theInput.addEventListener('input', function() {
                     if (theInput.value != lastValue) {
                         // Only when something changed.
                         try {
@@ -445,7 +449,7 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                         lastValue = theInput.value;
                     }
                 });
-                theInput.addEventListener('change', function(e) {
+                theInput.addEventListener('change', function() {
                     if (theInput.value != lastValue) {
                         // Only when something changed.
                         try {
@@ -517,7 +521,7 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                 var lastValue = JSON.stringify(slider.Value());
 
                 // Then from input to graph. 'input' for live stuff and 'change' for other.
-                theInput.addEventListener('input', function(e) {
+                theInput.addEventListener('input', function() {
                     if (theInput.value !== lastValue) {
                         // Only when something changed.
                         try {
@@ -533,7 +537,7 @@ define(["qtype_stack/jsxgraphcore-lazy"], function(JXG) {
                         lastValue = theInput.value;
                     }
                 });
-                theInput.addEventListener('change', function(e) {
+                theInput.addEventListener('change', function() {
                     if (theInput.value !== lastValue) {
                         // Only when something changed.
                         try {

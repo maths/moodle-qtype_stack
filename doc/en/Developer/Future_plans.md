@@ -48,6 +48,12 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 * Decimal separator, both input and output.
 * Check CAS/maxima literature on -inf=minf.
 
+* add in support for pdf_binomial, in particular add in these test cases to `studentinput_test.php`.
+
+        array('pdf_binomial(n,m,p)', 'php_true', 'pdf_binomial(n,m,p)', 'cas_true', '{{m}\choose{n}}\cdot p^{n}\cdot {\left(1-p\right)}^{m-n}', '', ""),
+        array('pdf_binomial(2,6,0.07)', 'php_true', 'pdf_binomial(6,2,0.07)', 'cas_true', '{{6}\choose{2}}\cdot 0.07^{2}\cdot {\left(1-0.07\right)}^{6-2}', '', ""),
+
+
 * (Done in Stateful) Make the mark and penalty fields accept arbitrary maxima statements.
 * (Done in Stateful) Introduce a variable so the maxima code "knows the attempt number". [Note to self: check how this changes reporting].  This is now being done with the "state" code in the abacus branch.
 * (Done in Stateful) Make the PRT Score element CAS, so that a value calculated in the "Feedback variables" could be included here.

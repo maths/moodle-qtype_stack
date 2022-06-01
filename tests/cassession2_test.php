@@ -14,6 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_ast_container;
+use stack_ast_container_silent;
+use stack_cas_keyval;
+use stack_cas_security;
+use stack_cas_session2;
+use stack_numbers_test_data;
+use stack_options;
+use function stack_utils\get_config;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
@@ -39,7 +51,7 @@ class cassession2_test extends qtype_stack_testcase {
 
         $ast = $at1->get_by_key('m');
         $maximaversion = '5.' . $ast->get_value();
-        $maximaconfig = get_config('qtype_stack', 'maximaversion');
+        $maximaconfig = \get_config('qtype_stack', 'maximaversion');
         $this->assertEquals($maximaconfig, $maximaversion);
     }
 

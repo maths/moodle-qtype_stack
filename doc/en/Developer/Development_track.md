@@ -15,7 +15,13 @@ How to report bugs and make suggestions is described on the [community](../About
 6. Added `checkvars` option to inputs.
 7. Add in support for the [Damerau-Levenshtein distance](../Authoring/Levenshtein_distance.md).
 
-TODO: resolve issue #805 before confirming support for Moodle 4.0.
+### Add in support for Moodle 4.0
+
+TODO:
+0. Confirm STACK 4.0 still works on Moodle 3.11, etc. and confirm mechanisms for cross-version support.
+1. Make sure question tests copy over for each question version (issue #805).
+2. Update bulk tester with new DB queries, and confirm bulk tester works.
+3, Check and confirm question basic usage report works in Moodle 4.0.
 
 ## Version 4.5
 

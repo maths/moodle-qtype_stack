@@ -50,7 +50,6 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                     }
                     $p = $p->parentnode;
                 }
-
                 if ($node->name instanceof MP_Atom && ($node->name->value === self::IDCHECK ||
                     $node->name->value === self::EXPCHECK || $node->name->value === 'lambda')) {
                     // No checks for the checks themselves. They are protected using other means.
@@ -58,6 +57,13 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                     return true;
                 }
                 $namecheck = new MP_FunctionCall(new MP_Identifier(self::IDCHECK), [$node->name]);
+
+                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node) {
+                    // This case has been handled when that parent was handled.
+                    return true;
+                }
+
+
                 // The order of these ifs is critical, we build up the checks
                 // so that no basic check gets lost due to more advanced ones
                 // doing more conplex things. The advanced cases assume that
@@ -84,6 +90,46 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                                 $node->parentnode->name instanceof MP_Identifier && $node->parentnode->name->value === 'block' &&
                                 $node->parentnode->arguments[0] === $node))) {
                             return true;
+                        }
+
+                        // In the case of calling function/indexing results. f(x)(y) => (%_C(f),%_C(f(x)),f(x)(y))
+                        if ($node->name instanceof MP_FunctionCall) {
+                            $replacement = [$node];
+                            $i = null;
+                            if ($node instanceof MP_FunctionCall) {
+                                $i = $node->name;
+                            } else if ($node instanceof MP_Indexing) {
+                                $i = $node->target;
+                            }
+                            while ($i !== null) {
+                                array_unshift($replacement, new MP_FunctionCall(new MP_Identifier(self::IDCHECK), [$i]));
+                                if ($i instanceof MP_FunctionCall) {
+                                    $i = $i->name;
+                                } else if ($i instanceof MP_Indexing) {
+                                    $i = $i->target;
+                                } else {
+                                    $i = null;
+                                }
+                            }
+                            $replacement = new MP_Group($replacement);
+                            // Has the full set already been done.
+                            if ($node->parentnode instanceof MP_Group &&
+                                count($node->parentnode->items) === count($replacement->items) &&
+                                $node->parentnode->toString() === $replacement->toString()) {
+                                return true;
+                            }
+                        }
+                        // The previous one generates a pattern (...,%_C(f(x)),%_C(f(x)(y)),...)
+                        // In this situation it is necessary to stop rewriting the call inside the check.
+                        if ($node instanceof MP_FunctionCall && $node->parentnode instanceof MP_FunctionCall &&
+                            $node->parentnode->name instanceof MP_Identifier &&
+                            $node->parentnode->name->value === self::IDCHECK && 
+                            $node->parentnode->parentnode instanceof MP_Group) {
+                            $i = array_search($node->parentnode, $node->parentnode->parentnode->items, true);
+                            if ($i >= 0 && $node->parentnode->parentnode->items[$i-1]->toString() ===
+                                (new MP_FunctionCall(new MP_Identifier(self::IDCHECK), [$node->name]))->toString()) {
+                                return true;
+                            }
                         }
 
                         // In the case of a pattern f(x) => (%_C(f),f(x)).

@@ -298,6 +298,16 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         $this->assertEquals($note, $qs->get_new_response_summary());
     }
 
+    /*
+     * This function is needed because Maxima versions generate different error messages.
+     */
+    protected function check_response_summary_contains($note) {
+        $question = $this->quba->get_question($this->slot);
+        $attempt  = $this->quba->get_question_attempt($this->slot);
+        $qs = $attempt->get_last_step();
+        $this->assertTrue((strpos($qs->get_new_response_summary(), $note) !== false));
+    }
+
     protected function check_output_contains_text_input($name, $value = null, $enabled = true) {
         $attributes = array(
             'type' => 'text',

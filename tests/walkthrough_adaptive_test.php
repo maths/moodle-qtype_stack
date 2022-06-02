@@ -2550,10 +2550,12 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_current_mark(null);
         $this->check_prt_score('Result', null, null);
         $this->render();
+        // Note from version 5.37.0 of Maxima the precise form of the error message changed.
         $expected = "Seed: 1; ans1: [2*sin(x)*y=1,x+y=1] [score]; Result: [RUNTIME_ERROR] " .
             "algsys: Couldn't reduce system to a polynomial in one variable." .
-            "|apply: found %_TMP evaluates to 0 where an array was expected.\n!";
-        $this->check_response_summary($expected);
+            "|apply: found %_TMP evaluates to 0 where";
+        // Different versions of Maxima end with " an array was expected." or " a function was expected".
+        $this->check_response_summary_contains($expected);
         $this->check_output_contains_text_input('ans1', '[2*sin(x)*y=1,x+y=1]');
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback('Result');

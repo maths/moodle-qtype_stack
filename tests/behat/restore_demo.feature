@@ -16,6 +16,6 @@ Feature: Test restoring the STACK demo course
     When I restore "STACK-demo.mbz" backup into a new course using this options:
     And I am on "Demonstrating STACK (v4.3.9)" course homepage
     Then I should see "Demonstration quiz"
-    And I navigate to "Question bank" in current page administration
+    And I am on the "Demonstrating STACK (v4.3.9)" "core_question > course question bank" page
     And I set the field "Select a category" to "Example_questions"
     And I should see "Cart speed analysis"

@@ -14,6 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use castext2_evaluatable;
+use qtype_stack_testcase;
+use stack_ast_container;
+use stack_cas_keyval;
+use stack_cas_session2;
+use stack_options;
+use stack_secure_loader;
+
 defined('MOODLE_INTERNAL') || die();
 
 // We run tests using STACKs CAS-sessions.

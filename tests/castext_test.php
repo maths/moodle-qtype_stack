@@ -14,6 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use castext2_evaluatable;
+use castext2_parser_utils;
+use qtype_stack_testcase;
+use stack_ast_container;
+use stack_cas_keyval;
+use stack_cas_security;
+use stack_cas_session2;
+use stack_maths;
+use stack_options;
+use function stack_ast_container_silent\is_int;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
@@ -503,8 +516,8 @@ class castext_test extends qtype_stack_testcase {
         // Make sure the curly brackets are not left within rendered castext with plots.
         $this->assertEquals($expected, substr($rendered, 0, 70));
 
-        $this->assertTrue(is_int(strpos($rendered,
-                ".svg' alt='STACK auto-generated plot of x^3 with parameters [[x,-2,3]]'")));
+        $msg = '/STACK auto-generated plot of x\^3 with parameters/';
+        $this->assertMatchesRegularExpression($msg, $rendered);
     }
 
     public function test_plot_alttext() {
@@ -522,7 +535,8 @@ class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
         $this->assertTrue($at1->get_valid());
 
-        $this->assertTrue(is_int(strpos($at1->get_rendered(), ".svg' alt='Hello World!'")));
+        $msg = "/.svg' alt='Hello World!'/";
+        $this->assertMatchesRegularExpression($msg, $at1->get_rendered());
     }
 
     public function test_plot_alttext_html() {
@@ -533,7 +547,8 @@ class castext_test extends qtype_stack_testcase {
             'in the alt text.', 'test-case');
         $cs2->add_statement($at1);
         $cs2->instantiate();
-        $this->assertTrue(is_int(strpos($at1->get_rendered(), ".svg' alt='Hello &lt; World!'")));
+        $msg = "/.svg' alt='Hello &lt; World!'/";
+        $this->assertMatchesRegularExpression($msg, $at1->get_rendered());
     }
 
     public function test_plot_alttext_error() {
@@ -552,8 +567,8 @@ class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
 
         // This is another runtime errror.
-        $this->assertTrue(is_int(strpos($cs2->get_errors(),
-                "Plot error: the alt tag definition must be a string, but it is not.")));
+        $msg = "/Plot error: the alt tag definition must be a string, but it is not./";
+        $this->assertMatchesRegularExpression($msg, $cs2->get_errors());
     }
 
     public function test_plot_small() {
@@ -587,7 +602,8 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        $this->assertFalse(is_int(strpos($at1->get_rendered(), "<div class='stack_plot'>")));
+        $msg = "/div class='stack_plot/";
+        $this->assertDoesNotMatchRegularExpression($msg, $at1->get_rendered());
     }
 
     public function test_plot_option_error() {
@@ -600,8 +616,8 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at1);
         $cs2->instantiate();
 
-        $this->assertTrue(is_int(strpos($at1->get_errors(),
-                "Plot error: STACK does not currently support the following plot2d options:")));
+        $msg = "/Plot error: STACK does not currently support the following plot2d options:/";
+        $this->assertMatchesRegularExpression($msg, $at1->get_errors());
     }
 
     public function test_currency_1() {

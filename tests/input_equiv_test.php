@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Unit tests for the stack_algebra_input class.
- *
- * @copyright  2015 The University of Edinburgh
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_cas_security;
+use stack_input;
+use stack_input_factory;
+use stack_input_state;
+use stack_options;
 
 defined('MOODLE_INTERNAL') || die();
 

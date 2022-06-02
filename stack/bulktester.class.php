@@ -19,8 +19,6 @@
 // @copyright  2015 The Open University.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-defined('MOODLE_INTERNAL') || die();
-
 class stack_bulk_tester {
 
     /**

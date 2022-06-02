@@ -14,6 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use castext2_static_replacer;
+use prt_evaluatable;
+use qtype_stack_testcase;
+use stack_cas_security;
+use stack_cas_session2;
+use stack_options;
+use stack_potentialresponse_tree_lite;
+use stack_secure_loader;
+use stack_utils;
+use stdClass;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');

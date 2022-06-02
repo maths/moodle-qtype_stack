@@ -23,6 +23,12 @@ Major rewrite of the PRT and CASText systems, focus on performance and limitatio
 TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
  #671, #581, #420
 
+## Version 4.3.11
+
+Released June 2022.
+
+1. This release contains an update of JSXGraph (in advance of the forthcoming 4.4 release) to facilitate immediate materials development.
+2. Adopt moodle-ci.
 
 ## Version 4.3.10
 

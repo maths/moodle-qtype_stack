@@ -14,6 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use TypeError;
+use castext2_evaluatable;
+use qtype_stack_testcase;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
@@ -31,7 +37,7 @@ require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
 /**
  * @group qtype_stack
  */
-class castext_exception_test extends basic_testcase {
+class castext_exception_test extends qtype_stack_testcase {
 
     public function test_exception_1() {
         $this->expectException(TypeError::class);

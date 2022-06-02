@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_ast_container;
+use stack_cas_security;
+use stack_numbers_test_data;
+
 defined('MOODLE_INTERNAL') || die();
 
 // Unit tests for various AST container features.
@@ -28,6 +35,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_ast_container
  */
 class ast_container_test extends qtype_stack_testcase {
 

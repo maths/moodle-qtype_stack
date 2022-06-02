@@ -14,6 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_maths;
+use stack_utils;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');

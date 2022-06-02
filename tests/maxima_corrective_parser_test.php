@@ -14,6 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use maxima_corrective_parser_test_data;
+use qtype_stack_testcase;
+
 defined('MOODLE_INTERNAL') || die();
 
 // Unit tests for verious AST filters.

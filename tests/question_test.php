@@ -14,6 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_question;
+use qtype_stack_testcase;
+use test_question_maker;
+use question_attempt_step;
+use question_state;
+use qbehaviour_adaptivemultipart_part_result;
+use question_classified_response;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;

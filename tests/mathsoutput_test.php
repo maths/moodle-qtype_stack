@@ -14,6 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use stack_maths;
+use advanced_testcase;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/utils.class.php');

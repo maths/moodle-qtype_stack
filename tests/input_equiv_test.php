@@ -494,7 +494,7 @@ class input_equiv_test extends qtype_stack_testcase {
     public function test_validate_student_response_with_natural_domain_rational() {
         $options = new stack_options();
         $options->set_option('multiplicationsign', 'none');
-        $ta = '[5*x/(2*x+1)-3/(x+1) = 1,5*x*(x+1)-3*(2*x+1)=(x+1)*(2*x+1),(x-2)*(3*x+2)=0,x=2 nounor x=-2/3];';
+        $ta = '[5*x/(2*x+1)-3/(x+1) = 1,5*x*(x+1)-3*(2*x+1)=(x+1)*(2*x+1),(x-2)*(3*x+2)=0,x=2 nounor x=-2/3]';
         $sa = "5*x/(2*x+1)-3/(x+1) = 1\n5*x*(x+1)-3*(2*x+1)=(x+1)*(2*x+1)\n(x-2)*(3*x+2)=0\nx=2 or x=-2/3";
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
         $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta, new stack_cas_security());

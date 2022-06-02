@@ -2267,4 +2267,20 @@ class cassession2_test extends qtype_stack_testcase {
 
         $this->assertEquals('[4,9,25,36]', $s1->get_value());
     }
+
+    public function test_confirm_induced_timeout() {
+        $qv = "p1:2^(2^100)-1;\n" .
+              "p2:factor(p1);\n";
+        $qv = new stack_cas_keyval($qv, null, 123);
+        $this->assertTrue($qv->get_valid());
+
+        $session = $qv->get_session();
+        $s1 = stack_ast_container::make_from_teacher_source('[p1,p2]', '', new stack_cas_security(), array());
+        $session->add_statement($s1);
+        $this->assertTrue($session->get_valid());
+
+        $session->instantiate();
+        $this->assertFalse($session->is_instantiated());
+        $this->assertEquals('TIMEDOUT', $s1->get_errors());
+    }
 }

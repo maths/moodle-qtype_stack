@@ -1837,7 +1837,8 @@ levenshtein_compare_strings(needle, haystack):=block([maxscore, index, i, score]
     return([decimalplaces(maxscore, 5), index])
 )$
 
-ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, SBsimpmod, SOsimp, tol, levupper, allowf, denyf],
+ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, SBsimpmod, SOsimp, tol,
+        levupper, levwhitespace, allowf, denyf],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Turn on simplification and error catch. */
     if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
@@ -1860,10 +1861,12 @@ ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsim
     /* Sort out options. */
     tol:SOsimp,
     levupper:true,
+    levwhitespace:true,
     if listp(SOsimp) then block(
         tol:first(SOsimp),
         SOsimp:setify(rest(SOsimp)),
-        if elementp(CASE, SOsimp) then levupper:false
+        if elementp(CASE, SOsimp) then levupper:false,
+        if elementp(WHITESPACE, SOsimp) then levwhitespace:false
     ), 
 
     if not(numberp(tol)) then
@@ -1871,11 +1874,16 @@ ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsim
     if not(booleanp(levupper)) then
         return(StackBasicReturn(false, false, "ATLevenshtein_upper_not_boolean")),
 
-    /* Pre-process strings to upper case. */
     SBsimpmod:SBsimp,
-    if(levupper=true) then block(
+    /* Pre-process strings to upper case. */
+    if (levupper=true) then block(
         SAsimp:supcase(SAsimp),
-        SBsimpmod:maplist(lambda([ex2], maplist(supcase, ex2)), SBsimp)
+        SBsimpmod:maplist(lambda([ex2], maplist(supcase, ex2)), SBsimpmod)
+    ),
+    /* Tidy whitespace. */
+    if (levwhitespace=true) then block(
+        SAsimp:sremove_extra_whitepace(SAsimp),
+        SBsimpmod:maplist(lambda([ex2], maplist(sremove_extra_whitepace, ex2)), SBsimpmod)
     ),
 
     /* Find the closest allow string. */
@@ -1906,9 +1914,34 @@ ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsim
     return([true, true, StackAddNote("ATLevenshtein_match", AnswerNote), StackAddFeedback("", "ATLevenshtein_match", stack_disp(second(allowf), "i"))])
 )$
 
-/* A wrapper for an all purpose answer test which checks things are of the
-   same "type".   Based upon the results of AtAlgEquivfun(SA,SB)
+/* **************************************** */
+/* Helper functions for string manipulation */
+/* **************************************** */
+
+/* Remove all the characters from the string rem from the string st.
+   Useful for removing all punctuation characters.  */
+sremove_chars(rem, st) := sremove_chars_helper(charlist(rem), st)$
+sremove_chars_helper(remlist, st) := if emptyp(remlist) then st else sremove_chars_helper(rest(remlist), sremove(first(remlist), st))$
+
+/* 
+   (1) Replace all tab and newline characters with spaces.
+   (2) Trim spaces from each end.
+   (3) Remove all multiple spaces and replace with a single space.
 */
+sremove_extra_whitepace(st) := block(
+    st:ssubst(" ", tab, st), 
+    st:ssubst(" ", newline, st),
+    st:strim(" ", st), 
+    while is(slength(st)>slength(st:ssubst(" ", "  ", st))) do true,
+    st
+)$
+
+/* **************************************** */
+/* A wrapper for an all purpose answer test 
+   which checks things are of the same "type".
+   Based upon the results of AtAlgEquivfun(SA,SB)
+*/
+/* **************************************** */
 ATSameType(SA, SB) := block([ret],
     ret:ATSameTypefun(SA,SB),
     /* This test gives no feedback */
@@ -1917,10 +1950,6 @@ ATSameType(SA, SB) := block([ret],
     return([true, ret[2], ret[3], ret[4]])
 )$
 
-
-/* A general, all purpose answer test which checks things are of the
-   same "type".   Based upon the results of AtAlgEquivfun(SA,SB)
-*/
 ATSameTypefun(SA, SB) := block([simp:true, ret],
     /* Turn on simplification and error catch */
     SA:errcatch(ev(SA, simp, nouns)),

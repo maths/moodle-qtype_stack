@@ -50,6 +50,8 @@ require_once(__DIR__ . '/../cas/parsingrules/996_call_modification.filter.php');
 class MP_Node {
     public $parentnode  = null;
     public $position    = null;
+    // Parsers that comments within the statements may place them here.
+    public $comments    = null;
 
     public function __construct() {
         $this->parentnode = null;

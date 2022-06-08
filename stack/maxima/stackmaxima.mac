@@ -1882,8 +1882,8 @@ ATLevenshtein(SA, SB, SO) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsim
     ),
     /* Tidy whitespace. */
     if (levwhitespace=true) then block(
-        SAsimp:sremove_extra_whitepace(SAsimp),
-        SBsimpmod:maplist(lambda([ex2], maplist(sremove_extra_whitepace, ex2)), SBsimpmod)
+        SAsimp:ssquish(SAsimp),
+        SBsimpmod:maplist(lambda([ex2], maplist(ssquish, ex2)), SBsimpmod)
     ),
 
     /* Find the closest allow string. */
@@ -1927,12 +1927,15 @@ sremove_chars_helper(remlist, st) := if emptyp(remlist) then st else sremove_cha
    (1) Replace all tab and newline characters with spaces.
    (2) Trim spaces from each end.
    (3) Remove all multiple spaces and replace with a single space.
+
+   (This is called str_squish in the R language, and squish in other languages.).
 */
-sremove_extra_whitepace(st) := block(
+ssquish(st) := block(
     st:ssubst(" ", tab, st), 
     st:ssubst(" ", newline, st),
     st:strim(" ", st), 
-    while is(slength(st)>slength(st:ssubst(" ", "  ", st))) do true,
+    /* while is(slength(st)>slength(st:ssubst(" ", "  ", st))) do true,*/
+    st:regex_subst(" ", "\\s+", st),
     st
 )$
 

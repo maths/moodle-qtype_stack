@@ -6822,6 +6822,9 @@
   "sequal": {
       "function": "s"
   },
+  "sequence": {
+      "function": "s"
+  },
   "sequalignore": {
       "function": "s"
   },

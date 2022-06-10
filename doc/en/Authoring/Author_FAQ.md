@@ -1,12 +1,18 @@
 # Author FAQ
 
+## Which version of STACK do I have? ##
+
+If you navigate to the front page of the STACK documentation _on your server_ then you can find the version number of the STACK plugin at the bottom of the page.  If your site is `https://maths.assessment/site` then the URL of the STACK documentation is probably `https://maths.assessment/site/question/type/stack/doc/doc.php`.  We distribute the documentation with the source code so you can check the STACK features you have available on your site by referring to this version of the documentation (rather than the docs on [https://docs.stack-assessment.org/](https://docs.stack-assessment.org/) which documents the latest release.).
+
+The version number is given in the form used by all Moodle plugins, e.g. `2022052300` which is basically a release date of the plugin you are using.
+
 ## How can I improve the documentation? ##
 
 Please either edit the docs on github, or send us a pull request. Your contributions are very welcome.
 
 ## How can I report a bug or make a suggestion? ##
 
-Please read this page first!  Contributions are very welcome.  Please see the [community](../About/Community.md) page for more specific details.
+Contributions are very welcome.  Please see the [community](../About/Community.md) page for more specific details.
 
 ## Can I write questions in multiple languages?
 
@@ -32,6 +38,10 @@ The Simple Venn sample question demonstrates using the [Google charts](http://co
 
 ![](http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:100,100,0,50&chdl=A|B)
 
+## How can I test out STACK specific functions in a Maxima session? ##
+
+Details of how to load STACK functions into a command line Maxima session are given in the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md).
+
 ## Why does a Maxima function not work in STACK? ##
 
 Not all Maxima functions are enabled by STACK, for obvious security reasons.
@@ -49,33 +59,7 @@ This is a job for a developer.  Please contact us.
 
 ## How can I use subscripts in STACK ##
 
-Note there is a subtle (and perhaps confusing) difference between atoms in Maxima.  The strings `a1` and `a_1` are both atoms in Maxima, and are different.  However, the display is very similar, using subscripts.  A further confusion arises since list elements are also displayed subscripted.  E.g. `a[1]` will also be displayed with a subscript.
-
-The atoms `a1` and `a_1` are not considered to be algebraically equivalent.
-
-See the inputs extra option [consolidatesubscripts](Inputs.md).
-
-Normally an atom `theta2` is displayed by Maxima as `{\it theta_2}`. This is problematic as the Greek letter is not rendered as LaTeX `\theta`, and the subscript is in italic which is wrong.  We have fixed this in STACK. Maxima "atoms" with a subscript will be displayed using subscripts.  For example
-
-    theta_2
-
-will be displayed as \(\theta_2\).  Both teachers and students can use this mechanism.  However, this relies on the expression being a Maxima atom.  (See the maxima manual).
-
-Teachers can create an inert function which displays using subscripts.
-
-    texsub(a,b)
-
-is typeset as \({a}_{b}\) i.e. `{a}_{b}` in LaTeX.  This enables subscripts to be displayed with non-atomic things like
-
-    texsub(F,1-2)
-
-with simplification off will be displayed as \({F}_{1-2}\).  The complex expression in the subscript cannot form an atomic Maxima expression.
-
-Note that the process of converting `theta_07` into the intermediate `texsub` form internally results in the `texsub(theta,7)` which removes the leading zero.  This is a known issue, for which a workaround is to directly use `texsub(theta,"07")`.  This does not produce optimal LaTeX.
-
-## How can I test out STACK specific functions in a Maxima session? ##
-
-Details of how to load STACK functions into a command line Maxima session are given in the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md).
+More information on subscripts is given in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima.md) documentation.  Also see the inputs extra option [consolidatesubscripts](Inputs.md).
 
 ## How can I confirm my student's answer is fully simplified? ##
 

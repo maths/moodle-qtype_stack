@@ -126,7 +126,9 @@ The function `stack_unit_si_declare(true)` declares variables as units.  (Note t
 * `unitsp(ex)` is a predicate which decides if STACK considers the expression to represent a dimensional numerical quantity `stackunits`.  
 * `listofnonunits(ex)` lists all variables in the expression `ex` considered not to be units however they appear.  Use of this function auto-loads `stack_unit_si_declare(true)`.
 * `listofunits(ex)` lists all variables in the expression `ex` considered to be units however they appear. Use of this function auto-loads `stack_unit_si_declare(true)`.
-*  If you do not declare `stack_unit_si_declare(true)` in the question variables you may need to do so in the feedback text itself.
+* If you do not declare `stack_unit_si_declare(true)` in the question variables you may need to do so in the feedback text itself.
+
+This function declares all units in one go, and there is no way to declare only a subset. Indeed, using only a subset would disrupt the conversion logic.  Defining all the units restricts the number of variable names available in a particular question, e.g. \(F\) is assumed to represent Farad, and all units are typeset in Roman type, e.g. \( \mathrm{F} \) rather than the normal \( F \). If you need to fine-tune the display how do to so if explained in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima.md) documentation.
 
 The function `stackunits_make(ex)` takes the expression `ex` and, if this is a product of numbers and units, it returns an inert function `stackunits` with arguments `stackunits(numbers, symbols)`.  Note, symbols will include a mix of variables, and symbols which are considered to be units. Use of this function autoloads `stack_unit_si_declare(true)`.
 

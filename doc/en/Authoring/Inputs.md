@@ -255,7 +255,7 @@ Do not use this option in questions in place of the normal quiz settings.  For t
 
 ### Extra option: allowempty ###
 
-Normally a _blank_, i.e. empty, answer has a special status and are not considered "valid".  Hence, a PRT relying on an input left blank will not be traversed.  Answers consisting only of whitespace are also considered as empty.  The extra option `allowempty` allows the input to be empty.  Internally an empty answer will be replaced by the Maxima atom `EMPTYANSWER`.  Internally it is essential that the variable name of the input, (e.g. `ans1`) is really assigned a specific value. The teacher will need to deal with `EMPTYANSWER` tags in the PRT.
+Normally a _blank_, i.e. empty, answer has a special status and are not considered "valid".  Hence, a PRT relying on an input left blank will not be traversed.  Answers consisting only of whitespace are also considered as empty.  The extra option `allowempty` allows the input to be empty.  Internally an empty answer will be replaced by the Maxima f `EMPTYANSWER`.  Internally it is essential that the variable name of the input, (e.g. `ans1`) is really assigned a specific value. The teacher will need to deal with `EMPTYANSWER` tags in the PRT.
 
 We strongly recommend (with many years of experience) that teachers do not use this option without very careful thought!
 
@@ -305,17 +305,15 @@ As of STACK 4.3, if units are declared in a question then the whole question wil
 
 As of STACK 4.3.10, there is an option to "consolidate subscripts".
 
-There is a subtle (and perhaps confusing) difference between atoms in Maxima.  The strings `a1` and `a_1` are both atoms in Maxima, and are different.  However, the display is very similar, using subscripts.  A further confusion arises since list elements are also displayed subscripted.  E.g. `a[1]` will also be displayed with a subscript.
-
-The atoms `a1` and `a_1` are not considered to be algebraically equivalent.
-
-To avoid penalising students on a technicality, if you include the extra option `consolidatesubscripts` or `consolidatesubscripts:true` then students' input will be converted to the form without the underscore.
+There is a subtle (and perhaps confusing) difference between atoms in Maxima.  The strings `a1` and `a_1` are both atoms in Maxima, and are different.  Hence, the atoms `a1` and `a_1` are not considered to be algebraically equivalent. To avoid penalising students on a technicality, if you include the extra option `consolidatesubscripts` or `consolidatesubscripts:true` then students' input will be converted to the form without the underscore.
 
 1. In students' input `M_1` is converted to `M1`.
 2. Teachers are expected to use the correct pattern `M1` in the correct answer and in PRTs.
 3. We only filter a very limited pattern, namely `^[a-zA-Z]+_[0-9]+$` which is an atom starting with one or more letters, then an underscore `_` then one or more digits.  This is the only pattern currently replaced.  Specifically double subscripts or non-numeric subscripts are ignored.
 
 (If you have genuine use for more patterns please contact the developers with examples!)
+
+More information on subscripts is given in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima.md) documentation.
 
 ### Extra option: checkvars ###
 

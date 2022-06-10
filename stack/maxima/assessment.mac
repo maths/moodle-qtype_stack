@@ -541,6 +541,58 @@ radcan_num(ex):= block(
    apply(op(ex), map(radcan_num, args(ex)))
 )$
 
+/* Check if - appears in an expression. */
+freeof_mminusp(ex) := block(
+  if atom(ex) then return(true),
+  if safe_op(ex)="-" then return(false),
+  all_listp(freeof_mminusp, args(ex))
+)$
+
+/* Fine control over the display of complex numbers. 
+    This general purpose function "does the right thing" with simplification assumed to be true.
+*/
+display_complex(ex) := block([exr, exi],
+    if real_numberp(ex) then return(ex),
+    exr:ev(realpart(ex), simp), 
+    exi:ev(imagpart(ex), simp), 
+    if is(exr=0) then exr:null,
+    if is(exi=1) then exi:null,
+    if ev(is(exi=-1),simp) then exi:-1*null,
+    disp_complex(exr, exi)
+ )$
+
+texdisp_complex(ex) := block([ps, sxr, exi, simp],
+    simp:false,
+    ps:"+",
+    if is(first(args(ex))=null) then block(
+        sxr:"",
+        ps:""
+    ) else sxr:tex1(first(args(ex))),
+    exi:second(args(ex)),
+
+    if real_numberp(exi) then block(
+        if ev(is(exi < 0), simp) then ps: "",
+        return(sconcat(sxr, ps, tex1(exi), "\\,", tex1(%i)))
+    ) else if ev(is(exi=null), simp) then return(sconcat(sxr, ps, tex1(%i))) 
+      else if ev(is(exi=-1*null), simp) then return(sconcat(sxr, "-", tex1(%i))) 
+      else block(
+       if not(freeof_mminusp(exi)) then block(
+         ps:"-",
+         /* TODO: more subtle removal of the minus sign?! */
+         exi:ev(-1*exi, simp)
+       ),
+       sconcat(sxr, ps, tex1(%i), "\\,", tex1(exi))
+    )
+)$
+texput(disp_complex, texdisp_complex)$
+
+/* Because we have null being used differently in two places we need a remove function. */
+remove_disp_complex(ex1, ex2) := ev(ex1, null=0)+ev(ex2, null=1)*%i$
+
+/* This function is a display-level way to ensure brackets get displayed. */
+texdisp_parens(ex) := sconcat("\\left( ", tex1(first(args(ex))), " \\right)")$
+texput(disp_parens, texdisp_parens)$
+
 
 /* This function is designed for displaying decimal places. It is also useful for currency. */
 /* displaydp(n, dp) is an inert function.  The tex function converts this to display.       */

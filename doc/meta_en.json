@@ -326,6 +326,11 @@
         "description":"Information about Computer Algebra Systems for use with online assessment."
         },
         {
+        "file":"Complex_numbers.md",
+        "title":"Complex Numbers in STACK - STACK Documentation",
+        "description":"Complex Numbers and how to deal with them in STACK."
+        },
+        {
         "file":"Differential_equations.md",
         "title":"Differential Equations - STACK Documentation",
         "description":"Information on representing, displaying and manipulating ODEs in STACK."

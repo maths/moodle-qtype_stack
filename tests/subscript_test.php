@@ -16,7 +16,11 @@
 
 namespace qtype_stack;
 
+use castext2_evaluatable;
 use qtype_stack_testcase;
+use stack_ast_container;
+use stack_cas_session2;
+use stack_options;
 use stack_subscripts_test_data;
 
 defined('MOODLE_INTERNAL') || die();

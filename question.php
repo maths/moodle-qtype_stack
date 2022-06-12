@@ -629,7 +629,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             '' !== $this->questionnoteinstantiated->get_rendered()) {
             return $this->questionnoteinstantiated->get_rendered();
         }
-        return parent::get_question_summary();
+        return stack_string('questionnote_missing');
     }
 
     public function summarise_response(array $response) {

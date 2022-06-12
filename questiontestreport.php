@@ -158,6 +158,18 @@ foreach ($summary as $vkey => $variant) {
     $summary[$vkey] = $variant;
 }
 
+// Match up variants to answer notes.
+$questionnotes = array();
+foreach (array_keys($summary) as $variant) {
+    $questionnotes[$variant] = $variant;
+
+    $question = question_bank::load_question($questionid);
+    $question->start_attempt(new question_attempt_step(), $variant);
+    $notesummary = $question->get_question_summary();
+    // TODO check for duplicate notes.
+    $questionnotes[$variant] = stack_ouput_castext($notesummary);
+}
+
 // Create blank arrays in which to store data.
 $qinputs = array_flip(array_keys($question->inputs));
 foreach ($qinputs as $key => $val) {
@@ -459,14 +471,13 @@ foreach (array_keys($summary) as $variant) {
         $sumout .= "\n";
     }
     if (trim($sumout) !== '') {
-        echo html_writer::tag('h3', $variant);
+        echo html_writer::tag('h3', $questionnotes[$variant]);
         echo html_writer::tag('pre', $sumout);
     }
 }
 
 
 foreach (array_keys($summary) as $variant) {
-    // TODO: how do we go from a variant to a seed (if there is one....)?
     $sumout = '';
     foreach ($inputreport[$variant] as $input => $idata) {
         $sumouti = '';
@@ -493,7 +504,7 @@ foreach (array_keys($summary) as $variant) {
         }
     }
     if (trim($sumout) !== '') {
-        echo html_writer::tag('h3', $variant);
+        echo html_writer::tag('h3', $questionnotes[$variant]);
         echo html_writer::tag('pre', $sumout);
     }
 }

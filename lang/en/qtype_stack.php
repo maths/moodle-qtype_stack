@@ -278,6 +278,7 @@ $string['feedbackstyle3'] = 'Symbol only';
 $string['questionnote'] = 'Question note';
 $string['questionnote_help'] = 'The question note is CASText.  The purpose of a question note is to distinguish between random variants of a question. Two question variants are equal if and only if the question notes are equal.  In later analysis it is very helpful to leave a meaningful question note.';
 $string['questionnote_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_note.md';
+$string['questionnote_missing'] = 'The question note is empty.  Please add a meaningful question note (summary).';
 $string['questionnotempty'] = 'The question note cannot be empty when rand() appears in the question variables.  The question note is used to distinguish between different random variants of the question.';
 $string['questionsimplify'] = 'Question-level simplify';
 $string['questionsimplify_help'] = 'Sets the global variable "simp" within Maxima for the whole question.';

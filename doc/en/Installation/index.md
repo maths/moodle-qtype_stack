@@ -24,8 +24,13 @@ and then re-start the web server.
 
 ## 1. Set up Moodle.
 
-* Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).  We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  STACK has been tested on Moodle 3.9 to 3.11.  STACK is untested on versions before Moodle 3.9.  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will will drop them from our list.
-* Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.
+Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).  
+
+* STACK has been tested on Moodle 3.9 to 3.11.  (STACK is untested on versions before Moodle 3.9.)  
+* Do not install this version of STACK on Moodle 4.0.  A future release of STACK, planned for the summer of 2022, will support Moodle 4.0.
+* We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will will drop them from our list.
+
+Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.
 
 Consider updating the MathJax settings to wrap long equations. In particular, add
 

@@ -2366,6 +2366,38 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
+    public function test_complex_number_display_options() {
+
+        // These test cases get wrapped in the general display_complex(ex) function to test the default conversion.
+        $cases = array();
+        $cases[] = array('3+2*%i', '3+2\,\mathrm{j}');
+        $cases[] = array('-3+2*%i', '-3+2\,\mathrm{j}');
+        $cases[] = array('-3-2*%i', '-3-2\,\mathrm{j}');
+        $cases[] = array('3-2*%i', '3-2\,\mathrm{j}');
+        $cases[] = array('1+%i', '1+\mathrm{j}');
+        $cases[] = array('1-%i', '1-\mathrm{j}');
+
+        $cases[] = array('-3+2*%j', '-3+2\,\mathrm{j}');
+
+        $s1 = array();
+        foreach ($cases as $k => $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source('display_complex(' . $case[0] . ')',
+                '', new stack_cas_security(), array());
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $options->set_option('complexno', 'j');
+        $session = new stack_cas_session2($s1, $options, 0);
+        $this->assertTrue($session->get_valid());
+
+        $session->instantiate();
+        $this->assertTrue($session->is_instantiated());
+
+        foreach ($cases as $k => $case) {
+            $this->assertEquals($case[1], $s1[$k]->get_display());
+        }
+    }
+
     public function test_parens_display() {
 
         $cases = array();

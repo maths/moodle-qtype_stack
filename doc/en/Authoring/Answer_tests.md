@@ -9,7 +9,7 @@ prototype test is to establish if they are _algebraically equivalent_.  Answer t
 4. [Scientific](../Authoring/Units.md), e.g. for dealing with dimensional numerical quantities.
 5. Specific subject tests, e.g. sets, logical expressions, calculus (where tests provide feedback automatically in common situations such as a missing constant of integration).
 
-We also provide string match tests.  However, the whole point of STACK is that teachers should seek to establish mathematical properties and the string match tests are provided for completeness (and because they are trivial to implement).  Experienced question authors almost never use the string match tests.  If you find yourself needing to use the string match tests for something mathematical please contact the developers.
+We also provide (string match tests)[Strings.md].
 
 ## Introduction ##
 
@@ -308,36 +308,6 @@ In many cases simply differentiating the teacher's answer is fine, in which case
     [x, x*exp(5*x+7)]
 
 The test cannot cope with some situations.  Please contact the developers when you find some of these.  This test is already rather overloaded, so please don't expect every request to be accommodated! 
-
-# String match #
-
-`String` This is a string match, ignoring leading and trailing white space which are stripped from all answers, using PHP's trim() function.
-
-`StringSloppy` This function first converts both inputs to lower case, then removes all white space from the string and finally performs a strict string comparison.
-
-`Levenshtein` is an answer test based on the Damerau-Levenshtein distance between two strings.  See the specific documentation on [Damerau-Levenshtein distance](Levenshtein_distance.md).
-
-### SRegExp ###
-
-This test uses Maxima's `regex_match` function.
-
-* Both arguments to the test must be Maxima strings.  If you have a general expression, turn it into a string in the feedback variables with Maxima's `string` function.
-* The first argument should be the string, and the second argument should be the pattern to match.
-* It yields true if the pattern is matched anywhere within the student answer and false otherwise. Testing for full equality of the answer string can be achieved via regex anchoring by use of `^` or `$`.
-* Don't forget to escape within the pattern strings as needed. Note that there is a function `string_to_regex()` that will handle escaping of characters that would otherwise have meaning in the pattern. Also remember that you need to escape the backslashes like normal in Maxima-strings.
-* One can read more about the patterns posible from [here](http://ds26gte.github.io/pregexp/index.html). Case-insensitivity may be something worth noting there.
-
-STACK also provides a helper function `regex_match_exactp(regex, str)` to check if the string equals the pattern matched by the regular expression.
-
-    Regex           String      Result
-    (aaa)*(b|d)c    aaaaaabc    true
-    (aaa)*(b|d)c    dc          true
-    (aaa)*(b|d)c    aaaaaaabc   false
-    (aaa)*(b|d)c    cca         false
-
-Currently this is not provided as a separate answer test so you will need to use this predicate in the question variables and check the result against the expected value, or supply the predicate as an argument to an answer test.
-
-`(RegExp)` **NOTE:** this test was removed in STACK version 4.3.
 
 # See also
 

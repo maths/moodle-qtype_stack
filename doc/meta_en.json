@@ -277,6 +277,11 @@
         "description":"How data sets can be served and downloaded by students, e.g. in statistics questions."
         },
         {
+        "file":"Strings.md",
+        "title":"Strings in STACK questions",
+        "description":"How to use strings in STACK questions."
+        },
+        {
         "file":"Tables.md",
         "title":"Tables - STACK Documentation",
         "description":"Functions for typesetting mathematical tables, such a truth tables."

@@ -49,4 +49,10 @@ STACK also provides a helper function `regex_match_exactp(regex, str)` to check 
 
 Currently this is not provided as a separate answer test so you will need to use this predicate in the question variables and check the result against the expected value, or supply the predicate as an argument to an answer test.
 
+For example, using the question variables above you can define the following in the feedback variables.
+
+    sa:regex_match_exactp(s1, ans1);
+
+Then you can use the `AlgEquiv` answer test to check the result is true/false, e.g. `ATAlgEquiv(sa, true)`.
+
 `(RegExp)` **NOTE:** this test was removed in STACK version 4.3.

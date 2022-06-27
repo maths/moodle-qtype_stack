@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-# STACK 4.4 (alpha) [![Build Status](https://api.travis-ci.org/maths/moodle-qtype_stack.svg?branch=master)](https://travis-ci.org/github/maths/moodle-qtype_stack/)
-
-=======
-# STACK 4.3.11
->>>>>>> origin/master
+# STACK 4.4 (alpha) 
 
 STACK is an assessment system for mathematics, science and related disciplines.  STACK is a question type for the Moodle learning management system, and also the ILIAS learning management system.
 
@@ -13,15 +8,11 @@ STACK is based on continuing research and use at the University of Edinburgh, th
 
 ## Current state of development
 
-<<<<<<< HEAD
 STACK 4.4 replaces core features with ones implemented using re-engineered core components. Primary focus has been in runtime performance improvements and finalising multi-year projects related to PRT logic improvements.
 
 In addition to that the CASText templating system has been replaced with a new version that fixes some issues with the old and provides better support for Markdown. The new version of this templating system will play a role in the next major re-engineering project that relates to the inputs and their validation.
 
 Some specialised features have also been provided for advanced users.
-=======
-STACK 4.3 contains some important re-engineering of core components.  This will enable significant new features in future releases.  STACK 4.3.11 contains an update of JSXGraph (in advance of the forthcoming 4.4 release) to facilitate immediate materials development.
->>>>>>> origin/master
 
 Please continue to report any bugs you find at https://github.com/maths/moodle-qtype_stack/issues.
 

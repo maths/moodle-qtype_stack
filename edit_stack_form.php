@@ -370,7 +370,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setType($inputname . 'modelans', PARAM_RAW);
         $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
         // We don't make modelans a required field in the formslib sense, because
-        // That stops the input sections collapsing by default. Instead, we enforce
+        // that stops the input sections collapsing by default. Instead, we enforce
         // that it is non-blank in the server-side validation.
 
         $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), array('size' => 3));
@@ -389,6 +389,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), array('size' => 20));
         $mform->setType($inputname . 'syntaxhint', PARAM_RAW);
+        $mform->setDefault($inputname . 'syntaxhint', '');
         $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
         $mform->hideIf($inputname . 'syntaxhint', $inputname . 'type', 'in',
             ['radio', 'checkbox', 'dropdown', 'boolean']);

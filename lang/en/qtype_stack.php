@@ -336,6 +336,7 @@ $string['syntaxattribute_help'] = 'The syntax hint will appear as an editable *v
 $string['syntaxattribute_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Syntax_Hint';
 $string['syntaxattributevalue'] = 'Value';
 $string['syntaxattributeplaceholder'] = 'Placeholder';
+$string['nosemicolon'] = 'You must not end Maxima expressions with a semicolon here.';
 $string['tans'] = 'TAns';
 $string['tans_help'] = 'This is the second argument to the answer test function.  In asymmetrical tests this is considered to be the "teacher\'s answer" although it may be any valid CAS expression, and may depend on the question variables or the feedback variables.';
 $string['tans_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_tests.md';

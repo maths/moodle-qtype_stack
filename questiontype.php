@@ -1729,6 +1729,13 @@ class qtype_stack extends question_type {
             }
         }
 
+        // These particular castrings must not end in a semicolon, (unlike keyvals!).
+        $tvalue = trim($value);
+        $tvalue = substr($tvalue, strlen($tvalue)-1);
+        if ($tvalue === ';') {
+            $errors[$fieldname][] = stack_string('nosemicolon');
+        }
+
         return $errors;
     }
 

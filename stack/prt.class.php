@@ -212,6 +212,23 @@ class stack_potentialresponse_tree_lite {
     }
 
     /**
+     * @return array All the non-trivial strings used in the node arguments.
+     */
+    public function get_raw_arguments_used() {
+        $ans = array();
+        foreach ($this->nodes as $key => $node) {
+            $name = (string) $this->get_name() . '-' . ($key + 1);
+            if (trim($node->sans) != '') {
+                $ans[$name . '-sans'] = $node->sans;
+            }
+            if (trim($node->tans) != '') {
+                $ans[$name . '-tans'] = $node->tans;
+            }
+        }
+        return $ans;
+    }
+
+    /**
      * This lists all possible answer notes, used for question testing.
      * @return array string Of all the answer notes this tree might produce.
      */

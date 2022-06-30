@@ -1459,6 +1459,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     $warnings[] = stack_string_error('AT_raw_sans_needed', array('prt' => $key));
                 }
             }
+            foreach ($prt->get_raw_arguments_used() as $name => $ans) {
+                $tvalue = trim($ans);
+                $tvalue = substr($tvalue, strlen($tvalue)-1);
+                if ($tvalue === ';') {
+                    $warnings[] = stack_string('nosemicolon') . ':' . $name;
+                }
+            }
         }
 
         // 2. Check alt-text exists.

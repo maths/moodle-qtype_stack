@@ -456,9 +456,15 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'minf < x nounand x <1', 'x<1', 1, '', ''),
         array('AlgEquiv', '', 'minf < x nounand x <1', 'x<2', 0, '', ''),
 
-        array('AlgEquiv', '', 'x#1', 'x#1', 1, '', 'Not equal to'),
-        array('AlgEquiv', '', 'x#(1+1)', 'x#2', 1, '', ''),
-        array('AlgEquiv', '', '1#x', 'x#1', 1, '', ''),
+        array('AlgEquiv', '', 'x#1', 'x#1', 1, 'ATLogic_True.', 'Not equal to'),
+        array('AlgEquiv', '', 'x#(1+1)', 'x#2', 1, 'ATLogic_True.', ''),
+        array('AlgEquiv', '', '1#x', 'x#1', 1, 'ATLogic_True.', ''),
+        array('AlgEquiv', '', 'x#2', 'x-2#0', 1, 'ATLogic_True.', ''),
+        array('AlgEquiv', '', '[x#2]', '[x-2#0]', 1, '', ''),
+        array('AlgEquiv', '', 'x-3#0', 'x#2', 0, '', ''),
+        array('AlgEquiv', '', 'x#2', 'x<2 nounor x>2', 1, 'ATLogic_Solver_True.', ''),
+        array('AlgEquiv', '', 'x^2-3#1', 'x<-2 nounor (x<-2 and x<2) nounor 2<x', 0, '', ''),
+        array('AlgEquiv', '', 'x^2-3#1', 'x<-2 nounor (-2<x and x<2) nounor 2<x', 1, 'ATLogic_Solver_True.', ''),
         // We probably need to think about what this really means...
         array('AlgEquiv', '', 'x#1', 'x#0', 0, '', ''),
 

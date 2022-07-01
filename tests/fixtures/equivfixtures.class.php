@@ -1351,6 +1351,14 @@ class stack_equiv_test_data {
         $newarg['outcome']   = 'unsupported';
         $samplearguments[] = $newarg;
 
+        $newarg = array();
+        $newarg['title']     = "Solving with the not equals function";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[x^2#1,x^2-1#0,(x-1)*(x+1)#0,x<-1 nounor (-1<x nounand x<1) nounor x>1]";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
         /* ....................................... */
 
         $newarg = array();
@@ -1479,7 +1487,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Logarithmic differentiation";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[y=e^(5*x)/(7*x+1),ln(y)=5*x-ln(abs(7*x+1))," .
-                "1/y*\'diff(y,x) = 5-7/(7*x+1),diff(y,x)=y*(5-7/(7*x+1)),diff(y,x)=e^(5*x)/(7*x+1)*(5-7/(7*x+1))]";
+                "1/y*noundiff(y,x) = 5-7/(7*x+1),diff(y,x)=y*(5-7/(7*x+1)),diff(y,x)=e^(5*x)/(7*x+1)*(5-7/(7*x+1))]";
         $newarg['debuglist'] = "(EMPTYCHAR,EQUIVLOG,DIFFCHAR(x),EQUIVCHAR,EQUIVCHAR)";
         $newarg['calculus']  = true;
         $newarg['outcome']   = 'unsupported';

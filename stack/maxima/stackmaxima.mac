@@ -1210,12 +1210,12 @@ set output ", afn),
 */
 ATAlgEquiv(SA,SB) := block([simp:true, ret, newret, SAN, SBN],
     /* Turn on simplification and error catch */
-    if is(_EC(errcatch(SA:ev(SA, simp, nouns, rat)), "") = false) then
+    if is(_EC(errcatch(SA:ev(stack_noteq_single_solve(SA), simp, nouns, rat)), "") = false) then
         return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_SAns"), ""]),
-    /* We need a copy here because lists are passed by reference and the coloring of incorrect entries
+    /* We need a copy here because lists are passed by reference and the colouring of incorrect entries
        causes problems when the values are used later in a PRT.  This problem did not occur with single call answer tests. */
     SAN:copy(SA),
-    if is(_EC(errcatch(SB:ev(SB, simp, nouns, rat)), "") = false) then
+    if is(_EC(errcatch(SB:ev(stack_noteq_single_solve(SB), simp, nouns, rat)), "") = false) then
         return([false, false, StackAddNote("", "ATAlgEquiv_STACKERROR_TAns"),""]),
     /* Start recursive process */
     SBN:copy(SB),
@@ -1352,6 +1352,24 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
     return(ret)
     )$
 
+stack_noteq_single_solve(ex) := block(
+   if atom(ex) then return(ex),
+   if freeof("#", ex) then return(ex),
+   if not(safe_op(ex)="#") then return(apply(op(ex), map(stack_noteq_single_solve, args(ex)))),
+   /* Only attempt solving in single variables cases. */
+   if length(listofvars(ex))=1 then return(apply("nounand", map(lambda([ex2], subst("#","=",ex2)), solve(first(ex)=second(ex))))),
+   ex
+)$
+
+stack_noteq_single_remove(ex) := block(
+   if atom(ex) then return(ex),
+   if freeof("#", ex) then return(ex),
+   if not(safe_op(ex)="#") then return(apply(op(ex), map(stack_noteq_single_remove, args(ex)))),
+   /* Only attempt solving in single variables cases. */
+   if length(listofvars(ex))=1 then return((first(ex)<second(ex) nounor first(ex)>second(ex))),
+   ex
+)$
+
 /* An answer test based on two lists for SA and SB */
 ATList(SA,SB) := block([AddFeedBack, SAN, SAl, SBl, ret, retnew, kloop, AnsNotes],
     /* Get sizes of lists */
@@ -1390,7 +1408,7 @@ ATList(SA,SB) := block([AddFeedBack, SAN, SAl, SBl, ret, retnew, kloop, AnsNotes
     return(ret)
 )$
 
-/* An answer test based on two sets of real numbers */
+/* An answer test based on two sets of real numbers. */
 ATRealSet(SA, SB) := block(
     /* Tidy up intervals as much as possible. Some tidying might be possible even with realset_soft_p rather than realsets.*/
     SA:interval_tidy(SA),

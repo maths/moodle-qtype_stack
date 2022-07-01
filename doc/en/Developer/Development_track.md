@@ -15,6 +15,7 @@ How to report bugs and make suggestions is described on the [community](../About
 6. Added `checkvars` option to inputs.
 7. Add in support for the [Damerau-Levenshtein distance](../Authoring/Levenshtein_distance.md).
 8. Add in suppprt for the display of [Complex Numbers](../CAS/Complex_numbers.md).
+9. Add in basic solving of expressions with the not equals.  E.g. `x-1#0` is now considered equivalent to `x#1`.
 
 ### Add in support for Moodle 4.0
 

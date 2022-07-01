@@ -1461,7 +1461,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
             foreach ($prt->get_raw_arguments_used() as $name => $ans) {
                 $tvalue = trim($ans);
-                $tvalue = substr($tvalue, strlen($tvalue)-1);
+                $tvalue = substr($tvalue, strlen($tvalue) - 1);
                 if ($tvalue === ';') {
                     $warnings[] = stack_string('nosemicolon') . ':' . $name;
                 }

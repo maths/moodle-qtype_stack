@@ -38,7 +38,7 @@ abstract class qtype_stack_test_config {
         // because auto-optimse worked during install, or
         // settings given in config.php.
         return get_config('qtype_stack', 'platform') !== 'linux' ||
-                defined('QTYPE_STACK_TEST_CONFIG_PLATFORM');
+                (defined('QTYPE_STACK_TEST_CONFIG_PLATFORM') && QTYPE_STACK_TEST_CONFIG_PLATFORM !== 'none');
     }
 
     /**

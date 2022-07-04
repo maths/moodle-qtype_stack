@@ -1579,6 +1579,7 @@ ATInequality(SA, SB) := block([RawMark, FeedBack, AnswerNote, SA1, SB1, samex],
     ),
     /* Now try to give some basic feedback: potential for more work to recurse over complex expressions... */
     if safe_op(SA) = ">"  and safe_op(SB) =">=" then block(
+        RawMark:false,
         AnswerNote:StackAddNote("", "ATInequality_strict"),
         FeedBack:StackAddFeedback("", "ATInequality_strict")
     ),

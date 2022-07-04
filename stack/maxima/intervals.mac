@@ -794,7 +794,7 @@ interval_set_complement(X):= block([A:X, Ans:[], temp, n, i:1],
 
 
 
-/* Turns a single variable system over the reals in to a set of real numbers, together with insoluable bits (if any). */
+/* Turns a single variable system over the reals into a set of real numbers, together with insoluable bits (if any). */
 single_variable_solver_real(ex) := block([v, rs1, rs2],
     if is(ex=false) then return(none),
     if is(ex=true) then return(all),
@@ -838,8 +838,7 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
 
     rs1:ex,
     rs2:false,
-    if safe_op(ex)="%or" then block
-        (
+    if safe_op(ex)="%or" then block(
         rs1:ev(sublist(args(ex), realset_soft_p), simp),
         rs2:ev(sublist(args(ex), lambda([ex2], not realset_soft_p(ex2))), simp),
         if is(length(rs1)=1) then rs1:first(rs1),

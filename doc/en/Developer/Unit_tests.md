@@ -65,6 +65,16 @@ Commands are
 
 (where folder-name is the folder that you want to contains the report)
 
+If, for some reason, you have the STACK code in your codebase, and you want to run other
+unit tests on a server without Maxima installed, then you will get an error when you
+try to install the PHPunit site. You can avoid that by putting
+
+    define('QTYPE_STACK_TEST_CONFIG_PLATFORM',        'none');
+
+in your config.php file. This will prevent the install from trying to create maxima-optimised.
+It will also cause most of the STACK unit tests to be skipped.
+
+
 ## Stop resetting the dataroot directory.
 
 

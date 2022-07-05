@@ -66,40 +66,29 @@ class stack_cas_connection_server extends stack_cas_connection_base {
 
         // Did we get files?
         if (strpos(curl_getinfo($request, CURLINFO_CONTENT_TYPE), "text/plain") === false) {
-            // We have to save the zip file on local disk before opening...
-            // how come there is no core library solution to this!?
-            // create temp file, save zip there.
-            $ziptemp = $CFG->dataroot . "/stack/tmp/";
-            $ziptemp = tempnam($ziptemp, "zip");
-            $fp = fopen($ziptemp, "w");
-            fwrite($fp, $ret);
-            fclose($fp);
-            $zip = zip_open($ziptemp);
-            $entry = zip_read($zip);
-            // Read the entrys of the archive.
-            while ($entry !== false) {
-                // This one contains the output from maxima.
-                if (zip_entry_name($entry) == 'OUTPUT') {
-                    zip_entry_open($zip, $entry);
-                    $ret = zip_entry_read($entry, zip_entry_filesize($entry));
-                    zip_entry_close($entry);
-                } else {
-                    $filename = $CFG->dataroot . "/stack/plots/" . zip_entry_name($entry);
-                    zip_entry_open($zip, $entry);
-                    $fp = fopen($filename, 'w');
-                    $buffy = zip_entry_read($entry, 2048);
-                    while ($buffy != '') {
-                        fwrite($fp, $buffy);
-                        $buffy = zip_entry_read($entry, 2048);
-                    }
-                    fclose($fp);
-                    zip_entry_close($entry);
-                }
+            // We have to save the zip file on local disk before opening.
+            $ziptemp = tempnam($CFG->dataroot . '/stack/tmp/', 'zip');
+            file_put_contents($ziptemp, $ret);
 
-                $entry = zip_read($zip);
+            // Loop over the contents of the zip.
+            $zip = new ZipArchive();
+            $zip->open($ziptemp);
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                $filenameinzip = $zip->getNameIndex($i);
+
+                if ($filenameinzip === 'OUTPUT') {
+                    // This one contains the output from maxima.
+                    $ret = $zip->getFromIndex($i);
+
+                } else {
+                    // Otherwise this is a plot.
+                    $filename = $CFG->dataroot . "/stack/plots/" . $filenameinzip;
+                    file_put_contents($filename, $zip->getFromIndex($i));
+                }
             }
-            zip_close($zip);
+
             // Clean up.
+            $zip->close();
             unlink($ziptemp);
         }
 

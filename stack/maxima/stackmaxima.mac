@@ -66,6 +66,9 @@ stack_reset(not_used) := block(
   OPT_OUTPUT: "LaTeX",
   PLOT_TAGS: true,
 
+  /* Records the number of the plot. */
+  STACK_PLOT_UNIQUE_NUMBER: 0,
+
   true
 )$
 
@@ -1081,7 +1084,9 @@ set_plot_option([adapt_depth, 10]);
 set_plot_option([gnuplot_default_term_command, ""]);
 
 plot(ex, [ra]) :=  /*stack_web_plot*/
-    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr, filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug, plotgrid2d, size, psize, plot_size, plot_tags, stack_mtell_quiet],
+    block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr,
+        filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug,
+        plotgrid2d, size, psize, plot_size, plot_tags, stack_mtell_quiet, plotpid],
     stack_mtell_quiet:true,
     plotdebug: false,
     /* Check for grid2d  in the plotoptions. */
@@ -1135,8 +1140,11 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
         error("Plot error: STACK does not currently support the following plot2d options: \\(",string(ralforbid),"\\)"),
     /********************************************/
     /* Create a unique identifier for the plot. */
+    plotpid:errcatch(?getpid()),
+    if (emptyp(plotpid) or not(integerp(first(plotpid)))) then plotpid:"pid-missing" else plotpid:string(first(plotpid)),
     tn: string(absolute_real_time()),
-    filename:concat("stackplot","-",tn,"-",string(rand(10^8))),
+    STACK_PLOT_UNIQUE_NUMBER:STACK_PLOT_UNIQUE_NUMBER + 1,
+    filename:concat("stackplot", "-", plotpid, "-", string(STACK_PLOT_UNIQUE_NUMBER), "-", tn,"-",string(rand(10^8))),
     /* Sort out the name of the image file and its url. */
     afn: concat("'", IMAGE_DIR, filename, ".", PLOT_TERMINAL, "'"),
     if PLOT_TERMINAL="svg" then

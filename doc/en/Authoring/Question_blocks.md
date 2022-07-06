@@ -165,7 +165,7 @@ var label = [[jsstring]]{@f(x)=sqrt(x)@}[[/jsstring]];
 var label = "\\({f\\left(x\\right)=\\sqrt{x}}\\)";
 ```
 
-Note, this block is _not_ designed to output Maxima strings in JS format. For example, this block will not convert `x^2` into `x**2`.
+Note, this block is _not_ designed to output Maxima expressins in JS format. For example, this block will not convert `x^2` into `x**2`.
 
 ## Include block ##
 

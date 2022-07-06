@@ -165,6 +165,8 @@ var label = [[jsstring]]{@f(x)=sqrt(x)@}[[/jsstring]];
 var label = "\\({f\\left(x\\right)=\\sqrt{x}}\\)";
 ```
 
+Note, this block is _not_ designed to output Maxima strings in JS format. For example, this block will not convert `x^2` into `x**2`.
+
 ## Include block ##
 
 A new feature in 4.4 is the ability to include content from an URL. The include block allows one to do that. However, it is not a recommended tool for novices and all users choosing to use it should consider what it means for the future maintenance and shareability of your questions. See the specific documentation on [include logic](Inclusions.md).

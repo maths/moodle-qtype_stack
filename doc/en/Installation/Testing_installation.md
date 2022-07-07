@@ -98,7 +98,7 @@ The run the healtcheck script.  If this works, try STACK questions.
 Now we need to back away gently from the above raw confuration, back towards the defaults/production settings.
 
     qtype_stack | castimeout = 10
-    qtype_stack | maximalibraries = `stats, distrib, descriptive, simplex`
+    qtype_stack | maximalibraries = stats, distrib, descriptive, simplex
 
 Not all versions of Maxima have the stats libraries, but if you do have them add them back now.  You can chek whether you have each library individually on the command line by typing `load("stats");` (etc.)  Save these settings and run the healtcheck script.
 

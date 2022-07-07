@@ -23,6 +23,7 @@ use stack_cas_keyval;
 use stack_cas_session2;
 use stack_options;
 use stack_secure_loader;
+use stack_cas_castext2_latex;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -66,7 +67,7 @@ class castext2_test extends qtype_stack_testcase {
         return $result->get_rendered();
     }
 
-    /*
+    /**
      *
      * LaTeX-injection "{@value@}" functional requirements:
      *  1. Must result in LaTeX code representing the value given.
@@ -80,6 +81,8 @@ class castext2_test extends qtype_stack_testcase {
      *     code to inline math delimiters, otherwise no wrapping.
      *  6. When injecting within math-mode wraps result in extra braces.
      *  7. "string" values are outputted as they are.
+     *
+     * @covers \qtype_stack\stack_cas_castext2_latex
      */
     public function test_latex_injection_1() {
         $input = '{@1+2@}, \[{@sqrt(2)@}\]';
@@ -87,6 +90,9 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_latex_injection_2() {
         $input = '{@a@}, {@c:b@}, {@3/9,simp=false@}, {@c@}, {@d@}';
         // Note that last one if we are in global simp:true we just cannot know
@@ -96,6 +102,9 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_latex_injection_3() {
         $input = '{@a@}, {@3/9@}, {@3/9,simp@}, {@a,simp=false@}, {@a,simp@}';
         $preamble = array('a:3/9');
@@ -104,12 +113,20 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_latex_injection_4() {
         $input = ' {@"test string"@} ';
         $output = ' test string ';
         $this->assertEquals($output, $this->evaluate($input));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_castext2_markdownformat
+     * @covers \qtype_stack\castext2_parser_utils::math_paint
+     */
     public function test_latex_injection_mixed_formats_1() {
         // The default format is raw HTML.
         // The actual injection is not visible here as the markdown gets rendered, but
@@ -122,7 +139,7 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input));
     }
 
-    /*
+    /**
      * Value-injection "{#value#}" functional requirements:
      *  1. Must result in Maxima code representing the value given.
      *     Equivalent to calling string() in Maxima.
@@ -130,6 +147,8 @@ class castext2_test extends qtype_stack_testcase {
      *     and outside.
      *  3. Must support statement level overriding of simplification.
      *  4. Must follow global simplification otherwise.
+     *
+     * @covers \qtype_stack\stack_cas_castext2_raw
      */
     public function test_value_injection_1() {
         $input = '{#1+2#}, {#sqrt(2)#}';
@@ -137,6 +156,9 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_raw
+     */
     public function test_value_injection_2() {
         $input = '{#a#}, {#c:b#}, {#3/9,simp=false#}, {#c#}, {#d#}';
         // Note that last one if we are in global simp:true we just cannot know
@@ -146,6 +168,9 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_raw
+     */
     public function test_value_injection_3() {
         $input = '{#a#}, {#3/9#}, {#3/9,simp#}, {#a,simp=false#}, {#a,simp#}';
         $preamble = array('a:3/9');
@@ -156,6 +181,10 @@ class castext2_test extends qtype_stack_testcase {
 
     // STACK-options level requirements 1/3:
     // Tuning LaTeX-injection multiplication sign.
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
     public function test_latex_injection_multiplicationsign_dot() {
         $input = '{@a@}, {@pi*x^2@}';
         $preamble = array('a:x*y*z');
@@ -164,6 +193,10 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
     public function test_latex_injection_multiplicationsign_cross() {
         $input = '{@a@}, {@pi*x^2@}';
         $preamble = array('a:x*y*z');
@@ -172,6 +205,10 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
     public function test_latex_injection_multiplicationsign_none() {
         $input = '{@a@}, {@pi*x^2@}';
         $preamble = array('a:x*y*z');
@@ -182,6 +219,10 @@ class castext2_test extends qtype_stack_testcase {
 
     // STACK-option level requirements 2/3:
     // Tuning LaTeX-injection inverse trigonometric functions.
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
     public function test_latex_injection_inversetrig_acos() {
         $input = '\({@acos(alpha)@}, {@asin(alpha)@}, {@a@}\)';
         $preamble = array('a:asech(alpha)');
@@ -190,6 +231,10 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
     public function test_latex_injection_inversetrig_cos_1() {
         $input = '\({@acos(alpha)@}, {@asin(alpha)@}, {@a@}\)';
         $preamble = array('a:asech(alpha)');
@@ -198,6 +243,10 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
     public function test_latex_injection_inversetrig_arccos() {
         $input = '\({@acos(alpha)@}, {@asin(alpha)@}, {@a@}\)';
         $preamble = array('a:asech(alpha)');
@@ -208,6 +257,10 @@ class castext2_test extends qtype_stack_testcase {
 
     // STACK-option level requirements 3/3:
     // Tuning LaTeX-injection matrix parenthesis.
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
     public function test_latex_injection_matrixparens_brackets() {
         $input = '{@matrix([1,0],[0,1])@}';
         $preamble = array();
@@ -216,6 +269,10 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
     public function test_latex_injection_matrixparens_parens() {
         $input = '{@matrix([1,0],[0,1])@}';
         $preamble = array();
@@ -224,6 +281,10 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
     public function test_latex_injection_matrixparens_braces() {
         $input = '{@matrix([1,0],[0,1])@}';
         $preamble = array();
@@ -232,6 +293,10 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
     public function test_latex_injection_matrixparens_none() {
         $input = '{@matrix([1,0],[0,1])@}';
         $preamble = array();
@@ -240,6 +305,10 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
     public function test_latex_injection_matrixparens_pipe() {
         $input = '{@matrix([1,0],[0,1])@}';
         $preamble = array();
@@ -248,12 +317,14 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
-    /*
+    /**
      * Block-system "define"-block, functional requirements:
      *  1. Allow inline changes to any value.
      *  2. Handle simplification.
      *  3. Single block may redefine same value, needs to respect
      *     declaration order.
+     *
+     * @covers \qtype_stack\stack_cas_castext2_define
      */
     public function test_blocks_define() {
         $input = '{#a#}, [[ define a="a+1" a="a*a" b="3/9" c="3/9,simp"/]] {#a#} {#b#} {#b,simp#} {#c#}';
@@ -263,11 +334,13 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
-    /*
+    /**
      * Block-system "if"-block, functional requirements:
      *  1. Conditional evaluation and display of contents.
      *  2. Else and else if behaviour.
      *  3. Maxima if equivalent conditions.
+     *
+     * @covers \qtype_stack\stack_cas_castext2_if
      */
     public function test_blocks_if_1() {
         $input = '{#a#}, [[ if test="a=x" ]]yes[[ else ]]no[[define a="3"/]][[/if]], [[ if test="a=3"]]maybe[[/ if ]]';
@@ -277,6 +350,9 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_if
+     */
     public function test_blocks_if_2() {
         $input = '{#a#}, [[ if test="a=x" ]]yes[[define a="3"/]][[ else ]]no[[/if]], [[ if test="a=3"]]maybe[[/ if ]]';
         $preamble = array('a:x');
@@ -285,6 +361,9 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_if
+     */
     public function test_blocks_if_3() {
         $input = '{#a#}, [[ if test="a=x" ]]yes[[define a="3"/]][[ else ]]no[[/if]], ' .
             '[[ if test="a=x"]]no[[elif test="a=3"]]maybe[[/ if ]]';
@@ -294,6 +373,9 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_if
+     */
     public function test_blocks_if_4() {
         $input = '{#a#}, [[ if test="a=x" ]]yes[[if test="b=y"]][[define b="x"/]][[/if]][[ else ]]no[[/if]], {#b#}';
         $preamble = array('a:x', 'b:y');
@@ -302,7 +384,7 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
-    /*
+    /**
      * Block-system "foreach"-block, functional requirements:
      *  1. Iterates over elements of a list or a set assigning the values
      *     to the defined variable.
@@ -312,6 +394,8 @@ class castext2_test extends qtype_stack_testcase {
      *     not reasonably maintainable. Applying simplification even when its
      *     off globaly is supportted but not disabling simplification.
      *  4. In the case of sets the ordering is not well defined.
+     *
+     * @covers \qtype_stack\stack_cas_castext2_foreach
      */
     public function test_blocks_foreach_1() {
         $input = '[[ foreach foo="a"]][[ foreach bar="foo"]]{#bar#}, [[/foreach]] - [[/foreach]]';
@@ -321,6 +405,9 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_foreach
+     */
     public function test_blocks_foreach_2() {
         $input = '[[ foreach foo="a"]][[ foreach bar="foo"]]{#bar#}, [[/foreach]] - [[/foreach]]';
         $preamble = array('a:[{1,1+1,1+1+1},{3,2,1}]');
@@ -329,6 +416,9 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_foreach
+     */
     public function test_blocks_foreach_3() {
         $input = '[[ foreach foo="a"]][[ foreach bar="foo,simp"]]{#bar#}, [[/foreach]] - [[/foreach]]';
         $preamble = array('a:[[1,1+1,1+1+1],[1,2,3]]');
@@ -337,6 +427,9 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_foreach
+     */
     public function test_blocks_foreach_4() {
         $input = '[[ foreach foo="a" bar="b"]]{@foo^bar@}, [[/foreach]]';
         $preamble = array('a:[1,2,3,4]', 'b:[x,y,z]');
@@ -345,10 +438,12 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
     }
 
-    /*
+    /**
      * Block-system "comment"-block, functional requirements:
      *  1. Comments out itself and contents.
      *  2. Even if contents are invalid or incomplete.
+     *
+     * @covers \qtype_stack\stack_cas_castext2_comment
      */
     public function test_blocks_comment() {
         $input = '1[[ comment]] [[ foreach bar="foo"]] {#y@} [[/comment]]2';
@@ -356,10 +451,12 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input));
     }
 
-    /*
+    /**
      * Block-system "escape"-block, functional requirements:
      *  1. Escapes the contents so that they will not be processed.
      *  2. Outputs contents as they are.
+     *
+     * @covers \qtype_stack\stack_cas_castext2_escape
      */
     public function test_blocks_escape() {
         $input = '1[[ escape]] [[ foreach bar="foo"]] {#y@} [[/escape]]2';
@@ -367,8 +464,11 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input));
     }
 
-    /*
+    /**
      * Should we condone a space at the end of the block name?
+     *
+     * @covers \qtype_stack\CTP_Parser
+     * @covers \qtype_stack\stack_cas_castext2_escape
      */
     public function test_blocks_escape_space_end() {
         $input = '1[[ escape ]] [[ foreach bar="foo"]] {#y@} [[/escape]]2';
@@ -376,8 +476,11 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input));
     }
 
-    /*
+    /**
      * Should we condone lack of any spaces in the block name?
+     *
+     * @covers \qtype_stack\CTP_Parser
+     * @covers \qtype_stack\stack_cas_castext2_escape
      */
     public function test_blocks_escape_space_none() {
         $input = '1[[escape]] [[ foreach bar="foo"]] {#y@} [[/escape]]2';
@@ -387,6 +490,10 @@ class castext2_test extends qtype_stack_testcase {
 
     // Low level tuning, features that are not strictly CASText:
     // Use of texput().
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_keyval
+     */
     public function test_texput_1() {
         $input = '\({@foo@}\)';
         $preamble = array('texput(foo, "\\\\frac{foo}{bar}")');
@@ -394,6 +501,10 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
     public function test_texput_2() {
         $input = '{@x^2+foo(a,sqrt(b))@}';
         $preamble = array('footex(e):=block([a,b],[a,b]:args(e),sconcat(tex1(a)," \\\\rightarrow ",tex1(b)))',
@@ -403,6 +514,9 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     // Check stackfltfmt for presentation of floating point numbers.
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_stackfltfmt() {
         $input = '{@a@}, {@(stackfltfmt:"~f",a)@}';
         $preamble = array('stackfltfmt:"~e"', 'a:0.000012');
@@ -411,6 +525,9 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     // Check stackintfmt for presentation of integers.
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_stackintfmt() {
         $input = '{@(stackintfmt:"~:r",a)@}, {@(stackintfmt:"~@R",a)@}';
         $preamble = array('a:1998');
@@ -419,6 +536,9 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     // Inline fractions using stack_disp_fractions("i").
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_stack_disp_fractions() {
         $input = '{@(stack_disp_fractions("i"),a/b)@}, {@(stack_disp_fractions("d"),a/b)@}';
         $output = '\({{a}/{b}}\), \({\frac{a}{b}}\)';
@@ -426,6 +546,9 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     // JavaScript string generation.
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_jsstring
+     */
     public function test_jsstring() {
         $input = 'var feedback = [[jsstring]]Something \({@sqrt(2)@}\) {@sqrt(2)@}.[[/jsstring]];';
         $output = 'var feedback = "Something \\\\({\\\\sqrt{2}}\\\\) \\\\({\\\\sqrt{2}}\\\\).";';
@@ -438,6 +561,10 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     // Inline castext.
+    /**
+     * @covers \qtype_stack\stack_cas_keyval
+     * @covers \qtype_stack\stack_cas_castext2_castext
+     */
     public function test_inline_castext() {
         $keyval = 'B:castext("B");sq:castext("{@sqrt(2)@}");';
         // The inline castext compilation currently only happens for keyvals, not for
@@ -458,6 +585,10 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $result->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_keyval
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_inline_castext_normal_injection() {
         $keyval = 'B:castext("B");sq:castext("{@sqrt(2)@}");';
         // The inline castext compilation currently only happens for keyvals, not for
@@ -479,6 +610,9 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     // Inline castext inline castext, not something you see in many places.
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_special_root
+     */
     public function test_inline_castext_inline() {
         $input = 'A [[castext evaluated="castext(\\"B\\")"/]] C, [[castext evaluated="castext(\\"{@sqrt(2)@}\\")"/]]';
         $output = 'A B C, \\({\\sqrt{2}}\\)';
@@ -486,6 +620,9 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     // Test common string population.
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_commonstring
+     */
     public function test_commonsstring() {
         $preamble = array('simp:false', 'a:52+x-x', 'b:"text"', 'c:sqrt(5)', 'simp:true');
         // The string "stackversionerror" just happens to have multiple named parameters so we use it,

@@ -161,3 +161,11 @@ function stack_castext_file_filter(string $castext, array $identifiers): string 
     }
     return $castext;
 }
+
+/*
+ * This function returns the version number of the current Moodle.
+ */
+function stack_determine_moodle_version() {
+    $v = get_config('moodle');
+    return($v->branch);
+}

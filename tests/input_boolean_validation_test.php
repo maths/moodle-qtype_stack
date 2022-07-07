@@ -36,6 +36,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_boolean_input
  */
 class input_boolean_validation_test extends qtype_stack_testcase {
     public function test_validate_student_response_true() {

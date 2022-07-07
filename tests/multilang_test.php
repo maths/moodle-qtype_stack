@@ -31,6 +31,7 @@ require_once(__DIR__ . '/../lang/multilang.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_multilang
  */
 class multilang_test extends qtype_stack_testcase {
 

@@ -32,6 +32,7 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/541_no_unknown_functions.filt
  * Unit tests for {@link stack_ast_filter_541_no_unknown_functions}.
  * @group qtype_stack
  * @group qtype_stack_ast_filters
+ * @covers \ast_filter_541_no_unknown_functions_auto_generated_test
  */
 class parser_rule_541_test extends qtype_stack_testcase {
 

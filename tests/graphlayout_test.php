@@ -30,6 +30,7 @@ require_once(__DIR__ . '/../stack/graphlayout/graph.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_abstract_graph
  */
 class graphlayout_test extends basic_testcase {
 

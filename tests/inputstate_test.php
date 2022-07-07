@@ -32,6 +32,7 @@ require_once(__DIR__ . '/../stack/input/inputbase.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_input_state
  */
 class inputstate_test extends basic_testcase {
 

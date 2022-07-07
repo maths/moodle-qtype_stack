@@ -42,6 +42,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_potentialresponse_tree_lite
  */
 
 class prt_test extends qtype_stack_testcase {

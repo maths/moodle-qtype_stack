@@ -33,6 +33,7 @@ require_once(__DIR__ . '/../stack/options.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_options
  */
 class stack_options_test extends qtype_stack_testcase {
 

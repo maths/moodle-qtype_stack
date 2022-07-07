@@ -39,6 +39,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_textarea_input
  */
 class input_textarea_test extends qtype_stack_testcase {
     public function test_render_blank() {

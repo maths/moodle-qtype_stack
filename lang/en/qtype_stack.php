@@ -40,6 +40,7 @@ $string['debuginfo']         = 'Debug info';
 $string['exceptionmessage']  = '{$a}';
 $string['runtimeerror']      = 'This question generated an unexpected internal error.  Please seek advice, e.g. from a teacher.';
 $string['runtimefielderr']   = 'The field ""{$a->field}"" generated the following error: {$a->err}';
+$string['version']           = 'Version';
 
 // Capability names.
 $string['stack:usediagnostictools'] = 'Use the STACK tools';

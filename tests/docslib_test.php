@@ -30,6 +30,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * @group qtype_stack
+ * @covers \qtype_stack
  */
 class docslib_test extends qtype_stack_testcase {
 

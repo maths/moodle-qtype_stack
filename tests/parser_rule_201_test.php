@@ -31,6 +31,7 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/201_sig_figs_validation.filte
  * Unit tests for {@link 201_sig_figs_validation}.
  * @group qtype_stack
  * @group qtype_stack_ast_filters
+ * @covers \ast_filter_201_sig_figs_validation_auto_generated_test
  */
 class parser_rule_201_test extends qtype_stack_testcase {
 

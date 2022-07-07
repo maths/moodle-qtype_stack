@@ -34,6 +34,7 @@ require_once(__DIR__ . '/../doc/docslib.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_maths_output_maths
  */
 class mathsoutputmaths_test extends advanced_testcase {
 

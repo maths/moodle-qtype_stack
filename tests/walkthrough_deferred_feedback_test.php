@@ -43,6 +43,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * @group qtype_stack
+ * @covers \qtype_stack
  */
 class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_base {
 

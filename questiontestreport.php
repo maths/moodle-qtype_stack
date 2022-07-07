@@ -27,6 +27,7 @@
 
 require_once(__DIR__.'/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/vle_specific.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
@@ -72,9 +73,14 @@ if (empty($question->deployedseeds)) {
     }
 }
 
+if (stack_determine_moodle_version() < 400) {
+    $qurl = question_preview_url($questionid, null, null, null, null, $context);
+} else {
+    $qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
+}
+
 echo html_writer::tag('p', $out . ' ' .
-        $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
-        new pix_icon('t/preview', get_string('preview'))));
+    $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))));
 
 // Display a representation of the question, variables and PRTs for easy reference.
 echo $OUTPUT->heading(stack_string('questiontext'), 3);
@@ -119,21 +125,48 @@ flush();
 // Later we only display inputs relevant to a particular PTR, so we sort out prt input requirements here.
 $inputsbyprt = $question->get_cached('required');
 
-$query = 'SELECT qa.*, qas_last.*
-FROM {question_attempts} qa
-LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
-/* attach another copy of qas to those rows with the most recent timecreated,
-   using method from https://stackoverflow.com/a/28090544 */
-LEFT JOIN {question_attempt_steps} qas_prev
-ON qas_last.questionattemptid = qas_prev.questionattemptid
-AND (qas_last.sequencenumber < qas_prev.sequencenumber
-OR (qas_last.sequencenumber = qas_prev.sequencenumber
-AND qas_last.id < qas_prev.id))
-LEFT JOIN {user} u ON qas_last.userid = u.id
-WHERE
-qas_prev.timecreated IS NULL
-AND qa.questionid = ' . $questionid . '
-ORDER BY u.username, qas_last.timecreated';
+if (stack_determine_moodle_version() < 400) {
+
+    $query = 'SELECT qa.*, qas_last.*
+        FROM {question_attempts} qa
+        LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
+        /* attach another copy of qas to those rows with the most recent timecreated,
+        using method from https://stackoverflow.com/a/28090544 */
+        LEFT JOIN {question_attempt_steps} qas_prev
+        ON qas_last.questionattemptid = qas_prev.questionattemptid
+        AND (qas_last.sequencenumber < qas_prev.sequencenumber
+        OR (qas_last.sequencenumber = qas_prev.sequencenumber
+        AND qas_last.id < qas_prev.id))
+        LEFT JOIN {user} u ON qas_last.userid = u.id
+        WHERE
+        qas_prev.timecreated IS NULL
+        AND qa.questionid = ' . $questionid . '
+        ORDER BY u.username, qas_last.timecreated';
+
+} else {
+    // In moodle 4 we look at all attemps at all versions.
+    // Otherwise an edit, regrade and re-analysis becomes impossible.
+    $query = 'SELECT qa.*, qas_last.*
+    FROM {question_attempts} qa
+    LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
+    /* attach another copy of qas to those rows with the most recent timecreated,
+    using method from https://stackoverflow.com/a/28090544 */
+    LEFT JOIN {question_attempt_steps} qas_prev
+    ON qas_last.questionattemptid = qas_prev.questionattemptid
+    AND (qas_last.sequencenumber < qas_prev.sequencenumber
+    OR (qas_last.sequencenumber = qas_prev.sequencenumber
+    AND qas_last.id < qas_prev.id))
+    LEFT JOIN {user} u ON qas_last.userid = u.id
+    LEFT JOIN {question} q ON q.id = (SELECT qv.questionid FROM {question_versions} qv
+                                  JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
+                                  WHERE qbe.id = (SELECT be.id FROM {question_bank_entries} be
+                                                  JOIN {question_versions} v ON v.questionbankentryid = be.id
+                                                  WHERE v.questionid = ' . $questionid . ')
+                                 )
+    WHERE
+    qas_prev.timecreated IS NULL
+    ORDER BY u.username, qas_last.timecreated';
+}
 
 global $DB;
 

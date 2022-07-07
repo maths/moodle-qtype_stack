@@ -28,6 +28,7 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 /**
  * @group qtype_stack
  * @group qtype_stack_ast_filters
+ * @covers \ast_filter_030_no_trig_space
  */
 
 class ast_filter_030_no_trig_space_auto_generated_test extends qtype_stack_ast_testcase {

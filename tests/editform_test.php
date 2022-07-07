@@ -27,6 +27,7 @@ require_once(__DIR__ . '/../edit_stack_form.php');
 
 /**
  * @group qtype_stack
+ * @covers \qtype_stack_edit_form
  */
 class editform_test extends qtype_stack_edit_form {
 
@@ -53,13 +54,13 @@ class editform_test extends qtype_stack_edit_form {
 
 }
 
-
 /**
  * Unit tests for Stack question editing form.
  *
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
+ * @covers \qtype_stack_edit_form
  */
 class qtype_stack_edit_form_test extends advanced_testcase {
 

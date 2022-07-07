@@ -77,6 +77,9 @@ class castext_test extends qtype_stack_testcase {
         }
     }
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     */
     public function test_basic_castext_instantiation() {
 
         $a1 = array('a:x^2', 'b:(x+1)^2');
@@ -110,6 +113,9 @@ class castext_test extends qtype_stack_testcase {
         }
     }
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     */
     public function test_validation_error_castext_text() {
         $a = array();
         $cs = array();
@@ -134,6 +140,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals($errmsg, $ct->get_errors());
     }
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     */
     public function test_runtime_error_castext_text() {
         $a = array();
         $cs = array();
@@ -156,6 +165,10 @@ class castext_test extends qtype_stack_testcase {
             $ct->get_errors());
     }
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     * @covers \qtype_stack\stack_cas_keyval::get_valid
+     */
     public function test_validation_error_castext_session() {
         $a = array('a:x+1)^2');
         $cs = array();
@@ -181,6 +194,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('', $ct->get_errors());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_session2
+     */
     public function test_runtime_error_castext_session() {
         $a = array('a:1/0');
         $cs = array();
@@ -204,6 +220,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('', $ct->get_errors());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_if
+     */
     public function test_if_block() {
         $a1 = array('a:true', 'b:is(1>2)', 'c:false');
         // From iss309.
@@ -235,6 +254,9 @@ class castext_test extends qtype_stack_testcase {
         }
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_if
+     */
     public function test_if_block_error() {
         // NOTE... These syntax error tests should be removed. All blocks either work or they do not
         // if they do not work you see them not being replaced in the output. The old parser
@@ -265,6 +287,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('', $ct->get_errors());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_if
+     */
     public function test_broken_block_error() {
         $a = array('a:true', 'b:is(1>2)');
         $cs = array();
@@ -280,6 +305,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('', $ct->get_errors());
     }
 
+    /**
+     * @covers \qtype_stack\CTP_Parser
+     */
     public function test_broken_block_error2() {
         $a = array('a:true', 'b:is(1>2)');
         $cs = array();
@@ -296,6 +324,9 @@ class castext_test extends qtype_stack_testcase {
             $ct->get_errors());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_define
+     */
     public function test_define_block() {
         $a1 = array('a:2');
 
@@ -309,6 +340,9 @@ class castext_test extends qtype_stack_testcase {
         }
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_foreach
+     */
     public function test_foreach_block() {
         $a1 = array('a:[1,2,3]', 'b:{4,5,6,7}');
 
@@ -326,6 +360,9 @@ class castext_test extends qtype_stack_testcase {
         }
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_comment
+     */
     public function test_comment_block_define() {
         $a1 = array('a:2');
 
@@ -339,6 +376,12 @@ class castext_test extends qtype_stack_testcase {
         }
     }
 
+    /**
+     * These @@PLUGINFILE@@ tests check that we don't break those
+     * placeholders when we are nto actively trying to evalaute them.
+     *
+     * @covers \qtype_stack\castext2_evaluatable
+     */
     public function test_not_confused_by_pluginfile() {
         $c = 'Here {@x@} is some @@PLUGINFILE@@ {@x + 1@} some input';
         $ct = castext2_evaluatable::make_from_source($c, 'test-case');
@@ -348,6 +391,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('Here \({x}\) is some @@PLUGINFILE@@ \({x+1}\) some input', $ct->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable
+     */
     public function test_not_confused_by_pluginfile_real_example() {
         $realexample = '<p><img style="display: block; margin-left: auto; margin-right: auto;" ' .
                 'src="@@PLUGINFILE@@/inclined-plane.png" alt="" width="164" height="117" /></p>';
@@ -358,6 +404,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals($realexample, $ct->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
+     */
     public function test_get_all_raw_casstrings() {
         $raw = 'Take {@x^2+2*x@} and then {@sin(z^2)@}.';
         $raws = castext2_parser_utils::get_casstrings($raw);
@@ -367,6 +416,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals($val, $kv);
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
+     */
     public function test_get_all_raw_casstrings_if() {
         $raw = 'Take {@x^2+2*x@} and then [[ if test="true"]]{@sin(z^2)@}[[/if]].';
         $raws = castext2_parser_utils::get_casstrings($raw);
@@ -378,6 +430,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals($val, $kv);
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
+     */
     public function test_get_all_raw_casstrings_foreach() {
         $raw = 'Take {@x^2+2*x@} and then[[ foreach t="[1,2,3]"]] {@t@}[[/foreach]].';
         $raws = castext2_parser_utils::get_casstrings($raw);
@@ -396,6 +451,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals($text, $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
+     */
     public function test_get_all_raw_casstrings_empty() {
         $raw = 'Take some text without cas commands.';
         $raws = castext2_parser_utils::get_casstrings($raw);
@@ -405,6 +463,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals($val, $kv);
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_session2::get_keyval_representation
+     */
     public function test_get_all_raw_casstrings_session() {
 
         $sa = array('p:diff(sans,x)', 'q = int(tans,x)');
@@ -424,6 +485,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals($val, $kv);
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_redefine_variables() {
         // Notice this means that within a session the value of n has to be returned at every stage....
         $at1 = castext2_evaluatable::make_from_source(
@@ -435,6 +499,9 @@ class castext_test extends qtype_stack_testcase {
                 $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_maths::process_display_castext
+     */
     public function test_fact_sheets() {
         $cs2 = new stack_cas_session2(array(), null, 0);
         $at1 = castext2_evaluatable::make_from_source("[[facts:calc_diff_linearity_rule]]", 'test-case');
@@ -446,6 +513,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertStringContainsString(stack_string('calc_diff_linearity_rule_fact'), $output);
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_assignmatrixelements() {
         // Assign a value to matrix entries.
         $cs = array('A:matrix([1,2],[1,1])', 'A[1,2]:3');
@@ -462,6 +532,10 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\({\left[\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \end{array}\right]}\)', $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
     public function test_assignmatrixelements_p1() {
         // Assign a value to matrix entries.
         $cs = array('A:matrix([1,2],[1,1])', 'A[1,2]:3');
@@ -480,6 +554,10 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\({\left(\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \end{array}\right)}\)', $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
     public function test_assignmatrixelements_p2() {
         // Assign a value to matrix entries.
         $cs = array('A:matrix([1,2],[1,1])', 'A[1,2]:3');
@@ -498,6 +576,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\({\begin{array}{cc} 1 & 3 \\\\ 1 & 1 \end{array}}\)', $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_plot() {
         $a2 = array('p:x^3');
         $s2 = array();
@@ -520,6 +601,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertMatchesRegularExpression($msg, $rendered);
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_plot_alttext() {
 
         $a2 = array('p:sin(x)');
@@ -539,6 +623,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertMatchesRegularExpression($msg, $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_plot_alttext_html() {
         $s2 = array();
         $cs2 = new stack_cas_session2($s2, null, 0);
@@ -551,6 +638,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertMatchesRegularExpression($msg, $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_plot_alttext_error() {
 
         $a2 = array('p:sin(x)');
@@ -571,6 +661,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertMatchesRegularExpression($msg, $cs2->get_errors());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_plot_small() {
 
         $a2 = array('p:sin(x)');
@@ -588,6 +681,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals(57, strpos($at1->get_rendered(), "stackplot-"));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_plot_nottags() {
 
         $a2 = array('p:sin(x)');
@@ -606,6 +702,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertDoesNotMatchRegularExpression($msg, $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_plot_option_error() {
 
         $cs2 = new stack_cas_session2(array(), null, 0);
@@ -620,12 +719,18 @@ class castext_test extends qtype_stack_testcase {
         $this->assertMatchesRegularExpression($msg, $at1->get_errors());
     }
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     */
     public function test_currency_1() {
 
         $at1 = castext2_evaluatable::make_from_source('This is system cost \$100,000 to create.', 'test-case');
         $this->assertTrue($at1->get_valid());
     }
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     */
     public function test_forbidden_words() {
 
         $at1 = castext2_evaluatable::make_from_source('This is system cost {@system("rm /tmp/test")@} to create.',
@@ -634,6 +739,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('Forbidden function: <span class="stacksyntaxexample">system</span>.', $at1->get_errors());
     }
 
+    /**
+     * @covers \qtype_stack\castext2_parser_utils::math_paint
+     */
     public function test_mathdelimiters1() {
         $a2 = array('a:2');
         $s2 = array();
@@ -650,6 +758,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\begin{align*} x & = {2}+1 \ & = {3} \end{align*}', $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\castext2_parser_utils::math_paint
+     */
     public function test_mathdelimiters2() {
         $a2 = array('a:x^2/(1+x^2)^3', 'p:diff(a,x)');
         $s2 = array();
@@ -669,6 +780,9 @@ class castext_test extends qtype_stack_testcase {
                 $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_disp_decimalplaces() {
         // The function dispdp only holds the number of decimal places to display.  It does not do rounding.
         // Use dispsf for rounding.
@@ -687,6 +801,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\({2.72}\), \({4.000}\), \({4.000}\)', $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_disp_decimalplaces2() {
         $a2 = array('a:float(%e)', 'b:-3.99999');
         $s2 = array();
@@ -703,6 +820,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\({3\cdot x^2}\), \({-4.000}\), \({-4.000}\)', $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_disp_decimalplaces_error() {
         $a2 = array('a:float(%e)', 'b:-3.99999');
         $s2 = array();
@@ -720,6 +840,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals($err, $at1->get_errors(false));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_disp_mult_blank() {
         $a2 = array('make_multsgn("blank")', 'b:x*y');
         $s2 = array();
@@ -737,6 +860,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\({x\, y}\)', $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_disp_mult_dot() {
         $a2 = array('make_multsgn("dot")', 'b:x*y');
         $s2 = array();
@@ -754,6 +880,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\({x\cdot y}\)', $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_disp_mult_cross() {
         $a2 = array('make_multsgn("cross")', 'b:x*y');
         $s2 = array();
@@ -771,6 +900,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\({x\times y}\)', $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_disp_mult_switch() {
         $a2 = array('make_multsgn("dot")');
         $s2 = array();
@@ -790,6 +922,9 @@ class castext_test extends qtype_stack_testcase {
                 $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_disp_equiv_natural_domain() {
         $a2 = array('ta:[1/(x-1)+1/(x+1),2*x/(x^2-1)]');
         $s2 = array();
@@ -818,6 +953,9 @@ class castext_test extends qtype_stack_testcase {
             $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_disp_ode1() {
         $at1 = new stack_cas_keyval("p1:'diff(y,x,2)+2*y = 0;p2:ev('diff(y,x,2),simp)+2*ev('diff(y,x,2,z,3),simp) = 0;",
                 null, 123);
@@ -836,6 +974,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_disp_ode2() {
         $vars = "derivabbrev:true;p1:'diff(y,x,2)+2*y = 0;p2:ev('diff(y,x,2),simp)+2*ev('diff(y,x,2,z,3),simp) = 0;";
         $at1 = new stack_cas_keyval($vars, null, 123);
@@ -852,6 +993,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_disp_int() {
         $vars = "foo:'int(f(x),x)";
         $at1 = new stack_cas_keyval($vars, null, 123);
@@ -868,6 +1012,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_strings_in_castext() {
         $vars = "st1:[\"\;\sin(x^2)\",\"\;\cos(x^2)\"]\n/* And a comment: with LaTeX \;\sin(x) */
         \n a:3;";
@@ -884,6 +1031,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\[{3}\]', $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_strings_in_castext_escaped() {
         $vars = 'st:"This is a string with escaped \" strings...."';
         $at1 = new stack_cas_keyval($vars, null, 123);
@@ -899,6 +1049,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_strings_only() {
         $s = '{@"This is a string"@} whereas this is empty |{@""@}|. Not quite empty |{@" "@}|.';
 
@@ -912,6 +1065,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_strings_only_latex() {
         // Remember the quotes below are escaped!
         $s = '{@"This is a string with LaTeX in it \\\\(\\\\pi\\\\)."@}';
@@ -926,6 +1082,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_strings_embeded() {
         $s = '{@"This is a string"+x^2@}.';
 
@@ -939,6 +1098,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_numerical_display_float_default() {
         // The number 0.000001 used to be tested, but it was giving weird results.
         // On some versions of Maxima, including the latest, it comes back as
@@ -956,6 +1118,9 @@ class castext_test extends qtype_stack_testcase {
             $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_numerical_display_float_decimal() {
         $st = 'Decimal numbers {@0.1@}, {@0.01@}, {@0.001@}, {@0.0001@}, {@0.00001@}, {@0.000001@}.';
 
@@ -976,6 +1141,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_numerical_display_float_scientific() {
         // The number 0.000001 is handled below, so we can skip on old Maxima where it fails.
         $st = 'Decimal numbers {@0.1@}, {@0.01@}, {@0.001@}, {@0.0001@}, {@0.00001@}.';
@@ -997,6 +1165,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_numerical_display_float_scientific_small() {
         // On old Maxima, you get back \(9.999999999999999e-7\).
         $this->skip_if_old_maxima('5.32.1');
@@ -1020,6 +1191,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_numerical_display_1() {
         $s = 'The decimal number {@n:73@} is written in base \(2\) as {@(stackintfmt:"~2r",n)@}, in base \(7\) ' .
             'as {@(stackintfmt:"~7r",n)@}, in scientific notation as {@(stackintfmt:"~e",n)@} ' .
@@ -1036,6 +1210,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_numerical_display_binary() {
         $st = 'The number {@73@} is written in base \(2\).';
 
@@ -1057,6 +1234,9 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_numerical_display_ampersand_roman() {
         // This test makes sure the castext parser to allows @ within strings within the castext.
         $st = 'The number {@(stackintfmt:"~@r",14)@} is written in Roman numerals.';
@@ -1074,6 +1254,9 @@ class castext_test extends qtype_stack_testcase {
             $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_numerical_display_roman() {
         $st = 'The number {@14@} is written in Roman numerals.';
 
@@ -1095,6 +1278,9 @@ class castext_test extends qtype_stack_testcase {
             $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_inline_fractions() {
         $s = '{@(stack_disp_fractions("i"), 1/x)@} {@(stack_disp_fractions("d"), 1/x)@} {@(stack_disp_fractions("i"), 1/x)@}';
 
@@ -1107,6 +1293,9 @@ class castext_test extends qtype_stack_testcase {
                 '\({{1}/{x}}\) \({\frac{1}{x}}\) \({{1}/{x}}\)');
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_inline_fractions_all() {
         $st = '{@1/x@}, {@1/x^2@}, {@1/(a+x)@}, {@1/(2*a)@}, {@1/sin(x+y)@}.';
 
@@ -1126,6 +1315,9 @@ class castext_test extends qtype_stack_testcase {
               . ' \({{1}/{\sin \left( y+x \right)}}\).', $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_disp_greek() {
         $a2 = array('a:Delta', 'b:sin(Delta^2)', 'c:delta', 't:theta');
         $s2 = array();
@@ -1146,6 +1338,9 @@ class castext_test extends qtype_stack_testcase {
                 '\({\delta}\), \({\theta}\)', $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_subscripts() {
         $a2 = array('a:texsub(v, 2*alpha)', 'b:texsub(v, texsub(m, n))');
         $s2 = array();
@@ -1167,6 +1362,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals($expected, $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_maxima_arrays() {
         $a2 = array('p1:a[2]', 'p2:a[n+1]', 'p3:a[b_c]');
         $s2 = array();
@@ -1189,6 +1387,10 @@ class castext_test extends qtype_stack_testcase {
             $cs2->get_by_key('p2')->get_value());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_ast_container
+     */
     public function test_length() {
         $a2 = array('f(x):=length(x)', 'b:[1,2,3]', 'c:f(b)');
         $s2 = array();
@@ -1207,6 +1409,10 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\({3}\)', $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_ast_container
+     */
     public function test_lambda() {
         $a2 = array('sfc: lambda([x,n],significantfigures(x,n))',
             'n:[3.1234,1]', 'm:apply(sfc,n)');
@@ -1229,6 +1435,10 @@ class castext_test extends qtype_stack_testcase {
             $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_ast_container
+     */
     public function test_apply() {
         $a2 = array('p1:apply("+",[x,y,z]);');
         $s2 = array();
@@ -1250,6 +1460,10 @@ class castext_test extends qtype_stack_testcase {
             $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_ast_container
+     */
     public function test_stackintfmt() {
         // Note, we have set up one pattern as CAS strings because we cannot have @ symbols in CAStext at this point.
         // This will be fixed in castext2 (stateful).
@@ -1287,6 +1501,10 @@ class castext_test extends qtype_stack_testcase {
         $this->assert_equals_ignore_spaces_and_e($expected, $actual);
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_ast_container
+     */
     public function test_stack_disp_comma_separate() {
         $st = '{@stack_disp_comma_separate([a,b,c])@} and {#stack_disp_comma_separate([a,b,c])#}.';
 
@@ -1301,6 +1519,9 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('a, b, c and "a, b, c".', $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_jsxgraph
+     */
     public function test_stack_jsxgraph_statestore() {
         $st = '[[jsxgraph input-ref-stateStore="stateRef"]]' .
               'var board = JXG.JSXGraph.initBoard(divid, {axis: true, showCopyright: false});' .
@@ -1313,6 +1534,10 @@ class castext_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_ast_container
+     */
     public function test_stack_var_makelist() {
         $a2 = array('vars0:stack_var_makelist(k, 5)',
             'vars1:rest(stack_var_makelist(k, 6))');
@@ -1334,6 +1559,10 @@ class castext_test extends qtype_stack_testcase {
             $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_ast_container
+     */
     public function test_stack_simp_false_true() {
         $a2 = array('simp:false',
             'p1:1+1',
@@ -1357,6 +1586,10 @@ class castext_test extends qtype_stack_testcase {
             $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_ast_container
+     */
     public function test_stack_simp_false_true_false() {
         // In STACK v<4.3 authors often control simp within a session.
         $a2 = array('simp:false',
@@ -1382,6 +1615,10 @@ class castext_test extends qtype_stack_testcase {
             $at1->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_ast_container
+     */
     public function test_stack_beta_function_arg() {
         $a2 = array('n:1932;',
                 'f(alfa):=block(x:ifactors(alfa), y:makelist(0,length(x)), ' .
@@ -1406,7 +1643,10 @@ class castext_test extends qtype_stack_testcase {
             $at1->get_rendered());
     }
 
-
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
     public function test_orderless() {
         // The unorder() function is not supported due to the way STACK interacts with Maxima.
         $vars = "orderless(b);\np1:a+b+c;";
@@ -1434,6 +1674,10 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\[{a+b+c}\]', $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
     public function test_display_complex_numbers() {
         // Typically with simp:true this does not display as a+bi.
         $vars = "p1:a+b*%i;";
@@ -1449,6 +1693,10 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\[{\mathrm{i}\cdot b+a}\]', $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
     public function test_display_logic() {
         $vars = 'make_logic("lang");';
         $at1 = new stack_cas_keyval($vars, null, 123);
@@ -1496,6 +1744,10 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
     public function test_display_tables() {
         $vars = 'T0:table([x,x^3],[-1,-1],[0,0],[1,1],[2,8],[3,27]);';
         $at1 = new stack_cas_keyval($vars, null, 123);
@@ -1559,6 +1811,10 @@ class castext_test extends qtype_stack_testcase {
                 $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
     public function test_display_equation_match_brackets() {
         $vars = "p1:x+1;\np2:expand(p1^3);";
         $at1 = new stack_cas_keyval($vars, null, 123);
@@ -1573,6 +1829,10 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \left({x+1}\right)^3 = {x^3+3\cdot x^2+3\cdot x+1}.\]', $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
     public function test_display_apply() {
         $vars = "ans1:transpose(matrix([1,1,0,0])); ans2:transpose(matrix([0,1,1,0])); ans3:transpose(matrix([0,0,1,1])); " .
             "ans4:transpose(matrix([1,0,1,1])); /* The standard basis for R^4 */ " .

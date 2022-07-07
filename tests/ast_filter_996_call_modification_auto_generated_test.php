@@ -28,291 +28,1076 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 /**
  * @group qtype_stack
  * @group qtype_stack_ast_filters
- * @covers \ast_filter_000_099_common_core
+ * @covers \ast_filter_996_call_modification
  */
 
-class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast_testcase {
+class ast_filter_996_call_modification_auto_generated_test extends qtype_stack_ast_testcase {
 
     public function test_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('996_call_modification');
+
+        $this->expect('"+"(a,b)',
+                      '(%_C("+"),"+"(a,b))',
+                      array(),
+                      true, false);
+
+        $this->expect('(-b+-sqrt(b^2))/(2*a)',
+                      '(-b+-(%_C(sqrt),sqrt(b^2)))/(2*a)',
+                      array(),
+                      true, false);
 
         $this->expect('(x+2)(x+3)',
-                      '(x+2)*(x+3)',
-                      array('missing_stars'),
+                      '(%_C((x+2)),(x+2)(x+3))',
+                      array(),
                       true, false);
 
         $this->expect('-(1/512) + i(sqrt(3)/512)',
-                      '-(1/512)+i*(sqrt(3)/512)',
-                      array('missing_stars'),
+                      '-(1/512)+(%_C(i),i((%_C(sqrt),sqrt(3))/512))',
+                      array(),
                       true, false);
 
-        $this->expect('0..1',
-                      '0. . 1',
-                      array('spuriousop'),
-                      false, true);
+        $this->expect('-3x(1+x)',
+                      '-3*(%_C(x),x(1+x))',
+                      array(),
+                      true, false);
 
-        $this->expect('0.1..1.2',
-                      '0.1 . .1 . 2',
-                      array('spuriousop'),
-                      false, true);
+        $this->expect('-b(5-b)',
+                      '(%_C(b),-b(5-b))',
+                      array(),
+                      true, false);
 
-        $this->expect('0.1.1.2',
-                      '0.1 . 1.2',
-                      array('MatrixMultWithFloat'),
-                      false, true);
+        $this->expect('-x(1+x)',
+                      '(%_C(x),-x(1+x))',
+                      array(),
+                      true, false);
 
-        $this->expect('1<=x<y^2',
-                      '1 <= x < y^2',
-                      array('chained_inequalities'),
-                      false, true);
+        $this->expect('1-x(1+x)',
+                      '1-(%_C(x),x(1+x))',
+                      array(),
+                      true, false);
 
-        $this->expect('1<x<3',
-                      '1 < x < 3',
-                      array('chained_inequalities'),
-                      false, true);
+        $this->expect('1/sin(+x)',
+                      '1/(%_C(sin),sin(+x))',
+                      array(),
+                      true, false);
 
         $this->expect('2+log_x(1/(x+b))*x^2',
-                      '2+lg(1/(x+b),x)*x^2',
-                      array('logsubs'),
+                      '2+(%_C(log_x),log_x(1/(x+b)))*x^2',
+                      array(),
                       true, false);
 
-        $this->expect('[1<x,1<y<3]',
-                      '[1 < x,1 < y < 3]',
-                      array('chained_inequalities'),
-                      false, true);
+        $this->expect('3b+5/a(x)',
+                      '3*b+5/(%_C(a),a(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('7x(2+1)',
+                      '7*(%_C(x),x(2+1))',
+                      array(),
+                      true, false);
+
+        $this->expect('Bgcd(3,2)',
+                      '(%_C(Bgcd),Bgcd(3,2))',
+                      array(),
+                      true, false);
+
+        $this->expect('In(x)',
+                      '(%_C(In),In(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('Sin(x)',
+                      '(%_C(Sin),Sin(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('a(x)',
+                      '(%_C(a),a(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('a/(a(x+1)+2)',
+                      'a/((%_C(a),a(x+1))+2)',
+                      array(),
+                      true, false);
+
+        $this->expect('abs(13)',
+                      '(%_C(abs),abs(13))',
+                      array(),
+                      true, false);
+
+        $this->expect('abs(x)',
+                      '(%_C(abs),abs(x))',
+                      array(),
+                      true, false);
 
         $this->expect('arcsin(x)',
-                      'asin(x)',
-                      array('triginv'),
+                      '(%_C(arcsin),arcsin(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('asin(x)',
+                      '(%_C(asin),asin(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('asinh(x)',
+                      '(%_C(asinh),asinh(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('b(b+1)',
+                      '(%_C(b),b(b+1))',
+                      array(),
+                      true, false);
+
+        $this->expect('b/a(x)',
+                      'b/(%_C(a),a(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('bsin(t)',
+                      '(%_C(bsin),bsin(t))',
+                      array(),
+                      true, false);
+
+        $this->expect('ceiling(x)',
+                      '(%_C(ceiling),ceiling(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('comb(x,y)',
+                      '(%_C(comb),comb(x,y))',
+                      array(),
                       true, false);
 
         $this->expect('cos(2x)(x+1)',
-                      'cos(2*x)*(x+1)',
-                      array('missing_stars'),
+                      '(%_C(cos),%_C(cos(2*x)),cos(2*x)(x+1))',
+                      array(),
                       true, false);
 
-        $this->expect('cos^2(x)',
-                      'cos^2*(x)',
-                      array('trigexp'),
-                      false, true);
+        $this->expect('cos(x)',
+                      '(%_C(cos),cos(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('cosec(x)',
+                      '(%_C(cosec),cosec(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('cosech(x)',
+                      '(%_C(cosech),cosech(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('cosh(x)',
+                      '(%_C(cosh),cosh(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('cot(x)',
+                      '(%_C(cot),cot(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('coth(x)',
+                      '(%_C(coth),coth(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))',
+                      '(%_C(csc),csc(6*x))^2*(7*(%_C(sin),sin(6*x))*(%_C(cos),cos(7*x))-6*(%_C(cos),cos(6*x))*(%_C(sin),sin(7*x)))',
+                      array(),
+                      true, false);
+
+        $this->expect('csc(x)',
+                      '(%_C(csc),csc(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('diff(sin(x))',
+                      '(%_C(diff),diff((%_C(sin),sin(x))))',
+                      array(),
+                      true, false);
+
+        $this->expect('diff(sin(x),x)',
+                      '(%_C(diff),diff((%_C(sin),sin(x)),x))',
+                      array(),
+                      true, false);
+
+        $this->expect('diff(x,y)',
+                      '(%_C(diff),diff(x,y))',
+                      array(),
+                      true, false);
+
+        $this->expect('dosomething(x,y,z)',
+                      '(%_C(dosomething),dosomething(x,y,z))',
+                      array(),
+                      true, false);
+
+        $this->expect('exp(x)',
+                      '(%_C(exp),exp(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('f(x)',
+                      '(%_C(f),f(x))',
+                      array(),
+                      true, false);
 
         $this->expect('f(x)(2)',
-                      'f(x)*(2)',
-                      array('missing_stars'),
+                      '(%_C(f),%_C(f(x)),f(x)(2))',
+                      array(),
+                      true, false);
+
+        $this->expect('fact(13)',
+                      '(%_C(fact),fact(13))',
+                      array(),
+                      true, false);
+
+        $this->expect('floor(x)',
+                      '(%_C(floor),floor(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('gcd(x,y)',
+                      '(%_C(gcd),gcd(x,y))',
+                      array(),
+                      true, false);
+
+        $this->expect('gcf(x,y)',
+                      '(%_C(gcf),gcf(x,y))',
+                      array(),
                       true, false);
 
         $this->expect('i(1+i)',
-                      'i*(1+i)',
-                      array('missing_stars'),
+                      '(%_C(i),i(1+i))',
+                      array(),
                       true, false);
 
         $this->expect('i(4)',
-                      'i*(4)',
-                      array('missing_stars'),
+                      '(%_C(i),i(4))',
+                      array(),
+                      true, false);
+
+        $this->expect('int(sin(x))',
+                      '(%_C(int),int((%_C(sin),sin(x))))',
+                      array(),
+                      true, false);
+
+        $this->expect('int(x,y)',
+                      '(%_C(int),int(x,y))',
+                      array(),
+                      true, false);
+
+        $this->expect('len(x)',
+                      '(%_C(len),len(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('length(x)',
+                      '(%_C(length),length(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('lg(10^3)',
+                      '(%_C(lg),lg(10^3))',
+                      array(),
+                      true, false);
+
+        $this->expect('lg(x)',
+                      '(%_C(lg),lg(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('lg(x,a)',
+                      '(%_C(lg),lg(x,a))',
+                      array(),
+                      true, false);
+
+        $this->expect('limit(y,x,3)',
+                      '(%_C(limit),limit(y,x,3))',
+                      array(),
+                      true, false);
+
+        $this->expect('ln(x)',
+                      '(%_C(ln),ln(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('log(2x)/x+1/2',
+                      '(%_C(log),log(2*x))/x+1/2',
+                      array(),
+                      true, false);
+
+        $this->expect('log(x)',
+                      '(%_C(log),log(x))',
+                      array(),
                       true, false);
 
         $this->expect('log10(x)',
-                      'lg(x,10)',
-                      array('logsubs'),
+                      '(%_C(log10),log10(x))',
+                      array(),
                       true, false);
 
         $this->expect('log_10(x)',
-                      'lg(x,10)',
-                      array('logsubs'),
+                      '(%_C(log_10),log_10(x))',
+                      array(),
                       true, false);
 
         $this->expect('log_2(a)',
-                      'lg(a,2)',
-                      array('logsubs'),
+                      '(%_C(log_2),log_2(a))',
+                      array(),
                       true, false);
 
         $this->expect('log_a(b)*log_b(c)',
-                      'lg(b,a)*lg(c,b)',
-                      array('logsubs'),
+                      '(%_C(log_a),log_a(b))*(%_C(log_b),log_b(c))',
+                      array(),
                       true, false);
 
         $this->expect('log_x(1/(x+b))',
-                      'lg(1/(x+b),x)',
-                      array('logsubs'),
+                      '(%_C(log_x),log_x(1/(x+b)))',
+                      array(),
                       true, false);
 
         $this->expect('log_x:log_x(a)',
-                      'log_x:lg(a,x)',
-                      array('logsubs'),
+                      'log_x:(%_C(log_x),log_x(a))',
+                      array(),
                       true, false);
 
-        $this->expect('sin x',
-                      'sin*x',
-                      array('trigspace'),
-                      false, true);
+        $this->expect('matrix([a,b],[c,d])',
+                      '(%_C(matrix),matrix([a,b],[c,d]))',
+                      array(),
+                      true, false);
 
-        $this->expect('sin[2*x]',
-                      'sin[2*x]',
-                      array('trigparens'),
-                      false, true);
+        $this->expect('mod(x,y)',
+                      '(%_C(mod),mod(x,y))',
+                      array(),
+                      true, false);
 
-        $this->expect('sin^-1(x)',
-                      'sin^-1*(x)',
-                      array('trigexp'),
-                      false, true);
+        $this->expect('partialdiff(x,y,1)',
+                      '(%_C(partialdiff),partialdiff(x,y,1))',
+                      array(),
+                      true, false);
+
+        $this->expect('perm(x,y)',
+                      '(%_C(perm),perm(x,y))',
+                      array(),
+                      true, false);
+
+        $this->expect('plot(x^2,[x,-1,1])',
+                      '(%_C(plot),plot(x^2,[x,-1,1]))',
+                      array(),
+                      true, false);
+
+        $this->expect('plot2d(x^2,[x,-1,1])',
+                      '(%_C(plot2d),plot2d(x^2,[x,-1,1]))',
+                      array(),
+                      true, false);
+
+        $this->expect('product(cos(k*x),k,1,3)',
+                      '(%_C(product),product((%_C(cos),cos(k*x)),k,1,3))',
+                      array(),
+                      true, false);
+
+        $this->expect('root(2,-3)',
+                      '(%_C(root),root(2,-3))',
+                      array(),
+                      true, false);
+
+        $this->expect('root(x)',
+                      '(%_C(root),root(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('root(x,3)',
+                      '(%_C(root),root(x,3))',
+                      array(),
+                      true, false);
+
+        $this->expect('sec(x)',
+                      '(%_C(sec),sec(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sech(x)',
+                      '(%_C(sech),sech(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('set(x, y, z)',
+                      '(%_C(set),set(x,y,z))',
+                      array(),
+                      true, false);
+
+        $this->expect('sgn(x)',
+                      '(%_C(sgn),sgn(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sign(x)',
+                      '(%_C(sign),sign(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sim(x)',
+                      '(%_C(sim),sim(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sin(x)',
+                      '(%_C(sin),sin(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sinh(x)',
+                      '(%_C(sinh),sinh(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sqr(x)',
+                      '(%_C(sqr),sqr(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sqrt(+x)',
+                      '(%_C(sqrt),sqrt(+x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sqrt(x)',
+                      '(%_C(sqrt),sqrt(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('stackvector(a)',
+                      '(%_C(stackvector),stackvector(a))',
+                      array(),
+                      true, false);
+
+        $this->expect('sum(k^n,n,0,3)',
+                      '(%_C(sum),sum(k^n,n,0,3))',
+                      array(),
+                      true, false);
+
+        $this->expect('switch(x,a,y,b,c)',
+                      '(%_C(switch),switch(x,a,y,b,c))',
+                      array(),
+                      true, false);
+
+        $this->expect('tan(x)',
+                      '(%_C(tan),tan(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('tanh(x)',
+                      '(%_C(tanh),tanh(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('x()',
+                      '(%_C(x),x())',
+                      array(),
+                      true, false);
+
+        $this->expect('x(2+1)',
+                      '(%_C(x),x(2+1))',
+                      array(),
+                      true, false);
+
+        $this->expect('x(sin(t)+1)',
+                      '(%_C(x),x((%_C(sin),sin(t))+1))',
+                      array(),
+                      true, false);
+
+        $this->expect('x(t+1)',
+                      '(%_C(x),x(t+1))',
+                      array(),
+                      true, false);
+
+        $this->expect('x(x+1)',
+                      '(%_C(x),x(x+1))',
+                      array(),
+                      true, false);
+
+        $this->expect('x=+-sqrt(2)',
+                      'x = (%_C(sqrt),+-sqrt(2))',
+                      array(),
+                      true, false);
+
+        $this->expect('x>1 or (x<1 and t<sin(x))',
+                      'x > 1 or (x < 1 and t < (%_C(sin),sin(x)))',
+                      array(),
+                      true, false);
+
+        $this->expect('x^f(x)',
+                      'x^(%_C(f),f(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('xsin(1)',
+                      '(%_C(xsin),xsin(1))',
+                      array(),
+                      true, false);
+
+        $this->expect('ycos(2)',
+                      '(%_C(ycos),ycos(2))',
+                      array(),
+                      true, false);
+
+        $this->expect('|x|',
+                      '(%_C(abs),abs(x))',
+                      array(),
+                      true, false);
 
         $this->expect('rand(["+","-"])(x,y)',
-                      'rand(["+","-"])*(x,y)',
-                      array('missing_stars'),
+                      '(%_C(rand),%_C(rand(["+","-"])),rand(["+","-"])(x,y))',
+                      array(),
                       true, false);
 
         $this->expect('rand(["sin","cos","system"])(x)',
-                      'rand(["sin","cos","system"])*(x)',
-                      array('missing_stars'),
+                      '(%_C(rand),%_C(rand(["sin","cos","system"])),rand(["sin","cos","system"])(x))',
+                      array(),
                       true, false);
 
     }
 
     public function test_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('996_call_modification');
+
+        $this->expect('"+"(a,b)',
+                      '(%_C("+"),"+"(a,b))',
+                      array(),
+                      true, false);
+
+        $this->expect('(-b+-sqrt(b^2))/(2*a)',
+                      '(-b+-(%_C(sqrt),sqrt(b^2)))/(2*a)',
+                      array(),
+                      true, false);
 
         $this->expect('(x+2)(x+3)',
-                      '(x+2)*(x+3)',
-                      array('missing_stars'),
+                      '(%_C((x+2)),(x+2)(x+3))',
+                      array(),
                       true, false);
 
         $this->expect('-(1/512) + i(sqrt(3)/512)',
-                      '-(1/512)+i*(sqrt(3)/512)',
-                      array('missing_stars'),
+                      '-(1/512)+(%_C(i),i((%_C(sqrt),sqrt(3))/512))',
+                      array(),
                       true, false);
 
-        $this->expect('0..1',
-                      '0. . 1',
-                      array('spuriousop'),
-                      false, true);
+        $this->expect('-3x(1+x)',
+                      '-3*(%_C(x),x(1+x))',
+                      array(),
+                      true, false);
 
-        $this->expect('0.1..1.2',
-                      '0.1 . .1 . 2',
-                      array('spuriousop'),
-                      false, true);
+        $this->expect('-b(5-b)',
+                      '(%_C(b),-b(5-b))',
+                      array(),
+                      true, false);
 
-        $this->expect('0.1.1.2',
-                      '0.1 . 1.2',
-                      array('MatrixMultWithFloat'),
-                      false, true);
+        $this->expect('-x(1+x)',
+                      '(%_C(x),-x(1+x))',
+                      array(),
+                      true, false);
 
-        $this->expect('1<=x<y^2',
-                      '1 <= x < y^2',
-                      array('chained_inequalities'),
-                      false, true);
+        $this->expect('1-x(1+x)',
+                      '1-(%_C(x),x(1+x))',
+                      array(),
+                      true, false);
 
-        $this->expect('1<x<3',
-                      '1 < x < 3',
-                      array('chained_inequalities'),
-                      false, true);
+        $this->expect('1/sin(+x)',
+                      '1/(%_C(sin),sin(+x))',
+                      array(),
+                      true, false);
 
         $this->expect('2+log_x(1/(x+b))*x^2',
-                      '2+lg(1/(x+b),x)*x^2',
-                      array('logsubs'),
+                      '2+(%_C(log_x),log_x(1/(x+b)))*x^2',
+                      array(),
                       true, false);
 
-        $this->expect('[1<x,1<y<3]',
-                      '[1 < x,1 < y < 3]',
-                      array('chained_inequalities'),
-                      false, true);
+        $this->expect('3b+5/a(x)',
+                      '3*b+5/(%_C(a),a(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('7x(2+1)',
+                      '7*(%_C(x),x(2+1))',
+                      array(),
+                      true, false);
+
+        $this->expect('Bgcd(3,2)',
+                      '(%_C(Bgcd),Bgcd(3,2))',
+                      array(),
+                      true, false);
+
+        $this->expect('In(x)',
+                      '(%_C(In),In(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('Sin(x)',
+                      '(%_C(Sin),Sin(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('a(x)',
+                      '(%_C(a),a(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('a/(a(x+1)+2)',
+                      'a/((%_C(a),a(x+1))+2)',
+                      array(),
+                      true, false);
+
+        $this->expect('abs(13)',
+                      '(%_C(abs),abs(13))',
+                      array(),
+                      true, false);
+
+        $this->expect('abs(x)',
+                      '(%_C(abs),abs(x))',
+                      array(),
+                      true, false);
 
         $this->expect('arcsin(x)',
-                      'asin(x)',
-                      array('triginv'),
+                      '(%_C(arcsin),arcsin(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('asin(x)',
+                      '(%_C(asin),asin(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('asinh(x)',
+                      '(%_C(asinh),asinh(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('b(b+1)',
+                      '(%_C(b),b(b+1))',
+                      array(),
+                      true, false);
+
+        $this->expect('b/a(x)',
+                      'b/(%_C(a),a(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('bsin(t)',
+                      '(%_C(bsin),bsin(t))',
+                      array(),
+                      true, false);
+
+        $this->expect('ceiling(x)',
+                      '(%_C(ceiling),ceiling(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('comb(x,y)',
+                      '(%_C(comb),comb(x,y))',
+                      array(),
                       true, false);
 
         $this->expect('cos(2x)(x+1)',
-                      'cos(2*x)*(x+1)',
-                      array('missing_stars'),
+                      '(%_C(cos),%_C(cos(2*x)),cos(2*x)(x+1))',
+                      array(),
                       true, false);
 
-        $this->expect('cos^2(x)',
-                      'cos^2*(x)',
-                      array('trigexp'),
-                      false, true);
+        $this->expect('cos(x)',
+                      '(%_C(cos),cos(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('cosec(x)',
+                      '(%_C(cosec),cosec(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('cosech(x)',
+                      '(%_C(cosech),cosech(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('cosh(x)',
+                      '(%_C(cosh),cosh(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('cot(x)',
+                      '(%_C(cot),cot(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('coth(x)',
+                      '(%_C(coth),coth(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))',
+                      '(%_C(csc),csc(6*x))^2*(7*(%_C(sin),sin(6*x))*(%_C(cos),cos(7*x))-6*(%_C(cos),cos(6*x))*(%_C(sin),sin(7*x)))',
+                      array(),
+                      true, false);
+
+        $this->expect('csc(x)',
+                      '(%_C(csc),csc(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('diff(sin(x))',
+                      '(%_C(diff),diff((%_C(sin),sin(x))))',
+                      array(),
+                      true, false);
+
+        $this->expect('diff(sin(x),x)',
+                      '(%_C(diff),diff((%_C(sin),sin(x)),x))',
+                      array(),
+                      true, false);
+
+        $this->expect('diff(x,y)',
+                      '(%_C(diff),diff(x,y))',
+                      array(),
+                      true, false);
+
+        $this->expect('dosomething(x,y,z)',
+                      '(%_C(dosomething),dosomething(x,y,z))',
+                      array(),
+                      true, false);
+
+        $this->expect('exp(x)',
+                      '(%_C(exp),exp(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('f(x)',
+                      '(%_C(f),f(x))',
+                      array(),
+                      true, false);
 
         $this->expect('f(x)(2)',
-                      'f(x)*(2)',
-                      array('missing_stars'),
+                      '(%_C(f),%_C(f(x)),f(x)(2))',
+                      array(),
+                      true, false);
+
+        $this->expect('fact(13)',
+                      '(%_C(fact),fact(13))',
+                      array(),
+                      true, false);
+
+        $this->expect('floor(x)',
+                      '(%_C(floor),floor(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('gcd(x,y)',
+                      '(%_C(gcd),gcd(x,y))',
+                      array(),
+                      true, false);
+
+        $this->expect('gcf(x,y)',
+                      '(%_C(gcf),gcf(x,y))',
+                      array(),
                       true, false);
 
         $this->expect('i(1+i)',
-                      'i*(1+i)',
-                      array('missing_stars'),
+                      '(%_C(i),i(1+i))',
+                      array(),
                       true, false);
 
         $this->expect('i(4)',
-                      'i*(4)',
-                      array('missing_stars'),
+                      '(%_C(i),i(4))',
+                      array(),
+                      true, false);
+
+        $this->expect('int(sin(x))',
+                      '(%_C(int),int((%_C(sin),sin(x))))',
+                      array(),
+                      true, false);
+
+        $this->expect('int(x,y)',
+                      '(%_C(int),int(x,y))',
+                      array(),
+                      true, false);
+
+        $this->expect('len(x)',
+                      '(%_C(len),len(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('length(x)',
+                      '(%_C(length),length(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('lg(10^3)',
+                      '(%_C(lg),lg(10^3))',
+                      array(),
+                      true, false);
+
+        $this->expect('lg(x)',
+                      '(%_C(lg),lg(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('lg(x,a)',
+                      '(%_C(lg),lg(x,a))',
+                      array(),
+                      true, false);
+
+        $this->expect('limit(y,x,3)',
+                      '(%_C(limit),limit(y,x,3))',
+                      array(),
+                      true, false);
+
+        $this->expect('ln(x)',
+                      '(%_C(ln),ln(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('log(2x)/x+1/2',
+                      '(%_C(log),log(2*x))/x+1/2',
+                      array(),
+                      true, false);
+
+        $this->expect('log(x)',
+                      '(%_C(log),log(x))',
+                      array(),
                       true, false);
 
         $this->expect('log10(x)',
-                      'lg(x,10)',
-                      array('logsubs'),
+                      '(%_C(log10),log10(x))',
+                      array(),
                       true, false);
 
         $this->expect('log_10(x)',
-                      'lg(x,10)',
-                      array('logsubs'),
+                      '(%_C(log_10),log_10(x))',
+                      array(),
                       true, false);
 
         $this->expect('log_2(a)',
-                      'lg(a,2)',
-                      array('logsubs'),
+                      '(%_C(log_2),log_2(a))',
+                      array(),
                       true, false);
 
         $this->expect('log_a(b)*log_b(c)',
-                      'lg(b,a)*lg(c,b)',
-                      array('logsubs'),
+                      '(%_C(log_a),log_a(b))*(%_C(log_b),log_b(c))',
+                      array(),
                       true, false);
 
         $this->expect('log_x(1/(x+b))',
-                      'lg(1/(x+b),x)',
-                      array('logsubs'),
+                      '(%_C(log_x),log_x(1/(x+b)))',
+                      array(),
                       true, false);
 
         $this->expect('log_x:log_x(a)',
-                      'log_x:lg(a,x)',
-                      array('logsubs'),
+                      'log_x:(%_C(log_x),log_x(a))',
+                      array(),
                       true, false);
 
-        $this->expect('sin x',
-                      'sin*x',
-                      array('trigspace'),
-                      false, true);
+        $this->expect('matrix([a,b],[c,d])',
+                      '(%_C(matrix),matrix([a,b],[c,d]))',
+                      array(),
+                      true, false);
 
-        $this->expect('sin[2*x]',
-                      'sin[2*x]',
-                      array('trigparens'),
-                      false, true);
+        $this->expect('mod(x,y)',
+                      '(%_C(mod),mod(x,y))',
+                      array(),
+                      true, false);
 
-        $this->expect('sin^-1(x)',
-                      'sin^-1*(x)',
-                      array('trigexp'),
-                      false, true);
+        $this->expect('partialdiff(x,y,1)',
+                      '(%_C(partialdiff),partialdiff(x,y,1))',
+                      array(),
+                      true, false);
+
+        $this->expect('perm(x,y)',
+                      '(%_C(perm),perm(x,y))',
+                      array(),
+                      true, false);
+
+        $this->expect('plot(x^2,[x,-1,1])',
+                      '(%_C(plot),plot(x^2,[x,-1,1]))',
+                      array(),
+                      true, false);
+
+        $this->expect('plot2d(x^2,[x,-1,1])',
+                      '(%_C(plot2d),plot2d(x^2,[x,-1,1]))',
+                      array(),
+                      true, false);
+
+        $this->expect('product(cos(k*x),k,1,3)',
+                      '(%_C(product),product((%_C(cos),cos(k*x)),k,1,3))',
+                      array(),
+                      true, false);
+
+        $this->expect('root(2,-3)',
+                      '(%_C(root),root(2,-3))',
+                      array(),
+                      true, false);
+
+        $this->expect('root(x)',
+                      '(%_C(root),root(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('root(x,3)',
+                      '(%_C(root),root(x,3))',
+                      array(),
+                      true, false);
+
+        $this->expect('sec(x)',
+                      '(%_C(sec),sec(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sech(x)',
+                      '(%_C(sech),sech(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('set(x, y, z)',
+                      '(%_C(set),set(x,y,z))',
+                      array(),
+                      true, false);
+
+        $this->expect('sgn(x)',
+                      '(%_C(sgn),sgn(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sign(x)',
+                      '(%_C(sign),sign(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sim(x)',
+                      '(%_C(sim),sim(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sin(x)',
+                      '(%_C(sin),sin(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sinh(x)',
+                      '(%_C(sinh),sinh(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sqr(x)',
+                      '(%_C(sqr),sqr(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sqrt(+x)',
+                      '(%_C(sqrt),sqrt(+x))',
+                      array(),
+                      true, false);
+
+        $this->expect('sqrt(x)',
+                      '(%_C(sqrt),sqrt(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('stackvector(a)',
+                      '(%_C(stackvector),stackvector(a))',
+                      array(),
+                      true, false);
+
+        $this->expect('sum(k^n,n,0,3)',
+                      '(%_C(sum),sum(k^n,n,0,3))',
+                      array(),
+                      true, false);
+
+        $this->expect('switch(x,a,y,b,c)',
+                      '(%_C(switch),switch(x,a,y,b,c))',
+                      array(),
+                      true, false);
+
+        $this->expect('tan(x)',
+                      '(%_C(tan),tan(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('tanh(x)',
+                      '(%_C(tanh),tanh(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('x()',
+                      '(%_C(x),x())',
+                      array(),
+                      true, false);
+
+        $this->expect('x(2+1)',
+                      '(%_C(x),x(2+1))',
+                      array(),
+                      true, false);
+
+        $this->expect('x(sin(t)+1)',
+                      '(%_C(x),x((%_C(sin),sin(t))+1))',
+                      array(),
+                      true, false);
+
+        $this->expect('x(t+1)',
+                      '(%_C(x),x(t+1))',
+                      array(),
+                      true, false);
+
+        $this->expect('x(x+1)',
+                      '(%_C(x),x(x+1))',
+                      array(),
+                      true, false);
+
+        $this->expect('x=+-sqrt(2)',
+                      'x = (%_C(sqrt),+-sqrt(2))',
+                      array(),
+                      true, false);
+
+        $this->expect('x>1 or (x<1 and t<sin(x))',
+                      'x > 1 or (x < 1 and t < (%_C(sin),sin(x)))',
+                      array(),
+                      true, false);
+
+        $this->expect('x^f(x)',
+                      'x^(%_C(f),f(x))',
+                      array(),
+                      true, false);
+
+        $this->expect('xsin(1)',
+                      '(%_C(xsin),xsin(1))',
+                      array(),
+                      true, false);
+
+        $this->expect('ycos(2)',
+                      '(%_C(ycos),ycos(2))',
+                      array(),
+                      true, false);
+
+        $this->expect('|x|',
+                      '(%_C(abs),abs(x))',
+                      array(),
+                      true, false);
 
         $this->expect('rand(["+","-"])(x,y)',
-                      'rand(["+","-"])*(x,y)',
-                      array('missing_stars'),
+                      '(%_C(rand),%_C(rand(["+","-"])),rand(["+","-"])(x,y))',
+                      array(),
                       true, false);
 
         $this->expect('rand(["sin","cos","system"])(x)',
-                      'rand(["sin","cos","system"])*(x)',
-                      array('missing_stars'),
+                      '(%_C(rand),%_C(rand(["sin","cos","system"])),rand(["sin","cos","system"])(x))',
+                      array(),
                       true, false);
 
     }
 
     public function test_non_affected_units() {
         $this->security = new stack_cas_security(true);
-        $this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);
-
-        $this->expect('"+"(a,b)',
-                      '"+"(a,b)',
-                      array(),
-                      true, false);
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('996_call_modification');
 
         $this->expect('"1+1"',
                       '"1+1"',
@@ -371,11 +1156,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('(-1)',
                       '(-1)',
-                      array(),
-                      true, false);
-
-        $this->expect('(-b+-sqrt(b^2))/(2*a)',
-                      '(-b+-sqrt(b^2))/(2*a)',
                       array(),
                       true, false);
 
@@ -524,16 +1304,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('-3x(1+x)',
-                      '-3*x(1+x)',
-                      array(),
-                      true, false);
-
-        $this->expect('-b(5-b)',
-                      '-b(5-b)',
-                      array(),
-                      true, false);
-
         $this->expect('-e',
                       '-e',
                       array(),
@@ -551,11 +1321,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('-x',
                       '-x',
-                      array(),
-                      true, false);
-
-        $this->expect('-x(1+x)',
-                      '-x(1+x)',
                       array(),
                       true, false);
 
@@ -581,6 +1346,21 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('-35.3 * 10^23',
                       '-35.3*10^23',
+                      array(),
+                      true, false);
+
+        $this->expect('0..1',
+                      '0. . 1',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1..1.2',
+                      '0.1 . .1 . 2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1.1.2',
+                      '0.1 . 1.2',
                       array(),
                       true, false);
 
@@ -614,11 +1394,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('1-x(1+x)',
-                      '1-x(1+x)',
-                      array(),
-                      true, false);
-
         $this->expect('1/0',
                       '1/0',
                       array(),
@@ -629,8 +1404,13 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('1/sin(+x)',
-                      '1/sin(+x)',
+        $this->expect('1<=x<y^2',
+                      '1 <= x < y^2',
+                      array(),
+                      true, false);
+
+        $this->expect('1<x<3',
+                      '1 < x < 3',
                       array(),
                       true, false);
 
@@ -769,11 +1549,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('3b+5/a(x)',
-                      '3*b+5/a(x)',
-                      array(),
-                      true, false);
-
         $this->expect('3beta_47',
                       '3*beta_47',
                       array(),
@@ -791,26 +1566,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('3E2',
                       '3E2',
-                      array(),
-                      true, false);
-
-        $this->expect('7x(2+1)',
-                      '7*x(2+1)',
-                      array(),
-                      true, false);
-
-        $this->expect('Bgcd(3,2)',
-                      'Bgcd(3,2)',
-                      array(),
-                      true, false);
-
-        $this->expect('In(x)',
-                      'In(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('Sin(x)',
-                      'Sin(x)',
                       array(),
                       true, false);
 
@@ -864,6 +1619,11 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
+        $this->expect('[1<x,1<y<3]',
+                      '[1 < x,1 < y < 3]',
+                      array(),
+                      true, false);
+
         $this->expect('[1<x,x<3]',
                       '[1 < x,x < 3]',
                       array(),
@@ -904,11 +1664,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('a(x)',
-                      'a(x)',
-                      array(),
-                      true, false);
-
         $this->expect('a++b',
                       'a++b',
                       array(),
@@ -931,11 +1686,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('a-+b',
                       'a-+b',
-                      array(),
-                      true, false);
-
-        $this->expect('a/(a(x+1)+2)',
-                      'a/(a(x+1)+2)',
                       array(),
                       true, false);
 
@@ -994,38 +1744,8 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('abs(13)',
-                      'abs(13)',
-                      array(),
-                      true, false);
-
-        $this->expect('abs(x)',
-                      'abs(x)',
-                      array(),
-                      true, false);
-
         $this->expect('alpha',
                       'alpha',
-                      array(),
-                      true, false);
-
-        $this->expect('asin(x)',
-                      'asin(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('asinh(x)',
-                      'asinh(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('b(b+1)',
-                      'b(b+1)',
-                      array(),
-                      true, false);
-
-        $this->expect('b/a(x)',
-                      'b/a(x)',
                       array(),
                       true, false);
 
@@ -1039,88 +1759,18 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('bsin(t)',
-                      'bsin(t)',
-                      array(),
-                      true, false);
-
-        $this->expect('ceiling(x)',
-                      'ceiling(x)',
-                      array(),
-                      true, false);
-
         $this->expect('chi',
                       'chi',
                       array(),
                       true, false);
 
-        $this->expect('comb(x,y)',
-                      'comb(x,y)',
-                      array(),
-                      true, false);
-
-        $this->expect('cos(x)',
-                      'cos(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('cosec(x)',
-                      'cosec(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('cosech(x)',
-                      'cosech(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('cosh(x)',
-                      'cosh(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('cot(x)',
-                      'cot(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('coth(x)',
-                      'coth(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))',
-                      'csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))',
-                      array(),
-                      true, false);
-
-        $this->expect('csc(x)',
-                      'csc(x)',
+        $this->expect('cos^2(x)',
+                      'cos^2*(x)',
                       array(),
                       true, false);
 
         $this->expect('delta',
                       'delta',
-                      array(),
-                      true, false);
-
-        $this->expect('diff(sin(x))',
-                      'diff(sin(x))',
-                      array(),
-                      true, false);
-
-        $this->expect('diff(sin(x),x)',
-                      'diff(sin(x),x)',
-                      array(),
-                      true, false);
-
-        $this->expect('diff(x,y)',
-                      'diff(x,y)',
-                      array(),
-                      true, false);
-
-        $this->expect('dosomething(x,y,z)',
-                      'dosomething(x,y,z)',
                       array(),
                       true, false);
 
@@ -1149,43 +1799,13 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('exp(x)',
-                      'exp(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('f(x)',
-                      'f(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('fact(13)',
-                      'fact(13)',
-                      array(),
-                      true, false);
-
         $this->expect('false',
                       'false',
                       array(),
                       true, false);
 
-        $this->expect('floor(x)',
-                      'floor(x)',
-                      array(),
-                      true, false);
-
         $this->expect('gamma',
                       'gamma',
-                      array(),
-                      true, false);
-
-        $this->expect('gcd(x,y)',
-                      'gcd(x,y)',
-                      array(),
-                      true, false);
-
-        $this->expect('gcf(x,y)',
-                      'gcf(x,y)',
                       array(),
                       true, false);
 
@@ -1201,16 +1821,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('inf',
                       'inf',
-                      array(),
-                      true, false);
-
-        $this->expect('int(sin(x))',
-                      'int(sin(x))',
-                      array(),
-                      true, false);
-
-        $this->expect('int(x,y)',
-                      'int(x,y)',
                       array(),
                       true, false);
 
@@ -1234,63 +1844,8 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('len(x)',
-                      'len(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('length(x)',
-                      'length(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('lg(10^3)',
-                      'lg(10^3)',
-                      array(),
-                      true, false);
-
-        $this->expect('lg(x)',
-                      'lg(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('lg(x,a)',
-                      'lg(x,a)',
-                      array(),
-                      true, false);
-
-        $this->expect('limit(y,x,3)',
-                      'limit(y,x,3)',
-                      array(),
-                      true, false);
-
-        $this->expect('ln(x)',
-                      'ln(x)',
-                      array(),
-                      true, false);
-
         $this->expect('ln*x',
                       'ln*x',
-                      array(),
-                      true, false);
-
-        $this->expect('log(2x)/x+1/2',
-                      'log(2*x)/x+1/2',
-                      array(),
-                      true, false);
-
-        $this->expect('log(x)',
-                      'log(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('matrix([a,b],[c,d])',
-                      'matrix([a,b],[c,d])',
-                      array(),
-                      true, false);
-
-        $this->expect('mod(x,y)',
-                      'mod(x,y)',
                       array(),
                       true, false);
 
@@ -1324,16 +1879,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('partialdiff(x,y,1)',
-                      'partialdiff(x,y,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('perm(x,y)',
-                      'perm(x,y)',
-                      array(),
-                      true, false);
-
         $this->expect('phi',
                       'phi',
                       array(),
@@ -1346,21 +1891,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('pi*2',
                       'pi*2',
-                      array(),
-                      true, false);
-
-        $this->expect('plot(x^2,[x,-1,1])',
-                      'plot(x^2,[x,-1,1])',
-                      array(),
-                      true, false);
-
-        $this->expect('plot2d(x^2,[x,-1,1])',
-                      'plot2d(x^2,[x,-1,1])',
-                      array(),
-                      true, false);
-
-        $this->expect('product(cos(k*x),k,1,3)',
-                      'product(cos(k*x),k,1,3)',
                       array(),
                       true, false);
 
@@ -1379,53 +1909,8 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('root(2,-3)',
-                      'root(2,-3)',
-                      array(),
-                      true, false);
-
-        $this->expect('root(x)',
-                      'root(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('root(x,3)',
-                      'root(x,3)',
-                      array(),
-                      true, false);
-
-        $this->expect('sec(x)',
-                      'sec(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('sech(x)',
-                      'sech(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('set(x, y, z)',
-                      'set(x,y,z)',
-                      array(),
-                      true, false);
-
-        $this->expect('sgn(x)',
-                      'sgn(x)',
-                      array(),
-                      true, false);
-
         $this->expect('sigma',
                       'sigma',
-                      array(),
-                      true, false);
-
-        $this->expect('sign(x)',
-                      'sign(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('sim(x)',
-                      'sim(x)',
                       array(),
                       true, false);
 
@@ -1434,8 +1919,8 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('sin(x)',
-                      'sin(x)',
+        $this->expect('sin x',
+                      'sin*x',
                       array(),
                       true, false);
 
@@ -1444,48 +1929,13 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('sinh(x)',
-                      'sinh(x)',
+        $this->expect('sin[2*x]',
+                      'sin[2*x]',
                       array(),
                       true, false);
 
-        $this->expect('sqr(x)',
-                      'sqr(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('sqrt(+x)',
-                      'sqrt(+x)',
-                      array(),
-                      true, false);
-
-        $this->expect('sqrt(x)',
-                      'sqrt(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('stackvector(a)',
-                      'stackvector(a)',
-                      array(),
-                      true, false);
-
-        $this->expect('sum(k^n,n,0,3)',
-                      'sum(k^n,n,0,3)',
-                      array(),
-                      true, false);
-
-        $this->expect('switch(x,a,y,b,c)',
-                      'switch(x,a,y,b,c)',
-                      array(),
-                      true, false);
-
-        $this->expect('tan(x)',
-                      'tan(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('tanh(x)',
-                      'tanh(x)',
+        $this->expect('sin^-1(x)',
+                      'sin^-1*(x)',
                       array(),
                       true, false);
 
@@ -1604,31 +2054,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('x()',
-                      'x()',
-                      array(),
-                      true, false);
-
-        $this->expect('x(2+1)',
-                      'x(2+1)',
-                      array(),
-                      true, false);
-
-        $this->expect('x(sin(t)+1)',
-                      'x(sin(t)+1)',
-                      array(),
-                      true, false);
-
-        $this->expect('x(t+1)',
-                      'x(t+1)',
-                      array(),
-                      true, false);
-
-        $this->expect('x(x+1)',
-                      'x(x+1)',
-                      array(),
-                      true, false);
-
         $this->expect('x*(-y)',
                       'x*(-y)',
                       array(),
@@ -1719,11 +2144,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('x=+-sqrt(2)',
-                      'x = +-sqrt(2)',
-                      array(),
-                      true, false);
-
         $this->expect('x=1 or 2',
                       'x = 1 or 2',
                       array(),
@@ -1736,11 +2156,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('x=1 or x=2',
                       'x = 1 or x = 2',
-                      array(),
-                      true, false);
-
-        $this->expect('x>1 or (x<1 and t<sin(x))',
-                      'x > 1 or (x < 1 and t < sin(x))',
                       array(),
                       true, false);
 
@@ -1776,11 +2191,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('x^7/7-2*x^6/3-4*x^3/3',
                       'x^7/7-2*x^6/3-4*x^3/3',
-                      array(),
-                      true, false);
-
-        $this->expect('x^f(x)',
-                      'x^f(x)',
                       array(),
                       true, false);
 
@@ -1844,11 +2254,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('xsin(1)',
-                      'xsin(1)',
-                      array(),
-                      true, false);
-
         $this->expect('xy',
                       'xy',
                       array(),
@@ -1874,11 +2279,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('ycos(2)',
-                      'ycos(2)',
-                      array(),
-                      true, false);
-
         $this->expect('zeta',
                       'zeta',
                       array(),
@@ -1901,11 +2301,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('{}',
                       '{}',
-                      array(),
-                      true, false);
-
-        $this->expect('|x|',
-                      'abs(x)',
                       array(),
                       true, false);
 
@@ -1948,12 +2343,7 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
     public function test_non_affected_no_units() {
         $this->security = new stack_cas_security(false);
-        $this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);
-
-        $this->expect('"+"(a,b)',
-                      '"+"(a,b)',
-                      array(),
-                      true, false);
+        $this->filter = stack_parsing_rule_factory::get_by_common_name('996_call_modification');
 
         $this->expect('"1+1"',
                       '"1+1"',
@@ -2012,11 +2402,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('(-1)',
                       '(-1)',
-                      array(),
-                      true, false);
-
-        $this->expect('(-b+-sqrt(b^2))/(2*a)',
-                      '(-b+-sqrt(b^2))/(2*a)',
                       array(),
                       true, false);
 
@@ -2165,16 +2550,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('-3x(1+x)',
-                      '-3*x(1+x)',
-                      array(),
-                      true, false);
-
-        $this->expect('-b(5-b)',
-                      '-b(5-b)',
-                      array(),
-                      true, false);
-
         $this->expect('-e',
                       '-e',
                       array(),
@@ -2192,11 +2567,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('-x',
                       '-x',
-                      array(),
-                      true, false);
-
-        $this->expect('-x(1+x)',
-                      '-x(1+x)',
                       array(),
                       true, false);
 
@@ -2222,6 +2592,21 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('-35.3 * 10^23',
                       '-35.3*10^23',
+                      array(),
+                      true, false);
+
+        $this->expect('0..1',
+                      '0. . 1',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1..1.2',
+                      '0.1 . .1 . 2',
+                      array(),
+                      true, false);
+
+        $this->expect('0.1.1.2',
+                      '0.1 . 1.2',
                       array(),
                       true, false);
 
@@ -2255,11 +2640,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('1-x(1+x)',
-                      '1-x(1+x)',
-                      array(),
-                      true, false);
-
         $this->expect('1/0',
                       '1/0',
                       array(),
@@ -2270,8 +2650,13 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('1/sin(+x)',
-                      '1/sin(+x)',
+        $this->expect('1<=x<y^2',
+                      '1 <= x < y^2',
+                      array(),
+                      true, false);
+
+        $this->expect('1<x<3',
+                      '1 < x < 3',
                       array(),
                       true, false);
 
@@ -2410,11 +2795,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('3b+5/a(x)',
-                      '3*b+5/a(x)',
-                      array(),
-                      true, false);
-
         $this->expect('3beta_47',
                       '3*beta_47',
                       array(),
@@ -2432,26 +2812,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('3E2',
                       '3E2',
-                      array(),
-                      true, false);
-
-        $this->expect('7x(2+1)',
-                      '7*x(2+1)',
-                      array(),
-                      true, false);
-
-        $this->expect('Bgcd(3,2)',
-                      'Bgcd(3,2)',
-                      array(),
-                      true, false);
-
-        $this->expect('In(x)',
-                      'In(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('Sin(x)',
-                      'Sin(x)',
                       array(),
                       true, false);
 
@@ -2505,6 +2865,11 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
+        $this->expect('[1<x,1<y<3]',
+                      '[1 < x,1 < y < 3]',
+                      array(),
+                      true, false);
+
         $this->expect('[1<x,x<3]',
                       '[1 < x,x < 3]',
                       array(),
@@ -2545,11 +2910,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('a(x)',
-                      'a(x)',
-                      array(),
-                      true, false);
-
         $this->expect('a++b',
                       'a++b',
                       array(),
@@ -2572,11 +2932,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('a-+b',
                       'a-+b',
-                      array(),
-                      true, false);
-
-        $this->expect('a/(a(x+1)+2)',
-                      'a/(a(x+1)+2)',
                       array(),
                       true, false);
 
@@ -2635,38 +2990,8 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('abs(13)',
-                      'abs(13)',
-                      array(),
-                      true, false);
-
-        $this->expect('abs(x)',
-                      'abs(x)',
-                      array(),
-                      true, false);
-
         $this->expect('alpha',
                       'alpha',
-                      array(),
-                      true, false);
-
-        $this->expect('asin(x)',
-                      'asin(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('asinh(x)',
-                      'asinh(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('b(b+1)',
-                      'b(b+1)',
-                      array(),
-                      true, false);
-
-        $this->expect('b/a(x)',
-                      'b/a(x)',
                       array(),
                       true, false);
 
@@ -2680,88 +3005,18 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('bsin(t)',
-                      'bsin(t)',
-                      array(),
-                      true, false);
-
-        $this->expect('ceiling(x)',
-                      'ceiling(x)',
-                      array(),
-                      true, false);
-
         $this->expect('chi',
                       'chi',
                       array(),
                       true, false);
 
-        $this->expect('comb(x,y)',
-                      'comb(x,y)',
-                      array(),
-                      true, false);
-
-        $this->expect('cos(x)',
-                      'cos(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('cosec(x)',
-                      'cosec(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('cosech(x)',
-                      'cosech(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('cosh(x)',
-                      'cosh(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('cot(x)',
-                      'cot(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('coth(x)',
-                      'coth(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))',
-                      'csc(6*x)^2*(7*sin(6*x)*cos(7*x)-6*cos(6*x)*sin(7*x))',
-                      array(),
-                      true, false);
-
-        $this->expect('csc(x)',
-                      'csc(x)',
+        $this->expect('cos^2(x)',
+                      'cos^2*(x)',
                       array(),
                       true, false);
 
         $this->expect('delta',
                       'delta',
-                      array(),
-                      true, false);
-
-        $this->expect('diff(sin(x))',
-                      'diff(sin(x))',
-                      array(),
-                      true, false);
-
-        $this->expect('diff(sin(x),x)',
-                      'diff(sin(x),x)',
-                      array(),
-                      true, false);
-
-        $this->expect('diff(x,y)',
-                      'diff(x,y)',
-                      array(),
-                      true, false);
-
-        $this->expect('dosomething(x,y,z)',
-                      'dosomething(x,y,z)',
                       array(),
                       true, false);
 
@@ -2790,43 +3045,13 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('exp(x)',
-                      'exp(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('f(x)',
-                      'f(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('fact(13)',
-                      'fact(13)',
-                      array(),
-                      true, false);
-
         $this->expect('false',
                       'false',
                       array(),
                       true, false);
 
-        $this->expect('floor(x)',
-                      'floor(x)',
-                      array(),
-                      true, false);
-
         $this->expect('gamma',
                       'gamma',
-                      array(),
-                      true, false);
-
-        $this->expect('gcd(x,y)',
-                      'gcd(x,y)',
-                      array(),
-                      true, false);
-
-        $this->expect('gcf(x,y)',
-                      'gcf(x,y)',
                       array(),
                       true, false);
 
@@ -2842,16 +3067,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('inf',
                       'inf',
-                      array(),
-                      true, false);
-
-        $this->expect('int(sin(x))',
-                      'int(sin(x))',
-                      array(),
-                      true, false);
-
-        $this->expect('int(x,y)',
-                      'int(x,y)',
                       array(),
                       true, false);
 
@@ -2875,63 +3090,8 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('len(x)',
-                      'len(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('length(x)',
-                      'length(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('lg(10^3)',
-                      'lg(10^3)',
-                      array(),
-                      true, false);
-
-        $this->expect('lg(x)',
-                      'lg(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('lg(x,a)',
-                      'lg(x,a)',
-                      array(),
-                      true, false);
-
-        $this->expect('limit(y,x,3)',
-                      'limit(y,x,3)',
-                      array(),
-                      true, false);
-
-        $this->expect('ln(x)',
-                      'ln(x)',
-                      array(),
-                      true, false);
-
         $this->expect('ln*x',
                       'ln*x',
-                      array(),
-                      true, false);
-
-        $this->expect('log(2x)/x+1/2',
-                      'log(2*x)/x+1/2',
-                      array(),
-                      true, false);
-
-        $this->expect('log(x)',
-                      'log(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('matrix([a,b],[c,d])',
-                      'matrix([a,b],[c,d])',
-                      array(),
-                      true, false);
-
-        $this->expect('mod(x,y)',
-                      'mod(x,y)',
                       array(),
                       true, false);
 
@@ -2965,16 +3125,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('partialdiff(x,y,1)',
-                      'partialdiff(x,y,1)',
-                      array(),
-                      true, false);
-
-        $this->expect('perm(x,y)',
-                      'perm(x,y)',
-                      array(),
-                      true, false);
-
         $this->expect('phi',
                       'phi',
                       array(),
@@ -2987,21 +3137,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('pi*2',
                       'pi*2',
-                      array(),
-                      true, false);
-
-        $this->expect('plot(x^2,[x,-1,1])',
-                      'plot(x^2,[x,-1,1])',
-                      array(),
-                      true, false);
-
-        $this->expect('plot2d(x^2,[x,-1,1])',
-                      'plot2d(x^2,[x,-1,1])',
-                      array(),
-                      true, false);
-
-        $this->expect('product(cos(k*x),k,1,3)',
-                      'product(cos(k*x),k,1,3)',
                       array(),
                       true, false);
 
@@ -3020,53 +3155,8 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('root(2,-3)',
-                      'root(2,-3)',
-                      array(),
-                      true, false);
-
-        $this->expect('root(x)',
-                      'root(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('root(x,3)',
-                      'root(x,3)',
-                      array(),
-                      true, false);
-
-        $this->expect('sec(x)',
-                      'sec(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('sech(x)',
-                      'sech(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('set(x, y, z)',
-                      'set(x,y,z)',
-                      array(),
-                      true, false);
-
-        $this->expect('sgn(x)',
-                      'sgn(x)',
-                      array(),
-                      true, false);
-
         $this->expect('sigma',
                       'sigma',
-                      array(),
-                      true, false);
-
-        $this->expect('sign(x)',
-                      'sign(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('sim(x)',
-                      'sim(x)',
                       array(),
                       true, false);
 
@@ -3075,8 +3165,8 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('sin(x)',
-                      'sin(x)',
+        $this->expect('sin x',
+                      'sin*x',
                       array(),
                       true, false);
 
@@ -3085,48 +3175,13 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('sinh(x)',
-                      'sinh(x)',
+        $this->expect('sin[2*x]',
+                      'sin[2*x]',
                       array(),
                       true, false);
 
-        $this->expect('sqr(x)',
-                      'sqr(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('sqrt(+x)',
-                      'sqrt(+x)',
-                      array(),
-                      true, false);
-
-        $this->expect('sqrt(x)',
-                      'sqrt(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('stackvector(a)',
-                      'stackvector(a)',
-                      array(),
-                      true, false);
-
-        $this->expect('sum(k^n,n,0,3)',
-                      'sum(k^n,n,0,3)',
-                      array(),
-                      true, false);
-
-        $this->expect('switch(x,a,y,b,c)',
-                      'switch(x,a,y,b,c)',
-                      array(),
-                      true, false);
-
-        $this->expect('tan(x)',
-                      'tan(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('tanh(x)',
-                      'tanh(x)',
+        $this->expect('sin^-1(x)',
+                      'sin^-1*(x)',
                       array(),
                       true, false);
 
@@ -3245,31 +3300,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('x()',
-                      'x()',
-                      array(),
-                      true, false);
-
-        $this->expect('x(2+1)',
-                      'x(2+1)',
-                      array(),
-                      true, false);
-
-        $this->expect('x(sin(t)+1)',
-                      'x(sin(t)+1)',
-                      array(),
-                      true, false);
-
-        $this->expect('x(t+1)',
-                      'x(t+1)',
-                      array(),
-                      true, false);
-
-        $this->expect('x(x+1)',
-                      'x(x+1)',
-                      array(),
-                      true, false);
-
         $this->expect('x*(-y)',
                       'x*(-y)',
                       array(),
@@ -3360,11 +3390,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('x=+-sqrt(2)',
-                      'x = +-sqrt(2)',
-                      array(),
-                      true, false);
-
         $this->expect('x=1 or 2',
                       'x = 1 or 2',
                       array(),
@@ -3377,11 +3402,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('x=1 or x=2',
                       'x = 1 or x = 2',
-                      array(),
-                      true, false);
-
-        $this->expect('x>1 or (x<1 and t<sin(x))',
-                      'x > 1 or (x < 1 and t < sin(x))',
                       array(),
                       true, false);
 
@@ -3417,11 +3437,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('x^7/7-2*x^6/3-4*x^3/3',
                       'x^7/7-2*x^6/3-4*x^3/3',
-                      array(),
-                      true, false);
-
-        $this->expect('x^f(x)',
-                      'x^f(x)',
                       array(),
                       true, false);
 
@@ -3485,11 +3500,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('xsin(1)',
-                      'xsin(1)',
-                      array(),
-                      true, false);
-
         $this->expect('xy',
                       'xy',
                       array(),
@@ -3515,11 +3525,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
-        $this->expect('ycos(2)',
-                      'ycos(2)',
-                      array(),
-                      true, false);
-
         $this->expect('zeta',
                       'zeta',
                       array(),
@@ -3542,11 +3547,6 @@ class ast_filter_000_099_common_core_auto_generated_test extends qtype_stack_ast
 
         $this->expect('{}',
                       '{}',
-                      array(),
-                      true, false);
-
-        $this->expect('|x|',
-                      'abs(x)',
                       array(),
                       true, false);
 

@@ -28,6 +28,9 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/tidyquestionform.php');
 
+if (stack_determine_moodle_version() >= 400) {
+    require_once(__DIR__ . 'vle_moodle4.php');
+}
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
@@ -52,7 +55,7 @@ $PAGE->set_pagelayout('admin');
 require_login();
 
 // The URL back to the preview page.
-$returnurl = question_preview_url($questionid, null, null, null, null, $context);
+$returnurl = helper::question_preview_url($questionid, null, null, null, null, $context);
 
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);

@@ -73,6 +73,7 @@ class restore_logic_test extends restore_qtype_stack_plugin {
  * @copyright  2012 The University of Birmingham
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
+ * @covers \qtype_stack
  */
 class qtype_stack_restore_logic_testcase extends advanced_testcase {
 

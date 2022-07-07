@@ -28,6 +28,7 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 /**
  * @group qtype_stack
  * @group qtype_stack_ast_filters
+ * @covers \ast_filter_991_no_fixing_stars
  */
 
 class ast_filter_991_no_fixing_stars_auto_generated_test extends qtype_stack_ast_testcase {

@@ -34,6 +34,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @copyright  2015 The University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
+ * @covers \stack_equiv_input
  */
 class input_equiv_test extends qtype_stack_testcase {
 

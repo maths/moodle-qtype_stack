@@ -40,6 +40,10 @@ require_once(__DIR__ . '/../stack/cas/castext2/utils.php');
  */
 class castext2_internals_test extends qtype_stack_testcase {
 
+    /**
+     * @covers \qtype_stack\CTP_Parser
+     * @covers \qtype_stack\CTP_Parser::parse
+     */
     public function test_parser() {
         $parser = new CTP_Parser();
         $code   = '[[ if test="0"]] {#1#} {@2@}[[/if]]';
@@ -77,6 +81,11 @@ class castext2_internals_test extends qtype_stack_testcase {
         $this->assertEquals('2', $block->contents[3]->contents[0]->value);
     }
 
+    /**
+     * @covers \qtype_stack\CTP_Parser
+     * @covers \qtype_stack\CTP_Parser::parse
+     * @covers \qtype_stack\CTP_IOBlock
+     */
     public function test_ioblockextensions() {
         $parser = new CTP_Parser();
         $code   = '[[list_errors:ans1,ans2]][[ whatever : ans3 ]]';
@@ -93,6 +102,9 @@ class castext2_internals_test extends qtype_stack_testcase {
         $this->assertEquals('ans3', $ast->items[1]->variable);
     }
 
+    /**
+     * @covers \qtype_stack\castext2_parser_utils::math_paint
+     */
     public function test_math_paint_1() {
         $parser = new CTP_Parser();
         $code   = '\({#1#}\) {@3@} \[{@5@}\] \begin{equation}{@7@} \end{equation} {#9#}';
@@ -111,6 +123,9 @@ class castext2_internals_test extends qtype_stack_testcase {
         $this->assertFalse($ast->items[9]->mathmode);
     }
 
+    /**
+     * @covers \qtype_stack\castext2_parser_utils::math_paint
+     */
     public function test_math_paint_2() {
         $parser = new CTP_Parser();
         $code   = '<p>[[commonstring key="your_answer_interpreted_as"/]]</p>';

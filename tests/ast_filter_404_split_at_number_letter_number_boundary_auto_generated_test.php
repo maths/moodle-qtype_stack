@@ -28,6 +28,7 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 /**
  * @group qtype_stack
  * @group qtype_stack_ast_filters
+ * @covers \ast_filter_404_split_at_number_letter_number_boundary
  */
 
 class ast_filter_404_split_at_number_letter_number_boundary_auto_generated_test extends qtype_stack_ast_testcase {

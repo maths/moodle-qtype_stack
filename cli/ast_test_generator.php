@@ -200,10 +200,10 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 /**
  * @group qtype_stack
  * @group qtype_stack_ast_filters
- */
-
-
 ESCAPE;
+
+    $code .= "\n * @covers \ast_filter_{$key}\n */\n\n";
+
     $code .= "class ast_filter_{$key}_auto_generated_test extends qtype_stack_ast_testcase {" . $nl;
 
     $testactiveunits = $indent . 'public function test_affected_units() {' . $nl;

@@ -43,6 +43,24 @@ require_once(__DIR__ . '/stack/bulktester.class.php');
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
 
+$qversion = null;
+if (stack_determine_moodle_version() >= 400) {
+    // We should always run tests on the latest version of the question.
+    // This means we can refresh/reload the page even if the question has been edited and saved in another window.
+    // When we click "edit question" button we automatically jump to the last version, and don't edit this version.
+    $query = 'SELECT qv.questionid, qv.version FROM {question_versions} qv
+                  JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
+                  WHERE qbe.id = (SELECT be.id FROM {question_bank_entries} be
+                                  JOIN {question_versions} v ON v.questionbankentryid = be.id
+                                  WHERE v.questionid = ' . $questionid . ')
+              ORDER BY qv.questionid';
+    global $DB;
+    $result = $DB->get_records_sql($query);
+    $result = end($result);
+    $qversion = $result->version;
+    $questionid = $result->questionid;
+}
+
 // Load the necessary data.
 $questiondata = question_bank::load_question_data($questionid);
 if (!$questiondata) {
@@ -78,7 +96,13 @@ $qbankparams['lastchanged'] = $question->id;
 if (property_exists($questiondata, 'hidden') && $questiondata->hidden) {
     $qbankparams['showhidden'] = 1;
 }
-$questionbanklinkedit = new moodle_url('/question/question.php', $editparams);
+
+if (stack_determine_moodle_version() < 400) {
+    $questionbanklinkedit = new moodle_url('/question/question.php', $editparams);
+} else {
+    $questionbanklinkedit = new moodle_url('/question/bank/editquestion/question.php', $editparams);
+}
+
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/type/stack/exportone.php', $urlparams);
 $exportquestionlink->param('sesskey', sesskey());
@@ -106,6 +130,10 @@ $options->suppressruntestslink = true;
 echo $OUTPUT->header();
 $renderer = $PAGE->get_renderer('qtype_stack');
 echo $OUTPUT->heading($question->name, 2);
+if ($qversion !== null) {
+    echo html_writer::tag('p', stack_string('version') . ' ' . $qversion);
+}
+
 flush();
 
 $question->castextprocessor = new castext2_qa_processor($quba->get_question_attempt($slot));
@@ -147,10 +175,15 @@ if ($question->deployedseeds) {
 $variantmatched = false;
 $variantdeployed = false;
 $questionnotes = array();
+
+if (stack_determine_moodle_version() < 400) {
+    $qurl = question_preview_url($questionid, null, null, null, null, $context);
+} else {
+    $qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
+}
 if (!$question->has_random_variants()) {
-    echo html_writer::tag('p', stack_string('questiondoesnotuserandomisation') .
-            ' ' . $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
-            new pix_icon('t/preview', get_string('preview'))));
+    echo html_writer::tag('p', stack_string('questiondoesnotuserandomisation') . ' ' .
+        $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))));
     $variantmatched = true;
 }
 
@@ -158,8 +191,7 @@ if (empty($question->deployedseeds)) {
     if ($question->has_random_variants()) {
         echo html_writer::tag('p', stack_string_error('runquestiontests_alert') . ' ' .
                 stack_string('questionnotdeployedyet') . ' ' .
-                $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
-                    new pix_icon('t/preview', get_string('preview'))));
+                $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))));
     }
 } else {
 
@@ -184,8 +216,12 @@ if (empty($question->deployedseeds)) {
                     $deployedseed, array('title' => stack_string('testthisvariant')));
         }
 
-        $choice .= ' ' . $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, $key + 1, $context),
-                new pix_icon('t/preview', get_string('preview')));
+        if (stack_determine_moodle_version() < 400) {
+            $qurl = question_preview_url($questionid, null, null, null, $key + 1, $context);
+        } else {
+            $qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, $key + 1, $context);
+        }
+        $choice .= ' ' . $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview')));
 
         if ($canedit) {
             $choice .= ' ' . $OUTPUT->action_icon(new moodle_url('/question/type/stack/deploy.php',

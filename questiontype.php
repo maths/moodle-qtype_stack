@@ -73,7 +73,30 @@ class qtype_stack extends question_type {
 
         $fromform->penalty = stack_utils::fix_approximate_thirds($fromform->penalty);
 
-        return parent::save_question($question, $fromform);
+        // This odd looking guard clause exists because moodle core test case generator
+        // functions return a question without an id.
+        $oldid = 0;
+        if (property_exists($question, 'id')) {
+            $oldid = $question->id;
+        }
+
+        $new = parent::save_question($question, $fromform);
+        // Earlier than Moodle 4.0.
+        if (stack_determine_moodle_version() < 400) {
+            return $new;
+        }
+        $newid = $new->id;
+
+        // Copy over test cases.
+        $testcases = $this->load_question_tests($oldid);
+        $this->save_question_tests($newid, $testcases);
+
+        // Copy over deployed seeds.
+        foreach ($this->get_question_deployed_seeds($oldid) as $seed) {
+            $this->deploy_variant($newid, $seed);
+        }
+
+        return $new;
     }
 
     /**
@@ -418,13 +441,19 @@ class qtype_stack extends question_type {
         }
         $noders->close();
 
-        $question->deployedseeds = $DB->get_fieldset_sql('
+        $question->deployedseeds = $this->get_question_deployed_seeds($question->id);
+
+        return true;
+    }
+
+    protected function get_question_deployed_seeds($qid) {
+        global $DB;
+
+        return $DB->get_fieldset_sql('
                 SELECT seed
                   FROM {qtype_stack_deployed_seeds}
                  WHERE questionid = ?
-              ORDER BY id', array($question->id));
-
-        return true;
+              ORDER BY id', array($qid));
     }
 
     protected function initialise_question_instance(question_definition $question, $questiondata) {

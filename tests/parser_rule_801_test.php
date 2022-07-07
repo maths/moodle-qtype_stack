@@ -31,6 +31,7 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/801_singleton_numeric.filter.
  * Unit tests for {@link stack_ast_filter_801_singleton_numeric}.
  * @group qtype_stack
  * @group qtype_stack_ast_filters
+ * @covers \ast_filter_801_singleton_numeric_auto_generated_test
  */
 class parser_rule_801_test extends qtype_stack_testcase {
 

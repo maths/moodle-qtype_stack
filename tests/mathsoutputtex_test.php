@@ -32,6 +32,7 @@ require_once(__DIR__ . '/../doc/docslib.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_maths_output_tex
  */
 class mathsoutputtex_test extends qtype_stack_testcase {
 

@@ -36,6 +36,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_dropdown_input
  */
 class input_dropdown_exception_test extends qtype_stack_testcase {
 

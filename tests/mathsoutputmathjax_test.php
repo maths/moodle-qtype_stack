@@ -33,6 +33,7 @@ require_once(__DIR__ . '/../doc/docslib.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_maths_output_mathjax
  */
 class mathsoutputmathjax_test extends qtype_stack_testcase {
 

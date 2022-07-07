@@ -39,6 +39,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_string_input
  */
 class input_string_test extends qtype_stack_testcase {
 

@@ -34,6 +34,7 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_utils
  */
 class stack_utils_test extends qtype_stack_testcase {
 

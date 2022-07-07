@@ -19,6 +19,11 @@
 // @copyright  2015 The Open University.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once(__DIR__ . '/../vle_specific.php');
+require_once(__DIR__ . '/../../../engine/bank.php');
+
 class stack_bulk_tester {
 
     /**
@@ -30,15 +35,33 @@ class stack_bulk_tester {
     public function get_stack_questions_by_context() {
         global $DB;
 
+        // Earlier than Moodle 4.0.
+        if (stack_determine_moodle_version() < 400) {
+            return $DB->get_records_sql_menu("
+                SELECT ctx.id, COUNT(q.id) AS numstackquestions
+                  FROM {context} ctx
+                  JOIN {question_categories} qc ON qc.contextid = ctx.id
+                  JOIN {question} q ON q.category = qc.id
+                WHERE q.qtype = 'stack'
+                GROUP BY ctx.id, ctx.path
+                ORDER BY ctx.path");
+        }
+
         return $DB->get_records_sql_menu("
-            SELECT ctx.id, COUNT(q.id) AS numstackquestions
-              FROM {context} ctx
-              JOIN {question_categories} qc ON qc.contextid = ctx.id
-              JOIN {question} q ON q.category = qc.id
-             WHERE q.qtype = 'stack'
-          GROUP BY ctx.id, ctx.path
-          ORDER BY ctx.path
-        ");
+                SELECT ctx.id, COUNT(q.id) AS numstackquestions
+                  FROM {context} ctx
+                  JOIN {question_categories} qc ON qc.contextid = ctx.id
+                  JOIN {question_bank_entries} qb ON qb.questioncategoryid = qc.id
+                  JOIN {question_versions} qv ON qv.questionbankentryid = qb.id
+                  JOIN {question} q ON q.id = qv.questionid
+                WHERE q.qtype = 'stack'
+                AND qv.version = (SELECT MAX(v.version)
+                                  FROM {question_versions} v
+                                  JOIN {question_bank_entries} be
+                                    ON be.id = v.questionbankentryid
+                                 WHERE be.id = qb.id)
+                GROUP BY ctx.id, ctx.path
+                ORDER BY ctx.path");
     }
 
     /**
@@ -49,8 +72,28 @@ class stack_bulk_tester {
     public function get_stack_questions($categoryid) {
         global $DB;
 
-        return $DB->get_records_menu('question',
+        // Earlier than Moodle 4.0.
+        if (stack_determine_moodle_version() < 400) {
+            return $DB->get_records_menu('question',
                 ['category' => $categoryid, 'qtype' => 'stack'], 'name', 'id, name');
+        }
+
+        // See question/engine/bank.php around line 500, but this does not return the last version.
+        $qcparams['readystatus'] = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
+        return $DB->get_records_sql_menu("
+                SELECT q.id, q.id AS id2
+                FROM {question} q
+                JOIN {question_versions} qv ON qv.questionid = q.id
+                JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
+                WHERE qbe.questioncategoryid = {$categoryid}
+                       AND q.parent = 0
+                       AND qv.status = :readystatus
+                       AND q.qtype = 'stack'
+                       AND qv.version = (SELECT MAX(v.version)
+                                         FROM {question_versions} v
+                                         JOIN {question_bank_entries} be
+                                         ON be.id = v.questionbankentryid
+                                         WHERE be.id = qbe.id)", $qcparams);
     }
 
     /**
@@ -71,8 +114,11 @@ class stack_bulk_tester {
             $skippreviouspasses = false) {
         global $DB, $OUTPUT;
 
-        // Load the necessary data.
-        $categories = question_category_options(array($context));
+        if (stack_determine_moodle_version() < 400) {
+            $categories = question_category_options(array($context));
+        } else {
+            $categories = qbank_managecategories\helper::question_category_options(array($context));
+        }
         $categories = reset($categories);
         $questiontestsurl = new moodle_url('/question/type/stack/questiontestrun.php');
         if ($context->contextlevel == CONTEXT_COURSE) {
@@ -115,6 +161,7 @@ class stack_bulk_tester {
             } else {
                 $questionids = $this->get_stack_questions($categoryid);
             }
+
             if (!$questionids) {
                 continue;
             }

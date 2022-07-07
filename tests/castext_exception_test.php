@@ -39,11 +39,17 @@ require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
  */
 class castext_exception_test extends qtype_stack_testcase {
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     */
     public function test_exception_1() {
         $this->expectException(TypeError::class);
         $at1 = castext2_evaluatable::make_from_source(array(), null);
     }
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     */
     public function test_exception_2() {
         $this->expectException(TypeError::class);
         $at1 = castext2_evaluatable::make_from_source("Hello world", array(1));

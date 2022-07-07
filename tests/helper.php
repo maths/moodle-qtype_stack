@@ -71,7 +71,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
-     * Does the basical initialisation of a new Stack question that all the test
+     * Does the basic initialisation of a new STACK question that all the test
      * questions will need.
      * @return qtype_stack_question the new question.
      */

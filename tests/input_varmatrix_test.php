@@ -35,6 +35,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_varmatrix_input
  */
 class input_varmatrix_test extends qtype_stack_testcase {
 

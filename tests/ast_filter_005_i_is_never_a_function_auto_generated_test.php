@@ -28,6 +28,7 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 /**
  * @group qtype_stack
  * @group qtype_stack_ast_filters
+ * @covers \ast_filter_005_i_is_never_a_function
  */
 
 class ast_filter_005_i_is_never_a_function_auto_generated_test extends qtype_stack_ast_testcase {

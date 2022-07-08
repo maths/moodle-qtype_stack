@@ -1831,7 +1831,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         ];
         $ct = castext2_evaluatable::make_from_source($questiontext, '/qt');
         if (!$ct->get_valid($questiontextformat, $ctoptions, $sec)) {
-            throw new stack_exception('Error(s) in question-text: ' . implode('; ', $ct->get_errors()));
+            throw new stack_exception('Error(s) in question-text: ' . implode('; ', $ct->get_errors(false)));
         } else {
             $cc['castext-qt'] = $ct->get_evaluationform();
             // Note that only with "question-text" may we get inlined downloads.
@@ -1858,42 +1858,42 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         $ct = castext2_evaluatable::make_from_source($questionnote, '/qn');
         if (!$ct->get_valid(FORMAT_HTML, $ctoptions, $sec)) {
-            throw new stack_exception('Error(s) in question-note: ' . implode('; ', $ct->get_errors()));
+            throw new stack_exception('Error(s) in question-note: ' . implode('; ', $ct->get_errors(false)));
         } else {
             $cc['castext-qn'] = $ct->get_evaluationform();
         }
 
         $ct = castext2_evaluatable::make_from_source($generalfeedback, '/gf');
         if (!$ct->get_valid($generalfeedbackformat, $ctoptions, $sec)) {
-            throw new stack_exception('Error(s) in general-feedback: ' . implode('; ', $ct->get_errors()));
+            throw new stack_exception('Error(s) in general-feedback: ' . implode('; ', $ct->get_errors(false)));
         } else {
             $cc['castext-gf'] = $ct->get_evaluationform();
         }
 
         $ct = castext2_evaluatable::make_from_source($specificfeedback, '/sf');
         if (!$ct->get_valid($specificfeedbackformat, $ctoptions, $sec)) {
-            throw new stack_exception('Error(s) in specific-feedback: ' . implode('; ', $ct->get_errors()));
+            throw new stack_exception('Error(s) in specific-feedback: ' . implode('; ', $ct->get_errors(false)));
         } else {
             $cc['castext-sf'] = $ct->get_evaluationform();
         }
 
         $ct = castext2_evaluatable::make_from_source($prtcorrect, '/pc');
         if (!$ct->get_valid($prtcorrectformat, $ctoptions, $sec)) {
-            throw new stack_exception('Error(s) in PRT-correct message: ' . implode('; ', $ct->get_errors()));
+            throw new stack_exception('Error(s) in PRT-correct message: ' . implode('; ', $ct->get_errors(false)));
         } else {
             $cc['castext-prt-c'] = $ct->get_evaluationform();
         }
 
         $ct = castext2_evaluatable::make_from_source($prtpartiallycorrect, '/pp');
         if (!$ct->get_valid($prtpartiallycorrectformat, $ctoptions, $sec)) {
-            throw new stack_exception('Error(s) in PRT-partially correct message: ' . implode('; ', $ct->get_errors()));
+            throw new stack_exception('Error(s) in PRT-partially correct message: ' . implode('; ', $ct->get_errors(false)));
         } else {
             $cc['castext-prt-pc'] = $ct->get_evaluationform();
         }
 
         $ct = castext2_evaluatable::make_from_source($prtincorrect, '/pi');
         if (!$ct->get_valid($prtincorrectformat, $ctoptions, $sec)) {
-            throw new stack_exception('Error(s) in PRT-incorrect message: ' . implode('; ', $ct->get_errors()));
+            throw new stack_exception('Error(s) in PRT-incorrect message: ' . implode('; ', $ct->get_errors(false)));
         } else {
             $cc['castext-prt-ic'] = $ct->get_evaluationform();
         }

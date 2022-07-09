@@ -81,7 +81,7 @@ class stack_bulk_tester {
         // See question/engine/bank.php around line 500, but this does not return the last version.
         $qcparams['readystatus'] = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
         return $DB->get_records_sql_menu("
-                SELECT q.id, q.id AS id2
+                SELECT q.id, q.name AS id2
                 FROM {question} q
                 JOIN {question_versions} qv ON qv.questionid = q.id
                 JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid

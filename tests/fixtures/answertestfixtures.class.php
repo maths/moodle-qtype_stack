@@ -661,6 +661,8 @@ class stack_answertest_test_data {
         array('SubstEquiv', '[t]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = x].', ''),
         array('SubstEquiv', '[x,t]', 'A*cos(t)*e^x+B*sin(t)*e^x+C*sin(2*x)+D*cos(2*x)',
             'P*cos(t)*e^x+Q*sin(t)*e^x+R*sin(2*x)+S*cos(2*x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,C = R,D = S].', ''),
+        array('SubstEquiv', '', 'sqrt(2*g*y)', 'sqrt(2*g*x)', 1, 'ATSubstEquiv_Subst [g = g,y = x].', ''),
+        array('SubstEquiv', '[g]', 'sqrt(2*g*y)', 'sqrt(2*g*x)', 1, 'ATSubstEquiv_Subst [y = x].', ''),
 
         array('EqualComAss', '', '1/0', '0', -1, 'ATEqualComAss_STACKERROR_SAns.', ''),
         array('EqualComAss', '', '0', '1/0', -1, 'ATEqualComAss_STACKERROR_TAns.', ''),

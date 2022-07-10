@@ -1009,10 +1009,11 @@ subst_equiv([ex]):=block([ex1, ex2, l1, lv1, lv2, lvi, lvp, lvs, lve, lvpres, il
  lv2:listify(lv2),
  if length(lv1)>perm_size then return(false),
  /*                                  */
- lvp:listify(permutations(lv2)),
+ lvp:listify(permutations(lv1)),
  /* Create a list of subsitutions */
- lvs:map(lambda([ex], zip_with("=", lv1, ex)), lvp),
- /* Create list of expressions with which to compare ex1 */
+ lvs:map(lambda([ex], zip_with("=", ex, lv2)), lvp),
+ lvs:map(sort, lvs),
+  /* Create list of expressions with which to compare ex1 */
  lve:map(lambda([ex], ev(ex1, ex)), lvs),
  lve:map(lambda([ex], ATAlgEquivfun(ex, ex2)), lve),
  lve:map(second,lve),

@@ -44,7 +44,7 @@ When you change the documentation, the website automatically updates as well. Th
 
 ### Updating the style
 
-The online docs uses a custom [CSS stylesheet](../../../custom.css) which you can edit. This stylesheet builds upon the stylesheets of MkDocs and Material.
+The online docs uses a custom [CSS stylesheet](https://github.com/maths/moodle-qtype_stack/blob/master/doc/custom.css) which you can edit. This stylesheet builds upon the stylesheets of MkDocs and Material.
 
 You can also edit the theme directly. Any file in the `site_overrides` folder will override files of the same name in [Material's directory](https://github.com/squidfunk/mkdocs-material/tree/master/material). The `main.html` file is designed to make it easy to override some [predetermined blocks](https://squidfunk.github.io/mkdocs-material/customization/#overriding-blocks), but sometimes it is necessary to override files directly. Notice we directly override some of [Material's partials](https://github.com/squidfunk/mkdocs-material/tree/master/material/partials).
 

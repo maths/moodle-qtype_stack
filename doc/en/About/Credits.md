@@ -37,7 +37,7 @@ German documentation was added in Jan 2019 by Eva Mix and Mario Josupeit of Univ
 
 # Other implementations and projects
 
-STACK has been ported to the plugin [assStackQuestion](github.com/ilifau/assStackQuestion) for the Learning Management System [ILIAS](https://www.ilias.de/)  by:
+STACK has been ported to the plugin [assStackQuestion](https://github.com/ilifau/assStackQuestion) for the Learning Management System [ILIAS](https://www.ilias.de/)  by:
 
 - Jesus Copado
 - Fred Neumann

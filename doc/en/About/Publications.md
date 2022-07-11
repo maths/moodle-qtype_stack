@@ -4,13 +4,13 @@ STACK is a very popular online assessment system, used by many groups in a varie
 
 ### Publicity materials.
 
-We have a booklet of [case studies](../../content/2019-cate-case-studies.pdf), and a PDF flyer about the [STACK project](../../content/2018-STACK.pdf).
+We have a booklet of [case studies](https://docs.stack-assessment.org/content/2019-cate-case-studies.pdf), and a PDF flyer about the [STACK project](https://docs.stack-assessment.org/content/2018-STACK.pdf).
 
-We have a "Getting started with STACK" [guide](../../content/2019-STACK-Guide.pdf) ([Spanish](../../content/es/2019-STACK-Guide.pdf)).
+We have a "Getting started with STACK" [guide](https://docs.stack-assessment.org/content/2019-STACK-Guide.pdf) ([Spanish](https://docs.stack-assessment.org/content/content/es/2019-STACK-Guide.pdf)).
 
 ### Computer aided assessment of mathematics
 
-![Cover of Computer Aided Assessment of Mathematics](../../content/CAACover.jpg)  
+![Cover of Computer Aided Assessment of Mathematics](https://docs.stack-assessment.org/content/CAACover.jpg)  
 
 [Computer Aided Assessment of Mathematics](http://ukcatalogue.oup.com/product/9780199660353.do#.UklVZtKSJuc), Chris Sangwin, Oxford University Press, 2013.
 
@@ -26,7 +26,7 @@ Y. Nakamura, [The STACK e-Learning and Assessment System for mathematics, scienc
 
 Proceedings of the 1st International STACK Conference can be found can be found on the open access publication server Zenodo here: [https://zenodo.org/communities/stack](https://zenodo.org/communities/stack)
 
-A comprehensive bibliography is available here: [STACK bibliography](../../content/stack_publications.pdf), with the entries in [BiBTeX format](../../content/stack.bib).
+A comprehensive bibliography is available here: [STACK bibliography](https://docs.stack-assessment.org/content/stack_publications.pdf), with the entries in [BiBTeX format](https://docs.stack-assessment.org/content/stack.bib).
 
 These two recent papers about STACK are a good place to start:
 

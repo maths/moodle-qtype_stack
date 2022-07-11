@@ -12,7 +12,7 @@ GeoGebra has a strong user base and there is a large number of user-created reso
 
 ## JSXGraph
 
-STACK has native support for the mathematics visualisation system [JSXGraph](JSXGraph.md). Recently, there have been attempts to use JSXGraph to assess curve sketching in STACK. In particular, see the work done by Tobias Mai and Alexander Meyer in developing a JSXGraph applet that lets students sketch curves by a trace of points. The applet can determine how accurate the sketch is and provide specific feedback. Future developments include support for randomisation and interface improvements. More information, including contact information, can be found in their paper ["Sketching functions as a digital task with automated feedback"](../../content/2018-proceedings/mai_tobias_2019_2582427.pdf).
+STACK has native support for the mathematics visualisation system [JSXGraph](JSXGraph.md). Recently, there have been attempts to use JSXGraph to assess curve sketching in STACK. In particular, see the work done by Tobias Mai and Alexander Meyer in developing a JSXGraph applet that lets students sketch curves by a trace of points. The applet can determine how accurate the sketch is and provide specific feedback. Future developments include support for randomisation and interface improvements. More information, including contact information, can be found in their paper ["Sketching functions as a digital task with automated feedback"](https://docs.stack-assessment.org/content/2018-proceedings/mai_tobias_2019_2582427.pdf).
 
 ![Assessing competencies with MCQ's](../../content/JSXGraph_sketching.png)
 

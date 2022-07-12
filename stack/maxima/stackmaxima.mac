@@ -1100,7 +1100,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /* Remove logarithms to other bases from expressions. */
     if not(freeof(lg, ex)) then
         ex:ev(ex, lg=logbasesimp),
-    lvs: listofvars(ex),
+    lvs: listofvars(%_ce_rem(ex)),
     lvs: sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric))),
     if length(lvs)>1 then
        error("Plot error: Can't create a plot with more than one variable, whereas you have: \\(",string(lvs),"\\)"),

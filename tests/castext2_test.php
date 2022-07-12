@@ -63,6 +63,9 @@ class castext2_test extends qtype_stack_testcase {
 
         $session->instantiate();
 
+        $this->assertTrue($session->get_valid());
+        $this->assertEquals('', $session->get_errors());
+
         return $result->get_rendered();
     }
 
@@ -494,5 +497,12 @@ class castext2_test extends qtype_stack_testcase {
         $output = stack_string('stackversionerror', ['qfield' => 'text', 'ver' => 'sqrt(5)', 'pat' => '\({52+x-x}\)']);
 
         $this->assertEquals($output, $this->evaluate($input, $preamble));
+    }
+
+    public function test_plot_if() {
+        $input = '{@plot(if x<=0 then x^2+1 else sin(x)/x, [x,-4,20], [y,-1,6])@}';
+        $output = '';
+
+        $this->assertTrue(strpos($this->evaluate($input), '!ploturl!stackplot') > 0);
     }
 }

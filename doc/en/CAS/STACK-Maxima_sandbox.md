@@ -22,7 +22,9 @@ On a Microsoft operating system, if you place the all the files (i.e. clone or u
 
     c:/tmp/stackroot
 
-the `sandbox.wmx` should work without further adjustment.  Otherwise open `sandbox.wmx` with wxMaxima and follow the further instructions it contains to setup the path for Maxima.  Execute the sandbox file with wxMaxima when you have updated the settings with `cell > Evaluate all cells`.  If you see something like the following you have set this up correctly (version numbers will vary).
+the `sandbox.wmx` should work without further adjustment.  
+
+Otherwise open `sandbox.wmx` with wxMaxima and follow the further instructions it contains to setup the path for Maxima.  __Note, the backslash character `\` is a control character so you will need to edit the path to replace the `\` with `/` in wxMaxima.__ Execute the sandbox file with wxMaxima when you have updated the settings with `cell > Evaluate all cells`.  If you see something like the following you have set this up correctly (version numbers will vary).
 
     [ STACK-Maxima started, library version 2022022300 ] 
 

@@ -460,6 +460,11 @@
         "description":"Instructions on downloading and compiling Maxima, the CAS used for STACK."
         },
         {
+        "file":"Migration.md",
+        "title":"Migrating from STACK 3.x or 2.x to the current version - STACK Documentation",
+        "description":"Instructions on migrating from STACK 3.x or 2.x to the current version."
+        },
+        {
         "file":"Testing_installation.md",
         "title":"Testing Installation - STACK Documentation",
         "description":"It is important to confirm that STACK has been installed correctly. This page provides instructions for confirming this."

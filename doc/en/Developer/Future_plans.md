@@ -17,7 +17,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ### Inputs ###
 
-* (Parser can do this)  Add support for coordinates, so students can type in (x,y).  This should be converted internally to a list.
 * Add new input types
  1. DragMath (actually, probably use JavaScript from NUMBAS instead here, or the MathDox editor).
  2. Sliders - do this via JSXGraph.
@@ -62,7 +61,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 * Answer tests should be like inputs. We should return an answer test object, not a controller object.
 * at->get_at_mark() really ought to be at->matches(), since that is how it is used.
-* Use `defstruct` in Maxima for the return objects. (Note to self: `@` is the element access operator).
 
 ## Features that might be attempted in the future - possible self-contained projects
 

@@ -63,7 +63,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x-1)^2', '(x-1)^2', -1, 'ATAlgEquivTEST_FAILED-Empty SA.', ''),
 
         // Make this behaviour explict.
-        array('AlgEquiv', '', 'x1', 'x_1', 0, '', ''),
+        array('AlgEquiv', '', 'x1', 'x_1', 0, '', 'See docs on subscripts and different atoms.'),
         array('AlgEquiv', '', 'x_1', 'x[1]', 0, '', ''),
         array('AlgEquiv', '', 'x[1]', 'x1', 0, '', ''),
         array('AlgEquiv', '', 'integerp(3)', 'true', 1, 'ATLogic_True.', 'Predicates'),

@@ -116,10 +116,15 @@ function stack_docs_no_found($links) {
  * @return string HTML page body.
  */
 function stack_docs_page($links, $file) {
+    $preprocess = true;
+    // This auto-generated file does not need maths processing.
+    if (strpos($file, 'Answer_tests_results') !== false) {
+        $preprocess = false;
+    }
     $body = '';
     $body .= $links;
     $body .= "\n<hr/>\n";
-    $body .= stack_docs_render_markdown(file_get_contents($file));
+    $body .= stack_docs_render_markdown(file_get_contents($file), $preprocess);
     $body .= "\n<hr/>\n";
     $body .= $links;
     return $body;
@@ -127,13 +132,16 @@ function stack_docs_page($links, $file) {
 
 /**
  * @param string $page countent in Markdown format.
- * @param string $docscontent base URL for linking to images etc.
+ * @param boolean $preprocess Do we need to process the maths in this page?.
  * @return string HTML content.
  */
-function stack_docs_render_markdown($page) {
+function stack_docs_render_markdown($page, $preprocess = true) {
 
     // Put in links to images etc.
-    $page = stack_maths::pre_process_docs_page($page);
+    if ($preprocess) {
+        // Don't process the auto-generated answer test output.
+        $page = stack_maths::pre_process_docs_page($page);
+    }
     $page = format_text($page, FORMAT_MARKDOWN, array('filter' => false, 'noclean' => true));
     $page = stack_maths::post_process_docs_page($page);
     return $page;

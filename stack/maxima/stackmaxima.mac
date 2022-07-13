@@ -1349,11 +1349,14 @@ ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, A
        RawMark:true
     else if algebraic_equivalence(SA, SB) then
        RawMark:true
-    else block([SAd, SBd],
+    else block([SAd, SBd, exeq],
         /* algebraic_equivalence is not free, so only execute this when we need to do so. */
         SAd:exdowncase(SA),
         SBd:exdowncase(SB),
-        if (SAd#SA or SBd#SB) and algebraic_equivalence(SAd, SBd) then
+        /* If lower case variables are defined then this can throw an error here.  E.g. SA:1/B, but b:0 elsewhere....  */
+        exeq:errcatch(algebraic_equivalence(SAd, SBd)),
+        if is(exeq = []) then print("STACK: ignore previous error. (WrongCase)") else
+        if (SAd#SA or SBd#SB) and first(exeq) then
             AnswerNote:StackAddNote("", "ATAlgEquiv_WrongCase")
         ),
     ret:[Validity, RawMark, AnswerNote, FeedBack],

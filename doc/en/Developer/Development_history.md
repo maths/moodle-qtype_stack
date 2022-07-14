@@ -4,7 +4,7 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 ## Version 4.4
 
-To be released X 2022
+Released July 2022.
 
 Major rewrite of the PRT and CASText systems, focus on performance and limitations of the previous systems.
 

@@ -4,7 +4,7 @@ How to report bugs and make suggestions is described on the [community](../About
 
 Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.
 
-## Features to add for STACK 4.4 or later ##
+## Features to add for STACK 4.5 or later ##
 
 ### Units inputs ###
 

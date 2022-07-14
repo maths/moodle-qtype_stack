@@ -5,7 +5,9 @@ past development history is documented on [Development history](Development_hist
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-## Version 4.5
+## Version 4.4.1
+
+TODO: track down bug in assignments/evaluation affecting the inputs.
 
 TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
  #671, #420

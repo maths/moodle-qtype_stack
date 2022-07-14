@@ -2,7 +2,7 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
-## Version 4.4
+## Version 4.4.0
 
 Released July 2022.
 
@@ -26,7 +26,7 @@ Major rewrite of the PRT and CASText systems, focus on performance and limitatio
 16. Add in support for the [Damerau-Levenshtein distance](../Authoring/Levenshtein_distance.md).
 17. Add in suppprt for the display of [Complex Numbers](../CAS/Complex_numbers.md).
 18. Add in basic solving of expressions with the not equals.  E.g. `x-1#0` is now considered equivalent to `x#1`.
-19. Add in support for Moodle 4.0
+19. Add in support for Moodle 4.0.
 
 ## Version 4.3.11
 

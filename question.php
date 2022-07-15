@@ -1706,6 +1706,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $forbiddenkeys = [];
         $sec = new stack_cas_security();
 
+        // Some counter resets to ensure that the result is the same even if
+        // we for some reason would compile twice in a session.
+        // Happens during first preview and can lead to cache being always out
+        // of sync if textdownload is in play.
+        stack_cas_castext2_textdownload::$countfiles = 1;
+
         // First handle the question variables.
         if ($questionvariables === null || trim($questionvariables) === '') {
             $cc['statement-qv'] = null;

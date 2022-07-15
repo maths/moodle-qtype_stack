@@ -35,7 +35,7 @@ require_once(__DIR__ . '/../utils.php');
  */
 class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
 
-    private static $countfiles = 1;
+    public static $countfiles = 1;
 
     public function compile($format, $options): ?string {
         if (!isset($options['in main content']) || !$options['in main content']) {
@@ -45,7 +45,12 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
         $format = castext2_parser_utils::RAWFORMAT;
 
         $code = '["textdownload",' . stack_utils::php_string_to_maxima_string($this->params['name']) . ',"' .
-            self::$countfiles . '"]';
+            self::$countfiles;
+        if (isset($options['stateful']) && $options['stateful'] === true) {
+            $code .= ',"stateful"';
+        }
+
+        $code .= '"]';
 
         // Collect the content for future.
         $content = '["%root",""';
@@ -72,6 +77,13 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
     }
 
     public function postprocess(array $params, castext2_processor $processor): string {
+        // Note different systems serve out through different logic.
+        if (count($params) > 3 && $params[3] === 'stateful') {
+            return (new moodle_url(
+                '/question/type/stateful/textdownload.php', ['qaid' => $processor->qa->get_database_id(),
+                'id' => $params[2], 'name' => $params[1]]))->out(false);
+        }
+
         // Simply form the URL for getting the content out.
         return (new moodle_url(
             '/question/type/stack/textdownload.php', ['qaid' => $processor->qa->get_database_id(),

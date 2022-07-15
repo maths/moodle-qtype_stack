@@ -43,7 +43,13 @@ How it works is that you wrap whatever you want the file to contain in a `[[text
 As an example, using the new function that generates CSV-strings from data we can write as follows:
 
 ```
-[[define lab='["A","B","C"]' data='makelist([rand(322)/100.0,rand(600)/100.0,rand(300)/100.0], i, 50)']]
+/* Define these in question variables: */
+lab: ["A","B","C"];
+data: makelist([rand(322)/100.0,rand(600)/100.0,rand(300)/100.0], i, 50);
+```
+
+```
+[[comment]]Use them like this in the question-text.[[/comment]]
 Load the data from 
 <a href="[[textdownload name="data.csv"]]{@stack_csv_formatter(data,lab)@}[[/textdownload]]">this file</a> and ...
 ```

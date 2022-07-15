@@ -45,12 +45,12 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
         $format = castext2_parser_utils::RAWFORMAT;
 
         $code = '["textdownload",' . stack_utils::php_string_to_maxima_string($this->params['name']) . ',"' .
-            self::$countfiles;
+            self::$countfiles . '"';
         if (isset($options['stateful']) && $options['stateful'] === true) {
             $code .= ',"stateful"';
         }
 
-        $code .= '"]';
+        $code .= ']';
 
         // Collect the content for future.
         $content = '["%root",""';

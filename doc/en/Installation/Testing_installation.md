@@ -10,9 +10,7 @@ STACK provides a number of options.  To set these you must login as the Moodle s
 
 ## Healthcheck script
 
-To confirm if the PHP scripts are connecting to Maxima navigate to the `STACK configuration page`.  Choose the link to the healthcheck script.
-
-The CAS-debug option in the STACK settings will provide a very verbose output which is indispensable at this stage.  Turn this off for production servers, as it is wasteful of storage, particularly when caching results.
+To confirm if the PHP scripts are connecting to Maxima navigate to the _STACK configuration page_ (see above).  Choose the link to the "healthcheck script".
 
 The healthcheck script checks the following. 
 
@@ -21,10 +19,9 @@ The healthcheck script checks the following.
 * Can PHP call Maxima? No, then see below.
 * Graph plotting. Are auto-generated plots being created correctly?  There should be two different graphs.  If not, check the gnuplot settings, and directory permissions.
 
-If PHP does not connect to Maxima then this checklist might help.
+The CAS-debug option in the STACK settings will provide a very verbose output which is indispensable at this stage.  Turn this off for production servers, as it is wasteful of storage, particularly when caching results.
 
-1. Maxima version.  If you have installed more than one version of Maxima on your machine you will probably need to choose one explicitly.
-2. If you get the following error `loadfile: failed to load /usr/share/maxima/5.32.1/share/draw/draw.lisp` then remove the optional libraries from `Load optional Maxima libraries:`.  Set this to blank and re-try the healthcheck.
+If PHP does not connect to Maxima then please see the "Troubleshooting" section below.
 
 ## Maxima optional packages
 
@@ -73,11 +70,15 @@ When you upgrade, the STACK plugin will try to automatically recreate the optimi
 
 ### 1. GOAL: maxima works on the server
 
-Check Maxima is installed and working.  E.g. type `maxima` on the command line, and `quit();` to exit.
+Check Maxima is installed and working.  E.g. type `maxima` on the command line, and try a non-trivial calculation such as `diff(sin(x^2),x);` to confirm Maxima is working.  Use `quit();` to exit.
 
 ### 2. GOAL: STACK works!
 
-Next, check STACK is working without the optimised image, and without caching.  Take note of your old settings and save the following settings.
+Next, check STACK is working without the optimised image, and without caching.  The STACK settings are defined on the plugin page.
+
+    Site administration -> Plugins -> Question Types -> STACK
+
+To set these you must login as the Moodle site Administrator.  Take note of your old settings and save the following settings.
 
     qtype_stack | platform = Linux
     qtype_stack | maximaversion = default
@@ -90,8 +91,6 @@ Next, check STACK is working without the optimised image, and without caching.  
 Note that the `maximacommand`, `maximacommandopt` and `maximalibraries` should be empty boxes.
 
 The `castimeout` of 100s is excessive. However, the very first time Maxima is called on a server it internally compiles a lot of LISP sourcecode.  This can take a surprisingly long time!
-
-The run the healtcheck script.  If this works, try STACK questions.
 
 ### 3. GOAL: Reduce timeout and check Maxima libraies.
 
@@ -114,7 +113,21 @@ from the dropdown.  Part of the healthcheck script will tell you which version y
 
 Save these settings and run the healtcheck script.
 
-### 5. Goal: create optimised image.
+### 5. Goal: check libraries in Maxima
+
+The setting `qtype_stack | maximalibraries` tries to load some optional Maxima libraries.  Not all versions of Maxima have these libraries, which can be confusing.
+
+Only supported library names can be used.  For example try the following.
+
+    qtype_stack | maximalibraries = stats, distrib, descriptive, simplex
+
+Save these settings and run the healtcheck script.
+
+Note, internally in Maxima this is equivalent to typing `load(stats);` in at the Maxima command line for each library in the list.  You can try this in step 1 above to check each library you want to load by hand.
+
+If you get the following error `loadfile: failed to load /usr/share/maxima/5.32.1/share/draw/draw.lisp` then remove the optional libraries from `qtype_stack | maximalibraries`.  I.e. set this to blank and re-try the healthcheck.  (One of the stats libraries also tries to load the draw library.)
+
+### 6. Goal: create optimised image.
 
 Now press the "Create Maxima Image" button at the bottom of the healthcheck script page to create the optimised image, and read the output of the refreshed healthcheck page.  Note, this page updates some of your settings in the plugin page. In particular, it changes `qtype_stack | platform` to optimised and fills in the value of `qtype_stack | maximacommandopt`.
 
@@ -136,7 +149,7 @@ The PHP process must have permission to write to this directory.  If your optimi
 
 (The precise name of the Maxima image depends on the LISP version, e.g. `maxima_opt_auto` is generated by GCL.)
 
-### 6. Goal: use the CAS cache.
+### 7. Goal: use the CAS cache.
 
 The very last step is to use the CAS cache.
 

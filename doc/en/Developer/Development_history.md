@@ -2,6 +2,10 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.4.1
+
+This is mainly a bug fix version.  Version 4.4.0 has a number of major re-writes and also supports Moodle 4.0.  We anticipate releasing Version 4.4.1 in September 2022, with no sigificant new features.
+
 ## Version 4.4.0
 
 Released July 2022.

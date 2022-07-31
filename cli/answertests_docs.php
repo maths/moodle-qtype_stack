@@ -49,7 +49,7 @@ foreach ($availabletests as $anstest) {
         'passed'        => stack_string('testsuitecolpassed'),
         'studentanswer' => stack_string('studentanswer'),
         'teacheranswer' => stack_string('teacheranswer'),
-        'options'       => stack_string('options'),
+        'options'       => stack_string('options_short'),
         'rawmark'       => stack_string('testsuitecolmark'),
         'error'         => stack_string('testsuitecolerror'),
         'feedback'      => stack_string('testsuitefeedback'),

@@ -118,7 +118,7 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
     }
 
 
-    public function validate(&$errors=[], array $options=[]): bool {
+    public function validate(&$errors=[], $options=[]): bool {
         if (!array_key_exists('key', $this->params)) {
             $errors[] = new $options['errclass']('The commonstring block must always have a key for the string template.',
                 $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);

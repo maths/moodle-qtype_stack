@@ -152,8 +152,9 @@ class stack_cas_keyval {
         $this->valid   = true;
         $this->statements   = array();
         foreach ($ast->items as $item) {
-            $cs = stack_ast_container::make_from_teacher_ast($item, '', $this->security);
+            // Include might have brought in some comments. Even after we removed them from the source.
             if ($item instanceof MP_Statement) {
+                $cs = stack_ast_container::make_from_teacher_ast($item, '', $this->security);
                 $op = '';
                 if ($item->statement instanceof MP_Operation) {
                     $op = $item->statement->op;
@@ -166,10 +167,10 @@ class stack_cas_keyval {
                     $cs = stack_ast_container_silent::make_from_teacher_ast($item, '',
                             $this->security);
                 }
+                $this->valid = $this->valid && $cs->get_valid();
+                $this->errors = array_merge($this->errors, $cs->get_errors('objects'));
+                $this->statements[] = $cs;
             }
-            $this->valid = $this->valid && $cs->get_valid();
-            $this->errors = array_merge($this->errors, $cs->get_errors('objects'));
-            $this->statements[] = $cs;
         }
 
         // Allow reference to inputs in the values of the question variables (otherwise we can't use them)!

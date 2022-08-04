@@ -2321,6 +2321,74 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         );
     }
 
+    public function test_1input2prts_different_prt_values() {
+        // Create a stack question.
+        $q = \test_question_maker::make_question('stack', '1input2prts');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the right behaviour is used.
+        $this->assertEquals('adaptivemultipart', $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Submit partially correct response.
+        $this->process_submission(array('ans1' => '3', 'ans1_val' => '3', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0.8);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 3 [score]; prt1: # = 0 | prt1-0-0; prt2: # = 1 | prt2-0-1';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '3');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('prt1');
+        $this->check_output_contains_prt_feedback('prt2');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->assertMatchesRegularExpression('~' . preg_quote($q->prtincorrect, '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
+        $this->check_current_output(
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Submit partially correct response.
+        $this->process_submission(array('ans1' => '8', 'ans1_val' => '8', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        // How do we get to 0.95?
+        // Take 0.8 for the correct first part (which remains in place as the highest mark).
+        // The penalty for this question is 0.25.
+        // Add 0.2*(1-penalty) = 0.15 marks.
+        // A real question author would probably adjust the penalties for this question.
+        $this->check_current_mark(0.95);
+        $this->render();
+        $expected = 'Seed: 1; ans1: 8 [score]; prt1: # = 1 | prt1-0-1; prt2: # = 0 | prt2-0-0';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', '8');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_contains_prt_feedback('prt1');
+        $this->check_output_contains_prt_feedback('prt2');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->assertMatchesRegularExpression('~' . preg_quote($q->prtincorrect, '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
+        $this->check_current_output(
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+    }
+
     public function test_test0_adaptive_nopenalties_wrong_then_right_then_regrade() {
 
         // Create the stack question 'test0'.

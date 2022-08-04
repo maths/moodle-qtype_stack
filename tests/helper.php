@@ -1502,7 +1502,7 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
-     * @return qtype_stack_question the question from the test1.xml file.
+     * @return qtype_stack_question with two PRTs with different values.
      */
     public static function make_stack_question_1input2prts() {
         $q = self::make_a_stack_question();
@@ -1515,7 +1515,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->generalfeedback = '';
 
         $q->specificfeedback = '[[feedback:prt1]] [[feedback:prt2]]';
-        $q->penalty = 0.1;
+        $q->penalty = 0.25;
 
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', '6', null, array('boxWidth' => 15));
@@ -1523,7 +1523,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt = new stdClass;
         $prt->name              = 'prt1';
         $prt->id                = 0;
-        $prt->value             = 0.5;
+        $prt->value             = 0.2;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
         $prt->firstnodename     = '0';
@@ -1557,7 +1557,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt = new stdClass;
         $prt->name              = 'prt2';
         $prt->id                = 1;
-        $prt->value             = 0.5;
+        $prt->value             = 0.8;
         $prt->feedbackstyle     = 1;
         $prt->feedbackvariables = '';
         $prt->firstnodename     = '0';
@@ -1566,7 +1566,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
-        $newnode->sans                = 'mod(ans1,2)';
+        $newnode->sans                = 'mod(ans1,3)';
         $newnode->tans                = '0';
         $newnode->answertest          = 'AlgEquiv';
         $newnode->testoptions         = '';

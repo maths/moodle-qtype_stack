@@ -1194,14 +1194,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     /**
-     * @return bool whether this question uses randomisation.
+     * @return bool Whether this question uses randomisation.
      */
     public function has_random_variants() {
         return $this->random_variants_check($this->questionvariables);
     }
 
     /**
-     * @return bool Actual test of whether this question uses randomisation.
+     * @param string Input text (raw keyvals) to check for random functions.
+     * @return bool Actual test of whether text uses randomisation.
      */
     public static function random_variants_check($text) {
         return preg_match('~\brand~', $text) || preg_match('~\bmultiselqn~', $text);

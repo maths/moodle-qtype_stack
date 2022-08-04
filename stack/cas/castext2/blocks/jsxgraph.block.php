@@ -153,7 +153,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
     public function validate(
         &$errors = [],
-        array $options
+        $options = []
     ): bool {
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.

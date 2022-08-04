@@ -62,7 +62,7 @@ class stack_cas_castext2_lang extends stack_cas_castext2_block {
         return [];
     }
 
-    public function validate(&$errors=array(), array $options): bool {
+    public function validate(&$errors=[], $options=[]): bool {
         if (!array_key_exists('code', $this->params)) {
             $errors[] = new $options['errclass']('The "lang"-block needs a code atribute with a singular code or a comma ' .
                 'separated list of alternatives.', $options['context'] . '/' . $this->position['start'] . '-' .

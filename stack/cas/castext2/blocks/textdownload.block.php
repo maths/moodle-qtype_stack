@@ -91,7 +91,7 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
     }
 
 
-    public function validate(&$errors=array(), array $options): bool {
+    public function validate(&$errors=[], $options=[]): bool {
         if (!array_key_exists('name', $this->params)) {
             $errors[] = new $options['errclass']('The textdownload-block requires one to declare a name for the file.',
                 $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);

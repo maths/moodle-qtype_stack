@@ -96,7 +96,7 @@ abstract class stack_cas_castext2_block {
      * list of PRTs. What it contains in use case specific. One can typically assume
      * that it contaisn the same values as the simillar aray for `compile`.
      */
-    public function validate(&$errors = [], array $options): bool {
+    public function validate(&$errors = [], $options = []): bool {
         return true;
     }
 

@@ -37,7 +37,7 @@ class stack_cas_castext2_castext extends stack_cas_castext2_block {
         return $r;
     }
 
-    public function validate(&$errors=array(), array $options): bool {
+    public function validate(&$errors=[], $options = []): bool {
         if (!array_key_exists('evaluated', $this->params)) {
             $errors[] = new $options['errclass']('The castext block must be empty and needs to have the "evaluated" ' .
                 'attribute providing the castext-fragment.', $options['context'] . '/' . $this->position['start'] .

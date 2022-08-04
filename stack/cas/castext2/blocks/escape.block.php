@@ -51,7 +51,7 @@ class stack_cas_castext2_escape extends stack_cas_castext2_block {
         return array();
     }
 
-    public function validate(&$errors=array(), array $options): bool {
+    public function validate(&$errors=[], $options=[]): bool {
         // Due to escape block needing some backwards compatibility we still need to support
         // the old way of defining the value as an parameter but not both ways at the same time.
 

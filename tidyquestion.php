@@ -29,10 +29,6 @@ require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/tidyquestionform.php');
 require_once(__DIR__ . '/vle_specific.php');
 
-if (stack_determine_moodle_version() >= 400) {
-    require_once(__DIR__ . 'vle_moodle4.php');
-}
-
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
 

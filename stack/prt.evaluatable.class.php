@@ -186,7 +186,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
                 // If it was flat.
                 $this->renderedfeedback  = stack_utils::maxima_string_to_php_string($this->feedback);
                 if ($this->statics !== null) {
-                    $this->evaluated = $this->statics->replace($this->evaluated);
+                    $this->renderedfeedback = $this->statics->replace($this->renderedfeedback);
                 }
             } else {
                 $value = castext2_parser_utils::unpack_maxima_strings($this->feedback);

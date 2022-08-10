@@ -25,9 +25,6 @@ require_once(__DIR__ . '/996_call_modification.filter.php');
  */
 class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parametric {
 
-    // Unique counter for temp vars.
-    public static $TMPVARCOUNT = 1;
-
     // Whether to rewrite evaluation flags. Don't do for students.
     private $flags = false;
 
@@ -44,6 +41,8 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
                 if ($node->statement instanceof MP_Operation && $node->statement->op === ':') {
                     $fun->arguments[0] = $node->statement->rhs;
                     $node->statement->rhs = $fun;
+                } else {
+                    $node->statement = $fun;
                 }
                 foreach ($node->flags as $flag) {
                     $fun->arguments[] = new MP_Operation('=', $flag->name, $flag->value);
@@ -61,12 +60,12 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
                 }
                 if (count($tc['funs']) > 0) {
                     // Complex `ev`. As in iss824.
-                    $id = '%_ev_tmp_' . self::$TMPVARCOUNT;
-                    self::$TMPVARCOUNT = self::$TMPVARCOUNT + 1;
-                    $id2 = '%_ev_tmp_' . self::$TMPVARCOUNT;
-                    self::$TMPVARCOUNT = self::$TMPVARCOUNT + 1;
-                    $replacement = new MP_Group([new MP_Operation(':', new MP_Identifier($id2), new MP_Identifier('simp')), new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)), new MP_Operation(':', new MP_Identifier($id), $payload), new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier($id2)), $node]);
-                    $node->arguments[0] = new MP_Identifier($id);
+                    $replacement = new MP_FunctionCall(new MP_Identifier('block'),
+                        [
+                            new MP_List([new MP_Identifier('%_sev_e')]),
+                            new MP_Operation(':', new MP_Identifier('%_sev_e'), $payload), 
+                            $node]);
+                    $node->replace($payload, new MP_Identifier('%_sev_e'));
                     $node->parentnode->replace($node, $replacement);
                     return false;
                 }

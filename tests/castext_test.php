@@ -1854,4 +1854,24 @@ class castext_test extends qtype_stack_testcase {
 
         $this->assertEquals('\[ {\left[\begin{array}{c} 0 \\\\ 0 \\\\ 0 \\\\ 0 \end{array}\right]}.\]', $at2->get_rendered());
     }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_texput_complex_function() {
+        $vars = 'texput(u,lambda([ex],if length(ex)<4 then return("\\bigcup_{?=?}^{?} ? ") else' .
+            'sconcat("\\bigcup_{" ,tex1(second(ex)), " = ", tex1(third(ex)), "}^{", tex1(fourth(ex)), ' .
+            '"} ", tex1(first(ex)))));';
+        $at1 = new stack_cas_keyval($vars, null, 123);
+        $this->assertTrue($at1->get_valid());
+
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@u(A_k,k,1,inf)@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals('\({bigcup_{k = 1}^{\infty } {A}_{k}}\)', $at2->get_rendered());
+    }
 }

@@ -185,4 +185,16 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->check($code, $result);
     }
 
+    public function test_diff() {
+        $code = 'simp:false;';
+        $code .= 'a:x;';
+        $code .= 'b:x^2;';
+        $code .= 'RESULT:ev(diff(a-b,x),simp);';
+
+        $result = '1-2*x';
+
+        $this->check($code, $result);
+    }
+
+
 }

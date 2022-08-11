@@ -60,11 +60,35 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
                 }
                 if (count($tc['funs']) > 0) {
                     // Complex `ev`. As in iss824.
-                    $replacement = new MP_FunctionCall(new MP_Identifier('block'),
-                        [
-                            new MP_List([new MP_Identifier('%_sev_e')]),
-                            new MP_Operation(':', new MP_Identifier('%_sev_e'), $payload), 
-                            $node]);
+
+                    $simp = null;
+                    foreach ($node->arguments as $arg) {
+                        if ($arg !== $payload) {
+                            if ($arg instanceof MP_Identifier && $arg->value === 'simp') {
+                                $simp = new MP_Boolean(true);
+                            } else if ($arg instanceof MP_Operation && ($arg->op === ':' || $arg->op === '=') && $arg->lhs instanceof MP_Identifier && $arg->lhs->value === 'simp') {
+                                $simp = clone $arg->rhs;
+                            }
+                        }
+                    }
+
+                    $replacement = null;
+                    if ($simp === null) {
+                        $replacement = new MP_FunctionCall(new MP_Identifier('block'),
+                            [
+                                new MP_List([new MP_Identifier('%_sev_e')]),
+                                new MP_Operation(':', new MP_Identifier('%_sev_e'), $payload), 
+                                $node]);
+                    } else {
+                        $replacement = new MP_FunctionCall(new MP_Identifier('block'),
+                            [
+                                new MP_List([new MP_Identifier('%_sev_e'), new MP_Identifier('%_sev_s')]),
+                                new MP_Operation(':', new MP_Identifier('%_sev_s'), new MP_Identifier('simp')), 
+                                new MP_Operation(':', new MP_Identifier('simp'), $simp), 
+                                new MP_Operation(':', new MP_Identifier('%_sev_e'), $payload), 
+                                new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('%_sev_s')), 
+                                $node]);
+                    }
                     $node->replace($payload, new MP_Identifier('%_sev_e'));
                     $node->parentnode->replace($node, $replacement);
                     return false;

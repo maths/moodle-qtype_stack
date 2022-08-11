@@ -120,7 +120,7 @@ class stack_abstract_graph_svg_renderer {
     }
 
     /**
-     * Generate the SVG code for and edge, with its label.
+     * Generate the SVG code for an edge, with its label.
      * @param stack_abstract_graph_node $parent
      * @param int $direction one of stack_abstract_graph::LEFT or stack_abstract_graph::RIGHT.
      */

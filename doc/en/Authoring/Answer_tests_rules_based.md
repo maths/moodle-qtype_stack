@@ -72,6 +72,7 @@ The teacher must supply an option consisting of a list of the following rule nam
 | Other             |                                                                                        |
 | `intFac`          | Factor integers (incompatible with `intMul`)                                           |
 | `negDist`         | Distribute only `UNARY_MINUS` over a sum (incompatible with `negOrd`)                  |
+| `sqrtRem`         | Remove the `sqrt` function and replace with `^(1/2)`                                   |
 
 The rule `negOrd` deserves comment.  Ultimately we only compare parse trees exactly, and so we need to order terms in sums and products (commutativity).
 However \(y-x\) is never ordered as \(-x+y\).  Furthermore, \(-(x-y) \neq -x+y\).  We need to factor out the unary minus and ensure that the coefficient of the leading term is not negative.

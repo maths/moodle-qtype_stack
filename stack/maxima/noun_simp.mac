@@ -292,7 +292,7 @@ NEG_TRANS:[negNeg, negDiv, negOrd]$
 INT_ARITH:[intAdd, intMul, intPow]$
 DIV_TRANS:[recipMul, divDiv, divCancel]$
 
-ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist])$
+ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist, sqrtRem])$
 
 /* Set up a hash table of functions and their corresponding predicate. */
 ALL_TRANSP[assAdd] : assAddp$
@@ -322,6 +322,8 @@ ALL_TRANSP[intAdd] : intAddp$
 ALL_TRANSP[intMul] : intMulp$
 ALL_TRANSP[intPow] : intPowp$
 ALL_TRANSP[intFac] : intFacp$
+
+ALL_TRANSP[sqrtRem] : sqrtRemp$
 
 /* These rules are not included in ALL_TRANS. */
 ALL_TRANSP[mminusInt] : mminusIntp$
@@ -603,6 +605,14 @@ divCancel(ex) := block([ex1, ex2, ex3],
   if length(ex1)=1 then return(first(ex1)),
   return(apply("nounmul", ex1))
 )$ 
+
+/**********************************************************/
+/* Dealing with powers.                                   */
+
+/* Remove the square root function. */
+sqrtRemp(ex):= is(safe_op(ex)="sqrt")$
+sqrtRem(ex):=first(ex) nounpow (1 nounmul UNARY_RECIP(2))$
+
 
 /**********************************************************/
 /* We either have an integer, or "UNARY_MINUS * integer". */

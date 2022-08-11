@@ -934,6 +934,15 @@ class stack_answertest_test_data {
             '[[zeroAdd,zeroMul,oneMul,onePow,idPow,zeroPow,zPow,oneDiv],' .
             '[negNeg,negDiv,negOrd],[recipMul,divDiv,divCancel],[intAdd,intMul,intPow]]',
             '0+%i*(-(1/27))', '-(%i/27)', 1, '', ''),
+        array('EqualComAssRules', '[ID_TRANS,sqrtRem]', 'x=sqrt(3)+2', 'x=3^(1/2)+2', 1, '', ''),
+        array('EqualComAssRules', 'ID_TRANS', 'x=sqrt(3)+2 nounor x=-sqrt(3)-2', 'x=3^(1/2)+2 nounor x=-3^(1/2)-2', 0,
+            '', ''),
+        array('EqualComAssRules', '[ID_TRANS,sqrtRem]', 'x=sqrt(3)+2 nounor x=-sqrt(3)-2', 'x=3^(1/2)+2 nounor x=-3^(1/2)-2', 1,
+            '', ''),
+        array('EqualComAssRules', '[ID_TRANS,sqrtRem]', 'x=sqrt(3)+2 nounor x=-sqrt(3)+7', 'x=3^(1/2)+2 nounor x=-3^(1/2)-2', 0,
+            'ATEqualComAssRules (AlgEquiv-false)ATEquation_default.', ''),
+        array('EqualComAssRules', '[ID_TRANS,sqrtRem]', '1/sqrt(3)', '1/3^(1/2)', 1, '', ''),
+        array('EqualComAssRules', '[ID_TRANS,sqrtRem]', '1/sqrt(3)', '3^(-1/2)', 0, '', ''),
 
         array('CasEqual', '', '1/0', 'x^2-2*x+1', -1, 'ATCASEqual_STACKERROR_SAns.', ''),
         array('CasEqual', '', 'x', '1/0', -1, 'ATCASEqual_STACKERROR_TAns.', ''),

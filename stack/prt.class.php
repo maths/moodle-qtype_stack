@@ -561,7 +561,7 @@ class stack_potentialresponse_tree_lite {
             $at .= ',' . $node->tans;
         }
 
-        if (stack_ans_test_controller::required_atoptions($node->answertest) === true or
+        if (stack_ans_test_controller::required_atoptions($node->answertest) === true ||
                 (stack_ans_test_controller::required_atoptions($node->answertest) === 'optional' &&
                 trim($node->testoptions) !== '')) {
             // Simplify these. Mainly the sigfigs as the test has a history of not doing it.
@@ -720,7 +720,8 @@ class stack_potentialresponse_tree_lite {
                 }
             }
             $cts = $ct->get_evaluationform();
-            // If it is a pure static string it is too simple for latter processing to detect static content. So we will add some wrapping to make it obvious.
+            // If it is a pure static string it is too simple for latter processing to detect static content.
+            // So we will add some wrapping to make it obvious.
             if (mb_substr($cts, 0, 1) === '"') {
                 $cts = '["%root",' . $cts . ']';
             }
@@ -815,7 +816,8 @@ class stack_potentialresponse_tree_lite {
             }
 
             $cts = $ct->get_evaluationform();
-            // If it is a pure static string it is too simple for latter processing to detect static content. So we will add some wrapping to make it obvious.
+            // If it is a pure static string it is too simple for latter processing to detect static content.
+            // So we will add some wrapping to make it obvious.
             if (mb_substr($cts, 0, 1) === '"') {
                 $cts = '["%root",' . $cts . ']';
             }

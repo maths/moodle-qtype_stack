@@ -79,7 +79,7 @@ class stack_matrix_input extends stack_input {
         $allblank = true;
         foreach ($contents as $row) {
             foreach ($row as $val) {
-                if (!('' == trim($val) or '?' == $val or 'null' == $val)) {
+                if (!('' == trim($val) || '?' == $val || 'null' == $val)) {
                     $allblank = false;
                 }
             }

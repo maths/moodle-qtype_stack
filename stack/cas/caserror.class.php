@@ -90,7 +90,7 @@ class stack_cas_error {
         $interpreted = [];
 
         // If we have no context or it does not follow the format and start with '/'.
-        if ($context === '' or strpos($context, '/') !== 0) {
+        if ($context === '' || strpos($context, '/') !== 0) {
             // We mark this as a general error and just push on.
             $interpreted['general'] = true;
             return $interpreted;

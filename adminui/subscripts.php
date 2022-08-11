@@ -99,7 +99,7 @@ foreach ($testdata as $data) {
         }
     } else {
         $vtarget = $test->maxima;
-        if ($simp and $test->maximasimp != '!') {
+        if ($simp && $test->maximasimp != '!') {
             $vtarget = $test->maximasimp;
         }
         if ($vtarget != $test->value) {
@@ -107,7 +107,7 @@ foreach ($testdata as $data) {
             $outcome .= 'CAS value. ';
         }
         $dtarget = $test->tex;
-        if ($simp and $test->texsimp != '!') {
+        if ($simp && $test->texsimp != '!') {
             $dtarget = $test->texsimp;
         }
         if ($test->value != '' && $dtarget != $test->display) {

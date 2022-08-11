@@ -1591,7 +1591,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function get_cached(string $key) {
         global $DB;
-        if ($this->compiledcache !== null and isset($this->compiledcache['FAIL'])) {
+        if ($this->compiledcache !== null && isset($this->compiledcache['FAIL'])) {
             // This question failed compilation, no need to try again in this request.
             // Make sure the error is back in the error list.
             $this->runtimeerrors[$this->compiledcache['FAIL']] = true;

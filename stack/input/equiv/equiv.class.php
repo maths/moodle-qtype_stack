@@ -468,7 +468,7 @@ class stack_equiv_input extends stack_input {
                     array('class' => 'alert alert-danger stackinputerror'));
         }
 
-        if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
+        if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' || $state->lvars === '[]')) {
             $feedback .= $this->tag_listofvariables($state->lvars);
         }
 

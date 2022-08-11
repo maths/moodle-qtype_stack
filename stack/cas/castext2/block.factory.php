@@ -52,7 +52,7 @@ class castext2_block_factory {
         }
         foreach (new DirectoryIterator(__DIR__ . '/blocks') as $item) {
             // Skip . and .. and dirs.
-            if ($item->isDot() or $item->isDir()) {
+            if ($item->isDot() || $item->isDir()) {
                 continue;
             }
             $itemname = $item->getFilename();

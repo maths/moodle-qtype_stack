@@ -1256,7 +1256,7 @@ abstract class stack_input {
             $feedback .= html_writer::tag('div', $feedbackerr, array('class' => 'alert alert-danger stackinputerror'));
         }
 
-        if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' or $state->lvars === '[]')) {
+        if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' || $state->lvars === '[]')) {
             $feedback .= $this->tag_listofvariables($state->lvars);
         }
         return $feedback;

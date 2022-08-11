@@ -230,7 +230,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             $valid = false;
                         }
                         // Check for masking.
-                        if ($node->arguments[0] instanceof MP_Identifier and !$node->arguments[0]->is_global()) {
+                        if ($node->arguments[0] instanceof MP_Identifier && !$node->arguments[0]->is_global()) {
                             $node->position['invalid'] = true;
                             $valid = false;
                             $errors[] = trim(stack_string('stackCas_applyingnonobviousfunction',

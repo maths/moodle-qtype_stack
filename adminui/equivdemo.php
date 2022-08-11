@@ -293,7 +293,7 @@ if ('on' == $simp) {
     $simp = false;
 }
 // Initially simplification should be on.
-if (!$vars and !$string) {
+if (!$vars && !$string) {
     $simp = true;
 }
 

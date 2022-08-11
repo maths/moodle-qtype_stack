@@ -83,7 +83,7 @@ class stack_cas_keyval {
 
     private function validate($inputs) {
 
-        if (empty($this->raw) or '' == trim($this->raw) or null == $this->raw) {
+        if (empty($this->raw) || '' == trim($this->raw) || null == $this->raw) {
             $this->valid = true;
             return true;
         }

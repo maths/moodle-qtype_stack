@@ -45,6 +45,7 @@ require_once(__DIR__ . '/../stack/options.class.php');
  *
  * @group qtype_stack
  * @group qtype_stack_castext_module
+ * @covers \qtype_stack
  */
 class castext2_test extends qtype_stack_testcase {
 

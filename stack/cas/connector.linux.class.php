@@ -77,7 +77,7 @@ class stack_cas_connection_linux extends stack_cas_connection_base {
             $this->debug->log('', 'Warning: could not stream_set_blocking to be FALSE on the CAS process.');
         }
 
-        while ($continue and !feof($pipes[1])) {
+        while ($continue && !feof($pipes[1])) {
 
             $now = microtime(true);
 

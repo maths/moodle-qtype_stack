@@ -170,7 +170,7 @@ output_cas_text(stack_string('healthcheckconnect'),
 
 // If we have a linux machine, and we are testing the raw connection then we should
 // attempt to automatically create an optimized maxima image on the system.
-if ($config->platform === 'linux' and $genuinecascall) {
+if ($config->platform === 'linux' && $genuinecascall) {
     echo $OUTPUT->heading(stack_string('healthautomaxopt'), 3);
     echo html_writer::tag('p', stack_string('healthautomaxoptintro'));
     list($message, $debug, $result, $commandline, $rawcommand)

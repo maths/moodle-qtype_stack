@@ -1645,7 +1645,7 @@ class qtype_stack extends question_type {
                 $errors['questiontext'][] = stack_string('inputnameform', $inputname);
             }
 
-            if ($fromform[$inputname . 'mustverify'] and $fromform[$inputname . 'showvalidation'] == 0) {
+            if ($fromform[$inputname . 'mustverify'] && $fromform[$inputname . 'showvalidation'] == 0) {
                 $errors[$inputname . 'mustverify'][] = stack_string('mustverifyshowvalidation');
             }
 

@@ -71,7 +71,7 @@ class stack_abstract_graph_svg_renderer {
     public static function render(stack_abstract_graph $g, $id) {
         $renderer = new self($g);
         list($minx, $maxx) = $g->x_range();
-        $width = ceil((2 + $maxx - $minx) * self::SCALE / 2);
+        $width = ceil((5 + $maxx - $minx) * self::SCALE / 2);
         $height = ceil((0.3 + $g->max_depth()) * self::SCALE);
 
         $output = '';
@@ -97,7 +97,7 @@ class stack_abstract_graph_svg_renderer {
      */
     protected function to_svg() {
         list($minx) = $this->g->x_range();
-        $this->dx = self::SCALE * (1 - $minx) / 2;
+        $this->dx = self::SCALE * (2.5 - $minx) / 2;
 
         foreach ($this->g->get_nodes() as $node) {
             if (!is_null($node->right)) {

@@ -570,16 +570,18 @@ class stack_dropdown_input extends stack_input {
      * not the CAS values.  These next two methods map between the keys and the CAS values.
      */
     protected function get_input_ddl_value($key) {
-        $val = '';
         // Resolve confusion over null values in the key.
         if (0 === $key || '0' === $key) {
             $key = '';
         }
-        if (array_key_exists($key, $this->ddlvalues)) {
+        if (array_key_exists(trim($key), $this->ddlvalues)) {
             return $this->ddlvalues[$key]['value'];
         }
-        throw new stack_exception('stack_dropdown_input: could not find a value for key '.$key);
-
+        // The tidy question script returns the name of the input during tidying.
+        // That is useful for figuring out where in the question this input occurs.
+        if ($key !== $this->name) {
+            throw new stack_exception('stack_dropdown_input: could not find a value for key '.$key);
+        }
         return false;
     }
 

@@ -104,6 +104,16 @@ There are also some cases which Maxima can't establish as being equivalent.  For
 
 This is Cardano's example from Ars Magna, but currently the AlgEquiv test cannot establish these are equivalent.  There are some other examples in the test suite which fail for mathematical reasons.  In cases like this, where you know you have a number, you may need to supplement the AlgEquiv test with another numerical test.
 
+We recommend you do _not_ use algebraic equivalence testing for floating point numbers.  Instead use one of the [numerical tests](Answer_tests_numerical.md).  Internally Maxima represents floats in binary, and so even simple calculations which would be exact in base ten (e.g. adding 0.16 to 0.12) might end up in a recurring decimal float which is not exactly equal.  As an example
+
+    p1:0.29;
+    p2:0.18;
+    p3:0.35;
+    v0:1-(p1+p2+p3);
+    v1:0.18;
+
+Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115123125783*10^-17\) and so `ATAlgEquiv(v0,v1)` will give false.  Please use always a [numerical test](Answer_tests_numerical.md) when testing floats.
+
 ### EqualComAss ###
 
 A particularly useful test is to establish that two expressions are equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division.  For example, under this test

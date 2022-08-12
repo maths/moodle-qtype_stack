@@ -196,5 +196,13 @@ class maxima_replication_test extends qtype_stack_testcase {
         $this->check($code, $result);
     }
 
+    public function test_taylor() {
+        $code = 'simp:false;';
+        $code .= 'RESULT:ev(taylor(10*cos(2*x),x,%pi/4,2),simp);';
+
+        $result = '(20*%pi-80*x)/4';
+
+        $this->check($code, $result);
+    }
 
 }

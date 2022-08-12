@@ -106,7 +106,7 @@ STACK also redefined a small number of functions
 * The plot command `plot2d` is not used in STACK questions.  Use `plot` instead, which is documented [here](Plots.md).  This ensures your image files are available on the server.
 * The random number command `random` is not used in STACK questions.  Use the command `rand` instead, which is documented [here](Random.md).  This ensures pseudorandom numbers are generated and a student gets the same version each time they login.
 
-# Parts of Maxima expressions {#Parts_of_Maxima_expressions}
+## Parts of Maxima expressions {#Parts_of_Maxima_expressions}
 
 ### `op(x)` - the top operator
 
@@ -129,7 +129,7 @@ This always returns a string.  For an atom this is empty, i.e. `""`.  It also so
 
 This function returns a set of all operators in an expression.  Useful if you want to find if multiplication is used anywhere in an expression.
 
-# Maxima commands defined by STACK {#Maxima_commands_defined_by_STACK}
+## Maxima commands defined by STACK {#Maxima_commands_defined_by_STACK}
 
 It is very useful when authoring questions to be able to test out Maxima code in the same environment which STACK uses Maxima. That is to say, with the settings and STACK specific functions loaded. To do this see [STACK-Maxima sandbox](STACK-Maxima_sandbox.md).
 

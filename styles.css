@@ -157,6 +157,8 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     width: 3rem;
     height: 3rem;
     outline: none;
+    direction: ltr;
+    unicode-bidi: plaintext;
 }
 
 body.path-question-type-stack-doc blockquote {
@@ -1044,6 +1046,7 @@ table.HELM_table th:last-child {
 .que.stack .maxima-string,
 .que.stack .maxima-list,
 .que.stack .equiv,
+.que.stack .varmatrixinput,
 /* Question authoring form */
 #page-question-type-stack textarea#id_questionvariables,
 #page-question-type-stack input#id_variantsselectionseed,

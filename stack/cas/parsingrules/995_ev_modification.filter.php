@@ -35,6 +35,8 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $process = function($node) {
+            // If not student input, turn all evaluation flags to ev-calls.
+            // Do it now before other ev logic gets executed.
             if ($this->flags && $node instanceof MP_Statement && 
                 $node->flags !== null && count($node->flags) > 0) {
                 $fun = new MP_FunctionCall(new MP_Identifier('ev'), [$node->statement]);

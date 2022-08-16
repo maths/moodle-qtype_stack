@@ -13,6 +13,7 @@ Summary of advice.
 2. Avoid using the same name for functions and variables.
 3. Avoid complex substitutions.
 4. Do not attempt to redefine the variables which are the names of inputs.
+5. Use `subst` or `at` to do substitutions instead of `ev`.
 
 ## Forbidden functions and variables
 
@@ -45,6 +46,8 @@ Also if you use complex means to construct the substitutions themselves the syst
 possible identifiers in the expression that the substitutions are applied
 to are being targetted by unknown values, this can be avoided by avoiding
 complex construction of the substs itself.
+
+Note, these issues are now much rarer after the security system changed in 4.4. Yo should not even see these errors with the new system.
 
 ### Example 1
 
@@ -107,6 +110,38 @@ else if(ans1=sin) then
  val: sin(4)
 ...
 
+```
+
+## `ev` in 4.4
+
+The new security model of STACK 4.4 modifies the order of execution in such 
+a way that `ev` does not quite match the behaviour of `ev` in Maxima. For 
+most use cases you will not notice this but there are situations where
+things won't work as expected. In general, these are the situations currently 
+known:
+
+ 1. Placing `expand` inside of `ev` and doing a substitution in the same `ev`:
+ ```
+ /* This might lead to the expansion happening before the substitution. */
+ simp:false;
+ tmp:ev(expand(x^3),x=x+1);
+
+ /* Instead do the substitution before the expansion. */
+ tmp: ev(x^3,x=x+1);
+ tmp: ev(expand(tmp));
+ ```
+ 2. Substitutions in general may happen too late if the target expression contains calls requiring security validation. The recommended method for dealing with this is to do the substitutions using `subst` or `at` and applying any evaluation related modifications with `ev` separately.
+ 3. Use of the `noeval` evaluation flag might not work, in general this flag is unlikely to be useful in the context of STACK and if you believe you need it look into nounification and other means of doing similar things.
+ 
+In some cases, it is possible to simply add `eval` as an extra flag to 
+the `ev`-call, however this is only possible if all substitutions in the call are
+such that the LHS of the substitution is not present in the RHS.
+
+Do note that all this also applies to evaluation flags.
+```
+/* These are equivalent: */
+tmp: a+1,a=2;
+tmp: ev(a+1,a=2);
 ```
 
 

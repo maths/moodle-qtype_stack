@@ -161,6 +161,14 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     unicode-bidi: plaintext;
 }
 
+.que.stack textarea.equivinput {
+    overflow: hidden;
+    white-space: pre;
+    outline: none;
+    direction: ltr;
+    unicode-bidi: plaintext;
+}
+
 body.path-question-type-stack-doc blockquote {
     border-left: 5px solid #ccc;
     margin: 1.5em 10px;
@@ -1046,7 +1054,9 @@ table.HELM_table th:last-child {
 .que.stack .maxima-string,
 .que.stack .maxima-list,
 .que.stack .equiv,
+.que.stack .equivinput,
 .que.stack .varmatrixinput,
+.que.stack .matrixtable,
 /* Question authoring form */
 #page-question-type-stack textarea#id_questionvariables,
 #page-question-type-stack input#id_variantsselectionseed,

@@ -193,11 +193,13 @@ foreach ($summary as $vkey => $variant) {
 
 // Match up variants to answer notes.
 $questionnotes = array();
+$questionseeds = array();
 foreach (array_keys($summary) as $variant) {
     $questionnotes[$variant] = $variant;
 
     $question = question_bank::load_question($questionid);
     $question->start_attempt(new question_attempt_step(), $variant);
+    $questionseeds[$variant] = $question->seed;
     $notesummary = $question->get_question_summary();
     // TODO check for duplicate notes.
     $questionnotes[$variant] = stack_ouput_castext($notesummary);
@@ -504,7 +506,7 @@ foreach (array_keys($summary) as $variant) {
         $sumout .= "\n";
     }
     if (trim($sumout) !== '') {
-        echo html_writer::tag('h3', $questionnotes[$variant]);
+        echo html_writer::tag('h3', $questionseeds[$variant] . ': ' . $questionnotes[$variant]);
         echo html_writer::tag('pre', $sumout);
     }
 }
@@ -537,7 +539,7 @@ foreach (array_keys($summary) as $variant) {
         }
     }
     if (trim($sumout) !== '') {
-        echo html_writer::tag('h3', $questionnotes[$variant]);
+        echo html_writer::tag('h3', $questionseeds[$variant] . ': ' . $questionnotes[$variant]);
         echo html_writer::tag('pre', $sumout);
     }
 }

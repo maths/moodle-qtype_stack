@@ -48,8 +48,13 @@ class editform_test extends qtype_stack_edit_form {
         $fakequestion->formoptions->movecontext = null;
         $fakequestion->formoptions->repeatelements = true;
         $fakequestion->inputs = null;
-        parent::__construct(new moodle_url('/'), $fakequestion, $category,
-                new question_edit_contexts($syscontext));
+        // Support both Moodle 4.x and 3.x.
+        if (class_exists('\core_question\local\bank\question_edit_contexts')) {
+            $contexts = new \core_question\local\bank\question_edit_contexts($syscontext);
+        } else {
+            $contexts = new question_edit_contexts($syscontext);
+        }
+        parent::__construct(new moodle_url('/'), $fakequestion, $category, $contexts);
     }
 
 }

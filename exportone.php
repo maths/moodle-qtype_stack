@@ -36,7 +36,12 @@ $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
 list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
-$contexts = new question_edit_contexts($context);
+        // Support both Moodle 4.x and 3.x.
+if (class_exists('\core_question\local\bank\question_edit_contexts')) {
+    $contexts = new \core_question\local\bank\question_edit_contexts($context);
+} else {
+    $contexts = new question_edit_contexts($context);
+}
 
 // Check permissions.
 question_require_capability_on($questiondata, 'edit');

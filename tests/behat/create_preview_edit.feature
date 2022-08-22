@@ -71,7 +71,8 @@ Feature: Create, preview, test, tidy and edit STACK questions
       | Answer note | prt1-1-F |
     When I press "Create test case"
     Then I should see "All tests passed!"
-    And I should see "Test case 1 Pass"
+    And I should see "Test case 1"
+    And following "Export this question" should download between "3700" and "3800" bytes
     When I follow "Preview"
 
     # Use the tidy question script.

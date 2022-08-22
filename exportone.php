@@ -17,6 +17,11 @@
 /**
  * Script to download the export of a single STACK question.
  *
+ * TODO: Since MDL-63738 landed in Moodle 3.6, this has been a core Moodle
+ * feature, so we don't really need to keep mainaining this file. We could
+ * use question/exportone.php, or question/bank/exporttoxml/exportone.php,
+ * as it later became, instead.
+ *
  * @copyright 2015 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,8 +35,7 @@ require_once(__DIR__ . '/locallib.php');
 $questionid = required_param('questionid', PARAM_INT);
 
 // Load the necessary data.
-$questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
-get_question_options($questiondata);
+$questiondata = question_bank::load_question_data($questionid);
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.

@@ -155,6 +155,7 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
+        global $OUTPUT;
 
         // Load the configuration.
         $this->stackconfig = stack_utils::get_config();
@@ -216,10 +217,9 @@ class qtype_stack_edit_form extends question_edit_form {
                 $out = stack_string_error('questionnotdeployedyet');
             }
             $qtestlink = html_writer::link($qtype->get_question_test_url($this->question),
-                    $out, array('target' => '_blank'));
+                    $out, array('target' => '_blank')) . ' ' . $OUTPUT->help_icon('runquestiontests', 'qtype_stack');
             $qtlink = $mform->createElement('static', 'runquestiontests', '', $qtestlink);
             $mform->insertElementBefore($qtlink, 'questionvariables');
-            $mform->addHelpButton('runquestiontests', 'runquestiontests', 'qtype_stack');
         }
 
         $seed = $mform->createElement('text', 'variantsselectionseed',

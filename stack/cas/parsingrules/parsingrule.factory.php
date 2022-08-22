@@ -62,6 +62,7 @@ require_once(__DIR__ . '/802_singleton_units.filter.php');
 require_once(__DIR__ . '/910_inert_float_for_display.filter.php');
 require_once(__DIR__ . '/990_no_fixing_spaces.filter.php');
 require_once(__DIR__ . '/991_no_fixing_stars.filter.php');
+require_once(__DIR__ . '/995_ev_modification.filter.php');
 require_once(__DIR__ . '/996_call_modification.filter.php');
 require_once(__DIR__ . '/997_string_security.filter.php');
 require_once(__DIR__ . '/998_security.filter.php');
@@ -166,6 +167,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_990_no_fixing_spaces();
             case '991_no_fixing_stars':
                 return new stack_ast_filter_991_no_fixing_stars();
+            case '995_ev_modification':
+                return new stack_ast_filter_995_ev_modification();
             case '996_call_modification':
                 return new stack_ast_filter_996_call_modification();
             case '997_string_security':
@@ -211,7 +214,7 @@ class stack_parsing_rule_factory {
                            '801_singleton_numeric', '802_singleton_units',
                            '910_inert_float_for_display',
                            '990_no_fixing_spaces', '991_no_fixing_stars',
-                           '996_call_modification',
+                           '995_ev_modification', '996_call_modification',
                            '997_string_security',
                            '998_security', '999_strict') as $name) {
                 self::$singletons[$name] = self::build_from_name($name);

@@ -2019,9 +2019,12 @@ class cassession2_test extends qtype_stack_testcase {
                     '', new stack_cas_security(), array());
         }
 
-        $expected = '([Root] ([Op: :] ([Id] ta), ([FunctionCall: ([Id] ev)] ([FunctionCall: ([Id] %_E)] ([FunctionCall: ' .
-            '([Id] %_E)] ([FunctionCall: ([Id] taylor)] ([Op: *] ([Int] 10), ([FunctionCall: ([Id] cos)] ' .
-            '([Op: *] ([Int] 2), ([Id] x)))),([Id] x),([Op: /] ([Id] %pi), ([Int] 4)),([Int] 2)))),([Id] simp))))';
+        $expected = '([Root] ([Op: :] ([Id] ta), ([FunctionCall: ([Id] block)] ([List] ([Id] %_sev_e), ' .
+            '([Id] %_sev_s)),([Op: :] ([Id] %_sev_s), ([Id] simp)),([Op: :] ([Id] simp), ([Bool] true)),([Op: :] ' .
+            '([Id] %_sev_e), ([FunctionCall: ([Id] taylor)] ([Op: *] ([Int] 10), ([FunctionCall: ([Id] cos)] ([Op: *] ' .
+            '([Int] 2), ([Id] x)))),([Id] x),([Op: /] ([Id] %pi), ([Int] 4)),([Int] 2))),([Op: :] ' .
+            '([Id] simp), ([Id] %_sev_s)),([FunctionCall: ([Id] ev)] ([FunctionCall: ([Id] %_E)] ' .
+            '([Id] %_sev_e)),([Id] simp)))))';
         $this->assertEquals($expected, $s1[0]->get_ast_test());
 
         $options = new stack_options();
@@ -2029,14 +2032,13 @@ class cassession2_test extends qtype_stack_testcase {
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
 
-        $this->assertEquals('+-(20*(x-%pi/4))', $s1[0]->get_value());
-        $this->assertEquals('+-(20*(x-%pi/4))', $s1[0]->get_dispvalue());
-        $this->assertEquals('+\left(-20\cdot \left(x-\frac{\pi}{4}\right)\right)+\cdots',
+        $this->assertEquals('(20*%pi-80*x)/4', $s1[0]->get_value());
+        $this->assertEquals('(20*%pi-80*x)/4', $s1[0]->get_dispvalue());
+        $this->assertEquals('\frac{20\cdot \pi-80\cdot x}{4}',
                 $s1[0]->get_display());
 
-        // The evaluated form does not contain the explicit +- operator.
-        $expected = '([PrefixOp: +] ([PrefixOp: -] ([Group] ([Op: *] ([Int] 20), ([Group] ([Op: /] ' .
-            '([Op: -] ([Id] x), ([Id] %pi)), ([Int] 4)))))))';
+        $expected = '([Op: /] ([Group] ([Op: *] ([Int] 20), ([Op: *] ([Op: -] ([Id] %pi), ([Int] 80)), ([Id] x)))), ' .
+            '([Int] 4))';
         $this->assertEquals($expected, $s1[0]->get_ast_test());
     }
 

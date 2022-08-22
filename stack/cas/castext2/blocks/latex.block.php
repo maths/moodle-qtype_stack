@@ -32,10 +32,8 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
 
         // So we need to know if there is simplification in play
         // from the given expression.
-        // TODO: remove the extra ev-wrap if possible and do static type
-        // identification so that we can dorp that if.
-        $forcesimp = mb_strpos($ev, ',simp=true') !== false;
-        $disablesimp = mb_strpos($ev, ',simp=false') !== false;
+        $forcesimp = (mb_strpos($ev, ',simp=true') !== false) || (mb_strpos($ev, ',simp = true') !== false);
+        $disablesimp = (mb_strpos($ev, ',simp=false') !== false) || (mb_strpos($ev, ',simp = false') !== false);
 
         $mode = '""';
         if ($format === castext2_parser_utils::MDFORMAT) {

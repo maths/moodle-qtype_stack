@@ -56,6 +56,23 @@ class stack_ast_filter_996_call_modification implements stack_cas_astfilter {
                     // Also lambdas are something that need to be dealt using other means.
                     return true;
                 }
+
+                // If we have a complex mapping, i.e. a map function with 
+                // the identifier coming from something else we rewrite it
+                // so that we can check the identifier using normal logic.
+                // apply(foo(),[...]) => block([_tmp],_tmp:foo(),apply(_tmp),[...]))
+                if ($node->name instanceof MP_Atom && isset($mapfuns[$node->name->value]) && count($node->arguments) > 0 && !($node->arguments[0] instanceof MP_Atom)) {
+                    $replacement = new MP_FunctionCall(new MP_Identifier('block'),
+                        [
+                            new MP_List([new MP_Identifier('_tmp_996')]),
+                            new MP_Operation(':',new MP_Identifier('_tmp_996'),$node->arguments[0])
+                        ]);
+                    $node->arguments[0] = new MP_Identifier('_tmp_996');
+                    $node->parentnode->replace($node, $replacement);
+                    $replacement->arguments[] = $node;
+                    return false;
+                }
+
                 $namecheck = new MP_FunctionCall(new MP_Identifier(self::IDCHECK), [$node->name]);
 
                 if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name === $node) {

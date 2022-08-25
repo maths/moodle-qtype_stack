@@ -173,8 +173,9 @@ if ($only === false) {
                                'letToken' => stack_string('equiv_LET')));
     }
 
-    $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('995_ev_modification', '996_call_modification', '998_security'),
-            array('998_security' => array('security' => 's'), '995_ev_modification' => ['flags' => false]), true);
+    $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('995_ev_modification',
+        '996_call_modification', '998_security'), array('998_security' => array('security' => 's'),
+        '995_ev_modification' => ['flags' => false]), true);
     check_filter($freshast, $pipeline, new stack_cas_security(false), 'core + security(s)');
 
     cli_heading('= core + security(t) + strict =');
@@ -186,7 +187,8 @@ if ($only === false) {
                                'letToken' => stack_string('equiv_LET')));
     }
 
-    $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('995_ev_modification', '996_call_modification', '998_security', '999_strict'),
-            array('998_security' => array('security' => 't'), '995_ev_modification' => ['flags' => true]), true);
+    $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('995_ev_modification', '996_call_modification',
+        '998_security', '999_strict'),
+        array('998_security' => array('security' => 't'), '995_ev_modification' => ['flags' => true]), true);
     check_filter($freshast, $pipeline, new stack_cas_security(false), 'core + security(t) + strict');
 }

@@ -44,7 +44,7 @@ but afterwards STACK questions will run a bit slower for a while.
 
 With the additional option --ccc one can also clear the compiled cache, which
 can also be done at any time but is not necessary unless one modifies STACK.
-Clearing the compiled cache during production use is not recommended as 
+Clearing the compiled cache during production use is not recommended as
 regenerating it is much more expensive.
 ";
     exit(0);

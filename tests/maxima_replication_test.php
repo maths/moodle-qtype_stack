@@ -36,7 +36,7 @@ require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
 /**
  * Tests confirming that what happens in raw maxima will also happen in STACK
  * when STACK does its own security and other rewriting.
- * 
+ *
  * @group qtype_stack
  * @covers \stack_cas_keyval
  */
@@ -206,11 +206,8 @@ class maxima_replication_test extends qtype_stack_testcase {
     }
 
     public function test_iss844_mapping() {
-        /**
-         * Note that the old security rules forbid most of these,
-         * we will probably eventually relax those rules but they are
-         * still under review.
-         */
+        // Note that the old security rules forbid most of these, we will probably
+        // eventually relax those rules but they are still under review.
         $this->markTestSkipped('This works if we relax the security settings. If interested disable filter 998.');
 
         $code = 'simp:true;';

@@ -20,7 +20,7 @@ require_once(__DIR__ . '/996_call_modification.filter.php');
 
 /**
  * AST filter that rewrites calls to ev in such a way that they can deal
- * with the security system. Also rewrites evaluation flags if they are 
+ * with the security system. Also rewrites evaluation flags if they are
  * in play.
  */
 class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parametric {
@@ -37,7 +37,7 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
         $process = function($node) {
             // If not student input, turn all evaluation flags to ev-calls.
             // Do it now before other ev logic gets executed.
-            if ($this->flags && $node instanceof MP_Statement && 
+            if ($this->flags && $node instanceof MP_Statement &&
                 $node->flags !== null && count($node->flags) > 0) {
                 $fun = new MP_FunctionCall(new MP_Identifier('ev'), [$node->statement]);
                 if ($node->statement instanceof MP_Operation && $node->statement->op === ':') {
@@ -68,7 +68,8 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
                         if ($arg !== $payload) {
                             if ($arg instanceof MP_Identifier && $arg->value === 'simp') {
                                 $simp = new MP_Boolean(true);
-                            } else if ($arg instanceof MP_Operation && ($arg->op === ':' || $arg->op === '=') && $arg->lhs instanceof MP_Identifier && $arg->lhs->value === 'simp') {
+                            } else if ($arg instanceof MP_Operation && ($arg->op === ':' || $arg->op === '=')
+                                       && $arg->lhs instanceof MP_Identifier && $arg->lhs->value === 'simp') {
                                 $simp = clone $arg->rhs;
                             }
                         }
@@ -79,16 +80,16 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
                         $replacement = new MP_FunctionCall(new MP_Identifier('block'),
                             [
                                 new MP_List([new MP_Identifier('%_sev_e')]),
-                                new MP_Operation(':', new MP_Identifier('%_sev_e'), $payload), 
+                                new MP_Operation(':', new MP_Identifier('%_sev_e'), $payload),
                                 $node]);
                     } else {
                         $replacement = new MP_FunctionCall(new MP_Identifier('block'),
                             [
                                 new MP_List([new MP_Identifier('%_sev_e'), new MP_Identifier('%_sev_s')]),
-                                new MP_Operation(':', new MP_Identifier('%_sev_s'), new MP_Identifier('simp')), 
-                                new MP_Operation(':', new MP_Identifier('simp'), $simp), 
-                                new MP_Operation(':', new MP_Identifier('%_sev_e'), $payload), 
-                                new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('%_sev_s')), 
+                                new MP_Operation(':', new MP_Identifier('%_sev_s'), new MP_Identifier('simp')),
+                                new MP_Operation(':', new MP_Identifier('simp'), $simp),
+                                new MP_Operation(':', new MP_Identifier('%_sev_e'), $payload),
+                                new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('%_sev_s')),
                                 $node]);
                     }
                     $node->replace($payload, new MP_Identifier('%_sev_e'));

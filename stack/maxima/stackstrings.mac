@@ -417,7 +417,8 @@ stack_csv_formatter(_data, _labels) := block([_sep,simp,_out,_rowcount,_sepcount
  * Basically the mode tells if we are to wrap things in math-delimiters and if we are in 
  * markdown mode.
  */
-ct2_latex(%_val, %_mode):=block([%_tmp],
+ct2_latex(%_val, %_mode, %_simp):=block([%_tmp,simp],
+ simp:false,
  %_tmp: %_val,
  /* Strings */
  if stringp(%_tmp) then (
@@ -431,6 +432,7 @@ ct2_latex(%_val, %_mode):=block([%_tmp],
       return(%_tmp[2]), /* Unwrap it as it does not need that wrapping anymore. Unfortunately can only do this for the single elemetn case here. */
    return(%_tmp)
  ) else (
+   simp: %_simp,
    %_tmp: stack_disp(%_tmp, ""), /* Do our own wrapping. */
    %_tmp: sconcat("{", strimr(" ", %_tmp), "}"),
    if %_mode = "i" or %_mode = "im" then %_tmp: sconcat("\\(", %_tmp, "\\)")

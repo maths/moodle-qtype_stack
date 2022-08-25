@@ -64,7 +64,7 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                     } else if (strpos($key, 'nosimp_') === 0) {
                         $r[] = stack_utils::php_string_to_maxima_string(mb_substr($key, 7));
                         $r[] = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:false,' . $ev .
-                            ',simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,"i"),simp:_ct2_simp,_ct2_tmp)';
+                            ',simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,"i",false),simp:_ct2_simp,_ct2_tmp)';
                     } else if (strpos($key, 'raw_') === 0) {
                         $r[] = stack_utils::php_string_to_maxima_string(mb_substr($key, 4));
                         // If prefixed by raw output as {#...#} would do.
@@ -74,7 +74,7 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                         $r[] = stack_utils::php_string_to_maxima_string($key);
 
                         $r[] = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,' . $ev .
-                            ',simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,"i"),simp:_ct2_simp,_ct2_tmp)';
+                            ',simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,"i",_ct2_simp),simp:_ct2_simp,_ct2_tmp)';
                     }
                 }
             }

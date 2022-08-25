@@ -52,16 +52,19 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
 
         $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,';
         $r .= '_ct2_tmp:' . stack_utils::php_string_to_maxima_string($this->content) . ',';
+        $simp = ',_ct2_simp';
         if ($forcesimp) {
             $r .= 'simp:true,';
+            $simp = ',true';
         } else if ($disablesimp) {
             $r .= 'simp:false,';
+            $simp = ',false';
         }
         $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
         $epos = stack_utils::php_string_to_maxima_string($epos);
         $r .= '_EC(errcatch(_ct2_tmp:' . $ev . '),' . $epos . '),';
 
-        $r .= 'simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,'. $mode . '),simp:_ct2_simp,_ct2_tmp)';
+        $r .= 'simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,'. $mode . $simp .'),simp:_ct2_simp,_ct2_tmp)';
 
         return $r;
     }

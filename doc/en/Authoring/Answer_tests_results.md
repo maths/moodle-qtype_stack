@@ -8,7 +8,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -19,7 +19,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
@@ -30,7 +30,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre></pre></td>
   <td class="cell c3"><pre>(x-1)^2</pre></td>
   <td class="cell c4"></td>
@@ -41,7 +41,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>x^2</pre></td>
   <td class="cell c3"><pre></pre></td>
   <td class="cell c4"></td>
@@ -52,7 +52,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>x-1)^2</pre></td>
   <td class="cell c3"><pre>(x-1)^2</pre></td>
   <td class="cell c4"></td>
@@ -66,7 +66,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x1</pre></td>
   <td class="cell c3"><pre>x_1</pre></td>
   <td class="cell c4"></td>
@@ -77,7 +77,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x_1</pre></td>
   <td class="cell c3"><pre>x[1]</pre></td>
   <td class="cell c4"></td>
@@ -88,7 +88,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x[1]</pre></td>
   <td class="cell c3"><pre>x1</pre></td>
   <td class="cell c4"></td>
@@ -102,7 +102,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>integerp(3)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -113,7 +113,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>integerp(3.1)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -124,7 +124,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>integerp(3)</pre></td>
   <td class="cell c3"><pre>false</pre></td>
   <td class="cell c4"></td>
@@ -135,7 +135,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>integerp(3)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -146,7 +146,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lowesttermsp(x^2/x)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -157,7 +157,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lowesttermsp(-y/-x)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -168,7 +168,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lowesttermsp((x^2-1)/(x-1))</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -179,7 +179,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lowesttermsp((x^2-1)/(x+2))</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -193,7 +193,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>X</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -204,7 +204,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exdowncase(X)</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -215,7 +215,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exdowncase((X-1)^2)</pre></td>
   <td class="cell c3"><pre>x^2-2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -229,7 +229,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>Y=1+X</pre></td>
   <td class="cell c3"><pre>y=1+x</pre></td>
   <td class="cell c4"></td>
@@ -240,7 +240,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>v+w+x+y+z</pre></td>
   <td class="cell c3"><pre>a+b+c+A+B</pre></td>
   <td class="cell c4"></td>
@@ -254,7 +254,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4^(-1/2)</pre></td>
   <td class="cell c3"><pre>1/2</pre></td>
   <td class="cell c4"></td>
@@ -265,7 +265,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4^(1/2)</pre></td>
   <td class="cell c3"><pre>sqrt(4)</pre></td>
   <td class="cell c4"></td>
@@ -279,7 +279,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.5</pre></td>
   <td class="cell c3"><pre>1/2</pre></td>
   <td class="cell c4"></td>
@@ -290,7 +290,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.33</pre></td>
   <td class="cell c3"><pre>1/3</pre></td>
   <td class="cell c4"></td>
@@ -301,7 +301,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.1e-2</pre></td>
   <td class="cell c3"><pre>51/1000</pre></td>
   <td class="cell c4"></td>
@@ -312,7 +312,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.333333333333333</pre></td>
   <td class="cell c3"><pre>1/3</pre></td>
   <td class="cell c4"></td>
@@ -323,7 +323,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(0.5+x)*2</pre></td>
   <td class="cell c3"><pre>2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -337,7 +337,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(-1)</pre></td>
   <td class="cell c3"><pre>%i</pre></td>
   <td class="cell c4"></td>
@@ -348,7 +348,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>%i</pre></td>
   <td class="cell c3"><pre>e^(i*pi/2)</pre></td>
   <td class="cell c4"></td>
@@ -359,7 +359,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(4*sqrt(3)*%i+4)^(1/5)</pre></td>
   <td class="cell c3"><pre>8^(1/5)*(cos(%pi/15)+%i*sin(%p
 i/15))</pre></td>
@@ -371,7 +371,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(4*sqrt(3)*%i+4)^(1/5)</pre></td>
   <td class="cell c3"><pre>rectform((4*sqrt(3)*%i+4)^(1/5
 ))</pre></td>
@@ -383,7 +383,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(4*sqrt(3)*%i+4)^(1/5)</pre></td>
   <td class="cell c3"><pre>polarform((4*sqrt(3)*%i+4)^(1/
 5))</pre></td>
@@ -395,7 +395,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>%i/sqrt(x)</pre></td>
   <td class="cell c3"><pre>sqrt(-1/x)</pre></td>
   <td class="cell c4"></td>
@@ -409,7 +409,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>inf</pre></td>
   <td class="cell c3"><pre>inf</pre></td>
   <td class="cell c4"></td>
@@ -420,7 +420,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>inf</pre></td>
   <td class="cell c3"><pre>-inf</pre></td>
   <td class="cell c4"></td>
@@ -431,7 +431,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*inf</pre></td>
   <td class="cell c3"><pre>inf</pre></td>
   <td class="cell c4"></td>
@@ -442,7 +442,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*inf</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -456,7 +456,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^(1/2)</pre></td>
   <td class="cell c3"><pre>sqrt(x)</pre></td>
   <td class="cell c4"></td>
@@ -467,7 +467,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x</pre></td>
   <td class="cell c3"><pre>sqrt(x^2)</pre></td>
   <td class="cell c4"></td>
@@ -478,7 +478,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>abs(x)</pre></td>
   <td class="cell c3"><pre>sqrt(x^2)</pre></td>
   <td class="cell c4"></td>
@@ -489,7 +489,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/abs(x)^(1/3)</pre></td>
   <td class="cell c3"><pre>(abs(x)^(1/3)/abs(x))^(1/2)</pre></td>
   <td class="cell c4"></td>
@@ -500,7 +500,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt((x-3)*(x-5))</pre></td>
   <td class="cell c3"><pre>sqrt(x-3)*sqrt(x-5)</pre></td>
   <td class="cell c4"></td>
@@ -511,7 +511,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/sqrt(x)</pre></td>
   <td class="cell c3"><pre>sqrt(1/x)</pre></td>
   <td class="cell c4"></td>
@@ -522,7 +522,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x-1</pre></td>
   <td class="cell c3"><pre>(x^2-1)/(x+1)</pre></td>
   <td class="cell c4"></td>
@@ -533,7 +533,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2^((1/5.1)*t)</pre></td>
   <td class="cell c3"><pre>2^((1/5.1)*t)</pre></td>
   <td class="cell c4"></td>
@@ -544,7 +544,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2^((1/5.1)*t)</pre></td>
   <td class="cell c3"><pre>2^(0.196078431373*t)</pre></td>
   <td class="cell c4"></td>
@@ -555,7 +555,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a^b*a^c</pre></td>
   <td class="cell c3"><pre>a^(b+c)</pre></td>
   <td class="cell c4"></td>
@@ -566,7 +566,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(a^b)^c</pre></td>
   <td class="cell c3"><pre>a^(b*c)</pre></td>
   <td class="cell c4"></td>
@@ -577,7 +577,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(assume(a&gt;0),(a^b)^c)</pre></td>
   <td class="cell c3"><pre>a^(b*c)</pre></td>
   <td class="cell c4"></td>
@@ -588,7 +588,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(assume(x&gt;2),6*((x-2)^2)^k)</pre></td>
   <td class="cell c3"><pre>6*(x-2)^(2*k)</pre></td>
   <td class="cell c4"></td>
@@ -599,7 +599,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>signum(-3)</pre></td>
   <td class="cell c3"><pre>-1</pre></td>
   <td class="cell c4"></td>
@@ -610,7 +610,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6*((x-2)^3)^k</pre></td>
   <td class="cell c3"><pre>6*(x-2)^(3*k)</pre></td>
   <td class="cell c4"></td>
@@ -621,7 +621,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(4*sqrt(3)*%i+4)^(1/5)</pre></td>
   <td class="cell c3"><pre>6^(1/5)*cos(%pi/15)-6^(1/5)*%i
 *sin(%pi/15)</pre></td>
@@ -633,7 +633,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2+2*sqrt(3+x)</pre></td>
   <td class="cell c3"><pre>2+sqrt(12+4*x)</pre></td>
   <td class="cell c4"></td>
@@ -644,7 +644,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6*e^(6*(y^2+x^2))+72*x^2*e^(6*
 (y^2+x^2))</pre></td>
   <td class="cell c3"><pre>(72*x^2+6)*e^(6*(y^2+x^2))</pre></td>
@@ -659,7 +659,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a1</pre></td>
   <td class="cell c3"><pre>a_1</pre></td>
   <td class="cell c4"></td>
@@ -670,7 +670,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rho*z*V/(4*pi*epsilon[0]*(R^2+
 z^2)^(3/2))</pre></td>
   <td class="cell c3"><pre>rho*z*V/(4*pi*epsilon[0]*(R^2+
@@ -683,7 +683,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rho*z*V/(4*pi*epsilon[1]*(R^2+
 z^2)^(3/2))</pre></td>
   <td class="cell c3"><pre>rho*z*V/(4*pi*epsilon[0]*(R^2+
@@ -696,7 +696,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(k/m)*sqrt(m/k)</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -707,7 +707,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2*pi)/(k/m)^(1/2)</pre></td>
   <td class="cell c3"><pre>(2*pi)/(k/m)^(1/2)</pre></td>
   <td class="cell c4"></td>
@@ -718,7 +718,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2*pi)*(m/k)^(1/2)</pre></td>
   <td class="cell c3"><pre>(2*pi)/(k/m)^(1/2)</pre></td>
   <td class="cell c4"></td>
@@ -729,7 +729,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(2*x/10+1)</pre></td>
   <td class="cell c3"><pre>sqrt((2*x+10)/10)</pre></td>
   <td class="cell c4"></td>
@@ -740,7 +740,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>((x+3)^2*(x+3))^(1/3)</pre></td>
   <td class="cell c3"><pre>((x+3)*(x^2+6*x+9))^(1/3)</pre></td>
   <td class="cell c4"></td>
@@ -754,7 +754,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>((x+3)^2*(x+3))^(1/3)</pre></td>
   <td class="cell c3"><pre>((x+3)*(x^2+6*x+9))^(1/3)</pre></td>
   <td class="cell c4"></td>
@@ -768,7 +768,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2</pre></td>
   <td class="cell c3"><pre>x^2-2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -779,7 +779,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)*(x^2+x+1)</pre></td>
   <td class="cell c3"><pre>x^3-1</pre></td>
   <td class="cell c4"></td>
@@ -790,7 +790,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)^(-2)</pre></td>
   <td class="cell c3"><pre>1/(x^2-2*x+1)</pre></td>
   <td class="cell c4"></td>
@@ -801,7 +801,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(4*x-(%pi+sqrt(2)))</pre></td>
   <td class="cell c3"><pre>1/(x+1)</pre></td>
   <td class="cell c4"></td>
@@ -812,7 +812,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-a)^6000</pre></td>
   <td class="cell c3"><pre>(x-a)^6000</pre></td>
   <td class="cell c4"></td>
@@ -823,7 +823,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(a-x)^6000</pre></td>
   <td class="cell c3"><pre>(x-a)^6000</pre></td>
   <td class="cell c4"></td>
@@ -834,7 +834,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(4*a-x)^6000</pre></td>
   <td class="cell c3"><pre>(x-4*a)^6000</pre></td>
   <td class="cell c4"></td>
@@ -845,7 +845,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-a)^6000</pre></td>
   <td class="cell c3"><pre>(x-a)^5999</pre></td>
   <td class="cell c4"></td>
@@ -856,7 +856,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(k+8)/(k^2+4*k-12)</pre></td>
   <td class="cell c3"><pre>(k+8)/(k^2+4*k-12)</pre></td>
   <td class="cell c4"></td>
@@ -867,7 +867,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(k+7)/(k^2+4*k-12)</pre></td>
   <td class="cell c3"><pre>(k+8)/(k^2+4*k-12)</pre></td>
   <td class="cell c4"></td>
@@ -878,7 +878,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(2*k+6)/(k^2+4*k-12)</pre></td>
   <td class="cell c3"><pre>-(2*k+6)/(k^2+4*k-12)</pre></td>
   <td class="cell c4"></td>
@@ -889,7 +889,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/n-1/(n+1)</pre></td>
   <td class="cell c3"><pre>1/(n*(n+1))</pre></td>
   <td class="cell c4"></td>
@@ -900,7 +900,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.5*x^2+3*x-1</pre></td>
   <td class="cell c3"><pre>x^2/2+3*x-1</pre></td>
   <td class="cell c4"></td>
@@ -911,7 +911,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>14336000000*x^13+250265600000*
 x^12+1862860800000*x^11+762392
 5760000*x^10+18290677760000*x^
@@ -931,7 +931,7 @@ x^12+1862860800000*x^11+762392
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>14336000000*x^13+250265600000*
 x^12+1862860800000*x^11+762392
 5760000*x^10+18290677760000*x^
@@ -951,7 +951,7 @@ x^12+1862860800000*x^11+762392
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>14336000000*x^13</pre></td>
   <td class="cell c3"><pre>512*(2*x+5)^7*(5*x-1)^5*(70*x+
 67)</pre></td>
@@ -966,7 +966,7 @@ x^12+1862860800000*x^11+762392
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(x)</pre></td>
   <td class="cell c3"><pre>cos(-x)</pre></td>
   <td class="cell c4"></td>
@@ -977,7 +977,7 @@ x^12+1862860800000*x^11+762392
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(x)^2+sin(x)^2</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -988,7 +988,7 @@ x^12+1862860800000*x^11+762392
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(x+y)</pre></td>
   <td class="cell c3"><pre>cos(x)*cos(y)-sin(x)*sin(y)</pre></td>
   <td class="cell c4"></td>
@@ -999,7 +999,7 @@ x^12+1862860800000*x^11+762392
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(x+y)</pre></td>
   <td class="cell c3"><pre>cos(x)*cos(y)+sin(x)*sin(y)</pre></td>
   <td class="cell c4"></td>
@@ -1010,7 +1010,7 @@ x^12+1862860800000*x^11+762392
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(x#pm#y)</pre></td>
   <td class="cell c3"><pre>cos(x)*cos(y)-(#pm#sin(x)*sin(
 y))</pre></td>
@@ -1022,7 +1022,7 @@ y))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sin(x#pm#y)</pre></td>
   <td class="cell c3"><pre>sin(x)*cos(y)#pm#cos(x)*sin(y)</pre></td>
   <td class="cell c4"></td>
@@ -1033,7 +1033,7 @@ y))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sin(x#pm#y)</pre></td>
   <td class="cell c3"><pre>cos(x)*sin(y)#pm#sin(x)*cos(y)</pre></td>
   <td class="cell c4"></td>
@@ -1044,7 +1044,7 @@ y))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*cos(x)^2-1</pre></td>
   <td class="cell c3"><pre>cos(2*x)</pre></td>
   <td class="cell c4"></td>
@@ -1055,7 +1055,7 @@ y))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.0*cos(1200*%pi*x)</pre></td>
   <td class="cell c3"><pre>cos(1200*%pi*x)</pre></td>
   <td class="cell c4"></td>
@@ -1066,7 +1066,7 @@ y))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(tan(10*x)^2,x)</pre></td>
   <td class="cell c3"><pre>cos(6*x)</pre></td>
   <td class="cell c4"></td>
@@ -1077,7 +1077,7 @@ y))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exp(%i*%pi)</pre></td>
   <td class="cell c3"><pre>-1</pre></td>
   <td class="cell c4"></td>
@@ -1088,7 +1088,7 @@ y))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*cos(2*x)+x+1</pre></td>
   <td class="cell c3"><pre>-sin(x)^2+3*cos(x)^2+x</pre></td>
   <td class="cell c4"></td>
@@ -1099,7 +1099,7 @@ y))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2*sec(2*t)^2-2)/2</pre></td>
   <td class="cell c3"><pre>-(sin(4*t)^2-2*sin(4*t)+cos(4*
 t)^2-1)*(sin(4*t)^2+2*sin(4*t)
@@ -1113,7 +1113,7 @@ t)^2-1)*(sin(4*t)^2+2*sin(4*t)
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+cosec(3*x)</pre></td>
   <td class="cell c3"><pre>1+csc(3*x)</pre></td>
   <td class="cell c4"></td>
@@ -1124,7 +1124,7 @@ t)^2-1)*(sin(4*t)^2+2*sin(4*t)
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(1+exp(-2*x))</pre></td>
   <td class="cell c3"><pre>tanh(x)/2+1/2</pre></td>
   <td class="cell c4"></td>
@@ -1135,7 +1135,7 @@ t)^2-1)*(sin(4*t)^2+2*sin(4*t)
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+cosech(3*x)</pre></td>
   <td class="cell c3"><pre>1+csch(3*x)</pre></td>
   <td class="cell c4"></td>
@@ -1146,7 +1146,7 @@ t)^2-1)*(sin(4*t)^2+2*sin(4*t)
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-4*sec(4*z)^2*sin(6*z)-6*tan(4
 *z)*cos(6*z)</pre></td>
   <td class="cell c3"><pre>-4*sec(4*z)^2*sin(6*z)-6*tan(4
@@ -1159,7 +1159,7 @@ t)^2-1)*(sin(4*t)^2+2*sin(4*t)
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-4*sec(4*z)^2*sin(6*z)-6*tan(4
 *z)*cos(6*z)</pre></td>
   <td class="cell c3"><pre>4*sec(4*z)^2*sin(6*z)+6*tan(4*
@@ -1172,7 +1172,7 @@ z)*cos(6*z)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>csc(6*x)^2*(7*sin(6*x)*cos(7*x
 )-6*cos(6*x)*sin(7*x))</pre></td>
   <td class="cell c3"><pre>-(6*cos(6*x)*sin(7*x)-7*sin(6*
@@ -1185,7 +1185,7 @@ x)*cos(7*x))/sin(6*x)^2</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>csc(6*x)^2*(7*sin(6*x)*cos(7*x
 )-6*cos(6*x)*sin(7*x))</pre></td>
   <td class="cell c3"><pre>(6*cos(6*x)*sin(7*x)-7*sin(6*x
@@ -1198,7 +1198,7 @@ x)*cos(7*x))/sin(6*x)^2</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(7*x^6+4*x^3)/sin(7*y+x^7+x^4
 +1)^2</pre></td>
   <td class="cell c3"><pre>-(7*x^6+4*x^3)*csc(7*y+x^7+x^4
@@ -1211,7 +1211,7 @@ x)*cos(7*x))/sin(6*x)^2</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sin((2*%pi*n-%pi)/2)</pre></td>
   <td class="cell c3"><pre>-cos(n*%pi)</pre></td>
   <td class="cell c4"></td>
@@ -1222,7 +1222,7 @@ x)*cos(7*x))/sin(6*x)^2</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sin(x/2)/(1+tan(x)*tan(x/2))</pre></td>
   <td class="cell c3"><pre>sin(x/2)*cos(x)</pre></td>
   <td class="cell c4"></td>
@@ -1233,7 +1233,7 @@ x)*cos(7*x))/sin(6*x)^2</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(declare(n,integer),trigrat(si
 n((2*%pi*n-%pi)/2)))</pre></td>
   <td class="cell c3"><pre>-(-1)^n</pre></td>
@@ -1245,7 +1245,7 @@ n((2*%pi*n-%pi)/2)))</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>cot(%pi/20)+cot(%pi/24)-cot(%p
 i/10)</pre></td>
   <td class="cell c3"><pre>sqrt(1)+sqrt(2)+sqrt(3)+sqrt(4
@@ -1258,7 +1258,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>trigeval(cot(%pi/20)+cot(%pi/2
 4)-cot(%pi/10))</pre></td>
   <td class="cell c3"><pre>sqrt(1)+sqrt(2)+sqrt(3)+sqrt(4
@@ -1271,7 +1271,7 @@ i/10)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>sin([1/8,1/6, 1/4, 1/3, 1/2, 1
 ]*%pi)</pre></td>
   <td class="cell c3"><pre>[sqrt(2-sqrt(2))/2,1/2,1/sqrt(
@@ -1284,7 +1284,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>trigeval(sin([1/8,1/6, 1/4, 1/
 3, 1/2, 1]*%pi))</pre></td>
   <td class="cell c3"><pre>[sqrt(2-sqrt(2))/2,1/2,1/sqrt(
@@ -1297,7 +1297,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+x</pre></td>
   <td class="cell c3"><pre>taylor(1/(1-x),x,0,1)</pre></td>
   <td class="cell c4"></td>
@@ -1308,7 +1308,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>taylor(1/(1-x),x,0,1)</pre></td>
   <td class="cell c4"></td>
@@ -1322,7 +1322,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(a^2*b)</pre></td>
   <td class="cell c3"><pre>2*log(a)+log(b)</pre></td>
   <td class="cell c4"></td>
@@ -1333,7 +1333,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2*log(2*x)+x)/(2*x)</pre></td>
   <td class="cell c3"><pre>(log(2*x)+2)/(2*sqrt(x))</pre></td>
   <td class="cell c4"></td>
@@ -1344,7 +1344,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(abs((x^2-9)))</pre></td>
   <td class="cell c3"><pre>log(abs(x-3))+log(abs(x+3))</pre></td>
   <td class="cell c4"></td>
@@ -1355,7 +1355,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lg(10^x)</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -1366,7 +1366,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lg(3^x,3)</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -1377,7 +1377,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lg(a^x,a)</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -1388,7 +1388,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+lg(27,3)</pre></td>
   <td class="cell c3"><pre>4</pre></td>
   <td class="cell c4"></td>
@@ -1399,7 +1399,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+lg(27,3)</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"></td>
@@ -1410,7 +1410,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lg(1/8,2)</pre></td>
   <td class="cell c3"><pre>-3</pre></td>
   <td class="cell c4"></td>
@@ -1421,7 +1421,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lg(root(x,n))</pre></td>
   <td class="cell c3"><pre>lg(x,10)/n</pre></td>
   <td class="cell c4"></td>
@@ -1432,7 +1432,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(root(x,n))</pre></td>
   <td class="cell c3"><pre>lg(x,10)/n</pre></td>
   <td class="cell c4"></td>
@@ -1443,7 +1443,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^log(y)</pre></td>
   <td class="cell c3"><pre>y^log(x)</pre></td>
   <td class="cell c4"></td>
@@ -1457,7 +1457,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>e^1-e^(-1)</pre></td>
   <td class="cell c3"><pre>2*sinh(1)</pre></td>
   <td class="cell c4"></td>
@@ -1471,7 +1471,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x</pre></td>
   <td class="cell c3"><pre>[1,2,3]</pre></td>
   <td class="cell c4"></td>
@@ -1482,7 +1482,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1,2]</pre></td>
   <td class="cell c3"><pre>[1,2,3]</pre></td>
   <td class="cell c4"></td>
@@ -1493,7 +1493,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1,2,4]</pre></td>
   <td class="cell c3"><pre>[1,2,3]</pre></td>
   <td class="cell c4"></td>
@@ -1504,7 +1504,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1,x&gt;2]</pre></td>
   <td class="cell c3"><pre>[1,2&lt;x]</pre></td>
   <td class="cell c4"></td>
@@ -1515,7 +1515,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1,2,[2-x&lt;0,{1,2,2,2, 1,3}]
 ]</pre></td>
   <td class="cell c3"><pre>[1,2,[2-x&lt;0,{1,2}]]</pre></td>
@@ -1527,7 +1527,7 @@ i/10)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(k+8)/(k^2+4*k-12),-(2*k+6)/(
 k^2+4*k-12)]</pre></td>
   <td class="cell c3"><pre>[(k+8)/(k^2+4*k-12),-(2*k+6)/(
@@ -1543,7 +1543,7 @@ k^2+4*k-12)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>round(0.5)</pre></td>
   <td class="cell c3"><pre>0.0</pre></td>
   <td class="cell c4"></td>
@@ -1554,7 +1554,7 @@ k^2+4*k-12)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>round(1.5)</pre></td>
   <td class="cell c3"><pre>2.0</pre></td>
   <td class="cell c4"></td>
@@ -1565,7 +1565,7 @@ k^2+4*k-12)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>round(2.5)</pre></td>
   <td class="cell c3"><pre>2.0</pre></td>
   <td class="cell c4"></td>
@@ -1576,7 +1576,7 @@ k^2+4*k-12)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>round(12.5)</pre></td>
   <td class="cell c3"><pre>12.0</pre></td>
   <td class="cell c4"></td>
@@ -1587,7 +1587,7 @@ k^2+4*k-12)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>significantfigures(0.5,1)</pre></td>
   <td class="cell c3"><pre>0.5</pre></td>
   <td class="cell c4"></td>
@@ -1598,7 +1598,7 @@ k^2+4*k-12)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>significantfigures(1.5,1)</pre></td>
   <td class="cell c3"><pre>2.0</pre></td>
   <td class="cell c4"></td>
@@ -1609,7 +1609,7 @@ k^2+4*k-12)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>significantfigures(2.5,1)</pre></td>
   <td class="cell c3"><pre>3.0</pre></td>
   <td class="cell c4"></td>
@@ -1620,7 +1620,7 @@ k^2+4*k-12)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>significantfigures(3.5,1)</pre></td>
   <td class="cell c3"><pre>4.0</pre></td>
   <td class="cell c4"></td>
@@ -1631,7 +1631,7 @@ k^2+4*k-12)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>significantfigures(11.5,2)</pre></td>
   <td class="cell c3"><pre>12.0</pre></td>
   <td class="cell c4"></td>
@@ -1642,7 +1642,7 @@ k^2+4*k-12)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1500</pre></td>
   <td class="cell c3"><pre>scientific_notation(1500,3)</pre></td>
   <td class="cell c4"></td>
@@ -1653,7 +1653,7 @@ k^2+4*k-12)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1500</pre></td>
   <td class="cell c3"><pre>displaysci(1.5,2,3)</pre></td>
   <td class="cell c4"></td>
@@ -1664,7 +1664,7 @@ k^2+4*k-12)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[3,3.1,3.14,3.142,3.1416,3.141
 59,3.141593,3.1415927]</pre></td>
   <td class="cell c3"><pre>makelist(significantfigures(%p
@@ -1680,7 +1680,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
@@ -1691,7 +1691,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>co(1,2)</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
@@ -1702,7 +1702,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,2}</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
@@ -1713,7 +1713,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{2/4, 1/3}</pre></td>
   <td class="cell c3"><pre>{1/2, 1/3}</pre></td>
   <td class="cell c4"></td>
@@ -1724,7 +1724,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{A[1],A[2],A[4]}</pre></td>
   <td class="cell c3"><pre>{A[1],A[2],A[3]}</pre></td>
   <td class="cell c4"></td>
@@ -1735,7 +1735,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{A[1],A[2],A[3]}</pre></td>
   <td class="cell c3"><pre>{A[1],A[2],A[3]}</pre></td>
   <td class="cell c4"></td>
@@ -1746,7 +1746,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,2,4}</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
@@ -1757,7 +1757,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,x&gt;4}</pre></td>
   <td class="cell c3"><pre>{4&lt;x, 1}</pre></td>
   <td class="cell c4"></td>
@@ -1768,7 +1768,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{x-1=0,x&gt;1 and 5&gt;x}</pre></td>
   <td class="cell c3"><pre>{x&gt;1 and x&lt;5,x=1}</pre></td>
   <td class="cell c4"></td>
@@ -1779,7 +1779,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{x-1=0,x&gt;1 and 5&gt;x}</pre></td>
   <td class="cell c3"><pre>{x&gt;1 and x&lt;5,x=2}</pre></td>
   <td class="cell c4"></td>
@@ -1790,7 +1790,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{x-1=0,x&gt;1 and 5&gt;x}</pre></td>
   <td class="cell c3"><pre>{x&gt;1 and x&lt;3,x=1}</pre></td>
   <td class="cell c4"></td>
@@ -1804,7 +1804,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>{-sqrt(2)/sqrt(3)}</pre></td>
   <td class="cell c3"><pre>{-2/sqrt(6)}</pre></td>
   <td class="cell c4"></td>
@@ -1815,7 +1815,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>{[-sqrt(2)/sqrt(3),0],[2/sqrt(
 6),0]}</pre></td>
   <td class="cell c3"><pre>{[2/sqrt(6),0],[-2/sqrt(6),0]}</pre></td>
@@ -1827,7 +1827,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ev(radcan({-sqrt(2)/sqrt(3)}),
 simp)</pre></td>
   <td class="cell c3"><pre>ev(radcan({-2/sqrt(6)}),simp)</pre></td>
@@ -1839,7 +1839,7 @@ simp)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ev(radcan(ratsimp({(-sqrt(10)/
 2)-2,sqrt(10)/2-2},algebraic:t
 rue)),simp)</pre></td>
@@ -1854,7 +1854,7 @@ lgebraic:true)),simp)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{(2-2^(5/2))/2,(2^(5/2)+2)/2}</pre></td>
   <td class="cell c3"><pre>{1-2^(3/2),2^(3/2)+1}</pre></td>
   <td class="cell c4"></td>
@@ -1865,7 +1865,7 @@ lgebraic:true)),simp)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ev(radcan({(2-2^(5/2))/2,(2^(5
 /2)+2)/2}),simp)</pre></td>
   <td class="cell c3"><pre>{1-2^(3/2),2^(3/2)+1}</pre></td>
@@ -1877,7 +1877,7 @@ lgebraic:true)),simp)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{(x-a)^6000}</pre></td>
   <td class="cell c3"><pre>{(a-x)^6000}</pre></td>
   <td class="cell c4"></td>
@@ -1888,7 +1888,7 @@ lgebraic:true)),simp)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{(k+8)/(k^2+4*k-12),-(2*k+6)/(
 k^2+4*k-12)}</pre></td>
   <td class="cell c3"><pre>{(k+8)/(k^2+4*k-12),-(2*k+6)/(
@@ -1904,7 +1904,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([1,2],[2,3])</pre></td>
   <td class="cell c3"><pre>matrix([1,2],[2,3])</pre></td>
   <td class="cell c4"></td>
@@ -1915,7 +1915,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([1,2],[2,3])</pre></td>
   <td class="cell c3"><pre>matrix([1,2,3],[2,3,3])</pre></td>
   <td class="cell c4"></td>
@@ -1926,7 +1926,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([1,2],[2,3])</pre></td>
   <td class="cell c3"><pre>matrix([1,2],[2,5])</pre></td>
   <td class="cell c4"></td>
@@ -1937,7 +1937,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([0.33,1],[1,1])</pre></td>
   <td class="cell c3"><pre>matrix([0.333,1],[1,1])</pre></td>
   <td class="cell c4"></td>
@@ -1948,7 +1948,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([x+x,2],[2,x*x])</pre></td>
   <td class="cell c3"><pre>matrix([2*x,2],[2,x^2])</pre></td>
   <td class="cell c4"></td>
@@ -1959,7 +1959,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([epsilon[0],2],[2,x^2])</pre></td>
   <td class="cell c3"><pre>matrix([epsilon[0],2],[2,x^2])</pre></td>
   <td class="cell c4"></td>
@@ -1970,7 +1970,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([epsilon[2],2],[2,x^2])</pre></td>
   <td class="cell c3"><pre>matrix([epsilon[0],2],[2,x^3])</pre></td>
   <td class="cell c4"></td>
@@ -1981,7 +1981,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([x&gt;4,{1,x^2}],[[1,2]
 ,[1,3]])</pre></td>
   <td class="cell c3"><pre>matrix([4-x&lt;0,{x^2, 1}],[[1
@@ -1994,7 +1994,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([x&gt;4,{1,x^2}],[[1,2]
 ,[1,3]])</pre></td>
   <td class="cell c3"><pre>matrix([4-x&lt;0,{x^2, 1}],[[1
@@ -2010,7 +2010,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a</pre></td>
   <td class="cell c3"><pre>stackvector(a)</pre></td>
   <td class="cell c4"></td>
@@ -2024,7 +2024,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>x=1</pre></td>
   <td class="cell c4"></td>
@@ -2035,7 +2035,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=1</pre></td>
   <td class="cell c3"><pre>x=1</pre></td>
   <td class="cell c4"></td>
@@ -2046,7 +2046,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1=x</pre></td>
   <td class="cell c3"><pre>1=x</pre></td>
   <td class="cell c4"></td>
@@ -2057,7 +2057,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1=x</pre></td>
   <td class="cell c3"><pre>x=1</pre></td>
   <td class="cell c4"></td>
@@ -2068,7 +2068,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1=1</pre></td>
   <td class="cell c3"><pre>1=x</pre></td>
   <td class="cell c4"></td>
@@ -2079,7 +2079,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1=1</pre></td>
   <td class="cell c3"><pre>x=1</pre></td>
   <td class="cell c4"></td>
@@ -2090,7 +2090,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=2</pre></td>
   <td class="cell c3"><pre>x=1</pre></td>
   <td class="cell c4"></td>
@@ -2101,7 +2101,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2=x</pre></td>
   <td class="cell c3"><pre>x=1</pre></td>
   <td class="cell c4"></td>
@@ -2112,7 +2112,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=x</pre></td>
   <td class="cell c3"><pre>y=y</pre></td>
   <td class="cell c4"></td>
@@ -2123,7 +2123,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x+y=1</pre></td>
   <td class="cell c3"><pre>y=1-x</pre></td>
   <td class="cell c4"></td>
@@ -2134,7 +2134,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*x+2*y=1</pre></td>
   <td class="cell c3"><pre>y=0.5-x</pre></td>
   <td class="cell c4"></td>
@@ -2145,7 +2145,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/x+1/y=2</pre></td>
   <td class="cell c3"><pre>y = x/(2*x-1)</pre></td>
   <td class="cell c4"></td>
@@ -2156,7 +2156,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y=sin(2*x)</pre></td>
   <td class="cell c3"><pre>y/2=cos(x)*sin(x)</pre></td>
   <td class="cell c4"></td>
@@ -2167,7 +2167,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y=(x-a)^6000</pre></td>
   <td class="cell c3"><pre>y=(x-a)^6000</pre></td>
   <td class="cell c4"></td>
@@ -2178,7 +2178,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y=(x-a)^5999</pre></td>
   <td class="cell c3"><pre>y=(x-a)^6000</pre></td>
   <td class="cell c4"></td>
@@ -2189,7 +2189,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y=(a-x)^6000</pre></td>
   <td class="cell c3"><pre>y=(x-a)^6000</pre></td>
   <td class="cell c4"></td>
@@ -2200,7 +2200,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y=(a-x)^5999</pre></td>
   <td class="cell c3"><pre>y=(x-a)^5999</pre></td>
   <td class="cell c4"></td>
@@ -2211,7 +2211,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y=(a-x)^59999</pre></td>
   <td class="cell c3"><pre>y=(x-a)^5999</pre></td>
   <td class="cell c4"></td>
@@ -2222,7 +2222,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x+y=i</pre></td>
   <td class="cell c3"><pre>y=i-x</pre></td>
   <td class="cell c4"></td>
@@ -2233,7 +2233,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1+%i)*(x+y)=0</pre></td>
   <td class="cell c3"><pre>y=-x</pre></td>
   <td class="cell c4"></td>
@@ -2244,7 +2244,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>s^2*%e^(s*t)=0</pre></td>
   <td class="cell c3"><pre>s^2=0</pre></td>
   <td class="cell c4"></td>
@@ -2255,7 +2255,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0=-x+y/A+(y-z)/B</pre></td>
   <td class="cell c3"><pre>0=x-y/A-(y-z)/B</pre></td>
   <td class="cell c4"></td>
@@ -2266,7 +2266,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^6000-x^6001=x^5999</pre></td>
   <td class="cell c3"><pre>x^5999*(1-x+x^2)=0</pre></td>
   <td class="cell c4"></td>
@@ -2277,7 +2277,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^6000-x^6001=x^5999</pre></td>
   <td class="cell c3"><pre>x^5999*(1-x+x^3)=0</pre></td>
   <td class="cell c4"></td>
@@ -2288,7 +2288,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>258552*x^7*(81*x^8+1)^398</pre></td>
   <td class="cell c3"><pre>x^3*(x^4+1)^399</pre></td>
   <td class="cell c4"></td>
@@ -2299,7 +2299,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>Ia*(R1+R2+R3)-Ib*R3=0</pre></td>
   <td class="cell c3"><pre>-Ia*(R1+R2+R3)+Ib*R3=0</pre></td>
   <td class="cell c4"></td>
@@ -2310,7 +2310,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a=0 or b=0</pre></td>
   <td class="cell c3"><pre>a*b=0</pre></td>
   <td class="cell c4"></td>
@@ -2321,7 +2321,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a*b=0</pre></td>
   <td class="cell c3"><pre>a=0 or b=0</pre></td>
   <td class="cell c4"></td>
@@ -2332,7 +2332,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a*x=a*y</pre></td>
   <td class="cell c3"><pre>x=y</pre></td>
   <td class="cell c4"></td>
@@ -2343,7 +2343,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a*x=a*y</pre></td>
   <td class="cell c3"><pre>a=0 or x=y</pre></td>
   <td class="cell c4"></td>
@@ -2357,7 +2357,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>stackeq(1)</pre></td>
   <td class="cell c4"></td>
@@ -2368,7 +2368,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>stackeq(1)</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -2379,7 +2379,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>stackeq(1)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -2393,7 +2393,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=y</pre></td>
   <td class="cell c3"><pre>x^2=y^2</pre></td>
   <td class="cell c4"></td>
@@ -2404,7 +2404,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-2)^2=0</pre></td>
   <td class="cell c3"><pre>x=2</pre></td>
   <td class="cell c4"></td>
@@ -2415,7 +2415,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4*x^2-71*x+220 = 0 or 14*x^2-9
 1*x+140 = 0</pre></td>
   <td class="cell c3"><pre>x = 5/2 or x = 4 or x = 55/4</pre></td>
@@ -2427,7 +2427,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4*x^2-71*x+220 = 0 or 14*x^2-9
 1*x+140 = 0</pre></td>
   <td class="cell c3"><pre>x = 5/2 or x = 4 or x=4 or x =
@@ -2440,7 +2440,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2=4</pre></td>
   <td class="cell c3"><pre>x=2 or x=-2</pre></td>
   <td class="cell c4"></td>
@@ -2451,7 +2451,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a^3*b^3=0</pre></td>
   <td class="cell c3"><pre>a=0 or b=0</pre></td>
   <td class="cell c4"></td>
@@ -2462,7 +2462,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a^3*b^3=0</pre></td>
   <td class="cell c3"><pre>a*b=0</pre></td>
   <td class="cell c4"></td>
@@ -2473,7 +2473,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-y)*(x+y)=0</pre></td>
   <td class="cell c3"><pre>x^2=y^2</pre></td>
   <td class="cell c4"></td>
@@ -2484,7 +2484,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=1</pre></td>
   <td class="cell c3"><pre>(x-1)^3=0</pre></td>
   <td class="cell c4"></td>
@@ -2495,7 +2495,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(x)=sqrt(y)</pre></td>
   <td class="cell c3"><pre>x=y</pre></td>
   <td class="cell c4"></td>
@@ -2506,7 +2506,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=sqrt(a)</pre></td>
   <td class="cell c3"><pre>x^2=a</pre></td>
   <td class="cell c4"></td>
@@ -2517,7 +2517,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-sqrt(a))*(x+sqrt(a))=0</pre></td>
   <td class="cell c3"><pre>x^2=a</pre></td>
   <td class="cell c4"></td>
@@ -2528,7 +2528,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-%i*sqrt(a))*(x+%i*sqrt(a))=
 0</pre></td>
   <td class="cell c3"><pre>x^2=-a</pre></td>
@@ -2540,7 +2540,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-%i*sqrt(abs(a)))*(x+%i*sqrt
 (abs(a)))=0</pre></td>
   <td class="cell c3"><pre>x^2=-abs(a)</pre></td>
@@ -2552,7 +2552,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y=sqrt(1-x^2)</pre></td>
   <td class="cell c3"><pre>x^2+y^2=1</pre></td>
   <td class="cell c4"></td>
@@ -2563,7 +2563,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(y-sqrt(1-x^2))*(y+sqrt(1-x^2)
 )=0</pre></td>
   <td class="cell c3"><pre>x^2+y^2=1</pre></td>
@@ -2575,7 +2575,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(y-sqrt((1-x)*(1+x)))*(y+sqrt(
 (1-x)*(1+x)))=0</pre></td>
   <td class="cell c3"><pre>x^2+y^2=1</pre></td>
@@ -2587,7 +2587,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)*(x+1)*(y-1)*(y+1)=0</pre></td>
   <td class="cell c3"><pre>y^2+x^2=1+x^2*y^2</pre></td>
   <td class="cell c4"></td>
@@ -2601,7 +2601,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>all</pre></td>
   <td class="cell c3"><pre>x=x</pre></td>
   <td class="cell c4"></td>
@@ -2612,7 +2612,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>true</pre></td>
   <td class="cell c3"><pre>x=x</pre></td>
   <td class="cell c4"></td>
@@ -2623,7 +2623,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=x</pre></td>
   <td class="cell c3"><pre>all</pre></td>
   <td class="cell c4"></td>
@@ -2634,7 +2634,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>all</pre></td>
   <td class="cell c3"><pre>all</pre></td>
   <td class="cell c4"></td>
@@ -2645,7 +2645,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>true</pre></td>
   <td class="cell c3"><pre>all</pre></td>
   <td class="cell c4"></td>
@@ -2656,7 +2656,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a=a</pre></td>
   <td class="cell c3"><pre>x=x</pre></td>
   <td class="cell c4"></td>
@@ -2667,7 +2667,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>false</pre></td>
   <td class="cell c3"><pre>x=x</pre></td>
   <td class="cell c4"></td>
@@ -2678,7 +2678,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>false</pre></td>
   <td class="cell c3"><pre>all</pre></td>
   <td class="cell c4"></td>
@@ -2689,7 +2689,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>none</pre></td>
   <td class="cell c3"><pre>all</pre></td>
   <td class="cell c4"></td>
@@ -2700,7 +2700,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>all</pre></td>
   <td class="cell c3"><pre>none</pre></td>
   <td class="cell c4"></td>
@@ -2711,7 +2711,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2=3</pre></td>
   <td class="cell c3"><pre>1=4</pre></td>
   <td class="cell c4"></td>
@@ -2722,7 +2722,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>none</pre></td>
   <td class="cell c3"><pre>1=2</pre></td>
   <td class="cell c4"></td>
@@ -2733,7 +2733,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>false</pre></td>
   <td class="cell c3"><pre>1=2</pre></td>
   <td class="cell c4"></td>
@@ -2744,7 +2744,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>none</pre></td>
   <td class="cell c3"><pre>none</pre></td>
   <td class="cell c4"></td>
@@ -2755,7 +2755,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>false</pre></td>
   <td class="cell c3"><pre>none</pre></td>
   <td class="cell c4"></td>
@@ -2766,7 +2766,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3=0</pre></td>
   <td class="cell c3"><pre>none</pre></td>
   <td class="cell c4"></td>
@@ -2777,7 +2777,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0=3</pre></td>
   <td class="cell c3"><pre>none</pre></td>
   <td class="cell c4"></td>
@@ -2788,7 +2788,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>all</pre></td>
   <td class="cell c3"><pre>1=2</pre></td>
   <td class="cell c4"></td>
@@ -2799,7 +2799,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>true</pre></td>
   <td class="cell c3"><pre>1=2</pre></td>
   <td class="cell c4"></td>
@@ -2810,7 +2810,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{}</pre></td>
   <td class="cell c3"><pre>1=2</pre></td>
   <td class="cell c4"></td>
@@ -2821,7 +2821,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[]</pre></td>
   <td class="cell c3"><pre>1=2</pre></td>
   <td class="cell c4"></td>
@@ -2832,7 +2832,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{}</pre></td>
   <td class="cell c3"><pre>none</pre></td>
   <td class="cell c4"></td>
@@ -2846,7 +2846,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2</pre></td>
   <td class="cell c3"><pre>cc(1,3)</pre></td>
   <td class="cell c4"></td>
@@ -2857,7 +2857,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>%union(oo(1,2),oo(3,4))</pre></td>
   <td class="cell c3"><pre>%union(oo(1,2),oo(3,4))</pre></td>
   <td class="cell c4"></td>
@@ -2868,7 +2868,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>%union(oc(1,2),co(2,3))</pre></td>
   <td class="cell c3"><pre>oo(1,3)</pre></td>
   <td class="cell c4"></td>
@@ -2879,7 +2879,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>%union(oc(1,2),co(2,3))</pre></td>
   <td class="cell c3"><pre>cc(1,3)</pre></td>
   <td class="cell c4"></td>
@@ -2890,7 +2890,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{-1,1}</pre></td>
   <td class="cell c3"><pre>%union({-1,1})</pre></td>
   <td class="cell c4"></td>
@@ -2901,7 +2901,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,3}</pre></td>
   <td class="cell c3"><pre>cc(1,3)</pre></td>
   <td class="cell c4"></td>
@@ -2912,7 +2912,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>%intersection(oc(-1,1),co(1,2)
 )</pre></td>
   <td class="cell c3"><pre>%union({1})</pre></td>
@@ -2924,7 +2924,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>oo(-inf,1)</pre></td>
   <td class="cell c3"><pre>oo(-inf,1)</pre></td>
   <td class="cell c4"></td>
@@ -2935,7 +2935,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>oo(-1,inf)</pre></td>
   <td class="cell c3"><pre>oo(0,inf)</pre></td>
   <td class="cell c4"></td>
@@ -2946,7 +2946,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>%union(oc(-inf,0),oo(-1,4))</pre></td>
   <td class="cell c3"><pre>oo(-inf,4)</pre></td>
   <td class="cell c4"></td>
@@ -2957,7 +2957,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>%union(oo(-inf,1),oo(-1,inf))</pre></td>
   <td class="cell c3"><pre>oo(-inf,inf)</pre></td>
   <td class="cell c4"></td>
@@ -2968,7 +2968,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>all</pre></td>
   <td class="cell c3"><pre>oo(-inf,inf)</pre></td>
   <td class="cell c4"></td>
@@ -2979,7 +2979,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>co(1,2)</pre></td>
   <td class="cell c3"><pre>1 &lt;= x nounand x&lt;2</pre></td>
   <td class="cell c4"></td>
@@ -2990,7 +2990,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1 &lt;= x nounand x&lt;2</pre></td>
   <td class="cell c3"><pre>co(1,2)</pre></td>
   <td class="cell c4"></td>
@@ -3001,7 +3001,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>minf &lt;= x</pre></td>
   <td class="cell c3"><pre>co(minf,inf)</pre></td>
   <td class="cell c4"></td>
@@ -3012,7 +3012,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-inf &lt;= x</pre></td>
   <td class="cell c3"><pre>co(minf,inf)</pre></td>
   <td class="cell c4"></td>
@@ -3023,7 +3023,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x &lt;= inf</pre></td>
   <td class="cell c3"><pre>oc(minf,inf)</pre></td>
   <td class="cell c4"></td>
@@ -3034,7 +3034,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>minf &lt;= x</pre></td>
   <td class="cell c3"><pre>oo(minf,inf)</pre></td>
   <td class="cell c4"></td>
@@ -3045,7 +3045,7 @@ k^2+4*k-12)}</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>single_variable_solver_real(mi
 nf &lt;= x)</pre></td>
   <td class="cell c3"><pre>co(minf,inf)</pre></td>
@@ -3057,7 +3057,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>single_variable_solver_real(-i
 nf &lt;= x)</pre></td>
   <td class="cell c3"><pre>co(minf,inf)</pre></td>
@@ -3069,7 +3069,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>single_variable_solver_real(x 
 &lt;= inf)</pre></td>
   <td class="cell c3"><pre>oc(minf,inf)</pre></td>
@@ -3081,7 +3081,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>single_variable_solver_real(mi
 nf &lt;= x)</pre></td>
   <td class="cell c3"><pre>oo(minf,inf)</pre></td>
@@ -3096,7 +3096,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a=b/%i</pre></td>
   <td class="cell c3"><pre>%i*a=b</pre></td>
   <td class="cell c4"></td>
@@ -3107,7 +3107,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>b/%i=a</pre></td>
   <td class="cell c3"><pre>%i*a=b</pre></td>
   <td class="cell c4"></td>
@@ -3118,7 +3118,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>b=a/%i</pre></td>
   <td class="cell c3"><pre>%i*a=b</pre></td>
   <td class="cell c4"></td>
@@ -3129,7 +3129,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a*(2+%i)=b</pre></td>
   <td class="cell c3"><pre>a=b/(2+%i)</pre></td>
   <td class="cell c4"></td>
@@ -3140,7 +3140,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a*(2+%i)=b</pre></td>
   <td class="cell c3"><pre>a=b*(2-%i)/5</pre></td>
   <td class="cell c4"></td>
@@ -3151,7 +3151,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a*(2+%i)=b</pre></td>
   <td class="cell c3"><pre>a=b*(2-%i)/4</pre></td>
   <td class="cell c4"></td>
@@ -3165,7 +3165,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>abs(x)=abs(y)</pre></td>
   <td class="cell c3"><pre>x=y</pre></td>
   <td class="cell c4"></td>
@@ -3176,7 +3176,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>abs(x)=abs(y)</pre></td>
   <td class="cell c3"><pre>x=y or x=-y</pre></td>
   <td class="cell c4"></td>
@@ -3187,7 +3187,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>abs(x)=abs(y)</pre></td>
   <td class="cell c3"><pre>(x-y)*(x+y)=0</pre></td>
   <td class="cell c4"></td>
@@ -3201,7 +3201,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>f(x):=1/0</pre></td>
   <td class="cell c3"><pre>f(x):=x^2</pre></td>
   <td class="cell c4"></td>
@@ -3212,7 +3212,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>f(x):=x^2</pre></td>
   <td class="cell c4"></td>
@@ -3223,7 +3223,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>f(x)=x^2</pre></td>
   <td class="cell c3"><pre>f(x):=x^2</pre></td>
   <td class="cell c4"></td>
@@ -3234,7 +3234,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>f(x):=x^2</pre></td>
   <td class="cell c3"><pre>f(x,y):=x^2+y^2</pre></td>
   <td class="cell c4"></td>
@@ -3245,7 +3245,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>f(x):=x^2</pre></td>
   <td class="cell c3"><pre>f(x)=x^2</pre></td>
   <td class="cell c4"></td>
@@ -3256,7 +3256,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>f(x):=x^2</pre></td>
   <td class="cell c3"><pre>f(x):=x^2</pre></td>
   <td class="cell c4"></td>
@@ -3267,7 +3267,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>f(x):=x^2</pre></td>
   <td class="cell c3"><pre>f(x):=sin(x)</pre></td>
   <td class="cell c4"></td>
@@ -3278,7 +3278,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>g(x):=x^2</pre></td>
   <td class="cell c3"><pre>f(x):=x^2</pre></td>
   <td class="cell c4"></td>
@@ -3289,7 +3289,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>f(y):=y^2</pre></td>
   <td class="cell c3"><pre>f(x):=x^2</pre></td>
   <td class="cell c4"></td>
@@ -3300,7 +3300,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>f(a,b):=a^2+b^2</pre></td>
   <td class="cell c3"><pre>f(x,y):=x^2+y^2</pre></td>
   <td class="cell c4"></td>
@@ -3314,7 +3314,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>x&gt;1</pre></td>
   <td class="cell c4"></td>
@@ -3325,7 +3325,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=1</pre></td>
   <td class="cell c3"><pre>x&gt;1 and x&lt;5</pre></td>
   <td class="cell c4"></td>
@@ -3336,7 +3336,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&lt;1</pre></td>
   <td class="cell c3"><pre>x&gt;1</pre></td>
   <td class="cell c4"></td>
@@ -3347,7 +3347,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1&lt;x</pre></td>
   <td class="cell c3"><pre>x&gt;1</pre></td>
   <td class="cell c4"></td>
@@ -3358,7 +3358,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a&lt;b</pre></td>
   <td class="cell c3"><pre>b&gt;a</pre></td>
   <td class="cell c4"></td>
@@ -3369,7 +3369,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2&lt;2*x</pre></td>
   <td class="cell c3"><pre>x&gt;1</pre></td>
   <td class="cell c4"></td>
@@ -3380,7 +3380,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-2&gt;-2*x</pre></td>
   <td class="cell c3"><pre>x&gt;1</pre></td>
   <td class="cell c4"></td>
@@ -3391,7 +3391,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;1</pre></td>
   <td class="cell c3"><pre>x&lt;=1</pre></td>
   <td class="cell c4"></td>
@@ -3402,7 +3402,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;=2</pre></td>
   <td class="cell c3"><pre>x&lt;2</pre></td>
   <td class="cell c4"></td>
@@ -3413,7 +3413,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;=1</pre></td>
   <td class="cell c3"><pre>x&gt;2</pre></td>
   <td class="cell c4"></td>
@@ -3424,7 +3424,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;1</pre></td>
   <td class="cell c3"><pre>x&gt;1</pre></td>
   <td class="cell c4"></td>
@@ -3435,7 +3435,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;=1</pre></td>
   <td class="cell c3"><pre>x&gt;=1</pre></td>
   <td class="cell c4"></td>
@@ -3446,7 +3446,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;2</pre></td>
   <td class="cell c3"><pre>x&gt;1</pre></td>
   <td class="cell c4"></td>
@@ -3457,7 +3457,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1&lt;x</pre></td>
   <td class="cell c3"><pre>x&gt;1</pre></td>
   <td class="cell c4"></td>
@@ -3468,7 +3468,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*x&gt;=x^2</pre></td>
   <td class="cell c3"><pre>x^2&lt;=2*x</pre></td>
   <td class="cell c4"></td>
@@ -3479,7 +3479,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*x&gt;=x^2</pre></td>
   <td class="cell c3"><pre>x^2&lt;=2*x</pre></td>
   <td class="cell c4"></td>
@@ -3490,7 +3490,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*x^2&lt;9*a</pre></td>
   <td class="cell c3"><pre>x^2-3*a&lt;0</pre></td>
   <td class="cell c4"></td>
@@ -3501,7 +3501,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2&gt;4</pre></td>
   <td class="cell c3"><pre>x&gt;2 or x&lt;-2</pre></td>
   <td class="cell c4"></td>
@@ -3512,7 +3512,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1&lt;x or x&lt;-3</pre></td>
   <td class="cell c3"><pre>x&lt;-3 or 1&lt;x</pre></td>
   <td class="cell c4"></td>
@@ -3523,7 +3523,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1&lt;x or x&lt;-3</pre></td>
   <td class="cell c3"><pre>x&lt;-1 or 3&lt;x</pre></td>
   <td class="cell c4"></td>
@@ -3534,7 +3534,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;1 and x&lt;5</pre></td>
   <td class="cell c3"><pre>x&gt;1 and x&lt;5</pre></td>
   <td class="cell c4"></td>
@@ -3545,7 +3545,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;1 and x&lt;5</pre></td>
   <td class="cell c3"><pre>5&gt;x and 1&lt;x</pre></td>
   <td class="cell c4"></td>
@@ -3556,7 +3556,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>not (x&lt;=2 and -2&lt;=x)</pre></td>
   <td class="cell c3"><pre>x&gt;2 or -2&gt;x</pre></td>
   <td class="cell c4"></td>
@@ -3567,7 +3567,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;2 or -2&gt;x</pre></td>
   <td class="cell c3"><pre>not (x&lt;=2 and -2&lt;=x)</pre></td>
   <td class="cell c4"></td>
@@ -3578,7 +3578,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;=1 or 1&lt;=x</pre></td>
   <td class="cell c3"><pre>x&gt;=1</pre></td>
   <td class="cell c4"></td>
@@ -3589,7 +3589,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;=1 and x&lt;=1</pre></td>
   <td class="cell c3"><pre>x=1</pre></td>
   <td class="cell c4"></td>
@@ -3600,7 +3600,7 @@ nf &lt;= x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x&gt;4 and x&lt;5) or (x&lt;-
 4 and x&gt;-5) or (x+5&gt;0 an
 d x&lt;-4)</pre></td>
@@ -3614,7 +3614,7 @@ d x&lt;-4)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x&gt;4 and x&lt;5) or (x&lt;-
 4 and x&gt;-5) or (x+5&gt;0 an
 d x&lt;-4)</pre></td>
@@ -3628,7 +3628,7 @@ d x&lt;-4)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x &lt; 0 nounor x &gt;= 1) no
 unand x &lt;= 3</pre></td>
   <td class="cell c3"><pre>x &lt; 0 or (x &gt;= 1 and x &
@@ -3641,7 +3641,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x &lt; 0 nounor x &gt;= 1) no
 unand x &lt;= 3</pre></td>
   <td class="cell c3"><pre>x &lt; 0 or x &gt;= 1 and x &l
@@ -3654,7 +3654,7 @@ t;= 3</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x &lt; 0 nounor x &gt;= 1) no
 unand x &lt;= 3</pre></td>
   <td class="cell c3"><pre>x &lt; 0 or (x &gt;= 1 and x &
@@ -3667,7 +3667,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x &lt; 0 nounor x &gt;= 1) no
 unand x &lt;= 3</pre></td>
   <td class="cell c3"><pre>(x &lt; 0 or x &gt;= 1) and x 
@@ -3680,7 +3680,7 @@ unand x &lt;= 3</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x &lt; 0 nounor x &gt;= 1) no
 unand x &lt;= 3</pre></td>
   <td class="cell c3"><pre>x &lt; 0 or (x &gt;= 1 and x &
@@ -3693,7 +3693,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>natural_domain(1/x^2)</pre></td>
   <td class="cell c3"><pre>natural_domain(1/x)</pre></td>
   <td class="cell c4"></td>
@@ -3704,7 +3704,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^4&gt;=0</pre></td>
   <td class="cell c3"><pre>x^2&gt;=0</pre></td>
   <td class="cell c4"></td>
@@ -3715,7 +3715,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^4&gt;=16</pre></td>
   <td class="cell c3"><pre>x^2&gt;=4</pre></td>
   <td class="cell c4"></td>
@@ -3726,18 +3726,29 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>2*x^2+x&gt;=6</pre></td>
-  <td class="cell c3"><pre>x&lt;=-2 or x&gt;=3/2</pre></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x^4&gt;=16</pre></td>
+  <td class="cell c3"><pre>x^2&gt;=4</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
   <td class="cell c7"></td>
-  <td class="cell c8">ATLogic_True.</td>
+  <td class="cell c8"></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-3&lt;=x</pre></td>
+  <td class="cell c3"><pre>-3&lt;=x nounand x&lt;=3</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{2,-2}</pre></td>
   <td class="cell c3"><pre>x&gt;2 nounor -2&gt;x</pre></td>
   <td class="cell c4"></td>
@@ -3748,7 +3759,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2&lt;4</pre></td>
   <td class="cell c3"><pre>x&lt;2 nounand x&gt;-2</pre></td>
   <td class="cell c4"></td>
@@ -3759,7 +3770,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2&lt;6</pre></td>
   <td class="cell c3"><pre>x&lt;2 nounand x&gt;-2</pre></td>
   <td class="cell c4"></td>
@@ -3770,7 +3781,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;1 nounand x&lt;-1</pre></td>
   <td class="cell c3"><pre>false</pre></td>
   <td class="cell c4"></td>
@@ -3781,7 +3792,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;1 nounand x&lt;3</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -3792,7 +3803,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;1 nounor x&lt;3</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -3803,7 +3814,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;1 nounor x&lt;3</pre></td>
   <td class="cell c3"><pre>all</pre></td>
   <td class="cell c4"></td>
@@ -3814,7 +3825,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>abs(x)&lt;1</pre></td>
   <td class="cell c3"><pre>abs(x)&lt;1</pre></td>
   <td class="cell c4"></td>
@@ -3825,7 +3836,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>abs(x)&lt;1</pre></td>
   <td class="cell c3"><pre>abs(x)&lt;2</pre></td>
   <td class="cell c4"></td>
@@ -3836,7 +3847,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>abs(x)&lt;1</pre></td>
   <td class="cell c3"><pre>abs(x)&gt;1</pre></td>
   <td class="cell c4"></td>
@@ -3847,7 +3858,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>abs(x)&lt;2</pre></td>
   <td class="cell c3"><pre>-2&lt;x and x&lt;2</pre></td>
   <td class="cell c4"></td>
@@ -3858,7 +3869,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>-2&lt;x and x&lt;2</pre></td>
   <td class="cell c3"><pre>abs(x)&lt;2</pre></td>
   <td class="cell c4"></td>
@@ -3869,7 +3880,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>abs(x)&lt;2</pre></td>
   <td class="cell c3"><pre>-1&lt;x and x&lt;1</pre></td>
   <td class="cell c4"></td>
@@ -3880,7 +3891,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2&lt;=9</pre></td>
   <td class="cell c3"><pre>abs(x)&lt;3</pre></td>
   <td class="cell c4"></td>
@@ -3891,7 +3902,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>x^2&lt;=9</pre></td>
   <td class="cell c3"><pre>abs(x)&lt;=3</pre></td>
   <td class="cell c4"></td>
@@ -3902,7 +3913,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>x^6&lt;1</pre></td>
   <td class="cell c3"><pre>abs(x)&lt;1</pre></td>
   <td class="cell c4"></td>
@@ -3913,7 +3924,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>abs(x)&gt;1</pre></td>
   <td class="cell c3"><pre>x&lt;-1 or x&gt;1</pre></td>
   <td class="cell c4"></td>
@@ -3924,7 +3935,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>minf &lt; x</pre></td>
   <td class="cell c3"><pre>minf &lt;= x</pre></td>
   <td class="cell c4"></td>
@@ -3935,7 +3946,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;minf</pre></td>
   <td class="cell c3"><pre>minf &lt; x</pre></td>
   <td class="cell c4"></td>
@@ -3946,7 +3957,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;-inf</pre></td>
   <td class="cell c3"><pre>minf &lt; x</pre></td>
   <td class="cell c4"></td>
@@ -3957,7 +3968,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&lt;2*inf</pre></td>
   <td class="cell c3"><pre>x&lt;inf</pre></td>
   <td class="cell c4"></td>
@@ -3968,7 +3979,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>minf &lt; x nounand x &lt;1</pre></td>
   <td class="cell c3"><pre>x&lt;1</pre></td>
   <td class="cell c4"></td>
@@ -3979,7 +3990,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>minf &lt; x nounand x &lt;1</pre></td>
   <td class="cell c3"><pre>x&lt;2</pre></td>
   <td class="cell c4"></td>
@@ -3993,7 +4004,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*inf</pre></td>
   <td class="cell c3"><pre>inf</pre></td>
   <td class="cell c4"></td>
@@ -4004,7 +4015,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-inf</pre></td>
   <td class="cell c3"><pre>minf</pre></td>
   <td class="cell c4"></td>
@@ -4018,7 +4029,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x#1</pre></td>
   <td class="cell c3"><pre>x#1</pre></td>
   <td class="cell c4"></td>
@@ -4029,7 +4040,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x#(1+1)</pre></td>
   <td class="cell c3"><pre>x#2</pre></td>
   <td class="cell c4"></td>
@@ -4040,7 +4051,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1#x</pre></td>
   <td class="cell c3"><pre>x#1</pre></td>
   <td class="cell c4"></td>
@@ -4051,7 +4062,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x#2</pre></td>
   <td class="cell c3"><pre>x-2#0</pre></td>
   <td class="cell c4"></td>
@@ -4062,7 +4073,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x#2]</pre></td>
   <td class="cell c3"><pre>[x-2#0]</pre></td>
   <td class="cell c4"></td>
@@ -4073,7 +4084,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x-3#0</pre></td>
   <td class="cell c3"><pre>x#2</pre></td>
   <td class="cell c4"></td>
@@ -4084,7 +4095,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x#2</pre></td>
   <td class="cell c3"><pre>x&lt;2 nounor x&gt;2</pre></td>
   <td class="cell c4"></td>
@@ -4095,7 +4106,7 @@ lt;= 3)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2-3#1</pre></td>
   <td class="cell c3"><pre>x&lt;-2 nounor (x&lt;-2 and x&
 lt;2) nounor 2&lt;x</pre></td>
@@ -4107,7 +4118,7 @@ lt;2) nounor 2&lt;x</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2-3#1</pre></td>
   <td class="cell c3"><pre>x&lt;-2 nounor (-2&lt;x and x&
 lt;2) nounor 2&lt;x</pre></td>
@@ -4119,7 +4130,7 @@ lt;2) nounor 2&lt;x</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x#1</pre></td>
   <td class="cell c3"><pre>x#0</pre></td>
   <td class="cell c4"></td>
@@ -4133,7 +4144,7 @@ lt;2) nounor 2&lt;x</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(12)</pre></td>
   <td class="cell c3"><pre>2*sqrt(3)</pre></td>
   <td class="cell c4"></td>
@@ -4144,7 +4155,7 @@ lt;2) nounor 2&lt;x</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(11+6*sqrt(2))</pre></td>
   <td class="cell c3"><pre>3+sqrt(2)</pre></td>
   <td class="cell c4"></td>
@@ -4155,7 +4166,7 @@ lt;2) nounor 2&lt;x</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(19601-13860*sqrt(2))^(7/4)</pre></td>
   <td class="cell c3"><pre>(5*sqrt(2)-7)^7</pre></td>
   <td class="cell c4"></td>
@@ -4166,7 +4177,7 @@ lt;2) nounor 2&lt;x</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(19601-13861*sqrt(2))^(7/4)</pre></td>
   <td class="cell c3"><pre>(5*sqrt(2)-7)^7</pre></td>
   <td class="cell c4"></td>
@@ -4177,7 +4188,7 @@ lt;2) nounor 2&lt;x</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(19601-13861*sqrt(2))^(7/4)</pre></td>
   <td class="cell c3"><pre>(5*sqrt(2)-7)^7</pre></td>
   <td class="cell c4"></td>
@@ -4188,7 +4199,7 @@ lt;2) nounor 2&lt;x</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(2*log(26)+4-2*log(2))</pre></td>
   <td class="cell c3"><pre>sqrt(2*log(13)+4)</pre></td>
   <td class="cell c4"></td>
@@ -4199,7 +4210,7 @@ lt;2) nounor 2&lt;x</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(2)*sqrt(3)+2*(sqrt(2/3))*
 x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 (sqrt(2/3))*x^3</pre></td>
@@ -4216,7 +4227,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(n+1)*n!</pre></td>
   <td class="cell c3"><pre>(n+1)!</pre></td>
   <td class="cell c4"></td>
@@ -4227,7 +4238,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>n/n!</pre></td>
   <td class="cell c3"><pre>1/(n-1)!</pre></td>
   <td class="cell c4"></td>
@@ -4238,7 +4249,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>n/n!</pre></td>
   <td class="cell c3"><pre>1/(n+1)!</pre></td>
   <td class="cell c4"></td>
@@ -4249,7 +4260,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>n!/(k!*(n-k)!)</pre></td>
   <td class="cell c3"><pre>binomial(n,k)</pre></td>
   <td class="cell c4"></td>
@@ -4260,7 +4271,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>binomial(n,k)+binomial(n,k+1)</pre></td>
   <td class="cell c3"><pre>binomial(n+1,k+1)</pre></td>
   <td class="cell c4"></td>
@@ -4271,7 +4282,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>binomial(n,k)+binomial(n,k+1)</pre></td>
   <td class="cell c3"><pre>binomial(n+1,k)</pre></td>
   <td class="cell c4"></td>
@@ -4282,7 +4293,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>binomial(n,k)</pre></td>
   <td class="cell c3"><pre>binomial(n,n-k)</pre></td>
   <td class="cell c4"></td>
@@ -4293,7 +4304,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>175!*56!/(55!*176!)</pre></td>
   <td class="cell c3"><pre>17556/55176</pre></td>
   <td class="cell c4"></td>
@@ -4307,7 +4318,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*s*diff(q(s),s)</pre></td>
   <td class="cell c3"><pre>3*s*diff(q(s),s)</pre></td>
   <td class="cell c4"></td>
@@ -4321,7 +4332,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sum(k^n,n,0,3)</pre></td>
   <td class="cell c3"><pre>sum(k^n,n,0,3)</pre></td>
   <td class="cell c4"></td>
@@ -4332,7 +4343,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+k+k^2+k^3</pre></td>
   <td class="cell c3"><pre>sum(k^n,n,0,3)</pre></td>
   <td class="cell c4"></td>
@@ -4343,7 +4354,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+k+k^2</pre></td>
   <td class="cell c3"><pre>sum(k^n,n,0,3)</pre></td>
   <td class="cell c4"></td>
@@ -4354,7 +4365,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>n*(n+1)*(2*n+1)/6</pre></td>
   <td class="cell c3"><pre>sum(k^2,k,1,n)</pre></td>
   <td class="cell c4"></td>
@@ -4365,7 +4376,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sum((k+1)^2,k,0,n-1)</pre></td>
   <td class="cell c3"><pre>sum(k^2,k,1,n)</pre></td>
   <td class="cell c4"></td>
@@ -4376,7 +4387,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>product(cos(k*x),k,1,3)</pre></td>
   <td class="cell c3"><pre>product(cos(k*x),k,1,3)</pre></td>
   <td class="cell c4"></td>
@@ -4387,7 +4398,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(x)*cos(2*x)*cos(3*x)</pre></td>
   <td class="cell c3"><pre>product(cos(k*x),k,1,3)</pre></td>
   <td class="cell c4"></td>
@@ -4398,7 +4409,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(x)*cos(2*x)</pre></td>
   <td class="cell c3"><pre>product(cos(k*x),k,1,3)</pre></td>
   <td class="cell c4"></td>
@@ -4412,7 +4423,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9.81*m/s^2</pre></td>
   <td class="cell c3"><pre>stackunits(9.81,m/s^2)</pre></td>
   <td class="cell c4"></td>
@@ -4423,7 +4434,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6*stackunits(1,m)</pre></td>
   <td class="cell c3"><pre>stackunits(6,m)</pre></td>
   <td class="cell c4"></td>
@@ -4434,7 +4445,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>stackunits(2,m)^2</pre></td>
   <td class="cell c3"><pre>stackunits(4,m^2)</pre></td>
   <td class="cell c4"></td>
@@ -4445,7 +4456,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>stackunits(2,s)^2</pre></td>
   <td class="cell c3"><pre>stackunits(4,m^2)</pre></td>
   <td class="cell c4"></td>
@@ -4459,7 +4470,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-inf</pre></td>
   <td class="cell c3"><pre>minf</pre></td>
   <td class="cell c4"></td>
@@ -4473,7 +4484,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>2/%i*ln(sqrt((1+z)/2)+%i*sqrt(
 (1-z)/2))</pre></td>
   <td class="cell c3"><pre>-%i*ln(z+%i*sqrt(1-z^2))</pre></td>
@@ -4485,7 +4496,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>abs(x^2-4)/(abs(x-2)*abs(x+2))</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -4496,7 +4507,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>abs(x^2-4)</pre></td>
   <td class="cell c3"><pre>abs(x-2)*abs(x+2)</pre></td>
   <td class="cell c4"></td>
@@ -4507,7 +4518,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>(-1)^n*cos(x)^n</pre></td>
   <td class="cell c3"><pre>(-cos(x))^n</pre></td>
   <td class="cell c4"></td>
@@ -4518,7 +4529,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>(sqrt(108)+10)^(1/3)-(sqrt(108
 )-10)^(1/3)</pre></td>
   <td class="cell c3"><pre>2</pre></td>
@@ -4530,7 +4541,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>(sqrt(2+sqrt(2))+sqrt(2-sqrt(2
 )))/(2*sqrt(2))</pre></td>
   <td class="cell c3"><pre>sqrt(sqrt(2)+2)/2</pre></td>
@@ -4542,7 +4553,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>sqrt(2*x*sqrt(x^2+1)+2*x^2+1)-
 sqrt(x^2+1)-x</pre></td>
   <td class="cell c3"><pre>0</pre></td>
@@ -4554,7 +4565,7 @@ sqrt(x^2+1)-x</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>(77+20*sqrt(13))^(1/6)-(77-20*
 sqrt(13))^(1/6)</pre></td>
   <td class="cell c3"><pre>1</pre></td>
@@ -4566,7 +4577,7 @@ sqrt(13))^(1/6)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>(930249+416020*sqrt(5))^(1/30)
 -(930249-416020*sqrt(5))^(1/30
 )</pre></td>
@@ -4579,7 +4590,7 @@ sqrt(13))^(1/6)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>cos(2*%pi/17)</pre></td>
   <td class="cell c3"><pre>(-1+sqrt(17)+sqrt(34-2*sqrt(17
 )))/16+(2*sqrt(17+3*sqrt(17)-s
@@ -4593,7 +4604,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>(41-sqrt(511))/2</pre></td>
   <td class="cell c3"><pre>(sqrt((4*(cos((1/2*(acos((61/1
 040*sqrt(130)))-atan(11/3)))))
@@ -4608,7 +4619,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>a*(1+sqrt(2))=b</pre></td>
   <td class="cell c3"><pre>a=b*(sqrt(2)-1)/3</pre></td>
   <td class="cell c4"></td>
@@ -4622,7 +4633,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>atan(1/2)</pre></td>
   <td class="cell c3"><pre>%pi/2-atan(2)</pre></td>
   <td class="cell c4"></td>
@@ -4636,7 +4647,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>asinh(x)</pre></td>
   <td class="cell c3"><pre>ln(x+sqrt(x^2+1))</pre></td>
   <td class="cell c4"></td>
@@ -4650,7 +4661,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>true and false</pre></td>
   <td class="cell c3"><pre>false</pre></td>
   <td class="cell c4"></td>
@@ -4661,7 +4672,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>true or false</pre></td>
   <td class="cell c3"><pre>false</pre></td>
   <td class="cell c4"></td>
@@ -4672,7 +4683,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A and B</pre></td>
   <td class="cell c3"><pre>B and A</pre></td>
   <td class="cell c4"></td>
@@ -4683,7 +4694,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A and B</pre></td>
   <td class="cell c3"><pre>C and A</pre></td>
   <td class="cell c4"></td>
@@ -4694,7 +4705,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A and B=C</pre></td>
   <td class="cell c3"><pre>C=B and A</pre></td>
   <td class="cell c4"></td>
@@ -4705,7 +4716,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A and (B and C)</pre></td>
   <td class="cell c3"><pre>A and B and C</pre></td>
   <td class="cell c4"></td>
@@ -4716,7 +4727,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A and (B or C)</pre></td>
   <td class="cell c3"><pre>A and (B or C)</pre></td>
   <td class="cell c4"></td>
@@ -4727,7 +4738,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(A and B) or (A and C)</pre></td>
   <td class="cell c3"><pre>A and (B or C)</pre></td>
   <td class="cell c4"></td>
@@ -4738,7 +4749,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(b#pm#sqrt(b^2-4*a*c))</pre></td>
   <td class="cell c3"><pre>-b#pm#sqrt(b^2-4*a*c)</pre></td>
   <td class="cell c4"></td>
@@ -4749,7 +4760,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=-b#pm#c^2</pre></td>
   <td class="cell c3"><pre>x=c^2-b or x=-c^2-b</pre></td>
   <td class="cell c4"></td>
@@ -4760,7 +4771,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x#pm#a = y#pm#b</pre></td>
   <td class="cell c3"><pre>x#pm#a = y#pm#b</pre></td>
   <td class="cell c4"></td>
@@ -4771,7 +4782,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x#pm#a = y#pm#b</pre></td>
   <td class="cell c3"><pre>x#pm#a = y#pm#c</pre></td>
   <td class="cell c4"></td>
@@ -4782,7 +4793,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>not(A) and not(B)</pre></td>
   <td class="cell c3"><pre>not(A or B)</pre></td>
   <td class="cell c4"></td>
@@ -4793,7 +4804,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>not(A) and not(B)</pre></td>
   <td class="cell c3"><pre>not(A and B)</pre></td>
   <td class="cell c4"></td>
@@ -4804,7 +4815,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>not(A) or B</pre></td>
   <td class="cell c3"><pre>boolean_form(A implies B)</pre></td>
   <td class="cell c4"></td>
@@ -4815,7 +4826,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>not(A) or B</pre></td>
   <td class="cell c3"><pre>A implies B</pre></td>
   <td class="cell c4"></td>
@@ -4826,7 +4837,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>not(A) and B</pre></td>
   <td class="cell c3"><pre>A implies B</pre></td>
   <td class="cell c4"></td>
@@ -4837,7 +4848,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(not A and B) or (not B and A)</pre></td>
   <td class="cell c3"><pre>A xor B</pre></td>
   <td class="cell c4"></td>
@@ -4848,7 +4859,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(A and B) or (not A and not B)</pre></td>
   <td class="cell c3"><pre>A xnor B</pre></td>
   <td class="cell c4"></td>
@@ -4859,7 +4870,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{not(A) or B,A and B}</pre></td>
   <td class="cell c3"><pre>{A implies B,A and B}</pre></td>
   <td class="cell c4"></td>
@@ -4870,7 +4881,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{A implies B,A and B}</pre></td>
   <td class="cell c3"><pre>{not(A) and B,A and B}</pre></td>
   <td class="cell c4"></td>
@@ -4884,7 +4895,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(x^2,x)</pre></td>
   <td class="cell c3"><pre>2*x</pre></td>
   <td class="cell c4"></td>
@@ -4895,7 +4906,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(x^2,x)</pre></td>
   <td class="cell c3"><pre>&#039;diff(x^2,x)</pre></td>
   <td class="cell c4"></td>
@@ -4906,7 +4917,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(x^2,x)</pre></td>
   <td class="cell c3"><pre>2*x</pre></td>
   <td class="cell c4"></td>
@@ -4917,7 +4928,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(y,x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -4928,7 +4939,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(y,x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -4939,7 +4950,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(y(x),x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -4950,7 +4961,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(y(x),x)</pre></td>
   <td class="cell c3"><pre>diff(y,x)</pre></td>
   <td class="cell c4"></td>
@@ -4961,7 +4972,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(y,x)</pre></td>
   <td class="cell c3"><pre>diff(y,x,2)</pre></td>
   <td class="cell c4"></td>
@@ -4975,7 +4986,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c4"></td>
@@ -4986,7 +4997,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;hello&quot;</pre></td>
   <td class="cell c3"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c4"></td>
@@ -4997,7 +5008,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>W</pre></td>
   <td class="cell c3"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c4"></td>
@@ -5008,7 +5019,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>x^2</pre></td>
   <td class="cell c4"></td>
@@ -5022,7 +5033,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -5033,7 +5044,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
@@ -5044,7 +5055,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre></pre></td>
   <td class="cell c3"><pre>(x-1)^2</pre></td>
   <td class="cell c4"></td>
@@ -5055,7 +5066,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>x^2</pre></td>
   <td class="cell c3"><pre></pre></td>
   <td class="cell c4"></td>
@@ -5066,7 +5077,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>x-1)^2</pre></td>
   <td class="cell c3"><pre>(x-1)^2</pre></td>
   <td class="cell c4"></td>
@@ -5077,7 +5088,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(x^2,x)</pre></td>
   <td class="cell c3"><pre>2*x</pre></td>
   <td class="cell c4"></td>
@@ -5088,7 +5099,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(x^2,x)</pre></td>
   <td class="cell c3"><pre>&#039;diff(x^2,x)</pre></td>
   <td class="cell c4"></td>
@@ -5099,7 +5110,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(x^2,x)</pre></td>
   <td class="cell c3"><pre>&#039;diff(x^2,x)</pre></td>
   <td class="cell c4"></td>
@@ -5110,7 +5121,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&#039;diff(y,x)</pre></td>
   <td class="cell c3"><pre>noundiff(y,x)</pre></td>
   <td class="cell c4"></td>
@@ -5121,7 +5132,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(y,x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -5132,7 +5143,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&#039;diff(y,x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -5143,7 +5154,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(y,x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -5154,7 +5165,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(y(x),x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -5165,7 +5176,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&#039;diff(y,x,1)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x,2)</pre></td>
   <td class="cell c4"></td>
@@ -5176,7 +5187,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&#039;diff(y(x),x)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x)</pre></td>
   <td class="cell c4"></td>
@@ -5187,7 +5198,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>subst(y,y(x),&#039;diff(y,x)+y
 =1)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x)+y=1</pre></td>
@@ -5199,7 +5210,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>subst(y,y(x),&#039;diff(y(x),x
 )+y(x)=1)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x)+y=1</pre></td>
@@ -5211,7 +5222,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>subst(y(x),y,&#039;diff(y,x)+y
 =1)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y(x),x)+y(x)=1</pre></td>
@@ -5223,7 +5234,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>subst(y(x),y,&#039;diff(y,x)+y
 =1)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x)+y=1</pre></td>
@@ -5235,7 +5246,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>subst(y(x),y,&#039;diff(y(x),x
 )+y(x)=1)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x)+y=1</pre></td>
@@ -5248,7 +5259,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y_x</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x)</pre></td>
   <td class="cell c4"></td>
@@ -5262,7 +5273,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(f,x,1,y,1)</pre></td>
   <td class="cell c3"><pre>noundiff(noundiff(f,x),y)</pre></td>
   <td class="cell c4"></td>
@@ -5273,7 +5284,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(noundiff(f,y),x)</pre></td>
   <td class="cell c3"><pre>noundiff(noundiff(f,x),y)</pre></td>
   <td class="cell c4"></td>
@@ -5284,7 +5295,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(noundiff(f,x),x)</pre></td>
   <td class="cell c3"><pre>noundiff(f,x,2)</pre></td>
   <td class="cell c4"></td>
@@ -5298,7 +5309,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(H,x,2) = -R/T</pre></td>
   <td class="cell c3"><pre>noundiff(H,x,2) + R/T = 0</pre></td>
   <td class="cell c4"></td>
@@ -5309,7 +5320,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&#039;diff(H,x,2) = -R/T</pre></td>
   <td class="cell c3"><pre>noundiff(H,x,2) + R/T = 0</pre></td>
   <td class="cell c4"></td>
@@ -5320,7 +5331,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y(t)=int(s^2,s,0,t)</pre></td>
   <td class="cell c3"><pre>y(t)=t^3/3</pre></td>
   <td class="cell c4"></td>
@@ -5331,7 +5342,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y(t)=&#039;int(s^2,s,0,t)</pre></td>
   <td class="cell c3"><pre>y(t)=t^3/3</pre></td>
   <td class="cell c4"></td>
@@ -5342,7 +5353,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y(t)=&#039;int(s^2,s,0,t)</pre></td>
   <td class="cell c3"><pre>y(t)=nounint(s^2,s,0,t)</pre></td>
   <td class="cell c4"></td>
@@ -5356,7 +5367,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquivNouns</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>true nounand false</pre></td>
   <td class="cell c3"><pre>false</pre></td>
   <td class="cell c4"></td>
@@ -5370,7 +5381,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>x^2-2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -5381,7 +5392,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>x^2</pre></td>
   <td class="cell c3"><pre>x^2-2*x+1</pre></td>
   <td class="cell c4"><pre>[1/0]</pre></td>
@@ -5392,7 +5403,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>x^2</pre></td>
   <td class="cell c3"><pre>x^2-2*x+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -5403,7 +5414,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2+1</pre></td>
   <td class="cell c3"><pre>x^2+1</pre></td>
   <td class="cell c4"></td>
@@ -5414,7 +5425,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2+1</pre></td>
   <td class="cell c3"><pre>x^3+1</pre></td>
   <td class="cell c4"></td>
@@ -5425,7 +5436,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2+1</pre></td>
   <td class="cell c3"><pre>x^3+1</pre></td>
   <td class="cell c4"></td>
@@ -5436,7 +5447,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>X^2+1</pre></td>
   <td class="cell c3"><pre>x^2+1</pre></td>
   <td class="cell c4"></td>
@@ -5447,7 +5458,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2+y</pre></td>
   <td class="cell c3"><pre>a^2+b</pre></td>
   <td class="cell c4"></td>
@@ -5458,7 +5469,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2+y/z</pre></td>
   <td class="cell c3"><pre>a^2+c/b</pre></td>
   <td class="cell c4"></td>
@@ -5469,7 +5480,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y=x^2</pre></td>
   <td class="cell c3"><pre>a^2=b</pre></td>
   <td class="cell c4"></td>
@@ -5480,7 +5491,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{x=1,y=2}</pre></td>
   <td class="cell c3"><pre>{x=2,y=1}</pre></td>
   <td class="cell c4"></td>
@@ -5494,7 +5505,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(a*x)/(x*(ln(x)))</pre></td>
   <td class="cell c3"><pre>cos(a*y)/(y*(ln(y)))</pre></td>
   <td class="cell c4"></td>
@@ -5505,7 +5516,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(a*x)/(x*(ln(x)))</pre></td>
   <td class="cell c3"><pre>cos(x*a)/(a*(ln(a)))</pre></td>
   <td class="cell c4"></td>
@@ -5516,7 +5527,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(a*x)/(x*(ln(x)))</pre></td>
   <td class="cell c3"><pre>cos(a*x)/(x(ln(x)))</pre></td>
   <td class="cell c4"></td>
@@ -5527,7 +5538,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(a*x)/(x*(ln(x)))</pre></td>
   <td class="cell c3"><pre>cos(a*y)/(y(ln(y)))</pre></td>
   <td class="cell c4"></td>
@@ -5538,7 +5549,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x+1&gt;y</pre></td>
   <td class="cell c3"><pre>y+1&gt;x</pre></td>
   <td class="cell c4"></td>
@@ -5549,7 +5560,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x+1&gt;y</pre></td>
   <td class="cell c3"><pre>x&lt;y+1</pre></td>
   <td class="cell c4"></td>
@@ -5563,7 +5574,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([1,A^2+A+1],[2,0])</pre></td>
   <td class="cell c3"><pre>matrix([1,x^2+x+1],[2,0])</pre></td>
   <td class="cell c4"></td>
@@ -5574,7 +5585,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([B,A^2+A+1],[2,C])</pre></td>
   <td class="cell c3"><pre>matrix([y,x^2+x+1],[2,z])</pre></td>
   <td class="cell c4"></td>
@@ -5585,7 +5596,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([B,A^2+A+1],[2,C])</pre></td>
   <td class="cell c3"><pre>matrix([y,x^2+x+1],[2,x])</pre></td>
   <td class="cell c4"></td>
@@ -5599,7 +5610,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2+1,x^2]</pre></td>
   <td class="cell c3"><pre>[A^2+1,A^2]</pre></td>
   <td class="cell c4"></td>
@@ -5610,7 +5621,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2-1,x^2]</pre></td>
   <td class="cell c3"><pre>[A^2+1,A^2]</pre></td>
   <td class="cell c4"></td>
@@ -5621,7 +5632,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[A,B,C]</pre></td>
   <td class="cell c3"><pre>[B,C,A]</pre></td>
   <td class="cell c4"></td>
@@ -5632,7 +5643,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[A,B,C]</pre></td>
   <td class="cell c3"><pre>[B,B,A]</pre></td>
   <td class="cell c4"></td>
@@ -5643,7 +5654,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1,[A,B],C]</pre></td>
   <td class="cell c3"><pre>[1,[a,b],C]</pre></td>
   <td class="cell c4"></td>
@@ -5657,7 +5668,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{x^2+1,x^2}</pre></td>
   <td class="cell c3"><pre>{A^2+1,A^2}</pre></td>
   <td class="cell c4"></td>
@@ -5668,7 +5679,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{x^2-1,x^2}</pre></td>
   <td class="cell c3"><pre>{A^2+1,A^2}</pre></td>
   <td class="cell c4"></td>
@@ -5679,7 +5690,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{A+1,B^2,C}</pre></td>
   <td class="cell c3"><pre>{B,C+1,A^2}</pre></td>
   <td class="cell c4"></td>
@@ -5690,7 +5701,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,{A,B},C}</pre></td>
   <td class="cell c3"><pre>{1,{a,b},C}</pre></td>
   <td class="cell c4"></td>
@@ -5701,7 +5712,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A*cos(t)+B*sin(t)</pre></td>
   <td class="cell c3"><pre>P*cos(t)+Q*sin(t)</pre></td>
   <td class="cell c4"></td>
@@ -5712,7 +5723,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A*cos(t)+B*sin(t)</pre></td>
   <td class="cell c3"><pre>P*cos(x)+Q*sin(x)</pre></td>
   <td class="cell c4"></td>
@@ -5726,7 +5737,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A*cos(t)+B*sin(t)</pre></td>
   <td class="cell c3"><pre>P*cos(x)+Q*sin(x)</pre></td>
   <td class="cell c4"><pre>[x]</pre></td>
@@ -5737,7 +5748,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A*cos(t)+B*sin(t)</pre></td>
   <td class="cell c3"><pre>P*cos(x)+Q*sin(x)</pre></td>
   <td class="cell c4"><pre>[t]</pre></td>
@@ -5748,7 +5759,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A*cos(t)*e^x+B*sin(t)*e^x+C*si
 n(2*x)+D*cos(2*x)</pre></td>
   <td class="cell c3"><pre>P*cos(t)*e^x+Q*sin(t)*e^x+R*si
@@ -5761,7 +5772,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(2*g*y)</pre></td>
   <td class="cell c3"><pre>sqrt(2*g*x)</pre></td>
   <td class="cell c4"></td>
@@ -5772,7 +5783,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(2*g*y)</pre></td>
   <td class="cell c3"><pre>sqrt(2*g*x)</pre></td>
   <td class="cell c4"><pre>[g]</pre></td>
@@ -5786,7 +5797,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -5797,7 +5808,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
@@ -5811,7 +5822,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2/4</pre></td>
   <td class="cell c3"><pre>1/2</pre></td>
   <td class="cell c4"></td>
@@ -5822,7 +5833,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3^2</pre></td>
   <td class="cell c3"><pre>8</pre></td>
   <td class="cell c4"></td>
@@ -5833,7 +5844,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3^2</pre></td>
   <td class="cell c3"><pre>9</pre></td>
   <td class="cell c4"></td>
@@ -5844,7 +5855,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(0)</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -5855,7 +5866,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4^(1/2)</pre></td>
   <td class="cell c3"><pre>2</pre></td>
   <td class="cell c4"></td>
@@ -5866,7 +5877,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/3^(1/2)</pre></td>
   <td class="cell c3"><pre>(1/3)^(1/2)</pre></td>
   <td class="cell c4"></td>
@@ -5877,7 +5888,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(3)/3</pre></td>
   <td class="cell c3"><pre>(1/3)^(1/2)</pre></td>
   <td class="cell c4"></td>
@@ -5888,7 +5899,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(3)</pre></td>
   <td class="cell c3"><pre>3^(1/2)</pre></td>
   <td class="cell c4"></td>
@@ -5899,7 +5910,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*sqrt(2)</pre></td>
   <td class="cell c3"><pre>sqrt(8)</pre></td>
   <td class="cell c4"></td>
@@ -5910,7 +5921,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*2^(1/2)</pre></td>
   <td class="cell c3"><pre>sqrt(8)</pre></td>
   <td class="cell c4"></td>
@@ -5921,7 +5932,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(2)/4</pre></td>
   <td class="cell c3"><pre>1/sqrt(8)</pre></td>
   <td class="cell c4"></td>
@@ -5932,7 +5943,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/sqrt(2)</pre></td>
   <td class="cell c3"><pre>2^(1/2)/2</pre></td>
   <td class="cell c4"></td>
@@ -5943,7 +5954,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4.0</pre></td>
   <td class="cell c3"><pre>4</pre></td>
   <td class="cell c4"></td>
@@ -5957,7 +5968,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>X</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -5968,7 +5979,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exdowncase(X)</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -5979,7 +5990,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exdowncase((X-1)^2)</pre></td>
   <td class="cell c3"><pre>x^2-2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -5990,7 +6001,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exdowncase(X^2-2*X+1)</pre></td>
   <td class="cell c3"><pre>x^2-2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -6004,7 +6015,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a^2/b^3</pre></td>
   <td class="cell c3"><pre>a^2*b^(-3)</pre></td>
   <td class="cell c4"></td>
@@ -6015,7 +6026,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lg(a^x,a)</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -6026,7 +6037,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^(2/4)</pre></td>
   <td class="cell c3"><pre>x^(1/2)</pre></td>
   <td class="cell c4"></td>
@@ -6040,7 +6051,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+2*x</pre></td>
   <td class="cell c3"><pre>x*2+1</pre></td>
   <td class="cell c4"></td>
@@ -6051,7 +6062,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+x</pre></td>
   <td class="cell c3"><pre>2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -6062,7 +6073,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+x+x</pre></td>
   <td class="cell c3"><pre>2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -6073,7 +6084,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x+y)+z</pre></td>
   <td class="cell c3"><pre>z+x+y</pre></td>
   <td class="cell c4"></td>
@@ -6084,7 +6095,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x*x</pre></td>
   <td class="cell c3"><pre>x^2</pre></td>
   <td class="cell c4"></td>
@@ -6095,7 +6106,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x+5)*x</pre></td>
   <td class="cell c3"><pre>x*(5+x)</pre></td>
   <td class="cell c4"></td>
@@ -6106,7 +6117,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x*(x+5)</pre></td>
   <td class="cell c3"><pre>5*x+x^2</pre></td>
   <td class="cell c4"></td>
@@ -6117,7 +6128,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1-x)^2</pre></td>
   <td class="cell c3"><pre>(x-1)^2</pre></td>
   <td class="cell c4"></td>
@@ -6128,7 +6139,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(a-x)^6000</pre></td>
   <td class="cell c3"><pre>(x-a)^6000</pre></td>
   <td class="cell c4"></td>
@@ -6142,7 +6153,7 @@ n(2*x)+S*cos(2*x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rho*z*V/(4*pi*epsilon[0]*(R^2+
 z^2)^(3/2))</pre></td>
   <td class="cell c3"><pre>rho*z*V/(4*pi*epsilon[0]*(R^2+
@@ -6155,7 +6166,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rho*z*V/(4*pi*epsilon[1]*(R^2+
 z^2)^(3/2))</pre></td>
   <td class="cell c3"><pre>rho*z*V/(4*pi*epsilon[0]*(R^2+
@@ -6171,7 +6182,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-1+2</pre></td>
   <td class="cell c3"><pre>2-1</pre></td>
   <td class="cell c4"></td>
@@ -6182,7 +6193,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-1*2+3*4</pre></td>
   <td class="cell c3"><pre>3*4-1*2</pre></td>
   <td class="cell c4"></td>
@@ -6193,7 +6204,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-1*2)+3*4</pre></td>
   <td class="cell c3"><pre>10</pre></td>
   <td class="cell c4"></td>
@@ -6204,7 +6215,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-1*2+3*4</pre></td>
   <td class="cell c3"><pre>3*4-1*2</pre></td>
   <td class="cell c4"></td>
@@ -6215,7 +6226,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x*(-y)</pre></td>
   <td class="cell c3"><pre>-x*y</pre></td>
   <td class="cell c4"></td>
@@ -6226,7 +6237,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x*(-y)</pre></td>
   <td class="cell c3"><pre>-(x*y)</pre></td>
   <td class="cell c4"></td>
@@ -6237,7 +6248,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-x)*(-x)</pre></td>
   <td class="cell c3"><pre>x*x</pre></td>
   <td class="cell c4"></td>
@@ -6248,7 +6259,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-x)*(-x)</pre></td>
   <td class="cell c3"><pre>x^2</pre></td>
   <td class="cell c4"></td>
@@ -6259,7 +6270,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-1/4*%pi*i</pre></td>
   <td class="cell c3"><pre>-(%i*%pi)/4</pre></td>
   <td class="cell c4"></td>
@@ -6273,7 +6284,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/2</pre></td>
   <td class="cell c3"><pre>3/6</pre></td>
   <td class="cell c4"></td>
@@ -6284,7 +6295,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(1+2*x)</pre></td>
   <td class="cell c3"><pre>1/(2*x+1)</pre></td>
   <td class="cell c4"></td>
@@ -6295,7 +6306,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2/(4+2*x)</pre></td>
   <td class="cell c3"><pre>1/(x+2)</pre></td>
   <td class="cell c4"></td>
@@ -6306,7 +6317,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(a*b)/c</pre></td>
   <td class="cell c3"><pre>a*(b/c)</pre></td>
   <td class="cell c4"></td>
@@ -6317,7 +6328,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>((x+1)/(x*(x-1)))*(x-1)</pre></td>
   <td class="cell c3"><pre>((x+1)*(x-1))/(x*(x-1))</pre></td>
   <td class="cell c4"></td>
@@ -6328,7 +6339,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-x)/y</pre></td>
   <td class="cell c3"><pre>-(x/y)</pre></td>
   <td class="cell c4"></td>
@@ -6339,7 +6350,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x/(-y)</pre></td>
   <td class="cell c3"><pre>-(x/y)</pre></td>
   <td class="cell c4"></td>
@@ -6350,7 +6361,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-1/(1-x)</pre></td>
   <td class="cell c3"><pre>1/(x-1)</pre></td>
   <td class="cell c4"></td>
@@ -6361,7 +6372,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/2*1/x</pre></td>
   <td class="cell c3"><pre>1/(2*x)</pre></td>
   <td class="cell c4"></td>
@@ -6372,7 +6383,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(k+8)/(k^2+4*k-12)</pre></td>
   <td class="cell c3"><pre>(k+8)/(k^2+4*k-12)</pre></td>
   <td class="cell c4"></td>
@@ -6383,7 +6394,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(k+8)/(k^2+4*k-12)</pre></td>
   <td class="cell c3"><pre>(k+8)/((k-2)*(k+6))</pre></td>
   <td class="cell c4"></td>
@@ -6394,7 +6405,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(k+7)/(k^2+4*k-12)</pre></td>
   <td class="cell c3"><pre>(k+8)/(k^2+4*k-12)</pre></td>
   <td class="cell c4"></td>
@@ -6405,7 +6416,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(2*k+6)/(k^2+4*k-12)</pre></td>
   <td class="cell c3"><pre>-(2*k+6)/(k^2+4*k-12)</pre></td>
   <td class="cell c4"></td>
@@ -6416,7 +6427,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(a+b)/1</pre></td>
   <td class="cell c3"><pre>(b+a)/1</pre></td>
   <td class="cell c4"></td>
@@ -6430,7 +6441,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1*x</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -6441,7 +6452,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>23+0*x</pre></td>
   <td class="cell c3"><pre>23</pre></td>
   <td class="cell c4"></td>
@@ -6452,7 +6463,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x+0</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -6463,7 +6474,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^1</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -6474,7 +6485,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1/2)*(a+b)</pre></td>
   <td class="cell c3"><pre>(a+b)/2</pre></td>
   <td class="cell c4"></td>
@@ -6485,7 +6496,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/3*logbase(27,6)</pre></td>
   <td class="cell c3"><pre>logbase(27,6)/3</pre></td>
   <td class="cell c4"></td>
@@ -6496,7 +6507,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/3*lg(27,6)</pre></td>
   <td class="cell c3"><pre>lg(27,6)/3</pre></td>
   <td class="cell c4"></td>
@@ -6507,7 +6518,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lg(root(x, n))</pre></td>
   <td class="cell c3"><pre>lg(x, 10)/n</pre></td>
   <td class="cell c4"></td>
@@ -6518,7 +6529,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exp(x)</pre></td>
   <td class="cell c3"><pre>%e^x</pre></td>
   <td class="cell c4"></td>
@@ -6529,7 +6540,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exp(x)^2</pre></td>
   <td class="cell c3"><pre>%e^(2*x)</pre></td>
   <td class="cell c4"></td>
@@ -6540,7 +6551,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exp(x)^2</pre></td>
   <td class="cell c3"><pre>(%e^(x))^2</pre></td>
   <td class="cell c4"></td>
@@ -6551,7 +6562,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/3*i</pre></td>
   <td class="cell c3"><pre>i/3</pre></td>
   <td class="cell c4"></td>
@@ -6565,7 +6576,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>%i</pre></td>
   <td class="cell c3"><pre>e^(i*pi/2)</pre></td>
   <td class="cell c4"></td>
@@ -6576,7 +6587,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(4*sqrt(3)*%i+4)^(1/5)</pre></td>
   <td class="cell c3"><pre>rectform((4*sqrt(3)*%i+4)^(1/5
 ))</pre></td>
@@ -6588,7 +6599,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(4*sqrt(3)*%i+4)^(1/5)</pre></td>
   <td class="cell c3"><pre>8^(1/5)*(cos(%pi/15)+%i*sin(%p
 i/15))</pre></td>
@@ -6600,7 +6611,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(4*sqrt(3)*%i+4)^(1/5)</pre></td>
   <td class="cell c3"><pre>polarform((4*sqrt(3)*%i+4)^(1/
 5))</pre></td>
@@ -6615,7 +6626,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y=x</pre></td>
   <td class="cell c3"><pre>x=y</pre></td>
   <td class="cell c4"></td>
@@ -6626,7 +6637,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x+1</pre></td>
   <td class="cell c3"><pre>y=2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -6637,7 +6648,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y=1+2*x</pre></td>
   <td class="cell c3"><pre>y=2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -6648,7 +6659,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y=x+x+1</pre></td>
   <td class="cell c3"><pre>y=1+2*x</pre></td>
   <td class="cell c4"></td>
@@ -6662,7 +6673,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A and B</pre></td>
   <td class="cell c3"><pre>B and A</pre></td>
   <td class="cell c4"></td>
@@ -6673,7 +6684,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A or B</pre></td>
   <td class="cell c3"><pre>B or A</pre></td>
   <td class="cell c4"></td>
@@ -6684,7 +6695,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A or B</pre></td>
   <td class="cell c3"><pre>B and A</pre></td>
   <td class="cell c4"></td>
@@ -6695,7 +6706,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>not(true)</pre></td>
   <td class="cell c3"><pre>false</pre></td>
   <td class="cell c4"></td>
@@ -6709,7 +6720,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{2*x+1,2}</pre></td>
   <td class="cell c3"><pre>{2, 1+x*2}</pre></td>
   <td class="cell c4"></td>
@@ -6720,7 +6731,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2</pre></td>
   <td class="cell c3"><pre>{2}</pre></td>
   <td class="cell c4"></td>
@@ -6731,7 +6742,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{2*x+1, 1+1}</pre></td>
   <td class="cell c3"><pre>{2, 1+x*2}</pre></td>
   <td class="cell c4"></td>
@@ -6742,7 +6753,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,2}</pre></td>
   <td class="cell c3"><pre>{1,{2}}</pre></td>
   <td class="cell c4"></td>
@@ -6753,7 +6764,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{4,3}</pre></td>
   <td class="cell c3"><pre>{3,4}</pre></td>
   <td class="cell c4"></td>
@@ -6764,7 +6775,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{4,4}</pre></td>
   <td class="cell c3"><pre>{4}</pre></td>
   <td class="cell c4"></td>
@@ -6775,7 +6786,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{-1,1,-1}</pre></td>
   <td class="cell c3"><pre>{-1,-1,1}</pre></td>
   <td class="cell c4"></td>
@@ -6786,7 +6797,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{-1,1,-1}</pre></td>
   <td class="cell c3"><pre>{-1,1}</pre></td>
   <td class="cell c4"></td>
@@ -6800,7 +6811,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2*x+1,2]</pre></td>
   <td class="cell c3"><pre>[1+x*2,2]</pre></td>
   <td class="cell c4"></td>
@@ -6811,7 +6822,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x+x+1, 1+1]</pre></td>
   <td class="cell c3"><pre>[1+x*2,2]</pre></td>
   <td class="cell c4"></td>
@@ -6825,7 +6836,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([1,2],[2,3])</pre></td>
   <td class="cell c3"><pre>matrix([1,2],[2,3])</pre></td>
   <td class="cell c4"></td>
@@ -6836,7 +6847,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([1,2],[2,3])</pre></td>
   <td class="cell c3"><pre>matrix([1,2,3],[2,3,3])</pre></td>
   <td class="cell c4"></td>
@@ -6847,7 +6858,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([1,2],[2,3])</pre></td>
   <td class="cell c3"><pre>matrix([1,2],[2,5])</pre></td>
   <td class="cell c4"></td>
@@ -6858,7 +6869,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([1,2],[2,2+1])</pre></td>
   <td class="cell c3"><pre>matrix([1,2],[2,3])</pre></td>
   <td class="cell c4"></td>
@@ -6869,7 +6880,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([x+x, 1],[1, 1])</pre></td>
   <td class="cell c3"><pre>matrix([2*x, 1],[1, 1])</pre></td>
   <td class="cell c4"></td>
@@ -6883,7 +6894,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sum(k^n,n,0,3)</pre></td>
   <td class="cell c3"><pre>sum(k^n,n,0,3)</pre></td>
   <td class="cell c4"></td>
@@ -6894,7 +6905,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+k+k^2+k^3</pre></td>
   <td class="cell c3"><pre>sum(k^n,n,0,3)</pre></td>
   <td class="cell c4"></td>
@@ -6905,7 +6916,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sum(k,k,0,1+n)</pre></td>
   <td class="cell c3"><pre>sum(k,k,0,n+1)</pre></td>
   <td class="cell c4"></td>
@@ -6916,7 +6927,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(n+1)*(n+2)/2</pre></td>
   <td class="cell c3"><pre>sum(k,k,0,n+1)</pre></td>
   <td class="cell c4"></td>
@@ -6927,7 +6938,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>product(cos(k*x),k,1,3)</pre></td>
   <td class="cell c3"><pre>product(cos(k*x),k,1,3)</pre></td>
   <td class="cell c4"></td>
@@ -6938,7 +6949,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(x)*cos(2*x)*cos(3*x)</pre></td>
   <td class="cell c3"><pre>product(cos(k*x),k,1,3)</pre></td>
   <td class="cell c4"></td>
@@ -6952,7 +6963,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-6/5 &gt; x</pre></td>
   <td class="cell c3"><pre>x &lt; -6/5</pre></td>
   <td class="cell c4"></td>
@@ -6963,7 +6974,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&lt;1 and -3&lt;x</pre></td>
   <td class="cell c3"><pre>-3&lt;x and x&lt;1</pre></td>
   <td class="cell c4"></td>
@@ -6974,7 +6985,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1&gt;x and -3&lt;x</pre></td>
   <td class="cell c3"><pre>-3&lt;x and x&lt;1</pre></td>
   <td class="cell c4"></td>
@@ -6985,7 +6996,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>make_less_ineq(-6/5 &gt; x)</pre></td>
   <td class="cell c3"><pre>x &lt; -6/5</pre></td>
   <td class="cell c4"></td>
@@ -6996,7 +7007,7 @@ i/15))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>make_less_ineq(1&gt;x and -3&l
 t;x)</pre></td>
   <td class="cell c3"><pre>-3&lt;x and x&lt;1</pre></td>
@@ -7008,7 +7019,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>make_less_ineq(6/3 &gt; x)</pre></td>
   <td class="cell c3"><pre>x &lt; 2</pre></td>
   <td class="cell c4"></td>
@@ -7022,7 +7033,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>stackeq(1)</pre></td>
   <td class="cell c4"></td>
@@ -7033,7 +7044,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>stackeq(1)</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -7044,7 +7055,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>stackeq(1+1)</pre></td>
   <td class="cell c3"><pre>2</pre></td>
   <td class="cell c4"></td>
@@ -7055,7 +7066,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>stackeq(1)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -7066,7 +7077,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lowesttermsp(1/3)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -7077,7 +7088,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lowesttermsp(2/6)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -7088,7 +7099,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lowesttermsp(x^2/x)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -7099,7 +7110,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lowesttermsp(-y/-x)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -7110,7 +7121,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lowesttermsp((x^2-1)/(x-1))</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -7121,7 +7132,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>lowesttermsp((x^2-1)/(x+2))</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -7135,7 +7146,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rationalized(1+sqrt(3)/3)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -7146,7 +7157,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rationalized(1+1/sqrt(3))</pre></td>
   <td class="cell c3"><pre>[sqrt(3)]</pre></td>
   <td class="cell c4"></td>
@@ -7157,7 +7168,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rationalized(1/sqrt(3))</pre></td>
   <td class="cell c3"><pre>[sqrt(3)]</pre></td>
   <td class="cell c4"></td>
@@ -7168,7 +7179,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rationalized(1/sqrt(2)+i/sqrt(
 2))</pre></td>
   <td class="cell c3"><pre>[sqrt(2),sqrt(2)]</pre></td>
@@ -7180,7 +7191,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rationalized(sqrt(2)/2+1/sqrt(
 3))</pre></td>
   <td class="cell c3"><pre>[sqrt(3)]</pre></td>
@@ -7192,7 +7203,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rationalized(1/sqrt(2)+1/sqrt(
 3))</pre></td>
   <td class="cell c3"><pre>[sqrt(2),sqrt(3)]</pre></td>
@@ -7204,7 +7215,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rationalized(1/(1+i))</pre></td>
   <td class="cell c3"><pre>[i]</pre></td>
   <td class="cell c4"></td>
@@ -7215,7 +7226,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rationalized(1/(1+1/root(3,2))
 )</pre></td>
   <td class="cell c3"><pre>[root(3,2)]</pre></td>
@@ -7230,7 +7241,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(y,x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -7241,7 +7252,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(x^2,x)</pre></td>
   <td class="cell c3"><pre>2*x</pre></td>
   <td class="cell c4"></td>
@@ -7252,7 +7263,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(x^2,x)</pre></td>
   <td class="cell c3"><pre>2*x</pre></td>
   <td class="cell c4"></td>
@@ -7263,7 +7274,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>diff(y,x)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x)</pre></td>
   <td class="cell c4"></td>
@@ -7274,7 +7285,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(y,x)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y,x)</pre></td>
   <td class="cell c4"></td>
@@ -7285,7 +7296,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&#039;diff(y(x),x)</pre></td>
   <td class="cell c3"><pre>&#039;diff(y(x),x,1)</pre></td>
   <td class="cell c4"></td>
@@ -7296,7 +7307,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAss</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>noundiff(y(x),x)=-x/4</pre></td>
   <td class="cell c3"><pre>4*noundiff(y(x),x)+x=0</pre></td>
   <td class="cell c4"></td>
@@ -7310,7 +7321,7 @@ t;x)</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[]</pre></td>
@@ -7321,7 +7332,7 @@ t;x)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"><pre>[]</pre></td>
@@ -7332,7 +7343,7 @@ t;x)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0+a</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"></td>
@@ -7343,7 +7354,7 @@ t;x)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0+a</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -7354,7 +7365,7 @@ t;x)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0+a</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>[x]</pre></td>
@@ -7365,7 +7376,7 @@ t;x)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0+a</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>[intMul,intFac]</pre></td>
@@ -7379,7 +7390,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+1</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"><pre>[zeroAdd]</pre></td>
@@ -7390,7 +7401,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+1</pre></td>
   <td class="cell c3"><pre>2</pre></td>
   <td class="cell c4"><pre>[zeroAdd]</pre></td>
@@ -7401,7 +7412,7 @@ t;x)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+1</pre></td>
   <td class="cell c3"><pre>2</pre></td>
   <td class="cell c4"><pre>[testdebug,zero
@@ -7413,7 +7424,7 @@ Add]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0+a</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>[zeroAdd]</pre></td>
@@ -7424,7 +7435,7 @@ Add]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a+0</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>[zeroAdd]</pre></td>
@@ -7435,7 +7446,7 @@ Add]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1*a</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>[testdebug,zero
@@ -7447,7 +7458,7 @@ Add]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1*a</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>[oneMul]</pre></td>
@@ -7458,7 +7469,7 @@ Add]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1*a</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>ID_TRANS</pre></td>
@@ -7469,7 +7480,7 @@ Add]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a/1</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>ID_TRANS</pre></td>
@@ -7480,7 +7491,7 @@ Add]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*a</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>ID_TRANS</pre></td>
@@ -7491,7 +7502,7 @@ Add]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0-1*i</pre></td>
   <td class="cell c3"><pre>-i</pre></td>
   <td class="cell c4"><pre>ID_TRANS</pre></td>
@@ -7502,7 +7513,7 @@ Add]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0-i</pre></td>
   <td class="cell c3"><pre>-i</pre></td>
   <td class="cell c4"><pre>ID_TRANS</pre></td>
@@ -7513,7 +7524,7 @@ Add]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2+1*i</pre></td>
   <td class="cell c3"><pre>2+i</pre></td>
   <td class="cell c4"><pre>ID_TRANS</pre></td>
@@ -7524,7 +7535,7 @@ Add]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^0+x^1/1+x^2/2+x^3/3!+x^4/4!</pre></td>
   <td class="cell c3"><pre>1+x+x^2/2+x^3/3!+x^4/4!</pre></td>
   <td class="cell c4"><pre>ID_TRANS</pre></td>
@@ -7535,7 +7546,7 @@ Add]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>%e^x</pre></td>
   <td class="cell c3"><pre>exp(x)</pre></td>
   <td class="cell c4"><pre>[testdebug,ID_T
@@ -7547,7 +7558,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12*%e^((2*(%pi/2)*%i)/2)</pre></td>
   <td class="cell c3"><pre>12*exp(%i*(%pi/2))</pre></td>
   <td class="cell c4"><pre>ID_TRANS</pre></td>
@@ -7558,7 +7569,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12*%e^((2*(%pi/2)*%i)/2)</pre></td>
   <td class="cell c3"><pre>12*exp(%i*(%pi/2))</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,[negN
@@ -7574,7 +7585,7 @@ vDiv,divCancel]
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0^(1-1)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>ID_TRANS</pre></td>
@@ -7585,7 +7596,7 @@ vDiv,divCancel]
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*a</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>delete(zeroMul,
@@ -7597,7 +7608,7 @@ vDiv,divCancel]
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(-a)</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>[negNeg]</pre></td>
@@ -7608,7 +7619,7 @@ vDiv,divCancel]
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(-(-a))</pre></td>
   <td class="cell c3"><pre>-a</pre></td>
   <td class="cell c4"><pre>[negNeg]</pre></td>
@@ -7619,7 +7630,7 @@ vDiv,divCancel]
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(-(-a))</pre></td>
   <td class="cell c3"><pre>a</pre></td>
   <td class="cell c4"><pre>[testdebug,negN
@@ -7631,7 +7642,7 @@ eg]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3/(-x)</pre></td>
   <td class="cell c3"><pre>-3/x</pre></td>
   <td class="cell c4"><pre>ID_TRANS</pre></td>
@@ -7642,7 +7653,7 @@ eg]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3/(-x)</pre></td>
   <td class="cell c3"><pre>-3/x</pre></td>
   <td class="cell c4"><pre>[testdebug,ID_T
@@ -7654,7 +7665,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-x*(x+1)</pre></td>
   <td class="cell c3"><pre>x*(-x-1)</pre></td>
   <td class="cell c4"><pre>[negDist]</pre></td>
@@ -7665,7 +7676,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-x*(x-1)</pre></td>
   <td class="cell c3"><pre>x*(1-x)</pre></td>
   <td class="cell c4"><pre>NEG_TRANS</pre></td>
@@ -7676,7 +7687,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-x*(x-1)</pre></td>
   <td class="cell c3"><pre>x*(1-x)</pre></td>
   <td class="cell c4"><pre>NEG_TRANS</pre></td>
@@ -7687,7 +7698,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-5*x*(3-x)</pre></td>
   <td class="cell c3"><pre>5*x*(x-3)</pre></td>
   <td class="cell c4"><pre>NEG_TRANS</pre></td>
@@ -7698,7 +7709,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-x*(x-1)*(x+1)</pre></td>
   <td class="cell c3"><pre>x*(x-1)*(-x-1)</pre></td>
   <td class="cell c4"><pre>NEG_TRANS</pre></td>
@@ -7709,7 +7720,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-x*(x-1)*(x+1)</pre></td>
   <td class="cell c3"><pre>x*(1-x)*(x+1)</pre></td>
   <td class="cell c4"><pre>NEG_TRANS</pre></td>
@@ -7720,7 +7731,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-x*(y-1)*(x-1)</pre></td>
   <td class="cell c3"><pre>x*(1-x)*(y-1)</pre></td>
   <td class="cell c4"><pre>NEG_TRANS</pre></td>
@@ -7731,7 +7742,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-x*(y-1)*(x-1)</pre></td>
   <td class="cell c3"><pre>x*(x-1)*(1-y)</pre></td>
   <td class="cell c4"><pre>NEG_TRANS</pre></td>
@@ -7742,7 +7753,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-y)*(y-x)</pre></td>
   <td class="cell c3"><pre>-(x-y)*(x-y)</pre></td>
   <td class="cell c4"><pre>NEG_TRANS</pre></td>
@@ -7753,7 +7764,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-y)*(y-x)</pre></td>
   <td class="cell c3"><pre>-(x-y)^2</pre></td>
   <td class="cell c4"><pre>[testdebug,NEG_
@@ -7765,7 +7776,7 @@ TRANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-x*(x-1)*(x+1)</pre></td>
   <td class="cell c3"><pre>x*(1-x)*(x+1)</pre></td>
   <td class="cell c4"><pre>[testdebug,negD
@@ -7777,7 +7788,7 @@ ist,negNeg]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-x*(y-1)*(x-1)</pre></td>
   <td class="cell c3"><pre>x*(x-1)*(1-y)</pre></td>
   <td class="cell c4"><pre>[testdebug,negD
@@ -7789,7 +7800,7 @@ ist,negNeg]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3/(-x)</pre></td>
   <td class="cell c3"><pre>-3/x</pre></td>
   <td class="cell c4"><pre>[negDiv]</pre></td>
@@ -7800,7 +7811,7 @@ ist,negNeg]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3/(-x)</pre></td>
   <td class="cell c3"><pre>ev(-3,simp)/x</pre></td>
   <td class="cell c4"><pre>[negDiv]</pre></td>
@@ -7811,7 +7822,7 @@ ist,negNeg]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-a)/(-x)</pre></td>
   <td class="cell c3"><pre>-(-a/x)</pre></td>
   <td class="cell c4"><pre>[testdebug,ID_T
@@ -7823,7 +7834,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-a)/(-x)</pre></td>
   <td class="cell c3"><pre>-(-a/x)</pre></td>
   <td class="cell c4"><pre>[negDiv]</pre></td>
@@ -7834,7 +7845,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-a)/(-x)</pre></td>
   <td class="cell c3"><pre>a/x</pre></td>
   <td class="cell c4"><pre>[testdebug,negD
@@ -7846,7 +7857,7 @@ iv]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-a)/(-x)</pre></td>
   <td class="cell c3"><pre>a/x</pre></td>
   <td class="cell c4"><pre>[negDiv,negNeg]</pre></td>
@@ -7857,7 +7868,7 @@ iv]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(-x)</pre></td>
   <td class="cell c3"><pre>(-1)/x</pre></td>
   <td class="cell c4"><pre>[negDiv]</pre></td>
@@ -7868,7 +7879,7 @@ iv]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(-x)</pre></td>
   <td class="cell c3"><pre>ev(-1,simp)/x</pre></td>
   <td class="cell c4"><pre>[negDiv]</pre></td>
@@ -7879,7 +7890,7 @@ iv]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2/-3)*(x-y)</pre></td>
   <td class="cell c3"><pre>-(2/3)*(x-y)</pre></td>
   <td class="cell c4"><pre>[negDiv]</pre></td>
@@ -7890,7 +7901,7 @@ iv]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2/-3)*(x-y)</pre></td>
   <td class="cell c3"><pre>(2/3)*(y-x)</pre></td>
   <td class="cell c4"><pre>[negDiv]</pre></td>
@@ -7901,7 +7912,7 @@ iv]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2/-3)*(x-y)</pre></td>
   <td class="cell c3"><pre>(2/3)*(y-x)</pre></td>
   <td class="cell c4"><pre>[negDiv,negOrd]</pre></td>
@@ -7912,7 +7923,7 @@ iv]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-2/(1-x)</pre></td>
   <td class="cell c3"><pre>2/(x-1)</pre></td>
   <td class="cell c4"><pre>[testdebug,negD
@@ -7924,7 +7935,7 @@ iv]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/2*3/x</pre></td>
   <td class="cell c3"><pre>3/(2*x)</pre></td>
   <td class="cell c4"><pre>[testdebug,ID_T
@@ -7936,7 +7947,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/2*3/x</pre></td>
   <td class="cell c3"><pre>3/(2*x)</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,recip
@@ -7948,7 +7959,7 @@ Mul]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5/2*3/x</pre></td>
   <td class="cell c3"><pre>15/(2*x)</pre></td>
   <td class="cell c4"><pre>[testdebug,ID_T
@@ -7960,7 +7971,7 @@ RANS,recipMul]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(x-y)</pre></td>
   <td class="cell c3"><pre>y-x</pre></td>
   <td class="cell c4"><pre>[negOrd]</pre></td>
@@ -7971,7 +7982,7 @@ RANS,recipMul]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5/2*3/x</pre></td>
   <td class="cell c3"><pre>15/(2*x)</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,recip
@@ -7983,7 +7994,7 @@ Mul,intMul]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(3+2)*x+x</pre></td>
   <td class="cell c3"><pre>5*x+x</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,intAd
@@ -7995,7 +8006,7 @@ d]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(3-5)*x+x</pre></td>
   <td class="cell c3"><pre>-2*x+x</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,intAd
@@ -8007,7 +8018,7 @@ d]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>7*x*(-3*x)</pre></td>
   <td class="cell c3"><pre>-21*x*x</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,intMu
@@ -8019,7 +8030,7 @@ l]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-7*x)*(-3*x)</pre></td>
   <td class="cell c3"><pre>21*x*x</pre></td>
   <td class="cell c4"><pre>[testdebug,ID_T
@@ -8031,7 +8042,7 @@ RANS,intMul]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-7*x)*(-3*x)</pre></td>
   <td class="cell c3"><pre>21*x*x</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,intMu
@@ -8046,7 +8057,7 @@ l,negNeg]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a/b/c</pre></td>
   <td class="cell c3"><pre>a/(b*c)</pre></td>
   <td class="cell c4"><pre>[testdebug,ID_T
@@ -8058,7 +8069,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a/b/c</pre></td>
   <td class="cell c3"><pre>a/(b*c)</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,recip
@@ -8070,7 +8081,7 @@ Mul]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(a/b)/c</pre></td>
   <td class="cell c3"><pre>a/(b*c)</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,recip
@@ -8085,7 +8096,7 @@ Mul]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a/(b/c)</pre></td>
   <td class="cell c3"><pre>(a*c)/b</pre></td>
   <td class="cell c4"><pre>[testdebug,ID_T
@@ -8097,7 +8108,7 @@ RANS]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a/(b/c)</pre></td>
   <td class="cell c3"><pre>(a*c)/b</pre></td>
   <td class="cell c4"><pre>[testdebug,ID_T
@@ -8109,7 +8120,7 @@ RANS,recipMul]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a/(b/c)</pre></td>
   <td class="cell c3"><pre>(a*c)/b</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,divDi
@@ -8121,7 +8132,7 @@ v]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A*a/(B*b/c)</pre></td>
   <td class="cell c3"><pre>A*(a*c)/(B*b)</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,divDi
@@ -8133,7 +8144,7 @@ v]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A*a/(B*b/c)*1/d</pre></td>
   <td class="cell c3"><pre>A*(a*c)/(B*b)*1/d</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,divDi
@@ -8145,7 +8156,7 @@ v]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>D*A*a/(B*b/c)*1/d</pre></td>
   <td class="cell c3"><pre>A*(a*c)/(B*b)*D/d</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,divDi
@@ -8157,7 +8168,7 @@ v]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A*a/(B*b/c)*1/d</pre></td>
   <td class="cell c3"><pre>A*(a*c)/(B*b*d)</pre></td>
   <td class="cell c4"><pre>[testdebug,ID_T
@@ -8169,7 +8180,7 @@ RANS,divDiv]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A*a/(B*b/c)*1/d</pre></td>
   <td class="cell c3"><pre>A*(a*c)/(B*b*d)</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,divDi
@@ -8181,7 +8192,7 @@ v,recipMul]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A/(B/(C/D))</pre></td>
   <td class="cell c3"><pre>A*C/(B*D)</pre></td>
   <td class="cell c4"><pre>[testdebug,ID_T
@@ -8193,7 +8204,7 @@ RANS,divDiv]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A/(B/(C/D))</pre></td>
   <td class="cell c3"><pre>A*C/(B*D)</pre></td>
   <td class="cell c4"><pre>[ID_TRANS,divDi
@@ -8205,7 +8216,7 @@ v,recipMul]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>18</pre></td>
   <td class="cell c3"><pre>2*3^2</pre></td>
   <td class="cell c4"><pre>[intFac]</pre></td>
@@ -8216,7 +8227,7 @@ v,recipMul]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EqualComAssRules</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0+%i*(-(1/27))</pre></td>
   <td class="cell c3"><pre>-(%i/27)</pre></td>
   <td class="cell c4"><pre>[[zeroAdd,zeroM
@@ -8232,13 +8243,90 @@ tMul,intPow]]</pre></td>
   <td class="cell c6"></td>
   <td class="cell c7"></td>
   <td class="cell c8"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x=sqrt(3)+2</pre></td>
+  <td class="cell c3"><pre>x=3^(1/2)+2</pre></td>
+  <td class="cell c4"><pre>[ID_TRANS,sqrtR
+em]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x=sqrt(3)+2 nounor x=-sqrt(3)-
+2</pre></td>
+  <td class="cell c3"><pre>x=3^(1/2)+2 nounor x=-3^(1/2)-
+2</pre></td>
+  <td class="cell c4"><pre>ID_TRANS</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x=sqrt(3)+2 nounor x=-sqrt(3)-
+2</pre></td>
+  <td class="cell c3"><pre>x=3^(1/2)+2 nounor x=-3^(1/2)-
+2</pre></td>
+  <td class="cell c4"><pre>[ID_TRANS,sqrtR
+em]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x=sqrt(3)+2 nounor x=-sqrt(3)+
+7</pre></td>
+  <td class="cell c3"><pre>x=3^(1/2)+2 nounor x=-3^(1/2)-
+2</pre></td>
+  <td class="cell c4"><pre>[ID_TRANS,sqrtR
+em]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8">ATEqualComAssRules (AlgEquiv-false)ATEquation_default.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>1/sqrt(3)</pre></td>
+  <td class="cell c3"><pre>1/3^(1/2)</pre></td>
+  <td class="cell c4"><pre>[ID_TRANS,sqrtR
+em]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">EqualComAssRules</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>1/sqrt(3)</pre></td>
+  <td class="cell c3"><pre>3^(-1/2)</pre></td>
+  <td class="cell c4"><pre>[ID_TRANS,sqrtR
+em]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
 </tr></tbody></table></div>
 
 <h2>CasEqual</h2><div class="no-overflow"><table class="flexible table table-striped table-hover generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Test<div class="commands"></div></th><th class="header c1" scope="col">?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Opt<div class="commands"></div></th><th class="header c5" scope="col">Mark<div class="commands"></div></th><th class="header c6" scope="col">CAS errors<div class="commands"></div></th><th class="header c7" scope="col">Feedback<div class="commands"></div></th><th class="header c8" scope="col">Answer note<div class="commands"></div></th>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>x^2-2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -8249,7 +8337,7 @@ tMul,intPow]]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>x</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
@@ -8260,7 +8348,7 @@ tMul,intPow]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.5</pre></td>
   <td class="cell c3"><pre>1/2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -8271,7 +8359,7 @@ tMul,intPow]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -8285,7 +8373,7 @@ tMul,intPow]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a</pre></td>
   <td class="cell c3"><pre>A</pre></td>
   <td class="cell c4"></td>
@@ -8296,7 +8384,7 @@ tMul,intPow]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exdowncase(X^2-2*X+1)</pre></td>
   <td class="cell c3"><pre>x^2-2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -8310,7 +8398,7 @@ tMul,intPow]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4^(-1/2)</pre></td>
   <td class="cell c3"><pre>1/2</pre></td>
   <td class="cell c4"></td>
@@ -8321,7 +8409,7 @@ tMul,intPow]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ev(4^(-1/2),simp)</pre></td>
   <td class="cell c3"><pre>ev(1/2,simp)</pre></td>
   <td class="cell c4"></td>
@@ -8332,7 +8420,7 @@ tMul,intPow]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2^2</pre></td>
   <td class="cell c3"><pre>4</pre></td>
   <td class="cell c4"></td>
@@ -8346,7 +8434,7 @@ tMul,intPow]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a^2/b^3</pre></td>
   <td class="cell c3"><pre>a^2*b^(-3)</pre></td>
   <td class="cell c4"></td>
@@ -8360,7 +8448,7 @@ tMul,intPow]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rho*z*V/(4*pi*epsilon[0]*(R^2+
 z^2)^(3/2))</pre></td>
   <td class="cell c3"><pre>rho*z*V/(4*pi*epsilon[0]*(R^2+
@@ -8373,7 +8461,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>rho*z*V/(4*pi*epsilon[1]*(R^2+
 z^2)^(3/2))</pre></td>
   <td class="cell c3"><pre>rho*z*V/(4*pi*epsilon[0]*(R^2+
@@ -8389,7 +8477,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.5</pre></td>
   <td class="cell c3"><pre>1/2</pre></td>
   <td class="cell c4"></td>
@@ -8400,7 +8488,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^(1/2)</pre></td>
   <td class="cell c3"><pre>sqrt(x)</pre></td>
   <td class="cell c4"></td>
@@ -8411,7 +8499,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ev(x^(1/2),simp)</pre></td>
   <td class="cell c3"><pre>ev(sqrt(x),simp)</pre></td>
   <td class="cell c4"></td>
@@ -8422,7 +8510,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>abs(x)</pre></td>
   <td class="cell c3"><pre>sqrt(x^2)</pre></td>
   <td class="cell c4"></td>
@@ -8433,7 +8521,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ev(abs(x),simp)</pre></td>
   <td class="cell c3"><pre>ev(sqrt(x^2),simp)</pre></td>
   <td class="cell c4"></td>
@@ -8444,7 +8532,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x-1</pre></td>
   <td class="cell c3"><pre>(x^2-1)/(x+1)</pre></td>
   <td class="cell c4"></td>
@@ -8458,7 +8546,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x+x</pre></td>
   <td class="cell c3"><pre>2*x</pre></td>
   <td class="cell c4"></td>
@@ -8469,7 +8557,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ev(x+x,simp)</pre></td>
   <td class="cell c3"><pre>ev(2*x,simp)</pre></td>
   <td class="cell c4"></td>
@@ -8480,7 +8568,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x+x^2</pre></td>
   <td class="cell c3"><pre>x^2+x</pre></td>
   <td class="cell c4"></td>
@@ -8491,7 +8579,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ev(x+x^2,simp)</pre></td>
   <td class="cell c3"><pre>ev(x^2+x,simp)</pre></td>
   <td class="cell c4"></td>
@@ -8502,7 +8590,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2</pre></td>
   <td class="cell c3"><pre>x^2-2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -8513,7 +8601,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)^(-2)</pre></td>
   <td class="cell c3"><pre>1/(x^2-2*x+1)</pre></td>
   <td class="cell c4"></td>
@@ -8524,7 +8612,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/n-1/(n+1)</pre></td>
   <td class="cell c3"><pre>1/(n*(n+1))</pre></td>
   <td class="cell c4"></td>
@@ -8538,7 +8626,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(x)</pre></td>
   <td class="cell c3"><pre>cos(-x)</pre></td>
   <td class="cell c4"></td>
@@ -8549,7 +8637,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ev(cos(x),simp)</pre></td>
   <td class="cell c3"><pre>ev(cos(-x),simp)</pre></td>
   <td class="cell c4"></td>
@@ -8560,7 +8648,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(x)^2+sin(x)^2</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -8571,7 +8659,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*cos(x)^2-1</pre></td>
   <td class="cell c3"><pre>cos(2*x)</pre></td>
   <td class="cell c4"></td>
@@ -8585,7 +8673,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>imag_numberp(2*%i)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -8596,7 +8684,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>imag_numberp(%e^(%i*%pi/2))</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -8607,7 +8695,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>imag_numberp(2)</pre></td>
   <td class="cell c3"><pre>false</pre></td>
   <td class="cell c4"></td>
@@ -8618,7 +8706,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>imag_numberp(%e^(%pi/2))</pre></td>
   <td class="cell c3"><pre>false</pre></td>
   <td class="cell c4"></td>
@@ -8629,7 +8717,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>complex_exponentialp(3*%e^(%i*
 %pi/6))</pre></td>
   <td class="cell c3"><pre>true</pre></td>
@@ -8641,7 +8729,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>complex_exponentialp(3)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -8652,7 +8740,7 @@ z^2)^(3/2))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>complex_exponentialp(%e^(%i*%p
 i/6))</pre></td>
   <td class="cell c3"><pre>true</pre></td>
@@ -8664,7 +8752,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>complex_exponentialp(%e^%i)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -8675,7 +8763,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>complex_exponentialp(%e^(%pi/6
 ))</pre></td>
   <td class="cell c3"><pre>true</pre></td>
@@ -8687,7 +8775,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>complex_exponentialp(3+%i)</pre></td>
   <td class="cell c3"><pre>false</pre></td>
   <td class="cell c4"></td>
@@ -8698,7 +8786,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>complex_exponentialp(%e^(%i)/4
 )</pre></td>
   <td class="cell c3"><pre>true</pre></td>
@@ -8710,7 +8798,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>complex_exponentialp(3*exp(%i*
 %pi/6))</pre></td>
   <td class="cell c3"><pre>true</pre></td>
@@ -8722,7 +8810,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>integerp(-1)</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -8733,7 +8821,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>integerp(ev(-1,simp))</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -8747,7 +8835,7 @@ i/6))</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -8758,7 +8846,7 @@ i/6))</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
@@ -8772,7 +8860,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4^(-1/2)</pre></td>
   <td class="cell c3"><pre>1/2</pre></td>
   <td class="cell c4"></td>
@@ -8786,7 +8874,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x</pre></td>
   <td class="cell c3"><pre>[1,2,3]</pre></td>
   <td class="cell c4"></td>
@@ -8797,7 +8885,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1,2]</pre></td>
   <td class="cell c3"><pre>[1,2,3]</pre></td>
   <td class="cell c4"></td>
@@ -8808,7 +8896,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1,x&gt;2]</pre></td>
   <td class="cell c3"><pre>[1,2&lt;x]</pre></td>
   <td class="cell c4"></td>
@@ -8819,7 +8907,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1,x,3]</pre></td>
   <td class="cell c3"><pre>[1,2&lt;x,4]</pre></td>
   <td class="cell c4"></td>
@@ -8833,7 +8921,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
@@ -8844,7 +8932,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,2}</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
@@ -8858,7 +8946,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([1,2],[2,3])</pre></td>
   <td class="cell c3"><pre>matrix([1,2],[2,3])</pre></td>
   <td class="cell c4"></td>
@@ -8869,7 +8957,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[[1,2],[2,3]]</pre></td>
   <td class="cell c3"><pre>matrix([1,2],[2,3])</pre></td>
   <td class="cell c4"></td>
@@ -8880,7 +8968,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([1,2],[2,3])</pre></td>
   <td class="cell c3"><pre>matrix([1,2,3],[2,3,3])</pre></td>
   <td class="cell c4"></td>
@@ -8891,7 +8979,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([x&gt;4,{1,x^2}],[[1,2]
 ,[1,3]])</pre></td>
   <td class="cell c3"><pre>matrix([4-x&lt;0,{x^2, 1}],[[1
@@ -8904,7 +8992,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([x&gt;4,[1,x^2]],[[1,2]
 ,[1,3]])</pre></td>
   <td class="cell c3"><pre>matrix([4-x&lt;0,{x^2, 1}],[[1
@@ -8920,7 +9008,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>x=1</pre></td>
   <td class="cell c4"></td>
@@ -8931,7 +9019,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=1</pre></td>
   <td class="cell c3"><pre>x=1</pre></td>
   <td class="cell c4"></td>
@@ -8945,7 +9033,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>x&gt;1</pre></td>
   <td class="cell c4"></td>
@@ -8956,7 +9044,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;2</pre></td>
   <td class="cell c3"><pre>x&gt;1</pre></td>
   <td class="cell c4"></td>
@@ -8967,7 +9055,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;1</pre></td>
   <td class="cell c3"><pre>x&gt;=1</pre></td>
   <td class="cell c4"></td>
@@ -8978,7 +9066,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;1 and x&lt;3</pre></td>
   <td class="cell c3"><pre>x&gt;=1</pre></td>
   <td class="cell c4"></td>
@@ -8989,7 +9077,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{x&gt;1,x&lt;3}</pre></td>
   <td class="cell c3"><pre>x&gt;=1</pre></td>
   <td class="cell c4"></td>
@@ -9000,7 +9088,7 @@ i/6))</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SameType</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(2)*sqrt(3)+2*(sqrt(2/3))*
 x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 (sqrt(2/3))*x^3</pre></td>
@@ -9042,7 +9130,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>[(x-1)*(x+1)=0]</pre></td>
   <td class="cell c4"></td>
@@ -9053,7 +9141,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>[(x-1)*(x+1)=0]</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
@@ -9064,7 +9152,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>[(x-1)*(x+1)=0]</pre></td>
   <td class="cell c4"></td>
@@ -9075,7 +9163,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x-1)*(x+1)=0]</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -9086,7 +9174,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1]</pre></td>
   <td class="cell c3"><pre>[90=v*t,90=(v+5)*(t-1/4)]</pre></td>
   <td class="cell c4"></td>
@@ -9097,7 +9185,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x-1)*(x+1)=0]</pre></td>
   <td class="cell c3"><pre>[1]</pre></td>
   <td class="cell c4"></td>
@@ -9108,7 +9196,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2]</pre></td>
   <td class="cell c3"><pre>[(x-1)*(x+1)=0]</pre></td>
   <td class="cell c4"></td>
@@ -9119,7 +9207,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[90=v*t^t,90=(v+5)*(t-1/4)]</pre></td>
   <td class="cell c3"><pre>[90=v*t,90=(v+5)*(t-1/4)]</pre></td>
   <td class="cell c4"></td>
@@ -9130,7 +9218,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[90=v*t,90=(v+5)*(t-1/4)]</pre></td>
   <td class="cell c3"><pre>[90=v*t^t,90=(v+5)*(t-1/4)]</pre></td>
   <td class="cell c4"></td>
@@ -9144,7 +9232,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=1]</pre></td>
   <td class="cell c3"><pre>[(x-1)*(x+1)=0]</pre></td>
   <td class="cell c4"></td>
@@ -9155,7 +9243,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2+y^2=4,y=x]</pre></td>
   <td class="cell c3"><pre>[y=x,y^2=2]</pre></td>
   <td class="cell c4"></td>
@@ -9166,7 +9254,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2+y^2=2,y=x]</pre></td>
   <td class="cell c3"><pre>[y=x,y^2=2]</pre></td>
   <td class="cell c4"></td>
@@ -9177,7 +9265,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=1]</pre></td>
   <td class="cell c3"><pre>[(x-1)*(x+1)=0,(x-1)*(x-3)=0]</pre></td>
   <td class="cell c4"></td>
@@ -9188,7 +9276,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[3*a+b-c=2, a-b+2*c=5,b+c=5]</pre></td>
   <td class="cell c3"><pre>[a=1,b=2,c=3]</pre></td>
   <td class="cell c4"></td>
@@ -9199,7 +9287,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a=1,b=2,c=3]</pre></td>
   <td class="cell c3"><pre>[3*a+b-c=2, a-b+2*c=5,b+c=5]</pre></td>
   <td class="cell c4"></td>
@@ -9210,7 +9298,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=1]</pre></td>
   <td class="cell c3"><pre>[(x-1)*(x+1)*(x-2)=0]</pre></td>
   <td class="cell c4"></td>
@@ -9221,7 +9309,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=1,y=-1]</pre></td>
   <td class="cell c3"><pre>[(x-1)*(y+1)=0]</pre></td>
   <td class="cell c4"></td>
@@ -9232,7 +9320,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=1]</pre></td>
   <td class="cell c3"><pre>[(x-1)*(x+1)=0]</pre></td>
   <td class="cell c4"></td>
@@ -9243,7 +9331,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=1]</pre></td>
   <td class="cell c3"><pre>[(x-1)*(x+1)*y=0]</pre></td>
   <td class="cell c4"></td>
@@ -9254,7 +9342,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[90=v*t,90=(v+5)*(t-1/4)]</pre></td>
   <td class="cell c3"><pre>[90=v*t,90=(v+5)*(t-1/4)]</pre></td>
   <td class="cell c4"></td>
@@ -9265,7 +9353,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[90=v*t,90=(v+5)*(t*x-1/4)]</pre></td>
   <td class="cell c3"><pre>[90=v*t,90=(v+5)*(t-1/4)]</pre></td>
   <td class="cell c4"></td>
@@ -9276,7 +9364,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[90=v*t,90=(v+5)*(t-1/4)]</pre></td>
   <td class="cell c3"><pre>[90=v*t,90=(v+5)*(t*x-1/4)]</pre></td>
   <td class="cell c4"></td>
@@ -9287,7 +9375,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[90=v*t]</pre></td>
   <td class="cell c3"><pre>[90=v*t,90=(v+5)*(t-1/4)]</pre></td>
   <td class="cell c4"></td>
@@ -9298,7 +9386,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[90=v*t,90=(v+5)*(t-1/4),90=(v
 +6)*(t-1/5)]</pre></td>
   <td class="cell c3"><pre>[90=v*t,90=(v+5)*(t-1/4)]</pre></td>
@@ -9310,7 +9398,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[90=v*t,90=(v+5)*(t-1/4),90=(v
 +6)*(t-1/5),90=(v+7)*(t-1/4),9
 0=(v+8)*(t-1/3)]</pre></td>
@@ -9326,7 +9414,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[b^2=a,a=9]</pre></td>
   <td class="cell c3"><pre>[x^2=y,y=9]</pre></td>
   <td class="cell c4"></td>
@@ -9337,7 +9425,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=4]</pre></td>
   <td class="cell c3"><pre>[x^2=4,y=9]</pre></td>
   <td class="cell c4"></td>
@@ -9348,7 +9436,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[d=90,d=v*t,d=(v+5)*(t-1/4)]</pre></td>
   <td class="cell c3"><pre>[90=v*t,90=(v+5)*(t-1/4)]</pre></td>
   <td class="cell c4"></td>
@@ -9359,7 +9447,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">SysEquiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>stack_eval_assignments([d=90,d
 =v*t,d=(v+5)*(t-1/4)])</pre></td>
   <td class="cell c3"><pre>[90=v*t,90=(v+5)*(t-1/4)]</pre></td>
@@ -9374,7 +9462,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>{1/0}</pre></td>
   <td class="cell c3"><pre>{0}</pre></td>
   <td class="cell c4"></td>
@@ -9385,7 +9473,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>{0}</pre></td>
   <td class="cell c3"><pre>{1/0}</pre></td>
   <td class="cell c4"></td>
@@ -9396,7 +9484,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
@@ -9407,7 +9495,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,2}</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -9418,7 +9506,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,2}</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
@@ -9429,7 +9517,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,2,4}</pre></td>
   <td class="cell c3"><pre>{1,2}</pre></td>
   <td class="cell c4"></td>
@@ -9440,7 +9528,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,2,2+2}</pre></td>
   <td class="cell c3"><pre>{1,2}</pre></td>
   <td class="cell c4"></td>
@@ -9451,7 +9539,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{5,1,2,4}</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
@@ -9462,7 +9550,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{2/4, 1/3}</pre></td>
   <td class="cell c3"><pre>{1/2, 1/3}</pre></td>
   <td class="cell c4"></td>
@@ -9476,7 +9564,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,2,1}</pre></td>
   <td class="cell c3"><pre>{1,2}</pre></td>
   <td class="cell c4"></td>
@@ -9487,7 +9575,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,2,1+1}</pre></td>
   <td class="cell c3"><pre>{1,2}</pre></td>
   <td class="cell c4"></td>
@@ -9498,7 +9586,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,2,1+1}</pre></td>
   <td class="cell c3"><pre>{1,2,3}</pre></td>
   <td class="cell c4"></td>
@@ -9509,7 +9597,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Sets</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{(x-a)^6000}</pre></td>
   <td class="cell c3"><pre>{(a-x)^6000}</pre></td>
   <td class="cell c4"></td>
@@ -9699,7 +9787,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -9710,7 +9798,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x&gt;2</pre></td>
   <td class="cell c3"><pre>x^2-2*x+1</pre></td>
   <td class="cell c4"></td>
@@ -9721,7 +9809,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2-1</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -9732,7 +9820,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*(x-1)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -9743,7 +9831,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)*(x+1)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -9754,7 +9842,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-a)*(x-b)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -9765,7 +9853,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2-(a+b)*x+a*b</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -9776,7 +9864,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2-a*x-b*x+a*b</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -9787,7 +9875,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(2*x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -9798,7 +9886,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>p+1</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -9809,7 +9897,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(p+1)*(p-1)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -9820,7 +9908,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3+2*sqrt(3)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -9831,7 +9919,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3+sqrt(12)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -9842,7 +9930,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1+sqrt(5))*(1-sqrt(3))</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -9856,7 +9944,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Expanded</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>(a-x)^6000</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -10024,7 +10112,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10035,7 +10123,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10046,7 +10134,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1/0</pre></td>
@@ -10060,7 +10148,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2</pre></td>
   <td class="cell c3"><pre>2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10071,7 +10159,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6</pre></td>
   <td class="cell c3"><pre>6</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10082,7 +10170,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/3</pre></td>
   <td class="cell c3"><pre>1/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10093,7 +10181,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*x^2</pre></td>
   <td class="cell c3"><pre>3*x^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10104,7 +10192,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4*x^2</pre></td>
   <td class="cell c3"><pre>4*x^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10118,7 +10206,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*(x-1)</pre></td>
   <td class="cell c3"><pre>2*x-2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10129,7 +10217,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*x-2</pre></td>
   <td class="cell c3"><pre>2*x-2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10140,7 +10228,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*(x+1)</pre></td>
   <td class="cell c3"><pre>2*x-2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10151,7 +10239,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*x+2</pre></td>
   <td class="cell c3"><pre>2*x-2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10162,7 +10250,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*(x+0.5)</pre></td>
   <td class="cell c3"><pre>2*x+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10176,7 +10264,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>t*(2*x+1)</pre></td>
   <td class="cell c3"><pre>t*(2*x+1)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10187,7 +10275,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>t*x+t</pre></td>
   <td class="cell c3"><pre>t*(x+1)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10201,7 +10289,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*x*(x-3)</pre></td>
   <td class="cell c3"><pre>2*x^2-6*x</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10212,7 +10300,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*(x^2-3*x)</pre></td>
   <td class="cell c3"><pre>2*x*(x-3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10223,7 +10311,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x*(2*x-6)</pre></td>
   <td class="cell c3"><pre>2*x*(x-3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10237,7 +10325,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x+2)*(x+3)</pre></td>
   <td class="cell c3"><pre>(x+2)*(x+3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10248,7 +10336,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x+2)*(2*x+6)</pre></td>
   <td class="cell c3"><pre>2*(x+2)*(x+3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10259,7 +10347,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(z*x+z)*(2*x+6)</pre></td>
   <td class="cell c3"><pre>2*z*(x+1)*(x+3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10270,7 +10358,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x+t)*(x-t)</pre></td>
   <td class="cell c3"><pre>x^2-t^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10281,7 +10369,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>t^2-1</pre></td>
   <td class="cell c3"><pre>(t-1)*(t+1)</pre></td>
   <td class="cell c4"><pre>t</pre></td>
@@ -10292,7 +10380,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>t^2+1</pre></td>
   <td class="cell c3"><pre>t^2+1</pre></td>
   <td class="cell c4"><pre>t</pre></td>
@@ -10303,7 +10391,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>v^2+1</pre></td>
   <td class="cell c3"><pre>v^2+1</pre></td>
   <td class="cell c4"><pre>v</pre></td>
@@ -10314,7 +10402,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>v^2-1</pre></td>
   <td class="cell c3"><pre>v^2-1</pre></td>
   <td class="cell c4"><pre>v</pre></td>
@@ -10325,7 +10413,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(3*w-4*v+9*u)*(3*w+4*v-u)</pre></td>
   <td class="cell c3"><pre>-(3*w-4*v+9*u)*(3*w+4*v-u)</pre></td>
   <td class="cell c4"><pre>v</pre></td>
@@ -10336,7 +10424,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-6*k*(4*b-k-1)</pre></td>
   <td class="cell c3"><pre>6*k*(1+k-4*b)</pre></td>
   <td class="cell c4"><pre>k</pre></td>
@@ -10347,7 +10435,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-2*3*k*(4*b-k-1)</pre></td>
   <td class="cell c3"><pre>6*k*(1+k-4*b)</pre></td>
   <td class="cell c4"><pre>k</pre></td>
@@ -10358,7 +10446,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(6*k*(4*b-k-1))</pre></td>
   <td class="cell c3"><pre>6*k*(1+k-4*b)</pre></td>
   <td class="cell c4"><pre>k</pre></td>
@@ -10369,7 +10457,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(6*a*(4*b-a-1))</pre></td>
   <td class="cell c3"><pre>6*a*(1+a-4*b)</pre></td>
   <td class="cell c4"><pre>a</pre></td>
@@ -10380,7 +10468,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(6*a*(4*b-a-1))</pre></td>
   <td class="cell c3"><pre>6*a*(-(4*b)+a+1)</pre></td>
   <td class="cell c4"><pre>a</pre></td>
@@ -10391,7 +10479,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x*(x-4+4/x)</pre></td>
   <td class="cell c3"><pre>x^2-4*x+4</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10405,7 +10493,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2-x)*(3-x)</pre></td>
   <td class="cell c3"><pre>(x-2)*(x-3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10416,7 +10504,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1-x)^2</pre></td>
   <td class="cell c3"><pre>(x-1)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10427,7 +10515,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1-x)*(1-x)</pre></td>
   <td class="cell c3"><pre>(x-1)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10438,7 +10526,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(1-x)^2</pre></td>
   <td class="cell c3"><pre>-(x-1)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10449,7 +10537,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1-x)^2</pre></td>
   <td class="cell c3"><pre>(x-1)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10460,7 +10548,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4*(1-x/2)^2</pre></td>
   <td class="cell c3"><pre>(x-2)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10471,7 +10559,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-3*(x-4)*(x+1)</pre></td>
   <td class="cell c3"><pre>-3*x^2+9*x+12</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10482,7 +10570,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*(-x+4)*(x+1)</pre></td>
   <td class="cell c3"><pre>-3*x^2+9*x+12</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10493,7 +10581,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*(4-x)*(x+1)</pre></td>
   <td class="cell c3"><pre>-3*x^2+9*x+12</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10507,7 +10595,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)*(x^2+x+1)</pre></td>
   <td class="cell c3"><pre>x^3-1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10518,7 +10606,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3-x+1</pre></td>
   <td class="cell c3"><pre>x^3-x+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10529,7 +10617,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>7*x^3-7*x+7</pre></td>
   <td class="cell c3"><pre>7*(x^3-x+1)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10540,7 +10628,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1-x)*(2-x)*(3-x)</pre></td>
   <td class="cell c3"><pre>-x^3+6*x^2-11*x+6</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10551,7 +10639,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2-x)*(2-x)*(3-x)</pre></td>
   <td class="cell c3"><pre>-x^3+7*x^2-16*x+12</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10562,7 +10650,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2-x)^2*(3-x)</pre></td>
   <td class="cell c3"><pre>-x^3+7*x^2-16*x+12</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10573,7 +10661,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x^2-4*x+4)*(3-x)</pre></td>
   <td class="cell c3"><pre>-x^3+7*x^2-16*x+12</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10584,7 +10672,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x^2-3*x+2)*(3-x)</pre></td>
   <td class="cell c3"><pre>-x^3+6*x^2-11*x+6</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10595,7 +10683,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*y^3-6*y^2-24*y</pre></td>
   <td class="cell c3"><pre>3*(y-4)*y*(y+2)</pre></td>
   <td class="cell c4"><pre>y</pre></td>
@@ -10606,7 +10694,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*(y^3-2*y^2-8*y)</pre></td>
   <td class="cell c3"><pre>3*(y-4)*y*(y+2)</pre></td>
   <td class="cell c4"><pre>y</pre></td>
@@ -10617,7 +10705,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*y*(y^2-2*y-8)</pre></td>
   <td class="cell c3"><pre>3*(y-4)*y*(y+2)</pre></td>
   <td class="cell c4"><pre>y</pre></td>
@@ -10628,7 +10716,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*(y^2-4*y)*(y+2)</pre></td>
   <td class="cell c3"><pre>3*(y-4)*y*(y+2)</pre></td>
   <td class="cell c4"><pre>y</pre></td>
@@ -10639,7 +10727,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(y-4)*y*(3*y+6)</pre></td>
   <td class="cell c3"><pre>3*(y-4)*y*(y+2)</pre></td>
   <td class="cell c4"><pre>y</pre></td>
@@ -10650,7 +10738,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(a-x)^6000</pre></td>
   <td class="cell c3"><pre>(a-x)^6000</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10661,7 +10749,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-a)^6000</pre></td>
   <td class="cell c3"><pre>(a-x)^6000</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10675,7 +10763,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*a*(a*b-1)</pre></td>
   <td class="cell c3"><pre>2*a*(a*b-1)</pre></td>
   <td class="cell c4"><pre>a</pre></td>
@@ -10686,7 +10774,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2*a)*(a*b-1)</pre></td>
   <td class="cell c3"><pre>2*a*(a*b-1)</pre></td>
   <td class="cell c4"><pre>a</pre></td>
@@ -10697,7 +10785,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*x*(7*y-3)*(7*y+3)</pre></td>
   <td class="cell c3"><pre>3*x*(7*y-3)*(7*y+3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10708,7 +10796,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*x*(7*y-3)*(7*y+3)</pre></td>
   <td class="cell c3"><pre>3*x*(7*y-3)*(7*y+3)</pre></td>
   <td class="cell c4"><pre>y</pre></td>
@@ -10722,7 +10810,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(sin(x)+1)*(sin(x)-1)</pre></td>
   <td class="cell c3"><pre>sin(x)^2-1</pre></td>
   <td class="cell c4"><pre>sin(x)</pre></td>
@@ -10733,7 +10821,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(cos(t)-sqrt(2))^2</pre></td>
   <td class="cell c3"><pre>cos(t)^2-2*sqrt(2)*cos(t)+2</pre></td>
   <td class="cell c4"><pre>cos(t)</pre></td>
@@ -10744,7 +10832,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>7</pre></td>
   <td class="cell c3"><pre>7</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10758,7 +10846,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>24*(x-1/4)</pre></td>
   <td class="cell c3"><pre>24*x-6</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10769,7 +10857,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-sqrt(2))*(x+sqrt(2))</pre></td>
   <td class="cell c3"><pre>x^2-2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10780,7 +10868,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2-2</pre></td>
   <td class="cell c3"><pre>x^2-2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10791,7 +10879,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(%i*x-2*%i)</pre></td>
   <td class="cell c3"><pre>%i*(x-2)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10802,7 +10890,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>%i*(x-2)</pre></td>
   <td class="cell c3"><pre>(%i*x-2*%i)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10813,7 +10901,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-%i)*(x+%i)</pre></td>
   <td class="cell c3"><pre>x^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10824,7 +10912,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">FacForm</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)*(x+(1+sqrt(3)*%i)/2)*(x+
 (1-sqrt(3)*%i)/2)</pre></td>
   <td class="cell c3"><pre>x^3-1</pre></td>
@@ -10839,7 +10927,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -10850,7 +10938,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10861,7 +10949,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10872,7 +10960,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1/0</pre></td>
@@ -10886,7 +10974,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10897,7 +10985,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(t-1)^2+1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10908,7 +10996,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2+1=0</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10919,7 +11007,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sin(x-1)+a-1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10933,7 +11021,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10944,7 +11032,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x-a</pre></td>
   <td class="cell c3"><pre>x-a</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10955,7 +11043,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2</pre></td>
   <td class="cell c3"><pre>x^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10966,7 +11054,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2-1</pre></td>
   <td class="cell c3"><pre>(x-1)*(x+1)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10977,7 +11065,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2*k</pre></td>
   <td class="cell c3"><pre>(x-1)^2*k</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -10988,7 +11076,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2/k</pre></td>
   <td class="cell c3"><pre>(x-1)^2/k</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11002,7 +11090,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2+1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11013,7 +11101,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1-x)^2+1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11024,7 +11112,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(X-1)^2+1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11035,7 +11123,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9*(x-1)^2+1</pre></td>
   <td class="cell c3"><pre>(3*x-3)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11046,7 +11134,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(x-1)^2</pre></td>
   <td class="cell c3"><pre>-(x-1)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11057,7 +11145,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(1-x)^2</pre></td>
   <td class="cell c3"><pre>-(x-1)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11068,7 +11156,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(x-1)^2+3</pre></td>
   <td class="cell c3"><pre>-(x-1)^2+3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11079,7 +11167,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(1-x)^2+3</pre></td>
   <td class="cell c3"><pre>-(x-1)^2+3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11090,7 +11178,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-4*(x-1)^2+3</pre></td>
   <td class="cell c3"><pre>-4*(x-1)^2+3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11101,7 +11189,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-4*(x-1)^2+3</pre></td>
   <td class="cell c3"><pre>-(2*x-2)^2+3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11112,7 +11200,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3-4*(x-1)^2</pre></td>
   <td class="cell c3"><pre>-(2*x-2)^2+3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11123,7 +11211,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2+1</pre></td>
   <td class="cell c3"><pre>(x+1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11134,7 +11222,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-a^2)^2+1+b</pre></td>
   <td class="cell c3"><pre>(x-a^2)^2+1+b</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11145,7 +11233,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2-2*x+2</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11156,7 +11244,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x+1</pre></td>
   <td class="cell c3"><pre>(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11167,7 +11255,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a*(x-1)^2+1</pre></td>
   <td class="cell c3"><pre>a*(x-1)^2+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11178,7 +11266,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-a*(x-1)^2+1</pre></td>
   <td class="cell c3"><pre>1-a*(x-1)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -11192,7 +11280,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(sin(x)-1)^2+1</pre></td>
   <td class="cell c3"><pre>(sin(x)-1)^2+1</pre></td>
   <td class="cell c4"><pre>sin(x)</pre></td>
@@ -11203,7 +11291,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x^2-1)^2+1</pre></td>
   <td class="cell c3"><pre>(x^2-1)^2+1</pre></td>
   <td class="cell c4"><pre>x^2</pre></td>
@@ -11214,7 +11302,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(y-1)^2+1</pre></td>
   <td class="cell c3"><pre>(y-1)^2+1</pre></td>
   <td class="cell c4"><pre>y</pre></td>
@@ -11225,7 +11313,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(y+1)^2+1</pre></td>
   <td class="cell c3"><pre>(y-1)^2+1</pre></td>
   <td class="cell c4"><pre>y</pre></td>
@@ -11236,7 +11324,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">CompSquare</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)^2+1</pre></td>
   <td class="cell c3"><pre>(sin(x)-1)^2+1</pre></td>
   <td class="cell c4"><pre>sin(x)</pre></td>
@@ -11250,7 +11338,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">PropLogic</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -11261,7 +11349,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">PropLogic</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
@@ -11272,7 +11360,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">PropLogic</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>true</pre></td>
   <td class="cell c3"><pre>true</pre></td>
   <td class="cell c4"></td>
@@ -11283,7 +11371,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">PropLogic</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>true</pre></td>
   <td class="cell c3"><pre>false</pre></td>
   <td class="cell c4"></td>
@@ -11294,7 +11382,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">PropLogic</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A implies B</pre></td>
   <td class="cell c3"><pre>not(A) or B</pre></td>
   <td class="cell c4"></td>
@@ -11305,7 +11393,7 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
 </tr>
 <tr class="pass">
   <td class="cell c0">PropLogic</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(a and b and c) xor (a and b) 
 xor (a and c) xor a xor true</pre></td>
   <td class="cell c3"><pre>(a implies b) or c</pre></td>
@@ -11584,7 +11672,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>x</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
@@ -11595,7 +11683,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -11606,7 +11694,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>[1/0]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
@@ -11617,7 +11705,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c3"><pre>[1/0]</pre></td>
   <td class="cell c4"></td>
@@ -11628,7 +11716,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
@@ -11639,7 +11727,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=#pm#2,x=2 and x=-2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
@@ -11650,7 +11738,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
@@ -11661,7 +11749,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -11672,7 +11760,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x^2-4=0,(x-2)*(x+2)=0,x
 =2 or x=-2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
@@ -11684,7 +11772,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x= #pm#2, x=2 or x=-2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
@@ -11695,7 +11783,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2-6*x+9=0,x=3]</pre></td>
   <td class="cell c3"><pre>[x^2-6*x+9=0,x=3]</pre></td>
   <td class="cell c4"></td>
@@ -11706,7 +11794,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11717,7 +11805,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=-1]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11728,7 +11816,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=x,all]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11739,7 +11827,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=x,true]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11750,7 +11838,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=x,false]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11761,7 +11849,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1=1,all]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11772,7 +11860,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1=1,true]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11783,7 +11871,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[0=0,all]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11794,7 +11882,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[0=0,true]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11805,7 +11893,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1=2,false]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11816,7 +11904,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1=2,none]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11827,7 +11915,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1=2,{}]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11838,7 +11926,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1=2,[]]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11849,7 +11937,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=1,X=1]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11860,7 +11948,7 @@ xor (a and c) xor a xor true</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1/(x^2+1)=1/((x+%i)*(x-%i)),t
 rue]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -11872,7 +11960,7 @@ rue]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2^2,stackeq(4)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11883,7 +11971,7 @@ rue]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2^2,stackeq(3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11894,7 +11982,7 @@ rue]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2^2,4]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11905,7 +11993,7 @@ rue]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2^2,3]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11916,7 +12004,7 @@ rue]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[lg(64,4),lg(4^3,4),3*lg(4,4),
 3]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -11928,7 +12016,7 @@ rue]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[lg(64,4),stackeq(lg(4^3,4)),s
 tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -11940,7 +12028,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=1 or x=2,x=1 or 2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11951,7 +12039,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=1 or x=2,x=1 and x=2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11962,7 +12050,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=1 and y=2,x=1 or y=2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11973,7 +12061,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a=b,a^2=b^2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11984,7 +12072,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a=b,sqrt(a)=sqrt(b)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -11995,7 +12083,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a^2=b^2,a=b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -12006,7 +12094,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a^2=b^2,a=b or a=-b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -12017,7 +12105,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a^2=b^2,a= #pm#b,a= b or a=-b
 ]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12029,7 +12117,7 @@ tackeq(3*lg(4,4)),stackeq(3)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[9*x^2/2-81*x/2+90=5*x^2/2-5*x
 -20 nounor 9*x^2/2-81*x/2+90=-
 (5*x^2/2-5*x-20),9*x^2-81*x+18
@@ -12049,7 +12137,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a=b,abs(a)=abs(b),a=b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -12060,7 +12148,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[abs(a)=abs(b),a=b or a=-b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -12071,7 +12159,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[abs(a)=abs(b),a^2=b^2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -12082,7 +12170,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^3=8,x=2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -12093,7 +12181,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^3=8,x=2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumereal]</pre></td>
@@ -12104,7 +12192,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[abs(x-1/2)+abs(x+1/2)=2,abs(x
 )=1]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12116,7 +12204,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a^2=9 and a&gt;0,a=3]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -12127,7 +12215,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[T=2*pi*sqrt(L/g),T^2=4*pi^2*L
 /g,g=4*pi^2*L/T^2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12139,7 +12227,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a=b,a^2=b^2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -12150,7 +12238,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a=b,sqrt(a)=sqrt(b)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -12161,7 +12249,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a^2=b^2,a=b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -12172,7 +12260,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a^2=b^2,a=b or a=-b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -12183,7 +12271,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a=b,abs(a)=abs(b)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -12194,7 +12282,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[abs(a)=abs(b),a=b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -12205,7 +12293,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[abs(a)=abs(b),a=-b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -12216,7 +12304,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[abs(a)=abs(b),a=b or a=-b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -12227,7 +12315,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=abs(-2),x=2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -12238,7 +12326,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[abs(a)=abs(b),a^2=b^2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -12249,7 +12337,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=9,x=#pm#3,x=3 or x=-3,x=3
 ]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12261,7 +12349,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=9,x=3]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -12272,7 +12360,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=2,x=#pm#sqrt(2),x=sqrt(2)
  or x=-sqrt(2)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12284,7 +12372,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=2,x=sqrt(2)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -12295,7 +12383,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2 = a^2-b,x = sqrt(a^2-b)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -12306,7 +12394,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2*(x-3) = 4*x-3*(x+2),2*x-6=x
 -6,x=0]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12318,7 +12406,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2*(x-3) = 5*x-3*(x+2),2*x-6=2
 *x-6,0=0,all]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12330,7 +12418,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2*(x-3) = 5*x-3*(x+1),2*x-6=2
 *x-3,0=3,{}]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12342,7 +12430,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a^2=b^2,a^2-b^2=0,(a-b)*(a+b)
 =0,a=b or a=-b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12354,7 +12442,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a^3=b^3,a^3-b^3=0,(a-b)*(a^2+
 a*b+b^2)=0,(a-b)=0,a=b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12366,7 +12454,7 @@ a*b+b^2)=0,(a-b)=0,a=b]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a^3=b^3,a^3-b^3=0,(a-b)*(a^2+
 a*b+b^2)=0,(a-b)=0 or (a^2+a*b
 +b^2)=0, a=b or (a+(1+%i*sqrt(
@@ -12382,7 +12470,7 @@ a*b+b^2)=0,(a-b)=0 or (a^2+a*b
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2-x=30,x^2-x-30=0,(x-6)*(x+
 5)=0,x-6=0 or x+5=0,x=6 or x=-
 5]</pre></td>
@@ -12395,7 +12483,7 @@ a*b+b^2)=0,(a-b)=0 or (a^2+a*b
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=2,x^2-2=0,(x-sqrt(2))*(x+
 sqrt(2))=0,x=sqrt(2) or x=-sqr
 t(2)]</pre></td>
@@ -12408,7 +12496,7 @@ t(2)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=2,x=#pm#sqrt(2),x=sqrt(2)
  or x=-sqrt(2)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12420,7 +12508,7 @@ t(2)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(2*x-7)^2=(x+1)^2,(2*x-7)^2 -
 (x+1)^2=0,(2*x-7+x+1)*(2*x-7-x
 -1)=0,(3*x-6)*(x-8)=0,x=2 or x
@@ -12434,7 +12522,7 @@ t(2)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2-6*x=-9,(x-3)^2=0,x-3=0,x=
 3]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12446,7 +12534,7 @@ t(2)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(2*x-7)^2=(x+1)^2,sqrt((2*x-7
 )^2)=sqrt((x+1)^2),2*x-7=x+1,x
 =8]</pre></td>
@@ -12459,7 +12547,7 @@ t(2)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2-10*x+9 = 0, (x-5)^2-16 = 
 0, (x-5)^2 =16, x-5 =#pm#4, x-
 5 =4 or x-5=-4, x = 1 or x = 9
@@ -12473,7 +12561,7 @@ t(2)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2-2*p*x-q=0,x^2-2*p*x=q,x^2
 -2*p*x+p^2=q+p^2,(x-p)^2=q+p^2
 ,x-p=#pm#sqrt(q+p^2),x-p=sqrt(
@@ -12489,7 +12577,7 @@ q+p^2) or x-p=-sqrt(q+p^2),x=p
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2-10*x+7=0,(x-5)^2-18=0,(x-
 5)^2=sqrt(18)^2,(x-5)^2-sqrt(1
 8)^2=0,(x-5-sqrt(18))*(x-5+sqr
@@ -12504,7 +12592,7 @@ qrt(18)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[9*x^2/2-81*x/2+90=5*x^2/2-5*x
 -20,4*x^2-71*x+220 = 0,x = (71
  #pm# 39)/8,x=55/4 nounor x=4]</pre></td>
@@ -12517,7 +12605,7 @@ qrt(18)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2+2*a*x = 0, x*(x+2*a)=0, (
 x+a-a)*(x+a+a)=0, (x+a)^2-a^2=
 0]</pre></td>
@@ -12530,7 +12618,7 @@ x+a-a)*(x+a+a)=0, (x+a)^2-a^2=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^3-1=0,(x-1)*(x^2+x+1)=0,x=1
 ]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12542,7 +12630,7 @@ x+a-a)*(x+a+a)=0, (x+a)^2-a^2=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^3-1=0,(x-1)*(x^2+x+1)=0,x=1
  or x^2+x+1=0,x=1 or x = -(sqr
 t(3)*%i+1)/2 or x=(sqrt(3)*%i-
@@ -12556,7 +12644,7 @@ t(3)*%i+1)/2 or x=(sqrt(3)*%i-
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a*x^2+b*x+c=0 or a=0,a^2*x^2+
 a*b*x+a*c=0,(a*x)^2+b*(a*x)+a*
 c=0, (a*x)^2+b*(a*x)+b^2/4-b^2
@@ -12579,7 +12667,7 @@ b/2+sqrt(b^2/4-a*c) or a*x=-b/
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a*x^2+b*x=-c,4*a^2*x^2+4*a*b*
 x+b^2=b^2-4*a*c,(2*a*x+b)^2=b^
 2-4*a*c,2*a*x+b=#pm#sqrt(b^2-4
@@ -12595,7 +12683,7 @@ x+b^2=b^2-4*a*c,(2*a*x+b)^2=b^
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a*x^2+b*x=-c or a=0,4*a^2*x^2
 +4*a*b*x+b^2=b^2-4*a*c,(2*a*x+
 b)^2=b^2-4*a*c,2*a*x+b=#pm#sqr
@@ -12611,7 +12699,7 @@ b^2-4*a*c),x=(-b#pm#sqrt(b^2-4
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[sqrt(3*x+4) = 2+sqrt(x+2), 3*
 x+4=4+4*sqrt(x+2)+(x+2),x-1=2*
 sqrt(x+2),x^2-2*x+1 = 4*x+8,x^
@@ -12626,7 +12714,7 @@ sqrt(x+2),x^2-2*x+1 = 4*x+8,x^
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[sqrt(3*x+4) = 2+sqrt(x+2), 3*
 x+4=4+4*sqrt(x+2)+(x+2),x-1=2*
 sqrt(x+2),x^2-2*x+1 = 4*x+8,x^
@@ -12641,7 +12729,7 @@ sqrt(x+2),x^2-2*x+1 = 4*x+8,x^
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x*(x-1)*(x-2)=0,x*(x-1)=0,x*(
 x-1)*(x-2)=0,x*(x^2-2)=0]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12653,7 +12741,7 @@ x-1)*(x-2)=0,x*(x^2-2)=0]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2-6*x=-9,x=3]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -12664,7 +12752,7 @@ x-1)*(x-2)=0,x*(x^2-2)=0]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=1 nounor x=-2 nounor x=1,x^
 3-3*x=-2,x=1 nounor x=-2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12676,7 +12764,7 @@ x-1)*(x-2)=0,x*(x^2-2)=0]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[9*x^3-24*x^2+13*x=2,x=1/3 nou
 nor x=2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12688,7 +12776,7 @@ nor x=2]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x-2)^43*(x+1/3)^60=0,(3*x+1)
 ^4*(x-2)^2=0,x=-1/3 nounor x=2
 ]</pre></td>
@@ -12701,7 +12789,7 @@ nor x=2]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2^x=4,x*log(2)=log(4),x=log(2
 ^2)/log(2),x=2*log(2)/log(2),x
 =2]</pre></td>
@@ -12714,7 +12802,7 @@ nor x=2]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^log(y),stackeq(e^(log(x)*lo
 g(y))),stackeq(e^(log(y)*log(x
 ))),stackeq(y^log(x))]</pre></td>
@@ -12727,7 +12815,7 @@ g(y))),stackeq(e^(log(y)*log(x
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[lg(x+17,3)-2=lg(2*x,3),lg(x+1
 7,3)-lg(2*x,3)=2,lg((x+17)/(2*
 x),3)=2,(x+17)/(2*x)=3^2,(x+17
@@ -12741,7 +12829,7 @@ x),3)=2,(x+17)/(2*x)=3^2,(x+17
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=(1+y/n)^n,x^(1/n)=(1+y/n),y
 /n=x^(1/n)-1,y=n*(x^(1/n)-1)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12753,7 +12841,7 @@ x),3)=2,(x+17)/(2*x)=3^2,(x+17
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a^3=b^3,a^3-b^3=0,(a-b)*(a^2+
 a*b+b^2)=0,(a-b)=0,a=b]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12765,7 +12853,7 @@ a*b+b^2)=0,(a-b)=0,a=b]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^3-1=0,(x-1)*(x^2+x+1)=0,x=1
 ]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12777,7 +12865,7 @@ a*b+b^2)=0,(a-b)=0,a=b]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^4=2,x^4-2=0,(x^2-sqrt(2))*(
 x^2+sqrt(2))=0,x^2=sqrt(2),x=#
 pm# 2^(1/4)]</pre></td>
@@ -12790,7 +12878,7 @@ pm# 2^(1/4)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[6*x-12=3*(x-2),6*x-12+3*(x-2)
 =0,9*x-18=0,x=2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12802,7 +12890,7 @@ pm# 2^(1/4)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2-6*x+9=0,x^2-6*x=-9,x*(x-6
 )=3*-3,x=3 or x-6=-3,x=3]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12814,7 +12902,7 @@ pm# 2^(1/4)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x+3)*(2-x)=4,x+3=4 or (2-x)=
 4,x=1 or x=-2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12826,7 +12914,7 @@ pm# 2^(1/4)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x-p)*(x-q)=0,x^2-p*x-q*x+p*q
 =0,1+q-x-p-p*q+p*x+x+q*x-x^2=1
 -p+q,(1+q-x)*(1-p+x)=1-p+q,(1+
@@ -12841,7 +12929,7 @@ p or x=q]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a=b, a^2=a*b, a^2-b^2=a*b-b^2
 , (a-b)*(a+b)=b*(a-b), a+b=b, 
 2*a=a, 1=2]</pre></td>
@@ -12854,7 +12942,7 @@ p or x=q]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a=b or a=0, a^2=a*b, a^2-b^2=
 a*b-b^2, (a-b)*(a+b)=b*(a-b), 
 a+b=b or a-b=0, 2*a=a or a=b, 
@@ -12868,7 +12956,7 @@ a+b=b or a-b=0, 2*a=a or a=b,
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x^2-4)/(x-2)=0,(x-2)*(x+2)/(
 x-2)=0,x+2=0,x=-2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12880,7 +12968,7 @@ x-2)=0,x+2=0,x=-2]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x^2-4)/(x-2)=0,(x^2-4)=0,(x-
 2)*(x+2)=0,x=-2 or x=2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12892,7 +12980,7 @@ x-2)=0,x+2=0,x=-2]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[5*x/(2*x+1)-3/(x+1) = 1,5*x*(
 x+1)-3*(2*x+1)=(x+1)*(2*x+1),5
 *x^2+5*x-6*x-3=2*x^2+3*x+1,3*x
@@ -12907,7 +12995,7 @@ x+1)-3*(2*x+1)=(x+1)*(2*x+1),5
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x+10)/(x-6)-5= (4*x-40)/(13-
 x),(x+10-5*(x-6))/(x-6)= (4*x-
 40)/(13-x), (4*x-40)/(6-x)= (4
@@ -12921,7 +13009,7 @@ x),(x+10-5*(x-6))/(x-6)= (4*x-
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x+5)/(x-7)-5= (4*x-40)/(13-x
 ),(x+5-5*(x-7))/(x-7)= (4*x-40
 )/(13-x), (4*x-40)/(7-x)= (4*x
@@ -12935,7 +13023,7 @@ x),(x+10-5*(x-6))/(x-6)= (4*x-
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x+5)/(x-7)-5= (4*x-40)/(13-x
 ),(x+5-5*(x-7))/(x-7)= (4*x-40
 )/(13-x), (4*x-40)/(7-x)= (4*x
@@ -12950,7 +13038,7 @@ x),(x+10-5*(x-6))/(x-6)= (4*x-
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a*x^2+b*x+c=0,a=0 nounand b=0
  nounand c=0,a*x^2+b*x+c=0]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12962,7 +13050,7 @@ x),(x+10-5*(x-6))/(x-6)= (4*x-
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a*x^2+b*x+c=A*x^2+B*x+C,a=A n
 ounand b=B nounand c=C,a*x^2+b
 *x+c=A*x^2+B*x+C]</pre></td>
@@ -12975,7 +13063,7 @@ ounand b=B nounand c=C,a*x^2+b
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x-1)*(x+4), stackeq(x^2-x+4*
 x-4),stackeq(x^2+3*x-4)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12987,7 +13075,7 @@ x-4),stackeq(x^2+3*x-4)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x-1)*(x+4), stackeq(x^2-x+4*
 x-4),stackeq(x^2+3*x-4)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -12999,7 +13087,7 @@ x-4),stackeq(x^2+3*x-4)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2-2,stackeq((x-sqrt(2))*(x+
 sqrt(2)))]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13011,7 +13099,7 @@ sqrt(2)))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2+4,stackeq((x-2*i)*(x+2*i)
 )]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13023,7 +13111,7 @@ sqrt(2)))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2+2*a*x,x^2+2*a*x+a^2-a^2,(
 x+a)^2-a^2]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13035,7 +13123,7 @@ x+a)^2-a^2]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2+2*a*x,stackeq(x^2+2*a*x+a
 ^2-a^2),stackeq((x+a)^2-a^2)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13047,7 +13135,7 @@ x+a)^2-a^2]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(y-z)/(y*z)+(z-x)/(z*x)+(x-y)
 /(x*y),(x*(y-z)+y*(z-x)+z*(x-y
 ))/(x*y*z),0]</pre></td>
@@ -13060,7 +13148,7 @@ x+a)^2-a^2]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(y-z)/(y*z)+(z-x)/(z*x)+(x-y)
 /(x*y),stackeq((x*(y-z)+y*(z-x
 )+z*(x-y))/(x*y*z)),stackeq(0)
@@ -13074,7 +13162,7 @@ x+a)^2-a^2]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2*(a^2*b^2+b^2*c^2+c^2*a^2)-(
 a^4+b^4+c^4),stackeq(4*a^2*b^2
 -(a^4+b^4+c^4+2*a^2*b^2-2*b^2*
@@ -13093,7 +13181,7 @@ c^2-2*c^2*a^2)),stackeq((2*a*b
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[abs(x-1/2)+abs(x+1/2)-2,stack
 eq(abs(x)-1)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13105,7 +13193,7 @@ eq(abs(x)-1)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[11*sqrt(abs(x)+1)=25-x,11^2*(
 abs(x)+1)=(25-x)^2,11^2*abs(x)
 =(25-x)^2-11^2,11^4*x^2=((25-x
@@ -13124,7 +13212,7 @@ x+8)*(x+63)=0]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1/(x^2+1)=1/((x+%i)*(x-%i)), 
 stackeq(1/(2*%i)*(1/(x-%i)-1/(
 x+%i)))]</pre></td>
@@ -13137,7 +13225,7 @@ x+%i)))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[((a-b)/(a^2+a*b))/((a^2-2*a*b
 +b^2)/(a^4-b^4)),stackeq(((a-b
 )*(a-b)*(a+b)*(a^2+b^2))/(a*(a
@@ -13152,7 +13240,7 @@ x+%i)))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[sum(k,k,1,n+1),stackeq(sum(k,
 k,1,n)+(n+1)),stackeq(n*(n+1)/
 2 +n+1),stackeq((n+1)*(n+1+1)/
@@ -13166,7 +13254,7 @@ k,1,n)+(n+1)),stackeq(n*(n+1)/
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[log((a-1)^n*product(x_i^(-a),
 i,1,n)),stackeq(n*log(a-1)-a*s
 um(log(x_i),i,1,n))]</pre></td>
@@ -13179,7 +13267,7 @@ um(log(x_i),i,1,n))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[binomial(n,k)+binomial(n,k+1)
 ,stackeq(n!/(k!*(n-k)!)+n!/((k
 +1)!*(n-k-1)!)),stackeq(n!/(k!
@@ -13204,7 +13292,7 @@ um(log(x_i),i,1,n))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x-1)^2=(x-1)*(x-1), stackeq(
 x^2-2*x+1)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13216,7 +13304,7 @@ x^2-2*x+1)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x-1)^2=(x-1)*(x-1), stackeq(
 x^2-2*x+2)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13228,7 +13316,7 @@ x^2-2*x+2)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(x-2)^2=(x-1)*(x-1), stackeq(
 x^2-2*x+1)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13240,7 +13328,7 @@ x^2-2*x+1)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[4^((n+1)+1)-1= 4*4^(n+1)-1,st
 ackeq(4*(4^(n+1)-1)+3)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13252,7 +13340,7 @@ ackeq(4*(4^(n+1)-1)+3)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2*x+3*y=6 and 4*x+9*y=15,2*x+
 3*y=6 and -2*x=-3,3+3*y=6 and 
 2*x=3,y=1 and x=3/2]</pre></td>
@@ -13265,7 +13353,7 @@ ackeq(4*(4^(n+1)-1)+3)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2*x+3*y=6 and 4*x+9*y=15,2*x+
 3*y=6 and -2*x=-3,3+3*y=6 and 
 2*x=3,y=1 and x=3]</pre></td>
@@ -13278,7 +13366,7 @@ ackeq(4*(4^(n+1)-1)+3)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2+y^2=8 and x=y, 2*x^2=8 an
 d y=x, x^2=4 and y=x, x= #pm#2
  and y=x, (x= 2 and y=x) or (x
@@ -13293,7 +13381,7 @@ d y=x, x^2=4 and y=x, x= #pm#2
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2+y^2=5 and x*y=2, x^2+y^2-
 5=0 and x*y-2=0, x^2-2*x*y+y^2
 -1=0 and x^2+2*x*y+y^2-9=0, (x
@@ -13313,7 +13401,7 @@ x=-2 and y=-1) or (x=-1 and y=
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[4*x^2+7*x*y+4*y^2=4 and y=x-4
 , 4*x^2+7*x*(x-4)+4*(x-4)^2-4=
 0 and y=x-4, 15*x^2-60*x+60=0 
@@ -13328,7 +13416,7 @@ and y=x-4, (x-2)^2=0 and y=x-4
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a^2=b and a^2=1, b=a^2 and (a
 =1 or a=-1), (b=1 and a=1) or 
 (b=1 and a=-1)]</pre></td>
@@ -13341,7 +13429,7 @@ and y=x-4, (x-2)^2=0 and y=x-4
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a^2=b and x=1, b=a^2 and x=1]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -13352,7 +13440,7 @@ and y=x-4, (x-2)^2=0 and y=x-4
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a^2=b and b^2=a, b=a^2 and a^
 4=a, b=a^2 and a^4-a=0, b=a^2 
 and a*(a-1)*(a^2+a+1)=0, b=a^2
@@ -13368,7 +13456,7 @@ and a*(a-1)*(a^2+a+1)=0, b=a^2
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2*x^3-9*x^2+10*x-3,stacklet(x
 ,1),2*1^3-9*1^2+10*1-3,stackeq
 (0),&quot;So&quot;,2*x^3-9*x^2
@@ -13384,7 +13472,7 @@ x-3))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2*x^2+x&gt;=6, 2*x^2+x-6&gt;=
 0, (2*x-3)*(x+2)&gt;= 0,((2*x-
 3)&gt;=0 and (x+2)&gt;=0) or (
@@ -13401,7 +13489,7 @@ x-3))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2*x^2+x&gt;=6, 2*x^2+x-6&gt;=
 0, (2*x-3)*(x+2)&gt;= 0,((2*x-
 3)&gt;=0 and (x+2)&gt;=0) or (
@@ -13418,7 +13506,7 @@ x-3))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[2*x^2+x&gt;=6, 2*x^2+x-6&gt;=
 0, (2*x-3)*(x+2)&gt;= 0,((2*x-
 3)&gt;=0 and (x+2)&gt;=0) or (
@@ -13435,7 +13523,7 @@ x-3))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2&gt;=9 and x&gt;3, x^2-9&g
 t;=0 and x&gt;3, (x&gt;=3 or x
 &lt;=-3) and x&gt;3, x&gt;3]</pre></td>
@@ -13448,7 +13536,7 @@ t;=0 and x&gt;3, (x&gt;=3 or x
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[-x^2+a*x+a-3&lt;0, a-3&lt;x^2
 -a*x, a-3&lt;(x-a/2)^2-a^2/4, 
 a^2/4+a-3&lt;(x-a/2)^2, a^2+4*
@@ -13475,7 +13563,7 @@ lt;a and a&lt;2)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x-2&gt;0 and x*(x-2)&lt;15,x&
 gt;2 and x^2-2*x-15&lt;0,x&gt;
 2 and (x-5)*(x+3)&lt;0,x&gt;2 
@@ -13492,7 +13580,7 @@ and x&lt;5]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x-2&gt;0 and x*(x-2)&lt;15,x&
 gt;2 and x^2-2*x-15&lt;0,x&gt;
 2 and (x-5)*(x+3)&lt;0,x&gt;2 
@@ -13509,7 +13597,7 @@ and x&lt;5]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2 + (a-2)*x + a = 0,(x + (a
 -2)/2)^2 -((a-2)/2)^2 + a = 0,
 (x + (a-2)/2)^2 =(a-2)^2/4 - a
@@ -13533,7 +13621,7 @@ t a is an integer.&quot;,a&gt;
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2#1,x^2-1#0,(x-1)*(x+1)#0,x
 &lt;-1 nounor (-1&lt;x nounand
  x&lt;1) nounor x&gt;1]</pre></td>
@@ -13546,7 +13634,7 @@ t a is an integer.&quot;,a&gt;
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[&quot;Set P(n) be the stateme
 nt that&quot;,sum(k^2,k,1,n) =
  n*(n+1)*(2*n+1)/6, &quot;Then
@@ -13571,7 +13659,7 @@ k,1,n+1)= (n+1)*(n*(2*n+1) +6*
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[(n+1)^2+sum(k^2,k,1,n) = (n+1
 )^2+(n*(n+1)*(2*n+1))/6, sum(k
 ^2,k,1,n+1) = ((n+1)*(n*(2*n+1
@@ -13588,7 +13676,7 @@ um(k^2,k,1,n+1) = ((n+1)*(n+2)
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[conjugate(a)*conjugate(b),sta
 cklet(a,x+i*y),stacklet(b,r+i*
 s),stackeq(conjugate(x+i*y)*co
@@ -13608,7 +13696,7 @@ stacklet(x+i*y,a),stacklet(r+i
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[nounint(x*e^x,x,-inf,0),nounl
 imit(nounint(x*e^x,x,t,0),t,-i
 nf),nounlimit(e^t-t*e^t-1,t,-i
@@ -13624,7 +13712,7 @@ limit(-t*e^t,t,-inf)+nounlimit
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[noundiff(x^2,x),stackeq(nounl
 imit(((x+h)^2-x^2)/h,h,0)),sta
 ckeq(nounlimit(2*x+h,h,0)),sta
@@ -13638,7 +13726,7 @@ ckeq(2*x)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[-12+3*noundiff(y(x),x)+8-8*no
 undiff(y(x),x)=0,-5*noundiff(y
 (x),x)=4,noundiff(y(x),x)=-4/5
@@ -13652,7 +13740,7 @@ undiff(y(x),x)=0,-5*noundiff(y
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2+1,x^3/3+x,x^2+1,x^3/3+x+c
 ]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13664,7 +13752,7 @@ undiff(y(x),x)=0,-5*noundiff(y
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[3*x^(3/2)-2/x,(9*sqrt(x))/2+2
 /x^2,3*x^(3/2)-2/x+c]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13676,7 +13764,7 @@ undiff(y(x),x)=0,-5*noundiff(y
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2+1,stackeq(x^3/3+x),stacke
 q(x^2+1),stackeq(x^3/3+x+c)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13688,7 +13776,7 @@ q(x^2+1),stackeq(x^3/3+x+c)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[diff(x^2*sin(x),x),stackeq(x^
 2*diff(sin(x),x)+diff(x^2,x)*s
 in(x)),stackeq(x^2*cos(x)+2*x*
@@ -13702,7 +13790,7 @@ sin(x))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[y(x)*cos(x)+y(x)^2 = 6*x,cos(
 x)*diff(y(x),x)+2*y(x)*diff(y(
 x),x)-y(x)*sin(x) = 6,(cos(x)+
@@ -13718,7 +13806,7 @@ n(x)+6)/(cos(x)+2*y(x))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[nounint(s^2+1,s),stackeq(s^3/
 3+s+c)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13730,7 +13818,7 @@ n(x)+6)/(cos(x)+2*y(x))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[nounint(x^3*log(x),x),x^4/4*l
 og(x)-1/4*nounint(x^3,x),x^4/4
 *log(x)-x^4/16]</pre></td>
@@ -13743,7 +13831,7 @@ og(x)-1/4*nounint(x^3,x),x^4/4
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[nounint(x^3*log(x),x),x^4/4*l
 og(x)-1/4*nounint(x^3,x),x^4/4
 *log(x)-x^4/16+c]</pre></td>
@@ -13756,7 +13844,7 @@ og(x)-1/4*nounint(x^3,x),x^4/4
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[noundiff(y,x)-2/x*y=x^3*sin(3
 *x),1/x^2*noundiff(y,x)-2/x^3*
 y=x*sin(3*x),noundiff(y/x^2,x)
@@ -13775,7 +13863,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>x</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
@@ -13786,7 +13874,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c3"><pre>x</pre></td>
   <td class="cell c4"></td>
@@ -13797,7 +13885,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>[1/0]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
@@ -13808,7 +13896,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c3"><pre>[1/0]</pre></td>
   <td class="cell c4"></td>
@@ -13819,7 +13907,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
@@ -13830,7 +13918,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=9,x=3 or x=-3]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
@@ -13841,7 +13929,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
@@ -13852,7 +13940,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x^2-4=0,(x-2)*(x+2)=0,x
 =2 or x=-2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
@@ -13864,7 +13952,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x= #pm#2, x=2 or x=-2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2 or x=-2]</pre></td>
   <td class="cell c4"></td>
@@ -13875,7 +13963,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2-6*x+9=0,x=3]</pre></td>
   <td class="cell c3"><pre>[x^2-6*x+9=0,x=3]</pre></td>
   <td class="cell c4"></td>
@@ -13886,7 +13974,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EquivFirst</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2=4,x=2]</pre></td>
   <td class="cell c3"><pre>[x^2=4,x=2]</pre></td>
   <td class="cell c4"><pre>[assumepos]</pre></td>
@@ -14109,7 +14197,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>1/n</pre></td>
   <td class="cell c4"></td>
@@ -14120,7 +14208,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
@@ -14131,7 +14219,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=3</pre></td>
   <td class="cell c3"><pre>2</pre></td>
   <td class="cell c4"></td>
@@ -14142,7 +14230,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"></td>
@@ -14153,7 +14241,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3</pre></td>
   <td class="cell c3"><pre>2</pre></td>
   <td class="cell c4"></td>
@@ -14164,7 +14252,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/m</pre></td>
   <td class="cell c3"><pre>1/n</pre></td>
   <td class="cell c4"></td>
@@ -14175,7 +14263,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/n</pre></td>
   <td class="cell c3"><pre>1/n</pre></td>
   <td class="cell c4"></td>
@@ -14186,7 +14274,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a+1/2</pre></td>
   <td class="cell c3"><pre>(2*a+1)/2</pre></td>
   <td class="cell c4"></td>
@@ -14197,7 +14285,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a+1/2</pre></td>
   <td class="cell c3"><pre>(2*a+1)/2</pre></td>
   <td class="cell c4"></td>
@@ -14208,7 +14296,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4/(x^2+2*x-24)+2/(x^2+4*x-12)</pre></td>
   <td class="cell c3"><pre>(6*x-16)/(x^3-28*x+48)</pre></td>
   <td class="cell c4"></td>
@@ -14222,7 +14310,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*(1/n)</pre></td>
   <td class="cell c3"><pre>2/n</pre></td>
   <td class="cell c4"></td>
@@ -14233,7 +14321,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2/n</pre></td>
   <td class="cell c3"><pre>2/n</pre></td>
   <td class="cell c4"></td>
@@ -14247,7 +14335,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2/(n+1)</pre></td>
   <td class="cell c3"><pre>1/(n+1)</pre></td>
   <td class="cell c4"></td>
@@ -14258,7 +14346,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2*n+1)/(n+2)</pre></td>
   <td class="cell c3"><pre>1/n</pre></td>
   <td class="cell c4"></td>
@@ -14269,7 +14357,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2*n)/(n*(n+2))</pre></td>
   <td class="cell c3"><pre>(2*n)/(n*(n+3))</pre></td>
   <td class="cell c4"></td>
@@ -14280,7 +14368,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-1)/(x^2-1)</pre></td>
   <td class="cell c3"><pre>1/(x+1)</pre></td>
   <td class="cell c4"></td>
@@ -14294,7 +14382,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1/2)/(3/4)</pre></td>
   <td class="cell c3"><pre>2/3</pre></td>
   <td class="cell c4"></td>
@@ -14305,7 +14393,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-2)/4/(2/x^2)</pre></td>
   <td class="cell c3"><pre>(x-2)*x^2/8</pre></td>
   <td class="cell c4"></td>
@@ -14316,7 +14404,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(1-1/x)</pre></td>
   <td class="cell c3"><pre>x/(x-1)</pre></td>
   <td class="cell c4"></td>
@@ -14327,7 +14415,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1+1/a)/a</pre></td>
   <td class="cell c3"><pre>(1+a)/a^2</pre></td>
   <td class="cell c4"></td>
@@ -14338,7 +14426,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a/(1+1/a)</pre></td>
   <td class="cell c3"><pre>a^2/(1+a)</pre></td>
   <td class="cell c4"></td>
@@ -14349,7 +14437,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(1+2*b/a)/c</pre></td>
   <td class="cell c3"><pre>(a+2*b)/(a*c)</pre></td>
   <td class="cell c4"></td>
@@ -14360,7 +14448,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>c/(1+2*b/a)</pre></td>
   <td class="cell c3"><pre>a*c/(a+2*b)</pre></td>
   <td class="cell c4"></td>
@@ -14371,7 +14459,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a*c/(a+2*b)</pre></td>
   <td class="cell c3"><pre>a*c/(a+2*b)</pre></td>
   <td class="cell c4"></td>
@@ -14385,7 +14473,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-1/2</pre></td>
   <td class="cell c3"><pre>-1/2</pre></td>
   <td class="cell c4"></td>
@@ -14396,7 +14484,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-1/2</pre></td>
   <td class="cell c3"><pre>-1/3</pre></td>
   <td class="cell c4"></td>
@@ -14407,7 +14495,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(1/2)</pre></td>
   <td class="cell c3"><pre>-1/2</pre></td>
   <td class="cell c4"></td>
@@ -14418,7 +14506,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-a/b</pre></td>
   <td class="cell c3"><pre>-a/b</pre></td>
   <td class="cell c4"></td>
@@ -14429,7 +14517,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-a)/b</pre></td>
   <td class="cell c3"><pre>-a/b</pre></td>
   <td class="cell c4"></td>
@@ -14440,7 +14528,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a/(-b)</pre></td>
   <td class="cell c3"><pre>-a/b</pre></td>
   <td class="cell c4"></td>
@@ -14451,7 +14539,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(a/b)</pre></td>
   <td class="cell c3"><pre>-a/b</pre></td>
   <td class="cell c4"></td>
@@ -14462,7 +14550,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(1/(n-1))</pre></td>
   <td class="cell c3"><pre>1/(1-n)</pre></td>
   <td class="cell c4"></td>
@@ -14473,7 +14561,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a/(-1-1/a)</pre></td>
   <td class="cell c3"><pre>-a^2/(1+a)</pre></td>
   <td class="cell c4"></td>
@@ -14487,7 +14575,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>((sqrt(5))^3 +6)/15</pre></td>
   <td class="cell c3"><pre>((sqrt(5))^3 +6)/15</pre></td>
   <td class="cell c4"></td>
@@ -14498,7 +14586,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(1-sqrt(2))</pre></td>
   <td class="cell c3"><pre>1/(1-sqrt(2))</pre></td>
   <td class="cell c4"></td>
@@ -14509,7 +14597,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>((sqrt(5))^3+6)/15</pre></td>
   <td class="cell c3"><pre>((sqrt(5))^3+6)/15</pre></td>
   <td class="cell c4"></td>
@@ -14520,7 +14608,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SingleFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(5^(3/2)+6)/15</pre></td>
   <td class="cell c3"><pre>((sqrt(5))^3+6)/15</pre></td>
   <td class="cell c4"></td>
@@ -14534,7 +14622,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>3*x^2</pre></td>
   <td class="cell c4"></td>
@@ -14545,7 +14633,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>3*x^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14556,7 +14644,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1/0</pre></td>
@@ -14567,7 +14655,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14578,7 +14666,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/n=0</pre></td>
   <td class="cell c3"><pre>1/n</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -14589,7 +14677,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/n</pre></td>
   <td class="cell c3"><pre>{1/n}</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -14603,7 +14691,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/m</pre></td>
   <td class="cell c3"><pre>1/n</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -14614,7 +14702,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2/(x+1)-1/(x+2)</pre></td>
   <td class="cell c3"><pre>s/((s+1)*(s+2))</pre></td>
   <td class="cell c4"><pre>s</pre></td>
@@ -14625,7 +14713,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/n</pre></td>
   <td class="cell c3"><pre>1/n</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -14636,7 +14724,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>n^3/(n-1)</pre></td>
   <td class="cell c3"><pre>n^3/(n-1)</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -14647,7 +14735,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+n+n^2+1/(n-1)</pre></td>
   <td class="cell c3"><pre>n^3/(n-1)</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -14658,7 +14746,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+n+n^2-1/(1-n)</pre></td>
   <td class="cell c3"><pre>n^3/(n-1)</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -14672,7 +14760,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(n+1)-1/n</pre></td>
   <td class="cell c3"><pre>1/(n+1)-1/n</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -14683,7 +14771,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(n+1)+1/(1-n)</pre></td>
   <td class="cell c3"><pre>1/(n+1)-1/(n-1)</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -14694,7 +14782,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(2*(n-1))-1/(2*(n+1))</pre></td>
   <td class="cell c3"><pre>1/((n-1)*(n+1))</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -14705,7 +14793,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(2*(n+1))-1/(2*(n-1))</pre></td>
   <td class="cell c3"><pre>1/((n-1)*(n+1))</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -14716,7 +14804,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-9/(x-2) + -9/(x+1)</pre></td>
   <td class="cell c3"><pre>-9/(x-2) + -9/(x+1)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14730,7 +14818,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(x+1) + 1/(x+2)</pre></td>
   <td class="cell c3"><pre>2/(x+1) + 1/(x+2)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14741,7 +14829,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(x+1) + 1/(x+2)</pre></td>
   <td class="cell c3"><pre>1/(x+1) + 2/(x+2)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14755,7 +14843,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(x+1) + 1/(x+2)</pre></td>
   <td class="cell c3"><pre>1/(x+3) + 1/(x+2)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14769,7 +14857,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(9*y-8)/(y-4)^2</pre></td>
   <td class="cell c3"><pre>(9*y-8)/(y-4)^2</pre></td>
   <td class="cell c4"><pre>y</pre></td>
@@ -14780,7 +14868,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9/(y-4)+28/(y-4)^2</pre></td>
   <td class="cell c3"><pre>(9*y-8)/(y-4)^2</pre></td>
   <td class="cell c4"><pre>y</pre></td>
@@ -14791,7 +14879,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-5/(x+3))+(16/(x+3)^2)-(2/(x+
 2))+4</pre></td>
   <td class="cell c3"><pre>(-5/(x+3))+(16/(x+3)^2)-(2/(x+
@@ -14804,7 +14892,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(3*x^2-5)/((x-4)^2*x)</pre></td>
   <td class="cell c3"><pre>(3*x^2-5)/((x-4)^2*x)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14815,7 +14903,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-4/(16*x)+53/(16*(x-4))+43/(4*
 (x-4)^2)</pre></td>
   <td class="cell c3"><pre>(3*x^2-5)/((x-4)^2*x)</pre></td>
@@ -14827,7 +14915,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-5/(16*x)+53/(16*(x-4))+43/(4*
 (x-4)^2)</pre></td>
   <td class="cell c3"><pre>(3*x^2-5)/((x-4)^2*x)</pre></td>
@@ -14839,7 +14927,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(5*x+6)/((x+1)*(x+5)^2)</pre></td>
   <td class="cell c3"><pre>(5*x+6)/((x+1)*(x+5)^2)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14850,7 +14938,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-1/(16*(x+5))+19/(4*(x+5)^2)+1
 /(16*(x+1))</pre></td>
   <td class="cell c3"><pre>(5*x+6)/((x+1)*(x+5)^2)</pre></td>
@@ -14862,7 +14950,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5/(x*(x+3)*(5*x-2))</pre></td>
   <td class="cell c3"><pre>5/(x*(x+3)*(5*x-2))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14873,7 +14961,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>125/(34*(5*x-2))+5/(51*(x+3))-
 5/(6*x)</pre></td>
   <td class="cell c3"><pre>5/(x*(x+3)*(5*x-2))</pre></td>
@@ -14885,7 +14973,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-4/(16*x)+1/(2*(x-1))-1/(8*(x-
 1)^2)</pre></td>
   <td class="cell c3"><pre>(3*x^2-5)/((4*x-4)^2*x)</pre></td>
@@ -14897,7 +14985,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-5/(16*x)+1/(2*(x-1))-1/(8*(x-
 1)^2)</pre></td>
   <td class="cell c3"><pre>(3*x^2-5)/((4*x-4)^2*x)</pre></td>
@@ -14912,7 +15000,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(x-1)-(x+1)/(x^2+1)</pre></td>
   <td class="cell c3"><pre>2/((x-1)*(x^2+1))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14923,7 +15011,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(2*x-2)-(x+1)/(2*(x^2+1))</pre></td>
   <td class="cell c3"><pre>1/((x-1)*(x^2+1))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14934,7 +15022,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(2*(x-1))+x/(2*(x^2+1))</pre></td>
   <td class="cell c3"><pre>1/((x-1)*(x^2+1))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14945,7 +15033,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2*x+1)/(x^2+1)-2/(x-1)</pre></td>
   <td class="cell c3"><pre>(2*x+1)/(x^2+1)-2/(x-1)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14959,7 +15047,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3/(x+1) + 3/(x+2)</pre></td>
   <td class="cell c3"><pre>3*(2*x+3)/((x+1)*(x+2))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14970,7 +15058,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*(1/(x+1) + 1/(x+2))</pre></td>
   <td class="cell c3"><pre>3*(2*x+3)/((x+1)*(x+2))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14984,7 +15072,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*x*(1/(x+1) + 2/(x+2))</pre></td>
   <td class="cell c3"><pre>-12/(x+2)-3/(x+1)+9</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -14995,7 +15083,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(3*x+3)*(1/(x+1) + 2/(x+2))</pre></td>
   <td class="cell c3"><pre>9-6/(x+2)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15006,7 +15094,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>n/(2*n-1)-(n+1)/(2*n+1)</pre></td>
   <td class="cell c3"><pre>1/(4*n-2)-1/(4*n+2)</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -15020,7 +15108,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>10/(x+3) - 2/(x+2) + x -2</pre></td>
   <td class="cell c3"><pre>(x^3 + 3*x^2 + 4*x +2)/((x+2)*
 (x+3))</pre></td>
@@ -15032,7 +15120,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*x+1/(x+1)+1/(x-1)</pre></td>
   <td class="cell c3"><pre>2*x^3/(x^2-1)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15046,7 +15134,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(n*(n-1))</pre></td>
   <td class="cell c3"><pre>1/(n*(n-1))</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -15057,7 +15145,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>((1-x)^4*x^4)/(x^2+1)</pre></td>
   <td class="cell c3"><pre>((1-x)^4*x^4)/(x^2+1)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15068,7 +15156,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(n-1)-1/n^2</pre></td>
   <td class="cell c3"><pre>1/((n+1)*n)</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -15079,7 +15167,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(n-1)-1/n</pre></td>
   <td class="cell c3"><pre>1/(n-1)+1/n</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -15090,7 +15178,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(x+1)-1/x</pre></td>
   <td class="cell c3"><pre>1/(x-1)+1/x</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15101,7 +15189,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(n*(n+1))+1/n</pre></td>
   <td class="cell c3"><pre>2/n-1/(n+1)</pre></td>
   <td class="cell c4"><pre>n</pre></td>
@@ -15115,7 +15203,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>s/((s+1)^2) + s/(s+2) - 1/(s+1
 )</pre></td>
   <td class="cell c3"><pre>s/((s+1)*(s+2))</pre></td>
@@ -15130,7 +15218,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>s/(s+2) - 1/(s+1)</pre></td>
   <td class="cell c3"><pre>s/((s+1)*(s+2)*(s+3))</pre></td>
   <td class="cell c4"><pre>s</pre></td>
@@ -15141,7 +15229,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">PartFrac</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(3*x^2-5)/((4*x-4)^2*x)</pre></td>
   <td class="cell c3"><pre>(3*x^2-5)/((4*x-4)^2*x)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15155,7 +15243,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>3*x^2</pre></td>
   <td class="cell c4"></td>
@@ -15166,7 +15254,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"><pre>(x</pre></td>
@@ -15177,7 +15265,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>3*x^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15188,7 +15276,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15199,7 +15287,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1/0</pre></td>
@@ -15213,7 +15301,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*x^2</pre></td>
   <td class="cell c3"><pre>3*x^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15224,7 +15312,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3*X^2</pre></td>
   <td class="cell c3"><pre>3*x^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15235,7 +15323,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^4/4</pre></td>
   <td class="cell c3"><pre>3*x^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15246,7 +15334,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^4/4+1</pre></td>
   <td class="cell c3"><pre>3*x^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15257,7 +15345,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^4/4+c</pre></td>
   <td class="cell c3"><pre>3*x^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15268,7 +15356,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y=x^4/4</pre></td>
   <td class="cell c3"><pre>x^4/4</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15279,7 +15367,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^4/4</pre></td>
   <td class="cell c3"><pre>y=x^4/4</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15290,7 +15378,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y=x^4/4</pre></td>
   <td class="cell c3"><pre>y=x^4/4</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15301,7 +15389,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6000*(x-a)^5999</pre></td>
   <td class="cell c3"><pre>6000*(x-a)^5999</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15312,7 +15400,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5999*(x-a)^5999</pre></td>
   <td class="cell c3"><pre>6000*(x-a)^5999</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15326,7 +15414,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y^2-2*y+1</pre></td>
   <td class="cell c3"><pre>x^2-2*x+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15337,7 +15425,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2-2*x+1</pre></td>
   <td class="cell c3"><pre>y^2-2*y+1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15348,7 +15436,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>y^2+2*y+1</pre></td>
   <td class="cell c3"><pre>x^2-2*x+1</pre></td>
   <td class="cell c4"><pre>z</pre></td>
@@ -15359,7 +15447,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^4/4</pre></td>
   <td class="cell c3"><pre>3*x^2</pre></td>
   <td class="cell c4"><pre>y</pre></td>
@@ -15373,7 +15461,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>e^x+c</pre></td>
   <td class="cell c3"><pre>e^x</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15384,7 +15472,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>e^x+2</pre></td>
   <td class="cell c3"><pre>e^x</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15395,7 +15483,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>n*x^n</pre></td>
   <td class="cell c3"><pre>n*x^(n-1)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15406,7 +15494,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Diff</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>n*x^n</pre></td>
   <td class="cell c3"><pre>(assume(n&gt;0), n*x^(n-1))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15464,7 +15552,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -15475,7 +15563,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15486,7 +15574,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15497,7 +15585,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1/0</pre></td>
@@ -15508,7 +15596,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[x,1/0]</pre></td>
@@ -15519,7 +15607,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[x,NOCONST,1/0]</pre></td>
@@ -15533,7 +15621,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15544,7 +15632,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3+1</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15555,7 +15643,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3+c</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15566,7 +15654,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3+c+1</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15577,7 +15665,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3+3*c</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15588,7 +15676,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x^3+c)/3</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15599,7 +15687,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3-c</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15610,7 +15698,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3+c+k</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15621,7 +15709,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3+c^2</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15632,7 +15720,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3*c</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15643,7 +15731,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>X^3/3+c</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15654,7 +15742,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sin(2*x)</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15665,7 +15753,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2/2-2*x+2+c</pre></td>
   <td class="cell c3"><pre>(x-2)^2/2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15676,7 +15764,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(t-1)^5/5+c</pre></td>
   <td class="cell c3"><pre>(t-1)^5/5</pre></td>
   <td class="cell c4"><pre>t</pre></td>
@@ -15687,7 +15775,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(v-1)^5/5+c</pre></td>
   <td class="cell c3"><pre>(v-1)^5/5</pre></td>
   <td class="cell c4"><pre>v</pre></td>
@@ -15698,7 +15786,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(2*x)/2+1+c</pre></td>
   <td class="cell c3"><pre>cos(2*x)/2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15709,7 +15797,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-a)^6001/6001+c</pre></td>
   <td class="cell c3"><pre>(x-a)^6001/6001</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15720,7 +15808,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(x-a)^6001/6001</pre></td>
   <td class="cell c3"><pre>(x-a)^6001/6001</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15731,7 +15819,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6000*(x-a)^5999</pre></td>
   <td class="cell c3"><pre>(x-a)^6001/6001</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15742,7 +15830,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4*%e^(4*x)/(%e^(4*x)+1)</pre></td>
   <td class="cell c3"><pre>log(%e^(4*x)+1)+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15756,7 +15844,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3+c</pre></td>
   <td class="cell c3"><pre>x^3/3+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15767,7 +15855,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2/2-2*x+2+c</pre></td>
   <td class="cell c3"><pre>(x-2)^2/2+k</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15781,7 +15869,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>[x,NOCONST]</pre></td>
@@ -15792,7 +15880,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3+c</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>[x,NOCONST]</pre></td>
@@ -15803,7 +15891,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2/2-2*x+2</pre></td>
   <td class="cell c3"><pre>(x-2)^2/2+k</pre></td>
   <td class="cell c4"><pre>[x,NOCONST]</pre></td>
@@ -15814,7 +15902,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3+1</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>[x,NOCONST]</pre></td>
@@ -15825,7 +15913,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^3/3+c^2</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>[x,NOCONST]</pre></td>
@@ -15836,7 +15924,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>n*x^n</pre></td>
   <td class="cell c3"><pre>n*x^(n-1)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15847,7 +15935,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>n*x^n</pre></td>
   <td class="cell c3"><pre>(assume(n&gt;0), n*x^(n-1))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15861,7 +15949,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exp(x)+c</pre></td>
   <td class="cell c3"><pre>exp(x)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15872,7 +15960,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exp(x)</pre></td>
   <td class="cell c3"><pre>exp(x)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15883,7 +15971,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>exp(x)</pre></td>
   <td class="cell c3"><pre>exp(x)</pre></td>
   <td class="cell c4"><pre>[x,NOCONST]</pre></td>
@@ -15897,7 +15985,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*x</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15908,7 +15996,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*x+c</pre></td>
   <td class="cell c3"><pre>x^3/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15922,7 +16010,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(x)</pre></td>
   <td class="cell c3"><pre>ln(x)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15933,7 +16021,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(x)</pre></td>
   <td class="cell c3"><pre>ln(x)</pre></td>
   <td class="cell c4"><pre>[x,NOCONST]</pre></td>
@@ -15944,7 +16032,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(x)+c</pre></td>
   <td class="cell c3"><pre>ln(x)+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15955,7 +16043,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(k*x)</pre></td>
   <td class="cell c3"><pre>ln(x)+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15969,7 +16057,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(x)</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15980,7 +16068,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(x)+c</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -15991,7 +16079,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(x)</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>[x, NOCONST]</pre></td>
@@ -16002,7 +16090,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(abs(x))</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16013,7 +16101,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16024,7 +16112,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(k*x)</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16035,7 +16123,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(k*abs(x))</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16046,7 +16134,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(abs(k*x))</pre></td>
   <td class="cell c3"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16060,7 +16148,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(x)</pre></td>
   <td class="cell c3"><pre>ln(k*abs(x))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16071,7 +16159,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(x)+c</pre></td>
   <td class="cell c3"><pre>ln(k*abs(x))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16082,7 +16170,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(abs(x))</pre></td>
   <td class="cell c3"><pre>ln(k*abs(x))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16093,7 +16181,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(abs(x))+c</pre></td>
   <td class="cell c3"><pre>ln(k*abs(x))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16104,7 +16192,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(k*x)</pre></td>
   <td class="cell c3"><pre>ln(k*abs(x))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16115,7 +16203,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(k*abs(x))</pre></td>
   <td class="cell c3"><pre>ln(k*abs(x))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16129,7 +16217,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>ln(x)+ln(a)</pre></td>
   <td class="cell c3"><pre>ln(k*abs(x+a))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16140,7 +16228,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(x)^2-2*log(c)*log(x)+k</pre></td>
   <td class="cell c3"><pre>ln(c/x)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16151,7 +16239,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(x)^2-2*log(c)*log(x)+k</pre></td>
   <td class="cell c3"><pre>ln(abs(c/x))^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16162,7 +16250,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>c-(log(2)-log(x))^2/2</pre></td>
   <td class="cell c3"><pre>-1/2*log(2/x)^2</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16173,7 +16261,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>ln(abs(x+3))/2+c</pre></td>
   <td class="cell c3"><pre>ln(abs(2*x+6))/2+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16187,7 +16275,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(abs(x-3))+log(abs(x+3))</pre></td>
   <td class="cell c3"><pre>log(abs(x-3))+log(abs(x+3))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16198,7 +16286,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(abs(x-3))+log(abs(x+3))+c</pre></td>
   <td class="cell c3"><pre>log(abs(x-3))+log(abs(x+3))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16209,7 +16297,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(abs(x-3))+log(abs(x+3))</pre></td>
   <td class="cell c3"><pre>log(x-3)+log(x+3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16220,7 +16308,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(abs(x-3))+log(abs(x+3))+c</pre></td>
   <td class="cell c3"><pre>log(x-3)+log(x+3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16231,7 +16319,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(x-3)+log(x+3)</pre></td>
   <td class="cell c3"><pre>log(x-3)+log(x+3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16242,7 +16330,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(x-3)+log(x+3)+c</pre></td>
   <td class="cell c3"><pre>log(x-3)+log(x+3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16253,7 +16341,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(x-3)+log(x+3)</pre></td>
   <td class="cell c3"><pre>log(abs(x-3))+log(abs(x+3))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16264,7 +16352,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(x-3)+log(x+3)+c</pre></td>
   <td class="cell c3"><pre>log(abs(x-3))+log(abs(x+3))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16275,7 +16363,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(abs((x-3)*(x+3)))+c</pre></td>
   <td class="cell c3"><pre>log(abs(x-3))+log(abs(x+3))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16286,7 +16374,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(abs((x^2-9)))+c</pre></td>
   <td class="cell c3"><pre>log(abs(x-3))+log(abs(x+3))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16297,7 +16385,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*log(abs(x-2))-log(abs(x+2))+
 (x^2+4*x)/2</pre></td>
   <td class="cell c3"><pre>-log(abs(x+2))+2*log(abs(x-2))
@@ -16310,7 +16398,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-log(abs(x+2))+2*log(abs(x-2))
 +(x^2+4*x)/2+c</pre></td>
   <td class="cell c3"><pre>-log(abs(x+2))+2*log(abs(x-2))
@@ -16323,7 +16411,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-log(abs(x+2))+2*log(abs(x-2))
 +(x^2+4*x)/2+c</pre></td>
   <td class="cell c3"><pre>-log((x+2))+2*log((x-2))+(x^2+
@@ -16339,7 +16427,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(abs(x-3))+log((x+3))+c</pre></td>
   <td class="cell c3"><pre>log(x-3)+log(x+3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16350,7 +16438,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log((v-3))+log(abs(v+3))+c</pre></td>
   <td class="cell c3"><pre>log(v-3)+log(v+3)</pre></td>
   <td class="cell c4"><pre>v</pre></td>
@@ -16361,7 +16449,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log((x-3))+log(abs(x+3))</pre></td>
   <td class="cell c3"><pre>log(x-3)+log(x+3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16372,7 +16460,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*log((x-2))-log(abs(x+2))+(x^
 2+4*x)/2</pre></td>
   <td class="cell c3"><pre>-log(abs(x+2))+2*log(abs(x-2))
@@ -16388,7 +16476,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*(sqrt(t)-5)-10*log((sqrt(t)-
 5))+c</pre></td>
   <td class="cell c3"><pre>2*(sqrt(t)-5)-10*log((sqrt(t)-
@@ -16401,7 +16489,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*(sqrt(t))-10*log((sqrt(t)-5)
 )+c</pre></td>
   <td class="cell c3"><pre>2*(sqrt(t)-5)-10*log((sqrt(t)-
@@ -16414,7 +16502,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*(sqrt(t)-5)-10*log((sqrt(t)-
 5))+c</pre></td>
   <td class="cell c3"><pre>2*(sqrt(t)-5)-10*log(abs(sqrt(
@@ -16427,7 +16515,7 @@ t)-5))+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*(sqrt(t))-10*log(abs(sqrt(t)
 -5))+c</pre></td>
   <td class="cell c3"><pre>2*(sqrt(t)-5)-10*log(abs(sqrt(
@@ -16443,7 +16531,7 @@ t)-5))+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*sin(x)*cos(x)</pre></td>
   <td class="cell c3"><pre>sin(2*x)+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16454,7 +16542,7 @@ t)-5))+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*sin(x)*cos(x)+k</pre></td>
   <td class="cell c3"><pre>sin(2*x)+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16465,7 +16553,7 @@ t)-5))+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-2*cos(3*x)/3-3*cos(2*x)/2</pre></td>
   <td class="cell c3"><pre>-2*cos(3*x)/3-3*cos(2*x)/2+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16476,7 +16564,7 @@ t)-5))+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-2*cos(3*x)/3-3*cos(2*x)/2+1</pre></td>
   <td class="cell c3"><pre>-2*cos(3*x)/3-3*cos(2*x)/2+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16487,7 +16575,7 @@ t)-5))+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-2*cos(3*x)/3-3*cos(2*x)/2+c</pre></td>
   <td class="cell c3"><pre>-2*cos(3*x)/3-3*cos(2*x)/2+c</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16498,7 +16586,7 @@ t)-5))+c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(tan(2*t)-2*t)/2</pre></td>
   <td class="cell c3"><pre>-(t*sin(4*t)^2-sin(4*t)+t*cos(
 4*t)^2+2*t*cos(4*t)+t)/(sin(4*
@@ -16511,7 +16599,7 @@ t)^2+cos(4*t)^2+2*cos(4*t)+1)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(tan(2*t)-2*t)/2+1</pre></td>
   <td class="cell c3"><pre>-(t*sin(4*t)^2-sin(4*t)+t*cos(
 4*t)^2+2*t*cos(4*t)+t)/(sin(4*
@@ -16524,7 +16612,7 @@ t)^2+cos(4*t)^2+2*cos(4*t)+1)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(tan(2*t)-2*t)/2+c</pre></td>
   <td class="cell c3"><pre>-(t*sin(4*t)^2-sin(4*t)+t*cos(
 4*t)^2+2*t*cos(4*t)+t)/(sin(4*
@@ -16537,7 +16625,7 @@ t)^2+cos(4*t)^2+2*cos(4*t)+1)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>tan(x)-x+c</pre></td>
   <td class="cell c3"><pre>tan(x)-x</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16551,7 +16639,7 @@ t)^2+cos(4*t)^2+2*cos(4*t)+1)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>((5*%e^7*x-%e^7)*%e^(5*x))</pre></td>
   <td class="cell c3"><pre>((5*%e^7*x-%e^7)*%e^(5*x))/25+
 c</pre></td>
@@ -16563,7 +16651,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>((5*%e^7*x-%e^7)*%e^(5*x))</pre></td>
   <td class="cell c3"><pre>((5*%e^7*x-%e^7)*%e^(5*x))/25+
 c</pre></td>
@@ -16579,7 +16667,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(x-3)/6-log(x+3)/6+c</pre></td>
   <td class="cell c3"><pre>log(x-3)/6-log(x+3)/6</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16590,7 +16678,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>asinh(x)</pre></td>
   <td class="cell c3"><pre>ln(x+sqrt(x^2+1))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16601,7 +16689,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>asinh(x)+c</pre></td>
   <td class="cell c3"><pre>ln(x+sqrt(x^2+1))</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16612,7 +16700,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-acoth(x/3)/3</pre></td>
   <td class="cell c3"><pre>log(x-3)/6-log(x+3)/6</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16623,7 +16711,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-acoth(x/3)/3</pre></td>
   <td class="cell c3"><pre>log(x-3)/6-log(x+3)/6</pre></td>
   <td class="cell c4"><pre>[x, NOCONST]</pre></td>
@@ -16634,7 +16722,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-acoth(x/3)/3+c</pre></td>
   <td class="cell c3"><pre>log(x-3)/6-log(x+3)/6</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16645,7 +16733,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-acoth(x/3)/3+c</pre></td>
   <td class="cell c3"><pre>log(abs(x-3))/6-log(abs(x+3))/
 6</pre></td>
@@ -16657,7 +16745,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(x-a)/(2*a)-log(x+a)/(2*a)+
 c</pre></td>
   <td class="cell c3"><pre>log(x-a)/(2*a)-log(x+a)/(2*a)</pre></td>
@@ -16669,7 +16757,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-acoth(x/a)/a+c</pre></td>
   <td class="cell c3"><pre>log(x-a)/(2*a)-log(x+a)/(2*a)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16680,7 +16768,7 @@ c</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-acoth(x/a)/a+c</pre></td>
   <td class="cell c3"><pre>log(abs(x-a))/(2*a)-log(abs(x+
 a))/(2*a)</pre></td>
@@ -16692,7 +16780,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(x-a)/(2*a)-log(x+a)/(2*a)+
 c</pre></td>
   <td class="cell c3"><pre>log(abs(x-a))/(2*a)-log(abs(x+
@@ -16705,7 +16793,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(x-3)/6-log(x+3)/6+c</pre></td>
   <td class="cell c3"><pre>-acoth(x/3)/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16716,7 +16804,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(abs(x-3))/6-log(abs(x+3))/
 6+c</pre></td>
   <td class="cell c3"><pre>-acoth(x/3)/3</pre></td>
@@ -16728,7 +16816,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>log(x-3)/6-log(x+3)/6</pre></td>
   <td class="cell c3"><pre>-acoth(x/3)/3</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16739,7 +16827,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>atan(2*x-3)+c</pre></td>
   <td class="cell c3"><pre>atan(2*x-3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16750,7 +16838,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>atan((x-2)/(x-1))+c</pre></td>
   <td class="cell c3"><pre>atan(2*x-3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16761,7 +16849,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>atan((x-2)/(x-1))</pre></td>
   <td class="cell c3"><pre>atan(2*x-3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16772,7 +16860,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>atan((x-1)/(x-2))</pre></td>
   <td class="cell c3"><pre>atan(2*x-3)</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -16786,7 +16874,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Int</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>2/3*sqrt(3)*(atan(sin(x)/(sqrt
 (3)*(cos(x)+1)))-(atan(sin(x)/
 (cos(x)+1))))+x/sqrt(3)</pre></td>
@@ -16803,7 +16891,7 @@ a))/(2*a)</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">GT</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -16814,7 +16902,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">GT</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
@@ -16825,7 +16913,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">GT</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -16836,7 +16924,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">GT</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -16847,7 +16935,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">GT</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>2.1</pre></td>
   <td class="cell c4"></td>
@@ -16858,7 +16946,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">GT</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>pi</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"></td>
@@ -16869,7 +16957,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">GT</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>pi+2</pre></td>
   <td class="cell c3"><pre>5</pre></td>
   <td class="cell c4"></td>
@@ -16883,7 +16971,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">GT</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-inf</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -16894,7 +16982,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">GT</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>inf</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -17128,7 +17216,7 @@ a))/(2*a)</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">GTE</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -17139,7 +17227,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">GTE</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
@@ -17150,7 +17238,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">GTE</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -17161,7 +17249,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">GTE</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -17172,7 +17260,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">GTE</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>2.1</pre></td>
   <td class="cell c4"></td>
@@ -17183,7 +17271,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">GTE</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>pi</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"></td>
@@ -17194,7 +17282,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">GTE</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>pi+2</pre></td>
   <td class="cell c3"><pre>5</pre></td>
   <td class="cell c4"></td>
@@ -17464,7 +17552,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -17475,7 +17563,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
@@ -17486,7 +17574,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1/0</pre></td>
@@ -17497,7 +17585,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>(x</pre></td>
   <td class="cell c4"></td>
@@ -17508,7 +17596,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1.5</pre></td>
   <td class="cell c3"><pre>1.5</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -17519,7 +17607,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>(x</pre></td>
@@ -17530,7 +17618,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=1.5</pre></td>
   <td class="cell c3"><pre>1.5</pre></td>
   <td class="cell c4"></td>
@@ -17541,7 +17629,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.5</pre></td>
   <td class="cell c3"><pre>x=1.5</pre></td>
   <td class="cell c4"></td>
@@ -17555,7 +17643,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -17566,7 +17654,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.05</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -17577,7 +17665,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.95</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -17588,7 +17676,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.949</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -17599,7 +17687,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.05e33</pre></td>
   <td class="cell c3"><pre>1e33</pre></td>
   <td class="cell c4"></td>
@@ -17610,7 +17698,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.06e33</pre></td>
   <td class="cell c3"><pre>1e33</pre></td>
   <td class="cell c4"></td>
@@ -17621,7 +17709,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.95e33</pre></td>
   <td class="cell c3"><pre>1e33</pre></td>
   <td class="cell c4"></td>
@@ -17632,7 +17720,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.949e33</pre></td>
   <td class="cell c3"><pre>1e33</pre></td>
   <td class="cell c4"></td>
@@ -17643,7 +17731,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.05e-33</pre></td>
   <td class="cell c3"><pre>1e-33</pre></td>
   <td class="cell c4"></td>
@@ -17654,7 +17742,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.06e-33</pre></td>
   <td class="cell c3"><pre>1e-33</pre></td>
   <td class="cell c4"></td>
@@ -17665,7 +17753,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.95e-33</pre></td>
   <td class="cell c3"><pre>1e-33</pre></td>
   <td class="cell c4"></td>
@@ -17676,7 +17764,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.949e-33</pre></td>
   <td class="cell c3"><pre>1e-33</pre></td>
   <td class="cell c4"></td>
@@ -17690,7 +17778,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>displaydp(1.05,2)</pre></td>
   <td class="cell c4"><pre>0.1</pre></td>
@@ -17701,7 +17789,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1000</pre></td>
   <td class="cell c3"><pre>displaysci(1.05,2,3)</pre></td>
   <td class="cell c4"><pre>0.1</pre></td>
@@ -17715,7 +17803,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.05</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>0.1</pre></td>
@@ -17726,7 +17814,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.05</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"><pre>0.1</pre></td>
@@ -17737,7 +17825,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14</pre></td>
   <td class="cell c3"><pre>pi</pre></td>
   <td class="cell c4"><pre>0.001</pre></td>
@@ -17751,7 +17839,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>inf</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -17765,7 +17853,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>[1,2]</pre></td>
   <td class="cell c4"></td>
@@ -17776,7 +17864,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1,2]</pre></td>
   <td class="cell c3"><pre>[1,2,3]</pre></td>
   <td class="cell c4"></td>
@@ -17787,7 +17875,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[1,2]</pre></td>
   <td class="cell c3"><pre>[1,2]</pre></td>
   <td class="cell c4"></td>
@@ -17798,7 +17886,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[3.141,1.414]</pre></td>
   <td class="cell c3"><pre>[pi,sqrt(2)]</pre></td>
   <td class="cell c4"></td>
@@ -17809,7 +17897,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[3,1.414]</pre></td>
   <td class="cell c3"><pre>[pi,sqrt(2)]</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -17820,7 +17908,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[3,1.414]</pre></td>
   <td class="cell c3"><pre>{pi,sqrt(2)}</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -17831,7 +17919,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1.414,3.1}</pre></td>
   <td class="cell c3"><pre>{significantfigures(pi,6),sqrt
 (2)}</pre></td>
@@ -17843,7 +17931,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1.414,3.1}</pre></td>
   <td class="cell c3"><pre>{pi,sqrt(2)}</pre></td>
   <td class="cell c4"><pre>0.1</pre></td>
@@ -17860,7 +17948,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -17871,7 +17959,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
@@ -17882,7 +17970,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1/0</pre></td>
@@ -17893,7 +17981,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>(x</pre></td>
   <td class="cell c4"></td>
@@ -17904,7 +17992,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>(x</pre></td>
@@ -17918,7 +18006,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -17929,7 +18017,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.05</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"></td>
@@ -17943,7 +18031,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.05</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>0.1</pre></td>
@@ -17954,7 +18042,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.05</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"><pre>0.1</pre></td>
@@ -17965,7 +18053,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14</pre></td>
   <td class="cell c3"><pre>pi</pre></td>
   <td class="cell c4"><pre>0.001</pre></td>
@@ -17976,7 +18064,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.41e-2</pre></td>
   <td class="cell c3"><pre>1.41e-2</pre></td>
   <td class="cell c4"><pre>0.0001</pre></td>
@@ -17987,7 +18075,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0141</pre></td>
   <td class="cell c3"><pre>1.41e-2</pre></td>
   <td class="cell c4"><pre>0.0001</pre></td>
@@ -17998,7 +18086,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00141</pre></td>
   <td class="cell c3"><pre>0.00141</pre></td>
   <td class="cell c4"><pre>0.0001</pre></td>
@@ -18009,7 +18097,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00141</pre></td>
   <td class="cell c3"><pre>1.41*10^-3</pre></td>
   <td class="cell c4"><pre>0.0001</pre></td>
@@ -18020,7 +18108,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.41*10^-3</pre></td>
   <td class="cell c3"><pre>1.41*10^-3</pre></td>
   <td class="cell c4"><pre>0.0001</pre></td>
@@ -18031,7 +18119,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[3.141,1.414]</pre></td>
   <td class="cell c3"><pre>[pi,sqrt(2)]</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -18042,7 +18130,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[3,1.414]</pre></td>
   <td class="cell c3"><pre>[pi,sqrt(2)]</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -18053,7 +18141,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[3,1.414]</pre></td>
   <td class="cell c3"><pre>{pi,sqrt(2)}</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -18064,7 +18152,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1.414,3.1}</pre></td>
   <td class="cell c3"><pre>{significantfigures(pi,6),sqrt
 (2)}</pre></td>
@@ -18076,7 +18164,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>{1,1.414,3.1,2}</pre></td>
   <td class="cell c3"><pre>{1,2,pi,sqrt(2)}</pre></td>
   <td class="cell c4"><pre>0.1</pre></td>
@@ -18170,7 +18258,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>3.141</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"></td>
@@ -18181,7 +18269,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -18192,7 +18280,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -18203,7 +18291,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1/0</pre></td>
@@ -18214,7 +18302,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>(</pre></td>
@@ -18225,7 +18313,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>(</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -18236,7 +18324,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"><pre>pi</pre></td>
@@ -18247,7 +18335,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"><pre>[3,x]</pre></td>
@@ -18258,7 +18346,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"><pre>[1,2,3]</pre></td>
@@ -18269,7 +18357,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"></td>
@@ -18280,7 +18368,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>pi</pre></td>
   <td class="cell c3"><pre>pi</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18294,7 +18382,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -18305,7 +18393,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -18316,7 +18404,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -18327,7 +18415,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -18338,7 +18426,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0.0</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -18349,7 +18437,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0</pre></td>
   <td class="cell c3"><pre>0.0</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -18360,7 +18448,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00</pre></td>
   <td class="cell c3"><pre>0.00</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -18374,7 +18462,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.4e21</pre></td>
   <td class="cell c3"><pre>5.3e21</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -18385,7 +18473,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.3e21</pre></td>
   <td class="cell c3"><pre>5.3e21</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -18396,7 +18484,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.3e22</pre></td>
   <td class="cell c3"><pre>5.3e22</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -18407,7 +18495,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.3e20</pre></td>
   <td class="cell c3"><pre>5.3e22</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -18418,7 +18506,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6.02214086e23</pre></td>
   <td class="cell c3"><pre>6.02214086e23</pre></td>
   <td class="cell c4"><pre>9</pre></td>
@@ -18429,7 +18517,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6.0221409e23</pre></td>
   <td class="cell c3"><pre>6.02214086e23</pre></td>
   <td class="cell c4"><pre>9</pre></td>
@@ -18440,7 +18528,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6.02214087e23</pre></td>
   <td class="cell c3"><pre>6.02214086e23</pre></td>
   <td class="cell c4"><pre>9</pre></td>
@@ -18451,7 +18539,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6.02214085e23</pre></td>
   <td class="cell c3"><pre>6.02214086e23</pre></td>
   <td class="cell c4"><pre>9</pre></td>
@@ -18462,7 +18550,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.3910632e-44</pre></td>
   <td class="cell c3"><pre>5.3910632e-44</pre></td>
   <td class="cell c4"><pre>8</pre></td>
@@ -18473,7 +18561,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.391063e-44</pre></td>
   <td class="cell c3"><pre>5.3910632e-44</pre></td>
   <td class="cell c4"><pre>8</pre></td>
@@ -18484,7 +18572,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.3910631e-44</pre></td>
   <td class="cell c3"><pre>5.3910632e-44</pre></td>
   <td class="cell c4"><pre>8</pre></td>
@@ -18495,7 +18583,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.3910633e-44</pre></td>
   <td class="cell c3"><pre>5.3910632e-44</pre></td>
   <td class="cell c4"><pre>8</pre></td>
@@ -18506,7 +18594,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.61622938e-35</pre></td>
   <td class="cell c3"><pre>1.61622938e-35</pre></td>
   <td class="cell c4"><pre>9</pre></td>
@@ -18517,7 +18605,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.6162294e-35</pre></td>
   <td class="cell c3"><pre>1.61622938e-35</pre></td>
   <td class="cell c4"><pre>9</pre></td>
@@ -18528,7 +18616,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.61622939e-35</pre></td>
   <td class="cell c3"><pre>1.61622938e-35</pre></td>
   <td class="cell c4"><pre>9</pre></td>
@@ -18539,7 +18627,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.61622937e-35</pre></td>
   <td class="cell c3"><pre>1.61622938e-35</pre></td>
   <td class="cell c4"><pre>9</pre></td>
@@ -18550,7 +18638,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.2345e82</pre></td>
   <td class="cell c3"><pre>1.2345e82</pre></td>
   <td class="cell c4"><pre>5</pre></td>
@@ -18561,7 +18649,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.2346e82</pre></td>
   <td class="cell c3"><pre>1.2345e82</pre></td>
   <td class="cell c4"><pre>5</pre></td>
@@ -18572,7 +18660,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.2344e82</pre></td>
   <td class="cell c3"><pre>1.2345e82</pre></td>
   <td class="cell c4"><pre>5</pre></td>
@@ -18586,7 +18674,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.234</pre></td>
   <td class="cell c3"><pre>4</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -18597,7 +18685,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.141</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -18608,7 +18696,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.141</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18619,7 +18707,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.146</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18630,7 +18718,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.147</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18641,7 +18729,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.142</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18652,7 +18740,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.142</pre></td>
   <td class="cell c3"><pre>pi</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18663,7 +18751,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3141</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18674,7 +18762,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00123</pre></td>
   <td class="cell c3"><pre>0.001234567</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -18685,7 +18773,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.23e-3</pre></td>
   <td class="cell c3"><pre>0.001234567</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -18696,7 +18784,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>138*10^-3</pre></td>
   <td class="cell c3"><pre>138*10^-3</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -18707,7 +18795,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-138*10^-3</pre></td>
   <td class="cell c3"><pre>-138*10^-3</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -18718,7 +18806,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>138*10^-3</pre></td>
   <td class="cell c3"><pre>-138*10^-3</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -18729,7 +18817,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.38*10^-1</pre></td>
   <td class="cell c3"><pre>138*10^-3</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -18740,7 +18828,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.24e-3</pre></td>
   <td class="cell c3"><pre>0.001234567</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -18751,7 +18839,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.235e-3</pre></td>
   <td class="cell c3"><pre>0.001234567</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18762,7 +18850,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1000</pre></td>
   <td class="cell c3"><pre>999</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -18773,7 +18861,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1E3</pre></td>
   <td class="cell c3"><pre>999</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -18784,7 +18872,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-100</pre></td>
   <td class="cell c3"><pre>-149</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -18795,7 +18883,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-0.05</pre></td>
   <td class="cell c3"><pre>-0.0499</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -18806,7 +18894,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(0.05)</pre></td>
   <td class="cell c3"><pre>-0.0499</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -18817,7 +18905,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1170</pre></td>
   <td class="cell c3"><pre>1174.34</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -18828,7 +18916,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>61300</pre></td>
   <td class="cell c3"><pre>61250</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -18842,7 +18930,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1667</pre></td>
   <td class="cell c3"><pre>0.1667</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18853,7 +18941,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1666</pre></td>
   <td class="cell c3"><pre>0.1667</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18864,7 +18952,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1663</pre></td>
   <td class="cell c3"><pre>0.1667</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18875,7 +18963,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1662</pre></td>
   <td class="cell c3"><pre>0.1667</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18886,7 +18974,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.166</pre></td>
   <td class="cell c3"><pre>0.1667</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18897,7 +18985,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.16667</pre></td>
   <td class="cell c3"><pre>0.1667</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18911,7 +18999,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-3.141</pre></td>
   <td class="cell c3"><pre>-3.1415927</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18922,7 +19010,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-3.141</pre></td>
   <td class="cell c3"><pre>-3.1415927</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -18933,7 +19021,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-3.141</pre></td>
   <td class="cell c3"><pre>-3.1415927</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18944,7 +19032,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-3.142</pre></td>
   <td class="cell c3"><pre>-3.1415927</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18955,7 +19043,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.142</pre></td>
   <td class="cell c3"><pre>-3.1415927</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18966,7 +19054,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-3.142</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18977,7 +19065,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-3.149</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -18988,7 +19076,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2.15</pre></td>
   <td class="cell c3"><pre>75701719/35227192</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19002,7 +19090,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0499</pre></td>
   <td class="cell c3"><pre>0.04985</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19013,7 +19101,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0498</pre></td>
   <td class="cell c3"><pre>0.04985</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19024,7 +19112,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0498</pre></td>
   <td class="cell c3"><pre>0.04975</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19035,7 +19123,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0497</pre></td>
   <td class="cell c3"><pre>0.04975</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19046,7 +19134,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0499</pre></td>
   <td class="cell c3"><pre>0.0498</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19060,7 +19148,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.5</pre></td>
   <td class="cell c3"><pre>1.500</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19071,7 +19159,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.50</pre></td>
   <td class="cell c3"><pre>1.500</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19082,7 +19170,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.500</pre></td>
   <td class="cell c3"><pre>1.500</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19093,7 +19181,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>245.0</pre></td>
   <td class="cell c3"><pre>245</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19107,7 +19195,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>180</pre></td>
   <td class="cell c3"><pre>178.35</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19118,7 +19206,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>33</pre></td>
   <td class="cell c3"><pre>33.1558</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19132,7 +19220,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.142</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"><pre>[4,3]</pre></td>
@@ -19143,7 +19231,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.143</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"><pre>[4,3]</pre></td>
@@ -19154,7 +19242,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.150</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"><pre>[4,3]</pre></td>
@@ -19165,7 +19253,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.211</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"><pre>[4,3]</pre></td>
@@ -19176,7 +19264,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.1416</pre></td>
   <td class="cell c3"><pre>3.1415927</pre></td>
   <td class="cell c4"><pre>[4,3]</pre></td>
@@ -19187,7 +19275,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1666</pre></td>
   <td class="cell c3"><pre>0.1667</pre></td>
   <td class="cell c4"><pre>[4,3]</pre></td>
@@ -19198,7 +19286,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>180</pre></td>
   <td class="cell c3"><pre>178.35</pre></td>
   <td class="cell c4"><pre>[3,1]</pre></td>
@@ -19209,7 +19297,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>33</pre></td>
   <td class="cell c3"><pre>33.1558</pre></td>
   <td class="cell c4"><pre>[3,1]</pre></td>
@@ -19220,7 +19308,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.500</pre></td>
   <td class="cell c3"><pre>1.5</pre></td>
   <td class="cell c4"><pre>[3,1]</pre></td>
@@ -19231,7 +19319,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>245.0</pre></td>
   <td class="cell c3"><pre>245</pre></td>
   <td class="cell c4"><pre>[3,1]</pre></td>
@@ -19242,7 +19330,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12345.7</pre></td>
   <td class="cell c3"><pre>12345.654321</pre></td>
   <td class="cell c4"><pre>[6,6]</pre></td>
@@ -19253,7 +19341,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12345.7</pre></td>
   <td class="cell c3"><pre>12345.654321</pre></td>
   <td class="cell c4"><pre>[6,3]</pre></td>
@@ -19264,7 +19352,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12300.0</pre></td>
   <td class="cell c3"><pre>12345.654321</pre></td>
   <td class="cell c4"><pre>[6,3]</pre></td>
@@ -19275,7 +19363,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12400.0</pre></td>
   <td class="cell c3"><pre>12345.654321</pre></td>
   <td class="cell c4"><pre>[6,3]</pre></td>
@@ -19286,7 +19374,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>13500.0</pre></td>
   <td class="cell c3"><pre>12345.654321</pre></td>
   <td class="cell c4"><pre>[6,3]</pre></td>
@@ -19297,7 +19385,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12000.0</pre></td>
   <td class="cell c3"><pre>12345.654321</pre></td>
   <td class="cell c4"><pre>[6,2]</pre></td>
@@ -19308,7 +19396,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>13000.0</pre></td>
   <td class="cell c3"><pre>12345.654321</pre></td>
   <td class="cell c4"><pre>[6,2]</pre></td>
@@ -19319,7 +19407,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>11000.0</pre></td>
   <td class="cell c3"><pre>12345.654321</pre></td>
   <td class="cell c4"><pre>[6,2]</pre></td>
@@ -19333,7 +19421,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0010</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[1,0]</pre></td>
@@ -19344,7 +19432,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0010</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[2,0]</pre></td>
@@ -19355,7 +19443,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0010</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[3,0]</pre></td>
@@ -19366,7 +19454,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.001</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[1,0]</pre></td>
@@ -19377,7 +19465,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.001</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[2,0]</pre></td>
@@ -19388,7 +19476,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00100</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>[2,0]</pre></td>
@@ -19399,7 +19487,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00100</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>[3,0]</pre></td>
@@ -19410,7 +19498,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00100</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>[4,0]</pre></td>
@@ -19421,7 +19509,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.00</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>[2,0]</pre></td>
@@ -19432,7 +19520,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.00</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>[3,0]</pre></td>
@@ -19443,7 +19531,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.00</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>[4,0]</pre></td>
@@ -19454,7 +19542,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[1,0]</pre></td>
@@ -19465,7 +19553,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[2,0]</pre></td>
@@ -19476,7 +19564,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[3,0]</pre></td>
@@ -19487,7 +19575,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[4,0]</pre></td>
@@ -19498,7 +19586,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>10.0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[2,0]</pre></td>
@@ -19509,7 +19597,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>10.0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[3,0]</pre></td>
@@ -19520,7 +19608,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>10.0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[4,0]</pre></td>
@@ -19531,7 +19619,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[1,0]</pre></td>
@@ -19542,7 +19630,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[2,0]</pre></td>
@@ -19553,7 +19641,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[1,0]</pre></td>
@@ -19564,7 +19652,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[2,0]</pre></td>
@@ -19575,7 +19663,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[3,0]</pre></td>
@@ -19586,7 +19674,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>[4,0]</pre></td>
@@ -19600,7 +19688,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>8.250</pre></td>
   <td class="cell c3"><pre>8.250</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19611,7 +19699,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>8.25</pre></td>
   <td class="cell c3"><pre>8.250</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19622,7 +19710,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>8.250000</pre></td>
   <td class="cell c3"><pre>8.250</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19633,7 +19721,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>8.250434</pre></td>
   <td class="cell c3"><pre>8.250</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19644,7 +19732,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>82.4</pre></td>
   <td class="cell c3"><pre>82</pre></td>
   <td class="cell c4"><pre>[2,-1]</pre></td>
@@ -19655,7 +19743,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>82.5</pre></td>
   <td class="cell c3"><pre>82</pre></td>
   <td class="cell c4"><pre>[2,-1]</pre></td>
@@ -19666,7 +19754,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>83</pre></td>
   <td class="cell c3"><pre>82</pre></td>
   <td class="cell c4"><pre>[2,-1]</pre></td>
@@ -19680,7 +19768,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1430</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19691,7 +19779,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1429</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19702,7 +19790,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1428</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19713,7 +19801,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.143</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19724,7 +19812,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.14284</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19735,7 +19823,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.14285</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19746,7 +19834,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.14286</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19757,7 +19845,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.14291</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19768,7 +19856,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.14294</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19779,7 +19867,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.14295</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[4,-1]</pre></td>
@@ -19790,7 +19878,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.142</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[2,-1]</pre></td>
@@ -19801,7 +19889,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.14290907676</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[2,-1]</pre></td>
@@ -19812,7 +19900,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.143</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[2,-1]</pre></td>
@@ -19823,7 +19911,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1433333</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[2,-1]</pre></td>
@@ -19834,7 +19922,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.144</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[2,-1]</pre></td>
@@ -19845,7 +19933,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.145</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[2,-1]</pre></td>
@@ -19856,7 +19944,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.146</pre></td>
   <td class="cell c3"><pre>1/7</pre></td>
   <td class="cell c4"><pre>[2,-1]</pre></td>
@@ -19870,7 +19958,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.279</pre></td>
   <td class="cell c3"><pre>ev(lg(19),lg=logbasesimp)</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -19881,7 +19969,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14</pre></td>
   <td class="cell c3"><pre>pi</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19892,7 +19980,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.15</pre></td>
   <td class="cell c3"><pre>pi</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19903,7 +19991,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.73205</pre></td>
   <td class="cell c3"><pre>sqrt(3)</pre></td>
   <td class="cell c4"><pre>6</pre></td>
@@ -19917,7 +20005,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>matrix([0.33,1],[1,1])</pre></td>
   <td class="cell c3"><pre>matrix([0.333,1],[1,1])</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -19928,7 +20016,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>3.1415</pre></td>
   <td class="cell c3"><pre>matrix([0.333,1],[1,1])</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -19942,7 +20030,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.50</pre></td>
   <td class="cell c3"><pre>dispsf(1.500,3)</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19953,7 +20041,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.50</pre></td>
   <td class="cell c3"><pre>dispdp(1.500,3)</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -19970,7 +20058,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -19981,7 +20069,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -19992,7 +20080,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1/0</pre></td>
@@ -20003,7 +20091,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -20014,7 +20102,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>-1</pre></td>
@@ -20025,7 +20113,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>0</pre></td>
@@ -20036,7 +20124,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>(</pre></td>
@@ -20047,7 +20135,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>(</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -20061,7 +20149,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x</pre></td>
   <td class="cell c3"><pre>3.143</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20072,7 +20160,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>pi</pre></td>
   <td class="cell c3"><pre>3.000</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20086,7 +20174,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14</pre></td>
   <td class="cell c3"><pre>3.143</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20097,7 +20185,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14</pre></td>
   <td class="cell c3"><pre>3.14</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20108,7 +20196,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.140</pre></td>
   <td class="cell c3"><pre>3.140</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20119,7 +20207,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3141.5972</pre></td>
   <td class="cell c3"><pre>3141.5972</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20130,7 +20218,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4.14</pre></td>
   <td class="cell c3"><pre>3.14</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20141,7 +20229,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.1416</pre></td>
   <td class="cell c3"><pre>pi</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20152,7 +20240,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-7.3</pre></td>
   <td class="cell c3"><pre>-7.3</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -20166,7 +20254,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14</pre></td>
   <td class="cell c3"><pre>3.143</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -20177,7 +20265,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14</pre></td>
   <td class="cell c3"><pre>3.143</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -20188,7 +20276,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14</pre></td>
   <td class="cell c3"><pre>3.140</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20199,7 +20287,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>7.000</pre></td>
   <td class="cell c3"><pre>7</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20210,7 +20298,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>7.0000</pre></td>
   <td class="cell c3"><pre>7</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20224,7 +20312,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>8.0000</pre></td>
   <td class="cell c3"><pre>7</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20238,7 +20326,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4.000</pre></td>
   <td class="cell c3"><pre>3.99999</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20252,7 +20340,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlaces</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.10</pre></td>
   <td class="cell c3"><pre>displaydp(0.1,2)</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20269,7 +20357,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>3</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20280,7 +20368,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20291,7 +20379,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>1/0</pre></td>
@@ -20302,7 +20390,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>0.1</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"><pre>x</pre></td>
@@ -20313,7 +20401,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2</pre></td>
   <td class="cell c3"><pre>1234</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20324,7 +20412,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1234.5</pre></td>
   <td class="cell c3"><pre>x^2</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20335,7 +20423,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.141</pre></td>
   <td class="cell c3"><pre>31.41</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20346,7 +20434,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.141</pre></td>
   <td class="cell c3"><pre>31.14</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20357,7 +20445,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>pi</pre></td>
   <td class="cell c3"><pre>31.14</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20368,7 +20456,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1234</pre></td>
   <td class="cell c3"><pre>1234</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20379,7 +20467,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1235</pre></td>
   <td class="cell c3"><pre>1234</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20390,7 +20478,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0001234</pre></td>
   <td class="cell c3"><pre>1234</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20401,7 +20489,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0001235</pre></td>
   <td class="cell c3"><pre>1234</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20412,7 +20500,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1233</pre></td>
   <td class="cell c3"><pre>1234</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20423,7 +20511,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1243</pre></td>
   <td class="cell c3"><pre>1234</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20434,7 +20522,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1230</pre></td>
   <td class="cell c3"><pre>1239</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20445,7 +20533,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1240</pre></td>
   <td class="cell c3"><pre>1239</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20456,7 +20544,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1230</pre></td>
   <td class="cell c3"><pre>1239</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20467,7 +20555,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2230</pre></td>
   <td class="cell c3"><pre>1239</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20478,7 +20566,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.100</pre></td>
   <td class="cell c3"><pre>1.00</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20489,7 +20577,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1000</pre></td>
   <td class="cell c3"><pre>1.00</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20500,7 +20588,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.1001</pre></td>
   <td class="cell c3"><pre>1.001</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20514,7 +20602,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.100</pre></td>
   <td class="cell c3"><pre>1.0</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20525,7 +20613,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1.00</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20539,7 +20627,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">NumDecPlacesWrong</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.101</pre></td>
   <td class="cell c3"><pre>displaydp(101,3)</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20578,7 +20666,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>3.141</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"></td>
@@ -20589,7 +20677,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>3.141</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>x^2</pre></td>
@@ -20600,7 +20688,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>3.141</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>-2</pre></td>
@@ -20611,7 +20699,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>3.141</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>0</pre></td>
@@ -20622,7 +20710,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0010</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -20633,7 +20721,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0010</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20644,7 +20732,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0010</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20655,7 +20743,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00100</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20666,7 +20754,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00100</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20677,7 +20765,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00100</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20688,7 +20776,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.001</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -20699,7 +20787,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.001</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20710,7 +20798,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -20721,7 +20809,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20732,7 +20820,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20743,7 +20831,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20754,7 +20842,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100.</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -20765,7 +20853,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100.</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20776,7 +20864,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100.</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20787,7 +20875,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100.</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20798,7 +20886,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>123.</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -20809,7 +20897,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>123.</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20820,7 +20908,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>123.</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20831,7 +20919,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>123.</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20842,7 +20930,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.00e2</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -20853,7 +20941,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.00e2</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20864,7 +20952,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.00e2</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20875,7 +20963,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.00e2</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20886,7 +20974,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>10.0</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20897,7 +20985,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>10.0</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -20908,7 +20996,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>10.0</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20919,7 +21007,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -20930,7 +21018,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20941,7 +21029,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -20952,7 +21040,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20963,7 +21051,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>.0</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -20974,7 +21062,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>.0</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -20985,7 +21073,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>.001030</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -20996,7 +21084,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -21007,7 +21095,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21018,7 +21106,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21029,7 +21117,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>25.00e1</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -21040,7 +21128,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>25.00e1</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21051,7 +21139,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>25.00e1</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -21062,7 +21150,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>25.00e1</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>5</pre></td>
@@ -21073,7 +21161,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>15.1</pre></td>
   <td class="cell c3"><pre>15.1</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21084,7 +21172,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>15.10</pre></td>
   <td class="cell c3"><pre>15.1</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21095,7 +21183,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>15.100</pre></td>
   <td class="cell c3"><pre>15.1</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21109,7 +21197,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SigFigsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9.81*m/s^2</pre></td>
   <td class="cell c3"><pre>null</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21123,7 +21211,7 @@ a))/(2*a)</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21134,7 +21222,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21145,7 +21233,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1</pre></td>
   <td class="cell c3"><pre>1</pre></td>
   <td class="cell c4"><pre>1/0</pre></td>
@@ -21156,7 +21244,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>x-1)^2</pre></td>
   <td class="cell c3"><pre>(x-1)^2</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21167,7 +21255,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>12.3*m*s^(-1)</pre></td>
   <td class="cell c3"><pre>3*m</pre></td>
   <td class="cell c4"><pre>[3,x]</pre></td>
@@ -21178,7 +21266,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>3*m*s^(-1)</pre></td>
   <td class="cell c3"><pre>3*m</pre></td>
   <td class="cell c4"><pre>[1,2,3]</pre></td>
@@ -21189,7 +21277,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>12.3*m*s^(-1)</pre></td>
   <td class="cell c3"><pre>{12.3*m*s^(-1)}</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21200,7 +21288,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=12.3*m*s^(-1)</pre></td>
   <td class="cell c3"><pre>12.3*m*s^(-1)</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21214,7 +21302,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12.3</pre></td>
   <td class="cell c3"><pre>12.3*m</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21225,7 +21313,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12</pre></td>
   <td class="cell c3"><pre>12.3*m</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21236,7 +21324,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/2</pre></td>
   <td class="cell c3"><pre>12.3*m</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21247,7 +21335,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>e^(1/2)</pre></td>
   <td class="cell c3"><pre>12.3*m</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21258,7 +21346,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>9.81*m</pre></td>
   <td class="cell c3"><pre>12.3</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21272,7 +21360,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21283,7 +21371,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>m</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21297,7 +21385,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9.81+m/s</pre></td>
   <td class="cell c3"><pre>9.81*m/s</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21311,7 +21399,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12.3*m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21322,7 +21410,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12.4*m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21333,7 +21421,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12.4*m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -21344,7 +21432,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12.45*m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -21355,7 +21443,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>13.45*m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -21366,7 +21454,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>7.54E-5*(s*M)^-1</pre></td>
   <td class="cell c3"><pre>5.625E-5*s^-1</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -21377,7 +21465,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>7.54E-5*(s*M)^-1</pre></td>
   <td class="cell c3"><pre>stackunits(5.625E-5,1/s)</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -21388,7 +21476,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12*m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21399,7 +21487,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c3"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21410,7 +21498,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-9.82*m/s^2</pre></td>
   <td class="cell c3"><pre>-9.815*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21421,7 +21509,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c3"><pre>-9.815*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21432,7 +21520,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-9.81*m*s^(-2)</pre></td>
   <td class="cell c3"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21443,7 +21531,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-9.82*m/s^2</pre></td>
   <td class="cell c3"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21454,7 +21542,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-9.81*m*s^(-2)</pre></td>
   <td class="cell c3"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21465,7 +21553,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-9.81*m/s/s</pre></td>
   <td class="cell c3"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21476,7 +21564,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-9.81*m/s</pre></td>
   <td class="cell c3"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21487,7 +21575,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-9.81*m/s</pre></td>
   <td class="cell c3"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21498,7 +21586,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-9.81)*m/s^2</pre></td>
   <td class="cell c3"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21509,7 +21597,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>520*amu</pre></td>
   <td class="cell c3"><pre>520*amu</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21520,7 +21608,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>520*amu</pre></td>
   <td class="cell c3"><pre>521*amu</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21534,7 +21622,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-9.81)</pre></td>
   <td class="cell c3"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21545,7 +21633,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9.81*m/s</pre></td>
   <td class="cell c3"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21556,7 +21644,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>8.81*m/s</pre></td>
   <td class="cell c3"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21567,7 +21655,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>8.1*m/s</pre></td>
   <td class="cell c3"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21578,7 +21666,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>m/4</pre></td>
   <td class="cell c3"><pre>0.25*m</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21592,7 +21680,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>pi*s</pre></td>
   <td class="cell c3"><pre>3.14*s</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21603,7 +21691,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(2)*m</pre></td>
   <td class="cell c3"><pre>1.41*m</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21617,7 +21705,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>25*g</pre></td>
   <td class="cell c3"><pre>0.025*kg</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21628,7 +21716,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>26*g</pre></td>
   <td class="cell c3"><pre>0.025*kg</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21639,7 +21727,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100*g</pre></td>
   <td class="cell c3"><pre>10*kg</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21650,7 +21738,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.025*g</pre></td>
   <td class="cell c3"><pre>0.025*kg</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21661,7 +21749,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1000*m</pre></td>
   <td class="cell c3"><pre>1*km</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21672,7 +21760,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1*Mg/10^6</pre></td>
   <td class="cell c3"><pre>1*N*s^2/(km)</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -21683,7 +21771,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1*Mg/10^6</pre></td>
   <td class="cell c3"><pre>1*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -21694,7 +21782,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14*Mg/10^6</pre></td>
   <td class="cell c3"><pre>%pi*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21705,7 +21793,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.141*Mg/10^6</pre></td>
   <td class="cell c3"><pre>%pi*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21716,7 +21804,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>4.141*Mg/10^6</pre></td>
   <td class="cell c3"><pre>%pi*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21727,7 +21815,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>400*cc</pre></td>
   <td class="cell c3"><pre>0.4*l</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21738,7 +21826,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>400*cm^3</pre></td>
   <td class="cell c3"><pre>0.4*l</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21749,7 +21837,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>400*ml</pre></td>
   <td class="cell c3"><pre>0.4*l</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21760,7 +21848,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>18*kJ</pre></td>
   <td class="cell c3"><pre>18000.0*J</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21771,7 +21859,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>18.1*kJ</pre></td>
   <td class="cell c3"><pre>18000.0*J</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21782,7 +21870,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>120*kWh</pre></td>
   <td class="cell c3"><pre>0.12*MWh</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21793,7 +21881,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2.0*hh</pre></td>
   <td class="cell c3"><pre>720000*s</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21804,7 +21892,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>723*kVA</pre></td>
   <td class="cell c3"><pre>0.723*MVA</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21818,7 +21906,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*m/s</pre></td>
   <td class="cell c3"><pre>0*m/s</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -21829,7 +21917,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m/s</pre></td>
   <td class="cell c3"><pre>0*m/s</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -21840,7 +21928,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*m/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -21851,7 +21939,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.00*m/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21862,7 +21950,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*km/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -21873,7 +21961,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -21884,7 +21972,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -21898,7 +21986,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>7*in</pre></td>
   <td class="cell c3"><pre>7*in</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -21909,7 +21997,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6*in</pre></td>
   <td class="cell c3"><pre>0.5*ft</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -21920,7 +22008,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2640*ft</pre></td>
   <td class="cell c3"><pre>0.5*mi</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -21931,7 +22019,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2650*ft</pre></td>
   <td class="cell c3"><pre>0.5*mi</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -21945,7 +22033,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>142.8*C</pre></td>
   <td class="cell c3"><pre>415.9*K</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -21956,7 +22044,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Units</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i>!</span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i>!</span></td>
   <td class="cell c2"><pre>520*mamu</pre></td>
   <td class="cell c3"><pre>520*mamu</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -21973,7 +22061,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>25*g</pre></td>
   <td class="cell c3"><pre>0.025*kg</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -21984,7 +22072,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1*Mg/10^6</pre></td>
   <td class="cell c3"><pre>1*N*s^2/(km)</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -21995,7 +22083,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1*Mg/10^6</pre></td>
   <td class="cell c3"><pre>1*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -22006,7 +22094,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.14*Mg/10^6</pre></td>
   <td class="cell c3"><pre>%pi*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -22017,7 +22105,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>400*cc</pre></td>
   <td class="cell c3"><pre>0.4*l</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -22028,7 +22116,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>400*cm^3</pre></td>
   <td class="cell c3"><pre>0.4*l</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -22039,7 +22127,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>400*ml</pre></td>
   <td class="cell c3"><pre>0.4*l</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -22050,7 +22138,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>400*mL</pre></td>
   <td class="cell c3"><pre>0.4*l</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -22061,7 +22149,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>142.8*C</pre></td>
   <td class="cell c3"><pre>415.9*K</pre></td>
   <td class="cell c4"><pre>4</pre></td>
@@ -22075,7 +22163,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-9.81*m/s/s</pre></td>
   <td class="cell c3"><pre>-9.81*m/s^2</pre></td>
   <td class="cell c4"><pre>3</pre></td>
@@ -22089,7 +22177,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*m/s</pre></td>
   <td class="cell c3"><pre>0*m/s</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -22100,7 +22188,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m/s</pre></td>
   <td class="cell c3"><pre>0*m/s</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -22111,7 +22199,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*m/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -22122,7 +22210,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -22133,7 +22221,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*km/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -22144,7 +22232,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -22155,7 +22243,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>1</pre></td>
@@ -22166,7 +22254,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2.33e-15*kg</pre></td>
   <td class="cell c3"><pre>2.33e-15*kg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22177,7 +22265,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>7.03e-3*ng</pre></td>
   <td class="cell c3"><pre>7.03e-3*ng</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22188,7 +22276,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2.35e-6*ug</pre></td>
   <td class="cell c3"><pre>2.35e-6*ug</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22199,7 +22287,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9.83e-10*cg</pre></td>
   <td class="cell c3"><pre>9.83e-10*cg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22210,7 +22298,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9.73e-21*Gg</pre></td>
   <td class="cell c3"><pre>9.73e-21*Gg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22221,7 +22309,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>7.19e-15*kg</pre></td>
   <td class="cell c3"><pre>7.19e-15*kg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22232,7 +22320,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>8.12e-12*g</pre></td>
   <td class="cell c3"><pre>8.12e-12*g</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22243,7 +22331,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9.34e-12*g</pre></td>
   <td class="cell c3"><pre>9.34e-12*g</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22254,7 +22342,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.07e-21*Gg</pre></td>
   <td class="cell c3"><pre>1.07e-21*Gg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22265,7 +22353,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.91e-10*cg</pre></td>
   <td class="cell c3"><pre>1.91e-10*cg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22276,7 +22364,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.67e-18*Mg</pre></td>
   <td class="cell c3"><pre>5.67e-18*Mg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22287,7 +22375,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2.04e-9*mg</pre></td>
   <td class="cell c3"><pre>2.04e-9*mg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22298,7 +22386,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6.75e-6*ug</pre></td>
   <td class="cell c3"><pre>6.75e-6*ug</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22309,7 +22397,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6.58e-6*ug</pre></td>
   <td class="cell c3"><pre>6.58e-6*ug</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22320,7 +22408,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3.58e-9*mg</pre></td>
   <td class="cell c3"><pre>3.58e-9*mg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22331,7 +22419,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9.99e-15*kg</pre></td>
   <td class="cell c3"><pre>9.99e-15*kg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22342,7 +22430,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9.8e-9*mg</pre></td>
   <td class="cell c3"><pre>9.8e-9*mg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22353,7 +22441,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9.80e-9*mg</pre></td>
   <td class="cell c3"><pre>9.8e-9*mg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22364,7 +22452,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9.83e-9*mg</pre></td>
   <td class="cell c3"><pre>9.8e-9*mg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22375,7 +22463,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>9.78e-9*mg</pre></td>
   <td class="cell c3"><pre>9.8e-9*mg</pre></td>
   <td class="cell c4"><pre>[3,2]</pre></td>
@@ -22386,7 +22474,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>36*Kj/mol</pre></td>
   <td class="cell c3"><pre>36*Kj/mol</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -22397,7 +22485,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-36*Kj/mol</pre></td>
   <td class="cell c3"><pre>-36*Kj/mol</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -22408,7 +22496,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-36)*Kj/mol</pre></td>
   <td class="cell c3"><pre>-36*Kj/mol</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -22419,7 +22507,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(-36*Kj)/mol</pre></td>
   <td class="cell c3"><pre>-36*Kj/mol</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -22430,7 +22518,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(36*Kj)/mol</pre></td>
   <td class="cell c3"><pre>-36*Kj/mol</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -22441,7 +22529,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrict</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-(36.2*Kj)/mol</pre></td>
   <td class="cell c3"><pre>-36.3*Kj/mol</pre></td>
   <td class="cell c4"><pre>2</pre></td>
@@ -22455,7 +22543,7 @@ a))/(2*a)</pre></td>
 </tr></thead><tbody>
 <tr class="pass">
   <td class="cell c0">UnitsRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12.3*m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22466,7 +22554,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12*m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22477,7 +22565,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.1*Mg/10^6</pre></td>
   <td class="cell c3"><pre>1.2*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>0.15</pre></td>
@@ -22488,7 +22576,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.1*Mg/10^6</pre></td>
   <td class="cell c3"><pre>1.2*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>0.05</pre></td>
@@ -22502,7 +22590,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*m/s</pre></td>
   <td class="cell c3"><pre>0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22513,7 +22601,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m/s</pre></td>
   <td class="cell c3"><pre>0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22524,7 +22612,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*m/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22535,7 +22623,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22546,7 +22634,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*km/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22557,7 +22645,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22568,7 +22656,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22579,7 +22667,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*kVA</pre></td>
   <td class="cell c3"><pre>0.0*kVA</pre></td>
   <td class="cell c4"><pre>0.002</pre></td>
@@ -22780,7 +22868,7 @@ a))/(2*a)</pre></td>
 </tr></thead><tbody>
 <tr class="pass">
   <td class="cell c0">UnitsStrictRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12.3*m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22791,7 +22879,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrictRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12*m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22802,7 +22890,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrictRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.1*Mg/10^6</pre></td>
   <td class="cell c3"><pre>1.2*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>0.15</pre></td>
@@ -22813,7 +22901,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrictRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.1*Mg/10^6</pre></td>
   <td class="cell c3"><pre>1.2*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>0.05</pre></td>
@@ -22827,7 +22915,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrictRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*m/s</pre></td>
   <td class="cell c3"><pre>0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22838,7 +22926,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrictRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m/s</pre></td>
   <td class="cell c3"><pre>0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22849,7 +22937,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrictRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*m/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22860,7 +22948,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrictRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22871,7 +22959,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrictRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*km/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22882,7 +22970,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrictRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22893,7 +22981,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrictRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -22904,7 +22992,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsStrictRelative</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*J</pre></td>
   <td class="cell c3"><pre>0.0*J</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23105,7 +23193,7 @@ a))/(2*a)</pre></td>
 </tr></thead><tbody>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-123000*J</pre></td>
   <td class="cell c3"><pre>-123*kJ</pre></td>
   <td class="cell c4"><pre>5*J</pre></td>
@@ -23116,7 +23204,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12.3*m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23127,7 +23215,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12*m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23138,7 +23226,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.1*Mg/10^6</pre></td>
   <td class="cell c3"><pre>1.2*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>0.15</pre></td>
@@ -23152,7 +23240,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.1*Mg/10^6</pre></td>
   <td class="cell c3"><pre>1.2*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>0.1</pre></td>
@@ -23163,7 +23251,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.1*Mg/10^6</pre></td>
   <td class="cell c3"><pre>1.2*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>0.09</pre></td>
@@ -23177,7 +23265,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-123000*J</pre></td>
   <td class="cell c3"><pre>-123*kJ</pre></td>
   <td class="cell c4"><pre>5*kJ</pre></td>
@@ -23188,7 +23276,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-123006*J</pre></td>
   <td class="cell c3"><pre>-123*kJ</pre></td>
   <td class="cell c4"><pre>5*kJ</pre></td>
@@ -23199,7 +23287,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-129006*J</pre></td>
   <td class="cell c3"><pre>-123*kJ</pre></td>
   <td class="cell c4"><pre>5*kJ</pre></td>
@@ -23210,7 +23298,7 @@ a))/(2*a)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.1*Mg/10^6</pre></td>
   <td class="cell c3"><pre>1.2*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>0.1*kN*ns/(mm*H
@@ -23222,7 +23310,7 @@ z)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.1*Mg/10^6</pre></td>
   <td class="cell c3"><pre>1.2*kN*ns/(mm*Hz)</pre></td>
   <td class="cell c4"><pre>0.09*kN*ns/(mm*
@@ -23237,7 +23325,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*m/s</pre></td>
   <td class="cell c3"><pre>0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23248,7 +23336,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m/s</pre></td>
   <td class="cell c3"><pre>0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23259,7 +23347,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0*m/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23270,7 +23358,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23281,7 +23369,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*km/s</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23292,7 +23380,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0*m</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23303,7 +23391,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.0</pre></td>
   <td class="cell c3"><pre>0.0*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23314,7 +23402,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1.0*m/s</pre></td>
   <td class="cell c3"><pre>m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23325,7 +23413,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>15/pi*kN/mm^2</pre></td>
   <td class="cell c3"><pre>15/pi*kN/mm^2</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23336,7 +23424,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(15*kN)/(pi*mm^2)</pre></td>
   <td class="cell c3"><pre>(15*kN)/(pi*mm^2)</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23347,7 +23435,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(15/pi)*(kN/mm^2)</pre></td>
   <td class="cell c3"><pre>(15/pi)*(kN/mm^2)</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23358,7 +23446,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(600*N)/(%pi*mm^2)</pre></td>
   <td class="cell c3"><pre>(600*N)/(%pi*mm^2)</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23369,7 +23457,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(600/pi)*kN/m^2</pre></td>
   <td class="cell c3"><pre>(600/pi)*kN/m^2</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23380,7 +23468,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(600/pi)*kN/mm^2</pre></td>
   <td class="cell c3"><pre>(600/pi)*kN/mm^2</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -23416,7 +23504,7 @@ Hz)</pre></td>
 </tr></thead><tbody>
 <tr class="pass">
   <td class="cell c0">String</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>Hello</pre></td>
   <td class="cell c3"><pre>hello</pre></td>
   <td class="cell c4"></td>
@@ -23427,7 +23515,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">String</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>hello</pre></td>
   <td class="cell c3"><pre>hello</pre></td>
   <td class="cell c4"></td>
@@ -23438,7 +23526,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">String</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>hello</pre></td>
   <td class="cell c3"><pre>heloo</pre></td>
   <td class="cell c4"></td>
@@ -23749,7 +23837,7 @@ Hz)</pre></td>
 </tr></thead><tbody>
 <tr class="pass">
   <td class="cell c0">StringSloppy</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>hello</pre></td>
   <td class="cell c3"><pre>Hello</pre></td>
   <td class="cell c4"></td>
@@ -23760,7 +23848,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">StringSloppy</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>hel lo</pre></td>
   <td class="cell c3"><pre>Hello</pre></td>
   <td class="cell c4"></td>
@@ -23771,7 +23859,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">StringSloppy</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>hel lo</pre></td>
   <td class="cell c3"><pre>Hel*lo</pre></td>
   <td class="cell c4"></td>
@@ -23782,7 +23870,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">StringSloppy</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>hello</pre></td>
   <td class="cell c3"><pre>heloo</pre></td>
   <td class="cell c4"></td>
@@ -24082,7 +24170,7 @@ Hz)</pre></td>
 </tr></thead><tbody>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c4"></td>
@@ -24093,7 +24181,7 @@ Hz)</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
@@ -24104,7 +24192,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2</pre></td>
   <td class="cell c3"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
@@ -24115,7 +24203,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
@@ -24126,7 +24214,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[&quot;Hello&quot;]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
@@ -24137,7 +24225,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;]]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
@@ -24148,7 +24236,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], x^2]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
@@ -24159,7 +24247,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], [x^2]]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
@@ -24170,7 +24258,7 @@ Hz)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], [&quot;G
 oodbye&quot;], [&quot;Excess&q
@@ -24183,7 +24271,7 @@ uot;]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[], [&quot;Goodbye&quot;]]</pre></td>
   <td class="cell c4"><pre>0.9</pre></td>
@@ -24194,7 +24282,7 @@ uot;]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], [&quot;G
 oodbye&quot;]]</pre></td>
@@ -24206,7 +24294,7 @@ oodbye&quot;]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], [&quot;G
 oodbye&quot;]]</pre></td>
@@ -24221,7 +24309,7 @@ oodbye&quot;]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], [&quot;G
 oodbye&quot;]]</pre></td>
@@ -24233,7 +24321,7 @@ oodbye&quot;]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;], [&quot;G
 oodbye&quot;]]</pre></td>
@@ -24245,7 +24333,7 @@ oodbye&quot;]]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;hello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -24260,7 +24348,7 @@ e&quot;, &quot;Fairwell&quot;]
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;goodday&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -24275,7 +24363,7 @@ e&quot;, &quot;Fairwell&quot;]
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;goodday&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -24290,7 +24378,7 @@ e&quot;, &quot;Fairwell&quot;]
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Jello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -24305,7 +24393,7 @@ e&quot;, &quot;Fairwell&quot;]
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Jello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -24320,7 +24408,7 @@ e&quot;, &quot;Fairwell&quot;]
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Jello&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -24333,7 +24421,7 @@ d day&quot;, &quot;Hi&quot;],
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Good bye&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -24348,7 +24436,7 @@ e&quot;, &quot;Fairwell&quot;]
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Good, day!&quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -24363,7 +24451,7 @@ e&quot;, &quot;Fairwell&quot;]
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sremove_chars(&quot;.,!?&quot;
 , &quot;Good, day!&quot;)</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
@@ -24379,7 +24467,7 @@ e&quot;, &quot;Fairwell&quot;]
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;   good     day  &quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -24394,7 +24482,7 @@ e&quot;, &quot;Fairwell&quot;]
 </tr>
 <tr class="pass">
   <td class="cell c0">Levenshtein</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;   good     day  &quot;</pre></td>
   <td class="cell c3"><pre>[[&quot;Hello&quot;, &quot;Goo
 d day&quot;, &quot;Hi&quot;], 
@@ -24457,7 +24545,7 @@ CE]</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>&quot;hello&quot;</pre></td>
   <td class="cell c4"></td>
@@ -24468,7 +24556,7 @@ CE]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>&quot;1/0&quot;</pre></td>
   <td class="cell c3"><pre>1/0</pre></td>
   <td class="cell c4"></td>
@@ -24479,7 +24567,7 @@ CE]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>Hello</pre></td>
   <td class="cell c3"><pre>hello</pre></td>
   <td class="cell c4"></td>
@@ -24490,7 +24578,7 @@ CE]</pre></td>
 </tr>
 <tr class="expectedfail">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>Hello</pre></td>
   <td class="cell c3"><pre>&quot;hello&quot;</pre></td>
   <td class="cell c4"></td>
@@ -24501,7 +24589,7 @@ CE]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;aaaaabbb&quot;</pre></td>
   <td class="cell c3"><pre>&quot;(aaa)*b&quot;</pre></td>
   <td class="cell c4"></td>
@@ -24512,7 +24600,7 @@ CE]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;aab&quot;</pre></td>
   <td class="cell c3"><pre>&quot;(aaa)*b&quot;</pre></td>
   <td class="cell c4"></td>
@@ -24523,7 +24611,7 @@ CE]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;aaac&quot;</pre></td>
   <td class="cell c3"><pre>&quot;(aaa)*b&quot;</pre></td>
   <td class="cell c4"></td>
@@ -24537,7 +24625,7 @@ CE]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;aab&quot;</pre></td>
   <td class="cell c3"><pre>&quot;^[aA]*b$&quot;</pre></td>
   <td class="cell c4"></td>
@@ -24548,7 +24636,7 @@ CE]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;aab&quot;</pre></td>
   <td class="cell c3"><pre>&quot;^(aaa)*b$&quot;</pre></td>
   <td class="cell c4"></td>
@@ -24559,7 +24647,7 @@ CE]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;aAb&quot;</pre></td>
   <td class="cell c3"><pre>&quot;^[aA]*b$&quot;</pre></td>
   <td class="cell c4"></td>
@@ -24570,7 +24658,7 @@ CE]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot; aAb&quot;</pre></td>
   <td class="cell c3"><pre>&quot;^[aA]*b$&quot;</pre></td>
   <td class="cell c4"></td>
@@ -24584,7 +24672,7 @@ CE]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;caAb&quot;</pre></td>
   <td class="cell c3"><pre>&quot;(?i:a*b)&quot;</pre></td>
   <td class="cell c4"></td>
@@ -24598,7 +24686,7 @@ CE]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Alice went to the market
 &quot;</pre></td>
   <td class="cell c3"><pre>&quot;(Alice|Bob) went to the 
@@ -24611,7 +24699,7 @@ CE]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Malice went to the shop&
 quot;</pre></td>
   <td class="cell c3"><pre>&quot;(Alice|Bob) went to the 
@@ -24627,7 +24715,7 @@ quot;</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Alice   went  to      th
 e market&quot;</pre></td>
   <td class="cell c3"><pre>&quot;(Alice|Bob)\\s+went\\s+t
@@ -24641,7 +24729,7 @@ o\\s+the\\s+(bank|market)&quot
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;Alice   went  to      th
 emarket&quot;</pre></td>
   <td class="cell c3"><pre>&quot;(Alice|Bob)\\s+went\\s+t
@@ -24658,7 +24746,7 @@ o\\s+the\\s+(bank|market)&quot
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;x^2.2&quot;</pre></td>
   <td class="cell c3"><pre>&quot;x\\^2\\.2&quot;</pre></td>
   <td class="cell c4"></td>
@@ -24669,7 +24757,7 @@ o\\s+the\\s+(bank|market)&quot
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;x^2+sin(x)&quot;</pre></td>
   <td class="cell c3"><pre>sconcat(string_to_regex(&quot;
 sin(x)&quot;),&quot;$&quot;)</pre></td>
@@ -24681,7 +24769,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">SRegExp</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>&quot;sin(x)+x^2&quot;</pre></td>
   <td class="cell c3"><pre>sconcat(string_to_regex(&quot;
 sin(x)&quot;),&quot;$&quot;)</pre></td>
@@ -24762,7 +24850,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr></thead><tbody>
 <tr class="expectedfail">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:orange;"><i class="fa fa-adjust"></i></span></td>
+  <td class="cell c1"><span style="color:orange;"><i class="fa fa-adjust"></i></span></td>
   <td class="cell c2"><pre>1/0</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24776,7 +24864,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.5</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24787,7 +24875,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.33</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24798,7 +24886,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2/4</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24812,7 +24900,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-1/3</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24823,7 +24911,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/-3</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24834,7 +24922,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-2/4</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24845,7 +24933,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2/-4</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24856,7 +24944,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-1/-3</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24867,7 +24955,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-2/-4</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24881,7 +24969,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x+1/3</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24892,7 +24980,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x+2/6</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24903,7 +24991,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2*x/4+2/6</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24914,7 +25002,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>2/4*x+2/6</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24925,7 +25013,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x-1/-4</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24939,7 +25027,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24950,7 +25038,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>cos(3/6*x)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24964,7 +25052,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>matrix([1,2/4],[2,3])</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24978,7 +25066,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x=1/2</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -24989,7 +25077,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>3/9=x</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -25003,7 +25091,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^2/x</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -25014,7 +25102,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2*x)/(4*t)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -25025,7 +25113,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>(2/4)*(x^2/t)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -25036,7 +25124,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>x^(2/4)</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
@@ -25050,7 +25138,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>sqrt(3)/3</pre></td>
   <td class="cell c3"><pre>sqrt(3)/3</pre></td>
   <td class="cell c4"></td>
@@ -25061,7 +25149,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/sqrt(3)</pre></td>
   <td class="cell c3"><pre>sqrt(3)/3</pre></td>
   <td class="cell c4"></td>
@@ -25072,7 +25160,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(1-sqrt(2))</pre></td>
   <td class="cell c3"><pre>1/(1-sqrt(2))</pre></td>
   <td class="cell c4"></td>
@@ -25083,7 +25171,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(1+i)</pre></td>
   <td class="cell c3"><pre>(1-i)/2</pre></td>
   <td class="cell c4"></td>
@@ -25094,7 +25182,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1+2/sqrt(3)</pre></td>
   <td class="cell c3"><pre>(2*sqrt(3)+3)/3</pre></td>
   <td class="cell c4"></td>
@@ -25105,7 +25193,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(1+1/root(3,2))</pre></td>
   <td class="cell c3"><pre>sqrt(3)/(sqrt(3)+1)</pre></td>
   <td class="cell c4"></td>
@@ -25116,7 +25204,7 @@ sin(x)&quot;),&quot;$&quot;)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">LowestTerms</td>
-  <td class="cell c1"><span style="font-size: 0.8em; color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>1/(1+1/root(2,3))</pre></td>
   <td class="cell c3"><pre>1/(1+1/root(2,3))</pre></td>
   <td class="cell c4"></td>

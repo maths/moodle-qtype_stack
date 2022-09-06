@@ -53,9 +53,11 @@ The level of simplification performed by Maxima can be controlled by changing Ma
 
     simp:true
 
-This variable can be set at the question level using the [options](../Authoring/Options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md).
+This variable can be set at the question level using the [options](../Authoring/Options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md). Within [CASText](../Authoring/CASText.md), the setting can be controlled by appending `simp=...`, for example: 
 
-When this is `false`, no simplification is performed and Maxima is quite happy to deal with an expression such as \(1+4\) without actually performing the addition.
+    {@3/9,simp=false@}
+
+When `simp` is set to `false`, no simplification is performed and Maxima is quite happy to deal with an expression such as \(1+4\) without actually performing the addition.
 This is most useful for dealing with very elementary expressions.
 
 If you are using `simp:false` to evaluate an expression with simplification on, you can use

@@ -46,7 +46,7 @@ We provide a static page giving the outcome of all [answer test results](Answer_
 You can apply functions before applying the tests using the feedback variables.  For example, to ignore case sensitivity you can apply the [Maxima commands defined by STACK](../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests.
 However, some tests really require the raw student's input.  E.g. the numerical decimal place test really requires the name of an input as the `SAns` field.  If you manipulate an input, you may end up dropping trailing zeros and ruining the number of decimal places in the expression.  STACK will warn you if you need to use the name of an input.
 
-# Equivalence #
+## Equivalence ##
 
 A crucial component in the assessment process the ability to decide if two expressions are equivalent.  It turns out there are many useful senses when trying to assess students' answers.
 
@@ -265,15 +265,15 @@ In particular, write the numerator \({9 y-8}\) about the point \({y=4}\).
 This gives \({9 y-8=28+9 \left(y-4\right)}\), which allows us to complete the partial fraction form as follows:
 \[ {\frac{9 y-8}{{\left(y-4\right)}^2}} = \frac{ {28+9 \left(y-4\right)} }{ {{\left(y-4\right)}^2} } = {\frac{28}{{\left(y-4\right)}^2}+\frac{9 \left(y-4\right)}{{\left(y-4\right)}^2}} = {\frac{9}{y-4}+\frac{28}{{\left(y-4\right)}^2}}. \]
 
-# Numerical Precision {#Precision}
+## Numerical Precision {#Precision}
 
 These tests deal with the precision of numbers.  See dedicated page on [numerical answer tests](Answer_tests_numerical.md).
 
-# Scientific units #
+## Scientific units
 
 A dedicated answer test for scientific units is described on the [units](../Authoring/Units.md) page.
 
-# Tests for specific subject areas
+## Tests for specific subject areas
 
 ### PropLogic ###
 
@@ -319,6 +319,6 @@ In many cases simply differentiating the teacher's answer is fine, in which case
 
 The test cannot cope with some situations.  Please contact the developers when you find some of these.  This test is already rather overloaded, so please don't expect every request to be accommodated! 
 
-# See also
+## See also
 
 * [Maxima](../CAS/Maxima.md)

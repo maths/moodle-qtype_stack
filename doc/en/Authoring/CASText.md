@@ -37,6 +37,8 @@ CASText may depend on variables previously defined in the [question variables](V
 Where the CASText appears in the fields of a [potential response trees](Potential_response_trees.md),
 the variables in the [feedback variables](Variables.md#Feedback_variables) may also be included.
 
+To control whether or not the CAS expressions are simplified, see the details about [selective simplification](../CAS/Simplification/#selective-simplification).
+
 ## Question text {#question_text}
 
 The question text what the student actually sees.  This was called "question text" in previous versions.

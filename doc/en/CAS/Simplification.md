@@ -52,17 +52,45 @@ This includes the answer tests as needed.
 The level of simplification performed by Maxima can be controlled by changing Maxima's global variable `simp`, e.g.
 
     simp:true
-
-This variable can be set at the question level using the [options](../Authoring/Options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md). Within [CASText](../Authoring/CASText.md), the setting can be controlled by appending `simp=...`, for example: 
-
-    {@3/9,simp=false@}
-
+    
 When `simp` is set to `false`, no simplification is performed and Maxima is quite happy to deal with an expression such as \(1+4\) without actually performing the addition.
-This is most useful for dealing with very elementary expressions.
+This is most useful for dealing with very elementary expressions, and for [showing working](../CAS/Matrix/#Showing_working).
 
-If you are using `simp:false` to evaluate an expression with simplification on, you can use
+This variable can be set at the question level using the [options](../Authoring/Options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md).
 
-    ev(ex,simp)
+When `simp` is set to `false`, you can evaluate an expression with simplifcation turned on by using `ev(..., simp)`, for example:
+
+    simp:false;
+    a:ev(1+1,simp);
+    
+will give \(a=2\).
+
+### Within CASText (question text, general feedback, etc.)
+
+Sometimes it is useful to control the level of simplification applied to expressions included within [CASText](../Authoring/CASText.md) using `{@...@}`.
+In particular, to show steps in working, it is often necessary to turn simplification off.
+
+Note that it is not possible to reliably control the value of `simp` within the CAS expression itself: for instance, `{@(simp:false,1+1)@}` will display as \(2\) if `simp` is set to `true` at the question level.
+(This is because of the way STACK assembles all the CASText code into a single Maxima call.)
+
+To selectively control simplification within CASText (including the general feedback), you can use the following methods:
+
+1. Set `simp:false` in the question options, or at the end of your question variables. That way all expressions in the CASText will be unsimplified, but you can use `{@ev(...,simp)@}` to simplify selectively.
+2. Use evaluation flags to control the level of simplification for an individual CAS expression, for example:
+```
+{@3/9,simp=false@}
+```
+3. Use a [define block](../Authoring/Question_blocks/#define-block) to set the value of `simp`, e.g.
+```
+[[define simp="false"/]]
+\({@3/9@} \neq {@1+1@}\)
+[[define simp="true"/]]
+\({@3/9@} \neq {@1+1@}\)
+```
+will produce \(\frac{3}{9}\neq1+1\) followed by \(\frac{1}{3}\neq2\).
+
+
+
 
 ## Unary minus and simplification
 

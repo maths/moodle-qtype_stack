@@ -1662,7 +1662,11 @@ class qtype_stack extends question_type {
             $stackinput = $stackinputfactory->make($inputtype, $inputname, $modelans, null, null, false);
             $parameters = array();
             foreach ($stackinputfactory->get_parameters_fromform_mapping($inputtype) as $key => $param) {
-                $paramvalue = $stackinputfactory->convert_parameter_fromform($key, $fromform[$inputname .$param]);
+                $paramvalue = '';
+                if (array_key_exists($inputname . $param, $fromform)) {
+                    $paramvalue = $fromform[$inputname . $param];
+                }
+                $paramvalue = $stackinputfactory->convert_parameter_fromform($key, $paramvalue);
                 $parameters[$key] = $paramvalue;
                 if ('options' !== $key) {
                     $validityresult = $stackinput->validate_parameter($key, $paramvalue);
@@ -1672,8 +1676,7 @@ class qtype_stack extends question_type {
                 }
             }
             // Create an input with these parameters, in particular the 'options', and validate that.
-            $stackinput = $stackinputfactory->make($inputtype, $inputname,
-                    $fromform[$inputname . 'modelans'], null, $parameters, false);
+            $stackinput = $stackinputfactory->make($inputtype, $inputname, $modelans, null, $parameters, false);
             $stackinput->validate_extra_options();
             $errors[$inputname . 'options'] = $stackinput->get_errors();
         }

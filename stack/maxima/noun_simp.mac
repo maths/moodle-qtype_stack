@@ -201,17 +201,19 @@ ATEqualComAss(sa, sb) :=
     if (is(SBB=[STACKERROR]) or is(SBB=[])) then
         return([false,false,StackAddNote("", "ATEqualComAss_STACKERROR_TAns"), ""]),
 
-    sa:remove_stackeq(sa),
-    sb:remove_stackeq(sb),
+    /* We need a copy here because lists are passed by reference and the coloring of incorrect entries
+       causes problems when the values are used later in a PRT.  This problem did not occur with single call answer tests. */
+    SAA:remove_stackeq(copy(sa)),
+    SBB:remove_stackeq(copy(sb)),
     /* We need to check things are of the same type */
-    ret:ATSameTypefun(sa,sb),
+    ret:ATSameTypefun(SAA, SBB),
     if ret[2]=false then
         (ret[3]:StackAddNote("ATEqualComAss ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
-    ret:block([simp:true, ret], ATAlgEquiv(sa, sb)),
+    ret:block([simp:true, ret], ATAlgEquiv(SAA, SBB)),
     if ret[2]=false then
         (ret[3]:StackAddNote("ATEqualComAss (AlgEquiv-false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
     /* Now actually apply this test */
-    if equals_commute_associate(sa, sb) then
+    if equals_commute_associate(SAA, SBB) then
         (RawMark:true, AnswerNote:"")
     else
         (RawMark:false, AnswerNote:StackAddNote("","ATEqualComAss (AlgEquiv-true)")),
@@ -254,31 +256,31 @@ ATEqualComAssRules(sa, sb, so) :=
     if any_listp(lambda([ex], ev(subsetp(ex, setify(so)), simp) ), INCOMPATIBLE_TRANS) then
         return([false,false,StackAddNote("", "ATEqualComAssRules_Opt_Incompatible"), StackAddFeedback("", "ATEqualComAssRules_Opt_Incompatible")]),
 
-    sa:remove_stackeq(sa),
-    sb:remove_stackeq(sb),
+    SAA:remove_stackeq(copy(sa)),
+    SBB:remove_stackeq(copy(sb)),
 
     /* We need to check things are of the same type */
-    ret:ATSameTypefun(sa,sb),
+    ret:ATSameTypefun(SAA, SBB),
     if ret[2]=false then
         (ret[3]:StackAddNote("ATEqualComAssRules ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
-    ret:block([simp:true, ret], ATAlgEquiv(sa, sb)),
+    ret:block([simp:true, ret], ATAlgEquiv(SAA, SBB)),
     /* If they are not algebraically equivalent then we bail. */
     if ret[2]=false then
         (ret[3]:StackAddNote("ATEqualComAssRules (AlgEquiv-false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
 
     /* Put the expressions in basic form. */
-    sa:equals_commute_prepare(sa),
-    sb:equals_commute_prepare(sb),
+    SAA:equals_commute_prepare(SAA),
+    SBB:equals_commute_prepare(SBB),
 
-    if debug then print(["Transforming",sa]),
-    sa:transl(sa, so),
-    if debug then print(["Transforming",sb]),
-    sb:transl(sb, so),
+    if debug then print(["Transforming", SAA]),
+    SAA:transl(SAA, so),
+    if debug then print(["Transforming", SBB]),
+    SBB:transl(SBB, so),
 
     AnswerNote:"",
-    if debugtest then AnswerNote:StackAddNote("ATEqualComAssRules: ", string([sa, sb])),
+    if debugtest then AnswerNote:StackAddNote("ATEqualComAssRules: ", string([SAA, SBB])),
     /* Now actually apply this test */
-    if is(sa=sb) then
+    if is(SAA = SBB) then
         RawMark:true
     else
         RawMark:false,

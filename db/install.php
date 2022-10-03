@@ -78,7 +78,7 @@ function xmldb_qtype_stack_install() {
         set_config('mathsdisplay', 'mathjax', 'qtype_stack');
 
         if (!defined('QTYPE_STACK_TEST_CONFIG_PLATFORM') || !in_array(QTYPE_STACK_TEST_CONFIG_PLATFORM, ['server', 'none'])) {
-            if ($_ENV['CI'] == true && function_exists("shell_exec") && is_readable("/etc/os-release")) {
+            if (getenv("CI") && function_exists("shell_exec") && is_readable("/etc/os-release")) {
                 $os = shell_exec('grep -E "^NAME=" /etc/os-release |cut -d\" -f2|tr -d "\n"');
                 if ($os == "Ubuntu") {
                     shell_exec('sudo apt-get -qq --assume-yes install maxima');

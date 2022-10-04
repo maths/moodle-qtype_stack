@@ -206,10 +206,6 @@ class maxima_replication_test extends qtype_stack_testcase {
     }
 
     public function test_iss844_mapping() {
-        // Note that the old security rules forbid most of these, we will probably
-        // eventually relax those rules but they are still under review.
-        $this->markTestSkipped('This works if we relax the security settings. If interested disable filter 998.');
-
         $code = 'simp:true;';
         $code .= 'ids:[cos,sin,tan,sqrt];';
         $code .= 'foo(x):=ids[x];';

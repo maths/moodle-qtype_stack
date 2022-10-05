@@ -126,3 +126,5 @@ TODO.
 3. What happens if the student creates a perpendicular line, not a line perpendicular to `l`.  What does GeoGebra send back and how can we deal with this?!
 
 4. In the above example `M2` needs to be written four times to bind the object `M2` in GeoGebra to an input.  Can we simplify this?
+
+5. TO try out this question see https://stack.authomath.org/question/preview.php?id=173&courseid=6

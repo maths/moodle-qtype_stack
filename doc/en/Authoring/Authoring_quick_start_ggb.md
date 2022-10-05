@@ -94,7 +94,7 @@ At this point it is sensible to save and preview the question.
 1. The applet should pick up the random values of \(m\) and \(c\).
 2. As \(A\) and \(B\) are moved the STACK input M2 should update to hold the gradient of the line joining \(AB\).
 
-## Use the GeoGebra appletvalues in the STACK PRT
+## Use the GeoGebra applet values in the STACK PRT
 
 1. Add in a new PRT `[[feedback:prt0]]` just after the validation feedback for input `M2`.  We could use the existing PRT, of course, but adding a new PRT makes more sense in this question and ensures they are independent.
 2. Save and continue editing, then fill in the PRT values as follows.  `sans:M2[1]*m`, `tans:-1`.   Start with Algebraic equvalence.  Since we have integer values for \(m\) and \(c\) , we can expect the student to lock \(A\) and \(B\) to a grid and get a precise perpendicular.  If approximations are acceptible, then a [numerical test](Answer_tests_numerical.md), e.g. `ATNumRel` with an option of `0.05` to give a \(5\%\) tollerance.

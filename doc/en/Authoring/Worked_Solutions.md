@@ -103,8 +103,6 @@ There are many ways to solve quadratics, but this method has been selected for t
 * This method it always "works", and therefore generalises if introduced early, e.g. just with integer roots.
 * This method involves "appreciation of form", in particular "can we make this a perfect square?", which is an important theme in algebraic manipulation.
 
-The fact that this method does _not_ work well with integer roots integer which are identical (i.e. repeated roots) suggests that case is probably, arguably, best assessed with dedicated questions assessing the single issue.  Invariance of the steps in the worked should is arguably a good test of when questions are the same or different, for a particular student group.
+The fact that this method does _not_ work well with integer roots integer which are identical (i.e. repeated roots) suggests that case is probably, arguably, best assessed with dedicated questions assessing the single issue.  Invariance of the steps in the worked should is arguably a good test of when questions are the same or different, for a particular student group.  Similarly, this worked solution does not work well with the dfference of two squares, i.e. \( x^2-c^2=(x-c)(x+c)\).  Again, this is probably a separate case in the teaching sequence.
 
 Within this basic idea of invariance, some special cases, e.g. \(a=1\), \(c=0\) merely omit one or more of the steps in the worked solution.  If \(c=0\) then it makes no sense to have a step "Subtract the constant term from both sides."  This special cases does not really lead to a genurinly new cases, we just need to omit a particular step.
-
-but this is exactly the kind of didactic decision making which is interesting to us!

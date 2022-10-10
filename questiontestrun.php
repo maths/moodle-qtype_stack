@@ -565,19 +565,37 @@ echo html_writer::tag('p',
         html_writer::link(new moodle_url('/question/type/stack/questiontestreport.php', $urlparams),
                 stack_string('basicquestionreport')) . $OUTPUT->help_icon('basicquestionreport', 'qtype_stack'));
 
+// Question variables.
+$out = html_writer::tag('summary', stack_string('questionvariablevalues'));
+$out .= html_writer::start_tag('div', array('class' => 'questionvariables'));
+$out .= html_writer::tag('pre', $questionvariablevalues);
+$out .= html_writer::end_tag('div');
+// Display a representation of the PRT for offline use.
+$offlinemaxima = array();
+foreach ($question->prts as $name => $prt) {
+    $offlinemaxima[] = $prt->get_maxima_representation();
+}
+$offlinemaxima = s(implode("\n", $offlinemaxima));
+$out .=  html_writer::start_tag('div', array('class' => 'questionvariables'));
+$out .=  html_writer::tag('pre', $offlinemaxima);
+$out .=  html_writer::end_tag('div');
+echo html_writer::tag('details', $out);
+
 // Display the question.
-echo $OUTPUT->heading(stack_string('questionpreview'), 3);
-echo $renderquestion;
+$out = html_writer::tag('summary', stack_string('questionpreview'));
+echo html_writer::tag('details', $out . $renderquestion);
 
 // Display the question note.
-echo $OUTPUT->heading(stack_string('questionnote'), 3);
-echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()),
-        array('class' => 'questionnote'));
+$out = html_writer::tag('summary', stack_string('questionnote'));
+$out .= html_writer::tag('p', stack_ouput_castext($question->get_question_summary()),
+    array('class' => 'questionnote'));
+echo html_writer::tag('details', $out);
 
 // Display the general feedback, aka "Worked solution".
-echo $OUTPUT->heading(stack_string('generalfeedback'), 3);
-echo html_writer::tag('div', html_writer::tag('div', $rendergeneralfeedback,
-        array('class' => 'outcome generalfeedback')), array('class' => 'que'));
+$out = html_writer::tag('summary', stack_string('generalfeedback'));
+$out .= html_writer::tag('div', html_writer::tag('div', $rendergeneralfeedback,
+    array('class' => 'outcome generalfeedback')), array('class' => 'que'));
+echo html_writer::tag('details', $out);
 
 // Add a link to the cas chat to facilitate editing the general feedback.
 if ($question->options->get_option('simplify')) {
@@ -606,22 +624,6 @@ if ($question->stackversion == null) {
     echo html_writer::tag('p', stack_string('stackversionedited', $question->stackversion)
             . stack_string('stackversionnow', get_config('qtype_stack', 'version')));
 }
-
-// Display the question variables.
-echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
-echo html_writer::start_tag('div', array('class' => 'questionvariables'));
-echo html_writer::tag('pre', $questionvariablevalues);
-echo html_writer::end_tag('div');
-
-// Display a representation of the PRT for offline use.
-$offlinemaxima = array();
-foreach ($question->prts as $name => $prt) {
-    $offlinemaxima[] = $prt->get_maxima_representation();
-}
-$offlinemaxima = s(implode("\n", $offlinemaxima));
-echo html_writer::start_tag('div', array('class' => 'questionvariables'));
-echo html_writer::tag('pre', $offlinemaxima);
-echo html_writer::end_tag('div');
 
 // Finish output.
 echo $OUTPUT->footer();

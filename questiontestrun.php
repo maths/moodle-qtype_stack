@@ -512,13 +512,17 @@ foreach ($testresults as $key => $result) {
             $expectedpenalty = round($state->expectedpenalty + 0, 4);
         }
 
+        $answernote_display = html_writer::tag('summary', s($state->answernote))
+            . html_writer::tag('pre', implode('', $prtinputs) . $state->trace);
+        $answernote_display = html_writer::tag('details', $answernote_display);
+
         $prtstable->data[] = array(
                 $prtname,
                 $state->score,
                 $expectedscore,
                 $state->penalty,
                 $expectedpenalty,
-                s($state->answernote) . html_writer::tag('pre', implode('', $prtinputs) . $state->trace),
+                $answernote_display,
                 s($state->expectedanswernote),
                 format_text($state->feedback),
                 $passedcol,

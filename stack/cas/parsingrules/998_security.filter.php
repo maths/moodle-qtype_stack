@@ -292,7 +292,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             }
                         }
                     }
-                } 
+                }
             }
         }
 

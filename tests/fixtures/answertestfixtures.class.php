@@ -220,6 +220,7 @@ class stack_answertest_test_data {
             '(ATList_wrongentries 3: (ATList_wrongentries 2: ATSet_wrongsz)).', ''),
         array('AlgEquiv', '', '[(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)]', '[(k+8)/(k^2+4*k-12),-(2*k+6)/(k^2+4*k-12)]',
             1, '', ''),
+        array('AlgEquiv', '', '[1,2]', 'ntuple(1,2)', 0, 'ATAlgEquiv_SA_not_expression.', ''),
 
         // Note to self: Maxima's round() command uses Bankers' rounding, but significantfigures does not.
         array('AlgEquiv', '', 'round(0.5)', '0.0', 1, '', 'Rounding of floats'),
@@ -394,6 +395,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'a*(2+%i)=b', 'a=b/(2+%i)', 1, 'ATEquation_ratio', ''),
         array('AlgEquiv', '', 'a*(2+%i)=b', 'a=b*(2-%i)/5', 1, 'ATEquation_num_i', ''),
         array('AlgEquiv', '', 'a*(2+%i)=b', 'a=b*(2-%i)/4', 0, 'ATEquation_default', ''),
+        // For now, teachers using these display functions must remove them manually.
+        array('AlgEquiv', '', 'i', 'disp_complex(0,1)', 0, '', ''),
 
         array('AlgEquiv', '', 'abs(x)=abs(y)', 'x=y', 0, 'ATEquation_default', 'Absolute value in equations'),
         array('AlgEquiv', '', 'abs(x)=abs(y)', 'x=y or x=-y', 1, '', ''),

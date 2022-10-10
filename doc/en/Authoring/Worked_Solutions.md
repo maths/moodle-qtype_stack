@@ -1,27 +1,23 @@
 # Writing worked solutions in STACK
 
-There is something of an art to writing worked solutions in STACK which are robust to different random versions.  This page contains an example of a detailed, and flexible, solution to solving a quadratic equation.
+There is something of an art to writing worked solutions in STACK which are robust to different random versions.  This page contains an example of a detailed, and flexible, solution to solving quadratic equations.
 
-The method of creating a worked solution used here uses two basic ideas.
+Creating a worked solution, in this example and more generally, uses the following basic ideas.
 
-1. We should solve as many problems as possible at the mathematical level, with `simp:false`, and not try to solve problems at the LaTeX level.  This means we will be simplifying _parts_ of expressions explicitly using `ev( ... , simp)` within larger expressions.  For example consider an expression like \( (x-3)^2 - 2^2 \).  This might be created in Maxima as `(ev(sqrt(c2)*x+c1/2,simp))^2 - n5^2 = 0` for appropriate values of the variables, i.e. `c2:1`, `c1:-6` and `n5:2`.  The example simplifies the contents of the brackets, e.g. if `c2` is a perfect square, or \(1\), this will be simplified, as will an even value of `c1`.   The advantage of working at the mathematical level is that Maxima will display negative values of `c1` as for example.
-2. Steps can be ommited in the worked solution, or conditional statements added to the worked solution, using the [question blocks](Question_blocks.md) functionality.  The castext is the right place to deal with formatting, not within the question variables.
+1. We should start with the worked solution and work backwards to the question.  Here we start with numbers \(a\), \(n_1\) and \(n_2\) and expand out \(a(x-n_1)(x-n_2)\) to keep careful control over the roots and the coefficient of \(x^2\).
+2. Technically, we should solve as many problems as possible at the mathematical level in Maxima, with `simp:false`, and not try to solve problems at the LaTeX level.  This means we will be simplifying _parts_ of expressions explicitly using Maxima code `ev( ... , simp)` within larger expressions.  For example, consider the expression \( (x-3)^2 - 2^2 \).  This might be created from variables in Maxima as `(ev( sqrt(c2)*x+c1/2, simp))^2 - n5^2 = 0` with variables `c2:1`, `c1:-6` and `n5:2`.  This example simplifies the contents of the brackets, but not the constant term outside.   The advantage of working at the mathematical level is that Maxima will display negative values of `c1` with a minus sign and not as \( (x+ -3)^2 - 2^2 \).
+3. Steps can be ommited in the worked solution, or conditional statements added to the worked solution, using the [question blocks](Question_blocks.md) functionality.  The castext is the right place to deal with formatting, not within the question variables.
 
 Note, in the example below the presentation is kept very simple.  Ultimately, some better styling (CSS) would significantly improve the presentation, perhaps using a two-column layout.
-
-If your STACK version is older than 20221010 then you will need to add this function to the question variables.
-
-```
-texdisp_select(ex) := sconcat("\\color{red}{\\underline{", tex1(first(args(ex))), "}}");
-texput(disp_select, texdisp_select);
-```
 
 The following is the question variables field.
 
 ```
+/* Control the coeffient of x^2 and the roots. */
 a1:1;
-n1:-2+3*%i;
-n2:-2-3*%i;
+n1:-2;
+n2:3;
+/* Define the quadratic and monic quadratic from the roots. */
 p0:ev(expand(a1*(x-n1)*(x-n2)), simp);
 p1:ev(expand((x-n1)*(x-n2)), simp);
 /* Coefficients of the polynomial.  */
@@ -50,7 +46,14 @@ p9:(ev(n6+c1/2-n5,simp))*(ev(n6+c1/2+n5,simp)) = 0;
 ta:x=n1 nounor x=n2;
 ```
 
-The question is simply `Solve \({@p0@}=0\).`  The correct answer is `ta`, and a PRT with `ATAlgEquiv(ans1,ta)` is sufficient for now.  (Better feedback could be provided, of course.)
+If your STACK version is older than 20221010 then you will need to add this function to the question variables.
+
+```
+texdisp_select(ex) := sconcat("\\color{red}{\\underline{", tex1(first(args(ex))), "}}");
+texput(disp_select, texdisp_select);
+```
+
+The question text is simply `Solve \({@p0@}=0\).`  The correct answer is `ta`, and a PRT with `ATAlgEquiv(ans1,ta)` is sufficient for now.  (Better feedback could be provided, of course.)
 
 In the Options turn the Question-level simplify to `no`.
 
@@ -59,9 +62,9 @@ The point of this document is the general feedback, i.e. the worked solution.
 ```
 Solve \({@p0@}=0\).
 [[ if test='is(a1=1)' ]]
-Since the coefficient of the highest power, \(x^2\), equals one, we have what is known as a "monic" polynomial and can start to solve this.
+Since the coefficient of the highest power, \(x^2\), equals one, we have what is known as a "monic" polynomial which we can start to solve.
 [[ else ]]
-The first step is to divide through by the coefficient of the highest power, \(x^2\), so we have what is known as a "monic" polynomial.  Now we have to solve \({@p1@}=0\).
+The first step is to divide through by the coefficient of the highest power, \(x^2\), so we have what is known as a "monic" polynomial where the coefficient of the highest power, \(x^2\), equals one.  Doing this, we now have to solve \({@p1@}=0\).
 [[/ if ]]
 Assume \(b\) is the coefficient of \(x\), which in this case is {@c1@}. Divide this by \(2\), and consider \( (x+b/2)^2 = {@ (ev(sqrt(c2)*x,simp)+c1/2)^2 = q0@} \).  We use this as follows.
 \[ {@p1=0@} \] 
@@ -88,21 +91,37 @@ and perform arithmetic
 Hence we have the solutions {@x=n1@} and {@x=n2@}.
 ```
 
-This particular worked solution will create a reasonable step by step solution in all the following cases
+This particular worked solution will create a reasonable step-by-step solution in all the following cases:
 
 1. Roots integer and distinct.
 2. One root is zero.  Requires one "if" statement as a question block to suppress "add constant term to both sides".
 3. \(a \neq 1\). Requires one "if" statement as a question block, to divide through by \(a\) at the start.
-4. Roots contain a surd.  Requires one "if" statement as a question block, to suppress simplification of numbers which can't be added.
+4. Roots contain a surd.  Requires one "if" statement as a question block, to suppress simplification of numbers which can't be added and simplified.
 5. Roots are Gaussian integers.
 6. Roots are complex conjugate.
 
 There are many ways to solve quadratics, but this method has been selected for the following reasons.
 
-* This method makes use of the completed square and difference of two squares.
-* This method it always "works", and therefore generalises if introduced early, e.g. just with integer roots.
-* This method involves "appreciation of form", in particular "can we make this a perfect square?", which is an important theme in algebraic manipulation.
+* This "works" for all quadracits. Therefore if introduced early the method generalises beyond the special case of integer roots.
+* This method makes use of the completed square and difference of two squares, themselves both important topics.
+* This method involves "appreciation of form", in particular "can we make this a perfect square?", which is an important theme in algebraic manipulation.  This is a general concept in elementary algebra.
 
-The fact that this method does _not_ work well with integer roots integer which are identical (i.e. repeated roots) suggests that case is probably, arguably, best assessed with dedicated questions assessing the single issue.  Invariance of the steps in the worked should is arguably a good test of when questions are the same or different, for a particular student group.  Similarly, this worked solution does not work well with the dfference of two squares, i.e. \( x^2-c^2=(x-c)(x+c)\).  Again, this is probably a separate case in the teaching sequence.
+However, this method does _not_ work well with repeated integer roots. Hence, repeated roots is arguably better assessed with dedicated questions assessing the single issue explicitly.  Similarly, this worked solution does not work well with the dfference of two squares, i.e. \( x^2-c^2=(x-c)(x+c) \). Both perfect squares, and the differece of two squares, _could_ be accommodated with more question blocks.  However, invariance of the steps in the worked should is arguably a good test of when questions are the same or different, for a particular student group.  The orginal goal was to write a single STACK question with a worked solution which is robust in a variety of situations.  The attempt to write a general worked solution, and the above analysis of the general case,  has suggested the following didactic sequence.
 
-Within this basic idea of invariance, some special cases, e.g. \(a=1\), \(c=0\) merely omit one or more of the steps in the worked solution.  If \(c=0\) then it makes no sense to have a step "Subtract the constant term from both sides."  This special cases does not really lead to a genurinly new cases, we just need to omit a particular step.
+1. Perfect squares: \( (x+c)^2 = x^2+2cx+c^2 \).
+2. Difference of two squares: \( (x+c)(x-c) = x^2-c^2 \).
+3. The general case, solved by using both of the above.
+
+Within this basic idea of invariance, some special cases of the general quadratic \( ax^2+bx+c=0\), e.g. \(a=1\) or \(c=0\) merely omit one or more of the steps in the general worked solution.  For example, if \(c=0\) then it makes no sense to have a step "Subtract the constant term from both sides."  This special cases does not really lead to genurinly new cases in the worked solution, we just need to omit a particular step which is trivial in this example.  These sub-cases could be conciously used to create progressivly more complex cases, even within the relm of quadratics with integer roots.
+
+This worked solution does work even in the case \(a \neq 1\).  For example \({3\,x^2-x-2}=0\) has roots \(-2/3\) and \(1\), and the worked solution above gives a reasonable solution with the following values.
+
+```
+a1:3;
+n1:-2/3;
+n2:1;
+```
+
+Notice this method has conciously avoided taking the square roots of both sides of an equation and hence entirely side-stepped the confusing issue of how to deal with \( \pm \).  Avoiding taking the square roots of both sides of an equation does not lead to the shortest worked solution in all cases.
+
+This method completely side-steps factoring with a "guess and check" method, even though this is widley taught and quicker when mastered.

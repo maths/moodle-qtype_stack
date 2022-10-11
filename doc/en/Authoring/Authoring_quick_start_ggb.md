@@ -37,7 +37,7 @@ Notes.
 
 4. For input `ans1` (the default) just use `-1/m` as the correct answer.
 
-5. In the potential response tree set up a single node with `sans:ans1*m` and `tans:-1`. Algebraic equvalence is fine.
+5. In the potential response tree set up a single node with `sans:ans1*m` and `tans:-1`. Algebraic equivalence is fine.
 
 Now save the question - we have a minimum working STACK question.  The next task is to create, add the GeoGebra applet to the question, and get the two connected up.
 
@@ -128,3 +128,6 @@ TODO.
 4. In the above example `M2` needs to be written four times to bind the object `M2` in GeoGebra to an input.  Can we simplify this?
 
 5. TO try out this question see https://stack.authomath.org/question/preview.php?id=173&courseid=6
+
+6. The block contains a lot of applet settings which are to be applied to any GeoGebra file, like width, height, ...,  and also id.
+What about having these listed as geogebra input type settings? So that the only definitions that need to be made within the geogebra block area are the variables that Stack controls and listens to.

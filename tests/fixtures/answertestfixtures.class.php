@@ -1105,6 +1105,7 @@ class stack_answertest_test_data {
         array('FacForm', 'x', '2*(x+0.5)', '2*x+1', 1, 'ATFacForm_default_true.', ''),
         array('FacForm', 'x', 't*(2*x+1)', 't*(2*x+1)', 1, 'ATFacForm_true.', 'Linear factors'),
         array('FacForm', 'x', 't*x+t', 't*(x+1)', 0, 'ATFacForm_notfactored.', ''),
+        array('FacForm', 't', '6*s*t+10*s', '2*s*(3*t+5)', 0, 'ATFacForm_notfactored.', ''),
         array('FacForm', 'x', '2*x*(x-3)', '2*x^2-6*x', 1, 'ATFacForm_true.', 'Quadratic, with no const'),
         array('FacForm', 'x', '2*(x^2-3*x)', '2*x*(x-3)', 0, 'ATFacForm_notfactored.', ''),
         array('FacForm', 'x', 'x*(2*x-6)', '2*x*(x-3)', 0, 'ATFacForm_notfactored.', ''),

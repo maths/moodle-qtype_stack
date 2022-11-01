@@ -196,10 +196,12 @@ if (empty($question->deployedseeds)) {
 } else {
 
     $notestable = new html_table();
-    $notestable->head = array(
+    $notestable->head = [
         stack_string('variant'),
         stack_string('questionnote'),
-    );
+        ' ',
+        ' '
+    ];
     $notestable->attributes['class'] = 'generaltable stacktestsuite';
 
     $a = ['total' => count($question->deployedseeds), 'done' => 0];

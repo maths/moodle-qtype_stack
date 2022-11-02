@@ -12,6 +12,8 @@ To avoid problems like this we therefore have decided that
 
 If you are teaching rules of indices to students for the first time this might come as a surprise!  If you would like STACK to implement this rule, then you need to also `assume(a>0)`.  This can be done in the feedback variables.  This is a design decision and not a bug (and is recorded in the system unit tests)!
 
+Note the Maxima function `rootscontract` which converts products of roots into roots of products.
+
 ## Ordering terms
 
 Maxima chooses an order in which to write terms in an expression. By default, this will use reverse lexicographical order for simple sums, so that we have \(b+a\) instead of \(a+b\).

@@ -132,6 +132,11 @@ class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_testca
                       array('forbiddenFunction'),
                       false, true);
 
+        $this->expect('ln*x',
+                      'ln*x',
+                      array('forbiddenVariable'),
+                      false, true);
+
         $this->expect('log_10(x)',
                       'log_10(x)',
                       array('forbiddenFunction'),
@@ -486,6 +491,11 @@ class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_testca
         $this->expect('lg(x,a)',
                       'lg(x,a)',
                       array('unknownUnitsCase'),
+                      false, true);
+
+        $this->expect('ln*x',
+                      'ln*x',
+                      array('forbiddenVariable'),
                       false, true);
 
         $this->expect('log_10(x)',
@@ -1436,11 +1446,6 @@ class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_testca
 
         $this->expect('ln(x)',
                       'ln(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('ln*x',
-                      'ln*x',
                       array(),
                       true, false);
 
@@ -2972,11 +2977,6 @@ class ast_filter_998_security_auto_generated_test extends qtype_stack_ast_testca
 
         $this->expect('ln(x)',
                       'ln(x)',
-                      array(),
-                      true, false);
-
-        $this->expect('ln*x',
-                      'ln*x',
                       array(),
                       true, false);
 

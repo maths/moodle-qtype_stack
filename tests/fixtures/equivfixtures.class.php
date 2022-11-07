@@ -1093,6 +1093,15 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "The Sophie Germain Identity";
+        $newarg['narrative'] = 'This example is based on the Sophie Germain Identity.';
+        $newarg['casstring'] = "[a^4+4*b^4,stackeq((a^2)^2+4*a^2*b^2+(2*b^2)^2-4*a^2*b^2)," .
+            "stackeq((a^2+2*b^2)^2-(2*a*b)^2),stackeq((2*b^2-2*a*b+a^2)*(2*b^2+2*a*b+a^2))]";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Induction step";
         $newarg['narrative'] = '';
         $newarg['casstring'] = "[sum(k,k,1,n+1),stackeq(sum(k,k,1,n)+(n+1)),stackeq(n*(n+1)/2 +n+1),".

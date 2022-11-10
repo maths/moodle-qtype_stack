@@ -1052,6 +1052,31 @@ class castext_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
+    public function test_strings_in_castext_translated() {
+        $vars = 'st:a and "!AND!"';
+        $at1 = new stack_cas_keyval($vars, null, 123);
+        $this->assertTrue($at1->get_valid());
+        $cs2 = $at1->get_session();
+
+        $at2 = castext2_evaluatable::make_from_source('{@st@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        // The !AND! string is translated.
+        $this->assertEquals('\({a\,{\mbox{ and }}\, \mbox{and}}\)', $at2->get_rendered());
+
+        $at2 = castext2_evaluatable::make_from_source('{@"!AND!"@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals('and', $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_strings_only() {
         $s = '{@"This is a string"@} whereas this is empty |{@""@}|. Not quite empty |{@" "@}|.';
 

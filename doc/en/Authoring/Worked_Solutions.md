@@ -35,15 +35,36 @@ q0:ev(expand((x+c1/2)^2),simp);
 
 p2:ev(p1-c0,simp) = ev(-1*c0,simp);
 p3:ev(p1-c0,simp) + disp_select(n3) = disp_select(n3) - c0;
-p4:disp_select((ev(x+c1/2,simp))^2) = n4;
-p5:(ev(n6+c1/2,simp))^2 = disp_select(n5^2) ;
-p6:(ev(n6+c1/2,simp))^2 - n5^2 = 0;
-p7:(ev(n6+c1/2,simp)-n5)*(ev(n6+c1/2,simp)+n5) = 0;
-p8:(n6+disp_select(ev(c1/2,simp)-n5))*(n6+disp_select(ev(c1/2,simp)+n5)) = 0;
-p9:(ev(n6+c1/2-n5,simp))*(ev(n6+c1/2+n5,simp)) = 0;
 
+s4:"We may now factor the left hand side";
+p4:disp_select((ev(x+c1/2,simp))^2) = n4;
+c4:true;
+s5:"Write the right hand side as a square";
+p5:(ev(n6+c1/2,simp))^2 = disp_select(n5^2) ;
+c5:true;
+s6:"and subtract this from both sides.";
+p6:(ev(n6+c1/2,simp))^2 - n5^2 = 0;
+c6:true;
+s7:"Now we have the difference of two squares.";
+p7:(ev(n6+c1/2,simp)-n5)*(ev(n6+c1/2,simp)+n5) = 0;
+c7:true;
+s8:"Select the numbers in each factor."
+p8:(n6+disp_select(ev(c1/2,simp)-n5))*(n6+disp_select(ev(c1/2,simp)+n5)) = 0;
+c8:true;
+s9:"and perform arithmetic.";
+p9:(ev(n6+c1/2-n5,simp))*(ev(n6+c1/2+n5,simp)) = 0;
+c9:integerp(ev(c1/2-n5,simp));
 /* The correct answer. */
+s10:"Which gives the final answer";
 ta:x=n1 nounor x=n2;
+c10:true;
+
+/* Create lists of expressions. */
+l1:[p4,p5,p6,p7,p8,p9,ta];
+l0:ev(makelist(k,k,1,length(l1)),simp);
+l2:[s4,s5,s6,s7,s8,s9,s10];
+/* This list controls if each step is displayed or not. */
+l3:[c4,c5,c6,c7,c8,c9,c10];
 ```
 
 If your STACK version is older than 20221010 then you will need to add this function to the question variables.
@@ -74,21 +95,13 @@ Subtract the constant term from both sides.
 [[/ if ]]
 Add  \(b^2/4\) to both sides
 \[ {@p3@} \]
-and add the numerical terms on the right hand side.  Now is the time to use \(  {@ (ev(sqrt(c2)*x,simp)+c1/2)^2 = q0@} \) and notice the calculation so far makes the left side a perfect square, so we may now factor the left hand side
-\[ {@p4@} \]
-Write the right hand side as a square
-\[ {@p5@} \]
-and subtract this from both sides.
-\[ {@p6@} \]
-Now we have the difference of two squares.
-\[ {@p7@} \]
-Select the numbers in each factor
-\[ {@p8@} \]
-[[ if test='integerp(ev(c1/2-n5,simp))' ]]
-and perform arithmetic
-\[ {@p9@} \]
-[[/ if ]]
-Hence we have the solutions {@x=n1@} and {@x=n2@}.
+and add the numerical terms on the right hand side.  Now is the time to use \(  {@ (ev(sqrt(c2)*x,simp)+c1/2)^2 = q0@} \) and notice the calculation so far makes the left side a perfect square.
+[[ foreach x='l0' ]] 
+[[ if test='l3[x]' ]]
+{@l2[x]@} 
+\[{@l1[x]@}\] 
+[[/ if]]
+[[/ foreach ]]
 ```
 
 This particular worked solution will create a reasonable step-by-step solution in all the following cases:
@@ -125,3 +138,17 @@ n2:1;
 Notice this method has conciously avoided taking the square roots of both sides of an equation and hence entirely side-stepped the confusing issue of how to deal with \( \pm \).  Avoiding taking the square roots of both sides of an equation does not lead to the shortest worked solution in all cases.
 
 This method completely side-steps factoring with a "guess and check" method, even though this is widley taught and quicker when mastered.
+
+## Two column proof
+
+We can use the question blocks functionality to create a two column proof.  The last part of the above argument can be printed out by looping over the lists we created, testing whether to display each line.
+
+```
+<table>
+[[ foreach x='l0' ]] 
+[[ if test='l3[x]' ]]
+<tr><td>{@l1[x]@}</td><td>{@l2[x]@} </td></tr>
+[[/ if]]
+[[/ foreach ]]
+</table>
+```

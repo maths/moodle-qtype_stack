@@ -1,14 +1,109 @@
 # Writing worked solutions in STACK
 
-There is something of an art to writing worked solutions in STACK which are robust to different random versions.  This page contains an example of a detailed, and flexible, solution to solving quadratic equations.
+There is something of an art to writing worked solutions in STACK which are robust to different random versions.  Creating a worked solution, in this example and more generally, uses the following basic ideas.
 
-Creating a worked solution, in this example and more generally, uses the following basic ideas.
+1. We should start with the worked solution and work backwards to the question.  
+2. Technically, we should solve as many mathematical problems as possible in Maxima, with `simp:false`, and not try to solve mathematical problems at the LaTeX level.  This means we will be simplifying _parts_ of expressions explicitly using Maxima code `ev( ... , simp)` within larger expressions.  The advantage of working at the mathematical level is that Maxima will display negative values correctly and not as, e.g., \( (x+ -3)^2 - 2^2 \).
+3. We should solve as many display problems as possible in the castext level, especially those involving the relationship of text to mathematics.
+4. Steps can be ommited in the worked solution, or conditional statements added to the worked solution, using the [question blocks](Question_blocks.md) functionality.  The castext is the right place to deal with formatting, not within the question variables.
 
-1. We should start with the worked solution and work backwards to the question.  Here we start with numbers \(a\), \(n_1\) and \(n_2\) and expand out \(a(x-n_1)(x-n_2)\) to keep careful control over the roots and the coefficient of \(x^2\).
-2. Technically, we should solve as many problems as possible at the mathematical level in Maxima, with `simp:false`, and not try to solve problems at the LaTeX level.  This means we will be simplifying _parts_ of expressions explicitly using Maxima code `ev( ... , simp)` within larger expressions.  For example, consider the expression \( (x-3)^2 - 2^2 \).  This might be created from variables in Maxima as `(ev( sqrt(c2)*x+c1/2, simp))^2 - n5^2 = 0` with variables `c2:1`, `c1:-6` and `n5:2`.  This example simplifies the contents of the brackets, but not the constant term outside.   The advantage of working at the mathematical level is that Maxima will display negative values of `c1` with a minus sign and not as \( (x+ -3)^2 - 2^2 \).
-3. Steps can be ommited in the worked solution, or conditional statements added to the worked solution, using the [question blocks](Question_blocks.md) functionality.  The castext is the right place to deal with formatting, not within the question variables.
+If your STACK version is older than 20221010 then you will need to add this function to the question variables.
 
-Note, in the example below the presentation is kept very simple.  Ultimately, some better styling (CSS) would significantly improve the presentation, perhaps using a two-column layout.
+```
+texdisp_select(ex) := sconcat("\\color{red}{\\underline{", tex1(first(args(ex))), "}}");
+texput(disp_select, texdisp_select);
+```
+
+## Solving a linar equation.
+
+
+This question is to "solve \( 5(x-3) = 4(x-3) + 2\)''.  In this example there is no randomisation, although this would be relatively easy to add later.
+
+
+```
+/* These functions add lines to the argument. (Part of core STACK?)     */
+/* argument_step(existing_argument, string_instruction, maxima_result)  */
+argument_step([ex]) := block([arg1],
+  arg1:first(ex),
+  append(arg1, [[second(ex), third(ex)]])  
+);
+argument_add([ex]) := block([arg1],
+  arg1:first(ex),
+  append(arg1, [[sconcat("Add ", stack_disp(second(ex) ,"i"), " to both sides."), lhs(second(last(arg1)))+second(ex)=rhs(second(last(arg1)))+second(ex)]])  
+);
+
+/* This will hold the complete argument. */
+q0:5*(x-3) = 4*(x-3)+2;
+ar1:[["Solve", q0]];
+ar1:argument_add(ar1,-4*(x-3));
+ar1:argument_step(ar1,"Gather like terms", ev(second(last(ar1)),simp) );
+ar1:argument_add(ar1,3);
+ar1:argument_step(ar1,"Perform integer arithmetic", ev(second(last(ar1)),simp) );
+```
+
+Then to display the argument use the following question blocks.
+
+```
+[[ foreach n='ev(makelist(k,k,1,length(ar1)),simp)' ]] 
+    {@first(ar1[n])@} \[{@second(ar1[n])@}\] 
+[[/ foreach ]]
+```
+
+Notes:
+
+1. Using lists for the whole argument make it easier to add or remove lines, and to control which lines are shown.  There are fewer variable names to keep track of.
+2. The imperative can only contain simple strings, and not full castext.  So creating imperatives which themselves contain mathematical expressions based on variables is more difficult.  That's what castext is for!
+3. You can refer to the previous line in the argument with the `last` command, e.g. to access the Maxiam expression in the previous step use `second(last(ar1))`.
+4. The imperative must be a simple strings, and not full castext.  Creating imperatives which themselves contain mathematical expressions based on variables is more difficult.  That's what castext is for!  See the `argument_add` function for an example of how to do this.
+
+TODO: decide how to _not_ display particular steps in this calculation.  In particular the instruction "add 3 to both sides" should also simplify the result.  So we should display the _instruction_ to step 3, but display the _result_ of step 4!
+
+## Two-column proof
+
+We can use the question blocks functionality to create a two column proof.  The last part of the above argument can be printed out by looping over the lists we created, testing whether to display each line.
+
+```
+<table>
+[[ foreach n='ev(makelist(k,k,1,length(ar1)),simp)' ]] 
+    <tr>
+      <td> {@first(ar1[n])@} </td>
+      <td> \({@second(ar1[n])@}\) </td>
+    </tr>
+[[/ foreach ]]
+</table>
+```
+
+High-level display choices such as selecting a two-column table over prose is best solved at the castext level, not within Maxima.
+
+TODO: how can we line up equality signs in the display?
+
+## HTML details/summary
+
+Detail within a particular worked solution can be shown, at the student's discression, using the HTML details/summary tags.
+
+```
+Expand out the quadratic 
+  \[(x+3)(x+5)\]
+<details>
+  <summary>(details)</summary>
+  \[ = x(x+5)+3(x+5)\]
+  \[ = x^2+5x+3x+3\times 5 \]
+</details>
+  \[ = x^2+8x+15 \]
+```
+
+Expand out the quadratic 
+  \[(x+3)(x+5)\]
+<details>
+  <summary>(details)</summary>
+  \[ = x(x+5)+3(x+5)\]
+  \[ = x^2+5x+3x+3\times 5 \]
+</details>
+  \[ = x^2+8x+15 \]
+
+## Solving a quadratic equation via completed squares and difference of two squares.
+
+This example gives details of solving a quadratic equation via completed squares and difference of two squares.  We start with numbers \(a\), \(n_1\) and \(n_2\) and expand out \(a(x-n_1)(x-n_2)\) to keep careful control over the roots and the coefficient of \(x^2\).  In the example below the presentation is kept very simple.  Ultimately, some better styling (CSS) would significantly improve the presentation, perhaps using a two-column layout.
 
 The following is the question variables field.
 
@@ -67,18 +162,10 @@ l2:[s4,s5,s6,s7,s8,s9,s10];
 l3:[c4,c5,c6,c7,c8,c9,c10];
 ```
 
-If your STACK version is older than 20221010 then you will need to add this function to the question variables.
-
-```
-texdisp_select(ex) := sconcat("\\color{red}{\\underline{", tex1(first(args(ex))), "}}");
-texput(disp_select, texdisp_select);
-```
-
-The question text is simply `Solve \({@p0@}=0\).`  The correct answer is `ta`, and a PRT with `ATAlgEquiv(ans1,ta)` is sufficient for now.  (Better feedback could be provided, of course.)
 
 In the Options turn the Question-level simplify to `no`.
 
-The point of this document is the general feedback, i.e. the worked solution.
+The point of this example is the general feedback, i.e. the worked solution, not the whole question.
 
 ```
 Solve \({@p0@}=0\).
@@ -96,6 +183,7 @@ Subtract the constant term from both sides.
 Add  \(b^2/4\) to both sides
 \[ {@p3@} \]
 and add the numerical terms on the right hand side.  Now is the time to use \(  {@ (ev(sqrt(c2)*x,simp)+c1/2)^2 = q0@} \) and notice the calculation so far makes the left side a perfect square.
+
 [[ foreach x='l0' ]] 
 [[ if test='l3[x]' ]]
 {@l2[x]@} 
@@ -139,16 +227,83 @@ Notice this method has conciously avoided taking the square roots of both sides 
 
 This method completely side-steps factoring with a "guess and check" method, even though this is widley taught and quicker when mastered.
 
-## Two column proof
 
-We can use the question blocks functionality to create a two column proof.  The last part of the above argument can be printed out by looping over the lists we created, testing whether to display each line.
+## Creating a single "array" to hold most of the argument.
 
 ```
-<table>
-[[ foreach x='l0' ]] 
-[[ if test='l3[x]' ]]
-<tr><td>{@l1[x]@}</td><td>{@l2[x]@} </td></tr>
-[[/ if]]
+/* Control the coeffient of x^2 and the roots. */
+a1:1;
+n1:-2;
+n2:3;
+/* Define the quadratic and monic quadratic from the roots. */
+p0:ev(expand(a1*(x-n1)*(x-n2)), simp);
+p1:ev(expand((x-n1)*(x-n2)), simp);
+/* Coefficients of the polynomial.  */
+c0:ev(coeff(p1,x,0),simp);
+c1:ev(coeff(p1,x,1),simp);
+c2:ev(coeff(p1,x,2),simp);
+/* Calculations based on coefficients. */
+n3:ev((c1/2)^2,simp);  /* b/2 */
+n4:ev((c1/2)^2-c0,simp); /* b^2/4-c */
+n5:ev(sqrt(n4),simp); 
+n6:ev(sqrt(c2)*x,simp); /* We need this simplified, especially when c2=1. */
+
+/* These are lines in the working, (p*) or other associated expressions (q*).  */
+q0:ev(expand((x+c1/2)^2),simp);
+
+p2:ev(p1-c0,simp) = ev(-1*c0,simp);
+p3:ev(p1-c0,simp) + disp_select(n3) = disp_select(n3) - c0;
+
+/* This will hold the complete argument. */
+ar1:[];
+
+/* argument_step(existing_argument, string_instruction, maxima_result)  */
+argument_step([ex]) := block([arg1],
+  arg1:first(ex),
+  append(arg1, [[second(ex), third(ex)]])  
+);
+
+/* Each line has an imperative (what we are about to do) and the result. */
+ar1:argument_step(ar1,"We may now factor the left hand side", disp_select((ev(x+c1/2,simp))^2) = n4);
+ar1:argument_step(ar1,"Write the right hand side as a square", (ev(n6+c1/2,simp))^2 = disp_select(n5^2));
+ar1:argument_step(ar1,"and subtract this from both sides.", (ev(n6+c1/2,simp))^2 - n5^2 = 0);
+ar1:argument_step(ar1,"Now we have the difference of two squares.", (ev(n6+c1/2,simp)-n5)*(ev(n6+c1/2,simp)+n5) = 0);
+ar1:argument_step(ar1,"Select the numbers in each factor.", (n6+disp_select(ev(c1/2,simp)-n5))*(n6+disp_select(ev(c1/2,simp)+n5)) = 0);
+/* Note, this line of the argument is conditional. */
+if integerp(ev(c1/2-n5,simp)) then ar1:argument_step(ar1,"and perform arithmetic.", (ev(n6+c1/2-n5,simp))*(ev(n6+c1/2+n5,simp)) = 0);
+ar1:argument_step(ar1,"which gives the result", x=n1 nounor x=n2);
+```
+
+Then the end of the castext is the following loop, using question blocks, to display the test.
+
+```
+[[ foreach n='ev(makelist(k,k,1,length(ar1)),simp)' ]] 
+    {@first(ar1[n])@} \[{@second(ar1[n])@}\] 
 [[/ foreach ]]
-</table>
 ```
+
+## Legacy ideas (delete?)
+
+Have a third argument to the list to control display.
+
+```
+/* This function adds lines to the argument. (Part of core STACK?) */
+add_to_argument([ex]):=block([arg1,disp],
+  disp:true,
+  if length(ex)>3 then disp:fourth(ex),
+  arg1:first(ex),
+  append(arg1,[[second(ex), third(ex),disp]])  
+);
+```
+
+Then display with if statements in the castext.
+
+```
+[[ foreach n='ev(makelist(k,k,1,length(ar1)),simp)' ]] 
+  [[ if test='third(ar1[n])' ]]
+    {@first(ar1[n])@} \[{@second(ar1[n])@}\] 
+  [[/ if]]
+[[/ foreach ]]
+```
+
+

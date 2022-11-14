@@ -292,6 +292,11 @@
         "description":"Information on testing a STACK question."
         },
         {
+        "file":"Trees.md",
+        "title":"Trees - STACK Documentation",
+        "description":"Functions for displaying the tree representation of a mathematical expression."
+        },
+        {
         "file":"Units.md",
         "title":"Scientific Units - STACK Documentation",
         "description":"STACK supports the use of scientific units in its questions. This is particularly useful in physics questions."

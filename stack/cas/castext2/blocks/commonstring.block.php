@@ -40,7 +40,7 @@ require_once(__DIR__ . '/../../../utils.class.php');
 class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
 
     public function compile($format, $options): ?string {
-        // The user should use this blocks full name "commonstring" but
+        // The user should use this block's full name "commonstring" but
         // as this is a common block and chars take room we tend to use a shorter
         // one internally "%cs", note that the processors need to know of this.
         if (count($this->params) == 1) {
@@ -72,7 +72,6 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                     } else {
                         // By default assume the value is to be handled like {@...@} would handle it.
                         $r[] = stack_utils::php_string_to_maxima_string($key);
-
                         $r[] = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,' . $ev .
                             ',simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,"i",_ct2_simp),simp:_ct2_simp,_ct2_tmp)';
                     }

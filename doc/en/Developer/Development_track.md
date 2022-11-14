@@ -15,6 +15,10 @@ TODO: List of long lasting issues dealt with, that might need to be notified/clo
 1. Error messages: use caserror.class more fully to use user information to target error messages.
 2. Remove all "cte" code from Maxima - mostly install.
 
+Done:
+
+1. Add in functionality to display Maxima expressions as [trees](../Authoring/Trees.md) with CSS using  `disptree`.
+
 ## For "inputs 2"?
 
 * Better CSS, including "tool tips".  May need to refactor JavaScript.  (See issue #380)

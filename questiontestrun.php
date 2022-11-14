@@ -514,9 +514,9 @@ foreach ($testresults as $key => $result) {
             $expectedpenalty = round($state->expectedpenalty + 0, 4);
         }
 
-        $answernote_display = html_writer::tag('summary', s($state->answernote))
+        $answernotedisplay = html_writer::tag('summary', s($state->answernote))
             . html_writer::tag('pre', implode('', $prtinputs) . $state->trace);
-        $answernote_display = html_writer::tag('details', $answernote_display);
+        $answernotedisplay = html_writer::tag('details', $answernotedisplay);
 
         $prtstable->data[] = array(
                 $prtname,
@@ -524,7 +524,7 @@ foreach ($testresults as $key => $result) {
                 $expectedscore,
                 $state->penalty,
                 $expectedpenalty,
-                $answernote_display,
+                $answernotedisplay,
                 s($state->expectedanswernote),
                 format_text($state->feedback),
                 $passedcol,
@@ -578,9 +578,9 @@ foreach ($question->prts as $name => $prt) {
     $offlinemaxima[] = $prt->get_maxima_representation();
 }
 $offlinemaxima = s(implode("\n", $offlinemaxima));
-$out .=  html_writer::start_tag('div', array('class' => 'questionvariables'));
-$out .=  html_writer::tag('pre', $offlinemaxima);
-$out .=  html_writer::end_tag('div');
+$out .= html_writer::start_tag('div', array('class' => 'questionvariables'));
+$out .= html_writer::tag('pre', $offlinemaxima);
+$out .= html_writer::end_tag('div');
 echo html_writer::tag('details', $out);
 
 // Display the question.

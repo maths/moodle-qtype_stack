@@ -17,7 +17,7 @@
 /**
  * This script shows the results of a compiling for a question.
  * In a readable form, with CAS-content pretty printed.
- * 
+ *
  * This is for developers.
  *
  * @copyright  2022 Aalto University
@@ -65,12 +65,13 @@ echo $OUTPUT->heading($title);
 
 echo '<p>This tool present the cached compialtion results related to a particular question.</p>';
 
-echo '<p>These are mainly for STACK developers, these should not matter for authors or other users. However, one may use these to find out what we do to your code before it gets evaluated.</p>';
+echo '<p>These are mainly for STACK developers, these should not matter for authors or other users. ' .
+     'However, one may use these to find out what we do to your code before it gets evaluated.</p>';
 
 
 echo '<h3>Simple details</h3>';
 $selected = [
-    'units' => $q->get_cached('units'), 
+    'units' => $q->get_cached('units'),
     'langs' => $q->get_cached('langs'),
     'forbiddenkeys' => array_keys($q->get_cached('forbiddenkeys'))];
 echo '<pre>' . htmlspecialchars(json_encode($selected, JSON_PRETTY_PRINT)) . '</pre>';

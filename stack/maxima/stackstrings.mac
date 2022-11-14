@@ -63,14 +63,14 @@ stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v,dm
  tmp:strim(sconcat(ascii(32),ascii(9),ascii(10),ascii(11),ascii(12),ascii(13)),json),
  if is(tmp="") then return(und),
 
- /* easy ones */
+ /* Easy ones. */
  if is(tmp="true") then return(true),
  if is(tmp="false") then return(false),
  if is(tmp="null") then return(und),
  if is(tmp="[]") then return([]),
  if is(tmp="{}") then return(["stack_map"]),
 
- /* Not easy, do some tokenising */
+ /* Not easy, do some tokenising. */
  mode:"raw", /* In a string or not, maybe number */
  i:0,
  tokens:[],
@@ -397,8 +397,8 @@ stack_csv_formatter(_data, _labels) := block([_sep,simp,_out,_rowcount,_sepcount
 
  /* TODO: do we want to do padding and formatting to help reading in text-editors? */
 
- /* Now lets join everyhing up. */
- _out: maplist(lambda([_row],simplode(_row, _sep)), _out),
+ /* Now let's join everything up. */
+ _out: maplist(lambda([_row], simplode(_row, _sep)), _out),
  _out: simplode(_out,"
 ")
  /* We might want to add a line change to the end. */
@@ -425,7 +425,7 @@ ct2_latex(%_val, %_mode, %_simp):=block([%_tmp,simp],
    /* If in math-mode, i.e. not requesting wrapping wrap with braces. */
    if %_mode = "" or %_mode = "m" then %_tmp: sconcat("{", %_tmp, "}"),
    if %_mode = "m" or %_mode = "im" then %_tmp: str_to_md(%_tmp),
-   return(%_tmp)
+   return(["smlt", %_tmp])
  ) else if listp(%_tmp) and length(%_tmp) > 0 and is(%_tmp[1] = "%root") then (
    /* If we receive inline CASText then pass it through. */
    if is(length(%_tmp) = 2) then

@@ -85,6 +85,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '4^(1/2)', 'sqrt(4)', 1, '', ''),
         array('AlgEquiv', '', '0.5', '1/2', 1, '', 'Mix of floats and rational numbers'),
         array('AlgEquiv', '', '0.33', '1/3', 0, '', ''),
+        // It will be interesting to find out on how many versions of Maxima the test below fails!
+        array('AlgEquiv', '', '452', '4.52*10^2', 0, '', ''),
         array('AlgEquiv', '', '5.1e-2', '51/1000', 1, '', ''),
         array('AlgEquiv', '', '0.333333333333333', '1/3', 0, '', ''),
         array('AlgEquiv', '', '(0.5+x)*2', '2*x+1', 1, '', ''),

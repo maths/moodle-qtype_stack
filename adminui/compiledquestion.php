@@ -53,7 +53,6 @@ if (!isset($_GET['qid']) || !is_numeric($_GET['qid'])) {
 
     echo '<p>This tool requires a GET parameter "qid" that defines the question being explored.</p>';
 
-
     echo $OUTPUT->footer();
     die();
 }
@@ -63,7 +62,7 @@ $q = question_bank::load_question($_GET['qid']);
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
-echo '<p>This tool present the cached compialtion results related to a particular question.</p>';
+echo '<p>This tool presents the cached compialtion results related to a particular question.</p>';
 
 echo '<p>These are mainly for STACK developers, these should not matter for authors or other users. ' .
      'However, one may use these to find out what we do to your code before it gets evaluated.</p>';

@@ -58,6 +58,33 @@ Notes:
 
 TODO: decide how to _not_ display particular steps in this calculation.  In particular the instruction "add 3 to both sides" should also simplify the result.  So we should display the _instruction_ to step 3, but display the _result_ of step 4!
 
+## Adding in the "pq-rule"
+
+```
+/* These functions add lines to the argument. (Part of core STACK?)     */
+/* argument_step(existing_argument, string_instruction, maxima_result)  */
+argument_step([ex]) := block([arg1],
+  arg1:first(ex),
+  append(arg1, [[second(ex), third(ex)]])  
+);
+argument_add([ex]) := block([arg1],
+  arg1:first(ex),
+  append(arg1, [[sconcat("Add ", stack_disp(second(ex) ,"i"), " to both sides."), lhs(second(last(arg1)))+second(ex)=rhs(second(last(arg1)))+second(ex)]])  
+);
+
+/* Solve x^2+p*x+q=0 */
+pq_rule(p,q):=-(p/2) #pm# sqrt((p/2)^2-q);
+
+/* This will hold the complete argument. */
+q0:x^2-4*x+3;
+p1:ev(coeff(q0,x,1),simp);
+q1:ev(coeff(q0,x,0),simp);
+ar1:[["Solve", q0=0]];
+ar1:argument_step(ar1,"apply pq rule", x=pq_rule(p1,q1));
+ar1:argument_step(ar1,"simplify", ev(second(last(ar1)),simp) );
+```
+
+
 ## Two-column proof
 
 We can use the question blocks functionality to create a two column proof.  The last part of the above argument can be printed out by looping over the lists we created, testing whether to display each line.

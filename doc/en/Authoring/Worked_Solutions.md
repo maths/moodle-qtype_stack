@@ -75,7 +75,19 @@ We can use the question blocks functionality to create a two column proof.  The 
 
 High-level display choices such as selecting a two-column table over prose is best solved at the castext level, not within Maxima.
 
-TODO: how can we line up equality signs in the display?
+To line up equality signs in the display, assuming each element is an equation, we can add an extra column.
+
+```
+<table>
+[[ foreach n='ev(makelist(k,k,1,length(ar1)),simp)' ]] 
+    <tr>
+      <td> {@first(ar1[n])@} </td>
+      <td align="right"> \({@lhs(second(ar1[n]))@}\) </td>
+      <td align="left"> \(= {@rhs(second(ar1[n]))@}\) </td>
+    </tr>
+[[/ foreach ]]
+</table>
+```
 
 ## HTML details/summary
 

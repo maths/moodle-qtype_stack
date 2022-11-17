@@ -51,11 +51,13 @@ Internally Maxima represents floats in binary, and so even simple calculations w
 Try `452-4.52*10^2` in desktop Maxima, which is not zero, therefore `ATAlgEquiv(452,4.52*10^2)` fails. (Maxima 5.44.0, November 2022).  \(4.52\times 10^2\) ends up with recurring 9s when represented as a binary float, so it is not algebraically equivalent to the integer \(452\).
 
 Rounding like this can also occur in calculations, for example
+
     p1:0.29;
     p2:0.18;
     p3:0.35;
     v0:1-(p1+p2+p3);
     v1:0.18;
+
 Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115123125783*10^-17\) and so `ATAlgEquiv(v0,v1)` will give false.  Please always use a [numerical test](Answer_tests_numerical.md) when testing floats.
 
 

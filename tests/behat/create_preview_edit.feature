@@ -15,13 +15,10 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And the following "course enrolments" exist:
       | user    | course | role           |
       | teacher | C1     | editingteacher |
-    And I log in as "teacher"
-    And I am on "Course 1" course homepage
-    And I navigate to "Question bank" in current page administration
 
   @javascript
   Scenario: Create, preview, test, tidy and edit STACK questions
-    And I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
+    When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
     # Create a new question.
     And I add a "STACK" question filling the form with:
       | Question name      | Test STACK question                                                           |
@@ -103,7 +100,10 @@ Feature: Create, preview, test, tidy and edit STACK questions
 
   @javascript
   Scenario: Test duplicating a STACK question keeps the deployed variants and question tests
-    Given the following "questions" exist:
+    Given the following "question categories" exist:
+      | contextlevel | reference | name           |
+      | Course       | C1        | Default for C1 |
+    And the following "questions" exist:
       | questioncategory | qtype | name             | template |
       | Default for C1   | stack | Question to copy | test1    |
     And the following "qtype_stack > Deployed variants" exist:
@@ -112,10 +112,34 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And the following "qtype_stack > Question tests" exist:
       | question         | ans1 | PotResTree_1 score | PotResTree_1 penalty | PotResTree_1 note |
       | Question to copy | ta+C | 1                  | 0                    | PotResTree_1-1-T  |
-    And I reload the page
-    When I choose "Duplicate" action for "Question to copy" in the question bank
+    When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
+    And I choose "Duplicate" action for "Question to copy" in the question bank
     And I press "id_submitbutton"
     And I choose "Question tests & deployed variants" action for "Question to copy (copy)" in the question bank
     Then I should see "Deployed variants (1)"
     And I should see "42"
-    And I should see "Test case 1 Pass"
+    And I should see "Test case 1"
+    And I should see "All tests passed!"
+
+  @javascript
+  Scenario: Editing a STACK question (to make a new version) keeps the deployed variants and question tests
+    Given the following "question categories" exist:
+      | contextlevel | reference | name           |
+      | Course       | C1        | Default for C1 |
+    And the following "questions" exist:
+      | questioncategory | qtype | name             | template |
+      | Default for C1   | stack | Question to edit | test1    |
+    And the following "qtype_stack > Deployed variants" exist:
+      | question         | seed |
+      | Question to edit | 42   |
+    And the following "qtype_stack > Question tests" exist:
+      | question         | ans1 | PotResTree_1 score | PotResTree_1 penalty | PotResTree_1 note |
+      | Question to edit | ta+C | 1                  | 0                    | PotResTree_1-1-T  |
+    When I am on the "Question to edit" "core_question > edit" page logged in as "teacher"
+    And I set the field "Question name" to "Edited question"
+    And I press "id_submitbutton"
+    And I choose "Question tests & deployed variants" action for "Edited question" in the question bank
+    Then I should see "Deployed variants (1)"
+    And I should see "42"
+    And I should see "Test case 1"
+    And I should see "All tests passed!"

@@ -497,7 +497,7 @@ class maxima_parser_utils {
         if ($targetedkeys !== null && !is_array($targetedkeys)) {
             // When you want to replace all but the one.
             $tmp = array_keys($substs);
-            $i = array_search($targetedkeys, $tmp);
+            $i = array_search($targetedkeys, $tmp, true);
             if ($i !== false) {
                 unset($tmp[$i]);
             }

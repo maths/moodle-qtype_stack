@@ -225,6 +225,19 @@ class input_textarea_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
     }
+
+    public function test_validate_student_response_same_type_true_valid_3() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('textArea', 'sans1', '[x=1,x=2,x=3]');
+        // Long answer than re-sizes the rendered version.
+        $state = $el->validate_student_response(array('sans1' => "x=1\nx=2\nx=3\nx=4\nx=5\nx=6\nx=7\nx=8\nx=9"),
+            $options, '[x=1,x=2,x=3]', new stack_cas_security());
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" ' .
+            'class="maxima-list" rows="10" cols="20">' . "x=1\nx=2\nx=3\nx=4\nx=5\nx=6\nx=7\nx=8\nx=9</textarea>",
+            $el->render($state, 'sans1', false, null));
+    }
 }
 
 /**

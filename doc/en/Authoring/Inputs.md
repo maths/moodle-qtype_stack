@@ -78,8 +78,7 @@ We cannot use the `EMPTYANSWER` tag for the teacher's answer with the matrix inp
 
 #### Text area ####
 
-Enter algebraic expressions on multiple lines.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list.
-Note, the teacher's answer and any syntax hint must be a list!  If you just pass in an expression strange behaviour may result.
+This input allows the user to type in multiple lines, where each line must be a valid algebraic expression.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list. Note, the teacher's answer and any syntax hint must be a list, of valid Maxima exprssions!  If you just pass in an expression strange behaviour may result.
 
 #### Equivalence reasoning input ####
 

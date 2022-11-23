@@ -57,7 +57,7 @@ class stack_textarea_input extends stack_input {
         }
 
         // Sort out size of text area.
-        $rows = stack_utils::list_to_array($current, false);
+        $rows = preg_split('/\n+/u', $current);
         $attributes['rows'] = max(5, count($rows) + 1);
 
         $boxwidth = $this->parameters['boxWidth'];

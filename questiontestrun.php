@@ -569,8 +569,14 @@ echo html_writer::tag('p',
         html_writer::link(new moodle_url('/question/type/stack/questiontestreport.php', $urlparams),
                 stack_string('basicquestionreport')) . $OUTPUT->help_icon('basicquestionreport', 'qtype_stack'));
 
-// Question variables.
-$out = html_writer::tag('summary', stack_string('questionvariablevalues'));
+// Display the question variables.
+echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
+echo html_writer::start_tag('div', array('class' => 'questionvariables'));
+echo html_writer::tag('pre', $questionvariablevalues);
+echo html_writer::end_tag('div');
+
+// Question variables and PRTs in a summary tag/
+$out = html_writer::tag('summary', stack_string('prts'));
 $out .= html_writer::start_tag('div', array('class' => 'questionvariables'));
 $out .= html_writer::tag('pre', $questionvariablevalues);
 $out .= html_writer::end_tag('div');
@@ -585,21 +591,18 @@ $out .= html_writer::tag('pre', $offlinemaxima);
 $out .= html_writer::end_tag('div');
 echo html_writer::tag('details', $out);
 
-// Display the question.
-$out = html_writer::tag('summary', stack_string('questionpreview'));
-echo html_writer::tag('details', $out . $renderquestion);
+echo $OUTPUT->heading(stack_string('questionpreview'), 3);
+echo $renderquestion;
 
 // Display the question note.
-$out = html_writer::tag('summary', stack_string('questionnote'));
-$out .= html_writer::tag('p', stack_ouput_castext($question->get_question_summary()),
+echo $OUTPUT->heading(stack_string('questionnote'), 3);
+echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()),
     array('class' => 'questionnote'));
-echo html_writer::tag('details', $out);
 
 // Display the general feedback, aka "Worked solution".
-$out = html_writer::tag('summary', stack_string('generalfeedback'));
-$out .= html_writer::tag('div', html_writer::tag('div', $rendergeneralfeedback,
+echo $OUTPUT->heading(stack_string('generalfeedback'), 3);
+echo html_writer::tag('div', html_writer::tag('div', $rendergeneralfeedback,
     array('class' => 'outcome generalfeedback')), array('class' => 'que'));
-echo html_writer::tag('details', $out);
 
 // Add a link to the cas chat to facilitate editing the general feedback.
 if ($question->options->get_option('simplify')) {

@@ -12,6 +12,8 @@ To avoid problems like this we therefore have decided that
 
 If you are teaching rules of indices to students for the first time this might come as a surprise!  If you would like STACK to implement this rule, then you need to also `assume(a>0)`.  This can be done in the feedback variables.  This is a design decision and not a bug (and is recorded in the system unit tests)!
 
+Note the Maxima function `rootscontract` which converts products of roots into roots of products.
+
 ## Ordering terms
 
 Maxima chooses an order in which to write terms in an expression. By default, this will use reverse lexicographical order for simple sums, so that we have \(b+a\) instead of \(a+b\).
@@ -159,7 +161,7 @@ STACK provides the function `remove_disp_select(ex)` to remove this inert displa
 
 When creating feedback it is often useful to select, and highlight, part of an expression.  STACK provides a function `select(p1, ex)` to do this.  The select function traverses the expression tree for `ex` and when it encounters a sub-tree for which the predicate `p1` is true it adds `disp_select` to the sub-tree and stops traversing any further down that sub-tree.  While nested `disp_select` are possible (and will dispaly multiple underlines: another reason for having underline) this particular function stops once `p1` is true.  You will need to build nested display by hand.
 
-For example, to select all the integers in an expression you can use the predicate `integerp` and `select(integerp, 1+x+0.5*x^2` gives \(\color{red}{\underline{1}}+x+0.5\cdot x^{\color{red}{\underline{2}}}\).
+For example, to select all the integers in an expression you can use the predicate `integerp` and `select(integerp, 1+x+0.5*x^2)` gives \(\color{red}{\underline{1}}+x+0.5\cdot x^{\color{red}{\underline{2}}}\).
 
 It is possible to use any of the existing predicate functions, or to define your own function in the question variables.
 

@@ -175,6 +175,12 @@ class caskeyval_test extends qtype_stack_testcase {
         }
     }
 
+    public function test_remove_comment_hanging() {
+        $at1 = new stack_cas_keyval("a:1\n /* This is an open comment \n b:2\n \n c:3^2", null, 123);
+        $this->assertFalse($at1->get_valid());
+        $at1->instantiate();
+    }
+
     public function test_multiline_input() {
         $tests = "n:3;\nif is(n=3) then (\nk1:1,\nk2:2\n) else (\nk1:3,\nk2:4\n);\na:k2^2;";
 

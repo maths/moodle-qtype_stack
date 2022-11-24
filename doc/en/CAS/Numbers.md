@@ -46,6 +46,22 @@ The variable \(e\) has been defined as `e:exp(1)`.  This now potentially conflic
 
 If you expect students to use scientific notation for numbers, e.g. `3e4` (which means \(3\times 10^{4}\) ), then you may want to use the [option for strict syntax](../Authoring/Inputs.md#Strict_Syntax).  
 
+Internally Maxima represents floats in binary, and so even simple calculations which would be exact in base ten (e.g. adding 0.16 to 0.12) might end up in a recurring decimal float which is not exactly equal to the result you would type in directly.  
+
+Try `452-4.52*10^2` in desktop Maxima, which is not zero, therefore `ATAlgEquiv(452,4.52*10^2)` fails. (Maxima 5.44.0, November 2022).  \(4.52\times 10^2\) ends up with recurring 9s when represented as a binary float, so it is not algebraically equivalent to the integer \(452\).
+
+Rounding like this can also occur in calculations, for example
+
+    p1:0.29;
+    p2:0.18;
+    p3:0.35;
+    v0:1-(p1+p2+p3);
+    v1:0.18;
+
+Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115123125783*10^-17\) and so `ATAlgEquiv(v0,v1)` will give false.  Please always use a [numerical test](Answer_tests_numerical.md) when testing floats.
+
+
+
 ## Maxima and floats with trailing zeros ##
 
 For its internal representation, Maxima always truncates trailing zeros from a floating point number.  For example, the Maxima expression `0.01000` will be converted internally to `0.01`.  Actually this is a byproduct of the process of converting a decimal input to an internal binary float, and back again.  Similarly, when a number is a "float" datatype, Maxima always prints at least one decimal digit to indicate the number is a float.  For example, the floating point representation of the number ten is \(10.0\).  This does _not_ indicate significant figures, rather it indicates data type.  In situations where the number of significant figures is crucial this is problematic.

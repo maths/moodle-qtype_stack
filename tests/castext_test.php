@@ -99,14 +99,19 @@ class castext_test extends qtype_stack_testcase {
                 array('\[{@a*b@}\]', $a1, true, '\[{x^2\cdot {\left(x+1\right)}^2}\]'),
                 array('{@', null, true, '{@'), // The new parser allwos use of this text fragemt everywhere.
                 array('{@(x^2@}', null, false, false),
-                array('{@1/0@}', null, true, '1/0'), // Do we want this to work when simp:true?
-                // If so then the compiler will need to generate separate errcatch logic for everything just in case.
-                array('\(1+{@1/0@}\)', null, true, '\(1+{1/0}\)'),
+                array('{@1/0@}', null, true,
+                    '<h3>Rendering of text content failed.</h3><ul><li>Division by zero.</li></ul>'),
+                array('\(1+{@1/0@}\)', null, true,
+                    '<h3>Rendering of text content failed.</h3><ul><li>Division by zero.</li></ul>'),
                 array('{@x^2@}', $a2, false, null),
                 array('\(\frac{@"0.10"@}{@"0.10"@}\)', null, true, '\(\frac{0.10}{0.10}\)'),
                 // This last one looks very odd.  It records a change in v4.0 where we stop supporting dollars.
                 array('$${@x^2@}$$', null, true, '$$\({x^2}\)$$'),
-        );
+                // Generate a maxima error other than division by zero.
+                array('{@matrix([a],[b]).matrix([1,2],[3,4])@}', null, true,
+                    '<h3>Rendering of text content failed.</h3><ul><li>MULTIPLYMATRICES: ' .
+                    'attempt to multiply nonconformable matrices.</li></ul>'),
+                );
 
         foreach ($cases as $case) {
             $this->basic_castext_instantiation($case[0], $case[1], $case[2], $case[3]);
@@ -159,7 +164,8 @@ class castext_test extends qtype_stack_testcase {
         $cs1->instantiate();
 
         $this->assertEquals('Division by zero.', $cs1->get_errors());
-        $this->assertEquals('1/0', $ct->get_rendered());
+        $this->assertEquals('<h3>Rendering of text content failed.</h3><ul><li>Division by zero.</li></ul>',
+            $ct->get_rendered());
         $this->assertTrue($ct->get_valid());
         $this->assertEquals('Division by zero.',
             $ct->get_errors());
@@ -1052,6 +1058,31 @@ class castext_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
+    public function test_strings_in_castext_translated() {
+        $vars = 'st:a and "!AND!"';
+        $at1 = new stack_cas_keyval($vars, null, 123);
+        $this->assertTrue($at1->get_valid());
+        $cs2 = $at1->get_session();
+
+        $at2 = castext2_evaluatable::make_from_source('{@st@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        // The !AND! string is translated.
+        $this->assertEquals('\({a\,{\mbox{ and }}\, \mbox{and}}\)', $at2->get_rendered());
+
+        $at2 = castext2_evaluatable::make_from_source('{@"!AND!"@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals('and', $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_strings_only() {
         $s = '{@"This is a string"@} whereas this is empty |{@""@}|. Not quite empty |{@" "@}|.';
 
@@ -1873,5 +1904,100 @@ class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
 
         $this->assertEquals('\({bigcup_{k = 1}^{\infty } {A}_{k}}\)', $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_display_tree() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $vars = "p1:x=a nounor b;\np2:x=(a nounor b);";
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@p1@}: {@disptree(p1)@} <br/> {@p2@}: {@disptree(p2)@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals("\({x=a\,{\mbox{ or }}\, b}\): <ul class='tree'><li><span class='op'>\(\,{\mbox{ or }}\, \)" .
+            "</span><ul><li><code>=</code><ul><li><span class='atom'>\(x\)</span></li><li><span class='atom'>\(a\)</span>" .
+            "</li></ul></li><li><span class='atom'>\(b\)</span></li></ul></li></ul> <br/> " .
+            "\({x=\left(a\,{\mbox{ or }}\, b\\right)}\): <ul class='tree'><li><code>=</code><ul><li><span class='atom'>" .
+            "\(x\)</span></li><li><span class='op'>\(\,{\mbox{ or }}\, \)</span><ul><li><span class='atom'>\(a\)</span>" .
+            "</li><li><span class='atom'>\(b\)</span></li></ul></li></ul></li></ul>", $at2->get_rendered());
+
+        // An example needing some bespoke style in the output.
+        $vars = "p1:1+'diff(sin(x*y),x,2);";
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@p1@}: {@disptree(p1)@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals("\({1+\left(\\frac{\mathrm{d}^2}{\mathrm{d} x^2} \sin \left( x\cdot y \\right)\\right)}\): " .
+            "<ul class='tree'><li><code>+</code><ul><li><span class='atom'>\(1\)</span></li><li><span class='op'>" .
+            "\(\\frac{\mathrm{d}^2 }{\mathrm{d} x^2} \)</span><ul><li><code>sin</code><ul><li><code>*</code><ul><li>" .
+            "<span class='atom'>\(x\)</span></li><li><span class='atom'>\(y\)</span></li></ul></li></ul></li></ul></li>" .
+            "</ul></li></ul>", $at2->get_rendered());
+
+        $at2 = castext2_evaluatable::make_from_source('{@disptree(a+-gamma(x))@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals("<ul class='tree'><li><span class='op'>\({ \pm }\)</span><ul><li><span class='atom'>\(a\)" .
+            "</span></li><li><span class='op'>\(\Gamma\)</span><ul><li><span class='atom'>\(x\)</span></li></ul></li>" .
+            "</ul></li></ul>", $at2->get_rendered());
+
+        $at2 = castext2_evaluatable::make_from_source('{@disptree(sqrt(x))@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals("<ul class='tree'><li><span class='op'>\(\sqrt{}\)</span><ul><li>" .
+            "<span class='atom'>\(x\)</span></li></ul></li></ul>", $at2->get_rendered());
+
+        $at2 = castext2_evaluatable::make_from_source("{@disptree('limit(1/(x+1),x,0))@}", 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals("<ul class='tree'><li><span class='op'>\(\lim_{x\\rightarrow{0}} \cdots \)</span><ul>" .
+            "<li><code>/</code><ul><li><span class='atom'>\(1\)</span></li><li><code>+</code><ul>" .
+            "<li><span class='atom'>\(x\)</span></li><li><span class='atom'>\(1\)</span></li></ul></li></ul>" .
+            "</li></ul></li></ul>", $at2->get_rendered());
+
+        $at2 = castext2_evaluatable::make_from_source("{@disptree(2*matrix([a,b],[c,d]))@}", 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals("<ul class='tree'><li><code>*</code><ul><li><span class='atom'>\(2\)</span></li>" .
+            "<li><span class='atom'>\(\left[\begin{array}{cc} a & b \\\\ c & d \\end{array}\\right]\)</span></li>" .
+            "</ul></li></ul>", $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_display_tree_texput() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $vars = 'tree_texlist:union(tree_texlist,{"boo"});'.
+                "\ntexput(boo, \"\\\\diamond\");";
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@disptree(boo(a,b))@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals("<ul class='tree'><li><span class='op'>\(\diamond\)</span><ul><li>" .
+            "<span class='atom'>\(a\)</span></li><li><span class='atom'>\(b\)</span></li></ul></li></ul>",
+            $at2->get_rendered());
     }
 }

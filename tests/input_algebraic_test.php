@@ -281,7 +281,7 @@ class input_algebraic_test extends qtype_stack_testcase {
     }
 
     public function test_validate_student_response_ex() {
-        /* The variable ex is used an argument to some Maxima functions and as a local variable. */
+        // The variable ex is used an argument to some Maxima functions and as a local variable.
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '3*ex+2*ey+5*ez');
         $state = $el->validate_student_response(array('sans1' => '3*ex+2*ey+5*ez'), $options,
@@ -841,6 +841,17 @@ class input_algebraic_test extends qtype_stack_testcase {
                 '<span class="nolink">\[ \[ \log_{10}\left(19\right) \]</span></span> \), ' .
                 'which can be typed in as follows: <code>lg(19)</code>',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+    }
+
+    public function test_validate_ln() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '3 ln 19');
+        $el->set_parameter('insertStars', 4);
+        $state = $el->validate_student_response(array('sans1' => '3 ln 19'), $options, '3*ln(19)', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('spaces | forbiddenVariable', $state->note);
+        $this->assertEquals('3*ln*19', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">3 ln 19</span>', $state->contentsdisplayed);
     }
 
     public function test_validate_set_1() {

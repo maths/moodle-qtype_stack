@@ -475,7 +475,7 @@ class stack_inputvalidation_test_data {
         array('exp(x)', 'php_true', 'exp(x)', 'cas_true', '\exp \left( x \right)', '', ""),
         array('log(x)', 'php_true', 'log(x)', 'cas_true', '\ln \left( x \right)', '', "Natural logarithm."),
         array('ln(x)', 'php_true', 'ln(x)', 'cas_true', '\ln \left( x \right)', '', "Natural logarithm, STACK alias."),
-        array('ln*x', 'php_true', 'ln*x', 'cas_true', '\ln \cdot x', '', ""),
+        array('ln*x', 'php_false', 'ln*x', '', '', 'forbiddenVariable', ""),
         array('In(x)', 'php_false', '', '', '', 'stackCas_badLogIn', ""),
         array('log10(x)', 'php_true', 'lg(x,10)', 'cas_true', '\log_{10}\left(x\right)', 'logsubs', ""),
         array('log_10(x)', 'php_true', 'lg(x,10)', 'cas_true', '\log_{10}\left(x\right)', 'logsubs', ""),

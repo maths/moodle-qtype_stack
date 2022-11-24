@@ -73,7 +73,14 @@ class input_matrix_test extends qtype_stack_testcase {
                       'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
                       'answering. Please contact your teacher.</p>' .
                 '<p>The "$first" argument of the function "$matrix_size" must be a matrix</p></div>';
-        if ($this->adapt_to_new_maxima('5.42.3')) {
+        if ($this->adapt_to_new_maxima('5.44.0')) {
+            $errmsg = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
+                      'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
+                      'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .
+                      'contact your teacher."></i>The input has generated the following runtime error which prevents you from ' .
+                      'answering. Please contact your teacher.</p>' .
+                      '<p>The first argument of the function matrix_size must be a matrix</p></div>';
+        } else if ($this->adapt_to_new_maxima('5.42.3')) {
             $errmsg = '<div class="error"><p><i class="icon fa fa-exclamation-circle text-danger fa-fw " title="The input has ' .
                       'generated the following runtime error which prevents you from answering. Please contact your teacher." ' .
                       'aria-label="The input has generated the following runtime error which prevents you from answering. Please ' .

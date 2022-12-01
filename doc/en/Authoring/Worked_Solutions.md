@@ -30,14 +30,18 @@ argument_add([ex]) := block([arg1],
   arg1:first(ex),
   append(arg1, [[sconcat("Add ", stack_disp(second(ex) ,"i"), " to both sides."), lhs(second(last(arg1)))+second(ex)=rhs(second(last(arg1)))+second(ex)]])  
 );
+argument_simp([ex]) := block([arg1],
+  arg1:first(ex),
+  append(arg1, [["Simplify", ev(second(last(arg1)), simp)]])
+);
 
 /* This will hold the complete argument. */
 q0:5*(x-3) = 4*(x-3)+2;
 ar1:[["Solve", q0]];
 ar1:argument_add(ar1,-4*(x-3));
-ar1:argument_step(ar1,"Gather like terms", ev(second(last(ar1)),simp) );
+ar1:argument_simp(ar1);
 ar1:argument_add(ar1,3);
-ar1:argument_step(ar1,"Perform integer arithmetic", ev(second(last(ar1)),simp) );
+ar1:argument_simp(ar1);
 ```
 
 Then to display the argument use the following question blocks.
@@ -70,6 +74,10 @@ argument_add([ex]) := block([arg1],
   arg1:first(ex),
   append(arg1, [[sconcat("Add ", stack_disp(second(ex) ,"i"), " to both sides."), lhs(second(last(arg1)))+second(ex)=rhs(second(last(arg1)))+second(ex)]])  
 );
+argument_simp([ex]) := block([arg1],
+  arg1:first(ex),
+  append(arg1, [["Simplify", ev(second(last(arg1)), simp)]])
+);
 
 /* Solve x^2+p*x+q=0 */
 pq_rule(p,q):=-(p/2) #pm# sqrt((p/2)^2-q);
@@ -80,9 +88,8 @@ p1:ev(coeff(q0,x,1),simp);
 q1:ev(coeff(q0,x,0),simp);
 ar1:[["Solve", q0=0]];
 ar1:argument_step(ar1,"apply pq rule", x=pq_rule(p1,q1));
-ar1:argument_step(ar1,"simplify", ev(second(last(ar1)),simp) );
+ar1:argument_simp(ar1);
 ```
-
 
 ## Two-column proof
 

@@ -115,6 +115,26 @@ To line up equality signs in the display, assuming each element is an equation, 
 </table>
 ```
 
+## Instructions offset
+
+This format offsets the instructions. Note the index of `n` starts at 2 and we add an extra line to the result at the end.
+
+```
+<table>
+[[ foreach n='ev(makelist(k,k,2,length(ar1)),simp)' ]] 
+    <tr>
+      <td align="right"> \({@lhs(second(ar1[ev(n-1,simp)]))@}\) </td>
+      <td align="left"> \(= {@rhs(second(ar1[ev(n-1,simp)]))@}\) </td>
+      <td> | {@first(ar1[n])@} </td>
+    </tr>
+[[/ foreach ]]
+    <tr>
+      <td align="right"> \({@lhs(second(ar1[length(ar1)]))@}\) </td>
+      <td align="left"> \(= {@rhs(second(ar1[length(ar1)]))@}\) </td>
+    </tr>
+</table>
+```
+
 ## HTML details/summary
 
 Detail within a particular worked solution can be shown, at the student's discression, using the HTML details/summary tags.

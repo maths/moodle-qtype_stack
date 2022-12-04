@@ -55,10 +55,13 @@ assumes: Points will be set free to manipulate, unless you add '__fixed' to the 
 angles can not be set directly, set points instead
 
 ###minimal example
+
 question variables:
+
 A:[2,3]
 B:[1,2]
 question text:
+
 [[geogebra set="A,B"]]
 params["material_id"]="seehz3km";
 [[/geogebra]]
@@ -67,10 +70,13 @@ Write the coordinates of A:
 
 ## Using the "watch" sub-tag 
 With the "watch" sub-tag someone can listen to values and points in GeoGebra. These values can then be used to calculate feedback in STACK
+
 ###minimal example watching point A and value or angle b
+
 question variables:
 
 question text:
+
 [[geogebra watch="A,b"]]
 params["material_id"]="seehz3km";
 [[/geogebra]]
@@ -83,7 +89,9 @@ You can access b as value. if b represents an angle, b is in radians.
 
 ## Using the "remember" sub-tag
 if you do not want to calculate feedback with some of the GeoGebra objects in an applet, but you do want to be able to save and restore the state of an applet, you can use the "remember" tag
+
 ###minimal example remember A,B,C
+
 question variables:
 
 question text:

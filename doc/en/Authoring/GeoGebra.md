@@ -54,7 +54,7 @@ With the "set" sub-tag you can set a GeoGebra object point or value to a STACK-c
 assumes: Points will be set free to manipulate, unless you add '__fixed' to the Point-name
 angles can not be set directly, set points instead
 
-###minimal example
+### minimal example
 
 question variables:
 
@@ -71,7 +71,7 @@ Write the coordinates of A:
 ## Using the "watch" sub-tag 
 With the "watch" sub-tag someone can listen to values and points in GeoGebra. These values can then be used to calculate feedback in STACK
 
-###minimal example watching point A and value or angle b
+### minimal example watching point A and value or angle b
 
 question variables:
 
@@ -90,7 +90,7 @@ You can access b as value. if b represents an angle, b is in radians.
 ## Using the "remember" sub-tag
 if you do not want to calculate feedback with some of the GeoGebra objects in an applet, but you do want to be able to save and restore the state of an applet, you can use the "remember" tag
 
-###minimal example remember A,B,C
+### minimal example remember A,B,C
 
 question variables:
 

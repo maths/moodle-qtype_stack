@@ -40,6 +40,8 @@ The authoring documentation also covers topics on:
 * [Question blocks](Question_blocks.md),
 * [Actuarial notation,](Actuarial.md)
 * [Using JSXGraph](JSXGraph.md).
+* [Using GeoGebra](GeoGebra.md).
+
   
 #### [Input types](Inputs.md)
   

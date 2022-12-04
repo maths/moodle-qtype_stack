@@ -184,6 +184,7 @@ $string['inputtypeunits'] = 'Units';
 $string['inputtypeequiv'] = 'Equivalence reasoning';
 $string['inputtypestring'] = 'String';
 $string['inputtypenumerical'] = 'Numerical';
+$string['inputtypegeogebra'] = 'GeoGebra';
 $string['numericalinputmustnumber'] = 'This input expects a number.';
 $string['numericalinputvarsforbidden'] = 'This input expects a number, and so may not contain variables.';
 $string['numericalinputmustfloat'] = 'This input expects a floating point number.';
@@ -802,6 +803,24 @@ $string['stackBlock_jsxgraph_underdefined_dimension'] = 'When defining aspect-ra
 $string['stackBlock_jsxgraph_overdefined_dimension'] = 'When defining aspect-ratio for the JSXGraph one should only define width or height not both.';
 $string['stackBlock_jsxgraph_ref']         = 'The jsxgraph-block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
 $string['stackBlock_jsxgraph_param']       = 'The jsxgraph-block supports only these parameters in this context: {$a->param}.';
+
+//stackBlock GeoGebra strings
+$string['stackBlock_geogebra_width']       = 'The width of a GeoGebra Applet must use a known CSS-length unit.';
+$string['stackBlock_geogebra_height']      = 'The height of a GeoGebra Applet must use a known CSS-length unit.';
+$string['stackBlock_geogebra_width_num']   = 'The numeric portion of the width of a GeoGebra Applet must be a raw number and must not contain any extra chars.';
+$string['stackBlock_geogebra_height_num']  = 'The numeric portion of the height of a GeoGebra Applet must be a raw number and must not contain any extra chars.';
+$string['stackBlock_geogebra_underdefined_dimension'] = 'When defining aspect-ratio for the GeoGebra Applet one must define either width or height of the graph.';
+$string['stackBlock_geogebra_overdefined_dimension'] = 'When defining aspect-ratio for the GeoGebra Applet one should only define width or height not both.';
+$string['stackBlock_geogebra_ref']         = 'The geogebra-block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
+$string['stackBlock_geogebra_param']       = 'The geogebra-block supports only these parameters in this context: {$a->param}.';
+$string['stackBlock_geogebra_link']        = 'Link to referenced GeoGebra material';
+$string['stackBlock_geogebra_link_help']   = 'You want to edit this material? If this is your own GeoGebra material at geogebra.org, you can edit it. If this is not your GeoGebra material, you have to copy the material at geogebra.org first. Then you have to publish the material and edit the material_id value below in question text.';
+$string['stackBlock_geogebra_heading']     = 'GeoGebra materials';
+//stackBlock GeoGebra strings for global admin options
+$string['stackBlock_geogebra_settingdefaultoptions'] = 'Options for GeoGebra in STACK';
+$string['stackBlock_geogebra_settingdefaultoptions_desc'] = 'We recommend to read the documentation of GeoGebra and STACK';
+$string['stackBlock_geogebrabaseurl'] = 'Link to GeoGebra hosting (optional)';
+$string['stackBlock_geogebrabaseurl_help'] = 'Here you can add a custom link, if you host GeoGebra scripts on your own server. If you just want to use a specific GeoGebra version, use: https://www.geogebra.org/apps/5.0.498.0/web3d (e.g. for version 5.0.498.0)';
 
 // Answer tests.
 $string['stackOptions_AnsTest_values_AlgEquiv']            = "AlgEquiv";

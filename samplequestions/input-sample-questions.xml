@@ -3507,7 +3507,7 @@ ta:append(ta,[tao]);]]></text>
     <questiontext format="html">
       <text><![CDATA[This input is sent to the CAS:
 <p>[[input:ans1]] [[validation:ans1]]</p>
-This input is not, perhaps it is used to store JSXGraph state?
+This input is not, perhaps it is used to store JSXGraph state? or GeoGebra state?
 <p>[[input:ans2]] [[validation:ans2]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">

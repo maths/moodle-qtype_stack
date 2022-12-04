@@ -26,7 +26,7 @@ require_once(__DIR__ . '/blocks/include.block.php');
 
 /**
  * A wrapper class encapsulating castext2 evaluation logic. Push one of
- * these in a cassession and be done with it. Once the sessio nhas been
+ * these in a cassession and be done with it. Once the session has been
  * evaluated one may ask for this to do the post-processing if you need it,
  * if you don't then some cycles have been saved.
  *

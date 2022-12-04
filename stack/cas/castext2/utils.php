@@ -180,6 +180,9 @@ class castext2_parser_utils {
                     case 'jsxgraph':
                         $fmt = self::RAWFORMAT;
                         break;
+                    case 'geogebra':
+                        $fmt = self::RAWFORMAT;
+                        break;
                     case 'demarkdown':
                     case 'markdownformat':
                         $fmt = self::MDFORMAT;

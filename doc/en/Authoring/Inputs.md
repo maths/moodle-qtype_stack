@@ -119,6 +119,10 @@ The notes input has a special extra option `manualgraded`, and the default optio
 
 A single letter can be entered.  This is useful for creating multiple-choice questions, but is not used regularly.
 
+#### GeoGebra File ####
+
+A single GeoGebra File can be entered. This is useful for creating GeoGebra tasks.
+
 ## Options ##
 
 ### Input Box Size ### {#Box_Size}
@@ -248,7 +252,7 @@ The "compact" version removes most of the styling.  This is needed when the answ
 
 ### Extra option: hideanswer ###
 
-Users are increasingly using inputs to store _state_, which makes no sense for a user to see.  For example, when using [JSXGraph](JSXGraph.md) users transfer the configuration of the diagram into an input via JavaScript.  In many situations, it makes no sense for the student to see anything about this input.  The validation can be switched off with the regular "show validation" option, the input box itself can be hidden with JavaScript/CSS.  Putting `hideanswer` in the extra options stops displaying the "teacher's answer", e.g. at the end of the process.
+Users are increasingly using inputs to store _state_, which makes no sense for a user to see.  For example, when using [JSXGraph](JSXGraph.md) or [GeoGebra](GeoGebra.md) users transfer the configuration of the diagram into an input via JavaScript.  In many situations, it makes no sense for the student to see anything about this input.  The validation can be switched off with the regular "show validation" option, the input box itself can be hidden with JavaScript/CSS.  Putting `hideanswer` in the extra options stops displaying the "teacher's answer", e.g. at the end of the process.
 
 Do not use this option in questions in place of the normal quiz settings.
 

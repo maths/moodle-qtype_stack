@@ -28,7 +28,7 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
 
     public function compile($format, $options): ?string {
         // Basically we change the value of $format for this subtree.
-        // Note that the jsxgraph block does this automatically.
+        // Note that the jsxgraph and geogebra block does this automatically.
         $r = '';
         $flat = $this->is_flat();
         if (!$flat) {
@@ -65,7 +65,7 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
 
     public function postprocess(array $params, castext2_processor $processor=null): string {
         $content = '';
-        // Jsut collapse it.
+        // Just collapse it.
         for ($i = 1; $i < count($params); $i++) {
             if (is_array($params[$i])) {
                 $content .= $processor->process($params[$i][0], $params[$i]);

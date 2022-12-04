@@ -241,6 +241,7 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                         if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
                             ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' ||
                                     $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph' ||
+                                            $p->items[0]->value === 'geogebra' ||
                                     $p->items[0]->value === 'textdownload')) {
                             // That or above is somethign one needs to update if we add new format tuning blocks.
                             $good = false;
@@ -248,8 +249,9 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                                 $same = true;
                             }
                             if ($node->items[0]->value === 'htmlformat' && ($p->items[0]->value === 'jsxgraph' ||
-                                    $p->items[0]->value === 'textdownload')) {
-                                // JSXGraph and textdownload are blocks that enforce specific formats.
+                                    $p->items[0]->value === 'textdownload' ||
+                                        $p->items[0]->value === 'geogebra')) {
+                                // JSXGraph, textdownload and geogebra are blocks that enforce specific formats.
                                 $same = true;
                             }
                             break;

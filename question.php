@@ -494,7 +494,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // So we have this logic where a raw string needs to turn to a CASText2 object.
             // As we do not know what it contains we escape it.
             $this->questiontextinstantiated = castext2_evaluatable::make_from_source('[[escape]]' . $s . '[[/escape]]', '/qt');
-            // It is a stateic string and by calling this we make it look like it was evaluated.
+            // It is a static string and by calling this we make it look like it was evaluated.
             $this->questiontextinstantiated->requires_evaluation();
 
             // Do some setup for the features that do not work.
@@ -1194,7 +1194,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     /**
-     * @return bool Whether this question uses randomisation.
+     * @return bool whether this question uses randomisation.
      */
     public function has_random_variants() {
         return $this->random_variants_check($this->questionvariables);

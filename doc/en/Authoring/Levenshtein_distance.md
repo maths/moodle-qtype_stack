@@ -50,7 +50,7 @@ At this point we do not propose to add these as options to the test itself as th
 
 1. To trim whitespace and full stops from each end of a string, you can define `sans1:strim(" .",ans1);` in the feedback variables.
 2. STACK provides a function `sremove_chars(rem, st)` which removes all occurances of each _character_ in the string `rem` from the string `st`.  For example to remove all selected punctuation characters use `sremove_chars(".,!?", ans1)`.
-
+3. STACK provides a function `ssquish` which changes tabs and newlines to spaces; trips whitespace at the ends; and replaces multiple whitespaces with a single whitespace.
 
 ## Writing a STACK question
 

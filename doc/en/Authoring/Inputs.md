@@ -254,7 +254,7 @@ Do not use this option in questions in place of the normal quiz settings.
 
 ### Extra option: allowempty ###
 
-Normally a _blank_, i.e. empty, answer has a special status and are not considered "valid".  Hence, a PRT relying on an input left blank will not be traversed.  Answers consisting only of whitespace are also considered as empty.  The extra option `allowempty` allows the input to be empty.  Internally an empty answer will be replaced by the Maxima f `EMPTYANSWER`.  Internally it is essential that the variable name of the input, (e.g. `ans1`) is really assigned a specific value. The teacher will need to deal with `EMPTYANSWER` tags in the PRT.
+Normally a _blank_, i.e. empty, answer has a special status and are not considered "valid".  Hence, a PRT relying on an input left blank will not be traversed.  Answers consisting only of whitespace are also considered as empty.  The extra option `allowempty` allows the input to be empty.  Internally an empty answer will be replaced by the Maxima atom `EMPTYANSWER`.  Internally it is essential that the variable name of the input, (e.g. `ans1`) is really assigned a specific value. The teacher will need to deal with `EMPTYANSWER` tags in the PRT.
 
 We strongly recommend (with many years of experience) that teachers do not use this option without very careful thought!
 

@@ -56,6 +56,7 @@ The 1st international STACK Conference took place on the 15th and 16th of Novemb
 Groups of people who use STACK. You are welcome to join, ask questions and participate.
 * [SIG Mathe+ILIAS](https://docu.ilias.de/goto.php?target=grp_5183)
 * [Arbeitskreis Digitale Mathematik-Aufgaben in der Hochschullehre](http://www.ak-mathe-digital.de)
+* STACK professionals Network.  In 2022 we created a nework of colleagues working on STACK questions.
 
 # User list
 

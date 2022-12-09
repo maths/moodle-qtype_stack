@@ -72,7 +72,7 @@ School of Mathematics and Statistics, The Open University,
 School of Science, Aalto University, Helsinki, Finland
 : Contact Matti Harjula and [Antti Rasila](http://math.tkk.fi/en/research/matta/)
 
-Mathematics Education Centre, Loughborough University
+Department of Mathematics Education, Loughborough University
 : Contact [Ian Jones](mailto:I.Jones@lboro.ac.uk)
 
 School of Informatics and Sciences, Nagoya University, Japan

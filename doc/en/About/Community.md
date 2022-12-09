@@ -18,7 +18,7 @@ STACK is a community project and contributions are welcome in many ways.
 * Undertaking projects with your students and sharing the results.
 * Contributing sample questions and question banks.
 * Translating the system and sample materials.
-* Documentation and examples
+* Documentation and examples.
 
 Contributions to the code base are very welcome.  This is more difficult, but do contact the developers with ideas.
 

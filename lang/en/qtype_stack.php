@@ -539,6 +539,7 @@ $string['runquestiontests_help'] = 'The question tests unit-test the questions t
 $string['runquestiontests_alert'] = 'Question is missing tests or variants.';
 $string['seethisquestioninthequestionbank'] = 'See this question in the question bank';
 $string['editquestioninthequestionbank'] = 'Edit this question';
+$string['sendgeneralfeedback'] = 'Send general feedback to the CAS';
 $string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';
 $string['switchtovariant'] = 'Switch to variant: ';
 $string['testcasexresult'] = 'Test case {$a->no} {$a->result}';

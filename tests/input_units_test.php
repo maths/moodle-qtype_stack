@@ -1098,4 +1098,22 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals('\[ -1\, \mathrm{c}\mathrm{m} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
+
+    public function test_teacher_answer_zero() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '0.0*MPa');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(array('sans1' => '0.0*MPa'), $options, '0.0*MPa',
+            new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('0.0*MPa', $state->contentsmodified);
+        $this->assertEquals('\[ 0.0\, \mathrm{M}\mathrm{Pa} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        // This can't unit test issue #868, because the 0.0*MPa has not passed through the whole chain of events.
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+            '\[ \[ 0.0\, \mathrm{M}\mathrm{Pa} \]</span></span> \), which can be typed in as follows: <code>0.0*MPa</code>',
+            $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+    }
 }

@@ -35,6 +35,9 @@ jobs:
             moodle-branch: 'master'
             database: 'pgsql'
           - php: '7.4'
+            moodle-branch: 'MOODLE_400_STABLE'
+            database: 'pgsql'
+          - php: '7.3'
             moodle-branch: 'MOODLE_311_STABLE'
             database: 'pgsql'
           - php: '7.3'
@@ -148,7 +151,6 @@ jobs:
         run: moodle-plugin-ci phpunit
 
       - name: Behat features
-        continue-on-error: true # Currently fails. We really ought to get this passing.
         if: ${{ always() }}
         run: moodle-plugin-ci behat --profile chrome
 

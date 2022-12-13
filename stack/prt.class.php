@@ -178,8 +178,12 @@ class stack_potentialresponse_tree_lite {
                            && $node->parentnode->name instanceof MP_Atom
                            && $node->parentnode->name->value === 'errcatch'
                            && $node->parentnode->parentnode->parentnode instanceof MP_Group) {
-                    $i = array_search($node->parentnode->parentnode, $node->parentnode->parentnode->parentnode->items);
-                    unset($node->parentnode->parentnode->parentnode->items[$i]);
+                    // Using array_search here caused an infinite recursion.  No idea why!
+                    foreach ($node->parentnode->parentnode->parentnode->items as $i => $item) {
+                        if ($item === $node->parentnode->parentnode) {
+                            unset($node->parentnode->parentnode->parentnode->items[$i]);
+                        }
+                    }
                     return false;
                 } else if ($node->parentnode instanceof MP_If
                            && $node->parentnode->parentnode instanceof MP_Group) {

@@ -466,7 +466,8 @@
 
 ;; *************************************************************************************************
 ;; Added 30 May 2022.
-;; Allow Maxima to interigate the texword database directly.
+;; Allow Maxima to interigate the texword database directly, for words or function names.
 ;; Copied directly from tex-atom.
 (defmfun $get_texword (x) (or (get x 'texword) (get (get x 'reversealias) 'texword)))
 
+(defmfun $get_texsym (x) (car (or (get x 'texsym) (get x 'strsym) (get x 'dissym) (stripdollar x))))

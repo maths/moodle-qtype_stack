@@ -73,28 +73,16 @@ class qtype_stack extends question_type {
 
         $fromform->penalty = stack_utils::fix_approximate_thirds($fromform->penalty);
 
-        // This odd looking guard clause exists because moodle core test case generator
-        // functions return a question without an id.
-        $oldid = 0;
-        if (property_exists($question, 'id')) {
-            $oldid = $question->id;
+        // If this questions is being derived from another one (either duplicate in any
+        // Moodle version, or editing making a new version in Moodle 4.0+) then we need
+        // to get the deployed variants and question tests, so they can be copied too.
+        // The property used seems to be the reliable way to get the old question id.
+        if (isset($question->options->questionid) && $question->options->questionid) {
+            $fromform->deployedseeds = $this->get_question_deployed_seeds($question->options->questionid);
+            $fromform->testcases = $this->load_question_tests($question->options->questionid);
         }
 
         $new = parent::save_question($question, $fromform);
-        // Earlier than Moodle 4.0.
-        if (stack_determine_moodle_version() < 400) {
-            return $new;
-        }
-        $newid = $new->id;
-
-        // Copy over test cases.
-        $testcases = $this->load_question_tests($oldid);
-        $this->save_question_tests($newid, $testcases);
-
-        // Copy over deployed seeds.
-        foreach ($this->get_question_deployed_seeds($oldid) as $seed) {
-            $this->deploy_variant($newid, $seed);
-        }
 
         return $new;
     }
@@ -139,7 +127,6 @@ class qtype_stack extends question_type {
         if (!$options) {
             $options = new stdClass();
             $options->questionid = $fromform->id;
-            $options->stackversion = '';
             $options->questionvariables = '';
             $options->questionnote = '';
             $options->specificfeedback = '';
@@ -357,20 +344,6 @@ class qtype_stack extends question_type {
 
         $this->save_hints($fromform);
 
-        // This is a bit of a hack. If doing 'Duplicate' in the question bank
-        // then when saving the editing form, then detect that here, and try to
-        // copy the deployed variants from the original question.
-        if (!isset($fromform->deployedseeds) && !empty($fromform->makecopy)) {
-            $oldquestionid = optional_param('id', 0, PARAM_INT);
-            if ($oldquestionid) {
-                $fromform->deployedseeds = $DB->get_fieldset_sql('
-                        SELECT seed
-                          FROM {qtype_stack_deployed_seeds}
-                         WHERE questionid = ?
-                      ORDER BY id', [$oldquestionid]);;
-            }
-        }
-
         if (isset($fromform->deployedseeds)) {
             $DB->delete_records('qtype_stack_deployed_seeds', array('questionid' => $fromform->id));
             foreach ($fromform->deployedseeds as $deployedseed) {
@@ -378,16 +351,6 @@ class qtype_stack extends question_type {
                 $record->questionid = $fromform->id;
                 $record->seed = $deployedseed;
                 $DB->insert_record('qtype_stack_deployed_seeds', $record, false);
-            }
-        }
-
-        // This is a bit of a hack. If doing 'Duplicate' in the question bank
-        // then when saving the editing form, then detect that here, and try to
-        // copy the question tests from the original question.
-        if (!isset($fromform->testcases) && !empty($fromform->makecopy)) {
-            $oldquestionid = optional_param('id', 0, PARAM_INT);
-            if ($oldquestionid) {
-                $fromform->testcases = $this->load_question_tests($oldquestionid);
             }
         }
 
@@ -1662,7 +1625,11 @@ class qtype_stack extends question_type {
             $stackinput = $stackinputfactory->make($inputtype, $inputname, $modelans, null, null, false);
             $parameters = array();
             foreach ($stackinputfactory->get_parameters_fromform_mapping($inputtype) as $key => $param) {
-                $paramvalue = $stackinputfactory->convert_parameter_fromform($key, $fromform[$inputname .$param]);
+                $paramvalue = '';
+                if (array_key_exists($inputname . $param, $fromform)) {
+                    $paramvalue = $fromform[$inputname . $param];
+                }
+                $paramvalue = $stackinputfactory->convert_parameter_fromform($key, $paramvalue);
                 $parameters[$key] = $paramvalue;
                 if ('options' !== $key) {
                     $validityresult = $stackinput->validate_parameter($key, $paramvalue);
@@ -1672,8 +1639,7 @@ class qtype_stack extends question_type {
                 }
             }
             // Create an input with these parameters, in particular the 'options', and validate that.
-            $stackinput = $stackinputfactory->make($inputtype, $inputname,
-                    $fromform[$inputname . 'modelans'], null, $parameters, false);
+            $stackinput = $stackinputfactory->make($inputtype, $inputname, $modelans, null, $parameters, false);
             $stackinput->validate_extra_options();
             $errors[$inputname . 'options'] = $stackinput->get_errors();
         }

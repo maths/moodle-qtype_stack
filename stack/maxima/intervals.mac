@@ -880,7 +880,7 @@ single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
 )$
 
 equation_to_intervals(ex, v) := block([sol0, sol1, sol2],
-    sol0:solve(ex, v),
+    sol0:radcan(solve(ex, v)),
     if sol0=[] then return({}),
     if logic_edgep(sol0) then return(sol0),
     /* We need the "freeof" clause to catch rearrangements of equations. */

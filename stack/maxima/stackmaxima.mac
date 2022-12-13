@@ -630,7 +630,9 @@ _CS2l(_k,_v) := block([%_tmp],
  %_tmp:[[_k, stack_disp(_v, "")]],
  if listp(%_tmp) then _LATEX:append(_LATEX,%_tmp),
  0)$
-_CS2dv(_k,_v) := block([%_tmp],
+_CS2dv(_k,_v) := block([%_tmp, simp],
+ /* We don't want to simplify products with zero to zero here. */
+ simp:false,
  %_tmp:[[_k, stack_dispvalue(_v)]],
  if listp(%_tmp) then _DVALUES:append(_DVALUES,%_tmp),
  0)$
@@ -3354,6 +3356,56 @@ table_zip_with(fn, T1, T2) := block(
 
 table_difference(T1, T2) := table_zip_with(lambda([ex1,ex2], if ex1=ex2 then ex1 else texcolor("red", ex1)), T1, T2)$
 
+/* ****************************************************** */
+/*                                                        */
+/*  Trees                                                 */
+/*                                                        */
+/* ****************************************************** */
+disptree(e) := sconcat("<ul class='tree'><li>", tree_rec(e), "</li></ul>");
+
+/* A list of functions which should use the TeX representation.  (Defined as a list to be user-editable) */
+
+tree_texlist:{"#pm#", "%union", "%intersection"};
+tree_rec(e) := block([treelist],
+  if atom(e) then return(sconcat("<span class='atom'>", stack_disp(e, "i") ,"</span>")),
+  if is(safe_op(e)="treestop") then return(sconcat("<span class='atom'>", stack_disp(first(e), "i") ,"</span>")),
+  if is(safe_op(e)="matrix") then return(sconcat("<span class='atom'>", stack_disp(e, "i") ,"</span>")),
+  if is(safe_op(e)="binomial") then return(sconcat("<span class='atom'>", stack_disp(e, "i") ,"</span>")),
+  if is(safe_op(e)="disp_parens") then return(tree_rec(first(ex))),
+
+  treelist:flatten(["<code>", op(noun_logic_remove(e)), "</code><ul>", map(lambda([ex], sconcat("<li>", tree_rec(ex) ,"</li>")), args(e)), "</ul>"]),  
+
+  /* Lots of opportunities/need for fine-tuning. */
+
+  if is(safe_op(e)="int") then treelist:flatten(["<span class='op'>\\(\\int \\cdots \\mathrm{d}", stack_disp(second(e), ""), " \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
+  if is(safe_op(e)="diff") then treelist:flatten(["<span class='op'>\\(", stack_disp(apply(noundiff, append([NULLNUM], rest(args(e)))), ""), " \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
+  if is(safe_op(e)="sum" or safe_op(e)="'sum") then treelist:flatten(["<span class='op'>\\(\\sum_{", stack_disp(second(e), ""), "=", stack_disp(third(e), ""), "}^{", stack_disp(fourth(e), ""), "} \\cdots \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
+  if is(safe_op(e)="limit" or safe_op(e)="'limit") then treelist:flatten(["<span class='op'>\\(\\lim_{", stack_disp(second(e), ""), "\\rightarrow{", stack_disp(third(e), ""), "}} \\cdots \\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
+  /* This example mirrors tex-gamma. */
+  if is(safe_op(e)="gamma") then treelist:flatten(["<span class='op'>\\(\\Gamma\\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
+  /* This example mirrors tex-sqrt. */
+  if is(safe_op(e)="sqrt") then treelist:flatten(["<span class='op'>\\(\\sqrt{}\\)</span><ul><li>", tree_rec(first(e)), "</li></ul>"]), 
+
+  if elementp(safe_op(e), tree_texlist) or logicp(e) then block(
+        /* Apply the operator to as many arguments as we have, none of which print. */
+        treelist:["<span class='op'>\\(", stack_disp(apply(op(e), ev(makelist(NULLNUM,k,1,length(args(e))),simp)), ""), "\\)</span>"], 
+        /* Try to get a symbol from the tex database, to avoid empty brackets round functions. */
+        if symbolp(op(e)) then block([%_do],
+            if not(stringp(%_do:get_texword(op(e)))) then %_do:get_texsym(op(e)),
+            treelist:["<span class='op'>\\(", %_do, "\\)</span>"]
+        ),
+        treelist:flatten(append(treelist, ["<ul>", map(lambda([ex], sconcat("<li>", tree_rec(ex) ,"</li>")), args(e)), "</ul>"]))
+        ),
+
+  apply(sconcat, treelist)
+)$
+
+
+/* ****************************************************** */
+/*                                                        */
+/*  End of file processes                                 */
+/*                                                        */
+/* ****************************************************** */
 /* Slight hack to compile these functions and hence suppress warnings. */
 load(linearalgebra);
 
@@ -3363,4 +3415,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2022082900$
+stackmaximaversion:2022090900$

@@ -150,7 +150,7 @@ foreach ($question->get_correct_response() as $key => $val) {
 
 // We've chosen not to send a specific seed since it is helpful to test the general feedback in a random context.
 $chatparams = $urlparams;
-$chatparams['vars'] = $questionvarsinputs;
+$chatparams['maximavars'] = $questionvarsinputs;
 $chatparams['simp'] = $simp;
 $chatparams['cas'] = $question->generalfeedback;
 $chatlink = new moodle_url('/question/type/stack/adminui/caschat.php', $chatparams);

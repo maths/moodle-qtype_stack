@@ -103,4 +103,4 @@ IDEMS International
 : Contact [Santiago Borio](mailto:smborio@idems.international)
 
 ETH Zürich, Switzerland
-: Contact [Meike Akveld](mailto:meike.akveld@math.ethz.ch), [George Ionita](mailto:georgeionut.ionita@math.ethz.ch), [Andreas Steiger](andreas.steiger@math.ethz.ch)
+: Contact [Meike Akveld](mailto:meike.akveld@math.ethz.ch), [George Ionita](mailto:georgeionut.ionita@math.ethz.ch), [Andreas Steiger](mailto:andreas.steiger@math.ethz.ch)

@@ -12,7 +12,7 @@ This is mainly a bug fix version.  Version 4.4.0 has a number of major re-writes
 
 Released July 2022.
 
-Major rewrite of the PRT and CASText systems, focus on performance and limitations of the previous systems.
+Major rewrite of the PRT and CASText systems, focus on performance and limitations of the previous systems.  This release has changed/tightened up some question authoring causing some problems with existing questions.  For this reason we have written dedicated [release notes](Release_notes_4_4_x.md) for v4.4.0.
 
 1. Release documentation under CC-BY-SA.
 2. Caching validation.

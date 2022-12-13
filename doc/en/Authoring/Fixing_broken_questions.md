@@ -1,4 +1,3 @@
-
 # I have a misbehaving STACK question in a live Moodle quiz.  What should I do?
 
 You can't remove or add a question to a live Moodle quiz, but you can modify it.  If you edit a live STACK question then students will see the updates.

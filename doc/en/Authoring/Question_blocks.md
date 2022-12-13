@@ -96,7 +96,7 @@ the lists or set be shorter/smaller the iteration will stop when the first one e
 Because the foreach block needs to evaluate the lists/sets before it can do the iteration, using foreach blocks will require one
 additional CAS evaluation for each nested level of foreach blocks.
 
-## Define block ##
+## Define block {#define-block}
 
 The define block is a core component of the foreach block, but it may also be used elsewhere. Its function is to change the value of
 a CAS variable in the middle of CASText. For example:

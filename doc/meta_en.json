@@ -559,6 +559,11 @@
         "description":"Notes documenting the process for releasing a new version of STACK."
         },
         {
+        "file":"Release_notes_4_4_x.md",
+        "title":"Release notes for STACK version 4.4.0 onwards",
+        "description":"Common problems with migrating questions to STACK 4.4.0 and later."
+        },
+        {
         "file":"Releasing_ILIAS.md",
         "title":"Releasing STACK for ILIAS - STACK Documentation",
         "description":"Notes documenting the process for releasing a new version of STACK for ILIAS."

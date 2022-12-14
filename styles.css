@@ -66,7 +66,9 @@
     max-width: 100%;
     resize: both;
 }
-#id_questionvariables, textarea[id*=feedbackvariables], textarea[name=maximavars] {
+#id_questionvariables,
+textarea[id*=feedbackvariables],
+textarea[name=maximavars] {
     min-width: 100%;
     font-family: monospace;
 }

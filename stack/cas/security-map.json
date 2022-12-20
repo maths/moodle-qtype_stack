@@ -2548,6 +2548,9 @@
   "fb": {
       "variable": "s"
   },
+  "fboundp": {
+      "function": "t"
+  },
   "feature": {
       "property": "?"
   },

@@ -601,7 +601,7 @@ echo html_writer::start_tag('div', array('class' => 'questionvariables'));
 echo html_writer::tag('pre', $questionvariablevalues);
 echo html_writer::end_tag('div');
 
-// Question variables and PRTs in a summary tag/
+// Question variables and PRTs in a summary tag.
 $out = html_writer::tag('summary', stack_string('prts'));
 $out .= html_writer::start_tag('div', array('class' => 'questionvariables'));
 $out .= html_writer::tag('pre', $questionvariablevalues);

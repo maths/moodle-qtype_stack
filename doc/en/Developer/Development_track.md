@@ -18,6 +18,9 @@ TODO: List of long lasting issues dealt with, that might need to be notified/clo
 Done:
 
 1. Add in functionality to display Maxima expressions as [trees](../Authoring/Trees.md) with CSS using  `disptree`.
+2. Load the `diag` package for better linear algebra support.
+3. Better layout on the question testing page.
+4. Question variables and feedback variables are now in monospace.
 
 ## For "inputs 2"?
 

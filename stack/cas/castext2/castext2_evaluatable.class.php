@@ -173,7 +173,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
                 $options['in main content'] = true;
             }
 
-            $this->compiled = $root->compile($format, $options);
+            $this->compiled = $root->compile($format, $options)->toString(['nosemicolon' => true]);
 
             $err = [];
             $valid = true;

@@ -29,34 +29,29 @@ require_once(__DIR__ . '/demarkdown.block.php');
 require_once(__DIR__ . '/demoodle.block.php');
 
 class stack_cas_castext2_special_root extends stack_cas_castext2_block {
-    public function compile($format, $options):  ? string {
-        $r = '';
+    public function compile($format, $options):  ? MP_Node {
+        $r = null;
 
-        if ($this->is_flat()) {
-            $r = 'sconcat(';
+        $flat = $this->is_flat();
+        if ($flat) {
+            $r = new MP_FunctionCall(new MP_Identifier('sconcat'), []);
         } else {
-            $r = '["%root",';
+            $r = new MP_List([new MP_String('%root')]);
         }
-        $items = [];
+        
 
         foreach ($this->children as $item) {
             $c = $item->compile($format, $options);
             if ($c !== null) {
-                $items[] = $c;
+                if ($flat) {
+                    $r->arguments[] = $c;
+                } else {
+                    $r->items[] = $c;
+                }
             }
         }
-        $r .= implode(',', $items);
 
-        if ($this->is_flat()) {
-            $r .= ')';
-        } else {
-            $r .= ']';
-        }
-
-        // Essentially we now have an expression where anything could happen.
-        // We do not want it to affect the surroundings. So parse and
-        // find the used variables.
-        $ast    = maxima_parser_utils::parse($r);
+        $ast    = $r;
 
         // At this point we want to simplify things, it is entirely
         // possible that there are sconcats in play with overt number
@@ -75,14 +70,22 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
             throw new stack_exception(implode('; ', $errors));
         }
 
-        $r = $ast->toString(['nosemicolon' => true]);
+        $r = $ast;
 
         $varref = maxima_parser_utils::variable_usage_finder($ast);
 
         // This may break with GCL as there is a limit for that local call there.
         if (count($varref['write']) > 0) {
-            $r = 'castext_simplify(block(local(' . implode(',', array_keys($varref['write'])) .
-                '),' . $r . '))';
+            $r = new MP_FunctionCall(new MP_Identifier('castext_simplify'), [
+                new MP_FunctionCall(new MP_Identifier('block'), [
+                    new MP_FunctionCall(new MP_Identifier('local'), []),
+                    $r
+                ])
+            ]);
+
+            foreach ($varref['write'] as $key => $duh) {
+                $r->arguments[0]->arguments[0]->arguments[] = new MP_Identifier($key);
+            }
         }
 
         return $r;

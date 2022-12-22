@@ -23,8 +23,8 @@ require_once(__DIR__ . '/../block.factory.php');
  */
 class stack_cas_castext2_jsstring extends stack_cas_castext2_block {
 
-    public function compile($format, $options):  ? string {
-        $r = '["jsstring"';
+    public function compile($format, $options):  ? MP_Node {
+        $r = new MP_List([new MP_String('jsstring')]);
 
         $allstrings = true;
         $strings = '';
@@ -32,21 +32,19 @@ class stack_cas_castext2_jsstring extends stack_cas_castext2_block {
             // We do not force a format here.
             $c = $item->compile($format, $options);
             if ($c !== null) {
-                if (mb_substr($c, 0, 1) !== '"') {
+                if (!($c instanceof MP_String)) {
                     $allstrings = false;
                 } else {
-                    $strings = $strings . stack_utils::maxima_string_to_php_string($c);
+                    $strings = $strings . $c->value;
                 }
-                $r .= ',' . $c;
+                $r->items[] = $c;
             }
         }
 
         // The special case of static content.
         if ($allstrings) {
-            return stack_utils::php_string_to_maxima_string(json_encode($strings));
+            return new MP_String(json_encode($strings));
         }
-
-        $r .= ']';
 
         return $r;
     }

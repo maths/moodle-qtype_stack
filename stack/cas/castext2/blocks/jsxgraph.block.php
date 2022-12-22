@@ -25,28 +25,27 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
     private static $countgraphs = 1;
 
-    public function compile($format, $options):  ? string {
-        $r = '["jsxgraph"';
+    public function compile($format, $options):  ? MP_Node {
+        $r = new MP_List([new MP_String('jsxgraph')]);
+        
 
         // We need to transfer the parameters forward.
-        $r .= ',' . stack_utils::php_string_to_maxima_string(json_encode($this
-                ->params));
+        $r->items[] = new MP_String(json_encode($this->params));
 
         foreach ($this->children as $item) {
             // Assume that all code inside is JavaScript and that we do not
             // want to do the markdown escaping or any other in it.
             $c = $item->compile(castext2_parser_utils::RAWFORMAT, $options);
             if ($c !== null) {
-                $r .= ',' . $c;
+                $r->items[] = $c;
             }
         }
-
-        $r .= ']';
 
         return $r;
     }
 
     public function is_flat() : bool {
+        // Even when the content were flat we need to evaluate this during postprocessing.
         return false;
     }
 

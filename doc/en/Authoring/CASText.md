@@ -124,6 +124,27 @@ LaTeX notation can specify inline or display mode for maths by delimiting with `
 
 There is a specific page for [actuarial notation](Actuarial.md).
 
+## CASText generating functions ##
+
+If a CASText area is to include several copies of repeatative content, for instance several versions of some text (or a SVG graphic) containing 
+different parameters, it is possible to define a CASText generating function within the Question variables using the STACK function `castext`.
+
+For example, within the [Question variables](Variables.md) section, define
+
+    explanation(x,y):=castext("Substituting {@x@} into the expression gives {@y@}.");
+
+This can then be used several times within any CASText area:
+
+    [[ comment ]] Generated text [[/ comment ]]
+    {@explanation(a,b)@}
+    {@explanation(c,d)@}
+
+#### Notes ####
+* The argument of castext must be a single atomic string, not a reference to one but a static string value.
+* Since Maxima does not require new lines to be escaped, new lines can be started within the `castext` string argument.
+* Care needs to be taken with any quotation marks within the castext argument. For HTML attributes within such text, use `'...'` .
+* Two castext objects can be joined with `castext_concat()`
+
 ## Google Charts ##
 
 The [Google charts](http://code.google.com/apis/chart/) API can be used to create a URL based on the random variables.

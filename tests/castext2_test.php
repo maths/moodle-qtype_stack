@@ -128,6 +128,25 @@ class castext2_test extends qtype_stack_testcase {
 
     /**
      * @covers \qtype_stack\stack_cas_castext2_latex
+     */
+    public function test_latex_injection_5() {
+        // Issue #849, let the simplification state stay after injection if
+        // modified globally.
+        // While this is a bad way to do things and is essenttialy authoring with
+        // side effects that might be hard to spot it has been done in the past
+        // and we need to support it still.
+        // Note that we will not support conditionally changing the `simp` inside
+        // an injection. If that needs to be done use the `[[if]]` block combined
+        // to `[[define]]`.
+        $input = '[[define simp="true"/]]{@a@}, {@(simp:false,a)@}, {@a@}';
+        $preamble = array('a:3/9');
+        $output = '\({\frac{1}{3}}\), \({\frac{3}{9}}\), \({\frac{3}{9}}\)';
+        $options = new stack_options(array('simplify' => false));
+        $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_castext2_markdownformat
      * @covers \qtype_stack\castext2_parser_utils::math_paint
      */

@@ -34,7 +34,7 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
         foreach ($this->params as $key => $duh) {
             $local->arguments[] = new MP_Identifier($key);
         }
-        $r = new MP_FunctionCall(new MP_Identifier('block', [$local]));
+        $r = new MP_FunctionCall(new MP_Identifier('block'), [$local]);
 
         // The body.
         $internal = [new MP_Identifier('__ct2_foreach___tmp')];
@@ -88,14 +88,11 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
 
             $r->arguments[] = new MP_Loop($definedbody, [
                 new MP_LoopBit('for', new MP_Operation(':',new MP_Identifier('__ct2_foreach___iter'), new MP_Integer(1))),
-                new MP_LoopBit('thru', new MP_FunctionCall(new MP_Identifier('ev', 
+                new MP_LoopBit('thru', new MP_FunctionCall(new MP_Identifier('ev'), 
                     [
-                        new MP_FunctionCall(new MP_Identifier('min'), 
-                            [
-                                new MP_List($lengths)
-                            ]),
+                        new MP_FunctionCall(new MP_Identifier('min'), $lengths),
                         new MP_Identifier('simp')
-                    ])))
+                    ]))
             ]);
         } else {
             // If we only iterate over one thing we can skip the min logic and assing directly.
@@ -110,7 +107,7 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
             $ast = $ev->get_commentles_primary_statement();
             $r->arguments[] = new MP_Loop($body, [
                 new MP_LoopBit('for', new MP_Identifier(array_keys($this->params)[0])),
-                new MP_LoopBit('in', new MP_FunctionCall(new MP_Identifier('listify', [$ast])))
+                new MP_LoopBit('in', new MP_FunctionCall(new MP_Identifier('listify'), [$ast]))
             ]);
         }
 

@@ -51,7 +51,7 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
                 }
             }
 
-            $r = new MP_If([$ast], [$body]);
+            $r = new MP_If([$ast], [$body, new MP_String('')]);
         } else {
             $tests = [];
             $branches = [];

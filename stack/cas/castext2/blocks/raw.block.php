@@ -49,11 +49,10 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
         $disablesimp = $simps['last-seen'] === false;
 
 
-        $r = new MP_FunctionCall(new MP_Identifier('string'), [$ast]);
         $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
         $ec = new MP_FunctionCall(new MP_Identifier('_EC'), [
             new MP_FunctionCall(new MP_Identifier('errcatch'), [
-                new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $r)
+                new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast)
             ]),
             new MP_String($epos)
         ]);
@@ -83,9 +82,8 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
             $r = new MP_FunctionCall(new MP_Identifier('block'), [
                 new MP_List([new MP_Identifier('_ct2_tmp')]),
                 $ec,
-                new MP_Identifier('_ct2_tmp')
+                new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])
             ]);
-            //$r = 'block([_ct2_tmp],' . $ev . ',string(_ct2_tmp))';
         }
         return $r;
     }

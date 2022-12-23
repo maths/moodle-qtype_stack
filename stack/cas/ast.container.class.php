@@ -354,17 +354,20 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
                     if ($val instanceof MP_Boolean) {
                         $r['last-seen'] = $val->value;
                     }
-                } else if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom && $node->parentnode->name->value === 'ev') {
+                }
+                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom && $node->parentnode->name->value === 'ev') {
                     if (array_search($node, $node->parentnode->arguments, true) > 0) {
                         $r['last-seen'] = true;
                     }
-                } else if ($node->parentnode instanceof MP_Operation && $node->parentnode->op === ':' && $node->parentnode->lhs === $node && !($node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->name instanceof MP_Atom && $node->parentnode->parentnode->name->value === 'ev')) {
+                }
+                if ($node->parentnode instanceof MP_Operation && $node->parentnode->op === ':' && $node->parentnode->lhs === $node && !($node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->name instanceof MP_Atom && $node->parentnode->parentnode->name->value === 'ev')) {
                     // Not perfect but should identify if a modification 
                     // is not part of 'ev' definitions. Still false positives
                     // if done within an `ev` that holds `simp` itself.
                     $r['out-of-ev-write'] = true;
                 }
             }
+            return true;
         };
         $ast->callbackRecurse($seek);
 

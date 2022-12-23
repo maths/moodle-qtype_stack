@@ -56,6 +56,7 @@ require_once(__DIR__ . '/541_no_unknown_functions.filter.php');
 require_once(__DIR__ . '/542_no_functions_at_all.filter.php');
 require_once(__DIR__ . '/601_castext.filter.php');
 require_once(__DIR__ . '/602_castext_simplifier.filter.php');
+require_once(__DIR__ . '/610_castext_static_string_extractor.filter.php');
 require_once(__DIR__ . '/680_gcl_sconcat.filter.php');
 require_once(__DIR__ . '/801_singleton_numeric.filter.php');
 require_once(__DIR__ . '/802_singleton_units.filter.php');
@@ -156,6 +157,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_601_castext();
             case '602_castext_simplifier':
                 return new stack_ast_filter_602_castext_simplifier();
+            case '610_castext_static_string_extractor':
+                return new stack_ast_filter_610_castext_static_string_extractor();
             case '680_gcl_sconcat':
                 return new stack_ast_filter_680_gcl_sconcat();
             case '801_singleton_numeric':
@@ -214,6 +217,7 @@ class stack_parsing_rule_factory {
                            '520_no_equality_with_logic',
                            '541_no_unknown_functions', '542_no_functions_at_all',
                            '601_castext', '602_castext_simplifier', '680_gcl_sconcat',
+                           '610_castext_static_string_extractor',
                            '801_singleton_numeric', '802_singleton_units', '901_remove_comments',
                            '910_inert_float_for_display',
                            '990_no_fixing_spaces', '991_no_fixing_stars',

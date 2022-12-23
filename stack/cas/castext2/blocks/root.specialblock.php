@@ -58,9 +58,21 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         // of arguments and we may need to turn them to reduce-calls
         // to deal with GCL-limits.
 
-        $filteroptions = ['601_castext' => $options];
+        $filteroptions = [
+            '601_castext' => $options,
+            '610_castext_static_string_extractor' => $options];
         $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['601_castext',
-            '602_castext_simplifier', '680_gcl_sconcat'], $filteroptions, false);
+            '602_castext_simplifier', '610_castext_static_string_extractor',
+            '680_gcl_sconcat'], $filteroptions, false);
+
+        // Enusre that the tree has been marked as CASText.
+        $mark = function($node) {
+            $node->position['castext'] = true;
+            return true;
+        };
+        $ast->callbackRecurse($mark);
+        $ast->position['castext'] = true;
+        $ast = new MP_Group([$ast]);
 
         $errors = [];
         $answernotes = [];
@@ -70,9 +82,8 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
             throw new stack_exception(implode('; ', $errors));
         }
 
-        $r = $ast;
-
         $varref = maxima_parser_utils::variable_usage_finder($ast);
+        $r = $ast->items[0];
 
         // This may break with GCL as there is a limit for that local call there.
         if (count($varref['write']) > 0) {

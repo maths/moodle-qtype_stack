@@ -1688,7 +1688,7 @@ class MP_Indexing extends MP_Node {
         $r = $this->target->toString($params);
 
         foreach ($this->indices as $ind) {
-            $r .= $ind->toString($params);
+            $r .= ltrim($ind->toString($params));
         }
 
         return $r;

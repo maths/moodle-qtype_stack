@@ -32,7 +32,7 @@ class stack_cas_castext2_escape extends stack_cas_castext2_block {
         $this->children = array(); // We want to modify the iteration here a bit.
     }
 
-    public function compile($format, $options): ?MP_String {
+    public function compile($format, $options): ?MP_Node {
         if ($this->content === null && !array_key_exists('value', $this->params)) {
             return null;
         }

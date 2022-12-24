@@ -67,7 +67,8 @@ class stack_cas_castext2_template extends stack_cas_castext2_block {
 
         // Define a template and render an empty string.
         return new MP_Group([
-            new MP_Operation(':=', new MP_FunctionCall(new MP_Identifier('ctt_' . $this->params['name']), [new MP_Identifier('%dummyvariable')]), $body),
+            new MP_Operation(':=', new MP_FunctionCall(new MP_Identifier('ctt_' . $this->params['name']),
+                [new MP_Identifier('%dummyvariable')]), $body),
             new MP_String('')
         ]);
     }
@@ -87,20 +88,23 @@ class stack_cas_castext2_template extends stack_cas_castext2_block {
 
     public function validate(&$errors=[], $options=[]): bool {
         if (!array_key_exists('name', $this->params)) {
-            $errors[] = new $options['errclass']('The "template"-block needs a name.', $options['context'] . '/' . $this->position['start'] . '-' .
-                $this->position['end']);
+            $errors[] = new $options['errclass']('The "template"-block needs a name.',
+                $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);
             return false;
         } else {
             $ev = stack_ast_container::make_from_teacher_source($this->params['name']);
             $ast = $ev->get_commentles_primary_statement();
             if (!($ast instanceof MP_Identifier)) {
-                $errors[] = new $options['errclass']('The "template"-block needs a name that is suitable to be a function name.', $options['context'] . '/' . $this->position['start'] . '-' .
+                $errors[] = new $options['errclass']('The "template"-block needs a name that is suitable to be a function name.',
+                    $options['context'] . '/' . $this->position['start'] . '-' .
                     $this->position['end']);
                 return false;
             }
         }
-        if (array_key_exists('mode', $this->params) && !($this->params['mode'] === 'default' || $this->params['mode'] === 'ignore missing')) {
-            $errors[] = new $options['errclass']('The "template"-blocks mode paramter can only have the values "default" or "ignore missing".', $options['context'] . '/' . $this->position['start'] . '-' .
+        if (array_key_exists('mode', $this->params) && !($this->params['mode'] === 'default' ||
+            $this->params['mode'] === 'ignore missing')) {
+            $errors[] = new $options['errclass']('The "template"-blocks mode paramter can only have the values ' .
+                '"default" or "ignore missing".', $options['context'] . '/' . $this->position['start'] . '-' .
                 $this->position['end']);
             return false;
         }

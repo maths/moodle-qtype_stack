@@ -677,7 +677,8 @@ class castext2_test extends qtype_stack_testcase {
 
     public function test_templates_3() {
         $preamble = array('a:1');
-        $input = '[[template name="foobar"]]FOOBAR{#a#}[[/template]][[template name="foobar"/]][[define a="2"/]] [[template name="foobar"/]]';
+        $input = '[[template name="foobar"]]FOOBAR{#a#}[[/template]][[template name="foobar"/]]' .
+            '[[define a="2"/]] [[template name="foobar"/]]';
         $output = 'FOOBAR1 FOOBAR2';
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
@@ -685,12 +686,12 @@ class castext2_test extends qtype_stack_testcase {
     public function test_templates_4() {
         $input = '[[template name="foobar" mode="default"]]default[[/template]]';
         $output = 'default';
-        $this->assertEquals($output, $this->evaluate($input));   
+        $this->assertEquals($output, $this->evaluate($input));
     }
 
     public function test_templates_5() {
         $input = '[[template name="foobar"]]override[[/template]]X[[template name="foobar" mode="default"]]default[[/template]]';
         $output = 'Xoverride';
-        $this->assertEquals($output, $this->evaluate($input));   
+        $this->assertEquals($output, $this->evaluate($input));
     }
 }

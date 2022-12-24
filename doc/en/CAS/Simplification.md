@@ -47,14 +47,14 @@ results in `p=lg(27, 3)`, and `q=3`.
 The algebraic equivalence function `algebraic_equivalence`, and so anything upon which it depends, will automatically remove logarithms to other bases.  
 This includes the answer tests as needed.
 
-## Selective simplification
+## Selective simplification {#selective-simplification}
 
 The level of simplification performed by Maxima can be controlled by changing Maxima's global variable `simp`, e.g.
 
     simp:true
     
 When `simp` is set to `false`, no simplification is performed and Maxima is quite happy to deal with an expression such as \(1+4\) without actually performing the addition.
-This is most useful for dealing with very elementary expressions, and for [showing working](../CAS/Matrix/#Showing_working).
+This is most useful for dealing with very elementary expressions, and for [showing working](../CAS/Matrix.md#Showing-working).
 
 This variable can be set at the question level using the [options](../Authoring/Options.md) or for each [Potential response tree](../Authoring/Potential_response_trees.md).
 
@@ -80,7 +80,7 @@ To selectively control simplification within CASText (including the general feed
 ```
 {@3/9,simp=false@}
 ```
-3. Use a [define block](../Authoring/Question_blocks/#define-block) to set the value of `simp`, e.g.
+3. Use a [define block](../Authoring/Question_blocks.md#define-block) to set the value of `simp`, e.g.
 ```
 [[define simp="false"/]]
 \({@3/9@} \neq {@1+1@}\)
@@ -280,7 +280,7 @@ See the page on [propositional logic](Propositional_Logic.md).
 
 Some further examples are given elsewhere:
 
-* Matrix examples in [showing working](Matrix.md#Showing_working).
+* Matrix examples in [showing working](Matrix.md#Showing-working).
 * An example of a question with `simp:false` is discussed in [authoring quick start 7](../Authoring/Authoring_quick_start_7.md).
 * Generating [random algebraic expressions](Random.md) which need to be "gathered and sorted".
 

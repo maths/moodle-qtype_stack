@@ -80,17 +80,20 @@ echo '<h3>Question variables</h3>';
 
 if ($q->get_cached('preamble-qv') !== null) {
     echo '<p>Preamble:</p>';
-    echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('preamble-qv'))->toString(['pretty' => true])) . '</pre>';
+    echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('preamble-qv'))->
+        toString(['pretty' => true])) . '</pre>';
 }
 
 if ($q->get_cached('contextvariables-qv') !== null) {
     echo '<p>Contextvariables:</p>';
-    echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('contextvariables-qv'))->toString(['pretty' => true])) . '</pre>';
+    echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('contextvariables-qv'))->
+        toString(['pretty' => true])) . '</pre>';
 }
 
 if ($q->get_cached('statement-qv') !== null) {
     echo '<p>Question variables:</p>';
-    echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('statement-qv'))->toString(['pretty' => true])) . '</pre>';
+    echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('statement-qv'))->
+        toString(['pretty' => true])) . '</pre>';
 } else {
     echo '<p>No actual question variables.</p>';
 }
@@ -104,18 +107,23 @@ foreach ($q->prts as $prt) {
 
     echo '<p>Required inputs: ' . json_encode(array_keys($q->get_cached('required')[$prt->get_name()])) . '</p>';
 
-    if (isset($q->get_cached('prt-preamble')[$prt->get_name()]) && $q->get_cached('prt-preamble')[$prt->get_name()] !== null) {
+    if (isset($q->get_cached('prt-preamble')[$prt->get_name()]) &&
+            $q->get_cached('prt-preamble')[$prt->get_name()] !== null) {
         echo '<p>PRT-preamble:</p>';
-        echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-preamble')[$prt->get_name()])->toString(['pretty' => true])) . '</pre>';
+        echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-preamble')[$prt->get_name()])->
+            toString(['pretty' => true])) . '</pre>';
     }
 
-    if (isset($q->get_cached('prt-contextvariables')[$prt->get_name()]) && $q->get_cached('prt-contextvariables')[$prt->get_name()] !== null) {
+    if (isset($q->get_cached('prt-contextvariables')[$prt->get_name()]) &&
+            $q->get_cached('prt-contextvariables')[$prt->get_name()] !== null) {
         echo '<p>PRT-contextvariables:</p>';
-        echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-contextvariables')[$prt->get_name()])->toString(['pretty' => true])) . '</pre>';
+        echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-contextvariables')[$prt->get_name()])->
+            toString(['pretty' => true])) . '</pre>';
     }
 
     echo '<p>PRT-logic:</p>';
-    echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-definition')[$prt->get_name()])->toString(['pretty' => true])) . '</pre>';
+    echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-definition')[$prt->get_name()])->
+        toString(['pretty' => true])) . '</pre>';
 
 }
 

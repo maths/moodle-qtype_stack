@@ -66,6 +66,12 @@
     max-width: 100%;
     resize: both;
 }
+#id_questionvariables,
+textarea[id*=feedbackvariables],
+textarea[name=maximavars] {
+    min-width: 100%;
+    font-family: monospace;
+}
 .que.stack input[type=checkbox] {
     margin-right: 0.4em;
 }

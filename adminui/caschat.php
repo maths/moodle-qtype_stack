@@ -65,7 +65,7 @@ $debuginfo = '';
 $errs = '';
 $varerrs = array();
 
-$vars   = optional_param('vars', '', PARAM_RAW);
+$vars   = optional_param('maximavars', '', PARAM_RAW);
 $string = optional_param('cas', '', PARAM_RAW);
 $simp   = optional_param('simp', '', PARAM_RAW);
 
@@ -144,7 +144,7 @@ echo html_writer::tag('form',
             html_writer::tag('h2', stack_string('questionvariables')) .
             html_writer::tag('p', implode($varerrs)) .
             html_writer::tag('p', html_writer::tag('textarea', $vars,
-                    array('cols' => 100, 'rows' => $varlen, 'name' => 'vars'))) .
+                    array('cols' => 100, 'rows' => $varlen, 'name' => 'maximavars'))) .
             html_writer::tag('p', $simp) .
             html_writer::tag('h2', stack_string('castext')) .
             html_writer::tag('p', $errs) .

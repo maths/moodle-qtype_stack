@@ -392,7 +392,9 @@ foreach ($question->prts as $prtname => $prt) {
     echo html_writer::tag('td', $node);
 
     $maxima = html_writer::start_tag('div', array('class' => 'questionvariables'));
-    $maxima .= html_writer::tag('pre', s($offlinemaxima[$prtname]));
+    $out = html_writer::tag('summary', $prtname);
+    $out .= html_writer::tag('pre', s($offlinemaxima[$prtname]));
+    $maxima .= html_writer::tag('details', $out);
     $maxima .= html_writer::end_tag('div');
     echo html_writer::tag('td', $maxima);
 

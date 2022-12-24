@@ -134,6 +134,39 @@ if ($qversion !== null) {
     echo html_writer::tag('p', stack_string('version') . ' ' . $qversion);
 }
 
+// Add a link to the cas chat to facilitate editing the general feedback.
+if ($question->options->get_option('simplify')) {
+    $simp = 'on';
+} else {
+    $simp = '';
+}
+
+$questionvarsinputs = $question->questionvariables;
+foreach ($question->get_correct_response() as $key => $val) {
+    if (substr($key, -4, 4) !== '_val') {
+        $questionvarsinputs .= "\n{$key}:{$val};";
+    }
+}
+
+// We've chosen not to send a specific seed since it is helpful to test the general feedback in a random context.
+$chatparams = $urlparams;
+$chatparams['maximavars'] = $questionvarsinputs;
+$chatparams['simp'] = $simp;
+$chatparams['cas'] = $question->generalfeedback;
+$chatlink = new moodle_url('/question/type/stack/adminui/caschat.php', $chatparams);
+
+$links = array();
+$links[] = html_writer::link($questionbanklink, stack_string('seethisquestioninthequestionbank'));
+if ($canedit) {
+    $links[] = html_writer::link($questionbanklinkedit, stack_string('editquestioninthequestionbank'));
+    $links[] = html_writer::link($chatlink, stack_string('sendgeneralfeedback'));
+    $links[] = html_writer::link($exportquestionlink, stack_string('exportthisquestion')) .
+        $OUTPUT->help_icon('exportthisquestion', 'qtype_stack');
+}
+$links[] = html_writer::link(new moodle_url('/question/type/stack/questiontestreport.php', $urlparams),
+    stack_string('basicquestionreport')) . $OUTPUT->help_icon('basicquestionreport', 'qtype_stack');
+echo html_writer::tag('p', implode(' | ', $links));
+
 flush();
 
 $question->castextprocessor = new castext2_qa_processor($quba->get_question_attempt($slot));
@@ -406,13 +439,19 @@ if ($question->runtimeerrors || $generalfeedbackerr) {
 
 // Display the test results.
 $addlabel = stack_string('addanothertestcase', 'qtype_stack');
+$basemsg = '';
+if ($question->has_random_variants()) {
+    $basemsg = stack_string('questiontestsfor', $seed) . ': ';
+}
 if (empty($testresults)) {
     echo html_writer::tag('p', stack_string_error('runquestiontests_alert') . ' ' . stack_string('notestcasesyet'));
     $addlabel = stack_string('addatestcase', 'qtype_stack');
 } else if ($allpassed) {
-    echo html_writer::tag('p', stack_string('stackInstall_testsuite_pass'), array('class' => 'overallresult pass'));
+    echo html_writer::tag('p', $basemsg .
+        stack_string('stackInstall_testsuite_pass'), array('class' => 'overallresult pass'));
 } else {
-    echo html_writer::tag('p', stack_string_error('stackInstall_testsuite_fail'), array('class' => 'overallresult fail'));
+    echo html_writer::tag('p', $basemsg .
+        stack_string_error('stackInstall_testsuite_fail'), array('class' => 'overallresult fail'));
 }
 
 if ($canedit) {
@@ -556,26 +595,13 @@ foreach ($testresults as $key => $result) {
     }
 }
 
-$links = array();
-$links[] = html_writer::link($questionbanklink, stack_string('seethisquestioninthequestionbank'));
-if ($canedit) {
-    $links[] = html_writer::link($questionbanklinkedit, stack_string('editquestioninthequestionbank'));
-    $links[] = html_writer::link($exportquestionlink, stack_string('exportthisquestion')) .
-            $OUTPUT->help_icon('exportthisquestion', 'qtype_stack');
-}
-echo html_writer::tag('p', implode(' | ', $links));
-
-echo html_writer::tag('p',
-        html_writer::link(new moodle_url('/question/type/stack/questiontestreport.php', $urlparams),
-                stack_string('basicquestionreport')) . $OUTPUT->help_icon('basicquestionreport', 'qtype_stack'));
-
 // Display the question variables.
 echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
 echo html_writer::tag('pre', $questionvariablevalues);
 echo html_writer::end_tag('div');
 
-// Question variables and PRTs in a summary tag/
+// Question variables and PRTs in a summary tag.
 $out = html_writer::tag('summary', stack_string('prts'));
 $out .= html_writer::start_tag('div', array('class' => 'questionvariables'));
 $out .= html_writer::tag('pre', $questionvariablevalues);
@@ -603,27 +629,6 @@ echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()
 echo $OUTPUT->heading(stack_string('generalfeedback'), 3);
 echo html_writer::tag('div', html_writer::tag('div', $rendergeneralfeedback,
     array('class' => 'outcome generalfeedback')), array('class' => 'que'));
-
-// Add a link to the cas chat to facilitate editing the general feedback.
-if ($question->options->get_option('simplify')) {
-    $simp = 'on';
-} else {
-    $simp = '';
-}
-
-$questionvarsinputs = $question->questionvariables;
-foreach ($question->get_correct_response() as $key => $val) {
-    if (substr($key, -4, 4) !== '_val') {
-        $questionvarsinputs .= "\n{$key}:{$val};";
-    }
-}
-$chatparams = $urlparams;
-$chatparams['vars'] = $questionvarsinputs;
-$chatparams['simp'] = $simp;
-$chatparams['cas'] = $question->generalfeedback;
-// We've chosen not to send a specific seed since it is helpful
-// to test the general feedback in a random context.
-echo $OUTPUT->single_button(new moodle_url('/question/type/stack/adminui/caschat.php', $chatparams), stack_string('chat'));
 
 if ($question->stackversion == null) {
     echo html_writer::tag('p', stack_string('stackversionnone'));

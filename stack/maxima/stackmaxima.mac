@@ -159,6 +159,7 @@ load("inequalities.mac");
 load("intervals.mac");
 load("stackunits.mac");
 load("stackstrings.mac");
+load("fboundp.mac");
 
 load("stacktex.lisp");
 /* Ensure back compatability with versions before 5.41.0. */
@@ -168,6 +169,7 @@ if is(MAXIMA_VERSION_NUM<44.0) then load("stack44.mac");
 /* This file is a modified core Maxima function with local variable name clashes fixed. */
 load("trigrat.lisp");
 load("trigtools");
+load("diag");
 
 load("sregex");
 load("numericaltest.mac");

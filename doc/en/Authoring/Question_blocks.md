@@ -94,7 +94,8 @@ the lists or set be shorter/smaller the iteration will stop when the first one e
     [[ foreach x="[1,2,3]" y="makelist(x^2,x,4)" ]] ({#x#},{#y#}) [[/ foreach ]]
 
 Because the foreach block needs to evaluate the lists/sets before it can do the iteration, using foreach blocks will require one
-additional CAS evaluation for each nested level of foreach blocks.
+additional CAS evaluation for each nested level of foreach blocks. This has not applied since 4.4. no additional cost is related
+to this block and it is recommended that any repeption that can be removed is removed using this block.
 
 ## Define block {#define-block}
 
@@ -130,7 +131,7 @@ The special "debug" block allows question authors to see all the values of varia
 Some blocks do not have content.  For example, the `[[ define x='1' /]]` block above does not include content.
 The following is correct syntax:
 
-    [[ define x='1']] [[/ define]]
+    [[ define x='1']][[/ define]]
 
 But we think the following is much more direct, and clean.
 
@@ -185,7 +186,19 @@ A new feature in 4.4 is the ability to construct a text-file using CASText and t
 
 ## Commonstring block ##
 
-In some circumstances one might see the `[[commonstring/]]` block. While it might not be one that an author would use it might appear when working with built-in labels and their localisations. What it does is that it gets a `key` as a parameter and fetches the matching localised string from STACKs language packs and replaces the block with it.
+In some circumstances one might see the `[[commonstring/]]` block. While it might not be one that an author would use it might appear when working with built-in labels and their localisations. What it does is that it gets a `key` as a parameter and fetches the matching localised string from STACKs language packs and replaces the block with it. It also provides means for injecting named parameters into those templates with varying simplification and presentation options.
+
+## Template block ##
+
+Since 4.4.2 it has been possible to use templates to handle repetitive content or to override content deeper in libraries. Templates are essentially a way for handling repetition when `[[foreach]]` does not easily work or when inline CASText based function solutions are inconvenient. While inline CASText is often better it might not work as well as overridable templates when working with libraries.
+
+The template block has two parameters, the first being a name which should be a valid name for a function and the second being the mode parameter that controls the blocks behaviour and is of use especially for library builders. There are three different ways for using this block:
+
+1. To define a templates value for a given name one simply wraps that value in this block with that name. `[[template name="foobar"]]Whatever is {@whatever@}[[/template]]`. This will not output anything and can also be done in inline CASText either in the question-variables to effect the whole question or in feedback-variables to effect PRTs.
+2. To output that template, one simply uses the empty block form `[[template name="foobar"/]]` which will output whatever has been defined as that templates value or a warning about the template not been defined. One can add a mode parameter `mode="ignore missing"` to not see that warning. Typically, one will use the `[[define/]]` block to change the values used within the template.
+3. For library makers the most common operation mode is the `mode="default"` where the contents of the block are used if no overriding definition can be found. The default value will not define a default template and this intentional, if a template is to be shared then it needs to be defined at a global level where it always gets evaluated while default templates tend to be sensible to use even in conditionally evaluated contexts. Basically, if your library has any CASText that could benefit from being overridable you simply give it a name and wrap it with `[[template name="libarary_xyz" mode="default"]]...[[/template]]` and then maybe document somewhere that this name has this default where these injectable variables have these roles so that people may replace the wording and structure and still use the same values.
+
+Note in the background templates are just functions with CASText values. You can do the same with inline CASText and more importantly building your own functions allows you to use arguments for them and thus makes repetition with varying parameters simpler. For templates no arguments exist, for them the values come from the context where they get placed in, and must therefore be controlled though other means.
 
 ### Blocks that exist but should not be used ###
 

@@ -38,7 +38,6 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         } else {
             $r = new MP_List([new MP_String('%root')]);
         }
-        
 
         foreach ($this->children as $item) {
             $c = $item->compile($format, $options);

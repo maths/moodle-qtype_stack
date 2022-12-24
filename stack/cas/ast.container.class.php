@@ -265,7 +265,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     /**
      * For when you want to look at the AST after basic filters and
-     * don't care about multiple statements or comments. 
+     * don't care about multiple statements or comments.
      */
     public function get_commentles_primary_statement() {
         $commentfilter = stack_parsing_rule_factory::get_by_common_name('901_remove_comments');
@@ -347,21 +347,26 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
         $seek = function($node) use (&$r) {
             if ($node instanceof MP_Identifier && $node->value === 'simp') {
-                $r['simp-accessed'] = true;            
-                if ($node->parentnode instanceof MP_Operation && ($node->parentnode->op === ':' || $node->parentnode->op === '=') && $node->parentnode->lhs === $node) {
+                $r['simp-accessed'] = true;
+                if ($node->parentnode instanceof MP_Operation && ($node->parentnode->op === ':' ||
+                        $node->parentnode->op === '=') && $node->parentnode->lhs === $node) {
                     $r['simp-modified'] = true;
                     $val = $node->parentnode->rhs;
                     if ($val instanceof MP_Boolean) {
                         $r['last-seen'] = $val->value;
                     }
                 }
-                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom && $node->parentnode->name->value === 'ev') {
+                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom &&
+                        $node->parentnode->name->value === 'ev') {
                     if (array_search($node, $node->parentnode->arguments, true) > 0) {
                         $r['last-seen'] = true;
                     }
                 }
-                if ($node->parentnode instanceof MP_Operation && $node->parentnode->op === ':' && $node->parentnode->lhs === $node && !($node->parentnode->parentnode instanceof MP_FunctionCall && $node->parentnode->parentnode->name instanceof MP_Atom && $node->parentnode->parentnode->name->value === 'ev')) {
-                    // Not perfect but should identify if a modification 
+                if ($node->parentnode instanceof MP_Operation && $node->parentnode->op === ':' &&
+                        $node->parentnode->lhs === $node && !($node->parentnode->parentnode instanceof MP_FunctionCall &&
+                        $node->parentnode->parentnode->name instanceof MP_Atom &&
+                        $node->parentnode->parentnode->name->value === 'ev')) {
+                    // Not perfect but should identify if a modification
                     // is not part of 'ev' definitions. Still false positives
                     // if done within an `ev` that holds `simp` itself.
                     $r['out-of-ev-write'] = true;

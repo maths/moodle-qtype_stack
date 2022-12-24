@@ -62,7 +62,6 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
             $ev = stack_ast_container::make_from_teacher_source($this->params['test'][$b]);
             $ast = new MP_Group([$ev->get_commentles_primary_statement()]);
 
-
             $flat = true;
             $items = [];
             while ($j < $this->params[' branch lengths'][$b]) {
@@ -85,7 +84,7 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
                 foreach ($items as $it) {
                     $body->arguments[] = $it;
                 }
-            }            
+            }
 
             $tests[] = $ast;
             $branches[] = $body;
@@ -121,7 +120,7 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
                     foreach ($items as $it) {
                         $body->arguments[] = $it;
                     }
-                }            
+                }
 
                 $tests[] = $ast;
                 $branches[] = $body;

@@ -53,12 +53,12 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                     $ev = stack_ast_container::make_from_teacher_source($value);
                     $ast = $ev->get_commentles_primary_statement();
                     $ev = new MP_FunctionCall(
-                        new MP_Identifier('_EC'), 
+                        new MP_Identifier('_EC'),
                         [
                             new MP_FunctionCall(new MP_Identifier('errcatch'),
                                 [
                                     new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast)
-                                ]), 
+                                ]),
                             new MP_String($epos)
                         ]);
 
@@ -69,7 +69,8 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                             new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
                             $ev,
-                            new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_FunctionCall(new MP_Identifier('string'), 
+                            new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
+                            new MP_FunctionCall(new MP_Identifier('string'),
                                 [
                                     new MP_Identifier('_ct2_tmp')
                                 ])),
@@ -84,7 +85,8 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
                             $ev,
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
-                            new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_FunctionCall(new MP_Identifier('ct2_latex'), 
+                            new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
+                            new MP_FunctionCall(new MP_Identifier('ct2_latex'),
                                 [
                                     new MP_Identifier('_ct2_tmp'),
                                     new MP_String('i'),
@@ -97,7 +99,7 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                         $r->items[] = new MP_String(mb_substr($key, 4));
                         // If prefixed by raw output as {#...#} would do.
                         $r->items[] = new MP_FunctionCall(new MP_Identifier('block'), [
-                            new MP_List([new MP_Identifier('_ct2_tmp')]), 
+                            new MP_List([new MP_Identifier('_ct2_tmp')]),
                             $ev,
                             new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])
                         ]);
@@ -109,7 +111,8 @@ class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
                             new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
                             $ev,
                             new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
-                            new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_FunctionCall(new MP_Identifier('ct2_latex'), 
+                            new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
+                            new MP_FunctionCall(new MP_Identifier('ct2_latex'),
                                 [
                                     new MP_Identifier('_ct2_tmp'),
                                     new MP_String('i'),

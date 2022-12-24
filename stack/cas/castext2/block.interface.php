@@ -50,7 +50,7 @@ abstract class stack_cas_castext2_block {
      * The compile function is supposed to generate a CAS expression that generates
      * the output of this block. Should this block not generate any output return NULL.
      * Otherwise the ouput should either create a string or a list as described elsewhere.
-     * The returned object is therefore typically a MP_List, a MP_String, or a NULL. 
+     * The returned object is therefore typically a MP_List, a MP_String, or a NULL.
      * However one could also see if-statements or MP_Groups.
      *
      * The format parameter defines the output format, currently either "MD" or
@@ -67,8 +67,8 @@ abstract class stack_cas_castext2_block {
     /**
      * Should this block generate something else than direct string values it needs to
      * tell about it here.
-     * 
-     * Basically, a flat block promises that whatever it compiles to evaluates directly 
+     *
+     * Basically, a flat block promises that whatever it compiles to evaluates directly
      * to a string value and does not require any post processing.
      */
     public function is_flat() : bool {

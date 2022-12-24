@@ -1751,7 +1751,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $ml = new stack_multilang();
         $cc['langs'] = $ml->languages_used($questiontext);
 
-
         // Then do some basic detail collection related to the inputs and PRTs.
         foreach ($inputs as $input) {
             if (is_a($input, 'stack_units_input')) {

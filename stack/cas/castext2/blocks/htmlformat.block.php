@@ -31,7 +31,6 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
         // Note that the jsxgraph block does this automatically.
         $r = new MP_List([new MP_String('htmlformat')]);
         $flat = $this->is_flat();
-        
 
         $items = array();
         foreach ($this->children as $item) {

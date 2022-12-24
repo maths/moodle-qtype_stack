@@ -26,7 +26,7 @@ class stack_cas_castext2_define extends stack_cas_castext2_block {
         foreach ($this->params as $param) {
             $ev = stack_ast_container::make_from_teacher_source($param['value']);
             $ast = $ev->get_commentles_primary_statement();
-            $r->items[] = new MP_FunctionCall(new MP_Identifier('_EC'), 
+            $r->items[] = new MP_FunctionCall(new MP_Identifier('_EC'),
                 [
                     new MP_FunctionCall(new MP_Identifier('errcatch'), [
                         new MP_Operation(':', new MP_Identifier($param['key']), $ast)
@@ -37,7 +37,7 @@ class stack_cas_castext2_define extends stack_cas_castext2_block {
 
         // In the end we need to return something. Note that this will break all
         // sort of simplifications and you may see some wacky logic working with this.
-        // The recommended simplification rule is to move this before any static seen 
+        // The recommended simplification rule is to move this before any static seen
         // before this, and jsut ignore what happens inside this.
         $r->items[] = new MP_String('');
 

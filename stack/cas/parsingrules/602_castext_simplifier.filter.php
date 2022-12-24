@@ -20,7 +20,7 @@ require_once(__DIR__ . '/filter.interface.php');
 /**
  * AST filter that simplifies compiled CASText, the aim is to merge
  * as much as possible down to as simple as possible parts.
- * 
+ *
  * Note that we intentionally do not simplify too much inside JSXGraphs.
  * This is due to the MecLib library tending to load large blobs and
  * it would be silly to join them with small modifications and end up

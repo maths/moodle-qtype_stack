@@ -50,11 +50,9 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
             new MP_String('' . self::$countfiles)
         ]);
 
-        
         if (isset($options['stateful']) && $options['stateful'] === true) {
             $code->items[] = new MP_String('stateful');
         }
-
 
         // Collect the content for future.
         $content = '["%root",""';

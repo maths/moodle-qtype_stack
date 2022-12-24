@@ -23,7 +23,7 @@ require_once(__DIR__ . '/filter.interface.php');
  */
 class stack_ast_filter_610_castext_static_string_extractor implements stack_cas_astfilter_parametric {
 
-    // A reference to the extractor
+    // A reference to the extractor.
     private $extractor = false;
 
     public function set_filter_parameters(array $parameters) {
@@ -60,11 +60,11 @@ class stack_ast_filter_610_castext_static_string_extractor implements stack_cas_
                     $node->parentnode->name->value === '_EC' &&
                     $node->parentnode->arguments[1] == $node) {
                     // Do not touch the error tracing bits, we want to keep those easily visible.
+                    return true;
                 } else {
                     $node->value = $map->add_to_map($node->value);
                 }
             }
-
             return true;
         };
 

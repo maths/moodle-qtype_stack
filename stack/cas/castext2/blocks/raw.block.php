@@ -43,11 +43,10 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
         // from the given expression.
         // Unlike with the LaTeX version we do not try to catch global
         // state affecting things. After all we tend to have more of this
-        // type of injection and expanding the logic to allow that would not 
+        // type of injection and expanding the logic to allow that would not
         // be nice.
         $forcesimp = $simps['last-seen'] === true;
         $disablesimp = $simps['last-seen'] === false;
-
 
         $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
         $ec = new MP_FunctionCall(new MP_Identifier('_EC'), [
@@ -64,7 +63,8 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
                 new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(true)),
                 $ec,
-                new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])),
+                new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_FunctionCall(new MP_Identifier('string'),
+                    [new MP_Identifier('_ct2_tmp')])),
                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
                 new MP_Identifier('_ct2_tmp')
             ]);
@@ -74,7 +74,8 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
                 new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
                 $ec,
-                new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])),
+                new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
+                    new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])),
                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
                 new MP_Identifier('_ct2_tmp')
             ]);

@@ -27,7 +27,6 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
     public function compile($format, $options):  ? MP_Node {
         $r = new MP_List([new MP_String('jsxgraph')]);
-        
 
         // We need to transfer the parameters forward.
         $r->items[] = new MP_String(json_encode($this->params));

@@ -25,17 +25,17 @@ class stack_ast_filter_901_remove_comments implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         $process = function($node) {
-        	// For parsers that separate comments from the flow.
+            // For parsers that separate comments from the flow.
             if ($node->comments !== null) {
-            	$node->comments = null;
-            	return false;
+                $node->comments = null;
+                return false;
             }
             // For parsers that plug comments into the flow when possible.
             if ($node instanceof MP_Comment) {
                 $node->parentnode->removeChild($node);
                 return false;
             }
-           	
+
             return true;
         };
 

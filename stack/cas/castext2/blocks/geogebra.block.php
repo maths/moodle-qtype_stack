@@ -188,7 +188,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
             // nun kann man im folgenden auf Basis der Namenskonventionen an den Namen den Objekttyp erkennen und das Setzen zur Initialisierung einleiten
             // für weitere bereiche wie remeber oder watch definiert man oben einen weiteren Bereich, gibt diesem einen Namen und fertig. :)
             // which names are used in set.
-            $geogebraname_setcode = "";
+            $geogebranamesetcode = "";
             $setarray = str_getcsv($set);
             foreach ($setarray as $geogebraname) {
                 // Get value of params array in section geogebraset ->params[1][1].
@@ -221,22 +221,22 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
 
                         $geogebraname = substr($geogebraname, 0, -7);
                         // Removing __fixed (7 characters).
-                        $geogebraname_setcode .= "appletObject.evalCommand('"
+                        $geogebranamesetcode .= "appletObject.evalCommand('"
                             . $geogebraname . " = Point({".$ggbcoords[0].",".$ggbcoords[1]."})');";
                         // appletObject.evalCommand('G= Point({{#fx#},4})');
                     } else {
                         // Assuming point is interactable by the user.
                         // appletObject.evalCommand('POINTNAME=(XCOORD,YCOORD)')
-                        $geogebraname_setcode .= "appletObject.evalCommand('"
+                        $geogebranamesetcode .= "appletObject.evalCommand('"
                             . $geogebraname . " = (".$ggbcoords[0].",".$ggbcoords[1].")');";
                     }
                 } else {
-                    $geogebraname_setcode .= "appletObject.evalCommand('" . $geogebraname . " = ".$ggbcoords."');";
+                    $geogebranamesetcode .= "appletObject.evalCommand('" . $geogebraname . " = ".$ggbcoords."');";
                     // Assuming geogebraname is the name of an object of type: value or angle (therefore latin lowercase)
                     // setting angle by size not supported.
                     // Please set angle by setting defining points.
                 }
-                $setcode = "$setcode\n$geogebraname_setcode";
+                $setcode = "$setcode\n$geogebranamesetcode";
             }
             $setcode = "$setcode\n};";
             $code = "$setcode\n$code";
@@ -254,24 +254,24 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
 
             // Geogebra objects must not be named with numbers within a name. numbers at the end are allowed.
 
-            $geogebraname_watchcode = ""; // XXXToDo delete this.
+            $geogebranamewatchcode = ""; // XXXToDo delete this.
             $watcharray = str_getcsv($watch);
             foreach ($watcharray as $geogebraname) {
-                $geogebraname_watchcode = "";
+                $geogebranamewatchcode = "";
                 // XXXToDo test this.
                 if (ctype_upper(substr($geogebraname, 0, 1))) {
                     // stack_geogebra.bind_point(stateRef,appletObject,"A");
                     // Assuming geogebraname is the (therefore uppercase) name of an object of type: point
                     // in js code variables are called watchvar__.
-                    $geogebraname_watchcode .= "stack_geogebra.bind_point(watchvar" . $geogebraname .
+                    $geogebranamewatchcode .= "stack_geogebra.bind_point(watchvar" . $geogebraname .
                         self::$countgraphs . ",appletObject,\"" . $geogebraname . "\");";
                     // appletObject.evalCommand('G= Point({{#fx#},4})');
                 } else {
                     // Assuming geogebraname is a value or angle (therefore lowercase).
-                    $geogebraname_watchcode .= "stack_geogebra.bind_value(watchvar" . $geogebraname.
+                    $geogebranamewatchcode .= "stack_geogebra.bind_value(watchvar" . $geogebraname.
                         self::$countgraphs . ",appletObject,\"" . $geogebraname . "\");";
                 }
-                $watchcode = "$watchcode\n$geogebraname_watchcode";
+                $watchcode = "$watchcode\n$geogebranamewatchcode";
             }
             $watchcode = "$watchcode\n};";
             $code = "$watchcode\n$code";
@@ -301,23 +301,23 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
               var appletObject = applet.getAppletObject();\n";
 
             // Geogebra objects must not be named with numbers within a name. numbers at the end are allowed.
-            $geogebraname_remembercode = ""; // XXXToDo delete this.
+            $geogebranameremembercode = ""; // XXXToDo delete this.
             $rememberarray = str_getcsv($remember);
             foreach ($rememberarray as $geogebraname) {
-                $geogebraname_remembercode = ""; // XXXToDo delete this.
+                $geogebranameremembercode = ""; // XXXToDo delete this.
                 if (ctype_upper(substr($geogebraname, 0, 1))) {
                     // stack_geogebra.bind_point(stateRef,appletObject,"A");
                     // Assuming geogebraname is the (therefore uppercase) name of an object of type: point
                     // in js code variables are called remembervar__.
-                    $geogebraname_remembercode .= "stack_geogebra.bind_point_to_remember_JSON(remembervar" .
+                    $geogebranameremembercode .= "stack_geogebra.bind_point_to_remember_JSON(remembervar" .
                         $geogebraname. self::$countgraphs .",appletObject,\"" . $geogebraname."\");";
-                    //  appletObject.evalCommand('G= Point({{#fx#}, 4})');
+                    // appletObject.evalCommand('G= Point({{#fx#}, 4})');
                 } else {
                     // Assuming geogebraname is a value or angle (therefore lowercase).
-                    $geogebraname_remembercode .= "stack_geogebra.bind_value_to_remember_JSON(remembervar" .
+                    $geogebranameremembercode .= "stack_geogebra.bind_value_to_remember_JSON(remembervar" .
                         $geogebraname . self::$countgraphs .",appletObject,\"" . $geogebraname."\");";
                 }
-                $remembercode = "$remembercode\n$geogebraname_remembercode";
+                $remembercode = "$remembercode\n$geogebranameremembercode";
             }
             $remembercode = "$remembercode\n};";
             $code = "$remembercode\n$code";
@@ -349,9 +349,9 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         $code = "$code\n var applet" . self::$countgraphs . "= new GGBApplet(params" . self::$countgraphs . ", true);";
 
         // Check global options for self-hosted geogebra url link to self-hosted GeoGebra/HTML5/5.0/web3d/.
-        $customGeoGebraBaseURL = stack_utils::get_config()->geogebrabaseurl;
-        if (isset($customGeoGebraBaseURL) && trim($customGeoGebraBaseURL) != "") {
-            $code = "$code\n applet" . self::$countgraphs . ".setHTML5Codebase('" . $customGeoGebraBaseURL . "');";
+        $customgeogebrabaseurl = stack_utils::get_config()->geogebrabaseurl;
+        if (isset($customgeogebrabaseurl) && trim($customgeogebrabaseurl) != "") {
+            $code = "$code\n applet" . self::$countgraphs . ".setHTML5Codebase('" . $customgeogebrabaseurl . "');";
         }
         // Inject applet.
         $code = "$code\n window.addEventListener('load', function() {applet"
@@ -384,7 +384,9 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
             "watchGeoGebraObjects" . self::$countgraphs ."();\n" .
             "rememberGeoGebraObjects" . self::$countgraphs ."();\n", $code);
         // $code = str_replace('params["appletOnLoad"] = function(){', 'params["appletOnLoad"] = function(){'
-        // .'var appletObject'. self::$countgraphs .' = applet'. self::$countgraphs .'.getAppletObject(); '//define appletObject, this can be used e.g. appletObject.evalCommand() added by user in manual script part TODO Add to documentation.
+        // .'var appletObject'. self::$countgraphs .' = applet'. self::$countgraphs .'
+        // . getAppletObject(); '//define appletObject, this can be used e.g. appletObject.evalCommand() added by user in manual script part.
+        // TODO Add to documentation.
         // .'initialgeogebraset' . self::$countgraphs . "();"
         // . "watchGeoGebraObjects" . self::$countgraphs ."();\n", $code);
 
@@ -420,7 +422,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         return [];
     }
 
-    public function validate(&$errors = [], array $options): bool {
+    public function validate(&$errors = [], $options = []): bool {
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.
         $valid  = true;

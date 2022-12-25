@@ -182,6 +182,11 @@
         "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
         },
         {
+        "file":"GeoGebra.md",
+        "title":"Using GeoGebra blocks in STACK questions - STACK Documentation",
+        "description":"How to use GeoGebra to display graphs and as a STACK input type."
+        },
+        {
         "file":"HELM.md",
         "title":"HELM materials in STACK",
         "description":"Providing versions of the HELM project materials as moodle quizzes, with materials in STACK format."

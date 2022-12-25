@@ -21,6 +21,7 @@ Done:
 2. Load the `diag` package for better linear algebra support.
 3. Better layout on the question testing page.
 4. Question variables and feedback variables are now in monospace.
+5. Add in [GeoGebra support](..//Authoring/GeoGebra.md).
 
 ## For "inputs 2"?
 

@@ -1,9 +1,8 @@
 # GeoGebra in STACK
-Author Tim Lutz - University of Edinburgh and University of Education Heidelberg
+Author Tim Lutz - University of Edinburgh and University of Education Heidelberg, 2022-23.
 
-This page documents use of GeoGebra to display visuals.
+STACK supports inclusion of dynamic graphs using GeoGebra: [https://geogebra.org](https://geogebra.org).  This page documents how to use GeoGebra applets to display visuals, and as a STACK input.
 
-STACK supports inclusion of dynamic graphs using GeoGebra: [https://geogebra.org](https://geogebra.org).
 
 ## Before we start: Check Editor preferences
 
@@ -18,8 +17,9 @@ Individual users can also set their editor preferences:
 ## Find the material_id
 
 To include a GeoGebra applet into a STACK question, first create or search for an existing GeoGebra applet at geogebra.org. The easiest way to use GeoGebra in STACK is to use an applet at geogebra.org. The applet must be publicly avaiable through a url. To set things up we need the material-id of an applet, we want to show.
-    for the material [https://www.geogebra.org/m/seehz3km](https://www.geogebra.org/m/seehz3km) the material_id is: seehz3km
-    
+
+For the material [https://www.geogebra.org/m/seehz3km](https://www.geogebra.org/m/seehz3km) the material_id is: `seehz3km`
+
 ## Add the material_id to a new STACK task
 
 Then include the following question text, which includes a simple `[[geogebra]]` [block](Question_blocks.md).
@@ -38,8 +38,9 @@ sub tag value is a string of (unique) comma-separated GeoGebra-objects with lati
 sub tag value could look like: 
 set = "A,B,C,D,a2,E__fixed"
 and would be placed like
-[[geogebra set = "A,B,C,D,a2,E__fixed"]]
-[[/geogebra]]
+
+    [[geogebra set = "A,B,C,D,a2,E__fixed"]]
+    [[/geogebra]]
 
 assumes: names of variables are equal in STACK and GeoGebra
 assumes: values are int or float STACK variables
@@ -58,15 +59,18 @@ angles can not be set directly, set points instead
 
 question variables:
 
-A:[2,3]
-B:[1,2]
+    A:[2,3];
+    B:[1,2];
+
 question text:
 
-[[geogebra set="A,B"]]
-params["material_id"]="seehz3km";
-[[/geogebra]]
+    [[geogebra set="A,B"]]
+    params["material_id"]="seehz3km";
+    [[/geogebra]]
+
 Write the coordinates of A:
-[[input:ans1]][[validation:ans1]]
+
+    [[input:ans1]][[validation:ans1]]
 
 ## Using the "watch" sub-tag 
 With the "watch" sub-tag someone can listen to values and points in GeoGebra. These values can then be used to calculate feedback in STACK
@@ -77,11 +81,11 @@ question variables:
 
 question text:
 
-[[geogebra watch="A,b"]]
-params["material_id"]="seehz3km";
-[[/geogebra]]
-[[input:A]][[validation:A]]
-[[input:b]][[validation:b]]
+    [[geogebra watch="A,b"]]
+    params["material_id"]="seehz3km";
+    [[/geogebra]]
+    [[input:A]][[validation:A]]
+    [[input:b]][[validation:b]]
 
 A must be an algebraic-input to allow floats.
 You can access A in feedback as a list of values for points A[0]->x-value, A[1]->y-value
@@ -95,28 +99,33 @@ if you do not want to calculate feedback with some of the GeoGebra objects in an
 question variables:
 
 question text:
-[[geogebra remember="A,B,C"]]
-params["material_id"]="seehz3km";
-[[/geogebra]]
-[[input:remember]][[validation:remember]]
+
+    [[geogebra remember="A,B,C"]]
+    params["material_id"]="seehz3km";
+    [[/geogebra]]
+    [[input:remember]][[validation:remember]]
 
 remember input must be of type string, and can not be used to calculate values in STACK feedback for now. remember is for easy restoring purposes.
 
-## Using commands inside [[geogebra]][[/geogebra]]
+## Using commands inside `[[geogebra]][[/geogebra]]`
+
 You can use the following commands inside the geogebra tag if the sub tags cant fit your task idea:
-stack_geogebra_bind_point(args)
-stack_geogebra_bind_value(args)
-stack geogebra_bind_value_to_remember_JSON(args)
-stack geogebra_bind_point_to_remember_JSON(args)
-###minimal example
-[[geogebra input-ref-stateStore="stateRef" set="b" watch="B"]]
-params["material_id"]="AEAVEqPy";
-params["appletOnLoad"]=function(){stack_geogebra.bind_point_to_remember_JSON(stateRef,appletObject, 'A');
-stack_geogebra.bind_value_to_remember_JSON(stateRef,appletObject, 'c')};
-[[/geogebra]]
-[[input:stateStore]]
-[[validation:stateStore]]
-[[input:B]][[validation:B]]
+
+* `stack_geogebra_bind_point(args)`
+* `stack_geogebra_bind_value(args)`
+* `stack geogebra_bind_value_to_remember_JSON(args)`
+* `stack geogebra_bind_point_to_remember_JSON(args)`
+
+### minimal example
+
+    [[geogebra input-ref-stateStore="stateRef" set="b" watch="B"]]
+    params["material_id"]="AEAVEqPy";
+    params["appletOnLoad"]=function(){stack_geogebra.bind_point_to_remember_JSON(stateRef,appletObject, 'A');
+    stack_geogebra.bind_value_to_remember_JSON(stateRef,appletObject, 'c')};
+    [[/geogebra]]
+    [[input:stateStore]]
+    [[validation:stateStore]]
+    [[input:B]][[validation:B]]
 
 
 TODO: documentation for common app settings which can be addressed through params["nameOfSetting"] array, as shown in [https://wiki.geogebra.org/en/Reference:GeoGebra_App_Parameters](https://wiki.geogebra.org/en/Reference:GeoGebra_App_Parameters)

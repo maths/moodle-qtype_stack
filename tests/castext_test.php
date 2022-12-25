@@ -1568,7 +1568,8 @@ class castext_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\stack_cas_castext2_geogebra
      */
-    public function test_stack_geogebra_statestore() {//eigenen test schreibenXXX
+    public function test_stack_geogebra_statestore() {
+        // Eigenen test schreibenXXX.
         $st = '[[geogebra input-ref-stateStore="stateRef"]]' .
               '[[/geogebra]]';
 

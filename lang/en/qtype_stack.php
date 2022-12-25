@@ -795,7 +795,6 @@ $string['Illegal_illegal_power_of_ten_in_units']  = 'The value may not contain n
 $string['Illegal_input_form_units']               = 'This input expects a numerical value followed or multiplied by an expression defining an unit, e.g. <code>1.23*W/m^2</code>. Note that the unit required here may be something else.';
 $string['Illegal_x10'] = 'Your answer appears to use the character "x" as a multiplication sign.  Please use <code>*</code> for multiplication.';
 
-
 $string['stackBlock_jsxgraph_width']       = 'The width of a JSXGraph must use a known CSS-length unit.';
 $string['stackBlock_jsxgraph_height']      = 'The height of a JSXGraph must use a known CSS-length unit.';
 $string['stackBlock_jsxgraph_width_num']   = 'The numeric portion of the width of a JSXGraph must be a raw number and must not contain any extra chars.';
@@ -805,7 +804,7 @@ $string['stackBlock_jsxgraph_overdefined_dimension'] = 'When defining aspect-rat
 $string['stackBlock_jsxgraph_ref']         = 'The jsxgraph-block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
 $string['stackBlock_jsxgraph_param']       = 'The jsxgraph-block supports only these parameters in this context: {$a->param}.';
 
-//stackBlock GeoGebra strings
+// Define the stackBlock GeoGebra strings.
 $string['stackBlock_geogebra_width']       = 'The width of a GeoGebra Applet must use a known CSS-length unit.';
 $string['stackBlock_geogebra_height']      = 'The height of a GeoGebra Applet must use a known CSS-length unit.';
 $string['stackBlock_geogebra_width_num']   = 'The numeric portion of the width of a GeoGebra Applet must be a raw number and must not contain any extra chars.';
@@ -817,7 +816,7 @@ $string['stackBlock_geogebra_param']       = 'The geogebra-block supports only t
 $string['stackBlock_geogebra_link']        = 'Link to referenced GeoGebra material';
 $string['stackBlock_geogebra_link_help']   = 'You want to edit this material? If this is your own GeoGebra material at geogebra.org, you can edit it. If this is not your GeoGebra material, you have to copy the material at geogebra.org first. Then you have to publish the material and edit the material_id value below in question text.';
 $string['stackBlock_geogebra_heading']     = 'GeoGebra materials';
-//stackBlock GeoGebra strings for global admin options
+// Define the stackBlock GeoGebra strings for global admin options.
 $string['stackBlock_geogebra_settingdefaultoptions'] = 'Options for GeoGebra in STACK';
 $string['stackBlock_geogebra_settingdefaultoptions_desc'] = 'We recommend to read the documentation of GeoGebra and STACK';
 $string['stackBlock_geogebrabaseurl'] = 'Link to GeoGebra hosting (optional)';

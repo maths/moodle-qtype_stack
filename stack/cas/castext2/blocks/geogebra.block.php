@@ -33,46 +33,49 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
     private static $countgraphs = 1;
 
     public function compile($format, $options):  ? string {
-      $r = '["geogebra"';
+        $r = '["geogebra"';
 
-      $jsonparams = json_encode($this
+        $jsonparams = json_encode($this
                   ->params);
-      // We need to transfer the parameters of the applet forward like jsx graph implementation.
-      $r .= ',[' . stack_utils::php_string_to_maxima_string($jsonparams);
+        // We need to transfer the parameters of the applet forward like jsx graph implementation.
+        $r .= ',[' . stack_utils::php_string_to_maxima_string($jsonparams);
 
-      //Section geogebraset
-      if(isset($this->params['set'])){
-      $r .= ',["geogebraset"';//opening the parameter area geogebraset
-      $setvars = explode(',',$this->params['set']);// validate unten muss angepasst werden.
+        // Section geogebraset.
+        if (isset($this->params['set'])) {
+            // Opening the parameter area geogebraset.
+            $r .= ',["geogebraset"';
+            // Validate below needs to be adjusted.
+            $setvars = explode(',', $this->params['set']);
 
-      foreach($setvars as $geogebraname) {
-          if(str_ends_with($geogebraname, '__fixed')){
-            //assuming point must not be interactable by the user.
-            $geogebraname = substr($geogebraname, 0, -7);
-          }
-          $r .= ',[' . stack_utils::php_string_to_maxima_string($geogebraname) . ", string($geogebraname)]";
-      }
-      $r .= ']';//closing geogebraset parameter area
-      }
-      //Section geogebraset end
+            foreach ($setvars as $geogebraname) {
+                if (str_ends_with($geogebraname, '__fixed')) {
+                    // Assuming point must not be interactable by the user.
+                    $geogebraname = substr($geogebraname, 0, -7);
+                }
+                $r .= ',[' . stack_utils::php_string_to_maxima_string($geogebraname) . ", string($geogebraname)]";
+            }
+            // Closing the geogebraset parameter area.
+            $r .= ']';
+        }
+        // Section geogebraset end.
 
-      //here we could add more sections like the one above
+        // We could add more sections like the one above here.
 
-      $r .= ']';//closing parameter area with index 1
+        // Closing parameter area with index 1.
+        $r .= ']';
 
-      foreach ($this->children as $item) {
-          // Assume that all code inside is JavaScript and that we do not
-          // want to do the markdown escaping or any other in it.
-          $c = $item->compile(castext2_parser_utils::RAWFORMAT, $options);
-          if ($c !== null) {
-              $r .= ',' . $c;
-          }
-      }
+        foreach ($this->children as $item) {
+            // Assume that all code inside is JavaScript and that we do not
+            // want to do the markdown escaping or any other in it.
+            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $options);
+            if ($c !== null) {
+                $r .= ',' . $c;
+            }
+        }
 
-      $r .= ']';//closing geogebra
-
-      return $r;
-
+        // Closing geogebra.
+        $r .= ']';
+        return $r;
     }
 
     public function is_flat() : bool {
@@ -135,8 +138,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         // question-text, but for now lets use the old seek code to work with
         // them out if that happens. We now can directly access the identtifier.
 
-
-        //deprecated input-ref definition in geogebra.block
+        // Deprecated input-ref definition in geogebra.block.
         foreach ($parameters as $key => $value) {
             if (substr($key, 0, 10) === 'input-ref-') {
                 $inputname  = substr($key, 10);
@@ -151,101 +153,98 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                 }
             }
         }
-        //deprecated input-ref definition end
+        // Deprecated input-ref definition end.
 
+        // Set exists if one of the keys was "set" otherwise no key was set.
+        // Set is provided inside block-tag.
+        // The value of set is used to set initial values of GeoGebra objects
+        // (assumes: set is a string of (unique) comma-separated GeoGebra-objects with latin names.
+        // Set could look like: set = "A,B,C,D,a2,E__fixed")
+        // (assumes: names are equal in STACK and GeoGebra)
+        // (assumes: values are int or float STACK variables)
+        // (assumes: points are represented as array in STACK like: [2,3] means point with x=2, y=3)
+        // maxima object would be for point D e.g. D:[2,3]
+        // (assumes: value-names are starting with lower case letters (angles are used like values,
+        // must be named lowercase Latin-Alphabet, values are radian values))
+        // (assumes: Point-names are starting with upper case letters).
+        // (assumes: Points will be set free to manipulate, unless you add '__fixed' to the Point-name).
+        if (array_key_exists('set', $parameters)) {
+            $set = $parameters['set'];
 
-        //set exists if one of the keys was "set" otherwise no key was set.
-        //set is provided inside block-tag.
-        //The value of set is used to set initial values of GeoGebra objects
-        //(assumes: set is a string of (unique) comma-separated GeoGebra-objects with latin names.
-        //set could look like: set = "A,B,C,D,a2,E__fixed")
-        //(assumes: names are equal in STACK and GeoGebra)
-        //(assumes: values are int or float STACK variables)
-        //(assumes: points are represented as array in STACK like: [2,3] means point with x=2, y=3) maxima object would be for point D e.g. D:[2,3]
-        //(assumes: value-names are starting with lower case letters (angles are used like values, must be named lowercase Latin-Alphabet, values are radian values))
-        //(assumes: Point-names are starting with upper case letters)
-        //(assumes: Points will be set free to manipulate, unless you add '__fixed' to the Point-name)
-          if (array_key_exists('set', $parameters)) {
-              $set = $parameters['set'];
-
-              $setcode = "function initialgeogebraset". self::$countgraphs . "(){
+            $setcode = "function initialgeogebraset". self::$countgraphs . "(){
                 var appletObject = applet.getAppletObject();\n";
-                /*$setcode .= "alert('".addslashes($params[0])."');";
+            /*  $setcode .= "alert('".addslashes($params[0])."');";
                 $setcode .= "alert('".addslashes($params[1][0])."');";
                 $setcode .= "alert('".addslashes($params[1][1][0])."');";//hier sollte geogebraset stehen//Yabadabadoo.
                 $setcode .= "alert('".addslashes($params[1][1][1][0])."');";//hier weiter//liefert Afixed
                 $setcode .= "alert('".addslashes($params[1][1][1][1])."');";//hier weiter//liefert Afixed den Value
-                */
-                //in params $params[1][0] befindet sich der json String der
-                // wie in jsx Graph für allgemeine Graphikoptionen erzeugt wird
-                //in $params[1][1] befindet sich der Bereich geogebraset.
-                //Das erkennt man am ersten Eintrag: $params[1][1][0]. Dort findet sich der string geogebraset
-                //in $params[1][1][1] befindet sich das erste GeoGebra Objekt im geogebraset Bereich
-                //in $params[1][1][1][0] der Name. in $params[1][1][1][1] der Wert.
-                //nun kann man im folgenden auf Basis der Namenskonventionen an den Namen den Objekttyp erkennen und das Setzen zur Initialisierung einleiten
-                //für weitere bereiche wie remeber oder watch definiert man oben einen weiteren Bereich, gibt diesem einen Namen und fertig. :)
-              //which names are used in set
-              $geogebraname_setcode = "";
-              $setarray = str_getcsv($set);
-              foreach ($setarray as $geogebraname) {
-
-                //get value of params array in section geogebraset ->params[1][1]
-                if(str_ends_with($geogebraname, '__fixed')){
-                  for ($i = 0; $i < count($params[1][1]) ; $i++){//param section of "geogebraset"
-                    if (substr($geogebraname, 0, -7) == $params[1][1][$i][0]){
-                      $geogebravalue = $params[1][1][$i][1];
-                      break;
+            */
+            // In params $params[1][0] befindet sich der json String der
+            // wie in jsx Graph für allgemeine Graphikoptionen erzeugt wird
+            // in $params[1][1] befindet sich der Bereich geogebraset.
+            // Das erkennt man am ersten Eintrag: $params[1][1][0]. Dort findet sich der string geogebraset
+            // in $params[1][1][1] befindet sich das erste GeoGebra Objekt im geogebraset Bereich
+            // in $params[1][1][1][0] der Name. in $params[1][1][1][1] der Wert.
+            // nun kann man im folgenden auf Basis der Namenskonventionen an den Namen den Objekttyp erkennen und das Setzen zur Initialisierung einleiten
+            // für weitere bereiche wie remeber oder watch definiert man oben einen weiteren Bereich, gibt diesem einen Namen und fertig. :)
+            // which names are used in set.
+            $geogebraname_setcode = "";
+            $setarray = str_getcsv($set);
+            foreach ($setarray as $geogebraname) {
+                // Get value of params array in section geogebraset ->params[1][1].
+                if (str_ends_with($geogebraname, '__fixed')) {
+                    for ($i = 0; $i < count($params[1][1]); $i++) {
+                        // Param section of "geogebraset".
+                        if (substr($geogebraname, 0, -7) == $params[1][1][$i][0]) {
+                            $geogebravalue = $params[1][1][$i][1];
+                            break;
+                        }
                     }
-                  }
-                }
-                else{
-                  for ($i = 0; $i < count($params[1][1]) ; $i++){//param section of "geogebraset"
-                    if ($geogebraname == $params[1][1][$i][0]){
-                      $geogebravalue = $params[1][1][$i][1];
-                      break;
+                } else {
+                    for ($i = 0; $i < count($params[1][1]); $i++) {
+                        // Param section of "geogebraset".
+                        if ($geogebraname == $params[1][1][$i][0]) {
+                            $geogebravalue = $params[1][1][$i][1];
+                            break;
+                        }
                     }
-                  }
                 }
-                $ggbcoords = json_decode($geogebravalue, true);//decoding values in params for $geogebraname object
+                // Decoding values in params for $geogebraname object.
+                $ggbcoords = json_decode($geogebravalue, true);
 
-                if(ctype_upper(substr($geogebraname,0,1))){
-                  //assuming geogebraname is the (therefore uppercased) name of an object of type: point
+                if (ctype_upper(substr($geogebraname, 0, 1))) {
+                    // Assuming geogebraname is the (therefore uppercased) name of an object of type: point.
 
-                  if(str_ends_with($geogebraname, '__fixed')){
-                    //assuming point must not be interactable by the user.
-                    //appletObject.evalCommand('POINTNAME= Point({XCOORD,YCOORD})
+                    if (str_ends_with($geogebraname, '__fixed')) {
+                        // Assuming point must not be interactable by the user.
+                        // appletObject.evalCommand('POINTNAME= Point({XCOORD,YCOORD})
 
-                    $geogebraname = substr($geogebraname, 0, -7);//removing __fixed ( 7 characters)
-                    $geogebraname_setcode .= "appletObject.evalCommand('"
-                        . $geogebraname . " = Point({".$ggbcoords[0].",".$ggbcoords[1]."})');";
-                    //appletObject.evalCommand('G= Point({{#fx#},4})');
-                  }
-                  else{
-                    //assuming point is interactable by the user.
-                    //appletObject.evalCommand('POINTNAME=(XCOORD,YCOORD)')
-                    $geogebraname_setcode .= "appletObject.evalCommand('"
-                        . $geogebraname . " = (".$ggbcoords[0].",".$ggbcoords[1].")');";
-
-                  }
+                        $geogebraname = substr($geogebraname, 0, -7);
+                        // Removing __fixed (7 characters).
+                        $geogebraname_setcode .= "appletObject.evalCommand('"
+                            . $geogebraname . " = Point({".$ggbcoords[0].",".$ggbcoords[1]."})');";
+                        // appletObject.evalCommand('G= Point({{#fx#},4})');
+                    } else {
+                        // Assuming point is interactable by the user.
+                        // appletObject.evalCommand('POINTNAME=(XCOORD,YCOORD)')
+                        $geogebraname_setcode .= "appletObject.evalCommand('"
+                            . $geogebraname . " = (".$ggbcoords[0].",".$ggbcoords[1].")');";
+                    }
+                } else {
+                    $geogebraname_setcode .= "appletObject.evalCommand('" . $geogebraname . " = ".$ggbcoords."');";
+                    // Assuming geogebraname is the name of an object of type: value or angle (therefore latin lowercase)
+                    // setting angle by size not supported.
+                    // Please set angle by setting defining points.
                 }
-                else{
-                  $geogebraname_setcode .= "appletObject.evalCommand('" . $geogebraname . " = ".$ggbcoords."');";
-                  //assuming geogebraname is the name of an object of type: value or angle (therefore latin lowercase)
-                  //setting angle by size not supported
-                  //please set angle by setting defining points
-                }
-
                 $setcode = "$setcode\n$geogebraname_setcode";
-              }
-              $setcode = "$setcode\n};";
-              $code = "$setcode\n$code";
-          }
-          else{
-              $setcode = "function initialgeogebraset". self::$countgraphs ."(){};";
-              $code = "$setcode\n$code";
-          }
-
-        //section GeoGebra watch
+            }
+            $setcode = "$setcode\n};";
+            $code = "$setcode\n$code";
+        } else {
+            $setcode = "function initialgeogebraset". self::$countgraphs ."(){};";
+            $code = "$setcode\n$code";
+        }
+        // Section GeoGebra watch.
 
         if (array_key_exists('watch', $parameters)) {
             $watch = $parameters['watch'];
@@ -253,143 +252,144 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
             $watchcode = "function watchGeoGebraObjects". self::$countgraphs . "(){
               var appletObject = applet.getAppletObject();\n";
 
-            //geogebra objects must not be named with numbers within a name. numbers at the end are allowed
+            // Geogebra objects must not be named with numbers within a name. numbers at the end are allowed.
 
-            $geogebraname_watchcode = "";//XXXToDo delete this
+            $geogebraname_watchcode = ""; // XXXToDo delete this.
             $watcharray = str_getcsv($watch);
             foreach ($watcharray as $geogebraname) {
-              $geogebraname_watchcode ="";//XXXToDo test this
-              if(ctype_upper(substr($geogebraname,0,1))){
-                //stack_geogebra.bind_point(stateRef,appletObject,"A");
-                //assuming geogebraname is the (therefore uppercase) name of an object of type: point
-                  //in js code variables are called watchvar__
-                  $geogebraname_watchcode .= "stack_geogebra.bind_point(watchvar".$geogebraname. self::$countgraphs .",appletObject,\"".$geogebraname."\");";
-                  //appletObject.evalCommand('G= Point({{#fx#},4})');
-              }
-              else{
-                //assuming geogebraname is a value or angle (therefore lowercase)
-                $geogebraname_watchcode .= "stack_geogebra.bind_value(watchvar".$geogebraname. self::$countgraphs .",appletObject,\"".$geogebraname."\");";
-              }
-
-              $watchcode = "$watchcode\n$geogebraname_watchcode";
+                $geogebraname_watchcode = "";
+                // XXXToDo test this.
+                if (ctype_upper(substr($geogebraname, 0, 1))) {
+                    // stack_geogebra.bind_point(stateRef,appletObject,"A");
+                    // Assuming geogebraname is the (therefore uppercase) name of an object of type: point
+                    // in js code variables are called watchvar__.
+                    $geogebraname_watchcode .= "stack_geogebra.bind_point(watchvar" . $geogebraname .
+                        self::$countgraphs . ",appletObject,\"" . $geogebraname . "\");";
+                    // appletObject.evalCommand('G= Point({{#fx#},4})');
+                } else {
+                    // Assuming geogebraname is a value or angle (therefore lowercase).
+                    $geogebraname_watchcode .= "stack_geogebra.bind_value(watchvar" . $geogebraname.
+                        self::$countgraphs . ",appletObject,\"" . $geogebraname . "\");";
+                }
+                $watchcode = "$watchcode\n$geogebraname_watchcode";
             }
             $watchcode = "$watchcode\n};";
             $code = "$watchcode\n$code";
             foreach ($watcharray as $geogebraname) {
                 if (property_exists($processor, 'qa') && $processor->qa !== null) {
-                // For contents useing the new renderer we have access to
-                // the identifier at this phase.
-                $namecode = "var watchvar$geogebraname". self::$countgraphs ."='" . $processor->qa->get_qt_field_name($geogebraname) . "';\n";
-                $code = "$namecode\n$code";
+                    // For contents useing the new renderer we have access to the identifier at this phase.
+                    $namecode = "var watchvar$geogebraname". self::$countgraphs ."='" .
+                        $processor->qa->get_qt_field_name($geogebraname) . "';\n";
+                    $code = "$namecode\n$code";
                 } else {
-                $seekcode = "var watchvar$geogebraname". self::$countgraphs ."=stack_geogebra.find_input_id(divid,'$geogebraname');";
-                $code = "$seekcode\n$code";
+                    $seekcode = "var watchvar$geogebraname". self::$countgraphs .
+                        "=stack_geogebra.find_input_id(divid,'$geogebraname');";
+                    $code = "$seekcode\n$code";
                 }
             }
-
-        }
-        else{
-            $watchcode = "function watchGeoGebraObjects". self::$countgraphs ."(){};";
+        } else {
+            $watchcode = "function watchGeoGebraObjects" . self::$countgraphs ."(){};";
             $code = "$watchcode\n$code";
         }
+        // Section GeoGebra watch end.
 
-        //section GeoGebra watch end
-
-        //section GeoGebra remember
-
-     if (array_key_exists('remember', $parameters)) {
+        // Section GeoGebra remember.
+        if (array_key_exists('remember', $parameters)) {
             $remember = $parameters['remember'];
 
             $remembercode = "function rememberGeoGebraObjects". self::$countgraphs . "(){
               var appletObject = applet.getAppletObject();\n";
 
-            //geogebra objects must not be named with numbers within a name. numbers at the end are allowed
-
-            $geogebraname_remembercode = "";//XXX ToDo delete this
+            // Geogebra objects must not be named with numbers within a name. numbers at the end are allowed.
+            $geogebraname_remembercode = ""; // XXXToDo delete this.
             $rememberarray = str_getcsv($remember);
             foreach ($rememberarray as $geogebraname) {
-              $geogebraname_remembercode = "";//XXXToDo delete this
-              if(ctype_upper(substr($geogebraname,0,1))){
-                //stack_geogebra.bind_point(stateRef,appletObject,"A");
-                //assuming geogebraname is the (therefore uppercase) name of an object of type: point
-                  //in js code variables are called remembervar__
-                  $geogebraname_remembercode .= "stack_geogebra.bind_point_to_remember_JSON(remembervar".$geogebraname. self::$countgraphs .",appletObject,\"".$geogebraname."\");";
-                  //appletObject.evalCommand('G= Point({{#fx#},4})');
-              }
-              else{
-                //assuming geogebraname is a value or angle (therefore lowercase)
-                $geogebraname_remembercode .= "stack_geogebra.bind_value_to_remember_JSON(remembervar".$geogebraname. self::$countgraphs .",appletObject,\"".$geogebraname."\");";
-              }
-
-              $remembercode = "$remembercode\n$geogebraname_remembercode";
+                $geogebraname_remembercode = ""; // XXXToDo delete this.
+                if (ctype_upper(substr($geogebraname, 0, 1))) {
+                    // stack_geogebra.bind_point(stateRef,appletObject,"A");
+                    // Assuming geogebraname is the (therefore uppercase) name of an object of type: point
+                    // in js code variables are called remembervar__.
+                    $geogebraname_remembercode .= "stack_geogebra.bind_point_to_remember_JSON(remembervar" .
+                        $geogebraname. self::$countgraphs .",appletObject,\"" . $geogebraname."\");";
+                    //  appletObject.evalCommand('G= Point({{#fx#}, 4})');
+                } else {
+                    // Assuming geogebraname is a value or angle (therefore lowercase).
+                    $geogebraname_remembercode .= "stack_geogebra.bind_value_to_remember_JSON(remembervar" .
+                        $geogebraname . self::$countgraphs .",appletObject,\"" . $geogebraname."\");";
+                }
+                $remembercode = "$remembercode\n$geogebraname_remembercode";
             }
             $remembercode = "$remembercode\n};";
             $code = "$remembercode\n$code";
             foreach ($rememberarray as $geogebraname) {
                 if (property_exists($processor, 'qa') && $processor->qa !== null) {
-                    // For contents useing the new renderer we have access to
-                    // the identifier at this phase.
-                    $remembernamecode = "var remembervar$geogebraname". self::$countgraphs ."='" . $processor->qa->get_qt_field_name("remember") . "';\n";
+                    // For contents useing the new renderer we have access to the identifier at this phase.
+                    $remembernamecode = "var remembervar$geogebraname" . self::$countgraphs ."='" .
+                        $processor->qa->get_qt_field_name("remember") . "';\n";
                     $code = "$remembernamecode\n$code";
                 } else {
-                    //remember is a reserved name, while using geogebra and the remember tag, stack input "remember" should be reserved and not used elsewhere 
-                    //if remember tag is used: remember must be a stack input of type string (to be able to store JSON)
-                    $rememberseekcode = "var remembervar$geogebraname". self::$countgraphs ."=stack_geogebra.find_input_id(divid,'remember');";
+                    // Remember is a reserved name, while using geogebra and the remember tag,
+                    // Stack input "remember" should be reserved and not used elsewhere
+                    // if remember tag is used: remember must be a stack input of type string (to be able to store JSON).
+                    $rememberseekcode = "var remembervar$geogebraname" . self::$countgraphs .
+                        "=stack_geogebra.find_input_id(divid,'remember');";
                     $code = "$rememberseekcode\n$code";
                 }
             }
-
-        }
-        else{
-            $remembercode = "function rememberGeoGebraObjects". self::$countgraphs ."(){};";
+        } else {
+            $remembercode = "function rememberGeoGebraObjects" . self::$countgraphs . "(){};";
             $code = "$remembercode\n$code";
         }
-        //section GeoGebra remember end
-
+        // Section GeoGebra remember end.
 
         // Prefix the code with the id of the div.
-        $code = "var divid = '$divid';\nvar BOARDID = divid;\n$code";//build geogebra js elements via php
+        // Build geogebra js elements via php.
+        $code = "var divid = '$divid';\nvar BOARDID = divid;\n$code";
 
-        $code = "$code\n var applet" . self::$countgraphs . "= new GGBApplet(params"
-            . self::$countgraphs . ", true);";
+        $code = "$code\n var applet" . self::$countgraphs . "= new GGBApplet(params" . self::$countgraphs . ", true);";
 
-        //check global options for self-hosted geogebra url link to self-hosted GeoGebra/HTML5/5.0/web3d/
+        // Check global options for self-hosted geogebra url link to self-hosted GeoGebra/HTML5/5.0/web3d/.
         $customGeoGebraBaseURL = stack_utils::get_config()->geogebrabaseurl;
-        if(isset($customGeoGebraBaseURL) && trim($customGeoGebraBaseURL)!=""){
-           $code = "$code\n applet".self::$countgraphs.".setHTML5Codebase('".$customGeoGebraBaseURL."');";
+        if (isset($customGeoGebraBaseURL) && trim($customGeoGebraBaseURL) != "") {
+            $code = "$code\n applet" . self::$countgraphs . ".setHTML5Codebase('" . $customGeoGebraBaseURL . "');";
         }
-        //inject applet
+        // Inject applet.
         $code = "$code\n window.addEventListener('load', function() {applet"
             . self::$countgraphs . ".inject(divid);});";
 
-        //setting params preset: TODO this could be managed in block related STACK global settings.
-        $code = "\n var presetparams" . self::$countgraphs
-            . "= {\"id\":\"applet\",\"appName\":\"classic\",\"width\":800,\"height\": 600,"
-            ."\"showToolBar\": false,\"showAlgebraInput\": false,\"showMenuBar\": false,"
-            ."material_id:\"x3tzeapm\","
-            ." appletOnLoad:function(){initialgeogebraset" . self::$countgraphs . "();\n" . "watchGeoGebraObjects" . self::$countgraphs . "();\n"
-                . "rememberGeoGebraObjects" . self::$countgraphs . "();\n" ."}};"
-                ."\n var params". self::$countgraphs . "= presetparams". self::$countgraphs.";\n$code";
+        // Setting params preset: TODO this could be managed in block related STACK global settings.
+        $code = "\n var presetparams" . self::$countgraphs .
+            "= {\"id\":\"applet\",\"appName\":\"classic\",\"width\":800,\"height\": 600," .
+            "\"showToolBar\": false,\"showAlgebraInput\": false,\"showMenuBar\": false," .
+            "material_id:\"x3tzeapm\"," .
+            " appletOnLoad:function(){initialgeogebraset" . self::$countgraphs . "();\n" . "watchGeoGebraObjects" .
+            self::$countgraphs . "();\n" .
+            "rememberGeoGebraObjects" . self::$countgraphs . "();\n" ."}};" .
+            "\n var params". self::$countgraphs . "= presetparams". self::$countgraphs . ";\n$code";
 
-        //Replace standard names and ids. TODO use regex for more robust recognition see preg_replace below
+        // Replace standard names and ids. TODO use regex for more robust recognition see preg_replace below.
         $code = str_replace('"id":"applet"', '"id":"applet' . self::$countgraphs . '"', $code);
         $code = str_replace("applet.", "applet" . self::$countgraphs . ".", $code);
         $code = str_replace("appletObject", "appletObject" . self::$countgraphs, $code);
-        //$code = str_replace("var params", "var params" . self::$countgraphs, $code);//deprecated see presetparams, params is predefined in newest version see line above.
+        // $code = str_replace("var params", "var params" . self::$countgraphs, $code);//deprecated see presetparams, params is predefined in newest version see line above.
 
-        //prepare execution of initial value set (inside geogebra block) tag called "set ="
-        //$code = str_replace('"appletOnLoad": function(){', '"appletOnLoad": function(){initialgeogebraset' . self::$countgraphs . "();\n", $code);//deprecated
-        $code = preg_replace('/params\["appletOnLoad"\]\s*=\s*function\s*\(\s*\)\s*\{/','params["appletOnLoad"] = function(){'
-          .'var appletObject'. self::$countgraphs .' = applet'. self::$countgraphs .'.getAppletObject(); '//define appletObject, this can be used e.g. appletObject.evalCommand() added by user in manual script part TODO Add to documentation.
-          .'initialgeogebraset' . self::$countgraphs . "();"
-          . "watchGeoGebraObjects" . self::$countgraphs ."();\n"
-          . "rememberGeoGebraObjects" . self::$countgraphs ."();\n",$code);
-        //$code = str_replace('params["appletOnLoad"] = function(){', 'params["appletOnLoad"] = function(){'
-        //  .'var appletObject'. self::$countgraphs .' = applet'. self::$countgraphs .'.getAppletObject(); '//define appletObject, this can be used e.g. appletObject.evalCommand() added by user in manual script part TODO Add to documentation.
-        //  .'initialgeogebraset' . self::$countgraphs . "();"
-        //  . "watchGeoGebraObjects" . self::$countgraphs ."();\n", $code);
+        // Prepare execution of initial value set (inside geogebra block) tag called "set =".
+        // $code = str_replace('"appletOnLoad": function(){', '"appletOnLoad": function(){initialgeogebraset' . self::$countgraphs . "();\n", $code);//deprecated
+        $code = preg_replace('/params\["appletOnLoad"\]\s*=\s*function\s*\(\s*\)\s*\{/', 'params["appletOnLoad"] = function(){' .
+            'var appletObject'. self::$countgraphs .' = applet'. self::$countgraphs .
+            // Define appletObject, this can be used e.g. appletObject.evalCommand() added by user in manual script part.
+            // TODO Add to documentation.
+            ' .getAppletObject(); ' .
+            'initialgeogebraset' . self::$countgraphs . "();" .
+            "watchGeoGebraObjects" . self::$countgraphs ."();\n" .
+            "rememberGeoGebraObjects" . self::$countgraphs ."();\n", $code);
+        // $code = str_replace('params["appletOnLoad"] = function(){', 'params["appletOnLoad"] = function(){'
+        // .'var appletObject'. self::$countgraphs .' = applet'. self::$countgraphs .'.getAppletObject(); '//define appletObject, this can be used e.g. appletObject.evalCommand() added by user in manual script part TODO Add to documentation.
+        // .'initialgeogebraset' . self::$countgraphs . "();"
+        // . "watchGeoGebraObjects" . self::$countgraphs ."();\n", $code);
 
-        $code = str_replace("params[", "params" . self::$countgraphs . "[", $code);//new version
+        // New version.
+        $code = str_replace("params[", "params" . self::$countgraphs . "[", $code);
         // We restrict the actions of the block code a bit by stopping it from
         // rewriting some things in the surrounding scopes.
         // Also catch errors inside the code and try to provide console logging
@@ -403,7 +403,8 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
             . '\", (note a slight varying offset in the error position due to possible input references):");'
             . 'console.log(err);}';
 
-        $attributes = ['class' => 'geogebrabox', 'style' => $style, 'id' => $divid];//was ist das?
+        // What is this?
+        $attributes = ['class' => 'geogebrabox', 'style' => $style, 'id' => $divid];
 
         $PAGE->requires->js_amd_inline(
             'require(["qtype_stack/geogebra","qtype_stack/geogebracore-lazy","core/yui"], '
@@ -416,13 +417,10 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-      return [];
+        return [];
     }
 
-    public function validate(
-        &$errors = [],
-        array $options
-    ): bool {
+    public function validate(&$errors = [], array $options): bool {
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.
         $valid  = true;
@@ -446,7 +444,6 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         if (array_key_exists('input', $this->params)) {
             $input = $this->params['input'];
         }
-
 
         // NOTE! List ordered by length. For the trimming logic.
         $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
@@ -512,11 +509,12 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                     $err[] = stack_string('stackBlock_geogebra_input_missing',
                         ['var' => $varname]);
                 }
-            } else if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' && $key !== 'watch' && $key !== 'set' && $key !== 'remember') {
+            } else if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
+                    $key !== 'watch' && $key !== 'set' && $key !== 'remember') {
                 $err[] = "Unknown parameter '$key' for geogebra-block.";
                 $valid    = false;
                 if ($valids === null) {
-                    $valids = ['width', 'height', 'aspect-ratio','watch','set','remember'];
+                    $valids = ['width', 'height', 'aspect-ratio', 'watch', 'set', 'remember'];
                     // The variable $inputdefinitions is not defined!
                     if ($inputdefinitions !== null) {
                         $tmp    = $root->get_parameter('ioblocks');

@@ -29,6 +29,8 @@ require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/options.class.php');
+require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
+require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
@@ -92,14 +94,18 @@ if ($string) {
     $session = new stack_cas_session2(array(), $options);
     if ($vars) {
         $keyvals = new stack_cas_keyval($vars, $options, 0);
-        $session = $keyvals->get_session();
+        $keyvals->get_valid();
         $varerrs = $keyvals->get_errors();
+        $kvcode = $keyvals->compile('test')['statement'];
+        $statements = [new stack_secure_loader($kvcode, 'caschat')];
     }
 
     $ct = null;
     if (!$varerrs) {
         $ct = castext2_evaluatable::make_from_source($string, 'caschat');
-        $session->add_statement($ct);
+        $statements[] = $ct;
+        $session = new stack_cas_session2($statements);
+        $session->instantiate();
         if ($ct->get_valid()) {
             $session->instantiate();
             $displaytext  = $ct->get_rendered();

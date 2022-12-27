@@ -27,8 +27,8 @@ class stack_cas_castext2_special_raw extends stack_cas_castext2_block {
         $this->content = $value;
     }
 
-    public function compile($format, $options): ?string {
-        return stack_utils::php_string_to_maxima_string($this->content);
+    public function compile($format, $options): ?MP_Node {
+        return new MP_String($this->content);
     }
 
     public function is_flat(): bool {

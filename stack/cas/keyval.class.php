@@ -282,7 +282,7 @@ class stack_cas_keyval {
      *
      * Note that one must have done validation in advance.
      */
-    public function compile(string $contextname): array {
+    public function compile(string $contextname, castext2_static_replacer $map = null): array {
         $bestatements = [];
         $statements = [];
         $contextvariables = [];
@@ -329,7 +329,8 @@ class stack_cas_keyval {
         $errors = [];
         $answernotes = [];
         $filteroptions = ['998_security' => ['security' => 't'],
-            '601_castext' => ['context' => $contextname, 'errclass' => $this->errclass],
+            '601_castext' => ['context' => $contextname, 'errclass' => $this->errclass, 'map' => $map],
+            '610_castext_static_string_extractor' => ['static string extractor' => $map],
             '995_ev_modification' => ['flags' => true]];
         $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['601_castext',
             '602_castext_simplifier', '680_gcl_sconcat', '995_ev_modification',

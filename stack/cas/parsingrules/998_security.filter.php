@@ -244,6 +244,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     if (($outter->name instanceof MP_Identifier || $outter->name instanceof MP_String)
                         && $outter->name->value === 'lambda') {
                         // This is safe, but we will not go out of our way to identify the function from further.
+                        $donthing = true;
                     } else if (($outter->name instanceof MP_Identifier || $outter->name instanceof MP_String)
                             && $outter->name->value === 'rand'
                             && count($outter->arguments) === 1

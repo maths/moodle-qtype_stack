@@ -1713,6 +1713,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // of sync if textdownload is in play.
         stack_cas_castext2_textdownload::$countfiles = 1;
 
+        // Static string extrraction now for CASText2 in top level text blobs and PRTs,
+        // question varaibles and in the future probably also from input2.
+        $map = new castext2_static_replacer([]);
+
         // First handle the question variables.
         if ($questionvariables === null || trim($questionvariables) === '') {
             $cc['statement-qv'] = null;
@@ -1725,7 +1729,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if (!$kv->get_valid()) {
                 throw new stack_exception('Error(s) in question-variables: ' . implode('; ', $kv->get_errors()));
             }
-            $c = $kv->compile('/qv');
+            $c = $kv->compile('/qv', $map);
             // Store the pre-validated statement representing the whole qv.
             $cc['statement-qv'] = $c['statement'];
             // Store any contextvariables, e.g. assume statements.
@@ -1764,7 +1768,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($prts as $name => $prt) {
             $path = '/p/' . $i;
             $i = $i + 1;
-            $r = $prt->compile($inputs, $forbiddenkeys, $defaultpenalty, $sec, $path);
+            $r = $prt->compile($inputs, $forbiddenkeys, $defaultpenalty, $sec, $path, $map);
             $cc['required'][$name] = $r['required'];
             if ($r['be'] !== null && $r['be'] !== '') {
                 $cc['prt-preamble'][$name] = $r['be'];
@@ -1834,7 +1838,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $ctoptions = [
             'bound-vars' => $forbiddenkeys,
             'prt-names' => array_flip(array_keys($prts)),
-            'io-blocks-as-raw' => 'pre-input2'
+            'io-blocks-as-raw' => 'pre-input2',
+            'static string extractor' => $map
         ];
         $ct = castext2_evaluatable::make_from_source($questiontext, '/qt');
         if (!$ct->get_valid($questiontextformat, $ctoptions, $sec)) {
@@ -1905,23 +1910,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $cc['castext-prt-ic'] = $ct->get_evaluationform();
         }
 
-        // Do static string extraction from the castext-code, save CAS-bandwidth and cache size.
-        // Note! This might be something one wants to toggle for some debug use. But that would
-        // be some other level of debug than what we currently have.
-        // This is one of those things that MecLib made us do.
-        $map = new castext2_static_replacer([]);
-        foreach ($cc as $k => $v) {
-            if (strpos($k, 'castext-') === 0) {
-                $val = $map->extract($v);
-                $cc[$k] = $val;
-            }
-        }
-        // Also deal with the PRTs, the compiled function may contain large feedback portions.
-        if (isset($cc['prt-definition'])) {
-            foreach ($cc['prt-definition'] as $k => $v) {
-                $cc['prt-definition'][$k] = $map->extract($v);
-            }
-        }
+        // Remember to collect the extracted strings once all has been done.
         $cc['static-castext-strings'] = $map->get_map();
 
         // The time of the security context as it were during 2021 was short, now only

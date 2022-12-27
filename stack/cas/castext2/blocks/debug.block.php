@@ -20,7 +20,7 @@ require_once(__DIR__ . '/../utils.php');
 
 class stack_cas_castext2_debug extends stack_cas_castext2_block {
 
-    public function compile($format, $options): ?string {
+    public function compile($format, $options): ?MP_Node {
         // So we are to print out a table of bound variable values.
         $bounds = [];
         if (is_array($options) && isset($options['bound-vars'])) {
@@ -30,7 +30,7 @@ class stack_cas_castext2_debug extends stack_cas_castext2_block {
         // We are lazy and are not going to write this logic ourselves,
         // instead fall back to CASText and let other parts do the task.
         if (count($bounds) == 0) {
-            return '["%cs","castext_debug_no_vars"]';
+            return new MP_List([new MP_String('%cs'), new MP_String('castext_debug_no_vars')]);
         }
         $castext = '';
         if ($format === castext2_parser_utils::MDFORMAT) {

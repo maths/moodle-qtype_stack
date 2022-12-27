@@ -21,10 +21,11 @@ require_once(__DIR__ . '/../../ast.container.class.php');
 
 class stack_cas_castext2_latex extends stack_cas_castext2_raw {
 
-    public function compile($format, $options): ?string {
+    public function compile($format, $options): ?MP_Node {
         // Convert possible simplification flags.
         $ev = stack_ast_container::make_from_teacher_source($this->content);
-        $ev = $ev->get_evaluationform();
+        $ast = $ev->get_commentles_primary_statement();
+        $simps = $ev->identify_simplification_modifications();
 
         // If the author enforces simplification on the content we need
         // to not simplify when we reuse that content.
@@ -32,39 +33,64 @@ class stack_cas_castext2_latex extends stack_cas_castext2_raw {
 
         // So we need to know if there is simplification in play
         // from the given expression.
-        $forcesimp = (mb_strpos($ev, ',simp=true') !== false) || (mb_strpos($ev, ',simp = true') !== false);
-        $disablesimp = (mb_strpos($ev, ',simp=false') !== false) || (mb_strpos($ev, ',simp = false') !== false);
+        $forcesimp = $simps['last-seen'] === true;
+        $disablesimp = $simps['last-seen'] === false;
 
-        $mode = '""';
+        $simp = new MP_Identifier('_ct2_simp');
+        if ($forcesimp) {
+            $simp = new MP_Boolean(true);
+        } else if ($disablesimp) {
+            $simp = new MP_Boolean(false);
+        }
+
+        $mode = '';
         if ($format === castext2_parser_utils::MDFORMAT) {
             if ($this->mathmode) {
-                $mode = '"m"';
+                $mode = 'm';
             } else {
-                $mode = '"im"';
+                $mode = 'im';
             }
         } else {
             if ($this->mathmode) {
-                $mode = '""';
+                $mode = '';
             } else {
-                $mode = '"i"';
+                $mode = 'i';
             }
         }
+        $mode = new MP_String($mode);
 
-        $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,';
-        $r .= '_ct2_tmp:' . stack_utils::php_string_to_maxima_string($this->content) . ',';
-        $simp = ',_ct2_simp';
+        $r = new MP_FunctionCall(new MP_Identifier('block'), [
+            new MP_List([new MP_Identifier('_ct2_tmp'), new MP_Identifier('_ct2_simp')]),
+            new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
+            new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_String($this->content))
+        ]);
+
         if ($forcesimp) {
-            $r .= 'simp:true,';
-            $simp = ',true';
+            $r->arguments[] = new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(true));
         } else if ($disablesimp) {
-            $r .= 'simp:false,';
-            $simp = ',false';
+            $r->arguments[] = new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false));
         }
-        $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
-        $epos = stack_utils::php_string_to_maxima_string($epos);
-        $r .= '_EC(errcatch(_ct2_tmp:' . $ev . '),' . $epos . '),';
 
-        $r .= 'simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,'. $mode . $simp .'),simp:_ct2_simp,_ct2_tmp)';
+        $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
+
+        $r->arguments[] = new MP_FunctionCall(new MP_Identifier('_EC'),
+            [
+                new MP_FunctionCall(new MP_Identifier('errcatch'), [
+                    new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast)
+                ]),
+                new MP_String($epos)
+            ]);
+
+        // If there is a possibility of the simp value leaking to global context we need to identify it.
+        if ($simps['out-of-ev-write']) {
+            $simp = new MP_Identifier('_ct2_simp');
+            $r->arguments[] = new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp'));
+        }
+        $r->arguments[] = new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false));
+        $r->arguments[] = new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
+            new MP_FunctionCall(new MP_Identifier('ct2_latex'), [new MP_Identifier('_ct2_tmp'), $mode, $simp]));
+        $r->arguments[] = new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp'));
+        $r->arguments[] = new MP_Identifier('_ct2_tmp');
 
         return $r;
     }

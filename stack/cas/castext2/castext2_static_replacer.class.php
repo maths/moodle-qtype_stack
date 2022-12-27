@@ -111,4 +111,17 @@ class castext2_static_replacer {
         $this->map = $map;
         return $ast->toString(['nosemicolon' => true]);
     }
+
+    /**
+     * Adds a string to the map and returns the replacement placeholder.
+     */
+    public function add_to_map(string $value): string {
+        $key = array_search($value, $this->map);
+        if ($key === false) {
+            $k = count($this->map);
+            $key = "//CT2S$k//"; // Assume that this is never present in normal content.
+            $this->map[$key] = $value;
+        }
+        return $key;
+    }
 }

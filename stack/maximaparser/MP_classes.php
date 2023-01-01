@@ -2130,6 +2130,11 @@ class MP_Root extends MP_Node {
         return $this->items;
     }
 
+    public function removeChild(MP_Node $node) {
+        $i = array_search($node, $this->items, true);
+        array_splice($this->items, $i, 1);
+    }
+
     public function remap_position_data(int $offset=0) {
         $total = $this->toString();
         $this->position['start'] = $offset;

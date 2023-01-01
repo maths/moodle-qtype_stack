@@ -85,7 +85,8 @@ if (!is_null($deployfromlist)) {
     $dataproblem = false;
 
     $deploytxt = optional_param('deployfromlist', null, PARAM_TEXT);
-    $newseeds = explode("\n", $deploytxt);
+    // Trim off any whitespace.
+    $newseeds = explode("\n", trim($deploytxt));
     foreach ($newseeds as $var => $seed) {
         // Clean up whitespace.
         $newseeds[$var] = trim($seed);

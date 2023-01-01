@@ -104,7 +104,7 @@ if ($string) {
     if (!$varerrs) {
         $ct = castext2_evaluatable::make_from_source($string, 'caschat');
         $statements[] = $ct;
-        $session = new stack_cas_session2($statements);
+        $session = new stack_cas_session2($statements, $options);
         $session->instantiate();
         if ($ct->get_valid()) {
             $session->instantiate();

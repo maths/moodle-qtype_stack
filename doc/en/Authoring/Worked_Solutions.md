@@ -28,7 +28,7 @@ argument_step([ex]) := block([arg1],
 );
 argument_add([ex]) := block([arg1],
   arg1:first(ex),
-  append(arg1, [[sconcat("Add ", stack_disp(second(ex) ,"i"), " to both sides."), lhs(second(last(arg1)))+second(ex)=rhs(second(last(arg1)))+second(ex)]])  
+  append(arg1, [[castext("Add {@second(ex)@} to both sides."), lhs(second(last(arg1)))+second(ex)=rhs(second(last(arg1)))+second(ex)]])  
 );
 argument_simp([ex]) := block([arg1],
   arg1:first(ex),
@@ -58,6 +58,7 @@ Notes:
 2. The imperative can only contain simple strings, and not full castext.  So creating imperatives which themselves contain mathematical expressions based on variables is more difficult.  That's what castext is for!
 3. You can refer to the previous line in the argument with the `last` command, e.g. to access the Maxiam expression in the previous step use `second(last(ar1))`.
 4. The imperative must be a simple strings, and not full castext.  Creating imperatives which themselves contain mathematical expressions based on variables is more difficult.  That's what castext is for!  See the `argument_add` function for an example of how to do this.
+5. Notice in the function `argument_add` we have the function `castext`.  In general you can define castext strings in the question variables using the `castext` function, and these will be evaluated before you use them latex in the text.
 
 TODO: decide how to _not_ display particular steps in this calculation.  In particular the instruction "add 3 to both sides" should also simplify the result.  So we should display the _instruction_ to step 3, but display the _result_ of step 4!
 
@@ -72,7 +73,7 @@ argument_step([ex]) := block([arg1],
 );
 argument_add([ex]) := block([arg1],
   arg1:first(ex),
-  append(arg1, [[sconcat("Add ", stack_disp(second(ex) ,"i"), " to both sides."), lhs(second(last(arg1)))+second(ex)=rhs(second(last(arg1)))+second(ex)]])  
+  append(arg1, [[castext("Add {@second(ex)@} to both sides."), lhs(second(last(arg1)))+second(ex)=rhs(second(last(arg1)))+second(ex)]])  
 );
 argument_simp([ex]) := block([arg1],
   arg1:first(ex),
@@ -199,6 +200,7 @@ p3:ev(p1-c0,simp) + disp_select(n3) = disp_select(n3) - c0;
 /* This will hold the complete argument. */
 ar1:[];
 
+/* These functions add lines to the argument. (Part of core STACK?)     */
 /* argument_step(existing_argument, string_instruction, maxima_result)  */
 argument_step([ex]) := block([arg1],
   arg1:first(ex),
@@ -206,9 +208,8 @@ argument_step([ex]) := block([arg1],
 );
 argument_add([ex]) := block([arg1],
   arg1:first(ex),
-  append(arg1, [[sconcat("Add ", stack_disp(second(ex) ,"i"), " to both sides."), lhs(second(last(arg1)))+second(ex)=rhs(second(last(arg1)))+second(ex)]])  
+  append(arg1, [[castext("Add {@second(ex)@} to both sides."), lhs(second(last(arg1)))+second(ex)=rhs(second(last(arg1)))+second(ex)]])  
 );
-
 
 /* Each line has an imperative (what we are about to do) and the result. */
 ar1:argument_step(ar1,"Solve", p0=0);
@@ -217,7 +218,7 @@ if is(a1=1) then
 else
   ar1:argument_step(ar1,"The first step is to divide through by the coefficient of the highest power, \\(x^2\\), so we have what is known as a monic polynomial where the coefficient of the highest power, \\(x^2\\), equals one.  Doing this, we now have to solve", p1=0);
 if is(c0#0) then ar1:argument_step(ar1,"Subtract the constant term from both sides.", p2);
-ar1:argument_step(ar1,sconcat("Assume \\(b\\) is the coefficient of \\(x\\), which in this case is ", stack_disp(c1, "i"), ". Divide this by \\(2\\), and consider \\((x+b/2)^2\\) which equals"), (ev(sqrt(c2)*x,simp)+c1/2)^2=ev(expand((sqrt(c2)*x+c1/2)^2),simp));
+ar1:argument_step(ar1,castext("Assume \\(b\\) is the coefficient of \\(x\\), which in this case is {@c1@}. Divide this by \\(2\\), and consider \\((x+b/2)^2\\) which equals"), (ev(sqrt(c2)*x,simp)+c1/2)^2=ev(expand((sqrt(c2)*x+c1/2)^2),simp));
 ar1:argument_step(ar1,"Add  \\(b^2/4\\) to both sides of the original quadratic and add the numerical terms on the right hand side.", p3);
 ar1:argument_step(ar1,"We may now factor the left hand side", disp_select((ev(x+c1/2,simp))^2) = n4);
 ar1:argument_step(ar1,"Write the right hand side as a square", (ev(n6+c1/2,simp))^2 = disp_select(n5^2));

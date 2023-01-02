@@ -402,6 +402,46 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('x\times \left(y\times z\right)', $s1[2]->get_display());
         // Notice the associativity of Maxima suppresses the extra explicit brackets here.
         $this->assertEquals('x\times y\times z', $s1[3]->get_display());
+
+    }
+
+    public function test_multiplication_option_onum() {
+
+        $s1 = [];
+        $cs = array('a:2*x', 'b:2*3*x', 'c:3*5^2', 'd:3*x^2');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'onum');
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('2\, x', $s1[0]->get_display());
+        $this->assertEquals('2\times 3\, x', $s1[1]->get_display());
+        $this->assertEquals('3\, 5^2', $s1[2]->get_display());
+        $this->assertEquals('3\, x^2', $s1[3]->get_display());
+
+        $s1 = [];
+        $cs = array('texput(multsgnonlyfornumberssym, "\\\\cdot")',
+            'a:9*x', 'b:5*7*x', 'c:3*5^2', 'd:3*x^2');
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('multiplicationsign', 'onum');
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('9\, x', $s1[1]->get_display());
+        $this->assertEquals('5\cdot 7\, x', $s1[2]->get_display());
+        $this->assertEquals('3\, 5^2', $s1[3]->get_display());
+        $this->assertEquals('3\, x^2', $s1[4]->get_display());
+
     }
 
     public function test_function_power_display() {

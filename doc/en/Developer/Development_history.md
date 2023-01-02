@@ -2,6 +2,18 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.4.2
+
+Released January 2023.
+
+This is mainly a bug fix version.
+
+1. Add in functionality to display Maxima expressions as [trees](../Authoring/Trees.md) with CSS using  `disptree`.
+2. Load the `diag` package for better linear algebra support.
+3. Better layout on the question testing page.
+4. Question variables and feedback variables are now in monospace.
+5. Add in the `onum` option, i.e. `make_multsgn("onum")` in the [options](../Authoring/Options.md).
+
 ## Version 4.4.1
 
 Released August 2022.

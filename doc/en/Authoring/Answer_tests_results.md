@@ -302,6 +302,17 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>452</pre></td>
+  <td class="cell c3"><pre>4.52*10^2</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>5.1e-2</pre></td>
   <td class="cell c3"><pre>51/1000</pre></td>
   <td class="cell c4"></td>
@@ -1537,6 +1548,17 @@ k^2+4*k-12)]</pre></td>
   <td class="cell c6"></td>
   <td class="cell c7"></td>
   <td class="cell c8"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[1,2]</pre></td>
+  <td class="cell c3"><pre>ntuple(1,2)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+  <td class="cell c7">Your answer should be an expression, not an equation, inequality, list, set or matrix.</td>
+  <td class="cell c8">ATAlgEquiv_SA_not_expression.</td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="8">Rounding of floats</td></td>
@@ -3159,6 +3181,17 @@ nf &lt;= x)</pre></td>
   <td class="cell c6"></td>
   <td class="cell c7"></td>
   <td class="cell c8">ATEquation_default</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>i</pre></td>
+  <td class="cell c3"><pre>disp_complex(0,1)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+  <td class="cell c7"></td>
+  <td class="cell c8"></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="8">Absolute value in equations</td></td>
@@ -10284,6 +10317,17 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
   <td class="cell c7">Your answer is not factored.</td>
   <td class="cell c8">ATFacForm_notfactored.</td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">FacForm</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>6*s*t+10*s</pre></td>
+  <td class="cell c3"><pre>2*s*(3*t+5)</pre></td>
+  <td class="cell c4"><pre>t</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+  <td class="cell c7">Your answer is not factored.</td>
+  <td class="cell c8">ATFacForm_notfactored.</td>
+</tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="8">Quadratic, with no const</td></td>
 </tr>
@@ -12830,6 +12874,18 @@ x),3)=2,(x+17)/(2*x)=3^2,(x+17
 <tr class="pass">
   <td class="cell c0">Equiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[a=logbase(9,3),3^a=9,3^a=3^2,
+a=2]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+  <td class="cell c7">\[\begin{array}{lll} &a=\log_{3}\left(9\right)& \cr \color{green}{\Leftrightarrow}&3^{a}=9& \cr \color{green}{\Leftrightarrow}&3^{a}=3^2& \cr \color{green}{\Leftrightarrow}&a=2& \cr \end{array}\]</td>
+  <td class="cell c8">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=(1+y/n)^n,x^(1/n)=(1+y/n),y
 /n=x^(1/n)-1,y=n*(x^(1/n)-1)]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -13236,6 +13292,21 @@ x+%i)))]</pre></td>
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
   <td class="cell c7">\[\begin{array}{lll} &\frac{\frac{a-b}{a^2+a\cdot b}}{\frac{a^2-2\cdot a\cdot b+b^2}{a^4-b^4}}& \cr \color{green}{\checkmark}&=\frac{\left(a-b\right)\cdot \left(a-b\right)\cdot \left(a+b\right)\cdot \left(a^2+b^2\right)}{a\cdot \left(a+b\right)\cdot {\left(a-b\right)}^2}& \cr \color{green}{\checkmark}&=\frac{a^2+b^2}{a}& \cr \color{green}{\checkmark}&=a+\frac{b^2}{a}& \cr \end{array}\]</td>
+  <td class="cell c8">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[a^4+4*b^4,stackeq((a^2)^2+4*a
+^2*b^2+(2*b^2)^2-4*a^2*b^2),st
+ackeq((a^2+2*b^2)^2-(2*a*b)^2)
+,stackeq((2*b^2-2*a*b+a^2)*(2*
+b^2+2*a*b+a^2))]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+  <td class="cell c7">\[\begin{array}{lll} &a^4+4\cdot b^4& \cr \color{green}{\checkmark}&={\left(a^2\right)}^2+4\cdot a^2\cdot b^2+{\left(2\cdot b^2\right)}^2-4\cdot a^2\cdot b^2& \cr \color{green}{\checkmark}&={\left(a^2+2\cdot b^2\right)}^2-{\left(2\cdot a\cdot b\right)}^2& \cr \color{green}{\checkmark}&=\left(2\cdot b^2-2\cdot a\cdot b+a^2\right)\cdot \left(2\cdot b^2+2\cdot a\cdot b+a^2\right)& \cr \end{array}\]</td>
   <td class="cell c8">(EMPTYCHAR, CHECKMARK, CHECKMARK, CHECKMARK)</td>
 </tr>
 <tr class="pass">

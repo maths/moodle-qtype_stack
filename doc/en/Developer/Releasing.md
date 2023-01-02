@@ -24,7 +24,7 @@ Check
 * Readme.md
 * Check docs 
  * development `history/track`.
- * Execute `cli/answertests_docs.php` to update the static docs about answertests.
+ * Execute `php cli/answertests_docs.php` to update the static docs about answertests.
  * Execute `doc/maintenance.php` to search for broken links etc.
 * version.php
  * check both the Moodle versions, and the required number. (https://docs.moodle.org/dev/Releases)

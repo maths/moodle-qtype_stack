@@ -25,17 +25,20 @@ require_once(__DIR__ . '/../../../utils.class.php');
  */
 class stack_cas_castext2_lang extends stack_cas_castext2_block {
 
-    public function compile($format, $options): ?string {
-        $checks = [];
+    public function compile($format, $options): ?MP_Node {
+        $checks = null;
         foreach (explode(',', $this->params['code']) as $code) {
             // Normalise codes like the other filters...
             $c = str_replace('-', '_', strtolower(trim($code)));
-            $checks[] = 'is_lang(' . stack_utils::php_string_to_maxima_string($c) . ')';
+            $check = new MP_FunctionCall(new MP_Identifier('is_lang'), [new MP_String($c)]);
+            if ($checks === null) {
+                $checks = $check;
+            } else {
+                $checks = new MP_Operation('or', $checks, $check);
+            }
         }
 
-        $r = 'if (';
-        $r .= implode(' or ', $checks);
-        $r .= ') then (';
+        $body = null;
         $items = [];
         foreach ($this->children as $item) {
             $c = $item->compile($format, $options);
@@ -45,17 +48,29 @@ class stack_cas_castext2_lang extends stack_cas_castext2_block {
         }
         // If only one thing then no need to wrap it, save space and processing...
         if (count($items) === 1) {
-            $r .= $items[0];
+            $body = $items[0];
         } else {
-            $r .= '["%root", ' . implode(',', $items) . ']';
+            if ($his->is_flat()) {
+                $body = new MP_FunctionCall(new MP_Identifier('sconcat'), $items);
+            } else {
+                array_unshift($items, new MP_String('%root'));
+                $body = new MP_List($items);
+            }
         }
-        // Remember to return something.
-        $r .= ') else ("")';
+
+        $r = new MP_If([new MP_Group($checks)], [$body, new MP_String('')]);
+
         return $r;
     }
 
     public function is_flat(): bool {
-        return false;
+        $flat = true;
+
+        foreach ($this->children as $child) {
+            $flat = $flat && $child->is_flat();
+        }
+
+        return $flat;
     }
 
     public function validate_extract_attributes(): array {

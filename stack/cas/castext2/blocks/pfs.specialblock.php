@@ -46,45 +46,51 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
         }
     }
 
-    public function compile($format, $options): ?string {
+    public function compile($format, $options): ?MP_Node {
         // Now we might actually do the rewrite before everything else but
         // for now we prefer to leave it as a latter step, just in case someone
         // has managed to construct urls with parameters.
         $r = '["%pfs",' . stack_utils::php_string_to_maxima_string($this->component) .
             ',' . stack_utils::php_string_to_maxima_string($this->filearea) .
             ',' . stack_utils::php_string_to_maxima_string($this->itemid) . ',';
+        $r = new MP_List([
+            new MP_String('%pfs'),
+            new MP_String($this->component),
+            new MP_String($this->filearea),
+            new MP_String($this->itemid)
+        ]);
 
         $flat = true;
         foreach ($this->children as $child) {
             $flat = $flat && $child->is_flat();
         }
 
+        $body = null;
+
         if (!$flat) {
-            $r .= '["%root",';
+            $body = new MP_List([new MP_String('%root')]);
         } else {
-            $r .= 'sconcat(';
+            $body = new MP_FunctionCall(new MP_Identifier('sconcat'), []);
         }
 
         $items = array();
         foreach ($this->children as $item) {
             $c = $item->compile($format, $options);
             if ($c !== null) {
-                $items[] = $c;
+                if ($flat) {
+                    $body->arguments[] = $c;
+                } else {
+                    $body->items[] = $c;
+                }
             }
         }
-        $r .= implode(',', $items);
-
-        if (!$flat) {
-            $r .= ']';
-        } else {
-            $r .= ')';
-        }
-        $r .= ']';
+        $r->items[] = $body;
 
         return $r;
     }
 
     public function is_flat(): bool {
+        // Not flat as this always requires rewriting.
         return false;
     }
 

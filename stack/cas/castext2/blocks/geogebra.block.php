@@ -32,14 +32,14 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
 
     private static $countgraphs = 1;
 
-    public function compile($format, $options):  ? string {
-        $r = '["geogebra"';
+    public function compile($format, $options):  ? MP_Node {
+        $r = new MP_List([new MP_String('geogebra')]);
 
-        $jsonparams = json_encode($this
-                  ->params);
-        // We need to transfer the parameters of the applet forward like jsx graph implementation.
-        $r .= ',[' . stack_utils::php_string_to_maxima_string($jsonparams);
+        // We need to transfer the parameters forward.
+        $r->items[] = new MP_String(json_encode($this->params));
 
+        /*
+         * TODO: reinstate this section....
         // Section geogebraset.
         if (isset($this->params['set'])) {
             // Opening the parameter area geogebraset.
@@ -60,21 +60,17 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         // Section geogebraset end.
 
         // We could add more sections like the one above here.
-
-        // Closing parameter area with index 1.
-        $r .= ']';
+        */
 
         foreach ($this->children as $item) {
             // Assume that all code inside is JavaScript and that we do not
             // want to do the markdown escaping or any other in it.
             $c = $item->compile(castext2_parser_utils::RAWFORMAT, $options);
             if ($c !== null) {
-                $r .= ',' . $c;
+                $r->items[] = $c;
             }
         }
 
-        // Closing geogebra.
-        $r .= ']';
         return $r;
     }
 
@@ -89,7 +85,6 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
             // Nothing at all.
             return '';
         }
-
         $parameters = json_decode($params[1][0], true);
 
         $content    = '';

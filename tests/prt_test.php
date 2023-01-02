@@ -113,7 +113,7 @@ class prt_test extends qtype_stack_testcase {
         $defaultpenalty = 0.1;
         $security = new stack_cas_security();
         $pathprefix = '/p/' . '0';
-        $sig = $prt->compile($inputs, $boundvars, $defaultpenalty, $security, $pathprefix);
+        $sig = $prt->compile($inputs, $boundvars, $defaultpenalty, $security, $pathprefix, null);
 
         // Test 1 - a correct answer.
         $inputs = array('sans' => '(x+1)^3/3+c');
@@ -250,7 +250,7 @@ class prt_test extends qtype_stack_testcase {
         $defaultpenalty = 0.1;
         $security = new stack_cas_security();
         $pathprefix = '/p/' . '0';
-        $sig = $prt->compile($inputs, $boundvars, $defaultpenalty, $security, $pathprefix);
+        $sig = $prt->compile($inputs, $boundvars, $defaultpenalty, $security, $pathprefix, null);
 
         // Test 1 - a correct answer.
         $inputs = array('ans1' => '2');

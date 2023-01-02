@@ -211,8 +211,30 @@ make_complexJ(OPT_COMPLEXJ) := block(
 make_multsgn(OPT_MULTSGN) := block(
     if OPT_MULTSGN = "cross" then texput("*", "\\times ", nary),
     if OPT_MULTSGN = "dot" then texput("*", "\\cdot ", nary),
+    if OPT_MULTSGN = "onum" then texput("*", multsgnonlyfornumbers),
     if OPT_MULTSGN = "blank" then texput("*", "\\, ", nary)
 );
+
+/* This only prints a multiplication sign for numbers. */
+/* Thanks to Evgeniy Silchenko.                        */
+texput(multsgnonlyfornumberssym, "\\times")$
+
+multsgnonlyfornumbers(e) := block([arglist, resstr, a, lastisnum, isnum, multsgn, str],
+    arglist: args(e),
+    a: pop(arglist),
+    resstr: if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
+        else sconcat("\\left(", tex1(a), "\\right)"),
+    lastisnum: numberp(a),
+    for a in arglist do (
+        isnum: numberp(a),
+        multsgn: if (lastisnum and isnum) then tex1(multsgnonlyfornumberssym) else "\\,",
+        str: if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
+            else sconcat("\\left(", tex1(a), "\\right)"),
+        resstr: sconcat(resstr, multsgn, " ", str),
+        lastisnum: isnum
+    ),
+    resstr
+)$
 
 make_logic(OPT_LOGIC) := block(
     if OPT_LOGIC = "lang" then block(
@@ -3417,4 +3439,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2022090900$
+stackmaximaversion:2023010401$

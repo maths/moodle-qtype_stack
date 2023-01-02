@@ -21,7 +21,7 @@ require_once(__DIR__ . '/../block.interface.php');
 
 class stack_cas_castext2_comment extends stack_cas_castext2_block {
 
-    public function compile($format, $options): ?string {
+    public function compile($format, $options): ?MP_Node {
         // Comments do not get anywhere ever.
         return null;
     }

@@ -5,7 +5,7 @@ past development history is documented on [Development history](Development_hist
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-## Version 4.4.2
+## Version 4.4.3
 
 TODO: track down bug in assignments/evaluation affecting the inputs.
 
@@ -17,11 +17,7 @@ TODO: List of long lasting issues dealt with, that might need to be notified/clo
 
 Done:
 
-1. Add in functionality to display Maxima expressions as [trees](../Authoring/Trees.md) with CSS using  `disptree`.
-2. Load the `diag` package for better linear algebra support.
-3. Better layout on the question testing page.
-4. Question variables and feedback variables are now in monospace.
-5. Add in [GeoGebra support](..//Authoring/GeoGebra.md).
+1. Add in [GeoGebra support](..//Authoring/GeoGebra.md).
 
 ## For "inputs 2"?
 

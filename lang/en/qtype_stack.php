@@ -216,6 +216,7 @@ $string['multiplicationsign_help'] = 'Controls how multiplication signs are disp
 $string['multiplicationsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#multiplication';
 $string['multcross'] = 'Cross';
 $string['multdot'] = 'Dot';
+$string['multonlynumbers'] = 'Only numbers';
 $string['mustverify'] = 'Student must verify';
 $string['mustverify_help'] = 'Specifies whether the student\'s input is presented back to them as a forced two step process before this input is made available to the scoring mechanism.  Syntax errors are always reported back.';
 $string['mustverify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Student_must_verify';

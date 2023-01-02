@@ -51,7 +51,7 @@ class stack_cas_castext2_include extends stack_cas_castext2_block {
         return self::$extcache[$url];
     }
 
-    public function compile($format, $options): ?string {
+    public function compile($format, $options): ?MP_Node {
         $src = self::file_get_contents($this->params['src']);
         if (isset($options['in include'])) {
             // We will need to rethink the validate_extract_attributes()-logic

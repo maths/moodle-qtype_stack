@@ -29,43 +29,49 @@ require_once(__DIR__ . '/demarkdown.block.php');
 require_once(__DIR__ . '/demoodle.block.php');
 
 class stack_cas_castext2_special_root extends stack_cas_castext2_block {
-    public function compile($format, $options):  ? string {
-        $r = '';
+    public function compile($format, $options):  ? MP_Node {
+        $r = null;
 
-        if ($this->is_flat()) {
-            $r = 'sconcat(';
+        $flat = $this->is_flat();
+        if ($flat) {
+            $r = new MP_FunctionCall(new MP_Identifier('sconcat'), []);
         } else {
-            $r = '["%root",';
+            $r = new MP_List([new MP_String('%root')]);
         }
-        $items = [];
 
         foreach ($this->children as $item) {
             $c = $item->compile($format, $options);
             if ($c !== null) {
-                $items[] = $c;
+                if ($flat) {
+                    $r->arguments[] = $c;
+                } else {
+                    $r->items[] = $c;
+                }
             }
         }
-        $r .= implode(',', $items);
 
-        if ($this->is_flat()) {
-            $r .= ')';
-        } else {
-            $r .= ']';
-        }
-
-        // Essentially we now have an expression where anything could happen.
-        // We do not want it to affect the surroundings. So parse and
-        // find the used variables.
-        $ast    = maxima_parser_utils::parse($r);
+        $ast    = $r;
 
         // At this point we want to simplify things, it is entirely
         // possible that there are sconcats in play with overt number
         // of arguments and we may need to turn them to reduce-calls
         // to deal with GCL-limits.
 
-        $filteroptions = ['601_castext' => $options];
+        $filteroptions = [
+            '601_castext' => $options,
+            '610_castext_static_string_extractor' => $options];
         $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['601_castext',
-            '602_castext_simplifier', '680_gcl_sconcat'], $filteroptions, false);
+            '602_castext_simplifier', '610_castext_static_string_extractor',
+            '680_gcl_sconcat'], $filteroptions, false);
+
+        // Enusre that the tree has been marked as CASText.
+        $mark = function($node) {
+            $node->position['castext'] = true;
+            return true;
+        };
+        $ast->callbackRecurse($mark);
+        $ast->position['castext'] = true;
+        $ast = new MP_Group([$ast]);
 
         $errors = [];
         $answernotes = [];
@@ -75,14 +81,21 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
             throw new stack_exception(implode('; ', $errors));
         }
 
-        $r = $ast->toString(['nosemicolon' => true]);
-
         $varref = maxima_parser_utils::variable_usage_finder($ast);
+        $r = $ast->items[0];
 
         // This may break with GCL as there is a limit for that local call there.
         if (count($varref['write']) > 0) {
-            $r = 'castext_simplify(block(local(' . implode(',', array_keys($varref['write'])) .
-                '),' . $r . '))';
+            $r = new MP_FunctionCall(new MP_Identifier('castext_simplify'), [
+                new MP_FunctionCall(new MP_Identifier('block'), [
+                    new MP_FunctionCall(new MP_Identifier('local'), []),
+                    $r
+                ])
+            ]);
+
+            foreach ($varref['write'] as $key => $duh) {
+                $r->arguments[0]->arguments[0]->arguments[] = new MP_Identifier($key);
+            }
         }
 
         return $r;

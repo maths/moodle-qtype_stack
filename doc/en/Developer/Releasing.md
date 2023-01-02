@@ -23,8 +23,8 @@ Check
 
 * Readme.md
 * Check docs 
- * development `history/track`.
- * Execute `cli/answertests_docs.php` to update the static docs about answertests.
+ * [development history](Development_history.md) and [development track](Development_track.md) `history/track`.
+ * Execute `php cli/answertests_docs.php` to update the static docs about answertests.
  * Execute `doc/maintenance.php` to search for broken links etc.
 * version.php
  * check both the Moodle versions, and the required number. (https://docs.moodle.org/dev/Releases)
@@ -33,7 +33,7 @@ Check
 * Run `php cli/ast_test_generator.php` to confirm if auto-generated tests have not changed.
 * Run [unit tests](Unit_tests.md).
 * Run code checker.
-* Commit all changes to git, e.g. "Update version number for the 4.3.11 release."
+* Commit all changes to git, e.g. "Update version number for the 4.4.2 release."
 
 ## 2. Create new tag with version name
 
@@ -42,7 +42,7 @@ E.g. "v4.3.11".
 * Push to GitHub.
 * Push tags to GitHub 
  * Tortoise git: pulldown from push
- * Linux: `git tag -a v4.3.11 -m "Update version number for the 4.3.11 release."`
+ * Linux: `git tag -a v4.4.2 -m "Update version number for the 4.4.2 release."`
  * Linux: `git push`
  * Linux: `git push --tags`
 

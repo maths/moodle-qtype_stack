@@ -17,14 +17,17 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../ast.container.silent.class.php');
+require_once(__DIR__ . '/../../ast.container.class.php');
 
 class stack_cas_castext2_castext extends stack_cas_castext2_block {
 
-    public function compile($format, $options): ?string {
+    public function compile($format, $options): ?MP_Node {
         // The purpose of this block is to inject a section of CASText
         // structure into another CASText structure so this does
         // very little.
-        return $this->params['evaluated'];
+        $ev = stack_ast_container::make_from_teacher_source($this->params['evaluated']);
+        $ast = $ev->get_commentles_primary_statement();
+        return $ast;
     }
 
     public function is_flat(): bool {

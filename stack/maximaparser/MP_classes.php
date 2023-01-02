@@ -1688,7 +1688,7 @@ class MP_Indexing extends MP_Node {
         $r = $this->target->toString($params);
 
         foreach ($this->indices as $ind) {
-            $r .= $ind->toString($params);
+            $r .= ltrim($ind->toString($params));
         }
 
         return $r;
@@ -2128,6 +2128,11 @@ class MP_Root extends MP_Node {
 
     public function getChildren() {
         return $this->items;
+    }
+
+    public function removeChild(MP_Node $node) {
+        $i = array_search($node, $this->items, true);
+        array_splice($this->items, $i, 1);
     }
 
     public function remap_position_data(int $offset=0) {

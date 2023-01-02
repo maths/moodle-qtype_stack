@@ -358,7 +358,7 @@ class stack_potentialresponse_tree_lite {
     // what to use as local variables.
     // The returned array contains the function declaration, its call signature,
     // and any necessary additional preamble, i.e. textput rules and the like.
-    public function compile(array $inputs, array $boundvars, $defaultpenalty, $security, $pathprefix): array {
+    public function compile(array $inputs, array $boundvars, $defaultpenalty, $security, $pathprefix, $map): array {
         $r = ['sig' => '', 'def' => '', 'cv' => null, 'be' => null, 'required' => [], 'units' => false];
         // Note these variables are initialised before the feedback-vars and if not forbidden
         // could be directly set in the vars. The logic does not actually require any PRT-nodes.
@@ -384,7 +384,7 @@ class stack_potentialresponse_tree_lite {
         $fv = new stack_cas_keyval($this->feedbackvariables);
         $fv->set_security($security);
         $fv->get_valid();
-        $fv = $fv->compile($pathprefix . '/fv');
+        $fv = $fv->compile($pathprefix . '/fv', $map);
         $r['be'] = $fv['blockexternal'];
         $r['cv'] = $fv['contextvariables'];
         if (isset($fv['includes'])) {
@@ -402,7 +402,7 @@ class stack_potentialresponse_tree_lite {
         // For the feedback we might want to provide extra information related to
         // feedback vars. Basically, for the debug-block we tell that these are
         // the bound ones.
-        $ct2options = ['bound-vars' => $fv['references']['write']];
+        $ct2options = ['bound-vars' => $fv['references']['write'], 'static string extractor' => $map];
 
         if ($fv['statement'] !== null) {
             // The simplification status for feedback vars. If we have any.

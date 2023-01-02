@@ -68,7 +68,6 @@ class stack_ast_filter_601_castext implements stack_cas_astfilter_parametric {
                     }
                     $compiled = castext2_parser_utils::compile($node->arguments[0]->value,
                         $format, ['errclass' => $errclass, 'context' => $ctx]);
-                    $compiled = maxima_parser_utils::parse($compiled);
                     if ($compiled instanceof MP_Root) {
                         $compiled = $compiled->items[0];
                     }

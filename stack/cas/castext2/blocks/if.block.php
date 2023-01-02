@@ -17,86 +17,91 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../ast.container.silent.class.php');
+require_once(__DIR__ . '/../../ast.container.class.php');
 
 class stack_cas_castext2_if extends stack_cas_castext2_block {
 
-    public function compile($format, $options): ?string {
+    public function compile($format, $options): ?MP_Node {
         // If we are flat we just sconcat stuff to return but if not then we need to
         // generate the list version like the root-block.
 
-        $flat = $this->is_flat();
-
-        $r = '';
+        $r = null;
         if (!is_array($this->params['test'])) {
-            $r = 'if (' . $this->params['test'] . ') then ';
+            $ev = stack_ast_container::make_from_teacher_source($this->params['test']);
+            $ast = new MP_Group([$ev->get_commentles_primary_statement()]);
+
+            $flat = $this->is_flat();
+            $body = null;
 
             if (!$flat) {
-                $r .= '["%root",';
+                $body = new MP_List([new MP_String('%root')]);
             } else {
-                $r .= 'sconcat(';
+                $body = new MP_FunctionCall(new MP_Identifier('sconcat'), [new MP_String('')]);
             }
 
             $items = array();
             foreach ($this->children as $item) {
                 $c = $item->compile($format, $options);
                 if ($c !== null) {
-                    $items[] = $c;
+                    if ($flat) {
+                        $body->arguments[] = $c;
+                    } else {
+                        $body->items[] = $c;
+                    }
                 }
             }
-            $r .= implode(',', $items);
 
-            if (!$flat) {
-                $r .= ']';
-            } else {
-                $r .= ')';
-            }
-
-            $r .= ' else ""';
+            $r = new MP_If([$ast], [$body, new MP_String('')]);
         } else {
+            $tests = [];
+            $branches = [];
+
             $i = 0; // Total iterator.
             $j = 0; // In block iterator.
             $b = 0; // Branch iterator.
-            $r = 'if (' . $this->params['test'][$b] . ') then ';
+            $ev = stack_ast_container::make_from_teacher_source($this->params['test'][$b]);
+            $ast = new MP_Group([$ev->get_commentles_primary_statement()]);
 
-            if (!$flat) {
-                $r .= '["%root",';
-            } else {
-                $r .= 'sconcat(';
-            }
-
-            $items = array();
+            $flat = true;
+            $items = [];
             while ($j < $this->params[' branch lengths'][$b]) {
                 $c = $this->children[$i]->compile($format, $options);
                 if ($c !== null) {
+                    $flat = $flat && $this->children[$i]->is_flat();
                     $items[] = $c;
                 }
                 $i = $i + 1;
                 $j = $j + 1;
             }
-            $r .= implode(',', $items);
-
+            $body = [];
             if (!$flat) {
-                $r .= ']';
+                $body = new MP_List([new MP_String('%root')]);
+                foreach ($items as $it) {
+                    $body->items[] = $it;
+                }
             } else {
-                $r .= ')';
+                $body = new MP_FunctionCall(new MP_Identifier('sconcat'), [new MP_String('')]);
+                foreach ($items as $it) {
+                    $body->arguments[] = $it;
+                }
             }
+
+            $tests[] = $ast;
+            $branches[] = $body;
 
             $j = 0;
             $b = $b + 1;
 
             while ($b < count($this->params['test'])) {
-                $r .= ' elseif (' . $this->params['test'][$b] . ') then ';
+                $ev = stack_ast_container::make_from_teacher_source($this->params['test'][$b]);
+                $ast = new MP_Group([$ev->get_commentles_primary_statement()]);
 
-                if (!$flat) {
-                    $r .= '["%root",';
-                } else {
-                    $r .= 'sconcat(';
-                }
-
-                $items = array();
+                $flat = true;
+                $items = [];
                 while ($j < $this->params[' branch lengths'][$b]) {
                     $c = $this->children[$i]->compile($format, $options);
                     if ($c !== null) {
+                        $flat = $flat && $this->children[$i]->is_flat();
                         $items[] = $c;
                     }
                     $i = $i + 1;
@@ -104,41 +109,51 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
                 }
                 $j = 0;
                 $b = $b + 1;
-                $r .= implode(',', $items);
-
+                $body = [];
                 if (!$flat) {
-                    $r .= ']';
+                    $body = new MP_List([new MP_String('%root')]);
+                    foreach ($items as $it) {
+                        $body->items[] = $it;
+                    }
                 } else {
-                    $r .= ')';
+                    $body = new MP_FunctionCall(new MP_Identifier('sconcat'), [new MP_String('')]);
+                    foreach ($items as $it) {
+                        $body->arguments[] = $it;
+                    }
                 }
+
+                $tests[] = $ast;
+                $branches[] = $body;
             }
 
             if ($b < count($this->params[' branch lengths'])) {
-                $r .= ' else ';
-
-                if (!$flat) {
-                    $r .= '["%root",';
-                } else {
-                    $r .= 'sconcat(';
-                }
-
-                $items = array();
+                $flat = true;
+                $items = [];
                 while ($j < $this->params[' branch lengths'][$b]) {
                     $c = $this->children[$i]->compile($format, $options);
                     if ($c !== null) {
+                        $flat = $flat && $this->children[$i]->is_flat();
                         $items[] = $c;
                     }
                     $i = $i + 1;
                     $j = $j + 1;
                 }
-                $r .= implode(',', $items);
-
+                $body = [];
                 if (!$flat) {
-                    $r .= ']';
+                    $body = new MP_List([new MP_String('%root')]);
+                    foreach ($items as $i) {
+                        $body->items[] = $i;
+                    }
                 } else {
-                    $r .= ')';
+                    $body = new MP_FunctionCall(new MP_Identifier('sconcat'), [new MP_String('')]);
+                    foreach ($items as $i) {
+                        $body->arguments[] = $i;
+                    }
                 }
+                $branches[] = $body;
             }
+
+            $r = new MP_If($tests, $branches);
         }
 
         return $r;

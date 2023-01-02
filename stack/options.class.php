@@ -41,7 +41,7 @@ class stack_options {
                 'type'       => 'list',
                 'value'      => 'dot',
                 'strict'     => true,
-                'values'     => array('dot', 'cross', 'none'),
+                'values'     => array('dot', 'cross', 'onum', 'none'),
                 'caskey'     => 'make_multsgn',
                 'castype'    => 'fun',
             ),
@@ -261,6 +261,7 @@ class stack_options {
         return array(
             'dot'   => get_string('multdot', 'qtype_stack'),
             'cross' => get_string('multcross', 'qtype_stack'),
+            'onum'  => get_string('multonlynumbers', 'qtype_stack'),
             'none'  => get_string('none'),
         );
     }

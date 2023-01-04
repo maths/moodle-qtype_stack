@@ -105,7 +105,6 @@ if ($string) {
         $ct = castext2_evaluatable::make_from_source($string, 'caschat');
         $statements[] = $ct;
         $session = new stack_cas_session2($statements, $options);
-        $session->instantiate();
         if ($ct->get_valid()) {
             $session->instantiate();
             $displaytext  = $ct->get_rendered();
@@ -115,8 +114,9 @@ if ($string) {
         foreach ($session->get_errors(false) as $err) {
             $errs = array_merge($errs, $err);
         }
-        $errs = stack_string_error('exceptionmessage', implode(' ', array_unique($errs)));
-        $debuginfo    = $session->get_debuginfo();
+        $errs = stack_string_error('errors') . ': ' . implode(' ', array_unique($errs));
+        $errs = html_writer::tag('div', $errs, array('class' => 'error'));
+        $debuginfo = $session->get_debuginfo();
     }
 }
 

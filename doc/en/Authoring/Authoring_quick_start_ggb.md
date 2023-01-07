@@ -131,3 +131,9 @@ TODO.
 
 6. The block contains a lot of applet settings which are to be applied to any GeoGebra file, like width, height, ...,  and also id.
 What about having these listed as geogebra input type settings? So that the only definitions that need to be made within the geogebra block area are the variables that Stack controls and listens to.
+
+7. Add to the default GeoGebra parameters to be set in the STACK authoring UI the scaling and the transparency parameter.
+
+8. Can we control GeoGebra parameter by STACK variables? E.g. the height of an applet when the extent of its contents varies.
+
+9. Presently we have ggb listen to numerical values (single values or point coordinates). Please add boolean values.

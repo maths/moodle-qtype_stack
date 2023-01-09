@@ -58,7 +58,7 @@ class stack_cas_castext2_lang extends stack_cas_castext2_block {
             }
         }
 
-        $r = new MP_If([new MP_Group($checks)], [$body, new MP_String('')]);
+        $r = new MP_If([new MP_Group([$checks])], [$body, new MP_String('')]);
 
         return $r;
     }

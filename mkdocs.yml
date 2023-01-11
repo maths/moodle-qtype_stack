@@ -15,7 +15,7 @@ theme:
 docs_dir: 'doc'
 extra_css:
     - custom.css
-    - https://combinatronics.com/maths/moodle-qtype_stack/master/styles.css
+    - 'https://cdn.jsdelivr.net/gh/maths/moodle-qtype_stack@master/styles.css'
 markdown_extensions:
     - mdx_math
     - extra

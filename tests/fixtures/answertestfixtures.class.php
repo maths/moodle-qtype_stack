@@ -2097,6 +2097,12 @@ class stack_answertest_test_data {
         array('UnitsAbsolute', '0.01', '(600/pi)*kN/m^2', '(600/pi)*kN/m^2', 1, 'ATUnits_units_match.', ''),
         array('UnitsAbsolute', '0.01', '(600/pi)*kN/mm^2', '(600/pi)*kN/mm^2', 1, 'ATUnits_units_match.', ''),
 
+        array('UnitsStrictAbsolute', '10.0', '2301.0*mm', '2300.0*mm', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrictAbsolute', '10.0', '2321.0*mm', '2300.0*mm', 0, 'ATUnits_units_match.', ''),
+        array('UnitsStrictAbsolute', '10.0', '2.301*m', '2300.0*mm', 0, 'ATUnits_compatible_units m.', ''),
+        array('UnitsStrictAbsolute', '10.0', '2.321*m', '2300.0*mm', 0, 'ATUnits_compatible_units m.', ''),
+        array('UnitsStrictAbsolute', '10.0', '2.301*kg', '2300.0*mm', 0, 'ATUnits_incompatible_units.', ''),
+
         array('String', '', 'Hello', 'hello', 0, '', ''),
         array('String', '', 'hello', 'hello', 1, '', ''),
         array('String', '', 'hello', 'heloo', 0, '', ''),

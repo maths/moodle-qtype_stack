@@ -840,7 +840,7 @@ recursemod(ex, n) := block(
 algebraic_equivalence_zero(ex) := algebraic_equivalence(ex, 0)$
 
 algebraic_equivalence(SA, SB) :=
-    block([keepfloat, trigexpand, logexpand, ex, vi],
+    block([keepfloat, trigexpand, logexpand, sumsplitfact, ex, vi],
 
     if SA=SB then return(true),
     /* Remove +- if we can early. */
@@ -852,6 +852,7 @@ algebraic_equivalence(SA, SB) :=
     trigexpand:false,
     logexpand:super,
     keepfloat:true,
+    sumsplitfact:false,
     /* In some cases we just go inside the function one level. */
     if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
       (SA:first(args(SA)),

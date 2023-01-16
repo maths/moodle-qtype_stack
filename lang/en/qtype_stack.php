@@ -553,7 +553,7 @@ $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Sh
 $string['exportthisquestion'] = '<i class="fa fa-download"></i> Export as Moodle XML';
 $string['exportthisquestion_help'] = 'This will create a Moodle XML export file containing just this one question. One example of when this is useful if you think this question demonstrates a bug in STACK that you would like to report to the developers.';
 $string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and PRTs';
-$string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i></i> Edit general feedback';
+$string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i></i> Send general feedback to the CAS';
 
 $string['basicquestionreport'] = '<i class="fa fa-bar-chart"></i> Analyze responses';
 $string['basicquestionreport_help'] = 'Generates a very basic report on attempts at this question on the server. Useful for deciding which PRT test can be added to improve feedback in the light of what the student actually does.  (Most questions are only used in one place)';

@@ -69,11 +69,11 @@ Feature: Create, preview, test, tidy and edit STACK questions
     When I press "Create test case"
     Then I should see "All tests passed!"
     And I should see "Test case 1"
-    And following "<i class="fa fa-download"></i> Export as Moodle XML" should download between "3700" and "3800" bytes
+    And following "Export as Moodle XML" should download between "3700" and "3800" bytes
     When I follow "Preview"
 
     # Use the tidy question script.
-    And I follow "<i class="fa fa-sort-amount-asc"></i> Tidy inputs and PRTs"
+    And I follow "Tidy inputs and PRTs"
     And I set the following fields to these values:
       | New name for 'ans1' | ans |
       | New name for 'prt1' | prt |

@@ -69,17 +69,17 @@ Feature: Create, preview, test, tidy and edit STACK questions
     When I press "Create test case"
     Then I should see "All tests passed!"
     And I should see "Test case 1"
-    And following "Export this question" should download between "3700" and "3800" bytes
+    And following "<i class="fa fa-download"></i> Export as Moodle XML" should download between "3700" and "3800" bytes
     When I follow "Preview"
 
     # Use the tidy question script.
-    And I follow "Tidy STACK question tool"
+    And I follow "<i class="fa fa-sort-amount-asc"></i> Tidy inputs and PRTs"
     And I set the following fields to these values:
       | New name for 'ans1' | ans |
       | New name for 'prt1' | prt |
       | New name for '1'    | 2   |
     And I press "Rename parts of the question"
-    And I follow "Question tests & deployed variants"
+    And I follow "STACK question dashboard"
     Then I should see "All tests passed!"
     When I follow "Preview"
 
@@ -115,7 +115,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
     And I choose "Duplicate" action for "Question to copy" in the question bank
     And I press "id_submitbutton"
-    And I choose "Question tests & deployed variants" action for "Question to copy (copy)" in the question bank
+    And I choose "STACK question dashboard" action for "Question to copy (copy)" in the question bank
     Then I should see "Deployed variants (1)"
     And I should see "42"
     And I should see "Test case 1"
@@ -138,7 +138,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     When I am on the "Question to edit" "core_question > edit" page logged in as "teacher"
     And I set the field "Question name" to "Edited question"
     And I press "id_submitbutton"
-    And I choose "Question tests & deployed variants" action for "Edited question" in the question bank
+    And I choose "STACK question dashboard" action for "Edited question" in the question bank
     Then I should see "Deployed variants (1)"
     And I should see "42"
     And I should see "Test case 1"

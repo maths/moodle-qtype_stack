@@ -96,8 +96,10 @@ if ($string) {
         $keyvals = new stack_cas_keyval($vars, $options, 0);
         $keyvals->get_valid();
         $varerrs = $keyvals->get_errors();
-        $kvcode = $keyvals->compile('test')['statement'];
-        $statements = [new stack_secure_loader($kvcode, 'caschat')];
+        if ($keyvals->get_valid()) {
+            $kvcode = $keyvals->compile('test')['statement'];
+            $statements = [new stack_secure_loader($kvcode, 'caschat')];
+        }
     }
 
     $ct = null;
@@ -114,8 +116,12 @@ if ($string) {
         foreach ($session->get_errors(false) as $err) {
             $errs = array_merge($errs, $err);
         }
-        $errs = stack_string_error('errors') . ': ' . implode(' ', array_unique($errs));
-        $errs = html_writer::tag('div', $errs, array('class' => 'error'));
+        if ($errs) {
+            $errs = stack_string_error('errors') . ': ' . implode(' ', array_unique($errs));
+            $errs = html_writer::tag('div', $errs, array('class' => 'error'));
+        } else {
+            $errs = '';
+        }
         $debuginfo = $session->get_debuginfo();
     }
 }

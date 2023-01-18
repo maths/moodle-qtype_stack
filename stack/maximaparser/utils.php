@@ -180,6 +180,14 @@ class maxima_parser_utils {
                 $r .= $c;
             }
         }
+        // If we have a hanging comment we need return the original
+        // string so that the full parser can trigger correct errors.
+        // Note that this means that we don't remove any comments if
+        // even one of them is faulty, but that should not matter as
+        // things will break with syntax errors no matter what we do.
+        if ($incomment) {
+            return $src;
+        }
 
         return $r;
     }
@@ -489,7 +497,7 @@ class maxima_parser_utils {
         if ($targetedkeys !== null && !is_array($targetedkeys)) {
             // When you want to replace all but the one.
             $tmp = array_keys($substs);
-            $i = array_search($targetedkeys, $tmp);
+            $i = array_search($targetedkeys, $tmp, true);
             if ($i !== false) {
                 unset($tmp[$i]);
             }

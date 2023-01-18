@@ -27,17 +27,16 @@ require_once($CFG->libdir . '/weblib.php');
  */
 class stack_cas_castext2_demoodle extends stack_cas_castext2_block {
 
-    public function compile($format, $options): ?string {
+    public function compile($format, $options): ?MP_Node {
         // Basically mark the contents for post-processing.
-        $r = '["demoodle"';
+        $r = new MP_List([new MP_String('demoodle')]);
 
         foreach ($this->children as $item) {
             $c = $item->compile(castext2_parser_utils::RAWFORMAT, $options);
             if ($c !== null) {
-                $r .= ',' . $c;
+                $r->items[] = $c;
             }
         }
-        $r .= ']';
 
         return $r;
     }

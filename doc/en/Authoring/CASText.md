@@ -37,7 +37,7 @@ CASText may depend on variables previously defined in the [question variables](V
 Where the CASText appears in the fields of a [potential response trees](Potential_response_trees.md),
 the variables in the [feedback variables](Variables.md#Feedback_variables) may also be included.
 
-To control whether or not the CAS expressions are simplified, see the details about [selective simplification](../CAS/Simplification/#selective-simplification).
+To control whether or not the CAS expressions are simplified, see the details about [selective simplification](../CAS/Simplification.md#selective-simplification).
 
 ## Question text {#question_text}
 
@@ -123,6 +123,27 @@ LaTeX notation can specify inline or display mode for maths by delimiting with `
 \[ \int_a^b x^2\ dx \]
 
 There is a specific page for [actuarial notation](Actuarial.md).
+
+## CASText generating functions ##
+
+If a CASText area is to include several copies of repeatative content, for instance several versions of some text (or a SVG graphic) containing 
+different parameters, it is possible to define a CASText generating function within the Question variables using the STACK function `castext`.
+
+For example, within the [Question variables](Variables.md) section, define
+
+    explanation(x,y):=castext("Substituting {@x@} into the expression gives {@y@}.");
+
+This can then be used several times within any CASText area:
+
+    [[ comment ]] Generated text [[/ comment ]]
+    {@explanation(a,b)@}
+    {@explanation(c,d)@}
+
+#### Notes ####
+* The argument of castext must be a single atomic string, not a reference to one but a static string value.
+* Since Maxima does not require new lines to be escaped, new lines can be started within the `castext` string argument.
+* Care needs to be taken with any quotation marks within the castext argument. For HTML attributes within such text, use `'...'` .
+* Two castext objects can be joined with `castext_concat()`
 
 ## Google Charts ##
 

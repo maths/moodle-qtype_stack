@@ -32,15 +32,15 @@ class stack_cas_castext2_escape extends stack_cas_castext2_block {
         $this->children = array(); // We want to modify the iteration here a bit.
     }
 
-    public function compile($format, $options): ?string {
+    public function compile($format, $options): ?MP_Node {
         if ($this->content === null && !array_key_exists('value', $this->params)) {
             return null;
         }
         if (array_key_exists('value', $this->params)) {
-            return stack_utils::php_string_to_maxima_string($this->params['value']);
+            return new MP_String($this->params['value']);
         }
 
-        return stack_utils::php_string_to_maxima_string($this->content);
+        return new MP_String($this->content);
     }
 
     public function is_flat(): bool {

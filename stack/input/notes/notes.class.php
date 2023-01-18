@@ -52,7 +52,7 @@ class stack_notes_input extends stack_input {
 
         // Sort out size of text area.
         $rows = stack_utils::list_to_array($current, false);
-        $attributes['rows'] = max(5, count($rows) + 1);
+        $attributes['rows'] = max(3, count($rows) + 1);
 
         $boxwidth = $this->parameters['boxWidth'];
         foreach ($rows as $row) {

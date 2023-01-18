@@ -66,6 +66,12 @@
     max-width: 100%;
     resize: both;
 }
+#id_questionvariables,
+textarea[id*=feedbackvariables],
+textarea[name=maximavars] {
+    min-width: 100%;
+    font-family: monospace;
+}
 .que.stack input[type=checkbox] {
     margin-right: 0.4em;
 }
@@ -1072,4 +1078,122 @@ table.HELM_table th:last-child {
 /* Properly display inversetrig values, in RTL mode */
 #page-question-type-stack #id_inversetrig option {
     unicode-bidi: plaintext;
+}
+
+/* Trees: https://codepen.io/ross-angus/pen/jwxMjL
+Copyright (c) 2022 by Ross Angus (https://codepen.io/ross-angus/pen/jwxMjL)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute,
+sublicense, and/or sell copies of the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or
+substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/* It's supposed to look like a tree diagram. */
+.tree,
+.tree ul,
+.tree li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.tree {
+    margin: 0 0 1em;
+    text-align: center;
+}
+.tree,
+.tree ul {
+    display: table;
+}
+.tree ul {
+    width: 100%;
+}
+.tree li {
+    display: table-cell;
+    padding: .5em 0;
+    vertical-align: top;
+}
+/* _________ */
+.tree li:before {
+    outline: solid 1px #666;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.tree li:first-child:before {
+    left: 50%;
+}
+.tree li:last-child:before {
+    right: 50%;
+}
+.tree span.atom,
+.tree span.op,
+.tree span.cell,
+.tree code {
+    border: solid .1em #666;
+    border-radius: .2em;
+    display: inline-block;
+    margin: 0 .2em .5em;
+    padding: .2em .5em;
+    position: relative;
+}
+/* If the tree represents DOM structure. */
+.tree span.atom {
+    border-radius: .5em;
+    color: DarkRed;
+    background-color: LightCyan;
+}
+.tree code,
+.tree span.op {
+    border-radius: .2em;
+    color: Red;
+    background-color: LemonChiffon;
+}
+/* | */
+.tree ul:before,
+.tree span.atom:before,
+.tree span.op:before,
+.tree span.cell:before,
+.tree code:before {
+    outline: solid 1px #666;
+    content: "";
+    height: .5em;
+    left: 50%;
+    position: absolute;
+}
+.tree ul:before {
+    top: -.5em;
+}
+.tree span.atom:before,
+.tree span.op:before,
+.tree span.cell:before,
+.tree code:before {
+    top: -.55em;
+}
+/* The root node doesn't connect upwards. */
+.tree > li {
+    margin-top: 0;
+}
+.tree > li:before,
+.tree > li:after,
+.tree > li > span.atom:before,
+.tree > li > span.op:before,
+.tree > li > span.cell:before,
+.tree > li > code:before {
+    outline: none;
 }

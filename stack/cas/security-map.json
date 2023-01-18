@@ -285,7 +285,7 @@
       "variable": "s"
   },
   "JF": {
-      "function": "f"
+      "function": "s"
   },
   "Kappa": {
       "function": "s",
@@ -302,7 +302,7 @@
       "variable": "f"
   },
   "ModeMatrix": {
-      "function": "f"
+      "function": "s"
   },
   "Mu": {
       "function": "s",
@@ -1902,7 +1902,7 @@
       "function": "?"
   },
   "diag": {
-      "function": "f"
+      "function": "s"
   },
   "diag_matrix": {
       "function": "s"
@@ -1975,7 +1975,7 @@
       "function": "?"
   },
   "dispJordan": {
-      "function": "f"
+      "function": "s"
   },
   "dispcon": {
       "function": "f"
@@ -2547,6 +2547,9 @@
   },
   "fb": {
       "variable": "s"
+  },
+  "fboundp": {
+      "function": "t"
   },
   "feature": {
       "property": "?"
@@ -3735,7 +3738,7 @@
       "function": "s"
   },
   "jordan": {
-      "function": "f"
+      "function": "s"
   },
   "julia": {
       "function": "f"
@@ -4407,7 +4410,7 @@
       "function": "s"
   },
   "mat_function": {
-      "function": "f"
+      "function": "s"
   },
   "mat_norm": {
       "function": "s"
@@ -4650,7 +4653,7 @@
       "function": "s"
   },
   "minimalPoly": {
-      "function": "f"
+      "function": "s"
   },
   "minimize_lp": {
       "function": "?"

@@ -789,6 +789,14 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "";
+        $newarg['narrative'] = '';
+        $newarg['casstring'] = "[a=logbase(9,3),3^a=9,3^a=3^2,a=2]";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
         $newarg['narrative'] = 'Problematic case with nth roots.  (Needed for intrging integrals.)';
         $newarg['casstring'] = "[x=(1+y/n)^n,x^(1/n)=(1+y/n),y/n=x^(1/n)-1,y=n*(x^(1/n)-1)]";
         $newarg['debuglist'] = "(EMPTYCHAR,QMCHAR,EQUIVCHAR,EQUIVCHAR)";
@@ -1080,6 +1088,15 @@ class stack_equiv_test_data {
             'books since Van Schooten\'s Principia Mathesos Universalis.  See Heller 1940.';
         $newarg['casstring'] = "[((a-b)/(a^2+a*b))/((a^2-2*a*b+b^2)/(a^4-b^4))," .
             "stackeq(((a-b)*(a-b)*(a+b)*(a^2+b^2))/(a*(a+b)*(a-b)^2)),stackeq((a^2+b^2)/a),stackeq(a+b^2/a)]";
+        $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "The Sophie Germain Identity";
+        $newarg['narrative'] = 'This example is based on the Sophie Germain Identity.';
+        $newarg['casstring'] = "[a^4+4*b^4,stackeq((a^2)^2+4*a^2*b^2+(2*b^2)^2-4*a^2*b^2)," .
+            "stackeq((a^2+2*b^2)^2-(2*a*b)^2),stackeq((2*b^2-2*a*b+a^2)*(2*b^2+2*a*b+a^2))]";
         $newarg['debuglist'] = "(EMPTYCHAR,CHECKMARK,CHECKMARK,CHECKMARK)";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;

@@ -17,7 +17,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../utils.class.php');
-
+require_once(__DIR__ . '/../../ast.container.class.php');
 /**
  * The commonstring block is used to ouput string templates that
  * come from the localised strings. It requires that one defined
@@ -39,49 +39,93 @@ require_once(__DIR__ . '/../../../utils.class.php');
  */
 class stack_cas_castext2_commonstring extends stack_cas_castext2_block {
 
-    public function compile($format, $options): ?string {
-        // The user should use this blocks full name "commonstring" but
+    public function compile($format, $options): ?MP_Node {
+        // The user should use this block's full name "commonstring" but
         // as this is a common block and chars take room we tend to use a shorter
         // one internally "%cs", note that the processors need to know of this.
-        if (count($this->params) == 1) {
-            return '["%cs",' . stack_utils::php_string_to_maxima_string($this->params['key']) . ']';
-        } else {
-            $r = ['["%cs"', stack_utils::php_string_to_maxima_string($this->params['key'])];
-
+        $r = new MP_List([new MP_String('%cs')]);
+        $r->items[] = new MP_String($this->params['key']);
+        if (count($this->params) > 1) {
             $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
-            $epos = stack_utils::php_string_to_maxima_string($epos);
 
             foreach ($this->params as $key => $value) {
                 if ($key !== 'key') {
                     $ev = stack_ast_container::make_from_teacher_source($value);
-                    $ev = $ev->get_evaluationform();
-                    $ev = "_EC(errcatch(_ct2_tmp:$ev),$epos)";
+                    $ast = $ev->get_commentles_primary_statement();
+                    $ev = new MP_FunctionCall(
+                        new MP_Identifier('_EC'),
+                        [
+                            new MP_FunctionCall(new MP_Identifier('errcatch'),
+                                [
+                                    new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast)
+                                ]),
+                            new MP_String($epos)
+                        ]);
 
                     if (strpos($key, 'nosimp_raw_') === 0) {
-                        $r[] = stack_utils::php_string_to_maxima_string(mb_substr($key, 11));
-                        $r[] = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:false,' . $ev .
-                             ',_ct2_tmp:string(_ct2_tmp),simp:_ct2_simp,_ct2_tmp)';
+                        $r->items[] = new MP_String(mb_substr($key, 11));
+                        $r->items[] = new MP_FunctionCall(new MP_Identifier('block'), [
+                            new MP_List([new MP_Identifier('_ct2_tmp'), new MP_Identifier('_ct2_simp')]),
+                            new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
+                            new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
+                            $ev,
+                            new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
+                            new MP_FunctionCall(new MP_Identifier('string'),
+                                [
+                                    new MP_Identifier('_ct2_tmp')
+                                ])),
+                            new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
+                            new MP_Identifier('_ct2_tmp')
+                        ]);
                     } else if (strpos($key, 'nosimp_') === 0) {
-                        $r[] = stack_utils::php_string_to_maxima_string(mb_substr($key, 7));
-                        $r[] = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:false,' . $ev .
-                            ',simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,"i",false),simp:_ct2_simp,_ct2_tmp)';
+                        $r->items[] = new MP_String(mb_substr($key, 7));
+                        $r->items[] = new MP_FunctionCall(new MP_Identifier('block'), [
+                            new MP_List([new MP_Identifier('_ct2_tmp'), new MP_Identifier('_ct2_simp')]),
+                            new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
+                            new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
+                            $ev,
+                            new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
+                            new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
+                            new MP_FunctionCall(new MP_Identifier('ct2_latex'),
+                                [
+                                    new MP_Identifier('_ct2_tmp'),
+                                    new MP_String('i'),
+                                    new MP_Boolean(false)
+                                ])),
+                            new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
+                            new MP_Identifier('_ct2_tmp')
+                        ]);
                     } else if (strpos($key, 'raw_') === 0) {
-                        $r[] = stack_utils::php_string_to_maxima_string(mb_substr($key, 4));
+                        $r->items[] = new MP_String(mb_substr($key, 4));
                         // If prefixed by raw output as {#...#} would do.
-                        $r[] = 'block([_ct2_tmp],' . $ev . ',string(_ct2_tmp))';
+                        $r->items[] = new MP_FunctionCall(new MP_Identifier('block'), [
+                            new MP_List([new MP_Identifier('_ct2_tmp')]),
+                            $ev,
+                            new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])
+                        ]);
                     } else {
                         // By default assume the value is to be handled like {@...@} would handle it.
-                        $r[] = stack_utils::php_string_to_maxima_string($key);
-
-                        $r[] = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,' . $ev .
-                            ',simp:false,_ct2_tmp:ct2_latex(_ct2_tmp,"i",_ct2_simp),simp:_ct2_simp,_ct2_tmp)';
+                        $r->items[] = new MP_String($key);
+                        $r->items[] = new MP_FunctionCall(new MP_Identifier('block'), [
+                            new MP_List([new MP_Identifier('_ct2_tmp'), new MP_Identifier('_ct2_simp')]),
+                            new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
+                            $ev,
+                            new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
+                            new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
+                            new MP_FunctionCall(new MP_Identifier('ct2_latex'),
+                                [
+                                    new MP_Identifier('_ct2_tmp'),
+                                    new MP_String('i'),
+                                    new MP_Identifier('_ct2_simp')
+                                ])),
+                            new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
+                            new MP_Identifier('_ct2_tmp')
+                        ]);
                     }
                 }
             }
-
-            $r[count($r) - 1] .= ']';
-            return implode(',', $r);
         }
+        return $r;
     }
 
     public function is_flat(): bool {

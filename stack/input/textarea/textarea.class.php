@@ -57,7 +57,7 @@ class stack_textarea_input extends stack_input {
         }
 
         // Sort out size of text area.
-        $rows = stack_utils::list_to_array($current, false);
+        $rows = preg_split('/\n+/u', $current);
         $attributes['rows'] = max(5, count($rows) + 1);
 
         $boxwidth = $this->parameters['boxWidth'];
@@ -206,9 +206,10 @@ class stack_textarea_input extends stack_input {
             $row = array();
             $fb = $cs->get_feedback();
             if ($cs->is_correctly_evaluated() && $fb == '') {
-                $row[] = '\(\displaystyle ' . $cs->get_display() . ' \)';
+                // The zero element of the array defines the display style: 0 = align center, 1 = red frame.
+                $row[] = array(0, '\(\displaystyle ' . $cs->get_display() . ' \)');
                 if ($errors[$index]) {
-                    $row[] = stack_maxima_translate($errors[$index]);
+                    $row[] = array(1, stack_maxima_translate($errors[$index]));
                 }
             } else {
                 // Feedback here is always an error.
@@ -216,8 +217,8 @@ class stack_textarea_input extends stack_input {
                     $errors[] = $fb;
                 }
                 $valid = false;
-                $row[] = stack_maxima_format_casstring($this->rawcontents[$index]);
-                $row[] = trim(stack_maxima_translate($cs->get_errors()) . ' ' . $fb);
+                $row[] = array(0, stack_maxima_format_casstring($this->rawcontents[$index]) );
+                $row[] = array(1, trim(stack_maxima_translate($cs->get_errors()) . ' ' . $fb) );
             }
             $rows[] = $row;
         }
@@ -226,23 +227,31 @@ class stack_textarea_input extends stack_input {
         $display = '';
         if ($this->get_parameter('showValidation', 1) == 3) {
             foreach ($rows as $row) {
-                $display .= implode(' ', $row);
+                foreach ($row as $cell) {
+                    $display .= $cell[1] . ' ';
+                }
                 $display .= '<br/>';
             }
         } else {
             $display = '<table style="vertical-align: middle;" ' .
-                   'border="0" cellpadding="2" cellspacing="0" align="center"><tbody>';
+                'border="0" cellpadding="2" cellspacing="0" align="center"><tbody>';
             foreach ($rows as $row) {
-                $display .= '<tr>';
+                $display .= '<tr><td>';
                 foreach ($row as $cell) {
-                    $display .= '<td>' . $cell . '</td>';
+                    // Zero element of the array $cell defines the display style: 0 = align center, 1 = red frame.
+                    if ($cell[0] == 0) {
+                        $display .= html_writer::tag('div', $cell[1], array('align' => 'center'));
+                    } else {
+                        $display .= html_writer::tag('div', $cell[1], array('class' => 'alert alert-danger stackinputerror'));
+                    }
                 }
-                $display .= '</tr>';
+                $display .= '</td></tr>';
             }
             $display .= '</tbody></table>';
         }
 
-        return array($valid, $errors, $display);
+        // Return errors = null to delete error messages from the bottom of the input.
+        return array($valid, null, $display);
     }
 
     /**

@@ -369,7 +369,7 @@ class MP_Node {
         while ($i !== null) {
             if ($i->parentnode instanceof MP_FunctionCall && ($i->parentnode->name instanceof MP_Identifier || $i->parentnode->name instanceof MP_String)) {
                 if ($i->parentnode->name->value === $funname) {
-                    $k = array_search($i, $i->parentnode->arguments);
+                    $k = array_search($i, $i->parentnode->arguments, true);
                     if ($k !== false) {
                         return $k;
                     }
@@ -846,7 +846,7 @@ class MP_Identifier extends MP_Atom {
                         && $this->parentnode->parentnode instanceof MP_FunctionCall
                         && $this->parentnode->parentnode->name->toString() === 'ev') {
                     // Assuming that we are not the first argument.
-                    $i = array_search($this->parentnode, $this->parentnode->parentnode->arguments);
+                    $i = array_search($this->parentnode, $this->parentnode->parentnode->arguments, true);
                     if ($i > 0) {
                         return false;
                     }
@@ -864,10 +864,10 @@ class MP_Identifier extends MP_Atom {
                        $this->parentnode instanceof MP_FunctionCall &&
                        $this->parentnode->name !== $this) {
                 // Assignment by reference.
-                $i = array_search($this, $this->parentnode->arguments);
+                $i = array_search($this, $this->parentnode->arguments, true);
                 $indices = stack_cas_security::get_feature($this->parentnode->name->toString(),
                     'writesto');
-                if ($indices !== null && array_search($i, $indices) !== false) {
+                if ($indices !== null && array_search($i, $indices, true) !== false) {
                     return $this->is_global();
                 }
             }
@@ -905,7 +905,7 @@ class MP_Identifier extends MP_Atom {
                 }
                 if (stack_cas_security::get_feature($i->name->value, 'argumentmapstovariable') !== null) {
                     $indices = stack_cas_security::get_feature($i->name->value, 'argumentmapstovariable');
-                    if (array_search(array_search($prev, $i->arguments), $indices) !== false) {
+                    if (array_search(array_search($prev, $i->arguments, true), $indices, true) !== false) {
                         return false;
                     }
                 }
@@ -1688,7 +1688,7 @@ class MP_Indexing extends MP_Node {
         $r = $this->target->toString($params);
 
         foreach ($this->indices as $ind) {
-            $r .= $ind->toString($params);
+            $r .= ltrim($ind->toString($params));
         }
 
         return $r;
@@ -2128,6 +2128,11 @@ class MP_Root extends MP_Node {
 
     public function getChildren() {
         return $this->items;
+    }
+
+    public function removeChild(MP_Node $node) {
+        $i = array_search($node, $this->items, true);
+        array_splice($this->items, $i, 1);
     }
 
     public function remap_position_data(int $offset=0) {

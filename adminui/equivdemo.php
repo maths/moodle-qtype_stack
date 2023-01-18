@@ -56,7 +56,7 @@ if (!$questionid) {
 
 $context = context_system::instance();
 $PAGE->set_context($context);
-$PAGE->set_url('/question/type/stack/equivdemo.php', $urlparams);
+$PAGE->set_url('/question/type/stack/adminui/equivdemo.php', $urlparams);
 $title = "Equivalence reasoning test cases";
 $PAGE->set_title($title);
 
@@ -231,11 +231,11 @@ foreach ($samplearguments as $argument) {
             /* Use the real validation code, and also create something which can be pasted into a live input box. */
             if ($onlyarg) {
                 $teacheranswer = $cs1->get_inputform();
-                $input = new stack_equiv_input('ans1', $teacheranswer, $options, array('options' => 'comments'));
+                $input = new stack_equiv_input('maximavars', $teacheranswer, $options, array('options' => 'comments'));
                 $response = $input->get_correct_response($teacheranswer);
                 $security = new stack_cas_security();
                 $state = $input->validate_student_response($response, $options, $teacheranswer, $security);
-                echo $input->render($state, 'ans1', false, $teacheranswer);
+                echo $input->render($state, 'maximavars', false, $teacheranswer);
             }
         }
 
@@ -270,87 +270,6 @@ if ($debug) {
     echo html_writer::tag('textarea', $script,
             array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
     echo '<hr />';
-}
-
-/* caschat.php script functions. */
-
-$debuginfo = '';
-$errs = '';
-$varerrs = '';
-
-$vars   = optional_param('vars', '', PARAM_RAW);
-$string = optional_param('cas', '', PARAM_RAW);
-$simp   = optional_param('simp', '', PARAM_RAW);
-
-// Always fix dollars in this script.
-// Very useful for converting existing text for use elswhere in Moodle, such as in pages of text.
-$string = stack_maths::replace_dollars($string);
-
-// Sort out simplification.
-if ('on' == $simp) {
-    $simp = true;
-} else {
-    $simp = false;
-}
-// Initially simplification should be on.
-if (!$vars && !$string) {
-    $simp = true;
-}
-
-if ($string) {
-    $options = new stack_options();
-    $options->set_site_defaults();
-    $options->set_option('simplify', $simp);
-
-    $session = new stack_cas_session2(null, $options);
-    if ($vars) {
-        $keyvals = new stack_cas_keyval($vars, $options, 0);
-        $session = $keyvals->get_session();
-        $varerrs = $keyvals->get_errors();
-    }
-
-    if (!$varerrs) {
-        $ct = castext2_evaluatable::make_from_source($string, 'equivdemo');
-        $session->add_statement($ct);
-        $session->instantiate();
-        $displaytext  = $ct->get_rendered();
-        $errs         = $ct->get_errors();
-        $debuginfo    = $session->get_debuginfo();
-    }
-}
-
-if (!$varerrs) {
-    if ($string) {
-        echo $OUTPUT->box(stack_ouput_castext($displaytext));
-    }
-}
-
-if ($simp) {
-    $simp = stack_string('autosimplify').' '.
-                html_writer::empty_tag('input', array('type' => 'checkbox', 'checked' => $simp, 'name' => 'simp'));
-} else {
-    $simp = stack_string('autosimplify').' '.html_writer::empty_tag('input', array('type' => 'checkbox', 'name' => 'simp'));
-}
-
-$varlen = substr_count($vars, "\n") + 3;
-$stringlen = max(substr_count($string, "\n") + 3, 8);
-
-echo html_writer::tag('form',
-            html_writer::tag('h2', stack_string('questionvariables')).
-            html_writer::tag('p', $varerrs) .
-            html_writer::tag('p', html_writer::tag('textarea', $vars,
-                    array('cols' => 100, 'rows' => $varlen, 'name' => 'vars'))).
-            html_writer::tag('p', $simp) .
-            html_writer::tag('h2', stack_string('castext')) .
-            html_writer::tag('p', $errs) .
-            html_writer::tag('p', html_writer::tag('textarea', $string,
-                    array('cols' => 100, 'rows' => $stringlen, 'name' => 'cas'))).
-            html_writer::tag('p', html_writer::empty_tag('input',
-                    array('type' => 'submit', 'value' => stack_string('chat')))),
-        array('action' => $PAGE->url, 'method' => 'post'));
-
-if ('' != trim($debuginfo)) {
-    echo $OUTPUT->box($debuginfo);
 }
 
 echo $OUTPUT->footer();

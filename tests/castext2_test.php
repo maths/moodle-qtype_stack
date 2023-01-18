@@ -128,6 +128,25 @@ class castext2_test extends qtype_stack_testcase {
 
     /**
      * @covers \qtype_stack\stack_cas_castext2_latex
+     */
+    public function test_latex_injection_5() {
+        // Issue #849, let the simplification state stay after injection if
+        // modified globally.
+        // While this is a bad way to do things and is essenttialy authoring with
+        // side effects that might be hard to spot it has been done in the past
+        // and we need to support it still.
+        // Note that we will not support conditionally changing the `simp` inside
+        // an injection. If that needs to be done use the `[[if]]` block combined
+        // to `[[define]]`.
+        $input = '[[define simp="true"/]]{@a@}, {@(simp:false,a)@}, {@a@}';
+        $preamble = array('a:3/9');
+        $output = '\({\frac{1}{3}}\), \({\frac{3}{9}}\), \({\frac{3}{9}}\)';
+        $options = new stack_options(array('simplify' => false));
+        $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_castext2_markdownformat
      * @covers \qtype_stack\castext2_parser_utils::math_paint
      */
@@ -642,5 +661,37 @@ class castext2_test extends qtype_stack_testcase {
         $output = '';
 
         $this->assertTrue(strpos($this->evaluate($input), '!ploturl!stackplot') > 0);
+    }
+
+    public function test_templates_1() {
+        $input = '[[template name="foobar"/]]';
+        $output = 'Warning no template defined with name "foobar"';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    public function test_templates_2() {
+        $input = '[[template name="foobar" mode="ignore missing"/]]';
+        $output = '';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    public function test_templates_3() {
+        $preamble = array('a:1');
+        $input = '[[template name="foobar"]]FOOBAR{#a#}[[/template]][[template name="foobar"/]]' .
+            '[[define a="2"/]] [[template name="foobar"/]]';
+        $output = 'FOOBAR1 FOOBAR2';
+        $this->assertEquals($output, $this->evaluate($input, $preamble));
+    }
+
+    public function test_templates_4() {
+        $input = '[[template name="foobar" mode="default"]]default[[/template]]';
+        $output = 'default';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    public function test_templates_5() {
+        $input = '[[template name="foobar"]]override[[/template]]X[[template name="foobar" mode="default"]]default[[/template]]';
+        $output = 'Xoverride';
+        $this->assertEquals($output, $this->evaluate($input));
     }
 }

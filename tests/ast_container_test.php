@@ -997,4 +997,32 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals('((x,y),a)', $at1->get_inputform(true, 0, true));
 
     }
+
+    public function test_identify_simplification_modifications() {
+        $t1 = 'foo+bar';
+        $t1 = stack_ast_container::make_from_teacher_source($t1, '', new stack_cas_security());
+        $t1 = $t1->identify_simplification_modifications();
+        $this->assertFalse($t1['simp-accessed']);
+        $this->assertFalse($t1['simp-modified']);
+        $this->assertFalse($t1['out-of-ev-write']);
+        $this->assertEquals($t1['last-seen'], null);
+
+        $t2 = '3/9,simp=false';
+        $t2 = stack_ast_container::make_from_teacher_source($t2, '', new stack_cas_security());
+        $t2 = $t2->identify_simplification_modifications();
+        $this->assertTrue($t2['simp-accessed']);
+        $this->assertTrue($t2['simp-modified']);
+        $this->assertFalse($t2['out-of-ev-write']);
+        $this->assertEquals($t2['last-seen'], false);
+
+        // Issue #849.
+        $t3 = '(simp:false,3/9)';
+        $t3 = stack_ast_container::make_from_teacher_source($t3, '', new stack_cas_security());
+        $t3 = $t3->identify_simplification_modifications();
+        $this->assertTrue($t3['simp-accessed'], "a");
+        $this->assertTrue($t3['simp-modified'], "b");
+        $this->assertTrue($t3['out-of-ev-write'], "c");
+        $this->assertEquals($t3['last-seen'], false);
+
+    }
 }

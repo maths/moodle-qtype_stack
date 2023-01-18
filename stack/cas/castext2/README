@@ -17,7 +17,7 @@ Some key differences to the Abacus era castext:
    step can thus be cached and its result is processable even even without 
    knowing the original code used to generate it.
 
- - '@' and '#' chars are now alloed within {@...@} and {#...#} blocks again due
+ - '@' and '#' chars are now allowed within {@...@} and {#...#} blocks again due
    to the parser grammar being better.
 
  - Mathmode paintting is being done outside the actual parser to simplify 
@@ -28,7 +28,6 @@ Some key differences to the Abacus era castext:
  - Overall there are less steps in the process as the parser grammar now 
    actually describes a nested block system and the number of 'special' cases
    is lesser.
-
 
 Like the MaximaParser this parser comes from the UI side of Stateful and is 
 therefore first implemented for JavaScript client-side processing. Should 

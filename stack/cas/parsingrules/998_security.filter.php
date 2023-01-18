@@ -74,7 +74,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 $node instanceof MP_PostfixOp) {
                 if ($protected === false || ($node !== $protected && ($node->parentnode !== $protected ||
                         $node->parentnode->lhs !== $node))) {
-                    $ofinterest[] = $node;
+                    if (!isset($node->position['ev-check'])) {
+                        $ofinterest[] = $node;
+                    }
                 }
             }
             if (!$parenthesis && ($node instanceof MP_FunctionCall || $node instanceof MP_Group)) {
@@ -183,7 +185,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         }
                     }
                 }
-            } else if ($node instanceof MP_Identifier && !$node->is_function_name()) {
+            } else if ($node instanceof MP_Identifier && !$node->is_function_name() && !isset($node->position['call-id'])) {
                 $variables[$node->value] = true;
                 if ($node->is_being_written_to()) {
                     // This can be used to check if someone tries to redefine
@@ -193,17 +195,17 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             } else if ($node instanceof MP_FunctionCall) {
                 $notsafe = true;
                 if ($node->name instanceof MP_Identifier || $node->name instanceof MP_String) {
-                    $notsafe = false;
-                    $functionnames[$node->name->value] = true;
-                    $safemap = false;
-                    if ($identifierrules->has_feature($node->name->value, 'mapfunction')) {
+                    if (!isset($node->name->position['call-id'])) {
+                        $functionnames[$node->name->value] = true;
+                    }
+                    if ($identifierrules->has_feature($node->name->value, 'mapfunction') && !isset($node->position['virtual'])) {
+                        // Do not track nested maps.
+
                         // If it is an apply or map function throw it in for
                         // validation.
                         switch ($node->name->value) {
                             case 'apply':
                             case 'funmake':
-                                $safemap = true;
-
                             default:
                                 // NOTE: this is a correct virtual form for only
                                 // 'apply' and 'funmake' others will need to be
@@ -217,24 +219,12 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                                 $virtualfunction = new MP_FunctionCall($fname, array_slice($node->arguments, 1));
                                 $virtualfunction->position['virtual'] = true;
                                 if (!isset($processedfuns[$virtualfunction->toString()])) {
-                                    $ofinterest[] = $virtualfunction;
-                                    $processedfuns[$virtualfunction->toString()] = true;
+                                    if (!isset($node->arguments[0]->position['ev-check'])) {
+                                        $ofinterest[] = $virtualfunction;
+                                        $processedfuns[$virtualfunction->toString()] = true;
+                                    }
                                 }
                                 break;
-                        }
-                        if (isset($node->position['virtual']) && !$safemap) {
-                            $errors[] = trim(stack_string('stackCas_deepmap'));
-                            if (array_search('deepmap', $answernotes) === false) {
-                                $answernotes[] = 'deepmap';
-                            }
-                            $valid = false;
-                        }
-                        // Check for masking.
-                        if ($node->arguments[0] instanceof MP_Identifier && !$node->arguments[0]->is_global()) {
-                            $node->position['invalid'] = true;
-                            $valid = false;
-                            $errors[] = trim(stack_string('stackCas_applyingnonobviousfunction',
-                                             array('problem' => $node->arguments[0]->toString())));
                         }
                     }
 
@@ -254,7 +244,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     if (($outter->name instanceof MP_Identifier || $outter->name instanceof MP_String)
                         && $outter->name->value === 'lambda') {
                         // This is safe, but we will not go out of our way to identify the function from further.
-                        $notsafe = false;
+                        $donthing = true;
                     } else if (($outter->name instanceof MP_Identifier || $outter->name instanceof MP_String)
                             && $outter->name->value === 'rand'
                             && count($outter->arguments) === 1
@@ -262,7 +252,6 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         // @codingStandardsIgnoreStart
                         // Something like rand(["-","+"]) or rand(["cos","sin"]) applied to something.
                         // @codingStandardsIgnoreEnd
-                        $notsafe = false;
                         foreach ($outter->arguments[0]->items as $name) {
                             // Name can be whatever the iteration will react to unsuitable things on the later loops.
                             $virtualfunction = new MP_FunctionCall($name, $node->arguments);
@@ -272,19 +261,10 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                                 $processedfuns[$virtualfunction->toString()] = true;
                             }
                         }
-                    } else {
-                        // Calling the result of a function that is not lambda.
-                        $errors[] = trim(stack_string('stackCas_callingasfunction',
-                                                      array('problem' => stack_maxima_format_casstring($node->toString()))));
-                        if (array_search('forbiddenWord', $answernotes) === false) {
-                            $answernotes[] = 'forbiddenWord';
-                        }
-                        $valid = false;
                     }
                 } else if ($node->name instanceof MP_Group) {
                     $outter = $node->name->items[count($node->name->items) - 1];
                     // We do this due to this (1,(cos,sin))(x) => sin(x).
-                    $notsafe = false;
                     $virtualfunction = new MP_FunctionCall($outter, $node->arguments);
                     $virtualfunction->position['virtual'] = true;
                     $ofinterest[] = $virtualfunction;
@@ -296,7 +276,6 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         }
                         if ($ind >= 0 && $ind < count($node->name->target->items)) {
                             // We do this due to this because of examples such as [1,(cos,sin)][2](x) => sin(x).
-                            $notsafe = false;
                             $virtualfunction = new MP_FunctionCall($node->name->target->items[$ind], $node->arguments);
                             $virtualfunction->position['virtual'] = true;
                             if (!isset($processedfuns[$virtualfunction->toString()])) {
@@ -304,7 +283,6 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                                 $processedfuns[$virtualfunction->toString()] = true;
                             }
                         } else {
-                            $notsafe = false;
                             foreach ($node->name->target->items as $id) {
                                 $virtualfunction = new MP_FunctionCall($id, $node->arguments);
                                 $virtualfunction->position['virtual'] = true;
@@ -315,20 +293,6 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             }
                         }
                     }
-                } else if ($node->name instanceof MP_Integer
-                        || $node->name instanceof MP_Float
-                        || $node->name instanceof MP_Boolean) {
-                    // Some substitutions do lead to interesting results.
-                    $notsafe = false;
-                }
-                if ($notsafe) {
-                    // As in not safe identification of the function to be called.
-                    $errors[] = trim(stack_string('stackCas_applyingnonobviousfunction',
-                                                  array('problem' => $node->toString())));
-                    if (array_search('forbiddenWord', $answernotes) === false) {
-                        $answernotes[] = 'forbiddenWord';
-                    }
-                    $valid = false;
                 }
             }
         }

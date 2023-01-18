@@ -26,16 +26,11 @@ require_once(__DIR__ . '/../../../utils.class.php');
  */
 class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
 
-    public function compile($format, $options): ?string {
+    public function compile($format, $options): ?MP_Node {
         // Basically we change the value of $format for this subtree.
         // Note that the jsxgraph block does this automatically.
-        $r = '';
+        $r = new MP_List([new MP_String('htmlformat')]);
         $flat = $this->is_flat();
-        if (!$flat) {
-            $r .= '["htmlformat",';
-        } else {
-            $r .= '["htmlformat",sconcat(';
-        }
 
         $items = array();
         foreach ($this->children as $item) {
@@ -44,9 +39,13 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
                 $items[] = $c;
             }
         }
-        $r .= implode(',', $items);
-
-        $r .= ']';
+        if (!$flat) {
+            foreach ($items as $item) {
+                $r->items[] = $item;
+            }
+        } else {
+            $r->items[] = new MP_FunctionCall(new MP_Identifier('sconcat'), $$items);
+        }
 
         return $r;
     }
@@ -65,7 +64,7 @@ class stack_cas_castext2_htmlformat extends stack_cas_castext2_block {
 
     public function postprocess(array $params, castext2_processor $processor=null): string {
         $content = '';
-        // Jsut collapse it.
+        // Just collapse it.
         for ($i = 1; $i < count($params); $i++) {
             if (is_array($params[$i])) {
                 $content .= $processor->process($params[$i][0], $params[$i]);

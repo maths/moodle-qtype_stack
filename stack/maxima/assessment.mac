@@ -151,6 +151,28 @@ recurse_predp(ex, pr):= block(
   pr(ex) or apply("or", map(lambda([ex2], recurse_predp(ex2, pr)), args(ex)))
 );
 
+/* ********************************************** */
+/* Functions for selecting parts of an expression */
+/* ********************************************** */
+
+/* This function selects, and displays, parts of an expression for which the predicate is true. */
+select(p1, ex) := block(
+  if p1(ex) then return(disp_select(ex)),
+  if atom(ex) then return(ex),
+  apply(op(ex), map(lambda([ex2], select(p1, ex2)), args(ex)))
+)$
+
+/* This function applys the function f1 to parts already selected by the function select. */
+select_apply([ex1]) := block([f1, ex, s1],
+  f1:first(ex1),
+  ex:second(ex1),
+  s1:true,
+  if ev(is(length(ex1)>2), simp) then s1:third(ex1),
+  if atom(ex) then return(ex),
+  if safe_op(ex)="disp_select" then if s1 then return(f1(first(args(ex)))) else return(f1(ex)),
+  apply(op(ex), map(lambda([ex2], select_apply(f1, ex2, s1)), args(ex)))
+)$
+
 /* ********************************** */
 /* General list and utility functions */
 /* ********************************** */
@@ -247,7 +269,6 @@ ntuplep(ex):= if safe_op(ex)="ntuple" then true else false$
 
 /* An ellipsis */
 texput(dotdotdot, "\\ldots")$
-
 
 /* ********************************** */
 /* Type predicates                    */
@@ -592,6 +613,16 @@ remove_disp_complex(ex1, ex2) := ev(ex1, null=0)+ev(ex2, null=1)*%i$
 /* This function is a display-level way to ensure brackets get displayed. */
 texdisp_parens(ex) := sconcat("\\left( ", tex1(first(args(ex))), " \\right)")$
 texput(disp_parens, texdisp_parens)$
+
+remove_disp_parens(ex) := ev(ex, disp_parens=lambda([ex2], ex2))$
+
+/* This function is a display-level way to select part of an expression. */
+texdisp_select(ex) := sconcat("\\color{red}{\\underline{", tex1(first(args(ex))), "}}")$
+texput(disp_select, texdisp_select)$
+
+/* A single function to remove display forms.  Used by answer tests to "clean" an expression. */
+
+remove_disp(ex) := ev(ex, disp_parens=lambda([ex2], ex2), disp_select=lambda([ex2], ex2), disp_complex=remove_disp_complex)$
 
 
 /* This function is designed for displaying decimal places. It is also useful for currency. */

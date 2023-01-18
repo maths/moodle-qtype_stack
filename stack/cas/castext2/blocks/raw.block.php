@@ -29,10 +29,11 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
         $this->children = array(); // We want to modify the iteration here a bit.
     }
 
-    public function compile($format, $options): ?string {
+    public function compile($format, $options): ?MP_Node {
         // Convert possible simplification flags.
         $ev = stack_ast_container::make_from_teacher_source($this->content);
-        $ev = $ev->get_evaluationform();
+        $ast = $ev->get_commentles_primary_statement();
+        $simps = $ev->identify_simplification_modifications();
 
         // If the author enforces simplification on the content we need
         // to not simplify when we reuse that content.
@@ -40,22 +41,50 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
 
         // So we need to know if there is simplification in play
         // from the given expression.
-        $forcesimp = (mb_strpos($ev, ',simp=true') !== false) || (mb_strpos($ev, ',simp = true') !== false);
-        $disablesimp = (mb_strpos($ev, ',simp=false') !== false) || (mb_strpos($ev, ',simp = false') !== false);
+        // Unlike with the LaTeX version we do not try to catch global
+        // state affecting things. After all we tend to have more of this
+        // type of injection and expanding the logic to allow that would not
+        // be nice.
+        $forcesimp = $simps['last-seen'] === true;
+        $disablesimp = $simps['last-seen'] === false;
 
-        $r = 'string(' . $ev . ')';
         $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
-        $epos = stack_utils::php_string_to_maxima_string($epos);
-        $ev = "_EC(errcatch(_ct2_tmp:$ev),$epos)";
+        $ec = new MP_FunctionCall(new MP_Identifier('_EC'), [
+            new MP_FunctionCall(new MP_Identifier('errcatch'), [
+                new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast)
+            ]),
+            new MP_String($epos)
+        ]);
+
         if ($forcesimp) {
             // We need the temp to hold the value while we return simp to what it was.
-            $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:true,' . $ev .
-                ',_ct2_tmp:string(_ct2_tmp),simp:_ct2_simp,_ct2_tmp)';
+            $r = new MP_FunctionCall(new MP_Identifier('block'), [
+                new MP_List([new MP_Identifier('_ct2_tmp'), new MP_Identifier('_ct2_simp')]),
+                new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
+                new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(true)),
+                $ec,
+                new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_FunctionCall(new MP_Identifier('string'),
+                    [new MP_Identifier('_ct2_tmp')])),
+                new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
+                new MP_Identifier('_ct2_tmp')
+            ]);
         } else if ($disablesimp) {
-            $r = 'block([_ct2_tmp,_ct2_simp],_ct2_simp:simp,simp:false,' . $ev .
-                ',_ct2_tmp:string(_ct2_tmp),simp:_ct2_simp,_ct2_tmp)';
+            $r = new MP_FunctionCall(new MP_Identifier('block'), [
+                new MP_List([new MP_Identifier('_ct2_tmp'), new MP_Identifier('_ct2_simp')]),
+                new MP_Operation(':', new MP_Identifier('_ct2_simp'), new MP_Identifier('simp')),
+                new MP_Operation(':', new MP_Identifier('simp'), new MP_Boolean(false)),
+                $ec,
+                new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
+                    new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])),
+                new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
+                new MP_Identifier('_ct2_tmp')
+            ]);
         } else {
-            $r = 'block([_ct2_tmp],' . $ev . ',string(_ct2_tmp))';
+            $r = new MP_FunctionCall(new MP_Identifier('block'), [
+                new MP_List([new MP_Identifier('_ct2_tmp')]),
+                $ec,
+                new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])
+            ]);
         }
         return $r;
     }

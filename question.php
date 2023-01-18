@@ -28,9 +28,13 @@ require_once(__DIR__ . '/stack/input/factory.class.php');
 require_once(__DIR__ . '/stack/cas/keyval.class.php');
 require_once(__DIR__ . '/stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/stack/cas/cassecurity.class.php');
-require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
+
+if(!defined('STACK_API')) {
+    require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
+    require_once(__DIR__ . '/questiontype.php');
+}
+
 require_once(__DIR__ . '/locallib.php');
-require_once(__DIR__ . '/questiontype.php');
 require_once(__DIR__ . '/stack/cas/secure_loader.class.php');
 require_once(__DIR__ . '/stack/prt.class.php');
 require_once(__DIR__ . '/stack/prt.evaluatable.class.php');
@@ -1311,6 +1315,18 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public function get_ta_for_input(string $vname): string {
         if (isset($this->tas[$vname]) && $this->tas[$vname]->is_correctly_evaluated()) {
             return $this->tas[$vname]->get_value();
+        }
+        return '';
+    }
+
+    /**
+     * Enable the api renderer to access the rendered teacher answer
+     * @param string $vname variable name.
+     * @return string
+     */
+    public function get_ta_render_for_input(string $vname): string {
+        if ($this->tas[$vname]->is_correctly_evaluated()) {
+            return $this->tas[$vname]->get_latex();
         }
         return '';
     }

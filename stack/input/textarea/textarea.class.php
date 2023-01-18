@@ -73,6 +73,21 @@ class stack_textarea_input extends stack_input {
         return html_writer::tag('textarea', htmlspecialchars($current), $attributes);
     }
 
+    public function renderApiData($tavalue)
+    {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = array();
+
+        $data['type'] = 'textarea';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['syntaxHint'] = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+
+        return $data;
+    }
+
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);

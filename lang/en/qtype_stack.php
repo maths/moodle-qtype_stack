@@ -1339,3 +1339,9 @@ $string['castext_debug_no_vars'] = 'This question has no question variables to d
 
 $string['castext_error_header'] = 'Rendering of text content failed: this question is broken. Please contact your teacher.';
 $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
+
+
+
+
+//API
+$string['api_no_deployed_variants'] = 'The question XML does not contain deployed variants';

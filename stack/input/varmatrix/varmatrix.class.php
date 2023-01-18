@@ -103,6 +103,34 @@ class stack_varmatrix_input extends stack_input {
         return html_writer::tag('div', $xhtml, array('class' => $matrixbrackets));
     }
 
+    public function renderApiData($tavalue)
+    {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = array();
+
+        $data['type'] = 'varmatrix';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['syntaxHint'] = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+
+        // Read matrix bracket style from options.
+        $matrixbrackets = 'matrixroundbrackets';
+        $matrixparens = $this->options->get_option('matrixparens');
+        if ($matrixparens == '[') {
+            $matrixbrackets = 'matrixsquarebrackets';
+        } else if ($matrixparens == '|') {
+            $matrixbrackets = 'matrixbarbrackets';
+        } else if ($matrixparens == '') {
+            $matrixbrackets = 'matrixnobrackets';
+        }
+
+        $data['matrixbrackets'] = $matrixbrackets;
+
+        return $data;
+    }
+
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);

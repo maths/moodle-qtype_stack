@@ -67,6 +67,19 @@ class stack_boolean_input extends stack_input {
                 $value, '', $attributes);
     }
 
+    public function renderApiData($tavalue)
+    {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = array();
+
+        $data['type'] = 'boolean';
+
+        return $data;
+    }
+
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name);

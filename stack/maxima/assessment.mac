@@ -542,7 +542,7 @@ anyfloat(l) := block([ret:false],
  return(ret) )$
 
 /* Decides if any floats are in the expression. */
-anyfloatex(ex) := block([partswitch,ret,kloop],
+anyfloatex(ex) := block([partswitch, end, ret, kloop],
   ret:false,
   ex:ev(ex,simp),
   if floatnump(ex) then return(true),

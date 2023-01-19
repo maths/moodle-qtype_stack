@@ -2439,7 +2439,7 @@ irred_Q(p, v) := block([ret,deg,cl,ci],
 
 /* Picks apart an expression and gives some feedback */
 /* on why this is not a factored expression.         */
-FacForm_UnPick(SA, SO) := block([negdistrib, partswitch, fb, kloop, irred, res],
+FacForm_UnPick(SA, SO) := block([negdistrib, partswitch, fb, kloop, irred, res, end],
   negdistrib:false,
   partswitch:true,
   fb:"",

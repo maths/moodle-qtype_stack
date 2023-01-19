@@ -71,6 +71,12 @@ class RenderController
             $apiInput->CompactValidation = $input->get_parameter('showValidation', 1) == 3;
             $apiInput->Configuration = $input->renderApiData($question->get_ta_for_input($name));
 
+            if(array_key_exists('options', $apiInput->Configuration)) {
+                foreach ($apiInput->Configuration['options'] as &$option) {
+                    array_push($plots, ...StackPlotReplacer::replace_plots($option, $filePrefix));
+                }
+            }
+
             $renderResponse->QuestionInputs[$name] = $apiInput;
         }
 

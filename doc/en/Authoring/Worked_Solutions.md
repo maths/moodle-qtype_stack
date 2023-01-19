@@ -133,7 +133,9 @@ This format offsets the instructions. Note the index of `n` starts at 2 and we a
     <tr>
       <td align="right"> \({@lhs(second(ar1[ev(n-1,simp)]))@}\) </td>
       <td align="left"> \(= {@rhs(second(ar1[ev(n-1,simp)]))@}\) </td>
-      <td> | {@first(ar1[n])@} </td>
+    </tr>
+    <tr>
+     <td></td> <td></td> <td> | {@first(ar1[n])@} </td>
     </tr>
 [[/ foreach ]]
     <tr>

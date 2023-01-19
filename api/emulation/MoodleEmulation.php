@@ -60,6 +60,10 @@ function s($var) {
     return preg_replace('/&amp;#(\d+|x[0-9a-f]+);/i', '&#$1;', htmlspecialchars($var, ENT_QUOTES, 'UTF-8'));
 }
 
+function format_text($text) {
+    return $text;
+}
+
 
 //Specialized emulations
 require_once('Constants.php');

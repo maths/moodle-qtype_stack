@@ -65,9 +65,15 @@ class RenderController
         foreach ($question->inputs as $name => $input) {
             $apiInput = new StackRenderInput();
 
+            if($input instanceof \stack_dropdown_input) {
+                //The input inclued choices. We encode their solution in a readable format
+                $apiInput->SampleSolution = json_encode($input->getApiSolution());
+                $apiInput->SampleSolutionRender = '';
+            } else {
+                $apiInput->SampleSolution = $question->get_ta_for_input($name);
+                $apiInput->SampleSolutionRender = $question->get_ta_render_for_input($name);
+            }
 
-            $apiInput->SampleSolution = $question->get_ta_for_input($name);
-            $apiInput->SampleSolutionRender = $question->get_ta_render_for_input($name);
             $apiInput->CompactValidation = $input->get_parameter('showValidation', 1) == 3;
             $apiInput->Configuration = $input->renderApiData($question->get_ta_for_input($name));
 

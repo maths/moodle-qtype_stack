@@ -515,7 +515,7 @@ class stack_bulk_tester {
             }
         }
 
-        echo html_writer::tag('p', html_writer::link(new moodle_url('/question/type/stack/bulktestindex.php'),
+        echo html_writer::tag('p', html_writer::link(new moodle_url('/question/type/stack/adminui/bulktestindex.php'),
                 get_string('back')));
     }
 }

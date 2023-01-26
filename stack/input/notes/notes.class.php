@@ -214,4 +214,10 @@ class stack_notes_input extends stack_input {
         return $name . ': ' . $val . ' [' . $state->status . ']';
     }
 
+    public function getApiSolution($tavalue)
+    {
+        return new stdClass();
+    }
+
+
 }

@@ -513,4 +513,8 @@ class stack_equiv_input extends stack_input {
         $in = implode("\n", $in);
         return array($this->name => $in);
     }
+
+    public function getApiSolution($tavalue) {
+        return ['' => $this->maxima_to_raw_input($tavalue)];
+    }
 }

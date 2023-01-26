@@ -39,21 +39,18 @@ class ValidationController
         }
 
         $validationResponse = new StackValidationResponse();
-        $validationResponse->Validation = [];
 
-        foreach ($data['answers'] as $name => $input) {
-            if(!array_key_exists($name, $question->inputs)) throw new \stack_exception('invalid input name');
+        if(!array_key_exists($data["inputName"], $question->inputs)) throw new \stack_exception('invalid input name');
 
-            $validationResponse->Validation[$name] =
-                $question->inputs[$name]->replace_validation_tags(
-                    $question->get_input_state(
-                        $name,
-                        $data["answers"]
-                    ),
-                    $name,
-                    "[[validation:{$name}]]"
-                );
-        }
+        $validationResponse->Validation =
+            $question->inputs[$data["inputName"]]->replace_validation_tags(
+                $question->get_input_state(
+                    $data["inputName"],
+                    $data["answers"]
+                ),
+                $data["inputName"],
+                "[[validation:{$data["inputName"]}]]"
+            );
 
         $response->getBody()->write(json_encode($validationResponse));
         return $response->withHeader('Content-Type', 'application/json');

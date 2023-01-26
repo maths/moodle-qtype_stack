@@ -493,4 +493,21 @@ class stack_matrix_input extends stack_input {
         return $out;
     }
 
+    /**
+     * Function added for API support
+     */
+    public function getApiSolution($ta)
+    {
+        // We dont want to include the inputname in the solution, therefore we clear the name,
+        // and set it back later after saving the solution
+        $name = $this->name;
+        $this->name = '';
+
+        $solution = $this->maxima_to_response_array($ta);
+
+        $this->name = $name;
+
+        return $solution;
+    }
+
 }

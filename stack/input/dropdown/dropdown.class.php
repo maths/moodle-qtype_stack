@@ -610,17 +610,15 @@ class stack_dropdown_input extends stack_input {
         return false;
     }
 
-    /**
-     * Funciton added for API support
-     * Returns the option keys which are marked as correct
-     */
-    public function getApiSolution() {
-        $solution = [];
+    public function getApiSolution($tavalue) {
+        $solution = "";
         foreach ($this->ddlvalues as $key => $value) {
             if($value['correct']) {
-                $solution[] = strval($key);
+                $solution = strval($key);
             }
         }
-        return $solution;
+        return array('' => $solution);
     }
+
+
 }

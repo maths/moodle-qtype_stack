@@ -1440,4 +1440,22 @@ abstract class stack_input {
      * @return array
      */
     public abstract function renderApiData($tavalue);
+
+    /**
+     * Returns the solution in the format used by the api
+     * @param $tavalue
+     * @return array
+     */
+    public function getApiSolution($tavalue) {
+        return ['' => $tavalue];
+    }
+
+    /**
+     * Returns the rendering of the solution
+     * @param $tadisplay
+     * @return mixed
+     */
+    public function getApiSolutionRender($tadisplay) {
+        return $tadisplay;
+    }
 }

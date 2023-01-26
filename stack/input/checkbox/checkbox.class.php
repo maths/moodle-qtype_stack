@@ -210,4 +210,14 @@ class stack_checkbox_input extends stack_dropdown_input {
         }
         return $allblank;
     }
+
+    public function getApiSolution($tavalue) {
+        $solution = [];
+        foreach ($this->ddlvalues as $key => $value) {
+            if($value['correct']) {
+                $solution['_' . $key] = strval($key);
+            }
+        }
+        return $solution;
+    }
 }

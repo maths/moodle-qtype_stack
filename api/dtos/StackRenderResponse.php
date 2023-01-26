@@ -16,8 +16,8 @@ class StackRenderResponse
 }
 
 class StackRenderInput {
-    public bool $CompactValidation;
-    public string $SampleSolution;
+    public int $ValidationType;
+    public $SampleSolution;
     public string $SampleSolutionRender;
     public array $Configuration;
 }

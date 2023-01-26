@@ -18,9 +18,9 @@ services:
     build:
       context: .
 #Uncomment the next lines for a development setup
-#      args:
+#       args:
 #        ENVIRONMENT: development
-#    volumes:
+#     volumes:
 #      - ./:/srv/stack
     restart: unless-stopped
     ports:

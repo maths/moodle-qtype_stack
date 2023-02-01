@@ -308,9 +308,11 @@ For example, if the teacher's answer is \( \log(x)+c \) (i.e. no absolute value)
 \[ \log(x)+c,\ \log(|x|)+c,\ \log(k\,x),\ \log(k|x|),\ \log(|k, x|) \]
 
 If the teacher's answer is \( \log(|x|)+c \) (i.e. with absolute value) then all the following are considered to be correct.
-\[ log(|x|)+c,\ \log(k|x|),\ \log(|k, x|)\ \]
+\[ \log(|x|)+c,\ \log(k|x|),\ \log(|k, x|)\ \]
 Now, the following are rejected as incorrect, as the studnet should have used \(|..|\)
-\[\log(x)+c,\ log(k\,x)\]
+\[\log(x)+c,\ \log(k\,x)\]
+
+Note that STACK sets the value of Maxima's `logabs:true`, which is not the default in Maxima.  This has the effect of adding the absolute value funtion when `integrate` is used.
 
 In the case of partial  fractions where there are more than one term of the form \(\log(x-a)\) then 
 we insist the student is at least consistent.  If the teacher has *any*  \(\log(|x-a|)\) then the student must use \(|...|\) in *all* of them.  If the teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the 

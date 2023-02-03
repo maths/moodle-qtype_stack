@@ -487,8 +487,7 @@
       "variable": "f"
   },
   "adapth_depth": {
-      "globalyforbiddenvariable": true,
-      "variable": "f"
+      "variable": "s"
   },
   "add_edge": {
       "function": "?"
@@ -8375,6 +8374,9 @@
   "xthru": {
       "function": "s"
   },
+  "xtics": {
+      "variable": "s"
+  },
   "xtics_axis": {
       "variable": "f"
   },
@@ -8401,6 +8403,9 @@
   },
   "y_voxel": {
       "variable": "f"
+  },
+  "ytics": {
+      "variable": "s"
   },
   "yaxis": {
       "variable": "f"

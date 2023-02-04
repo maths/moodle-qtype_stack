@@ -147,7 +147,7 @@ num_compare_helper(sal, tal, missing, excessive, tol, type) := block([sa, ta, f1
         f2:ev(float(abs(sa-ta)-abs(ta*tol)), simp)),
   /*print([sa,ta,f1,f2]),*/
   if is(f1<0) then return(num_compare_helper(rest(sal), tal, missing, append([sa], excessive), tol, type)),
-  if is(f2<0)
+  if is(f2<=0)
       then return(num_compare_helper(rest(sal), rest(tal), missing, excessive, tol, type)),
   return(num_compare_helper(sal, rest(tal), append([ta], missing), excessive, tol, type))
 )$

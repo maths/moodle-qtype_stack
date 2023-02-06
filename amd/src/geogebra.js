@@ -27,7 +27,7 @@ define(["qtype_stack/geogebracore-lazy"], function(GEOGEBRA) {
             bind_point: function(inputRef, appletRef, pointname) {
                 // This function takes a GeoGebra point object and binds its coordinates to a given STACK input.
                 var theInput = document.getElementById(inputRef);
-                if (theInput.value && theInput.value != '') {
+                if (typeof theInput.value !== 'undefined' && theInput.value != '') {
                     // if a value exists move the point to it.
                     // the value is stored as a list of float values e.g. "[1,0.43]"
                     var coords = JSON.parse(theInput.value);
@@ -105,7 +105,7 @@ define(["qtype_stack/geogebracore-lazy"], function(GEOGEBRA) {
             bind_value: function(inputRef, appletRef, valuename) {
                 // This function takes a GeoGebra name of a value object and binds its value to a given input.
                 var theInput = document.getElementById(inputRef);
-                if (theInput.value && theInput.value != '') {
+                if (typeof theInput.value !== 'undefined' && theInput.value != '') {
                     // if a value exists move the valuename to it.
                     // the value is stored as a float value "0.43"
                     try {
@@ -116,16 +116,19 @@ define(["qtype_stack/geogebracore-lazy"], function(GEOGEBRA) {
                 }
 
                 var initialValue = appletRef.getValue(valuename);
+                var movedInitial = false;
                 /**
                 * Then the binding from graph to input
                 */
                 function updateValues(){
                   // We do not want to set the input before the point actually moves.
-                  if (initialValue != appletRef.getValue(valuename)) {
+                  if (movedInitial == false && initialValue != appletRef.getValue(valuename)){
+                    movedInitial = true;
+                  }
+                  if (movedInitial) {
                       var tmp = JSON.stringify(appletRef.getValue(valuename));
-                      initialValue = false;
                       if (theInput.value != tmp) {
-                          // Avoid resetting this, as some event models migth trigger
+                          // Avoid resetting this, as some event models might trigger
                           // change events even when no change actually happens.
                           theInput.value = tmp;
                           // As we set the inputs value programmatically no events
@@ -179,7 +182,7 @@ define(["qtype_stack/geogebracore-lazy"], function(GEOGEBRA) {
                 //This function is created for the "remember" tag,
                 //which stores more than one value in a single input field
                 var theInput = document.getElementById(inputRef);
-                if (theInput.value && theInput.value != '') {
+                if (typeof theInput.value !== 'undefined' && theInput.value != '') {
                     // if a value exists move the valuename to it.
                     // the value is stored as a float value "0.43"
                     try {
@@ -190,7 +193,7 @@ define(["qtype_stack/geogebracore-lazy"], function(GEOGEBRA) {
                 }
 
                 var initialValue = appletRef.getValue(valuename);
-
+                var movedInitial = false;
                 /**
                 * Then the binding from graph to input
                 */
@@ -200,9 +203,12 @@ define(["qtype_stack/geogebracore-lazy"], function(GEOGEBRA) {
                   if(theInput.value.trim().length === 0){
                     theInput.value="{}";
                   }
-                  if (initialValue != appletRef.getValue(valuename)) {
+
+                  if (movedInitial == false && initialValue != appletRef.getValue(valuename)){
+                    movedInitial = true;
+                  }
+                  if (movedInitial) {
                       var tmpValue = appletRef.getValue(valuename);
-                      initialValue = false;
                       //check if geogebraname is listed in JSON
                       try{
                             var lastinput = JSON.parse(theInput.value);
@@ -269,7 +275,7 @@ define(["qtype_stack/geogebracore-lazy"], function(GEOGEBRA) {
                 //This function is created for the "remember" tag,
                 //which stores more than one value in a single input field
                 var theInput = document.getElementById(inputRef);
-                if (theInput.value && theInput.value != '') {
+                if (typeof theInput.value !== 'undefined' && theInput.value != '') {
                     // if a value exists move the point to it.
                     // the value is stored as a list of float values e.g. "[1,0.43]"
                     var coords = JSON.parse(theInput.value)[pointname];

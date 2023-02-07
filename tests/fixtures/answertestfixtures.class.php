@@ -490,6 +490,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x#1', 'x#1', 1, 'ATLogic_True.', 'Not equal to'),
         array('AlgEquiv', '', 'x#(1+1)', 'x#2', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', '1#x', 'x#1', 1, 'ATLogic_True.', ''),
+        array('AlgEquiv', '', 'a#b', 'b#a', 1, '', ''),
         array('AlgEquiv', '', 'x#2', 'x-2#0', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', '[x#2]', '[x-2#0]', 1, '', ''),
         array('AlgEquiv', '', 'x-3#0', 'x#2', 0, '', ''),

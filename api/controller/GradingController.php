@@ -40,6 +40,12 @@ class GradingController
             throw new \stack_exception(implode("\n", array_keys($question->runtimeerrors)));
         }
 
+        $translate = new \stack_multilang();
+        // This is a hack, that restores the filter regex to the exact one used in moodle.
+        // The modifications done by the stack team prevent the filter funcitonality from working correctly.
+        $translate->search = '/(<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang"){2}\s*>.*?<\/span>)(\s*<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang"){2}\s*>.*?<\/span>)+/is';
+        $language = current_language();
+
         $plots = [];
         $filePrefix = uniqid();
         $gradingResponse = new StackGradingResponse();
@@ -58,7 +64,10 @@ class GradingController
                 $feedback = $this->standard_prt_feedback($question, $result) . $feedback;
             }
 
-            $gradingResponse->Prts[$index] = \stack_maths::process_display_castext($feedback);
+            $gradingResponse->Prts[$index] = $translate->filter(
+                \stack_maths::process_display_castext($feedback),
+                $language
+            );
             array_push($plots, ...StackPlotReplacer::replace_plots($gradingResponse->Prts[$index], $filePrefix));
         }
 
@@ -69,7 +78,10 @@ class GradingController
         }
 
         $gradingResponse->Score = $score;
-        $gradingResponse->SpecificFeedback = $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor);
+        $gradingResponse->SpecificFeedback = $translate->filter(
+            $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor),
+            $language
+        );
         array_push($plots, ...StackPlotReplacer::replace_plots($gradingResponse->SpecificFeedback, $filePrefix));
 
         $gradingResponse->GradingAssets = $plots;

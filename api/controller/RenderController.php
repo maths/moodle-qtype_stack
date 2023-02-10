@@ -52,19 +52,36 @@ class RenderController
             throw new \stack_exception(implode("\n", array_keys($question->runtimeerrors)));
         }
 
+        $translate = new \stack_multilang();
+        // This is a hack, that restores the filter regex to the exact one used in moodle.
+        // The modifications done by the stack team prevent the filter funcitonality from working correctly.
+        $translate->search = '/(<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang"){2}\s*>.*?<\/span>)(\s*<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang"){2}\s*>.*?<\/span>)+/is';
+        $language = current_language();
 
         $renderResponse = new StackRenderResponse();
         $plots = [];
-        $renderResponse->QuestionRender = \stack_maths::process_display_castext($question->questiontextinstantiated->get_rendered($question->castextprocessor));
+
+        $renderResponse->QuestionRender = $translate->filter(
+            \stack_maths::process_display_castext(
+                $question->questiontextinstantiated->get_rendered(
+                    $question->castextprocessor
+                )
+            ),
+            $language
+        );
+
         array_push($plots, ...StackPlotReplacer::replace_plots($renderResponse->QuestionRender, $filePrefix));
 
-        $renderResponse->QuestionSampleSolutionText = $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor);
+        $renderResponse->QuestionSampleSolutionText = $translate->filter(
+            $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor),
+            $language
+        );
+
         array_push($plots, ...StackPlotReplacer::replace_plots($renderResponse->QuestionSampleSolutionText, $filePrefix));
 
-        $renderResponse->QuestionInputs = array();
+        $inputs = array();
         foreach ($question->inputs as $name => $input) {
             $apiInput = new StackRenderInput();
-
 
             $apiInput->SampleSolution = $input->getApiSolution($question->get_ta_for_input($name));
             $apiInput->SampleSolutionRender = $input->getApiSolutionRender($question->get_ta_render_for_input($name));
@@ -78,8 +95,11 @@ class RenderController
                 }
             }
 
-            $renderResponse->QuestionInputs[$name] = $apiInput;
+            $inputs[$name] = $apiInput;
         }
+
+        // Necessary, as php will otherwise encode this as an empty array, instead of an empty object
+        $renderResponse->QuestionInputs = (object) $inputs;
 
         $renderResponse->QuestionAssets = $plots;
 

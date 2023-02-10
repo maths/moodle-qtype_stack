@@ -46,6 +46,13 @@ class GradingController
         $translate->search = '/(<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang"){2}\s*>.*?<\/span>)(\s*<span(\s+lang="[a-zA-Z0-9_-]+"|\s+class="multilang"){2}\s*>.*?<\/span>)+/is';
         $language = current_language();
 
+        // If an input explicitly allows empty answers, and the response data dosnt contain a value for the input, set the input value to an empty string
+        foreach ($question->inputs as $name => $input) {
+            if($input->get_extra_option('allowempty') && !array_key_exists($name, $data['answers'])) {
+                $data['answers'][$name] = '';
+            }
+        }
+
         $plots = [];
         $filePrefix = uniqid();
         $gradingResponse = new StackGradingResponse();

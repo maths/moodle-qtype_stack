@@ -136,7 +136,7 @@ class StackQuestionLoader
 
             $data = new \stdClass();
             $data->name = (string) $prtdata->name;
-            $data->simplify = isset($prtdata->autosimplify) ? StackQuestionLoader::parseBoolean($prtdata->autosimplify) : true;
+            $data->autosimplify = isset($prtdata->autosimplify) ? StackQuestionLoader::parseBoolean($prtdata->autosimplify) : true;
             $data->feedbackstyle = isset($prtdata->feedbackstyle) ? (int) $prtdata->feedbackstyle : 1;
             $data->value = isset($prtdata->value) ? (float) $prtdata->value : 1.0;
 

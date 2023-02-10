@@ -18,9 +18,15 @@ class StackQuestionLoader
 
         //Collect included files
         $files = array();
-        $files = array_merge($files, StackQuestionLoader::handleFiles($xmlData->question->questiontext->file));
-        $files = array_merge($files, StackQuestionLoader::handleFiles($xmlData->question->generalfeedback->file));
-        $files = array_merge($files, StackQuestionLoader::handleFiles($xmlData->question->specificfeedback->file));
+        if($xmlData->question->questiontext) {
+            $files = array_merge($files, StackQuestionLoader::handleFiles($xmlData->question->questiontext->file));
+        }
+        if($xmlData->question->generalfeedback) {
+            $files = array_merge($files, StackQuestionLoader::handleFiles($xmlData->question->generalfeedback->file));
+        }
+        if($xmlData->question->specificfeedback) {
+            $files = array_merge($files, StackQuestionLoader::handleFiles($xmlData->question->specificfeedback->file));
+        }
         $question->pluginfiles = $files;
 
         //Based on moodles base question type
@@ -68,7 +74,7 @@ class StackQuestionLoader
         $question->options->set_option('complexno',          isset($xmlData->question->complexno) ? (string) $xmlData->question->complexno : 'i');
         $question->options->set_option('inversetrig',        isset($xmlData->question->inversetrig) ? (string) $xmlData->question->inversetrig : 'cos-1');
         $question->options->set_option('logicsymbol',        isset($xmlData->question->logicsymbol) ? (string) $xmlData->question->logicsymbol : 'lang');
-        $question->options->set_option('matrixparens',       isset($xmlData->question->matrixparens) ? (string) $xmlData->question->matrixparens : 'square');
+        $question->options->set_option('matrixparens',       isset($xmlData->question->matrixparens) ? (string) $xmlData->question->matrixparens : '[');
         $question->options->set_option('sqrtsign',    isset($xmlData->question->sqrtsign) ? StackQuestionLoader::parseBoolean($xmlData->question->sqrtsign) : true);
         $question->options->set_option('simplify',    isset($xmlData->question->questionsimplify) ? StackQuestionLoader::parseBoolean($xmlData->question->questionsimplify) : true);
         $question->options->set_option('assumepos',   isset($xmlData->question->assumepositive) ? StackQuestionLoader::parseBoolean($xmlData->question->assumepositive) : false);
@@ -80,8 +86,7 @@ class StackQuestionLoader
         }
 
         $requiredparams = \stack_input_factory::get_parameters_used();
-        foreach (\stack_utils::extract_placeholders($question->questiontext, 'input') as $name) {
-            $inputdata = $inputMap[$name];
+        foreach ($inputMap as $name => $inputdata) {
             $allparameters = array(
                 'boxWidth'        => isset($inputdata->boxsize) ? (int) $inputdata->boxsize : 30,
                 'strictSyntax'    => isset($inputdata->strictsyntax) ? StackQuestionLoader::parseBoolean($inputdata->strictsyntax) : true,

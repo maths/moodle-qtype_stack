@@ -7,7 +7,7 @@ class StackRenderResponse
     public string $QuestionRender;
     public string $QuestionSampleSolutionText;
     /** @var StackRenderInput[]  */
-    public array $QuestionInputs;
+    public $QuestionInputs;
     /** @var string[]  */
     public array $QuestionAssets;
     public int $QuestionSeed;

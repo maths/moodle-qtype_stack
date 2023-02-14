@@ -8,7 +8,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:12
+        image: postgres:13
         env:
           POSTGRES_USER: 'postgres'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix: # I don't know why, but mariadb is much slower, so mostly use pgsql.
         include:
-          - php: '7.4'
+          - php: '8.0'
             moodle-branch: 'master'
             database: 'pgsql'
           - php: '7.4'
@@ -56,6 +56,7 @@ jobs:
           sudo apt-get install gnuplot maxima maxima-share texinfo
           maxima --list-avail
           echo "diff(x^2,x);" | maxima
+          echo "build_info();" | maxima
 
       - name: Check out repository code
         uses: actions/checkout@v2

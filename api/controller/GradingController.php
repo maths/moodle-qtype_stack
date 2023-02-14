@@ -60,26 +60,39 @@ class GradingController
 
         $scores = array();
         foreach ($question->prts as $index => $prt) {
-            //If not all inputs required for the prt have been filled out, we abort the grading, and indicate that this input state is not gradable
-            if(!$question->has_necessary_prt_inputs($prt, $data['answers'], true)) {
+            $result = $question->get_prt_result($index, $data['answers'], true);
+
+            //If not all inputs required for the prt have been filled out, or the prt evaluation caused an error, we abort the grading, and indicate that this input state is not gradable
+            if($result->get_errors() || !$question->has_necessary_prt_inputs($prt, $data['answers'], true)) {
+                $gradingResponse = new StackGradingResponse();
                 $gradingResponse->isGradable = false;
 
                 $response->getBody()->write(json_encode($gradingResponse));
                 return $response->withHeader('Content-Type', 'application/json');
             }
 
-            $result = $question->get_prt_result($index, $data['answers'], true);
+            $feedbackStyle = $prt->get_feedbackstyle();
 
             $feedback = $result->get_feedback();
+            $standardfeedback = $this->standard_prt_feedback($question, $result, $feedbackStyle);
+
+            $overallFeedback = match ($feedbackStyle) {
+                //Formative
+                0 => $feedback,
+                //Standard
+                1, 2 => $standardfeedback . $feedback,
+                //Compact
+                // Symbolic
+                3 => $standardfeedback,
+                // Invalid
+                default => "Invalid Feedback style"
+            };
+
 
             $scores[$index] = $result->get_score();
 
-            if($prt->get_feedbackstyle() === 1) {
-                $feedback = $this->standard_prt_feedback($question, $result) . $feedback;
-            }
-
             $gradingResponse->Prts[$index] = $translate->filter(
-                \stack_maths::process_display_castext($feedback),
+                \stack_maths::process_display_castext($overallFeedback),
                 $language
             );
             array_push($plots, ...StackPlotReplacer::replace_plots($gradingResponse->Prts[$index], $filePrefix));
@@ -104,23 +117,30 @@ class GradingController
         return $response->withHeader('Content-Type', 'application/json');
     }
 
-    private function standard_prt_feedback(\qtype_stack_question $question, \prt_evaluatable $result)
+    private function standard_prt_feedback(\qtype_stack_question $question, \prt_evaluatable $result, $feedbackStyle)
     {
-        if(!empty($result->get_errors())) {
-            return '';
+        $class = '';
+        if ($result->get_score() < 0.000001) {
+            $class = 'incorrect';
+        } else if ($result->get_score() > 0.999999) {
+            $class = 'correct';
+        } else {
+            $class = 'partiallycorrect';
         }
 
-        $field = '';
-        if ($result->get_score() < 0.000001) {
-            $field = 'prtincorrectinstantiated';
-        } else if ($result->get_score() > 0.999999) {
-            $field = 'prtcorrectinstantiated';
-        } else {
-            $field = 'prtpartiallycorrectinstantiated';
+        $field = 'prt' . $class . 'instantiated';
+
+        // Compact and symbolic only.
+        if ($feedbackStyle === 2 || $feedbackStyle === 3) {
+            $s = get_string('symbolicprt' . $class . 'feedback', 'qtype_stack');
+            return \html_writer::tag('span', $s, array('class' => $class));
         }
 
         if ($question->$field) {
-            return \stack_maths::process_display_castext($question->$field->get_rendered($question->castextprocessor));
+            return \html_writer::tag('div',
+                \stack_maths::process_display_castext($question->$field->get_rendered($question->castextprocessor)),
+                array('class' => $class)
+            );
         }
 
         return '';

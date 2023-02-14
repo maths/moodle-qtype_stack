@@ -56,16 +56,23 @@ class GradingController
         $plots = [];
         $filePrefix = uniqid();
         $gradingResponse = new StackGradingResponse();
+        $gradingResponse->isGradable = true;
 
         $scores = array();
         foreach ($question->prts as $index => $prt) {
+            //If not all inputs required for the prt have been filled out, we abort the grading, and indicate that this input state is not gradable
+            if(!$question->has_necessary_prt_inputs($prt, $data['answers'], true)) {
+                $gradingResponse->isGradable = false;
+
+                $response->getBody()->write(json_encode($gradingResponse));
+                return $response->withHeader('Content-Type', 'application/json');
+            }
+
             $result = $question->get_prt_result($index, $data['answers'], true);
 
             $feedback = $result->get_feedback();
 
             $scores[$index] = $result->get_score();
-
-            //TODO: Invalid/Incomplete inputs?
 
             if($prt->get_feedbackstyle() === 1) {
                 $feedback = $this->standard_prt_feedback($question, $result) . $feedback;

@@ -969,7 +969,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      *      if the corresponding inputs are only VALID, and not SCORE.
      * @return bool can this PRT be executed for that response.
      */
-    protected function has_necessary_prt_inputs(stack_potentialresponse_tree_lite $prt, $response, $acceptvalid) {
+    public function has_necessary_prt_inputs(stack_potentialresponse_tree_lite $prt, $response, $acceptvalid) {
 
         // Some kind of time-time error in the question, so bail here.
         if ($this->get_cached('required') === null) {

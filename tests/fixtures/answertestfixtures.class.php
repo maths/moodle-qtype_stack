@@ -1391,12 +1391,19 @@ class stack_answertest_test_data {
         array('Int', 'x', 'x^3/3', 'x^3/3', 0, 'ATInt_const.', 'Basic tests'),
         array('Int', 'x', 'x^3/3+1', 'x^3/3', 0, 'ATInt_const_int.', ''),
         array('Int', 'x', 'x^3/3+c', 'x^3/3', 1, 'ATInt_true.', ''),
+        array('Int', 'x', 'x^3/3-c', 'x^3/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'x^3/3+c+1', 'x^3/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'x^3/3+3*c', 'x^3/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', '(x^3+c)/3', 'x^3/3', 1, 'ATInt_true.', ''),
-        array('Int', 'x', 'x^3/3-c', 'x^3/3', 1, 'ATInt_true.', ''),
+        // These are integration with a parameter: integrate(x^k,x), and we have to distinguish parameters from constants.
+        array('Int', 'x', 'x^(k+1)/(k+1)', 'x^(k+1)/(k+1)', 0, 'ATInt_const.', ''),
+        array('Int', 'x', 'x^(k+1)/(k+1)+c', 'x^(k+1)/(k+1)', 1, 'ATInt_true.', ''),
+        array('Int', 'x', '(x^(k+1)-1)/(k+1)', 'x^(k+1)/(k+1)', -2, 'ATInt_true.', ''),
+        array('Int', 'x', '(x^(k+1)-1)/(k+1)+c', 'x^(k+1)/(k+1)+c', -3, 'ATInt_weirdconst.', ''),
         array('Int', 'x', 'x^3/3+c+k', 'x^3/3', 0, 'ATInt_weirdconst.', ''),
         array('Int', 'x', 'x^3/3+c^2', 'x^3/3', 0, 'ATInt_weirdconst.', ''),
+        // This next one should probably be accepted.
+        array('Int', 'x', 'x^3/3+c^3', 'x^3/3', 0, 'ATInt_weirdconst.', ''),
         array('Int', 'x', 'x^3/3*c', 'x^3/3', 0, 'ATInt_generic.', ''),
         array('Int', 'x', 'X^3/3+c', 'x^3/3', 0, 'ATInt_generic. ATInt_var_SB_notSA.', ''),
         array('Int', 'x', 'sin(2*x)', 'x^3/3', 0, 'ATInt_generic.', ''),
@@ -1457,7 +1464,16 @@ class stack_answertest_test_data {
             'integrate(sqrt(x^2-4*x+3),x)', 0, 'ATInt_EqFormalDiff.', ''),
         array('Int', '[x, FORMAL]', '-log(sqrt(x^2-4*x+3)+x-2)/2+(x*sqrt(x^2-4*x+3))/2-sqrt(x^2-4*x+3)+c',
             'integrate(sqrt(x^2-4*x+3),x)', 1, 'ATInt_EqFormalDiff.', ''),
-        // In these examples there are two logarihtms.  The student should be *consistent*
+        // These examples have an irreducible quadratic: x^2+7*x+7.
+        array('Int', '[x,NOCONST]', 'ln(x^2+7*x+7)', 'ln(x^2+7*x+7)', 1, 'ATInt_const_condone.', 'Irreducible quadratic'),
+        array('Int', '[x,NOCONST]', 'ln(x^2+7*x+7)', 'ln(abs(x^2+7*x+7))', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''),
+        array('Int', 'x', 'ln(x^2+7*x+7)+c', 'ln(x^2+7*x+7)+c', 1, 'ATInt_true_equiv.', ''),
+        array('Int', 'x', 'ln(k*(x^2+7*x+7))', 'ln(x^2+7*x+7)+c', 1, 'ATInt_true_equiv.', ''),
+        array('Int', 'x', 'ln(x^2+7*x+7)', 'ln(abs(x^2+7*x+7))+c', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''),
+        array('Int', 'x', 'ln(x^2+7*x+7)+c', 'ln(abs(x^2+7*x+7))+c', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''),
+        array('Int', 'x', 'ln(abs(x^2+7*x+7))+c', 'ln(abs(x^2+7*x+7))+c', 1, 'ATInt_true_equiv.', ''),
+        array('Int', 'x', 'ln(k*abs(x^2+7*x+7))', 'ln(abs(x^2+7*x+7))+c', 1, 'ATInt_true_equiv.', ''),
+        // In these examples there are two logarithms.  The student should be *consistent*
         // in their use, or not, of absolute value.
         array('Int', 'x', 'log(abs(x-3))+log(abs(x+3))', 'log(abs(x-3))+log(abs(x+3))', 0, 'ATInt_const.', 'Two logs'),
         array('Int', 'x', 'log(abs(x-3))+log(abs(x+3))+c', 'log(abs(x-3))+log(abs(x+3))', 1, 'ATInt_true_equiv.', ''),
@@ -2231,7 +2247,6 @@ class stack_answertest_test_data {
         array('LowestTerms', '', '1+2/sqrt(3)', '(2*sqrt(3)+3)/3', 0, 'ATLowestTerms_not_rat.', ''),
         array('LowestTerms', '', '1/(1+1/root(3,2))', 'sqrt(3)/(sqrt(3)+1)', 0, 'ATLowestTerms_not_rat.', ''),
         array('LowestTerms', '', '1/(1+1/root(2,3))', '1/(1+1/root(2,3))', 0, 'ATLowestTerms_not_rat.', '')
-
     );
 
     public static function get_raw_test_data() {

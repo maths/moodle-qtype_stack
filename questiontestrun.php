@@ -157,9 +157,11 @@ $chatlink = new moodle_url('/question/type/stack/adminui/caschat.php', $chatpara
 
 $links = array();
 if ($canedit) {
-    $links[] = html_writer::link($questionbanklinkedit, stack_string('editquestioninthequestionbank'), array('class' => 'nav-link'));
+    $links[] = html_writer::link($questionbanklinkedit, stack_string('editquestioninthequestionbank'),
+        array('class' => 'nav-link'));
 }
-$links[] = html_writer::link($questionbanklink, stack_string('seethisquestioninthequestionbank'), array('class' => 'nav-link'));
+$links[] = html_writer::link($questionbanklink, stack_string('seethisquestioninthequestionbank'),
+    array('class' => 'nav-link'));
 if ($canedit) {
     $links[] = html_writer::link($chatlink, stack_string('sendgeneralfeedback'), array('class' => 'nav-link'));
     $links[] = html_writer::link($question->qtype->get_tidy_question_url($question),

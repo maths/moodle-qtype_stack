@@ -464,6 +464,9 @@ $string['replacedollarstitle'] = 'Replace $s in question texts in {$a}';
 $string['replacedollarserrors'] = 'The following questions generated errors.';
 
 // Strings used by the bulk run question tests script.
+$string['expand'] = 'Expand';
+$string['expandtitle'] = 'Show question categories';
+$string['unauthorisedbulktest'] = 'You do not have suitable access to any STACK questions';
 $string['bulktestcontinuefromhere'] = 'Run again or resume, starting from here';
 $string['bulktestindexintro'] = 'Clicking on any of the links will run all the question tests in all the STACK questions in that context';
 $string['bulktestindextitle'] = 'Run the question tests in bulk';
@@ -472,6 +475,9 @@ $string['bulktestnogeneralfeedback'] = 'This question does not have any general 
 $string['bulktestnodeployedseeds'] = 'This question does have random variants, but has no deployed seeds.';
 $string['bulktestrun'] = 'Run all the question tests for all the questions in the system (slow, admin only)';
 $string['bulktesttitle'] = 'Running all the question tests in {$a}';
+$string['bulktestallincontext'] = 'Test all';
+$string['testalltitle'] = 'Test all questions in this context';
+$string['testallincategory'] = 'Test all questions in this category';
 $string['overallresult'] = 'Overall result';
 $string['seedx'] = 'Seed {$a}';
 $string['testpassesandfails'] = '{$a->passes} passes and {$a->fails} failures.';

@@ -3013,6 +3013,7 @@ ATInt(sa, sb, so) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, Ans
     */
     if listp(var) then block(
         atoptions:ATIntOptions(var),
+        if debug then print("Options: ", atoptions),
         if not(equal(first(atoptions), "")) then block(
             print("TEST_FAILED"),
             cont:false,
@@ -3069,7 +3070,9 @@ ATIntOptions(opts) := block([note, var, atopts, optdefaults],
         atopts:setdifference(atopts,{FORMAL}),
         optdefaults[2]:true
     ),
-    return(append([note,var], optdefaults, listify(atopts)))
+    /* If there is a display expression, then use it. */
+    if not(emptyp(atopts)) then optdefaults[3]:first(listify(atopts)),
+    return(append([note,var], optdefaults))
 )$
 
 Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,SBraw,saa,dd,dc,lSAv,lSBv,mSAv,mSBv,SAConsistentLogs,SAUsedLogAbs,SBUsedLogAbs],

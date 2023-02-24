@@ -108,7 +108,7 @@ Next we should try out our question by pressing the `Preview` link at the bottom
 
 ## Previewing the question
 
-To speed up the testing process, scroll down on the preview window and under Attempt options make sure you have "How questions behave" set to "Adaptive Mode". If necessary, "Start again with these options". This will allow you to check your answers without having to _Submit_ and _Start again_ repeatedly.
+To speed up the testing process, scroll down on the preview window and under either "Attempt options" or "Preview options" (moodle version dependent) make sure you have "How questions behave" set to "Adaptive Mode". If necessary, "Start again with these options". This will allow you to check your answers without having to _Submit_ and _Start again_ repeatedly.
 
 With the preview open, try typing
 

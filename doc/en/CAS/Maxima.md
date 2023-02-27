@@ -37,9 +37,11 @@ Below are some examples.
 | `A1`         | `A_{1}` \( A_{1} \)                                       | `{A_{1}}` \( {A_{1}} \)                                       |
 | `A_1`        | `A_{1}` \( A_{1} \)                                       | `{A_{1}}` \( {A_{1}} \)                                       |
 | `A_x1`       | `{\it A\_x}_{1}` \( {\it A\_x}_{1} \)                     | `{{A}_{x_{1}}}` \( {{A}_{x_1}} \)                             |
+| `A_BC`       | `{\it A\_BC}` \( {\it A\_BC} \)                           | `{{A}_{{\it BC}}}` \( {{A}_{{\it BC}}} \)                     |
 | `A_alpha`    | `{\it A\_alpha}` \( {\it A\_alpha}\)                      | `{{A}_{\alpha}}` \( {{A}_{\alpha}} \)                         |
 | `A_B_C`      | `{\it A\_B\_C}` \( {\it A\_B\_C} \)                       | `{{{A}_{B}}_{C}}` \( {A_B}_C \)                               |
 | `x_t(1)`     | `{\it x\_t}\left(1\right)` \( {\it x\_t}\left(1\right) \) | `{{\it x\_t}\left(1\right)}` \( {{\it x\_t}\left(1\right)} \) |
+| `A[1,2]`     | `A_{1,2}` \( A_{1,2} \)                                   | `{A_{1,2}}` \( {A_{1,2}} \)                                   |
 
 Notes
 

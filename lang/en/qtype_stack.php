@@ -1349,3 +1349,4 @@ $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
 
 //API
 $string['api_no_deployed_variants'] = 'The question XML does not contain deployed variants';
+$string['api_seed_not_in_variants'] = 'The specified seed belongs to no deployed variant';

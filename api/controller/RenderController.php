@@ -6,11 +6,16 @@ use api\dtos\StackRenderInput;
 use api\dtos\StackRenderResponse;
 use api\util\StackPlotReplacer;
 use api\util\StackQuestionLoader;
+use api\util\StackSeedHelper;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class RenderController
 {
+    /**
+     * @throws \stack_exception
+     * @throws \Exception
+     */
     public function __invoke(Request $request, Response $response, array $args): Response
     {
         //TODO: Validate
@@ -21,22 +26,7 @@ class RenderController
 
         $question = StackQuestionLoader::loadXML($data["questionDefinition"]);
 
-        if($question->has_random_variants()) {
-            //We require the xml to include deployed variants
-            if(count($question->deployedseeds) === 0) {
-                throw new \Exception(get_string('api_no_deployed_variants', null));
-            }
-
-            //If no seed has been specified, use the first deployed variant
-            if(!array_key_exists('seed', $data) || !in_array($data["seed"], $question->deployedseeds)) {
-                $data["seed"] = $question->deployedseeds[0];
-            }
-
-            $question->seed = $data["seed"];
-        } else {
-            //We just set any seed here, to simplify the handling on the catnip side
-            $question->seed = -1;
-        }
+        StackSeedHelper::initializeSeed($question, $data["seed"]);
 
         //handle Pluginfiles
         $filePrefix = uniqid();

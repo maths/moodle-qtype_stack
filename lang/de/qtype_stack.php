@@ -1077,3 +1077,4 @@ $string['youmustconfirm'] = 'Bitte bestätigen Sie hier.';
 
 //API
 $string['api_no_deployed_variants'] = 'Die Fragendefinition enthält keine eingesetzten Varianten';
+$string['api_seed_not_in_variants'] = 'Der spezifizierte Seed gehört zu keiner eingesetzten Variante';

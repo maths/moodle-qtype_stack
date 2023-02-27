@@ -97,8 +97,14 @@ if ($string) {
         $keyvals->get_valid();
         $varerrs = $keyvals->get_errors();
         if ($keyvals->get_valid()) {
-            $kvcode = $keyvals->compile('test')['statement'];
-            $statements = [new stack_secure_loader($kvcode, 'caschat')];
+            $kvcode = $keyvals->compile('test');
+            $statements = array();
+            if ($kvcode['contextvariables']) {
+                $statements[] = new stack_secure_loader($kvcode['contextvariables'], 'caschat');
+            }
+            if ($kvcode['statement']) {
+                $statements[] = new stack_secure_loader($kvcode['statement'], 'caschat');
+            }
         }
     }
 

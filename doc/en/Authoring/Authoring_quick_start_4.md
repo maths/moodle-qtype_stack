@@ -56,7 +56,7 @@ You also have the option to remove any variants that you don't like. For example
 
 ## Preview options
 
-Try previewing your question. As previously mentioned, under `Attempt options`, you have the option to change the question behaviour. `Adaptive mode` is the most useful one for question testing, as it allows you to `check` questions repeatedly. We will discuss question behaviours in more detail later. 
+Try previewing your question. As previously mentioned (in part 1 of the Quick Start tutorial), under `Attempt options` (or `Preview options`), you have the option to change the question behaviour. `Adaptive mode` is the most useful one for question testing, as it allows you to `check` questions repeatedly. We will discuss question behaviours in more detail later. 
 
 However, notice also that you can choose which deployed `Question variant`  you are answering. This is useful if you want to test a specific variant.
 

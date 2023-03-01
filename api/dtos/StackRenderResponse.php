@@ -8,8 +8,7 @@ class StackRenderResponse
     public string $QuestionSampleSolutionText;
     /** @var StackRenderInput[]  */
     public $QuestionInputs;
-    /** @var string[]  */
-    public array $QuestionAssets;
+    public $QuestionAssets;
     public int $QuestionSeed;
     /** @var int[]  */
     public array $QuestionVariants;

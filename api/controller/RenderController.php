@@ -29,8 +29,8 @@ class RenderController
         StackSeedHelper::initializeSeed($question, $data["seed"]);
 
         //handle Pluginfiles
-        $filePrefix = uniqid();
-        StackPlotReplacer::persistPluginfiles($question, $filePrefix);
+        $storePrefix = uniqid();
+        StackPlotReplacer::persistPluginfiles($question, $storePrefix);
 
         $question->initialise_question_from_seed();
 
@@ -60,14 +60,14 @@ class RenderController
             $language
         );
 
-        array_push($plots, ...StackPlotReplacer::replace_plots($renderResponse->QuestionRender, $filePrefix));
+        StackPlotReplacer::replace_plots($plots, $renderResponse->QuestionRender, "render", $storePrefix);
 
         $renderResponse->QuestionSampleSolutionText = $translate->filter(
             $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor),
             $language
         );
 
-        array_push($plots, ...StackPlotReplacer::replace_plots($renderResponse->QuestionSampleSolutionText, $filePrefix));
+        StackPlotReplacer::replace_plots($plots, $renderResponse->QuestionSampleSolutionText, "samplesolution", $storePrefix);
 
         $inputs = array();
         foreach ($question->inputs as $name => $input) {
@@ -80,8 +80,8 @@ class RenderController
             $apiInput->Configuration = $input->renderApiData($question->get_ta_for_input($name));
 
             if(array_key_exists('options', $apiInput->Configuration)) {
-                foreach ($apiInput->Configuration['options'] as &$option) {
-                    array_push($plots, ...StackPlotReplacer::replace_plots($option, $filePrefix));
+                foreach ($apiInput->Configuration['options'] as $key => &$option) {
+                    StackPlotReplacer::replace_plots($plots, $option, "input-".$name."-".$key, $storePrefix);
                 }
             }
 
@@ -91,7 +91,7 @@ class RenderController
         // Necessary, as php will otherwise encode this as an empty array, instead of an empty object
         $renderResponse->QuestionInputs = (object) $inputs;
 
-        $renderResponse->QuestionAssets = $plots;
+        $renderResponse->QuestionAssets = (object) $plots;
 
         $renderResponse->QuestionSeed = $question->seed;
         $renderResponse->QuestionVariants = $question->deployedseeds;

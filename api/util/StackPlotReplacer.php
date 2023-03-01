@@ -4,25 +4,26 @@ namespace api\util;
 
 class StackPlotReplacer
 {
-    public static function replace_plots(&$text, $pluginFilePrefix) {
-        $plots = [];
+    public static function replace_plots(&$plots, &$text, $namePrefix, $storePrefix) {
+        $i = 0;
 
-        preg_match_all('/["\']!ploturl!([\w\-\.]*?)["\']/m', $text, $matches);
-        array_push($plots, ...$matches[1]);
-        preg_match_all('/["\']@@PLUGINFILE@@\/([\w\-\.]*?)["\']/m', $text, $matches);
-        //Add Pluginfiles with prefix
-        array_push($plots, ...preg_filter('/^/', $pluginFilePrefix . '-', $matches[1]));
+        $text = preg_replace_callback('/["\']!ploturl!([\w\-\.]*?)\.(\w+)["\']/m', function ($matches) use (&$i, $namePrefix, &$plots) {
+            $name = $namePrefix . "-" . $i . "." . $matches[2];
+            $plots[$name] = $matches[1]. "." . $matches[2];
+            $i++;
+            return "\"".$name."\"";
+        }, $text);
 
-        $text = str_replace('!ploturl!', '', $text);
-        $text = str_replace('@@PLUGINFILE@@/', $pluginFilePrefix . '-', $text);
-
-        return $plots;
+        $text = preg_replace_callback('/["\']@@PLUGINFILE@@\/([\w\-\.]*?)["\']/m', function ($matches) use ($storePrefix, &$plots) {
+            $plots[$matches[1]] = $storePrefix . "-" . $matches[1];
+            return "\"".$matches[1]."\"";
+        }, $text);
     }
 
-    public static function persistPluginfiles(\qtype_stack_question $question, $pluginFilePrefix) {
+    public static function persistPluginfiles(\qtype_stack_question $question, $storePrefix) {
         global $CFG;
         foreach ($question->pluginfiles as $name => $content) {
-            file_put_contents($CFG->dataroot . '/stack/plots/' . $pluginFilePrefix . '-' . $name, base64_decode($content));
+            file_put_contents($CFG->dataroot . '/stack/plots/' . $storePrefix . '-' . $name, base64_decode($content));
         }
     }
 

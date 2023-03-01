@@ -51,7 +51,7 @@ class GradingController
         }
 
         $plots = [];
-        $filePrefix = uniqid();
+        $storePrefix = uniqid();
         $gradingResponse = new StackGradingResponse();
         $gradingResponse->isGradable = true;
 
@@ -92,7 +92,7 @@ class GradingController
                 \stack_maths::process_display_castext($overallFeedback),
                 $language
             );
-            array_push($plots, ...StackPlotReplacer::replace_plots($gradingResponse->Prts[$index], $filePrefix));
+            StackPlotReplacer::replace_plots($plots, $gradingResponse->Prts[$index], "prt-".$index, $storePrefix);
         }
 
         $score = 0;
@@ -106,9 +106,9 @@ class GradingController
             $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor),
             $language
         );
-        array_push($plots, ...StackPlotReplacer::replace_plots($gradingResponse->SpecificFeedback, $filePrefix));
+        StackPlotReplacer::replace_plots($plots, $gradingResponse->SpecificFeedback, "specificFeedback", $storePrefix);
 
-        $gradingResponse->GradingAssets = $plots;
+        $gradingResponse->GradingAssets = (object) $plots;
 
         $response->getBody()->write(json_encode($gradingResponse));
         return $response->withHeader('Content-Type', 'application/json');

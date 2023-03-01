@@ -620,5 +620,10 @@ class stack_dropdown_input extends stack_input {
         return array('' => $solution);
     }
 
-
+    /**
+     * We return an empty value to ensure the rendering result is stable, even if the content included plots
+     */
+    public function getApiSolutionRender($tadisplay) {
+        return '';
+    }
 }

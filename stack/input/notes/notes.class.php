@@ -219,5 +219,7 @@ class stack_notes_input extends stack_input {
         return new stdClass();
     }
 
-
+    public function getApiSolutionRender($tadisplay) {
+        return '';
+    }
 }

@@ -4,10 +4,12 @@ ARG ENVIRONMENT=production
 #Intermediate step installing dependencies
 FROM composer as composer
 
-WORKDIR /work
+COPY . /work/
 
-COPY ./api/composer.* /work
+WORKDIR /work/api/
+
 RUN composer install
+RUN composer dump-autoload --optimize
 
 #Base Image
 FROM php:8.2-apache AS base
@@ -35,9 +37,13 @@ RUN mkdir -p /var/data/api && \
 COPY ./api/docker/000-default.conf /etc/apache2/sites-available/000-default.conf
 
 COPY ./ /srv/stack
-COPY --from=composer /work/vendor /srv/stack/api/vendor
+COPY --from=composer /work/api/vendor /srv/stack/api/vendor
 
 FROM base as production
+
+COPY ./api/docker/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+RUN docker-php-ext-install opcache && \
+    docker-php-ext-enable opcache
 
 FROM base as development
 

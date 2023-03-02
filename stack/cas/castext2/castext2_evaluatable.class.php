@@ -175,10 +175,9 @@ class castext2_evaluatable implements cas_raw_value_extractor {
 
             $this->compiled = $root->compile($format, $options)->toString(['nosemicolon' => true, 'pmchar' => 1]);
 
-            $err = [];
-            $valid = true;
-            // Check for specials. After compile.
-            // Bring out errors from them.
+            $err = $root->err;
+            $valid = empty($root->err);
+            // Check for specials after compile and bring out errors from them.
             $special = [];
             $specialsearch = function ($node) use (&$special, &$err, &$valid, &$sec) {
                 if ($node instanceof stack_cas_castext2_textdownload) {

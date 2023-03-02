@@ -78,7 +78,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         $ast = $pipeline->filter($ast, $errors, $answernotes, new stack_cas_security());
 
         if (count($errors) > 0) {
-            throw new stack_exception(implode('; ', $errors));
+            $this->err = $errors;
         }
 
         $varref = maxima_parser_utils::variable_usage_finder($ast);

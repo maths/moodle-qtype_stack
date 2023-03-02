@@ -484,7 +484,7 @@ class castext_test extends qtype_stack_testcase {
         $raws = castext2_parser_utils::get_casstrings($raw);
         $session = new stack_cas_session2($raws);
         // Note the session has the compiled castext and extracting the individual
-        // statements from it is not going to happen, so lets merge stuff.
+        // statements from it is not going to happen, so let's merge stuff.
         $kv = $cs1->get_keyval_representation() . "\n" . $session->get_keyval_representation();
         // Note the equation is no longer missing from the keyval representation here.
         $val = "p:diff(sans,x);\nq = int(tans,x);\n1/(1+x^2);\nsin(z^2);";

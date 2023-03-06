@@ -16,7 +16,7 @@
 /**
  * GeoGebra block for STACK
  * derived by jsxGraph STACK implementation
- * @copyright  2022 University of Edinburgh
+ * @copyright  2022-2023 University of Edinburgh
  * @author     Tim Lutz
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -52,21 +52,19 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
         // We need to transfer the parameters forward.
         $r->items[] = new MP_String(json_encode($this->params));
 
-        /*
-         * TODO: reinstate this section....
-        // Section geogebraset.
         if (isset($this->params['set'])) {
             // Opening the parameter area geogebraset.
-            $r .= ',["geogebraset"';
-            // Validate below needs to be adjusted.
+            $r2 = new MP_List([new MP_String('geogebraset')]);
             $setvars = explode(',', $this->params['set']);
 
             foreach ($setvars as $geogebraname) {
-                while ($this->str_ends_with($geogebraname, '__fixed')
-                ||$this->str_ends_with($geogebraname, '__preserve')
-                ||$this->str_ends_with($geogebraname, '__hide')
-                ||$this->str_ends_with($geogebraname, '__show')
-                ||$this->str_ends_with($geogebraname, '__novalue')) {
+                while (
+                    $this->str_ends_with($geogebraname, '__fixed') ||
+                    $this->str_ends_with($geogebraname, '__preserve') ||
+                    $this->str_ends_with($geogebraname, '__hide') ||
+                    $this->str_ends_with($geogebraname, '__show') ||
+                    $this->str_ends_with($geogebraname, '__novalue')
+                ) {
                     if ($this->str_ends_with($geogebraname, '__fixed')) {
                         // Assuming: point must not be interactable by the user.
                         $geogebraname = substr($geogebraname, 0, -7);
@@ -88,15 +86,19 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
                         $geogebraname = substr($geogebraname, 0, -9);
                     }
                 }
-                $r .= ',[' . stack_utils::php_string_to_maxima_string($geogebraname) . ", string($geogebraname)]";
+                $r2->insertChild(
+                        new MP_List([
+                                    new MP_String(stack_utils::php_string_to_maxima_string($geogebraname)),
+                                    new MP_FunctionCall(new MP_Identifier('string'),[new MP_Identifier($geogebraname)])
+                                    ])
+                );
             }
+            $r->insertChild($r2);
             // Closing the geogebraset parameter area.
-            $r .= ']';
         }
         // Section geogebraset end.
 
-        // We could add more sections like the one above here.
-        */
+
 
         foreach ($this->children as $item) {
             // Assume that all code inside is JavaScript and that we do not
@@ -125,16 +127,24 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
             // Nothing at all.
             return '';
         }
-        $parameters = json_decode($params[1][0], true);
+        $parameters = json_decode($params[1], true);
 
         $content = '';
-        for ($i = 2; $i < count($params); $i++) {
+        if(array_key_exists('set', $parameters)){//nachtraeglich hinzugefuegt
+        $starticount=3;
+        }
+           else{
+           $starticount=2;
+
+           }
+           for ($i = $starticount; $i < count($params); $i++) {
             if (is_array($params[$i])) {
                 $content .= $processor->process($params[$i][0], $params[$i]);
             } else {
                 $content .= $params[$i];
             }
         }
+
 
         $divid = 'stack-geogebra-' . self::$countgraphs;
         $width = '500px';
@@ -209,6 +219,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
         // must be named lowercase Latin-Alphabet, values are radian values))
         // (assumes: Point-names are starting with upper case letters).
         // (assumes: Points will be set free to manipulate, unless you add '__fixed' to the Point-name).
+
         if (array_key_exists('set', $parameters)) {
             $set = $parameters['set'];
 
@@ -217,12 +228,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
                 self::$countgraphs .
                 "(){
                 var appletObject = applet.getAppletObject();\n";
-            /*  $setcode .= "alert('".addslashes($params[0])."');";
-                $setcode .= "alert('".addslashes($params[1][0])."');";
-                $setcode .= "alert('".addslashes($params[1][1][0])."');";//hier sollte geogebraset stehen//Yabadabadoo.
-                $setcode .= "alert('".addslashes($params[1][1][1][0])."');";//hier weiter//liefert Afixed
-                $setcode .= "alert('".addslashes($params[1][1][1][1])."');";//hier weiter//liefert Afixed den Value
-            */
+
             // In params $params[1][0] befindet sich der json String der
             // wie in jsx Graph für allgemeine Graphikoptionen erzeugt wird
             // in $params[1][1] befindet sich der Bereich geogebraset.
@@ -234,9 +240,11 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
             // which names are used in set.
             $geogebranamesetcode = '';
             $setarray = str_getcsv($set);
+
+            
             foreach ($setarray as $geogebraname) {
                 // Get value of params array in section geogebraset ->params[1][1].
-                $geogebraname_nosuffix = clone $geogebraname;
+                $geogebraname_nosuffix = $geogebraname;
                 $set_fixed = false;
                 $set_preserve = false;
                 $set_hide = false;
@@ -315,22 +323,24 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
                     }
                 }
 
-                for ($i = 0; $i < count($params[1][1]); $i++) {
+                for ($i = 1; $i < count($params[2]); $i++) {
                     // Param section of "geogebraset".
-                    if ($geogebraname_nosuffix == $params[1][1][$i][0]) {
-                        $geogebravalue = $params[1][1][$i][1];
+                    if ('"'.$geogebraname_nosuffix.'"' == $params[2][$i][0]) {
+                        $geogebravalue = $params[2][$i][1];
                         break;
                     }
                 }
+
                 // Decoding values in params for $geogebraname object.
                 $ggbcoords = json_decode($geogebravalue, true);
+                //echo "<script type='text/javascript'>alert('".$params[2][1][1]."');</script>";
 
                 //section for setting values according to suffix
                 if (ctype_upper(substr($geogebraname_nosuffix, 0, 1))) {
                     // Assuming geogebraname is the (therefore uppercased) name of an object of type: point.
                     if ($set_fixed) {
                         // Assuming point must not be interactable by the user.
-                        // appletObject.evalCommand('POINTNAME= Point({XCOORD,YCOORD})
+                        // appletObject.evalCommand('POINTNAME= xPoint({XCOORD,YCOORD})
                         // Removing __fixed (7 characters).
                         $geogebranamesetcode .=
                             "appletObject.evalCommand('" .
@@ -346,7 +356,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
                         $geogebranamesetcode .=
                             "appletObject.evalCommand('SetCoords(" .
                             $geogebraname_nosuffix .
-                            ',(' .
+                            ',' .
                             $ggbcoords[0] .
                             ',' .
                             $ggbcoords[1] .
@@ -375,8 +385,8 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
                             "appletObject.evalCommand('SetValue(" .
                             $geogebraname_nosuffix .
                             ',' .
-                            $ggbcoords[0] .
-                            "');";
+                            $ggbcoords .
+                            ")');";
                     } elseif ($set_novalue) {
                         //assuming value should not be set, useful when using __show/ __hide
                         $geogebranamesetcode .= '';
@@ -411,11 +421,13 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
             }
             $setcode = "$setcode\n};";
             $code = "$setcode\n$code";
+             
         } else {
             $setcode =
                 'function initialgeogebraset' . self::$countgraphs . '(){};';
             $code = "$setcode\n$code";
         }
+            
         // Section GeoGebra watch.
 
         if (array_key_exists('watch', $parameters)) {

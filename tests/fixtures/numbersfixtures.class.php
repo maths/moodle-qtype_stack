@@ -58,6 +58,10 @@ class stack_numbers_test_data {
             array("(00.00)", 2, 2, 2, '"~,2f"', '0.00'),
             // Unary minus should be stripped off.
             array("-(12.000)", 5, 5, 3, '"~,3f"', '-12.000'),
+            // Deal with expressions.
+            array("1/-12.00", 1, 1, 0, '"~a"', '1/-12'),
+            array("e+4.3^k", 2, 2, 1, '"~,1f"', '%e+4.3^k'),
+            array("e+4.3e21^k", 2, 2, 1, '"~,1e"', '%e+4.3^k'),
     );
 
     // Use the format array("string", lower, upper, decimal places).

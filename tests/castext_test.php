@@ -1662,6 +1662,35 @@ class castext_test extends qtype_stack_testcase {
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
      */
+    public function test_stack_simp_false_castext() {
+        // Check all the forms raised in issue #849.
+        $a2 = array('p1:1+1');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at1 = castext2_evaluatable::make_from_source('Confirm simplification is on: {@p1@}.  ' .
+            'Unsimplified {@3/9,simp=false@}, still on: {@4+5@}.  ' .
+            'Switch off {@(simp:false, 1+1)@}, still off: {@4+5@}. ' .
+            'Switch off and on: [[define simp="false" /]] {@2+3@}; [[define simp="true" /]] {@2+3@}.', 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+
+        $this->assertEquals('Confirm simplification is on: \({2}\).  ' .
+            'Unsimplified \({\frac{3}{9}}\), still on: \({9}\).  ' .
+            'Switch off \({1+1}\), still off: \({4+5}\). Switch off and on:  \({2+3}\);  \({5}\).',
+            $at1->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_ast_container
+     */
     public function test_stack_beta_function_arg() {
         $a2 = array('n:1932;',
                 'f(alfa):=block(x:ifactors(alfa), y:makelist(0,length(x)), ' .

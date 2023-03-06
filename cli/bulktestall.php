@@ -105,9 +105,9 @@ foreach ($contexts as $contextid => $numstackquestions) {
     echo "\n\n# " . $contextid . ": " . stack_string('bulktesttitle', $testcontext->get_context_name());
 
     if ($partialcontext === $contextid) {
-        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'cli', (int) $options['id']);
+        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, null, 'cli', (int) $options['id']);
     } else {
-        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'cli', false);
+        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, null, 'cli', false);
     }
 
     $allpassed = $allpassed && $passed;

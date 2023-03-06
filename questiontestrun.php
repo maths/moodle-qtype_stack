@@ -156,16 +156,21 @@ $chatparams['cas'] = $question->generalfeedback;
 $chatlink = new moodle_url('/question/type/stack/adminui/caschat.php', $chatparams);
 
 $links = array();
-$links[] = html_writer::link($questionbanklink, stack_string('seethisquestioninthequestionbank'));
 if ($canedit) {
-    $links[] = html_writer::link($questionbanklinkedit, stack_string('editquestioninthequestionbank'));
-    $links[] = html_writer::link($chatlink, stack_string('sendgeneralfeedback'));
-    $links[] = html_writer::link($exportquestionlink, stack_string('exportthisquestion')) .
-        $OUTPUT->help_icon('exportthisquestion', 'qtype_stack');
+    $links[] = html_writer::link($questionbanklinkedit, stack_string('editquestioninthequestionbank'),
+        array('class' => 'nav-link'));
+}
+$links[] = html_writer::link($questionbanklink, stack_string('seethisquestioninthequestionbank'),
+    array('class' => 'nav-link'));
+if ($canedit) {
+    $links[] = html_writer::link($chatlink, stack_string('sendgeneralfeedback'), array('class' => 'nav-link'));
+    $links[] = html_writer::link($question->qtype->get_tidy_question_url($question),
+        stack_string('tidyquestion'), array('class' => 'nav-link'));
+    $links[] = html_writer::link($exportquestionlink, stack_string('exportthisquestion'), array('class' => 'nav-link'));
 }
 $links[] = html_writer::link(new moodle_url('/question/type/stack/questiontestreport.php', $urlparams),
-    stack_string('basicquestionreport')) . $OUTPUT->help_icon('basicquestionreport', 'qtype_stack');
-echo html_writer::tag('p', implode(' | ', $links));
+    stack_string('basicquestionreport'), array('class' => 'nav-link'));
+echo html_writer::tag('nav', implode(' ', $links), array('class' => 'nav'));
 
 flush();
 

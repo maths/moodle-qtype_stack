@@ -937,7 +937,12 @@ class stack_ast_container_silent implements cas_evaluatable {
                 $decimalplaces++;
             }
             if (strtolower($c) == 'e') {
-                $scientificnotation = true;
+                if (($meaningfulldigits + $leadingzeros + $indefinitezeros) > 0) {
+                    $scientificnotation = true;
+                } else {
+                    // If it is an `e` that exists before some numbers skip it.
+                    continue;
+                }
             }
             if ($c == '0') {
                 if ($meaningfulldigits == 0) {
@@ -962,7 +967,8 @@ class stack_ast_container_silent implements cas_evaluatable {
             } else if (ctype_digit($c)) {
                 $meaningfulldigits += $indefinitezeros + 1;
                 $indefinitezeros = 0;
-            } else {
+            } else if ($meaningfulldigits + $leadingzeros + $indefinitezeros > 0) {
+                // If we have seen any digits, before seeing something unexpected, we stop.
                 break;
             }
         }

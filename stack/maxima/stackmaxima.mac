@@ -1157,7 +1157,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /**********************************************************/
     /* Remove from option list ral any non-permitted options. */
     kill(y),
-    permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics],
+    permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics, adapt_depth],
     /* In the case the list of variables is empty we need to add in "x" so the constant functions can be plotted. */
     if not(emptyp(lvs)) then permitted_options:append([first(lvs)], permitted_options)
     else  permitted_options:append([x], permitted_options),
@@ -1192,7 +1192,6 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /* Add in the command for the grid. */
     if plotgrid2d and MAXIMA_VERSION_NUM>34 then
         ral: append(ral, [grid2d]),
-    /* Note, the axes option in Maxima doesn't seem to work.... */
     if not(PLOT_TERMINAL="svg") then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, psize, "
 set output ", afn),
     /* Gnuplot only allows alpha-numeric characters in the plot name, so not even spaces!  This is a problem with the string function. */
@@ -2439,7 +2438,7 @@ irred_Q(p, v) := block([ret,deg,cl,ci],
 
 /* Picks apart an expression and gives some feedback */
 /* on why this is not a factored expression.         */
-FacForm_UnPick(SA, SO) := block([negdistrib, partswitch, fb, kloop, irred, res],
+FacForm_UnPick(SA, SO) := block([negdistrib, partswitch, fb, kloop, irred, res, end],
   negdistrib:false,
   partswitch:true,
   fb:"",
@@ -2980,7 +2979,7 @@ strip_int_const(ex, v) := block([ex2,fargs],
 /* sa is the students' answer,                                      */
 /* sbl is a list consisting of (1) the answer, and (2) the variable */
 /********************************************************************/
-ATInt(sa, sb, so) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sbdisp, ret, cont, constint, atoptions],
+ATInt(sa, sb, so) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, AnswerNote, var, sbdisp, ret, cont, constint, acceptformal, atoptions],
     oldsimp:simp,
     simp:false,
     Validity:true, RawMark:false,
@@ -2988,6 +2987,8 @@ ATInt(sa, sb, so) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, Ans
     keepfloat:true,
     /* Should we be fussy about the constant of integration? */
     constint:true,
+    /* Should we accept formal derivatives? */
+    acceptformal:false,
     /* How to display the teacher's answer? */
     sbdisp:[],
 
@@ -3012,6 +3013,7 @@ ATInt(sa, sb, so) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, Ans
     */
     if listp(var) then block(
         atoptions:ATIntOptions(var),
+        if debug then print("Options: ", atoptions),
         if not(equal(first(atoptions), "")) then block(
             print("TEST_FAILED"),
             cont:false,
@@ -3021,7 +3023,8 @@ ATInt(sa, sb, so) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, Ans
         ),
         var:second(atoptions),
         constint:third(atoptions),
-        sbdisp:fourth(atoptions)
+        acceptformal:fourth(atoptions),
+        sbdisp:fifth(atoptions)
     ),
 
     /* If we haven't explicitly got a displayed expression for feedback then generate one. */
@@ -3030,46 +3033,49 @@ ATInt(sa, sb, so) := block([oldsimp, keepfloat, Validity, RawMark, FeedBack, Ans
 
     ret:[true, RawMark, AnswerNote, FeedBack],
 
-    /*print([sa, sb, sbdisp, constint, var, cont]),*/
+    /* print([sa, sb, sbdisp, constint, var, cont]),*/
     /* SA should be only an expression. */
     if expressionp(sa)=false then
         return([false, false, StackAddNote("", "ATInt_SA_not_expression"), StackAddFeedback("", "ATAlgEquiv_SA_not_expression")])
     else block(
         keepfloat:true,
-        ret:Intfun(sa, sb, sbdisp, constint, var)
+        ret:Intfun(sa, sb, sbdisp, constint, acceptformal, var)
         ),
     simp:oldsimp,
     return(ret)
     )$
 
 /* This function sorts out the possible option combinations for the answer test, checks them and
-   returns them in a known consistent way. */
+   returns them in a known consistent way.
+   Options currently are as follows:
+   [NOCONST, FORMAL, spdisp]
+   where
+     NOCONST = true or false.  Are we strict in requiring a constant of integration?
+     FORMAL = true or false.  Are allow anything which is the formal derivative.
+     sbdisp = ?, any expression which the teacher wants to display instead of an auto-generated derivative of the teacher's answer.
+   Other options can be added as needed.
+   */
 ATIntOptions(opts) := block([note, var, atopts, optdefaults],
     note:"",
     /* Add in default values for the options here. See ATIntOptionsHelper for details.*/
-    optdefaults:[true,[]],
-    if emptyp(opts) or not(is(length(opts)<4)) then return(["ATInt_STACKERROR_OptList", x, 0, true]),
+    optdefaults:[true, false, []],
+    if emptyp(opts) or not(is(length(opts)<5)) then return(["ATInt_STACKERROR_OptList", x, 0, true]),
     var:first(opts),
-    atopts:ATIntOptionsHelper(rest(opts), optdefaults),
-    return(append([note, var], atopts))
+    atopts:setify(rest(opts)),
+    if elementp(NOCONST, atopts) then block(
+        atopts:setdifference(atopts,{NOCONST}),
+        optdefaults[1]:false
+    ),
+    if elementp(FORMAL, atopts) then block(
+        atopts:setdifference(atopts,{FORMAL}),
+        optdefaults[2]:true
+    ),
+    /* If there is a display expression, then use it. */
+    if not(emptyp(atopts)) then optdefaults[3]:first(listify(atopts)),
+    return(append([note,var], optdefaults))
 )$
 
-/* The second argument to this function is a list of all options in a *known order*.
-   We recurse over the list updating these.  We seed the function with defualt values.
-   Options currenty are as follows:
-   [NOCONST, spdisp]
-   where
-     NOCONST = true or false.  Are we strict in requiring a constant of integration?
-     sbdisp = ?, any expression which the teacher wants to display instead of an auto-generated derivative of the teacher's answer.
-   Other options can be added as needed.
-*/
-ATIntOptionsHelper(in, out) := block(
-  if emptyp(in) then return(out),
-  if is(first(in)=NOCONST) then return(ATIntOptionsHelper(rest(in), append([false], rest(out)))),
-  return(ATIntOptionsHelper(rest(in), [first(out), first(in)]))
-)$
-
-Intfun(SA, SB, SBdisp, constint, var) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,SBraw,saa,dd,dc,lSAv,lSBv,mSAv,mSBv,SAConsistentLogs,SAUsedLogAbs,SBUsedLogAbs],
+Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,fb,ret,ex,SAd,SBd,SBraw,saa,dd,dc,lSAv,lSBv,mSAv,mSBv,SAConsistentLogs,SAUsedLogAbs,SBUsedLogAbs],
     val:true, rawmk:false, fb:"", ansnote:"",
     ret:[val, rawmk, ansnote, fb],
     /* Check if the teacher and student used only log abs.
@@ -3136,7 +3142,7 @@ Intfun(SA, SB, SBdisp, constint, var) := block([val,rawmk,ansnote,fb,ret,ex,SAd,
         else if freeof(var, ex) and not(ATIntWeirdConstp(ex, var)) then
             (rawmk:true, ansnote:StackAddNote("", "ATInt_true_differentconst"))
         else
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_EqFormalDiff"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
+            (rawmk:acceptformal, fb:StackAddFeedback("", "ATInt_EqFormalDiff"), ansnote:StackAddNote("", "ATInt_EqFormalDiff"))
     ) else /* Check for the special cases where the buggy rule is true. */
        if ev(algebraic_equivalence(SAa, ev(diff(SBd, var), simp)), simp) and ev(algebraic_equivalence(exp(x), SBd), simp)#true then
            (rawmk:false, fb:StackAddFeedback("", "ATInt_diff"), ansnote:StackAddNote("", "ATInt_diff"))

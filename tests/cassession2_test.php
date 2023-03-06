@@ -2545,6 +2545,51 @@ class cassession2_test extends qtype_stack_testcase {
         }
     }
 
+    public function test_cartesian_product() {
+
+        $cases = array();
+        $cases[] = array('cartesian_product({1, 2}, {3, 4})',
+            '{[1,3],[1,4],[2,3],[2,4]}');
+
+        $s1 = array();
+        foreach ($cases as $k => $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), array());
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $session = new stack_cas_session2($s1, $options, 0);
+        $this->assertTrue($session->get_valid());
+
+        $session->instantiate();
+        $this->assertTrue($session->is_instantiated());
+        foreach ($cases as $k => $case) {
+            $this->assertEquals($case[1], $s1[$k]->get_value());
+        }
+    }
+
+    public function test_keyword_end() {
+
+        $cases = array('v1: (-x^2+1)/(x^2+1)^2', 'v2: 1/(x^2+1)-(2*x^2)/(x^2+1)^2', 'end:3',
+            't1:ATAlgEquiv(v1, v2)', 'v3:end^2');
+
+        $s1 = array();
+        foreach ($cases as $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case, '', new stack_cas_security(), array());
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $session = new stack_cas_session2($s1, $options, 0);
+        $this->assertTrue($session->get_valid());
+
+        $session->instantiate();
+        $this->assertTrue($session->is_instantiated());
+        $v3 = $session->get_by_key('v3');
+        $this->assertEquals('9', $v3->get_value());
+        $t1 = $session->get_by_key('t1');
+        $this->assertEquals('[true,true,"",""]', $t1->get_value());
+
+    }
+
     public function test_stackmaximaversion() {
         // This test ensures that we are not running against different
         // version number of the STACK-Maxima scripts. For example,

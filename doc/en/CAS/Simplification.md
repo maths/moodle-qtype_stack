@@ -70,9 +70,6 @@ will give \(a=2\).
 Sometimes it is useful to control the level of simplification applied to expressions included within [CASText](../Authoring/CASText.md) using `{@...@}`.
 In particular, to show steps in working, it is often necessary to turn simplification off.
 
-Note that it is not possible to reliably control the value of `simp` within the CAS expression itself: for instance, `{@(simp:false,1+1)@}` will display as \(2\) if `simp` is set to `true` at the question level.
-(This is because of the way STACK assembles all the CASText code into a single Maxima call.)
-
 To selectively control simplification within CASText (including the general feedback), you can use the following methods:
 
 1. Set `simp:false` in the question options, or at the end of your question variables. That way all expressions in the CASText will be unsimplified, but you can use `{@ev(...,simp)@}` to simplify selectively.
@@ -88,6 +85,11 @@ To selectively control simplification within CASText (including the general feed
 \({@3/9@} \neq {@1+1@}\)
 ```
 will produce \(\frac{3}{9}\neq1+1\) followed by \(\frac{1}{3}\neq2\).
+4. Switch simplification
+```
+{@(simp:false,3/9)@}
+```
+This command sets the value of `simp` for this expression, and all others which follow, much like the define block above.
 
 ## Unary minus and simplification
 

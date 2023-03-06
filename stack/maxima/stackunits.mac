@@ -99,6 +99,8 @@ stack_unit_si_to_si_base(expression) := block([ui, pfi, ex, workex, oldsimp],
   oldsimp:simp,
   simp:false,
   ex:stackunits_make(expression),
+  /* Remove intert dp/df display functions at this point. */
+  ex:ev(ex, displaydp=lambda([a,b],a),  displaysf=lambda([a,b],a)),  
   workex:stack_units_units(ex),
   if debug then (print("stack_unit_si_to_si_base: working with the following."), print(ex), print(workex)),
   /* If we don't have units there is nothing to do. */
@@ -429,7 +431,7 @@ ATUnitsSigFigs_CASSigFigsWrapper(SA, SB, SO, SR, strict) := ATUnitsFun(SA, SB, S
 ATUnitsRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, "", false, "Relative")$
 ATUnitsStrictRelative(SA, SB, SO) := ATUnitsFun(SA, SB, SO, "", true, "Relative")$
 ATUnitsAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, "", false, "Absolute")$
-ATUnitsStrictAbsolute(SA, SB, SO, SR) := ATUnitsFun(SA, SB, SO, SR, true, "Absolute")$
+ATUnitsStrictAbsolute(SA, SB, SO) := ATUnitsFun(SA, SB, SO, "", true, "Absolute")$
 
 
 /* This function has two options:

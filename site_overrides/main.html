@@ -13,7 +13,7 @@
   </script>
 {% endblock %}
 
-<!--Override basic header-->
+ <!--Override basic header -->
 {% block header %}
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="{{ lang.t('header.title') }}">
@@ -24,13 +24,13 @@
     <label class="md-header__button md-icon" for="__drawer">
       {% include ".icons/material/menu" ~ ".svg" %}
     </label>
-    <!--Make site title permament-->
+    <!--Make site title permament -->
     <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis md-header__topic md-ellipsis">
-        {{ config.site_name }}
+      <div class="md-header__ellipsis md-ellipsis">
+        <b>{{ config.site_name }}</b>
       </div>
     </div>
-     {% if "search" in config["plugins"] %}
+     {% if "material/search" in config.plugins %}
       <label class="md-header__button md-icon" for="__search">
         {% include ".icons/material/magnify.svg" %}
       </label>

@@ -232,6 +232,13 @@ function qtype_stack_setup_question_test_page($question) {
     } else {
         require_login();
         $context = $question->get_context();
+        if ($context->contextlevel == CONTEXT_MODULE) {
+            $urlparams['cmid'] = $context->instanceid;
+        } else if ($context->contextlevel == CONTEXT_COURSE) {
+            $urlparams['courseid'] = $context->instanceid;
+        } else {
+            $urlparams['courseid'] = SITEID;
+        }
         $PAGE->set_context($context);
         // Note that in the other cases, require_login will set the correct page context.
     }

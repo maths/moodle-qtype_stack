@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  maxima:
+    image: mathinstitut/goemaxima:2023010400-latest
+    tmpfs:
+      - "/tmp"
+    restart: unless-stopped
+    cap_add:
+      - SETGID
+      - SETUID
+    cap_drop:
+      - ALL
+    environment:
+      GOEMAXIMA_QUEUE_LEN: 32
+    read_only: true
+  php:
+    image: registry.dynexite.rwth-aachen.de/dynexite/stack/stack-php
+    build:
+      context: ./../../
+      dockerfile: ./api/docker/php/Dockerfile
+      target: production
+    volumes:
+      - plots:/var/data/api/stack/plots
+    restart: unless-stopped
+  web:
+    image: registry.dynexite.rwth-aachen.de/dynexite/stack/stack-web
+    volumes:
+      - plots:/var/www/plots
+    ports:
+      - '3080:80'
+
+volumes:
+  plots:

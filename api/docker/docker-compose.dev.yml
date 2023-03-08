@@ -11,14 +11,20 @@ services:
     cap_drop:
       - ALL
     read_only: true
-  stack:
+  php:
     build:
-      context: .
-#Uncomment the next lines for a development setup
-#       args:
-#        ENVIRONMENT: development
-#     volumes:
-#      - ./:/srv/stack
+      context: ./../../
+      dockerfile: ./api/docker/php/Dockerfile
+      target: development
+    volumes:
+      - plots:/var/data/api/stack/plots
+      - ../../:/srv/stack
     restart: unless-stopped
+  web:
+    volumes:
+      - plots:/var/www/plots
     ports:
-      - 3080:80
+      - '3080:80'
+
+volumes:
+  plots:

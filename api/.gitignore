@@ -1,1 +1,4 @@
 /vendor/
+/profiles/cachegrind.out.7
+/profiles/cachegrind.out.8
+/profiles/cachegrind.out.9

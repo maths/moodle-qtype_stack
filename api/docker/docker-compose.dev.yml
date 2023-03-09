@@ -16,11 +16,15 @@ services:
       context: ./../../
       dockerfile: ./api/docker/php/Dockerfile
       target: development
+#       target: profiling
     volumes:
       - plots:/var/data/api/stack/plots
       - ../../:/srv/stack
+      - ../profiles:/profiles
     restart: unless-stopped
   web:
+    build:
+      context: ./nginx
     volumes:
       - plots:/var/www/plots
     ports:

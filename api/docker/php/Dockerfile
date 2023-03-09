@@ -42,6 +42,10 @@ RUN apk add g++ make autoconf linux-headers && \
     pecl install xdebug && \
     docker-php-ext-enable xdebug
 
+FROM development as profiling
+
+COPY /api/docker/php/files/xdebug-profile.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
 FROM base as production
 
 #Enable opcache extension in production

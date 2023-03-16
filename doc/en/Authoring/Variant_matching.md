@@ -7,7 +7,7 @@ Some teachers regularly want to create "random groups" with questions based on e
 1. Multi-input questions keep all the information inside one STACK question.  This encapsulation is ideal for clarity of the relationship between parts/questions and sharing a single "STACK question", but questions quickly become complex to maintain.  When questions are only weakly linked this can also look strange.
 2. Variant matching allows separate questions to synchronise random variables.  However, the question author is now responsible for making sure their questions actually match!
 
-_There is currently no way to formally record that two or more questions enjoy variant matching._  In particular there is no way two questions can share a fragment of question variables, question notes, or a pool of seeds!  This makes variant matching currently rather fragile for long-term support.
+_There is currently no way to formally record that two or more questions enjoy variant matching within the questions._  In particular, there is no way two questions can share a fragment of question variables, question notes, or a pool of seeds!  This makes variant matching currently rather fragile for long-term support.
 
 To create matched variants, create two or more STACK questions in the normal way.
 

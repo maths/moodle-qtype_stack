@@ -52,7 +52,7 @@ assumes: Point-names are starting with upper case letters
 
 ## Using the "set" sub-tag
 With the "set" sub-tag you can set a GeoGebra object point or value to a STACK-calculated value
-assumes: Points will be set free to manipulate, unless you add '__fixed' to the Point-name
+assumes: Points will be set free to manipulate, unless you add '__fixed' or other double-underscore-tags to the Point-name. A full list of available options see "set: double-underscore-tags in the "advanced use-cases"-section.
 angles can not be set directly, set points instead
 
 ### minimal example
@@ -107,7 +107,54 @@ question text:
 
 remember input must be of type string, and can not be used to calculate values in STACK feedback for now. remember is for easy restoring purposes.
 
-## Using commands inside `[[geogebra]][[/geogebra]]`
+## Advanced use-cases
+
+### set: double-underscore-tags
+
+The set sub-tag allows more control over setting objects:
+
+#### "preserve" keyword
+
+If you want to preserve GeoGebra definitions of points or values when setting them add the __preserve keyword to that object.
+
+##### Common example: "Points on objects"
+
+"A" should be a GeoGebra-Point on an object, like A is a point on the circle B
+When you set A like:
+set ="A", the definition of A will be overwritten by default.
+When you set A like:
+set="A__preserve"
+"A__preserve" will preserve that A is a Point on B and tries to set A near to your STACK variable A but on the circle.
+
+##### Common example: "Sliders"
+
+"a" should be a GeoGebra-value controlled by a slider ranging from -5 to 5
+When you set a like:
+set = "a", the definition of a will be overwritten, e.g. if the STACK variable a is 10, after initialization a is 10 in GeoGebra.
+When you set a like:
+set = "a__preserve"
+"a__preserve" will preserve that a is in range -5 to 5. If you set a in STACK to 10, a in GeoGebra will be set to the nearest value, in this example a will be 5 in GeoGebra.
+
+#### hide and show keyword
+
+If you want to set and hide a value add the __hide or __show keyword
+set="a__hide" -> set and hide
+set="a__show" -> set and show
+
+
+#### Multiple keywords
+
+A__hide__fixed->set A as a fixed point and hide it.
+A__fixed__hide-> keyword order is not relevant, set A as a fixed point and hide it.
+
+-special keyword novalue
+the GeoGebraobject value should not be set, this keyword is helpful, if you just want to hide or show something, see "multiple keywords"
+
+set="A__hide__novalue"->hide A, but do not set A
+
+set="A_hide_novalue" watch="A" -> watch A, but hide it and do not set it.
+
+### Using commands inside `[[geogebra]][[/geogebra]]`
 
 You can use the following commands inside the geogebra tag if the sub tags cant fit your task idea:
 
@@ -116,7 +163,7 @@ You can use the following commands inside the geogebra tag if the sub tags cant 
 * `stack geogebra_bind_value_to_remember_JSON(args)`
 * `stack geogebra_bind_point_to_remember_JSON(args)`
 
-### minimal example
+#### minimal example
 
     [[geogebra input-ref-stateStore="stateRef" set="b" watch="B"]]
     params["material_id"]="AEAVEqPy";

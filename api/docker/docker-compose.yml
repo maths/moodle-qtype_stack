@@ -26,6 +26,7 @@ services:
     image: registry.dynexite.rwth-aachen.de/dynexite/stack/stack-web
     volumes:
       - plots:/var/www/plots
+    restart: unless-stopped
     ports:
       - '3080:80'
 

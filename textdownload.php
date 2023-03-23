@@ -78,7 +78,7 @@ if (!(stack_user_can_view_question($question) || $USER->id === $usageuser)) {
 \core\session\manager::write_close();
 
 // Make sure that the cache is good, as this is one of those places where
-// the identifier for the cached item comes from outside we cannot
+// the identifier for the cached item comes from outside and we cannot
 // cannot directly ask for it as that would allow people to force the cache
 // to be regenerated.
 
@@ -106,7 +106,7 @@ $ses->add_statement($ct);
 if (!$ses->get_valid()) {
     header('HTTP/1.0 500 Internal Server Error');
     header('Content-Type: text/plain;charset=UTF-8');
-    echo 'Unknown issue related to the generation of this data';
+    echo 'Unknown issue related to the generation of this data.';
     die();
 }
 

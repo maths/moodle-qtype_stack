@@ -39,7 +39,7 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
 
     public function compile($format, $options): ?MP_Node {
         if (!isset($options['in main content']) || !$options['in main content']) {
-            throw new stack_exception('CASText2 textdownload currently only supportted in question-text / scene-text.');
+            throw new stack_exception('CASText2 textdownload is currently only supported in question-text / scene-text.');
         }
 
         $format = castext2_parser_utils::RAWFORMAT;

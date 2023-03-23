@@ -2045,5 +2045,19 @@ class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
 
         $this->assertEquals("\"A,B\n1.24,1.34\n2.23,4.56\"", $at2->get_rendered());
+
+        $vars = 'S1:stack_csv_formatter([[1.24,1.34],[2.23,4.56]],[A,B]);';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@S1@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        // We currently strip out newlines in the LaTeX representation of strings.
+        // This does not matter in LaTeX but does in other uses, such as download.
+        $this->assertEquals("A,B1.24,1.342.23,4.56", $at2->get_rendered());
     }
 }

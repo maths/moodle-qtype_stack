@@ -142,7 +142,7 @@ function stack_docs_render_markdown($page, $preprocess = true) {
         // Don't process the auto-generated answer test output.
         $page = stack_maths::pre_process_docs_page($page);
     }
-    $page = format_text($page, FORMAT_MARKDOWN, array('filter' => false, 'noclean' => true));
+    $page = format_text($page, FORMAT_MARKDOWN, array('filter' => false));
     $page = stack_maths::post_process_docs_page($page);
     return $page;
 }

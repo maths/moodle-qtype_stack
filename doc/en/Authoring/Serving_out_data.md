@@ -51,6 +51,6 @@ data: makelist([rand(322)/100.0,rand(600)/100.0,rand(300)/100.0], i, 50);
 ```
 [[comment]]Use them like this in the question-text.[[/comment]]
 Load the data from 
-<a href="[[textdownload name="data.csv"]]{@["%root",stack_csv_formatter(data,lab)]@}[[/textdownload]]">this file</a> and ...
+<a href="[[textdownload name="data.csv"]]{@stack_csv_formatter(data,lab)@}[[/textdownload]]">this file</a> and ...
 ```
 That function returns a string and it takes in the data as a matrix or a list of lists and labels as a list. If no labels are necessary use `false`. Also you can use `stackfltfmt` to control the representation of pure floats in the data. Just in case you meet trouble `labels` is a keyword that cannot be used which is a shame when defining labels.

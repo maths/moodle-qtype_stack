@@ -315,8 +315,8 @@ return(bool1))$
 /* STACK csv-helpper special tool for file output generation.
  * Generates a string in CSV format of a list of lists or a matrix
  * with an optional list of labels
- * Will use normal grind/string style value form output but will return string
- * values without Maxima style escapes. Special handling for pure float
+ * Will use normal grind/string style value form output but will return a castext list ["%root", ...]
+ * with values without Maxima style escapes. Special handling for pure float
  * values, with them will use `stackfltfmt` to tune display.
  * Uses "-wrapped strings when need be and picks , or ; as the separator
  * based on how many values would need to be wrapped.

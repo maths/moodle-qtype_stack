@@ -234,12 +234,10 @@ stackjson_stringify(obj) := block([tmp,r,l],
 
 
 /**
- * Special tools for dealing with CASText2, absolutely no use
- * if you are not running a system with CASText2.
+ * Special tools for dealing with CASText2.
  *
- * Even if you have CASText2 enabled system these tools are very
- * advanced and probably not for a novice author. Essenttially,
- * these are useful if one generates CASText2 values inside
+ * These tools are very advanced and probably not for a novice author.
+ * Essentially, these are useful if one generates CASText2 values inside
  * keyval-fields and/or stores them into the state in Stateful.
  * The only real use for a raw CASText2 value is to be outputted
  * by the castext-block within castext itself.
@@ -400,8 +398,9 @@ stack_csv_formatter(_data, _labels) := block([_sep,simp,_out,_rowcount,_sepcount
  /* Now let's join everything up. */
  _out: maplist(lambda([_row], simplode(_row, _sep)), _out),
  _out: simplode(_out,"
-")
+"),
  /* We might want to add a line change to the end. */
+ return(["%root", _out])
 )$
 
 

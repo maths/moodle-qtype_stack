@@ -188,6 +188,33 @@ $questionvariablevalues = $question->get_question_session_keyval_representation(
 
 // Load the list of test cases.
 $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
+if (empty($testscases) && $canedit) {
+    // Add in a default test case and give it full marks.
+    $inputs = array();
+    foreach ($question->inputs as $inputname => $input) {
+        $inputs[$inputname] = $input->get_teacher_answer_testcase();
+    }
+    $qtest = new stack_question_test($inputs);
+    $response = stack_question_test::compute_response($question, $inputs);
+
+    foreach ($question->prts as $prtname => $prt) {
+        $result = $question->get_prt_result($prtname, $response, false);
+        // For testing purposes we just take the last note.
+        $answernotes = $result->get_answernotes();
+        $answernote = array(end($answernotes));
+        // Here we hard-wire 1 mark and 0 penalty.  This is what we normally want for the
+        // teacher's answer.  If the question does not give full marks to the teacher's answer then
+        // the test case will fail, and the user can confirm the failing behaviour if they really intended this.
+        // Normally we'd want a failing test case with the teacher's answer not getting full marks!
+        $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
+            1, true, 1, 0, '', $answernote));
+    }
+    question_bank::get_qtype('stack')->save_question_test($questionid, $qtest);
+    $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
+
+    echo html_writer::tag('p', stack_string_error('runquestiontests_alert') . ' ' .
+        stack_string('runquestiontests_auto'));
+}
 
 $deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);
 if (!is_null($deployfeedback)) {

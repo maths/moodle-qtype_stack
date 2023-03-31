@@ -1171,9 +1171,17 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->instantiate();
 
+        $errors = $at1->get_errors(false);
         foreach ($tests as $key => $test) {
             $cs = $at1->get_by_key('p'.$key);
-            $this->assertEquals($test[5], $cs->get_display());
+            if ($tests[$key][6] === '') {
+                // No errors.
+                $this->assertTrue($cs->get_valid());
+                $this->assertEquals($test[5], $cs->get_display());
+            } else {
+                $this->assertFalse($cs->get_valid());
+                $this->assertEquals($test[6], implode($errors[$key]));
+            }
         }
     }
 

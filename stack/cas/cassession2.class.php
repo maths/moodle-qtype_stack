@@ -399,7 +399,6 @@ class stack_cas_session2 {
 
         // Prepend those statements which should be outside the block.
         $command = $preblock . $command;
-
         // Send it to CAS.
         $connection = stack_connection_helper::make();
         $results = $connection->json_compute($command);

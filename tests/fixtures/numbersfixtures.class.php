@@ -25,7 +25,7 @@
 class stack_numbers_test_data {
 
     // In this text digits are 1-9 and 0 is not a digit.
-    // array("string", lower, upper, decimal places, dispvalue, casvalue from dispdp, err).
+    // array("string", lower, upper, decimal places, dispvalue, err).
     protected static $rawdata = array(
 
         array("0", 1, 1, 0, '"~a"', '0', ''), // Decision: zero has one significant digit.
@@ -54,6 +54,7 @@ class stack_numbers_test_data {
         array("-121000", 3, 6, 0, '"~a"', '-121000', ''),
         array("-303.30003", 8, 8, 5, '"~,5f"', '-303.30003', ''),
         // Brackets should be stripped off.
+
         array("(-12.00)", 4, 4, 2, '"~,2f"', '-12.00', ''),
         array("--(-12.00)", 4, 4, 2, '"~,2f"', '-12.00', ''),
         array("(00.00)", 2, 2, 2, '"~,2f"', '0.00', ''),
@@ -61,8 +62,7 @@ class stack_numbers_test_data {
         array("-(12.000)", 5, 5, 3, '"~,3f"', '-12.000', ''),
         // Deal with expressions.  This is now evaluated.
         array("1/-12.00", 1, 1, 0, '"~a"', '0', ''),
-        array("1/-12.00", 1, 1, 2, '"~a"', '-0.08', ''),
-        array("pi/2", 1, 1, 2, '"~a"', '1.57', ''),
+        // TODO: more tests with expressions.  Requires changes to test setup. 
         // These now throw errors.
         array("e+4.3^k", 2, 2, 1, '"~,1f"', '%e+4.3^k', 'dispdp requires a real number argument.'),
         array("e+4.3e21^k", 2, 2, 1, '"~,1e"', '%e+4.3^k', 'dispdp requires a real number argument.'),

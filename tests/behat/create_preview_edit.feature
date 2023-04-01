@@ -215,13 +215,12 @@ Feature: Create, preview, test, tidy and edit STACK questions
     # Remove all variants and deploy from list
     When I press "Undeploy all variants"
     Then I should see "Question is missing tests or variants"
-    When I set the field "deployfromlist" to:
-       """
-       10
-       11
-       12
-       13
-       """
+
+    When I set the field "deployfromlist" to "10,11,12,13,11"
+    Then I press "Remove variants and re-deploy from list"
+    And I should see "An error was detected in your list of integers, and so no changes were made to the list of deployed variants."
+
+    When I set the field "deployfromlist" to "10,11,12,13"
     Then I press "Remove variants and re-deploy from list"
     And I should see "Deployed variants (4)"
     And I should see "All tests passed!"

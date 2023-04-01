@@ -54,9 +54,15 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I should see "Mark 0.90 out of 1.00"
     And I should see "Marks for this submission: 1.00/1.00. Accounting for previous tries, this gives 0.90/1.00."
 
-    # Create a question test.
+    # Create a question test: two methods.
     When I follow "Question is missing tests or variants"
     Then I should see "This question does not use randomisation."
+    When I press "Add test case assuming the teacher's input gets full marks."
+    Then I should see "Automatically adding one test case assuming the teacher's input gets full marks. Please check the answer note carefully."
+    When I press "Delete this testcase."
+    Then I should see "Are you sure you want to delete test case 1 for question Test STACK question"
+    When I press "Continue"
+    Then I should see "Question is missing tests or variants. No test cases have been added yet."
     When I press "Add a test case..."
     And I set the following fields to these values:
       | ans1 | x - 1 |

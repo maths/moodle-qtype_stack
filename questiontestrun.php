@@ -188,8 +188,8 @@ $questionvariablevalues = $question->get_question_session_keyval_representation(
 
 // Load the list of test cases.
 $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
-if (empty($testscases) && $canedit) {
-    // Add in a default test case and give it full marks.
+// Create the default test case.
+if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit) {
     $inputs = array();
     foreach ($question->inputs as $inputname => $input) {
         $inputs[$inputname] = $input->get_teacher_answer_testcase();
@@ -212,8 +212,18 @@ if (empty($testscases) && $canedit) {
     question_bank::get_qtype('stack')->save_question_test($questionid, $qtest);
     $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
 
-    echo html_writer::tag('p', stack_string_error('runquestiontests_alert') . ' ' .
-        stack_string('runquestiontests_auto'));
+    echo html_writer::tag('p', stack_string_error('runquestiontests_auto'));
+}
+// Prompt user to create the default test case.
+if (empty($testscases) && $canedit) {
+    // Add in a default test case and give it full marks.
+    echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'defaulttestcase',
+        'action' => new moodle_url('/question/type/stack/questiontestrun.php', $urlparams)));
+    echo html_writer::input_hidden_params(new moodle_url($PAGE->url,
+        array('sesskey' => sesskey(), 'defaulttestcase' => 1)));
+    echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'class' => 'btn btn-danger',
+        'value' => stack_string('runquestiontests_autoprompt')));
+    echo html_writer::end_tag('form');
 }
 
 $deployfeedback = optional_param('deployfeedback', null, PARAM_TEXT);

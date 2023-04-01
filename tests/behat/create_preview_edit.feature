@@ -251,4 +251,3 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I should see "Number of new variants successfully created, tested and deployed: 1."
     And I should see "Too many repeated existing question notes were generated."
     And I should see "A variant matching this Question note is already deployed."
-

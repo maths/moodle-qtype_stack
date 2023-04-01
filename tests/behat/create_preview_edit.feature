@@ -59,6 +59,8 @@ Feature: Create, preview, test, tidy and edit STACK questions
     Then I should see "This question does not use randomisation."
     When I press "Add test case assuming the teacher's input gets full marks."
     Then I should see "Automatically adding one test case assuming the teacher's input gets full marks."
+    And I should see "Test case 1"
+    And I should see "All tests passed!"
     When I press "Delete this test case."
     Then I should see "Are you sure you want to delete test case 1 for question Test STACK question"
     When I press "Continue"
@@ -148,3 +150,106 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I should see "42"
     And I should see "Test case 1"
     And I should see "All tests passed!"
+
+  @javascript
+  Scenario: Add a second test, and deploy variants from a list.
+    When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
+    # Create a new question.
+    And I add a "STACK" question filling the form with:
+      | Question name      | Test STACK rand question                                                      |
+      | Question variables | p : (x-rand(100))^3;                                                          |
+      | Question text      | Differentiate {@p@} with respect to \(x\). [[input:ans1]] [[validation:ans1]] |
+      | Question note      | {@p@}                                                                         |
+      | Model answer       | diff(p,x)                                                                     |
+      | SAns               | ans1                                                                          |
+      | TAns               | diff(p,x)                                                                     |
+    Then I should see "Test STACK rand question"
+
+    When I am on the "Test STACK rand question" "core_question > preview" page logged in as teacher
+    Then I should see "Question is missing tests or variants."
+    When I follow "Question is missing tests or variants."
+    Then I should see "Question is missing tests or variants"
+    When I press "Add test case assuming the teacher's input gets full marks."
+    Then I should see "Automatically adding one test case assuming the teacher's input gets full marks."
+    And I should see "Test case 1"
+    And I should see "All tests passed!"
+    And I should see "No variants of this question have been deployed yet."
+    And I set the field "seedfield" to "1729"
+    And I press "Switch to variant"
+    Then I should see "Question is missing tests or variants."
+    And I should see "Showing undeployed variant: 1729"
+    Then I press "Deploy single variant"
+    And I should see "Deployed variants (1)"
+    When I set the field "seedfield" to "1730"
+    And I press "Switch to variant"
+    Then I should see "Showing undeployed variant: 1730"
+    Then I press "Deploy single variant"
+    And I should see "Deployed variants (2)"
+    When I set the field "seedfield" to "1731"
+    And I press "Switch to variant"
+    Then I should see "Showing undeployed variant: 1731"
+    Then I press "Deploy single variant"
+    And I should see "Deployed variants (3)"
+    And I should see "Question tests for seed 1731: All tests passed!"
+
+    # Add in a second test case.
+    When I press "Add another test case..."
+    And I set the following fields to these values:
+      | ans1 | x - 1 |
+    And I press "Fill in the rest of the form to make a passing test-case"
+    Then the following fields match these values:
+      | ans1        | x - 1    |
+      | Score       | 0        |
+      | Penalty     | 0.1      |
+      | Answer note | prt1-1-F |
+    When I press "Create test case"
+    Then I should see "All tests passed!"
+    And I should see "Test case 2"
+
+    # Run all tests on all variants
+    When I press "Run all tests on all deployed variants (slow)"
+    And I should see "Deployed variants (3)"
+    And I should see "2 passes and 0 failures."
+    And I should see "Question tests for seed 1731: All tests passed!"
+
+    # Remove all variants and deploy from list
+    When I press "Undeploy all variants"
+    Then I should see "Question is missing tests or variants"
+    When I set the field "deployfromlist" to:
+       """
+       10
+       11
+       12
+       13
+       """
+    Then I press "Remove variants and re-deploy from list"
+    And I should see "Deployed variants (4)"
+    And I should see "All tests passed!"
+    When I press "Run all tests on all deployed variants (slow)"
+    And I should see "Deployed variants (4)"
+    And I should see "All tests passed!"
+    And I should see "2 passes and 0 failures."
+
+    # Edit the question to create duplicate question notes.
+    When I follow "Edit question"
+    Then I should see "Editing a STACK question"
+    When I set the field "questionvariables" to "n1:rand(100); p:(x-1)^4;"
+    And I press "Save changes and continue editing"
+    Then I should see "STACK question dashboard"
+
+    When I am on the "Test STACK rand question" "core_question > preview" page logged in as teacher
+    Then I should see "STACK question dashboard"
+    When I follow "STACK question dashboard"
+    Then I should see "Deployed variants (4)"
+    And I should see "duplicate notes"
+
+    # Undeploy and try to create random variants, which won't work.
+    When I press "Undeploy all variants"
+    Then I should see "Question is missing tests or variants"
+    And I set the field "deploymany" to "3"
+    And I press "Deploy # of variants:"
+    Then I should see "Deployed variants (1)"
+    And I should see "Number of new variants successfully created, tested and deployed: 1."
+    And I should see "Too many repeated existing question notes were generated."
+    And I should see "A variant matching this Question note is already deployed."
+

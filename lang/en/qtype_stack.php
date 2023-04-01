@@ -500,7 +500,7 @@ $string['deployedvariants'] = 'Deployed variants';
 $string['deployedvariantsn'] = 'Deployed variants ({$a})';
 $string['deploymanybtn'] = 'Deploy # of variants:';
 $string['deploymanyerror'] = 'Error in user input: cannot deploy "{$a->err}" variants.';
-$string['deployduplicateerror'] = 'Duplicate question notes detected in the deployed variants.  We strongly recommend each question note is only deployed once, otherwise you will have difficulty collecting meaningful stats when grouping by variant.  Please consider deleting some variants with duplicate notes.';
+$string['deployduplicateerror'] = 'Duplicate question notes detected in the deployed variants. We strongly recommend each question note is only deployed once, otherwise you will have difficulty collecting meaningful stats when grouping by variant.  Please consider deleting some variants with duplicate notes.';
 $string['deploytoomanyerror'] = 'STACK will try to deploy up to at most 100 new variants in any one request.  No new variants deployed.';
 $string['deploymanynonew'] = 'Too many repeated existing question notes were generated.';
 $string['deploymanynotes'] = 'Attempt to automatically deploy a number of variants. STACK will give up if there are 10 failed attempts to generate a new question note, or when one question test fails.';
@@ -561,7 +561,7 @@ $string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Sh
 $string['exportthisquestion'] = '<i class="fa fa-download"></i> Export as Moodle XML';
 $string['exportthisquestion_help'] = 'This will create a Moodle XML export file containing just this one question. One example of when this is useful if you think this question demonstrates a bug in STACK that you would like to report to the developers.';
 $string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and PRTs';
-$string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i></i> Send general feedback to the CAS';
+$string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i> Send general feedback to the CAS';
 
 $string['basicquestionreport'] = '<i class="fa fa-bar-chart"></i> Analyze responses';
 $string['basicquestionreport_help'] = 'Generates a very basic report on attempts at this question on the server. Useful for deciding which PRT test can be added to improve feedback in the light of what the student actually does.  (Most questions are only used in one place)';

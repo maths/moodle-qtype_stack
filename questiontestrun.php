@@ -257,6 +257,7 @@ if (stack_determine_moodle_version() < 400) {
     $qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
 }
 if (!$question->has_random_variants()) {
+    echo "\n";
     echo html_writer::tag('p', stack_string('questiondoesnotuserandomisation') . ' ' .
         $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))));
     $variantmatched = true;
@@ -361,11 +362,13 @@ if (empty($question->deployedseeds)) {
     }
     usort($notestable->data, 'sort_by_note');
 
+    if (count($questionnotes) != count(array_flip($questionnotes))) {
+        echo "\n";
+        echo html_writer::tag('p', stack_string_error('deployduplicateerror'));
+        echo "\n";
+    }
     echo html_writer::table($notestable);
-}
-
-if (count($questionnotes) != count(array_flip($questionnotes))) {
-    echo html_writer::tag('p', stack_string_error('deployduplicateerror'));
+    echo "\n";
 }
 flush();
 
@@ -383,6 +386,7 @@ if (!$variantmatched) {
     echo html_writer::tag('div', stack_string('showingundeployedvariant',
             html_writer::tag('b', $question->seed)) . $deploybutton,
             array('class' => 'undeployedvariant'));
+    echo "\n";
 }
 
 if (!(empty($question->deployedseeds)) && $canedit) {
@@ -398,6 +402,7 @@ if (!(empty($question->deployedseeds)) && $canedit) {
 
 // Add in some logic for a case where the author removes randomization after variants have been deployed.
 if ($question->has_random_variants()) {
+    echo "\n";
     echo html_writer::start_tag('p');
     echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'switchtovariant',
             'action' => new moodle_url('/question/type/stack/questiontestrun.php')));
@@ -425,7 +430,7 @@ if ($question->has_random_variants()) {
         echo "\n" . html_writer::start_tag('form', array('method' => 'get', 'class' => 'deployfromlist',
             'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
         echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey())), array('seed'));
-        echo "\n<table>" . html_writer::start_tag('table');
+        echo "\n" . html_writer::start_tag('table');
         echo html_writer::start_tag('tr');
         echo html_writer::start_tag('td');
         echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'class' => 'btn btn-secondary',
@@ -433,14 +438,14 @@ if ($question->has_random_variants()) {
         echo html_writer::end_tag('td');
         echo html_writer::start_tag('td');
         echo ' ' . html_writer::start_tag('textarea', array('cols' => 15, 'rows' => min(count($question->deployedseeds), 5),
-            'id' => 'deployfromlist', 'name' => 'deployfromlist', 'value' => ''));
+            'id' => 'deployfromlist', 'name' => 'deployfromlist'));
         echo html_writer::end_tag('textarea');
         echo html_writer::end_tag('td');
         echo html_writer::start_tag('td');
         echo stack_string('deployfromlist');
         echo html_writer::end_tag('td');
         $out = html_writer::tag('summary', stack_string('deployfromlistexisting'));
-        $out .= html_writer::tag('tt', implode("<br />", $question->deployedseeds));
+        $out .= html_writer::tag('pre', implode("\n", $question->deployedseeds));
         $out = html_writer::tag('details', $out);
         echo html_writer::tag('td', $out);
         echo html_writer::end_tag('tr');
@@ -455,8 +460,8 @@ if ($question->has_random_variants()) {
         echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'class' => 'btn btn-warning',
             'value' => stack_string('deploytestall')));
         echo html_writer::end_tag('form');
+        echo "\n";
     }
-    echo html_writer::end_tag('p');
 }
 
 echo $OUTPUT->heading(stack_string('questiontestsfor', $seed), 2);
@@ -507,6 +512,7 @@ foreach ($testresults as $key => $result) {
     flush(); // Force output to prevent timeouts and to make progress clear.
 
     if ($canedit) {
+        echo "\n";
         echo html_writer::start_tag('div', array('class' => 'testcasebuttons'));
         echo $OUTPUT->single_button(new moodle_url('/question/type/stack/questiontestedit.php',
                 $urlparams + array('testcase' => $key)),
@@ -520,14 +526,17 @@ foreach ($testresults as $key => $result) {
                 $urlparams + array('testcase' => $key)),
                 stack_string('deletethistestcase', 'qtype_stack'), 'get');
         echo html_writer::end_tag('div');
+        echo "\n";
     }
 }
 
 // Display the question variables.
 echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
+echo "\n";
 echo html_writer::start_tag('div', array('class' => 'questionvariables'));
 echo html_writer::tag('pre', $questionvariablevalues);
 echo html_writer::end_tag('div');
+echo "\n";
 
 // Question variables and PRTs in a summary tag.
 $out = html_writer::tag('summary', stack_string('prts'));
@@ -544,20 +553,26 @@ $out .= html_writer::start_tag('div', array('class' => 'questionvariables'));
 $out .= html_writer::tag('pre', $offlinemaxima);
 $out .= html_writer::end_tag('div');
 echo html_writer::tag('details', $out);
+echo "\n";
 
 echo $OUTPUT->heading(stack_string('questionpreview'), 3);
+echo "\n";
 echo $renderquestion;
+echo "\n";
 
 // Display the question note.
 echo $OUTPUT->heading(stack_string('questionnote'), 3);
+echo "\n";
 echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()),
     array('class' => 'questionnote'));
+echo "\n";
 
 // Display the general feedback, aka "Worked solution".
 echo $OUTPUT->heading(stack_string('generalfeedback'), 3);
 echo html_writer::tag('div', html_writer::tag('div', $rendergeneralfeedback,
     array('class' => 'outcome generalfeedback')), array('class' => 'que'));
 
+echo "\n";
 if ($question->stackversion == null) {
     echo html_writer::tag('p', stack_string('stackversionnone'));
 } else {

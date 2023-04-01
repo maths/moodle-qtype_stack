@@ -236,7 +236,9 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I press "Save changes and continue editing"
     Then I should see "STACK question dashboard"
     When I follow "STACK question dashboard"
-    Then I switch to the browser tab opened by the app
+    # The following worked prior to Moodle 4.01
+    # Then I switch to the browser tab opened by the app
+    And I switch to a second window
     Then I should see "Deployed variants (4)"
     And I should see "duplicate notes"
 

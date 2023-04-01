@@ -235,10 +235,8 @@ Feature: Create, preview, test, tidy and edit STACK questions
     When I set the field "questionvariables" to "n1:rand(100); p:(x-1)^4;"
     And I press "Save changes and continue editing"
     Then I should see "STACK question dashboard"
-
-    When I am on the "Test STACK rand question" "core_question > preview" page logged in as teacher
-    Then I should see "STACK question dashboard"
     When I follow "STACK question dashboard"
+    Then I switch to the browser tab opened by the app
     Then I should see "Deployed variants (4)"
     And I should see "duplicate notes"
 

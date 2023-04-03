@@ -229,16 +229,17 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I should see "All tests passed!"
     And I should see "2 passes and 0 failures."
 
-    # Edit the question to create duplicate question notes.
+    # Test the edit link in the STACK question dashboard.
     When I follow "Edit question"
+    # Edit the question to create duplicate question notes.
     Then I should see "Editing a STACK question"
     When I set the field "questionvariables" to "n1:rand(100); p:(x-1)^4;"
-    And I press "Save changes and continue editing"
+    And I set the field "Question name" to "Test STACK rand question v2"
+    And I press "Save changes"
+
+    When I am on the "Test STACK rand question v2" "core_question > preview" page logged in as teacher
     Then I should see "STACK question dashboard"
     When I follow "STACK question dashboard"
-    # The following worked prior to Moodle 4.01
-    # Then I switch to the browser tab opened by the app
-    And I switch to a second window
     Then I should see "Deployed variants (4)"
     And I should see "duplicate notes"
 

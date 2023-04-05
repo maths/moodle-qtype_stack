@@ -1203,6 +1203,9 @@ class castext_test extends qtype_stack_testcase {
         // On old Maxima, you get back \(9.999999999999999e-7\).
         $this->skip_if_old_maxima('5.32.1');
 
+        // For some reason 5.41.0 returns \(9.999999999999999e-7\) too.
+        $this->skip_if_new_maxima('5.40.0');
+
         $st = 'Decimal number {@0.000001@}.';
 
         $a2 = array('stackfltfmt:"~e"');
@@ -2040,5 +2043,42 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals("<ul class='tree'><li><span class='op'>\(\diamond\)</span><ul><li>" .
             "<span class='atom'>\(a\)</span></li><li><span class='atom'>\(b\)</span></li></ul></li></ul>",
             $at2->get_rendered());
+    }
+
+    public function test_stack_csv_formatter() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $vars = 'S1:stack_csv_formatter([[1.24,1.34],[2.23,4.56]],[A,B]);';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{#S1#}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals("[\"%root\",\"A,B\n1.24,1.34\n2.23,4.56\"]", $at2->get_rendered());
+
+        $vars = 'S1:stack_csv_formatter([[1.24,1.34],[2.23,4.56]],[A,B]);';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@S1@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        // We add in some magic to the return to not strip out newlines in the LaTeX representation of strings.
+        $this->assertEquals("A,B\n1.24,1.34\n2.23,4.56", $at2->get_rendered());
+
+        // Extra wrapping does no harm.
+        $vars = 'S1:["%root",stack_csv_formatter([[1.24,1.34],[2.23,4.56]],[A,B])];';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@S1@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals("A,B\n1.24,1.34\n2.23,4.56", $at2->get_rendered());
     }
 }

@@ -85,17 +85,23 @@ if (!is_null($deployfromlist)) {
     $dataproblem = false;
 
     $deploytxt = optional_param('deployfromlist', null, PARAM_TEXT);
-    // Trim off any whitespace.
-    $newseeds = explode("\n", trim($deploytxt));
-    foreach ($newseeds as $var => $seed) {
-        // Clean up whitespace.
-        $newseeds[$var] = trim($seed);
-        // Force the entry to be a positive integer.
-        $newseeds[$var] = (int) ($newseeds[$var]);
-        if ($newseeds[$var] <= 0) {
-            $dataproblem = true;
+    $baseseeds = explode("\n", trim($deploytxt));
+    $newseeds = array();
+    foreach ($baseseeds as $newseed) {
+        // Now also explode over commas.
+        $newseed = explode(",", trim($newseed));
+        foreach ($newseed as $seed) {
+            // Clean up whitespace.
+            // Force the entry to be a positive integer.
+            if (trim($seed) !== '') {
+                $seed = (int) (trim($seed));
+                if ($seed <= 0) {
+                    $dataproblem = true;
+                } else {
+                    $newseeds[] = (string) ($seed);
+                }
+            }
         }
-        $newseeds[$var] = (string) ($newseeds[$var]);
     }
 
     // No action to take?

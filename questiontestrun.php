@@ -235,7 +235,7 @@ if (!is_null($deployfeedbackerr)) {
     echo html_writer::tag('p', $deployfeedbackerr, array('class' => 'overallresult fail'));
 }
 
-$upgradeerrors = $question->validate_against_stackversion();
+$upgradeerrors = $question->validate_against_stackversion($context);
 if ($upgradeerrors != '') {
     echo html_writer::tag('p', $upgradeerrors, array('class' => 'fail'));
 }

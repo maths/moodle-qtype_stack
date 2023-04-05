@@ -1372,7 +1372,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * This function is called by the bulk testing script on upgrade.
      * This checks if questions use features which have changed.
      */
-    public function validate_against_stackversion() {
+    public function validate_against_stackversion($context) {
         $errors = array();
         $qfields = array('questiontext', 'questionvariables', 'questionnote', 'specificfeedback', 'generalfeedback');
 
@@ -1436,6 +1436,19 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($this->prts as $name => $prt) {
             if (array_key_exists('RegExp', $prt->get_answertests())) {
                 $errors[] = stack_string('stackversionregexp');
+            }
+        }
+
+        // Check files use match the files in the question.
+        $fs = get_file_storage();
+        $pat = '/@@PLUGINFILE@@([^@"])*[\'"]/';
+        $fields = array('questiontext', 'specificfeedback', 'generalfeedback');
+        foreach ($fields as $field) {
+            $text = $this->$field;
+            $filesexpected = preg_match($pat, $text);
+            $filesfound    = $fs->get_area_files($context->id, 'question', $field, $this->id);
+            if (!$filesexpected && $filesfound != array()) {
+                $errors[] = stack_string('stackfileuseerror', stack_string($field));
             }
         }
 
@@ -1580,6 +1593,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $warnings[] = stack_string('languageproblemsextra',
                 array('field' => $field, 'langs' => implode(', ', $langs)));
         }
+
         return $warnings;
 
     }

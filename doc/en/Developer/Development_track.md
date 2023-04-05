@@ -7,6 +7,10 @@ How to report bugs and make suggestions is described on the [community](../About
 
 ## Version 4.4.3
 
+Done.
+
+1. Rename testing page as "STACK question dashboard" and make it much easier to add a test case based on the teacher's answer.
+
 TODO: track down bug in assignments/evaluation affecting the inputs.
 
 TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:

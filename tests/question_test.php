@@ -17,6 +17,7 @@
 namespace qtype_stack;
 
 use qtype_stack_question;
+use context_system;
 use qtype_stack_testcase;
 use test_question_maker;
 use question_attempt_step;
@@ -53,7 +54,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_get_expected_data_test3() {
         $q = $this->get_test_stack_question('test3');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $this->assertEquals(array('ans1' => PARAM_RAW, 'ans1_val' => PARAM_RAW,
                 'ans2' => PARAM_RAW, 'ans2_val' => PARAM_RAW, 'ans3' => PARAM_RAW, 'ans3_val' => PARAM_RAW,
                 'ans4' => PARAM_RAW), $q->get_expected_data());
@@ -61,7 +62,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_get_correct_response_test0() {
         $q = $this->get_test_stack_question('test0');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertEquals(array('ans1' => '2', 'ans1_val' => '2'), $q->get_correct_response());
@@ -69,7 +70,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_get_correct_response_test1() {
         $q = $this->get_test_stack_question('test1');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertEquals(array('ans1' => '(x-7)^4/4+c', 'ans1_val' => '(x-7)^4/4+c'),
@@ -87,7 +88,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_get_is_same_response_test0() {
         $q = $this->get_test_stack_question('test0');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
 
         $this->assertFalse($q->is_same_response(array(), array('ans1' => '2')));
         $this->assertTrue($q->is_same_response(array('ans1' => '2'), array('ans1' => '2')));
@@ -97,7 +98,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_get_is_same_response_for_part_test3() {
         $q = $this->get_test_stack_question('test3');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertTrue($q->is_same_response_for_part('oddeven', array('ans3' => 'x'), array('ans3' => 'x')));
@@ -108,7 +109,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_is_complete_response_test0() {
         $q = $this->get_test_stack_question('test0');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertFalse($q->is_complete_response(array()));
@@ -118,7 +119,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_is_gradable_response_test0() {
         $q = $this->get_test_stack_question('test0');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertFalse($q->is_gradable_response(array()));
@@ -128,7 +129,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_is_gradable_response_test3() {
         $q = $this->get_test_stack_question('test3');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertFalse($q->is_gradable_response(array()));
@@ -139,7 +140,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_is_complete_response_test3() {
         $q = $this->get_test_stack_question('test3');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertFalse($q->is_complete_response(array()));
@@ -152,7 +153,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_is_complete_response_divide() {
         $q = $this->get_test_stack_question('divide');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertFalse($q->is_complete_response(array('ans1' => '0')));
@@ -173,7 +174,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_grade_response_test3_incomplete() {
         $q = $this->get_test_stack_question('test3');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
         // Response that has three parts wrong, and one not completed.
@@ -183,7 +184,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_grade_response_divide() {
         $q = $this->get_test_stack_question('divide');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertEquals(array(1, question_state::$gradedright),
@@ -192,7 +193,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_grade_response_will_not_accept_input_name() {
         $q = $this->get_test_stack_question('divide');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 1);
 
         $this->assertEquals(array(0, question_state::$gradedwrong),
@@ -201,7 +202,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_grade_parts_that_can_be_graded() {
         $q = $this->get_test_stack_question('test3');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 4);
 
         $response = array('ans1' => '(x', 'ans2' => '(x', 'ans3' => 'x+1', 'ans4' => 'false',
@@ -220,7 +221,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_classify_response_test0() {
         $q = test_question_maker::make_question('stack', 'test0');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 4);
 
         $expected = array(
@@ -250,7 +251,7 @@ class question_test extends qtype_stack_testcase {
 
     public function test_get_question_var_values0() {
         $q = test_question_maker::make_question('stack', 'test2');
-        $this->assertEquals('', $q->validate_against_stackversion());
+        $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
         $q->start_attempt(new question_attempt_step(), 4);
 
         $expected = "a:3;\nb:9;\nta:x+y;";
@@ -266,7 +267,7 @@ class question_test extends qtype_stack_testcase {
         $expected .= 'This question uses texdecorate in the Question variables, which changed in STACK version ' .
              '2018080600 and is no longer supported.';
 
-        $this->assertEquals($expected, $q->validate_against_stackversion());
+        $this->assertEquals($expected, $q->validate_against_stackversion(context_system::instance()));
     }
 
     public function test_question_mul() {
@@ -274,6 +275,6 @@ class question_test extends qtype_stack_testcase {
         $expected = 'This question has an input which uses the "mul" option, '
             .'which is not suppored after STACK version 4.2.  Please edit this question.';
 
-        $this->assertEquals($expected, $q->validate_against_stackversion());
+            $this->assertEquals($expected, $q->validate_against_stackversion(context_system::instance()));
     }
 }

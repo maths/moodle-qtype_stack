@@ -103,13 +103,27 @@ STACK questions can be localised into [multiple languages](../Authoring/Language
 1. Your site administrator must enable the [Moodle multi-language content filter](http://docs.moodle.org/en/Multi-language_content_filter).
 2. The multi-language content filter must be applied before the MathJax filter, otherwise strange results will occur.
 
-## 6. Post-install confirmation.
+## 6. Activity names auto-linking filter
+
+By default the Moodle "Activity names auto-linking" filter is enabled.  The Activity names auto-linking filter is a site Filter that will create links to an activity whenever the name of the activity is written in texts within the same course in which the activity is located. This includes forum postings, pages, labels etc.
+
+This also includes question content.
+
+STACK applies filters mid-way through the question creation process, mostly to provide multi-language support.  However, this means that other filters (including the Activity names auto-linking filter) can disrupt STACK question version generation.
+
+For example, if you create an activity in your course named "feedback", then this filter will link the feedback tags placing potential response trees in your question to that activity.  The filter-generated link will break your STACK questions.
+
+STACK is _not incompatible_ with the Activity names auto-linking filter but it is known to cause some problems in edge cases.
+
+We recommend you disable the Activity names auto-linking filter by default.
+
+## 7. Post-install confirmation.
 
 It is essential to confirm that the PHP scripts are connecting to the CAS.
 
 We have special scripts which provide confirmation and trouble-shooting data to [test the installation](Testing_installation.md).
 
-## 7. Optional (but recommended): Fix DB case sensitivity issue.
+## 8. Optional (but recommended): Fix DB case sensitivity issue.
 
 Using a database with a case insensitive collation can cause issues; for example MySQL with utf8mb4_unicode_ci. This is a general problem of Moodle, not specific to this plugin. See [Database collation issue](https://docs.moodle.org/dev/Database_collation_issue).
 

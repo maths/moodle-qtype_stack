@@ -1,3 +1,4 @@
+
 <?php
 // This file is part of Stack - https://stack.maths.ed.ac.uk/demo/
 //
@@ -1284,16 +1285,6 @@ class stack_equiv_test_data {
         $newarg = array();
         $newarg['section'] = 'Inequalities';
         $samplearguments[] = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Solving a quadratic inequality";
-        $newarg['narrative'] = 'Solving quadratic inequalities using reasoning by equivalence.';
-        $newarg['casstring'] = "[2*x^2+x>=6, 2*x^2+x-6>=0, (2*x-3)*(x+2)>= 0,".
-                "((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0), ".
-                "(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=-2]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
-        $newarg['outcome']   = true;
-        $samplearguments[]   = $newarg;
 
         $newarg = array();
         $newarg['title']     = "Solving a quadratic inequality";

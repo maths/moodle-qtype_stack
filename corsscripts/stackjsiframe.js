@@ -17,11 +17,6 @@
  */
 
 "use strict";
-/* A sequence number for all change messages. We keep track of 
- * the last message we have handled.
- */
-let CHANGE_SEQ = 0;
-
 /* A flag to disable certain things. */
 let DISABLE_CHANGES = false;
 

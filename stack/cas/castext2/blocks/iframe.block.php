@@ -119,6 +119,11 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             }
         }
 
+        // Special option for scripting only style frames.
+        if (isset($parameters['hidden']) && $parameters['hidden']) {
+            $astyle .= 'display:none;';
+        }
+
         $attributes = ['style' => $astyle, 'id' => $divid];
 
         

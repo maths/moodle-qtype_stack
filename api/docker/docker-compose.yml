@@ -13,22 +13,8 @@ services:
     environment:
       GOEMAXIMA_QUEUE_LEN: 32
     read_only: true
-  php:
-    image: registry.dynexite.rwth-aachen.de/dynexite/stack/stack-php
-    build:
-      context: ./../../
-      dockerfile: ./api/docker/php/Dockerfile
-      target: production
-    volumes:
-      - plots:/var/data/api/stack/plots
-    restart: unless-stopped
-  web:
-    image: registry.dynexite.rwth-aachen.de/dynexite/stack/stack-web
-    volumes:
-      - plots:/var/www/plots
+  stack:
+    image: registry.dynexite.rwth-aachen.de/stack/stack
     restart: unless-stopped
     ports:
       - '3080:80'
-
-volumes:
-  plots:

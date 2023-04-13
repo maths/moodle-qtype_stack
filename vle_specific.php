@@ -169,3 +169,13 @@ function stack_determine_moodle_version() {
     $v = get_config('moodle');
     return($v->branch);
 }
+
+/*
+ * This function returns fully defined URL for a file present in
+ * the `corsscripts` directory. Either mapped through logic that
+ * modifies headers or a direct link.
+ */
+function stack_cors_link(string $filename): string {
+    return (new moodle_url(
+            '/question/type/stack/corsscripts/cors.php', ['name' => $filename]))->out(false);
+}

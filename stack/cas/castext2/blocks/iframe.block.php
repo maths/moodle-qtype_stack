@@ -81,7 +81,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         $parameters = json_decode($params[1], true);
         $content    = '';
         $style      = '';
-        $scripts    = '<script>const FRAME_ID = "' . $frameid . '"</script>';
+        $scripts    = '<script>const FRAME_ID = "' . $frameid . '";</script>';
         for ($i = 2; $i < count($params); $i++) {
             if (is_array($params[$i])) {
                 if ($params[$i][0] === 'style') {
@@ -139,16 +139,17 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         $code .= $scripts;
         $code .= '</head><body>' . $content . '</body></html>';
 
+        // Escape soem JavaScript strings.
+        $args = [
+            json_encode($frameid),
+            json_encode($code),
+            json_encode($divid)
+        ];
 
-        $PAGE->requires->js_call_amd(
-            'qtype_stack/stackjsvle',
-            'create_iframe',
-            [
-                $frameid,
-                $code,
-                $divid
-            ]
-        );
+        // As the content is large we cannot simply use the js_amd_call.
+        $PAGE->requires->js_amd_inline(
+            'require(["qtype_stack/stackjsvle"], '
+            . 'function(stackjsvle,){stackjsvle.create_iframe(' . implode(',',$args). ');});');
 
         self::$countframes = self::$countframes + 1;
 

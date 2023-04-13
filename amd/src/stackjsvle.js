@@ -31,7 +31,7 @@
  * @copyright  2023 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define('qtype_stack/stackjsvle', ['core/event'], function(CustomEvents) {
+define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
     "use strict";
     // Note the VLE specific include of logic.
 
@@ -42,9 +42,14 @@ define('qtype_stack/stackjsvle', ['core/event'], function(CustomEvents) {
     let IFRAMES = {};
 
     /* For event handling, lists of IFRAMES listening particular inputs.
-     *
      */
     let INPUTS = {};
+
+    /* For event handling, lists of IFRAMES listening particular inputs
+     * and their input events. By default we only listen to changes.
+     * We report input events as changes to the other side.
+     */
+    let INPUTS_INPUT_EVENT = {};
 
     /* A flag to disable certain things. */
     let DISABLE_CHANGES = false;
@@ -316,6 +321,38 @@ define('qtype_stack/stackjsvle', ['core/event'], function(CustomEvents) {
                         IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
                     }
                 });
+            }
+
+            if (('track-input' in msg) && msg['track-input']) {
+                if (input.id in INPUTS_INPUT_EVENT) {
+                    if (msg.src in INPUTS_INPUT_EVENT[input.id]) {
+                        // DO NOT BIND TWICE!
+                        return;
+                    }
+                    INPUTS_INPUT_EVENT[input.id].push(msg.src);
+                } else {
+                    INPUTS_INPUT_EVENT[input.id] = [msg.src];
+
+                    input.addEventListener('input', () => {
+                        if (DISABLE_CHANGES) {
+                            return;
+                        }
+                        let resp = {
+                            version: 'STACK-JS:1.0.0',
+                            type: 'changed-input',
+                            name: msg.name
+                        };
+                        if (input.type === 'checkbox') {
+                            resp['value'] = input.checked;
+                        } else {
+                            resp['value'] = input.value;
+                        }
+                        for (let tgt of INPUTS_INPUT_EVENT[input.id]) {
+                            resp['tgt'] = tgt;
+                            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
+                        }
+                    });
+                }
             }
 
             // 4. Let the requester know that we have bound things

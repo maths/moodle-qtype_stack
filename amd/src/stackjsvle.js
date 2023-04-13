@@ -109,6 +109,11 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             if (possible !== null) {
                 return possible;
             }
+            // Radios have interesting ids, but the name makes sense
+            possible = iter.querySelector('input[id$="_' + name + '_1"][type=radio]');
+            if (possible !== null) {
+                return possible;
+            }
             possible = iter.querySelector('select[id$="_' + name + '"]');
             if (possible !== null) {
                 return possible;
@@ -116,6 +121,11 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
         }
         // If none found within the question itself, search everywhere.
         let possible = document.querySelector('.formulation input[id$="_' + name + '"]');
+        if (possible !== null) {
+            return possible;
+        }
+        // Radios have interesting ids, but the name makes sense
+        possible = document.querySelector('.formulation input[id$="_' + name + '_1"][type=radio]');
         if (possible !== null) {
             return possible;
         }
@@ -291,6 +301,14 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
                 response.value = input.value;
                 response['input-type'] = input.type;
             }
+            if (input.type === 'radio') {
+                response.value = '';
+                for (let inp of document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']')) {
+                    if (inp.checked) {
+                        response.value = inp.value;
+                    }
+                }
+            }
 
             // 3. Add listener for changes of this input.
             if (input.id in INPUTS) {
@@ -298,32 +316,73 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
                     // DO NOT BIND TWICE!
                     return;
                 }
-                INPUTS[input.id].push(msg.src);
+                if (input.type !== 'radio') {
+                    INPUTS[input.id].push(msg.src);
+                } else {
+                    let radgroup = document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']');
+                    for (let inp of radgroup) {
+                        INPUTS[inp.id].push(msg.src);
+                    }
+                }
             } else {
-                INPUTS[input.id] = [msg.src];
-
-                input.addEventListener('change', () => {
-                    if (DISABLE_CHANGES) {
-                        return;
+                if (input.type !== 'radio') {
+                    INPUTS[input.id] = [msg.src];
+                } else {
+                    let radgroup = document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']');
+                    for (let inp of radgroup) {
+                        INPUTS[inp.id] = [msg.src];
                     }
-                    let resp = {
-                        version: 'STACK-JS:1.0.0',
-                        type: 'changed-input',
-                        name: msg.name
-                    };
-                    if (input.type === 'checkbox') {
-                        resp['value'] = input.checked;
-                    } else {
-                        resp['value'] = input.value;
-                    }
-                    for (let tgt of INPUTS[input.id]) {
-                        resp['tgt'] = tgt;
-                        IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
-                    }
-                });
+                }
+                if (input.type !== 'radio') {
+                    input.addEventListener('change', () => {
+                        if (DISABLE_CHANGES) {
+                            return;
+                        }
+                        let resp = {
+                            version: 'STACK-JS:1.0.0',
+                            type: 'changed-input',
+                            name: msg.name
+                        };
+                        if (input.type === 'checkbox') {
+                            resp['value'] = input.checked;
+                        } else {
+                            resp['value'] = input.value;
+                        }
+                        for (let tgt of INPUTS[input.id]) {
+                            resp['tgt'] = tgt;
+                            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
+                        }
+                    });
+                } else {
+                    // Assume that if we received a radio button that is safe
+                    // then all its friends are also safe.
+                    let radgroup = document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']');
+                    radgroup.forEach((inp) => {
+                        inp.addEventListener('change', () => {
+                            if (DISABLE_CHANGES) {
+                                return;
+                            }
+                            let resp = {
+                                version: 'STACK-JS:1.0.0',
+                                type: 'changed-input',
+                                name: msg.name
+                            };
+                            if (inp.checked) {
+                                resp.value = inp.value;
+                            } else {
+                                // What about unsetting?
+                                return;
+                            }
+                            for (let tgt of INPUTS[inp.id]) {
+                                resp['tgt'] = tgt;
+                                IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
+                            }
+                        });
+                    });
+                }
             }
 
-            if (('track-input' in msg) && msg['track-input']) {
+            if (('track-input' in msg) && msg['track-input'] && input.type !== 'radio') {
                 if (input.id in INPUTS_INPUT_EVENT) {
                     if (msg.src in INPUTS_INPUT_EVENT[input.id]) {
                         // DO NOT BIND TWICE!

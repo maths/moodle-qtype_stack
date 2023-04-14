@@ -67,6 +67,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         if (isset($xpars['overridejs'])) {
             unset($xpars['overridejs']);
         } 
+
         // Disable scrolling for this.
         $xpars['scrolling'] = false;
         // Set a title.
@@ -91,6 +92,11 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         $r->items[] = new MP_String(json_encode($xpars));
 
         // Plug in some style and scripts.
+        $mathjax = stack_get_mathjax_url();
+        $r->items[] = new MP_List([
+            new MP_String('script'),
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))
+        ]);
         $r->items[] = new MP_List([
             new MP_String('style'),
             new MP_String(json_encode(['href' => $css]))

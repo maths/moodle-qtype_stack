@@ -554,13 +554,29 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
            it. One also identifies a DIV element that marks the position of
            the IFRAME and limits the size of the IFRAME (all IFRAMEs this
            creates will be 100% x 100%).
+
+           @param {String} iframeid the id that the IFRAME has stored inside
+                  it and uses for communication.
+           @param {String} the full HTML content of that IFRAME.
+           @param {String} targetdivid the id of the element (div) that will
+                  hold the IFRAME.
+           @param {String} title a descriptive name for the iframe.
+           @param {bool} scrolling whether we have overflow:scroll or
+                  overflow:hidden.
          */
-        create_iframe(iframeid, content, targetdivid) {
+        create_iframe(iframeid, content, targetdivid, title, scrolling) {
             const frm = document.createElement('iframe');
             frm.id = iframeid;
             frm.style.width = '100%';
             frm.style.height = '100%';
             frm.style.border = 0;
+            if (scrolling === false) {
+                frm.scrolling = 'no';
+                frm.style.overflow = 'hidden';
+            } else {
+                frm.scrolling = 'yes';
+            }
+            frm.title = title;
             // Somewhat random limitation.
             frm.referrerpolicy = 'no-referrer';
             // We include that allow-downloads as an example of XLS-

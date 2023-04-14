@@ -133,22 +133,34 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             $content = '&nbsp;';
         }
 
+        // Some form of title for debug and accessibility.
+        $title = 'STACK IFRAME ' . self::$countframes;
+        if (isset($parameters['title'])) {
+            $title = $parameters['title'];
+        }
+        $scrolling = true;
+        if (isset($parameters['scrolling'])) {
+            $scrolling = $parameters['scrolling'];
+        }
+
         // Construct the contents of the IFRAME.
         $code = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $code .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' . 
             ' "http://www.w3.org/TR/xhtml1/DTD/strict.dtd">' . "\n";
         $code .= '<html xmlns="http://www.w3.org/TR/xhtml1/strict">';
         // Include a title to help JS debugging.
-        $code .= '<head><title>STACK IFRAME ' . self::$countframes . '</title>';
+        $code .= '<head><title>' . $title . '</title>';
         $code .= $style;
         $code .= $scripts;
         $code .= '</head><body style="margin:0px;">' . $content . '</body></html>';
 
-        // Escape soem JavaScript strings.
+        // Escape some JavaScript strings.
         $args = [
             json_encode($frameid),
             json_encode($code),
-            json_encode($divid)
+            json_encode($divid),
+            json_encode($title),
+            $scrolling ? 'true' : 'false'
         ];
 
         // As the content is large we cannot simply use the js_amd_call.

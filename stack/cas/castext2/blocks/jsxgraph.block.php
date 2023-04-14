@@ -35,6 +35,9 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         'local' => null
     ];
 
+    /* We still count the graphs. */
+    public static $countgraphs = 1;
+
     public function compile($format, $options):  ? MP_Node {
         /* Do some static inits. */
         if (self::$namedversions['local'] === null) {
@@ -69,6 +72,11 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         if (isset($xpars['overridejs'])) {
             unset($xpars['overridejs']);
         } 
+        // Disable scrolling for this.
+        $xpars['scrolling'] = false;
+        // Set a title.
+        $xpars['title'] = 'STACK JSXGraph ' . self::$countgraphs;
+        self::$countgraphs = self::$countgraphs + 1;
 
         // Figure out what scripts we serve.
         $css = self::$namedversions['local']['css'];
@@ -119,7 +127,6 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
                 $astyle = "width:$width;aspect-ratio:$aspectratio;";
             }
         }
-
 
         // Add the div to the doc.
         $r->items[] = new MP_String('<div class="jxgbox" id="thediv" style="' . $astyle . '"></div><script type="module">');

@@ -32,21 +32,16 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         'cdn' => [
             'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraph.min.css',
             'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraphcore.min.js'],
-        'local' => null
+        'local' => [
+            'css' => 'cors://jsxgraph.min.css',
+            'js' => 'cors://jsxgraphcore.min.js',
+        ]
     ];
 
     /* We still count the graphs. */
     public static $countgraphs = 1;
 
     public function compile($format, $options):  ? MP_Node {
-        /* Do some static inits. */
-        if (self::$namedversions['local'] === null) {
-            self::$namedversions['local'] = [
-                'css' => stack_cors_link('jsxgraph.min.css'),
-                'js' => stack_cors_link('jsxgraphcore.min.js')
-            ];
-        }
-
         $r = new MP_List([new MP_String('iframe')]);
 
         // We need to transfer the parameters forward.

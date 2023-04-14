@@ -73,6 +73,11 @@ class stack_cas_castext2_script extends stack_cas_castext2_block {
             }
         }
 
+        // Provide a way to reference scripts served out through the CORS directory.
+        if (isset($attributes['src']) && strpos($attributes['src'], 'cors://') === 0) {
+            $attributes['src'] = stack_cors_link(substr($attributes['src'], 7));
+        }
+
         // No need if nothing to do.
         if (!isset($attributes['src']) && trim($content) === '') {
             return '';

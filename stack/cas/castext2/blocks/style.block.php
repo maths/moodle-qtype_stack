@@ -78,6 +78,11 @@ class stack_cas_castext2_style extends stack_cas_castext2_block {
             return '';
         }
 
+        // Provide a way to reference content served out through the CORS directory.
+        if (isset($attributes['href']) && strpos($attributes['href'], 'cors://') === 0) {
+            $attributes['href'] = stack_cors_link(substr($attributes['href'], 7));
+        }
+
         if (isset($attributes['href'])) {
             $attributes['rel'] = 'stylesheet';
             return html_writer::tag('link', '', $attributes);

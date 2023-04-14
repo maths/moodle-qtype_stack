@@ -353,3 +353,5 @@ export const stack_jxg = {
         this.custom_bind(inputRef, serializer, deserializer, list_of_objects);
     }
 };
+
+export default stack_jxg;

@@ -246,3 +246,4 @@ export const stack_js = {
     },
 };
 
+export default stack_js;

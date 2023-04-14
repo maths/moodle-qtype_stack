@@ -129,7 +129,9 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         }
 
         // Add the div to the doc.
-        $r->items[] = new MP_String('<div class="jxgbox" id="thediv" style="' . $astyle . '"></div><script type="module">');
+        // Note that we have two divs, the exterior one defines the size
+        // and the interior one contains the graph.
+        $r->items[] = new MP_String('<div style="' . $astyle . '"><div class="jxgbox" id="thediv" style="width:100%;height:100%;"></div></div><script type="module">');
 
 
         // Do we need to bind anything?

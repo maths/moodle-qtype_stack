@@ -152,7 +152,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         $code .= '<head><title>' . $title . '</title>';
         $code .= $style;
         $code .= $scripts;
-        $code .= '</head><body style="margin:0px;">' . $content . '</body></html>';
+        $code .= '</head><body>' . $content . '</body></html>';
 
         // Escape some JavaScript strings.
         $args = [

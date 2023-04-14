@@ -86,7 +86,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             if (is_array($params[$i])) {
                 if ($params[$i][0] === 'style') {
                     $style .= $processor->process($params[$i][0], $params[$i]);
-                } else if ($params[$i][0] === 'scripts') {
+                } else if ($params[$i][0] === 'script') {
                     $scripts .= $processor->process($params[$i][0], $params[$i]);
                 } else {
                     $content .= $processor->process($params[$i][0], $params[$i]);

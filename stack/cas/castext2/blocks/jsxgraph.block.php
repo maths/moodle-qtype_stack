@@ -26,6 +26,9 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
     private static $countgraphs = 1;
 
     public function compile($format, $options):  ? MP_Node {
+        //API: Block usage of jsxgraph iwth corresponding error message
+        throw new stack_exception("Usage of jsxgraph is currenty not supported");
+
         $r = new MP_List([new MP_String('jsxgraph')]);
 
         // We need to transfer the parameters forward.

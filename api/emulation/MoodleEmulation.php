@@ -69,3 +69,4 @@ function format_text($text) {
 require_once('Constants.php');
 require_once('Localization.php');
 require_once('HtmlWriter.php');
+require_once('Renderer.php');

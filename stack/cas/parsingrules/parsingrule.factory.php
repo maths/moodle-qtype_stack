@@ -36,6 +36,7 @@ require_once(__DIR__ . '/104_no_sets.filter.php');
 require_once(__DIR__ . '/105_no_grouppings.filter.php');
 require_once(__DIR__ . '/106_no_control_flow.filter.php');
 require_once(__DIR__ . '/120_no_arc.filter.php');
+require_once(__DIR__ . '/150_replace_unicode_letters.filter.php');
 require_once(__DIR__ . '/180_char_based_superscripts.filter.php');
 require_once(__DIR__ . '/201_sig_figs_validation.filter.php');
 require_once(__DIR__ . '/202_decimal_places_validation.filter.php');
@@ -118,6 +119,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_106_no_control_flow();
             case '120_no_arc':
                 return new stack_ast_filter_120_no_arc();
+            case '150_replace_unicode_letters':
+                return new stack_ast_filter_150_replace_unicode_letters();
             case '180_char_based_superscripts':
                 return new stack_ast_filter_180_char_based_superscripts();
             case '201_sig_figs_validation':
@@ -203,6 +206,7 @@ class stack_parsing_rule_factory {
                            '103_no_lists', '104_no_sets',
                            '105_no_grouppings', '106_no_control_flow',
                            '120_no_arc',
+                           '150_replace_unicode_letters',
                            '180_char_based_superscripts',
                            '201_sig_figs_validation',
                            '202_decimal_places_validation',

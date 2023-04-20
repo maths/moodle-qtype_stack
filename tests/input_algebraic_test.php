@@ -1389,7 +1389,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => $sa), $options, '%union({3,4,5})',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::INVALID);
-        $this->assertEquals('spaces | forbiddenChar', $state->note);
+        $this->assertEquals('spaces | forbiddenChar_parserError', $state->note);
         $this->assertEquals('CAS commands may not contain the following characters: ;.', $state->errors);
         $this->assertEquals('', $state->contentsmodified);
         $this->assertEquals($ta, $state->contentsdisplayed);

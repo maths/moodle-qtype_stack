@@ -47,14 +47,6 @@ $symbols = json_decode($symbols, true);
 $commonsymbolconversion = [];
 
 foreach ($greek as $key => $value) {
-    switch ($value[0]) {
-        case 'inifinity':
-            $commonsymbolconversion[$key] = 'inf';
-            break;
-        case 'emptyset':
-            $commonsymbolconversion[$key] = '{}';
-            break;
-    }
     $commonsymbolconversion[$key] = $value[0];
 }
 
@@ -65,13 +57,15 @@ foreach ($letters as $key => $value) {
     if (array_key_exists('LOOPED', $value[1]) !== false) {
         continue;
     }
-    if ($value[0] === 'inifinity') {
+    if ($value[0] === 'infinity') {
+        $commonsymbolconversion[$key] = 'inf';
         continue;
     }
     if ($value[0] === 'emptyset') {
+        $commonsymbolconversion[$key] = '{}';
         continue;
     }
-    // Check if maps to non unicode.
+    // Check if maps to non-unicode.
     if (mb_detect_encoding($value[0], 'ASCII', true) === false) {
         if (!isset($commonsymbolconversion[$value[0]])) {
             $unmaps[$key] = $value[0];
@@ -149,8 +143,8 @@ foreach ($subscripts as $key => $value) {
     }
 }
 
-file_put_contents('../unicode/symbols-stack.json', json_encode($symbolconversion, JSON_PRETTY_PRINT));
-file_put_contents('../unicode/superscript-stack.json', json_encode($superscriptsconversion, JSON_PRETTY_PRINT));
-file_put_contents('../unicode/subscript-stack.json', json_encode($subscriptsconversion, JSON_PRETTY_PRINT));
-file_put_contents('../unicode/letters-stack.json', json_encode($commonsymbolconversion, JSON_PRETTY_PRINT));
+file_put_contents('../stack/maximaparser/unicode/symbols-stack.json', json_encode($symbolconversion, JSON_PRETTY_PRINT));
+file_put_contents('../stack/maximaparser/unicode/superscript-stack.json', json_encode($superscriptsconversion, JSON_PRETTY_PRINT));
+file_put_contents('../stack/maximaparser/unicode/subscript-stack.json', json_encode($subscriptsconversion, JSON_PRETTY_PRINT));
+file_put_contents('../stack/maximaparser/unicode/letters-stack.json', json_encode($commonsymbolconversion, JSON_PRETTY_PRINT));
 

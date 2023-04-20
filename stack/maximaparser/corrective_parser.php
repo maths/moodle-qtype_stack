@@ -47,31 +47,6 @@ class maxima_corrective_parser {
          ':if ' => ':%%STACKIF%%', ' then ' => '%%STACKTHEN%%',
          ' else ' => '%%STACKELSE%%');
 
-        $data = file_get_contents(__DIR__ . '/unicode/symbols-stack.json');
-        $data = json_decode($data, true);
-        //print_r($data);
-
-        $knownunicode = array(
-            json_decode('"\u2205"') => '{}',
-//            json_decode('"\u00D7"') => '*',
-//            json_decode('"\u00F7"') => '/',
-//            json_decode('"\u2044"') => '/',
-//            json_decode('"\u2215"') => '/',
-//            json_decode('"\u00B1"') => '+-',
-            json_decode('"\u2211"') => 'sum(?,?,?)',
-            json_decode('"\u221A"') => 'sqrt(?)',
-            json_decode('"\u222B"') => 'int(?,?)',
-            json_decode('"\u2013"') => '-',
-//            json_decode('"\u2264"') => '<=',
-//            json_decode('"\u2264"') => '>=',
-//            json_decode('"\u2227"') => ' and ',
-//            json_decode('"\u22C0"') => ' and ',
-//            json_decode('"\u2228"') => ' or ',
-//            json_decode('"\u22C1"') => ' or ',
-            json_decode('"\u212F"') => 'e',
-            json_decode('"\u221E"') => 'inf',
-        );
-
         // These will store certain errors if the parsing is impossible.
         $err1 = false;
         $err2 = false;
@@ -96,15 +71,12 @@ class maxima_corrective_parser {
             }
         }
 
-        // Replace known unicode letters with their equivalent in ASCII.
-        $letters = file_get_contents(__DIR__ . '/unicode/letters-stack.json');
-        $letters = json_decode($letters, true);
-        $replace = array();
-        foreach ($letters as $key => $val) {
-            $replace[] = $val[0];
-        }
-        $search = array_keys($letters);
-        $stringles = str_replace($search, $replace, $stringles);
+        // Replace known unicode symbols with their equivalent in ASCII.
+        $letters = json_decode(file_get_contents(__DIR__ . '/unicode/letters-stack.json'), true);
+        $stringles = str_replace(array_keys($letters), $letters, $stringles);
+
+        $symbols = json_decode(file_get_contents(__DIR__ . '/unicode/symbols-stack.json'), true);
+        $stringles = str_replace(array_keys($symbols), $symbols, $stringles);
 
         // Check for invalid chars at this point as they may prove to be difficult to
         // handle latter, also strings are safe already.
@@ -146,12 +118,7 @@ class maxima_corrective_parser {
                             $invalidchars[$badchar] = $badchar;
                     }
                 }
-                if (array_key_exists($badchar, $knownunicode)) {
-                    $replaceablechars[$badchar] = $knownunicode[$badchar];
-                    $answernote[] = 'unicodeChar';
-                } else {
-                    $answernote[] = 'forbiddenChar';
-                }
+                $answernote[] = 'forbiddenChar';
             }
             $errors[] = stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($invalidchars))));
             foreach ($replaceablechars as $bad => $good) {

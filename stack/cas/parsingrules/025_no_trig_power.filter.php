@@ -88,7 +88,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
                         }
                     }
                 }
-                if ($bad) {
+                if ($bad === true) {
                     // Those rules should not match anything else.
                     $node->position['invalid'] = true;
                     // TODO: now that we have the whole "function call" as the $node
@@ -138,7 +138,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
                         }
                     }
                 }
-                if ($bad) {
+                if ($bad === true) {
                     // Those rules should not match anything else.
                     $node->position['invalid'] = true;
                     $errors[] = stack_string('stackCas_trigexp',
@@ -154,7 +154,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
 
             if ($node instanceof MP_FunctionCall &&
                 $node->name instanceof MP_Identifier) {
-                $bad = array_key_exists($node->name->value, $selectednames);
+                $bad = false;
                 if (!$bad) {
                     foreach ($selectednames as $name) {
                         if (mb_strpos($node->name->value, $name) === 0) {
@@ -171,7 +171,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
                         }
                     }
                 }
-                if ($bad) {
+                if ($bad === true) {
                     // Those rules should not match anything else.
                     $node->position['invalid'] = true;
                     $errors[] = stack_string('stackCas_trigexp',

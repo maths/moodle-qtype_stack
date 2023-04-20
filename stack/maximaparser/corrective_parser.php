@@ -96,7 +96,7 @@ class maxima_corrective_parser {
             }
         }
 
-        // Replace known unicode letters with their equivalents
+        // Replace known unicode letters with their equivalent in ASCII.
         $letters = file_get_contents(__DIR__ . '/unicode/letters-stack.json');
         $letters = json_decode($letters, true);
         $replace = array();

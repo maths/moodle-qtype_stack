@@ -19,7 +19,7 @@ require_once(__DIR__ . '/filter.interface.php');
 require_once(__DIR__ . '/../../maximaparser/corrective_parser.php');
 
 /**
- * AST filter that check identifiers for the use of chars that are 
+ * AST filter that check identifiers for the use of chars that are
  * considered supercript. If found converts the expression into its
  * logical equivalent, i.e.,  `x² -> x^2`
  */
@@ -32,11 +32,9 @@ class stack_ast_filter_180_char_based_superscripts implements stack_cas_astfilte
             self::$ssmap = json_decode(file_get_contents(__DIR__ . '/../../maximaparser/unicode/superscript-stack.json'), true);
         }
 
-
         $process = function($node) use (&$errors, &$answernotes) {
             if ($node instanceof MP_Identifier && !(isset($node->position['invalid']) && $node->position['invalid'])) {
-                // Iterate over the name to detect when we move from 
-                // normal to superscript.
+                // Iterate over the name to detect when we move from normal to superscript.
                 $norm = true;
                 // Split to chars.
                 $chars = preg_split('//u', $node->value, -1, PREG_SPLIT_NO_EMPTY);
@@ -70,7 +68,7 @@ class stack_ast_filter_180_char_based_superscripts implements stack_cas_astfilte
                 // Now if we have segments we need to deal with them.
                 if (count($segments) > 1) {
                     // Parts between which we have insert stars.
-                    //  x²x²x²x -> x^2*x^2*x^2*x
+                    // E.g. x²x²x²x -> x^2*x^2*x^2*x.
                     $parts = [];
                     while (count($segments) > 1) {
                         $base = new MP_Identifier(array_shift($segments));

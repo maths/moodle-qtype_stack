@@ -27,11 +27,12 @@ define('CLI_SCRIPT', true);
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
 
-$greek = file_get_contents('https://raw.githubusercontent.com/numbas/unicode-math-normalization/main/final_data/greek.json');
-$letters = file_get_contents('https://raw.githubusercontent.com/numbas/unicode-math-normalization/main/final_data/letters.json');
-$subscripts = file_get_contents('https://raw.githubusercontent.com/numbas/unicode-math-normalization/main/final_data/subscripts.json');
-$superscripts = file_get_contents('https://raw.githubusercontent.com/numbas/unicode-math-normalization/main/final_data/superscripts.json');
-$symbols = file_get_contents('https://raw.githubusercontent.com/numbas/unicode-math-normalization/main/final_data/symbols.json');
+$baseurl = 'https://raw.githubusercontent.com/numbas/unicode-math-normalization/main/final_data/';
+$greek = file_get_contents($baseurl . 'greek.json');
+$letters = file_get_contents($baseurl . 'letters.json');
+$subscripts = file_get_contents($baseurl . 'subscripts.json');
+$superscripts = file_get_contents($baseurl . 'superscripts.json');
+$symbols = file_get_contents($baseurl . 'symbols.json');
 
 if ($greek === false || $letters === false || $subscripts === false || $superscripts === false || $symbols === false) {
     die('Problem fetching the data.');

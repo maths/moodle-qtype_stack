@@ -73,21 +73,19 @@ class maxima_corrective_parser {
 
         // Replace known unicode symbols with their equivalent in ASCII.
         $symbols = json_decode(file_get_contents(__DIR__ . '/unicode/symbols-stack.json'), true);
-        $stringles = str_replace(array_keys($symbols), $symbols, $stringles);
-        //$letters = json_decode(file_get_contents(__DIR__ . '/unicode/letters-stack.json'), true);
-        //$stringles = str_replace(array_keys($letters), $letters, $stringles);
+        $stringles = str_replace(array_keys($symbols), array_values($symbols), $stringles);
+        $letters = json_decode(file_get_contents(__DIR__ . '/unicode/letters-stack.json'), true);
+        $stringles = str_replace(array_keys($letters), array_values($letters), $stringles);
 
         // TODO
-        //$stringles = normalizer_normalize($stringles, Normalizer::FORM_D);
+        //$stringles = normalizer_normalize($stringles, Normalizer::FORM_KC);
 
         // Check for invalid chars at this point as they may prove to be difficult to
         // handle latter, also strings are safe already.
-        $letters = json_decode(file_get_contents(__DIR__ . '/unicode/letters-stack.json'), true);
         $superscript = json_decode(file_get_contents(__DIR__ . '/unicode/superscript-stack.json'), true);
         $subscript = json_decode(file_get_contents(__DIR__ . '/unicode/subscript-stack.json'), true);
 
         $allowedcharsregex = '~[^' . preg_quote(
-            implode('', array_keys($letters)) .
             implode('', array_keys($superscript)) .
             implode('', array_keys($subscript)) .
             // @codingStandardsIgnoreStart
@@ -140,7 +138,7 @@ class maxima_corrective_parser {
         // NOTE: These patterns take into account floats, if the logic wants to
         // kill floats it can do it later after the parsing.
         static $starpatterns = array(
-                '/(\))([0-9A-Za-z])/',                               // E.g. )a, or )3. But not underscores )_.
+                '/(\))([0-9A-Za-z])/',                                       // E.g. )a, or )3. But not underscores )_.
                 '/([^0-9A-Za-z_][0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/', // E.g. +3z(, -2ee+ not *4e-2 or /1e3.
                 '/^([\+\-]?[0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/',      // Same but start of line.
                 '/([^0-9A-Za-z_][0-9]+)(\()/',                               // Pattern such as -124().

@@ -132,6 +132,7 @@ class stack_inputvalidation_test_data {
         array('{}', 'php_true', '{}', 'cas_true', '\left \{ \right \}', '', "Sets"),
         array("\u{2205}", 'php_true', '{}', 'cas_true', '\left \{ \right \}', '', ""),
         array("\u{29b0}", 'php_true', '{}', 'cas_true', '\left \{ \right \}', '', ""),
+        array("{\u{2205}}", 'php_true', '{{}}', 'cas_true', '\left \{\left \{ \right \} \right \}', '', ""),
         array('{1}', 'php_true', '{1}', 'cas_true', '\left \{1 \right \}', '', ""),
         array('{1,2,3.4}', 'php_true', '{1,2,3.4}', 'cas_true', '\left \{1 , 2 , 3.4 \right \}', '', ""),
         array('{x, y, z }', 'php_true', '{x,y,z}', 'cas_true', '\left \{x , y , z \right \}', '', ""),
@@ -198,7 +199,7 @@ class stack_inputvalidation_test_data {
         array('x => y', 'php_false', 'x=>y', '', '', 'backward_inequalities', ""),
         array('x => and x<1', 'php_false', 'x => and x<1', '', '', 'backward_inequalities', ""),
         array('x<1 and x>1', 'php_true', 'x < 1 and x > 1', 'cas_true', 'x < 1\,{\mbox{ and }}\, x > 1', '', ""),
-        array("A<1 \u{22c1} B>1", 'php_true', 'A < 1 or B > 1', 'cas_true', 'A < 1\,{\mbox{ or }}\, B > 1', '', ""),
+        array("A<1 \u{22c1} B>1", 'php_false', 'A < 1 or B > 1', 'cas_true', 'A < 1\,{\mbox{ or }}\, B > 1', 'forbiddenChar', ""),
         array('x>1 or (x<1 and t<sin(x))', 'php_true', 'x > 1 or (x < 1 and t < sin(x))', 'cas_true',
                 'x > 1\,{\mbox{ or }}\, x < 1\,{\mbox{ and }}\, t < \sin \left( x \right)', '', ""),
         array('x>1 and (x<1 or t<sin(x))', 'php_true', 'x > 1 and (x < 1 or t < sin(x))', 'cas_true',
@@ -408,8 +409,11 @@ class stack_inputvalidation_test_data {
         array('2*pi', 'php_true', '2*pi', 'cas_true', '2\cdot \pi', '', ""),
         // Example of unicode letter replacement.
         array("\u{213c}", 'php_true', 'pi', 'cas_true', '\pi', '', ""),
+        array("2*\u{213c}", 'php_true', '2*pi', 'cas_true', '2\cdot \pi', '', ""),
+        array("2*\u{213c}*n", 'php_true', '2*pi*n', 'cas_true', '2\cdot \pi\cdot n', '', ""),
         array("2\u{213c}", 'php_true', '2*pi', 'cas_true', '2\cdot \pi', 'missing_stars', ""),
-        array("2\u{213c}n", 'php_true', '2*pi*n', 'cas_true', '2\cdot \pi\cdot n', 'missing_stars', ""),
+        // We've chosen to replace the unicode pi with the litteral pi to create the variable name "pin" here.
+        array("2\u{213c}n", 'php_false', '2*pin', 'cas_true', '2\cdot \pin', 'missing_stars | forbiddenVariable', ""),
         array('2*e', 'php_true', '2*e', 'cas_true', '2\cdot e', '', ""),
         array('e*2', 'php_true', 'e*2', 'cas_true', 'e\cdot 2', '', ""),
         array('pi*2', 'php_true', 'pi*2', 'cas_true', '\pi\cdot 2', '', ""),
@@ -620,7 +624,6 @@ class stack_inputvalidation_test_data {
 
         // The common insert stars rules, that will be forced
         // and if you do not allow inserttion of stars then it is invalid.
-        $filterstoapply[] = '150_replace_unicode_letters';
         $filterstoapply[] = '180_char_based_superscripts';
 
         $filterstoapply[] = '402_split_prefix_from_common_function_name';

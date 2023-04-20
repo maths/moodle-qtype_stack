@@ -396,6 +396,7 @@ class stack_inputvalidation_test_data {
         array('(x/y)/z', 'php_true', '(x/y)/z', 'cas_true', '\frac{\frac{x}{y}}{z}', '', ""),
         array('x/(y/z)', 'php_true', 'x/(y/z)', 'cas_true', '\frac{x}{\frac{y}{z}}', '', ""),
         array('x^y', 'php_true', 'x^y', 'cas_true', 'x^{y}', '', "Operations and functions with special TeX"),
+        array("x\u{00b2}", 'php_true', 'x^2', 'cas_true', 'x^2', 'superscriptchars', ""),
         array('x^(y+z)', 'php_true', 'x^(y+z)', 'cas_true', 'x^{y+z}', '', ""),
         array('x^(y/z)', 'php_true', 'x^(y/z)', 'cas_true', 'x^{\frac{y}{z}}', '', ""),
         array('x^f(x)', 'php_true', 'x^f(x)', 'cas_true', 'x^{f\left(x\right)}', '', ""),
@@ -618,6 +619,8 @@ class stack_inputvalidation_test_data {
 
         // The common insert stars rules, that will be forced
         // and if you do not allow inserttion of stars then it is invalid.
+        $filterstoapply[] = '180_char_based_superscripts';
+
         $filterstoapply[] = '402_split_prefix_from_common_function_name';
         $filterstoapply[] = '404_split_at_number_letter_number_boundary';
         $filterstoapply[] = '406_split_implied_variable_names';

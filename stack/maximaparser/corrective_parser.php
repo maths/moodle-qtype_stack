@@ -72,21 +72,25 @@ class maxima_corrective_parser {
         }
 
         // Replace known unicode symbols with their equivalent in ASCII.
+        $symbols = json_decode(file_get_contents(__DIR__ . '/unicode/symbols-stack.json'), true);
+        $stringles = str_replace(array_keys($symbols), $symbols, $stringles);
         $letters = json_decode(file_get_contents(__DIR__ . '/unicode/letters-stack.json'), true);
         $stringles = str_replace(array_keys($letters), $letters, $stringles);
 
-        $symbols = json_decode(file_get_contents(__DIR__ . '/unicode/symbols-stack.json'), true);
-        $stringles = str_replace(array_keys($symbols), $symbols, $stringles);
-
         // Check for invalid chars at this point as they may prove to be difficult to
         // handle latter, also strings are safe already.
-        // Special case to allow "pi" through here.
-        $allowedcharsregex = '~[^' . preg_quote(json_decode('"\u03C0"') .
+        $superscript = json_decode(file_get_contents(__DIR__ . '/unicode/superscript-stack.json'), true);
+        $subscript = json_decode(file_get_contents(__DIR__ . '/unicode/subscript-stack.json'), true);
+
+        $allowedcharsregex = '~[^' . preg_quote(
+            implode('', array_keys($superscript)) .
+            implode('', array_keys($subscript)) .
             // @codingStandardsIgnoreStart
             // We do really want a backtick here.
             '0123456789,./\%#&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:;=><|: -', '~'
             // @codingStandardsIgnoreEnd
             ) . ']~u';
+
         $matches = array();
         // Check for permitted characters.
         if (preg_match_all($allowedcharsregex, $stringles, $matches)) {
@@ -298,7 +302,7 @@ class maxima_corrective_parser {
                 }
             }
             $errors[] = stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($invalidchars))));
-            $answernote[] = 'forbiddenChar';
+            $answernote[] = 'forbiddenCharLate';
             return;
         }
 

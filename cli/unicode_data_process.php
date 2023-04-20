@@ -28,6 +28,7 @@ require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
 
 $baseurl = 'https://raw.githubusercontent.com/numbas/unicode-math-normalization/main/final_data/';
+$baseurl = 'https://raw.githubusercontent.com/sangwinc/unicode-math-normalization/iss001/final_data/';
 $greek = file_get_contents($baseurl . 'greek.json');
 $letters = file_get_contents($baseurl . 'letters.json');
 $subscripts = file_get_contents($baseurl . 'subscripts.json');
@@ -112,7 +113,11 @@ foreach ($symbols as $key => $value) {
         case '<=':
         case '>':
         case '<':
-            $symbolconversion[$key] = $value[0];
+            if ($key !== $value[0]) {
+                $symbolconversion[$key] = $value[0];
+            } else {
+                echo "\n" . mb_ord($key) . ' was not added!';
+            }
     }
 }
 
@@ -122,8 +127,6 @@ foreach ($superscripts as $key => $value) {
     if (mb_detect_encoding($value[0], 'ASCII', true) === false) {
         if (isset($commonsymbolconversion[$value[0]])) {
             $superscriptsconversion[$key] = $commonsymbolconversion[$value[0]];
-        } else {
-            // Ignore for now.
         }
     } else {
         $superscriptsconversion[$key] = $value[0];
@@ -136,8 +139,6 @@ foreach ($subscripts as $key => $value) {
     if (mb_detect_encoding($value[0], 'ASCII', true) === false) {
         if (isset($commonsymbolconversion[$value[0]])) {
             $subscriptsconversion[$key] = $commonsymbolconversion[$value[0]];
-        } else {
-            // Ignore for now.
         }
     } else {
         $subscriptsconversion[$key] = $value[0];

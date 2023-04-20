@@ -151,7 +151,6 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
                 }
             }
 
-
             if ($node instanceof MP_FunctionCall &&
                 $node->name instanceof MP_Identifier) {
                 $bad = false;
@@ -181,7 +180,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
                         $answernotes[] = 'trigexp';
                     }
                     return true;
-                }   
+                }
             }
 
             return true;

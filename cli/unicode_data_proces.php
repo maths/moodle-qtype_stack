@@ -118,6 +118,11 @@ foreach ($symbols as $key => $value) {
 		case ']':
 		case '{':
 		case '}':
+		case '>=':
+		case '=':
+		case '<=':
+		case '>':
+		case '<':
 			$symbolconversion[$key] = $value[0];
 
 	}
@@ -125,11 +130,39 @@ foreach ($symbols as $key => $value) {
 
 }
 
+$superscriptsconversion = [];
+
+foreach ($superscripts as $key => $value) {
+	if (mb_detect_encoding($value[0], 'ASCII', true) === false) {
+		if (isset($commonsymbolconversion[$value[0]])) {
+			$superscriptsconversion[$key] = $commonsymbolconversion[$value[0]];
+		} else {
+			// Ignore for now.
+		}
+	} else {
+		$superscriptsconversion[$key] = $value[0];
+	}
+}
+
+$subscriptsconversion = [];
+
+foreach ($subscripts as $key => $value) {
+	if (mb_detect_encoding($value[0], 'ASCII', true) === false) {
+		if (isset($commonsymbolconversion[$value[0]])) {
+			$subscriptsconversion[$key] = $commonsymbolconversion[$value[0]];
+		} else {
+			// Ignore for now.
+		}
+	} else {
+		$subscriptsconversion[$key] = $value[0];
+	}
+}
 
 
 
 file_put_contents('../unicode/symbols-stack.json', json_encode($symbolconversion, JSON_PRETTY_PRINT));
-
+file_put_contents('../unicode/superscript-stack.json', json_encode($superscriptsconversion, JSON_PRETTY_PRINT));
+file_put_contents('../unicode/subscript-stack.json', json_encode($subscriptsconversion, JSON_PRETTY_PRINT));
 
 file_put_contents('../unicode/letters-stack.json', json_encode($commonsymbolconversion, JSON_PRETTY_PRINT));
 

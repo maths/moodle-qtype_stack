@@ -65,6 +65,9 @@ class stack_inputvalidation_test_data {
         array('-a/b', 'php_true', '-a/b', 'cas_true', '\frac{-a}{b}', '', ""),
         array('-(a/b)', 'php_true', '-(a/b)', 'cas_true', '-\frac{a}{b}', '', ""),
         array('pi', 'php_true', 'pi', 'cas_true', '\pi', '', ""),
+        // Example of unicode letter replacement.
+        array("\u{213c}", 'php_true', 'pi', 'cas_true', '\pi', '', ""),
+        array("2\u{213c}", 'php_true', '2*pi', 'cas_true', '2\cdot \pi', 'missing_stars', ""),
         array('e', 'php_true', 'e', 'cas_true', 'e', '', "Cannot easily make \(e\) a variable name."),
         array('i', 'php_true', 'i', 'cas_true', '\mathrm{i}', '',
             "Options to make i a variable, or a vector unit.  Note this is not italic."),

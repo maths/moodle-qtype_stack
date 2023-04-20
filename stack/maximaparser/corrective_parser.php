@@ -77,9 +77,6 @@ class maxima_corrective_parser {
         $letters = json_decode(file_get_contents(__DIR__ . '/unicode/letters-stack.json'), true);
         $stringles = str_replace(array_keys($letters), array_values($letters), $stringles);
 
-        // TODO
-        //$stringles = normalizer_normalize($stringles, Normalizer::FORM_KC);
-
         // Check for invalid chars at this point as they may prove to be difficult to
         // handle latter, also strings are safe already.
         $superscript = json_decode(file_get_contents(__DIR__ . '/unicode/superscript-stack.json'), true);

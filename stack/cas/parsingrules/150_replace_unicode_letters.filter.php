@@ -34,12 +34,6 @@ class stack_ast_filter_150_replace_unicode_letters implements stack_cas_astfilte
         $process = function($node) use (&$errors, &$answernotes) {
             if ($node instanceof MP_Identifier && !(isset($node->position['invalid']) && $node->position['invalid'])) {
                 $node->value = str_replace(array_keys(self::$ssmap), array_values(self::$ssmap), $node->value);
-                /*
-                // We have rejected this other option.
-                if (array_key_exists($node->value, self::$ssmap)) {
-                    $node->value = self::$ssmap[$node->value];
-                }
-                */
             }
             return true;
         };

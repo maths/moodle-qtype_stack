@@ -480,7 +480,7 @@ class stack_inputvalidation_test_data {
         array('arsinh(x)', 'php_true', 'asinh(x)', 'cas_true', '{\rm sinh}^{-1}\left( x \right)', 'triginv', ""),
         array('sin^-1(x)', 'php_false', 'sin^-1(x)', 'cas_false', '', 'missing_stars | trigexp', ""),
         array('cos^2(x)', 'php_false', 'cos^2(x)', 'cas_false', '', 'missing_stars | trigexp', ""),
-        array("sin\u{00b2}(x)", 'php_false', 'sin^2(x)', 'cas_false', '', 'missing_stars | trigexp', ""),
+        array("sin\u{00b2}(x)", 'php_false', 'sin^2(x)', 'cas_false', '', 'trigexp | superscriptchars | forbiddenVariable', ""),
         array('sin*2*x', 'php_false', 'sin*2*x', 'cas_false', '', 'forbiddenVariable', ""),
         array('sin[2*x]', 'php_false', 'sin[2*x]', 'cas_false', '', 'trigparens', ""),
         array('cosh(x)', 'php_true', 'cosh(x)', 'cas_true', '\cosh \left( x \right)', '', ""),

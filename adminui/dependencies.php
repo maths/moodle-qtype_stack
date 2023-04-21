@@ -70,8 +70,12 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
 
 echo '<p>This tool only acts on succesfully compiled questions, to compile questions run the bulk tester ' .
-    'or preview/use those questions. Currently there are ' . $ncompiled . ' compiled questions and ' . $nnotcompiled .
-    ' questions that have not been succesfully compiled.';
+    'or preview/use those questions.</p><p>';
+if ($ncompiled !== $notcompiled) {
+    echo stack_string_error('errors') . '. ';
+}
+echo  'Currently there are ' . $ncompiled . ' compiled questions and ' . $nnotcompiled .
+    ' questions that have not been succesfully compiled.</p>';
 
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, array('includes' => 1, 'sesskey' => sesskey())),

@@ -248,6 +248,14 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('questionnote'), array('rows' => 2, 'cols' => 80));
         $mform->addHelpButton('questionnote', 'questionnote', 'qtype_stack');
 
+        $qdec = $mform->createElement('editor', 'questiondescription',
+            stack_string('questiondescription', 'question'), array('rows' => 10), $this->editoroptions);
+        $mform->insertElementBefore($qdec, 'questionnote');
+
+        // Set default value as empty.
+        $mform->getElement('questiondescription')->setValue(array('text' => ''));
+        $mform->addHelpButton('questiondescription', 'questiondescription', 'qtype_stack');
+
         $mform->addElement('submit', 'verify', stack_string('verifyquestionandupdate'));
         $mform->registerNoSubmitButton('verify');
 
@@ -524,6 +532,9 @@ class qtype_stack_edit_form extends question_edit_form {
         unset($nextnodechoices[$nodekey]);
 
         $nodegroup = array();
+        $nodegroup[] = $mform->createElement('text', $prtname . 'description[' . $nodekey . ']',
+            stack_string('description'), array('size' => 35));
+
         $nodegroup[] = $mform->createElement('select', $prtname . 'answertest[' . $nodekey . ']',
                 stack_string('answertest'), $this->answertestchoices);
 
@@ -543,6 +554,7 @@ class qtype_stack_edit_form extends question_edit_form {
                 html_writer::tag('b', stack_string('nodex', $name)),
                 null, false);
         $mform->addHelpButton($prtname . 'node[' . $nodekey . ']', 'nodehelp', 'qtype_stack');
+        $mform->setType($prtname . 'description[' . $nodekey . ']', PARAM_RAW);
         $mform->setType($prtname . 'sans[' . $nodekey . ']', PARAM_RAW);
         $mform->setType($prtname . 'tans[' . $nodekey . ']', PARAM_RAW);
         $mform->setType($prtname . 'testoptions[' . $nodekey . ']', PARAM_RAW);
@@ -624,6 +636,8 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->questionvariables     = $opt->questionvariables;
         $question->variantsselectionseed = $opt->variantsselectionseed;
         $question->questionnote          = $opt->questionnote;
+        $question->questiondescription   = $this->prepare_text_field('questiondescription',
+                                            $opt->questiondescription, $opt->questiondescriptionformat, $question->id);
         $question->specificfeedback      = $this->prepare_text_field('specificfeedback',
                                             $opt->specificfeedback, $opt->specificfeedbackformat, $question->id);
         $question->prtcorrect            = $this->prepare_text_field('prtcorrect',
@@ -724,11 +738,12 @@ class qtype_stack_edit_form extends question_edit_form {
     protected function data_preprocessing_node($question, $prtname, $node) {
         $nodename = $node->nodename;
 
-        $question->{$prtname . 'answertest' }[$nodename] = $node->answertest;
-        $question->{$prtname . 'sans'       }[$nodename] = $node->sans;
-        $question->{$prtname . 'tans'       }[$nodename] = $node->tans;
-        $question->{$prtname . 'testoptions'}[$nodename] = $node->testoptions;
-        $question->{$prtname . 'quiet'      }[$nodename] = $node->quiet;
+        $question->{$prtname . 'answertest'  }[$nodename] = $node->answertest;
+        $question->{$prtname . 'description' }[$nodename] = $node->description;
+        $question->{$prtname . 'sans'        }[$nodename] = $node->sans;
+        $question->{$prtname . 'tans'        }[$nodename] = $node->tans;
+        $question->{$prtname . 'testoptions' }[$nodename] = $node->testoptions;
+        $question->{$prtname . 'quiet'       }[$nodename] = $node->quiet;
 
         $question->{$prtname . 'truescoremode' }[$nodename] = $node->truescoremode;
         $question->{$prtname . 'truescore'     }[$nodename] = stack_utils::fix_trailing_zeros($node->truescore);

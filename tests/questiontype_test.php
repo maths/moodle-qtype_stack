@@ -203,6 +203,9 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <questionnote>
       <text></text>
     </questionnote>
+    <questiondescription format="html">
+      <text>This is a rather wonderful question!</text>
+    </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
@@ -250,6 +253,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description></description>
         <answertest>EqualComAss</answertest>
         <sans>ans1</sans>
         <tans>2</tans>

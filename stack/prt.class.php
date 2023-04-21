@@ -276,6 +276,8 @@ class stack_potentialresponse_tree_lite {
         $summary = [];
         foreach ($this->nodes as $node) {
             $n = new stdClass();
+            $n->nodename        = $node->nodename;
+            $n->description     = $node->description;
             $n->truenextnode    = $node->truenextnode;
             $n->trueanswernote  = $node->trueanswernote;
             $n->truescore       = $node->truescore;

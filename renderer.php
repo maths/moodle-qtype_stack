@@ -520,6 +520,23 @@ class qtype_stack_renderer extends qtype_renderer {
                 $qa, 'question', 'generalfeedback', $question->id);
     }
 
+    public function question_description(question_attempt $qa) {
+        $question = $qa->get_question();
+        if (empty($question->questiondescription)) {
+            return '';
+        }
+
+        // If called out of order.
+        if ($question->castextprocessor === null) {
+            $question->castextprocessor = new castext2_qa_processor($qa);
+        }
+
+        return $qa->get_question()->format_text(stack_maths::process_display_castext(
+            $question->get_questiondescription_castext()->get_rendered($question->castextprocessor), $this),
+            FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
+            $qa, 'question', 'questiondescription', $question->id);
+    }
+
     /**
      * Render a fact sheet.
      * @param string $name the title of the fact sheet.

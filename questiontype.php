@@ -99,6 +99,7 @@ class qtype_stack extends question_type {
             $fromform->{$field}['text'] = stack_maths::replace_dollars($fromform->{$field}['text']);
         }
         $fromform->questionnote = stack_maths::replace_dollars($fromform->questionnote);
+        $fromform->questiondescription = stack_maths::replace_dollars($fromform->questiondescription['text']);
 
         $prtnames = array_keys($this->get_prt_names_from_question($fromform->questiontext['text'],
                 $fromform->specificfeedback['text']));
@@ -129,6 +130,7 @@ class qtype_stack extends question_type {
             $options->questionid = $fromform->id;
             $options->questionvariables = '';
             $options->questionnote = '';
+            $options->questiondescription = '';
             $options->specificfeedback = '';
             $options->prtcorrect = '';
             $options->prtpartiallycorrect = '';
@@ -143,6 +145,9 @@ class qtype_stack extends question_type {
                     $context, 'qtype_stack', 'specificfeedback', $fromform->id);
         $options->specificfeedbackformat    = $fromform->specificfeedback['format'];
         $options->questionnote              = $fromform->questionnote;
+        $options->questiondescription       = $this->import_or_save_files($fromform->questiondescription,
+            $context, 'qtype_stack', 'questiondescription', $fromform->id);
+        $options->questiondescriptionformat = $fromform->questiondescription['format'];
         $options->questionsimplify          = $fromform->questionsimplify;
         $options->assumepositive            = $fromform->assumepositive;
         $options->assumereal                = $fromform->assumereal;
@@ -288,6 +293,7 @@ class qtype_stack extends question_type {
                     $node->id = $DB->insert_record('qtype_stack_prt_nodes', $node);
                 }
 
+                $node->description         = $fromform->{$prtname . 'description'}[$nodename];
                 $node->answertest          = $fromform->{$prtname . 'answertest'}[$nodename];
                 $node->sans                = $fromform->{$prtname . 'sans'}[$nodename];
                 $node->tans                = $fromform->{$prtname . 'tans'}[$nodename];
@@ -395,7 +401,7 @@ class qtype_stack extends question_type {
 
         $noders = $DB->get_recordset('qtype_stack_prt_nodes',
                 array('questionid' => $question->id),
-                'prtname, nodename');
+                'prtname, nodename, description');
         foreach ($noders as $node) {
             if (!property_exists($question->prts[$node->prtname], 'nodes')) {
                 $question->prts[$node->prtname]->nodes = [];
@@ -425,6 +431,8 @@ class qtype_stack extends question_type {
         $question->stackversion              = $questiondata->options->stackversion;
         $question->questionvariables         = $questiondata->options->questionvariables;
         $question->questionnote              = $questiondata->options->questionnote;
+        $question->questiondescription       = $questiondata->options->questiondescription;
+        $question->questiondescriptionformat = $questiondata->options->questiondescriptionformat;
         $question->specificfeedback          = $questiondata->options->specificfeedback;
         $question->specificfeedbackformat    = $questiondata->options->specificfeedbackformat;
         $question->prtcorrect                = $questiondata->options->prtcorrect;
@@ -618,6 +626,8 @@ class qtype_stack extends question_type {
         $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
                                             'qtype_stack', 'specificfeedback',    $questionid);
         $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
+                                            'qtype_stack', 'questiondescription', $questionid);
+        $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
                                             'qtype_stack', 'prtcorrect',          $questionid);
         $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
                                             'qtype_stack', 'prtpartiallycorrect', $questionid);
@@ -641,6 +651,7 @@ class qtype_stack extends question_type {
         $this->delete_files_in_hints($questionid, $contextid);
 
         $fs->delete_area_files($contextid, 'qtype_stack', 'specificfeedback',    $questionid);
+        $fs->delete_area_files($contextid, 'qtype_stack', 'questiondescription', $questionid);
         $fs->delete_area_files($contextid, 'qtype_stack', 'prtcorrect',          $questionid);
         $fs->delete_area_files($contextid, 'qtype_stack', 'prtpartiallycorrect', $questionid);
         $fs->delete_area_files($contextid, 'qtype_stack', 'prtincorrect',        $questionid);
@@ -1105,6 +1116,8 @@ class qtype_stack extends question_type {
         $output .= "    <questionnote>\n";
         $output .= "      " . $format->writetext($options->questionnote, 0);
         $output .= "    </questionnote>\n";
+        $output .= $this->export_xml_text($format, 'questiondescription', $options->questiondescription,
+                        $options->questiondescriptionformat, $contextid, 'questiondescription', $questiondata->id);
         $output .= "    <questionsimplify>{$options->questionsimplify}</questionsimplify>\n";
         $output .= "    <assumepositive>{$options->assumepositive}</assumepositive>\n";
         $output .= "    <assumereal>{$options->assumereal}</assumereal>\n";
@@ -1156,6 +1169,7 @@ class qtype_stack extends question_type {
             foreach ($prt->nodes as $node) {
                 $output .= "      <node>\n";
                 $output .= "        <name>{$node->nodename}</name>\n";
+                $output .= "        <description>{$format->xml_escape($node->description)}</description>\n";
                 $output .= "        <answertest>{$node->answertest}</answertest>\n";
                 $output .= "        <sans>{$format->xml_escape($node->sans)}</sans>\n";
                 $output .= "        <tans>{$format->xml_escape($node->tans)}</tans>\n";
@@ -1222,15 +1236,35 @@ class qtype_stack extends question_type {
         $fromform->stackversion          = $format->getpath($xml, array('#', 'stackversion', 0, '#', 'text', 0, '#'), '', true);
         $fromform->questionvariables     = $format->getpath($xml, array('#', 'questionvariables',
                                                             0, '#', 'text', 0, '#'), '', true);
-        $fromform->specificfeedback      = $this->import_xml_text($xml, 'specificfeedback', $format, $fromform->questiontextformat);
+        $fformat = $fromform->questiontextformat;
+        if (isset($fromform->specificfeedbackformat)) {
+            $fformat = $fromform->specificfeedbackformat;
+        }
+        $fromform->specificfeedback      = $this->import_xml_text($xml, 'specificfeedback', $format, $fformat);
         $fromform->questionnote          = $format->getpath($xml, array('#', 'questionnote', 0, '#', 'text', 0, '#'), '', true);
+        $fformat = $fromform->questiontextformat;
+        if (isset($fromform->questiondescriptionformat)) {
+            $fformat = $fromform->questiondescriptionformat;
+        }
+        $fromform->questiondescription   = $this->import_xml_text($xml, 'questiondescription', $format, $fformat);
         $fromform->questionsimplify      = $format->getpath($xml, array('#', 'questionsimplify', 0, '#'), 1);
         $fromform->assumepositive        = $format->getpath($xml, array('#', 'assumepositive', 0, '#'), 0);
         $fromform->assumereal            = $format->getpath($xml, array('#', 'assumereal', 0, '#'), 0);
-        $fromform->prtcorrect            = $this->import_xml_text($xml, 'prtcorrect', $format, $fromform->questiontextformat);
-        $fromform->prtpartiallycorrect   = $this->import_xml_text($xml, 'prtpartiallycorrect',
-                                                                  $format, $fromform->questiontextformat);
-        $fromform->prtincorrect          = $this->import_xml_text($xml, 'prtincorrect', $format, $fromform->questiontextformat);
+        $fformat = $fromform->questiontextformat;
+        if (isset($fromform->prtcorrectformat)) {
+            $fformat = $fromform->prtcorrectformat;
+        }
+        $fromform->prtcorrect            = $this->import_xml_text($xml, 'prtcorrect', $format, $fformat);
+        $fformat = $fromform->questiontextformat;
+        if (isset($fromform->prtpartiallycorrectformat)) {
+            $fformat = $fromform->prtpartiallycorrectformat;
+        }
+        $fromform->prtpartiallycorrect   = $this->import_xml_text($xml, 'prtpartiallycorrect', $format, $fformat);
+        $fformat = $fromform->questiontextformat;
+        if (isset($fromform->prtincorrectformat)) {
+            $fformat = $fromform->prtincorrectformat;
+        }
+        $fromform->prtincorrect          = $this->import_xml_text($xml, 'prtincorrect', $format, $fformat);
         $fromform->penalty               = $format->getpath($xml, array('#', 'penalty', 0, '#'), 0.1);
         $fromform->multiplicationsign    = $format->getpath($xml, array('#', 'multiplicationsign', 0, '#'), 'dot');
         $fromform->sqrtsign              = $format->getpath($xml, array('#', 'sqrtsign', 0, '#'), 1);
@@ -1355,6 +1389,7 @@ class qtype_stack extends question_type {
     protected function import_xml_prt_node($xml, $prtname, $fromform, qformat_xml $format) {
         $name = $format->getpath($xml, array('#', 'name', 0, '#'), null, false, 'Missing PRT name in the XML.');
 
+        $fromform->{$prtname . 'description'}[$name]     = $format->getpath($xml, array('#', 'description', 0, '#'), '');
         $fromform->{$prtname . 'answertest'}[$name]      = $format->getpath($xml, array('#', 'answertest', 0, '#'), '');
         $fromform->{$prtname . 'sans'}[$name]            = $format->getpath($xml, array('#', 'sans', 0, '#'), '');
         $fromform->{$prtname . 'tans'}[$name]            = $format->getpath($xml, array('#', 'tans', 0, '#'), '');
@@ -1584,6 +1619,13 @@ class qtype_stack extends question_type {
 
         $errors['questionnote'] += $this->validation_check_no_placeholders(
                 stack_string('questionnote'), $fromform['questionnote']);
+
+        // Question description.
+        $errors['questiondescription'] = array();
+        $errors = $this->validate_cas_text($errors, $fromform['questiondescription']['text'],
+            'questiondescription', $fixingdollars);
+        $errors['questiondescription'] += $this->validation_check_no_placeholders(
+            stack_string('questiondescription', 'question'), $fromform['questiondescription']['text']);
 
         // 2) Validate all inputs.
         $stackinputfactory = new stack_input_factory();
@@ -1825,7 +1867,7 @@ class qtype_stack extends question_type {
         }
 
         // Instantiate all text fields and look for errors.
-        $castextfields = array('questiontext', 'specificfeedback', 'generalfeedback');
+        $castextfields = array('questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription');
         foreach ($castextfields as $field) {
             $errors = $this->validate_cas_text($errors, $fromform[$field]['text'], $field, $fixingdollars, clone $session);
         }
@@ -1996,6 +2038,8 @@ class qtype_stack extends question_type {
             $errors[$prtname.$field.'['.($nodename - 1).']'][] = stack_string('nodeloopdetected');
         }
 
+        // TODO: check the descriptions of all nodes are unique.
+
         return $errors;
     }
 
@@ -2035,6 +2079,11 @@ class qtype_stack extends question_type {
                     $errors[$nodegroup][] = stack_string('testoptionsinvalid', $message);
                 }
             }
+        }
+
+        $description = $fromform[$prtname . 'description'][$nodekey];
+        if (mb_strlen($description) > 32) {
+            $errors[$nodegroup][] = stack_string('description_err');
         }
 
         foreach (array('true', 'false') as $branch) {

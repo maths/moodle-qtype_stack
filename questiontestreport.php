@@ -102,18 +102,22 @@ echo $maxima;
 $offlinemaxima = array();
 $nodesummary1 = array();
 $nodesummary2 = array();
+$nodesummary3 = array();
+$nodesummary4 = array();
 $graphrepresentation = array();
 foreach ($question->prts as $prtname => $prt) {
     $nodes = $prt->get_nodes_summary();
     $nodesummary1[$prtname] = '';
     $nodesummary2[$prtname] = '';
     $nodesummary3[$prtname] = '';
+    $nodesummary4[$prtname] = '';
     $offlinemaxima[$prtname] = $prt->get_maxima_representation();
 
     foreach ($nodes as $key => $node) {
-        $nodesummary1[$prtname] .= ($key + 1). ': ' . $node->answertest . "\n";
-        $nodesummary2[$prtname] .= $node->trueanswernote . "\n";
-        $nodesummary3[$prtname] .= $node->falseanswernote . "\n";
+        $nodesummary1[$prtname] .= (((int) $node->nodename) + 1). ': ' . $node->answertest . "\n";
+        $nodesummary2[$prtname] .= $node->description . "\n";
+        $nodesummary3[$prtname] .= $node->trueanswernote . "\n";
+        $nodesummary4[$prtname] .= $node->falseanswernote . "\n";
     }
 
     $graph = $prt->get_prt_graph();
@@ -388,6 +392,11 @@ foreach ($question->prts as $prtname => $prt) {
 
     $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
     $node .= html_writer::tag('pre', s($nodesummary3[$prtname]));
+    $node .= html_writer::end_tag('div');
+    echo html_writer::tag('td', $node);
+
+    $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
+    $node .= html_writer::tag('pre', s($nodesummary4[$prtname]));
     $node .= html_writer::end_tag('div');
     echo html_writer::tag('td', $node);
 

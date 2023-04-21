@@ -77,7 +77,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     When I press "Create test case"
     Then I should see "All tests passed!"
     And I should see "Test case 1"
-    And following "Export as Moodle XML" should download between "3500" and "3800" bytes
+    And following "Export as Moodle XML" should download between "3700" and "3900" bytes
 
     # Use the tidy question script.
     And I follow "Tidy inputs and PRTs"

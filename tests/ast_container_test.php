@@ -170,9 +170,10 @@ class ast_container_test extends qtype_stack_testcase {
         // Note the error with the * in this expression.
         $casstring = stack_ast_container::make_from_student_source(json_decode('"\u212F"').'*^x', '', new stack_cas_security());
         $casstring->get_valid();
-        $this->assertEquals('Expected "#pm#", "%not ", "\'", "\'\'", "(", "+", "+-", "-", "? ", "?", "?? ", "[", "do", "for", "from", "if", ' .
-            '"in", "next", "not ", "not", "nounnot ", "nounnot", "step", "thru", "unless", "while", "{", "|", boolean, float, identifier, ' .
-            'integer, string or whitespace but "^" found.', $casstring->get_errors());
+        $this->assertEquals('Expected "#pm#", "%not ", "\'", "\'\'", "(", "+", "+-", "-", "? ", "?", "?? ", "[", "do", ' .
+            '"for", "from", "if", "in", "next", "not ", "not", "nounnot ", "nounnot", "step", "thru", "unless", ' .
+            '"while", "{", "|", boolean, float, identifier, integer, string or whitespace but "^" found.',
+            $casstring->get_errors());
         $this->assertEquals('ParseError', $casstring->get_answernote());
     }
 

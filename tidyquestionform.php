@@ -99,7 +99,7 @@ class qtype_stack_tidy_question_form extends moodleform {
             } else {
                 $right = $summary->falsenextnode + 1;
             }
-            $graph->add_node($nodekey + 1, $left, $right,
+            $graph->add_node($nodekey + 1, $summary->description, $left, $right,
                     $summary->truescoremode . round($summary->truescore, 2),
                     $summary->falsescoremode . round($summary->falsescore, 2));
         }

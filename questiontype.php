@@ -244,6 +244,7 @@ class qtype_stack extends question_type {
             // existing PRT, base things on the existing question definition.
             $graph = new stack_abstract_graph();
             foreach ($fromform->{$prtname . 'answertest'} as $nodename => $notused) {
+                $description   = $fromform->{$prtname . 'description'}[$nodename];
                 $truenextnode  = $fromform->{$prtname . 'truenextnode'}[$nodename];
                 $falsenextnode = $fromform->{$prtname . 'falsenextnode'}[$nodename];
 
@@ -258,7 +259,7 @@ class qtype_stack extends question_type {
                     $right = $falsenextnode + 1;
                 }
 
-                $graph->add_node($nodename + 1, $left, $right);
+                $graph->add_node($nodename + 1, $description, $left, $right);
             }
             $graph->layout();
             $roots = $graph->get_roots();
@@ -2228,6 +2229,7 @@ class qtype_stack extends question_type {
         // an existing PRT, base things on the submitted data.
         $submitted = optional_param_array($prtname . 'truenextnode', null, PARAM_RAW);
         if ($submitted) {
+            $description    = optional_param_array($prtname . 'description',    null, PARAM_RAW);
             $truescoremode  = optional_param_array($prtname . 'truescoremode',  null, PARAM_RAW);
             $truescore      = optional_param_array($prtname . 'truescore',      null, PARAM_RAW);
             $falsenextnode  = optional_param_array($prtname . 'falsenextnode',  null, PARAM_RAW);
@@ -2264,7 +2266,7 @@ class qtype_stack extends question_type {
                 if (is_numeric($fs)) {
                     $fs = round($fs, 2);
                 }
-                $graph->add_node($key + 1, $left, $right,
+                $graph->add_node($key + 1, $description, $left, $right,
                         $truescoremode[$key] . $ts,
                         $falsescoremode[$key] . $fs,
                         '#fgroup_id_' . $prtname . 'node_' . $key);
@@ -2273,7 +2275,7 @@ class qtype_stack extends question_type {
             }
 
             if (optional_param($prtname . 'nodeadd', false, PARAM_BOOL)) {
-                $graph->add_node($lastkey + 2, null, null, '+0', '-0',
+                $graph->add_node($lastkey + 2, '', null, null, '+0', '-0',
                         '#fgroup_id_' . $prtname . 'node_' . ($lastkey + 1));
             }
 
@@ -2301,7 +2303,7 @@ class qtype_stack extends question_type {
                 } else {
                     $right = $node->falsenextnode + 1;
                 }
-                $graph->add_node($node->nodename + 1, $left, $right,
+                $graph->add_node($node->nodename + 1, $node->description, $left, $right,
                         $node->truescoremode . $node->truescore,
                         $node->falsescoremode . $node->falsescore,
                         '#fgroup_id_' . $prtname . 'node_' . $node->nodename);
@@ -2313,7 +2315,7 @@ class qtype_stack extends question_type {
 
         // Otherwise, it is a new PRT. Just one node.
         $graph = new stack_abstract_graph();
-        $graph->add_node('1', null, null, '=1', '=0', '#fgroup_id_' . $prtname . 'node_0');
+        $graph->add_node('1', '', null, null, '=1', '=0', '#fgroup_id_' . $prtname . 'node_0');
         $graph->layout();
         $this->prtgraph[$prtname] = $graph;
         return $graph;

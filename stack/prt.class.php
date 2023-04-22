@@ -287,6 +287,11 @@ class stack_potentialresponse_tree_lite {
             $n->falsescore      = $node->falsescore;
             $n->falsescoremode  = $node->falsescoremode;
             $n->answertest      = $this->compile_node_answertest($node);
+            $name = (((int) $node->nodename) + 1);
+            if (trim($node->description) !== '') {
+                $name .= ': ' . trim($node->description);
+            }
+            $n->displayname     = $name;
             $summary[$node->nodename] = $n;
         }
         return $summary;
@@ -843,7 +848,7 @@ class stack_potentialresponse_tree_lite {
      */
     public function get_prt_graph($labels = false) {
         $graph = new stack_abstract_graph();
-        foreach ($this->nodes as $key => $node) {
+        foreach ($this->get_nodes_summary() as $key => $node) {
 
             if ($node->truenextnode == -1) {
                 $left = null;
@@ -863,8 +868,7 @@ class stack_potentialresponse_tree_lite {
             if ($labels && array_key_exists($node->falseanswernote, $labels)) {
                 $rlabel = $labels[$node->falseanswernote];
             }
-
-            $graph->add_node($key + 1, $left, $right, $llabel, $rlabel,
+            $graph->add_node($key + 1, $node, $left, $right, $llabel, $rlabel,
                 '#fgroup_id_' . $this->name . 'node_' . $key);
         }
 

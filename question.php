@@ -1897,6 +1897,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             'questionid' => $id,
             'field' => 'specificfeedback'
         ]);
+        // Legacy questions may have a null description before being saved/compiled.
+        if ($questiondescription === null) {
+            $questiondescription = '';
+        }
         $questiondescription = stack_castext_file_filter($questiondescription, [
             'questionid' => $id,
             'field' => 'questiondescription'

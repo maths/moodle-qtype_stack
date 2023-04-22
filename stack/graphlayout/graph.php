@@ -29,7 +29,6 @@ require_once(__DIR__ . '/graphnode.php');
 require_once(__DIR__ . '/graphclump.php');
 require_once(__DIR__ . '/svgrenderer.php');
 
-
 /**
  * Abstract representation of a graph (e.g. a PRT).
  *
@@ -71,14 +70,15 @@ class stack_abstract_graph {
      * Add a node to the graph.
      *
      * @param string $name name of the node to add.
+     * @param string $description text-based description of the node to add.
      * @param string $leftchild name of the left child node.
      * @param string $rightchild name of the right child node.
      * @param string $leftlabel lable to display on the edge to the left child.
      * @param string $rightlabel lable to display on the edge to the right child.
      * @param string $url if set, this node should be a link to that URL.
      */
-    public function add_node($name, $leftchild, $rightchild, $leftlabel = '', $rightlabel = '', $url = '') {
-        $this->nodes[$name] = new stack_abstract_graph_node($name, $leftchild, $rightchild,
+    public function add_node($name, $description, $leftchild, $rightchild, $leftlabel = '', $rightlabel = '', $url = '') {
+        $this->nodes[$name] = new stack_abstract_graph_node($name, $description, $leftchild, $rightchild,
                 $leftlabel, $rightlabel, $url);
     }
 

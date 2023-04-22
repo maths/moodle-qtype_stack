@@ -13,7 +13,7 @@
         <FIELD NAME="specificfeedback" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text for the specific feedback for the question."/>
         <FIELD NAME="specificfeedbackformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The FORMAT_... for the specific feedback"/>
         <FIELD NAME="questionnote" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text. This should be a short summary of which random variant of the question the student saw."/>
-        <FIELD NAME="questiondescription" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="CAS text. This field is used to store a description/nararive about the question itself."/>
+        <FIELD NAME="questiondescription" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text. This field is used to store a description/nararive about the question itself."/>
         <FIELD NAME="questiondescriptionformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The FORMAT_... for the question description"/>
         <FIELD NAME="questionsimplify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to simplify expressions in the question text, question variables, etc."/>
         <FIELD NAME="assumepositive" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether to assume that variables are positive."/>

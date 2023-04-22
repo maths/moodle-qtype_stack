@@ -252,8 +252,10 @@ class qtype_stack_test_helper extends question_test_helper {
             'format' => '1',
             'itemid' => 0);
         $formform->questionnote = '{@p@}, {@ta@}.';
-        $formform->questiondescription = 'This is a basic test question.';
-
+        $formform->questiondescription = array(
+            'text' => 'This is a basic test question.',
+            'format' => '1',
+            'itemid' => 0);
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'ta+c';
         $formform->ans1boxsize = 20;
@@ -275,6 +277,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->PotResTree_1feedbackstyle     = 1;
         $formform->PotResTree_1feedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
         $formform->PotResTree_1answertest = array(0 => 'Int');
+        $formform->PotResTree_1description = array(0 => 'Anti-derivative test');
         $formform->PotResTree_1sans = array(0 => 'ans1+0');
         $formform->PotResTree_1tans = array(0 => 'ta');
         $formform->PotResTree_1testoptions = array(0 => 'x');
@@ -2419,10 +2422,9 @@ class qtype_stack_test_helper extends question_test_helper {
                 'itemid' => 250226104);
         $formform->questionnote = '';
         $formform->questiondescription = array(
-            'text' => '',
-            'format' => '1',
-            'itemid' => 25022610);
-
+                'text' => '',
+                'format' => '1',
+                'itemid' => 25022610);
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'x^3';
         $formform->ans1boxsize = 15;

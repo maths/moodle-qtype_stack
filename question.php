@@ -1434,7 +1434,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function validate_against_stackversion($context) {
         $errors = array();
-        $qfields = array('questiontext', 'questionvariables', 'questionnote', 'specificfeedback', 'generalfeedback');
+        $qfields = array('questiontext', 'questionvariables', 'questionnote', 'questiondescription',
+            'specificfeedback', 'generalfeedback');
 
         $stackversion = (int) $this->stackversion;
 
@@ -1502,7 +1503,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Check files use match the files in the question.
         $fs = get_file_storage();
         $pat = '/@@PLUGINFILE@@([^@"])*[\'"]/';
-        $fields = array('questiontext', 'specificfeedback', 'generalfeedback');
+        $fields = array('questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription');
         foreach ($fields as $field) {
             $text = $this->$field;
             $filesexpected = preg_match($pat, $text);
@@ -1897,10 +1898,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             'questionid' => $id,
             'field' => 'specificfeedback'
         ]);
-        // Legacy questions may have a null description before being saved/compiled.
-        if ($questiondescription === null) {
-            $questiondescription = '';
-        }
         $questiondescription = stack_castext_file_filter($questiondescription, [
             'questionid' => $id,
             'field' => 'questiondescription'

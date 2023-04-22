@@ -92,6 +92,10 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             $data->matrixparens = '[';
         }
 
+        if (!property_exists($data, 'questiondescription')) {
+            $data->questiondescription = '';
+        }
+
         // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 

@@ -898,7 +898,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2022042700, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2023042101) {
+    if ($oldversion < 2023042200) {
 
         // Define field description to be added to qtype_stack_prt_nodes.
         $table = new xmldb_table('qtype_stack_prt_nodes');
@@ -909,7 +909,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
         // Define question description field to be added to qtype_stack_options.
         $table = new xmldb_table('qtype_stack_options');
-        $field = new xmldb_field('questiondescription', XMLDB_TYPE_TEXT, 'medium', null, null, null, null, 'questionnote');
+        $field = new xmldb_field('questiondescription', XMLDB_TYPE_TEXT, 'medium', null, XMLDB_NOTNULL, null, null, 'questionnote');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
@@ -920,8 +920,9 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         }
 
         // Stack savepoint reached.
-        upgrade_plugin_savepoint(true, 2023042101, 'qtype', 'stack');
+        upgrade_plugin_savepoint(true, 2023042200, 'qtype', 'stack');
     }
+
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version

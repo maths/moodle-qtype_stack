@@ -187,4 +187,4 @@ TODO: documentation for common app settings which can be addressed through param
 
 TODO: further documentation of the API for more complex tasks and custom named inputs
 
-TODO: document the use of `<div style="display:none"> ... </div>` as an aalternative to the hide inputs.  
+TODO: document the use of `<div style="display:none"> ... </div>` as an alternative to the hide inputs.  

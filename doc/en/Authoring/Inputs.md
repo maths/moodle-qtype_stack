@@ -250,7 +250,7 @@ Setting this option displays any feedback from this input, including echoing bac
 
 The "compact" version removes most of the styling.  This is needed when the answer is part of a table.
 
-### Extra option: hideanswer ###
+### Extra option: hideanswer ### {#extra_option_hideanswer}
 
 Users are increasingly using inputs to store _state_, which makes no sense for a user to see.  For example, when using [JSXGraph](JSXGraph.md) or [GeoGebra](GeoGebra.md) users transfer the configuration of the diagram into an input via JavaScript.  In many situations, it makes no sense for the student to see anything about this input.  The validation can be switched off with the regular "show validation" option, the input box itself can be hidden with JavaScript/CSS.  Putting `hideanswer` in the extra options stops displaying the "teacher's answer", e.g. at the end of the process.
 

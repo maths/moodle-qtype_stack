@@ -32,7 +32,9 @@ argument_add([ex]) := block([arg1],
 );
 argument_simp([ex]) := block([arg1],
   arg1:first(ex),
-  append(arg1, [["Simplify", ev(second(last(arg1)), simp)]])
+  /* Only add this step if something changes. */
+  if not(ev(second(last(arg1)), simp)=second(last(arg1))) then append(arg1, [["Simplify", ev(second(last(arg1)), simp)]]),
+  arg1
 );
 
 /* This will hold the complete argument. */
@@ -77,7 +79,9 @@ argument_add([ex]) := block([arg1],
 );
 argument_simp([ex]) := block([arg1],
   arg1:first(ex),
-  append(arg1, [["Simplify", ev(second(last(arg1)), simp)]])
+  /* Only add this step if something changes. */
+  if not(ev(second(last(arg1)), simp)=second(last(arg1))) then append(arg1, [["Simplify", ev(second(last(arg1)), simp)]]),
+  arg1
 );
 
 /* Solve x^2+p*x+q=0 */

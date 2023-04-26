@@ -1,3 +1,13 @@
+# STACK-Dynexite-API
+This branch contains a version of STACK, which has been extended by a REST-API for integration into Dynexite.
+
+Documentation about the applied modifications is available [in Redmine](https://projects.medien.rwth-aachen.de/projects/dynexite/wiki/Stack-Integration).
+
+## Deployment
+The STACK service is intended to be deployed as a Docker container. Pre-made images are available in the Dynexite registry under the identifier `registry.dynexite.rwth-aachen.de/stack/stack`. A sample docker-compose file can be found [here](./api/docker/docker-compose.yml).
+
+NOTE: The pre-built images rely on a recent version of the apache2 webserver, which requires a linux kernel version of 3.17 or newer on the Docker host.
+
 # STACK 4.4.2
 
 STACK is an assessment system for mathematics, science and related disciplines.  STACK is a question type for the Moodle learning management system, and also the ILIAS learning management system.

@@ -787,8 +787,14 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
         if (array_key_exists($name, $this->inputs)) {
+            $qv = [];
+            $qv['preamble-qv']         = $this->get_cached('preamble-qv');
+            $qv['contextvariables-qv'] = $this->get_cached('contextvariables-qv');
+            $qv['statement-qv']        = $this->get_cached('statement-qv');
+
             $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
-                $response, $this->options, $teacheranswer, $this->security, $rawinput);
+                $response, $this->options, $teacheranswer, $this->security, $rawinput,
+                $this->castextprocessor, $qv);
             return $this->inputstates[$name];
         }
         return '';

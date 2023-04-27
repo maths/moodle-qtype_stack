@@ -4060,7 +4060,6 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_debug() {
 
-        // Create the stack question 'test0'.
         $q = test_question_maker::make_question('stack', 'test3');
         $q->questiontext = $q->questiontext . ' [[ debug /]]';
         $this->start_attempt_at_question($q, 'adaptive', 1);
@@ -4080,5 +4079,60 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
             );
+    }
+
+    public function test_input_validator() {
+
+        $q = test_question_maker::make_question('stack', 'validator');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Type in the/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process an invalidate request.
+        $ia = 'x^2-1';
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: x^2-1 [invalid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Your answer contains the wrong variables/')
+            );
+
+        // Process a validate request.
+        $ia = 'phi^2-1';
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: phi^2-1 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
     }
 }

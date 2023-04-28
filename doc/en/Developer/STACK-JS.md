@@ -69,3 +69,29 @@ provide our own header modification script.
 If one needs to serve anything to those IFRAMEs from the local system one
 can either drop that thing into that `corsscripts/` directory or config
 ones own headers elsewhere. Currently, works with `.css` and `.js` files.
+
+
+## The general security reason
+
+While no attacks using the scripting are currently known, securing this
+border is necessary in a world where material sharing is more common. If your
+STACK installation is not new enough to use this security feature. Do pay
+extra attention to materials received from random sources, as they might
+contain scripting that would execute with your rights. Such execution could,
+for example:
+ 
+ 1. Exfiltrate information from the system that is likely to house
+    student details.
+ 2. Modify information in the system, for example, points, quiz settings, or
+    access rights.
+ 3. Do arbitrary actions "as you", e.g., post messages onto course forums.
+
+Do note that similar risks are related to any materials that allow arbitrary
+scripts to be included either by the student or by whoever authored
+the material and these types of attacks are always just one spoofed e-mail
+away.
+
+While unlikely, it is worth being careful until STACK has completed
+the migration to secured JavaScript. The current plan is to first provide
+means for doing things in a secure way and then forbid insecure methods
+in a following release. Until that following release, keep your eyes open.

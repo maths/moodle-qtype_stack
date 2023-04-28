@@ -354,17 +354,7 @@ foreach ($question->prts as $prtname => $prt) {
 
     $graph = $prt->get_prt_graph();
     $tablerow[] = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
-
-    $nodes = $prt->get_nodes_summary();
-    $fields = array('displayname', 'answertest', 'trueanswernote', 'falseanswernote');
-    foreach ($fields as $field) {
-        $textsummary = array();
-        foreach ($nodes as $key => $node) {
-            $textsummary[] = $node->$field;
-        }
-        $textsummary = html_writer::tag('pre', s(implode("\n", $textsummary)));
-        $tablerow[] = html_writer::tag('div', $textsummary, array('class' => 'questionvariables'));
-    }
+    $tablerow[] = stack_prt_graph_text_renderer::render($graph);
 
     $maxima = html_writer::tag('summary', $prtname) . html_writer::tag('pre', s($prt->get_maxima_representation()));
     $maxima = html_writer::tag('details', $maxima);
@@ -412,17 +402,7 @@ foreach ($question->prts as $prtname => $prt) {
 
         $graph = $prt->get_prt_graph();
         $tablerow[] = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
-
-        $nodes = $prt->get_nodes_summary();
-        $fields = array('displayname', 'answertest', 'trueanswernote', 'falseanswernote');
-        foreach ($fields as $field) {
-            $textsummary = array();
-            foreach ($nodes as $key => $node) {
-                $textsummary[] = $node->$field;
-            }
-            $textsummary = html_writer::tag('pre', s(implode("\n", $textsummary)));
-            $tablerow[] = html_writer::tag('div', $textsummary, array('class' => 'questionvariables'));
-        }
+        $tablerow[] = stack_prt_graph_text_renderer::render($graph);
 
         $maxima = html_writer::tag('pre', s($sumout[$prtname]));
         $tablerow[] = html_writer::tag('div', $maxima, array('class' => 'questionvariables'));

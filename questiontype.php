@@ -2095,7 +2095,7 @@ class qtype_stack extends question_type {
         }
 
         $description = $fromform[$prtname . 'description'][$nodekey];
-        if (mb_strlen($description) > 32) {
+        if (mb_strlen($description) > 255) {
             $errors[$nodegroup][] = stack_string('description_err');
         }
 
@@ -2278,7 +2278,7 @@ class qtype_stack extends question_type {
                 if (is_numeric($fs)) {
                     $fs = round($fs, 2);
                 }
-                $graph->add_node($key + 1, $description, $left, $right,
+                $graph->add_prt_node($key + 1, $description[$key], $left, $right,
                         $truescoremode[$key] . $ts,
                         $falsescoremode[$key] . $fs,
                         '#fgroup_id_' . $prtname . 'node_' . $key);
@@ -2315,10 +2315,14 @@ class qtype_stack extends question_type {
                 } else {
                     $right = $node->falsenextnode + 1;
                 }
-                $graph->add_node($node->nodename + 1, $node->description, $left, $right,
+                $graph->add_prt_node($node->nodename + 1, $node->description, $left, $right,
                         $node->truescoremode . $node->truescore,
                         $node->falsescoremode . $node->falsescore,
                         '#fgroup_id_' . $prtname . 'node_' . $node->nodename);
+                // Generate a text-based representation of the cas command.
+                $at = stack_potentialresponse_tree_lite::compile_node_answertest($node);
+                $graph->add_prt_text($node->nodename + 1, $at, $node->quiet,
+                    $node->trueanswernote, $node->falseanswernote);
             }
             $graph->layout();
             $this->prtgraph[$prtname] = $graph;
@@ -2326,8 +2330,9 @@ class qtype_stack extends question_type {
         }
 
         // Otherwise, it is a new PRT. Just one node.
+        // And we don't add any text-based information for new PRTs.
         $graph = new stack_abstract_graph();
-        $graph->add_node('1', '', null, null, '=1', '=0', '#fgroup_id_' . $prtname . 'node_0');
+        $graph->add_prt_node('1', '', null, null, '=1', '=0', '#fgroup_id_' . $prtname . 'node_0');
         $graph->layout();
         $this->prtgraph[$prtname] = $graph;
         return $graph;

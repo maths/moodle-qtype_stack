@@ -286,6 +286,7 @@ class stack_potentialresponse_tree_lite {
             $n->falseanswernote = $node->falseanswernote;
             $n->falsescore      = $node->falsescore;
             $n->falsescoremode  = $node->falsescoremode;
+            $n->quiet           = $node->quiet;
             $n->answertest      = $this->compile_node_answertest($node);
             $name = (((int) $node->nodename) + 1);
             if (trim($node->description) !== '') {
@@ -557,7 +558,7 @@ class stack_potentialresponse_tree_lite {
     /*
      * Generate the complete maxima command for a single answertest in a specific node.
      */
-    private function compile_node_answertest($node) {
+    public static function compile_node_answertest($node) {
         // TODO: make this saner, the way Stateful lets the tests do their own
         // call construction might duplicate things but it does not require this
         // much knowledge about the shape of things.
@@ -868,8 +869,10 @@ class stack_potentialresponse_tree_lite {
             if ($labels && array_key_exists($node->falseanswernote, $labels)) {
                 $rlabel = $labels[$node->falseanswernote];
             }
-            $graph->add_node($key + 1, $node, $left, $right, $llabel, $rlabel,
+            $graph->add_prt_node($key + 1, $node->description, $left, $right, $llabel, $rlabel,
                 '#fgroup_id_' . $this->name . 'node_' . $key);
+            $graph->add_prt_text($node->nodename + 1, $node->answertest, $node->quiet,
+                $node->trueanswernote, $node->falseanswernote);
         }
 
         $graph->layout();

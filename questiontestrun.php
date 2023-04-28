@@ -198,7 +198,7 @@ if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit) {
     foreach ($question->inputs as $inputname => $input) {
         $inputs[$inputname] = $input->get_teacher_answer_testcase();
     }
-    $qtest = new stack_question_test($inputs);
+    $qtest = new stack_question_test(stack_string('autotestcase'), $inputs);
     $response = stack_question_test::compute_response($question, $inputs);
 
     foreach ($question->prts as $prtname => $prt) {

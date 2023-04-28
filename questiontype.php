@@ -693,6 +693,9 @@ class qtype_stack extends question_type {
         global $DB;
         $transaction = $DB->start_delegated_transaction();
 
+        // Limit the length of descriptions.
+        $description = substr($qtest->description, 0, 255);
+
         if (!$testcase || !$DB->record_exists('qtype_stack_qtests',
                 array('questionid' => $questionid, 'testcase' => $testcase))) {
             // Find the first unused testcase number.
@@ -710,11 +713,14 @@ class qtype_stack extends question_type {
             $testcasedata = new stdClass();
             $testcasedata->questionid = $questionid;
             $testcasedata->testcase = $testcase;
+            $testcasedata->description = $description;
             $testcasedata->timemodified = time();
             $DB->insert_record('qtype_stack_qtests', $testcasedata);
         } else {
             $DB->set_field('qtype_stack_qtests', 'timemodified', time(),
                     array('questionid' => $questionid, 'testcase' => $testcase));
+            $DB->set_field('qtype_stack_qtests', 'description', $description,
+                array('questionid' => $questionid, 'testcase' => $testcase));
         }
 
         // Save the input data.
@@ -960,13 +966,13 @@ class qtype_stack extends question_type {
         }
 
         $testcasenumbers = $DB->get_records_menu('qtype_stack_qtests',
-                array('questionid' => $questionid), 'testcase', 'testcase, 1');
+                array('questionid' => $questionid), 'testcase', 'testcase, description');
         $testcases = array();
-        foreach ($testcasenumbers as $number => $notused) {
+        foreach ($testcasenumbers as $number => $description) {
             if (!array_key_exists($number, $testinputs)) {
                 $testinputs[$number] = array();
             }
-            $testcase = new stack_question_test($testinputs[$number], $number);
+            $testcase = new stack_question_test($description, $testinputs[$number], $number);
             $testcases[$number] = $testcase;
         }
 
@@ -992,14 +998,14 @@ class qtype_stack extends question_type {
         global $DB;
 
         // Verify that this testcase exists.
-        $DB->get_record('qtype_stack_qtests',
+        $test = $DB->get_record('qtype_stack_qtests',
                 array('questionid' => $questionid, 'testcase' => $testcase), '*', MUST_EXIST);
 
         // Load the inputs.
         $inputs = $DB->get_records_menu('qtype_stack_qtest_inputs',
                 array('questionid' => $questionid, 'testcase' => $testcase),
                 'inputname', 'inputname, value');
-        $qtest = new stack_question_test($inputs, $testcase);
+        $qtest = new stack_question_test($test->description, $inputs, $testcase);
 
         // Load the expectations.
         $expectations = $DB->get_records('qtype_stack_qtest_expected',
@@ -1203,6 +1209,8 @@ class qtype_stack extends question_type {
         foreach ($questiondata->testcases as $testcase => $qtest) {
             $output .= "    <qtest>\n";
             $output .= "      <testcase>{$testcase}</testcase>\n";
+            $description = $format->xml_escape($qtest->description);
+            $output .= "      <description>{$description}</description>\n";
 
             foreach ($qtest->inputs as $name => $value) {
                 $output .= "      <testinput>\n";
@@ -1423,6 +1431,10 @@ class qtype_stack extends question_type {
         $number = $format->getpath($xml, array('#', 'testcase', 0, '#'), null, false, 'Missing testcase number in the XML.');
 
         $inputs = array();
+        $description = '';
+        if (isset($xml['#']['description'])) {
+            $description = $format->getpath($xml, array('#', 'description', 0, '#'), '');
+        }
         if (isset($xml['#']['testinput'])) {
             foreach ($xml['#']['testinput'] as $inputxml) {
                 $name  = $format->getpath($inputxml, array('#', 'name', 0, '#'), '');
@@ -1431,7 +1443,7 @@ class qtype_stack extends question_type {
             }
         }
 
-        $testcase = new stack_question_test($inputs, $number);
+        $testcase = new stack_question_test($description, $inputs, $number);
 
         if (isset($xml['#']['expected'])) {
             foreach ($xml['#']['expected'] as $expectedxml) {

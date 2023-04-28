@@ -55,7 +55,11 @@ class qtype_stack_generator extends component_generator_base {
         foreach ($question->inputs as $inputname => $notused) {
             $inputs[$inputname] = $data[$inputname];
         }
-        $qtest = new stack_question_test($inputs);
+        $description = '';
+        if (array_key_exists('description', $data)) {
+            $description = $data['description'];
+        }
+        $qtest = new stack_question_test($description, $inputs);
 
         foreach ($question->prts as $prtname => $notused) {
             $qtest->add_expected_result($prtname,

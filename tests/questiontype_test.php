@@ -147,19 +147,19 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $seed = 1;
 
         $testcases = array();
-        $qtest = new stack_question_test(array('ans1' => 'x^3'));
+        $qtest = new stack_question_test('', array('ans1' => 'x^3'));
         $qtest->add_expected_result('odd', new stack_potentialresponse_tree_state(
                 1, true, 1, 0, '', array('odd-1-T')));
         $testcases[] = $qtest;
 
-        $qtest = new stack_question_test(array('ans1' => 'x^2'));
+        $qtest = new stack_question_test('', array('ans1' => 'x^2'));
         $qtest->add_expected_result('odd', new stack_potentialresponse_tree_state(
                 1, true, 0, 0.4, '', array('odd-1-F')));
         $testcases[] = $qtest;
 
         // This unit test runs a question test, with an input name as
         // the expected answer, which should work.
-        $qtest = new stack_question_test(array('ans2' => 'ans2'));
+        $qtest = new stack_question_test('', array('ans2' => 'ans2'));
         $qtest->add_expected_result('even', new stack_potentialresponse_tree_state(
                 1, true, 1, 0, '', array('even-1-T')));
 
@@ -280,6 +280,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <deployedseed>12345</deployedseed>
     <qtest>
       <testcase>1</testcase>
+      <description>Basic test of question</description>
       <testinput>
         <name>ans1</name>
         <value>2</value>
@@ -488,7 +489,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
 
         $expectedq->deployedseeds = array('12345');
 
-        $qtest = new stack_question_test(array('ans1' => '2'), 1);
+        $qtest = new stack_question_test('', array('ans1' => '2'), 1);
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
                         1, true, 1, 0, '', array('firsttree-1-T')));
         $expectedq->testcases[1] = $qtest;

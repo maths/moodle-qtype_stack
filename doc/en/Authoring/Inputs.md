@@ -331,40 +331,12 @@ The numerical argument provides potential for future-proofing features (e.g. cas
 
 ### Extra option: validator ###
 
-This allows an input to add additional bespoke validation, based on a function defined by the question author.  For example, put the following in the input extra options
+This allows an input to add additional bespoke validation, based on a function defined by the question author.  For example, you can define a function which checks if the student's answer is a _list of exactly three floating point numbers_.  See the [validator documetation](../CAS/Validator.md) for more details.
 
-    validator:myvalidityidea
+Writing bespoke validators is an advanced feature, but offers two significant benefits.
 
-Define the function named `myvalidityidea` in the question variables
-
-    myvalidityidea(ex) := block([l],
-      l:length(ex),
-      if l < 3 then 
-        return(castext("Your list only has {#l#} elements, which is too few.")),
-      ""
-    );
-
-Notes
-
-1. There must be no reference to the input name within the validator function definition, indeed you cannot reference an input in the question variables.  The validator must be a pure function of a single variable.
-2. If the function returns a non-empty string, then the student's answer will be considered invalid, and the string displayed to the student as a validation error message as part of the input validation.
-3. If the function returns an empty string or `true` then the student's input is considered to be valid.  The use of an empty string here for valid is designed to encourage teachers to write meaningful error messages to students!
-4. The function can reference other question variables, e.g. the teacher's answer.
-5. The function is always executed with `simp:false` regardless of the question settings.
-6. The function is only called last, and only if the expression is already valid otherwise.
-7. To localise your validation messages use the castext `lang` block.
-8. The student still cannot use any of the variable names defined in the question variables.
-9. Validators only operate on a single input, and there is no mechanism to validate a combination of inputs at once.
-
-Another example
-
-    ta:phi^2-1;
-    myvalidityidea(ex) := block(
-        if ev(subsetp(setify(listofvars(ex)),setify(listofvars(ta))), simp) then return(""),
-        castext("[[lang code='fi']]Vastauksesi sisältää vääriä muuttujia.[[/lang]][[lang code='en']]Your answer contains the wrong variables.[[/lang]]")
-    );
-
-A single validator function can be re-used on multiple inputs within a single question. If you regularly copy validator functions from question to question please consider contributing this as a function to the core of STACK.  We expect to collect and support regularly used validators in future.
+1. Students are less likely to be penalised on a technicality, especially in high-stakes situations;
+2. Potential response tree authoring becomes much easier and more reliable because the validation acts as a "guard clause" only allowing correctly structured information through to the PRT.  This means type-checking need not be done in the PRT before assessment.
 
 ## Extra options ##
 

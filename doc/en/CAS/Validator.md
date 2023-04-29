@@ -92,3 +92,25 @@ In this example
 
 1. `["Quadratic",x^2-1]` is valid.
 2. `[x^2-1,"Quadratic"]` is invalid because the second argument here is a string. In this case the error message comes from the common language pack.
+
+Many language examples have variables which need to be injected.  In this example, the variable `m0` needs to be injected.
+
+    $string['ValidateVarsSpurious']   = 'These variables are not needed: {$a->m0}.';
+
+To inject variables into a language string we define the value of `m0` in the `[[commonstring ... /]]` block.
+
+    spurious_val(ex):=block([%_tmp,simp],
+        simp:false,
+        %_tmp: listofvars(ex),
+        simp:true,
+        %_tmp: setdifference(setify(%_tmp), {x,y,z}),
+        if cardinality(%_tmp) = 0 then "",
+        castext("[[commonstring key='ValidateVarsSpurious' m0='listify(%_tmp)'/]]")
+    );
+
+Note, when injecting a value `m0='X'` the `X` must be a Maxima expression, not a displayed string.
+
+1. to inject the Maxima expression `X` with `{@...@}` injection (without wrapping like `\(...\)`) to a named placeholder `m0` use `m0='X'`.
+1. to inject the Maxima expression `X` with `{#...#}` injection, to get raw values, to a named placeholder `m0` use `raw_m0='X'`.
+
+For other prefix options see the documentaiton for the commonstring block.

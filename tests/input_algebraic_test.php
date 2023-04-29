@@ -1659,7 +1659,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('x^2', $state->contentsmodified);
         $this->assertEquals('\[ x^2 \]', $state->contentsdisplayed);
-        $this->assertEquals('Could not evaluate the optional validator <code>missingfunction</code>.',
+        $this->assertEquals('The optional validator threw internal Maxima errors.',
             $state->errors);
     }
 }

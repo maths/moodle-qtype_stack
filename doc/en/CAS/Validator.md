@@ -77,16 +77,18 @@ Note, any language strings in supported validators _must_ appear in the STACK la
 
 Individual language strings can then be referred to using STACK's `[[commonstring ... /]]` block.  For example, the language pack contains the string
 
-    $string['ValidateVarsSpurious'] = 'These variables are not needed: {$a->m0}.';
-    
-An example of how to use this in Maima code is below.  Note how we need to format the list of variables as a comma separated castext object using `stack_disp_comma_separate_math_castext`.
+    $string['Illegal_strings'] = 'Your answer contains "strings" these are not allowed here.';
 
-    spurious_val(ex):=block([%_tmp,simp],
-        simp:false,
-        %_tmp: setify(lisofvars(ex)),
-        simp:true,
-        %_tmp: setdifference(%_tmp, {x,y,z}),
-        if cardinality(%tmp) = 0 then "",
-        castext("[[commonstring key='ValidateVarsSpurious' m0='stack_disp_comma_separate_math_castext(listify(%_tmp))'/]]")
+An example of how to use this in Maima code is below.
+
+    myvalidator(ex):=block(
+        if not(listp(ex)) then return("Your answer must be a list."),
+        if not(is(length(ex)=2)) then return("Your list must have two elements."),
+        if stringp(second(ex)) then return(castext("[[commonstring key='Illegal_strings' /]]")),
+        true
     );
 
+In this example
+
+1. `["Quadratic",x^2-1]` is valid.
+2. `[x^2-1,"Quadratic"]` is invalid because the second argument here is a string. In this case the error message comes from the common language pack.

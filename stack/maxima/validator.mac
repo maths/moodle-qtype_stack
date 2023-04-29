@@ -187,7 +187,10 @@ stack_multi_validator(ex, validators):=block([%_tmp, %_val, %_errfound],
     %_tmp:[],
     %_errfound:false,
     for %_val in validators do block([%_tested],
-        /* We expect some errors, so don't use EC as errors are trapped at this level, not the session level. */
+        /* Since we evluate all functions we have no opportunity for guard clauses.
+           Hence, we expect some errors, and therefore don't use EC.
+           Instead errors are trapped at this level, not the session level.
+        */
         %_tested:errcatch(%_val(ex)),
         if emptyp(%_tested) then
             %_errfound:true
@@ -195,12 +198,8 @@ stack_multi_validator(ex, validators):=block([%_tmp, %_val, %_errfound],
             %_tmp:append(%_tmp,%_tested)
     ),
     /* Add the error message only once. */
-    if %_errfound then %_tmp:append(%_tmp, [ "[[commonstring key='studentValidation_invalidAnswer' /]]" ]),
-
-    /* castext with commonstrings don't work here.
-    if %_errfound then %_tmp:append(%_tmp, [castext("[[commonstring key='studentValidation_invalidAnswer' /]]")]),
-    */
-
+    /* See https://github.com/maths/moodle-qtype_stack/issues/870 on how to generate this from a castext() call. */
+    if %_errfound then %_tmp:append(%_tmp, [ ["%root",["%cs","inputvalidatorerrcouldnot"]] ]),
     /* Remove all valid results.*/
     %_tmp: delete("", delete(true, %_tmp)),
     if %_tmp = [] then return(""),
@@ -211,31 +210,24 @@ stack_multi_validator(ex, validators):=block([%_tmp, %_val, %_errfound],
 
 /**
  * A convenience function for combining validators, to be used with the input validator system.
- * Executes functions received until one throws an error or fails, and returns the first output as error/fail.
+ * Executes functions received until one fails, and returns the first output as fail.
+ * Any errors thrown should be considered authoring errors.
  *
  * @param[expression] the input value to be validated.
  * @param[list of identifers] the names of the functions to be combined.
  * @return[string or CASText] the result of those validations.
  */
-
-stack_seq_validator(ex, validators):=block([%_tmp, %_val, %_errfound,  %_continue],
+stack_seq_validator(ex, validators):=block([%_tmp, %_val, %_continue],
     %_tmp:"",
-    %_errfound:false,
     %_continue:true,
-    /* Use a loop instead of while to simplify errcatch vs test fail logic. */
-    for %_val in validators do block([%_tested],
+    /* Use a loop instead of while to simplify test fail logic. */
+    for %_val in validators do block(
         if %_continue then block(
-            /* Don't use _EC here to quietly return to the top level with an invalid on error. */
-            %_tested:errcatch(%_val(ex)),
-            if emptyp(%_tested) then (
-                %_errfound:true,
-                %_continue:false
-            ) else if is(first(%_tested)=true) then (
-                %_continue:true
-            ) else if is(first(%_tested)="") then (
+            /* Don't use _EC or errcatch as only one test should fail.  Any error is a genuine authoring error. */
+            %_tmp:%_val(ex),
+            if is(%_tmp=true) or is(%_tmp="") then (
                 %_continue:true
             ) else (
-                %_tmp:first(%_tested),
                 %_continue:false
             )
         )

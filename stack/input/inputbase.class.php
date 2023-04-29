@@ -1211,12 +1211,12 @@ abstract class stack_input {
                         }
                     } else {
                         $valid = false;
-                        $errors[] = stack_string('inputvalidatorerrcouldnot', array('val' => $this->extraoptions['validator']));
+                        $errors[] = stack_string('inputvalidatorerrcouldnot');
                     }
                 }
             } else {
                 $valid = false;
-                $errors[] = stack_string('inputvalidatorerrcouldnot', array('val' => $this->extraoptions['validator']));
+                $errors[] = stack_string('inputvalidatorerrcouldnot');
             }
             $rnerr = $additionalvars['validator']->get_errors();
             if (trim($rnerr) != '') {

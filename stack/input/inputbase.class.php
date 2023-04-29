@@ -695,7 +695,7 @@ abstract class stack_input {
             $ta = '0';
             $trivialta = true;
             if (array_key_exists($index, $tvalidator)) {
-                if (!('' == trim($tvalidator[$index]))) {
+                if (!('' == trim($tvalidator[$index] ?? ''))) {
                     $ta = $tvalidator[$index];
                     $trivialta = false;
                 }

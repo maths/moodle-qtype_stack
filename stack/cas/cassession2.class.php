@@ -207,7 +207,7 @@ class stack_cas_session2 {
      */
     public function get_errors($implode = true, $withcontext = true) {
         $errors = array();
-        $this->timeouterrmessage = trim($this->timeouterrmessage);
+        $this->timeouterrmessage = trim($this->timeouterrmessage ?? '');
 
         foreach ($this->statements as $num => $statement) {
             $err = $statement->get_errors('implode');
@@ -564,7 +564,7 @@ class stack_cas_session2 {
     }
 
     public function get_debuginfo() {
-        if (trim($this->timeouterrmessage) !== '') {
+        if (trim($this->timeouterrmessage ?? '') !== '') {
             return $this->timeouterrmessage;
         }
         return '';

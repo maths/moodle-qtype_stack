@@ -168,8 +168,8 @@ You can use the following commands inside the geogebra tag if the sub tags cant 
 
 * `stack_geogebra_bind_point(args)`
 * `stack_geogebra_bind_value(args)`
-* `stack geogebra_bind_value_to_remember_JSON(args)`
-* `stack geogebra_bind_point_to_remember_JSON(args)`
+* `stack_geogebra_bind_value_to_remember_JSON(args)`
+* `stack_geogebra_bind_point_to_remember_JSON(args)`
 
 #### minimal example
 

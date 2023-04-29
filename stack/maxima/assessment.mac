@@ -181,16 +181,10 @@ select_apply([ex1]) := block([f1, ex, s1],
 element_listp(ex, l) := any_listp(lambda([ex2], is(ex2=ex)), l)$
 
 /* all_listp(p,l) true if all elements of l satisfy p. */
-all_listp(p, l) := block([ret],
-  if listp(l) then ret:apply("and", maplist(p, l)) else ret:"fail",
-  return(ret)
-)$
+all_listp(p, l) := if listp(l) then apply("and", maplist(p, l)) else error("all_listp expects its argument to be a list.")$
 
 /* any_listp(p,l) true if all elements of l satisfy p. */
-any_listp(p, l) := block([ret],
-  if listp(l) then ret:apply("or", maplist(p, l)) else ret:"fail",
-  return(ret)
-)$
+any_listp(p, l) := if listp(l) then apply("or", maplist(p, l)) else error("any_listp expects its argument to be a list.")$
 
 /* Returns true iff a and b are lists (not necessarily same length) with one or more common elements, false o/w. */
 listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$

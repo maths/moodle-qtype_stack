@@ -1702,6 +1702,11 @@ class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_stack_a
                       array('Illegal_form'),
                       false, true);
 
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
+                      array('Illegal_form'),
+                      false, true);
+
         $this->expect('/* Comment */x+1',
                       '/* Comment */x+1',
                       array('Illegal_form'),
@@ -3400,6 +3405,11 @@ class ast_filter_801_singleton_numeric_auto_generated_test extends qtype_stack_a
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array('Illegal_form'),
+                      false, true);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array('Illegal_form'),
                       false, true);
 

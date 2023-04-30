@@ -1772,6 +1772,11 @@ class ast_filter_202_decimal_places_validation_auto_generated_test extends qtype
                       array(),
                       false, true);
 
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
+                      array(),
+                      false, true);
+
         $this->expect('/* Comment */x+1',
                       '/* Comment */x+1',
                       array(),
@@ -3540,6 +3545,11 @@ class ast_filter_202_decimal_places_validation_auto_generated_test extends qtype
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      false, true);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array(),
                       false, true);
 

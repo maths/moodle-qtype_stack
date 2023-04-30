@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="question/type/stack/db" VERSION="20220427" COMMENT="XMLDB file for Moodle question/type/stack"
+<XMLDB PATH="question/type/stack/db" VERSION="20230421" COMMENT="XMLDB file for Moodle question/type/stack"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
 >
@@ -13,6 +13,8 @@
         <FIELD NAME="specificfeedback" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text for the specific feedback for the question."/>
         <FIELD NAME="specificfeedbackformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The FORMAT_... for the specific feedback"/>
         <FIELD NAME="questionnote" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text. This should be a short summary of which random variant of the question the student saw."/>
+        <FIELD NAME="questiondescription" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="CAS text. This field is used to store a description/nararive about the question itself."/>
+        <FIELD NAME="questiondescriptionformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The FORMAT_... for the question description"/>
         <FIELD NAME="questionsimplify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to simplify expressions in the question text, question variables, etc."/>
         <FIELD NAME="assumepositive" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether to assume that variables are positive."/>
         <FIELD NAME="assumereal" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether to assume that variables are real."/>
@@ -87,7 +89,8 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key reference to question.id"/>
         <FIELD NAME="prtname" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" COMMENT="foreign key reference to qtype_stack_prts.name"/>
-        <FIELD NAME="nodename" TYPE="char" LENGTH="8" NOTNULL="true" SEQUENCE="false" COMMENT="Unique identifier for the node. Currently we use 1, 2, 3, ... but we are storing strings in case we want to move to more meaningful node names in future."/>
+        <FIELD NAME="nodename" TYPE="char" LENGTH="8" NOTNULL="true" SEQUENCE="false" COMMENT="Unique identifier for the node. Currently we use 1, 2, 3, ..."/>
+        <FIELD NAME="description" TYPE="char" LENGTH="255" NOTNULL="false" DEFAULT="" SEQUENCE="false" COMMENT="We store meaningful node purpose."/>
         <FIELD NAME="answertest" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" COMMENT="What answer test to apply at this node."/>
         <FIELD NAME="sans" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="What expression to feed into the sans side of the answer test."/>
         <FIELD NAME="tans" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="What expression to feed into the tans side of the answer test."/>
@@ -134,6 +137,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Foreign key link to question.id"/>
+        <FIELD NAME="description" TYPE="char" LENGTH="255" NOTNULL="false" DEFAULT="" SEQUENCE="false" COMMENT="We store meaningful test purpose."/>
         <FIELD NAME="testcase" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Sequential number for this testcase within this question."/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
       </FIELDS>

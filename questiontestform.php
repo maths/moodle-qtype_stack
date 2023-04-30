@@ -39,6 +39,9 @@ class qtype_stack_question_test_form extends moodleform {
         $mform = $this->_form;
         $question = $this->_customdata['question'];
 
+        $mform->addElement('text', 'description', stack_string('description'), array('size' => 64));
+        $mform->setType('description', PARAM_RAW);
+
         // Inputs.
         $mform->addElement('header', 'inputsheader', stack_string('testinputs'));
 

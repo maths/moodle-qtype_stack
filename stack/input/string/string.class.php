@@ -29,7 +29,8 @@ class stack_string_input extends stack_algebraic_input {
 
     protected $extraoptions = array(
         'hideanswer' => false,
-        'allowempty' => false
+        'allowempty' => false,
+        'validator' => false
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

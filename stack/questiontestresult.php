@@ -242,6 +242,10 @@ class stack_question_test_result {
                 array('no' => $key, 'result' => $outcome)));
         }
 
+        if (trim($this->testcase->description) !== '') {
+            $html .= html_writer::tag('p', $this->testcase->description);
+        }
+
         if ($this->emptytestcase) {
             $html .= html_writer::tag('p', stack_string_error('questiontestempty'));
         }

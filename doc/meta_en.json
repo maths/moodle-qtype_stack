@@ -439,6 +439,11 @@
         "file":"Statistics.md",
         "title":"Statistics - STACK Documentation",
         "description":"Information on support for statistics in STACK. "
+        },
+        {
+        "file":"Validator.md",
+        "title":"Creating bespoke validation - STACK Documentation",
+        "description":"How to create bespoke validation of student's input."
         }
       ]
       },

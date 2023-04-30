@@ -276,6 +276,8 @@ class stack_potentialresponse_tree_lite {
         $summary = [];
         foreach ($this->nodes as $node) {
             $n = new stdClass();
+            $n->nodename        = $node->nodename;
+            $n->description     = $node->description;
             $n->truenextnode    = $node->truenextnode;
             $n->trueanswernote  = $node->trueanswernote;
             $n->truescore       = $node->truescore;
@@ -284,7 +286,13 @@ class stack_potentialresponse_tree_lite {
             $n->falseanswernote = $node->falseanswernote;
             $n->falsescore      = $node->falsescore;
             $n->falsescoremode  = $node->falsescoremode;
+            $n->quiet           = $node->quiet;
             $n->answertest      = $this->compile_node_answertest($node);
+            $name = (((int) $node->nodename) + 1);
+            if (trim($node->description) !== '') {
+                $name .= ': ' . trim($node->description);
+            }
+            $n->displayname     = $name;
             $summary[$node->nodename] = $n;
         }
         return $summary;
@@ -550,7 +558,7 @@ class stack_potentialresponse_tree_lite {
     /*
      * Generate the complete maxima command for a single answertest in a specific node.
      */
-    private function compile_node_answertest($node) {
+    public static function compile_node_answertest($node) {
         // TODO: make this saner, the way Stateful lets the tests do their own
         // call construction might duplicate things but it does not require this
         // much knowledge about the shape of things.
@@ -841,7 +849,7 @@ class stack_potentialresponse_tree_lite {
      */
     public function get_prt_graph($labels = false) {
         $graph = new stack_abstract_graph();
-        foreach ($this->nodes as $key => $node) {
+        foreach ($this->get_nodes_summary() as $key => $node) {
 
             if ($node->truenextnode == -1) {
                 $left = null;
@@ -861,9 +869,10 @@ class stack_potentialresponse_tree_lite {
             if ($labels && array_key_exists($node->falseanswernote, $labels)) {
                 $rlabel = $labels[$node->falseanswernote];
             }
-
-            $graph->add_node($key + 1, $left, $right, $llabel, $rlabel,
+            $graph->add_prt_node($key + 1, $node->description, $left, $right, $llabel, $rlabel,
                 '#fgroup_id_' . $this->name . 'node_' . $key);
+            $graph->add_prt_text($node->nodename + 1, $node->answertest, $node->quiet,
+                $node->trueanswernote, $node->falseanswernote);
         }
 
         $graph->layout();

@@ -1635,4 +1635,31 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('These variables are not needed: x, z. ' .
             'These variables are missing: a, b, c.', $state->errors);
     }
+
+    public function test_invalid_validator_name() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'state', 'x^2');
+        $el->set_parameter('options', 'validator:bad%functionname');
+        $el->validate_extra_options();
+
+        $this->assertEquals(array('The name of a validator function must be a valid maxima identifier ' .
+            'in the form of letters a-zA-Z optionally followed by digits.'),
+            $el->get_errors());
+    }
+
+    public function test_missing_validator_() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'state', 'x^2');
+        $el->set_parameter('options', 'validator:missingfunction');
+        $el->validate_extra_options();
+        $this->assertEquals(array(), $el->get_errors());
+
+        $state = $el->validate_student_response(array('state' => 'x^2'), $options, 'x^2',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('x^2', $state->contentsmodified);
+        $this->assertEquals('\[ x^2 \]', $state->contentsdisplayed);
+        $this->assertEquals('The optional validator threw internal Maxima errors.',
+            $state->errors);
+    }
 }

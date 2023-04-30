@@ -19,7 +19,7 @@ Display with subscripts is a subtle and potentially confusing issue because subs
 2. Subscripts denote differentiation, e.g. \( x_t \) is the derivative of \(x \) with respect to \(t\).
 3. Subscripts denote coordinates in a vector, in \( \vec{v} = (v_1, v_2, \cdots, v_n)  \).
 
-There are many other possible uses for subscripts, especially in other subjects e.g. in physics or [actuarial studies](../Authoring/Actuarial.md).
+There are many other possible uses for subscripts, especially in other subjects e.g. in physics or [actuarial studies](../Reference/Actuarial.md).
 
 Because Maxima considers subscripted expressions to be atoms, the default TeX output of an atom `V_alpha` from Maxima is \( {\it V\_alpha} \) (literally `{\it V\_alpha}`) and not \( V_{\alpha} \) as a user might expect.  For this reason STACK intercepts and redefines how atoms with the underscore are displayed.  In particular STACK (but not core Maxima) takes an atom `A_B`, applies the `tex()` command to `A` and `B` separately and concatenates the result using subscripts.  For example, if you define
 

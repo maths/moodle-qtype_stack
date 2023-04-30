@@ -6,7 +6,7 @@ Colleagues assessing proof might also consider [semi-automatic marking](Semi-aut
 
 ## Styles
 
-From STACK 4.3 we support the following CSS styles to enable consistent display of mathematical proof, and arguments in general.  General style was also introduced with the [HELM](HELM.md) materials.
+From STACK 4.3 we support the following CSS styles to enable consistent display of mathematical proof, and arguments in general.  General style was also introduced with the [HELM](../Reference/HELM.md) materials.
 
 ### `<div class="proof">`
 

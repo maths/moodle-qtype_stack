@@ -283,7 +283,7 @@ See the page on [propositional logic](Propositional_Logic.md).
 Some further examples are given elsewhere:
 
 * Matrix examples in [showing working](Matrix.md#Showing-working).
-* An example of a question with `simp:false` is discussed in [authoring quick start 7](../Authoring/Authoring_quick_start_7.md).
+* An example of a question with `simp:false` is discussed in [authoring quick start 7](/AbInitio/Authoring_quick_start_7.md).
 * Generating [random algebraic expressions](Random.md) which need to be "gathered and sorted".
 
 Note also that [question tests](../Authoring/Testing.md#Simplification) do not simplify test inputs.

@@ -122,7 +122,7 @@ LaTeX notation can specify inline or display mode for maths by delimiting with `
 
 \[ \int_a^b x^2\ dx \]
 
-There is a specific page for [actuarial notation](Actuarial.md).
+There is a specific page for [actuarial notation](/Reference/Actuarial.md).
 
 ## CASText generating functions ##
 

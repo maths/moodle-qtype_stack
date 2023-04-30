@@ -73,7 +73,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     Then the following fields match these values:
       | ans1        | x - 1    |
       | Score       | 0        |
-      | Penalty     | 0.1      |
+      | Penalty     |          |
       | Answer note | prt1-1-F |
     When I press "Create test case"
     Then I should see "All tests passed!"
@@ -202,7 +202,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     Then the following fields match these values:
       | ans1        | x - 1    |
       | Score       | 0        |
-      | Penalty     | 0.1      |
+      | Penalty     |          |
       | Answer note | prt1-1-F |
     When I press "Create test case"
     Then I should see "All tests passed!"

@@ -232,7 +232,6 @@ stack_seq_validator(ex, validators):=block([%_tmp, %_val, %_continue],
             )
         )
     ),
-    if %_errfound then return(castext("[[commonstring key='studentValidation_invalidAnswer' /]]")),
     %_tmp
 );
 

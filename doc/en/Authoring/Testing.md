@@ -80,6 +80,8 @@ On the question testing page is a "Send to CAS" button.  Pressing this sends the
 
 A Moodle administrator can run all of the questions tests within a particular course, or across the whole site by following the links on the STACK admin page.  It is useful do to this after upgrading the STACK code on the server to identify any test cases which have changed.
 
+Test cases can include a meaningful description of up to 255 characters.  This field is a simple string, and is not castext.
+
 ## Test case construction and Maxima evaluation
 
 Test cases are always written assuming `simp:false` regardless of the option set elsewhere.  If you want to construct a simplified test case then wrap this in `ev(... , simp)` to simplify the expression generating the test case.  This behaviour is required to enable construction of unsimplified test cases.

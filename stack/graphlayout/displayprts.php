@@ -85,7 +85,7 @@ foreach ($frequency as $key => $count) {
         } else {
             $right += 1;
         }
-        $tree->add_node($node + 1, $left, $right);
+        $tree->add_node($node + 1, '', $left, $right);
     }
     reset($uniquetree);
     echo $OUTPUT->heading('Tree used ' . $count . ' times');

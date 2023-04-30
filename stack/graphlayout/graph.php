@@ -25,10 +25,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/graphnode.php');
+require_once(__DIR__ . '/prtnode.php');
 require_once(__DIR__ . '/graphclump.php');
 require_once(__DIR__ . '/svgrenderer.php');
-
+require_once(__DIR__ . '/textrenderer.php');
 
 /**
  * Abstract representation of a graph (e.g. a PRT).
@@ -71,15 +71,40 @@ class stack_abstract_graph {
      * Add a node to the graph.
      *
      * @param string $name name of the node to add.
+     * @param string $description text-based description of the node to add.
      * @param string $leftchild name of the left child node.
      * @param string $rightchild name of the right child node.
      * @param string $leftlabel lable to display on the edge to the left child.
      * @param string $rightlabel lable to display on the edge to the right child.
      * @param string $url if set, this node should be a link to that URL.
      */
-    public function add_node($name, $leftchild, $rightchild, $leftlabel = '', $rightlabel = '', $url = '') {
-        $this->nodes[$name] = new stack_abstract_graph_node($name, $leftchild, $rightchild,
+    public function add_node($name, $description, $leftchild, $rightchild, $leftlabel = '', $rightlabel = '', $url = '') {
+        $this->nodes[$name] = new stack_abstract_graph_node($name, $description, $leftchild, $rightchild,
                 $leftlabel, $rightlabel, $url);
+    }
+
+    /**
+     * Add a prt node to the graph.  These nodes have more text-based fields for better representation.
+     *
+     * @param string $name name of the node to add.
+     * @param string $description text-based description of the node to add.
+     * @param string $leftchild name of the left child node.
+     * @param string $rightchild name of the right child node.
+     * @param string $leftlabel lable to display on the edge to the left child.
+     * @param string $rightlabel lable to display on the edge to the right child.
+     * @param string $url if set, this node should be a link to that URL.
+     */
+    public function add_prt_node($name, $description, $leftchild, $rightchild, $leftlabel = '', $rightlabel = '', $url = '') {
+        $this->nodes[$name] = new stack_prt_graph_node($name, $description, $leftchild, $rightchild,
+            $leftlabel, $rightlabel, $url);
+    }
+
+    public function add_prt_text($name, $casstatement, $quiet, $truenote, $falsenote) {
+        if ($this->nodes[$name] instanceof stack_prt_graph_node) {
+            $this->nodes[$name]->add_prt_text($casstatement, $quiet, $truenote, $falsenote);
+        } else {
+            throw new stack_exception('Trying to add text-based fields to the wrong kind of node.');
+        }
     }
 
     public function remove_node($nametodelete) {

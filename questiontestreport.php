@@ -61,9 +61,7 @@ echo $OUTPUT->header();
 $renderer = $PAGE->get_renderer('qtype_stack');
 echo $OUTPUT->heading($question->name, 2);
 
-
 // Link back to question tests.
-
 $out = html_writer::link($testquestionlink, stack_string('runquestiontests'), array('target' => '_blank'));
 
 // If question has no random variants.
@@ -98,27 +96,6 @@ $maxima = html_writer::start_tag('div', array('class' => 'questionvariables'));
 $maxima .= html_writer::tag('pre', s(trim($vars)));
 $maxima .= html_writer::end_tag('div');
 echo $maxima;
-
-$offlinemaxima = array();
-$nodesummary1 = array();
-$nodesummary2 = array();
-$graphrepresentation = array();
-foreach ($question->prts as $prtname => $prt) {
-    $nodes = $prt->get_nodes_summary();
-    $nodesummary1[$prtname] = '';
-    $nodesummary2[$prtname] = '';
-    $nodesummary3[$prtname] = '';
-    $offlinemaxima[$prtname] = $prt->get_maxima_representation();
-
-    foreach ($nodes as $key => $node) {
-        $nodesummary1[$prtname] .= ($key + 1). ': ' . $node->answertest . "\n";
-        $nodesummary2[$prtname] .= $node->trueanswernote . "\n";
-        $nodesummary3[$prtname] .= $node->falseanswernote . "\n";
-    }
-
-    $graph = $prt->get_prt_graph();
-    $graphrepresentation[$prtname] = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
-}
 
 flush();
 
@@ -370,36 +347,27 @@ foreach ($prtreportsummary as $prt => $data) {
     }
 }
 
+// Produce a text-based summary of a PRT.
 foreach ($question->prts as $prtname => $prt) {
-    echo html_writer::start_tag('table');
-    echo html_writer::start_tag('tr');
+    // Here we render each PRT as a separate single-row table.
+    $tablerow = array($prtname);
 
-    echo html_writer::tag('td', $graphrepresentation[$prtname]);
+    $graph = $prt->get_prt_graph();
+    $tablerow[] = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
+    $tablerow[] = stack_prt_graph_text_renderer::render($graph);
 
-    $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
-    $node .= html_writer::tag('pre', s($nodesummary1[$prtname]));
-    $node .= html_writer::end_tag('div');
-    echo html_writer::tag('td', $node);
+    $maxima = html_writer::tag('summary', $prtname) . html_writer::tag('pre', s($prt->get_maxima_representation()));
+    $maxima = html_writer::tag('details', $maxima);
+    $tablerow[] = html_writer::tag('div', $maxima, array('class' => 'questionvariables'));
 
-    $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
-    $node .= html_writer::tag('pre', s($nodesummary2[$prtname]));
-    $node .= html_writer::end_tag('div');
-    echo html_writer::tag('td', $node);
-
-    $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
-    $node .= html_writer::tag('pre', s($nodesummary3[$prtname]));
-    $node .= html_writer::end_tag('div');
-    echo html_writer::tag('td', $node);
-
-    $maxima = html_writer::start_tag('div', array('class' => 'questionvariables'));
-    $out = html_writer::tag('summary', $prtname);
-    $out .= html_writer::tag('pre', s($offlinemaxima[$prtname]));
-    $maxima .= html_writer::tag('details', $out);
-    $maxima .= html_writer::end_tag('div');
-    echo html_writer::tag('td', $maxima);
-
-    echo html_writer::end_tag('tr');
-    echo html_writer::end_tag('table');
+    // Render the html as a single table.
+    $html = '';
+    foreach ($tablerow as $td) {
+        $html .= html_writer::tag('td', $td);
+    }
+    $html = html_writer::tag('tr', $html);
+    $html = html_writer::tag('table', $html);
+    echo $html;
 
     if (array_key_exists($prtname, $sumout)) {
         echo html_writer::tag('pre', trim($sumout[$prtname]));
@@ -427,41 +395,31 @@ if (trim(implode($sumout)) !== '') {
     echo html_writer::tag('h3', stack_string('basicreportnotessplit'));
 }
 
-echo html_writer::start_tag('table');
+$tablerows = array();
 foreach ($question->prts as $prtname => $prt) {
     if (array_key_exists($prtname, $prtlabels)) {
-        echo html_writer::start_tag('tr');
+        $tablerow = array($prtname);
 
-        echo html_writer::tag('td', $prtname);
-        echo html_writer::tag('td', $graphrepresentation[$prtname]);
+        $graph = $prt->get_prt_graph();
+        $tablerow[] = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
+        $tablerow[] = stack_prt_graph_text_renderer::render($graph);
 
-        $graph = $prt->get_prt_graph($prtlabels[$prtname]);
-        echo html_writer::tag('td', stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg'));
+        $maxima = html_writer::tag('pre', s($sumout[$prtname]));
+        $tablerow[] = html_writer::tag('div', $maxima, array('class' => 'questionvariables'));
 
-        $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
-        $node .= html_writer::tag('pre', s($nodesummary1[$prtname]));
-        $node .= html_writer::end_tag('div');
-        echo html_writer::tag('td', $node);
-
-        $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
-        $node .= html_writer::tag('pre', s($nodesummary2[$prtname]));
-        $node .= html_writer::end_tag('div');
-        echo html_writer::tag('td', $node);
-
-        $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
-        $node .= html_writer::tag('pre', s($nodesummary3[$prtname]));
-        $node .= html_writer::end_tag('div');
-        echo html_writer::tag('td', $node);
-
-        $maxima = html_writer::start_tag('div', array('class' => 'questionvariables'));
-        $maxima .= html_writer::tag('pre', s($sumout[$prtname]));
-        $maxima .= html_writer::end_tag('div');
-        echo html_writer::tag('td', $maxima);
-
-        echo html_writer::end_tag('tr');
+        $tablerows[] = $tablerow;
     }
 }
-echo html_writer::end_tag('table');
+// Now create the HTML table.
+$html = '';
+foreach ($tablerows as $tablerow) {
+    $rowhtml = '';
+    foreach ($tablerow as $td) {
+        $rowhtml .= html_writer::tag('td', $td);
+    }
+    $html .= html_writer::tag('tr', $rowhtml);
+}
+echo html_writer::tag('table', $html);
 
 // Raw inputs and PRT answer notes by variant.
 if (array_keys($summary) !== array()) {

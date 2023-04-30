@@ -25,6 +25,11 @@ require_once(__DIR__ . '/questiontestresult.php');
 
 class stack_question_test {
     /**
+     * @var string Give each testcase a meaningful description.
+     */
+    public $description;
+
+    /**
      * @var int|null test-case number, if this is a real test stored in the database, else null.
      */
     public $testcase;
@@ -44,7 +49,8 @@ class stack_question_test {
      * @param array $inputs input name => value to enter.
      * @param int $testcase test-case number, if this is a real test stored in the database.
      */
-    public function __construct($inputs, $testcase = null) {
+    public function __construct($description, $inputs, $testcase = null) {
+        $this->description = $description;
         $this->inputs = $inputs;
         $this->testcase = $testcase;
     }

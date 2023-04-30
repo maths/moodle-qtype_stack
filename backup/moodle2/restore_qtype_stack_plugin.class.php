@@ -92,6 +92,10 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             $data->matrixparens = '[';
         }
 
+        if (!property_exists($data, 'questiondescription')) {
+            $data->questiondescription = '';
+        }
+
         // Detect if the question is created or mapped.
         $questioncreated = (bool) $this->get_mappingid('question_created', $this->get_old_parentid('question'));
 
@@ -285,7 +289,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
         foreach ($prtswithoutfirstnode as $prt) {
             $nodes = $DB->get_records('qtype_stack_prt_nodes',
                     array('questionid' => $prt->questionid, 'prtname' => $prt->name), '',
-                    'nodename, truenextnode, falsenextnode');
+                    'nodename, description, truenextnode, falsenextnode');
 
             // Find the root node of the PRT.
             // Otherwise, if an existing question is being edited, and this is an
@@ -304,7 +308,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
                     $right = $node->falsenextnode + 1;
                 }
 
-                $graph->add_node($node->nodename + 1, $left, $right);
+                $graph->add_node($node->nodename + 1, $node->description, $left, $right);
             }
             try {
                 $graph->layout();

@@ -65,7 +65,7 @@ class qtype_stack_tidy_question_form extends moodleform {
             $mform->addElement('header', 'prtnodesheader' . $prtname,
                     stack_string('prtnodesheading', $prtname));
 
-            $graph = $graph = $this->get_prt_graph($prt);
+            $graph = $this->get_prt_graph($prt);
             $newnames = $graph->get_suggested_node_names();
             $mform->addElement('static', $prtname . 'graph', '',
                     stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg'));
@@ -83,7 +83,7 @@ class qtype_stack_tidy_question_form extends moodleform {
     }
 
     /**
-     * Get a stack_abstract_graph represemtatopm of a PRT.
+     * Get a stack_abstract_graph representation of a PRT.
      * @return stack_abstract_graph.
      */
     protected function get_prt_graph($prt) {
@@ -99,7 +99,7 @@ class qtype_stack_tidy_question_form extends moodleform {
             } else {
                 $right = $summary->falsenextnode + 1;
             }
-            $graph->add_node($nodekey + 1, $left, $right,
+            $graph->add_node($nodekey + 1, $summary->description, $left, $right,
                     $summary->truescoremode . round($summary->truescore, 2),
                     $summary->falsescoremode . round($summary->falsescore, 2));
         }

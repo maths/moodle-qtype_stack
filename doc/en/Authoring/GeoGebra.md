@@ -4,6 +4,9 @@ Author Tim Lutz - University of Edinburgh and University of Education Heidelberg
 
 STACK supports inclusion of dynamic graphs using GeoGebra: [https://geogebra.org](https://geogebra.org).  This page documents how to use GeoGebra applets to display visuals, and as a STACK input.
 
+Information from GeoGebra applets can be linked to STACK inputs and assessed by potential response trees in the normal way.  To help with assessment, STACK provides a number of [geometry related maxima functions](../CAS/Geometry.md).
+
+Please note that significant computation and calculation can be done within GeoGebra itself.  In many cases it might be much better to establish mathematical properties within the GeoGebra applet itself, and link the _results_ to STACK inputs.  These results could be the distance between relevant objects, or boolean results.
 
 ## Before we start: Check Editor preferences
 
@@ -188,3 +191,5 @@ TODO: documentation for common app settings which can be addressed through param
 TODO: further documentation of the API for more complex tasks and custom named inputs
 
 TODO: document the use of `<div style="display:none"> ... </div>` as an alternative to the hide inputs.  
+
+TODO: does GeoGebra have a boolean type? If so, can we have an example linking a GeoGebra boolean to STACK?  If people start writing assessment code within a GeoGebra applet itself then it would be helpful to just return true/false to STACK inputs!

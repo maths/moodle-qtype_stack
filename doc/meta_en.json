@@ -371,6 +371,11 @@
         "description":"Information on displaying greek letters in STACK."
         },
         {
+        "file":"Geometry.md",
+        "title":"Geometry related function - STACK Documentation",
+        "description":"Information on geometry related functions in STACK, particulary related to the GeoGebra input type."
+        },
+        {
         "file":"Inequalities.md",
         "title":"Inequalities - STACK Documentation",
         "description":"Information on displaying inequalities, as well as functions that support inequalities."

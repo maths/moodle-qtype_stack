@@ -157,6 +157,7 @@ load("assessment.mac");
 load("noun_simp.mac");
 load("inequalities.mac");
 load("intervals.mac");
+load("geometry.mac");
 load("stackunits.mac");
 load("stackstrings.mac");
 load("fboundp.mac");

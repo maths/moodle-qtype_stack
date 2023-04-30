@@ -1,0 +1,39 @@
+/*  Author Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2023 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/* ************************************************************* */
+/* Geometry related functions added for the GeoGebra input type. */
+/* Function names here should match function names in Geogebra   */
+/* ************************************************************* */
+
+/**
+ * Euclidean distance between points represented as lists.
+ * If one of the lists is shorter, assume the same value for missing dimensions.
+ *
+ * @param[list] v1 list of values 
+ * @param[list] v2 list of values
+ * @return[scalar expression] the Euclidean distance between two vectors as an expression.
+ */
+Distance(v1, v2) := block([simp,_i],
+  if not(listp(v1) and listp(v2)) then error("Distance expects its arguments to be lists."),
+  simp:true,
+  sqrt(apply("+", makelist((v1[_i]-v2[_i])^2, _i, 1, min(length(v1), length(v2)))))
+)$
+
+s_test_case(simp) := is(sqrt(2) = distance([0,0] , [1,1]))$
+s_test_case(simp) := is(1 = distance([0,0] , [1,0]))$
+s_test_case(simp) := is(0 = distance([0,0] , [0,0,0,0]))$
+s_test_case(simp) := is(sqrt((y_1-y_2)^2+(x_1-x_2)^2) = distance([x_1,y_1], [x_2,y_2]))$
+s_test_case(simp) := is((x1-x2)^2+(y1-y2)^2) = distance([x1,y1] , [x2,y2])$

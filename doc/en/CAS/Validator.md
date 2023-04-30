@@ -104,7 +104,7 @@ To inject variables into a language string we define the value of `m0` in the `[
         %_tmp: listofvars(ex),
         simp:true,
         %_tmp: setdifference(setify(%_tmp), {x,y,z}),
-        if cardinality(%_tmp) = 0 then "",
+        if cardinality(%_tmp) = 0 then return(""),
         castext("[[commonstring key='ValidateVarsSpurious' m0='listify(%_tmp)'/]]")
     );
 

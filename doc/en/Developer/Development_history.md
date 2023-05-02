@@ -114,7 +114,7 @@ Bug fixes and minor improvements.
 
 ## Version 4.3.5
 
-* Add in the [HELM](../Authoring/HELM.md) styles.
+* Add in the [HELM](../Reference/HELM.md) styles.
 
 ## Version 4.3.5
 

@@ -1829,6 +1829,11 @@ class ast_filter_406_split_implied_variable_names_auto_generated_test extends qt
                       array(),
                       true, false);
 
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
+                      array(),
+                      true, false);
+
         $this->expect('/* Comment */x+1',
                       '/* Comment */x+1',
                       array(),
@@ -3552,6 +3557,11 @@ class ast_filter_406_split_implied_variable_names_auto_generated_test extends qt
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array(),
                       true, false);
 

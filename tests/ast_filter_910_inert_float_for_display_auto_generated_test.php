@@ -197,6 +197,11 @@ class ast_filter_910_inert_float_for_display_auto_generated_test extends qtype_s
                       array(),
                       true, false);
 
+        $this->expect('1.2*mˆ2',
+                      'dispdp(1.2,1)*m^2',
+                      array(),
+                      true, false);
+
     }
 
     public function test_affected_units() {
@@ -360,6 +365,11 @@ class ast_filter_910_inert_float_for_display_auto_generated_test extends qtype_s
 
         $this->expect('1.2*m**2',
                       'dispdp(1.2,1)*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*mˆ2',
+                      'dispdp(1.2,1)*m^2',
                       array(),
                       true, false);
 

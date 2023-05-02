@@ -21,12 +21,13 @@ Feature: Create, preview, test, tidy and edit STACK questions
     When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
     # Create a new question.
     And I add a "STACK" question filling the form with:
-      | Question name      | Test STACK question                                                           |
-      | Question variables | p : (x-1)^3;                                                                  |
-      | Question text      | Differentiate {@p@} with respect to \(x\). [[input:ans1]] [[validation:ans1]] |
-      | Model answer       | diff(p,x)                                                                     |
-      | SAns               | ans1                                                                          |
-      | TAns               | diff(p,x)                                                                     |
+      | Question name        | Test STACK question                                                           |
+      | Question variables   | p : (x-1)^3;                                                                  |
+      | Question text        | Differentiate {@p@} with respect to \(x\). [[input:ans1]] [[validation:ans1]] |
+      | Question description | This is a very simple test question.                                          |
+      | Model answer         | diff(p,x)                                                                     |
+      | SAns                 | ans1                                                                          |
+      | TAns                 | diff(p,x)                                                                     |
     Then I should see "Test STACK question"
 
     # Preview it.
@@ -72,12 +73,12 @@ Feature: Create, preview, test, tidy and edit STACK questions
     Then the following fields match these values:
       | ans1        | x - 1    |
       | Score       | 0        |
-      | Penalty     | 0.1      |
+      | Penalty     |          |
       | Answer note | prt1-1-F |
     When I press "Create test case"
     Then I should see "All tests passed!"
     And I should see "Test case 1"
-    And following "Export as Moodle XML" should download between "3500" and "3800" bytes
+    And following "Export as Moodle XML" should download between "3700" and "4000" bytes
 
     # Use the tidy question script.
     And I follow "Tidy inputs and PRTs"
@@ -93,13 +94,14 @@ Feature: Create, preview, test, tidy and edit STACK questions
     # Edit the question, verify the form field contents, then change some.
     When I am on the "Test STACK question" "core_question > edit" page
     Then the following fields match these values:
-      | Question name      | Test STACK question                                                         |
-      | Question variables | p : (x-1)^3;                                                                |
-      | Question text      | Differentiate {@p@} with respect to \(x\). [[input:ans]] [[validation:ans]] |
-      | Specific feedback  | [[feedback:prt]]                                                            |
-      | Model answer       | diff(p,x)                                                                   |
-      | SAns               | ans                                                                         |
-      | TAns               | diff(p,x)                                                                   |
+      | Question name        | Test STACK question                                                         |
+      | Question variables   | p : (x-1)^3;                                                                |
+      | Question text        | Differentiate {@p@} with respect to \(x\). [[input:ans]] [[validation:ans]] |
+      | Question description | This is a very simple test question.                                        |
+      | Specific feedback    | [[feedback:prt]]                                                            |
+      | Model answer         | diff(p,x)                                                                   |
+      | SAns                 | ans                                                                         |
+      | TAns                 | diff(p,x)                                                                   |
     And I set the following fields to these values:
       | Question name | Edited question name |
     And I press "id_submitbutton"
@@ -200,7 +202,7 @@ Feature: Create, preview, test, tidy and edit STACK questions
     Then the following fields match these values:
       | ans1        | x - 1    |
       | Score       | 0        |
-      | Penalty     | 0.1      |
+      | Penalty     |          |
       | Answer note | prt1-1-F |
     When I press "Create test case"
     Then I should see "All tests passed!"

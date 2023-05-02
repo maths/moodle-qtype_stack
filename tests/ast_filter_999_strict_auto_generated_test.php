@@ -1974,6 +1974,11 @@ class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_testcase
                       array(),
                       true, false);
 
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
+                      array(),
+                      true, false);
+
         $this->expect('/* Comment */x+1',
                       '/* Comment */x+1',
                       array(),
@@ -3552,6 +3557,11 @@ class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_testcase
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array(),
                       true, false);
 

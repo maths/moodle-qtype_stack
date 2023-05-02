@@ -23,7 +23,12 @@ require_once(__DIR__ . '/filter.interface.php');
  */
 class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
 
+    public static $ssmap = null;
+
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
+        if (self::$ssmap === null) {
+            self::$ssmap = json_decode(file_get_contents(__DIR__ . '/../../maximaparser/unicode/superscript-stack.json'), true);
+        }
 
         $selectednames = stack_cas_security::get_all_with_feature('trigfun');
 
@@ -65,19 +70,37 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
                 $node->rhs instanceof MP_Group &&
                 $node->lhs instanceof MP_Operation &&
                 $node->lhs->op === '^' &&
-                $node->lhs->lhs instanceof MP_Identifier &&
-                array_key_exists($node->lhs->lhs->value, $selectednames)) {
-                // Those rules should not match anything else.
-                $node->position['invalid'] = true;
-                // TODO: now that we have the whole "function call" as the $node
-                // the error message could print out it all, but without that star...
-                $errors[] = stack_string('stackCas_trigexp',
-                    array('forbid' => stack_maxima_format_casstring($node->lhs->lhs->value.'^'),
-                        'identifier' => $node->lhs->lhs->value));
-                if (array_search('trigexp', $answernotes) === false) {
-                    $answernotes[] = 'trigexp';
+                $node->lhs->lhs instanceof MP_Identifier) {
+                $bad = array_key_exists($node->lhs->lhs->value, $selectednames);
+                if (!$bad) {
+                    foreach ($selectednames as $name) {
+                        if (mb_strpos($node->lhs->lhs->value, $name) === 0) {
+                            $chars = preg_split('//u', $node->lhs->lhs->value, -1, PREG_SPLIT_NO_EMPTY);
+                            foreach ($chars as $chr) {
+                                if (isset(self::$ssmap[$chr])) {
+                                    $bad = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if ($bad) {
+                            break;
+                        }
+                    }
                 }
-                return true;
+                if ($bad === true) {
+                    // Those rules should not match anything else.
+                    $node->position['invalid'] = true;
+                    // TODO: now that we have the whole "function call" as the $node
+                    // the error message could print out it all, but without that star...
+                    $errors[] = stack_string('stackCas_trigexp',
+                        array('forbid' => stack_maxima_format_casstring($node->lhs->lhs->value.'^'),
+                            'identifier' => $node->lhs->lhs->value));
+                    if (array_search('trigexp', $answernotes) === false) {
+                        $answernotes[] = 'trigexp';
+                    }
+                    return true;
+                }
             }
             // @codingStandardsIgnoreStart
 
@@ -97,17 +120,69 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
             if ($node instanceof MP_Operation &&
                 $node->op === '^' &&
                 $node->lhs instanceof MP_Identifier &&
-                $node->rhs instanceof MP_FunctionCall &&
-                array_key_exists($node->lhs->value, $selectednames)) {
-                // Those rules should not match anything else.
-                $node->position['invalid'] = true;
-                $errors[] = stack_string('stackCas_trigexp',
-                    array('forbid' => stack_maxima_format_casstring($node->lhs->value.'^'),
+                $node->rhs instanceof MP_FunctionCall) {
+                $bad = array_key_exists($node->lhs->value, $selectednames);
+                if (!$bad) {
+                    foreach ($selectednames as $name) {
+                        if (mb_strpos($node->lhs->value, $name) === 0) {
+                            $chars = preg_split('//u', $node->lhs->value, -1, PREG_SPLIT_NO_EMPTY);
+                            foreach ($chars as $chr) {
+                                if (isset(self::$ssmap[$chr])) {
+                                    $bad = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if ($bad) {
+                            break;
+                        }
+                    }
+                }
+                if ($bad === true) {
+                    // Those rules should not match anything else.
+                    $node->position['invalid'] = true;
+                    $errors[] = stack_string('stackCas_trigexp',
+                        array('forbid' => stack_maxima_format_casstring($node->lhs->value.'^'),
                         'identifier' => $node->lhs->value));
-                if (array_search('trigexp', $answernotes) === false) {
-                    $answernotes[] = 'trigexp';
+                    if (array_search('trigexp', $answernotes) === false) {
+                        $answernotes[] = 'trigexp';
+                    }
+                    return true;
                 }
             }
+
+            if ($node instanceof MP_FunctionCall &&
+                $node->name instanceof MP_Identifier) {
+                $bad = false;
+                if (!$bad) {
+                    foreach ($selectednames as $name) {
+                        if (mb_strpos($node->name->value, $name) === 0) {
+                            $chars = preg_split('//u', $node->name->value, -1, PREG_SPLIT_NO_EMPTY);
+                            foreach ($chars as $chr) {
+                                if (isset(self::$ssmap[$chr])) {
+                                    $bad = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if ($bad) {
+                            break;
+                        }
+                    }
+                }
+                if ($bad === true) {
+                    // Those rules should not match anything else.
+                    $node->position['invalid'] = true;
+                    $errors[] = stack_string('stackCas_trigexp',
+                        array('forbid' => stack_maxima_format_casstring($node->name->value.'^'),
+                        'identifier' => $node->name->value));
+                    if (array_search('trigexp', $answernotes) === false) {
+                        $answernotes[] = 'trigexp';
+                    }
+                    return true;
+                }
+            }
+
             return true;
         };
         $ast->callbackRecurse($process);

@@ -1799,6 +1799,11 @@ class ast_filter_005_i_is_never_a_function_auto_generated_test extends qtype_sta
                       array(),
                       true, false);
 
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
+                      array(),
+                      true, false);
+
         $this->expect('/* Comment */x+1',
                       '/* Comment */x+1',
                       array(),
@@ -3552,6 +3557,11 @@ class ast_filter_005_i_is_never_a_function_auto_generated_test extends qtype_sta
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array(),
                       true, false);
 

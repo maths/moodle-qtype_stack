@@ -171,7 +171,7 @@ abstract class stack_input {
      */
     protected function internal_contruct() {
         $options = $this->get_parameter('options');
-        if (trim($options) != '') {
+        if (trim($options ?? '') != '') {
             $options = explode(',', $options);
             foreach ($options as $option) {
                 $option = strtolower(trim($option));
@@ -352,6 +352,19 @@ abstract class stack_input {
                 case 'nounits':
                     if (!(is_bool($arg))) {
                         $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'validator':
+                    // Perform simple checking of function names: not fully general.
+                    $good = true;
+                    if ($arg === false) {
+                        $good = true;
+                    } else if (!preg_match('/^([a-zA-Z]+|[a-zA-Z]+[0-9a-zA-Z_]*[0-9a-zA-Z]+)$/', $arg)) {
+                        $good = false;
+                    }
+                    if (!$good) {
+                        $this->errors[] = stack_string('inputvalidatorerr', array('opt' => $option, 'val' => $arg));
                     }
                     break;
 
@@ -617,7 +630,7 @@ abstract class stack_input {
      * @return stack_input_state represents the current state of the input.
      */
     public function validate_student_response($response, $options, $teacheranswer, stack_cas_security $basesecurity,
-            $ajaxinput = false) {
+            $ajaxinput = false, $castextprocessor = null, $questionvariables = null) {
         if (!is_a($options, 'stack_options')) {
             throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');
         }
@@ -695,7 +708,7 @@ abstract class stack_input {
             $ta = '0';
             $trivialta = true;
             if (array_key_exists($index, $tvalidator)) {
-                if (!('' == trim($tvalidator[$index]))) {
+                if (!('' == trim($tvalidator[$index] ?? ''))) {
                     $ta = $tvalidator[$index];
                     $trivialta = false;
                 }
@@ -736,7 +749,7 @@ abstract class stack_input {
             $sessionvars[] = $lvars;
         }
 
-        $additionalvars = array_merge($this->extra_option_variables(),
+        $additionalvars = array_merge($this->extra_option_variables($questionvariables),
                 $this->additional_session_variables($caslines, $teacheranswer));
         $sessionvars = array_merge($sessionvars, $additionalvars);
 
@@ -776,10 +789,10 @@ abstract class stack_input {
         if ('units' == $validationmethod || 'unitsnegpow' == $validationmethod) {
             // The units type changes the display, so we really need the validation method display here.
             list($valid, $errors, $display) = $this->validation_display($answer, $lvars, $caslines, $additionalvars,
-                    $valid, $errors);
+                $valid, $errors, $castextprocessor);
         } else {
             list($valid, $errors, $display) = $this->validation_display($answerd, $lvars, $caslines, $additionalvars,
-                    $valid, $errors);
+                $valid, $errors, $castextprocessor);
         }
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
@@ -992,7 +1005,7 @@ abstract class stack_input {
         return array();
     }
 
-    private function extra_option_variables() {
+    private function extra_option_variables($questionvariables) {
 
         $additionalvars = array();
 
@@ -1038,6 +1051,23 @@ abstract class stack_input {
                     '', new stack_cas_security(), array());;
         }
 
+        if (array_key_exists('validator', $this->extraoptions) && $this->extraoptions['validator']) {
+            if ($questionvariables) {
+                if ($questionvariables['preamble-qv'] !== null) {
+                    $additionalvars['preamble-qv'] = new stack_secure_loader($questionvariables['preamble-qv'], 'preamble');
+                }
+                if ($questionvariables['contextvariables-qv'] !== null) {
+                    $additionalvars['contextvariables-qv'] = new stack_secure_loader($questionvariables['contextvariables-qv'],
+                        'contextvariables');
+                }
+                if ($questionvariables['statement-qv'] !== null) {
+                    $additionalvars['statement-qv'] = new stack_secure_loader($questionvariables['statement-qv'], 'statement');
+                }
+            }
+            $additionalvars['validator'] = stack_ast_container::make_from_teacher_source(
+                $this->extraoptions['validator'].'('.$this->name.')', '', new stack_cas_security(), array());
+        }
+
         return $additionalvars;
     }
 
@@ -1050,7 +1080,7 @@ abstract class stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor) {
 
         $display = stack_maxima_format_casstring($this->contents_to_maxima($this->rawcontents));
         if ($answer->is_correctly_evaluated()) {
@@ -1161,6 +1191,37 @@ abstract class stack_input {
             if ($this->extraoptions['rationalized'] && $rn->get_value() !== 'true') {
                 $valid = false;
                 $errors[] = stack_string('ATLowestTerms_not_rat', array('m0' => '\[ '.$rn->get_display().' \]'));
+            }
+        }
+
+        // We only call our bespoke validator when it's valid so far.
+        if ($valid && array_key_exists('validator', $additionalvars)) {
+            $rn = $additionalvars['validator'];
+            if ($rn->is_correctly_evaluated()) {
+                $rn = $rn->get_ast_clone();
+                $rn = $rn->statement;
+                if ($rn instanceof MP_Boolean && $rn->value == true) {
+                    $valid = true;
+                } else {
+                    if ($rn instanceof MP_String || $rn instanceof MP_List) {
+                        $msg = castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor);
+                        if (trim($msg) !== '') {
+                            $valid = false;
+                            $errors[] = $msg;
+                        }
+                    } else {
+                        $valid = false;
+                        $errors[] = stack_string('inputvalidatorerrcouldnot');
+                    }
+                }
+            } else {
+                $valid = false;
+                $errors[] = stack_string('inputvalidatorerrcouldnot');
+            }
+            $rnerr = $additionalvars['validator']->get_errors();
+            if (trim($rnerr) != '') {
+                $valid = false;
+                $errors[] = stack_string('inputvalidatorerrors', array('err' => $rnerr));
             }
         }
 

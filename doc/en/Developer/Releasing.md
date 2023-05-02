@@ -26,6 +26,7 @@ Check
  * [development history](Development_history.md) and [development track](Development_track.md) `history/track`.
  * Execute `php cli/answertests_docs.php` to update the static docs about answertests.
  * Execute `doc/maintenance.php` to search for broken links etc.
+ * Execute `cli/unicode_data_process.php` to update unicode mappings.
 * version.php
  * check both the Moodle versions, and the required number. (https://docs.moodle.org/dev/Releases)
  * `MATURITY_STABLE`?

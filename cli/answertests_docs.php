@@ -51,8 +51,6 @@ foreach ($availabletests as $anstest) {
         'teacheranswer' => stack_string('teacheranswer'),
         'options'       => stack_string('options_short'),
         'rawmark'       => stack_string('testsuitecolmark'),
-        'error'         => stack_string('testsuitecolerror'),
-        'feedback'      => stack_string('testsuitefeedback'),
         'answernote'    => stack_string('answernote'),
     );
 
@@ -85,7 +83,7 @@ foreach ($availabletests as $anstest) {
             reset($columns);
             $firstcol = key($columns);
             // This is a slight cludge to get multiple columns in a row.
-            $notes = html_writer::tag('td', $test->notes, array('colspan' => '8'));
+            $notes = html_writer::tag('td', $test->notes, array('colspan' => '6'));
             $table->add_data(array($notes), 'notes');
         }
 
@@ -130,9 +128,6 @@ foreach ($availabletests as $anstest) {
             'teacheranswer' => html_writer::tag('pre', $tans),
             'options'       => $topt,
             'rawmark'       => $mark,
-            'error'         => $error,
-            'feedback'      => format_text($feedback),
-            'feedback'      => $feedback,
             'answernote'    => $ansnote,
         );
         if (!$passed) {
@@ -141,6 +136,21 @@ foreach ($availabletests as $anstest) {
         }
 
         $table->add_data_keyed($row, $class);
+
+        // Add errors as a separate row for better spacing.
+        $row = [];
+        $row[] = html_writer::tag('td', '', array('colspan' => '2'));
+        $row[] = html_writer::tag('td', $error, array('colspan' => '4'));
+        if ($error != '') {
+            $table->add_data($row, $class);
+        }
+        // Add feeback as a separate row for better spacing.
+        $row = [];
+        $row[] = html_writer::tag('td', '', array('colspan' => '2'));
+        $row[] = html_writer::tag('td', $feedback, array('colspan' => '4'));
+        if ($feedback != '' && $feedback != $error) {
+            $table->add_data($row, $class);
+        }
     }
 
     $table->finish_output();

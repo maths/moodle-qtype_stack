@@ -1,6 +1,6 @@
 # Authoring quick start 4: randomisation
 
-[1 - First question](Authoring_quick_start.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | 4 - Randomisation | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
+[1 - First question](Authoring_quick_start_1.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | 4 - Randomisation | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | [8 - Quizzes](Authoring_quick_start_8.md)
 
 
 This part of the authoring quick start guide deals with randomisation. The following video explains the process:
@@ -21,7 +21,7 @@ ta: int(exp,x)+c;
 
 We defined two local variables `exp` and `ta`, and used these values in other places such as the question text, input and potential response tree. 
 
-We are now in a position to generate a random question. To do this, modify the [question variables](Variables.md#Question_variables) to be
+We are now in a position to generate a random question. To do this, modify the [question variables](/Authoring/Variables.md#Question_variables) to be
 
 ```
 a1 : 1+rand(6);

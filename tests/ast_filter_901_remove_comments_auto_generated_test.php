@@ -1834,6 +1834,11 @@ class ast_filter_901_remove_comments_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
+                      array(),
+                      true, false);
+
         $this->expect('"A string that needs sanitising <script>bad stuff</script>."',
                       '"A string that needs sanitising <script>bad stuff</script>."',
                       array(),
@@ -3577,6 +3582,11 @@ class ast_filter_901_remove_comments_auto_generated_test extends qtype_stack_ast
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array(),
                       true, false);
 

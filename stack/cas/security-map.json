@@ -6091,15 +6091,15 @@
       "built-in": true
   },
   "random_subset": {
-      "function": "f",
+      "function": "t",
       "random": true
   },
   "random_subset_n": {
-      "function": "f",
+      "function": "t",
       "random": true
   },
   "random_ne_subset": {
-      "function": "f",
+      "function": "t",
       "random": true
   },
   "random_bernoulli": {

@@ -246,11 +246,10 @@ export const stack_js = {
     },
 
     /**
-     * Asks for an element on the VLE side to be given new content.
-     * Will not tell whether this succeeds, if it fails due to no
-     * such element found an error will eventtualy get displayed.
+     * Asks for the containing IFRAME to be resized.
      * 
-     * Obviously, won't allow scripts to be passed onto the VLE side.
+     * The arguments are strings that will be plugged into
+     * `.style.width` and `.style.height`.
      */
     resize_containing_frame: function(width, height) {
         const msg = {

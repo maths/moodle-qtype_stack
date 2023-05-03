@@ -515,6 +515,21 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             vle_update_dom(element);
 
             break;
+        case 'resize-frame':
+            // 1. Find the frames wrapper div.
+            element = IFRAMES[msg.src].parentElement;
+
+            // 2. Set the wrapper size.
+            element.style.width = msg.width;
+            element.style.height = msg.height;
+
+            // 3. Reset the frame size.
+            IFRAMES[msg.src].style.width = '100%';
+            IFRAMES[msg.src].style.height = '100%';
+
+            // Only touching the size but still let the VLE know.
+            vle_update_dom(element);
+            break;
         case 'ping':
             // This is for testing the connection. The other end will
             // send these untill it receives a reply.

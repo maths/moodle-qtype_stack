@@ -244,6 +244,24 @@ export const stack_js = {
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
+
+    /**
+     * Asks for an element on the VLE side to be given new content.
+     * Will not tell whether this succeeds, if it fails due to no
+     * such element found an error will eventtualy get displayed.
+     * 
+     * Obviously, won't allow scripts to be passed onto the VLE side.
+     */
+    resize_containing_frame: function(width, height) {
+        const msg = {
+            version: 'STACK-JS:1.0.0',
+            type: 'resize-frame',
+            width: width,
+            height: height,
+            src: FRAME_ID
+        };
+        CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
+    },
 };
 
 export default stack_js;

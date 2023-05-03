@@ -95,3 +95,45 @@ While unlikely, it is worth being careful until STACK has completed
 the migration to secured JavaScript. The current plan is to first provide
 means for doing things in a secure way and then forbid insecure methods
 in a following release. Until that following release, keep your eyes open.
+
+
+## Minimal example for access to an input
+
+Given a STACK question with an input named `ans1` you can create an IFRAME
+that executes arbitrary code that can refrence that input like this:
+
+```
+[[iframe]]
+[[script type="module"]]
+import {stack_js} from '[[cors src="stackjsiframe.js"/]]';
+var promiseforaninput = stack_js.request_access_to_input("ans1", true);
+promiseforaninput.then((id) => {
+   document.getElementById(id).type = 'input';
+});
+[[/script]]
+[[/iframe]]
+```
+
+The first two lines first open up an `[[iframe]]` which generates an XHTML
+document and an IFRAME to contain it, and then we use the `[[script]]` block
+to generate a script-tag in that documents head. With the `type="module"` we
+make it possible to use the `import` syntax to bring in libraries and in this
+case we bring in the `stack_js` library from an URL provided by the `[[cors]]`
+block so that we do not need to write hard coded references to the full URL.
+Once we have the library, we then ask it for access to the input named `ans1`,
+we also add that `true` to signal the we would want to see `input` events
+being synchronised in addition to normal `change` events, to make this demo
+more interactive. As the connection process is asynchronous we will receive
+a promise that will resolve into the identifier of an hidden input that will
+be constructed inside the IFRAME, in this example we simply make that input
+visible so that we can try interacting with it directly.
+
+If you modify that IFRAME side inputs value through code or other means it
+will only get synchronised to the VLE side once a `change` event is emitted,
+so do dispatch some events if things do not otherwise work.
+
+Also if your only purpose is to run JavaScript you might want to hide
+the IFRAME, you can simply place it inside something that is not being
+displayed or use `hidden="true"` as an argument to the `[[iframe]]`-block.
+If it needs to be visible, all the dimension options of `[[jsxgraph]]` also
+work here.

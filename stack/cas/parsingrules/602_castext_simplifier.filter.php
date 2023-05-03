@@ -235,6 +235,25 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                     }
                 }
 
+                // Certain paramtric blocks can have joinable content.
+                if ($node instanceof MP_List && count($node->items) > 3 &&
+                    $node->items[0] instanceof MP_String && (
+                        $node->items[0]->value === 'iframe' ||
+                        $node->items[0]->value === 'style' ||
+                        $node->items[0]->value === 'script')) {
+                    // 0 is name and 1 is parameters.
+                    $joinable = array_slice($node->items, 2);
+
+                    $newitems = castext2_parser_utils::string_list_reduce($joinable, true);
+                    if (count($newitems) + 2 < count($node->items)) {
+                        $node->items = array_merge(array_slice($node->items, 0, 2), $newitems);
+                        foreach ($node->items as $item) {
+                            $item->position['castext'] = true;
+                        }
+                        return false;
+                    }
+                }
+
                 // Eliminate extra format declarations and render static content in other formats.
                 if ($node instanceof MP_List && count($node->items) >= 2 && $node->items[0] instanceof MP_String &&
                     ($node->items[0]->value === 'demoodle' || $node->items[0]->value === 'demarkdown' ||

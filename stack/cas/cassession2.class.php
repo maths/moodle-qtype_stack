@@ -506,6 +506,19 @@ class stack_cas_session2 {
                 $statement->set_cas_status($err, $answernotes, $feedback);
             }
 
+            // Check the Maxima versions match and fail badly if not.
+            if (array_key_exists('__stackmaximaversion', $results['values'])) {
+                $usedversion = $results['values']['__stackmaximaversion'];
+                $config = stack_utils::get_config();
+                if ($usedversion !== $config->stackmaximaversion) {
+                    $errors = array(new $this->errclass(stack_string_error('healthchecksstackmaximaversionmismatch',
+                        array('fix' => '', 'usedversion' => $usedversion, 'expectedversion' => $config->stackmaximaversion)), ''));
+                    foreach ($this->statements as $num => $statement) {
+                        $statement->set_cas_status($errors, array(), array());
+                    }
+                }
+            }
+
             foreach ($collectvalues as $key => $statement) {
                 $statement->set_cas_evaluated_value($asts[$key]);
             }

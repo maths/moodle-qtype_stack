@@ -265,14 +265,14 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                     while ($p !== null) {
                         if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
                             ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' ||
-                                    $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph' ||
+                                    $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'iframe' ||
                                     $p->items[0]->value === 'textdownload')) {
                             // That or above is somethign one needs to update if we add new format tuning blocks.
                             $good = false;
                             if ($p->items[0]->value === $node->items[0]->value) {
                                 $same = true;
                             }
-                            if ($node->items[0]->value === 'htmlformat' && ($p->items[0]->value === 'jsxgraph' ||
+                            if ($node->items[0]->value === 'htmlformat' && ($p->items[0]->value === 'iframe' ||
                                     $p->items[0]->value === 'textdownload')) {
                                 // JSXGraph and textdownload are blocks that enforce specific formats.
                                 $same = true;

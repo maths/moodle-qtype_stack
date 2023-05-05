@@ -260,8 +260,9 @@ castext_simplify(ct2) := block([_r,_i,_t,_redo],
   if is(ct2[1]="%root") then _i:2,
   /* We especially want to try to simplify jsxgraph-block content. 
    * It is likely to be highly fragmented with plenty of injections.
+   * That block now maps to the `iframe` block.
    */
-  if is(ct2[1]="jsxgraph") then (_i:3, _r: append(_r,[castext_simplify(ct2[3])])),
+  if is(ct2[1]="iframe") then (_i:3, _r: append(_r,[castext_simplify(ct2[3])])),
   if is(_i>0) then (
     if listp(last(_r)) and is(last(_r)[1]="%root") then (
       _redo: true,

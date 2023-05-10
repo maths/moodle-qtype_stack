@@ -3242,6 +3242,10 @@
   "horner": {
       "function": "s"
   },
+  "hstep": {
+      "function": "s",
+      "built-in": true
+  },
   "hypergeometric": {
       "function": "s"
   },
@@ -8036,7 +8040,8 @@
       "built-in": true
   },
   "unit_step": {
-      "function": "f"
+      "function": "s",
+      "built-in": true
   },
   "unit_vectors": {
       "variable": "f"

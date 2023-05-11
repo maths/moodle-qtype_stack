@@ -10818,7 +10818,7 @@ sqrt(91^2-4*14*140))/(2*14),x=
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\frac{9\cdot x^2}{2}-\frac{81\cdot x}{2}+90=\frac{5\cdot x^2}{2}-5\cdot x-20\,{\mbox{ or }}\, \frac{9\cdot x^2}{2}-\frac{81\cdot x}{2}+90=-\left(\frac{5\cdot x^2}{2}-5\cdot x-20\right)& \cr \color{green}{\Leftrightarrow}&9\cdot x^2-81\cdot x+180=5\cdot x^2-10\cdot x-40\,{\mbox{ or }}\, 9\cdot x^2-81\cdot x+180=-5\cdot x^2+10\cdot x+40& \cr \color{green}{\Leftrightarrow}&4\cdot x^2-71\cdot x+220=0\,{\mbox{ or }}\, 14\cdot x^2-91\cdot x+140=0& \cr \color{green}{\Leftrightarrow}&x=\frac{{71 \pm \sqrt{71^2-4\cdot 4\cdot 220}}}{2\cdot 4}\,{\mbox{ or }}\, x=\frac{{91 \pm \sqrt{91^2-4\cdot 14\cdot 140}}}{2\cdot 14}& \cr \color{green}{\mbox{(Same roots)}}&x=\frac{55}{4}\,{\mbox{ or }}\, x=4\,{\mbox{ or }}\, x=\frac{5}{2}& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\frac{9\cdot x^2}{2}-\frac{81\cdot x}{2}+90=\frac{5\cdot x^2}{2}-5\cdot x-20\,{\mbox{ or }}\, \frac{9\cdot x^2}{2}-\frac{81\cdot x}{2}+90=-\left(\frac{5\cdot x^2}{2}-5\cdot x-20\right)& \cr \color{green}{\Leftrightarrow}&9\cdot x^2-81\cdot x+180=5\cdot x^2-10\cdot x-40\,{\mbox{ or }}\, 9\cdot x^2-81\cdot x+180=\left(-5\cdot x^2\right)+10\cdot x+40& \cr \color{green}{\Leftrightarrow}&4\cdot x^2-71\cdot x+220=0\,{\mbox{ or }}\, 14\cdot x^2-91\cdot x+140=0& \cr \color{green}{\Leftrightarrow}&x=\frac{{71 \pm \sqrt{71^2-4\cdot 4\cdot 220}}}{2\cdot 4}\,{\mbox{ or }}\, x=\frac{{91 \pm \sqrt{91^2-4\cdot 14\cdot 140}}}{2\cdot 14}& \cr \color{green}{\mbox{(Same roots)}}&x=\frac{55}{4}\,{\mbox{ or }}\, x=4\,{\mbox{ or }}\, x=\frac{5}{2}& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -11209,7 +11209,7 @@ a*b+b^2)=0,(a-b)=0 or (a^2+a*b
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a^3=b^3& \cr \color{green}{\Leftrightarrow}&a^3-b^3=0& \cr \color{green}{\Leftrightarrow}&\left(a-b\right)\cdot \left(a^2+a\cdot b+b^2\right)=0& \cr \color{green}{\Leftrightarrow}&a-b=0\,{\mbox{ or }}\, a^2+a\cdot b+b^2=0& \cr \color{green}{\Leftrightarrow}&a=b\,{\mbox{ or }}\, \left(a+\frac{1+\mathrm{i}\cdot \sqrt{3}}{2}\cdot b\right)\cdot \left(a+\frac{1-\mathrm{i}\cdot \sqrt{3}}{2}\cdot b\right)=0& \cr \color{green}{\Leftrightarrow}&a=b\,{\mbox{ or }}\, a=\frac{-\left(1+\mathrm{i}\cdot \sqrt{3}\right)}{2}\cdot b\,{\mbox{ or }}\, a=\frac{-\left(1-\mathrm{i}\cdot \sqrt{3}\right)}{2}\cdot b& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a^3=b^3& \cr \color{green}{\Leftrightarrow}&a^3-b^3=0& \cr \color{green}{\Leftrightarrow}&\left(a-b\right)\cdot \left(a^2+a\cdot b+b^2\right)=0& \cr \color{green}{\Leftrightarrow}&a-b=0\,{\mbox{ or }}\, a^2+a\cdot b+b^2=0& \cr \color{green}{\Leftrightarrow}&a=b\,{\mbox{ or }}\, \left(a+\left(\frac{1+\mathrm{i}\cdot \sqrt{3}}{2}\right)\cdot b\right)\cdot \left(a+\left(\frac{1-\mathrm{i}\cdot \sqrt{3}}{2}\right)\cdot b\right)=0& \cr \color{green}{\Leftrightarrow}&a=b\,{\mbox{ or }}\, a=\left(\frac{-\left(1+\mathrm{i}\cdot \sqrt{3}\right)}{2}\right)\cdot b\,{\mbox{ or }}\, a=\left(\frac{-\left(1-\mathrm{i}\cdot \sqrt{3}\right)}{2}\right)\cdot b& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -11434,7 +11434,7 @@ b/2+sqrt(b^2/4-a*c) or a*x=-b/
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a\cdot x^2+b\cdot x+c=0\,{\mbox{ or }}\, a=0& \cr \color{green}{\Leftrightarrow}&a^2\cdot x^2+a\cdot b\cdot x+a\cdot c=0& \cr \color{green}{\Leftrightarrow}&{\left(a\cdot x\right)}^2+b\cdot \left(a\cdot x\right)+a\cdot c=0& \cr \color{green}{\Leftrightarrow}&{\left(a\cdot x\right)}^2+b\cdot \left(a\cdot x\right)+\frac{b^2}{4}-\frac{b^2}{4}+a\cdot c=0& \cr \color{green}{\Leftrightarrow}&{\left(a\cdot x+\frac{b}{2}\right)}^2-\frac{b^2}{4}+a\cdot c=0& \cr \color{green}{\Leftrightarrow}&{\left(a\cdot x+\frac{b}{2}\right)}^2=\frac{b^2}{4}-a\cdot c& \cr \color{green}{\Leftrightarrow}&a\cdot x+\frac{b}{2}= \pm \sqrt{\frac{b^2}{4}-a\cdot c}& \cr \color{green}{\Leftrightarrow}&a\cdot x=-\frac{b}{2}+\sqrt{\frac{b^2}{4}-a\cdot c}\,{\mbox{ or }}\, a\cdot x=-\frac{b}{2}-\sqrt{\frac{b^2}{4}-a\cdot c}& \cr \color{green}{\Leftrightarrow}&a=0\,{\mbox{ or }}\, x=\frac{-b+\sqrt{b^2-4\cdot a\cdot c}}{2\cdot a}\,{\mbox{ or }}\, \left(a=0\,{\mbox{ or }}\, x=\frac{-b-\sqrt{b^2-4\cdot a\cdot c}}{2\cdot a}\right)& \cr \color{green}{\Leftrightarrow}&a^2=0\,{\mbox{ or }}\, x=\frac{-b+\sqrt{b^2-4\cdot a\cdot c}}{2\cdot a}\,{\mbox{ or }}\, x=\frac{-b-\sqrt{b^2-4\cdot a\cdot c}}{2\cdot a}& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a\cdot x^2+b\cdot x+c=0\,{\mbox{ or }}\, a=0& \cr \color{green}{\Leftrightarrow}&a^2\cdot x^2+a\cdot b\cdot x+a\cdot c=0& \cr \color{green}{\Leftrightarrow}&{\left(a\cdot x\right)}^2+b\cdot \left(a\cdot x\right)+a\cdot c=0& \cr \color{green}{\Leftrightarrow}&{\left(a\cdot x\right)}^2+b\cdot \left(a\cdot x\right)+\frac{b^2}{4}-\frac{b^2}{4}+a\cdot c=0& \cr \color{green}{\Leftrightarrow}&{\left(a\cdot x+\frac{b}{2}\right)}^2-\frac{b^2}{4}+a\cdot c=0& \cr \color{green}{\Leftrightarrow}&{\left(a\cdot x+\frac{b}{2}\right)}^2=\frac{b^2}{4}-a\cdot c& \cr \color{green}{\Leftrightarrow}&a\cdot x+\frac{b}{2}= \pm \sqrt{\frac{b^2}{4}-a\cdot c}& \cr \color{green}{\Leftrightarrow}&a\cdot x=\left(-\frac{b}{2}\right)+\sqrt{\frac{b^2}{4}-a\cdot c}\,{\mbox{ or }}\, a\cdot x=\left(-\frac{b}{2}\right)-\sqrt{\frac{b^2}{4}-a\cdot c}& \cr \color{green}{\Leftrightarrow}&\left(a=0\,{\mbox{ or }}\, x=\frac{\left(-b\right)+\sqrt{b^2-4\cdot a\cdot c}}{2\cdot a}\right)\,{\mbox{ or }}\, \left(a=0\,{\mbox{ or }}\, x=\frac{\left(-b\right)-\sqrt{b^2-4\cdot a\cdot c}}{2\cdot a}\right)& \cr \color{green}{\Leftrightarrow}&a^2=0\,{\mbox{ or }}\, x=\frac{\left(-b\right)+\sqrt{b^2-4\cdot a\cdot c}}{2\cdot a}\,{\mbox{ or }}\, x=\frac{\left(-b\right)-\sqrt{b^2-4\cdot a\cdot c}}{2\cdot a}& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -12090,7 +12090,7 @@ x+%i)))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll}\color{green}{\checkmark}&\frac{1}{x^2+1}=\frac{1}{\left(x+\mathrm{i}\right)\cdot \left(x-\mathrm{i}\right)}& \cr \color{green}{\checkmark}&=\frac{1}{2\cdot \mathrm{i}}\cdot \left(\frac{1}{x-\mathrm{i}}-\frac{1}{x+\mathrm{i}}\right)& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll}\color{green}{\checkmark}&\frac{1}{x^2+1}=\frac{1}{\left(x+\mathrm{i}\right)\cdot \left(x-\mathrm{i}\right)}& \cr \color{green}{\checkmark}&=\left(\frac{1}{2\cdot \mathrm{i}}\right)\cdot \left(\frac{1}{x-\mathrm{i}}-\frac{1}{x+\mathrm{i}}\right)& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -12182,7 +12182,7 @@ um(log(x_i),i,1,n))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &{{n}\choose{k}}+{{n}\choose{k+1}}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k\right)!}+\frac{n!}{\left(k+1\right)!\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k\right)\cdot \left(n-k-1\right)!}+\frac{n!}{\left(k+1\right)!\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{1}{n-k}+\frac{1}{k+1}\right)& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{n+1}{\left(n-k\right)\cdot \left(k+1\right)}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)\cdot n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{1}{\left(k+1\right)\cdot \left(n-k\right)}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)\cdot n!}{\left(k+1\right)\cdot k!\cdot \left(n-k\right)\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)!}{\left(k+1\right)!}\cdot \left(\frac{1}{\left(n-k\right)\cdot \left(n-k-1\right)!}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)!}{\left(k+1\right)!\cdot \left(n-k\right)!}& \cr \color{green}{\checkmark}&={{n+1}\choose{k+1}}& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &{{n}\choose{k}}+{{n}\choose{k+1}}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k\right)!}+\frac{n!}{\left(k+1\right)!\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k\right)\cdot \left(n-k-1\right)!}+\frac{n!}{\left(k+1\right)!\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\left(\frac{n!}{k!\cdot \left(n-k-1\right)!}\right)\cdot \left(\frac{1}{n-k}+\frac{1}{k+1}\right)& \cr \color{green}{\checkmark}&=\left(\frac{n!}{k!\cdot \left(n-k-1\right)!}\right)\cdot \left(\frac{n+1}{\left(n-k\right)\cdot \left(k+1\right)}\right)& \cr \color{green}{\checkmark}&=\left(\frac{\left(n+1\right)\cdot n!}{k!\cdot \left(n-k-1\right)!}\right)\cdot \left(\frac{1}{\left(k+1\right)\cdot \left(n-k\right)}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)\cdot n!}{\left(k+1\right)\cdot k!\cdot \left(n-k\right)\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\left(\frac{\left(n+1\right)!}{\left(k+1\right)!}\right)\cdot \left(\frac{1}{\left(n-k\right)\cdot \left(n-k-1\right)!}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)!}{\left(k+1\right)!\cdot \left(n-k\right)!}& \cr \color{green}{\checkmark}&={{n+1}\choose{k+1}}& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -12259,7 +12259,7 @@ ackeq(4*(4^(n+1)-1)+3)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll}\color{green}{\checkmark}&4^{n+1+1}-1=4\cdot 4^{n+1}-1& \cr \color{green}{\checkmark}&=4\cdot \left(4^{n+1}-1\right)+3& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll}\color{green}{\checkmark}&4^{\left(n+1\right)+1}-1=4\cdot 4^{n+1}-1& \cr \color{green}{\checkmark}&=4\cdot \left(4^{n+1}-1\right)+3& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -12510,7 +12510,7 @@ lt;a and a&lt;2)]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &-x^2+a\cdot x+a-3 < 0& \cr \color{green}{\Leftrightarrow}&a-3 < x^2-a\cdot x& \cr \color{green}{\Leftrightarrow}&a-3 < {\left(x-\frac{a}{2}\right)}^2-\frac{a^2}{4}& \cr \color{green}{\Leftrightarrow}&\frac{a^2}{4}+a-3 < {\left(x-\frac{a}{2}\right)}^2& \cr \color{green}{\Leftrightarrow}&a^2+4\cdot a-12 < 4\cdot {\left(x-\frac{a}{2}\right)}^2& \cr \color{green}{\Leftrightarrow}&\left(a-2\right)\cdot \left(a+6\right) < 4\cdot {\left(x-\frac{a}{2}\right)}^2& \cr &\mbox{This inequality is required to be true for all x.}& \cr &\mbox{So it must be true when the right hand side takes its minimum value.}& \cr &\mbox{This happens for x=a/2.}& \cr &\left(a-2\right)\cdot \left(a+6\right) < 0& \cr \color{green}{\Leftrightarrow}&a-2 < 0\,{\mbox{ and }}\, a+6 > 0\,{\mbox{ or }}\, a-2 > 0\,{\mbox{ and }}\, a+6 < 0& \cr \color{green}{\Leftrightarrow}&a < 2\,{\mbox{ and }}\, a > -6\,{\mbox{ or }}\, a > 2\,{\mbox{ and }}\, a < -6& \cr \color{green}{\Leftrightarrow}&-6 < a\,{\mbox{ and }}\, a < 2\,{\mbox{ or }}\, \mathbf{False}& \cr \color{green}{\Leftrightarrow}&\left\{\begin{array}{l}-6 < a\cr a < 2\cr \end{array}\right.& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\left(-x^2\right)+a\cdot x+a-3 < 0& \cr \color{green}{\Leftrightarrow}&a-3 < x^2-a\cdot x& \cr \color{green}{\Leftrightarrow}&a-3 < {\left(x-\frac{a}{2}\right)}^2-\frac{a^2}{4}& \cr \color{green}{\Leftrightarrow}&\frac{a^2}{4}+a-3 < {\left(x-\frac{a}{2}\right)}^2& \cr \color{green}{\Leftrightarrow}&a^2+4\cdot a-12 < 4\cdot {\left(x-\frac{a}{2}\right)}^2& \cr \color{green}{\Leftrightarrow}&\left(a-2\right)\cdot \left(a+6\right) < 4\cdot {\left(x-\frac{a}{2}\right)}^2& \cr &\mbox{This inequality is required to be true for all x.}& \cr &\mbox{So it must be true when the right hand side takes its minimum value.}& \cr &\mbox{This happens for x=a/2.}& \cr &\left(a-2\right)\cdot \left(a+6\right) < 0& \cr \color{green}{\Leftrightarrow}&a-2 < 0\,{\mbox{ and }}\, a+6 > 0\,{\mbox{ or }}\, a-2 > 0\,{\mbox{ and }}\, a+6 < 0& \cr \color{green}{\Leftrightarrow}&a < 2\,{\mbox{ and }}\, a > -6\,{\mbox{ or }}\, a > 2\,{\mbox{ and }}\, a < -6& \cr \color{green}{\Leftrightarrow}&-6 < a\,{\mbox{ and }}\, a < 2\,{\mbox{ or }}\, \mathbf{False}& \cr \color{green}{\Leftrightarrow}&\left\{\begin{array}{l}-6 < a\cr a < 2\cr \end{array}\right.& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -12657,7 +12657,7 @@ stacklet(x+i*y,a),stacklet(r+i
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a^\star\cdot b^\star& \cr &\mbox{Let }a = x+\mathrm{i}\cdot y& \cr &\mbox{Let }b = r+\mathrm{i}\cdot s& \cr \color{green}{\checkmark}&=\left(x+\mathrm{i}\cdot y\right)^\star\cdot \left(r+\mathrm{i}\cdot s\right)^\star& \cr \color{green}{\checkmark}&=\left(x-\mathrm{i}\cdot y\right)\cdot \left(r-\mathrm{i}\cdot s\right)& \cr \color{green}{\checkmark}&=x\cdot r-y\cdot s-\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)& \cr \color{green}{\checkmark}&=\left(x\cdot r-y\cdot s+\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)\right)^\star& \cr \color{green}{\checkmark}&=\left(\left(x+\mathrm{i}\cdot y\right)\cdot \left(r+\mathrm{i}\cdot s\right)\right)^\star& \cr &\mbox{Let }x+\mathrm{i}\cdot y = a& \cr &\mbox{Let }r+\mathrm{i}\cdot s = b& \cr \color{green}{\checkmark}&=\left(a\cdot b\right)^\star& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &a^\star\cdot b^\star& \cr &\mbox{Let }a = x+\mathrm{i}\cdot y& \cr &\mbox{Let }b = r+\mathrm{i}\cdot s& \cr \color{green}{\checkmark}&=\left(x+\mathrm{i}\cdot y\right)^\star\cdot \left(r+\mathrm{i}\cdot s\right)^\star& \cr \color{green}{\checkmark}&=\left(x-\mathrm{i}\cdot y\right)\cdot \left(r-\mathrm{i}\cdot s\right)& \cr \color{green}{\checkmark}&=\left(x\cdot r-y\cdot s\right)-\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)& \cr \color{green}{\checkmark}&=\left(\left(x\cdot r-y\cdot s\right)+\mathrm{i}\cdot \left(y\cdot r+x\cdot s\right)\right)^\star& \cr \color{green}{\checkmark}&=\left(\left(x+\mathrm{i}\cdot y\right)\cdot \left(r+\mathrm{i}\cdot s\right)\right)^\star& \cr &\mbox{Let }x+\mathrm{i}\cdot y = a& \cr &\mbox{Let }r+\mathrm{i}\cdot s = b& \cr \color{green}{\checkmark}&=\left(a\cdot b\right)^\star& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -12707,7 +12707,7 @@ undiff(y(x),x)=0,-5*noundiff(y
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &-12+3\cdot \left(\frac{\mathrm{d}}{\mathrm{d} x} y\left(x\right)\right)+8-8\cdot \left(\frac{\mathrm{d}}{\mathrm{d} x} y\left(x\right)\right)=0& \cr \color{green}{\Leftrightarrow}&-5\cdot \left(\frac{\mathrm{d}}{\mathrm{d} x} y\left(x\right)\right)=4& \cr \color{green}{\Leftrightarrow}&\left(\frac{\mathrm{d}}{\mathrm{d} x} y\left(x\right)\right)=\frac{-4}{5}& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\left(-12\right)+3\cdot \left(\frac{\mathrm{d}}{\mathrm{d} x} y\left(x\right)\right)+8-8\cdot \left(\frac{\mathrm{d}}{\mathrm{d} x} y\left(x\right)\right)=0& \cr \color{green}{\Leftrightarrow}&-5\cdot \left(\frac{\mathrm{d}}{\mathrm{d} x} y\left(x\right)\right)=4& \cr \color{green}{\Leftrightarrow}&\left(\frac{\mathrm{d}}{\mathrm{d} x} y\left(x\right)\right)=\frac{-4}{5}& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -12765,7 +12765,7 @@ sin(x))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\cos \left( x \right)\cdot x^2+2\cdot x\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot \cos \left( x \right)+2\cdot x\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot \cos \left( x \right)+2\cdot x\cdot \sin \left( x \right)& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\cos \left( x \right)\cdot x^2+\left(2\cdot x\right)\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot \cos \left( x \right)+\left(2\cdot x\right)\cdot \sin \left( x \right)& \cr \color{green}{\checkmark}&=x^2\cdot \cos \left( x \right)+2\cdot x\cdot \sin \left( x \right)& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -12812,7 +12812,7 @@ og(x)-1/4*nounint(x^3,x),x^4/4
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\int {x^3\cdot \ln \left( x \right)}{\;\mathrm{d}x}& \cr \color{green}{\Leftrightarrow}&\frac{x^4}{4}\cdot \ln \left( x \right)-\frac{1}{4}\cdot \int {x^3}{\;\mathrm{d}x}& \cr \color{red}{\cdots +c\quad ?}&\frac{x^4}{4}\cdot \ln \left( x \right)-\frac{x^4}{16}&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\int {x^3\cdot \ln \left( x \right)}{\;\mathrm{d}x}& \cr \color{green}{\Leftrightarrow}&\left(\frac{x^4}{4}\right)\cdot \ln \left( x \right)-\left(\frac{1}{4}\right)\cdot \int {x^3}{\;\mathrm{d}x}& \cr \color{red}{\cdots +c\quad ?}&\left(\frac{x^4}{4}\right)\cdot \ln \left( x \right)-\frac{x^4}{16}&{\color{blue}{{x \in {\left( 0,\, \infty \right)}}}}\cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -12827,7 +12827,7 @@ og(x)-1/4*nounint(x^3,x),x^4/4
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\int {x^3\cdot \ln \left( x \right)}{\;\mathrm{d}x}& \cr \color{green}{\Leftrightarrow}&\frac{x^4}{4}\cdot \ln \left( x \right)-\frac{1}{4}\cdot \int {x^3}{\;\mathrm{d}x}& \cr \color{blue}{\int\ldots\mathrm{d}x}&\frac{x^4}{4}\cdot \ln \left( x \right)-\frac{x^4}{16}+c& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\int {x^3\cdot \ln \left( x \right)}{\;\mathrm{d}x}& \cr \color{green}{\Leftrightarrow}&\left(\frac{x^4}{4}\right)\cdot \ln \left( x \right)-\left(\frac{1}{4}\right)\cdot \int {x^3}{\;\mathrm{d}x}& \cr \color{blue}{\int\ldots\mathrm{d}x}&\left(\frac{x^4}{4}\right)\cdot \ln \left( x \right)-\frac{x^4}{16}+c& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -12845,7 +12845,7 @@ x*cos(3*x))/9+c]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\frac{\mathrm{d} y}{\mathrm{d} x}-\frac{2}{x}\cdot y=x^3\cdot \sin \left( 3\cdot x \right)& \cr \color{green}{\Leftrightarrow}&\frac{1}{x^2}\cdot \left(\frac{\mathrm{d} y}{\mathrm{d} x}\right)-\frac{2}{x^3}\cdot y=x\cdot \sin \left( 3\cdot x \right)& \cr \color{green}{\Leftrightarrow}&\left(\frac{\mathrm{d}}{\mathrm{d} x} \frac{y}{x^2}\right)=x\cdot \sin \left( 3\cdot x \right)& \cr \color{blue}{\int\ldots\mathrm{d}x}&\frac{y}{x^2}=\int {x\cdot \sin \left( 3\cdot x \right)}{\;\mathrm{d}x}& \cr \color{blue}{\int\ldots\mathrm{d}x}&\frac{y}{x^2}=\frac{\sin \left( 3\cdot x \right)-3\cdot x\cdot \cos \left( 3\cdot x \right)}{9}+c& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\frac{\mathrm{d} y}{\mathrm{d} x}-\left(\frac{2}{x}\right)\cdot y=x^3\cdot \sin \left( 3\cdot x \right)& \cr \color{green}{\Leftrightarrow}&\left(\frac{1}{x^2}\right)\cdot \left(\frac{\mathrm{d} y}{\mathrm{d} x}\right)-\left(\frac{2}{x^3}\right)\cdot y=x\cdot \sin \left( 3\cdot x \right)& \cr \color{green}{\Leftrightarrow}&\left(\frac{\mathrm{d}}{\mathrm{d} x} \frac{y}{x^2}\right)=x\cdot \sin \left( 3\cdot x \right)& \cr \color{blue}{\int\ldots\mathrm{d}x}&\frac{y}{x^2}=\int {x\cdot \sin \left( 3\cdot x \right)}{\;\mathrm{d}x}& \cr \color{blue}{\int\ldots\mathrm{d}x}&\frac{y}{x^2}=\frac{\sin \left( 3\cdot x \right)-3\cdot x\cdot \cos \left( 3\cdot x \right)}{9}+c& \cr \end{array}\]</td></td>
 </tr></tbody></table></div>
 
 <h2>EquivFirst</h2><div class="no-overflow"><table class="flexible table table-striped table-hover generaltable generalbox stacktestsuite"><thead><tr><th class="header c0" scope="col">Test<div class="commands"></div></th><th class="header c1" scope="col">?<div class="commands"></div></th><th class="header c2" scope="col">Student response<div class="commands"></div></th><th class="header c3" scope="col">Teacher answer<div class="commands"></div></th><th class="header c4" scope="col">Opt<div class="commands"></div></th><th class="header c5" scope="col">Mark<div class="commands"></div></th><th class="header c6" scope="col">Answer note<div class="commands"></div></th>

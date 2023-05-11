@@ -498,6 +498,11 @@
         "description":"This page documents the design of cas_evaluatables."
         },
         {
+        "file":"CASText2_lifecycle.md",
+        "title":"Evaluating CASText2",
+        "description":"This document describes the life-cycle of CASText2 evaluation. "
+        },
+        {
         "file":"Census.md",
         "title":"Maxima identifier census",
         "description":"Explains how to conduct the maxima identifier census."

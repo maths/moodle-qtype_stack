@@ -2,7 +2,7 @@
 
 This extra option `validator` to a particular [input](../Authoring/Inputs.md) allows additional bespoke validation, based on a function defined by the question author.  For example, you could require that the student's answer is a _list of exactly three equations_.
 
-Please check [existing, supported, validation options](../Authoring/Inputs/#options) before defining your own!
+Please check [existing, supported, validation options](../Authoring/Inputs.md#options) before defining your own!
 
 To use this feature put the following in the input extra options.
 
@@ -28,7 +28,7 @@ Notes:
 9. Validators only operate on a single input, and there is no mechanism to validate a combination of inputs at once.
 10. The recommended style for naming validator functions is to begin the name with `validate_`.
 
-A single validator function can be re-used on multiple inputs within a single question. If you regularly copy validator functions from question to question please consider contributing this as a function to the core of STACK ([see below for details](#contributing)). We expect to collect and support regularly used validators in future.
+A single validator function can be re-used on multiple inputs within a single question. If you regularly copy validator functions from question to question please consider contributing this as a function to the core of STACK (see below for details). We expect to collect and support regularly used validators in future.
 
 ## Combining validators
 
@@ -120,4 +120,4 @@ Note, when injecting a value `m0='X'` the `X` must be a Maxima expression, not a
 1. to inject the Maxima expression `X` with `{@...@}` injection (without wrapping like `\(...\)`) to a named placeholder `m0` use `m0='X'`.
 1. to inject the Maxima expression `X` with `{#...#}` injection, to get raw values, to a named placeholder `m0` use `raw_m0='X'`.
 
-For other prefix options see the [documentaiton for the commonstring block](../Authoring/Question_blocks/#commonstring-block).
+For other prefix options see the [documentaiton for the commonstring block](../Authoring/Question_blocks.md#commonstring-block).

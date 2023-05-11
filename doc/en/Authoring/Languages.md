@@ -26,14 +26,16 @@ use the new `lang`-blocks, but do note that while they do not require any additi
 
 ## Translating text in pictures
 
-The STACK built-in castext block will translate tags embedded into SVG images in documents.  Here is a very basic SVG example with language blocks embedded.
+The STACK built-in castext block will translate tags embedded into inline SVG images in documents.  Here is a very basic SVG example with language blocks embedded.
 
     <svg height="210" width="500">
+      <title>[[lang code='en,other']]Circles and triangles[[/lang]][[lang code='no']]Sirkler og trekanter[[/lang]]</title>
       <polygon points="200,10 350,90 160,210" style="fill:white;stroke:black;stroke-width:2" />
       <circle cx="239" cy="94" r="55" stroke="red" stroke-width="1" fill="white" />
       <text x="200" y="80" fill="red">[[lang code='en,other']]Circumference[[/lang]][[lang code='no']]Omkrets[[/lang]]</text>
-      Sorry, your browser does not support inline SVG.
     </svg>
+
+Remember to add alternative text as the title or description for the inline SVG using the `<title>` and `<desc>` tags.  The title or description can also be translated.
 
 ## Using the Moodle filter multilang
 

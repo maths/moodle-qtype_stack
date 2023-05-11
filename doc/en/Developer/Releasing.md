@@ -26,11 +26,11 @@ Check
  * [development history](Development_history.md) and [development track](Development_track.md) `history/track`.
  * Execute `php cli/answertests_docs.php` to update the static docs about answertests.
  * Execute `doc/maintenance.php` to search for broken links etc.
- * Execute `cli/unicode_data_process.php` to update unicode mappings.
-* version.php
+ * version.php
  * check both the Moodle versions, and the required number. (https://docs.moodle.org/dev/Releases)
  * `MATURITY_STABLE`?
 * Check version numbers on stackmaxima.mac.
+* Run `php cli/unicode_data_process.php` to update unicode mappings.
 * Run `php cli/ast_test_generator.php` to confirm if auto-generated tests have not changed.
 * Run [unit tests](Unit_tests.md).
 * Run code checker.

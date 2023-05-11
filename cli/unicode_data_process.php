@@ -28,7 +28,7 @@ require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir . '/clilib.php');
 
 $baseurl = 'https://raw.githubusercontent.com/numbas/unicode-math-normalization/main/final_data/';
-$baseurl = 'https://raw.githubusercontent.com/sangwinc/unicode-math-normalization/iss001/final_data/';
+$baseurl = 'https://raw.githubusercontent.com/sangwinc/unicode-math-normalization/main/final_data/';
 $greek = file_get_contents($baseurl . 'greek.json');
 $letters = file_get_contents($baseurl . 'letters.json');
 $subscripts = file_get_contents($baseurl . 'subscripts.json');

@@ -17,8 +17,8 @@
  */
 
 "use strict";
-/* A flag to disable certain things. */
-let DISABLE_CHANGES = false;
+/* Flags to disable certain things. */
+let DISABLE_CHANGES = {};
 
 /* Map of the promise resolves for inputs to be registered.
  * Basically, the set of inputs that wait registration to complete.
@@ -87,9 +87,9 @@ window.addEventListener("message", (e) => {
         const element = document.getElementById(msg.name);
 
         // 2. Set its value. But don't trigger changes.
-        DISABLE_CHANGES = true;
+        DISABLE_CHANGES[msg.name] = true;
         element.value = msg.value;
-        DISABLE_CHANGES = false;
+        DISABLE_CHANGES[msg.name] = false;
 
         // 3. Resolve the promise so that things can move forward.
         INPUT_PROMISES[msg.name](element.id);
@@ -104,11 +104,11 @@ window.addEventListener("message", (e) => {
         const input = document.getElementById(msg.name);
 
         // 2. Set its value. But don't trigger changes.
-        DISABLE_CHANGES = true;
+        DISABLE_CHANGES[msg.name] = true;
         input.value = msg.value;
         const c = new Event('change');
         input.dispatchEvent(c);
-        DISABLE_CHANGES = false;
+        DISABLE_CHANGES[msg.name] = false;
 
         break;
 
@@ -165,11 +165,12 @@ export const stack_js = {
         const input = document.createElement('input');
         input.type = 'hidden';
         input.id = inputname;
+        DISABLE_CHANGES[inputname] = false;
 
         document.body.appendChild(input);
 
         input.addEventListener('change', (e) => {
-            if (!DISABLE_CHANGES) {
+            if (!DISABLE_CHANGES[inputname]) {
                 // Just send a message.
                 const msg = {
                     version: 'STACK-JS:1.0.0',

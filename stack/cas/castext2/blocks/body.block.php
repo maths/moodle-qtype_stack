@@ -29,6 +29,10 @@ class stack_cas_castext2_body extends stack_cas_castext2_block {
             new MP_String('body')
         ]);
 
+        if (!isset($options['in iframe'])) {
+            return new MP_String(' ERROR [[body]] blocks must be within iframes. ');
+        }
+
         // All formatting assumed to be raw HTML here.
         $frmt = castext2_parser_utils::RAWFORMAT;
 

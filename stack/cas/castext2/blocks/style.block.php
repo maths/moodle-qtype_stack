@@ -21,6 +21,10 @@ require_once(__DIR__ . '/../../../utils.class.php');
 
 /**
  * A block for dealing with style in IFRAME blocks.
+ * 
+ * This is meant to act as a replacement for <style> and combines with
+ * the [[iframe]]-family of blocks so the content gets positioned into
+ * the <head> instead of the <body>.
  */
 class stack_cas_castext2_style extends stack_cas_castext2_block {
 
@@ -29,6 +33,10 @@ class stack_cas_castext2_style extends stack_cas_castext2_block {
             new MP_String('style'), 
             new MP_String(json_encode($this->params))
         ]);
+
+        if (!isset($options['in iframe'])) {
+            return new MP_String(' ERROR [[style]] blocks must be within iframes. ');
+        }
 
         // All formatting assumed to be raw HTML here.
         $frmt = castext2_parser_utils::RAWFORMAT;

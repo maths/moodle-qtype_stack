@@ -45,10 +45,16 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         // All formatting assumed to be raw HTML here.
         $frmt = castext2_parser_utils::RAWFORMAT;
 
+        $opt2 = [];
+        if ($options !== null) {
+            $opt2 = array_merge([], $options);
+        }
+        $opt2['in iframe'] = true;
+
         // Note that [[style]], [[body]], [[script]] blocks will be
         // separated during post-processing.
         foreach ($this->children as $child) {
-            $c = $child->compile(castext2_parser_utils::RAWFORMAT, $options);
+            $c = $child->compile(castext2_parser_utils::RAWFORMAT, $opt2);
             if ($c !== null) {
                 $r->items[] = $c;
             }

@@ -163,10 +163,16 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         // Plug in the div id = board id thing.
         $r->items[] = new MP_String('var divid = "thediv";var BOARDID = divid;');
 
+        $opt2 = [];
+        if ($options !== null) {
+            $opt2 = array_merge([], $options);
+        }
+        $opt2['in iframe'] = true;
+
         foreach ($this->children as $item) {
             // Assume that all code inside is JavaScript and that we do not
             // want to do the markdown escaping or any other in it.
-            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $options);
+            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
             if ($c !== null) {
                 $r->items[] = $c;
             }

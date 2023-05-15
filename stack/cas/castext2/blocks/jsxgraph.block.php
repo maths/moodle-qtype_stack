@@ -138,7 +138,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         // Add the div to the doc.
         // Note that we have two divs, the exterior one defines the size
         // and the interior one contains the graph.
-        $r->items[] = new MP_String('<div style="' . $astyle . '"><div class="jxgbox" id="thediv" style="width:100%;height:100%;"></div></div><script type="module">');
+        $r->items[] = new MP_String('<div style="' . $astyle . '"><div class="jxgbox" id="jxgbox" style="width:100%;height:100%;"></div></div><script type="module">');
 
         // For binding we need to import the binding libraries.
         $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n");
@@ -161,7 +161,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
 
         // Plug in the div id = board id thing.
-        $r->items[] = new MP_String('var divid = "thediv";var BOARDID = divid;');
+        $r->items[] = new MP_String('var divid = "jxgbox";var BOARDID = divid;');
 
         $opt2 = [];
         if ($options !== null) {

@@ -141,8 +141,8 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         $r->items[] = new MP_String('<div style="' . $astyle . '"><div class="jxgbox" id="jxgbox" style="width:100%;height:100%;"></div></div><script type="module">');
 
         // For binding we need to import the binding libraries.
-        $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n");
-        $r->items[] = new MP_String("import {stack_jxg} from '" . stack_cors_link('stackjsxgraph.js') . "';\n");
+        $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
+        $r->items[] = new MP_String("import {stack_jxg} from '" . stack_cors_link('stackjsxgraph.min.js') . "';\n");
 
         // Do we need to bind anything?
         if (count($inputs) > 0) {

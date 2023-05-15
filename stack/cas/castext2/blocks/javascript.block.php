@@ -61,7 +61,7 @@ class stack_cas_castext2_javascript extends stack_cas_castext2_block {
         $r->items[] = new MP_String('&nbsp;<script type="module">');
 
         // For binding and other use we need to import the stack_js library.
-        $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n");
+        $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
         
         // Do we need to bind anything?
         if (count($inputs) > 0) {

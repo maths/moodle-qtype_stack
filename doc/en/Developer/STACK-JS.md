@@ -70,6 +70,28 @@ If one needs to serve anything to those IFRAMEs from the local system one
 can either drop that thing into that `corsscripts/` directory or config
 ones own headers elsewhere. Currently, works with `.css` and `.js` files.
 
+### Loading external scripts
+
+Do note that loading external scripts into the IFRAME is possible as long
+as the following two conditions are met:
+
+ 1. You are not loading from `http://` sources into `https://` context.
+    Things work the other way around but mixing HTTP into HTTPS does not,
+    as most sane VLEs are going to be running over HTTPS and the IFRAME will
+    inherit some security assumptions from the surroundings, you should
+    always write any references to external libaries using `https://...` urls.
+ 2. The server serving that library has the correct CORS header so that
+    the script allows itself to be loaded into different origin context.
+    Basically, public usage CDN:s have this header. But most servers do 
+    not by default serve scripts for others to use. The header is this:
+    `Access-Control-Allow-Origin: *`. Do note that the server could also
+    serve other headers that might affect your ability to load scripts into
+    sandbox IFRAMEs so if things do not work check those headers.
+
+Do note that use of external resources will always make your materials
+sensitive to external changes. Therefore, if you do build materials that
+rely on external libraries do consider self hosting fixed copies of those
+libraries for your own use.
 
 ## The general security reason
 

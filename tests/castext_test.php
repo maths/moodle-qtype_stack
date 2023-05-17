@@ -1780,7 +1780,8 @@ class castext_test extends qtype_stack_testcase {
 
         $this->assertEquals('\[{\sqrt{2}\cdot e^{\frac{\mathrm{i}\cdot \pi}{4}}}\]',
             $at2->get_rendered());
-}
+    }
+
     /**
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval

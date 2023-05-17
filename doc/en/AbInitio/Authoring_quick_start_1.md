@@ -10,11 +10,11 @@ The authoring quick start guide shows you how to write STACK questions.  Part 1 
 We assume the following:
 
 1. You have access to a course with STACK installed.
-2. You are familiar with simple \(\LaTeX\) formatting for mathematics.  Some basic examples are provided in the [CASText#Useful_LaTeX](/Authoring/CASText.md) documentation.
+2. You are familiar with simple \(\LaTeX\) formatting for mathematics.  Some basic examples are provided in the [CASText](/Authoring/CASText.md) documentation.
 
 ## Creating a minimal STACK question
 
-Go to your Course, navigate to the [question bank](/Authoring/Question_bank.md) and create a new question with the "STACK" question type.
+Go to your Course, navigate to the [question bank](/Moodle/Question_bank.md) and create a new question with the "STACK" question type.
 
 There are lots of fields, but only a few are compulsory:
 

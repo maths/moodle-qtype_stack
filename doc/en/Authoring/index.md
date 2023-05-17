@@ -22,38 +22,35 @@ A  `stackQuestion` is the basic object in the system. The following table shows 
 The authoring documentation also covers topics on:
 
 #### [CASText](CASText.md)
-  
+
 * [Fact Sheets](Fact_sheets.md),
 * [Question blocks](Question_blocks.md),
 * [Using JSXGraph](JSXGraph.md).
-  
+
 #### [Input types](Inputs.md)
-  
+
 * [Numerical input](Numerical_input.md),
-* [Units in input](Units.md#Input_type),
+* [Units in input](../Topics/Units.md#Input_type),
 * [Equivalence reasoning](Equivalence_reasoning.md),
 * [Multiple choice questions](Multiple_choice_questions.md),
-* [Curve sketching](Curve_sketching.md).
-  
+
 #### Giving feedback with [potential response trees](Potential_response_trees.md)
-  
+
 * Information on [the types of feedback in STACK](Feedback.md),
-* Using [Answer tests](Answer_tests.md) and [numerical answer tests](Answer_tests_numerical.md),
-* [Answer tests for units](Units.md#Answer_tests).
-  
+* Using [Answer tests](AnswerTests/index.md).
+
 #### Testing and reporting
-  
+
 * [Creating question tests](Testing.md),
 * [Deploying variants](Deploying.md),
 * [Reporting](Reporting.md),
 * [Ensuring questions work in the future](Future_proof.md).
-  
-#### Using Moodle
-  
-* [Finding the question bank](Question_bank.md),
-* [Creating a quiz](/AbInitio/Authoring_quick_start_8.md),
-* [Importing and exporting](ImportExport.md).
-  
+
+#### [Mathematics topics](../Topics/index.md)
+
+* [Proof](../Topics/Proof.md)
+* [Curve sketching](../Topics/Curve_sketching.md).
+
 #### Other
 
 * Creating [multilingual questions](Languages.md).

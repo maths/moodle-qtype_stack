@@ -212,4 +212,4 @@ You can use this with mathematical input: `{@stack_disp_comma_separate([a,b,sin(
 ## Discrete mathematics and graph theory.
 
 
-A graph can be displayed with JSXGraph, see [discrete mathematics](../CAS/Discrete_mathematics.md) for examples.
+A graph can be displayed with JSXGraph, see [discrete mathematics](../Topics/Discrete_mathematics.md) for examples.

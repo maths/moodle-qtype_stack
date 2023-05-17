@@ -54,7 +54,7 @@ This input type is built closely on the algebraic input type with the following 
 6. The "insert stars" option is unchanged.  You may or may not want your students to type a `*` or space between the numbers and units for implied multiplication.
 7. You may want the single letter variable names options here.  Note that since `km` literally means `k*m=1000*m` this is not a problem with most units.
 8. The input type checks for units in a case sensitive way.  If there is more than one option then STACK suggests a list.  E.g. if the student types `mhz` then STACK suggests `MHz` or `mHz`.
-9. You can require numerical accuracy at validation by using the `mindp`, `maxdp`, `minsf` and `maxsf` extra options, as documented in the [numerical input](Numerical_input.md).
+9. You can require numerical accuracy at validation by using the `mindp`, `maxdp`, `minsf` and `maxsf` extra options, as documented in the [numerical input](../Authoring/Numerical_input.md).
 
 There are surprisingly few ambiguities in the units set up, but there will be some that the developers have missed (correctly dealing with ambiguous input is by definition an impossible problem!).  Please contact us with suggestions for improvements.
 
@@ -87,7 +87,7 @@ For scientific units (Q3.) there are two families of answer tests.
 1. `Units[...]` gives feedback if the student has the wrong units, but number is equivalent on conversion,
 2. `UnitsStrict[...]` expects the student's answer to use exactly the units which appear in the teacher's answer.  There is no conversion here.  However, answer notes will record whether the conversion would have worked.
 
-The two issues related to the numerical part are tested with one of the [numerical answer tests](Answer_tests_numerical.md) which are documented elsewhere. Units answer tests share code with these functions.  Use the appropriate options for the chosen test.
+The two issues related to the numerical part are tested with one of the [numerical answer tests](../Authoring/AnswerTests/Numerical.md) which are documented elsewhere. Units answer tests share code with these functions.  Use the appropriate options for the chosen test.
 
 
 __Notes__

@@ -55,8 +55,9 @@ function stack_docs_index($dir, $relpath = '') {
 
         $title = stack_docs_title_from_filename($filename);
         if (is_dir($filepath)) {
-            $items[$title] = "<li><a href=\"$relpath/$filename/\">" . $title . "</a>" .
-                    stack_docs_index($filepath, "$relpath/$filename") . '</li>';
+            $items[$title] = "<li><details>" .
+                "<summary><a href=\"$relpath/$filename/\">" . $title . "</a></summary>" .
+                    stack_docs_index($filepath, "$relpath/$filename") . '</details></li>';
         } else {
             if (substr($filename, -2) === 'md') {
                 $items[$title] = "<li><a href=\"$relpath/$filename\">" . $title . '</a></li>';
@@ -67,7 +68,6 @@ function stack_docs_index($dir, $relpath = '') {
     if (empty($items)) {
         return '';
     }
-
     stack_utils::sort_array_by_key($items);
     return '<ul class="dir">' . implode('', $items) . '</ul>';
 }

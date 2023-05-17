@@ -1,9 +1,8 @@
 # Rules-based answer tests
 
-Rules-based answer tests are a special kind of mathematical [answer test](Answer_tests.md).
+Rules-based answer tests are a special kind of mathematical [answer test](index.md).
 
-
-### Equality up to Associativity and Commutativity ### {#EqualComAss}
+### Equality up to associativity and commutativity ### {#EqualComAss}
 
 The `EqualComAss` test establishes that two expressions are equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division.
 
@@ -106,9 +105,8 @@ This functionality was introduced in April 2021.  It is essential that the rules
 
 The rules names are Maxima functions, but they assume `simp:false` and that the expression has noun forms e.g. `nounadd` instead of `+`.  You can use `equals_commute_prepare(ex)` to change an expression into this noun form.  The goal of this code is to create reliable equivalence classes of expressions, not perform algebraic manipulation as we traditionally know it. In particular the way unary minus is transformed into multiplication with a special tag `UNARY_MINUS` is likely to cause confusion to students if an expression is manipulated using these rules and then shown to a student.  The transoformation is designed to go in one direction only, and we do not support displaying the resulting manipulated expressions in traditional form.
 
-__As of June 2021, these rules are not intended as an end-user simplifier and we do not currently support user-defined rules (sorry!).__
+__As of May 2023, these rules are not intended as an end-user simplifier and we do not currently support user-defined rules (sorry!).__
 
 # See also
 
-* [Answer tests](Answer_tests.md)
-* [Maxima](../CAS/Maxima.md)
+* [Answer tests](index.md)

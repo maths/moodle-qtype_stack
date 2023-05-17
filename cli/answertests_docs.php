@@ -33,12 +33,13 @@ require_once($CFG->dirroot . '/question/type/stack/stack/options.class.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/answertest/controller.class.php');
 require_once($CFG->dirroot . '/question/type/stack/tests/fixtures/answertestfixtures.class.php');
 
-ob_start( );
-
 // Get the list of available tests.
 $availabletests = stack_answertest_test_data::get_available_tests();
 // Create a separate table for each test: breaks up the page better.
+
 foreach ($availabletests as $anstest) {
+    // One file per answer test.
+    ob_start( );
     echo "\n\n" . html_writer::tag('h2', $anstest);
 
     $tests = stack_answertest_test_data::get_tests_for($anstest);
@@ -152,33 +153,32 @@ foreach ($availabletests as $anstest) {
             $table->add_data($row, $class);
         }
     }
-
     $table->finish_output();
+
+    $output = ob_get_clean( );
+
+    // This is to break up the resulting single line in the text file.
+    // Otherwise editors, git, etc. have a miserable time.
+    $output = str_replace('<td class=', "\n  <td class=", $output);
+    $output = str_replace('<tr class=', "\n<tr class=", $output);
+    $output = str_replace("</tr>", "\n</tr>", $output);
+    $output = str_replace(",EQUIVCHAR", ", EQUIVCHAR", $output);
+    $output = str_replace(",EMPTYCHAR", ", EMPTYCHAR", $output);
+    $output = str_replace(",CHECKMARK", ", CHECKMARK", $output);
+    // If we don't strip id tags the whole file will change everytime we add a test!
+    // String too long for a single regular expression match.
+    $lines = explode("\n", $output);
+    $pat = array('/\sid="stack_answertests_r\d+_c\d+"/',
+                 '/\sid="stack_answertests_r\d+"/');
+    $rep = array('', '');
+    foreach ($lines as $key => $line) {
+        $lines[$key] = preg_replace($pat, $rep, $line);
+    }
+    $output = implode("\n", $lines);
+    $output = stack_string('stackDoc_AnswerTestResults') . "\n\n" . $output;
+
+    file_put_contents('../doc/en/Authoring/AnswerTests/Results/'. $anstest .'.md', $output);
 }
-
-$output = ob_get_clean( );
-
-// This is to break up the resulting single line in the text file.
-// Otherwise editors, git, etc. have a miserable time.
-$output = str_replace('<td class=', "\n  <td class=", $output);
-$output = str_replace('<tr class=', "\n<tr class=", $output);
-$output = str_replace("</tr>", "\n</tr>", $output);
-$output = str_replace(",EQUIVCHAR", ", EQUIVCHAR", $output);
-$output = str_replace(",EMPTYCHAR", ", EMPTYCHAR", $output);
-$output = str_replace(",CHECKMARK", ", CHECKMARK", $output);
-// If we don't strip id tags the whole file will change everytime we add a test!
-// String too long for a single regular expression match.
-$lines = explode("\n", $output);
-$pat = array('/\sid="stack_answertests_r\d+_c\d+"/',
-             '/\sid="stack_answertests_r\d+"/');
-$rep = array('', '');
-foreach ($lines as $key => $line) {
-    $lines[$key] = preg_replace($pat, $rep, $line);
-}
-$output = implode("\n", $lines);
-$output = stack_string('stackDoc_AnswerTestResults') . "\n\n" . $output;
-
-file_put_contents('../doc/en/Authoring/Answer_tests_results.md', $output);
 
 // Output the factsheet.
 

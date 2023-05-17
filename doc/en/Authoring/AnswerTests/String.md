@@ -1,20 +1,20 @@
-# Strings in STACK questions
+# String matching
 
-If your answer is a language string, then please consider using the [Damerau-Levenshtein distance](Levenshtein_distance.md) rather than a string match.
+On rare occasions string matching is useful.
 
-Strings are a basic data type in Maxima.  The predicate function `stringp(ex)` determines whether an expression is a string.  The function `string(ex)` takes a Maxima expression and returns a string representation.  We do not support Maxima's `parse_string` function.  There is no way to turn a string into a Maxima expression through STACK.  For example, if you use the string input you cannot later parse the student's answer into a Maxima expression.  Therefore, only use the string input if your answer is actually a string.
+A much more useful feature is the [Damerau-Levenshtein distance](../../Topics/Levenshtein_distance.md).
 
-_The whole point of STACK is that teachers should seek to establish mathematical properties and the string match tests are provided for completeness (and because they are trivial to implement).  Experienced question authors almost never use the string match tests.  If you find yourself needing to use the string match tests for something mathematical please contact the developers._
+Since student's expressions are, by default, not permitted to contain spaces you will probably need to make use of the string input type.
 
-# Answer tests
+### ATString ###
 
-`String` This is a string match, ignoring leading and trailing white space which are stripped from all answers, using PHP's trim() function.
+This test performs a string match ignoring leading and trailing white space which are stripped from all answers, using PHP's trim() function.
 
-`StringSloppy` This function first converts both inputs to lower case, then removes all white space from the string and finally performs a strict string comparison.
+### ATStringSloppy ###
 
-`Levenshtein` is an answer test based on the Damerau-Levenshtein distance between two strings.  See the specific documentation on [Damerau-Levenshtein distance](Levenshtein_distance.md).
+This test removes spaces, newlines and tabs and then performs a string match.
 
-### SRegExp ###
+### ATSRegExp ###
 
 This test uses Maxima's `regex_match` function.
 

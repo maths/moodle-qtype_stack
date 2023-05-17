@@ -1,23 +1,12 @@
 # Numerical answer tests
 
-An _answer test_ is used to compare two expressions to establish whether they satisfy some mathematical criteria. 
 This page is dedicated to answer tests which establish numerical precision.
-Other tests are documented in a page on [answer tests](../Authoring/Answer_tests.md).  
 
-Please also see the separate notes on [numbers](../CAS/Numbers.md) and [scientific units](Units.md).  
+With these tests it is _essential_ that the SAns field is exactly the name of the input.  For example, if your input is `ans1` then the SAns field of the answer test must only be `ans1`. The reason for this is that Maxima changes the display of floating-point numbers to remove or add trailing zeros.  These answer tests must take the value typed at the input, not the value passed through the CAS, otherwise digits will be changed.  This problem does not apply to the teacher's answer because we do not test whether the teacher has supplied the correct number of trailing zeros.  Care will be needed to display the correct number of significant figures with trailing zeros elsewhere in the question though.
 
-With other answer tests a question author can manipulate the student's answer with the CAS before applying an answer test.  With these tests it is _essential_ that the SAns field is exactly the name of the input.  For example, if your input is `ans1` then the SAns field of the answer test must only be `ans1`. The reason for this is that Maxima changes the display of floating-point numbers to remove or add trailing zeros.  These answer tests must take the value typed at the input, not the value passed through the CAS, otherwise digits will be changed.  Further information and examples are given in the page on [numbers](../CAS/Numbers.md).   This problem does not apply to the teacher's answer because we do not test whether the teacher has supplied the correct number of trailing zeros.  We only test if the student's answer is sufficiently close in numerical precision.  So, it is safe to calculate the teacher's answer field of the answer test from question variables using the CAS.  Care will be needed to display the correct number of significant figures with trailing zeros elsewhere in the question though.
+Further information and examples are given in the page on [numbers](../../CAS/Numbers.md) and [scientific units](../../Topics/Units.md). 
 
-# Introduction to numerical testing #
-
-There are two issues of which a question author should be aware.
-
-* Limits on numerical accuracy.
-* Dealing with trailing zeros.
-
-All software have limitations on the extent to which they can robustly deal with numerical quantities.  Maxima, PHP (and hence STACK) are no exceptions.  Integers are essentially unproblematic, and CAS will support (almost) arbitrary precision integers.  Floating-point representations of real numbers are more difficult, and a classic discussion of how to represent continuous quantities in finite state machine is given by D. Goldberg. _What every computer scientist should know about floating-point arithmetic._ Computing Surveys, 23(1):5-48, March 1991.
-
-# Answer tests in STACK#
+All software have limitations on the extent to which they can robustly deal with numerical quantities.  Maxima, PHP (and hence STACK) are no exceptions.  Integers are essentially unproblematic, and CAS will support (almost) arbitrary precision integers.  Floating-point representations of real numbers are more difficult, and a classic discussion of how to represent continuous quantities in finite state machine is given by D. Goldberg. _What every computer scientist should know about floating-point arithmetic._ Computing Surveys, 23(1):5-48, March 1991. 
 
 ### NumRelative & NumAbsolute ###
 
@@ -32,7 +21,7 @@ NumRelative  and NumAbsolute can also accept lists and sets.  Elements are autom
 
 "Greater than" or "Greater than or equal to".  Both arguments are assumed to be numbers. The Answer test fully simplifies the SAns and converts this to a float if possible. This is needed to cope with expressions involving sums of surds, \(\pi\) etc.  Therefore, do expect some numerical rounding which may cause the test to fail in very sharp comparisons.
 
-# Significant figure testing #
+## Significant figure testing ##
 
 The significant figures of a number are digits that carry meaning. This includes all digits except
 
@@ -78,7 +67,7 @@ If the options are of the form `[n,0]` then only the number of significant figur
 
 If the options are of the form `[n,-1]` then the test checks the student has _at least_ `n` significant figures in the answer, and that numerical accuracy is correct.
 
-This test only supports numbers where \(|sa|<10^{22}\).  Please see the [notes about numerical rounding](../CAS/Numbers.md) for the differences between rounding. In `NumSigFigs` the teacher's answer will be rounded to the specified number of significant figures before a comparison is made.
+This test only supports numbers where \(|sa|<10^{22}\).  Please see the [notes about numerical rounding](../../CAS/Numbers.md) for the differences between rounding. In `NumSigFigs` the teacher's answer will be rounded to the specified number of significant figures before a comparison is made.
 
 ### NumDecPlaces ###
 
@@ -96,14 +85,12 @@ This test condones any lack of trailing zeros.  Use other tests to establish if 
 A teacher may wish to see if a student's answer is incorrect only by orders of magnitude.  E.g. a student answers \(110\) instead of \(1100\).  To do this, a teacher can check whether \(\log_{10}\) of the ratio of two expressions is an integer, e.g.
 
      integerp(rat(float(log(sa/ta)/log(10))))
-     
+
 There is currently no functionality within the numerical answer tests to automatically check this, and there is no dedicated answer test to establish this property.  A separate PRT node is needed.
 
+## See also
 
-
-# See also
-
-* [Answer tests](Answer_tests.md)
-* [CAS and numbers](../CAS/Numbers.md)
-* [Scientific units](Units.md)
-* [Maxima](../CAS/Maxima.md)
+* [Answer tests](index.md)
+* [CAS and numbers](../../CAS/Numbers.md)
+* [Scientific units](../../Topics/Units.md)
+* [Maxima](../../CAS/Maxima.md)

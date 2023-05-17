@@ -1,7 +1,6 @@
 # Differential Equations
 
-This page provides examples of how to represent and manipulate ordinary differential equations (ODEs)
-in [Maxima](Maxima.md) when writing STACK questions.
+This page provides examples of how to represent and manipulate ordinary differential equations (ODEs) in [Maxima](../CAS/Maxima.md) when writing STACK questions.
 
 ## Representing ODEs
 
@@ -17,7 +16,7 @@ The syntax to enter a derivative in Maxima is `diff(y,x,n)`.  Teachers need to u
 
 Students' answers always have noun forms added. If a student types in `diff(y,x)` then this is protected by a special function `noundiff(y,x)` (etc), and ends up being sent to answer test as `'diff(y,x,1)`. If a student types in (literally) `diff(y,x)+1 = 0` this will end up being sent to answer test as `'diff(y,x,1)+1 = 0`.
 
-The answer test `AlgEquiv` evaluates all nouns.   This has a (perhaps) unexpected side-effect that `noundiff(y,x)` will be equivalent to `0`, and `noundiff(y(x),x)` is not.  For this reason we have an alternative [answer test](../Authoring/Answer_tests.md) `AlgEquivNouns` which does not evaluate all the nouns.
+The answer test `AlgEquiv` evaluates all nouns.   This has a (perhaps) unexpected side-effect that `noundiff(y,x)` will be equivalent to `0`, and `noundiff(y(x),x)` is not.  For this reason we have an alternative [answer test](../Authoring/AnswerTests/index.md) `AlgEquivNouns` which does not evaluate all the nouns.
 The `ATEqualComAss` also evaluates its arguments but does not "simplify" them.  So, counter-intuatively perhaps, we currently do have `ATEqualComAss(diff(x^2,x), 2*x);` as true.
 
 Students might expect to enter expressions like \( y' \), \( \dot{y} \) or \( y_x \) (especially if you are using `derivabbrev:true`, see below).   The use by Maxima of the apostrophe which affects evaluation also has a side-effect that we can't accept `y'` as valid student input.  Input `y_x` is an atom.  Individual questions could interpet this as `'diff(y,x)` but there is no systematic mechanism for intepreting subscripts as derivatives.  Input `dy/dx` is the division of one atom `dy` by another `dx` and so will commute with other multiplication and division in the expression as normal.  There is no way to protect input `dy/dx` as \( \frac{\mathrm{d}y}{\mathrm{d}x}\).  The only input which is interpreted by STACK as a derivative is Maxima's `diff` function, and students must type this as input.
@@ -184,7 +183,7 @@ Mostly when dealing with expressions you need to remove the \(\pm\) operator.  T
 \[ \pm a \rightarrow a \vee -a \]
 (actually using STACK's `nounor` operator to prevent evaluation).
 
-If you simply want to implement the re-write rule \( a\pm b \rightarrow a+b, \) i.e. ignore the \(\pm\) operator, then you can use `subst( "+","#pm#", ex)`.  For example, this substitution can be done in the feebdack variables on a student's answer.  If you would like to test code offline with `#pm#` then you will need to make use of the [Maxima sandbox](STACK-Maxima_sandbox.md).
+If you simply want to implement the re-write rule \( a\pm b \rightarrow a+b, \) i.e. ignore the \(\pm\) operator, then you can use `subst( "+","#pm#", ex)`.  For example, this substitution can be done in the feebdack variables on a student's answer.  If you would like to test code offline with `#pm#` then you will need to make use of the [Maxima sandbox](../CAS/STACK-Maxima_sandbox.md).
 
 ## Second order linear differential equations with constant coefficients ##
 

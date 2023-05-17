@@ -276,7 +276,7 @@ The variable `sans1` can then be used in the PRT.  Just note that `trigrat` writ
 
 ## Boolean functions
 
-See the page on [propositional logic](Propositional_Logic.md).
+See the page on [propositional logic](../Topics/Propositional_Logic.md).
 
 ## Further examples
 

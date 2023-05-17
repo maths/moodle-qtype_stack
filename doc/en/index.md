@@ -31,7 +31,7 @@ General information about STACK, including:
 Documentation for question authors, including:
 
 * An [authoring quick start guide](Authoring/Authoring_quick_start.md), which can be used in conjunction with the "Getting started with STACK" [guide](../content/2019-STACK-Guide.pdf).
-* Information on various [authoring topics](Authoring/index.md), such as [answer tests](Authoring/Answer_tests.md), [inputs](/Authoring/Inputs.md), [potential response trees](Authoring/Potential_response_trees.md) and [translations](Authoring/Languages.md).
+* Information on various [authoring topics](Authoring/index.md), such as [answer tests](Authoring/AnswerTests/index.md), [inputs](/Authoring/Inputs.md), [potential response trees](Authoring/Potential_response_trees.md) and [translations](Authoring/Languages.md).
 * [Frequently asked questions](Authoring/Author_FAQ.md).
 * Information on using the [CAS Maxima](CAS/index.md) for question authoring, including [randomisation](CAS/Random.md), [plotting graphs](CAS/Plots.md), and expression [simplification](CAS/Simplification.md).
 

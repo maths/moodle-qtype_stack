@@ -1639,7 +1639,7 @@ ATSRegExp(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patma
 /* Don't break existing questions. */
 ATRegExp(SA, SB) := ATString(SA, SB);
 
-ATString(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmatched],
+ATString(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Turn on simplification and error catch. */
     if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
@@ -1657,7 +1657,7 @@ ATString(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmat
     return([true, false, AnswerNote, FeedBack])
 )$
 
-ATStringSloppy(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmatched],
+ATStringSloppy(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Turn on simplification and error catch. */
     if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then

@@ -184,7 +184,7 @@ Now use the CASText:
 
 ## Graph theory
 
-It is possible to plot simple [discrete graphs](Discrete_mathematics.md) directly using STACK's `plot` command by building a combination of discrete and line plots.
+It is possible to plot simple [discrete graphs](../Topics/Discrete_mathematics.md) directly using STACK's `plot` command by building a combination of discrete and line plots.
 
 ## implicit_plot()  {#implicit}
 

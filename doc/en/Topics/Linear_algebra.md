@@ -6,7 +6,7 @@ Often there will be many equivalent answers, especially when asking for students
 
 This document provides some tips and hints for writing STACK questions.
 
-Please see also the file on [matrix manipulations](Matrix.md).
+Please see also the file on [matrix manipulations](../CAS/Matrix.md).
 
 ## Random questions
 

@@ -54,7 +54,7 @@ You can have follow-through marking for situations where, for example, the stude
 
 ### Support for many types of questions
 
-STACK has a large number of [inputs](../Authoring/Inputs.md) and [answer tests](../Authoring/Answer_tests.md) to support the diverse needs of users across mathematics and science. This includes support for questions about [numerical accuracy](../Authoring/Answer_tests_numerical.md), [significant figures](../Authoring/Answer_tests_numerical.md#Significant_figure_testing) and [scientific units](../Authoring/Units.md). You can also assess students' ability to reason line-by-line with [equivalence reasoning](../Authoring/Equivalence_reasoning.md). 
+STACK has a large number of [inputs](../Authoring/Inputs.md) and [answer tests](../Authoring/AnswerTests/index.md) to support the diverse needs of users across mathematics and science. This includes support for questions about [numerical accuracy](../Authoring/AnswerTests/Numerical.md), [significant figures](../Authoring/AnswerTests/Numerical.md#Significant_figure_testing) and [scientific units](../Topics/Units.md). You can also assess students' ability to reason line-by-line with [equivalence reasoning](../Authoring/Equivalence_reasoning.md). 
 
 # Further information
 

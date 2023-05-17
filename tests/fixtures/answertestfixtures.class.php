@@ -2140,15 +2140,17 @@ class stack_answertest_test_data {
         array('UnitsStrictAbsolute', '10.0', '2.321*m', '2300.0*mm', 0, 'ATUnits_compatible_units m.', ''),
         array('UnitsStrictAbsolute', '10.0', '2.301*kg', '2300.0*mm', 0, 'ATUnits_incompatible_units.', ''),
 
+        array('String', '', '"With spaces"', '"With spaces"', 1, '', ''),
+        array('String', '', '"Without spaces"', '"Withoutspaces"', 0, '', ''),
         array('String', '', 'Hello', 'hello', 0, '', ''),
         array('String', '', 'hello', 'hello', 1, '', ''),
         array('String', '', 'hello', 'heloo', 0, '', ''),
+        array('String', '', 'sin(x^2)', '"sin(x^2)"', 1, '', 'This test works on expressions as well as strings'),
 
-        array('StringSloppy', '', 'hello', 'Hello', 1, '', ''),
-        // This is a change.  The ast does not have acess to the raw string typed by the student.
-        array('StringSloppy', '', 'hel lo', 'Hello', 0, 'ATStringSloppy_STACKERROR_SAns.', ''),
-        array('StringSloppy', '', 'hel lo', 'Hel*lo', 0, 'ATStringSloppy_STACKERROR_SAns.', ''),
-        array('StringSloppy', '', 'hello', 'heloo', 0, '', ''),
+        array('StringSloppy', '', '"hello"', '"hello"', 1, '', ''),
+        array('StringSloppy', '', '"hello"', '"heloo"', 0, '', ''),
+        array('StringSloppy', '', '"hel lo"', '"hello"', 1, '', ''),
+        array('StringSloppy', '', '"hel lo"', '"Hel*lo"', 0, '', ''),
 
         array('Levenshtein', '', '"Hello"', '"Hello"', 0, 'STACKERROR_OPTION.', ''),
         array('Levenshtein', '0.9', '1/0', '"Hello"', -1, 'ATLevenshtein_STACKERROR_SAns.', ''),

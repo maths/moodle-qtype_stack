@@ -6,7 +6,7 @@ It is certainly possible to have students answer one of the other question types
 
 Another option is to automatically mark students' short answers using a question type such as the [pattern match](https://moodle.org/plugins/qtype_pmatch) question type in Moodle.
 
-STACK provides the "notes" [input type](Inputs.md).  There are some advantages to using the notes input, rather than an essay.
+STACK provides the "notes" [input type](../Authoring/Inputs.md).  There are some advantages to using the notes input, rather than an essay.
 
 1. It is part of a STACK question, so students' answers can be between other parts of a multi-part question.
 2. When students "validate" their answer, any maths types in using LaTeX is displayed.  If the teacher shows validation then students get a preview of their answer, and LaTeX will be displayed.

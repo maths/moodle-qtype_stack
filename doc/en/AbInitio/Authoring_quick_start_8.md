@@ -2,8 +2,6 @@
 
 [1 - First question](Authoring_quick_start_1.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | 8 - Quizzes
 
-
-
 This part of the authoring quick start guide deals with setting up a Moodle quiz. The following video explains the process:
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/P3bDdNVC6g0" frameborder="0" allowfullscreen></iframe>
@@ -99,9 +97,9 @@ You should now be able to work with quizzes in Moodle.
 This concludes the authoring quick start guide. The STACK documentation is comprehensive, and there are many things you might want to look at next. For example, you can
 
 - learn about more [input types](/Authoring/Inputs.md),
-- learn about more [answer tests](/Authoring/Answer_tests.md),
+- learn about more [answer tests](/Authoring/AnswerTests/index.md),
 - add [plots](../CAS/Plots.md) to your [CASText](/Authoring/CASText.md) fields,
 - add support for [multiple languages](/Authoring/Languages.md),
 - learn about using [equivalence reasoning](/Authoring/Equivalence_reasoning.md),
-- read about [Curve sketching](/Authoring/Curve_sketching.md).
+- read about [Curve sketching](/Topics/Curve_sketching.md).
 - look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and function names. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate Maxima commands easily.

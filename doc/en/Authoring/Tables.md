@@ -1,6 +1,6 @@
 # Tables
 
-STACK provides an intert function `table` for typesetting mathematical tables, provided originally to typeset truth tables in [Propositional Logic](../CAS/Propositional_Logic.md).
+STACK provides an intert function `table` for typesetting mathematical tables, provided originally to typeset truth tables in [Propositional Logic](../Topics/Propositional_Logic.md).
 
 You can create a table directly.  Notice the first row is a heading row.
 

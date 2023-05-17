@@ -52,7 +52,7 @@ The function `verb_logic(ex)` will remove the noun forms such as `nounand` and s
 
 ## Answer tests
 
-The answer tests protect the logical operators.  This behaviour is to prevent evaluation of expressions such as `x=1` as a boolean predicate fuction.  I.e. the default behaviour is to give priority to the assumption an arbitary expression is an algebraic expression, or a set of equations, inequalities etc.  The other answer tests (e.g. algebraic equivalence) will do there best.
+The answer tests protect the logical operators.  This behaviour is to prevent evaluation of expressions such as `x=1` as a boolean predicate fuction.  I.e. the default behaviour is to give priority to the assumption an arbitary expression is an algebraic expression, or a set of equations, inequalities etc.
 
 The answer test `PropLogic` replaces all noun logical expressions with the Maxima versions, and then tests two expressions using the function `logic_equiv` from Maxima's logic package.  This answer test does not support sets, lists, etc.
 

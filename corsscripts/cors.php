@@ -13,33 +13,31 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+defined('MOODLE_INTERNAL') || die();
 
-/**
- * This is a dirty hack trying to remove the need to configure webservers
- * to set the correct CORS headers for the few scripts in this directory 
- * that need them.
- */
+// This is a dirty hack trying to remove the need to configure webservers
+// to set the correct CORS headers for the few scripts in this directory that need them.
 
 $scriptname = urldecode($_GET['name']);
 
-if (strpos('..', $scriptname) !== false 
-	|| strpos('/', $scriptname) !== false
-	|| strpos('\\', $scriptname) !== false) {
-	die("No such script here.");
+if (strpos('..', $scriptname) !== false
+    || strpos('/', $scriptname) !== false
+    || strpos('\\', $scriptname) !== false) {
+    die("No such script here.");
 }
 
 if (file_exists($scriptname)) {
-	header('HTTP/1.0 200 OK');
-	if (strrpos($scriptname, '.js') === strlen($scriptname) - 3) {
-		header('Content-Type: text/javascript;charset=UTF-8');
-	} else if (strrpos($scriptname, '.css') === strlen($scriptname) - 4) {
-		header('Content-Type: text/css;charset=UTF-8');
-	}
-	header('Cache-Control: public, max-age=31104000, immutable');
-	header('Access-Control-Allow-Origin: *');
-	echo(file_get_contents($scriptname));
+    header('HTTP/1.0 200 OK');
+    if (strrpos($scriptname, '.js') === strlen($scriptname) - 3) {
+        header('Content-Type: text/javascript;charset=UTF-8');
+    } else if (strrpos($scriptname, '.css') === strlen($scriptname) - 4) {
+        header('Content-Type: text/css;charset=UTF-8');
+    }
+    header('Cache-Control: public, max-age=31104000, immutable');
+    header('Access-Control-Allow-Origin: *');
+    echo(file_get_contents($scriptname));
 } else {
-	// Give the same error to stop people from trying to figure out 
-	// whether a given file exists, even when placed in a bad place.
-	die("No such script here.");
+    // Give the same error to stop people from trying to figure out
+    // whether a given file exists, even when placed in a bad place.
+    die("No such script here.");
 }

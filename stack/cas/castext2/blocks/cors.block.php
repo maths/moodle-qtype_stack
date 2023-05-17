@@ -20,22 +20,19 @@ require_once(__DIR__ . '/../block.factory.php');
 
 require_once(__DIR__ . '/../../../../vle_specific.php');
 
-
 /**
- * Simple block for dealing with CORS content urls. 
+ * Simple block for dealing with CORS content urls.
  */
 class stack_cas_castext2_cors extends stack_cas_castext2_block {
 
-    public function compile($format, $options):  ? MP_Node {
+    public function compile($format, $options): ? MP_Node {
         $r = new MP_String(stack_cors_link($this->params['src']));
-
         return $r;
     }
 
     public function is_flat() : bool {
         return true;
     }
-
 
     public function validate_extract_attributes(): array {
         return [];
@@ -45,10 +42,10 @@ class stack_cas_castext2_cors extends stack_cas_castext2_block {
         &$errors = [],
         $options = []
     ): bool {
-    	if (!isset($this->params['src'])) {
-    		$errors[] = 'Needs src attribute.';
-    		return false;
-    	}
-    	return true;
+        if (!isset($this->params['src'])) {
+            $errors[] = 'Needs src attribute.';
+            return false;
+        }
+        return true;
     }
 }

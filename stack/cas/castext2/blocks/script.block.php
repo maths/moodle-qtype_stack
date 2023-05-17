@@ -21,17 +21,17 @@ require_once(__DIR__ . '/../../../utils.class.php');
 
 /**
  * A block for dealing with scripts in IFRAME blocks.
- * 
+ *
  * This is meant to act as a replacement for <script> and combines with
  * the [[iframe]]-family of blocks so the content gets positioned into
  * the <head> instead of the <body>.
- * 
+ *
  */
 class stack_cas_castext2_script extends stack_cas_castext2_block {
 
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
-            new MP_String('script'), 
+            new MP_String('script'),
             new MP_String(json_encode($this->params))
         ]);
 

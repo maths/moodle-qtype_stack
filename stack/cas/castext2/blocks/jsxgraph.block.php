@@ -26,7 +26,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
     /* This is not something we want people to edit in general. */
     public static $namedversions = [
-        /* TODO: make this `cdn-latest` if possible, no point in having it 
+        /* TODO: make this `cdn-latest` if possible, no point in having it
          * pointing to a particular version.
          */
         'cdn' => [
@@ -56,8 +56,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
                 $inputs[$inputname] = $value;
             }
         }
-        // These are some of the othe parameters we do not need to
-        // push forward.
+        // These are some of the othe parameters we do not need to push forward.
         if (isset($xpars['version'])) {
             unset($xpars['version']);
         }
@@ -66,7 +65,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         }
         if (isset($xpars['overridejs'])) {
             unset($xpars['overridejs']);
-        } 
+        }
 
         // Disable scrolling for this.
         $xpars['scrolling'] = false;
@@ -77,7 +76,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         // Figure out what scripts we serve.
         $css = self::$namedversions['local']['css'];
         $js = self::$namedversions['local']['js'];
-        if (isset($this->params['version']) && 
+        if (isset($this->params['version']) &&
             isset(self::$namedversions[$this->params['version']])) {
             $css = self::$namedversions[$this->params['version']]['css'];
             $js = self::$namedversions[$this->params['version']]['js'];
@@ -138,7 +137,8 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         // Add the div to the doc.
         // Note that we have two divs, the exterior one defines the size
         // and the interior one contains the graph.
-        $r->items[] = new MP_String('<div style="' . $astyle . '"><div class="jxgbox" id="jxgbox" style="width:100%;height:100%;"></div></div><script type="module">');
+        $r->items[] = new MP_String('<div style="' . $astyle .
+            '"><div class="jxgbox" id="jxgbox" style="width:100%;height:100%;"></div></div><script type="module">');
 
         // For binding we need to import the binding libraries.
         $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
@@ -158,7 +158,6 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             $linkcode .= '.then(([' . implode(',', $vars) . ']) => {' . "\n";
             $r->items[] = new MP_String($linkcode);
         }
-
 
         // Plug in the div id = board id thing.
         $r->items[] = new MP_String('var divid = "jxgbox";var BOARDID = divid;');
@@ -184,7 +183,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         }
 
         // In the end close the script tag.
-        $r->items[] = new MP_String('</script>'); 
+        $r->items[] = new MP_String('</script>');
 
         return $r;
     }
@@ -193,7 +192,6 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         // Even when the content were flat we need to evaluate this during postprocessing.
         return false;
     }
-
 
     public function postprocess(array $params, castext2_processor $processor): string {
         return 'This is never happening! The logic goes to [[iframe]].';
@@ -288,7 +286,8 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
                     $err[] = stack_string('stackBlock_jsxgraph_input_missing',
                         ['var' => $varname]);
                 }
-            } else if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' && $key !== 'version' && $key !== 'overridejs' && $key !== 'overridecss') {
+            } else if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
+                    $key !== 'version' && $key !== 'overridejs' && $key !== 'overridecss') {
                 $err[] = "Unknown parameter '$key' for jsxgraph-block.";
                 $valid    = false;
                 if ($valids === null) {

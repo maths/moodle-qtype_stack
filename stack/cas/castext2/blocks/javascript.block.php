@@ -27,10 +27,10 @@ require_once(__DIR__ . '/../../../../vle_specific.php');
  * A convenience block for creation of iframes with input-references and
  * stack_js pre-loaded. Use when you want to build some logic connected
  * to the input values.
- * 
+ *
  * The script will run in `<script type="module">` so feel free to 'import'
  * things.
- * 
+ *
  * Uses the same input-references declaration logic as [[jsxgraph]].
  */
 class stack_cas_castext2_javascript extends stack_cas_castext2_block {
@@ -62,7 +62,7 @@ class stack_cas_castext2_javascript extends stack_cas_castext2_block {
 
         // For binding and other use we need to import the stack_js library.
         $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
-        
+
         // Do we need to bind anything?
         if (count($inputs) > 0) {
             // Then we need to link up to the inputs.
@@ -99,7 +99,7 @@ class stack_cas_castext2_javascript extends stack_cas_castext2_block {
         }
 
         // In the end close the script tag.
-        $r->items[] = new MP_String('</script>'); 
+        $r->items[] = new MP_String('</script>');
 
         return $r;
     }

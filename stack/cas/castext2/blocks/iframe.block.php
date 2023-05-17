@@ -21,24 +21,23 @@ require_once(__DIR__ . '/../../../utils.class.php');
 
 /**
  * A block for providing means for creating IFRAMES.
- * 
- * Is the basis for a family of blocks that need to do things 
+ *
+ * Is the basis for a family of blocks that need to do things
  * inside IFRAMEs for security reasons. All JavaScript logic
  * goes into these.
- * 
+ *
  * Also related to [[style]], [[body]], [[script]] blocks
  * that allow targetted content within this block.
  */
 class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
-    // All frames need unique (at request level) identifiers, 
+    // All frames need unique (at request level) identifiers,
     // we use running numbering.
     private static $countframes = 1;
 
-
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
-            new MP_String('iframe'), 
+            new MP_String('iframe'),
             new MP_String(json_encode($this->params))
         ]);
 
@@ -51,8 +50,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         }
         $opt2['in iframe'] = true;
 
-        // Note that [[style]], [[body]], [[script]] blocks will be
-        // separated during post-processing.
+        // Note that [[style]], [[body]], [[script]] blocks will be separated during post-processing.
         foreach ($this->children as $child) {
             $c = $child->compile(castext2_parser_utils::RAWFORMAT, $opt2);
             if ($c !== null) {
@@ -102,7 +100,6 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             }
         }
 
-        
         $width  = '500px';
         $height = '400px';
         $aspectratio = false;
@@ -132,10 +129,8 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
         $attributes = ['style' => $astyle, 'id' => $divid];
 
-        
         if ($content === '') {
-            // For now we ensure that the created document will always 
-            // have some content.
+            // For now we ensure that the created document will always have some content.
             $content = '&nbsp;';
         }
 
@@ -151,7 +146,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
         // Construct the contents of the IFRAME.
         $code = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-        $code .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' . 
+        $code .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' .
             ' "http://www.w3.org/TR/xhtml1/DTD/strict.dtd">' . "\n";
         $code .= '<html xmlns="http://www.w3.org/TR/xhtml1/strict">';
         // Include a title to help JS debugging.
@@ -172,15 +167,13 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         // As the content is large we cannot simply use the js_amd_call.
         $PAGE->requires->js_amd_inline(
             'require(["qtype_stack/stackjsvle"], '
-            . 'function(stackjsvle,){stackjsvle.create_iframe(' . implode(',',$args). ');});');
+            . 'function(stackjsvle,){stackjsvle.create_iframe(' . implode(',', $args). ');});');
 
         self::$countframes = self::$countframes + 1;
-
 
         // Output the placeholder for this frame.
         return html_writer::tag('div', '', $attributes);
     }
-
 
     public function validate(&$errors=[], $options=[]): bool {
         // Basically, check that the dimensions have units we know.

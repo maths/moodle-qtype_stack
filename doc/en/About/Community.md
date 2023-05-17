@@ -1,13 +1,11 @@
 # Community
 
-There is a large and growing community of STACK users.  This includes large universities with many teachers and thousands of students, through to smaller setups.  STACK is in regular use in English, Finnish, Swedish, Japanese, German, Spanish and Portuguese.  If you are using STACK please let us know!
 
-A demonstration server is available in Edinburgh:  [https://stack.maths.ed.ac.uk/demo](https://stack.maths.ed.ac.uk/demo)
+There is a large, and growing, community of STACK users in many languages.  If you are using STACK please let us know!
 
-In 2017 the STACK project was awarded a Collaborative Award for Teaching Excellence.
-
-![CATE Logo](../../content/CATE.png)
-
+* The main community website for STACK is [https://stack-assessment.org/](https://stack-assessment.org/)
+* A demonstration server is available in Edinburgh:  [https://stack-demo.maths.ed.ac.uk/demo/](https://stack-demo.maths.ed.ac.uk/demo/)
+* Community discussion takes place on [https://stack-assessment.zulipchat.com/](https://stack-assessment.zulipchat.com/)
 
 ### How can I contribute?
 

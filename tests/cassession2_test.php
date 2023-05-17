@@ -260,6 +260,28 @@ class cassession2_test extends qtype_stack_testcase {
 
     }
 
+    public function test_polarform_simp() {
+        $cs = array('p0:polarform_simp(%i+1)');
+        $cs[] = 'p1:polarform_simp(2)';
+        $cs[] = 'p2:polarform_simp(-2)';
+        $cs[] = 'p3:polarform_simp(%i)';
+        foreach ($cs as $s) {
+            $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
+        }
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $at1 = new stack_cas_session2($s1, $options, 0);
+        $at1->instantiate();
+        $this->assertEquals('sqrt(2)*%e^((%i*%pi)/4)', $s1[0]->get_value());
+        $this->assertEquals('\sqrt{2}\cdot e^{\frac{\mathrm{i}\cdot \pi}{4}}', $s1[0]->get_display());
+
+        $this->assertEquals('2', $s1[1]->get_value());
+        $this->assertEquals('2*%e^(%i*%pi)', $s1[2]->get_value());
+        $this->assertEquals('%e^((%i*%pi)/2)', $s1[3]->get_value());
+    }
+
     public function test_multiplication_option_complexno_i() {
 
         $cs = array('p:a+b*%i', 'q:a+b*i', 'r:a+b*j');

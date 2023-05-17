@@ -5606,6 +5606,10 @@
       "evfun": "s",
       "function": "s"
   },
+  "polarform_simp": {
+      "evfun": "s",
+      "function": "s"
+  },
   "polartorect": {
       "function": "s"
   },

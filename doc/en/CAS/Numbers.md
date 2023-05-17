@@ -2,7 +2,7 @@
 
 Separate pages document
 
-1. [numerical answer tests](../Authoring/AnswerTests/Numerical.md),
+1. [numerical answer tests](../Authoring/Answer_Tests/Numerical.md),
 2. [complex numbers](Complex_numbers.md).
 
 
@@ -58,7 +58,7 @@ Rounding like this can also occur in calculations, for example
     v0:1-(p1+p2+p3);
     v1:0.18;
 
-Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115123125783*10^-17\) and so `ATAlgEquiv(v0,v1)` will give false.  Please always use a [numerical test](../Authoring/AnswerTests/Numerical.md) when testing floats.
+Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115123125783*10^-17\) and so `ATAlgEquiv(v0,v1)` will give false.  Please always use a [numerical test](../Authoring/Answer_Tests/Numerical.md) when testing floats.
 
 
 

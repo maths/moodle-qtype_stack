@@ -177,7 +177,7 @@ foreach ($availabletests as $anstest) {
     $output = implode("\n", $lines);
     $output = stack_string('stackDoc_AnswerTestResults') . "\n\n" . $output;
 
-    file_put_contents('../doc/en/Authoring/AnswerTests/Results/'. $anstest .'.md', $output);
+    file_put_contents('../doc/en/Authoring/Answer_Tests/Results/'. $anstest .'.md', $output);
 }
 
 // Output the factsheet.

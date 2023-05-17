@@ -37,7 +37,7 @@ The authoring documentation also covers topics on:
 #### Giving feedback with [potential response trees](Potential_response_trees.md)
 
 * Information on [the types of feedback in STACK](Feedback.md),
-* Using [Answer tests](AnswerTests/index.md).
+* Using [Answer tests](Answer_Tests/index.md).
 
 #### Testing and reporting
 

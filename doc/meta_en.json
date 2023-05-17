@@ -101,7 +101,7 @@
         "description":"Documentation for question authors using STACK, including a quick start guide and how to use common STACK features."
         },
         {
-        "AnswerTests":[
+        "Answer_Tests":[
             {
             "file":"index.md",
             "title":"Answer tests - STACK Documentation",
@@ -364,7 +364,7 @@
         "description":"Sample questions for the STACK question type."
         },
         {
-        "file":"AnswerTests/index.md",
+        "file":"Answer_Tests/index.md",
         "title":"Answer Tests - STACK Documentation",
         "description":"Information about the different answer tests supported in the STACK online assessment system."
         },
@@ -805,7 +805,7 @@
         "description":"Information on finding the Moodle question bank."
         },
         {
-        "file":"ImportExport.md",
+        "file":"Import_Export.md",
         "title":"Importing and Exporting - STACK Documentation",
         "description":"Information on importing and exporting questions in STACK."
         },

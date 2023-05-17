@@ -63,7 +63,7 @@ function report($d) {
 
                         if ($fsize >= 18000) {
                             // Ignore a couple of known large files.
-                            if (substr_count($fpath, "Authoring/AnswerTests/Results") === 0 &&
+                            if (substr_count($fpath, "Authoring/Answer_Tests/Results") === 0 &&
                                 substr_count($fpath, "Developer/Development_history.md") === 0) {
                                 $a[] = array($fpath, 'W', "Large file ($fsize bytes)");
                             }

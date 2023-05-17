@@ -9,7 +9,7 @@ For current and future plans, see [Development track](Development_track.md) and 
 3. Add link to the dependency checker to the plugin page.
 4. Add in descriptions to the question (castext), the PRT nodes and the question tests.
 5. Add in the input extra option `validator` to allow user-defined validation functions.
-6. Reorganise the [answer test](../Authoring/AnswerTests/index.md) documentation.
+6. Reorganise the [answer test](../Authoring/Answer_Tests/index.md) documentation.
 
 Major re-working of Javascript in STACK.  Specifically
 
@@ -601,8 +601,8 @@ Released: Easter 2010 session.
 
 Key features
 
-* [Precision](../Authoring/AnswerTests/index.md#Precision) answer test added to allow significant to be checked.
-* [Form](../Authoring/AnswerTests/index.md#Form) answer test added to test if an expression is in completed square form.
+* [Precision](../Authoring/Answer_Tests/index.md#Precision) answer test added to allow significant to be checked.
+* [Form](../Authoring/Answer_Tests/index.md#Form) answer test added to test if an expression is in completed square form.
 * List interaction element expanded to include checkboxes.  See [List](../Authoring/Inputs.md#List).
 * Move to Maxima's `random()` function, rather than generate our own pseudo random numbers
 * [Conditionals in CASText](https://sourceforge.net/tracker/?func=detail&aid=2888054&group_id=119224&atid=683351)

@@ -72,7 +72,7 @@ Simplify is often taken implicitly to mean "the shortest equivalent expression",
 
 To avoid these problems, STACK expects teachers to specify the properties they want.  For example, if you want the factored form you should test for this, not describe it as "simplified".
 
-In STACK a very useful test is equivalence up to [associativity and commutativity](AnswerTests/index.md#EqualComAss) of the basic arithmetic operations of addition and multiplication.  This is often what teachers need in this case.
+In STACK a very useful test is equivalence up to [associativity and commutativity](Answer_Tests/index.md#EqualComAss) of the basic arithmetic operations of addition and multiplication.  This is often what teachers need in this case.
 
 ## Why doesn't Maxima give `int(1/x,x)=log(abs(x))`?
 
@@ -84,7 +84,7 @@ Because \( \int \frac{1}{x}dx = \log(|x|) \) is OK on either the negative or pos
     (%i200) integrate(1/x,x), logabs : true;
     (%o200) log(abs(x))
 
-Furthermore, the [integration answer test](AnswerTests/index.md#Int) will allow teachers to accept either `log(x)` or `log(abs(x))` (or both) from a student.
+Furthermore, the [integration answer test](Answer_Tests/index.md#Int) will allow teachers to accept either `log(x)` or `log(abs(x))` (or both) from a student.
 
 ## Why don't I get anything back from the CAS?
 

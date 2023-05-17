@@ -87,7 +87,7 @@ For scientific units (Q3.) there are two families of answer tests.
 1. `Units[...]` gives feedback if the student has the wrong units, but number is equivalent on conversion,
 2. `UnitsStrict[...]` expects the student's answer to use exactly the units which appear in the teacher's answer.  There is no conversion here.  However, answer notes will record whether the conversion would have worked.
 
-The two issues related to the numerical part are tested with one of the [numerical answer tests](../Authoring/AnswerTests/Numerical.md) which are documented elsewhere. Units answer tests share code with these functions.  Use the appropriate options for the chosen test.
+The two issues related to the numerical part are tested with one of the [numerical answer tests](../Authoring/Answer_Tests/Numerical.md) which are documented elsewhere. Units answer tests share code with these functions.  Use the appropriate options for the chosen test.
 
 
 __Notes__

@@ -97,7 +97,7 @@ You should now be able to work with quizzes in Moodle.
 This concludes the authoring quick start guide. The STACK documentation is comprehensive, and there are many things you might want to look at next. For example, you can
 
 - learn about more [input types](/Authoring/Inputs.md),
-- learn about more [answer tests](/Authoring/AnswerTests/index.md),
+- learn about more [answer tests](/Authoring/Answer_Tests/index.md),
 - add [plots](../CAS/Plots.md) to your [CASText](/Authoring/CASText.md) fields,
 - add support for [multiple languages](/Authoring/Languages.md),
 - learn about using [equivalence reasoning](/Authoring/Equivalence_reasoning.md),

@@ -6,7 +6,7 @@ Strings are a basic data type in Maxima.  The predicate function `stringp(ex)` d
 
 _The whole point of STACK is that teachers should seek to establish mathematical properties and the string match tests are provided for completeness (and because they are trivial to implement).  Experienced question authors almost never use the string match tests.  If you find yourself needing to use the string match tests for something mathematical please contact the developers._
 
-There are 4 [string-related answer tests](../Authoring/AnswerTests/String.md).
+There are 4 [string-related answer tests](../Authoring/Answer_Tests/String.md).
 
 * String
 * StringSloppy

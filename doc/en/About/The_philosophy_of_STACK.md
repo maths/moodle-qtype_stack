@@ -25,7 +25,7 @@ Teachers should take responsibility for their assessments. When assessing studen
 
 * _Focusing on mathematical properties, such as equivalence, is a unique design feature of STACK._
 
-Teachers can then pick suitable [answer tests](../Authoring/AnswerTests/index.md) in a [potential response tree](../Authoring/Potential_response_trees.md) and give marks and feedback accordingly.  STACK does not require teachers to learn a coding language and assess students' answers by writing code such as :
+Teachers can then pick suitable [answer tests](../Authoring/Answer_Tests/index.md) in a [potential response tree](../Authoring/Potential_response_trees.md) and give marks and feedback accordingly.  STACK does not require teachers to learn a coding language and assess students' answers by writing code such as :
 
 ```
 If
@@ -62,7 +62,7 @@ STACK is designed to cover the needs of a large variety of users across mathemat
 * Partial credit is possible when an expression only satisfies some of the required properties.
 * [Plots](../CAS/Plots.md) can be dynamically generated and included within any part of the question, including feedback in the form of a plot of the student's expression.
 * Students can work line by line [reasoning by equivalence](../CAS/Equivalence_reasoning.md) until they have a final answer in the correct form. 
-* STACK supports working with [significant figures](../Authoring/AnswerTests/Numerical.md) and [scientific units](../Topics/Units.md).
+* STACK supports working with [significant figures](../Authoring/Answer_Tests/Numerical.md) and [scientific units](../Topics/Units.md).
 
 #### STACK is open source
 

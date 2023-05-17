@@ -11,8 +11,8 @@ This list is in approximate order of the size of the equivalence classes from mo
 | Test                                              | Description (see below for more details)
 | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | CasEqual                                          | Are the parse trees of the two expressions equal?  
-| [EqualComAss](RulesBased.md)                      | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division? 
-| [EqualComAssRules](RulesBased.md)                 | Are they equal up to commutativity, associativity and with optional rules? 
+| [EqualComAss](Rule_based.md)                      | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division? 
+| [EqualComAssRules](Rule_based.md)                 | Are they equal up to commutativity, associativity and with optional rules? 
 | AlgEquivNouns                                     | Are they _algebraically equivalent_, preserving noun forms of operators, e.g. `diff`?
 | AlgEquiv                                          | Are they _algebraically equivalent_?
 | SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?
@@ -59,7 +59,7 @@ We recommend you do _not_ use algebraic equivalence testing for floating point n
 
 A particularly useful test is to establish that two expressions are equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division.  For example, under this test
 \( x+y = y+x \mbox{ but } x+x \neq 2x\).
-Please see the [separate documentation](RulesBased.md).
+Please see the [separate documentation](Rule_based.md).
 
 ### AlgEquivNouns ###
 
@@ -69,7 +69,7 @@ Even with this answer test `noundiff(y,x)` and `noundiff(y(x),x)` are different!
 
 Note, that logic nouns such as `nounand` are still evaluated by this test!  Sorry, but logical noun functions are dealt with internally in a very different way than Maxima noun functions such as `'diff(y,x)` and the parallel `noundiff`.  Use a different test, such as `EqualComAss`.
 
-It was the need to selectively evaluate some nouns but not others that led to the development of the [rule-based answer tests](RulesBased.md) to deal with the need for these options in a coherent way.
+It was the need to selectively evaluate some nouns but not others that led to the development of the [rule-based answer tests](Rule_based.md) to deal with the need for these options in a coherent way.
 
 ### CasEqual ###
 

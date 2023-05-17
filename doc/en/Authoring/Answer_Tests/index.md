@@ -43,7 +43,7 @@ Documentation is grouped as follows.
   * CompSquare
   * Expanded
   * LowestTerms
-3. [Rules-based](RulesBased.md) tests, e.g. equivalence up to associativity and commutativity and advanced bespoke tests.
+3. [Rules-based](Rule_based.md) tests, e.g. equivalence up to associativity and commutativity and advanced bespoke tests.
   * EqualComAss
   * EqualComAssRules
 4. [Numerical tests](Numerical.md) including accuracy, e.g. is written to 3 decimal places.

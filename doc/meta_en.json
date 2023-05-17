@@ -133,7 +133,7 @@
             "description":"Answer tests for specific subject situations."
             },
             {
-            "file":"RulesBased.md",
+            "file":"Rule_based.md",
             "title":"Rules based tests - STACK Documentation",
             "description":"STACK can test numerical properties of a students' answer, including its numerical precision and significant figures."
             },
@@ -369,7 +369,7 @@
         "description":"Information about the different answer tests supported in the STACK online assessment system."
         },
         {
-        "file":"Answer_tests_rules_based.md",
+        "file":"Answer_tests_Rule_based.md",
         "title":"Rules-based answer tests",
         "description":"Information about creating bespoke answer tests by specifying algebraic rules."
         },

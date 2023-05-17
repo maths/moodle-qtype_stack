@@ -40,6 +40,7 @@ require_once(__DIR__ . '/../stack/mathsoutput/fact_sheets.class.php');
 function stack_docs_index($dir, $relpath = '') {
     // Write a list describing the directory structure, recursive, discriminates for .md files.
     $exclude = array('index.md', 'Site_map.md');
+    $details = array('AbInitio', 'Results', 'Developer', 'Reference', 'Installation');
 
     if (!is_dir($dir)) {
         return '';
@@ -55,9 +56,16 @@ function stack_docs_index($dir, $relpath = '') {
 
         $title = stack_docs_title_from_filename($filename);
         if (is_dir($filepath)) {
-            $items[$title] = "<li>\n<details>" .
-                "<summary><a id=\"" . $title . "\" href=\"$relpath/$filename/\">" . $title . "</a></summary>\n" .
+            if (in_array($title, $details)) {
+                // I'd like to make more of the details/summary tag but behat testing breaks as it can't find links.
+                $items[$title] = "<li>\n<details>" .
+                    "<summary><a id=\"" . $title . "\" href=\"$relpath/$filename/\">" . $title . "</a></summary>\n" .
                     stack_docs_index($filepath, "$relpath/$filename") . "\n</details></li>";
+            } else {
+                $items[$title] = "<li>\n" .
+                    "<a id=\"" . $title . "\" href=\"$relpath/$filename/\">" . $title . "</a>\n" .
+                    stack_docs_index($filepath, "$relpath/$filename") . "\n</li>";
+            }
         } else {
             if (substr($filename, -2) === 'md') {
                 $items[$title] = "<li><a href=\"$relpath/$filename\">" . $title . '</a></li>';

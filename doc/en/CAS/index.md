@@ -9,8 +9,6 @@ Computer algebra systems are most often designed for either the research mathema
 * is the expression written a particular conventional form, (e.g. factored, partial fraction)?
 * are all the numbers in the expression written as fractions in the lowest terms?
 
-
-
 ## Tutorials for STACK users  {#tutorial}
 
 * The documentation includes basic information on using [Maxima](Maxima.md) with STACK.
@@ -34,4 +32,4 @@ Information on specific mathematical topics are found below.
 ## Developer information, and other topics {#developer}
 
 * Setting up a [STACK-Maxima sandbox](STACK-Maxima_sandbox.md) for testing code on the desktop.
-* [Optimising Maxima](Optimising_Maxima.md).
+* [Optimising Maxima](../Installation/Optimising_Maxima.md).

@@ -761,6 +761,11 @@
         "description":"This document explains how the Maxima statement parser infrastruture works."
         },
         {
+        "file":"STACK-JS.md",
+        "title":"Including Javascript in STACK questions.",
+        "description":"This page documents how to include Javascript into STACK questions."
+        },
+        {
         "file":"Syntax_Future.md",
         "title":"Future plans for syntax of answers and STACK.",
         "description":"Discussion of future plans for dealing with syntax of answers and STACK."

@@ -5,18 +5,7 @@ past development history is documented on [Development history](Development_hist
 
 How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
 
-## Version 4.4.3
-
-Done.
-
-1. Rename testing page as "STACK question dashboard" and make it much easier to add a test case based on the teacher's answer.
-2. Better cleaning of unicode from students' input strings.
-3. Add link to the dependency checker to the plugin page.
-4. Add in descriptions to the question (castext), the PRT nodes and the question tests.
-5. Add in the input extra option `validator` to allow user-defined validation functions.
-6. Reorganise the [answer test](../Authoring/AnswerTests/index.md) documentation.
-
-TODO: track down bug in assignments/evaluation affecting the inputs.
+## Version 4.4.4
 
 TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
  #671, #420

@@ -4,11 +4,19 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 ## Version 4.4.3
 
+1. Rename testing page as "STACK question dashboard" and make it much easier to add a test case based on the teacher's answer.
+2. Better cleaning of unicode from students' input strings.
+3. Add link to the dependency checker to the plugin page.
+4. Add in descriptions to the question (castext), the PRT nodes and the question tests.
+5. Add in the input extra option `validator` to allow user-defined validation functions.
+6. Reorganise the [answer test](../Authoring/AnswerTests/index.md) documentation.
+
+Major re-working of Javascript in STACK.  Specifically
+
 1. STACK-JS a VLE agnostic JavaScript system that moves all script execution into sandbox iframes and restricts the things those scripts can do outside that sandbox. Basically, replaces the `[[jsxgraph]]`-block and provides ways for doing other scripting.
 2. Initial implementation of the `[[reveal]]`-block (#570) using the STACK-JS system.
 3. Various related blocks like `[[iframe]]`, `[[javascript]]`, `[[style]`, `[[script]]`, and `[[cors]]`
 4. This version does not yet forbide all JavaScript outside STACK-JS, but do prepare future updates to do so and start migrating existing scripts into STACK-JS.
-
 
 
 ## Version 4.4.2

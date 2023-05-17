@@ -91,7 +91,7 @@ class stack_cas_castext2_reveal extends stack_cas_castext2_block {
     }
 
     public function postprocess(array $params, castext2_processor $processor=null): string {
-        return 'Never happens, thsi block is handled through [[iframe]].';
+        return 'Never happens, this block is handled through [[iframe]].';
     }
 
     public function validate_extract_attributes(): array {

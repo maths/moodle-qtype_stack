@@ -4,6 +4,8 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 ## Version 4.4.3
 
+Released May 2023.
+
 1. Rename testing page as "STACK question dashboard" and make it much easier to add a test case based on the teacher's answer.
 2. Better cleaning of unicode from students' input strings.
 3. Add link to the dependency checker to the plugin page.

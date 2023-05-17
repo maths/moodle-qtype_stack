@@ -182,7 +182,7 @@ Read more about this in the [languages](Languages.md) documentation.
 
 ## Textdownload block ##
 
-A new feature in 4.4 is the ability to construct a text-file using CASText and to provide a link to it for download. This is obviously a way for serving out randomised data to the student. Do note that you can generate whatever you want as the content of that file, one could even generate a LaTeX template with question specific values for the student to fill things in. Read more about [serving data out](Serving_out_data.md).
+STACK can construct a text-file using CASText and provide a link to it for download. This is obviously a way for serving out randomised data to the student. Do note that you can generate whatever you want as the content of that file, one could even generate a LaTeX template with question specific values for the student to fill things in. Read more about [serving data out](Serving_out_data.md).
 
 ## Commonstring block ##
 

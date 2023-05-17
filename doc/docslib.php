@@ -58,13 +58,13 @@ function stack_docs_index($dir, $relpath = '') {
         if (is_dir($filepath)) {
             if (in_array($title, $details)) {
                 // I'd like to make more of the details/summary tag but behat testing breaks as it can't find links.
-                $items[$title] = "<li>\n<details>" .
-                    "<summary><a id=\"" . $title . "\" href=\"$relpath/$filename/\">" . $title . "</a></summary>\n" .
-                    stack_docs_index($filepath, "$relpath/$filename") . "\n</details></li>";
+                $items[$title] = "<li><details>" .
+                    "<summary><a id=\"" . $title . "\" href=\"$relpath/$filename/\">" . $title . "</a></summary>" .
+                    stack_docs_index($filepath, "$relpath/$filename") . "</details></li>";
             } else {
                 $items[$title] = "<li>\n" .
                     "<a id=\"" . $title . "\" href=\"$relpath/$filename/\">" . $title . "</a>\n" .
-                    stack_docs_index($filepath, "$relpath/$filename") . "\n</li>";
+                    stack_docs_index($filepath, "$relpath/$filename") . "</li>";
             }
         } else {
             if (substr($filename, -2) === 'md') {
@@ -77,7 +77,7 @@ function stack_docs_index($dir, $relpath = '') {
         return '';
     }
     stack_utils::sort_array_by_key($items);
-    return "<ul class=\"dir\">\n  " . implode("\n  ", $items) . "\n</ul>";
+    return '<ul class="dir">' . implode('', $items) . '</ul>';
 }
 
 /**

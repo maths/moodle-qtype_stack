@@ -52,8 +52,8 @@ class stack_cas_castext2_reveal extends stack_cas_castext2_block {
         }
         $body->items[] = new MP_String('</div>');
 
-        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.js') . '";';
-        $code .= 'stack_js.request_access_to_input("' . $this->params['input'] . '").then((id) => {';
+        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
+        $code .= 'stack_js.request_access_to_input("' . $this->params['input'] . '", true).then((id) => {';
         // So that should give us access to the input.
         // Once we get the access immediately bind a listener to it.
         $code .= 'const input = document.getElementById(id);';
@@ -91,7 +91,7 @@ class stack_cas_castext2_reveal extends stack_cas_castext2_block {
     }
 
     public function postprocess(array $params, castext2_processor $processor=null): string {
-        return 'Never happens, this block is handled through [[iframe]].';
+        return 'Post processing of reveal blocks never happens, this block is handled through [[iframe]].';
     }
 
     public function validate_extract_attributes(): array {

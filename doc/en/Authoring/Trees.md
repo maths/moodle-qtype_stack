@@ -23,7 +23,7 @@ For example, the HTML code for the tree of \(1+2x^3\) is given below.
   </li>
 </ul>
 ```
-This is displayed as follows (note LaTeX does not display correctly here).
+This is displayed as follows.
 
 <p>
 <figure>

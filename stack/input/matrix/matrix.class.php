@@ -284,7 +284,7 @@ class stack_matrix_input extends stack_input {
                     $val = '';
                 }
                 $name = $fieldname.'_sub_'.$i.'_'.$j;
-                $xhtml .= '<td><input type="text" name="'.$name.'" value="'.$val.'" size="'.
+                $xhtml .= '<td><input type="text" id="'.$name.'" name="'.$name.'" value="'.$val.'" size="'.
                         $this->parameters['boxWidth'].'"'.$attr.'></td>';
             }
 

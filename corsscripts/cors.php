@@ -13,10 +13,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
-defined('MOODLE_INTERNAL') || die();
 
 // This is a dirty hack trying to remove the need to configure webservers
 // to set the correct CORS headers for the few scripts in this directory that need them.
+
+// We cannot have moodle internal in this script.
+// @codingStandardsIgnoreStart
 
 $scriptname = urldecode($_GET['name']);
 
@@ -41,3 +43,5 @@ if (file_exists($scriptname)) {
     // whether a given file exists, even when placed in a bad place.
     die("No such script here.");
 }
+
+// @codingStandardsIgnoreEnd

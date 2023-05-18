@@ -1,6 +1,6 @@
 ## Equivalence answer tests ##
 
-The prototype test is to establish if they are _algebraically equivalent_.  This page documents this, and similar, equivalence tests.
+The prototype test is to establish if two expressions are _algebraically equivalent_.  This page documents this, and similar, equivalence tests.
 
 A crucial component in the assessment process the ability to decide if two expressions are equivalent.  It turns out there are many useful senses when trying to assess students' answers.
 
@@ -10,9 +10,9 @@ This list is in approximate order of the size of the equivalence classes from mo
 
 | Test                                              | Description (see below for more details)
 | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| CasEqual                                          | Are the parse trees of the two expressions equal?  
+| CasEqual                                          | Are the [parse trees](../Trees.md) of the two expressions equal?  
 | [EqualComAss](Rule_based.md)                      | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division? 
-| [EqualComAssRules](Rule_based.md)                 | Are they equal up to commutativity, associativity and with optional rules? 
+| [EqualComAssRules](Rule_based.md)                 | Are they equal up to commutativity, associativity and with optional rules such as \(0\times x \rightarrow 0\)? 
 | AlgEquivNouns                                     | Are they _algebraically equivalent_, preserving noun forms of operators, e.g. `diff`?
 | AlgEquiv                                          | Are they _algebraically equivalent_?
 | SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?

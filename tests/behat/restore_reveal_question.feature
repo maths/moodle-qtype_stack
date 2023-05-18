@@ -32,4 +32,3 @@ Feature: Test restoring and testing an individual STACK question from the sample
     And I wait "2" seconds
     When I press "Check"
     Then I should see "Correct answer, well done."
-

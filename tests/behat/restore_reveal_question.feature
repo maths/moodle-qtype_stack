@@ -20,7 +20,10 @@ Feature: Test restoring and testing an individual STACK question from the sample
     And I am on "Demonstrating STACK" course homepage
     Then I should see "Reveal block test"
     When I follow "Reveal block test"
-    And I click on "Attempt quiz now" "button"
+    # Moodle 3.9 has "Attempt quiz now"
+    # Moodle 4.0 has "Preview quiz"
+    # At least `And I click on "quiz" "button"` works...
+    And I click on "quiz" "button"
     Then I should see "made from the straight line through the origin"
     When I set the input "ans1" to "true" in the STACK question
     And I wait "2" seconds

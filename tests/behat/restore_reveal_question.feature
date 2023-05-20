@@ -15,7 +15,8 @@ Feature: Test restoring and testing an individual STACK question from the sample
     And I press "Save changes"
 
   @javascript @_file_upload
-  Scenario: Restore the STACK demo course.
+  Scenario: Restore the STACK demo course on a Moodle ≤ 3.11
+    Given the site is running Moodle version 3.11 or lower
     When I restore "STACK-reveal-test" backup into "Demonstrating STACK" course using this options:
     And I am on "Demonstrating STACK" course homepage
     Then I should see "Reveal block test"
@@ -23,7 +24,27 @@ Feature: Test restoring and testing an individual STACK question from the sample
     # Moodle 3.9 has "Attempt quiz now"
     # Moodle 4.0 has "Preview quiz"
     # At least `And I click on "quiz" "button"` works...
-    And I click on "quiz" "button"
+    And I click on "Attempt quiz now" "button"
+    Then I should see "made from the straight line through the origin"
+    When I set the input "ans1" to "true" in the STACK question
+    And I wait "2" seconds
+    Then I should see "If true write the subspace in parametric form"
+    When I set the input "ans2_sub_0_0" to "-t" in the STACK question
+    When I set the input "ans2_sub_1_0" to "3*t" in the STACK question
+    When I set the input "ans2_sub_2_0" to "2*t" in the STACK question
+    When I set the input "ans3" to "[t]" in the STACK question
+    And I wait "2" seconds
+    When I press "Check"
+    Then I should see "Correct answer, well done."
+
+  @javascript @_file_upload
+  Scenario: Restore the STACK demo course on a Moodle ≥ 4.0
+    Given the site is running Moodle version 4.0 or higher
+    When I restore "STACK-reveal-test" backup into "Demonstrating STACK" course using this options:
+    And I am on "Demonstrating STACK" course homepage
+    Then I should see "Reveal block test"
+    When I follow "Reveal block test"
+    And I click on "Preview quiz" "button"
     Then I should see "made from the straight line through the origin"
     When I set the input "ans1" to "true" in the STACK question
     And I wait "2" seconds

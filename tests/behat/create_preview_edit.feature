@@ -35,6 +35,10 @@ Feature: Create, preview, test, tidy and edit STACK questions
     And I set the following fields to these values:
       | How questions behave | Adaptive          |
       | Marks                | Show mark and max |
+    # Moodle changed wording: https://github.com/moodle/moodle/commit/c05a290
+    # Language tag $string['restartwiththeseoptions'] in lang/en/question.php.
+    # "Start again with these options" > "Save preview options and start again".
+    # Also in validation_no_maths_in_question.feature:36.
     And I press "Start again with these options"
     Then I should see "Differentiate"
     And the state of "Differentiate" question is shown as "Not complete"

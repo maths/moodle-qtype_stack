@@ -179,7 +179,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
             '~(-?\b\d+(?:\.\d*)?)[eE]([-+]?\d+\b)~',
             function(array $matches): string {
                 $decimals = strlen(explode('.', $matches[1])[1] ?? '') ?: 0;
-                $fixedbase = sprintf("%.${decimals}E", (float)$matches[0]);
+                $fixedbase = sprintf("%.{$decimals}E", (float)$matches[0]);
                 return strpos($matches[2], '+') !== false ? $fixedbase : str_replace('+', '', $fixedbase);
             },
             $content

@@ -229,6 +229,7 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
             $node->position['invalid'] = true;
             $answernotes[] = 'Illegal_power';
             $errors[] = stack_string('Illegal_singleton_power', ['forms' => $this->acceptable_forms()]);
+            return $ast;
         }
 
         // If conversion toward floats is needed we can do that

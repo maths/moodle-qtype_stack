@@ -754,6 +754,11 @@ class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_testcase
                       array(),
                       true, false);
 
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
+                      array(),
+                      true, false);
+
         $this->expect('2*e',
                       '2*e',
                       array(),
@@ -2337,6 +2342,11 @@ class ast_filter_999_strict_auto_generated_test extends qtype_stack_ast_testcase
 
         $this->expect('23.2*x*10^5',
                       '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
                       array(),
                       true, false);
 

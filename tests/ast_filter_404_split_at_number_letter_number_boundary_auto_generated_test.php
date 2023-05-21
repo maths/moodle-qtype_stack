@@ -519,6 +519,11 @@ class ast_filter_404_split_at_number_letter_number_boundary_auto_generated_test 
                       array(),
                       true, false);
 
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
+                      array(),
+                      true, false);
+
         $this->expect('9.81x*10^2*m/s',
                       '9.81*x*10^2*m/s',
                       array(),
@@ -2252,6 +2257,11 @@ class ast_filter_404_split_at_number_letter_number_boundary_auto_generated_test 
 
         $this->expect('23.2x 10^5',
                       '23.2*x*10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
                       array(),
                       true, false);
 

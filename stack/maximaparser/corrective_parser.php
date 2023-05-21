@@ -253,8 +253,12 @@ class maxima_corrective_parser {
         // @codingStandardsIgnoreEnd
 
         $foundchar = $exception->found;
-        $previouschar = null;
-        $nextchar = null;
+        // Changes in PHP 8.1 mean we can't use functions like ctype_alpha on null.
+        if ($foundchar === null) {
+            $foundchar = '';
+        }
+        $previouschar = '';
+        $nextchar = '';
 
         if ($exception->grammarOffset >= 1) {
             $previouschar = mb_substr($string, $exception->grammarOffset - 1, 1);
@@ -306,7 +310,7 @@ class maxima_corrective_parser {
             return;
         }
 
-        if ($foundchar === '(' || $foundchar === ')' || $previouschar === '(' || $previouschar === ')' || $foundchar === null) {
+        if ($foundchar === '(' || $foundchar === ')' || $previouschar === '(' || $previouschar === ')' || $foundchar === '') {
             $stringles = stack_utils::eliminate_strings($string);
             $inline = stack_utils::check_bookends($stringles, '(', ')');
             if ($inline === 'left') {
@@ -321,7 +325,7 @@ class maxima_corrective_parser {
                 return;
             }
         }
-        if ($foundchar === '[' || $foundchar === ']' || $previouschar === '[' || $previouschar === ']' || $foundchar === null) {
+        if ($foundchar === '[' || $foundchar === ']' || $previouschar === '[' || $previouschar === ']' || $foundchar === '') {
             $stringles = stack_utils::eliminate_strings($string);
             $inline = stack_utils::check_bookends($stringles, '[', ']');
             if ($inline === 'left') {
@@ -336,7 +340,7 @@ class maxima_corrective_parser {
                 return;
             }
         }
-        if ($foundchar === '{' || $foundchar === '}' || $previouschar === '{' || $previouschar === '}' || $foundchar === null) {
+        if ($foundchar === '{' || $foundchar === '}' || $previouschar === '{' || $previouschar === '}' || $foundchar === '') {
             $stringles = stack_utils::eliminate_strings($string);
             $inline = stack_utils::check_bookends($stringles, '{', '}');
             if ($inline === 'left') {
@@ -433,20 +437,20 @@ class maxima_corrective_parser {
             // flag but not find the assingment of flag value...
             $errors[] = stack_string('stackCas_unencpsulated_comma');
             $answernote[] = 'unencapsulated_comma';
-        } else if ($nextchar === null && ($foundchar !== null && mb_strpos($disallowedfinalchars, $foundchar) !== false)) {
+        } else if ($nextchar === '' && ($foundchar !== '' && mb_strpos($disallowedfinalchars, $foundchar) !== false)) {
             $a = array();
             $a['char'] = $foundchar;
             $a['cmd']  = stack_maxima_format_casstring($string);
             $errors[] = stack_string('stackCas_finalChar', $a);
             $answernote[] = 'finalChar';
-        } else if ($foundchar === null && ($previouschar !== null &&
+        } else if ($foundchar === '' && ($previouschar !== '' &&
                 mb_strpos($disallowedfinalchars, $previouschar) !== false)) {
             $a = array();
             $a['char'] = $previouschar;
             $a['cmd']  = stack_maxima_format_casstring($string);
             $errors[] = stack_string('stackCas_finalChar', $a);
             $answernote[] = 'finalChar';
-        } else if ($foundchar === '!' && ($previouschar === null ||
+        } else if ($foundchar === '!' && ($previouschar === '' ||
                 !(ctype_alpha($previouschar) || ctype_digit($previouschar) || $previouschar === ')' || $previouschar === ']'))) {
             // TODO: Localise... "Operator X without a valid target. Needs something in front of it".
             $a = array('op' => stack_maxima_format_casstring('!'));

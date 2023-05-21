@@ -122,6 +122,11 @@ class ast_filter_910_inert_float_for_display_auto_generated_test extends qtype_s
                       array(),
                       true, false);
 
+        $this->expect('1E23*10^45',
+                      'displaysci(1,0,23)*10^45',
+                      array(),
+                      true, false);
+
         $this->expect('9.81x10^2*m/s',
                       'dispdp(9.81,2)*x10^2*m/s',
                       array(),
@@ -290,6 +295,11 @@ class ast_filter_910_inert_float_for_display_auto_generated_test extends qtype_s
 
         $this->expect('23.2 x10^5',
                       'dispdp(23.2,1)*x10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('1E23*10^45',
+                      'displaysci(1,0,23)*10^45',
                       array(),
                       true, false);
 

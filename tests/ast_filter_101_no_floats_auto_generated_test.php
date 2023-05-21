@@ -122,6 +122,11 @@ class ast_filter_101_no_floats_auto_generated_test extends qtype_stack_ast_testc
                       array('Illegal_floats'),
                       false, true);
 
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
+                      array('Illegal_floats'),
+                      false, true);
+
         $this->expect('9.81x10^2*m/s',
                       '9.81*x10^2*m/s',
                       array('Illegal_floats'),
@@ -290,6 +295,11 @@ class ast_filter_101_no_floats_auto_generated_test extends qtype_stack_ast_testc
 
         $this->expect('23.2 x10^5',
                       '23.2*x10^5',
+                      array('Illegal_floats'),
+                      false, true);
+
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
                       array('Illegal_floats'),
                       false, true);
 

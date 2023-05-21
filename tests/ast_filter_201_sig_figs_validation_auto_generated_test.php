@@ -407,6 +407,11 @@ class ast_filter_201_sig_figs_validation_auto_generated_test extends qtype_stack
                       array(),
                       false, true);
 
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
+                      array(),
+                      false, true);
+
         $this->expect('1x',
                       '1*x',
                       array(),
@@ -2125,6 +2130,11 @@ class ast_filter_201_sig_figs_validation_auto_generated_test extends qtype_stack
 
         $this->expect('1 E 3',
                       '1*E*3',
+                      array(),
+                      false, true);
+
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
                       array(),
                       false, true);
 

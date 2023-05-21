@@ -624,6 +624,11 @@ class ast_filter_991_no_fixing_stars_auto_generated_test extends qtype_stack_ast
                       array(),
                       true, false);
 
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
+                      array(),
+                      true, false);
+
         $this->expect('2*e',
                       '2*e',
                       array(),
@@ -2282,6 +2287,11 @@ class ast_filter_991_no_fixing_stars_auto_generated_test extends qtype_stack_ast
 
         $this->expect('23.2 x10^5',
                       '23.2*x10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
                       array(),
                       true, false);
 

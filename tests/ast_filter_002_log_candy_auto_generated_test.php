@@ -519,6 +519,11 @@ class ast_filter_002_log_candy_auto_generated_test extends qtype_stack_ast_testc
                       array(),
                       true, false);
 
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
+                      array(),
+                      true, false);
+
         $this->expect('9.81x10^2*m/s',
                       '9.81*x10^2*m/s',
                       array(),
@@ -2257,6 +2262,11 @@ class ast_filter_002_log_candy_auto_generated_test extends qtype_stack_ast_testc
 
         $this->expect('23.2 x10^5',
                       '23.2*x10^5',
+                      array(),
+                      true, false);
+
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
                       array(),
                       true, false);
 

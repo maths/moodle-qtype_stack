@@ -6,13 +6,11 @@ If you navigate to the front page of the STACK documentation _on your server_ th
 
 The version number is given in the form used by all Moodle plugins, e.g. `2022052300` which is basically a release date of the plugin you are using.
 
-## How can I improve the documentation? ##
-
-Please either edit the docs on github, or send us a pull request. Your contributions are very welcome.
-
 ## How can I report a bug or make a suggestion? ##
 
-Contributions are very welcome.  Please see the [community](../About/Community.md) page for more specific details.
+General community discussion takes place on [https://stack-assessment.zulipchat.com/](https://stack-assessment.zulipchat.com/)
+
+The source code, and development discussion, is on [github](http://github.com/maths/moodle-qtype_stack/issues), with an additional [ILIAS](https://github.com/ilifau/assStackQuestion/) site.
 
 ## Can I write questions in multiple languages?
 

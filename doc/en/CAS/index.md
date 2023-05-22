@@ -1,6 +1,6 @@
 # Maxima and computer algebra use in STACK
 
-STACK uses the computer algebra system (CAS) [Maxima](Maxima.md).
+STACK uses the computer algebra system (CAS) [Maxima](Maxima.md) and a graphical desktop interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can be helpful for ofline editing, including a [STACK-Maxima sandbox](STACK-Maxima_sandbox.md) for testing question code on the desktop.
 
 Computer algebra systems are most often designed for either the research mathematician, or the student _to do calculations_. For the purposes of assessment our calculation _establish some relevant properties_ of the students' answers.  Establishing properties in this way, and on the basis of this creating outcomes such as feedback, is something particular to assessment systems. Such properties include things like
 
@@ -9,15 +9,7 @@ Computer algebra systems are most often designed for either the research mathema
 * is the expression written a particular conventional form, (e.g. factored, partial fraction)?
 * are all the numbers in the expression written as fractions in the lowest terms?
 
-## Tutorials for STACK users  {#tutorial}
-
-* The documentation includes basic information on using [Maxima](Maxima.md) with STACK.
-
-A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can be helpful for learning Maxima syntax and function names.
-
-## Documentation on using Maxima in STACK   {#reference}
-
-Information on specific mathematical topics are found below.
+## Maxima in STACK {#reference}
 
 * [Predicate functions](Predicate_functions.md), which are useful to test expressions.
 * [Numbers](Numbers.md), including floating point and complex numbers.

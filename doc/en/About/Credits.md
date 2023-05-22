@@ -54,3 +54,49 @@ This project received a lot of moral support from the ILIAS association and its 
 - Universität Erlangen-Nürnberg
 - Universität zu Köln
 
+# User list
+
+The following institutions made use of previous versions of STACK.  If you are actively using STACK and would like to be listed below then please contact the developers.
+
+School of Mathematics, The University of Edinburgh
+: The home of STACK. Contact [Chris Sangwin](mailto:c.j.sangwin@ed.ac.uk).
+
+School of Mathematics and Statistics, The Open University,
+: Contact [Tim Hunt](mailto:t.j.hunt@open.ac.uk) and [Tim Lowe](mailto:tim.lowe@open.ac.uk)
+
+School of Science, Aalto University, Helsinki, Finland
+: Contact Matti Harjula and [Antti Rasila](http://math.tkk.fi/en/research/matta/)
+
+Department of Mathematics Education, Loughborough University
+: Contact [Ian Jones](mailto:I.Jones@lboro.ac.uk)
+
+School of Informatics and Sciences, Nagoya University, Japan
+: Contact [Yasuyuki Nakamura](mailto:nakamura@nagoya-u.jp)
+
+Ja STACK Community
+: Contact [Ja STACK.org](http://ja-stack.org/)
+
+Polytechnic Institute of Leiria, Leiria, Portugal
+: Contact [Rui Paiva](mailto:rui.paiva@estg.ipleiria.pt)
+
+School of Computing, Information and Mathematical Sciences, The University of the South Pacific
+: Contact [Dhiraj Bhartu](mailto:dhiraj.bhartu@usp.ac.fj)
+
+Gymnasium Himmelsthür, Hildesheim, Deutschland
+: Contact [Frank Schütte](mailto:fschuett@gymnasium-himmelsthuer.de)
+
+Universidad Michoacana de San Nicolas de Hidalgo
+: Contact [Victor Hugo Huerta](mailto:v2hugo@gmail.com)
+
+e-MAIO project, Coimbra Institute of Engineering, Portugal
+: Contact [e_MAIO@isec.pt](mailto:e_MAIO@isec.pt)
+
+Maseno University, Kenya
+: Contact [Michael Oyengo](mailto:obiero@live.de)
+
+IDEMS International
+: Contact [Santiago Borio](mailto:smborio@idems.international)
+
+ETH Zürich, Switzerland
+: Contact [Meike Akveld](mailto:meike.akveld@math.ethz.ch), [George Ionita](mailto:georgeionut.ionita@math.ethz.ch), [Andreas Steiger](mailto:andreas.steiger@math.ethz.ch)
+

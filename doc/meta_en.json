@@ -13,14 +13,9 @@
       {
       "About":[
         {
-        "file":"Community.md",
-        "title":"STACK Community",
-        "description":"Information on the STACK community, including meetings, groups and how to contribute."
-        },
-        {
         "file":"Credits.md",
-        "title":"Contributors",
-        "description":"Information on who has contributed to the STACK project."
+        "title":"Contributors and users",
+        "description":"Information on contributers and users of the STACK project."
         },
         {
         "file":"Publications.md",

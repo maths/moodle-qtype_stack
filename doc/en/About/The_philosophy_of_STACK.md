@@ -1,10 +1,6 @@
 # Philosophy of STACK
 
-This page will describe the main design philosophy of STACK.
-
-## Motivation
-
-Computer Aided Assessment (CAA) has many advantages over traditional hand-marking. One of the key advantages is that, when done correctly, it can effectively assess and give feedback to a large number of students. This frees up marking time and resources that would normally have to be spent by several tutors. Additionally, it can be frustrating for students when their tutors are not consistent in how they mark.
+One of the key advantages over traditional hand-marking is that, when done correctly, online assessment can effectively assess and give feedback to a large number of students. This frees up marking time and resources that would normally have to be spent by several tutors. Additionally, it can be frustrating for students when their tutors are not consistent in how they mark.
 
 The traditional form of CAA is *teacher-provided answer questions*. In these questions, a student makes a selection from, or interacts with, potential answers which the teacher has selected. Examples include multiple choice questions and multiple response questions. These types of questions have a number of limitations, including:
 

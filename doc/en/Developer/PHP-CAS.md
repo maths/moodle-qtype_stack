@@ -37,7 +37,7 @@ An important point here is that expressions (values) can refer to previous keys.
 ## Answer tests
 
 The answer tests essentially compare two expressions.  These may accept an option, e.g. the number of significant figures.
-Details of the current answer tests are available [elsewhere](../Authoring/Answer_tests.md).  The result of an answer test should be
+Details of the current answer tests are available [elsewhere](../Authoring/Answer_Tests/index.md).  The result of an answer test should be
 
 1. Boolean outcome, true or false,
 2. errors,

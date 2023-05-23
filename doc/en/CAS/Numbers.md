@@ -2,7 +2,7 @@
 
 Separate pages document
 
-1. [numerical answer tests](../Authoring/Answer_tests_numerical.md),
+1. [numerical answer tests](../Authoring/Answer_Tests/Numerical.md),
 2. [complex numbers](Complex_numbers.md).
 
 
@@ -58,7 +58,7 @@ Rounding like this can also occur in calculations, for example
     v0:1-(p1+p2+p3);
     v1:0.18;
 
-Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115123125783*10^-17\) and so `ATAlgEquiv(v0,v1)` will give false.  Please always use a [numerical test](../Authoring/Answer_tests_numerical.md) when testing floats.
+Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115123125783*10^-17\) and so `ATAlgEquiv(v0,v1)` will give false.  Please always use a [numerical test](../Authoring/Answer_Tests/Numerical.md) when testing floats.
 
 
 
@@ -68,7 +68,7 @@ For its internal representation, Maxima always truncates trailing zeros from a f
 
 Display of numbers in STACK is controlled with LaTeX, and the underlying LISP provides flexible ways to represent numbers.
 
-Note, that apart from the units input, all other input types truncate the display of unnecessary trailing zeros in floating point numbers, loosing information about significant figures.  So, when the student's answer is a floating point number, trailing zeros will not be displayed.  If you want to specifically test for significant figures, use the [units input type](../Authoring/Units.md), with the teacher's answer having no units.  The units input type should display the same number of significant figures as typed in by the student.  
+Note, that apart from the units input, all other input types truncate the display of unnecessary trailing zeros in floating point numbers, loosing information about significant figures.  So, when the student's answer is a floating point number, trailing zeros will not be displayed.  If you want to specifically test for significant figures, use the [units input type](../Topics/Units.md), with the teacher's answer having no units.  The units input type should display the same number of significant figures as typed in by the student.  
 
 ## Display of numbers with LaTeX ##
 

@@ -3,15 +3,7 @@
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
-How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
-
-## Version 4.4.3
-
-Done.
-
-1. Rename testing page as "STACK question dashboard" and make it much easier to add a test case based on the teacher's answer.
-
-TODO: track down bug in assignments/evaluation affecting the inputs.
+## Version 4.4.4
 
 TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
  #671, #420

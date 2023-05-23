@@ -26,11 +26,12 @@ Y. Nakamura, [The STACK e-Learning and Assessment System for mathematics, scienc
 
 Proceedings of the 1st International STACK Conference can be found can be found on the open access publication server Zenodo here: [https://zenodo.org/communities/stack](https://zenodo.org/communities/stack)
 
+These recent papers about STACK are a good place to start:
+
+*  C. J. Sangwin, R. Bickerton, R. (2023). [Practical Online Assessment of Mathematical Proof](https://www.tandfonline.com/doi/abs/10.1080/0020739X.2021.1896813), International Journal of Mathematical Education in Science and Technology}, 53(10) doi:10.1080/0020739X.2021.1896813.  
+* C. J. Sangwin and I. Jones (2017). [Asymmetry in student achievement on multiple choice and constructed response items in reversible mathematics processes](https://dspace.lboro.ac.uk/dspace-jspui/handle/2134/22120). Educational Studies in Mathematics, 94:205-222.
+* C. J. Sangwin and N. Kocher (2016). [Automation of mathematics examinations](https://www.research.ed.ac.uk/portal/files/22213256/2015_11_9_AutomationExaminations.pdf). Computers and Education, 94:215-227.
+
 A comprehensive bibliography is available here: [STACK bibliography](https://docs.stack-assessment.org/content/stack_publications.pdf), with the entries in [BiBTeX format](https://docs.stack-assessment.org/content/stack.bib).
-
-These two recent papers about STACK are a good place to start:
-
-* C. J. Sangwin and N. Kocher. [Automation of mathematics examinations](https://www.research.ed.ac.uk/portal/files/22213256/2015_11_9_AutomationExaminations.pdf). Computers and Education, 94:215-227, 2016.
-* C. J. Sangwin and I. Jones. [Asymmetry in student achievement on multiple choice and constructed response items in reversible mathematics processes](https://dspace.lboro.ac.uk/dspace-jspui/handle/2134/22120). Educational Studies in Mathematics, 94:205-222, 2017.
 
 

@@ -91,6 +91,7 @@ $mform = new qtype_stack_question_test_form($PAGE->url,
 // Send current data to the form.
 if ($testcase) {
     $currentdata = new stdClass();
+    $currentdata->description = $qtest->description;
 
     foreach ($qtest->inputs as $name => $value) {
         $currentdata->{$name} = $value;
@@ -122,7 +123,7 @@ if ($mform->is_cancelled()) {
     foreach ($qtest->inputs as $name => $value) {
         $inputs[$name] = $value;
     }
-    $qtest = new stack_question_test($inputs);
+    $qtest = new stack_question_test($qtest->description, $inputs);
 
     $response = stack_question_test::compute_response($question, $inputs);
 
@@ -142,7 +143,7 @@ if ($mform->is_cancelled()) {
     foreach ($question->inputs as $inputname => $notused) {
         $inputs[$inputname] = $data->$inputname;
     }
-    $qtest = new stack_question_test($inputs);
+    $qtest = new stack_question_test($data->description, $inputs);
 
     foreach ($question->prts as $prtname => $notused) {
         $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(

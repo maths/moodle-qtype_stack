@@ -86,7 +86,7 @@ abstract class stack_maths_output {
         }
 
         $text = str_replace('!ploturl!',
-                moodle_url::make_file_url('/question/type/stack/plot.php', '/'), $text);
+                moodle_url::make_file_url('/question/type/stack/plot.php', '/'), $text ?? '');
 
         $text = stack_fact_sheets::display($text, $renderer);
 

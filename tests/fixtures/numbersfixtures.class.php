@@ -62,7 +62,7 @@ class stack_numbers_test_data {
         array("-(12.000)", 5, 5, 3, '"~,3f"', '-12.000', ''),
         // Deal with expressions.  This is now evaluated.
         array("1/-12.00", 1, 1, 0, '"~a"', '0', ''),
-        // TODO: more tests with expressions.  Requires changes to test setup. 
+        // TODO: more tests with expressions.  Requires changes to test setup.
         // These now throw errors.
         array("e+4.3^k", 2, 2, 1, '"~,1f"', '%e+4.3^k', 'dispdp requires a real number argument.'),
         array("e+4.3e21^k", 2, 2, 1, '"~,1e"', '%e+4.3^k', 'dispdp requires a real number argument.'),

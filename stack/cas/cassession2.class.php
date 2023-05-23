@@ -207,7 +207,7 @@ class stack_cas_session2 {
      */
     public function get_errors($implode = true, $withcontext = true) {
         $errors = array();
-        $this->timeouterrmessage = trim($this->timeouterrmessage);
+        $this->timeouterrmessage = trim($this->timeouterrmessage ?? '');
 
         foreach ($this->statements as $num => $statement) {
             $err = $statement->get_errors('implode');
@@ -240,7 +240,6 @@ class stack_cas_session2 {
         }
         return implode(' ', array_keys($unique));
 
-        // Matti, I don't understand the context.  Can you provide examples or unit tests?
         foreach ($this->errors as $statementerrors) {
             foreach ($statementerrors as $value) {
                 // Element [0] is the list of errors.
@@ -506,6 +505,19 @@ class stack_cas_session2 {
                 $statement->set_cas_status($err, $answernotes, $feedback);
             }
 
+            // Check the Maxima versions match and fail badly if not.
+            if (array_key_exists('__stackmaximaversion', $results['values'])) {
+                $usedversion = $results['values']['__stackmaximaversion'];
+                $config = stack_utils::get_config();
+                if ($usedversion !== $config->stackmaximaversion) {
+                    $errors = array(new $this->errclass(stack_string_error('healthchecksstackmaximaversionmismatch',
+                        array('fix' => '', 'usedversion' => $usedversion, 'expectedversion' => $config->stackmaximaversion)), ''));
+                    foreach ($this->statements as $num => $statement) {
+                        $statement->set_cas_status($errors, array(), array());
+                    }
+                }
+            }
+
             foreach ($collectvalues as $key => $statement) {
                 $statement->set_cas_evaluated_value($asts[$key]);
             }
@@ -564,7 +576,7 @@ class stack_cas_session2 {
     }
 
     public function get_debuginfo() {
-        if (trim($this->timeouterrmessage) !== '') {
+        if (trim($this->timeouterrmessage ?? '') !== '') {
             return $this->timeouterrmessage;
         }
         return '';

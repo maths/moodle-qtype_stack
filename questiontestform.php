@@ -39,6 +39,9 @@ class qtype_stack_question_test_form extends moodleform {
         $mform = $this->_form;
         $question = $this->_customdata['question'];
 
+        $mform->addElement('text', 'description', stack_string('description'), array('size' => 64));
+        $mform->setType('description', PARAM_RAW);
+
         // Inputs.
         $mform->addElement('header', 'inputsheader', stack_string('testinputs'));
 
@@ -102,9 +105,15 @@ class qtype_stack_question_test_form extends moodleform {
         foreach ($question->prts as $prtname => $prt) {
             $result = $question->get_prt_result($prtname, $response, false);
             $answernotes = $result->get_answernotes();
+            // In automatic test case generation set penalties as the default unless they differ.
+            // If they are the same as the detault, and you want this, you can change it later.
+            $prtpenalty = $result->get_penalty();
+            if ($prtpenalty == $question->penalty) {
+                $prtpenalty = '';
+            }
             $mform->getElement($prtname . 'group')->setValue(array(
                     $prtname . 'score'      => $result->get_score(),
-                    $prtname . 'penalty'    => $result->get_penalty(),
+                    $prtname . 'penalty'    => $prtpenalty,
                     $prtname . 'answernote' => end($answernotes)));
         }
     }

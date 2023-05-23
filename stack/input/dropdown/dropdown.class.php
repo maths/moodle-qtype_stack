@@ -69,7 +69,7 @@ class stack_dropdown_input extends stack_input {
 
     protected function internal_contruct() {
         $options = $this->get_parameter('options');
-        if (trim($options) != '') {
+        if ($options != null && trim($options) != '') {
             $options = explode(',', $options);
             foreach ($options as $option) {
                 $option = strtolower(trim($option));

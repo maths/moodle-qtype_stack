@@ -178,6 +178,10 @@ class castext2_parser_utils {
                     case 'moodleformat':
                     case 'htmlformat':
                     case 'jsxgraph':
+                    case 'iframe':
+                    case 'style':
+                    case 'body':
+                    case 'script':
                         $fmt = self::RAWFORMAT;
                         break;
                     case 'geogebra':

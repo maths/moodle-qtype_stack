@@ -17,7 +17,8 @@ Feature: STACK input vaidation works even if there is no maths in the question
       | teacher | C1     | editingteacher |
 
   @javascript
-  Scenario: Create, preview, test, tidy and edit STACK questions
+  Scenario: Create, preview, test, tidy and edit STACK questions in Moodle ≤ 4.2
+    Given the site is running Moodle version 4.2 or lower
     # Create a new question.
     When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
     And I add a "STACK" question filling the form with:
@@ -34,6 +35,30 @@ Feature: STACK input vaidation works even if there is no maths in the question
       | How questions behave | Adaptive          |
       | Marks                | Show mark and max |
     And I press "Start again with these options"
+    And I set the input "ans1" to "x-1" in the STACK question
+    And I wait "2" seconds
+    Then I should see "Your last answer was interpreted as follows"
+    And I should not see "\("
+
+  @javascript
+  Scenario: Create, preview, test, tidy and edit STACK questions in Moodle ≥ 4.3
+    Given the site is running Moodle version 4.3 or higher
+    # Create a new question.
+    When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
+    And I add a "STACK" question filling the form with:
+      | Question name      | Test STACK question                               |
+      | Question text      | What is 1 + 1? [[input:ans1]] [[validation:ans1]] |
+      | Model answer       | 2                                                 |
+      | SAns               | ans1                                              |
+      | TAns               | 2                                                 |
+    Then I should see "Test STACK question"
+
+    # Preview it.
+    When I am on the "Test STACK question" "core_question > preview" page logged in as teacher
+    And I set the following fields to these values:
+      | How questions behave | Adaptive          |
+      | Marks                | Show mark and max |
+    And I press "Save preview options and start again"
     And I set the input "ans1" to "x-1" in the STACK question
     And I wait "2" seconds
     Then I should see "Your last answer was interpreted as follows"

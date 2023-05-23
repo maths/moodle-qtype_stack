@@ -276,14 +276,14 @@ The variable `sans1` can then be used in the PRT.  Just note that `trigrat` writ
 
 ## Boolean functions
 
-See the page on [propositional logic](Propositional_Logic.md).
+See the page on [propositional logic](../Topics/Propositional_Logic.md).
 
 ## Further examples
 
 Some further examples are given elsewhere:
 
 * Matrix examples in [showing working](Matrix.md#Showing-working).
-* An example of a question with `simp:false` is discussed in [authoring quick start 7](../Authoring/Authoring_quick_start_7.md).
+* An example of a question with `simp:false` is discussed in [authoring quick start 7](/AbInitio/Authoring_quick_start_7.md).
 * Generating [random algebraic expressions](Random.md) which need to be "gathered and sorted".
 
 Note also that [question tests](../Authoring/Testing.md#Simplification) do not simplify test inputs.

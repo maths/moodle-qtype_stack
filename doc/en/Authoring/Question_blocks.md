@@ -168,6 +168,20 @@ var label = "\\({f\\left(x\\right)=\\sqrt{x}}\\)";
 
 Note, this block is _not_ designed to output Maxima expressins in JS format. For example, this block will not convert `x^2` into `x**2`.
 
+## Reveal block ##
+
+This block allows sections of text to be shown or hidden based on the value of an input.
+
+```
+[[reveal input="ans1" value="true"]]
+Text shown when the value of input `ans1` is `true`.
+[[/reveal]]
+```
+
+The block will only do singular direct string match, and so use of this block is most likely to be useful when combined with true/false or other multiple choice input types.  An example question using this feature is provided in the sample questions.
+
+There is currently no "else" clause available with this block.
+
 ## Include block ##
 
 A new feature in 4.4 is the ability to include content from an URL. The include block allows one to do that. However, it is not a recommended tool for novices and all users choosing to use it should consider what it means for the future maintenance and shareability of your questions. See the specific documentation on [include logic](Inclusions.md).
@@ -182,7 +196,7 @@ Read more about this in the [languages](Languages.md) documentation.
 
 ## Textdownload block ##
 
-A new feature in 4.4 is the ability to construct a text-file using CASText and to provide a link to it for download. This is obviously a way for serving out randomised data to the student. Do note that you can generate whatever you want as the content of that file, one could even generate a LaTeX template with question specific values for the student to fill things in. Read more about [serving data out](Serving_out_data.md).
+STACK can construct a text-file using CASText and provide a link to it for download. This is obviously a way for serving out randomised data to the student. Do note that you can generate whatever you want as the content of that file, one could even generate a LaTeX template with question specific values for the student to fill things in. Read more about [serving data out](Serving_out_data.md).
 
 ## Commonstring block ##
 

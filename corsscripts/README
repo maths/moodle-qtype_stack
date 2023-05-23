@@ -1,0 +1,9 @@
+These JavaScript libraries are to be loaded directly to IFRAMES and do not go through
+the full module logic of the VLE.
+
+Do not mix these with the AMD ones that the VLEs play with and always consider whether
+it would be possible to do whatever you want to do with these.
+
+Do note that default Moodle server configs do not provide headers suitable for loading
+these into fully sandboxed IFRAMEs. This is why we have an extra script that serves
+these out with a particular header.

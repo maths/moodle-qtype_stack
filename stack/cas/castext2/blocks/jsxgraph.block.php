@@ -20,25 +20,170 @@ require_once(__DIR__ . '/../block.factory.php');
 
 require_once(__DIR__ . '/root.specialblock.php');
 require_once(__DIR__ . '/stack_translate.specialblock.php');
+require_once(__DIR__ . '/../../../../vle_specific.php');
 
 class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
-    private static $countgraphs = 1;
+    /* This is not something we want people to edit in general. */
+    public static $namedversions = [
+        /* TODO: make this `cdn-latest` if possible, no point in having it
+         * pointing to a particular version.
+         */
+        'cdn' => [
+            'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraph.min.css',
+            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraphcore.min.js'],
+        'local' => [
+            'css' => 'cors://jsxgraph.min.css',
+            'js' => 'cors://jsxgraphcore.min.js',
+        ]
+    ];
+
+    /* We still count the graphs. */
+    public static $countgraphs = 1;
 
     public function compile($format, $options):  ? MP_Node {
-        $r = new MP_List([new MP_String('jsxgraph')]);
+        $r = new MP_List([new MP_String('iframe')]);
 
         // We need to transfer the parameters forward.
-        $r->items[] = new MP_String(json_encode($this->params));
+        // Only the size parameters matter.
+        $xpars = [];
+        $inputs = []; // From inputname to variable name.
+        foreach ($this->params as $key => $value) {
+            if (substr($key, 0, 10) !== 'input-ref-') {
+                $xpars[$key] = $value;
+            } else {
+                $inputname = substr($key, 10);
+                $inputs[$inputname] = $value;
+            }
+        }
+        // These are some of the othe parameters we do not need to push forward.
+        if (isset($xpars['version'])) {
+            unset($xpars['version']);
+        }
+        if (isset($xpars['overridecss'])) {
+            unset($xpars['overridecss']);
+        }
+        if (isset($xpars['overridejs'])) {
+            unset($xpars['overridejs']);
+        }
+
+        // Disable scrolling for this.
+        $xpars['scrolling'] = false;
+        // Set a title.
+        $xpars['title'] = 'STACK JSXGraph ' . self::$countgraphs;
+        self::$countgraphs = self::$countgraphs + 1;
+
+        // Figure out what scripts we serve.
+        $css = self::$namedversions['local']['css'];
+        $js = self::$namedversions['local']['js'];
+        if (isset($this->params['version']) &&
+            isset(self::$namedversions[$this->params['version']])) {
+            $css = self::$namedversions[$this->params['version']]['css'];
+            $js = self::$namedversions[$this->params['version']]['js'];
+        }
+        if (isset($this->params['overridecss'])) {
+            $css = $this->params['overridecss'];
+        }
+        if (isset($this->params['overridejs'])) {
+            $js = $this->params['overridejs'];
+        }
+
+        $r->items[] = new MP_String(json_encode($xpars));
+
+        // Plug in some style and scripts.
+        $mathjax = stack_get_mathjax_url();
+        // Silence the MathJax message that blinks on top of every graph.
+        $r->items[] = new MP_List([
+            new MP_String('script'),
+            new MP_String(json_encode(['type' => 'text/x-mathjax-config'])),
+            new MP_String('MathJax.Hub.Config({messageStyle: "none"});')
+        ]);
+        $r->items[] = new MP_List([
+            new MP_String('script'),
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))
+        ]);
+        $r->items[] = new MP_List([
+            new MP_String('style'),
+            new MP_String(json_encode(['href' => $css]))
+        ]);
+        $r->items[] = new MP_List([
+            new MP_String('script'),
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $js]))
+        ]);
+
+        // We need to define a size for the inner content.
+        $width  = '500px';
+        $height = '400px';
+        $aspectratio = false;
+        if (array_key_exists('width', $xpars)) {
+            $width = $xpars['width'];
+        }
+        if (array_key_exists('height', $xpars)) {
+            $height = $xpars['height'];
+        }
+
+        $astyle = "width:calc($width - 3px);height:calc($height - 3px);";
+
+        if (array_key_exists('aspect-ratio', $xpars)) {
+            $aspectratio = $xpars['aspect-ratio'];
+            // Unset the undefined dimension, if both are defined then we have a problem.
+            if (array_key_exists('height', $xpars)) {
+                $astyle = "height:calc($height - 3px);aspect-ratio:$aspectratio;";
+            } else if (array_key_exists('width', $xpars)) {
+                $astyle = "width:calc($width - 3px);aspect-ratio:$aspectratio;";
+            }
+        }
+
+        // Add the div to the doc.
+        // Note that we have two divs, the exterior one defines the size
+        // and the interior one contains the graph.
+        $r->items[] = new MP_String('<div style="' . $astyle .
+            '"><div class="jxgbox" id="jxgbox" style="width:100%;height:100%;"></div></div><script type="module">');
+
+        // For binding we need to import the binding libraries.
+        $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
+        $r->items[] = new MP_String("import {stack_jxg} from '" . stack_cors_link('stackjsxgraph.min.js') . "';\n");
+
+        // Do we need to bind anything?
+        if (count($inputs) > 0) {
+            // Then we need to link up to the inputs.
+            $promises = [];
+            $vars = [];
+            foreach ($inputs as $key => $value) {
+                // That true there makes us sync input-events as well, like we did before.
+                $promises[] = 'stack_js.request_access_to_input("' . $key . '",true)';
+                $vars[] = $value;
+            }
+            $linkcode = 'Promise.all([' . implode(',', $promises) . '])';
+            $linkcode .= '.then(([' . implode(',', $vars) . ']) => {' . "\n";
+            $r->items[] = new MP_String($linkcode);
+        }
+
+        // Plug in the div id = board id thing.
+        $r->items[] = new MP_String('var divid = "jxgbox";var BOARDID = divid;');
+
+        $opt2 = [];
+        if ($options !== null) {
+            $opt2 = array_merge([], $options);
+        }
+        $opt2['in iframe'] = true;
 
         foreach ($this->children as $item) {
             // Assume that all code inside is JavaScript and that we do not
             // want to do the markdown escaping or any other in it.
-            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $options);
+            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
             if ($c !== null) {
                 $r->items[] = $c;
             }
         }
+
+        if (count($inputs) > 0) {
+            // Close the `then(`.
+            $r->items[] = new MP_String("\n});");
+        }
+
+        // In the end close the script tag.
+        $r->items[] = new MP_String('</script>');
 
         return $r;
     }
@@ -49,100 +194,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
     }
 
     public function postprocess(array $params, castext2_processor $processor): string {
-        global $PAGE;
-
-        if (count($params) < 3) {
-            // Nothing at all.
-            return '';
-        }
-
-        $parameters = json_decode($params[1], true);
-        $content    = '';
-        for ($i = 2; $i < count($params); $i++) {
-            if (is_array($params[$i])) {
-                $content .= $processor->process($params[$i][0], $params[$i]);
-            } else {
-                $content .= $params[$i];
-            }
-        }
-
-        $divid  = 'stack-jsxgraph-' . self::$countgraphs;
-        $width  = '500px';
-        $height = '400px';
-        $aspectratio = false;
-        if (array_key_exists('width', $parameters)) {
-            $width = $parameters['width'];
-        }
-        if (array_key_exists('height', $parameters)) {
-            $height = $parameters['height'];
-        }
-
-        $style = "width:$width;height:$height;";
-
-        if (array_key_exists('aspect-ratio', $parameters)) {
-            $aspectratio = $parameters['aspect-ratio'];
-            // Unset the undefined dimension, if both are defined then we have a problem.
-            if (array_key_exists('height', $parameters)) {
-                $style = "height:$height;aspect-ratio:$aspectratio;";
-            } else if (array_key_exists('width', $parameters)) {
-                $style = "width:$width;aspect-ratio:$aspectratio;";
-            }
-        }
-
-        $code = $content;
-
-        // Input ref prefixes.
-        // We could simply expose the prefix Moodle uses and let the author work
-        // with that but suppose there exists another VLE which does not use
-        // the same prefix for all inputs in the question, by keepping the id
-        // mapping here the materials need not care about that and only this
-        // needs to be fixed to match the environment.
-        // And in any case in Moodle at the time we render this we do not know.
-        // The prefix.
-        // NOTE! We should validate that we never have input-refs-outside
-        // question-text, but for now lets use the old seek code to work with
-        // them out if that happens. We now can directly access the identtifier.
-        foreach ($parameters as $key => $value) {
-            if (substr($key, 0, 10) === 'input-ref-') {
-                $inputname  = substr($key, 10);
-                if (property_exists($processor, 'qa') && $processor->qa !== null) {
-                    // For contents useing the new renderer we have access to
-                    // the identifier at this phase.
-                    $namecode = "var $value='" . $processor->qa->get_qt_field_name($inputname) . "';\n";
-                    $code = "$namecode\n$code";
-                } else {
-                    $seekcode = "var $value=stack_jxg.find_input_id(divid,'$inputname');";
-                    $code = "$seekcode\n$code";
-                }
-            }
-        }
-
-        // Prefix the code with the id of the div.
-        $code = "var divid = '$divid';\nvar BOARDID = divid;\n$code";
-
-        // We restrict the actions of the block code a bit by stopping it from
-        // rewriting some things in the surrounding scopes.
-        // Also catch errors inside the code and try to provide console logging
-        // of them for the author.
-        // We could calculate the actual offset but I'll leave that for
-        // someone else. 1+2*n probably, or we could just write all the preamble
-        // on the same line and make the offset always be the same?
-        $code = '"use strict";try{if(document.getElementById("' . $divid .
-            '")){' . $code . '}} '
-            . 'catch(err) {console.log("STACK JSXGraph error in \"' . $divid
-            . '\", (note a slight varying offset in the error position due to possible input references):");'
-            . 'console.log(err);}';
-
-        $attributes = ['class' => 'jxgbox', 'style' => $style, 'id' => $divid];
-
-        $PAGE->requires->js_amd_inline(
-            'require(["qtype_stack/jsxgraph","qtype_stack/jsxgraphcore-lazy","core/yui"], '
-            . 'function(stack_jxg, JXG, Y){Y.use("mathjax",function(){' . $code
-            . '});});');
-
-        self::$countgraphs = self::$countgraphs + 1;
-
-        return html_writer::tag('div', '', $attributes);
+        return 'This is never happening! The logic goes to [[iframe]].';
     }
 
     public function validate_extract_attributes(): array {
@@ -221,6 +273,11 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             $err[] = stack_string('stackBlock_jsxgraph_underdefined_dimension');
         }
 
+        if (array_key_exists('version', $this->params) && array_key_exists($this->params['version'], self::$namedversions)) {
+            $valid    = false;
+            $err[] = stack_string('stackBlock_jsxgraph_unknown_named_version');
+        }
+
         $valids = null;
         foreach ($this->params as $key => $value) {
             if (substr($key, 0, 10) === 'input-ref-') {
@@ -229,11 +286,12 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
                     $err[] = stack_string('stackBlock_jsxgraph_input_missing',
                         ['var' => $varname]);
                 }
-            } else if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio') {
+            } else if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
+                    $key !== 'version' && $key !== 'overridejs' && $key !== 'overridecss') {
                 $err[] = "Unknown parameter '$key' for jsxgraph-block.";
                 $valid    = false;
                 if ($valids === null) {
-                    $valids = ['width', 'height', 'aspect-ratio'];
+                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss', 'overridejs'];
                     // The variable $inputdefinitions is not defined!
                     if ($inputdefinitions !== null) {
                         $tmp    = $root->get_parameter('ioblocks');

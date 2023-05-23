@@ -27,7 +27,10 @@ class castext2_block_factory {
     public static function make($type, $params=array(), $children=array(), $mathmode=false) {
         $class = self::class_for_type($type);
         if ($class === null) {
-            return null;
+            $class = self::class_for_type('unknown');
+            // Add a param for the unknown case handling.
+            // The space in " type" is intentional.
+            $params = array_merge($params, [' type' => $type]);
         }
         return new $class($params, $children, $mathmode);
     }

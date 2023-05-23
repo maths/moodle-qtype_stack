@@ -56,7 +56,7 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
      */
     public function expect(string $input, string $result, $notes=array(),
                            $valid=true, $errors=false) {
-        // We currently ignore these but lets collect them.
+        // We currently ignore these but let's collect them.
         $parsererrors = array();
         $parsernotes = array();
 

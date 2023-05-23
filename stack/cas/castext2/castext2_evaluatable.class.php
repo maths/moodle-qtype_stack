@@ -153,9 +153,8 @@ class castext2_evaluatable implements cas_raw_value_extractor {
             // Also node specific validation.
             $valid = $node->validate($err, $options) && $valid;
         };
-        $this->errors = array_merge($this->errors, $err);
         $root->callbackRecurse($collectstrings);
-
+        $this->errors = array_merge($this->errors, $err);
         $this->valid = $valid;
 
         foreach ($css as $statement) {

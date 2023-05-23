@@ -222,6 +222,16 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
         }
         // Ok so if we did not match before this or fail before this
         // then we should have the $m and $p and even $sgn if needed.
+
+        // If either part is null we failed.
+        // PHP 8.1 needs this guard clause to prevent evaluation of stripos with a null first argument.
+        if ($m === null || $p === null) {
+            $node->position['invalid'] = true;
+            $answernotes[] = 'Illegal_power';
+            $errors[] = stack_string('Illegal_singleton_power', ['forms' => $this->acceptable_forms()]);
+            return $ast;
+        }
+
         // If conversion toward floats is needed we can do that
         // and we can check the bad form 1e23*10^45.
         if (stripos($m, 'e') !== false || !$this->power) {
@@ -239,13 +249,6 @@ class stack_ast_filter_801_singleton_numeric implements stack_cas_astfilter_para
             }
             $node->parentnode->replace($node, $replacement);
             return $ast;
-        }
-
-        // If we are still here and either part is null we failed.
-        if ($m === null || $p === null) {
-            $node->position['invalid'] = true;
-            $answernotes[] = 'Illegal_power';
-            $errors[] = stack_string('Illegal_singleton_power', ['forms' => $this->acceptable_forms()]);
         }
 
         return $ast;

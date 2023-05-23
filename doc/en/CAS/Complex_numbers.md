@@ -41,3 +41,14 @@ will display as \(\left( 1+\mathrm{i} \right)\cdot x^2+\left( 1-\mathrm{i} \righ
     p2:ev(p1, disp_complex=remove_disp_complex, disp_parens=lambda([ex],ex));
 
 You must remove inert forms before expressions are evaluated by the potential response tree, for example in the feedback variables.  For example, `disp_complex(a, b)` is not algebraically equivalent to `a+b*%i`.
+
+## Polar forms
+
+A complex number written as \(r e^{i\theta}\) is in _polar form_.  The Maxima function `polarform` re-writes a complex number in this form, however with `simp:false` it does not simplfy the expressions for the modulus \(r\) or argument \(\theta\) (in STACK).  Attempting to re-simplify the expression only returns the number to Cartesian form!
+
+Instead, use `polarform_simp` to rewrite the expression in polar form, and do some basic simplification of \(r\) and \(\theta\).
+
+1. Positive numbers are returned as real numbers, not as \(r e^{%i \times 0}\).
+2. If \(r=1\) then this is not displayed.
+
+If question level simplification is on, then the value will probably get re-simplified to Cartesian form.

@@ -156,8 +156,11 @@ class stack_potentialresponse_tree_lite {
      */
     public function get_maxima_representation() {
         // Get the compiled one and work on it.
-        $code = $this->question->get_cached('prt-definition')[$this->name];
-
+        $code = null;
+        if (is_array($this->question->get_cached('prt-definition')) &&
+            array_key_exists($this->name, $this->question->get_cached('prt-definition'))) {
+                $code = $this->question->get_cached('prt-definition')[$this->name];
+        }
         // The bulk tester will get called on questions which no longer work.
         // In this case we want to bail here and not try to parse null in the line below which
         // throws an exception and halts the bulk tester.
@@ -276,6 +279,8 @@ class stack_potentialresponse_tree_lite {
         $summary = [];
         foreach ($this->nodes as $node) {
             $n = new stdClass();
+            $n->nodename        = $node->nodename;
+            $n->description     = $node->description;
             $n->truenextnode    = $node->truenextnode;
             $n->trueanswernote  = $node->trueanswernote;
             $n->truescore       = $node->truescore;
@@ -284,7 +289,13 @@ class stack_potentialresponse_tree_lite {
             $n->falseanswernote = $node->falseanswernote;
             $n->falsescore      = $node->falsescore;
             $n->falsescoremode  = $node->falsescoremode;
+            $n->quiet           = $node->quiet;
             $n->answertest      = $this->compile_node_answertest($node);
+            $name = (((int) $node->nodename) + 1);
+            if (trim($node->description) !== '') {
+                $name .= ': ' . trim($node->description);
+            }
+            $n->displayname     = $name;
             $summary[$node->nodename] = $n;
         }
         return $summary;
@@ -550,7 +561,7 @@ class stack_potentialresponse_tree_lite {
     /*
      * Generate the complete maxima command for a single answertest in a specific node.
      */
-    private function compile_node_answertest($node) {
+    public static function compile_node_answertest($node) {
         // TODO: make this saner, the way Stateful lets the tests do their own
         // call construction might duplicate things but it does not require this
         // much knowledge about the shape of things.
@@ -617,7 +628,7 @@ class stack_potentialresponse_tree_lite {
         $cs = stack_ast_container::make_from_teacher_source($at, $context . '/at');
         $cs->set_securitymodel($security);
         if (!$cs->get_valid()) {
-            throw new stack_exception('Error in ' . $context . ' answertest parameters.');
+            throw new stack_exception('Error in ' . $context . ' answertest parameters. ' . $cs->get_errors());
         }
         $usage = $cs->get_variable_usage($usage); // Update the references.
 
@@ -658,7 +669,7 @@ class stack_potentialresponse_tree_lite {
             $s = stack_ast_container::make_from_teacher_source($s, $context . '/st');
             $s->set_securitymodel($security);
             if (!$s->get_valid()) {
-                throw new stack_exception('Error in ' . $context . ' true-score.');
+                throw new stack_exception('Error in ' . $context . ' true-score. ' . $s->get_errors());
             }
             $s = '_EC(errcatch(%_TMP:' . $s->get_evaluationform() . '),' .
                 stack_utils::php_string_to_maxima_string($context . '/st') . ')';
@@ -669,7 +680,7 @@ class stack_potentialresponse_tree_lite {
             $p = stack_ast_container::make_from_teacher_source($p, $context . '/pt');
             $p->set_securitymodel($security);
             if (!$p->get_valid()) {
-                throw new stack_exception('Error in ' . $context . ' true-penalty.');
+                throw new stack_exception('Error in ' . $context . ' true-penalty. ' . $p->get_errors());
             }
             $p = '_EC(errcatch(%PRT_PENALTY:' . $p->get_evaluationform() . '),' .
                 stack_utils::php_string_to_maxima_string($context . '/pt') . ')';
@@ -714,7 +725,7 @@ class stack_potentialresponse_tree_lite {
             }
             $ct = castext2_evaluatable::make_from_source($feedback, $context . '/ft');
             if (!$ct->get_valid($node->truefeedbackformat, $ct2options, $security)) {
-                throw new stack_exception('Error in ' . $context . ' true-feedback.');
+                throw new stack_exception('Error in ' . $context . ' true-feedback. ' . $ct->get_errors(true));
             }
             if (isset($ct->get_special_content()['castext-includes'])) {
                 foreach ($ct->get_special_content()['castext-includes'] as $url) {
@@ -753,7 +764,7 @@ class stack_potentialresponse_tree_lite {
             $s = stack_ast_container::make_from_teacher_source($s, $context . '/sf');
             $s->set_securitymodel($security);
             if (!$s->get_valid()) {
-                throw new stack_exception('Error in ' . $context . ' false-score.');
+                throw new stack_exception('Error in ' . $context . ' false-score. ' . $s->get_errors());
             }
             $s = '_EC(errcatch(%_TMP:' . $s->get_evaluationform() . '),' .
                 stack_utils::php_string_to_maxima_string($context . '/sf') . ')';
@@ -764,7 +775,7 @@ class stack_potentialresponse_tree_lite {
             $p = stack_ast_container::make_from_teacher_source($p, $context . '/pf');
             $p->set_securitymodel($security);
             if (!$p->get_valid()) {
-                throw new stack_exception('Error in ' . $context . ' false-penalty.');
+                throw new stack_exception('Error in ' . $context . ' false-penalty. ' . $p->get_errors());
             }
             $p = '_EC(errcatch(%PRT_PENALTY:' . $p->get_evaluationform() . '),' .
                 stack_utils::php_string_to_maxima_string($context . '/pf') . ')';
@@ -809,7 +820,7 @@ class stack_potentialresponse_tree_lite {
             // TODO: consider the format to be used here.
             $ct = castext2_evaluatable::make_from_source($feedback, $context . '/ff');
             if (!$ct->get_valid($node->falsefeedbackformat, $ct2options, $security)) {
-                throw new stack_exception('Error in ' . $context . ' false-feedback.');
+                throw new stack_exception('Error in ' . $context . ' false-feedback. ' . $ct->get_errors(true));
             }
             if (isset($ct->get_special_content()['castext-includes'])) {
                 foreach ($ct->get_special_content()['castext-includes'] as $url) {
@@ -841,7 +852,7 @@ class stack_potentialresponse_tree_lite {
      */
     public function get_prt_graph($labels = false) {
         $graph = new stack_abstract_graph();
-        foreach ($this->nodes as $key => $node) {
+        foreach ($this->get_nodes_summary() as $key => $node) {
 
             if ($node->truenextnode == -1) {
                 $left = null;
@@ -861,9 +872,10 @@ class stack_potentialresponse_tree_lite {
             if ($labels && array_key_exists($node->falseanswernote, $labels)) {
                 $rlabel = $labels[$node->falseanswernote];
             }
-
-            $graph->add_node($key + 1, $left, $right, $llabel, $rlabel,
+            $graph->add_prt_node($key + 1, $node->description, $left, $right, $llabel, $rlabel,
                 '#fgroup_id_' . $this->name . 'node_' . $key);
+            $graph->add_prt_text($node->nodename + 1, $node->answertest, $node->quiet,
+                $node->trueanswernote, $node->falseanswernote);
         }
 
         $graph->layout();

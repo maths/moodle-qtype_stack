@@ -29,7 +29,6 @@ Here is an example
     \[ \frac{\mathrm{d}}{\mathrm{d}x} \sin \left( \frac{1}{x^2+1} \right) = {@diff(sin(1/(1+x^2)),x)@} \]
     You can input this as <code>{#diff(sin(1/(1+x^2)),x)#}</code>
 
-
 ## Variables ##   {#Variables}
 
 CASText may depend on variables previously defined in the [question variables](Variables.md#Question_variables) field.
@@ -76,53 +75,15 @@ It is common to want to use the dollar sign for currency.  However, this conflic
 
 ## Facts ##
 
-STACK has an in-built formula sheet.  This used to be called a "hints" system, but the word hint is used elsewhere in Moodle so this is now called "facts".  Parts of this can be added to CASText  using the [fact sheet](Fact_sheets.md)
+STACK has an in-built formula sheet.  This used to be called a "hints" system, but the word hint is used elsewhere in Moodle so this is now called "facts".  Parts of this can be added to CASText using the [fact sheet](Fact_sheets.md)
 
-## Most useful HTML ##
+## Reference materials ##
 
-HTML Paragraphs (don't forget the end tag!)
+HTML and LaTeX are needed for authoring STACK questions, and some basic reference materials is give elsewhere.
 
-    <p>This is a paragraph</p>
-    <p>This is another paragraph</p>
-
-HTML Line Breaks
-
-Use the `<br />` tag if you want a line break (a new line) without starting a new paragraph:
-
-    <p>This is<br />a para<br />graph with line breaks</p>
-
-Some formatting
-
-    <em>This is emphasis</em>
-    
-    <b>This text is bold</b>
-    
-    <big>This text is big</big>
-    
-    <i>This text is italic</i>
-    
-    <code>This is computer output</code>
-    
-    This is <sub>subscript</sub> and <sup>superscript</sup>
-
-## Useful LaTeX ##
-
-LaTeX notation can specify inline or display mode for maths by delimiting with `\(` or `\[` respectively.  Here are some simple examples:
-
-* `x^2` gives \(x^2\)
-* `x_n` gives \(x_n\)
-* `x^{2x}` gives \(x^{2x}\)
-* `\alpha\beta` gives \(\alpha\beta\)
-* `\sin(3\pi x)` gives \(\sin(3\pi x)\)
-* `\frac{1}{1-n^2}` gives \(\frac{1}{1-n^2}\) when inline.  In display mode it gives:
-
-\[ \frac{1}{1-n^2} \]
-
-* `\int_a^b x^2\ dx` gives \(\int_a^b x^2\ dx\) when inline.  In display mode it gives:
-
-\[ \int_a^b x^2\ dx \]
-
-There is a specific page for [actuarial notation](Actuarial.md).
+* Some basic [HTML](../Reference/HTML.md) examples.
+* Some basic [LaTeX](../Reference/Latex.md) examples.
+* There is a specific page for [actuarial notation](../Reference/Actuarial.md).
 
 ## CASText generating functions ##
 
@@ -140,6 +101,7 @@ This can then be used several times within any CASText area:
     {@explanation(c,d)@}
 
 #### Notes ####
+
 * The argument of castext must be a single atomic string, not a reference to one but a static string value.
 * Since Maxima does not require new lines to be escaped, new lines can be started within the `castext` string argument.
 * Care needs to be taken with any quotation marks within the castext argument. For HTML attributes within such text, use `'...'` .
@@ -151,4 +113,3 @@ The [Google charts](http://code.google.com/apis/chart/) API can be used to creat
 
 ![](http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:100,100,0,50&chdl=A|B)
 
-Details are given in the section on [plots](../CAS/Plots.md#google).

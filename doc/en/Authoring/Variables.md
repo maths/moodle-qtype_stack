@@ -80,7 +80,7 @@ Notice in this example how we check the length of the arguments supplied to the 
 The feedback variables form one field in the [potential response tree](Potential_response_trees.md).
 
 When using the [potential response tree](Potential_response_trees.md) it is often very useful
-to manipulate the student's answer _before_ applying any of the [Answer tests](Answer_tests.md).
+to manipulate the student's answer _before_ applying any of the [Answer tests](Answer_Tests/index.md).
 This gives the opportunity to perform sophisticated mathematical operations.
 
 Before each answer test is applied the following list of variables is assembled and evaluated

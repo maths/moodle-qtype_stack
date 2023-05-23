@@ -207,7 +207,7 @@ function stack_string_sanitise($str) {
  * that is needed on all of them.
  * @return array page context, selected seed (or null), and URL parameters.
  */
-function qtype_stack_setup_question_test_page($question) {
+function qtype_stack_setup_question_test_page($question, $setcontext = true) {
     global $PAGE;
 
     $seed = optional_param('seed', null, PARAM_INT);
@@ -230,7 +230,6 @@ function qtype_stack_setup_question_test_page($question) {
         $urlparams['courseid'] = $courseid;
 
     } else {
-        require_login();
         $context = $question->get_context();
         if ($context->contextlevel == CONTEXT_MODULE) {
             $urlparams['cmid'] = $context->instanceid;
@@ -239,7 +238,10 @@ function qtype_stack_setup_question_test_page($question) {
         } else {
             $urlparams['courseid'] = SITEID;
         }
-        $PAGE->set_context($context);
+        if ($setcontext) {
+            require_login();
+            $PAGE->set_context($context);
+        }
         // Note that in the other cases, require_login will set the correct page context.
     }
 

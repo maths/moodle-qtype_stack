@@ -33,7 +33,7 @@ require_once(__DIR__.'/../../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
-
+require_once(__DIR__ . '/../stack/bulktester.class.php');
 
 // Get the parameters from the URL.
 $contextid = required_param('contextid', PARAM_INT);
@@ -57,9 +57,14 @@ if ($context->contextlevel == CONTEXT_MODULE) {
 }
 
 // Load the necessary data.
-$categories = question_category_options(array($context));
+if (stack_determine_moodle_version() < 400) {
+    $categories = question_category_options(array($context));
+} else {
+    $categories = qbank_managecategories\helper::question_category_options(array($context));
+}
 $categories = reset($categories);
 
+$bulktester = new stack_bulk_tester();
 $fixer = new qtype_stack_dollar_fixer($preview);
 $questionfields = array('questiontext', 'generalfeedback');
 $qtypestackfields = array('specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect', 'questionnote');
@@ -78,11 +83,11 @@ foreach ($categories as $key => $category) {
     list($categoryid) = explode(',', $key);
     echo $OUTPUT->heading($category, 3);
 
-    $questions = $DB->get_records('question',
-            array('category' => $categoryid, 'qtype' => 'stack'), 'id');
-    echo html_writer::tag('p', stack_string('replacedollarscount', count($questions)));
+    $questionids = $bulktester->stack_questions_in_category($categoryid);
+    echo html_writer::tag('p', stack_string('replacedollarscount', count($questionids)));
 
-    foreach ($questions as $question) {
+    foreach (array_keys($questionids) as $questionid) {
+        $question = question_bank::load_question($questionid);
         echo $OUTPUT->heading(format_string($question->name), 4);
 
         // Prevent time-outs.

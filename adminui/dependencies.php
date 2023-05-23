@@ -125,9 +125,14 @@ if (data_submitted() && optional_param('includes', false, PARAM_BOOL)) {
             (isset($q->compiledcache['includes']['keyval']) && count($q->compiledcache['includes']['keyval']) > 0) ||
             (isset($q->compiledcache['includes']['castext']) && count($q->compiledcache['includes']['castext']) > 0))) {
             list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
+            if (stack_determine_moodle_version() < 400) {
+                $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
+            } else {
+                $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+                    null, null, null, null, $context);
+            }
             echo "<tr><td>" . $q->name . ' ' .
-                $OUTPUT->action_icon(question_preview_url($item->questionid, null, null, null, null, $context),
-            new pix_icon('t/preview', get_string('preview'))) . '</td>';
+                $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td>';
             echo '<td>';
             if (isset($q->compiledcache['includes']['keyval'])) {
                 foreach ($q->compiledcache['includes']['keyval'] as $url) {
@@ -186,9 +191,14 @@ if (data_submitted() && optional_param('jsxgraphs', false, PARAM_BOOL)) {
         // Confirm that it does have these.
         if ($block || $filter || $other) {
             list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
+            if (stack_determine_moodle_version() < 400) {
+                $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
+            } else {
+                $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+                    null, null, null, null, $context);
+            }
             echo "<tr><td>" . $q->name . ' ' .
-                $OUTPUT->action_icon(question_preview_url($item->questionid, null, null, null, null, $context),
-            new pix_icon('t/preview', get_string('preview'))) . '</td>';
+                $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td>';
             echo "<td>$block</td><td>$filter</td><td>$other</td></tr>";
         }
     }
@@ -208,9 +218,14 @@ if (data_submitted() && optional_param('script', false, PARAM_BOOL)) {
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
+        if (stack_determine_moodle_version() < 400) {
+            $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
+        } else {
+            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+                null, null, null, null, $context);
+        }
         echo "<tr><td>" . $q->name . ' ' .
-            $OUTPUT->action_icon(question_preview_url($item->questionid, null, null, null, null, $context),
-        new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
+            $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
     }
     echo '</tbody></table>';
 }
@@ -228,9 +243,14 @@ if (data_submitted() && optional_param('PLUGINFILE', false, PARAM_BOOL)) {
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
+        if (stack_determine_moodle_version() < 400) {
+            $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
+        } else {
+            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+                null, null, null, null, $context);
+        }
         echo "<tr><td>" . $q->name . ' ' .
-            $OUTPUT->action_icon(question_preview_url($item->questionid, null, null, null, null, $context),
-        new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
+            $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
     }
     echo '</tbody></table>';
 }
@@ -248,9 +268,14 @@ if (data_submitted() && optional_param('langs', false, PARAM_BOOL)) {
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
+        if (stack_determine_moodle_version() < 400) {
+            $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
+        } else {
+            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+                null, null, null, null, $context);
+        }
         echo "<tr><td>" . $q->name . ' ' .
-            $OUTPUT->action_icon(question_preview_url($item->questionid, null, null, null, null, $context),
-        new pix_icon('t/preview', get_string('preview'))) . '</td><td>';
+            $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td><td>';
         echo implode(', ', $q->get_cached('langs'));
         echo '</td></tr>';
     }

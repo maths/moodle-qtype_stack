@@ -46,7 +46,8 @@ To replace all `nounand` (etc) operators and replace them with the Maxima equiva
 Notes
 
 * There is no support for symbolic logic symbol input currently and students cannot type `&`, `*` for `and`, and similarly students cannot type `+` for `or`.
-* There is no existential operator (not that this is propositional logic, but for the record) or an interpretation of '?' as there exists, and there is no universal operator (which some people type in as `!`).
+* There is no existential operator (not that this is propositional logic, but for the record) or an interpretation of '?' as there exits, and there is no universal operator (which some people type in as `!`).
+* To change between language or symbols for logic, use the Logic symbols [option](../Authoring/Tables.md). The default behaviour is to use language.
 
 The function `verb_logic(ex)` will remove the noun forms such as `nounand` and substitute in the lisp versions which will enable evaluation of expressions.  The function `noun_logic(ex)` will replace any remaining lisp but beware that any evaluation (even with `simp:false`) will evaluate lisp logical expressions.  It is best to use noun forms at the outset, e.g. in the question variables, and only use the lisp forms when calculating, e.g. to evaluate in the PRT.
 

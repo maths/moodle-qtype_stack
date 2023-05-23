@@ -164,6 +164,7 @@ To parse and manipulate it you can use STACK's custom JSON parsing functions:
     tmp:stackmap_set(tmp,"z",x*y);   /* ["stack_map", ["x", 4], ["y", 3], ["z", 12]] */
     json:stackjson_stringify(tmp);   /* "{\"x\":4,\"y\":3,\"z\":12}" */
 
+Another more complicated example of custom binding is shown at the bottom of the page.
 
 ## Convenience tools for building graphs
 
@@ -213,3 +214,116 @@ You can use this with mathematical input: `{@stack_disp_comma_separate([a,b,sin(
 
 
 A graph can be displayed with JSXGraph, see [discrete mathematics](../CAS/Discrete_mathematics.md) for examples.
+
+## Using JSXGraph to shade regions
+
+Sometimes it is a reasonable request to ask students to identify or shade in a certain region in a graph, such as part of a Venn diagram, identifying the region of integration for an iterated integral, or showing that (for example), two sixths is equal to one third. We can use JSXGraph to simulate this idea, but it is not immediately obvious how to connect the graph to student input, and dragging a point or a set of points is not a reasonable solution. However, it is not too complicated to create a custom binding function to make this work. The example below walks through one way to do this to simplify fractions graphically.
+
+Let us first assume that we will hard-code this question to always ask students to shade in one third of a circle divided into sixths. This is not too difficult to generalise, and it keeps the code clean. Then let us define a model answer as the list:
+
+    ta: [1,1,0,0,0,0];
+    
+We interpret this as two of the six sectors in our eventual graph being shaded, and four of them being unshaded, with 1 representing on and 0 representing off. Our student input, `ans1`, will then be a normal algebraic input.
+
+Now we can create the question text. Firstly, we state the instructions for the student and create the board and associated objects. 
+
+    <p>Shade some regions of the diagram below so that it represents the fraction \(\dfrac{1}{3}\). Click a region to shade it, and click a second time to un-shade it if needed.</p>
+    [[jsxgraph width="500px" height="500px" input-ref-ans1="ans1Ref"]]
+        var board = JXG.JSXGraph.initBoard(divid, {
+	        boundingbox: [-1.2,1.2,1.2,-1.2], axis: false,
+            showNavigation: false, showCopyright: false});
+  
+        var plotColours = ["#1f77b4", "#ff7f0e"];
+        var numSectors = 6;
+  
+        var origin = board.create('point',[0,0],{visible:false}); // This will be referenced multiple times as we create the sectors
+        var circle = board.create('circle',[origin,1],{strokeColor: plotColours[0], fixed: true, highlight: false});
+        var points = [];
+        var sectors = [];
+
+        // Create 7 points (doubling up the start and end) and then between each pair of adjacent points, define a sector. 
+
+        for(let ii=0;ii<numSectors+1;ii++) {
+            points[ii] = board.create('point',[Math.cos(ii*2*Math.PI / numSectors),Math.sin(ii*2*Math.PI / numSectors)],{visible:false});
+            if (ii>0) {
+                sectors[ii-1] = board.create('sector',[origin,points[ii-1],points[ii]],{
+                    strokeColor:plotColours[0],strokeOpacity:0.5,strokeWidth: 2,
+                    fillColor:plotColours[1],fillOpacity:0, highlight: false
+                });
+            }
+        }
+
+Now we need to create our binding between the shaded regions and the student input. This can be done by creating a Javascript array of ones and zeros as appropriate, and then using an adapted version of the example code from earlier on this page to over-write the base status (no shading) with the student answer (if it exists).
+
+    var shading = [0,0,0,0,0,0];
+    var shadingInput = document.getElementById(ans1Ref);
+    if (shadingInput.value && shadingInput.value != '') { // If the student has given an input and it is not an empty string: 
+        shading = JSON.parse(shadingInput.value) // Over-write the current shading array with the student input
+        for (var ii=0;ii<numSectors;ii++) { // and then update the shading to match.
+            if(shading[ii]==1) {
+                sectors[ii].setAttribute({fillOpacity:0.3})
+            }
+        }
+    }
+    
+If we wanted to allow the student to submit an empty diagram, we might add an else statement that autofills the input with the base status, but this isn't necessary. 
+
+Lastly, we need to write a function that reads the location of the student click and then both updates the graph shading and the student input accordingly. 
+
+    var shadeSectors = function(x,y) { // Given a coordinate pair x,y
+        var r = Math.sqrt(x**2 + y**2); // convert to polar form r,angle
+        var angle = Math.atan2(y,x);
+        if (angle<0) {angle = angle + 2*Math.PI} // Ensure argument is from 0 to 2π
+
+        if (r<1) { // If inside the unit circle
+            var whichSector = Math.floor(angle*numSectors/(2*Math.PI)); // read which sextant the coordinates are in
+            if (shading[whichSector] == 0) { // if currently unshaded:
+                sectors[whichSector].setAttribute({fillOpacity:0.3}); // shade the sector
+                shading[whichSector] = 1; // update the shading array
+                shadingInput.value = JSON.stringify(shading); // and update the input
+            } else { // if currently shaded, unshade 
+                sectors[whichSector].setAttribute({fillOpacity:0}); // unshade the sector
+                shading[whichSector] = 0; // update the shading array
+                shadingInput.value = JSON.stringify(shading); // and update the input
+            }
+        }
+    }
+
+    // The below code is adapted from an example found at https://jsxgraph.org/wiki/index.php/Browser_event_and_coordinates
+
+    var getMouseCoords = function(e, i) {
+        var cPos = board.getCoordsTopLeftCorner(e, i),
+            absPos = JXG.getPosition(e, i),
+            dx = absPos[0]-cPos[0],
+            dy = absPos[1]-cPos[1];
+
+        return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], board);
+    };
+
+    var onClick = function(e) {
+        if (e[JXG.touchProperty]) {
+            // index of the finger that is used to extract the coordinates
+            var i = 0;
+        }
+        var coords = getMouseCoords(e, i);
+
+        var x = coords.usrCoords[1];
+        var y = coords.usrCoords[2];
+
+        shadeSectors(x,y) // Run the function we defined above
+    }
+
+    board.on('down',onClick); // When the board is clicked, run the function called onClick
+    [[/jsxgraph]]
+    
+Finally, we finish the question by adding the appropriate answer box inside a hidden div (as well as setting "Student must verify" to No).
+
+    <div hidden="">[[input:ans1]] [[validation:ans1]]</div>
+    
+The student's input, `ans1`, is now exactly a Maxima list of ones and zeros, and to mark the students answer we could check that `apply("+",ans1)` is exactly equal to 2.
+
+This application can be easily adapted to other examples. For instance, if you wanted the binding to return a matrix, you could keep input `ans1` as an algebraic input and include a line like
+
+    document.getElementById(ans1Ref).value = 'matrix([['+point1.X()+',0],[0,'+point1.X()+']])';
+    
+to fill `ans1` with a matrix containing the \(x\) and \(y\) coordinates of the draggable points on the diagonal. 

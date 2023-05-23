@@ -75,6 +75,8 @@ As a more complicated example, to typeset `u(A_k,k,1,inf)` as \({\bigcup_{k = 1}
 
 Notice in this example how we check the length of the arguments supplied to the (inert) function `u`.  If there are fewer than the required number of arguments then this texput function returns something sensible.  Without this clause you get errors, which would be unhelpful to a student trying to type this in.
 
+When using `texput` in this way, be careful with the handling of arguments. For example, using `ex[1]` in place of `first(ex)` in the second example will break the formatting, as `first(ex)` calls the first part of the expression (in this case, the first argument of `u`) whereas `ex[1]` refers to the first item of the list `u`, which is actually a function, not a list. The first example gets around this by explicitly defining variables `a` and `b` as the arguments of the function variable `z`.
+
 ## Feedback variables {#Feedback_variables}
 
 The feedback variables form one field in the [potential response tree](Potential_response_trees.md).

@@ -240,7 +240,6 @@ class stack_cas_session2 {
         }
         return implode(' ', array_keys($unique));
 
-        // Matti, I don't understand the context.  Can you provide examples or unit tests?
         foreach ($this->errors as $statementerrors) {
             foreach ($statementerrors as $value) {
                 // Element [0] is the list of errors.

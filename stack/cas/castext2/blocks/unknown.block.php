@@ -20,27 +20,16 @@ require_once(__DIR__ . '/../block.interface.php');
 
 /**
  * A block to turn unknown block references to something readable.
- * 
+ *
+ * This is a special kind of block to degrade gracefully when a user has a question
+ * containing a newer block of an known type.
  * As requested in #959.
  */
 class stack_cas_castext2_unknown extends stack_cas_castext2_block {
 
     public function compile($format, $options): ? MP_Node {
-        // There is an intentional space for that " type" there.
-        // replicate something sensible. Act as an escape block..
-        $r = '[[' . $this->params[' type'];
-        foreach ($this->params as $key => $value) {
-            if ($key !== ' type') {
-                $r .= ' ' . $key . '=';
-                $r .= (new MP_String($value))->toString();
-            }
-        }
-        $r .= ']]';
-        $r .= stack_string("unknown_block", ['type' => $this->params[' type']]);
-        $r .= '[[/' . $this->params[' type'] . ']]';
-
-        $r = new MP_String($r);
-        return $r;
+        // Unknown blocks do not get anywhere ever.
+        return null;
     }
 
     public function is_flat() : bool {
@@ -51,14 +40,12 @@ class stack_cas_castext2_unknown extends stack_cas_castext2_block {
         return [];
     }
 
-    public function validate(
-        &$errors = [],
-        $options = []
-    ): bool {
-        if (!isset($this->params[' type'])) {
-            $errors[] = 'Unknown blocks do not exist for unnamed blocks.';
-            return false;
-        }
-        return true;
+    /*
+     * Unknown blocks are always invalid.
+     */
+    public function validate(&$errors = [], $options = []): bool {
+        $errors[] = new $options['errclass'](stack_string("unknown_block", ['type' => $this->params[' type']]),
+                $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end']);
+        return false;
     }
 }

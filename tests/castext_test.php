@@ -283,8 +283,7 @@ class castext_test extends qtype_stack_testcase {
         $c = '[[ if test="a" ]][[ if ]]ok[[/ if ]][[/ if ]]';
         $ct = castext2_evaluatable::make_from_source($c, 'test-case');
         $this->assertFalse($ct->get_valid());
-        // TODO: better error trapping?
-        $this->assertEquals('', $ct->get_errors());
+        $this->assertEquals('If block requires a test parameter.', $ct->get_errors());
 
         $c = '[[ if test="a" ]][[else]]a[[elif test="b"]]b[[/ if ]]';
         $ct = castext2_evaluatable::make_from_source($c, 'test-case');
@@ -311,8 +310,7 @@ class castext_test extends qtype_stack_testcase {
         $c = '[[ if test="a" ]][[ if ]]ok[[/ if ]]';
         $ct = castext2_evaluatable::make_from_source($c, 'test-case');
         $this->assertFalse($ct->get_valid());
-        // TODO: better error trapping?
-        $this->assertEquals('', $ct->get_errors());
+        $this->assertEquals('If block requires a test parameter.', $ct->get_errors());
     }
 
     /**
@@ -2059,6 +2057,10 @@ class castext_test extends qtype_stack_testcase {
             $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     * @covers \qtype_stack\stack_cas_keyval
+     */
     public function test_stack_csv_formatter() {
         $options = new stack_options();
         $options->set_option('simplify', false);
@@ -2096,6 +2098,10 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals("A,B\n1.24,1.34\n2.23,4.56", $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     * @covers \qtype_stack\stack_cas_keyval
+     */
     public function test_stack_lang() {
         $options = new stack_options();
         $options->set_option('simplify', false);
@@ -2126,6 +2132,10 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals("", $at2->get_rendered());
     }
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     * @covers \qtype_stack\stack_cas_keyval
+     */
     public function test_stack_pick_lang() {
         global $SESSION;
         // Choose something not English, Australian or Finnish!

@@ -793,6 +793,7 @@ $string['stackBlock_multiple_else']          = 'Multiple else branches in an if 
 $string['stackBlock_elif_after_else']        = '"elif" after an "else" in an if block.';
 $string['unrecognisedfactstags']             = 'The following facts tag(s) are not recognized: {$a->tags}.';
 $string['stackHintOld']                      = 'The CASText has old-style hint tags. These should now be in the form <pre>[[facts:tag]]</pre>';
+$string['unknown_block']                     = 'Unknown block of type {$a->type} requested!';
 
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Maxima_Args']  = 'args: argument must be a non-atomic expression. ';

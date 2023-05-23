@@ -518,7 +518,8 @@ class stack_bulk_tester {
 
         if (!empty($question->runtimeerrors)) {
             $ok = false;
-            $s = stack_string('stackInstall_testsuite_errors') . implode(' ', array_keys($question->runtimeerrors));
+            $s = stack_string('stackInstall_testsuite_errors') . ' ' .
+                implode(' ', array_keys($question->runtimeerrors));
             if ($outputmode == 'web') {
                 $s = html_writer::tag('br', $s);
             }

@@ -401,6 +401,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $session->add_statement($cs);
             }
 
+            // Check for signs of errors.
+            if ($this->get_cached('static-castext-strings') === null) {
+                throw new stack_exception(implode('; ', array_keys($this->runtimeerrors)));
+            }
+
             // 3.0 setup common CASText2 staticreplacer.
             $static = new castext2_static_replacer($this->get_cached('static-castext-strings'));
 

@@ -487,6 +487,7 @@ polarform_simp(ex) := block([%_r, %_theta, %_pf, simp],
   polarform_simp(-%i);
   polarform_simp(-2*%i);
   polarform_simp(sqrt(3)+%i*sqrt(3));
+  polarform_simp(1/sqrt(2)*(-1+%i));
 */
 
 

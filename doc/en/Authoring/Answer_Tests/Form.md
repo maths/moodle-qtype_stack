@@ -1,4 +1,4 @@
-# Form
+# Algebraic Form
 
 Often, we wish to establish if the student's expression has the correct _form_. For example, consider the following written forms of \(x^2-4x+4\).
 

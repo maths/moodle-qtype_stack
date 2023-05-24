@@ -113,7 +113,7 @@
             "description":"Algebraic equivalence is the prototype test"
             },
             {
-            "file":"Form.md",
+            "file":"Algebraic Form.md",
             "title":"Answer tests to establish algebraic form - STACK Documentation",
             "description":"STACK can confirm an expression is written in a particular form."
             },

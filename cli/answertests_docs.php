@@ -175,7 +175,7 @@ foreach ($availabletests as $anstest) {
         $lines[$key] = preg_replace($pat, $rep, $line);
     }
     $output = implode("\n", $lines);
-    $output = stack_string('stackDoc_AnswerTestResults') . "\n\n" . $output;
+    $output = '# ' . $anstest . ': ' . stack_string('stackDoc_AnswerTestResults') . "\n\n" . $output;
 
     file_put_contents('../doc/en/Authoring/Answer_Tests/Results/'. $anstest .'.md', $output);
 }

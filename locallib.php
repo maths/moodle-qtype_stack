@@ -207,9 +207,7 @@ function stack_string_sanitise($str) {
  * that is needed on all of them.
  * @return array page context, selected seed (or null), and URL parameters.
  */
-function qtype_stack_setup_question_test_page($question, $setcontext = true) {
-    global $PAGE;
-
+function qtype_stack_setup_question_test_page($question) {
     $seed = optional_param('seed', null, PARAM_INT);
     $urlparams = array('questionid' => $question->id);
     if (!is_null($seed) && $question->has_random_variants()) {
@@ -238,11 +236,6 @@ function qtype_stack_setup_question_test_page($question, $setcontext = true) {
         } else {
             $urlparams['courseid'] = SITEID;
         }
-        if ($setcontext) {
-            require_login();
-            $PAGE->set_context($context);
-        }
-        // Note that in the other cases, require_login will set the correct page context.
     }
 
     return array($context, $seed, $urlparams);

@@ -36,6 +36,7 @@ $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
 list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+$PAGE->set_context($context);
 
 // Check permissions.
 question_require_capability_on($questiondata, 'edit');

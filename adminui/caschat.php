@@ -41,6 +41,7 @@ $questionid = optional_param('questionid', null, PARAM_INT);
 
 if (!$questionid) {
     $context = context_system::instance();
+    $PAGE->set_context($context);
     require_capability('qtype/stack:usediagnostictools', $context);
     $urlparams = array();
 } else {

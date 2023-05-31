@@ -302,8 +302,13 @@ class qtype_stack extends question_type {
                 $node->quiet               = $fromform->{$prtname . 'quiet'}[$nodename];
                 $node->truescoremode       = $fromform->{$prtname . 'truescoremode'}[$nodename];
                 $node->truescore           = $fromform->{$prtname . 'truescore'}[$nodename];
-                $node->truepenalty         = stack_utils::fix_approximate_thirds(
-                    $fromform->{$prtname . 'truepenalty'}[$nodename]);
+                if (property_exists($fromform, $prtname . 'truepenalty')) {
+                    $node->truepenalty         = stack_utils::fix_approximate_thirds(
+                        $fromform->{$prtname . 'truepenalty'}[$nodename]);
+                } else {
+                    // Else we just deleted a PRT.
+                    $node->truepenalty = '';
+                }
                 $node->truenextnode        = $fromform->{$prtname . 'truenextnode'}[$nodename];
                 $node->trueanswernote      = $fromform->{$prtname . 'trueanswernote'}[$nodename];
                 $node->truefeedback        = $this->import_or_save_files(
@@ -312,8 +317,13 @@ class qtype_stack extends question_type {
                 $node->truefeedbackformat  = $fromform->{$prtname . 'truefeedback'}[$nodename]['format'];
                 $node->falsescoremode      = $fromform->{$prtname . 'falsescoremode'}[$nodename];
                 $node->falsescore          = $fromform->{$prtname . 'falsescore'}[$nodename];
-                $node->falsepenalty        = stack_utils::fix_approximate_thirds(
-                    $fromform->{$prtname . 'falsepenalty'}[$nodename]);
+                if (property_exists($fromform, $prtname . 'falsepenalty')) {
+                    $node->falsepenalty         = stack_utils::fix_approximate_thirds(
+                        $fromform->{$prtname . 'falsepenalty'}[$nodename]);
+                } else {
+                    // Else we just deleted a PRT.
+                    $node->falsepenalty = '';
+                }
                 $node->falsenextnode       = $fromform->{$prtname . 'falsenextnode'}[$nodename];
                 $node->falseanswernote     = $fromform->{$prtname . 'falseanswernote'}[$nodename];
                 $node->falsefeedback        = $this->import_or_save_files(
@@ -2109,12 +2119,14 @@ class qtype_stack extends question_type {
                 }
             }
 
-            $penalty = $fromform[$prtname . $branch . 'penalty'][$nodekey];
-            if ('' != $penalty && is_numeric($penalty)) {
-                if ($penalty < 0 || $penalty > 1) {
-                    $errors[$branchgroup][] = stack_string('penaltyerror2');
+            if (array_key_exists($prtname . $branch . 'penalty', $fromform)) {
+                $penalty = $fromform[$prtname . $branch . 'penalty'][$nodekey];
+                if ('' != $penalty && is_numeric($penalty)) {
+                    if ($penalty < 0 || $penalty > 1) {
+                        $errors[$branchgroup][] = stack_string('penaltyerror2');
+                    }
                 }
-            }
+            } // Else we have just deleted the PRT.
 
             $answernote = $fromform[$prtname . $branch . 'answernote'][$nodekey];
             if ('' == $answernote) {

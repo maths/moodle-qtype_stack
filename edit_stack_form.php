@@ -246,7 +246,10 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Originally this was the textarea, to keep the form shorter, but teaching colleagues to use STACK this
         // inconsistency with which fields are castext was confusing people.
-        $mform->addElement('editor', 'questionnote',
+        // Revert to textarea until we fix issue #995, #996.
+        // In any case this is more complex, as we need to use $fromform['questionnote']['text'], and
+        // we need to use the text when we update the DB.
+        $mform->addElement('textarea', 'questionnote',
                 stack_string('questionnote'), array('rows' => 2, 'cols' => 80));
         $mform->addHelpButton('questionnote', 'questionnote', 'qtype_stack');
 

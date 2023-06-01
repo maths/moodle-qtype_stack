@@ -521,12 +521,14 @@ class qtype_stack extends question_type {
         $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
 
         foreach ($prtnames as $name) {
-            $prtvalue = 0;
-            if (!$allformative) {
-                $prtvalue = $questiondata->prts[$name]->value / $totalvalue;
-            }
-            $question->prts[$name] = new stack_potentialresponse_tree_lite($questiondata->prts[$name],
-                $prtvalue, $question);
+            if (array_key_exists($name, $questiondata->prts)) {
+                $prtvalue = 0;
+                if (!$allformative) {
+                    $prtvalue = $questiondata->prts[$name]->value / $totalvalue;
+                }
+                $question->prts[$name] = new stack_potentialresponse_tree_lite($questiondata->prts[$name],
+                    $prtvalue, $question);
+            } // If not we just added a PRT.
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);

@@ -3,7 +3,7 @@
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
-## Version 4.4.4
+## Version 4.4.5
 
 TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
  #671, #420

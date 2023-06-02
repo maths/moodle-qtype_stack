@@ -30,7 +30,7 @@ Feature: Create, edit STACK questions adding in PRT and saving.
       | SAns                 | ans1                                                                          |
       | TAns                 | diff(p,x)                                                                     |
     Then I should see "Test STACK question"
- 
+
     When I am on the "Test STACK question" "core_question > edit" page
     Then the following fields match these values:
       | Question name        | Test STACK question                                                           |
@@ -82,4 +82,3 @@ Feature: Create, edit STACK questions adding in PRT and saving.
     And I press "collapseElement-2"
     Then I should see "This potential response tree will become active when the student has answered: ans1"
     Then I should see "ATAlgEquiv(int(ans1,x),p)"
-

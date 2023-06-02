@@ -259,7 +259,7 @@ class qtype_stack extends question_type {
                     $right = $falsenextnode + 1;
                 }
 
-                $graph->add_node($nodename + 1, $description, $left, $right);
+                $graph->add_prt_node($nodename + 1, $description, $left, $right);
             }
             $graph->layout();
             $roots = $graph->get_roots();
@@ -2301,7 +2301,7 @@ class qtype_stack extends question_type {
             }
 
             if (optional_param($prtname . 'nodeadd', false, PARAM_BOOL)) {
-                $graph->add_node($lastkey + 2, '', null, null, '+0', '-0',
+                $graph->add_prt_node($lastkey + 2, '', null, null, '+0', '-0',
                         '#fgroup_id_' . $prtname . 'node_' . ($lastkey + 1));
             }
 

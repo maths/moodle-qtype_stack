@@ -17,8 +17,8 @@ Feature: Create, edit STACK questions adding in PRT and saving.
       | teacher | C1     | editingteacher |
 
   @javascript
-  Scenario: Create, preview, test, tidy and edit STACK questions in Moodle ≤ 4.2
-    Given the site is running Moodle version 4.2 or lower
+  Scenario: Create, preview, test, tidy and edit STACK questions in Moodle ≥ 4.0
+    Given the site is running Moodle version 4.0 or higher
     When I am on the "Course 1" "core_question > course question bank" page logged in as "teacher"
     # Create a new question.
     And I add a "STACK" question filling the form with:

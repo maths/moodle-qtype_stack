@@ -69,7 +69,7 @@ This file contains two example multiple choice questions. (Not the place to star
 
 ## `v4-syntax-samples.xml` ##
 
-With v4.0 of STACK the CASText parts of the question gain blocks which allow the text to contain segments that are evaluated further and which may have parameters that define their behaviour.  See the specific documentation about [blocks](Question_blocks.md) for more details.
+With v4.0 of STACK the CASText parts of the question gain blocks which allow the text to contain segments that are evaluated further and which may have parameters that define their behaviour.  See the specific documentation about [blocks](Question_blocks/index.md) for more details.
 
 ## Open Educational Resources ##
 

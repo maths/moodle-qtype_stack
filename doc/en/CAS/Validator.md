@@ -4,17 +4,18 @@ This extra option `validator` to a particular [input](../Authoring/Inputs.md) al
 
 Please check [existing, supported, validation options](../Authoring/Inputs.md#options) before defining your own!
 
+For example, to check a list has at most three elements define the function named `validate_listlength` in the question variables, e.g.
+
+    validate_listlength(ex) := block([l],
+      if not(listp(ex)) then return(castext("Your answer must be a list")),
+      l:length(ex),
+.      if l < 3 then return(castext("Your list only has {#l#} elements, which is too few.")),
+      ""
+    );
+
 To use this feature put the following in the input extra options.
 
     validator:validate_listlength
-
-Define the function named `validate_listlength` in the question variables, e.g.
-
-    validate_listlength(ex) := block([l],
-      l:length(ex),
-      if l < 3 then return(castext("Your list only has {#l#} elements, which is too few.")),
-      ""
-    );
 
 Notes:
 
@@ -120,4 +121,4 @@ Note, when injecting a value `m0='X'` the `X` must be a Maxima expression, not a
 1. to inject the Maxima expression `X` with `{@...@}` injection (without wrapping like `\(...\)`) to a named placeholder `m0` use `m0='X'`.
 1. to inject the Maxima expression `X` with `{#...#}` injection, to get raw values, to a named placeholder `m0` use `raw_m0='X'`.
 
-For other prefix options see the [documentaiton for the commonstring block](../Authoring/Question_blocks.md#commonstring-block).
+For other prefix options see the [documentaiton for the commonstring block](../Authoring/Question_blocks/Static_blocks.md#commonstring-block).

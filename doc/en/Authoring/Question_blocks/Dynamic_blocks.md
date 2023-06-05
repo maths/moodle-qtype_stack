@@ -16,6 +16,18 @@ The block will only do singular direct string match, and so use of this block is
 
 There is currently no "else" clause available with this block.
 
+## Hint block ##
+
+This block allows sections of text to be shown or hidden with a press of an additional button.
+
+```
+[[hint title="button text"]]
+Text shown when the button is pressed
+[[/hint]]
+```
+
+Note that hint blocks can be nested.
+
 ## JSXGraph block ##
 
 STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/). The key feature of this block is the ability to bind elements of the graph to inputs of the question. See the specific documentation on including [JSXGraph](../JSXGraph.md) elements.

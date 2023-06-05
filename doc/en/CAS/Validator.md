@@ -122,3 +122,10 @@ Note, when injecting a value `m0='X'` the `X` must be a Maxima expression, not a
 1. to inject the Maxima expression `X` with `{#...#}` injection, to get raw values, to a named placeholder `m0` use `raw_m0='X'`.
 
 For other prefix options see the [documentaiton for the commonstring block](../Authoring/Question_blocks/Static_blocks.md#commonstring-block).
+
+## Further examples
+
+To forbid the underscore character in a student's input.
+
+    validate_underscore(ex) := if is(sposition("_", string(ex)) = false) then "" 
+               else "Underscore characters are not permitted in this input.";

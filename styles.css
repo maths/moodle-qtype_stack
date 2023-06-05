@@ -1,14 +1,14 @@
 /* Style for hint question block */
-details.stack-hint summary{
+details.stack-hint summary {
     padding: 5px 10px;
 }
-details.stack-hint[open] summary{
+details.stack-hint[open] summary {
     padding: 5px 10px;
     cursor: pointer;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
-.stack-hint-content{
+.stack-hint-content {
     margin-top: 10px;
     padding: 5px 10px;
     display: block;

@@ -9,7 +9,7 @@ For example, to check a list has at most three elements define the function name
     validate_listlength(ex) := block([l],
       if not(listp(ex)) then return(castext("Your answer must be a list")),
       l:length(ex),
-.      if l < 3 then return(castext("Your list only has {#l#} elements, which is too few.")),
+      if l < 3 then return(castext("Your list only has {#l#} elements, which is too few.")),
       ""
     );
 

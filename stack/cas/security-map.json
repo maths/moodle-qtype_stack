@@ -6738,6 +6738,9 @@
       "globalyforbiddenvariable": true,
       "variable": "f"
   },
+  "s_test": {
+      "function": "t"
+  },
   "save": {
       "function": "f",
       "globalyforbiddenfunction": true

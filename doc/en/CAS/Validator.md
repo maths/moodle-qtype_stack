@@ -56,7 +56,7 @@ The last line creates a single validator function using the convenience function
 
 STACK supports two convenience functions
 
-1. `stack_multi_validator` executes _all_ the validator functions and concatinates the result. 
+1. `stack_multi_validator` executes _all_ the validator functions and concatenates the result.
 2. `stack_seq_validator` executes the validator functions in list order until one fails.  This means you can make assumptions in later validators about the _form_ of the expression.
 
 If any validator throws an error then the student's answer is invalid.  E.g. using `any_listp` on a non-list will throw a Maxima error.
@@ -127,15 +127,15 @@ For other prefix options see the [documentaiton for the commonstring block](../A
 
 To forbid the underscore character in a student's input.
 
-    validate_underscore(ex) := if is(sposition("_", string(ex)) = false) then "" 
+    validate_underscore(ex) := if is(sposition("_", string(ex)) = false) then ""
                else "Underscore characters are not permitted in this input.";
 
 # Sharing validators between questions
 
-It is common to want to share validators between questions.  It would also be very helpful to contribute commonly used validator functions back to the STACK project.  To include a validator in more than one question you could post your validator function publically.
+It is common to want to share validators between questions.  It would also be very helpful to contribute commonly used validator functions back to the STACK project.  To include a validator in more than one question you could post your validator function publicly.
 
 1. Get the validator function working reliably in your question, locally.
-2. Add the maxima function to this file, [`https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/validators.mac`](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/validators.mac) or another file, prefereably contibuting to the STACK project.
+2. Add the maxima function to this file, [`https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/validators.mac`](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/validators.mac) or another file, preferably contributing to the STACK project.
 3. Add documentation and comprehensive test cases (please!) to let other people know what the validator is intended to do, and to help ensure behaviour remains stable.
 4. Include the [optional validators within the cas logic](../Authoring/Inclusions.md#inclusions-within-cas-logic)
 

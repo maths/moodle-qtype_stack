@@ -144,3 +144,14 @@ It is common to want to share validators between questions.  It would also be ve
 Note the url `https://raw.githubusercontent.com/` is used to include the raw content of this file.
 
 Including external content always poses a minor additional security risk.  In this case (1) the content is included and then subject to the same checks as if you had typed it yourself, and (2) the developers will take the same care in accepting contributions to the master branch as they do with the existing code base.
+
+### Example: forbid underscores in an input
+
+Create a new question.
+
+1. Add the following to the question variables, which loads contributed validators.
+
+    stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/master/stack/maxima/contrib/validators.mac");
+
+2. Use the extra option `validator:validate_underscore` in the input.
+

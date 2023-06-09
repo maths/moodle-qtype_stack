@@ -9,7 +9,7 @@ For example, to check a list has at most three elements define the function name
     validate_listlength(ex) := block([l],
       if not(listp(ex)) then return(castext("Your answer must be a list")),
       l:length(ex),
-.      if l < 3 then return(castext("Your list only has {#l#} elements, which is too few.")),
+      if l < 3 then return(castext("Your list only has {#l#} elements, which is too few.")),
       ""
     );
 
@@ -19,7 +19,7 @@ To use this feature put the following in the input extra options.
 
 Notes:
 
-1. The validator must be a pure function of a single variable. There must be no reference to the input name within the validator function definition, indeed you cannot reference an input in the question variables.  
+1. The validator must be a pure function of a single variable. There must be no reference to the input name within the validator function definition, indeed you cannot reference an input in the question variables.
 2. If the function returns a non-empty string, then the student's answer will be considered invalid, and the string displayed to the student as a validation error message as part of the input validation.
 3. If the function returns an empty string or `true` then the student's input is considered to be valid.  The use of an empty string here for valid is designed to encourage teachers to write meaningful error messages to students!
 4. The function can reference other question variables, e.g. the teacher's answer.
@@ -129,3 +129,29 @@ To forbid the underscore character in a student's input.
 
     validate_underscore(ex) := if is(sposition("_", string(ex)) = false) then "" 
                else "Underscore characters are not permitted in this input.";
+
+# Sharing validators between questions
+
+It is common to want to share validators between questions.  It would also be very helpful to contribute commonly used validator functions back to the STACK project.  To include a validator in more than one question you could post your validator function publically.
+
+1. Get the validator function working reliably in your question, locally.
+2. Add the maxima function to this file, [`https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/validators.mac`](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/validators.mac) or another file, prefereably contibuting to the STACK project.
+3. Add documentation and comprehensive test cases (please!) to let other people know what the validator is intended to do, and to help ensure behaviour remains stable.
+4. Include the [optional validators within the cas logic](../Authoring/Inclusions.md#inclusions-within-cas-logic)
+
+    stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/master/stack/maxima/contrib/validators.mac");
+
+Note the url `https://raw.githubusercontent.com/` is used to include the raw content of this file.
+
+Including external content always poses a minor additional security risk.  In this case (1) the content is included and then subject to the same checks as if you had typed it yourself, and (2) the developers will take the same care in accepting contributions to the master branch as they do with the existing code base.
+
+### Example: forbid underscores in an input
+
+Create a new question.
+
+1. Add the following to the question variables, which loads contributed validators.
+
+    stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/master/stack/maxima/contrib/validators.mac");
+
+2. Use the extra option `validator:validate_underscore` in the input.
+

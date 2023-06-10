@@ -949,6 +949,11 @@
         "file":"Units.md",
         "title":"Scientific Units - STACK Documentation",
         "description":"STACK supports the use of scientific units in its questions. This is particularly useful in physics questions."
+        },
+        {
+        "file":"Vector_Calculus.md",
+        "title":"Vector Calculus - STACK Documentation",
+        "description":"This page provides advice for writing STACK questions in vector calculus."
         }
       ] 
       }

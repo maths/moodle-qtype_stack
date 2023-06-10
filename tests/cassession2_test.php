@@ -2622,7 +2622,7 @@ class cassession2_test extends qtype_stack_testcase {
 
     public function test_s_test() {
 
-        $cases = array('t1:s_test(a,b)');
+        $cases = array('t1:s_assert(a,b)');
 
         $s1 = array();
         foreach ($cases as $case) {
@@ -2635,7 +2635,7 @@ class cassession2_test extends qtype_stack_testcase {
 
         $session->instantiate();
         $this->assertTrue($session->is_instantiated());
-        $this->assertEquals('STACK expected \' b \' but was given \' a \'.', $session->get_errors());
+        $this->assertEquals('s_assert: STACK expected \' b \' but was given \' a \'.', $session->get_errors());
     }
 
     public function test_stackmaximaversion() {

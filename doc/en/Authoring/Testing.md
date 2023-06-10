@@ -127,11 +127,11 @@ You can construct test cases using the functions such as `dispdp` to create a te
 
 ## Testing values of variables
 
-STACK provides a special function `s_test(ex1, ex2)` which can be used in the question variables and feedback variables.  If `is(ex1=ex2)` does not evaluate to `true` then this function throws a maxima error message.  This can be used to create a run-time error and prevent a question, and a particular variant, being used.
+STACK provides a special function `s_assert(ex1, ex2)` which can be used in the question variables and feedback variables.  If `is(ex1=ex2)` does not evaluate to `true` then this function throws a maxima error message.  This can be used to create a run-time error and prevent a question, and a particular variant, being used.
 
 For example, if you have an expression `1/n` and the variable `n` is randomly generated you need to prevent a random version being zero.  In this case put the following in the question variables.
 
-    s_test(is(n=0), false);
+    s_assert(is(n=0), false);
 
 This test will throw an error when `n` is zero.
 

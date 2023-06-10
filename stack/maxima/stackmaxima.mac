@@ -359,12 +359,12 @@ texput("blankmult", " ", nary);
 /* variables, or in the feedback variables, particular    */
 /* values can throw runtime errors.                       */
 /* ****************************************************** */
-s_test(ex1, ex2):= if is(ex1=ex2) then true else
-    error("STACK expected '", string(ex2), "' but was given '", string(ex1), "'.");
+s_assert(ex1, ex2):= if is(ex1=ex2) then true else
+    error("s_assert: STACK expected '", string(ex2), "' but was given '", string(ex1), "'.");
 
-/* TODO: s_test_case will be an internal function for unit testing the STACK code. */
-/* alias(s_test_case, s_test);                                                     */
-/* The above can be used to batch test ann the s_test_case instances.              */
+/* TODO: s_assert_test will be an internal function for unit testing the STACK code. */
+/* alias(s_assert_test, s_assert);                                                   */
+/* The above can be used to batch test ann the s_test_case instances.                */
 
 /* ****************************************************** */
 /* Random numbers                                         */

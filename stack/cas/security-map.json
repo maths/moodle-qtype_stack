@@ -6738,7 +6738,7 @@
       "globalyforbiddenvariable": true,
       "variable": "f"
   },
-  "s_test": {
+  "s_assert": {
       "function": "t"
   },
   "save": {

@@ -19,3 +19,28 @@
 /*  V1.0 June 2023                                              */
 /*                                                              */
 /****************************************************************/
+
+
+/****************************************************************/
+/* Calculate the divergence of a vector                         */
+/****************************************************************/
+div(u, vars):= block([div_vec],
+    if not(listp(vars)) or emptyp(vars) then error("div: the second argument must be a list of variables."),
+    if matrixp(u) then funcs: list_matrix_entries(u) else funcs: flatten(u),
+    /* TODO: confirm div should always simplify? */
+    div_vec: map(lambda([ex], ev(diff(funcs[ex],vars[ex]), simp)), ev(makelist(ii,ii,1,length(vars)), simp)),
+    return(apply("+", div_vec))
+);
+s_test_case(div([x^2*cos(y),y^3],[x,y]), 2*x*cos(y)+3*y^2)$
+s_test_case(div(transpose(matrix([x^2*cos(y),y^3])),[x,y]), 2*x*cos(y)+3*y^2)$
+
+/****************************************************************/
+/* Calculate the cuel of a vector                               */
+/****************************************************************/
+curl(u,vars):= block([cux, cuy, cuz],
+    if matrixp(u) then [ux,uy,uz]: list_matrix_entries(u) else [ux,uy,uz]: flatten(u),
+    cux: diff(uz,vars[2]) - diff(uy,vars[3]),
+    cuy: diff(ux,vars[3]) - diff(uz,vars[1]),
+    cuz: diff(uy,vars[1]) - diff(ux,vars[2]),
+    return(transpose(matrix([cux,cuy,cuz])))
+);

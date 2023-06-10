@@ -1,3 +1,26 @@
+/*  Author Chris Sangwin
+    Copyright (C) 2023 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/* ******************************************************** */
+/* Run STACK packages bespoke maxima unit tests.            */
+/*                                                          */
+/* To use this in the sandbox try something like            */
+/*                                                          */
+/*  stacklocation:"/var/www/html/m40/question/type/stack"$  */
+/*  load("s_test_case.mac");                                */
+/* ******************************************************** */
+
 print("************ s_test_case results.");
 
 load("s_test_case.lisp")$
@@ -31,6 +54,9 @@ read_s_test_file(filename) := block([filedescr, stream, oneline, soneline, eof, 
 contrib_files:directory(sconcat(stacklocation, "/stack/maxima/contrib/*.mac"))$
 
 if emptyp(contrib_files) then print("WARNING: you need to redefine the stacklocation variable correctly to run the tests!");
+
+print("simp:false");
+simp:false;
 
 /* Load files in the contrib directory and run the tests. */
 while not(emptyp(contrib_files)) do block(

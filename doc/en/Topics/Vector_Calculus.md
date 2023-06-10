@@ -4,34 +4,36 @@ Setting vector calculus problems using STACK does not require too much more thin
 
 # Calculus with more than one variable
 
-To find derivatives of functions of more than one variable you can use the normal `diff(f,x)` function, which returns the partial derivative of f with respect to x. To find the gradient vector, you might choose to put all the partial derivatives in a list or matrix using something like
+To find derivatives of functions of more than one variable you can use the normal `diff(f,x)` function, which returns the partial derivative of \(f\) with respect to \(x\). To find the gradient vector, you might choose to put all the partial derivatives in a list or matrix using something like
 
     grad(f,vars):= block(
-      grad_vec: makelist(diff(f,vars[ii]),ii,1,length(vars)),
+      grad_vec: map(lambda([ex], 'diff(f,vars[ex])), ev(makelist(ii,ii,1,length(vars)), simp)),
       return(transpose(matrix(grad_vec)))
     );
 
-so that `grad(f,[x,y,z])` would return \(\nabla f\) as the column vector \(\begin{bmatrix}f_x \\ f_y \\ f_z\end{bmatrix}\).
+Then `grad(f,[x,y,z])` would return
+\[
+ \left[\begin{array}{c} \frac{\mathrm{d} f}{\mathrm{d} x} \\ \frac{\mathrm{d} f}{\mathrm{d} y} \\ \frac{\mathrm{d} f}{\mathrm{d} z} \end{array}\right]
+\]
+Setting Maxima's `derivabbrev:true` changes the display of derivatives to subscripts.  Now `grad(f,[x,y,z])` would return
+\[
+\left[\begin{array}{c} f_{x} \\ f_{y} \\ f_{z} \end{array}\right]
+\]
 
-If you would like to work with differentials, using `diff(f)` without specifying a variable will return `del(f)` or \(\mathrm{d}f\). For example, 
+If you would like to work with differentials, using `diff(f)` without specifying a variable will return `del(f)`. For example, 
 
     (%i1) f: x*y*z;
     (%o1) x y z;
     (%i2) diff(f);
     (%o2) x y del(z) + x z del(y) + y z del(x)
-    
-The differentials will display as \(d(x)\), so if you prefer notation such as \(\mathrm{d}x\) you might need to use some workarounds like `df: subst([del(x)=dx,del(y)=dy,del(z)=dz],diff(f))`.
 
-Additionally, you might like to use texput to display the differential operator similarly to how STACK will display derivatives. Some options would include
+The Maxima differentials will display as \(d(x)\).  If you prefer notation such as \(\mathrm{d}x\) you might like to redfine the tex function associated with `del` e.g.
 
-    texput(dx,"\\mathrm{d}x");
-    texput(d,lambda([ex],sconcat("\\mathrm{d}",tex1(first(ex)))));
-    
-Where the former simply displays the two-letter variable `dx` with the given TeX, and the latter will do the same for any variable written as `d(x)`. Note that neither of these will display `del(x)` nicely. 
+    texput(del,lambda([ex],sconcat("\\mathrm{d}",tex1(first(ex)))));
 
 If you need to assert that one or more variables are constant, you can use `declare([a,b,c],constant)` means that, using the previous example, `diff(f*c)` would return `c x y del(z) + c x z del(y) + c y z del(x)` rather than `c x y del(z) + c x z del(y) + c y z del(x) + x y z del(c)`.
 
-If you want to assert that one variable depends on the other, you can use `depends([f,g],[x,y])` to mean that f and g both depend on x and y. If you just want to note that y depends on x, then `depends(y,x)` is sufficient. This is useful when asking students to perform implicit partial differentiation and solve for the given derivative. Here is an example that wants students to find a partial derivative of one variable with respect to another, holding another variable constant: 
+If you want to assert that one variable depends on the other, you can use `depends([f,g],[x,y])` to mean that \(f\) and \(g\) both depend on \(x\) and \(y\). If you just want to note that \(y\) depends on \(x\), then `depends(y,x)` is sufficient. This is useful when asking students to perform implicit partial differentiation and solve for the given derivative. Here is an example that wants students to find a partial derivative of one variable with respect to another, holding another variable constant: 
 
     declare([a,b,c,d],constant);
     eqn1: x*y = a*t^b*z;
@@ -45,8 +47,8 @@ If you want to assert that one variable depends on the other, you can use `depen
     eqn2d: diff(eqn2,indep);
 
     ta: rhs(flatten(solve([eqn1d,eqn2d],['diff(dep1,indep),'diff(dep2,indep)]))[1]);
-    
-This example generates two equations in x, y, z and t, assigns each variable a role as either a dependent variable, independent variable, or a variable being held constant (also independent, but behaving differently in this context), differentiates both equations implicitly with respect to the independent variable, and then solves the equations simultaneously for the desired derivative. The original question had values assigned to a, b, c and d, but it is interesting to declare them constant here. 
+ 
+This example generates two equations in \(x\), \(y\), \(z\) and \(t\), assigns each variable a role as either a dependent variable, independent variable, or a variable being held constant (also independent, but behaving differently in this context), differentiates both equations implicitly with respect to the independent variable, and then solves the equations simultaneously for the desired derivative. The original question had values assigned to \(a\), \(b\), \(c\) and \(d\), but it is interesting to declare them constant here. 
 
 Note that these questions can be a bit volatile, as Maxima simply cannot establish equality when various substitutions are made. It may be prudent to make rearrangement difficult, and/or tell students to not substitute values in their answer. 
 
@@ -57,7 +59,7 @@ Maxima does not distinguish between vectors and matrices, with both being define
 1. Lists are treated very similarly to row vectors (which means that things like the dot product operator work on them). It also means that it is sufficient to use `transpose([a,b,c])` to get a column vector.
 2. `*` is used for element-wise multiplication of lists and matrices, whereas `.` is used as both a dot product and matrix product. This leads to slightly confusing behaviour for vectors, where `[x,y] . [z,t]`, `[x,y] . transpose([z,t])` and `transpose([x,y]) . transpose([z,t])` will all return `x*z + y*t`, but `transpose([x,y]) . [z,t]` will return the outer product matrix `matrix([x*z, t*x], [y*z, t*y])`.
 3. Matrices are indexed as `A[i,j]`, which means that when dealing with vectors you must be careful to index both the row and the column. For example, `matrix([1],[2],[3])[1]` will return the list `[1]` rather than the value `1`, and `matrix([1,2,3])[1]` will return the whole row `[1,2,3]`. One way around this is to use the `list_matrix_entries` function to return the list of all matrix entries, which is often easier to work with when considering vectors. Note that this function returns an error when given a list. 
-4. The function `crossproduct(a,b)` is defined, but must take two 3 by 1 column vectors as the input, not lists or row vectors. 
+4. The function `crossproduct(a,b)` is defined in STACK (not core Maxima), but must take two \(3\) by \(1\) column vectors as the input, not lists or row vectors. 
 5. The function `jacobian([f1,f2],[x,y])` is defined, and takes two lists as arguments. The first is the vector function, and the second is the list of variables. 
 
 Some useful functions that are _not_ defined are divergence and curl. Luckily, these are relatively easy to make.
@@ -68,7 +70,7 @@ Some useful functions that are _not_ defined are divergence and curl. Luckily, t
       return(apply("+",divList))
     );
     
-which takes a vector function u and a list of variables vars and returns the divergence of u. It will accept u as either a matrix or a list.
+which takes a vector function \(u\) and a list of variables vars and returns the divergence of \(u\). It will accept \(u\). as either a matrix or a list.
 
     curl(u,vars):= block(
       if matrixp(u) then [ux,uy,uz]: list_matrix_entries(u) else [ux,uy,uz]: flatten(u),
@@ -89,7 +91,7 @@ Here is some example code that shows how you might procedurally generate solutio
     equations: [diff(func, x) = L*diff(cons, x), diff(func, y) = L*diff(cons, y), cons = 0];
     solns: map(lambda([ex],map(rhs,firstn(radcan(ex),2))),solve(equations, [x, y, L]));
     ta: sublist(solns,lambda([ex],real_numberp(first(ex)) and real_numberp(second(ex))));
-    
+
 This code will generate all correct solutions, trim out the value of \(\lambda\) which typically does not concern us, removes any complex solutions, and returns the final answer as a list of ordered pairs. This is useful because it allows us to use the TextArea input type. To enter their answers, students can give as many or as ordered pairs as they like.
 
 To mark this question, we could use some code like the following:

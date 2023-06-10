@@ -96,9 +96,25 @@ stack_include("http://example.com/fragments/mymatrixrand.txt");
 m: mymatrix_rand_integer_invertible(a);
 ```
 
-Note, that `stack_include()` has no Maxima side equivalent so you cannot simply
-copy-paste your question-vars into Maxima to debug things. You will need to
-manually do that inclusion in those cases.
-
 You may not use evaluation flags with `stack_include()` while the code included may
 have them the inclusion call cannot be used to apply flags to all the included content.
+
+The function `stack_include_contrib()` will load the files contained in the 
+[STACK maxima contrib folder](https://github.com/maths/moodle-qtype_stack/tree/master/stack/maxima/contrib) in the master branch in github.
+In particular the argument of `stack_include_contrib()` has this URL prepended: 
+`https://raw.githubusercontent.com/maths/moodle-qtype_stack/master/stack/maxima/contrib/`
+
+Hence, the following are completely equivalent
+
+    stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/master/stack/maxima/contrib/validators.mac");
+    stack_include_contrib("validators.mac");
+
+### Sandbox testing
+
+Note, that `stack_include()` and has no Maxima-side equivalent so you cannot simply copy-paste 
+your question-variables into Maxima to debug things. You will need to manually do that inclusion.
+
+`stack_include_contrib()` will load the packages from the local STACK files, when you set up the sandbox.
+Make sure you have the latest code in your sandbox as you may have stale versions of contributed
+(and other core) files on your local machine.
+

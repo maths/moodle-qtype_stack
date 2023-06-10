@@ -28,6 +28,6 @@
 validate_underscore(ex) := if is(sposition("_", string(ex)) = false) then "" 
         else "Underscore characters are not permitted in this input.";
 
-/* Add in unit-test cases using STACK's s_assert_test function.  At least two please! */
-s_assert_test(validate_underscore(1+a1), "");
-s_assert_test(validate_underscore(1+a_1), "Underscore characters are not permitted in this input.");
+/* Add in unit-test cases using STACK's s_test_case function.  At least two please! */
+s_test_case(validate_underscore(1+a1), "");
+s_test_case(validate_underscore(1+a_1), "Underscore characters are not permitted in this input.");

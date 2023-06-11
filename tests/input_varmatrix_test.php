@@ -74,8 +74,8 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
         $el->set_parameter('syntaxAttribute', '1');
         $this->assertEquals('<div class="matrixroundbrackets"><textarea name="ans1" id="ans1" autocapitalize="none" ' .
-                'spellcheck="false" class="varmatrixinput" size="5.5" style="width: 4.6em" rows="5" cols="10" placeholder="a b' .
-                "\n" . '? d"></textarea></div>',
+                'spellcheck="false" class="varmatrixinput" size="5.5" style="width: 4.6em" placeholder="a b' .
+                "\n" . '? d" rows="5" cols="10"></textarea></div>',
                 $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
                         'ans1', false, null));
     }

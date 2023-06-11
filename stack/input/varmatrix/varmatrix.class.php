@@ -78,7 +78,11 @@ class stack_varmatrix_input extends stack_input {
         }
 
         // Sort out size of text area.
-        $rows = stack_utils::list_to_array($current, false);
+        $sizecontent = $current;
+        if ($this->is_blank_response($state->contents) && $this->parameters['syntaxAttribute'] == '1') {
+            $sizecontent = $attributes['placeholder'];
+        }
+        $rows = stack_utils::list_to_array($sizecontent, false);
         $attributes['rows'] = max(5, count($rows) + 1);
 
         $boxwidth = $this->parameters['boxWidth'];

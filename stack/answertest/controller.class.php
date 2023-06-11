@@ -298,13 +298,13 @@ class stack_ans_test_controller {
      * @access public
      */
     public static function get_ans_tests_without_options() {
-        $ans_tests = array();
+        $anstests = array();
         foreach (self::$pops as $key => $value) {
             if ($value[0] === false) {
-                $ans_tests[] = $key;
+                $anstests[] = $key;
             }
         }
-        return $ans_tests;
+        return $anstests;
     }
 
     /**

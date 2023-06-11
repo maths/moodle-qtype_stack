@@ -559,9 +559,9 @@ class qtype_stack_edit_form extends question_edit_form {
         $nodegroup[] = $mform->createElement('text', $prtname . 'testoptions[' . $nodekey . ']',
                 stack_string('testoptions'), array('size' => 5));
 
-        $ans_tests_without_options = stack_ans_test_controller::get_ans_tests_without_options();
+        $anstestswithoutoptions = stack_ans_test_controller::get_ans_tests_without_options();
         $mform->hideIf($prtname . 'testoptions[' . $nodekey . ']', $prtname . 'answertest[' . $nodekey . ']', 'in',
-            $ans_tests_without_options );
+            $anstestswithoutoptions );
 
         $nodegroup[] = $mform->createElement('selectyesno', $prtname . 'quiet[' . $nodekey . ']',
                 stack_string('quiet'));

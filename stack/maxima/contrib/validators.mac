@@ -1,0 +1,33 @@
+/*  Author Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2023 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Bespoke validators for STACK inputs                         */
+/*                                                              */
+/*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                       */
+/*  V1.0 June 2023                                              */
+/*                                                              */
+/*  Please use this file to add public bespoke validators.      */
+/*                                                              */
+/****************************************************************/
+
+/* The student may not use an underscore anywhere in their input. */
+
+validate_underscore(ex) := if is(sposition("_", string(ex)) = false) then "" 
+        else "Underscore characters are not permitted in this input.";
+
+/* Add in unit-test cases using STACK's s_test_case function.  At least two please! */
+s_test_case(validate_underscore(1+a1), "");
+s_test_case(validate_underscore(1+a_1), "Underscore characters are not permitted in this input.");

@@ -16,6 +16,24 @@ The block will only do singular direct string match, and so use of this block is
 
 There is currently no "else" clause available with this block.
 
+### Interaction with MCQ input types
+
+The reveal block can be used in conjunction with [MCQ](../Multiple_choice_questions.md) input types to provide an input, e.g. algebraic, for "other".  Here is a very minimal example.  Put the following in the question variables.
+
+    ta1:[[a,false],[b,false],[c,false],[d,false],[X,true,"Other"]];
+    ta2:x^2;
+
+Use the following question text.
+
+    [[input:ans1]] [[validation:ans1]]
+    [[reveal input="ans1" value="5"]] [[input:ans2]] [[validation:ans2]] [[/reveal]] 
+
+1. Create input `ans1` as a radio input, with teacher's answer `ta1`.  Don't require or show validation.
+2. Create input `ans2` as an algebraic input, with teacher's answer `ta2`.  Use the extra option `allowempty`.
+3. In the PRT the first node should check `ans1=X` and, if so check that `ans2=ta2`.
+
+Notice that the reveal block has the condition `value="5"`, _not_ `value="X"`.  This is because the reveal block executes client-side, using javascript, and the values of the options are simply numbered, and mapped back to Maxima values server-side.
+
 ## Hint block ##
 
 This block allows sections of text to be shown or hidden with a press of an additional button.

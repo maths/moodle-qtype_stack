@@ -125,6 +125,18 @@ For the checkbox type you will need the whole list.
 You can construct test cases using the functions such as `dispdp` to create a test-case input with trailing zeros.  This is neeeded if the input, or answer test, is testing for a minimum number of decimal places or significant figures.
 
 
+## Testing values of variables
+
+STACK provides a special function `s_assert(ex1, ex2)` which can be used in the question variables and feedback variables.  If `is(ex1=ex2)` does not evaluate to `true` then this function throws a maxima error message.  This can be used to create a run-time error and prevent a question, and a particular variant, being used.
+
+For example, if you have an expression `1/n` and the variable `n` is randomly generated you need to prevent a random version being zero.  In this case put the following in the question variables.
+
+    s_assert(is(n=0), false);
+
+This test will throw an error when `n` is zero.
+
+In many situations this kind of test creation will be simpler than mapping onto student inputs.
+
 ## STACK-Maxima sandbox ##
 
 It is very useful to be able to use the desktop Maxima application to test questions.  To do this it is very helpful to load all the STACK libraries.  Details on how to do this are in the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md) page.

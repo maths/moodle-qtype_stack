@@ -40,11 +40,14 @@ This block allows sections of text to be shown or hidden with a press of an addi
 
 ```
 [[hint title="button text"]]
-Text shown when the button is pressed
+Text shown when the button is pressed.
 [[/hint]]
 ```
 
-Note that hint blocks can be nested.
+Notes 
+
+1. hint blocks can be nested.
+2. the content of the hint is styled within a `stack-hint-content` div tag.
 
 ## JSXGraph block ##
 

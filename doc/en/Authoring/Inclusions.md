@@ -42,7 +42,7 @@ trouble.
 
 Typical use case would be to have a JSXGraph plotting logic that expect that
 certain variables contain parameters for plotting and one would then simply
-make sure that one would populate those parameters before inclusion of the ploting 
+make sure that one would populate those parameters before inclusion of the plotting 
 logic for example like this:
 
 ```

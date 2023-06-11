@@ -490,6 +490,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x#1', 'x#1', 1, 'ATLogic_True.', 'Not equal to'),
         array('AlgEquiv', '', 'x#(1+1)', 'x#2', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', '1#x', 'x#1', 1, 'ATLogic_True.', ''),
+        array('AlgEquiv', '', 'a#b', 'b#a', 1, '', ''),
         array('AlgEquiv', '', 'x#2', 'x-2#0', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', '[x#2]', '[x-2#0]', 1, '', ''),
         array('AlgEquiv', '', 'x-3#0', 'x#2', 0, '', ''),
@@ -510,8 +511,12 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(n+1)*n!', '(n+1)!', 1, '', 'Factorials and binomials'),
         array('AlgEquiv', '', 'n/n!', '1/(n-1)!', 1, '', ''),
         array('AlgEquiv', '', 'n/n!', '1/(n+1)!', 0, '', ''),
+        array('AlgEquiv', '', 'n!/((k-1)!*(n-k+1)!)', 'n!*k/(k!*(n-k+1)!)', 1, '', ''),
+        array('AlgEquiv', '', 'n!/(k!*(n-k)!)', 'n!*(n-k+1)/(k!*(n-k+1)!)', 1, '', ''),
         array('AlgEquiv', '', 'n!/(k!*(n-k)!)', 'binomial(n,k)', 1, '', ''),
-        array('AlgEquiv', '', 'binomial(n,k)+binomial(n,k+1)', 'binomial(n+1,k+1)', -3, '', ''),
+        array('AlgEquiv', '', 'binomial(n,k)+binomial(n,k+1)', 'binomial(n+1,k+1)', 1, '', ''),
+        array('AlgEquiv', '', 'n!/((k-1)!*(n-k+1)!)+n!/(k!*(n-k)!)',
+            'n!*k/(k!*(n-k+1)!)+n!*(n-k+1)/(k!*(n-k+1)!)', 1, '', ''),
         array('AlgEquiv', '', 'binomial(n,k)+binomial(n,k+1)', 'binomial(n+1,k)', 0, '', ''),
         array('AlgEquiv', '', 'binomial(n,k)', 'binomial(n,n-k)', 1, '', ''),
         array('AlgEquiv', '', '175!*56!/(55!*176!)', '17556/55176', 1, '', ''),
@@ -1386,12 +1391,19 @@ class stack_answertest_test_data {
         array('Int', 'x', 'x^3/3', 'x^3/3', 0, 'ATInt_const.', 'Basic tests'),
         array('Int', 'x', 'x^3/3+1', 'x^3/3', 0, 'ATInt_const_int.', ''),
         array('Int', 'x', 'x^3/3+c', 'x^3/3', 1, 'ATInt_true.', ''),
+        array('Int', 'x', 'x^3/3-c', 'x^3/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'x^3/3+c+1', 'x^3/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', 'x^3/3+3*c', 'x^3/3', 1, 'ATInt_true.', ''),
         array('Int', 'x', '(x^3+c)/3', 'x^3/3', 1, 'ATInt_true.', ''),
-        array('Int', 'x', 'x^3/3-c', 'x^3/3', 1, 'ATInt_true.', ''),
+        // These are integration with a parameter: integrate(x^k,x), and we have to distinguish parameters from constants.
+        array('Int', 'x', 'x^(k+1)/(k+1)', 'x^(k+1)/(k+1)', 0, 'ATInt_const.', ''),
+        array('Int', 'x', 'x^(k+1)/(k+1)+c', 'x^(k+1)/(k+1)', 1, 'ATInt_true.', ''),
+        array('Int', 'x', '(x^(k+1)-1)/(k+1)', 'x^(k+1)/(k+1)', -2, 'ATInt_true.', ''),
+        array('Int', 'x', '(x^(k+1)-1)/(k+1)+c', 'x^(k+1)/(k+1)+c', -3, 'ATInt_weirdconst.', ''),
         array('Int', 'x', 'x^3/3+c+k', 'x^3/3', 0, 'ATInt_weirdconst.', ''),
         array('Int', 'x', 'x^3/3+c^2', 'x^3/3', 0, 'ATInt_weirdconst.', ''),
+        // This next one should probably be accepted.
+        array('Int', 'x', 'x^3/3+c^3', 'x^3/3', 0, 'ATInt_weirdconst.', ''),
         array('Int', 'x', 'x^3/3*c', 'x^3/3', 0, 'ATInt_generic.', ''),
         array('Int', 'x', 'X^3/3+c', 'x^3/3', 0, 'ATInt_generic. ATInt_var_SB_notSA.', ''),
         array('Int', 'x', 'sin(2*x)', 'x^3/3', 0, 'ATInt_generic.', ''),
@@ -1440,8 +1452,18 @@ class stack_answertest_test_data {
         array('Int', 'x', 'log(x)^2-2*log(c)*log(x)+k', 'ln(c/x)^2', 0, 'ATInt_EqFormalDiff.', ''),
         array('Int', 'x', 'log(x)^2-2*log(c)*log(x)+k', 'ln(abs(c/x))^2', 0, 'ATInt_generic.', ''),
         array('Int', 'x', 'c-(log(2)-log(x))^2/2', '-1/2*log(2/x)^2', 1, 'ATInt_true_equiv.', ''),
-        // This one fails.
-        array('Int', 'x', 'ln(abs(x+3))/2+c', 'ln(abs(2*x+6))/2+c', -3, 'ATInt_EqFormalDiff.', ''),
+        array('Int', 'x', 'ln(abs(x+3))/2+c', 'ln(abs(2*x+6))/2+c', 0, 'ATInt_EqFormalDiff.', ''),
+        array('Int', '[x, FORMAL]', 'ln(abs(x+3))/2+c', 'ln(abs(2*x+6))/2+c', 1, 'ATInt_EqFormalDiff.', ''),
+        // Note, the FORMAL option does not pick up missing constants of integration!
+        array('Int', '[x, FORMAL]', 'ln(abs(x+3))/2', 'ln(abs(2*x+6))/2+c', 1, 'ATInt_EqFormalDiff.', ''),
+        array('Int', '[x, FORMAL, NOCONST]', 'ln(abs(x+3))/2', 'ln(abs(2*x+6))/2+c', 1, 'ATInt_EqFormalDiff.', ''),
+        array('Int', '[x, NOCONST, FORMAL]', 'ln(abs(x+3))/2', 'ln(abs(2*x+6))/2+c', 1, 'ATInt_EqFormalDiff.', ''),
+        // This one still fails.
+        array('Int', '[x, NOCONST]', 'ln(abs(x+3))/2', 'ln(abs(2*x+6))/2+c', -3, 'ATInt_EqFormalDiff.', ''),
+        array('Int', 'x', '-log(sqrt(x^2-4*x+3)+x-2)/2+(x*sqrt(x^2-4*x+3))/2-sqrt(x^2-4*x+3)+c',
+            'integrate(sqrt(x^2-4*x+3),x)', 0, 'ATInt_EqFormalDiff.', ''),
+        array('Int', '[x, FORMAL]', '-log(sqrt(x^2-4*x+3)+x-2)/2+(x*sqrt(x^2-4*x+3))/2-sqrt(x^2-4*x+3)+c',
+            'integrate(sqrt(x^2-4*x+3),x)', 1, 'ATInt_EqFormalDiff.', ''),
         // These examples have an irreducible quadratic: x^2+7*x+7.
         array('Int', '[x,NOCONST]', 'ln(x^2+7*x+7)', 'ln(x^2+7*x+7)', 1, 'ATInt_const_condone.', 'Irreducible quadratic'),
         array('Int', '[x,NOCONST]', 'ln(x^2+7*x+7)', 'ln(abs(x^2+7*x+7))', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''),
@@ -1451,7 +1473,7 @@ class stack_answertest_test_data {
         array('Int', 'x', 'ln(x^2+7*x+7)+c', 'ln(abs(x^2+7*x+7))+c', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''),
         array('Int', 'x', 'ln(abs(x^2+7*x+7))+c', 'ln(abs(x^2+7*x+7))+c', 1, 'ATInt_true_equiv.', ''),
         array('Int', 'x', 'ln(k*abs(x^2+7*x+7))', 'ln(abs(x^2+7*x+7))+c', 1, 'ATInt_true_equiv.', ''),
-        // In these examples there are two logarihtms.  The student should be *consistent*
+        // In these examples there are two logarithms.  The student should be *consistent*
         // in their use, or not, of absolute value.
         array('Int', 'x', 'log(abs(x-3))+log(abs(x+3))', 'log(abs(x-3))+log(abs(x+3))', 0, 'ATInt_const.', 'Two logs'),
         array('Int', 'x', 'log(abs(x-3))+log(abs(x+3))+c', 'log(abs(x-3))+log(abs(x+3))', 1, 'ATInt_true_equiv.', ''),
@@ -1583,6 +1605,7 @@ class stack_answertest_test_data {
         array('NumRelative', '0.01', '{1.414,3.1}', '{significantfigures(pi,6),sqrt(2)}', 0,
             'ATNumerical_wrongentries: TA/SA=[3.14159], SA/TA=[3.1].', ''),
         array('NumRelative', '0.1', '{1.414,3.1}', '{pi,sqrt(2)}', 1, '', ''),
+        array('NumRelative', '0.1', '{0,1,2}', '{0,1,2}', 1, '', ''),
 
         array('NumAbsolute', '', '1/0', '0', -1, 'ATNumAbsolute_STACKERROR_SAns.', 'Basic tests'),
         array('NumAbsolute', '', '0', '1/0', -1, 'ATNumAbsolute_STACKERROR_TAns.', ''),
@@ -2005,6 +2028,11 @@ class stack_answertest_test_data {
         array('Units', '4', '142.8*C', '415.9*K', -3, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', 'TODO'),
         // Atomic mass unit: numbers out of range.
         array('Units', '3', '520*mamu', '520*mamu', -3, 'ATUnits_SB_no_units.', ''),
+        // Teacher uses stackunits in the answer, and displays nunmerical accuracy.
+        array('Units', '3', '-9.82*m/s^2', 'stackunits(-9.815,m/s^2)', 1, 'ATUnits_units_match.', ''),
+        array('Units', '3', '-9.81*m/s^2', 'stackunits(-9.815,m/s^2)', 0, 'ATNumSigFigs_Inaccurate. ATUnits_units_match.', ''),
+        array('Units', '3', '-9.82*m/s^2', 'stackunits(displaydp(-9.815,3),m/s^2)', 1, 'ATUnits_units_match.', ''),
+        array('Units', '3', '-9.82*m/s^2', 'stackunits(displaysf(-9.815,4),m/s^2)', 1, 'ATUnits_units_match.', ''),
 
         array('UnitsStrict', '2', '25*g', '0.025*kg', 0, 'ATUnits_compatible_units kg.', 'Differences from the Units test only'),
         array('UnitsStrict', '1', '1*Mg/10^6', '1*N*s^2/(km)', 0, 'ATUnits_compatible_units kg.', ''),
@@ -2106,15 +2134,23 @@ class stack_answertest_test_data {
         array('UnitsAbsolute', '0.01', '(600/pi)*kN/m^2', '(600/pi)*kN/m^2', 1, 'ATUnits_units_match.', ''),
         array('UnitsAbsolute', '0.01', '(600/pi)*kN/mm^2', '(600/pi)*kN/mm^2', 1, 'ATUnits_units_match.', ''),
 
+        array('UnitsStrictAbsolute', '10.0', '2301.0*mm', '2300.0*mm', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrictAbsolute', '10.0', '2321.0*mm', '2300.0*mm', 0, 'ATUnits_units_match.', ''),
+        array('UnitsStrictAbsolute', '10.0', '2.301*m', '2300.0*mm', 0, 'ATUnits_compatible_units m.', ''),
+        array('UnitsStrictAbsolute', '10.0', '2.321*m', '2300.0*mm', 0, 'ATUnits_compatible_units m.', ''),
+        array('UnitsStrictAbsolute', '10.0', '2.301*kg', '2300.0*mm', 0, 'ATUnits_incompatible_units.', ''),
+
+        array('String', '', '"With spaces"', '"With spaces"', 1, '', ''),
+        array('String', '', '"Without spaces"', '"Withoutspaces"', 0, '', ''),
         array('String', '', 'Hello', 'hello', 0, '', ''),
         array('String', '', 'hello', 'hello', 1, '', ''),
         array('String', '', 'hello', 'heloo', 0, '', ''),
+        array('String', '', 'sin(x^2)', '"sin(x^2)"', 1, '', 'This test works on expressions as well as strings'),
 
-        array('StringSloppy', '', 'hello', 'Hello', 1, '', ''),
-        // This is a change.  The ast does not have acess to the raw string typed by the student.
-        array('StringSloppy', '', 'hel lo', 'Hello', 0, 'ATStringSloppy_STACKERROR_SAns.', ''),
-        array('StringSloppy', '', 'hel lo', 'Hel*lo', 0, 'ATStringSloppy_STACKERROR_SAns.', ''),
-        array('StringSloppy', '', 'hello', 'heloo', 0, '', ''),
+        array('StringSloppy', '', '"hello"', '"hello"', 1, '', ''),
+        array('StringSloppy', '', '"hello"', '"heloo"', 0, '', ''),
+        array('StringSloppy', '', '"hel lo"', '"hello"', 1, '', ''),
+        array('StringSloppy', '', '"hel lo"', '"Hel*lo"', 0, '', ''),
 
         array('Levenshtein', '', '"Hello"', '"Hello"', 0, 'STACKERROR_OPTION.', ''),
         array('Levenshtein', '0.9', '1/0', '"Hello"', -1, 'ATLevenshtein_STACKERROR_SAns.', ''),
@@ -2218,7 +2254,6 @@ class stack_answertest_test_data {
         array('LowestTerms', '', '1+2/sqrt(3)', '(2*sqrt(3)+3)/3', 0, 'ATLowestTerms_not_rat.', ''),
         array('LowestTerms', '', '1/(1+1/root(3,2))', 'sqrt(3)/(sqrt(3)+1)', 0, 'ATLowestTerms_not_rat.', ''),
         array('LowestTerms', '', '1/(1+1/root(2,3))', '1/(1+1/root(2,3))', 0, 'ATLowestTerms_not_rat.', '')
-
     );
 
     public static function get_raw_test_data() {

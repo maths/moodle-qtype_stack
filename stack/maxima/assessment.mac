@@ -181,16 +181,10 @@ select_apply([ex1]) := block([f1, ex, s1],
 element_listp(ex, l) := any_listp(lambda([ex2], is(ex2=ex)), l)$
 
 /* all_listp(p,l) true if all elements of l satisfy p. */
-all_listp(p, l) := block([ret],
-  if listp(l) then ret:apply("and", maplist(p, l)) else ret:"fail",
-  return(ret)
-)$
+all_listp(p, l) := if listp(l) then apply("and", maplist(p, l)) else error("all_listp expects its argument to be a list.")$
 
 /* any_listp(p,l) true if all elements of l satisfy p. */
-any_listp(p, l) := block([ret],
-  if listp(l) then ret:apply("or", maplist(p, l)) else ret:"fail",
-  return(ret)
-)$
+any_listp(p, l) := if listp(l) then apply("or", maplist(p, l)) else error("any_listp expects its argument to be a list.")$
 
 /* Returns true iff a and b are lists (not necessarily same length) with one or more common elements, false o/w. */
 listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
@@ -468,6 +462,35 @@ complex_exponentialp(ex):=block([ex2],
     return(false)
 )$
 
+polarform_simp(ex) := block([%_r, %_theta, %_pf, simp],
+    /* We can't return a meaningful value for arg(ex) so we just return 0. */
+    if is(ev(ex, simp)=0) then return(0),
+    /* It is a design choice to return a positive real number, rather than r*%e^0, or r*%e^(%i*0). */
+    if ev(real_numberp(ex) and ex>0, simp) then return(ex),
+    simp:false,
+    %_pf:ev(polarform(ex), simp),
+    /* Purely imaginary numbers somtimes return just %e^{...} */
+    if is(part(%_pf,1)=%e) then return(%_pf),
+    /* We really do have something in the form r*%e^theta to pick apart. */
+    %_pf:args(%_pf),
+    %_r:first(%_pf),
+    %_theta:part(second(%_pf),2),
+    ev(%_r, simp) * %e^(ev(%i*imagpart(%_theta), simp))
+)$
+/* 
+  polarform_simp(1+%i);
+  polarform_simp(0);
+  polarform_simp(1);
+  polarform_simp(-2);
+  polarform_simp(%i);
+  polarform_simp(2*%i);
+  polarform_simp(-%i);
+  polarform_simp(-2*%i);
+  polarform_simp(sqrt(3)+%i*sqrt(3));
+  polarform_simp(1/sqrt(2)*(-1+%i));
+*/
+
+
 /* Decides if an expression is precicely of the form a*10^n, where a is an integer, or a float, and n is an integer. */
 scientific_notationp(ex) := block([tn],
   if not(safe_op(ex)="*") then return(false),
@@ -542,7 +565,7 @@ anyfloat(l) := block([ret:false],
  return(ret) )$
 
 /* Decides if any floats are in the expression. */
-anyfloatex(ex) := block([partswitch,ret,kloop],
+anyfloatex(ex) := block([partswitch, end, ret, kloop],
   ret:false,
   ex:ev(ex,simp),
   if floatnump(ex) then return(true),
@@ -840,7 +863,7 @@ recursemod(ex, n) := block(
 algebraic_equivalence_zero(ex) := algebraic_equivalence(ex, 0)$
 
 algebraic_equivalence(SA, SB) :=
-    block([keepfloat, trigexpand, logexpand, ex, vi],
+    block([keepfloat, trigexpand, logexpand, sumsplitfact, ex, vi],
 
     if SA=SB then return(true),
     /* Remove +- if we can early. */
@@ -852,6 +875,7 @@ algebraic_equivalence(SA, SB) :=
     trigexpand:false,
     logexpand:super,
     keepfloat:true,
+    sumsplitfact:false,
     /* In some cases we just go inside the function one level. */
     if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
       (SA:first(args(SA)),

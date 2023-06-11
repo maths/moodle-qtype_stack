@@ -70,9 +70,6 @@ will give \(a=2\).
 Sometimes it is useful to control the level of simplification applied to expressions included within [CASText](../Authoring/CASText.md) using `{@...@}`.
 In particular, to show steps in working, it is often necessary to turn simplification off.
 
-Note that it is not possible to reliably control the value of `simp` within the CAS expression itself: for instance, `{@(simp:false,1+1)@}` will display as \(2\) if `simp` is set to `true` at the question level.
-(This is because of the way STACK assembles all the CASText code into a single Maxima call.)
-
 To selectively control simplification within CASText (including the general feedback), you can use the following methods:
 
 1. Set `simp:false` in the question options, or at the end of your question variables. That way all expressions in the CASText will be unsimplified, but you can use `{@ev(...,simp)@}` to simplify selectively.
@@ -80,7 +77,7 @@ To selectively control simplification within CASText (including the general feed
 ```
 {@3/9,simp=false@}
 ```
-3. Use a [define block](../Authoring/Question_blocks.md#define-block) to set the value of `simp`, e.g.
+3. Use a [define block](../Authoring/Question_blocks/Static_blocks.md#define-block) to set the value of `simp`, e.g.
 ```
 [[define simp="false"/]]
 \({@3/9@} \neq {@1+1@}\)
@@ -88,6 +85,11 @@ To selectively control simplification within CASText (including the general feed
 \({@3/9@} \neq {@1+1@}\)
 ```
 will produce \(\frac{3}{9}\neq1+1\) followed by \(\frac{1}{3}\neq2\).
+4. Switch simplification
+```
+{@(simp:false,3/9)@}
+```
+This command sets the value of `simp` for this expression, and all others which follow, much like the define block above.
 
 ## Unary minus and simplification
 
@@ -274,14 +276,14 @@ The variable `sans1` can then be used in the PRT.  Just note that `trigrat` writ
 
 ## Boolean functions
 
-See the page on [propositional logic](Propositional_Logic.md).
+See the page on [propositional logic](../Topics/Propositional_Logic.md).
 
 ## Further examples
 
 Some further examples are given elsewhere:
 
 * Matrix examples in [showing working](Matrix.md#Showing-working).
-* An example of a question with `simp:false` is discussed in [authoring quick start 7](../Authoring/Authoring_quick_start_7.md).
+* An example of a question with `simp:false` is discussed in [authoring quick start 7](/AbInitio/Authoring_quick_start_7.md).
 * Generating [random algebraic expressions](Random.md) which need to be "gathered and sorted".
 
 Note also that [question tests](../Authoring/Testing.md#Simplification) do not simplify test inputs.

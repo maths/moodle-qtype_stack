@@ -32,6 +32,9 @@ class stack_abstract_graph_node {
     /** @var string indentifier for this node. */
     public $name;
 
+    /** @var string description for this node. */
+    public $description;
+
     /** @var string identifier of the left child. */
     public $left;
 
@@ -65,14 +68,16 @@ class stack_abstract_graph_node {
     /**
      * Constructor.
      * @param string $name name of this node.
+     * @param string $description description for this node.
      * @param string $left name of the left child.
      * @param string $right name of the right child.
      * @param string $leftlabel lable to display on the edge to the left child.
      * @param string $rightlabel lable to display on the edge to the right child.
      * @param string $url if set, this node should be a link to that URL.
      */
-    public function __construct($name, $left, $right, $leftlabel = '', $rightlabel = '', $url = '') {
+    public function __construct($name, $description, $left, $right, $leftlabel = '', $rightlabel = '', $url = '') {
         $this->name  = $name;
+        $this->description  = $description;
         $this->left  = $left;
         $this->right = $right;
         $this->leftlabel  = $leftlabel;

@@ -97,7 +97,7 @@ diff --git a/bulktestindex.php b/bulktestindex.php
 index 3d5eafa..f84b4bd 100644
 --- a/bulktestindex.php
 +++ b/bulktestindex.php
-@@ -38,13 +38,20 @@ $PAGE->set_url('/question/type/stack/bulktestindex.php');
+@@ -38,13 +38,20 @@ $PAGE->set_url('/question/type/stack/adminui/bulktestindex.php');
  $PAGE->set_context($context);
  $PAGE->set_title(stack_string('bulktestindextitle'));
 

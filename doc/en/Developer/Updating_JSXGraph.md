@@ -1,48 +1,18 @@
 # Updating JSXGraph
 
-JSXGraph support in STACK relies on two parts.
+Since the stack-js update, we have been able to use JSXGraph in its released form.
 
-1. `jsxgraph.js` is not part of jsxgraph. Its task is to include the (modified) official jsxgraph file and it adds some additional functions (like bind_point).
-2. `jsxgraphcore-lazy.js` is the official jsxgraph fil.
-
-These, and other JS, files are in `amd/src`.
-
-## 1. Get JSXGraph
+The files related to it are now stored under `corsscripts/`.
 
 Download JSXGraph from here: [https://github.com/jsxgraph/jsxgraph](https://github.com/jsxgraph/jsxgraph).
 
-We need just need the file `distrib/jsxgraphsrc.js`.
+The files one needs to copy over are `jsxgraph.min.css` and `jsxgraphcore.min.js`, there is no need to copy the non minified versions.
 
-## 2. Rename and Modify
+The old STACK side `jsxgraph.js` that provided the `stack_jxg` features is now called `stackjsxgraph.js` and is being served from that same CORS-header tuning directory with that specific script.
 
-Rename the file to `jsxgraphcore-lazy.js`.
+We do not apply Moodles or any othe systems JavaScript processing on these, no need to run `grunt` or any such tool.
 
-Open the file and delete the first lines up to the line
+## NOTE!
 
-    var requirejs, require, define;
+We really want to have a local JSXGraph copy instead of relying on a CDN version. We want to make it easy to run STACK in a closed network with no external requirements and having a local JSXGraph is one of the things we do to remove an external requirement.
 
-Insert
-
-    define(function () {
-
-as the new first line.
-
-Change the last line from
-
-    }));
-
-to
-
-    }());
-
-
-
-## 3. Replace
-
-Copy the file to `amd/src`.
-
-## 4. Create minified file
-
-Use `grunt amd` in the `amd` folder to create the minified versions in `amd/build`.
-
-See [https://docs.moodle.org/dev/Javascript_Modules](https://docs.moodle.org/dev/Javascript_Modules) on how to properly setup nodejs and grunt.

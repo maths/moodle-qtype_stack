@@ -130,7 +130,7 @@ foreach ($questions as $id) {
         $urlparams['category'] .= ',' . $question->contextid;
         $questionbanklink = (new moodle_url('/question/edit.php', $urlparams))->out(false);
         $question->seed = 0;
-        if ($question->validate_against_stackversion() !== '') {
+        if ($question->validate_against_stackversion($context) !== '') {
             cli_writeln(' Upgrade issues in ' . $id->id . ': ' . $question->name);
             $fails = true;
         }

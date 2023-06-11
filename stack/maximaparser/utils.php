@@ -58,7 +58,7 @@ class maxima_parser_utils {
 
         $ast = self::do_parse($code, $parseoptions, $cachekey);
 
-        if ($cachekey) {
+        if ($cachekey && mb_strpos($code, 'stack_include') === false) {
             $cache[$cachekey] = clone $ast;
         }
 
@@ -77,7 +77,7 @@ class maxima_parser_utils {
         $muccachelimit = get_config('qtype_stack', 'parsercacheinputlength');
 
         $cache = null;
-        if ($cachekey && $muccachelimit && strlen($code) >= $muccachelimit) {
+        if ($cachekey && $muccachelimit && strlen($code) >= $muccachelimit && mb_strpos($code, 'stack_include') === false) {
             $cache = cache::make('qtype_stack', 'parsercache');
             $ast = $cache->get($cachekey);
             if ($ast) {
@@ -88,7 +88,7 @@ class maxima_parser_utils {
         $parser = new MP_Parser();
         $ast = $parser->parse($code, $parseoptions);
 
-        if ($cache) {
+        if ($cache && mb_strpos($code, 'stack_include') === false) {
             $cache->set($cachekey, $ast);
         }
         return $ast;

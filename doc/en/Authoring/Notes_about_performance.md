@@ -33,7 +33,7 @@ If you cannot write code that directly randomises a "good" result, you should us
 
 In the STACK question model, it is assumed that whatever is in the question-variables or in any other code/logic block is data and needs to be fully transferred into the CAS during all processing steps of the question; conversely, whatever is present in the question-text or other text content is assumed to be safe and not "data". We do special sidelining of such safe "not data" and don't send it all the way to CAS if we can avoid it, and it still rejoins the output once necessary.
 
-This means that if you place big strings on the logic side without actually using them there, you are probably wasting resources. If that text is intended as something to be outputted in the text itself then one should look at putting it into the text itself, maybe using [CASText features](./Question_blocks.md) that allow conditional inclusion if need be.
+This means that if you place big strings on the logic side without actually using them there, you are probably wasting resources. If that text is intended as something to be outputted in the text itself then one should look at putting it into the text itself, maybe using [CASText features](./Question_blocks/index.md) that allow conditional inclusion if need be.
 
 Typically one can end up in this type of situation if one converts materials from other systems and chooses to build their output on the logic side. Sometimes people do image inclusions, either SVG or base64 style content and end up slowing their systems if they add too many of them.
 

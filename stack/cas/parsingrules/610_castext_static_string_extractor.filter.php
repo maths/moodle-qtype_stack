@@ -48,7 +48,9 @@ class stack_ast_filter_610_castext_static_string_extractor implements stack_cas_
                     $node->parentnode->items[0]->value === '%cs' ||
                     $node->parentnode->items[0]->value === 'demarkdown' ||
                     $node->parentnode->items[0]->value === 'demoodle' ||
-                    ($node->parentnode->items[0]->value === 'jsxgraph' &&
+                    (($node->parentnode->items[0]->value === 'iframe' ||
+                      $node->parentnode->items[0]->value === 'script' ||
+                      $node->parentnode->items[0]->value === 'style') &&
                             array_search($node, $node->parentnode->items) > 1)
                     )) {
                     $node->value = $map->add_to_map($node->value);

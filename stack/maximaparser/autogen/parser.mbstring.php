@@ -432,6 +432,12 @@ class MP_Parser {
     private $peg_c202;
     private $peg_c203;
     private $peg_c204;
+    private $peg_c205;
+    private $peg_c206;
+    private $peg_c207;
+    private $peg_c208;
+    private $peg_c209;
+    private $peg_c210;
 
     private function peg_f0($lines, $final) {
       $items = array();
@@ -731,7 +737,7 @@ class MP_Parser {
 
     private function peg_parseRoot() {
 
-      $key    = $this->peg_currPos * 39 + 0;
+      $key    = $this->peg_currPos * 41 + 0;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -841,7 +847,7 @@ class MP_Parser {
 
     private function peg_parseEquivline() {
 
-      $key    = $this->peg_currPos * 39 + 1;
+      $key    = $this->peg_currPos * 41 + 1;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1053,7 +1059,7 @@ class MP_Parser {
 
     private function peg_parseLine() {
 
-      $key    = $this->peg_currPos * 39 + 2;
+      $key    = $this->peg_currPos * 41 + 2;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1114,7 +1120,7 @@ class MP_Parser {
 
     private function peg_parseInteger() {
 
-      $key    = $this->peg_currPos * 39 + 3;
+      $key    = $this->peg_currPos * 41 + 3;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1170,7 +1176,7 @@ class MP_Parser {
 
     private function peg_parseFloat() {
 
-      $key    = $this->peg_currPos * 39 + 4;
+      $key    = $this->peg_currPos * 41 + 4;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1378,7 +1384,7 @@ class MP_Parser {
 
     private function peg_parseFloatExp() {
 
-      $key    = $this->peg_currPos * 39 + 5;
+      $key    = $this->peg_currPos * 41 + 5;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1471,7 +1477,7 @@ class MP_Parser {
 
     private function peg_parseBoolean() {
 
-      $key    = $this->peg_currPos * 39 + 6;
+      $key    = $this->peg_currPos * 41 + 6;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1539,7 +1545,7 @@ class MP_Parser {
 
     private function peg_parseString() {
 
-      $key    = $this->peg_currPos * 39 + 7;
+      $key    = $this->peg_currPos * 41 + 7;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1606,7 +1612,7 @@ class MP_Parser {
 
     private function peg_parseStringChars() {
 
-      $key    = $this->peg_currPos * 39 + 8;
+      $key    = $this->peg_currPos * 41 + 8;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1725,7 +1731,7 @@ class MP_Parser {
 
     private function peg_parseComment() {
 
-      $key    = $this->peg_currPos * 39 + 9;
+      $key    = $this->peg_currPos * 41 + 9;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1798,7 +1804,7 @@ class MP_Parser {
 
     private function peg_parseCommentChars() {
 
-      $key    = $this->peg_currPos * 39 + 10;
+      $key    = $this->peg_currPos * 41 + 10;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1932,7 +1938,7 @@ class MP_Parser {
 
     private function peg_parseAnnotation() {
 
-      $key    = $this->peg_currPos * 39 + 11;
+      $key    = $this->peg_currPos * 41 + 11;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -1980,7 +1986,7 @@ class MP_Parser {
 
     private function peg_parseAnnotationDetail() {
 
-      $key    = $this->peg_currPos * 39 + 12;
+      $key    = $this->peg_currPos * 41 + 12;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2266,7 +2272,7 @@ class MP_Parser {
 
     private function peg_parseIdentifier() {
 
-      $key    = $this->peg_currPos * 39 + 13;
+      $key    = $this->peg_currPos * 41 + 13;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2311,7 +2317,7 @@ class MP_Parser {
 
     private function peg_parseIdentifierStart() {
 
-      $key    = $this->peg_currPos * 39 + 14;
+      $key    = $this->peg_currPos * 41 + 14;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2361,7 +2367,7 @@ class MP_Parser {
 
     private function peg_parseIdentifierTail() {
 
-      $key    = $this->peg_currPos * 39 + 15;
+      $key    = $this->peg_currPos * 41 + 15;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2380,6 +2386,12 @@ class MP_Parser {
               $this->peg_fail($this->peg_c10);
           }
         }
+        if ($s0 === $this->peg_FAILED) {
+          $s0 = $this->peg_parseUSubscriptSuperscript();
+          if ($s0 === $this->peg_FAILED) {
+            $s0 = $this->peg_parseUSpecial();
+          }
+        }
       }
 
       $this->peg_cache[$key] = array ("nextPos" => $this->peg_currPos, "result" => $s0 );
@@ -2389,7 +2401,7 @@ class MP_Parser {
 
     private function peg_parseEvaluationFlag() {
 
-      $key    = $this->peg_currPos * 39 + 16;
+      $key    = $this->peg_currPos * 41 + 16;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2489,7 +2501,7 @@ class MP_Parser {
 
     private function peg_parseStatement() {
 
-      $key    = $this->peg_currPos * 39 + 17;
+      $key    = $this->peg_currPos * 41 + 17;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2535,7 +2547,7 @@ class MP_Parser {
 
     private function peg_parseExpOp() {
 
-      $key    = $this->peg_currPos * 39 + 18;
+      $key    = $this->peg_currPos * 41 + 18;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2555,7 +2567,7 @@ class MP_Parser {
 
     private function peg_parseExpression() {
 
-      $key    = $this->peg_currPos * 39 + 19;
+      $key    = $this->peg_currPos * 41 + 19;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2596,7 +2608,7 @@ class MP_Parser {
 
     private function peg_parseFlow() {
 
-      $key    = $this->peg_currPos * 39 + 20;
+      $key    = $this->peg_currPos * 41 + 20;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -2616,7 +2628,7 @@ class MP_Parser {
 
     private function peg_parseIf() {
 
-      $key    = $this->peg_currPos * 39 + 21;
+      $key    = $this->peg_currPos * 41 + 21;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3340,7 +3352,7 @@ class MP_Parser {
 
     private function peg_parseLoop() {
 
-      $key    = $this->peg_currPos * 39 + 22;
+      $key    = $this->peg_currPos * 41 + 22;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3434,7 +3446,7 @@ class MP_Parser {
 
     private function peg_parseLoopBit() {
 
-      $key    = $this->peg_currPos * 39 + 23;
+      $key    = $this->peg_currPos * 41 + 23;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3724,7 +3736,7 @@ class MP_Parser {
 
     private function peg_parsePrefixOp() {
 
-      $key    = $this->peg_currPos * 39 + 24;
+      $key    = $this->peg_currPos * 41 + 24;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3891,7 +3903,7 @@ class MP_Parser {
 
     private function peg_parsePostfixOp() {
 
-      $key    = $this->peg_currPos * 39 + 25;
+      $key    = $this->peg_currPos * 41 + 25;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -3927,7 +3939,7 @@ class MP_Parser {
 
     private function peg_parseInfixOp() {
 
-      $key    = $this->peg_currPos * 39 + 26;
+      $key    = $this->peg_currPos * 41 + 26;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4325,7 +4337,7 @@ class MP_Parser {
 
     private function peg_parseUnaryOp() {
 
-      $key    = $this->peg_currPos * 39 + 27;
+      $key    = $this->peg_currPos * 41 + 27;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4538,7 +4550,7 @@ class MP_Parser {
 
     private function peg_parseOperation() {
 
-      $key    = $this->peg_currPos * 39 + 28;
+      $key    = $this->peg_currPos * 41 + 28;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4603,7 +4615,7 @@ class MP_Parser {
 
     private function peg_parseDotOp() {
 
-      $key    = $this->peg_currPos * 39 + 29;
+      $key    = $this->peg_currPos * 41 + 29;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4667,7 +4679,7 @@ class MP_Parser {
 
     private function peg_parseGroup() {
 
-      $key    = $this->peg_currPos * 39 + 30;
+      $key    = $this->peg_currPos * 41 + 30;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -4873,7 +4885,7 @@ class MP_Parser {
 
     private function peg_parseFunctionCall() {
 
-      $key    = $this->peg_currPos * 39 + 31;
+      $key    = $this->peg_currPos * 41 + 31;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -5134,7 +5146,7 @@ class MP_Parser {
 
     private function peg_parseIndexing() {
 
-      $key    = $this->peg_currPos * 39 + 32;
+      $key    = $this->peg_currPos * 41 + 32;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -5218,7 +5230,7 @@ class MP_Parser {
 
     private function peg_parseList() {
 
-      $key    = $this->peg_currPos * 39 + 33;
+      $key    = $this->peg_currPos * 41 + 33;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -5424,7 +5436,7 @@ class MP_Parser {
 
     private function peg_parseSet() {
 
-      $key    = $this->peg_currPos * 39 + 34;
+      $key    = $this->peg_currPos * 41 + 34;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -5630,7 +5642,7 @@ class MP_Parser {
 
     private function peg_parseLiteral() {
 
-      $key    = $this->peg_currPos * 39 + 35;
+      $key    = $this->peg_currPos * 41 + 35;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -5656,7 +5668,7 @@ class MP_Parser {
 
     private function peg_parse_() {
 
-      $key    = $this->peg_currPos * 39 + 36;
+      $key    = $this->peg_currPos * 41 + 36;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -5823,7 +5835,7 @@ class MP_Parser {
 
     private function peg_parse__() {
 
-      $key    = $this->peg_currPos * 39 + 37;
+      $key    = $this->peg_currPos * 41 + 37;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -5873,7 +5885,7 @@ class MP_Parser {
 
     private function peg_parseULetter() {
 
-      $key    = $this->peg_currPos * 39 + 38;
+      $key    = $this->peg_currPos * 41 + 38;
           $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
 
       if ($cached) {
@@ -5940,6 +5952,72 @@ class MP_Parser {
         $s1 = $this->peg_FAILED;
         if ($this->peg_silentFails === 0) {
             $this->peg_fail($this->peg_c194);
+        }
+      }
+
+      $this->peg_cache[$key] = array ("nextPos" => $this->peg_currPos, "result" => $s0 );
+
+      return $s0;
+    }
+
+    private function peg_parseUSubscriptSuperscript() {
+
+      $key    = $this->peg_currPos * 41 + 39;
+          $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
+
+      if ($cached) {
+        $this->peg_currPos = $cached["nextPos"];
+        return $cached["result"];
+      }
+
+      $this->peg_silentFails++;
+      if (peg_regex_test($this->peg_c206, $this->input_substr($this->peg_currPos, 1))) {
+        $s0 = $this->input_substr($this->peg_currPos, 1);
+        $this->peg_currPos++;
+      } else {
+        $s0 = $this->peg_FAILED;
+        if ($this->peg_silentFails === 0) {
+            $this->peg_fail($this->peg_c207);
+        }
+      }
+      $this->peg_silentFails--;
+      if ($s0 === $this->peg_FAILED) {
+        $s1 = $this->peg_FAILED;
+        if ($this->peg_silentFails === 0) {
+            $this->peg_fail($this->peg_c205);
+        }
+      }
+
+      $this->peg_cache[$key] = array ("nextPos" => $this->peg_currPos, "result" => $s0 );
+
+      return $s0;
+    }
+
+    private function peg_parseUSpecial() {
+
+      $key    = $this->peg_currPos * 41 + 40;
+          $cached = isset($this->peg_cache[$key]) ? $this->peg_cache[$key] : null;
+
+      if ($cached) {
+        $this->peg_currPos = $cached["nextPos"];
+        return $cached["result"];
+      }
+
+      $this->peg_silentFails++;
+      if (peg_regex_test($this->peg_c209, $this->input_substr($this->peg_currPos, 1))) {
+        $s0 = $this->input_substr($this->peg_currPos, 1);
+        $this->peg_currPos++;
+      } else {
+        $s0 = $this->peg_FAILED;
+        if ($this->peg_silentFails === 0) {
+            $this->peg_fail($this->peg_c210);
+        }
+      }
+      $this->peg_silentFails--;
+      if ($s0 === $this->peg_FAILED) {
+        $s1 = $this->peg_FAILED;
+        if ($this->peg_silentFails === 0) {
+            $this->peg_fail($this->peg_c208);
         }
       }
 
@@ -6170,6 +6248,12 @@ class MP_Parser {
     $this->peg_c202 = array( "type" => "class", "value" => "[\x{01C5}\x{01C8}\x{01CB}\x{01F2}\x{1F88}-\x{1F8F}\x{1F98}-\x{1F9F}\x{1FA8}-\x{1FAF}\x{1FBC}\x{1FCC}\x{1FFC}]", "description" => "[\x{01C5}\x{01C8}\x{01CB}\x{01F2}\x{1F88}-\x{1F8F}\x{1F98}-\x{1F9F}\x{1FA8}-\x{1FAF}\x{1FBC}\x{1FCC}\x{1FFC}]" );
     $this->peg_c203 = "/^[A-ZÀ-ÖØ-Þ\\x{0100}\\x{0102}\\x{0104}\\x{0106}\\x{0108}\\x{010A}\\x{010C}\\x{010E}\\x{0110}\\x{0112}\\x{0114}\\x{0116}\\x{0118}\\x{011A}\\x{011C}\\x{011E}\\x{0120}\\x{0122}\\x{0124}\\x{0126}\\x{0128}\\x{012A}\\x{012C}\\x{012E}\\x{0130}\\x{0132}\\x{0134}\\x{0136}\\x{0139}\\x{013B}\\x{013D}\\x{013F}\\x{0141}\\x{0143}\\x{0145}\\x{0147}\\x{014A}\\x{014C}\\x{014E}\\x{0150}\\x{0152}\\x{0154}\\x{0156}\\x{0158}\\x{015A}\\x{015C}\\x{015E}\\x{0160}\\x{0162}\\x{0164}\\x{0166}\\x{0168}\\x{016A}\\x{016C}\\x{016E}\\x{0170}\\x{0172}\\x{0174}\\x{0176}\\x{0178}-\\x{0179}\\x{017B}\\x{017D}\\x{0181}-\\x{0182}\\x{0184}\\x{0186}-\\x{0187}\\x{0189}-\\x{018B}\\x{018E}-\\x{0191}\\x{0193}-\\x{0194}\\x{0196}-\\x{0198}\\x{019C}-\\x{019D}\\x{019F}-\\x{01A0}\\x{01A2}\\x{01A4}\\x{01A6}-\\x{01A7}\\x{01A9}\\x{01AC}\\x{01AE}-\\x{01AF}\\x{01B1}-\\x{01B3}\\x{01B5}\\x{01B7}-\\x{01B8}\\x{01BC}\\x{01C4}\\x{01C7}\\x{01CA}\\x{01CD}\\x{01CF}\\x{01D1}\\x{01D3}\\x{01D5}\\x{01D7}\\x{01D9}\\x{01DB}\\x{01DE}\\x{01E0}\\x{01E2}\\x{01E4}\\x{01E6}\\x{01E8}\\x{01EA}\\x{01EC}\\x{01EE}\\x{01F1}\\x{01F4}\\x{01F6}-\\x{01F8}\\x{01FA}\\x{01FC}\\x{01FE}\\x{0200}\\x{0202}\\x{0204}\\x{0206}\\x{0208}\\x{020A}\\x{020C}\\x{020E}\\x{0210}\\x{0212}\\x{0214}\\x{0216}\\x{0218}\\x{021A}\\x{021C}\\x{021E}\\x{0220}\\x{0222}\\x{0224}\\x{0226}\\x{0228}\\x{022A}\\x{022C}\\x{022E}\\x{0230}\\x{0232}\\x{023A}-\\x{023B}\\x{023D}-\\x{023E}\\x{0241}\\x{0243}-\\x{0246}\\x{0248}\\x{024A}\\x{024C}\\x{024E}\\x{0370}\\x{0372}\\x{0376}\\x{037F}\\x{0386}\\x{0388}-\\x{038A}\\x{038C}\\x{038E}-\\x{038F}\\x{0391}-\\x{03A1}\\x{03A3}-\\x{03AB}\\x{03CF}\\x{03D2}-\\x{03D4}\\x{03D8}\\x{03DA}\\x{03DC}\\x{03DE}\\x{03E0}\\x{03E2}\\x{03E4}\\x{03E6}\\x{03E8}\\x{03EA}\\x{03EC}\\x{03EE}\\x{03F4}\\x{03F7}\\x{03F9}-\\x{03FA}\\x{03FD}-\\x{042F}\\x{0460}\\x{0462}\\x{0464}\\x{0466}\\x{0468}\\x{046A}\\x{046C}\\x{046E}\\x{0470}\\x{0472}\\x{0474}\\x{0476}\\x{0478}\\x{047A}\\x{047C}\\x{047E}\\x{0480}\\x{048A}\\x{048C}\\x{048E}\\x{0490}\\x{0492}\\x{0494}\\x{0496}\\x{0498}\\x{049A}\\x{049C}\\x{049E}\\x{04A0}\\x{04A2}\\x{04A4}\\x{04A6}\\x{04A8}\\x{04AA}\\x{04AC}\\x{04AE}\\x{04B0}\\x{04B2}\\x{04B4}\\x{04B6}\\x{04B8}\\x{04BA}\\x{04BC}\\x{04BE}\\x{04C0}-\\x{04C1}\\x{04C3}\\x{04C5}\\x{04C7}\\x{04C9}\\x{04CB}\\x{04CD}\\x{04D0}\\x{04D2}\\x{04D4}\\x{04D6}\\x{04D8}\\x{04DA}\\x{04DC}\\x{04DE}\\x{04E0}\\x{04E2}\\x{04E4}\\x{04E6}\\x{04E8}\\x{04EA}\\x{04EC}\\x{04EE}\\x{04F0}\\x{04F2}\\x{04F4}\\x{04F6}\\x{04F8}\\x{04FA}\\x{04FC}\\x{04FE}\\x{0500}\\x{0502}\\x{0504}\\x{0506}\\x{0508}\\x{050A}\\x{050C}\\x{050E}\\x{0510}\\x{0512}\\x{0514}\\x{0516}\\x{0518}\\x{051A}\\x{051C}\\x{051E}\\x{0520}\\x{0522}\\x{0524}\\x{0526}\\x{0528}\\x{052A}\\x{052C}\\x{052E}\\x{0531}-\\x{0556}\\x{10A0}-\\x{10C5}\\x{10C7}\\x{10CD}\\x{13A0}-\\x{13F5}\\x{1E00}\\x{1E02}\\x{1E04}\\x{1E06}\\x{1E08}\\x{1E0A}\\x{1E0C}\\x{1E0E}\\x{1E10}\\x{1E12}\\x{1E14}\\x{1E16}\\x{1E18}\\x{1E1A}\\x{1E1C}\\x{1E1E}\\x{1E20}\\x{1E22}\\x{1E24}\\x{1E26}\\x{1E28}\\x{1E2A}\\x{1E2C}\\x{1E2E}\\x{1E30}\\x{1E32}\\x{1E34}\\x{1E36}\\x{1E38}\\x{1E3A}\\x{1E3C}\\x{1E3E}\\x{1E40}\\x{1E42}\\x{1E44}\\x{1E46}\\x{1E48}\\x{1E4A}\\x{1E4C}\\x{1E4E}\\x{1E50}\\x{1E52}\\x{1E54}\\x{1E56}\\x{1E58}\\x{1E5A}\\x{1E5C}\\x{1E5E}\\x{1E60}\\x{1E62}\\x{1E64}\\x{1E66}\\x{1E68}\\x{1E6A}\\x{1E6C}\\x{1E6E}\\x{1E70}\\x{1E72}\\x{1E74}\\x{1E76}\\x{1E78}\\x{1E7A}\\x{1E7C}\\x{1E7E}\\x{1E80}\\x{1E82}\\x{1E84}\\x{1E86}\\x{1E88}\\x{1E8A}\\x{1E8C}\\x{1E8E}\\x{1E90}\\x{1E92}\\x{1E94}\\x{1E9E}\\x{1EA0}\\x{1EA2}\\x{1EA4}\\x{1EA6}\\x{1EA8}\\x{1EAA}\\x{1EAC}\\x{1EAE}\\x{1EB0}\\x{1EB2}\\x{1EB4}\\x{1EB6}\\x{1EB8}\\x{1EBA}\\x{1EBC}\\x{1EBE}\\x{1EC0}\\x{1EC2}\\x{1EC4}\\x{1EC6}\\x{1EC8}\\x{1ECA}\\x{1ECC}\\x{1ECE}\\x{1ED0}\\x{1ED2}\\x{1ED4}\\x{1ED6}\\x{1ED8}\\x{1EDA}\\x{1EDC}\\x{1EDE}\\x{1EE0}\\x{1EE2}\\x{1EE4}\\x{1EE6}\\x{1EE8}\\x{1EEA}\\x{1EEC}\\x{1EEE}\\x{1EF0}\\x{1EF2}\\x{1EF4}\\x{1EF6}\\x{1EF8}\\x{1EFA}\\x{1EFC}\\x{1EFE}\\x{1F08}-\\x{1F0F}\\x{1F18}-\\x{1F1D}\\x{1F28}-\\x{1F2F}\\x{1F38}-\\x{1F3F}\\x{1F48}-\\x{1F4D}\\x{1F59}\\x{1F5B}\\x{1F5D}\\x{1F5F}\\x{1F68}-\\x{1F6F}\\x{1FB8}-\\x{1FBB}\\x{1FC8}-\\x{1FCB}\\x{1FD8}-\\x{1FDB}\\x{1FE8}-\\x{1FEC}\\x{1FF8}-\\x{1FFB}\\x{2102}\\x{2107}\\x{210B}-\\x{210D}\\x{2110}-\\x{2112}\\x{2115}\\x{2119}-\\x{211D}\\x{2124}\\x{2126}\\x{2128}\\x{212A}-\\x{212D}\\x{2130}-\\x{2133}\\x{213E}-\\x{213F}\\x{2145}\\x{2183}\\x{2C00}-\\x{2C2E}\\x{2C60}\\x{2C62}-\\x{2C64}\\x{2C67}\\x{2C69}\\x{2C6B}\\x{2C6D}-\\x{2C70}\\x{2C72}\\x{2C75}\\x{2C7E}-\\x{2C80}\\x{2C82}\\x{2C84}\\x{2C86}\\x{2C88}\\x{2C8A}\\x{2C8C}\\x{2C8E}\\x{2C90}\\x{2C92}\\x{2C94}\\x{2C96}\\x{2C98}\\x{2C9A}\\x{2C9C}\\x{2C9E}\\x{2CA0}\\x{2CA2}\\x{2CA4}\\x{2CA6}\\x{2CA8}\\x{2CAA}\\x{2CAC}\\x{2CAE}\\x{2CB0}\\x{2CB2}\\x{2CB4}\\x{2CB6}\\x{2CB8}\\x{2CBA}\\x{2CBC}\\x{2CBE}\\x{2CC0}\\x{2CC2}\\x{2CC4}\\x{2CC6}\\x{2CC8}\\x{2CCA}\\x{2CCC}\\x{2CCE}\\x{2CD0}\\x{2CD2}\\x{2CD4}\\x{2CD6}\\x{2CD8}\\x{2CDA}\\x{2CDC}\\x{2CDE}\\x{2CE0}\\x{2CE2}\\x{2CEB}\\x{2CED}\\x{2CF2}\\x{A640}\\x{A642}\\x{A644}\\x{A646}\\x{A648}\\x{A64A}\\x{A64C}\\x{A64E}\\x{A650}\\x{A652}\\x{A654}\\x{A656}\\x{A658}\\x{A65A}\\x{A65C}\\x{A65E}\\x{A660}\\x{A662}\\x{A664}\\x{A666}\\x{A668}\\x{A66A}\\x{A66C}\\x{A680}\\x{A682}\\x{A684}\\x{A686}\\x{A688}\\x{A68A}\\x{A68C}\\x{A68E}\\x{A690}\\x{A692}\\x{A694}\\x{A696}\\x{A698}\\x{A69A}\\x{A722}\\x{A724}\\x{A726}\\x{A728}\\x{A72A}\\x{A72C}\\x{A72E}\\x{A732}\\x{A734}\\x{A736}\\x{A738}\\x{A73A}\\x{A73C}\\x{A73E}\\x{A740}\\x{A742}\\x{A744}\\x{A746}\\x{A748}\\x{A74A}\\x{A74C}\\x{A74E}\\x{A750}\\x{A752}\\x{A754}\\x{A756}\\x{A758}\\x{A75A}\\x{A75C}\\x{A75E}\\x{A760}\\x{A762}\\x{A764}\\x{A766}\\x{A768}\\x{A76A}\\x{A76C}\\x{A76E}\\x{A779}\\x{A77B}\\x{A77D}-\\x{A77E}\\x{A780}\\x{A782}\\x{A784}\\x{A786}\\x{A78B}\\x{A78D}\\x{A790}\\x{A792}\\x{A796}\\x{A798}\\x{A79A}\\x{A79C}\\x{A79E}\\x{A7A0}\\x{A7A2}\\x{A7A4}\\x{A7A6}\\x{A7A8}\\x{A7AA}-\\x{A7AD}\\x{A7B0}-\\x{A7B4}\\x{A7B6}\\x{FF21}-\\x{FF3A}]/";
     $this->peg_c204 = array( "type" => "class", "value" => "[A-ZÀ-ÖØ-Þ\x{0100}\x{0102}\x{0104}\x{0106}\x{0108}\x{010A}\x{010C}\x{010E}\x{0110}\x{0112}\x{0114}\x{0116}\x{0118}\x{011A}\x{011C}\x{011E}\x{0120}\x{0122}\x{0124}\x{0126}\x{0128}\x{012A}\x{012C}\x{012E}\x{0130}\x{0132}\x{0134}\x{0136}\x{0139}\x{013B}\x{013D}\x{013F}\x{0141}\x{0143}\x{0145}\x{0147}\x{014A}\x{014C}\x{014E}\x{0150}\x{0152}\x{0154}\x{0156}\x{0158}\x{015A}\x{015C}\x{015E}\x{0160}\x{0162}\x{0164}\x{0166}\x{0168}\x{016A}\x{016C}\x{016E}\x{0170}\x{0172}\x{0174}\x{0176}\x{0178}-\x{0179}\x{017B}\x{017D}\x{0181}-\x{0182}\x{0184}\x{0186}-\x{0187}\x{0189}-\x{018B}\x{018E}-\x{0191}\x{0193}-\x{0194}\x{0196}-\x{0198}\x{019C}-\x{019D}\x{019F}-\x{01A0}\x{01A2}\x{01A4}\x{01A6}-\x{01A7}\x{01A9}\x{01AC}\x{01AE}-\x{01AF}\x{01B1}-\x{01B3}\x{01B5}\x{01B7}-\x{01B8}\x{01BC}\x{01C4}\x{01C7}\x{01CA}\x{01CD}\x{01CF}\x{01D1}\x{01D3}\x{01D5}\x{01D7}\x{01D9}\x{01DB}\x{01DE}\x{01E0}\x{01E2}\x{01E4}\x{01E6}\x{01E8}\x{01EA}\x{01EC}\x{01EE}\x{01F1}\x{01F4}\x{01F6}-\x{01F8}\x{01FA}\x{01FC}\x{01FE}\x{0200}\x{0202}\x{0204}\x{0206}\x{0208}\x{020A}\x{020C}\x{020E}\x{0210}\x{0212}\x{0214}\x{0216}\x{0218}\x{021A}\x{021C}\x{021E}\x{0220}\x{0222}\x{0224}\x{0226}\x{0228}\x{022A}\x{022C}\x{022E}\x{0230}\x{0232}\x{023A}-\x{023B}\x{023D}-\x{023E}\x{0241}\x{0243}-\x{0246}\x{0248}\x{024A}\x{024C}\x{024E}\x{0370}\x{0372}\x{0376}\x{037F}\x{0386}\x{0388}-\x{038A}\x{038C}\x{038E}-\x{038F}\x{0391}-\x{03A1}\x{03A3}-\x{03AB}\x{03CF}\x{03D2}-\x{03D4}\x{03D8}\x{03DA}\x{03DC}\x{03DE}\x{03E0}\x{03E2}\x{03E4}\x{03E6}\x{03E8}\x{03EA}\x{03EC}\x{03EE}\x{03F4}\x{03F7}\x{03F9}-\x{03FA}\x{03FD}-\x{042F}\x{0460}\x{0462}\x{0464}\x{0466}\x{0468}\x{046A}\x{046C}\x{046E}\x{0470}\x{0472}\x{0474}\x{0476}\x{0478}\x{047A}\x{047C}\x{047E}\x{0480}\x{048A}\x{048C}\x{048E}\x{0490}\x{0492}\x{0494}\x{0496}\x{0498}\x{049A}\x{049C}\x{049E}\x{04A0}\x{04A2}\x{04A4}\x{04A6}\x{04A8}\x{04AA}\x{04AC}\x{04AE}\x{04B0}\x{04B2}\x{04B4}\x{04B6}\x{04B8}\x{04BA}\x{04BC}\x{04BE}\x{04C0}-\x{04C1}\x{04C3}\x{04C5}\x{04C7}\x{04C9}\x{04CB}\x{04CD}\x{04D0}\x{04D2}\x{04D4}\x{04D6}\x{04D8}\x{04DA}\x{04DC}\x{04DE}\x{04E0}\x{04E2}\x{04E4}\x{04E6}\x{04E8}\x{04EA}\x{04EC}\x{04EE}\x{04F0}\x{04F2}\x{04F4}\x{04F6}\x{04F8}\x{04FA}\x{04FC}\x{04FE}\x{0500}\x{0502}\x{0504}\x{0506}\x{0508}\x{050A}\x{050C}\x{050E}\x{0510}\x{0512}\x{0514}\x{0516}\x{0518}\x{051A}\x{051C}\x{051E}\x{0520}\x{0522}\x{0524}\x{0526}\x{0528}\x{052A}\x{052C}\x{052E}\x{0531}-\x{0556}\x{10A0}-\x{10C5}\x{10C7}\x{10CD}\x{13A0}-\x{13F5}\x{1E00}\x{1E02}\x{1E04}\x{1E06}\x{1E08}\x{1E0A}\x{1E0C}\x{1E0E}\x{1E10}\x{1E12}\x{1E14}\x{1E16}\x{1E18}\x{1E1A}\x{1E1C}\x{1E1E}\x{1E20}\x{1E22}\x{1E24}\x{1E26}\x{1E28}\x{1E2A}\x{1E2C}\x{1E2E}\x{1E30}\x{1E32}\x{1E34}\x{1E36}\x{1E38}\x{1E3A}\x{1E3C}\x{1E3E}\x{1E40}\x{1E42}\x{1E44}\x{1E46}\x{1E48}\x{1E4A}\x{1E4C}\x{1E4E}\x{1E50}\x{1E52}\x{1E54}\x{1E56}\x{1E58}\x{1E5A}\x{1E5C}\x{1E5E}\x{1E60}\x{1E62}\x{1E64}\x{1E66}\x{1E68}\x{1E6A}\x{1E6C}\x{1E6E}\x{1E70}\x{1E72}\x{1E74}\x{1E76}\x{1E78}\x{1E7A}\x{1E7C}\x{1E7E}\x{1E80}\x{1E82}\x{1E84}\x{1E86}\x{1E88}\x{1E8A}\x{1E8C}\x{1E8E}\x{1E90}\x{1E92}\x{1E94}\x{1E9E}\x{1EA0}\x{1EA2}\x{1EA4}\x{1EA6}\x{1EA8}\x{1EAA}\x{1EAC}\x{1EAE}\x{1EB0}\x{1EB2}\x{1EB4}\x{1EB6}\x{1EB8}\x{1EBA}\x{1EBC}\x{1EBE}\x{1EC0}\x{1EC2}\x{1EC4}\x{1EC6}\x{1EC8}\x{1ECA}\x{1ECC}\x{1ECE}\x{1ED0}\x{1ED2}\x{1ED4}\x{1ED6}\x{1ED8}\x{1EDA}\x{1EDC}\x{1EDE}\x{1EE0}\x{1EE2}\x{1EE4}\x{1EE6}\x{1EE8}\x{1EEA}\x{1EEC}\x{1EEE}\x{1EF0}\x{1EF2}\x{1EF4}\x{1EF6}\x{1EF8}\x{1EFA}\x{1EFC}\x{1EFE}\x{1F08}-\x{1F0F}\x{1F18}-\x{1F1D}\x{1F28}-\x{1F2F}\x{1F38}-\x{1F3F}\x{1F48}-\x{1F4D}\x{1F59}\x{1F5B}\x{1F5D}\x{1F5F}\x{1F68}-\x{1F6F}\x{1FB8}-\x{1FBB}\x{1FC8}-\x{1FCB}\x{1FD8}-\x{1FDB}\x{1FE8}-\x{1FEC}\x{1FF8}-\x{1FFB}\x{2102}\x{2107}\x{210B}-\x{210D}\x{2110}-\x{2112}\x{2115}\x{2119}-\x{211D}\x{2124}\x{2126}\x{2128}\x{212A}-\x{212D}\x{2130}-\x{2133}\x{213E}-\x{213F}\x{2145}\x{2183}\x{2C00}-\x{2C2E}\x{2C60}\x{2C62}-\x{2C64}\x{2C67}\x{2C69}\x{2C6B}\x{2C6D}-\x{2C70}\x{2C72}\x{2C75}\x{2C7E}-\x{2C80}\x{2C82}\x{2C84}\x{2C86}\x{2C88}\x{2C8A}\x{2C8C}\x{2C8E}\x{2C90}\x{2C92}\x{2C94}\x{2C96}\x{2C98}\x{2C9A}\x{2C9C}\x{2C9E}\x{2CA0}\x{2CA2}\x{2CA4}\x{2CA6}\x{2CA8}\x{2CAA}\x{2CAC}\x{2CAE}\x{2CB0}\x{2CB2}\x{2CB4}\x{2CB6}\x{2CB8}\x{2CBA}\x{2CBC}\x{2CBE}\x{2CC0}\x{2CC2}\x{2CC4}\x{2CC6}\x{2CC8}\x{2CCA}\x{2CCC}\x{2CCE}\x{2CD0}\x{2CD2}\x{2CD4}\x{2CD6}\x{2CD8}\x{2CDA}\x{2CDC}\x{2CDE}\x{2CE0}\x{2CE2}\x{2CEB}\x{2CED}\x{2CF2}\x{A640}\x{A642}\x{A644}\x{A646}\x{A648}\x{A64A}\x{A64C}\x{A64E}\x{A650}\x{A652}\x{A654}\x{A656}\x{A658}\x{A65A}\x{A65C}\x{A65E}\x{A660}\x{A662}\x{A664}\x{A666}\x{A668}\x{A66A}\x{A66C}\x{A680}\x{A682}\x{A684}\x{A686}\x{A688}\x{A68A}\x{A68C}\x{A68E}\x{A690}\x{A692}\x{A694}\x{A696}\x{A698}\x{A69A}\x{A722}\x{A724}\x{A726}\x{A728}\x{A72A}\x{A72C}\x{A72E}\x{A732}\x{A734}\x{A736}\x{A738}\x{A73A}\x{A73C}\x{A73E}\x{A740}\x{A742}\x{A744}\x{A746}\x{A748}\x{A74A}\x{A74C}\x{A74E}\x{A750}\x{A752}\x{A754}\x{A756}\x{A758}\x{A75A}\x{A75C}\x{A75E}\x{A760}\x{A762}\x{A764}\x{A766}\x{A768}\x{A76A}\x{A76C}\x{A76E}\x{A779}\x{A77B}\x{A77D}-\x{A77E}\x{A780}\x{A782}\x{A784}\x{A786}\x{A78B}\x{A78D}\x{A790}\x{A792}\x{A796}\x{A798}\x{A79A}\x{A79C}\x{A79E}\x{A7A0}\x{A7A2}\x{A7A4}\x{A7A6}\x{A7A8}\x{A7AA}-\x{A7AD}\x{A7B0}-\x{A7B4}\x{A7B6}\x{FF21}-\x{FF3A}]", "description" => "[A-ZÀ-ÖØ-Þ\x{0100}\x{0102}\x{0104}\x{0106}\x{0108}\x{010A}\x{010C}\x{010E}\x{0110}\x{0112}\x{0114}\x{0116}\x{0118}\x{011A}\x{011C}\x{011E}\x{0120}\x{0122}\x{0124}\x{0126}\x{0128}\x{012A}\x{012C}\x{012E}\x{0130}\x{0132}\x{0134}\x{0136}\x{0139}\x{013B}\x{013D}\x{013F}\x{0141}\x{0143}\x{0145}\x{0147}\x{014A}\x{014C}\x{014E}\x{0150}\x{0152}\x{0154}\x{0156}\x{0158}\x{015A}\x{015C}\x{015E}\x{0160}\x{0162}\x{0164}\x{0166}\x{0168}\x{016A}\x{016C}\x{016E}\x{0170}\x{0172}\x{0174}\x{0176}\x{0178}-\x{0179}\x{017B}\x{017D}\x{0181}-\x{0182}\x{0184}\x{0186}-\x{0187}\x{0189}-\x{018B}\x{018E}-\x{0191}\x{0193}-\x{0194}\x{0196}-\x{0198}\x{019C}-\x{019D}\x{019F}-\x{01A0}\x{01A2}\x{01A4}\x{01A6}-\x{01A7}\x{01A9}\x{01AC}\x{01AE}-\x{01AF}\x{01B1}-\x{01B3}\x{01B5}\x{01B7}-\x{01B8}\x{01BC}\x{01C4}\x{01C7}\x{01CA}\x{01CD}\x{01CF}\x{01D1}\x{01D3}\x{01D5}\x{01D7}\x{01D9}\x{01DB}\x{01DE}\x{01E0}\x{01E2}\x{01E4}\x{01E6}\x{01E8}\x{01EA}\x{01EC}\x{01EE}\x{01F1}\x{01F4}\x{01F6}-\x{01F8}\x{01FA}\x{01FC}\x{01FE}\x{0200}\x{0202}\x{0204}\x{0206}\x{0208}\x{020A}\x{020C}\x{020E}\x{0210}\x{0212}\x{0214}\x{0216}\x{0218}\x{021A}\x{021C}\x{021E}\x{0220}\x{0222}\x{0224}\x{0226}\x{0228}\x{022A}\x{022C}\x{022E}\x{0230}\x{0232}\x{023A}-\x{023B}\x{023D}-\x{023E}\x{0241}\x{0243}-\x{0246}\x{0248}\x{024A}\x{024C}\x{024E}\x{0370}\x{0372}\x{0376}\x{037F}\x{0386}\x{0388}-\x{038A}\x{038C}\x{038E}-\x{038F}\x{0391}-\x{03A1}\x{03A3}-\x{03AB}\x{03CF}\x{03D2}-\x{03D4}\x{03D8}\x{03DA}\x{03DC}\x{03DE}\x{03E0}\x{03E2}\x{03E4}\x{03E6}\x{03E8}\x{03EA}\x{03EC}\x{03EE}\x{03F4}\x{03F7}\x{03F9}-\x{03FA}\x{03FD}-\x{042F}\x{0460}\x{0462}\x{0464}\x{0466}\x{0468}\x{046A}\x{046C}\x{046E}\x{0470}\x{0472}\x{0474}\x{0476}\x{0478}\x{047A}\x{047C}\x{047E}\x{0480}\x{048A}\x{048C}\x{048E}\x{0490}\x{0492}\x{0494}\x{0496}\x{0498}\x{049A}\x{049C}\x{049E}\x{04A0}\x{04A2}\x{04A4}\x{04A6}\x{04A8}\x{04AA}\x{04AC}\x{04AE}\x{04B0}\x{04B2}\x{04B4}\x{04B6}\x{04B8}\x{04BA}\x{04BC}\x{04BE}\x{04C0}-\x{04C1}\x{04C3}\x{04C5}\x{04C7}\x{04C9}\x{04CB}\x{04CD}\x{04D0}\x{04D2}\x{04D4}\x{04D6}\x{04D8}\x{04DA}\x{04DC}\x{04DE}\x{04E0}\x{04E2}\x{04E4}\x{04E6}\x{04E8}\x{04EA}\x{04EC}\x{04EE}\x{04F0}\x{04F2}\x{04F4}\x{04F6}\x{04F8}\x{04FA}\x{04FC}\x{04FE}\x{0500}\x{0502}\x{0504}\x{0506}\x{0508}\x{050A}\x{050C}\x{050E}\x{0510}\x{0512}\x{0514}\x{0516}\x{0518}\x{051A}\x{051C}\x{051E}\x{0520}\x{0522}\x{0524}\x{0526}\x{0528}\x{052A}\x{052C}\x{052E}\x{0531}-\x{0556}\x{10A0}-\x{10C5}\x{10C7}\x{10CD}\x{13A0}-\x{13F5}\x{1E00}\x{1E02}\x{1E04}\x{1E06}\x{1E08}\x{1E0A}\x{1E0C}\x{1E0E}\x{1E10}\x{1E12}\x{1E14}\x{1E16}\x{1E18}\x{1E1A}\x{1E1C}\x{1E1E}\x{1E20}\x{1E22}\x{1E24}\x{1E26}\x{1E28}\x{1E2A}\x{1E2C}\x{1E2E}\x{1E30}\x{1E32}\x{1E34}\x{1E36}\x{1E38}\x{1E3A}\x{1E3C}\x{1E3E}\x{1E40}\x{1E42}\x{1E44}\x{1E46}\x{1E48}\x{1E4A}\x{1E4C}\x{1E4E}\x{1E50}\x{1E52}\x{1E54}\x{1E56}\x{1E58}\x{1E5A}\x{1E5C}\x{1E5E}\x{1E60}\x{1E62}\x{1E64}\x{1E66}\x{1E68}\x{1E6A}\x{1E6C}\x{1E6E}\x{1E70}\x{1E72}\x{1E74}\x{1E76}\x{1E78}\x{1E7A}\x{1E7C}\x{1E7E}\x{1E80}\x{1E82}\x{1E84}\x{1E86}\x{1E88}\x{1E8A}\x{1E8C}\x{1E8E}\x{1E90}\x{1E92}\x{1E94}\x{1E9E}\x{1EA0}\x{1EA2}\x{1EA4}\x{1EA6}\x{1EA8}\x{1EAA}\x{1EAC}\x{1EAE}\x{1EB0}\x{1EB2}\x{1EB4}\x{1EB6}\x{1EB8}\x{1EBA}\x{1EBC}\x{1EBE}\x{1EC0}\x{1EC2}\x{1EC4}\x{1EC6}\x{1EC8}\x{1ECA}\x{1ECC}\x{1ECE}\x{1ED0}\x{1ED2}\x{1ED4}\x{1ED6}\x{1ED8}\x{1EDA}\x{1EDC}\x{1EDE}\x{1EE0}\x{1EE2}\x{1EE4}\x{1EE6}\x{1EE8}\x{1EEA}\x{1EEC}\x{1EEE}\x{1EF0}\x{1EF2}\x{1EF4}\x{1EF6}\x{1EF8}\x{1EFA}\x{1EFC}\x{1EFE}\x{1F08}-\x{1F0F}\x{1F18}-\x{1F1D}\x{1F28}-\x{1F2F}\x{1F38}-\x{1F3F}\x{1F48}-\x{1F4D}\x{1F59}\x{1F5B}\x{1F5D}\x{1F5F}\x{1F68}-\x{1F6F}\x{1FB8}-\x{1FBB}\x{1FC8}-\x{1FCB}\x{1FD8}-\x{1FDB}\x{1FE8}-\x{1FEC}\x{1FF8}-\x{1FFB}\x{2102}\x{2107}\x{210B}-\x{210D}\x{2110}-\x{2112}\x{2115}\x{2119}-\x{211D}\x{2124}\x{2126}\x{2128}\x{212A}-\x{212D}\x{2130}-\x{2133}\x{213E}-\x{213F}\x{2145}\x{2183}\x{2C00}-\x{2C2E}\x{2C60}\x{2C62}-\x{2C64}\x{2C67}\x{2C69}\x{2C6B}\x{2C6D}-\x{2C70}\x{2C72}\x{2C75}\x{2C7E}-\x{2C80}\x{2C82}\x{2C84}\x{2C86}\x{2C88}\x{2C8A}\x{2C8C}\x{2C8E}\x{2C90}\x{2C92}\x{2C94}\x{2C96}\x{2C98}\x{2C9A}\x{2C9C}\x{2C9E}\x{2CA0}\x{2CA2}\x{2CA4}\x{2CA6}\x{2CA8}\x{2CAA}\x{2CAC}\x{2CAE}\x{2CB0}\x{2CB2}\x{2CB4}\x{2CB6}\x{2CB8}\x{2CBA}\x{2CBC}\x{2CBE}\x{2CC0}\x{2CC2}\x{2CC4}\x{2CC6}\x{2CC8}\x{2CCA}\x{2CCC}\x{2CCE}\x{2CD0}\x{2CD2}\x{2CD4}\x{2CD6}\x{2CD8}\x{2CDA}\x{2CDC}\x{2CDE}\x{2CE0}\x{2CE2}\x{2CEB}\x{2CED}\x{2CF2}\x{A640}\x{A642}\x{A644}\x{A646}\x{A648}\x{A64A}\x{A64C}\x{A64E}\x{A650}\x{A652}\x{A654}\x{A656}\x{A658}\x{A65A}\x{A65C}\x{A65E}\x{A660}\x{A662}\x{A664}\x{A666}\x{A668}\x{A66A}\x{A66C}\x{A680}\x{A682}\x{A684}\x{A686}\x{A688}\x{A68A}\x{A68C}\x{A68E}\x{A690}\x{A692}\x{A694}\x{A696}\x{A698}\x{A69A}\x{A722}\x{A724}\x{A726}\x{A728}\x{A72A}\x{A72C}\x{A72E}\x{A732}\x{A734}\x{A736}\x{A738}\x{A73A}\x{A73C}\x{A73E}\x{A740}\x{A742}\x{A744}\x{A746}\x{A748}\x{A74A}\x{A74C}\x{A74E}\x{A750}\x{A752}\x{A754}\x{A756}\x{A758}\x{A75A}\x{A75C}\x{A75E}\x{A760}\x{A762}\x{A764}\x{A766}\x{A768}\x{A76A}\x{A76C}\x{A76E}\x{A779}\x{A77B}\x{A77D}-\x{A77E}\x{A780}\x{A782}\x{A784}\x{A786}\x{A78B}\x{A78D}\x{A790}\x{A792}\x{A796}\x{A798}\x{A79A}\x{A79C}\x{A79E}\x{A7A0}\x{A7A2}\x{A7A4}\x{A7A6}\x{A7A8}\x{A7AA}-\x{A7AD}\x{A7B0}-\x{A7B4}\x{A7B6}\x{FF21}-\x{FF3A}]" );
+    $this->peg_c205 = array("type" => "other", "description" => "unicode superscript/subscript character" );
+    $this->peg_c206 = "/^[²³¹\\x{2070}-\\x{209C}\\x{2C7C}\\x{1D62}-\\x{1D6A}]/";
+    $this->peg_c207 = array( "type" => "class", "value" => "[²³¹\x{2070}-\x{209C}\x{2C7C}\x{1D62}-\x{1D6A}]", "description" => "[²³¹\x{2070}-\x{209C}\x{2C7C}\x{1D62}-\x{1D6A}]" );
+    $this->peg_c208 = array("type" => "other", "description" => "special unicode chars" );
+    $this->peg_c209 = "/^[µ\\x{0370}-\\x{0371}\\x{037F}\\x{0391}-\\x{0392}\\x{0393}-\\x{0394}\\x{0395}-\\x{0396}\\x{0397}-\\x{0398}\\x{0399}-\\x{039A}\\x{039B}-\\x{039C}\\x{039D}-\\x{039E}\\x{039F}-\\x{03A0}\\x{03A1}\\x{03A3}-\\x{03A4}\\x{03A5}-\\x{03A6}\\x{03A7}-\\x{03A8}\\x{03A9}\\x{03B1}-\\x{03B2}\\x{03B3}-\\x{03B4}\\x{03B5}-\\x{03B6}\\x{03B7}-\\x{03B8}\\x{03B9}-\\x{03BA}\\x{03BB}-\\x{03BC}\\x{03BD}-\\x{03BE}\\x{03BF}-\\x{03C0}\\x{03C1}-\\x{03C2}\\x{03C3}-\\x{03C4}\\x{03C5}-\\x{03C6}\\x{03C7}-\\x{03C8}\\x{03C9}\\x{03DB}\\x{03DD}\\x{03DF}\\x{03E1}\\x{03F7}-\\x{03F8}\\x{03FA}-\\x{03FB}\\x{1D26}-\\x{1D27}\\x{1D28}-\\x{1D29}\\x{1D2A}\\x{2102}\\x{2107}\\x{210A}-\\x{210B}\\x{210C}-\\x{210D}\\x{210E}-\\x{210F}\\x{2110}-\\x{2111}\\x{2112}-\\x{2113}\\x{2115}\\x{2119}-\\x{211A}\\x{211B}-\\x{211C}\\x{211D}\\x{2124}\\x{2126}-\\x{2127}\\x{2128}\\x{212B}-\\x{212C}\\x{212D}\\x{212F}-\\x{2130}\\x{2131}\\x{2133}-\\x{2134}\\x{2135}-\\x{2136}\\x{2137}-\\x{2138}\\x{213C}-\\x{213D}\\x{213E}-\\x{213F}\\x{2145}-\\x{2146}\\x{2147}-\\x{2148}\\x{2149}\\x{2205}\\x{221E}\\x{29B0}\\x{AB65}]/";
+    $this->peg_c210 = array( "type" => "class", "value" => "[µ\x{0370}-\x{0371}\x{037F}\x{0391}-\x{0392}\x{0393}-\x{0394}\x{0395}-\x{0396}\x{0397}-\x{0398}\x{0399}-\x{039A}\x{039B}-\x{039C}\x{039D}-\x{039E}\x{039F}-\x{03A0}\x{03A1}\x{03A3}-\x{03A4}\x{03A5}-\x{03A6}\x{03A7}-\x{03A8}\x{03A9}\x{03B1}-\x{03B2}\x{03B3}-\x{03B4}\x{03B5}-\x{03B6}\x{03B7}-\x{03B8}\x{03B9}-\x{03BA}\x{03BB}-\x{03BC}\x{03BD}-\x{03BE}\x{03BF}-\x{03C0}\x{03C1}-\x{03C2}\x{03C3}-\x{03C4}\x{03C5}-\x{03C6}\x{03C7}-\x{03C8}\x{03C9}\x{03DB}\x{03DD}\x{03DF}\x{03E1}\x{03F7}-\x{03F8}\x{03FA}-\x{03FB}\x{1D26}-\x{1D27}\x{1D28}-\x{1D29}\x{1D2A}\x{2102}\x{2107}\x{210A}-\x{210B}\x{210C}-\x{210D}\x{210E}-\x{210F}\x{2110}-\x{2111}\x{2112}-\x{2113}\x{2115}\x{2119}-\x{211A}\x{211B}-\x{211C}\x{211D}\x{2124}\x{2126}-\x{2127}\x{2128}\x{212B}-\x{212C}\x{212D}\x{212F}-\x{2130}\x{2131}\x{2133}-\x{2134}\x{2135}-\x{2136}\x{2137}-\x{2138}\x{213C}-\x{213D}\x{213E}-\x{213F}\x{2145}-\x{2146}\x{2147}-\x{2148}\x{2149}\x{2205}\x{221E}\x{29B0}\x{AB65}]", "description" => "[µ\x{0370}-\x{0371}\x{037F}\x{0391}-\x{0392}\x{0393}-\x{0394}\x{0395}-\x{0396}\x{0397}-\x{0398}\x{0399}-\x{039A}\x{039B}-\x{039C}\x{039D}-\x{039E}\x{039F}-\x{03A0}\x{03A1}\x{03A3}-\x{03A4}\x{03A5}-\x{03A6}\x{03A7}-\x{03A8}\x{03A9}\x{03B1}-\x{03B2}\x{03B3}-\x{03B4}\x{03B5}-\x{03B6}\x{03B7}-\x{03B8}\x{03B9}-\x{03BA}\x{03BB}-\x{03BC}\x{03BD}-\x{03BE}\x{03BF}-\x{03C0}\x{03C1}-\x{03C2}\x{03C3}-\x{03C4}\x{03C5}-\x{03C6}\x{03C7}-\x{03C8}\x{03C9}\x{03DB}\x{03DD}\x{03DF}\x{03E1}\x{03F7}-\x{03F8}\x{03FA}-\x{03FB}\x{1D26}-\x{1D27}\x{1D28}-\x{1D29}\x{1D2A}\x{2102}\x{2107}\x{210A}-\x{210B}\x{210C}-\x{210D}\x{210E}-\x{210F}\x{2110}-\x{2111}\x{2112}-\x{2113}\x{2115}\x{2119}-\x{211A}\x{211B}-\x{211C}\x{211D}\x{2124}\x{2126}-\x{2127}\x{2128}\x{212B}-\x{212C}\x{212D}\x{212F}-\x{2130}\x{2131}\x{2133}-\x{2134}\x{2135}-\x{2136}\x{2137}-\x{2138}\x{213C}-\x{213D}\x{213E}-\x{213F}\x{2145}-\x{2146}\x{2147}-\x{2148}\x{2149}\x{2205}\x{221E}\x{29B0}\x{AB65}]" );
 
     $peg_startRuleFunctions = array( 'Root' => array($this, "peg_parseRoot"), 'Equivline' => array($this, "peg_parseEquivline") );
     $peg_startRuleFunction  = array($this, "peg_parseRoot");

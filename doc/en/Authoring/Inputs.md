@@ -62,7 +62,7 @@ See the specific documentation for more information:  [Numerical input](Numerica
 
 #### Scientific units ####
 
-The support for scientific units includes an input type which enables teachers to check units as valid/invalid. See the separate documentation for [units](Units.md).
+The support for scientific units includes an input type which enables teachers to check units as valid/invalid. See the separate documentation for [units](../Topics/Units.md).
 
 #### Matrix ####
 
@@ -111,7 +111,7 @@ This input is a text area into which students may type whatever they choose.  It
 This input type can be used for
 
 1. surveys;
-2. answers which are not automatically marked, contributing to [semi-automatic marking](Semi-automatic_Marking.md).
+2. answers which are not automatically marked, contributing to [semi-automatic marking](../Moodle/Semi-automatic_Marking.md).
 
 The notes input has a special extra option `manualgraded`, and the default option value is `manualgraded:false`.  If you specify `manualgraded:true` then the _whole STACK quesion_ will require manual grading!
 
@@ -329,6 +329,15 @@ So, to check both set `checkvars:3`.
 
 The numerical argument provides potential for future-proofing features (e.g. case sensitivity).
 
+### Extra option: validator ###
+
+This allows an input to add additional bespoke validation, based on a function defined by the question author.  For example, you can define a function which checks if the student's answer is a _list of exactly three floating point numbers_.  See the [validator documetation](../CAS/Validator.md) for more details.
+
+Writing bespoke validators is an advanced feature, but offers two significant benefits.
+
+1. Students are less likely to be penalised on a technicality, especially in high-stakes situations;
+2. Potential response tree authoring becomes much easier and more reliable because the validation acts as a "guard clause" only allowing correctly structured information through to the PRT.  This means type-checking need not be done in the PRT before assessment.
+
 ## Extra options ##
 
 In the future we are likely to add additional functionality via the _extra options_ fields.  This is because the form-based support becomes ever more complex, intimidating and difficult to navigate.
@@ -385,6 +394,7 @@ min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |   
 `align`        |  Y  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
 `nounits`      |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  .  |    .     |   Y   |   .    |   .  
 `checkvars`    |  Y  |  .  |  .    |   Y    |   .   |   .   |   .  |  .  |    .     |   Y   |   .    |   .  
+`validator`    |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .  
 
 For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.
 

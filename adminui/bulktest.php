@@ -38,9 +38,10 @@ raise_memory_limit(MEMORY_HUGE);
 // Get the parameters from the URL.
 $contextid = required_param('contextid', PARAM_INT);
 $context = context::instance_by_id($contextid);
+$categoryid = optional_param('categoryid', null, PARAM_INT);
 
 $skippreviouspasses = optional_param('skippreviouspasses', false, PARAM_BOOL);
-$urlparams = ['contextid' => $context->id];
+$urlparams = ['contextid' => $context->id, 'categoryid' => $categoryid];
 if ($skippreviouspasses) {
     $urlparams['skippreviouspasses'] = 1;
 }
@@ -72,7 +73,7 @@ echo $OUTPUT->heading($title);
 
 // Run the tests.
 list($allpassed, $failing) = $bulktester->run_all_tests_for_context(
-        $context, 'web', false, $skippreviouspasses);
+      $context, $categoryid, 'web', false, $skippreviouspasses);
 
 // Display the final summary.
 $bulktester->print_overall_result($allpassed, $failing);

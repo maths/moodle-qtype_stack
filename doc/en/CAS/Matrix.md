@@ -1,15 +1,11 @@
 # Matrices and vectors in STACK
 
-Please see also the file on [linear algebra](Linear_algebra.md) and STACK questions.
+This page documents the use of matrices in STACK.  There is a topics page for setting [linear algebra](../Topics/Linear_algebra.md) STACK questions.
 
 ## Matrices ##
 
-Note that in Maxima, the operator `.` represents noncommutative multiplication and scalar product.
-The star `A*B` gives element-wise multiplication.
+Note that in Maxima, the operator `.` represents noncommutative multiplication and scalar product. The star `A*B` gives element-wise multiplication.
 
-The paper
-[Setting Linear Algebra Problems](http://web.maths.unsw.edu.au/~jds/Papers/linalg.pdf)
-is rather interesting.
 
 The following functions are part of Maxima, but are very useful for us.
 
@@ -170,6 +166,3 @@ For row vectors.  This is not a core part of STACK currently, but in individual 
 
 Once converted into Matrices, the student's answer will be evaluated by PRTs as matrices.   Of course, this will not be reflected in the valuation.  If there is sufficient demand for this contact the developers.
 
-## See also
-
-[Maxima reference topics](index.md#reference)

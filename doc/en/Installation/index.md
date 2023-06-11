@@ -92,7 +92,7 @@ STACK is a question type for the Moodle quiz.
 3. As the admin user, navigate to `Home > Site administration > Plugins > Question types > STACK`.  Please choose and save the appropriate options.
 4. On the same page, click on the link to the healthcheck script.  This writes local configuration files and then helps you verify that all aspects of STACK are working properly.
 
-You must be able to connect to the CAS, and for the CAS to successfully create plots, before you can use STACK. You might want to try [optimising Maxima](../CAS/Optimising_Maxima.md) access times.
+You must be able to connect to the CAS, and for the CAS to successfully create plots, before you can use STACK. You might want to try [optimising Maxima](Optimising_Maxima.md) access times.
 
 You should now have a question type available to the Moodle quiz.
 

@@ -42,7 +42,7 @@ By default, the interactions with the CAS are cached.  You can connect freshly t
 
 ## Optimizing Maxima 
 
-Maxima is the rate-determining step in performance to STACK. Once you have the STACK question type working with a direct connection to the CAS, then you should consider optimizing the  performance of Maxima.  See the page dedicated to [optimizing Maxima](../CAS/Optimising_Maxima.md) 
+Maxima is the rate-determining step in performance to STACK. Once you have the STACK question type working with a direct connection to the CAS, then you should consider optimizing the  performance of Maxima.  See the page dedicated to [optimizing Maxima](Optimising_Maxima.md) 
 
 ## CAS Chat
 

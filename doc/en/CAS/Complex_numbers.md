@@ -41,3 +41,34 @@ will display as \(\left( 1+\mathrm{i} \right)\cdot x^2+\left( 1-\mathrm{i} \righ
     p2:ev(p1, disp_complex=remove_disp_complex, disp_parens=lambda([ex],ex));
 
 You must remove inert forms before expressions are evaluated by the potential response tree, for example in the feedback variables.  For example, `disp_complex(a, b)` is not algebraically equivalent to `a+b*%i`.
+
+## Polar forms
+
+A complex number written as \(r e^{i\theta}\) is in _polar form_.  The Maxima function `polarform` re-writes a complex number in this form, however with `simp:false` it does not simplfy the expressions for the modulus \(r\) or argument \(\theta\) (in STACK). Attempting to re-simplify the expression only returns the number to Cartesian form!
+
+As a minimal example, try the following.
+
+    simp:false;
+    p1:polarform(1+%i);
+    p2:ev(polarform(1+%i), simp);
+    p3:ev(p2, simp);
+
+First we have `p1` is  \( \left(\left(1\right)^2 + \left(1\right)^2\right)^{{{1}\over{2}}}\,e^{i\,{\rm atan2}\left(1 , 1\right)} \). Of course, we really need some simplification of the \(r\) and the \(\theta\) values.
+
+Notice the difference between `p2`: \(\sqrt{2}\,e^{{{i\,\pi}\over{4}}}\), and `p3`: \(\sqrt{2}\,\left({{i}\over{\sqrt{2}}}+{{1}\over{\sqrt{2}}}\right)\) (which of course is not even \(1+i\) either!).
+
+The problem is that in this case `ev( ... , simp)` is not _idempotent_, (i.e. \( \mbox{simplify}(\mbox{simplify}(ex)) \neq \mbox{simplify}(ex) \) in all cases) and the PHP-maxima connection inevitibly passes an expression to and from Maxima multiple times.  If `simp:true` then we get multiple simplifications, in this example back to `p3`.
+
+Instead, use `polarform_simp` to rewrite the expression in polar form, and do some basic simplification of \(r\) and \(\theta\).
+
+    simp:false;
+    p1:polarform_simp(1+%i);
+
+returns `p1` as \(\sqrt{2}\,e^{\frac{i\,\pi}{4}}\).
+
+Here are some design choices.
+
+1. Positive numbers are returned as real numbers, not as \(r e^{i \times 0}\).  E.g. `polarform_simp(3)` is \(3\).
+2. If \(r=1\) then this is not displayed. E.g. `polarform_simp(1/sqrt(2)*(-1+%i))` is \(e^{\frac{3\,i\,\pi}{4}}\).
+
+If question level simplification is on, then the value will probably get re-simplified to Cartesian form.

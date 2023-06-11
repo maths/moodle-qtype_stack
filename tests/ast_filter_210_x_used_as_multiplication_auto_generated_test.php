@@ -494,6 +494,11 @@ class ast_filter_210_x_used_as_multiplication_auto_generated_test extends qtype_
                       array(),
                       true, false);
 
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
+                      array(),
+                      true, false);
+
         $this->expect('1x',
                       '1*x',
                       array(),
@@ -1816,6 +1821,11 @@ class ast_filter_210_x_used_as_multiplication_auto_generated_test extends qtype_
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array(),
                       true, false);
 
@@ -2230,6 +2240,11 @@ class ast_filter_210_x_used_as_multiplication_auto_generated_test extends qtype_
                       array(),
                       true, false);
 
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
+                      array(),
+                      true, false);
+
         $this->expect('1x',
                       '1*x',
                       array(),
@@ -3552,6 +3567,11 @@ class ast_filter_210_x_used_as_multiplication_auto_generated_test extends qtype_
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array(),
                       true, false);
 

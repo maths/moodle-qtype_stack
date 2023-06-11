@@ -82,6 +82,27 @@ If you would like an expression as part of this then try
     p:sin(x);
     plot(p,[x,-2,2],[alt,sconcat("Here is ",string(p))]);
 
+## Language strings
+
+Note, you cannot put language strings directly into the alt-text.  E.g. the following will not be translated.
+
+    {@plot(x^2,[x,-2,2],[alt,"[[lang code='en,other']]A quadratic curve[[/lang]][[lang code='no']]En kvadratisk kurve[[/lang]]"])@}  
+
+You can define a castext element in the question variables which does get translated, e.g.
+
+    altlbls: castext("[[lang code='en,other']]A quadratic curve[[/lang]][[lang code='no']]En kvadratisk kurve[[/lang]]");
+
+and then use this in the castext:
+
+    {@plot(x^2,[x,-2,2],[alt,altlbls])@}
+
+This technique can be put into other language dependent plot variables.  E.g.
+
+    xlabeltrans: castext("[[lang code='en,other']]Independent variable[[/lang]][[lang code='no']]Uavhengig variabel[[/lang]]");
+    ylabeltrans: castext("[[lang code='en,other']]Dependent variable[[/lang]][[lang code='no']]Avhengig variabel[[/lang]]");
+
+Then in the castext `{@plot(x*sin(1/x),[x,-1,2],[xlabel,xlabeltrans],[ylabel,ylabeltrans])@}`
+
 ## A catalogue of plots
 
 The following CASText gives representative examples of the plot2d features supported by STACK's plot command.  Cut and paste it into the CASchat script.  Beware that these are likely to cause a timeout on the CAS if you try them all at once.
@@ -163,7 +184,7 @@ Now use the CASText:
 
 ## Graph theory
 
-It is possible to plot simple [discrete graphs](Discrete_mathematics.md) directly using STACK's `plot` command by building a combination of discrete and line plots.
+It is possible to plot simple [discrete graphs](../Topics/Discrete_mathematics.md) directly using STACK's `plot` command by building a combination of discrete and line plots.
 
 ## implicit_plot()  {#implicit}
 

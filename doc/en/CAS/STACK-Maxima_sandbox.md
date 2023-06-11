@@ -42,7 +42,7 @@ Using `load("stacklocal")` in any worksheet will load the STACK environement.
 
 ### Using the answer tests
 
-Please make sure you read the page on [answer tests](../Authoring/Answer_tests.md) first.
+Please make sure you read the page on [answer tests](../Authoring/Answer_Tests/index.md) first.
 
 Informally, the answer tests have the following syntax
 

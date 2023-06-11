@@ -1,0 +1,240 @@
+/*  Author Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2023 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/* ******************************************* */
+/* Validate an expression                      */
+/* ******************************************* */
+
+/* List of variables, without some specific tokens in. */
+stack_validate_listofvars(_exunlikelyatom) := block([lvars],
+    lvars:ev(setify(listofvars(_exunlikelyatom)), simp),
+    lvars:ev(setdifference(lvars,{null, QMCHAR, EMPTYANSWER}), simp),
+    lvars:ev(sort(listify(lvars)), simp)
+)$
+
+stack_validate_checkvars(sexpr, texpr, chkopt) := block([%_sansvar,%_tansvar,%_extras,%_errstr],
+    if is(chkopt = 0) then return(""),
+    %_sansvar:setify(stack_validate_listofvars(sexpr)),
+    %_tansvar:setify(stack_validate_listofvars(texpr)),
+    %_extras: setdifference(%_sansvar, %_tansvar),
+    %_missing:setdifference(%_tansvar, %_sansvar),
+    %_errstr: "",
+    if ev(length(%_extras) > 0 and mod(chkopt, 2) = 1,simp) then
+      %_errstr:StackAddFeedback(%_errstr, "ValidateVarsSpurious" , stack_disp_comma_separate(listify(%_extras))),
+    if ev(length(%_missing) > 0 and (mod(chkopt, 4)-mod(chkopt, 2)) = 2, simp) then
+      %_errstr:StackAddFeedback(%_errstr, "ValidateVarsMissing" , stack_disp_comma_separate(listify(%_missing))),
+    /* A non-empty string means invalid. */
+    return(%_errstr)
+)$
+
+stack_validate(expr, LowestTerms, TAns, fltfmt, chkopt) := block([simp:false, exs, SameType, fvs, fvs1, fvs2, chkvars],
+  /* If we have a float format, then use it. */
+  if not(is(fltfmt=false)) then
+    stackfltfmt:fltfmt,
+  /* Try to simply the expression to catch CAS errors */
+  exs: errcatch(ev(expr, simp)),
+  if exs = [] then (
+    _APPEND_ERR([errormsgtostring()], "stack_validate"),
+    return(false)
+  ),
+  if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
+  expr: first(expr),
+  /* Check if the student's answer is the same type as the Teacher's. */
+  SameType:ATSameTypefun(expr, TAns),
+  if ev(is(SameType[2]=false),simp) then print(SameType[4])
+    else (_RESET_NOTES(),_RESET_FEEDBACK()),
+  /* Check variables in the answer. */
+  chkvars:stack_validate_checkvars(expr, TAns, chkopt),
+  if ev(not(is(chkvars="")), simp) then print(chkvars),
+  /* Check for malformed real sets. */
+  if realset_surface_p(expr) then block([ret],
+    ret:interval_validate_realset(expr),
+    if not(is(ret="")) then print(ret)
+  ),
+  /* Check to see if a variable is also a function name. */
+  fvs1: setify(listofvars(expr)),
+  fvs2: get_ops(expr),
+  fvs: ev(intersection(fvs1, fvs2), simp),
+  if ev(not(is(fvs={})), simp) then
+    print(StackAddFeedback("", "Variable_function", stack_disp(fvs, "i"))),
+  /* Checks fractions are in lowest terms. */
+  if LowestTerms and all_lowest_termsex(expr)=false then
+    print(StackAddFeedback("", "Lowest_Terms")),
+  /* Check for x=1 or 2.  */
+  exs:stack_validate_missing_assignment(expr),
+  if first(exs) then
+    print(StackAddFeedback("", "Bad_assignment", stack_disp(second(exs), "i"))),
+  /* Now display the result. */
+  simp: false,
+  expr: detexcolor(expr),
+  return(expr)
+)$
+
+/* Validate an expression without type checking. Floats and mathematical errors only. */
+stack_validate_typeless(expr, LowestTerms, TAns, fltfmt, chkopt, Equiv) := block([simp:false, exs, fvs, fvs1, fvs2],
+  /* If we have a float format, then use it. */
+  if not(is(fltfmt=false)) then
+    stackfltfmt:fltfmt,
+  /* Try to simply the expression to catch CAS errors */
+  exs: errcatch(ev(expr, simp)),
+  if exs = [] then (
+    _APPEND_ERR([errormsgtostring()], "stack_validate_typeless"),
+    return(false)
+  ),
+  if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
+  expr: first(expr),
+  /* Check variables in the answer. */
+  chkvars:stack_validate_checkvars(expr, TAns, chkopt),
+  if ev(not(is(chkvars="")), simp) then print(chkvars),
+  /* Check for malformed real sets. */
+  if realset_surface_p(expr) then block([ret],
+    ret:interval_validate_realset(expr),
+    if not(is(ret="")) then print(ret)
+  ),
+  /* Check to see if a variable is also a function name. */
+  fvs1: setify(listofvars(expr)),
+  fvs2: get_ops(expr),
+  fvs: ev(intersection(fvs1, fvs2), simp),
+  if ev(not(is(fvs={})), simp) then
+    print(StackAddFeedback("", "Variable_function", stack_disp(fvs, "i"))),
+  /* Check for floats, and if there are any then throw an error */
+  /* Checks fractions are in lowest terms */
+  if LowestTerms and all_lowest_termsex(expr) = false then
+    print(StackAddFeedback("", "Lowest_Terms")),
+  /* Check for x=1 or 2.  */
+  exs: stack_validate_missing_assignment(expr),
+  if first(exs) then
+    print(StackAddFeedback("", "Bad_assignment", stack_disp(second(exs), "i"))),
+  /* Additional tests which restrict the equivalence input type. */
+  if Equiv and op_usedp(expr, set) then print(StackAddFeedback("", "Equiv_Illegal_set")),
+  if Equiv and op_usedp(expr, "{") then print(StackAddFeedback("", "Equiv_Illegal_set")),
+  if Equiv and op_usedp(expr, "[") then print(StackAddFeedback("", "Equiv_Illegal_list")),
+  if Equiv and op_usedp(expr, matrix) then print(StackAddFeedback("", "Equiv_Illegal_matrix")),
+  /* Now display the result. */
+  simp: false,
+  return(expr)
+)$
+
+/* This function replaces all variables starting with a % sign with elements from var */
+stack_strip_percent(ex,var) := block([lv1, lv2, subcount, indx,exs],
+    subcount:0,
+    lv2:[],
+    lv1:listofvars(ex),
+    if [] = lv then return(ex),
+    for indx:1 thru length(lv1) do (
+        if cequal(charat(string(lv1[indx]), 1),"%") then block(
+            subcount:subcount+1,
+            lv2:append(lv2, [lv1[indx] = var[subcount]])
+        )
+    ),
+    if not(emptyp(lv2)) then exs:subst(lv2, ex) else exs:ex,
+    return(exs)
+)$
+
+/* Create a list of numbered variables. */
+stack_var_makelist(ex, n1) := block(
+    if not(atom(ex)) then error("stack_var_makelist: first argument must be an atom"),
+    if not(integerp(n1)) or not(ev(is(n1>=0), simp)) then error("stack_var_makelist: second argument must be a non-negative integer"),
+    return(ev(makelist(vconcat(ex,k), k, 0, n1), simp))
+)$
+
+/* Spot the very specific pattern x=1 nounor 2 instead of x=1 nounor x=2. */
+/* Returns a list: [pattern found, changed expression]. */
+stack_validate_missing_assignment(ex) := block([ret, ex2, v, exop],
+    if not(safe_op(ex)="nounor" or safe_op(ex)="nounand")
+        then return([false, ex]),
+    if length(listofvars(ex))#1
+        then return([false, ex]),
+    ex2: args(ex),
+    exop: op(ex),
+    /* Do we have any equations which look like assignments? */
+    if not(any_listp(lambda([ex], equationp(ex) and atom(lhs(ex)) and not(simp_numberp(lhs(ex)))),ex2))
+        then return([false, ex]),
+    /* Do any of them look bad, that just a number on its own? */
+    if all_listp(lambda([ex], not(is(listofvars(ex)=[]))), ex2)
+        then return([false, ex]),
+    v: first(listofvars(ex)),
+    ex: maplist(lambda([ex], if (equationp(ex) and atom(lhs(ex)) and not(simp_numberp(lhs(ex)))) then ex else v=ex), ex2),
+    ex: apply(exop, ex),
+    return([true, ex])
+)$
+
+/* ****************************************** */
+/* Functions associated with validators       */
+/* ****************************************** */
+
+/**
+ * A convenience function for combining validators, to be used with the input validator system.
+ * Executes all functions received and produces a combined output.
+ *
+ * @param[expression] the input value to be validated.
+ * @param[list of identifers] the names of the functions to be combined.
+ * @return[string or CASText] the result of those validations.
+ */
+stack_multi_validator(ex, validators):=block([%_tmp, %_val, %_errfound],
+    %_tmp:[],
+    %_errfound:false,
+    for %_val in validators do block([%_tested],
+        /* Since we evluate all functions we have no opportunity for guard clauses.
+           Hence, we expect some errors, and therefore don't use EC.
+           Instead errors are trapped at this level, not the session level.
+        */
+        %_tested:errcatch(%_val(ex)),
+        if emptyp(%_tested) then
+            %_errfound:true
+        else
+            %_tmp:append(%_tmp,%_tested)
+    ),
+    /* Add the error message only once. */
+    /* See https://github.com/maths/moodle-qtype_stack/issues/870 on how to generate this from a castext() call. */
+    if %_errfound then %_tmp:append(%_tmp, [ ["%root",["%cs","inputvalidatorerrcouldnot"]] ]),
+    /* Remove all valid results.*/
+    %_tmp: delete("", delete(true, %_tmp)),
+    if %_tmp = [] then return(""),
+    /* Then concatenate CASText2 segments. Add spaces between multiple failures. */
+    /* `rest` currently requires that simp, for negative arguments. */
+    %_tmp:ev(lreduce(castext_concat, rest(join(%_tmp, makelist(" ", length(%_tmp))), -1)), simp)
+);
+
+/**
+ * A convenience function for combining validators, to be used with the input validator system.
+ * Executes functions received until one fails, and returns the first output as fail.
+ * Any errors thrown should be considered authoring errors.
+ *
+ * @param[expression] the input value to be validated.
+ * @param[list of identifers] the names of the functions to be combined.
+ * @return[string or CASText] the result of those validations.
+ */
+stack_seq_validator(ex, validators):=block([%_tmp, %_val, %_continue],
+    %_tmp:"",
+    %_continue:true,
+    /* Use a loop instead of while to simplify test fail logic. */
+    for %_val in validators do block(
+        if %_continue then block(
+            /* Don't use _EC or errcatch as only one test should fail.  Any error is a genuine authoring error. */
+            %_tmp:%_val(ex),
+            if is(%_tmp=true) or is(%_tmp="") then (
+                %_continue:true
+            ) else (
+                %_continue:false
+            )
+        )
+    ),
+    %_tmp
+);
+
+/* ****************************************** */
+/* Supported validators                       */
+/* ****************************************** */

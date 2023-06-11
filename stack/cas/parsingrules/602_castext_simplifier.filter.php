@@ -235,6 +235,25 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                     }
                 }
 
+                // Certain paramtric blocks can have joinable content.
+                if ($node instanceof MP_List && count($node->items) > 3 &&
+                    $node->items[0] instanceof MP_String && (
+                        $node->items[0]->value === 'iframe' ||
+                        $node->items[0]->value === 'style' ||
+                        $node->items[0]->value === 'script')) {
+                    // 0 is name and 1 is parameters.
+                    $joinable = array_slice($node->items, 2);
+
+                    $newitems = castext2_parser_utils::string_list_reduce($joinable, true);
+                    if (count($newitems) + 2 < count($node->items)) {
+                        $node->items = array_merge(array_slice($node->items, 0, 2), $newitems);
+                        foreach ($node->items as $item) {
+                            $item->position['castext'] = true;
+                        }
+                        return false;
+                    }
+                }
+
                 // Eliminate extra format declarations and render static content in other formats.
                 if ($node instanceof MP_List && count($node->items) >= 2 && $node->items[0] instanceof MP_String &&
                     ($node->items[0]->value === 'demoodle' || $node->items[0]->value === 'demarkdown' ||
@@ -246,14 +265,14 @@ class stack_ast_filter_602_castext_simplifier implements stack_cas_astfilter {
                     while ($p !== null) {
                         if ($p instanceof MP_List && count($p->items) > 0 && $p->items[0] instanceof MP_String &&
                             ($p->items[0]->value === 'demoodle' || $p->items[0]->value === 'demarkdown' ||
-                                    $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'jsxgraph' ||
+                                    $p->items[0]->value === 'htmlformat' || $p->items[0]->value === 'iframe' ||
                                     $p->items[0]->value === 'textdownload')) {
                             // That or above is somethign one needs to update if we add new format tuning blocks.
                             $good = false;
                             if ($p->items[0]->value === $node->items[0]->value) {
                                 $same = true;
                             }
-                            if ($node->items[0]->value === 'htmlformat' && ($p->items[0]->value === 'jsxgraph' ||
+                            if ($node->items[0]->value === 'htmlformat' && ($p->items[0]->value === 'iframe' ||
                                     $p->items[0]->value === 'textdownload')) {
                                 // JSXGraph and textdownload are blocks that enforce specific formats.
                                 $same = true;

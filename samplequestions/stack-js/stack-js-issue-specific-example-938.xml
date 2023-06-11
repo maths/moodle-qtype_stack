@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<quiz>
+<!-- question: 2240  -->
+  <question type="stack">
+    <name>
+      <text>STACK-JS custom syntax example</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<p>This question shows one can use client-side JavaScript to pre-process the answer and thus allow custom syntax, like operators. This is largely inspired by the issue <a href="https://github.com/maths/moodle-qtype_stack/issues/938">#938</a>. What we do is as follows:</p>
+<ol>
+<li>We have some magical operator like <code>a £ b</code> that maps to a function like <code>pound(a,b)</code>. But we do not and cannot define it as an operator on the CAS side.</li>
+<li>On the CAS side we have two things, firstly a `texput` rule rendering that function as an operator. And secondly, something that turns the teacher's answer into a string where we map that function into operator-like syntax.</li>
+<li>We then have a hidden algebraic input <code>ans1</code> with a visible validation and the special option of <code>hideanswer</code> to stop the teachers answer from being shown. This will be the input that goes into PRTs. The teacher's answer for this will be the function form of the correct answer.</li>
+<li>What the student acts on is a secondary string type input <code>ans1b</code> which has no validation and no direct role in PRTs.  The teacher's answer for this will be the operator form of the correct answer.</li>
+<li>Finally, we will have a <code>[[escape]][[javascript]]][[/escape]]</code>-block that listens to <code>ans2</code> for changes parses it and converts it to the function format to be pushed into <code>ans1</code>.</li>
+</ol>
+
+<p><span style="display:none;">[[input:ans1]]</span>[[input:ans2]] [[validation:ans1]]</p>
+
+[[validation:ans2]]
+
+[[javascript input-ref-ans1="trg" input-ref-ans2="src"]]
+const t = document.getElementById(trg);
+const s = document.getElementById(src);
+
+s.addEventListener('change', () => {
+if (s.value.indexOf("£") !== -1) {
+ /* This is a place for a proper parser to do operator precedence-related things 
+  * but for this demo lets assume a shallow expression and that the binding of 
+  * this operator is so high that nothing escapes it.
+  */
+ t.value = "pound(" + s.value.split("£").join(",") + ")";
+ t.dispatchEvent(new Event('change'));
+} else {
+ t.value = s.value;
+ t.dispatchEvent(new Event('change'));
+}
+return true;
+});
+[[/javascript]]]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>1</defaultgrade>
+    <penalty>0.1</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+    <stackversion>
+      <text>2023043000</text>
+    </stackversion>
+    <questionvariables>
+      <text><![CDATA[/* A rule to render this function as an "operator".
+ * Relevant for the validation message display.
+ * Lets assume a general Nary function.
+ */
+texput(pound, lambda([_ex], block([simp, _tmp],
+ /* Don't simplify before tex-rendering. */
+ simp: false,
+ /* make a list with " £ " interspersed between tex strings. */
+ _tmp: join(map(tex1, (args(_ex))), ev(makelist(" \\, £ \\, ", z, 1, length(args(_ex)) ),simp)),
+ /* To deal with that -1 we need simplification. */
+ simp:true,
+ /* merge those strings together, omitting the last extra " £ ",
+  * and return that as the final thing in this block.
+  */
+ apply(sconcat, rest(_tmp, -1))
+)));
+
+/* We declare this as commutative to enable some simplification.
+ */
+declare(pound, commutative);
+
+/* The teacher's answer is like this. */
+ta: pound(x,x^2,34);
+
+/* Matching string in operator syntax. Requires some recursion.
+ * Note that this is very much not the complete solution. You will need 
+ * to handle operators and functions if `pound` appears in them.
+ */
+simp:false;
+toopsyntax(_ex):=block([simp,_tmp],
+ simp:false,
+ if (freeof(pound, _ex)) then return(string(_ex)),
+ if is(safe_op(_ex)="pound") then (
+ _tmp: join(map(toopsyntax, reverse(args(_ex))), ev(makelist(" £ ", z, 1, length(args(_ex))), simp)),
+  simp:true,
+  return(apply(sconcat, rest(_tmp, -1)))
+ )
+);
+
+taop: toopsyntax(ta);
+simp:true;
+
+]]></text>
+    </questionvariables>
+    <specificfeedback format="html">
+      <text>[[feedback:prt1]]</text>
+    </specificfeedback>
+    <questionnote>
+      <text></text>
+    </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
+    <questionsimplify>0</questionsimplify>
+    <assumepositive>0</assumepositive>
+    <assumereal>0</assumereal>
+    <prtcorrect format="html">
+      <text></text>
+    </prtcorrect>
+    <prtpartiallycorrect format="html">
+      <text></text>
+    </prtpartiallycorrect>
+    <prtincorrect format="html">
+      <text></text>
+    </prtincorrect>
+    <multiplicationsign>dot</multiplicationsign>
+    <sqrtsign>0</sqrtsign>
+    <complexno>i</complexno>
+    <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
+    <matrixparens></matrixparens>
+    <variantsselectionseed></variantsselectionseed>
+    <input>
+      <name>ans1</name>
+      <type>algebraic</type>
+      <tans>ta</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords>pound</allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>1</mustverify>
+      <showvalidation>2</showvalidation>
+      <options></options>
+    </input>
+    <input>
+      <name>ans2</name>
+      <type>string</type>
+      <tans>taop</tans>
+      <boxsize>10</boxsize>
+      <strictsyntax>1</strictsyntax>
+      <insertstars>0</insertstars>
+      <syntaxhint></syntaxhint>
+      <syntaxattribute>0</syntaxattribute>
+      <forbidwords></forbidwords>
+      <allowwords></allowwords>
+      <forbidfloat>0</forbidfloat>
+      <requirelowestterms>0</requirelowestterms>
+      <checkanswertype>0</checkanswertype>
+      <mustverify>0</mustverify>
+      <showvalidation>0</showvalidation>
+      <options></options>
+    </input>
+    <prt>
+      <name>prt1</name>
+      <value>1.0000000</value>
+      <autosimplify>1</autosimplify>
+      <feedbackstyle>0</feedbackstyle>
+      <feedbackvariables>
+        <text></text>
+      </feedbackvariables>
+      <node>
+        <name>0</name>
+        <description></description>
+        <answertest>AlgEquiv</answertest>
+        <sans>ans1</sans>
+        <tans>ta</tans>
+        <testoptions></testoptions>
+        <quiet>0</quiet>
+        <truescoremode>=</truescoremode>
+        <truescore>1</truescore>
+        <truepenalty></truepenalty>
+        <truenextnode>-1</truenextnode>
+        <trueanswernote>prt1-1-T</trueanswernote>
+        <truefeedback format="html">
+          <text><![CDATA[Match <code>{#ans1#}</code>]]></text>
+        </truefeedback>
+        <falsescoremode>=</falsescoremode>
+        <falsescore>0</falsescore>
+        <falsepenalty></falsepenalty>
+        <falsenextnode>-1</falsenextnode>
+        <falseanswernote>prt1-1-F</falseanswernote>
+        <falsefeedback format="html">
+          <text><![CDATA[No match <code>{#ans1#}</code>]]></text>
+        </falsefeedback>
+      </node>
+    </prt>
+  </question>
+
+</quiz>

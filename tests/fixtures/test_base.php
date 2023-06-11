@@ -162,16 +162,28 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
     /**
      * Different versions of Maxima output floats in slighly different ways.
-     * Revert some of those irrelevant differences.
-     * We always expect the E in 3.0E8 to be upper case.
-     * Upper case is used to avoid a conflict with the base of the natural logarithms.
+     * Normalise some of those irrelevant differences.
+     *
+     * 1. Normalise E in 3.0E8 to be upper case (to avoid conflict with Euler's Number)
+     * 2. Normalise the coefficient to be < 10
+     *
+     * For example, the string: "Avogadro's number is 60.220e22 and the speed of light
+     * is about 30e7" will be normalised to "Avagardo's number is 6.022E23 and the speed
+     * of light is about 3E8".
+     *
+     * It also preserves the number of decimals and presence of a '+' sign.
+     * For example 30.0e9 becomes 3.0E10 and 3e+10 becomes 3E+11.
      */
     public static function prepare_actual_maths_floats($content) {
-
-        // We don't add in a trailing zero at this point as that would break a decimal places display function test.
-        $content = preg_replace('~(-?\b\d+(?:\.\d*)?)e([-+]?\d+\b)~', '$1E$2', $content);
-
-        return $content;
+        return preg_replace_callback(
+            '~(-?\b\d+(?:\.\d*)?)[eE]([-+]?\d+\b)~',
+            function(array $matches): string {
+                $decimals = strlen(explode('.', $matches[1])[1] ?? '') ?: 0;
+                $fixedbase = sprintf("%.{$decimals}E", (float)$matches[0]);
+                return strpos($matches[2], '+') !== false ? $fixedbase : str_replace('+', '', $fixedbase);
+            },
+            $content
+        );
     }
 
     /**

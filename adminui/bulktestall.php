@@ -33,6 +33,8 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/bulktester.class.php');
 
+// Increase memory limit: some users with very large numbers of questions/variants have needed this.
+raise_memory_limit(MEMORY_HUGE);
 
 // Get the parameters from the URL. This is an option to restart the process
 // in the middle. Useful if it crashes.
@@ -72,26 +74,27 @@ echo $OUTPUT->header();
 echo $OUTPUT->heading($title, 1);
 
 // Run the tests.
-foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstackquestions) {
+foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $numstackquestions) {
     if ($skipping && $contextid != $startfromcontextid) {
         continue;
     }
     $skipping = false;
+
     $testcontext = context::instance_by_id($contextid);
-
-    echo $OUTPUT->heading(stack_string('bulktesttitle', $testcontext->get_context_name()));
-    echo html_writer::tag('p', html_writer::link(
-            new moodle_url('/question/type/stack/bulktestall.php', $urlparams),
+    if (has_capability('moodle/question:editall', $testcontext)) {
+        echo $OUTPUT->heading(get_string('bulktesttitle', 'qtype_stack', $testcontext->get_context_name()));
+        echo html_writer::tag('p', html_writer::link(
+            new moodle_url('/question/type/stack/adminui/bulktestall.php', $urlparams),
             stack_string('bulktestcontinuefromhere')));
-
-    list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'web', false, $skippreviouspasses);
-    $allpassed = $allpassed && $passed;
-    foreach ($failing as $key => $arrvals) {
-        // Guard clause here to future proof any new fields from the bulk tester.
-        if (!array_key_exists($key, $allfailing)) {
-            $allfailing[$key] = array();
+        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, null, 'web', false, $skippreviouspasses);
+        $allpassed = $allpassed && $passed;
+        foreach ($failing as $key => $arrvals) {
+            // Guard clause here to future proof any new fields from the bulk tester.
+            if (!array_key_exists($key, $allfailing)) {
+                $allfailing[$key] = array();
+            }
+            $allfailing[$key] = array_merge($allfailing[$key], $arrvals);
         }
-        $allfailing[$key] = array_merge($allfailing[$key], $arrvals);
     }
 }
 

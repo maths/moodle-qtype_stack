@@ -25,6 +25,8 @@ use stack_cas_security;
 use stack_cas_session2;
 use stack_maths;
 use stack_options;
+use stack_secure_loader;
+use stack_multilang;
 use function stack_ast_container_silent\is_int;
 
 defined('MOODLE_INTERNAL') || die();
@@ -35,6 +37,8 @@ require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/../stack/cas/castext2/utils.php');
 require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
+require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
+require_once(__DIR__ . '/../lang/multilang.php');
 
 
 // Unit tests for {@link stack_cas_text}.
@@ -279,8 +283,7 @@ class castext_test extends qtype_stack_testcase {
         $c = '[[ if test="a" ]][[ if ]]ok[[/ if ]][[/ if ]]';
         $ct = castext2_evaluatable::make_from_source($c, 'test-case');
         $this->assertFalse($ct->get_valid());
-        // TODO: better error trapping?
-        $this->assertEquals('', $ct->get_errors());
+        $this->assertEquals('If block requires a test parameter.', $ct->get_errors());
 
         $c = '[[ if test="a" ]][[else]]a[[elif test="b"]]b[[/ if ]]';
         $ct = castext2_evaluatable::make_from_source($c, 'test-case');
@@ -307,8 +310,7 @@ class castext_test extends qtype_stack_testcase {
         $c = '[[ if test="a" ]][[ if ]]ok[[/ if ]]';
         $ct = castext2_evaluatable::make_from_source($c, 'test-case');
         $this->assertFalse($ct->get_valid());
-        // TODO: better error trapping?
-        $this->assertEquals('', $ct->get_errors());
+        $this->assertEquals('If block requires a test parameter.', $ct->get_errors());
     }
 
     /**
@@ -1203,6 +1205,9 @@ class castext_test extends qtype_stack_testcase {
         // On old Maxima, you get back \(9.999999999999999e-7\).
         $this->skip_if_old_maxima('5.32.1');
 
+        // For some reason 5.41.0 returns \(9.999999999999999e-7\) too.
+        $this->skip_if_new_maxima('5.40.0');
+
         $st = 'Decimal number {@0.000001@}.';
 
         $a2 = array('stackfltfmt:"~e"');
@@ -1650,6 +1655,35 @@ class castext_test extends qtype_stack_testcase {
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
      */
+    public function test_stack_simp_false_castext() {
+        // Check all the forms raised in issue #849.
+        $a2 = array('p1:1+1');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at1 = castext2_evaluatable::make_from_source('Confirm simplification is on: {@p1@}.  ' .
+            'Unsimplified {@3/9,simp=false@}, still on: {@4+5@}.  ' .
+            'Switch off {@(simp:false, 1+1)@}, still off: {@4+5@}. ' .
+            'Switch off and on: [[define simp="false" /]] {@2+3@}; [[define simp="true" /]] {@2+3@}.', 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+
+        $this->assertEquals('Confirm simplification is on: \({2}\).  ' .
+            'Unsimplified \({\frac{3}{9}}\), still on: \({9}\).  ' .
+            'Switch off \({1+1}\), still off: \({4+5}\). Switch off and on:  \({2+3}\);  \({5}\).',
+            $at1->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_ast_container
+     */
     public function test_stack_beta_function_arg() {
         $a2 = array('n:1932;',
                 'f(alfa):=block(x:ifactors(alfa), y:makelist(0,length(x)), ' .
@@ -1722,6 +1756,28 @@ class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
 
         $this->assertEquals('\[{\mathrm{i}\cdot b+a}\]', $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_display_polarform() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $vars = "p0:polarform_simp(%i+1);";
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('\[{@p0@}\]', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals('\[{\sqrt{2}\cdot e^{\frac{\mathrm{i}\cdot \pi}{4}}}\]',
+            $at2->get_rendered());
     }
 
     /**
@@ -1999,5 +2055,108 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals("<ul class='tree'><li><span class='op'>\(\diamond\)</span><ul><li>" .
             "<span class='atom'>\(a\)</span></li><li><span class='atom'>\(b\)</span></li></ul></li></ul>",
             $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_csv_formatter() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $vars = 'S1:stack_csv_formatter([[1.24,1.34],[2.23,4.56]],[A,B]);';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{#S1#}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals("[\"%root\",\"A,B\n1.24,1.34\n2.23,4.56\"]", $at2->get_rendered());
+
+        $vars = 'S1:stack_csv_formatter([[1.24,1.34],[2.23,4.56]],[A,B]);';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@S1@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        // We add in some magic to the return to not strip out newlines in the LaTeX representation of strings.
+        $this->assertEquals("A,B\n1.24,1.34\n2.23,4.56", $at2->get_rendered());
+
+        // Extra wrapping does no harm.
+        $vars = 'S1:["%root",stack_csv_formatter([[1.24,1.34],[2.23,4.56]],[A,B])];';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@S1@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals("A,B\n1.24,1.34\n2.23,4.56", $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_lang() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $vars = 'S1:"Hello world";S2:"Hei maailma";';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $cs2 = $at1->get_session();
+        $cs2->add_statement(new stack_secure_loader('%_STACK_LANG:' . '"fi"', 'language setting'), false);
+        $this->assertTrue($at1->get_valid());
+        $textinput = "[[lang code='fi']]{@S2@}[[/lang]][[lang code='en,other']]{@S1@}[[/lang]]";
+        $at2 = castext2_evaluatable::make_from_source($textinput, 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals("Hei maailma", $at2->get_rendered());
+
+        $vars = 'S1:"Hello world";S2:"Hei maailma";';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $cs2 = $at1->get_session();
+        $cs2->add_statement(new stack_secure_loader('%_STACK_LANG:' . '"au"', 'language setting'), false);
+        $this->assertTrue($at1->get_valid());
+        $textinput = "[[lang code='fi']]{@S2@}[[/lang]][[lang code='en,other']]{@S1@}[[/lang]]";
+        $at2 = castext2_evaluatable::make_from_source($textinput, 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        // The "au" here does not match "other" at this level.  That function is done at the question level.
+        $this->assertEquals("", $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_pick_lang() {
+        global $SESSION;
+        // Choose something not English, Australian or Finnish!
+        $SESSION->forcelang = 'cn';
+        $ml = new stack_multilang();
+        $selected = $ml->pick_lang(['fi', 'en', 'other']);
+        $this->assertEquals("other", $selected);
+
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $vars = 'S1:"Hello world";S2:"Hei maailma";';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $cs2 = $at1->get_session();
+        $cs2->add_statement(new stack_secure_loader('%_STACK_LANG:"' . $selected . '"', 'language setting'), false);
+        $this->assertTrue($at1->get_valid());
+        $textinput = "[[lang code='fi']]{@S2@}[[/lang]][[lang code='en,other']]{@S1@}[[/lang]]";
+        $at2 = castext2_evaluatable::make_from_source($textinput, 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+        $this->assertEquals("Hello world", $at2->get_rendered());
     }
 }

@@ -145,7 +145,9 @@ sig_figs_from_str(strexp) := block([leadingzeros,indefinitezeros,trailingzeros,m
             decimalplaces: decimalplaces + 1
         ),
         if c = "e" or c = "E" then (
-            scientificnotation: true
+            if (meaningfulldigits + leadingzeros + indefinitezeros) > 0 then (
+                scientificnotation: true
+            )
         ),
 
         if c = "0" then (
@@ -169,7 +171,10 @@ sig_figs_from_str(strexp) := block([leadingzeros,indefinitezeros,trailingzeros,m
             meaningfulldigits: meaningfulldigits + indefinitezeros + 1,
             indefinitezeros: 0
         ) else (
-            return(0)
+            if (meaningfulldigits + leadingzeros + indefinitezeros) > 0 then (
+                /* Stop only if we have seens something like a number. */
+                return(0)
+            )
         ),
         i: i + 1
     ),
@@ -292,7 +297,9 @@ all_ops(%_expr) := block([%_edge, %_next_edge, %_tmp, %_op, %_result],
   if safe_op(ex) = "" then return(ex),
   if safe_op(ex) = "(" and safe_op(first(args(ex))) = "%_C" then return(%_ce_rem(second(args(ex)))),
   if safe_op(ex) = "(" and safe_op(first(args(ex))) = "%_E" then return(%_ce_rem(second(args(ex)))),
-  ex2:map(%_ce_rem, args(ex)),
+  /* Rather subtle order of evaluation issue. */
+  ex2:args(ex),
+  ex2:map(%_ce_rem, ex2),
   substpart(op(ex), ex2, 0)
 )$
 /* We need to compile %_CE_rem so that it is available to lisp as a lisp function. */

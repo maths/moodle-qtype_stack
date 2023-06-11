@@ -25,39 +25,47 @@
 class stack_numbers_test_data {
 
     // In this text digits are 1-9 and 0 is not a digit.
-    // array("string", lower, upper, decimal places, dispvalue, casvalue from dispdp).
+    // array("string", lower, upper, decimal places, dispvalue, err).
     protected static $rawdata = array(
-            array("0", 1, 1, 0, '"~a"', '0'), // Decision: zero has one significant digit.
-            array("0.0", 1, 1, 1, '"~,1f"', '0.0'), // Decision: 0.0 has one significant digit.
-            array("0.00", 2, 2, 2, '"~,2f"', '0.00'),
-            array("00.00", 2, 2, 2, '"~,2f"', '0.00'),
-            array("0.000", 3, 3, 3, '"~,3f"', '0.000'),
-            array("0.0001", 1, 1, 4, '"~,4f"', '0.0001'), // Leading zeros are insignificant.
-            array("0.0010", 2, 2, 4, '"~,4f"', '0.0010'),
-            array("100.0", 4, 4, 1, '"~,1f"', '100.0'), // Existence of a significant zero (or digit) changes.
-            array("100.", 3, 3, 0, '"~a"', '100'),
-            array("00120", 2, 3, 0, '"~a"', '120'),
-            array("00.120", 3, 3, 3, '"~,3f"', '0.120'),
-            array("1.001", 4, 4, 3, '"~,3f"', '1.001'),
-            array("2.000", 4, 4, 3, '"~,3f"', '2.000'),
-            array("1234", 4, 4, 0, '"~a"', '1234'),
-            array("123.4", 4, 4, 1, '"~,1f"', '123.4'),
-            array("2000", 1, 4, 0, '"~a"', '2000'),
-            array("10000", 1, 5, 0, '"~a"', '10000'),
-            array("2001", 4, 4, 0, '"~a"', '2001'),
-            array("0.01030", 4, 4, 5, '"~,5f"', '0.01030'),
-            // Unary signs.
-            array("+334.3", 4, 4, 1, '"~,1f"', '334.3'),
-            array("-0.00", 2, 2, 2, '"~,2f"', '0.00'),
-            array("-12.00", 4, 4, 2, '"~,2f"', '-12.00'),
-            array("-121000", 3, 6, 0, '"~a"', '-121000'),
-            array("-303.30003", 8, 8, 5, '"~,5f"', '-303.30003'),
-            // Brackets should be stripped off.
-            array("(-12.00)", 4, 4, 2, '"~,2f"', '-12.00'),
-            array("--(-12.00)", 4, 4, 2, '"~,2f"', '-12.00'),
-            array("(00.00)", 2, 2, 2, '"~,2f"', '0.00'),
-            // Unary minus should be stripped off.
-            array("-(12.000)", 5, 5, 3, '"~,3f"', '-12.000'),
+
+        array("0", 1, 1, 0, '"~a"', '0', ''), // Decision: zero has one significant digit.
+        array("0.0", 1, 1, 1, '"~,1f"', '0.0', ''), // Decision: 0.0 has one significant digit.
+        array("0.00", 2, 2, 2, '"~,2f"', '0.00', ''),
+        array("00.00", 2, 2, 2, '"~,2f"', '0.00', ''),
+        array("0.000", 3, 3, 3, '"~,3f"', '0.000', ''),
+        array("0.0001", 1, 1, 4, '"~,4f"', '0.0001', ''), // Leading zeros are insignificant.
+        array("0.0010", 2, 2, 4, '"~,4f"', '0.0010', ''),
+        array("100.0", 4, 4, 1, '"~,1f"', '100.0', ''), // Existence of a significant zero (or digit) changes.
+        array("100.", 3, 3, 0, '"~a"', '100', ''),
+        array("00120", 2, 3, 0, '"~a"', '120', ''),
+        array("00.120", 3, 3, 3, '"~,3f"', '0.120', ''),
+        array("1.001", 4, 4, 3, '"~,3f"', '1.001', ''),
+        array("2.000", 4, 4, 3, '"~,3f"', '2.000', ''),
+        array("1234", 4, 4, 0, '"~a"', '1234', ''),
+        array("123.4", 4, 4, 1, '"~,1f"', '123.4', ''),
+        array("2000", 1, 4, 0, '"~a"', '2000', ''),
+        array("10000", 1, 5, 0, '"~a"', '10000', ''),
+        array("2001", 4, 4, 0, '"~a"', '2001', ''),
+        array("0.01030", 4, 4, 5, '"~,5f"', '0.01030', ''),
+        // Unary signs.
+        array("+334.3", 4, 4, 1, '"~,1f"', '334.3', ''),
+        array("-0.00", 2, 2, 2, '"~,2f"', '0.00', ''),
+        array("-12.00", 4, 4, 2, '"~,2f"', '-12.00', ''),
+        array("-121000", 3, 6, 0, '"~a"', '-121000', ''),
+        array("-303.30003", 8, 8, 5, '"~,5f"', '-303.30003', ''),
+        // Brackets should be stripped off.
+
+        array("(-12.00)", 4, 4, 2, '"~,2f"', '-12.00', ''),
+        array("--(-12.00)", 4, 4, 2, '"~,2f"', '-12.00', ''),
+        array("(00.00)", 2, 2, 2, '"~,2f"', '0.00', ''),
+        // Unary minus should be stripped off.
+        array("-(12.000)", 5, 5, 3, '"~,3f"', '-12.000', ''),
+        // Deal with expressions.  This is now evaluated.
+        array("1/-12.00", 1, 1, 0, '"~a"', '0', ''),
+        // TODO: more tests with expressions.  Requires changes to test setup.
+        // These now throw errors.
+        array("e+4.3^k", 2, 2, 1, '"~,1f"', '%e+4.3^k', 'dispdp requires a real number argument.'),
+        array("e+4.3e21^k", 2, 2, 1, '"~,1e"', '%e+4.3^k', 'dispdp requires a real number argument.'),
     );
 
     // Use the format array("string", lower, upper, decimal places).

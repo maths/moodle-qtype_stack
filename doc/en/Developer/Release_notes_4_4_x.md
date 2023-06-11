@@ -60,7 +60,7 @@ This is one consequence of the single call to Maxima.  Previously there was some
 
 The answer test `AlgEquiv` now does not think floats are equivalent, even though they look identical when displayed in decimal.
 
-Solution: don't use the answer test `AlgEquiv` for floats, use a [numerical answertest](../Authoring/Answer_tests_numerical.md) instead.
+Solution: don't use the answer test `AlgEquiv` for floats, use a [numerical answertest](../Authoring/Answer_Tests/Numerical.md) instead.
 
 This is one consequence of the single call to Maxima.  Previously there was some string input/output which created numerical rounding. This rounding no longer happens, causing the apparent problem.  Examples are given in the documentation on [numbers](../CAS/Numbers.md) instead.
 

@@ -9,6 +9,9 @@ Please read the section on [inputs](Inputs.md) first.  If you are new to STACK p
 
 Multiple choice input types return a CAS object which is then assessed by the potential response tree.  For this reason, these inputs do not provide "feedback" fields for each possible answer, as does the Moodle multiple choice input type.
 
+* Checkbox inputs return a *list* of the CAS objects selected;
+* Dropdown inputs and radio inputs return a single *expression*, which is the CAS object selected.
+
 The goal of these input types is to provide *modest* facilities for MCQ.  An early design decision was to restrict each of the possible answers to be a CAS expression.  In particular, we decided *NOT* to make each possible answer [CASText](CASText.md).  Adopting CASText would have provided more flexibility but would have significantly increased the complexity of the internal code. If these features are extensively used we will consider a different input type.
 
 ## Model answer ##
@@ -99,8 +102,10 @@ Either `ta1` or `ta2` can be used with the MCQ inputs, in this case dropdown pro
 
 ## Internals ##
 
-The dropdown and radio inputs return the `value`, but the checkbox type returns the student's answer as Maxima list,
+The dropdown and radio inputs return the `value`, but the checkbox type returns the student's answer as Maxima `list`,
 even if they have only chosen one option.
+
+The function `mcq_correct` returns a list, so for dropdown and radio you might need to take the `first` element when using this function to extract values from the list of teacher's answers.
 
 If, when authoring a question, you switch from radio/dropdown to checkboxes or back, you will probably break a PRT because of mismatched types.
 

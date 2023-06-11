@@ -81,7 +81,11 @@ if ($options['id']) {
     foreach ($contexts as $contextid => $numstackquestions) {
         $testcontext = context::instance_by_id($contextid);
 
-        $categories = question_category_options(array($testcontext));
+        if (stack_determine_moodle_version() < 400) {
+            $categories = question_category_options(array($context));
+        } else {
+            $categories = qbank_managecategories\helper::question_category_options(array($context));
+        }
         $categories = reset($categories);
         foreach ($categories as $key => $category) {
             list($categoryid) = explode(',', $key);
@@ -105,9 +109,9 @@ foreach ($contexts as $contextid => $numstackquestions) {
     echo "\n\n# " . $contextid . ": " . stack_string('bulktesttitle', $testcontext->get_context_name());
 
     if ($partialcontext === $contextid) {
-        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'cli', (int) $options['id']);
+        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, null, 'cli', (int) $options['id']);
     } else {
-        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'cli', false);
+        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, null, 'cli', false);
     }
 
     $allpassed = $allpassed && $passed;

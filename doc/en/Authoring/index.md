@@ -2,19 +2,6 @@
 
 The authoring documentation provides information on common authoring topics.
 
-## Authoring quick start
-
-Those new to STACK would probably prefer the [authoring quick start guide](Authoring_quick_start.md). These guides cover the most important topics of question authoring, and include embedded screencast videos to guide you.
-
-* [Authoring quick start 1](Authoring_quick_start.md): A basic question.
-* [Authoring quick start 2](Authoring_quick_start_2.md): Question variables.
-* [Authoring quick start 3](Authoring_quick_start_3.md): Improving feedback.
-* [Authoring quick start 4](Authoring_quick_start_4.md): Randomisation.
-* [Authoring quick start 5](Authoring_quick_start_5.md): Question Testing.
-* [Authoring quick start 6](Authoring_quick_start_6.md): Multi-part mathematical questions.
-* [Authoring quick start 7](Authoring_quick_start_7.md): Turning simplification off.
-* [Authoring quick start 8](Authoring_quick_start_8.md): Importing and Quizzes.
-
 ## STACK question structure  ##
 
 A  `stackQuestion` is the basic object in the system. The following table shows the fields which make up a question, with links to the documentation for each one.
@@ -35,39 +22,35 @@ A  `stackQuestion` is the basic object in the system. The following table shows 
 The authoring documentation also covers topics on:
 
 #### [CASText](CASText.md)
-  
+
 * [Fact Sheets](Fact_sheets.md),
-* [Question blocks](Question_blocks.md),
-* [Actuarial notation,](Actuarial.md)
+* [Question blocks](Question_blocks/index.md),
 * [Using JSXGraph](JSXGraph.md).
-  
+
 #### [Input types](Inputs.md)
-  
+
 * [Numerical input](Numerical_input.md),
-* [Units in input](Units.md#Input_type),
+* [Units in input](../Topics/Units.md#Input_type),
 * [Equivalence reasoning](Equivalence_reasoning.md),
 * [Multiple choice questions](Multiple_choice_questions.md),
-* [Curve sketching](Curve_sketching.md).
-  
+
 #### Giving feedback with [potential response trees](Potential_response_trees.md)
-  
+
 * Information on [the types of feedback in STACK](Feedback.md),
-* Using [Answer tests](Answer_tests.md) and [numerical answer tests](Answer_tests_numerical.md),
-* [Answer tests for units](Units.md#Answer_tests).
-  
+* Using [Answer tests](Answer_Tests/index.md).
+
 #### Testing and reporting
-  
+
 * [Creating question tests](Testing.md),
 * [Deploying variants](Deploying.md),
 * [Reporting](Reporting.md),
 * [Ensuring questions work in the future](Future_proof.md).
-  
-#### Using Moodle
-  
-* [Finding the question bank](Question_bank.md),
-* [Creating a quiz](Authoring_quick_start_8.md),
-* [Importing and exporting](ImportExport.md).
-  
+
+#### [Mathematics topics](../Topics/index.md)
+
+* [Proof](../Topics/Proof.md)
+* [Curve sketching](../Topics/Curve_sketching.md).
+
 #### Other
 
 * Creating [multilingual questions](Languages.md).

@@ -82,12 +82,16 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun cartesian-product (l1 l2)
-  (if l1
-    (append
-      (mapcar #'(lambda (e) (cons (car l1) e)) l2)
-      (cartesian-product (cdr l1) l2))
-    nil))
+; maxima versions >=5.43 have an internal cartesian-product function
+; incompatible with this function, therefore we only define it if
+; previously undefined
+(unless (fboundp 'cartesian-product)
+  (defun cartesian-product (l1 l2)
+    (if l1
+      (append
+        (mapcar #'(lambda (e) (cons (car l1) e)) l2)
+        (cartesian-product (cdr l1) l2))
+      nil)))
 
 (defun replicate (n e)
   (if (and (integerp n) (>= n 0))

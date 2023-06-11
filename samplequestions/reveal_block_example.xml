@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <quiz>
-<!-- question: 7378  -->
+<!-- question: 4564  -->
   <question type="stack">
     <name>
-      <text>Subspace (JS example)</text>
+      <text>Subspace (reveal example)</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>
@@ -12,31 +12,14 @@ Is \(W\) a subspace of  \(\mathbb{R}^3\)?
 </p>
 <p>True or false: \(W\) is a subspace? [[input:ans1]] [[validation:ans1]] [[feedback:prt1]]</p>
 
-<input type="checkbox" onclick="myFunction()" value="dummy">Click Me</br>
-
-<script>
-function myFunction() {
-  var x1 = document.getElementById("IsSubspace");
-  var x2 = document.getElementById("NotSubspace");
-  if (x1.style.display === "none") {
-    x2.style.display = "none";
-    x1.style.display = "block";
-  } else {
-    x2.style.display = "block";
-    x1.style.display = "none";
-  }
- return false;
-}
-</script>
-
-<div id="IsSubspace">
+[[reveal input="ans1" value="true"]]
 <p>If true write the subspace in parametric form:
 [[input:ans2]] where the list of parameters [[input:ans3]] \(\in \mathbb{R}\).
 <br>[[validation:ans2]] [[validation:ans3]] [[feedback:prt2]]
 </p>
-</div>
+[[/reveal]]
 
-<div id="NotSubspace">
+[[reveal input="ans1" value="false"]]
 <p>If false the give reasons below.</p>
 <ul>
 <li>True or false: \(W\) does not contain the origin (and so is not a subspace)? [[input:ans0]] [[validation:ans0]] [[feedback:prt3]]</li>
@@ -47,16 +30,17 @@ function myFunction() {
 For example, \(w_1 = \) [[input:answ1]] [[validation:answ1]] is in \(W\) and 
 \(\lambda = \) [[input:answ2]] [[validation:answ2]] is a scalar but the scalar multiple \(\lambda w_1\) is not in \(W\). [[feedback:prt5]]</li>
 </ul>
-</div>]]></text>
+[[/reveal]]]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text></text>
+      <text>A line through the origin is a subspace.  The subspace can be described in parametric form with a single parameter, multiplying the position vector of any non-zero point on the line.</text>
     </generalfeedback>
     <defaultgrade>3</defaultgrade>
     <penalty>0.1</penalty>
     <hidden>0</hidden>
+    <idnumber></idnumber>
     <stackversion>
-      <text>2018120500</text>
+      <text>2023051500</text>
     </stackversion>
     <questionvariables>
       <text>p1:[-1,3,2];
@@ -88,6 +72,9 @@ taw2:null;</text>
     <questionnote>
       <text>{@Ws@}</text>
     </questionnote>
+    <questiondescription format="html">
+      <text></text>
+    </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
@@ -104,6 +91,7 @@ taw2:null;</text>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
     <inversetrig>cos-1</inversetrig>
+    <logicsymbol>lang</logicsymbol>
     <matrixparens>[</matrixparens>
     <variantsselectionseed></variantsselectionseed>
     <input>
@@ -254,18 +242,20 @@ taw2:null;</text>
       <name>prt1</name>
       <value>1.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description>True false check.</description>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>issubspace</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
+        <truescore>1</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt1-1-T</trueanswernote>
@@ -273,7 +263,7 @@ taw2:null;</text>
           <text>You have correctly identified if \(W\) is a subspace.</text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt1-1-F</falseanswernote>
@@ -286,20 +276,21 @@ taw2:null;</text>
       <name>prt2</name>
       <value>2.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text>lv:listofvars(ans2);
-deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
-</text>
+deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));</text>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>true</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt2-1-T</trueanswernote>
@@ -307,8 +298,8 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
           <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty>0.0000000</falsepenalty>
+        <falsescore>0</falsescore>
+        <falsepenalty>0</falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -317,13 +308,14 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
       </node>
       <node>
         <name>1</name>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>deg</sans>
         <tans>1</tans>
         <testoptions></testoptions>
         <quiet>1</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>2</truenextnode>
         <trueanswernote>prt2-2-T</trueanswernote>
@@ -331,7 +323,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
           <text></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-2-F</falseanswernote>
@@ -341,13 +333,14 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
       </node>
       <node>
         <name>2</name>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>point_in_space(ans2, matrix([0],[0],[0]))</sans>
         <tans>true</tans>
         <testoptions></testoptions>
         <quiet>1</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>3</truenextnode>
         <trueanswernote>prt2-3-T</trueanswernote>
@@ -355,7 +348,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
           <text></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-3-F</falseanswernote>
@@ -365,13 +358,14 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
       </node>
       <node>
         <name>3</name>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>cspace(ans2)</sans>
         <tans>cspace(Ws)</tans>
         <testoptions></testoptions>
         <quiet>1</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
+        <truescore>1</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt2-4-T</trueanswernote>
@@ -379,7 +373,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
           <text></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt2-4-F</falseanswernote>
@@ -392,18 +386,20 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
       <name>prt3</name>
       <value>0.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>false</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt3-1-T</trueanswernote>
@@ -411,8 +407,8 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
           <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
-        <falsepenalty>0.0000000</falsepenalty>
+        <falsescore>0</falsescore>
+        <falsepenalty>0</falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt3-1-F</falseanswernote>
         <falsefeedback format="html">
@@ -421,13 +417,14 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
       </node>
       <node>
         <name>1</name>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>ans0</sans>
         <tans>not(point_in_space(Ws,matrix([0],[0],[0])))</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt3-2-T</trueanswernote>
@@ -435,7 +432,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
           <text>You have correctly identified whether the origin is in \(W\).</text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt3-2-F</falseanswernote>
@@ -448,18 +445,20 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
       <name>prt4</name>
       <value>0.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>false</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt4-1-T</trueanswernote>
@@ -467,7 +466,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
           <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt4-1-F</falseanswernote>
@@ -477,13 +476,14 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
       </node>
       <node>
         <name>1</name>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>point_in_space(Ws,ansv1)</sans>
         <tans>true</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>2</truenextnode>
         <trueanswernote>prt4-2-T</trueanswernote>
@@ -491,7 +491,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
           <text></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt4-2-F</falseanswernote>
@@ -501,13 +501,14 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
       </node>
       <node>
         <name>2</name>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>point_in_space(Ws,ansv2)</sans>
         <tans>true</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>3</truenextnode>
         <trueanswernote>prt4-3-T</trueanswernote>
@@ -515,7 +516,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
           <text></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt4-3-F</falseanswernote>
@@ -525,13 +526,14 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
       </node>
       <node>
         <name>3</name>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>point_in_space(Ws,ansv1+ansv2)</sans>
         <tans>false</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
+        <truescore>1</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt4-4-T</trueanswernote>
@@ -539,7 +541,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
           <text>The point \[ {@ansv1@}+{@ansv2@} = {@ansv1+ansv2@} \not \in W\] as claimed.  Hence \(W\) is not a subspace</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt4-4-F</falseanswernote>
@@ -552,18 +554,20 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
       <name>prt5</name>
       <value>0.0000000</value>
       <autosimplify>1</autosimplify>
+      <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text></text>
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>ans1</sans>
         <tans>false</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>1</truenextnode>
         <trueanswernote>prt5-1-T</trueanswernote>
@@ -571,7 +575,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
           <text></text>
         </truefeedback>
         <falsescoremode>=</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt5-1-F</falseanswernote>
@@ -581,13 +585,14 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
       </node>
       <node>
         <name>1</name>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>point_in_space(Ws,answ1)</sans>
         <tans>true</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>+</truescoremode>
-        <truescore>0.0000000</truescore>
+        <truescore>0</truescore>
         <truepenalty></truepenalty>
         <truenextnode>2</truenextnode>
         <trueanswernote>prt5-2-T</trueanswernote>
@@ -595,7 +600,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
           <text></text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt5-2-F</falseanswernote>
@@ -605,13 +610,14 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
       </node>
       <node>
         <name>2</name>
+        <description></description>
         <answertest>AlgEquiv</answertest>
         <sans>point_in_space(Ws,answ2*answ1)</sans>
         <tans>false</tans>
         <testoptions></testoptions>
         <quiet>0</quiet>
         <truescoremode>=</truescoremode>
-        <truescore>1.0000000</truescore>
+        <truescore>1</truescore>
         <truepenalty></truepenalty>
         <truenextnode>-1</truenextnode>
         <trueanswernote>prt5-3-T</trueanswernote>
@@ -619,7 +625,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
           <text>The point \[ {@answ2@}\times{@answ1@} = {@answ2*answ1@} not \in W.\]   Hence your points do contradict closure of \(W\) under scalar multiplication. Hence \(W\) is not a subspace</text>
         </truefeedback>
         <falsescoremode>-</falsescoremode>
-        <falsescore>0.0000000</falsescore>
+        <falsescore>0</falsescore>
         <falsepenalty></falsepenalty>
         <falsenextnode>-1</falsenextnode>
         <falseanswernote>prt5-3-F</falseanswernote>
@@ -630,6 +636,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
     </prt>
     <qtest>
       <testcase>1</testcase>
+      <description></description>
       <testinput>
         <name>ans0</name>
         <value></value>
@@ -695,6 +702,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
     </qtest>
     <qtest>
       <testcase>2</testcase>
+      <description></description>
       <testinput>
         <name>ans0</name>
         <value></value>
@@ -760,6 +768,11 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
     </qtest>
     <qtest>
       <testcase>3</testcase>
+      <description></description>
+      <testinput>
+        <name>ans0</name>
+        <value></value>
+      </testinput>
       <testinput>
         <name>ans1</name>
         <value>issubspace</value>
@@ -772,6 +785,22 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
         <name>ans3</name>
         <value>[t]</value>
       </testinput>
+      <testinput>
+        <name>ansv1</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ansv2</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>answ1</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>answ2</name>
+        <value></value>
+      </testinput>
       <expected>
         <name>prt1</name>
         <expectedscore>1.0000000</expectedscore>
@@ -781,12 +810,31 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
       <expected>
         <name>prt2</name>
         <expectedscore>0.0000000</expectedscore>
-        <expectedpenalty>0.1000000</expectedpenalty>
+        <expectedpenalty></expectedpenalty>
         <expectedanswernote>prt2-4-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
     <qtest>
       <testcase>4</testcase>
+      <description></description>
       <testinput>
         <name>ans0</name>
         <value>true</value>
@@ -852,6 +900,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
     </qtest>
     <qtest>
       <testcase>5</testcase>
+      <description></description>
       <testinput>
         <name>ans0</name>
         <value>false</value>
@@ -905,6 +954,7 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
     </qtest>
     <qtest>
       <testcase>6</testcase>
+      <description></description>
       <testinput>
         <name>ans0</name>
         <value></value>
@@ -966,6 +1016,72 @@ deg:apply(max, maplist(lambda([ex], hipow(ans2, ex)), lv));
         <expectedscore>0.0000000</expectedscore>
         <expectedpenalty>0.1000000</expectedpenalty>
         <expectedanswernote>prt5-3-F</expectedanswernote>
+      </expected>
+    </qtest>
+    <qtest>
+      <testcase>7</testcase>
+      <description>Student chooses the wrong answer</description>
+      <testinput>
+        <name>ans0</name>
+        <value>true</value>
+      </testinput>
+      <testinput>
+        <name>ans1</name>
+        <value>false</value>
+      </testinput>
+      <testinput>
+        <name>ans2</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ans3</name>
+        <value>[?, ...]</value>
+      </testinput>
+      <testinput>
+        <name>ansv1</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>ansv2</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>answ1</name>
+        <value></value>
+      </testinput>
+      <testinput>
+        <name>answ2</name>
+        <value></value>
+      </testinput>
+      <expected>
+        <name>prt1</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>prt1-1-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt2</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt3</name>
+        <expectedscore>0.0000000</expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>prt3-2-F</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt4</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
+      </expected>
+      <expected>
+        <name>prt5</name>
+        <expectedscore></expectedscore>
+        <expectedpenalty></expectedpenalty>
+        <expectedanswernote>NULL</expectedanswernote>
       </expected>
     </qtest>
   </question>

@@ -50,7 +50,7 @@ class stack_cas_castext2_lang extends stack_cas_castext2_block {
         if (count($items) === 1) {
             $body = $items[0];
         } else {
-            if ($his->is_flat()) {
+            if ($this->is_flat()) {
                 $body = new MP_FunctionCall(new MP_Identifier('sconcat'), $items);
             } else {
                 array_unshift($items, new MP_String('%root'));
@@ -58,7 +58,7 @@ class stack_cas_castext2_lang extends stack_cas_castext2_block {
             }
         }
 
-        $r = new MP_If([new MP_Group($checks)], [$body, new MP_String('')]);
+        $r = new MP_If([new MP_Group([$checks])], [$body, new MP_String('')]);
 
         return $r;
     }

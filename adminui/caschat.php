@@ -41,6 +41,7 @@ $questionid = optional_param('questionid', null, PARAM_INT);
 
 if (!$questionid) {
     $context = context_system::instance();
+    $PAGE->set_context($context);
     require_capability('qtype/stack:usediagnostictools', $context);
     $urlparams = array();
 } else {
@@ -55,8 +56,6 @@ if (!$questionid) {
     question_require_capability_on($questiondata, 'view');
 }
 
-$context = context_system::instance();
-$PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/adminui/caschat.php', $urlparams);
 $title = stack_string('chattitle');
 $PAGE->set_title($title);
@@ -96,8 +95,16 @@ if ($string) {
         $keyvals = new stack_cas_keyval($vars, $options, 0);
         $keyvals->get_valid();
         $varerrs = $keyvals->get_errors();
-        $kvcode = $keyvals->compile('test')['statement'];
-        $statements = [new stack_secure_loader($kvcode, 'caschat')];
+        if ($keyvals->get_valid()) {
+            $kvcode = $keyvals->compile('test');
+            $statements = array();
+            if ($kvcode['contextvariables']) {
+                $statements[] = new stack_secure_loader($kvcode['contextvariables'], 'caschat');
+            }
+            if ($kvcode['statement']) {
+                $statements[] = new stack_secure_loader($kvcode['statement'], 'caschat');
+            }
+        }
     }
 
     $ct = null;
@@ -105,7 +112,6 @@ if ($string) {
         $ct = castext2_evaluatable::make_from_source($string, 'caschat');
         $statements[] = $ct;
         $session = new stack_cas_session2($statements, $options);
-        $session->instantiate();
         if ($ct->get_valid()) {
             $session->instantiate();
             $displaytext  = $ct->get_rendered();
@@ -115,8 +121,13 @@ if ($string) {
         foreach ($session->get_errors(false) as $err) {
             $errs = array_merge($errs, $err);
         }
-        $errs = stack_string_error('exceptionmessage', implode(' ', array_unique($errs)));
-        $debuginfo    = $session->get_debuginfo();
+        if ($errs) {
+            $errs = stack_string_error('errors') . ': ' . implode(' ', array_unique($errs));
+            $errs = html_writer::tag('div', $errs, array('class' => 'error'));
+        } else {
+            $errs = '';
+        }
+        $debuginfo = $session->get_debuginfo();
     }
 }
 

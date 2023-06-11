@@ -47,27 +47,6 @@ class maxima_corrective_parser {
          ':if ' => ':%%STACKIF%%', ' then ' => '%%STACKTHEN%%',
          ' else ' => '%%STACKELSE%%');
 
-        $knownunicode = array(
-            json_decode('"\u2205"') => '{}',
-            json_decode('"\u00D7"') => '*',
-            json_decode('"\u00F7"') => '/',
-            json_decode('"\u2044"') => '/',
-            json_decode('"\u2215"') => '/',
-            json_decode('"\u00B1"') => '+-',
-            json_decode('"\u2211"') => 'sum(?,?,?)',
-            json_decode('"\u221A"') => 'sqrt(?)',
-            json_decode('"\u222B"') => 'int(?,?)',
-            json_decode('"\u2013"') => '-',
-            json_decode('"\u2264"') => '<=',
-            json_decode('"\u2265"') => '>=',
-            json_decode('"\u2227"') => ' and ',
-            json_decode('"\u22C0"') => ' and ',
-            json_decode('"\u2228"') => ' or ',
-            json_decode('"\u22C1"') => ' or ',
-            json_decode('"\u212F"') => 'e',
-            json_decode('"\u221E"') => 'inf',
-        );
-
         // These will store certain errors if the parsing is impossible.
         $err1 = false;
         $err2 = false;
@@ -92,15 +71,26 @@ class maxima_corrective_parser {
             }
         }
 
+        // Replace known unicode symbols with their equivalent in ASCII.
+        $symbols = json_decode(file_get_contents(__DIR__ . '/unicode/symbols-stack.json'), true);
+        $stringles = str_replace(array_keys($symbols), array_values($symbols), $stringles);
+        $letters = json_decode(file_get_contents(__DIR__ . '/unicode/letters-stack.json'), true);
+        $stringles = str_replace(array_keys($letters), array_values($letters), $stringles);
+
         // Check for invalid chars at this point as they may prove to be difficult to
         // handle latter, also strings are safe already.
-        // Special case to allow "pi" through here.
-        $allowedcharsregex = '~[^' . preg_quote(json_decode('"\u03C0"') .
+        $superscript = json_decode(file_get_contents(__DIR__ . '/unicode/superscript-stack.json'), true);
+        $subscript = json_decode(file_get_contents(__DIR__ . '/unicode/subscript-stack.json'), true);
+
+        $allowedcharsregex = '~[^' . preg_quote(
+            implode('', array_keys($superscript)) .
+            implode('', array_keys($subscript)) .
             // @codingStandardsIgnoreStart
             // We do really want a backtick here.
             '0123456789,./\%#&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:;=><|: -', '~'
             // @codingStandardsIgnoreEnd
             ) . ']~u';
+
         $matches = array();
         // Check for permitted characters.
         if (preg_match_all($allowedcharsregex, $stringles, $matches)) {
@@ -132,12 +122,7 @@ class maxima_corrective_parser {
                             $invalidchars[$badchar] = $badchar;
                     }
                 }
-                if (array_key_exists($badchar, $knownunicode)) {
-                    $replaceablechars[$badchar] = $knownunicode[$badchar];
-                    $answernote[] = 'unicodeChar';
-                } else {
-                    $answernote[] = 'forbiddenChar';
-                }
+                $answernote[] = 'forbiddenChar';
             }
             $errors[] = stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($invalidchars))));
             foreach ($replaceablechars as $bad => $good) {
@@ -150,7 +135,7 @@ class maxima_corrective_parser {
         // NOTE: These patterns take into account floats, if the logic wants to
         // kill floats it can do it later after the parsing.
         static $starpatterns = array(
-                '/(\))([0-9A-Za-z])/',                               // E.g. )a, or )3. But not underscores )_.
+                '/(\))([0-9A-Za-z])/',                                       // E.g. )a, or )3. But not underscores )_.
                 '/([^0-9A-Za-z_][0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/', // E.g. +3z(, -2ee+ not *4e-2 or /1e3.
                 '/^([\+\-]?[0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/',      // Same but start of line.
                 '/([^0-9A-Za-z_][0-9]+)(\()/',                               // Pattern such as -124().
@@ -268,8 +253,12 @@ class maxima_corrective_parser {
         // @codingStandardsIgnoreEnd
 
         $foundchar = $exception->found;
-        $previouschar = null;
-        $nextchar = null;
+        // Changes in PHP 8.1 mean we can't use functions like ctype_alpha on null.
+        if ($foundchar === null) {
+            $foundchar = '';
+        }
+        $previouschar = '';
+        $nextchar = '';
 
         if ($exception->grammarOffset >= 1) {
             $previouschar = mb_substr($string, $exception->grammarOffset - 1, 1);
@@ -317,11 +306,11 @@ class maxima_corrective_parser {
                 }
             }
             $errors[] = stack_string('stackCas_forbiddenChar', array( 'char' => implode(", ", array_unique($invalidchars))));
-            $answernote[] = 'forbiddenChar';
+            $answernote[] = 'forbiddenChar_parserError';
             return;
         }
 
-        if ($foundchar === '(' || $foundchar === ')' || $previouschar === '(' || $previouschar === ')' || $foundchar === null) {
+        if ($foundchar === '(' || $foundchar === ')' || $previouschar === '(' || $previouschar === ')' || $foundchar === '') {
             $stringles = stack_utils::eliminate_strings($string);
             $inline = stack_utils::check_bookends($stringles, '(', ')');
             if ($inline === 'left') {
@@ -336,7 +325,7 @@ class maxima_corrective_parser {
                 return;
             }
         }
-        if ($foundchar === '[' || $foundchar === ']' || $previouschar === '[' || $previouschar === ']' || $foundchar === null) {
+        if ($foundchar === '[' || $foundchar === ']' || $previouschar === '[' || $previouschar === ']' || $foundchar === '') {
             $stringles = stack_utils::eliminate_strings($string);
             $inline = stack_utils::check_bookends($stringles, '[', ']');
             if ($inline === 'left') {
@@ -351,7 +340,7 @@ class maxima_corrective_parser {
                 return;
             }
         }
-        if ($foundchar === '{' || $foundchar === '}' || $previouschar === '{' || $previouschar === '}' || $foundchar === null) {
+        if ($foundchar === '{' || $foundchar === '}' || $previouschar === '{' || $previouschar === '}' || $foundchar === '') {
             $stringles = stack_utils::eliminate_strings($string);
             $inline = stack_utils::check_bookends($stringles, '{', '}');
             if ($inline === 'left') {
@@ -448,20 +437,20 @@ class maxima_corrective_parser {
             // flag but not find the assingment of flag value...
             $errors[] = stack_string('stackCas_unencpsulated_comma');
             $answernote[] = 'unencapsulated_comma';
-        } else if ($nextchar === null && ($foundchar !== null && mb_strpos($disallowedfinalchars, $foundchar) !== false)) {
+        } else if ($nextchar === '' && ($foundchar !== '' && mb_strpos($disallowedfinalchars, $foundchar) !== false)) {
             $a = array();
             $a['char'] = $foundchar;
             $a['cmd']  = stack_maxima_format_casstring($string);
             $errors[] = stack_string('stackCas_finalChar', $a);
             $answernote[] = 'finalChar';
-        } else if ($foundchar === null && ($previouschar !== null &&
+        } else if ($foundchar === '' && ($previouschar !== '' &&
                 mb_strpos($disallowedfinalchars, $previouschar) !== false)) {
             $a = array();
             $a['char'] = $previouschar;
             $a['cmd']  = stack_maxima_format_casstring($string);
             $errors[] = stack_string('stackCas_finalChar', $a);
             $answernote[] = 'finalChar';
-        } else if ($foundchar === '!' && ($previouschar === null ||
+        } else if ($foundchar === '!' && ($previouschar === '' ||
                 !(ctype_alpha($previouschar) || ctype_digit($previouschar) || $previouschar === ')' || $previouschar === ']'))) {
             // TODO: Localise... "Operator X without a valid target. Needs something in front of it".
             $a = array('op' => stack_maxima_format_casstring('!'));

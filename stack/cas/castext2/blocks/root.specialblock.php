@@ -63,6 +63,13 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['601_castext',
             '602_castext_simplifier', '610_castext_static_string_extractor',
             '680_gcl_sconcat'], $filteroptions, false);
+        // If we are within an include it is necessary to avoid static string-collection.
+        if (isset($options['in include'])) {
+            $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
+                '601_castext',
+                '602_castext_simplifier', '680_gcl_sconcat'],
+                 $filteroptions, false);
+        }
 
         // Enusre that the tree has been marked as CASText.
         $mark = function($node) {
@@ -78,6 +85,11 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         $ast = $pipeline->filter($ast, $errors, $answernotes, new stack_cas_security());
 
         if (count($errors) > 0) {
+            foreach ($errors as $key => $err) {
+                if (is_a($err, 'stack_cas_error')) {
+                    $errors[$key] = $err->get_legacy_error();
+                }
+            }
             throw new stack_exception(implode('; ', $errors));
         }
 

@@ -1,7 +1,5 @@
 # Future plans
 
-How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
-
 Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.
 
 ## Features to add for STACK 4.5 or later ##
@@ -53,9 +51,9 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
         array('pdf_binomial(2,6,0.07)', 'php_true', 'pdf_binomial(6,2,0.07)', 'cas_true', '{{6}\choose{2}}\cdot 0.07^{2}\cdot {\left(1-0.07\right)}^{6-2}', '', ""),
 
 
-* (Done in Stateful) Make the mark and penalty fields accept arbitrary maxima statements.
+
 * (Done in Stateful) Introduce a variable so the maxima code "knows the attempt number". [Note to self: check how this changes reporting].  This is now being done with the "state" code in the abacus branch.
-* (Done in Stateful) Make the PRT Score element CAS, so that a value calculated in the "Feedback variables" could be included here.
+
 
 ## Answer tests
 
@@ -73,7 +71,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
   * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
 * Auto deploy.  E.g. if the first variable in the question variables is a single a:rand(n), then loop a=0..(n-1).
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
-* (Done in Stateful) You cannot use one PRT node to guard the evaluation of another, for example Node 1 check x = 0, and only if that is false, Node 2 do 1 / x. We need to change how PRTs do CAS evaluation.
+
 
 ## "Reveal block"
 
@@ -146,7 +144,7 @@ Basic reports now work.
 * DONE: Compile some more detailed release notes for new version containing common issues with questions.
 * MathJax sometimes stops rendering -- this is usually an issue with the html in the question text or something being added to the editor, but sometimes this is an intermittent issue, but this is probably not directly a STACK issue.
 * Accessing Moodle via an LTI connection sometimes prompts students on Macs and old PCs to login with a password (which they don't have) when they click on a quiz. This isn't a direct STACK issue, but it would be a good idea to raise this on Moodle support forums.
-* May want to improve the question tests page -- make sure most useful features are highlighted. For example, make it more clear when a specific variant is being considered, and when all variants are being looked at. After an individual variant is undeployed, it still shows test information for this seed on the page, requiring a few extra clicks to switch to a different seed (though that makes it easier to restore that seed if you accidently undeploy it).
+* DONE:  Improve the question tests page (now "STACK question dashboard") -- make sure most useful features are highlighted. For example, make it more clear when a specific variant is being considered, and when all variants are being looked at. After an individual variant is undeployed, it still shows test information for this seed on the page, requiring a few extra clicks to switch to a different seed (though that makes it easier to restore that seed if you accidently undeploy it).
 * Forcing editor choice to prevent errors caused by editors which add in html tags (make sure it is clear to users why we do this).
 * Consider prioritising the STACK API? Documentation on this definately needs to be improved. Volunteers are probably needed to help out on this.
 * We should probably have a discussion for which individual questions are best to promote STACK.

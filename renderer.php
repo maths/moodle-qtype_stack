@@ -159,14 +159,6 @@ class qtype_stack_renderer extends qtype_renderer {
         }
 
         $urlparams = array('questionid' => $question->id);
-
-        $links = array();
-        if (stack_user_can_edit_question($question)) {
-            $links[] = html_writer::link(
-                    $question->qtype->get_tidy_question_url($question),
-                    stack_string('tidyquestion'));
-        }
-
         $urlparams['seed'] = $question->seed;
 
         // Quite honestly fellow developers I'm getting fed up of fixing live questions written by colleagues!
@@ -174,6 +166,7 @@ class qtype_stack_renderer extends qtype_renderer {
         // Make these problems more obvious to authors, who don't yet understand what tests/variants are for.
         // Alert a teacher to questions without tests or deployed variants.
         $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
+        $links = array();
         if (($question->has_random_variants() && count($question->deployedseeds) == 0) ||
             count($testscases) == 0) {
             $links[] = html_writer::link(
@@ -525,6 +518,23 @@ class qtype_stack_renderer extends qtype_renderer {
                 $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor), $this),
                 FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
                 $qa, 'question', 'generalfeedback', $question->id);
+    }
+
+    public function question_description(question_attempt $qa) {
+        $question = $qa->get_question();
+        if (empty($question->questiondescription)) {
+            return '';
+        }
+
+        // If called out of order.
+        if ($question->castextprocessor === null) {
+            $question->castextprocessor = new castext2_qa_processor($qa);
+        }
+
+        return $qa->get_question()->format_text(stack_maths::process_display_castext(
+            $question->get_questiondescription_castext()->get_rendered($question->castextprocessor), $this),
+            FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
+            $qa, 'question', 'questiondescription', $question->id);
     }
 
     /**

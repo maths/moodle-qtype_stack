@@ -21,7 +21,7 @@ To include a basic dynamically-generated sketch into a STACK question, first def
     a:rand(6)-3;
     fx:sin(x)+a;
 
-Then include the following question text, which includes a simple `[[jsxgraph]]` [block](Question_blocks.md).  In particular note the lack of `<script>` tags which you might expect to include.
+Then include the following question text, which includes a simple `[[jsxgraph]]` [block](Question_blocks/Dynamic_blocks.md).  In particular note the lack of `<script>` tags which you might expect to include.
 
     <p>Type in an algebraic expression which has the graph shown below.</p>
     [[jsxgraph]]
@@ -136,6 +136,9 @@ You can use that input field to store the state of the graph as a string, for ex
         var newState = {'x':p.X(), 'y':p.Y()};
         // Encode the state as JSON for storage and store it
         stateInput.value = JSON.stringify(newState);
+        // Since the STACK-JS system one needs to also remember to tell others
+        // about the changed value. Do this by dispatching an event.
+        stateInput.dispatchEvent(new Event('change'));
       });
     
       // As a side note, you typically do not want the state storing input to be directly visible to the user
@@ -212,4 +215,4 @@ You can use this with mathematical input: `{@stack_disp_comma_separate([a,b,sin(
 ## Discrete mathematics and graph theory.
 
 
-A graph can be displayed with JSXGraph, see [discrete mathematics](../CAS/Discrete_mathematics.md) for examples.
+A graph can be displayed with JSXGraph, see [discrete mathematics](../Topics/Discrete_mathematics.md) for examples.

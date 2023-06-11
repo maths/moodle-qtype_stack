@@ -8,7 +8,7 @@ past development history is documented on [Development history](Development_hist
 
 DONE
 1. Add in the `s_assert` function to allow teachers to unit-test individual question variable values.
-2. Add in the `hint` [question block](../Authoring/Question_blocks/Dynamic_blocks.md).
+2. Add in the `hint` [question block](../Authoring/Question_blocks/Dynamic_blocks.md).  Fixes issue #968, thanks to Michael Kallweit.
 
 TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
  #671, #420

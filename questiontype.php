@@ -509,9 +509,12 @@ class qtype_stack extends question_type {
                     $inputdata->type, $inputdata->name, $inputdata->tans, $question->options, $parameters);
         }
 
+        $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
+
         $totalvalue = 0;
         $allformative = true;
-        foreach ($questiondata->prts as $name => $prtdata) {
+        foreach ($prtnames as $name) {
+            $prtdata = $questiondata->prts[$name];
             // At this point we do not have the PRT method is_formative() available to us.
             if ($prtdata->feedbackstyle > 0) {
                 $totalvalue += $prtdata->value;
@@ -523,8 +526,6 @@ class qtype_stack extends question_type {
                     'The $totalvalue, the marks available for the question, must be positive in question ' .
                     $question->name);
         }
-
-        $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
 
         foreach ($prtnames as $name) {
             if (array_key_exists($name, $questiondata->prts)) {

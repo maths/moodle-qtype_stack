@@ -71,6 +71,19 @@ class input_equiv_test extends qtype_stack_testcase {
                     'stack1__ans1', false, null));
     }
 
+    public function test_render_syntaxhint_placeholder() {
+        $el = stack_input_factory::make('equiv', 'ans1', '[]');
+        $el->set_parameter('syntaxHint',
+            '[r1=0,r2=0,r3=0,r4=0,r5=0,r6=0]');
+        $el->set_parameter('syntaxAttribute', '1');
+        $this->assertEquals("<textarea class=\"equivinput\" name=\"stack1__ans1\" id=\"stack1__ans1\" " .
+            "rows=\"7\" cols=\"25\" autocapitalize=\"none\" spellcheck=\"false\" " .
+            "placeholder=\"r1 = 0\nr2 = 0\nr3 = 0\nr4 = 0\nr5 = 0\nr6 = 0\">" .
+            "</textarea>",
+            $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                'stack1__ans1', false, null));
+    }
+
     public function test_render_firstline() {
         $el = stack_input_factory::make('equiv', 'ans1', '[]');
         $el->set_parameter('syntaxHint', 'firstline');

@@ -62,6 +62,7 @@ class stack_equiv_input extends stack_input {
             return $this->render_error($this->errors);
         }
 
+        $placeholder = false;
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
             $cs = stack_ast_container::make_from_teacher_source($current);
@@ -79,8 +80,12 @@ class stack_equiv_input extends stack_input {
                 }
             }
             // Remove % characters, e.g. %pi should be printed just as "pi".
-            $current = str_replace('%', '', $current);
             $rows = explode("\n", $current);
+            $current = str_replace('%', '', $current);
+            if ($this->parameters['syntaxAttribute'] == '1') {
+                $placeholder = $current;
+                $current = '';
+            }
         } else {
             $current = implode("\n", $state->contents);
             $rows = $state->contents;
@@ -101,6 +106,9 @@ class stack_equiv_input extends stack_input {
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
         );
+        if ($placeholder) {
+            $attributes['placeholder'] = $placeholder;
+        }
 
         if ($readonly) {
             $attributes['readonly'] = 'readonly';
@@ -390,17 +398,18 @@ class stack_equiv_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return array(
-            'mustVerify'     => true,
-            'showValidation' => 1,
-            'boxWidth'       => 25,
-            'insertStars'    => 0,
-            'syntaxHint'     => '',
-            'forbidWords'    => '',
-            'allowWords'     => '',
-            'forbidFloats'   => true,
-            'lowestTerms'    => true,
-            'sameType'       => false,
-            'options'        => ''
+            'mustVerify'       => true,
+            'showValidation'   => 1,
+            'boxWidth'         => 25,
+            'insertStars'      => 0,
+            'syntaxHint'       => '',
+            'syntaxAttribute'  => 0,
+            'forbidWords'      => '',
+            'allowWords'       => '',
+            'forbidFloats'     => true,
+            'lowestTerms'      => true,
+            'sameType'         => false,
+            'options'          => ''
             );
     }
 

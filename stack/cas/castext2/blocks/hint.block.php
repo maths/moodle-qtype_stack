@@ -18,11 +18,10 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
 
-
 class stack_cas_castext2_hint extends stack_cas_castext2_block {
 
     public function compile($format, $options): ?MP_Node {
-        
+
         $body = new MP_List([new MP_String('%root')]);
 
         $body->items[] = new MP_String('<details class="stack-hint">');
@@ -36,7 +35,7 @@ class stack_cas_castext2_hint extends stack_cas_castext2_block {
             }
         }
         $body->items[] = new MP_String('</div></details>');
-        
+
         return $body;
     }
 

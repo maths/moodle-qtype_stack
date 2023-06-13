@@ -27,7 +27,7 @@ class stack_cas_castext2_hint extends stack_cas_castext2_block {
 
         $body->items[] = new MP_String('<details class="stack-hint">');
         $body->items[] = new MP_String('<summary class="btn btn-secondary" >'.$this->params['title'].'</summary>');
-        $body->items[] = new MP_String('<p class="stack-hint-content">');
+        $body->items[] = new MP_String('<div class="stack-hint-content">');
 
         foreach ($this->children as $item) {
             $c = $item->compile($format, $options);
@@ -35,7 +35,7 @@ class stack_cas_castext2_hint extends stack_cas_castext2_block {
                 $body->items[] = $c;
             }
         }
-        $body->items[] = new MP_String('</p></details>');        
+        $body->items[] = new MP_String('</div></details>');
         
         return $body;
     }

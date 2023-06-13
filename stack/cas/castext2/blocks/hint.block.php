@@ -45,6 +45,21 @@ class stack_cas_castext2_hint extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        return array();
+        $r = array();
+        if (!isset($this->params['title'])) {
+            return $r;
+        }
+
+        return $r;
+    }
+
+    public function validate(&$errors=[], $options=[]): bool {
+        if (!array_key_exists('title', $this->params)) {
+            $errors[] = new $options['errclass']('Hint block requires a title parameter.', $options['context'] . '/' .
+                $this->position['start'] . '-' . $this->position['end']);
+            return false;
+        }
+
+        return true;
     }
 }

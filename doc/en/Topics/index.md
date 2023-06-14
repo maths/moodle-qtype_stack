@@ -12,3 +12,4 @@ Current topics include:
 * [Mathematical Proof](Proof.md)
 * [Propositional Logic](Propositional_Logic.md)
 * [Scientific Units](Units.md)
+* [Vector Calculus](Vector_Calculus.md)

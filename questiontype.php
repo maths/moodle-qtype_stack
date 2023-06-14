@@ -298,7 +298,13 @@ class qtype_stack extends question_type {
                 $node->answertest          = $fromform->{$prtname . 'answertest'}[$nodename];
                 $node->sans                = $fromform->{$prtname . 'sans'}[$nodename];
                 $node->tans                = $fromform->{$prtname . 'tans'}[$nodename];
-                $node->testoptions         = $fromform->{$prtname . 'testoptions'}[$nodename];
+                // For input types which do not have test options, the input field is hidden
+                // and therefore null is passed to $node->testoptions, which crashes the form.
+                // The empty string should be used instead. (Also see issue #974).
+                $node->testoptions         = '';
+                if (property_exists($fromform, $prtname . 'testoptions')) {
+                    $node->testoptions         = $fromform->{$prtname . 'testoptions'}[$nodename];
+                }
                 $node->quiet               = $fromform->{$prtname . 'quiet'}[$nodename];
                 $node->truescoremode       = $fromform->{$prtname . 'truescoremode'}[$nodename];
                 $node->truescore           = $fromform->{$prtname . 'truescore'}[$nodename];

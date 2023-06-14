@@ -26,6 +26,7 @@ class stack_cas_castext2_adapt extends stack_cas_castext2_block {
 
         $adapt_id = "stack-adapt-" . $this->params['id'];
 
+        $style = "";
         if (isset($this->params['hidden'])) {
             if ($this->params['hidden']=='true') {
                 $style = 'style="display:none;"';

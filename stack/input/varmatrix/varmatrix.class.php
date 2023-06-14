@@ -62,6 +62,10 @@ class stack_varmatrix_input extends stack_input {
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+            if ($this->parameters['syntaxAttribute'] == '1') {
+                $attributes['placeholder'] = $current;
+                $current = '';
+            }
         } else {
             $current = array();
             foreach ($state->contents as $row) {

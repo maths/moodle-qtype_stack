@@ -69,6 +69,17 @@ class input_varmatrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
+    public function test_render_syntax_hint_placeholder() {
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
+        $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
+        $el->set_parameter('syntaxAttribute', '1');
+        $this->assertEquals('<div class="matrixroundbrackets"><textarea name="ans1" id="ans1" autocapitalize="none" ' .
+                'spellcheck="false" class="varmatrixinput" size="5.5" style="width: 4.6em" rows="5" cols="10" placeholder="a b' ."\n" .
+                '? d"></textarea></div>',
+                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                        'ans1', false, null));
+    }
+
     public function test_validate_student_response_na() {
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');

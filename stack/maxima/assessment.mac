@@ -1047,6 +1047,12 @@ subst_equiv([ex]):=block([ex1, ex2, l1, lv1, lv2, lvi, lvp, lvs, lve, lvpres, il
  lv1:setdifference(lv1, get_ops(ex1)),
  lv2:setdifference(lv2, get_ops(ex2)),
  if length(lv1)#length(lv2) then return([]),
+ /* We don't include any variables which the teacher fixes. */
+ if not(emptyp(l1)) then (
+   l1:setify(l1),
+   lv1:setdifference(lv1, l1),
+   lv2:setdifference(lv2, l1)
+ ),
  /* If the lists are too long, try a weaker condition */
  /* We assume the variables which occur in both are correctly assigned. */
  /* Can we find a permutation of those left in each? */
@@ -1055,11 +1061,6 @@ subst_equiv([ex]):=block([ex1, ex2, l1, lv1, lv2, lvi, lvp, lvs, lve, lvpres, il
    lv1:setdifference(lv1, lvi),
    lv2:setdifference(lv2, lvi)
   ),
- /* We don't include any variables which the teacher fixes. */
- if not(emptyp(l1)) then (
-   l1:setify(l1),
-   lv2:setdifference(lv2, l1)
- ),
  lv1:listify(lv1),
  lv2:listify(lv2),
  if length(lv1)>perm_size then return(false),

@@ -664,14 +664,21 @@ class stack_answertest_test_data {
         array('SubstEquiv', '', '{x^2-1,x^2}', '{A^2+1,A^2}', 0, 'ATSet_wrongentries.', ''),
         array('SubstEquiv', '', '{A+1,B^2,C}', '{B,C+1,A^2}', 1, 'ATSubstEquiv_Subst [A = C,B = A,C = B].', ''),
         array('SubstEquiv', '', '{1,{A,B},C}', '{1,{a,b},C}', 1, 'ATSubstEquiv_Subst [A = a,B = b,C = C].', ''),
+        // Will not match since x in the teacher's answer is fixed here.
+        array('SubstEquiv', '[x]', 'y=A+B', 'x=a+b', 0, 'ATEquation_default', ''),
+        array('SubstEquiv', '[z]', 'y=A+B', 'x=a+b', 1, 'ATSubstEquiv_Subst [A = a,B = b,y = x].', ''),
         // Optional argument to fix some variables within an expression.
         array('SubstEquiv', '', 'A*cos(t)+B*sin(t)', 'P*cos(t)+Q*sin(t)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = t].', ''),
         array('SubstEquiv', '', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = x].', ''),
-        array('SubstEquiv', '[x]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 0, '', 'Fix some variables.'),
-        // Fixes variables only in the teacher's answer.
-        array('SubstEquiv', '[t]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = x].', ''),
+        // Fixes variables.
+        array('SubstEquiv', '[x]', 'A*cos(x)+B*sin(x)', 'P*cos(x)+Q*sin(x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q].',
+            'Fix some variables.'),
+        array('SubstEquiv', '[x]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 0, '', ''),
+        array('SubstEquiv', '[t]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 0, '', ''),
+        array('SubstEquiv', '[z]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = x].', ''),
         array('SubstEquiv', '[x,t]', 'A*cos(t)*e^x+B*sin(t)*e^x+C*sin(2*x)+D*cos(2*x)',
             'P*cos(t)*e^x+Q*sin(t)*e^x+R*sin(2*x)+S*cos(2*x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,C = R,D = S].', ''),
+        // Fix one.
         array('SubstEquiv', '', 'sqrt(2*g*y)', 'sqrt(2*g*x)', 1, 'ATSubstEquiv_Subst [g = g,y = x].', ''),
         array('SubstEquiv', '[g]', 'sqrt(2*g*y)', 'sqrt(2*g*x)', 1, 'ATSubstEquiv_Subst [y = x].', ''),
 

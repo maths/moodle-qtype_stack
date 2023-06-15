@@ -303,7 +303,9 @@ class qtype_stack extends question_type {
                 // The empty string should be used instead. (Also see issue #974).
                 $node->testoptions         = '';
                 if (property_exists($fromform, $prtname . 'testoptions')) {
-                    $node->testoptions         = $fromform->{$prtname . 'testoptions'}[$nodename];
+                    if (array_key_exists($nodename, $fromform->{$prtname . 'testoptions'})) {
+                        $node->testoptions         = $fromform->{$prtname . 'testoptions'}[$nodename];
+                    }
                 }
                 $node->quiet               = $fromform->{$prtname . 'quiet'}[$nodename];
                 $node->truescoremode       = $fromform->{$prtname . 'truescoremode'}[$nodename];

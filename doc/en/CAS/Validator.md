@@ -137,9 +137,10 @@ It is common to want to share validators between questions.  It would also be ve
 1. Get the validator function working reliably in your question, locally.
 2. Add the maxima function to this file, [`https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/validators.mac`](https://github.com/maths/moodle-qtype_stack/blob/master/stack/maxima/contrib/validators.mac) or another file, preferably contributing to the STACK project.
 3. Add documentation and comprehensive test cases (please!) to let other people know what the validator is intended to do, and to help ensure behaviour remains stable.
-4. Include the [optional validators within the cas logic](../Authoring/Inclusions.md#inclusions-within-cas-logic)
+4. Include the [optional validators within the cas logic](../Authoring/Inclusions.md#inclusions-within-cas-logic) with either of the following
 
     stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/master/stack/maxima/contrib/validators.mac");
+    stack_include_contrib("validators.mac");
 
 Note the url `https://raw.githubusercontent.com/` is used to include the raw content of this file.
 
@@ -152,6 +153,10 @@ Create a new question.
 1. Add the following to the question variables, which loads contributed validators.
 
     stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/master/stack/maxima/contrib/validators.mac");
+
+  or add the following to the question variables
+
+    stack_include_contrib("validators.mac");
 
 2. Use the extra option `validator:validate_underscore` in the input.
 

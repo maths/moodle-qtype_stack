@@ -261,7 +261,7 @@ class maxima_parser_utils {
             $errors = [];
             $include = function($node) use (&$includecount, &$errors, &$remotes) {
                 if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom &&
-                    $node->name->value === 'stack_include') {
+                    ($node->name->value === 'stack_include' || $node->name->value === 'stack_include_contrib')) {
                     // Now the first requirement for this is that this must be a top level item
                     // in this statement, this statement may not have flags or anythign else.
                     if ($node->parentnode instanceof MP_Statement) {
@@ -271,17 +271,22 @@ class maxima_parser_utils {
                                 $includecount = $includecount + 1;
                                 $srccode = '1';
                                 // Various repeated validation steps may lead to multiple fetches for a single
-                                // request, lets not do those, lets save some bandwith for those that share
+                                // request, let's not do those, let's save some bandwith for those that share
                                 // such stuff.
-                                if (isset($remotes[$node->arguments[0]->value])) {
-                                    $srccode = $remotes[$node->arguments[0]->value];
+                                $remoteurl = $node->arguments[0]->value;
+                                if ($node->name->value === 'stack_include_contrib') {
+                                    $remoteurl = 'https://raw.githubusercontent.com/maths/moodle-qtype_stack/' .
+                                        'master/stack/maxima/contrib/' . $remoteurl;
+                                }
+                                if (isset($remotes[$remoteurl])) {
+                                    $srccode = $remotes[$remoteurl];
                                 } else {
-                                    $srccode = file_get_contents($node->arguments[0]->value);
-                                    $remotes[$node->arguments[0]->value] = $srccode;
+                                    $srccode = file_get_contents($remoteurl);
+                                    $remotes[$remoteurl] = $srccode;
                                 }
                                 if ($srccode === false) {
                                     // Do not give the address in the output.
-                                    $errors[] = 'stack_include, could not retrieve: #' . $includecount;
+                                    $errors[] = 'stack_include or stack_include_contrib, could not retrieve: ' . $remoteurl;
                                     $node->name->value = 'failed_stack_include';
                                     $node->position['invalid'] = true;
                                     return true;

@@ -27,8 +27,7 @@ the question.
 
 Note that in the current solution during export we export only the source address 
 and the exported material will only work if the address is accessible at the end 
-that imports it. This is the primary reason why the current solution is not 
-considered as good enough for a general solution.
+that imports it.
 
 
 ## Inclusions within text
@@ -66,26 +65,20 @@ math-mode is not quite ready to understand all of these context switches.
 
 ## Inclusions within CAS-logic
 
-The more complex inclusion type is the includion into keyvals, i.e. question-variables
-or into feedback-variables. This type of an inclusion will again act just like any
-other bit of logic as if written directly at that place in the code. If one writes
-this type of an inclusion within an if-statement it will simply get written open within 
-an if-statement, the if will only decide if it executes, but it will still take that 
-space and bandwidth.
+You can also include code into keyvals, i.e. question-variables or into feedback-variables.
+This type of an inclusion will again act just as if written directly by the question author at that place in the code. If one writes this type of an inclusion within an if-statement it will simply get written open within 
+an if-statement, the `if` will only decide if it executes, but it will still take that space and bandwidth.
 
-Also note that the included material must follow all the rules of normal STACK 
-keyvals and if one for example plugs in large amounts of code into the question-variables
-then all the identifiers bound in that code will be markked as forbidden-words for
-the students. So particular care should be taken when choosing identifiers in such
-shared logic.
+The included material must follow all the rules of normal STACK keyvals.
 
-Note that we do not do tree-shaking at this point, so if you include a massive library
-of functions that you do not use the question will still have to load those functions
-into the CAS and that may take some time.
+1. Large amounts of code will affect performance.  The internal Maxima code is pre-compiled but question variables are interpreted at runtime.  
+2. All the identifiers bound in included code will subject to checks just as if you typed them in.
+3. Identifiers in your code will be marked as forbidden-words for the students. So particular care should be taken when choosing identifiers in such shared logic between questions.  Do not use names a student might need to type in another, un-related, question!
+4. Code is loaded when you save the question, not when a student uses the question.  Hence code is cached in the question.  Updates to an external library will therefore not affect existing questions.  That cache will not invalidate unless you (a) update the STACK plugin (which clears all cached/compiled questions), (b) save the question (which again downloads the code).
 
-THe way to do an inclusion is to call the `stack_include()`-function with a string 
-argument, the argument must be a raw string and not a reference to a variable 
-containing such a string. Like this:
+Note that we do not do "tree-shaking" at this point to remove unnecessary code.  If you include a massive library of functions that you do not use the question will still have to load those functions into the CAS and that may take some time.  If you have libraries, used in many questions, please consider contibuting these to the core of STACK.
+
+To include external CAS code call the `stack_include()`-function with a string  argument.  The argument must be a raw string, containing the URL of the code.  You cannot reference a variable containing such a string. For example,
 
 ```
 a: rand(3)+2;
@@ -96,9 +89,31 @@ stack_include("http://example.com/fragments/mymatrixrand.txt");
 m: mymatrix_rand_integer_invertible(a);
 ```
 
-Note, that `stack_include()` has no Maxima side equivalent so you cannot simply
-copy-paste your question-vars into Maxima to debug things. You will need to
-manually do that inclusion in those cases.
-
 You may not use evaluation flags with `stack_include()` while the code included may
 have them the inclusion call cannot be used to apply flags to all the included content.
+
+The function `stack_include_contrib()` will load the files contained in the 
+[STACK maxima contrib folder](https://github.com/maths/moodle-qtype_stack/tree/master/stack/maxima/contrib) in the master branch in github.
+In particular the argument of `stack_include_contrib()` has this URL prepended: 
+`https://raw.githubusercontent.com/maths/moodle-qtype_stack/master/stack/maxima/contrib/`
+
+Hence, the following are completely equivalent
+
+    stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/master/stack/maxima/contrib/validators.mac");
+    stack_include_contrib("validators.mac");
+
+Notes.
+
+1. We will try to keep files in the contrib folder small, and stable.  
+2. We intend to move commonly used contributed code into the core in due course.  At that point we will localise language strings for automatic translation.
+3. Please contact the developers about naming conventions.  For example, external validators should start the function name with `validator_`.
+
+### Sandbox testing
+
+Note, that `stack_include()` and has no Maxima-side equivalent so you cannot simply copy-paste 
+your question-variables into Maxima to debug things. You will need to manually do that inclusion.
+
+`stack_include_contrib()` will load the packages from the local STACK files, when you set up the sandbox.
+Make sure you have the latest code in your sandbox as you may have stale versions of contributed
+(and other core) files on your local machine.
+

@@ -516,11 +516,14 @@ class qtype_stack extends question_type {
         $totalvalue = 0;
         $allformative = true;
         foreach ($prtnames as $name) {
-            $prtdata = $questiondata->prts[$name];
-            // At this point we do not have the PRT method is_formative() available to us.
-            if ($prtdata->feedbackstyle > 0) {
-                $totalvalue += $prtdata->value;
-                $allformative = false;
+            // If not then we have just created the PRT.
+            if (array_key_exists($name, $questiondata->prts)) {
+                $prtdata = $questiondata->prts[$name];
+                // At this point we do not have the PRT method is_formative() available to us.
+                if ($prtdata->feedbackstyle > 0) {
+                    $totalvalue += $prtdata->value;
+                    $allformative = false;
+                }
             }
         }
         if ($questiondata->prts && !$allformative && $totalvalue < 0.0000001) {

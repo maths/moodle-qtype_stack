@@ -127,7 +127,7 @@ jobs:
  
           cp ${{ github.workspace }}/moodledata/phpu_moodledata/stack/maxima_opt_auto ${{ github.workspace }}/maxima_opt_auto
           # Try a command on the command line.
-          # echo "1+1; quit();" | timeout --kill-after=10s 10s ${{ github.workspace }}/maxima_opt_auto -eval '(cl-user::run)' 
+          # echo "1+1; quit();" | timeout --kill-after=100s 100s ${{ github.workspace }}/maxima_opt_auto -eval '(cl-user::run)' 
 
 
         env:

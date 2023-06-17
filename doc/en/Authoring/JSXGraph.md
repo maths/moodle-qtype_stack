@@ -21,7 +21,7 @@ To include a basic dynamically-generated sketch into a STACK question, first def
     a:rand(6)-3;
     fx:sin(x)+a;
 
-Then include the following question text, which includes a simple `[[jsxgraph]]` [block](Question_blocks.md).  In particular note the lack of `<script>` tags which you might expect to include.
+Then include the following question text, which includes a simple `[[jsxgraph]]` [block](Question_blocks/Dynamic_blocks.md).  In particular note the lack of `<script>` tags which you might expect to include.
 
     <p>Type in an algebraic expression which has the graph shown below.</p>
     [[jsxgraph]]

@@ -1,8 +1,6 @@
-# Hints
+# In-built "facts"
 
-STACK contains a "formula sheet" of useful fragments which a teacher may wish to include in a consistent way.  This is achieved through the "hints" system.
-
-Hints can be included in any [CASText](CASText.md).
+STACK contains a "formula sheet" of useful fragments which a teacher may wish to include in a consistent way. These "facts" can be included in any [CASText](CASText.md).
 
 To include a hint, use the syntax
 

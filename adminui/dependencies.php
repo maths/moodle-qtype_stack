@@ -127,7 +127,7 @@ if (data_submitted() && optional_param('includes', false, PARAM_BOOL)) {
         if (isset($q->compiledcache['includes']) && (
             (isset($q->compiledcache['includes']['keyval']) && count($q->compiledcache['includes']['keyval']) > 0) ||
             (isset($q->compiledcache['includes']['castext']) && count($q->compiledcache['includes']['castext']) > 0))) {
-            list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q, false);
+            list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
             if (stack_determine_moodle_version() < 400) {
                 $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
             } else {
@@ -193,7 +193,7 @@ if (data_submitted() && optional_param('jsxgraphs', false, PARAM_BOOL)) {
         }
         // Confirm that it does have these.
         if ($block || $filter || $other) {
-            list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q, false);
+            list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
             if (stack_determine_moodle_version() < 400) {
                 $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
             } else {
@@ -264,7 +264,7 @@ if (data_submitted() && optional_param('script', false, PARAM_BOOL)) {
     // Load the whole question, simpler to get the contexts correct that way.
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
-        list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q, false);
+        list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
         if (stack_determine_moodle_version() < 400) {
             $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
         } else {
@@ -289,7 +289,7 @@ if (data_submitted() && optional_param('PLUGINFILE', false, PARAM_BOOL)) {
     // Load the whole question, simpler to get the contexts correct that way.
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
-        list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q, false);
+        list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
         if (stack_determine_moodle_version() < 400) {
             $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
         } else {
@@ -314,7 +314,7 @@ if (data_submitted() && optional_param('langs', false, PARAM_BOOL)) {
     // Load the whole question, simpler to get the contexts correct that way.
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
-        list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q, false);
+        list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
         if (stack_determine_moodle_version() < 400) {
             $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
         } else {

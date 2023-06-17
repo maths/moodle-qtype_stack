@@ -113,7 +113,7 @@
             "description":"Algebraic equivalence is the prototype test"
             },
             {
-            "file":"Algebraic Form.md",
+            "file":"Form.md",
             "title":"Answer tests to establish algebraic form - STACK Documentation",
             "description":"STACK can confirm an expression is written in a particular form."
             },
@@ -401,7 +401,7 @@
         {
         "file":"Fact_sheets.md",
         "title":"Fact Sheets - STACK Documentation",
-        "description":"STACK lets question authors easily embed standard fact sheets into their questions."
+        "description":"STACK lets question authors easily embed standard facts into their questions."
         },
         {
         "file":"Future_proof.md",
@@ -469,9 +469,33 @@
         "description":"Information on using potential response trees in the STACK online assessment system."
         },
         {
-        "file":"Question_blocks.md",
-        "title":"Question Blocks - STACK Documentation",
-        "description":"Information on using question blocks in STACK."
+            "Question_blocks":[
+                {
+                "file":"index.md",
+                "title":"Question Blocks - STACK Documentation",
+                "description":"Information on using question blocks in STACK."
+                },
+                {
+                "file":"Static_blocks.md",
+                "title":"Static Blocks - STACK Documentation",
+                "description":"Information on using static question blocks in STACK."
+                },
+                {
+                "file":"Conditional_blocks.md",
+                "title":"Conditional Blocks - STACK Documentation",
+                "description":"Information on using conditional question blocks in STACK."
+                },
+                {
+                "file":"Dynamic_blocks.md",
+                "title":"Dynamic Blocks - STACK Documentation",
+                "description":"Information on using dynamic question blocks in STACK."
+                },
+                {
+                "file":"System_blocks.md",
+                "title":"System Blocks - STACK Documentation",
+                "description":"Information on using system question blocks in STACK."
+                }
+            ]
         },
         {
         "file":"Question_note.md",
@@ -945,6 +969,11 @@
         "file":"Units.md",
         "title":"Scientific Units - STACK Documentation",
         "description":"STACK supports the use of scientific units in its questions. This is particularly useful in physics questions."
+        },
+        {
+        "file":"Vector_Calculus.md",
+        "title":"Vector Calculus - STACK Documentation",
+        "description":"This page provides advice for writing STACK questions in vector calculus."
         }
       ] 
       }

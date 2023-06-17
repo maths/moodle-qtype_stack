@@ -77,7 +77,7 @@ To selectively control simplification within CASText (including the general feed
 ```
 {@3/9,simp=false@}
 ```
-3. Use a [define block](../Authoring/Question_blocks.md#define-block) to set the value of `simp`, e.g.
+3. Use a [define block](../Authoring/Question_blocks/Static_blocks.md#define-block) to set the value of `simp`, e.g.
 ```
 [[define simp="false"/]]
 \({@3/9@} \neq {@1+1@}\)

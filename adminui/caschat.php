@@ -41,6 +41,7 @@ $questionid = optional_param('questionid', null, PARAM_INT);
 
 if (!$questionid) {
     $context = context_system::instance();
+    $PAGE->set_context($context);
     require_capability('qtype/stack:usediagnostictools', $context);
     $urlparams = array();
 } else {
@@ -55,8 +56,6 @@ if (!$questionid) {
     question_require_capability_on($questiondata, 'view');
 }
 
-$context = context_system::instance();
-$PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/adminui/caschat.php', $urlparams);
 $title = stack_string('chattitle');
 $PAGE->set_title($title);

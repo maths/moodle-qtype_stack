@@ -2,6 +2,12 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.4.4
+
+Released June 2023.
+
+This is a bug-fix release.
+
 ## Version 4.4.3
 
 Released May 2023.
@@ -50,7 +56,7 @@ Major rewrite of the PRT and CASText systems, focus on performance and limitatio
 3. Compiled PRTs, which are now true `if`-statements in the CAS and issue #150 is now handled.
 4. The marks and penalty fields in the PRTs can be numbers, or other variables defined elsewhere in the question.
 5  Change behaviour of UnitsAbsolute in response to discussion of issue #448.
-6. CASText2 is the new [CASText-system](../Authoring/Question_blocks.md) and it supports mixed formats and provides new blocks for declaring formats.
+6. CASText2 is the new [CASText-system](../Authoring/Question_blocks/index.md) and it supports mixed formats and provides new blocks for declaring formats.
 7. Markdown is now a supportted format and value injections into it will get correctly escaped. Use triple slashes for math-mode...
 8. There are now means of [including external](../Authoring/Inclusions.md) code and CASText fragments from an URL.
 9. One can now generate [text-files for download](../Authoring/Serving_out_data.md) with a special block in the question-text. CSV:s of student specific random data etc.
@@ -281,7 +287,7 @@ STACK 4.0 includes the block features and other important changes in CASText.
 
 * To generate the LaTeX displayed form of a CAS variable in CASText you must use `{@...@}`.  Note the curly braces which now must be used.  We have an upgrade script for existing questions.
 * To generate the Maxima value of a CAS variable in CASText you can use `{#...#}`. This is useful when interfacing with other software, or showing examples to students.
-* CASText now supports conditional statements and adaptive blocks. See [question blocks](../Authoring/Question_blocks.md).
+* CASText now supports conditional statements and adaptive blocks. See [question blocks](../Authoring/Question_blocks/index.md).
 
 Other changes.
 
@@ -373,7 +379,7 @@ Released September 2014.
 
 This contains numerous minor bug fixes and improvements.
 
- 1. Added in the [Question blocks](../Authoring/Question_blocks.md)
+ 1. Added in the [Question blocks](../Authoring/Question_blocks/index.md)
  2. Changes to validation of casstrings. We now *allow* syntax such as 3e2 to represent floating point numbers.  The strict syntax settings still flag 3e2 as "missing stars".
  3. Improvements to catching common syntax errors with trig functions, e.g. sin^-1(x) or cos[x]
  4. Refactored the numerical tests.  This means they are now standard Maxima tests, not using PHP.

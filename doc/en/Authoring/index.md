@@ -24,7 +24,7 @@ The authoring documentation also covers topics on:
 #### [CASText](CASText.md)
 
 * [Fact Sheets](Fact_sheets.md),
-* [Question blocks](Question_blocks.md),
+* [Question blocks](Question_blocks/index.md),
 * [Using JSXGraph](JSXGraph.md).
 * [Using GeoGebra](GeoGebra.md).
 

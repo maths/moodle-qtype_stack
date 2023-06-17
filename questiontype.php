@@ -259,7 +259,7 @@ class qtype_stack extends question_type {
                     $right = $falsenextnode + 1;
                 }
 
-                $graph->add_node($nodename + 1, $description, $left, $right);
+                $graph->add_prt_node($nodename + 1, $description, $left, $right);
             }
             $graph->layout();
             $roots = $graph->get_roots();
@@ -298,12 +298,25 @@ class qtype_stack extends question_type {
                 $node->answertest          = $fromform->{$prtname . 'answertest'}[$nodename];
                 $node->sans                = $fromform->{$prtname . 'sans'}[$nodename];
                 $node->tans                = $fromform->{$prtname . 'tans'}[$nodename];
-                $node->testoptions         = $fromform->{$prtname . 'testoptions'}[$nodename];
+                // For input types which do not have test options, the input field is hidden
+                // and therefore null is passed to $node->testoptions, which crashes the form.
+                // The empty string should be used instead. (Also see issue #974).
+                $node->testoptions         = '';
+                if (property_exists($fromform, $prtname . 'testoptions')) {
+                    if (array_key_exists($nodename, $fromform->{$prtname . 'testoptions'})) {
+                        $node->testoptions         = $fromform->{$prtname . 'testoptions'}[$nodename];
+                    }
+                }
                 $node->quiet               = $fromform->{$prtname . 'quiet'}[$nodename];
                 $node->truescoremode       = $fromform->{$prtname . 'truescoremode'}[$nodename];
                 $node->truescore           = $fromform->{$prtname . 'truescore'}[$nodename];
-                $node->truepenalty         = stack_utils::fix_approximate_thirds(
-                    $fromform->{$prtname . 'truepenalty'}[$nodename]);
+                if (property_exists($fromform, $prtname . 'truepenalty')) {
+                    $node->truepenalty         = stack_utils::fix_approximate_thirds(
+                        $fromform->{$prtname . 'truepenalty'}[$nodename]);
+                } else {
+                    // Else we just deleted a PRT.
+                    $node->truepenalty = '';
+                }
                 $node->truenextnode        = $fromform->{$prtname . 'truenextnode'}[$nodename];
                 $node->trueanswernote      = $fromform->{$prtname . 'trueanswernote'}[$nodename];
                 $node->truefeedback        = $this->import_or_save_files(
@@ -312,8 +325,13 @@ class qtype_stack extends question_type {
                 $node->truefeedbackformat  = $fromform->{$prtname . 'truefeedback'}[$nodename]['format'];
                 $node->falsescoremode      = $fromform->{$prtname . 'falsescoremode'}[$nodename];
                 $node->falsescore          = $fromform->{$prtname . 'falsescore'}[$nodename];
-                $node->falsepenalty        = stack_utils::fix_approximate_thirds(
-                    $fromform->{$prtname . 'falsepenalty'}[$nodename]);
+                if (property_exists($fromform, $prtname . 'falsepenalty')) {
+                    $node->falsepenalty         = stack_utils::fix_approximate_thirds(
+                        $fromform->{$prtname . 'falsepenalty'}[$nodename]);
+                } else {
+                    // Else we just deleted a PRT.
+                    $node->falsepenalty = '';
+                }
                 $node->falsenextnode       = $fromform->{$prtname . 'falsenextnode'}[$nodename];
                 $node->falseanswernote     = $fromform->{$prtname . 'falseanswernote'}[$nodename];
                 $node->falsefeedback        = $this->import_or_save_files(
@@ -493,13 +511,19 @@ class qtype_stack extends question_type {
                     $inputdata->type, $inputdata->name, $inputdata->tans, $question->options, $parameters);
         }
 
+        $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
+
         $totalvalue = 0;
         $allformative = true;
-        foreach ($questiondata->prts as $name => $prtdata) {
-            // At this point we do not have the PRT method is_formative() available to us.
-            if ($prtdata->feedbackstyle > 0) {
-                $totalvalue += $prtdata->value;
-                $allformative = false;
+        foreach ($prtnames as $name) {
+            // If not then we have just created the PRT.
+            if (array_key_exists($name, $questiondata->prts)) {
+                $prtdata = $questiondata->prts[$name];
+                // At this point we do not have the PRT method is_formative() available to us.
+                if ($prtdata->feedbackstyle > 0) {
+                    $totalvalue += $prtdata->value;
+                    $allformative = false;
+                }
             }
         }
         if ($questiondata->prts && !$allformative && $totalvalue < 0.0000001) {
@@ -508,15 +532,15 @@ class qtype_stack extends question_type {
                     $question->name);
         }
 
-        $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
-
         foreach ($prtnames as $name) {
-            $prtvalue = 0;
-            if (!$allformative) {
-                $prtvalue = $questiondata->prts[$name]->value / $totalvalue;
-            }
-            $question->prts[$name] = new stack_potentialresponse_tree_lite($questiondata->prts[$name],
-                $prtvalue, $question);
+            if (array_key_exists($name, $questiondata->prts)) {
+                $prtvalue = 0;
+                if (!$allformative) {
+                    $prtvalue = $questiondata->prts[$name]->value / $totalvalue;
+                }
+                $question->prts[$name] = new stack_potentialresponse_tree_lite($questiondata->prts[$name],
+                    $prtvalue, $question);
+            } // If not we just added a PRT.
         }
 
         $question->deployedseeds = array_values($questiondata->deployedseeds);
@@ -2109,12 +2133,14 @@ class qtype_stack extends question_type {
                 }
             }
 
-            $penalty = $fromform[$prtname . $branch . 'penalty'][$nodekey];
-            if ('' != $penalty && is_numeric($penalty)) {
-                if ($penalty < 0 || $penalty > 1) {
-                    $errors[$branchgroup][] = stack_string('penaltyerror2');
+            if (array_key_exists($prtname . $branch . 'penalty', $fromform)) {
+                $penalty = $fromform[$prtname . $branch . 'penalty'][$nodekey];
+                if ('' != $penalty && is_numeric($penalty)) {
+                    if ($penalty < 0 || $penalty > 1) {
+                        $errors[$branchgroup][] = stack_string('penaltyerror2');
+                    }
                 }
-            }
+            } // Else we have just deleted the PRT.
 
             $answernote = $fromform[$prtname . $branch . 'answernote'][$nodekey];
             if ('' == $answernote) {
@@ -2287,7 +2313,7 @@ class qtype_stack extends question_type {
             }
 
             if (optional_param($prtname . 'nodeadd', false, PARAM_BOOL)) {
-                $graph->add_node($lastkey + 2, '', null, null, '+0', '-0',
+                $graph->add_prt_node($lastkey + 2, '', null, null, '+0', '-0',
                         '#fgroup_id_' . $prtname . 'node_' . ($lastkey + 1));
             }
 

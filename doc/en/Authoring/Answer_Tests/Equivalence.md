@@ -89,10 +89,10 @@ Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which rend
 
 * Because we have to test every possibility, the algorithm is factorial in the number of variables.  For this reason, the test only works for 4 or fewer variables.
 * This test makes a substitution then uses AlgEquiv.
-* If you add an answer test option (not required) in the form of a list of variables, these variables will be "fixed" during the comparison.  E.g.
+* If you add an answer test option (not required) in the form of a list of variables, these variables will be "fixed" during the comparison.  The list of variable is removed from both lists of the teacher's and student's variable lists before any comparison.
   * `ATSubstEquiv(x=A+B, x=a+b)` will match with `[A = a,B = b,x = x]`.
   * `ATSubstEquiv(x=A+B, x=a+b, [x])` will match with `[A = a,B = b]`.
-  * `ATSubstEquiv(y=A+B, x=a+b, [x])` will not match since `x` in the teacher's answer is fixed here.
+  * `ATSubstEquiv(y=A+B, x=a+b, [x])` will not match since `x` in the teacher's answer is fixed here, but does not occur in the student's answer.
 
 The optional argument, which must be a list of variables, is useful if you want to establish that a student has used arbitrary constants in \(A\sin(x)+B\cos(x)\) but make sure \(x\) really stays as \(x\).
 

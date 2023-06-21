@@ -1555,7 +1555,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // 2. Check alt-text exists.
         // Reminder: previous approach in Oct 2021 tried to use libxml_use_internal_errors, but this was a dead end.
-
         $tocheck = array();
         $text = '';
         if ($this->questiontextinstantiated !== null) {
@@ -1587,7 +1586,26 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
 
-        // 3. Language warning checks.
+        // 3. Check for todo blocks.
+        $tocheck = array();
+        $fields = array('questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription');
+        foreach ($fields as $field) {
+            $tocheck[stack_string($field)] = $this->$field;
+        }
+        foreach ($this->prts as $prt) {
+            $text = trim($prt->get_feedback_test());
+            if ($text !== '') {
+                $tocheck[$prt->get_name()] = $text;
+            }
+        }
+        $pat = '/\[\[todo/';
+        foreach ($tocheck as $field => $text) {
+            if (preg_match($pat, $text)) {
+                $warnings[] = stack_string_error('todowarning', array('field' => $field));
+            }
+        }
+
+        // 4. Language warning checks.
         // Put language warning checks last (see guard clause below).
         // Check multi-language versions all have the same languages.
         $ml = new stack_multilang();

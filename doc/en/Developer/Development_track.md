@@ -1,4 +1,5 @@
 
+
 # Development track for STACK
 
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
@@ -10,6 +11,7 @@ DONE
 1. Add in the `s_assert` function to allow teachers to unit-test individual question variable values.
 2. Add in the `hint` [question block](../Authoring/Question_blocks/Dynamic_blocks.md).  Fixes issue #968, thanks to Michael Kallweit.
 3. Add in the `stack_include_contrib()` for easier inclusion of libraries.
+4. Add in the `[[todo]]` [question block](../Authoring/Question_blocks/Static_blocks.md).
 
 TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
  #671, #420

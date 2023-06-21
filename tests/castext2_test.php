@@ -475,6 +475,19 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * Block-system "todo"-block, functional requirements:
+     *  1. Comments out itself and contents.
+     *  2. Even if contents are invalid or incomplete.
+     *
+     * @covers \qtype_stack\stack_cas_castext2_comment
+     */
+    public function test_blocks_todo() {
+        $input = '1[[ todo]] [[ foreach bar="foo"]] {#y@} [[/todo]]2';
+        $output = '12';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    /**
      * Block-system "escape"-block, functional requirements:
      *  1. Escapes the contents so that they will not be processed.
      *  2. Outputs contents as they are.

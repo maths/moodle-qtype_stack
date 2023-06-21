@@ -106,6 +106,7 @@ echo $OUTPUT->single_button(
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, array('langs' => 1, 'sesskey' => sesskey())),
     'Find "langs"');
+// Note, we can't easily add checks for "todo" here because these blocks have been stripped out of the cache.
 
 if (data_submitted() && optional_param('includes', false, PARAM_BOOL)) {
     /*
@@ -262,7 +263,7 @@ if (data_submitted() && optional_param('langs', false, PARAM_BOOL)) {
     $qs = $DB->get_recordset_sql('SELECT q.id as questionid FROM {question} q, {qtype_stack_options} o WHERE ' .
         'q.id = o.questionid AND ' . $DB->sql_like('o.compiledcache', ':trg') . ' AND NOT ' .
         $DB->sql_like('o.compiledcache', ':other') . ';', ['trg' => '%"langs":[%', 'other' => '%"langs":[]%']);
-    echo '<h4>Questions containing that have localisation using means we understand.</h4>';
+    echo '<h4>Questions containing localisation using means we understand.</h4>';
     echo '<table><thead><tr><th>Question</th><th>Langs</th></thead><tbody>';
     // Load the whole question, simpler to get the contexts correct that way.
     foreach ($qs as $item) {

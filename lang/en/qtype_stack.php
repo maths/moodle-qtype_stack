@@ -411,6 +411,7 @@ $string['languageproblemsmissing'] = 'The language tag {$a->lang} is missing fro
 $string['languageproblemsextra']   = 'The field {$a->field} has the following languages not in the question text: {$a->langs}.';
 
 $string['alttextmissing']    = 'One or more images appears to have a missing or empty \'alt\' tag in "{$a->field}" ({$a->num}).';
+$string['todowarning']       = 'You have un-resolved todo blocks in "{$a->field}".';
 
 // Admin settings.
 $string['settingajaxvalidation'] = 'Instant validation';

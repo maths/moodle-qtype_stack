@@ -951,6 +951,11 @@
         "description":"STACK supports the use of scientific units in its questions. This is particularly useful in physics questions."
         },
         {
+        "file":"Unsorted_multi_input.md",
+        "title":"Partial credit for multiple inputs - STACK Documentation",
+        "description":"This page describes how to give partial credit when you have muliple inputs, but don't know the order in which they are typed in."
+        },
+        {
         "file":"Vector_Calculus.md",
         "title":"Vector Calculus - STACK Documentation",
         "description":"This page provides advice for writing STACK questions in vector calculus."

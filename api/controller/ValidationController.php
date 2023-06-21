@@ -40,13 +40,12 @@ class ValidationController
         if(!array_key_exists($data["inputName"], $question->inputs)) throw new \stack_exception('invalid input name');
 
         $validationResponse->Validation =
-            $question->inputs[$data["inputName"]]->replace_validation_tags(
+            $question->inputs[$data["inputName"]]->render_validation(
                 $question->get_input_state(
                     $data["inputName"],
                     $data["answers"]
                 ),
-                $data["inputName"],
-                "[[validation:{$data["inputName"]}]]"
+                $data["inputName"]
             );
 
         $response->getBody()->write(json_encode($validationResponse));

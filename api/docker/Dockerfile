@@ -1,5 +1,5 @@
 #Intermediate step installing dependencies
-FROM composer as composer
+FROM composer:lts as composer
 
 COPY / /work/
 
@@ -9,7 +9,7 @@ RUN composer install
 RUN composer dump-autoload --optimize
 
 #Base Image
-FROM php:8.2-apache AS base
+FROM php:8.2-apache-bullseye AS base
 
 #Install required php extensions
 RUN apt-get update && \

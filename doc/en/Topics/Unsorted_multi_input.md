@@ -51,3 +51,12 @@ STACK provides a maxima function `list_cancel(l1,l2)` which removes any common e
     [missing, notwanted]:list_cancel([sans, tas]);
     score:max(1-(length(missing)+length(notwanted))/(2*length(tas)),0);
 
+Note that `list_cancel` will not establish algebraic equialence and within this function two expressions are considered the same using maxima's `is(ex1=ex2))`.  Hence, some pre-processing of the lists might be needed, depending on the situation and what you consider is the "same".  For example if we have
+
+    l1:[x^2,x^3,x^2-1,x+x];
+    l2:[x^2,x^4,(x-1)*(x+1),2*x];
+    list_cancel([l1,l2]);
+
+will return \[\left[ \left[ x^3 , x^2-1 \right]  , \left[ x^4 , \left(x-1\right) \,\left(x+1\right) \right]  \right] \]
+Notice the last elements are remove because default simplification takes place but \(x^2-1\) and \((x-1)(x+1)\) are not considered the same by `is`.  In this case `ratsimp` can be applied to the lists first.
+

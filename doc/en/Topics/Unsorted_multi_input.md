@@ -58,5 +58,5 @@ Note that `list_cancel` will not establish algebraic equialence and within this 
     list_cancel([l1,l2]);
 
 will return \[\left[ \left[ x^3 , x^2-1 \right]  , \left[ x^4 , \left(x-1\right) \,\left(x+1\right) \right]  \right] \]
-Notice the last elements are remove because default simplification takes place but \(x^2-1\) and \((x-1)(x+1)\) are not considered the same by `is`.  In this case `ratsimp` can be applied to the lists first.
+Notice the last elements are remove because default simplification takes place but \(x^2-1\) and \((x-1)(x+1)\) are not considered the same by `is`.  In this case `ratsimp` can be applied to the lists first.  In other situations functions like `trigsimp` or `trigrat` might be needed.
 

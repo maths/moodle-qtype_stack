@@ -22,8 +22,9 @@ require_once(__DIR__ . '/../block.interface.php');
 class stack_cas_castext2_todo extends stack_cas_castext2_block {
 
     public function compile($format, $options): ?MP_Node {
-        // Todo items do not get anywhere ever.
-        return null;
+        $body = new MP_List([new MP_String('%root')]);
+        $body->items[] = new MP_String('<!--- stack_todo --->');
+        return $body;
     }
 
     public function is_flat(): bool {

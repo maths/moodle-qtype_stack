@@ -483,7 +483,7 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_blocks_todo() {
         $input = '1[[ todo]] [[ foreach bar="foo"]] {#y@} [[/todo]]2';
-        $output = '12';
+        $output = '1<!--- stack_todo --->2';
         $this->assertEquals($output, $this->evaluate($input));
     }
 

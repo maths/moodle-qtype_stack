@@ -26,7 +26,9 @@ Before 4.4 the contents of the block needed to be syntactically correct CASText.
 
 Any question with a todo will flag an error in the bulk tester.  This will _not_ throw an error in the editing form.  These blocks can also be found by the dependency checker.
 
-The todo block is similar to the comments block.  A different block is provided to facilitate searching for questions with specific "todo" items remaining.  The contents must be valid castext (unlike the comments block which can be anything) because in the future we may extend the functionality to display todo items in a teacher preview.
+The todo block is similar to the comments block.  A different block is provided to facilitate searching for questions with specific "todo" items remaining.  The contents must be valid castext (unlike the comments block which can be anything) because in the future we may extend the functionality to display todo items in a teacher preview.  If you need to include invalid content either use the comment block, or escape block inside the todo, e.g.
+
+    [[todo]][[escape]]...[[/escape]][[/todo]]
 
 The contents of this block are replaced by the static
 

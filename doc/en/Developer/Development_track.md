@@ -12,6 +12,7 @@ DONE
 2. Add in the `hint` [question block](../Authoring/Question_blocks/Dynamic_blocks.md).  Fixes issue #968, thanks to Michael Kallweit.
 3. Add in the `stack_include_contrib()` for easier inclusion of libraries.
 4. Add in the `[[todo]]` [question block](../Authoring/Question_blocks/Static_blocks.md).
+5. Caschat page now saves question variables and general feedback back into the question.  Fixes issue #984.
 
 TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
  #671, #420

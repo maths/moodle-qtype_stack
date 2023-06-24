@@ -380,7 +380,7 @@ class qtype_stack extends question_type {
         }
 
         if (isset($fromform->testcases)) {
-            // If the data includes the defintion of the question tests that there
+            // If the data includes the definition of the question tests that there
             // should be (i.e. when doing import) then replace the existing set
             // of tests with the new one.
             $this->save_question_tests($fromform->id, $fromform->testcases);

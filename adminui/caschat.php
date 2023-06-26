@@ -27,6 +27,7 @@ require_once(__DIR__.'/../../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
+require_once(__DIR__ . '/../vle_specific.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/options.class.php');
 require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
@@ -141,6 +142,9 @@ if ($string) {
             $DB->set_field('qtype_stack_options', 'questionvariables', $vars,
                 array('questionid' => $questionid));
             $DB->set_field('qtype_stack_options', 'compiledcache', null, array('questionid' => $questionid));
+            // Invalidate the question definition cache.
+            stack_clear_vle_question_cache($questionid);
+
             $savedmsg = stack_string('savechatmsg');
         }
     }

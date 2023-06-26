@@ -1728,7 +1728,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
                     // Invalidate the question definition cache.
                     // First from the next sessions.
-                    cache::make('core', 'questiondata')->delete($this->id);
+                    stack_clear_vle_question_cache($this->id);
                 }
             } catch (stack_exception $e) {
                 // TODO: what exactly do we use here as the key

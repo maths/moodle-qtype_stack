@@ -630,6 +630,11 @@
         "file":"Validator.md",
         "title":"Creating bespoke validation - STACK Documentation",
         "description":"How to create bespoke validation of student's input."
+        },
+        {
+        "file":"Workflow.md",
+        "title":"Question authoring workflow - STACK Documentation",
+        "description":"This page suggests workflow for authoring STACK questions."
         }
       ]
       },

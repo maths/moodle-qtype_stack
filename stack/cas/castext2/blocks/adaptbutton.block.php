@@ -52,10 +52,10 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $code .= 'const butt = document.getElementById(stack-adaptbutton-'.self::$countadaptbuttons.');';
         $code .= 'butt.addEventListener("click",(e)=>{';
         if (isset($this->params['show_id'])) {
-            $code .= 'stack_js.toggle_visibility(""stack-adapt-"' . $this->params['show_id'] . '",true);});';
+            $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['show_id'] . '",true);});';
         }   
         if (isset($this->params['hide_id'])) {
-            $code .= 'stack_js.toggle_visibility(""stack-adapt-"' . $this->params['hide_id'] . '",false);});';
+            $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['hide_id'] . '",false);});';
         }         
 
         //$code .= '});';

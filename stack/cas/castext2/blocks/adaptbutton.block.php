@@ -49,6 +49,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         //$code .= 'stack_js.request_access_to_input("' . $this->params['id'] . '", true).then((id) => {';
         // So that should give us access to the input.
         // Once we get the access immediately bind a listener to it.
+        //test kommentar
         $code .= 'const butt = document.getElementById("stack-adaptbutton-'.self::$countadaptbuttons.'");';
         $code .= 'butt.addEventListener("click",(e)=>{';
         if (isset($this->params['show_id'])) {

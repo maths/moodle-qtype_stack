@@ -28,49 +28,49 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $body = new MP_List([new MP_String('%root')]);
 
-        // $onclick = "";
-        // if (isset($this->params['show_id'])) {
-        //     $onclick .= "document.getElementById('stack-adapt-" . $this->params['show_id'] . "').style.display='block';";
-        // }   
-        // if (isset($this->params['hide_id'])) {
-        //     //changed
-        //     $split_hide_id = preg_split ("/[\ \n\,]+/", $this->params['hide_id']); 
-        //     foreach ($split_hide_id as &$id )
-        //     {
-        //         $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
-        //     }
-        // }
-
-        $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
-            self::$countadaptbuttons . '" >' . $this->params['title'] . '</button>');
-
-
-        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
-        //$code .= 'stack_js.request_access_to_input("' . $this->params['id'] . '", true).then((id) => {';
-        // So that should give us access to the input.
-        // Once we get the access immediately bind a listener to it.
-        //test kommentar
-        $code .= 'const butt = document.getElementById("stack-adaptbutton-'.self::$countadaptbuttons.'");';
-        $code .= 'butt.addEventListener("click",(e)=>{';
+        $onclick = "";
         if (isset($this->params['show_id'])) {
-            $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['show_id'] . '",true);});';
+            $onclick .= "document.getElementById('stack-adapt-" . $this->params['show_id'] . "').style.display='block';";
         }   
         if (isset($this->params['hide_id'])) {
-            $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['hide_id'] . '",false);});';
-        }         
+            //changed
+            $split_hide_id = preg_split ("/[\ \n\,]+/", $this->params['hide_id']); 
+            foreach ($split_hide_id as &$id )
+            {
+                $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
+            }
+        }
+
+        $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
+            self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
+
+
+        // $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
+        // //$code .= 'stack_js.request_access_to_input("' . $this->params['id'] . '", true).then((id) => {';
+        // // So that should give us access to the input.
+        // // Once we get the access immediately bind a listener to it.
+        // //test kommentar
+        // $code .= 'const butt = document.getElementById("stack-adaptbutton-'.self::$countadaptbuttons.'");';
+        // $code .= 'butt.addEventListener("click",(e)=>{';
+        // if (isset($this->params['show_id'])) {
+        //     $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['show_id'] . '",true);});';
+        // }   
+        // if (isset($this->params['hide_id'])) {
+        //     $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['hide_id'] . '",false);});';
+        // }         
 
         //$code .= '});';
         // Now add a hidden [[iframe]] with suitable scripts.
-        $body->items[] = new MP_List([
-            new MP_String('iframe'),
-            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
-                    self::$countadaptbuttons . '.'])),
-            new MP_List([
-                new MP_String('script'),
-                new MP_String(json_encode(['type' => 'module'])),
-                new MP_String($code)
-            ])
-        ]);
+        // $body->items[] = new MP_List([
+        //     new MP_String('iframe'),
+        //     new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
+        //             self::$countadaptbuttons . '.'])),
+        //     new MP_List([
+        //         new MP_String('script'),
+        //         new MP_String(json_encode(['type' => 'module'])),
+        //         new MP_String($code)
+        //     ])
+        // ]);
 
 
 

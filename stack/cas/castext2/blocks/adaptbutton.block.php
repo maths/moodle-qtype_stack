@@ -47,19 +47,19 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
         //$code .= 'stack_js.request_access_to_input("' . $this->params['input'] . '", true).then((id) => {';
+        $code .= 
         // So that should give us access to the input.
         // Once we get the access immediately bind a listener to it.
-        $code .= 'const button = document.getElementById(id);';
-        $code .= 'button.addEventListener("click",(e)=>{';
+        $code .= 'const butt = document.getElementById(stack-adaptbutton-'.self::$countadaptbuttons.');';
+        $code .= 'butt.addEventListener("click",(e)=>{';
         if (isset($this->params['show_id'])) {
-            $code .= 'stack_js.toggle_visibility("' . $this->params['show_id'] . '",true);});';
+            $code .= 'stack_js.toggle_visibility(""stack-adapt-"' . $this->params['show_id'] . '",true);});';
         }   
         if (isset($this->params['hide_id'])) {
-            $code .= 'stack_js.toggle_visibility("' . $this->params['hide_id'] . '",false);});';
+            $code .= 'stack_js.toggle_visibility(""stack-adapt-"' . $this->params['hide_id'] . '",false);});';
         }         
 
-        $code .= '});';
-
+        //$code .= '});';
         // Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([
             new MP_String('iframe'),

@@ -62,25 +62,12 @@ Maxima does not distinguish between vectors and matrices, with both being define
 4. The function `crossproduct(a,b)` is defined in STACK (not core Maxima), but must take two \(3\) by \(1\) column vectors as the input, not lists or row vectors. 
 5. The function `jacobian([f1,f2],[x,y])` is defined, and takes two lists as arguments. The first is the vector function, and the second is the list of variables. 
 
-Some useful functions that are _not_ defined are divergence and curl. Luckily, these are relatively easy to make.
+Some useful functions that are _not_ defined in core Maxima are defined in STACK's contributed `vectorcalculus.mac` file in the contrib directory.
 
-    div(u,vars):= block(
-      if matrixp(u) then funcs: list_matrix_entries(u) else funcs: flatten(u),
-      divList: makelist(diff(funcs[ii],vars[ii]),ii,1,length(vars)),
-      return(apply("+",divList))
-    );
-    
-which takes a vector function \(u\) and a list of variables vars and returns the divergence of \(u\). It will accept \(u\). as either a matrix or a list.
+1. divergence `div(u, vars)`. Accepts \(u\) as either a matrix or a list.
+2. curl `curl(u, vars)`.  Accepts \(u\) as either a matrix or a list.
 
-    curl(u,vars):= block(
-      if matrixp(u) then [ux,uy,uz]: list_matrix_entries(u) else [ux,uy,uz]: flatten(u),
-      cux: diff(uz,vars[2]) - diff(uy,vars[3]),
-      cuy: diff(ux,vars[3]) - diff(uz,vars[1]),
-      cuz: diff(uy,vars[1]) - diff(ux,vars[2]),
-      return(transpose(matrix([cux,cuy,cuz])))
-    );
-    
-which is similar but for curl. **Note: should these be core STACK functionality? **
+These functions can be [included](../Authoring/Inclusions.md) with `stack_include`.
 
 # Lagrange Multipliers
 

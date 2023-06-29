@@ -401,7 +401,7 @@
         {
         "file":"Fact_sheets.md",
         "title":"Fact Sheets - STACK Documentation",
-        "description":"STACK lets question authors easily embed standard fact sheets into their questions."
+        "description":"STACK lets question authors easily embed standard facts into their questions."
         },
         {
         "file":"Future_proof.md",
@@ -630,6 +630,11 @@
         "file":"Validator.md",
         "title":"Creating bespoke validation - STACK Documentation",
         "description":"How to create bespoke validation of student's input."
+        },
+        {
+        "file":"Workflow.md",
+        "title":"Question authoring workflow - STACK Documentation",
+        "description":"This page suggests workflow for authoring STACK questions."
         }
       ]
       },
@@ -949,6 +954,11 @@
         "file":"Units.md",
         "title":"Scientific Units - STACK Documentation",
         "description":"STACK supports the use of scientific units in its questions. This is particularly useful in physics questions."
+        },
+        {
+        "file":"Unsorted_multi_input.md",
+        "title":"Partial credit for multiple inputs - STACK Documentation",
+        "description":"This page describes how to give partial credit when you have muliple inputs, but don't know the order in which they are typed in."
         },
         {
         "file":"Vector_Calculus.md",

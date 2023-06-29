@@ -47,7 +47,6 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
         //$code .= 'stack_js.request_access_to_input("' . $this->params['input'] . '", true).then((id) => {';
-        $code .= 
         // So that should give us access to the input.
         // Once we get the access immediately bind a listener to it.
         $code .= 'const butt = document.getElementById(stack-adaptbutton-'.self::$countadaptbuttons.');';

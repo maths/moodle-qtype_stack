@@ -265,7 +265,7 @@ export const stack_js = {
 
     request_access_to_button: function(buttonname, buttonevents) {
         const button = document.createElement('button');
-        button.style.display = 'none';
+        button.type = 'hidden';
         button.id = buttonname;
         DISABLE_CHANGES[buttonname] = false;
 

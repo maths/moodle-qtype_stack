@@ -106,7 +106,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
             return false;
         }
         if (!array_key_exists('show_ids', $this->params) && !array_key_exists('hide_ids', $this->params)) {
-            $errors[] = new $options['errclass']('Adaptbutton block requires a show_id or a hide_id parameter.', $options['context'] . '/' .
+            $errors[] = new $options['errclass']('Adaptbutton block requires a show_ids or a hide_ids parameter.', $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);
             return false;
         }

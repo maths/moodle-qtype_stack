@@ -27,6 +27,7 @@ let INPUT_PROMISES = {};
 
 let BUTTON_PROMISES = {};
 
+
 /* A promise that will resolve when we first hear from the VLE side.
  * It is important to not send anything before we are absolutely certain that
  * the other end is ready. Although the way this has been built should
@@ -111,6 +112,16 @@ window.addEventListener("message", (e) => {
         const c = new Event('change');
         input.dispatchEvent(c);
         DISABLE_CHANGES[msg.name] = false;
+
+        break;
+
+    case 'button-clicked':
+        // 1. Find the button.
+        const button = document.getElementById(msg.name);
+
+        // 2. Trigger the click event.
+        const clickEvent = new Event('click');
+        button.dispatchEvent(clickEvent);
 
         break;
 

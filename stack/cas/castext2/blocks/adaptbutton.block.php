@@ -63,8 +63,8 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         if (isset($this->params['hide_ids'])) {
             $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['hide_ids'] . '",false);});';
         }         
-        $code .= 'console.log("Zugriff auf Button mit ID ' .self::$countadaptbuttons. 'erhalten!");})';
-        $code .= '.catch(function(error) {console.error("Keine ahnung was für ein fehler", error);';
+        //$code .= 'console.log("Zugriff auf Button mit ID ' .self::$countadaptbuttons. 'erhalten!");})';
+        //$code .= '.catch(function(error) {console.error("Keine ahnung was für ein fehler", error);';
         $code .= '});';
         //Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([

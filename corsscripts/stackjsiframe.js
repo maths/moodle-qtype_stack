@@ -262,6 +262,42 @@ export const stack_js = {
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
+    
+    request_access_to_button: function(buttonname, buttonevents) {
+        const button = document.createElement('button');
+        button.style.display = 'none';
+        button.id = buttonname;
+        DISABLE_CHANGES[buttonname] = false;
+
+        document.body.appendChild(button);
+
+        button.addEventListener('click', (e) => {
+            if (!DISABLE_CHANGES[buttonname]) {
+                // Just send a message.
+                const msg = {
+                    version: 'STACK-JS:1.0.0',
+                    type: 'button-clicked',
+                    name: buttonname,
+                    src: FRAME_ID
+                };
+                CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
+            }
+        }),
+
+        // Send the connection request.
+        CONNECTED.then((whatever) => {
+            const msg ={
+                version: 'STACK-JS:1.0.0',
+                type: 'register-button-listener',
+                name: buttonname,
+                src: FRAME_ID
+            };
+            if (buttonevents === true) {
+                msg['track-button'] = true;
+            }
+            window.parent.postMessage(JSON.stringify(msg), '*');
+        })
+    }
 };
 
 export default stack_js;

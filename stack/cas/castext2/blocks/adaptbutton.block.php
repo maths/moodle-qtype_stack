@@ -28,53 +28,54 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $body = new MP_List([new MP_String('%root')]);
 
-        $onclick = "";
-        if (isset($this->params['show_ids'])) {
-            $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
-            foreach ($split_show_id as &$id )
-            {
-                $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='block';";
-            }
-        }   
-        if (isset($this->params['hide_ids'])) {
-            //changed
-            $split_hide_id = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
-            foreach ($split_hide_id as &$id )
-            {
-                $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
-            }
-        }
+        // $onclick = "";
+        // if (isset($this->params['show_ids'])) {
+        //     $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
+        //     foreach ($split_show_id as &$id )
+        //     {
+        //         $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='block';";
+        //     }
+        // }   
+        // if (isset($this->params['hide_ids'])) {
+        //     //changed
+        //     $split_hide_id = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
+        //     foreach ($split_hide_id as &$id )
+        //     {
+        //         $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
+        //     }
+        // }
+
+        // $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
+        //     self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
 
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
-            self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
+            self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');
 
+        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
+        $code .= 'stack_js.request_access_to_button("stack-adaptbutton-' .self::$countadaptbuttons. '", true).then((id) => {';
+        // So that should give us access to the input.
+        // Once we get the access immediately bind a listener to it.
+        $code .= 'const button = document.getElementById("stack-adaptbutton-'.self::$countadaptbuttons.'");';
+        $code .= 'button.addEventListener("click",(e)=>{';
+        if (isset($this->params['show_ids'])) {
+            $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['show_ids'] . '",true);});';
+        }   
+        if (isset($this->params['hide_ids'])) {
+            $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['hide_ids'] . '",false);});';
+        }         
 
-        // $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
-        // //$code .= 'stack_js.request_access_to_input("' . $this->params['id'] . '", true).then((id) => {';
-        // // So that should give us access to the input.
-        // // Once we get the access immediately bind a listener to it.
-        // //test kommentar
-        // $code .= 'const butt = document.getElementById("stack-adaptbutton-'.self::$countadaptbuttons.'");';
-        // $code .= 'butt.addEventListener("click",(e)=>{';
-        // if (isset($this->params['show_id'])) {
-        //     $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['show_id'] . '",true);});';
-        // }   
-        // if (isset($this->params['hide_id'])) {
-        //     $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['hide_id'] . '",false);});';
-        // }         
-
-        //$code .= '});';
-        // Now add a hidden [[iframe]] with suitable scripts.
-        // $body->items[] = new MP_List([
-        //     new MP_String('iframe'),
-        //     new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
-        //             self::$countadaptbuttons . '.'])),
-        //     new MP_List([
-        //         new MP_String('script'),
-        //         new MP_String(json_encode(['type' => 'module'])),
-        //         new MP_String($code)
-        //     ])
-        // ]);
+        $code .= '});';
+        //Now add a hidden [[iframe]] with suitable scripts.
+        $body->items[] = new MP_List([
+            new MP_String('iframe'),
+            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
+                    self::$countadaptbuttons . '.'])),
+            new MP_List([
+                new MP_String('script'),
+                new MP_String(json_encode(['type' => 'module'])),
+                new MP_String($code)
+            ])
+        ]);
 
 
 

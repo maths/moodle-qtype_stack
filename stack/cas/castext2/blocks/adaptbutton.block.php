@@ -30,7 +30,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $onclick = "";
         if (isset($this->params['show_ids'])) {
-            $split_show_id = preg_split ("/(;|\;\s)/", $this->params['hide_ids']); 
+            $split_show_id = preg_split ("/(;|\;\s)/", $this->params['show_ids']); 
             foreach ($split_show_id as &$id )
             {
                 $onclick .= "document.getElementById('stack-adapt-" . $this->params['show_ids'] . "').style.display='block';";

@@ -29,12 +29,16 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $body = new MP_List([new MP_String('%root')]);
 
         $onclick = "";
-        if (isset($this->params['show_id'])) {
-            $onclick .= "document.getElementById('stack-adapt-" . $this->params['show_id'] . "').style.display='block';";
+        if (isset($this->params['show_ids'])) {
+            $split_show_id = preg_split ("/(;|\;\s)/", $this->params['hide_ids']); 
+            foreach ($split_show_id as &$id )
+            {
+                $onclick .= "document.getElementById('stack-adapt-" . $this->params['show_ids'] . "').style.display='block';";
+            }
         }   
-        if (isset($this->params['hide_id'])) {
+        if (isset($this->params['hide_ids'])) {
             //changed
-            $split_hide_id = preg_split ("/[\ \n\,]+/", $this->params['hide_id']); 
+            $split_hide_id = preg_split ("/(;|\;\s)/", $this->params['hide_ids']); 
             foreach ($split_hide_id as &$id )
             {
                 $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";

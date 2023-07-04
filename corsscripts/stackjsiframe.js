@@ -25,6 +25,8 @@ let DISABLE_CHANGES = {};
  */
 let INPUT_PROMISES = {};
 
+let BUTTON_PROMISES = {};
+
 /* A promise that will resolve when we first hear from the VLE side.
  * It is important to not send anything before we are absolutely certain that
  * the other end is ready. Although the way this has been built should

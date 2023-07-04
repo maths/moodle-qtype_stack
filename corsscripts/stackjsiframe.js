@@ -262,7 +262,7 @@ export const stack_js = {
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
-    
+
     request_access_to_button: function(buttonname, buttonevents) {
         const button = document.createElement('button');
         button.style.display = 'none';
@@ -296,7 +296,16 @@ export const stack_js = {
                 msg['track-button'] = true;
             }
             window.parent.postMessage(JSON.stringify(msg), '*');
-        })
+        });
+
+        return new Promise((resolve, reject) => {
+            BUTTON_PROMISES[buttonname] = resolve;
+            setTimeout(() => {
+                if (buttonname in BUTTON_PROMISES) {
+                    reject('No response to button registration of "' + buttonname + '" in 5s.');
+                }
+            }, 5000);
+        });
     }
 };
 

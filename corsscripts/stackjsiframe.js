@@ -275,7 +275,25 @@ export const stack_js = {
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
-
+    button_clicked: function(buttonname) {
+        const msg = {
+            version: 'STACK-JS:1.0.0',
+            type: 'button-clicked',
+            name: buttonname,
+            src: FRAME_ID
+        };
+        return new Promise((resolve, reject) => {
+            CONNECTED.then(() => {
+                BUTTON_PROMISES[buttonname] = resolve;
+                window.parent.postMessage(JSON.stringify(msg), '*');
+                setTimeout(() => {
+                    if (buttonname in BUTTON_PROMISES) {
+                        reject('No response to button registration of "' + buttonname + '" in 5s.');
+                    }
+                }, 5000);
+            });
+        });
+    },
     request_access_to_button: function(buttonname, buttonevents) {
         const button = document.createElement('button');
         button.type = 'hidden';
@@ -331,25 +349,6 @@ export const stack_js = {
             }, 5000);
         });
     },
-    button_clicked: function(buttonname) {
-        const msg = {
-            version: 'STACK-JS:1.0.0',
-            type: 'button-clicked',
-            name: buttonname,
-            src: FRAME_ID
-        };
-        return new Promise((resolve, reject) => {
-            CONNECTED.then(() => {
-                BUTTON_PROMISES[buttonname] = resolve;
-                window.parent.postMessage(JSON.stringify(msg), '*');
-                setTimeout(() => {
-                    if (buttonname in BUTTON_PROMISES) {
-                        reject('No response to button registration of "' + buttonname + '" in 5s.');
-                    }
-                }, 5000);
-            });
-        });
-    }
 };
 
 export default stack_js;

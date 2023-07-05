@@ -25,7 +25,7 @@ let DISABLE_CHANGES = {};
  */
 let INPUT_PROMISES = {};
 
-let BUTTON_PROMISES = {};
+//let BUTTON_PROMISES = {};
 
 
 /* A promise that will resolve when we first hear from the VLE side.
@@ -102,6 +102,7 @@ window.addEventListener("message", (e) => {
         delete INPUT_PROMISES[msg.name];
         
         break;
+    
     case 'changed-input':
         // 1. Find the input.
         const input = document.getElementById(msg.name);
@@ -115,15 +116,15 @@ window.addEventListener("message", (e) => {
 
         break;
 
-    case 'button-clicked':
-        // 1. Find the button.
-        const button = document.getElementById(msg.name);
+    // case 'button-clicked':
+    //     // 1. Find the button.
+    //     const button = document.getElementById(msg.name);
 
-        // 2. Trigger the click event.
-        const clickEvent = new Event('click');
-        button.dispatchEvent(clickEvent);
+    //     // 2. Trigger the click event.
+    //     const clickEvent = new Event('click');
+    //     button.dispatchEvent(clickEvent);
 
-        break;
+    //     break;
 
     case 'ping':
         clearInterval(pinger);
@@ -275,78 +276,78 @@ export const stack_js = {
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
-    button_clicked: function(buttonname) {
-        const msg = {
-            version: 'STACK-JS:1.0.0',
-            type: 'button-clicked',
-            name: buttonname,
-            src: FRAME_ID
-        };
-        return new Promise((resolve, reject) => {
-            CONNECTED.then(() => {
-                BUTTON_PROMISES[buttonname] = resolve;
-                window.parent.postMessage(JSON.stringify(msg), '*');
-                setTimeout(() => {
-                    if (buttonname in BUTTON_PROMISES) {
-                        reject('No response to button registration of "' + buttonname + '" in 5s.');
-                    }
-                }, 5000);
-            });
-        });
-    },
-    request_access_to_button: function(buttonname, buttonevents) {
-        const button = document.createElement('button');
-        button.type = 'hidden';
-        button.id = buttonname;
-        DISABLE_CHANGES[buttonname] = false;
+    // button_clicked: function(buttonname) {
+    //     const msg = {
+    //         version: 'STACK-JS:1.0.0',
+    //         type: 'button-clicked',
+    //         name: buttonname,
+    //         src: FRAME_ID
+    //     };
+    //     return new Promise((resolve, reject) => {
+    //         CONNECTED.then(() => {
+    //             BUTTON_PROMISES[buttonname] = resolve;
+    //             window.parent.postMessage(JSON.stringify(msg), '*');
+    //             setTimeout(() => {
+    //                 if (buttonname in BUTTON_PROMISES) {
+    //                     reject('No response to button registration of "' + buttonname + '" in 5s.');
+    //                 }
+    //             }, 5000);
+    //         });
+    //     });
+    // },
+    // request_access_to_button: function(buttonname, buttonevents) {
+    //     const button = document.createElement('button');
+    //     button.type = 'hidden';
+    //     button.id = buttonname;
+    //     DISABLE_CHANGES[buttonname] = false;
 
-        document.body.appendChild(button);
+    //     document.body.appendChild(button);
 
-        button.addEventListener('click', async (e) => {
-            if (!DISABLE_CHANGES[buttonname]) {
-                try {
-                    const result = await stack_js.button_clicked(buttonname);
-                    // Handle the result if needed.
-                } catch (error) {
-                    console.error(error);
-                }
-            }
-        }),
+    //     button.addEventListener('click', async (e) => {
+    //         if (!DISABLE_CHANGES[buttonname]) {
+    //             try {
+    //                 const result = await stack_js.button_clicked(buttonname);
+    //                 // Handle the result if needed.
+    //             } catch (error) {
+    //                 console.error(error);
+    //             }
+    //         }
+    //     }),
 
-        button.addEventListener('click', async (e) => {
-            if (!DISABLE_CHANGES[buttonname]) {
-              try {
-                const result = await stack_js.button_clicked(buttonname);
-                // Handle the result if needed.
-              } catch (error) {
-                console.error(error);
-              }
-            }
-          });
+    //     button.addEventListener('click', async (e) => {
+    //         if (!DISABLE_CHANGES[buttonname]) {
+    //           try {
+    //             const result = await stack_js.button_clicked(buttonname);
+    //             // Handle the result if needed.
+    //           } catch (error) {
+    //             console.error(error);
+    //           }
+    //         }
+    //       });
 
-        // Send the connection request.
-        CONNECTED.then((whatever) => {
-            const msg ={
-                version: 'STACK-JS:1.0.0',
-                type: 'register-button-listener',
-                name: buttonname,
-                src: FRAME_ID
-            };
-            if (buttonevents === true) {
-                msg['track-button'] = true;
-            }
-            window.parent.postMessage(JSON.stringify(msg), '*');
-        });
+    //     // Send the connection request.
+    //     CONNECTED.then((whatever) => {
+    //         const msg ={
+    //             version: 'STACK-JS:1.0.0',
+    //             type: 'register-button-listener',
+    //             name: buttonname,
+    //             src: FRAME_ID
+    //         };
+    //         if (buttonevents === true) {
+    //             msg['track-button'] = true;
+    //         }
+    //         window.parent.postMessage(JSON.stringify(msg), '*');
+    //     });
 
-        return new Promise((resolve, reject) => {
-            BUTTON_PROMISES[buttonname] = resolve;
-            setTimeout(() => {
-                if (buttonname in BUTTON_PROMISES) {
-                    reject('No response to button registration of "' + buttonname + '" in 5s.');
-                }
-            }, 5000);
-        });
-    },
+    //     return new Promise((resolve, reject) => {
+    //         BUTTON_PROMISES[buttonname] = resolve;
+    //         setTimeout(() => {
+    //             if (buttonname in BUTTON_PROMISES) {
+    //                 reject('No response to button registration of "' + buttonname + '" in 5s.');
+    //             }
+    //         }, 5000);
+    //     });
+    // },
 };
 
 export default stack_js;

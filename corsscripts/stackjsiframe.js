@@ -299,12 +299,12 @@ export const stack_js = {
         CONNECTED.then((whatever) => {
             const msg ={
                 version: 'STACK-JS:1.0.0',
-                type: 'register-input-listener',  //??
+                type: 'register-button-listener',  //??
                 name: buttonname,
                 src: FRAME_ID
             };
             if (buttonevents === true) {
-                msg['track-input'] = true;     //??
+                msg['track-button'] = true;     //??
             }
             window.parent.postMessage(JSON.stringify(msg), '*');
         });

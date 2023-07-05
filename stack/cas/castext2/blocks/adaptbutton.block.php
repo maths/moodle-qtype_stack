@@ -48,11 +48,12 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         // $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
         //     self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
 
-        $body->items[] = new MP_String('<input type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
-            self::$countadaptbuttons . ' value="' . $this->params['title'] . '/>');
+        $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
+            self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');
 
-        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
-        $code .= 'stack_js.request_access_to_input("stack-adaptbutton-' .self::$countadaptbuttons. '", true).then((id) => {';
+        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.js') . '";';
+        $code .= 'stack_js.request_access_to_button("stack-adaptbutton-' .self::$countadaptbuttons. '", true).then((id) => {';
+        //$code .= 'stack_js.button_clicked("stack-adaptbutton-' .self::$countadaptbuttons. '").then(() => {';
         // So that should give us access to the input.
         // Once we get the access immediately bind a listener to it.
         $code .= 'const button = document.getElementById(id);';

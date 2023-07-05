@@ -502,7 +502,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
                     } else {
                         BUTTONS_BUTTON_EVENT[button.id] = [msg.src];
     
-                        button.addEventListener('button', () => {
+                        button.addEventListener('click', () => {
                             if (DISABLE_CHANGES) {
                                 return;
                             }
@@ -522,7 +522,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
     
                 // 4. Let the requester know that we have bound things
                 //    and let it know the initial value.
-                if (!(msg.src in INPUTS[input.id])) {
+                if (!(msg.src in BUTTONS[button.id])) {
                     IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
                 }
     

@@ -25,7 +25,7 @@ let DISABLE_CHANGES = {};
  */
 let INPUT_PROMISES = {};
 let BUTTON_PROMISES = {};
-//test kommentar
+
 /* A promise that will resolve when we first hear from the VLE side.
  * It is important to not send anything before we are absolutely certain that
  * the other end is ready. Although the way this has been built should
@@ -100,7 +100,19 @@ window.addEventListener("message", (e) => {
         delete INPUT_PROMISES[msg.name];
         
         break;
-    
+    //changed
+    case 'initial-button':
+        // 1. Get the input we have prepared.
+        const element2 = document.getElementById(msg.name);
+
+        // 3. Resolve the promise so that things can move forward.
+        BUTTON_PROMISES[msg.name](element2.id);
+
+        // 4. Remove the promise from our logic so that the timeout 
+        // logic does not trigger.
+        delete BUTTON_PROMISES[msg.name];
+        
+        break;
     case 'changed-input':
         // 1. Find the input.
         const input = document.getElementById(msg.name);
@@ -280,7 +292,7 @@ export const stack_js = {
         button.style.display = 'none';
         button.id = buttonname;
         DISABLE_CHANGES[buttonname] = false;
-        //das ist ein test
+
         document.body.appendChild(button);
 
         button.addEventListener('click', async (e) => {

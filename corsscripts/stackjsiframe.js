@@ -113,7 +113,7 @@ window.addEventListener("message", (e) => {
         DISABLE_CHANGES[msg.name] = false;
 
         break;
-
+    //changed
     case 'button-clicked':
         // 1. Find the button.
         const button = document.getElementById(msg.name);
@@ -274,7 +274,7 @@ export const stack_js = {
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
-
+    //changed
     request_access_to_button: function(buttonname, buttonevents) {
         const button = document.createElement('button');
         button.style.display = 'none';

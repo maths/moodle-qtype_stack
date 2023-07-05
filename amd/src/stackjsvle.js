@@ -118,6 +118,10 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             if (possible !== null) {
                 return possible;
             }
+            possible = iter.querySelector('button[id$="_' + name + '"]');
+            if (possible !== null) {
+                return possible;
+            }
         }
         // If none found within the question itself, search everywhere.
         let possible = document.querySelector('.formulation input[id$="_' + name + '"]');

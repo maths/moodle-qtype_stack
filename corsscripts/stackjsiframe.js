@@ -313,18 +313,16 @@ export const stack_js = {
             }
         }),
 
-    //     button.addEventListener('click', (e) => {
-    //         if (!DISABLE_CHANGES[buttonname]) {
-    //             // Just send a message.
-    //             const msg = {
-    //                 version: 'STACK-JS:1.0.0',
-    //                 type: 'button-clicked',
-    //                 name: buttonname,
-    //                 src: FRAME_ID
-    //             };
-    //             CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
-    //         }
-    //     }),
+        button.addEventListener('click', async (e) => {
+            if (!DISABLE_CHANGES[buttonname]) {
+              try {
+                const result = await stack_js.button_clicked(buttonname);
+                // Handle the result if needed.
+              } catch (error) {
+                console.error(error);
+              }
+            }
+          });
 
         // Send the connection request.
         CONNECTED.then((whatever) => {

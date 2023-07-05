@@ -280,7 +280,7 @@ export const stack_js = {
         button.style.display = 'none';
         button.id = buttonname;
         DISABLE_CHANGES[buttonname] = false;
-
+        //das ist ein test
         document.body.appendChild(button);
 
         button.addEventListener('click', async (e) => {
@@ -323,5 +323,4 @@ export const stack_js = {
         });
     },
 };
-export { BUTTON_PROMISES };
 export default stack_js;

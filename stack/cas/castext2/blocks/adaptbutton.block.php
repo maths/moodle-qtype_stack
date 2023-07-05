@@ -51,7 +51,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $body->items[] = new MP_String('<input type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
             self::$countadaptbuttons . ' value="' . $this->params['title'] . '/>');
 
-        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.js') . '";';
+        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
         $code .= 'stack_js.request_access_to_input("stack-adaptbutton-' .self::$countadaptbuttons. '", true).then((id) => {';
         // So that should give us access to the input.
         // Once we get the access immediately bind a listener to it.

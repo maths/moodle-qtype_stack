@@ -323,5 +323,5 @@ export const stack_js = {
         });
     },
 };
-//test kommentar
+export { BUTTON_PROMISES };
 export default stack_js;

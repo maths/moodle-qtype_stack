@@ -52,7 +52,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
             self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');
 
         $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.js') . '";';
-        $code .= 'stack_js.request_access_to_button("stack-adaptbutton-' .self::$countadaptbuttons. '", true).then((id) => {';
+        $code .= 'stack_js.request_access_to_button("stack-adaptbutton-' .self::$countadaptbuttons. '").then((id) => {';
         //$code .= 'stack_js.button_clicked("stack-adaptbutton-' .self::$countadaptbuttons. '").then(() => {';
         // So that should give us access to the input.
         // Once we get the access immediately bind a listener to it.

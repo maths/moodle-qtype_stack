@@ -555,8 +555,9 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_stackfltfmt() {
         $input = '{@a@}, {@(stackfltfmt:"~f",a)@}';
-        $preamble = array('stackfltfmt:"~e"', 'a:0.000012');
-        $output = '\({1.2e-5}\), \({0.000012}\)';
+        // Note that 0.000012 has rounding in clisp which is not the point of this test!
+        $preamble = array('stackfltfmt:"~e"', 'a:0.000013');
+        $output = '\({1.3e-5}\), \({0.000013}\)';
         $this->assertEquals($output, strtolower($this->evaluate($input, $preamble)));
     }
 
@@ -568,6 +569,9 @@ class castext2_test extends qtype_stack_testcase {
         $input = '{@(stackintfmt:"~:r",a)@}, {@(stackintfmt:"~@R",a)@}';
         $preamble = array('a:1998');
         $output = '\({\mbox{one thousand nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
+        if ($this->adapt_to_new_maxima('5.46.0')) {
+            $output = '\({\mbox{one thousand, nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
+        }
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
 

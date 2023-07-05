@@ -41,9 +41,9 @@ to `filter_mathjaxloader | mathjaxconfig` in the filter settings: Dashboard > Si
 
 ## 2. Install gnuplot and Maxima
 
-Ensure gcc, gnuplot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.38.1 to 5.44.0 are supported.  Please contact the developers to request support for other versions.  (Newer versions will be supported, and prompts to test them are welcome.)
+Ensure gcc, gnuplot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.38.1 to 5.47.0 are supported.  Please contact the developers to request support for other versions.  (Newer versions will be supported, and prompts to test them are welcome.)
 
-We currently recommend that you use Maxima 5.41.0.
+We currently recommend that you use any version of Maxima after 5.43.0.
 
 Please note 
 

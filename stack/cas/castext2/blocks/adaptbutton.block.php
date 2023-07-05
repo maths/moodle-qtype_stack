@@ -58,7 +58,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         // Once we get the access immediately bind a listener to it.
         $code .= 'const button = document.getElementById(id);';
         $code .= 'button.addEventListener("click",(e)=>{';
-        $code .= 'console.log("Button wurde geklickt!");';
+        $code .= 'console.log("Button wurde geklickt!");};';
         // if (isset($this->params['show_ids'])) {
         //     $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['show_ids'] . '",true);});';
         // }   

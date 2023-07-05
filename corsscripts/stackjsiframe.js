@@ -284,7 +284,7 @@ export const stack_js = {
         document.body.appendChild(button);
 
         button.addEventListener('click', async (e) => {
-            if (!DISABLE_CHANGES[inputname]) {
+            if (!DISABLE_CHANGES[buttonname]) {
                 // Just send a message.
                 const msg = {
                     version: 'STACK-JS:1.0.0',

@@ -284,18 +284,29 @@ export const stack_js = {
 
         document.body.appendChild(button);
 
-        button.addEventListener('click', (e) => {
+        button.addEventListener('click', async (e) => {
             if (!DISABLE_CHANGES[buttonname]) {
-                // Just send a message.
-                const msg = {
-                    version: 'STACK-JS:1.0.0',
-                    type: 'button-clicked',
-                    name: buttonname,
-                    src: FRAME_ID
-                };
-                CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
+                try {
+                    const result = await stack_js.button_clicked(buttonname);
+                    // Handle the result if needed.
+                } catch (error) {
+                    console.error(error);
+                }
             }
         }),
+
+    //     button.addEventListener('click', (e) => {
+    //         if (!DISABLE_CHANGES[buttonname]) {
+    //             // Just send a message.
+    //             const msg = {
+    //                 version: 'STACK-JS:1.0.0',
+    //                 type: 'button-clicked',
+    //                 name: buttonname,
+    //                 src: FRAME_ID
+    //             };
+    //             CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
+    //         }
+    //     }),
 
         // Send the connection request.
         CONNECTED.then((whatever) => {
@@ -318,6 +329,25 @@ export const stack_js = {
                     reject('No response to button registration of "' + buttonname + '" in 5s.');
                 }
             }, 5000);
+        });
+    },
+    button_clicked: function(buttonname) {
+        const msg = {
+            version: 'STACK-JS:1.0.0',
+            type: 'button-clicked',
+            name: buttonname,
+            src: FRAME_ID
+        };
+        return new Promise((resolve, reject) => {
+            CONNECTED.then(() => {
+                BUTTON_PROMISES[buttonname] = resolve;
+                window.parent.postMessage(JSON.stringify(msg), '*');
+                setTimeout(() => {
+                    if (buttonname in BUTTON_PROMISES) {
+                        reject('No response to button registration of "' + buttonname + '" in 5s.');
+                    }
+                }, 5000);
+            });
         });
     }
 };

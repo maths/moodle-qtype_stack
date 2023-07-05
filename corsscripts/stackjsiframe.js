@@ -275,7 +275,7 @@ export const stack_js = {
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
     //changed
-    request_access_to_button: function(buttonname, buttonevents) {
+    request_access_to_button: function(buttonname) {
         const button = document.createElement('button');
         button.style.display = 'none';
         button.id = buttonname;
@@ -303,9 +303,6 @@ export const stack_js = {
                 name: buttonname,
                 src: FRAME_ID
             };
-            if (buttonevents === true) {
-                msg['track-button'] = true;     //??
-            }
             window.parent.postMessage(JSON.stringify(msg), '*');
         });
         // So our promise passes that resolve onto a dict

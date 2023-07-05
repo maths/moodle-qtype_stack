@@ -199,12 +199,12 @@ export const stack_js = {
         CONNECTED.then((whatever) => {
             const msg ={
                 version: 'STACK-JS:1.0.0',
-                type: 'register-input-listener', //wo
+                type: 'register-input-listener', 
                 name: inputname,
                 src: FRAME_ID
             };
             if (inputevents === true) {
-                msg['track-input'] = true; //wo
+                msg['track-input'] = true; 
             }
             window.parent.postMessage(JSON.stringify(msg), '*');
         });
@@ -299,12 +299,12 @@ export const stack_js = {
         CONNECTED.then((whatever) => {
             const msg ={
                 version: 'STACK-JS:1.0.0',
-                type: 'register-button-listener',  //??
+                type: 'register-input-listener',  //??
                 name: buttonname,
                 src: FRAME_ID
             };
             if (buttonevents === true) {
-                msg['track-button'] = true;     //??
+                msg['track-input'] = true;     //??
             }
             window.parent.postMessage(JSON.stringify(msg), '*');
         });

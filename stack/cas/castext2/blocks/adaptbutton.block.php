@@ -28,32 +28,32 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $body = new MP_List([new MP_String('%root')]);
 
-        // $onclick = "";
-        // if (isset($this->params['show_ids'])) {
-        //     $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
-        //     foreach ($split_show_id as &$id )
-        //     {
-        //         $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='block';";
-        //     }
-        // }   
-        // if (isset($this->params['hide_ids'])) {
-        //     //changed
-        //     $split_hide_id = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
-        //     foreach ($split_hide_id as &$id )
-        //     {
-        //         $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
-        //     }
-        // }
-
-        // $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
-        //     self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
+        $onclick = "";
+        if (isset($this->params['show_ids'])) {
+            $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
+            foreach ($split_show_id as &$id )
+            {
+                $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='block';";
+            }
+        }   
+        if (isset($this->params['hide_ids'])) {
+            //changed
+            $split_hide_id = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
+            foreach ($split_hide_id as &$id )
+            {
+                $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
+            }
+        }
 
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
-            self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');
+            self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
 
-        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.js') . '";';
+        // $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
+        //     self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');
 
-        $code .= 'stack_js.button_clicked("stack-adaptbutton-' .self::$countadaptbuttons. '", function(e){';
+        // $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.js') . '";';
+
+        // $code .= 'stack_js.button_clicked("stack-adaptbutton-' .self::$countadaptbuttons. '", function(e){';
 
         // $code .= 'stack_js.request_access_to_button("stack-adaptbutton-' .self::$countadaptbuttons. '").then((id) => {';
         //$code .= 'stack_js.button_clicked("stack-adaptbutton-' .self::$countadaptbuttons. '").then(() => {';
@@ -61,7 +61,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         // Once we get the access immediately bind a listener to it.
         // $code .= 'const button = document.getElementById(id);';
         // $code .= 'button.addEventListener("click",(e)=>{';
-        $code .= 'console.log("Button wurde geklickt!");';
+        //$code .= 'console.log("Button wurde geklickt!");';
         // if (isset($this->params['show_ids'])) {
         //     $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['show_ids'] . '",true);});';
         // }   
@@ -70,18 +70,18 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         // }         
         //$code .= 'console.log("Zugriff auf Button mit ID ' .self::$countadaptbuttons. 'erhalten!");})';
         //$code .= '.catch(function(error) {console.error("Keine ahnung was für ein fehler", error);';
-        $code .= '});';
+        //$code .= '});';
         //Now add a hidden [[iframe]] with suitable scripts.
-        $body->items[] = new MP_List([
-            new MP_String('iframe'),
-            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
-                    self::$countadaptbuttons . '.'])),
-            new MP_List([
-                new MP_String('script'),
-                new MP_String(json_encode(['type' => 'module'])),
-                new MP_String($code)
-            ])
-        ]);
+        // $body->items[] = new MP_List([
+        //     new MP_String('iframe'),
+        //     new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
+        //             self::$countadaptbuttons . '.'])),
+        //     new MP_List([
+        //         new MP_String('script'),
+        //         new MP_String(json_encode(['type' => 'module'])),
+        //         new MP_String($code)
+        //     ])
+        // ]);
 
 
 

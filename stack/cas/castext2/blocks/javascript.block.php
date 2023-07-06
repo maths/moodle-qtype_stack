@@ -23,6 +23,9 @@ require_once(__DIR__ . '/root.specialblock.php');
 require_once(__DIR__ . '/stack_translate.specialblock.php');
 require_once(__DIR__ . '/../../../../vle_specific.php');
 
+require_once(__DIR__ . '/iframe.block.php');
+stack_cas_castext2_iframe::register_counter('///JAVASCRIPT_COUNT///');
+
 /**
  * A convenience block for creation of iframes with input-references and
  * stack_js pre-loaded. Use when you want to build some logic connected
@@ -34,9 +37,6 @@ require_once(__DIR__ . '/../../../../vle_specific.php');
  * Uses the same input-references declaration logic as [[jsxgraph]].
  */
 class stack_cas_castext2_javascript extends stack_cas_castext2_block {
-
-    /* We still count the scripts. */
-    public static $countscripts = 1;
 
     public function compile($format, $options):  ? MP_Node {
         $r = new MP_List([new MP_String('iframe')]);
@@ -52,8 +52,7 @@ class stack_cas_castext2_javascript extends stack_cas_castext2_block {
         // These will be hidden.
         $pars = ['hidden' => true];
         // Set a title.
-        $pars['title'] = 'STACK javascript ' . self::$countscripts;
-        self::$countscripts = self::$countscripts + 1;
+        $pars['title'] = 'STACK javascript ///JAVASCRIPT_COUNT///';
 
         $r->items[] = new MP_String(json_encode($pars));
 

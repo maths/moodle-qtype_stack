@@ -51,6 +51,8 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
         // parameters for it on the side.
         $r = new MP_List([new MP_String('iframe')]);
         $iparams = ['scrolling' => false];
+        // For now we run without the sandbox, THIS NEES TO BE FIXED WITH GEOGEBRA SIDES HELP..
+        $iparams['no sandbox'] = true;
         // This is the only place where we count graphs.
         // And even this can be removed once the fix for #969 comes in.
         $iparams['title'] = 'STACK GeoGebra ' . self::$countgraphs;
@@ -326,6 +328,12 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
             '"showToolBar": false,"showAlgebraInput": false,"showMenuBar": false,' .
             'material_id:"x3tzeapm"};';
         $commonprecode .= "\nvar params = presetparams;";
+
+        // Add the inputrefs, in STACK-JS the id is the name.
+        // We could consider a prefix if there is a real risk of collision.
+        foreach ($inputmapping as $varname => $inputname) {
+            $commonprecode .= "\nvar $varname = '$inputname';";
+        }
 
         // There is no more commonprecode, so we will dump that.
         $r->items[] = new MP_String($commonprecode);

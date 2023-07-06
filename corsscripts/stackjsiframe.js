@@ -287,57 +287,57 @@ export const stack_js = {
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
     //changed
-    button_clicked: function(buttonId, handler){
-        const button = document.getElementById(buttonId);
-        if (button){
-            button.addEventListener('click',handler);
-        } else {
-            console.error("Fehler");
-        }
-    },
-    // request_access_to_button: function(buttonname) {
-    //     const button = document.createElement('button');
-    //     button.style.display = 'none';
-    //     button.id = buttonname;
-    //     DISABLE_CHANGES[buttonname] = false;
-
-    //     document.body.appendChild(button);
-
-        // button.addEventListener('click', async (e) => {
-        //     if (!DISABLE_CHANGES[buttonname]) {
-        //         // Just send a message.
-        //         const msg = {
-        //             version: 'STACK-JS:1.0.0',
-        //             type: 'button-clicked',
-        //             name: buttonname,
-        //             src: FRAME_ID
-        //         };
-        //         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
-        //     }
-        // });
-        // // Send the connection request.
-        // CONNECTED.then((whatever) => {
-        //     const msg ={
-        //         version: 'STACK-JS:1.0.0',
-        //         type: 'register-button-listener',  //??
-        //         name: buttonname,
-        //         src: FRAME_ID
-        //     };
-        //     window.parent.postMessage(JSON.stringify(msg), '*');
-        // });
-        // // So our promise passes that resolve onto a dict
-        // // from which it will be resolved if we get 
-        // // the correct message after resolving it will be
-        // // removed from that dict, if not removed then when 
-        // // this times out we will reject this promise.
-        // return new Promise((resolve, reject) => {
-        //     BUTTON_PROMISES[buttonname] = resolve;
-        //     setTimeout(() => {
-        //         if (buttonname in BUTTON_PROMISES) {
-        //             reject('No response to button registration of "' + buttonname + '" in 5s.');
-        //         }
-        //     }, 5000);
-        // });
+    // button_clicked: function(buttonId, handler){
+    //     const button = document.getElementById(buttonId);
+    //     if (button){
+    //         button.addEventListener('click',handler);
+    //     } else {
+    //         console.error("Fehler");
+    //     }
     // },
+    request_access_to_button: function(buttonname) {
+        const button = document.createElement('button');
+        button.style.display = 'none';
+        button.id = buttonname;
+        DISABLE_CHANGES[buttonname] = false;
+
+        document.body.appendChild(button);
+
+        button.addEventListener('click', async (e) => {
+            if (!DISABLE_CHANGES[buttonname]) {
+                // Just send a message.
+                const msg = {
+                    version: 'STACK-JS:1.0.0',
+                    type: 'button-clicked',
+                    name: buttonname,
+                    src: FRAME_ID
+                };
+                CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
+            }
+        });
+        // Send the connection request.
+        CONNECTED.then((whatever) => {
+            const msg ={
+                version: 'STACK-JS:1.0.0',
+                type: 'register-button-listener',  //??
+                name: buttonname,
+                src: FRAME_ID
+            };
+            window.parent.postMessage(JSON.stringify(msg), '*');
+        });
+        // So our promise passes that resolve onto a dict
+        // from which it will be resolved if we get 
+        // the correct message after resolving it will be
+        // removed from that dict, if not removed then when 
+        // this times out we will reject this promise.
+        return new Promise((resolve, reject) => {
+            BUTTON_PROMISES[buttonname] = resolve;
+            setTimeout(() => {
+                if (buttonname in BUTTON_PROMISES) {
+                    reject('No response to button registration of "' + buttonname + '" in 5s.');
+                }
+            }, 5000);
+        });
+    },
 };
 export default stack_js;

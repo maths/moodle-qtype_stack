@@ -53,15 +53,15 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.js') . '";';
 
-        $code .= 'stack_js.button_clicked("stack-adaptbutton-' .self::$countadaptbuttons. '", (e) => {';
+        $code .= 'stack_js.button_clicked("stack-adaptbutton-' .self::$countadaptbuttons. '", function(e) => {';
 
         // $code .= 'stack_js.request_access_to_button("stack-adaptbutton-' .self::$countadaptbuttons. '").then((id) => {';
         //$code .= 'stack_js.button_clicked("stack-adaptbutton-' .self::$countadaptbuttons. '").then(() => {';
         // So that should give us access to the input.
-        // // Once we get the access immediately bind a listener to it.
+        // Once we get the access immediately bind a listener to it.
         // $code .= 'const button = document.getElementById(id);';
         // $code .= 'button.addEventListener("click",(e)=>{';
-         $code .= 'console.log("Button wurde geklickt!");});';
+        $code .= 'console.log("Button wurde geklickt!");';
         // if (isset($this->params['show_ids'])) {
         //     $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['show_ids'] . '",true);});';
         // }   
@@ -70,7 +70,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         // }         
         //$code .= 'console.log("Zugriff auf Button mit ID ' .self::$countadaptbuttons. 'erhalten!");})';
         //$code .= '.catch(function(error) {console.error("Keine ahnung was für ein fehler", error);';
-        // $code .= '});';
+        $code .= '});';
         //Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([
             new MP_String('iframe'),

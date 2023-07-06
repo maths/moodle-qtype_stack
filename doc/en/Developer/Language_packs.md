@@ -9,24 +9,36 @@ This page will deal with translations of the STACK interface. Individual questio
 
 STACK is designed to support the straightforward addition of other language packs. If you have translated STACK into other languages - or would be interested in doing so - please [let us know](mailto:C.J.Sangwin@ed.ac.uk).
 
-We will maintain this page to indicate which languages are being worked on or have been requested.
+As of May 2023, substantial translations exist for the following languages.
 
-* English (British)
-* Swedish
-* Japanese
-* Finnish
-* German
-* Portuguese 
-* Hebrew
-* French
-* Spanish
+* Afrikaans [af]
+* Arabic [ar]
+* Catalan [ca]
+* Chinese (simplified) [zh_cn]
+* Dansk [da]
+* Dutch [nl]
+* Estonian [et]
+* English [en]
+* Finnish [fi]
+* French [fr]
+* Galego [gl]
+* German [de]
+* Greek [el]
+* Hebrew [he]
+* Italian [it]
+* Japanese [ja]
+* Polish [pl]
+* Portuguese - Brazil [pt_br]
+* Romanian [ro]
+* Romanian for workplace [ro_wp]
+* Silesian [szl]
+* Slovak [sk] Slovenian [sl]
+* Spanish (international) [es]
+* Spanish - Mexico [es_mx]
+* Swedish [sv]
+* Swedish - Finland [sv_fi]
 
-We believe STACK is being (or has been) translated into the following languages.
-
-* Italian
-* Dutch
-
-Details of who translated STACK are given under [credits](../About/Credits.md).  If you need these languages please contact the developers for more details of the status of this work.
+Details of some colleagues who translated STACK are given under [credits](../About/Credits.md).  If you need these languages please contact the developers for more details of the status of this work.
 
 ## Installing a language pack
 

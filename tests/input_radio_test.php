@@ -14,6 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_walkthrough_test_base;
+use stack_cas_security;
+use stack_input;
+use stack_input_factory;
+use stack_input_state;
+use stack_options;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -28,6 +37,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_radio_input
  */
 class input_radio_test extends qtype_stack_walkthrough_test_base {
     protected function expected_choices() {

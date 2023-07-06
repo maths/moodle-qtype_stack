@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_ast_container;
+use stack_cas_keyval;
+use stack_cas_security;
+use stack_cas_session2;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
@@ -25,6 +33,7 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_cas_keyval
  */
 class caskeyval_test extends qtype_stack_testcase {
 
@@ -138,7 +147,7 @@ class caskeyval_test extends qtype_stack_testcase {
         $kv = new stack_cas_keyval($tests);
         $this->assertTrue($kv->get_valid());
         $kv->instantiate();
-        foreach ($kv->get_session() as $cs) {
+        foreach ($kv->get_session()->get_session() as $cs) {
             $expect = (strpos($cs->get_key(), 't') === 0) ? 'true' : 'false';
             $this->assertEquals($expect, $cs->get_value());
         }
@@ -164,6 +173,12 @@ class caskeyval_test extends qtype_stack_testcase {
         foreach ($session as $key => $statement) {
             $this->assertEquals($expected[$key], $statement->get_value());
         }
+    }
+
+    public function test_remove_comment_hanging() {
+        $at1 = new stack_cas_keyval("a:1\n /* This is an open comment \n b:2\n \n c:3^2", null, 123);
+        $this->assertFalse($at1->get_valid());
+        $at1->instantiate();
     }
 
     public function test_multiline_input() {
@@ -276,9 +291,20 @@ class caskeyval_test extends qtype_stack_testcase {
             . 'df:diff(f,x);df_simp:(subst(sub,df));ta1:expand(df_simp);';
 
         $kv = new stack_cas_keyval($tests);
-        $this->assertFalse($kv->get_valid());
-        $expected = array('The function name "cos" is potentially redefined in unclear substitutions.',
-            'The function name "diff" is potentially redefined in unclear substitutions.');
+        // This changed since we check Maxima-side.
+        $this->assertTrue($kv->get_valid());
+        $expected = array();
         $this->assertEquals($expected, $kv->get_errors());
+
+        $kv->instantiate();
+        $s = $kv->get_session();
+        $expected = "v:2;\n" .
+                    "trig:[sin,cos][v];\n" .
+                    "sub:[(sin(x))^2 = 1-(cos(x))^2,(cos(x))^2 = 1-(sin(x))^2][v];\n" .
+                    "f:(trig(x))^n;\n" .
+                    "df:diff(f,x);\n" .
+                    "df_simp:(subst(sub,df));\n" .
+                    "ta1:expand(df_simp);";
+        $this->assertEquals($expected, $s->get_keyval_representation());
     }
 }

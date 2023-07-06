@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/settingslib.php');
 require_once(__DIR__ . '/stack/options.class.php');
-require_once(__DIR__ . '/stack/potentialresponsetree.class.php');
+require_once(__DIR__ . '/stack/prt.class.php');
 
 // Useful links.
 $links = array(
@@ -42,6 +42,8 @@ $links = array(
             array('link' => (string) new moodle_url('/question/type/stack/adminui/studentinputs.php'))),
     get_string('bulktestindexintro_desc', 'qtype_stack',
             array('link' => (string) new moodle_url('/question/type/stack/adminui/bulktestindex.php'))),
+    get_string('dependenciesintro_desc', 'qtype_stack',
+        array('link' => (string) new moodle_url('/question/type/stack/adminui/dependencies.php'))),
     get_string('stackInstall_replace_dollars_desc', 'qtype_stack',
             array('link' => (string) new moodle_url('/question/type/stack/adminui/replacedollarsindex.php'))),
 );
@@ -68,15 +70,15 @@ $settings->add(new admin_setting_configselect('qtype_stack/platform',
 $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
         get_string('settingcasmaximaversion', 'qtype_stack'),
         get_string('settingcasmaximaversion_desc', 'qtype_stack'), null,
-                array('5.38.1' => '5.38.1', '5.39.0' => '5.39.0',
-                      '5.40.0' => '5.40.0', '5.41.0' => '5.41.0', '5.42.0' => '5.42.0',
+                array('5.40.0' => '5.40.0', '5.41.0' => '5.41.0', '5.42.0' => '5.42.0',
                       '5.42.1' => '5.42.1', '5.42.2' => '5.42.2',
                       '5.43.0' => '5.43.0', '5.43.1' => '5.43.1', '5.43.2' => '5.43.2',
-                      '5.44.0' => '5.44.0', 'default' => 'default')));
+                      '5.44.0' => '5.44.0', '5.46.0' => '5.46.0', '5.47.0' => '5.47.0',
+                      'default' => 'default')));
 
 $settings->add(new admin_setting_configtext('qtype_stack/castimeout',
         get_string('settingcastimeout', 'qtype_stack'),
-        get_string('settingcastimeout_desc', 'qtype_stack'), 10, PARAM_INT, 3));
+        get_string('settingcastimeout_desc', 'qtype_stack'), 20, PARAM_INT, 3));
 
 $settings->add(new admin_setting_configselect('qtype_stack/casresultscache',
         get_string('settingcasresultscache', 'qtype_stack'),
@@ -224,7 +226,7 @@ $settings->add(new admin_setting_configselect('qtype_stack/assumereal',
 $settings->add(new admin_setting_configselect('qtype_stack/feedbackstyle',
         get_string('feedbackstyle', 'qtype_stack'),
         get_string('feedbackstyle', 'qtype_stack'), '1',
-        stack_potentialresponse_tree::get_feedbackstyle_options()));
+        stack_potentialresponse_tree_lite::get_feedbackstyle_options()));
 
 $settings->add(new admin_setting_configtextarea('qtype_stack/prtcorrect',
         get_string('prtcorrectfeedback', 'qtype_stack'), '',

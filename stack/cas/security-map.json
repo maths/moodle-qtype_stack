@@ -27,6 +27,18 @@
       "globalyforbiddenvariable": true,
       "variable": "f"
   },
+  "%_C": {
+      "function": "s",
+      "built-in": true
+  },
+  "%_E": {
+      "function": "s",
+      "built-in": true
+  },
+  "%_ce_rem": {
+      "function": "f",
+      "globalyforbiddenvariable": true
+  },
   "%ERR": {
       "variable": "f"
   },
@@ -122,7 +134,7 @@
       "variable": "f"
   },
   "%union": {
-      "operator": "t",
+      "function": "t",
       "nounfunctionfor": "union"
   },
   "%unitexpand": {
@@ -273,7 +285,7 @@
       "variable": "s"
   },
   "JF": {
-      "function": "f"
+      "function": "s"
   },
   "Kappa": {
       "function": "s",
@@ -290,7 +302,7 @@
       "variable": "f"
   },
   "ModeMatrix": {
-      "function": "f"
+      "function": "s"
   },
   "Mu": {
       "function": "s",
@@ -408,6 +420,10 @@
       "function": "f",
       "built-in": true
   },
+  "_UNDO_ERR": {
+      "function": "f",
+      "built-in": true
+  },
   "__": {
       "globalyforbiddenvariable": true,
       "variable": "f"
@@ -471,8 +487,7 @@
       "variable": "f"
   },
   "adapth_depth": {
-      "globalyforbiddenvariable": true,
-      "variable": "f"
+      "variable": "s"
   },
   "add_edge": {
       "function": "?"
@@ -562,6 +577,10 @@
   },
   "all": {
       "constant": "s"
+  },
+  "all_ops": {
+      "function": "t",
+      "built-in": true
   },
   "all_dotsimp_denoms": {
       "variable": "f"
@@ -1882,7 +1901,7 @@
       "function": "?"
   },
   "diag": {
-      "function": "f"
+      "function": "s"
   },
   "diag_matrix": {
       "function": "s"
@@ -1955,7 +1974,7 @@
       "function": "?"
   },
   "dispJordan": {
-      "function": "f"
+      "function": "s"
   },
   "dispcon": {
       "function": "f"
@@ -2277,8 +2296,8 @@
       "function": "?"
   },
   "errcatch": {
-      "function": "f",
-      "globalyforbiddenfunction": true
+      "function": "t",
+      "built-in": true
   },
   "error": {
       "function": "f",
@@ -2527,6 +2546,9 @@
   },
   "fb": {
       "variable": "s"
+  },
+  "fboundp": {
+      "function": "t"
   },
   "feature": {
       "property": "?"
@@ -3220,6 +3242,10 @@
   "horner": {
       "function": "s"
   },
+  "hstep": {
+      "function": "s",
+      "built-in": true
+  },
   "hypergeometric": {
       "function": "s"
   },
@@ -3625,6 +3651,10 @@
   "is_isomorphic": {
       "function": "?"
   },
+  "is_lang": {
+      "function": "t",
+      "built-in": true
+  },
   "is_planar": {
       "function": "?"
   },
@@ -3711,7 +3741,7 @@
       "function": "s"
   },
   "jordan": {
-      "function": "f"
+      "function": "s"
   },
   "julia": {
       "function": "f"
@@ -4383,7 +4413,7 @@
       "function": "s"
   },
   "mat_function": {
-      "function": "f"
+      "function": "s"
   },
   "mat_norm": {
       "function": "s"
@@ -4626,7 +4656,7 @@
       "function": "s"
   },
   "minimalPoly": {
-      "function": "f"
+      "function": "s"
   },
   "minimize_lp": {
       "function": "?"
@@ -5576,6 +5606,10 @@
       "evfun": "s",
       "function": "s"
   },
+  "polarform_simp": {
+      "evfun": "s",
+      "function": "s"
+  },
   "polartorect": {
       "function": "s"
   },
@@ -6065,15 +6099,15 @@
       "built-in": true
   },
   "random_subset": {
-      "function": "f",
+      "function": "t",
       "random": true
   },
   "random_subset_n": {
-      "function": "f",
+      "function": "t",
       "random": true
   },
   "random_ne_subset": {
-      "function": "f",
+      "function": "t",
       "random": true
   },
   "random_bernoulli": {
@@ -6704,6 +6738,9 @@
       "globalyforbiddenvariable": true,
       "variable": "f"
   },
+  "s_assert": {
+      "function": "t"
+  },
   "save": {
       "function": "f",
       "globalyforbiddenfunction": true
@@ -6796,6 +6833,9 @@
       "built-in": true
   },
   "sequal": {
+      "function": "s"
+  },
+  "sequence": {
       "function": "s"
   },
   "sequalignore": {
@@ -7234,59 +7274,7 @@
   "ssubstfirst": {
       "function": "?"
   },
-  "stack_complex_expression": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_unknown_integer": {
-      "variable": "t",
-      "built-in": true
-  },
-  "stack_unknown_float": {
-      "variable": "t",
-      "built-in": true
-  },
-  "stack_cyclic": {
-      "variable": "f",
-      "built-in": true
-  },
-  "stack_integer_set": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_float_set": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_expression_set": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_integer_list": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_float_list": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_expression_list": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_integer_matrix": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_float_matrix": {
-      "function": "t",
-      "built-in": true
-  },
-  "stack_complex_unknown": {
-      "function": "f",
-      "built-in": true
-  },
-  "stack_expression_matrix": {
+  "stack_csv_formatter": {
       "function": "t",
       "built-in": true
   },
@@ -8059,7 +8047,8 @@
       "built-in": true
   },
   "unit_step": {
-      "function": "f"
+      "function": "s",
+      "built-in": true
   },
   "unit_vectors": {
       "variable": "f"
@@ -8397,6 +8386,9 @@
   "xthru": {
       "function": "s"
   },
+  "xtics": {
+      "variable": "s"
+  },
   "xtics_axis": {
       "variable": "f"
   },
@@ -8423,6 +8415,9 @@
   },
   "y_voxel": {
       "variable": "f"
+  },
+  "ytics": {
+      "variable": "s"
   },
   "yaxis": {
       "variable": "f"

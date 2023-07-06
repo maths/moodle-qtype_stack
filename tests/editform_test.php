@@ -27,6 +27,7 @@ require_once(__DIR__ . '/../edit_stack_form.php');
 
 /**
  * @group qtype_stack
+ * @covers \qtype_stack_edit_form
  */
 class editform_test extends qtype_stack_edit_form {
 
@@ -47,12 +48,16 @@ class editform_test extends qtype_stack_edit_form {
         $fakequestion->formoptions->movecontext = null;
         $fakequestion->formoptions->repeatelements = true;
         $fakequestion->inputs = null;
-        parent::__construct(new moodle_url('/'), $fakequestion, $category,
-                new question_edit_contexts($syscontext));
+        // Support both Moodle 4.x and 3.x.
+        if (class_exists('\core_question\local\bank\question_edit_contexts')) {
+            $contexts = new \core_question\local\bank\question_edit_contexts($syscontext);
+        } else {
+            $contexts = new question_edit_contexts($syscontext);
+        }
+        parent::__construct(new moodle_url('/'), $fakequestion, $category, $contexts);
     }
 
 }
-
 
 /**
  * Unit tests for Stack question editing form.
@@ -60,6 +65,7 @@ class editform_test extends qtype_stack_edit_form {
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
+ * @covers \qtype_stack_edit_form
  */
 class qtype_stack_edit_form_test extends advanced_testcase {
 

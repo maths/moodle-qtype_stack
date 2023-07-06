@@ -27,7 +27,7 @@ require_once(__DIR__.'/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/tidyquestionform.php');
-
+require_once(__DIR__ . '/vle_specific.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
@@ -52,8 +52,11 @@ $PAGE->set_pagelayout('admin');
 require_login();
 
 // The URL back to the preview page.
-$returnurl = question_preview_url($questionid, null, null, null, null, $context);
-
+if (stack_determine_moodle_version() < 400) {
+    $returnurl = question_preview_url($questionid, null, null, null, null, $context);
+} else {
+    $returnurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
+}
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
 $quba->set_preferred_behaviour('adaptive');

@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * STACK question type test data generator class
  *
@@ -57,7 +55,11 @@ class qtype_stack_generator extends component_generator_base {
         foreach ($question->inputs as $inputname => $notused) {
             $inputs[$inputname] = $data[$inputname];
         }
-        $qtest = new stack_question_test($inputs);
+        $description = '';
+        if (array_key_exists('description', $data)) {
+            $description = $data['description'];
+        }
+        $qtest = new stack_question_test($description, $inputs);
 
         foreach ($question->prts as $prtname => $notused) {
             $qtest->add_expected_result($prtname,

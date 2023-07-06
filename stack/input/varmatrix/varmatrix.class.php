@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * An input which provides a matrix input of variable size.
  * Lots in common with the textarea class.
@@ -31,14 +29,16 @@ class stack_varmatrix_input extends stack_input {
         'nosemicolon' => true,
         'dealias' => false, // This is needed to stop pi->%pi etc.
         'nounify' => true,
-        'varmatrix' => true,
+        'varmatrix' => true
     );
 
     protected $extraoptions = array(
         'simp' => false,
         'rationalized' => false,
         'allowempty' => false,
-        'consolidatesubscripts' => false
+        'consolidatesubscripts' => false,
+        'checkvars' => 0,
+        'validator' => false
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -62,6 +62,10 @@ class stack_varmatrix_input extends stack_input {
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+            if ($this->parameters['syntaxAttribute'] == '1') {
+                $attributes['placeholder'] = $current;
+                $current = '';
+            }
         } else {
             $current = array();
             foreach ($state->contents as $row) {
@@ -74,7 +78,11 @@ class stack_varmatrix_input extends stack_input {
         }
 
         // Sort out size of text area.
-        $rows = stack_utils::list_to_array($current, false);
+        $sizecontent = $current;
+        if ($this->is_blank_response($state->contents) && $this->parameters['syntaxAttribute'] == '1') {
+            $sizecontent = $attributes['placeholder'];
+        }
+        $rows = stack_utils::list_to_array($sizecontent, false);
         $attributes['rows'] = max(5, count($rows) + 1);
 
         $boxwidth = $this->parameters['boxWidth'];

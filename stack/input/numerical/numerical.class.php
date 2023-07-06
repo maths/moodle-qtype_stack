@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * A basic text-field input.
  *
@@ -49,7 +47,8 @@ class stack_numerical_input extends stack_input {
         'minsf' => false,
         'maxsf' => false,
         'allowempty' => false,
-        'align' => 'left'
+        'align' => 'left',
+        'validator' => false
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

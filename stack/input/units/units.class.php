@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * An input to support scientific units.  Heavily based on algebraic.
  *
@@ -40,7 +38,8 @@ class stack_units_input extends stack_input {
         'maxsf' => false,
         'allowempty' => false,
         'align' => 'left',
-        'consolidatesubscripts' => false
+        'consolidatesubscripts' => false,
+        'validator' => false
     );
 
 

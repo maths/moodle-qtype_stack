@@ -27,6 +27,7 @@
 
 require_once(__DIR__.'/../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/vle_specific.php');
 
 // Get the parameters from the URL.
 $questionid = required_param('questionid', PARAM_INT);
@@ -60,9 +61,7 @@ echo $OUTPUT->header();
 $renderer = $PAGE->get_renderer('qtype_stack');
 echo $OUTPUT->heading($question->name, 2);
 
-
 // Link back to question tests.
-
 $out = html_writer::link($testquestionlink, stack_string('runquestiontests'), array('target' => '_blank'));
 
 // If question has no random variants.
@@ -72,9 +71,14 @@ if (empty($question->deployedseeds)) {
     }
 }
 
+if (stack_determine_moodle_version() < 400) {
+    $qurl = question_preview_url($questionid, null, null, null, null, $context);
+} else {
+    $qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
+}
+
 echo html_writer::tag('p', $out . ' ' .
-        $OUTPUT->action_icon(question_preview_url($questionid, null, null, null, null, $context),
-        new pix_icon('t/preview', get_string('preview'))));
+    $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))));
 
 // Display a representation of the question, variables and PRTs for easy reference.
 echo $OUTPUT->heading(stack_string('questiontext'), 3);
@@ -93,56 +97,42 @@ $maxima .= html_writer::tag('pre', s(trim($vars)));
 $maxima .= html_writer::end_tag('div');
 echo $maxima;
 
-$offlinemaxima = array();
-$nodesummary1 = array();
-$nodesummary2 = array();
-$graphrepresentation = array();
-foreach ($question->prts as $prtname => $prt) {
-    $nodes = $prt->get_nodes_summary();
-    $nodesummary1[$prtname] = '';
-    $nodesummary2[$prtname] = '';
-    $nodesummary3[$prtname] = '';
-    $offlinemaxima[$prtname] = $prt->get_maxima_representation();
-
-    foreach ($nodes as $key => $node) {
-        $nodesummary1[$prtname] .= ($key + 1). ': ' . $node->test . "\n";
-        $nodesummary2[$prtname] .= $node->truenote . "\n";
-        $nodesummary3[$prtname] .= $node->falsenote . "\n";
-    }
-
-    $graph = $prt->get_prt_graph();
-    $graphrepresentation[$prtname] = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
-}
-
 flush();
 
 // Later we only display inputs relevant to a particular PTR, so we sort out prt input requirements here.
-$allinputs = array_keys($question->inputs);
-$inputsbyprt = array();
-foreach ($question->prts as $prtname => $prt) {
-    $inputsbyprt[$prtname] = $prt->get_required_variables($allinputs);
-}
+$inputsbyprt = $question->get_cached('required');
 
-$query = 'SELECT qa.*, qas_last.*
-FROM {question_attempts} qa
-LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
-/* attach another copy of qas to those rows with the most recent timecreated,
-   using method from https://stackoverflow.com/a/28090544 */
-LEFT JOIN {question_attempt_steps} qas_prev
-ON qas_last.questionattemptid = qas_prev.questionattemptid
-AND (qas_last.sequencenumber < qas_prev.sequencenumber
-OR (qas_last.sequencenumber = qas_prev.sequencenumber
-AND qas_last.id < qas_prev.id))
-LEFT JOIN {user} u ON qas_last.userid = u.id
-WHERE
-qas_prev.timecreated IS NULL
-AND qa.questionid = ' . $questionid . '
-ORDER BY u.username, qas_last.timecreated';
+$params = [$questionid];
+$query = "SELECT qa.*, qas_last.*
+              FROM {question_attempts} qa
+              LEFT JOIN {question_attempt_steps} qas_last ON qas_last.questionattemptid = qa.id
+              /* attach another copy of qas to those rows with the most recent timecreated,
+              using method from https://stackoverflow.com/a/28090544 */
+              LEFT JOIN {question_attempt_steps} qas_prev
+                            ON qas_last.questionattemptid = qas_prev.questionattemptid
+                                AND (qas_last.sequencenumber < qas_prev.sequencenumber
+                                    OR (qas_last.sequencenumber = qas_prev.sequencenumber
+                                        AND qas_last.id < qas_prev.id))
+              LEFT JOIN {user} u ON qas_last.userid = u.id
+          WHERE qas_prev.timecreated IS NULL";
+
+if (stack_determine_moodle_version() < 400) {
+    $query .= " AND qa.questionid = ?";
+} else {
+    // In moodle 4 we look at all attempts at all versions.
+    // Otherwise an edit, regrade and re-analysis becomes impossible.
+    $query .= " AND qa.questionid IN (
+                    SELECT qv.questionid
+                      FROM {question_versions} qv_original
+                      JOIN {question_versions} qv ON
+                                qv.questionbankentryid = qv_original.questionbankentryid
+                    WHERE qv_original.questionid = ?)";
+}
+$query .= " ORDER BY u.username, qas_last.timecreated";
 
 global $DB;
 
-$result = $DB->get_records_sql($query);
-
+$result = $DB->get_records_sql($query, $params);
 $summary = array();
 foreach ($result as $qattempt) {
     if (!array_key_exists($qattempt->variant, $summary)) {
@@ -161,6 +151,20 @@ foreach ($result as $qattempt) {
 foreach ($summary as $vkey => $variant) {
     arsort($variant);
     $summary[$vkey] = $variant;
+}
+
+// Match up variants to answer notes.
+$questionnotes = array();
+$questionseeds = array();
+foreach (array_keys($summary) as $variant) {
+    $questionnotes[$variant] = $variant;
+
+    $question = question_bank::load_question($questionid);
+    $question->start_attempt(new question_attempt_step(), $variant);
+    $questionseeds[$variant] = $question->seed;
+    $notesummary = $question->get_question_summary();
+    // TODO check for duplicate notes.
+    $questionnotes[$variant] = stack_ouput_castext($notesummary);
 }
 
 // Create blank arrays in which to store data.
@@ -234,7 +238,7 @@ foreach ($summary as $variant => $vdata) {
             foreach ($qprts as $prt => $notused) {
                 // Only create an input summary of the inputs required for this PRT.
                 $inputsummary = '';
-                foreach ($inputsbyprt[$prt] as $input) {
+                foreach ($inputsbyprt[$prt] as $input => $alsonotused) {
                     if (array_key_exists($input, $inputvals)) {
                         $inputsummary .= $inputvals[$input] . '; ';
                     }
@@ -343,34 +347,27 @@ foreach ($prtreportsummary as $prt => $data) {
     }
 }
 
+// Produce a text-based summary of a PRT.
 foreach ($question->prts as $prtname => $prt) {
-    echo html_writer::start_tag('table');
-    echo html_writer::start_tag('tr');
+    // Here we render each PRT as a separate single-row table.
+    $tablerow = array($prtname);
 
-    echo html_writer::tag('td', $graphrepresentation[$prtname]);
+    $graph = $prt->get_prt_graph();
+    $tablerow[] = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
+    $tablerow[] = stack_prt_graph_text_renderer::render($graph);
 
-    $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
-    $node .= html_writer::tag('pre', s($nodesummary1[$prtname]));
-    $node .= html_writer::end_tag('div');
-    echo html_writer::tag('td', $node);
+    $maxima = html_writer::tag('summary', $prtname) . html_writer::tag('pre', s($prt->get_maxima_representation()));
+    $maxima = html_writer::tag('details', $maxima);
+    $tablerow[] = html_writer::tag('div', $maxima, array('class' => 'questionvariables'));
 
-    $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
-    $node .= html_writer::tag('pre', s($nodesummary2[$prtname]));
-    $node .= html_writer::end_tag('div');
-    echo html_writer::tag('td', $node);
-
-    $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
-    $node .= html_writer::tag('pre', s($nodesummary3[$prtname]));
-    $node .= html_writer::end_tag('div');
-    echo html_writer::tag('td', $node);
-
-    $maxima = html_writer::start_tag('div', array('class' => 'questionvariables'));
-    $maxima .= html_writer::tag('pre', s($offlinemaxima[$prtname]));
-    $maxima .= html_writer::end_tag('div');
-    echo html_writer::tag('td', $maxima);
-
-    echo html_writer::end_tag('tr');
-    echo html_writer::end_tag('table');
+    // Render the html as a single table.
+    $html = '';
+    foreach ($tablerow as $td) {
+        $html .= html_writer::tag('td', $td);
+    }
+    $html = html_writer::tag('tr', $html);
+    $html = html_writer::tag('table', $html);
+    echo $html;
 
     if (array_key_exists($prtname, $sumout)) {
         echo html_writer::tag('pre', trim($sumout[$prtname]));
@@ -398,47 +395,36 @@ if (trim(implode($sumout)) !== '') {
     echo html_writer::tag('h3', stack_string('basicreportnotessplit'));
 }
 
-echo html_writer::start_tag('table');
+$tablerows = array();
 foreach ($question->prts as $prtname => $prt) {
     if (array_key_exists($prtname, $prtlabels)) {
-        echo html_writer::start_tag('tr');
+        $tablerow = array($prtname);
 
-        echo html_writer::tag('td', $prtname);
-        echo html_writer::tag('td', $graphrepresentation[$prtname]);
+        $graph = $prt->get_prt_graph();
+        $tablerow[] = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
+        $tablerow[] = stack_prt_graph_text_renderer::render($graph);
 
-        $graph = $prt->get_prt_graph($prtlabels[$prtname]);
-        echo html_writer::tag('td', stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg'));
+        $maxima = html_writer::tag('pre', s($sumout[$prtname]));
+        $tablerow[] = html_writer::tag('div', $maxima, array('class' => 'questionvariables'));
 
-        $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
-        $node .= html_writer::tag('pre', s($nodesummary1[$prtname]));
-        $node .= html_writer::end_tag('div');
-        echo html_writer::tag('td', $node);
-
-        $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
-        $node .= html_writer::tag('pre', s($nodesummary2[$prtname]));
-        $node .= html_writer::end_tag('div');
-        echo html_writer::tag('td', $node);
-
-        $node = html_writer::start_tag('div', array('class' => 'questionvariables'));
-        $node .= html_writer::tag('pre', s($nodesummary3[$prtname]));
-        $node .= html_writer::end_tag('div');
-        echo html_writer::tag('td', $node);
-
-        $maxima = html_writer::start_tag('div', array('class' => 'questionvariables'));
-        $maxima .= html_writer::tag('pre', s($sumout[$prtname]));
-        $maxima .= html_writer::end_tag('div');
-        echo html_writer::tag('td', $maxima);
-
-        echo html_writer::end_tag('tr');
+        $tablerows[] = $tablerow;
     }
 }
-echo html_writer::end_tag('table');
+// Now create the HTML table.
+$html = '';
+foreach ($tablerows as $tablerow) {
+    $rowhtml = '';
+    foreach ($tablerow as $td) {
+        $rowhtml .= html_writer::tag('td', $td);
+    }
+    $html .= html_writer::tag('tr', $rowhtml);
+}
+echo html_writer::tag('table', $html);
 
 // Raw inputs and PRT answer notes by variant.
 if (array_keys($summary) !== array()) {
     echo html_writer::tag('h3', stack_string('basicreportvariants'));
 }
-
 foreach (array_keys($summary) as $variant) {
     $sumout = '';
     foreach ($prtreport[$variant] as $prt => $idata) {
@@ -465,14 +451,13 @@ foreach (array_keys($summary) as $variant) {
         $sumout .= "\n";
     }
     if (trim($sumout) !== '') {
-        echo html_writer::tag('h3', $variant);
+        echo html_writer::tag('h3', $questionseeds[$variant] . ': ' . $questionnotes[$variant]);
         echo html_writer::tag('pre', $sumout);
     }
 }
 
 
 foreach (array_keys($summary) as $variant) {
-    // TODO: how do we go from a variant to a seed (if there is one....)?
     $sumout = '';
     foreach ($inputreport[$variant] as $input => $idata) {
         $sumouti = '';
@@ -499,7 +484,7 @@ foreach (array_keys($summary) as $variant) {
         }
     }
     if (trim($sumout) !== '') {
-        echo html_writer::tag('h3', $variant);
+        echo html_writer::tag('h3', $questionseeds[$variant] . ': ' . $questionnotes[$variant]);
         echo html_writer::tag('pre', $sumout);
     }
 }

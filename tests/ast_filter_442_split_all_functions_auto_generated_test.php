@@ -14,6 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_ast_testcase;
+use stack_cas_security;
+use stack_parsing_rule_factory;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
@@ -22,6 +28,7 @@ require_once(__DIR__ . '/../tests/fixtures/ast_filter_test_base.php');
 /**
  * @group qtype_stack
  * @group qtype_stack_ast_filters
+ * @covers \ast_filter_442_split_all_functions
  */
 
 class ast_filter_442_split_all_functions_auto_generated_test extends qtype_stack_ast_testcase {
@@ -1447,6 +1454,11 @@ class ast_filter_442_split_all_functions_auto_generated_test extends qtype_stack
                       array(),
                       true, false);
 
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
+                      array(),
+                      true, false);
+
         $this->expect('9.81x10^2*m/s',
                       '9.81*x10^2*m/s',
                       array(),
@@ -2299,6 +2311,11 @@ class ast_filter_442_split_all_functions_auto_generated_test extends qtype_stack
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array(),
                       true, false);
 
@@ -2693,6 +2710,11 @@ class ast_filter_442_split_all_functions_auto_generated_test extends qtype_stack
                       array(),
                       true, false);
 
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
+                      array(),
+                      true, false);
+
         $this->expect('9.81x10^2*m/s',
                       '9.81*x10^2*m/s',
                       array(),
@@ -3545,6 +3567,11 @@ class ast_filter_442_split_all_functions_auto_generated_test extends qtype_stack
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array(),
                       true, false);
 

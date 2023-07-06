@@ -11,7 +11,7 @@ functions.  Some are described here, others are in the relevant specific section
 Since establishing mathematical properties are all about predicates they are particularly important for STACK.
 
 You can use predicate functions directly in the [potential response tree](../Authoring/Potential_response_trees.md) by comparing the result with `true` using the
-[answer test](../Authoring/Answer_tests.md) AlgEquiv.
+[answer test](../Authoring/Answer_Tests/index.md) AlgEquiv.
 
 # Maxima type predicate functions #
 
@@ -64,7 +64,7 @@ The following are defined by STACK.
 | Function                  | Predicate
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | `expandp(ex)`             | true if \(ex\) equals its expanded form.
-| `factorp(ex) `            | true if \(ex\) equals its factored form.  Note, if you would like to know if an expression is factored you need to use the [FacForm](../Authoring/Answer_tests.md#Form) answer test.  Prime integers equal their factored form, composite integers do not.
+| `factorp(ex) `            | true if \(ex\) equals its factored form.  Note, if you would like to know if an expression is factored you need to use the [FacForm](../Authoring/Answer_Tests/index.md#Form) answer test.  Prime integers equal their factored form, composite integers do not.
 | `continuousp(ex,v,xp) `   | true if \(ex\) is continuous with respect to \(v\) at \(xp\) (unreliable).
 | `diffp(ex,v,xp,[n]) `     | true if \(ex\) is (optionally \(n\) times) differentiable with respect to \(v\) at \(xp\) (unreliable).
 

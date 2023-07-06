@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Options enable a context to be set for each question, and information
  * made generally available to other classes.
@@ -43,7 +41,7 @@ class stack_options {
                 'type'       => 'list',
                 'value'      => 'dot',
                 'strict'     => true,
-                'values'     => array('dot', 'cross', 'none'),
+                'values'     => array('dot', 'cross', 'onum', 'none'),
                 'caskey'     => 'make_multsgn',
                 'castype'    => 'fun',
             ),
@@ -263,6 +261,7 @@ class stack_options {
         return array(
             'dot'   => get_string('multdot', 'qtype_stack'),
             'cross' => get_string('multcross', 'qtype_stack'),
+            'onum'  => get_string('multonlynumbers', 'qtype_stack'),
             'none'  => get_string('none'),
         );
     }

@@ -50,7 +50,10 @@ make_monic(ex) := block([v,vc,nc],
     if v=[] then return(ex),
     /* Divide by the numerical coefficient of the leading term, without losing the minus sign, where possible. */
     nc:numerical_coeff(ex),
-    if is(nc=0) then ex else ev(expand(ex/abs(nc)), simp)
+    if not(is(nc=0)) then ex:ev(expand(ex/abs(nc)), simp),
+    /* Deal with one special case only here. */
+    if is(ex=first(v)-minf) then ex:first(v)+inf,
+    return(ex)
 )$
 
 /* Return the numerical coefficient of the leading term in expression. */
@@ -208,6 +211,14 @@ linear_inequality_to_interval(ex) := block([ex2, v, p, Ans],
     if not(linear_inequalityp(ex)) then return(ex),
     ex2:ineqprepare(ex),
     v:first(listofvars(ex2)),
+    /* Deal with edge cases involving infinity. */
+    if is(lhs(ex2)=v-inf) then return({}),
+    if is(ex2=(inf-v>0)) then return(all),
+    if is(ex2=(inf-v>=0)) then return(oc(minf,inf)),
+    if is(lhs(ex2)=v+minf) then return({}),
+    if is(ex2=(v+inf>0)) then return(all),
+    if is(ex2=(v+inf>=0)) then return(co(minf,inf)),  
+
     /* We know this solution will exist. */
     p:rhs(first(solve(lhs(ex2), v))),
     /* But we can only create an interval if the value is real! */
@@ -233,6 +244,10 @@ inequality_factor_solve(ex):=block([ex2, p],
     if not(inequalityp(ex)) then return(ex),
     if length(listofvars(ex))#1 then return(ex),
     ex:ineqprepare(ex),
+
+    /* Don't try to solve inequalities with inf/minf etc. */
+    if not(freeof(inf, ex)) or not(freeof(minf,ex)) then return(ex),
+
     if not(polynomialp(lhs(ex), listofvars(ex))) then return(ex),
     exop:op(ex), /* This is for >, >= */
 

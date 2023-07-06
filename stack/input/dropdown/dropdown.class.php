@@ -16,6 +16,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/../../cas/castext2/utils.php');
+
 /**
  * Input that is a dropdown list/multiple choice that the teacher
  * has specified.
@@ -67,7 +69,7 @@ class stack_dropdown_input extends stack_input {
 
     protected function internal_contruct() {
         $options = $this->get_parameter('options');
-        if (trim($options) != '') {
+        if ($options != null && trim($options) != '') {
             $options = explode(',', $options);
             foreach ($options as $option) {
                 $option = strtolower(trim($option));
@@ -137,8 +139,7 @@ class stack_dropdown_input extends stack_input {
         $strings = stack_utils::all_substring_strings($str);
         foreach ($strings as $key => $string) {
             $str = str_replace('"'.$string.'"', "[STR:$key]", $str);
-            // Also convert strings from escaped form to PHP-form.
-            $strings[$key] = stack_utils::maxima_string_to_php_string('"' . $string . '"');
+            $strings[$key] = $string;
         }
         $values = stack_utils::list_to_array($str, false);
         if (empty($values)) {
@@ -175,7 +176,12 @@ class stack_dropdown_input extends stack_input {
                     $ddlvalue['value'] = $value[0];
                     $ddlvalue['display'] = $value[0];
                     if (array_key_exists(2, $value)) {
-                        $ddlvalue['display'] = stack_maxima_latex_tidy($value[2]);
+                        if (substr($value[2], 0, 9) !== '["%root",') {
+                            $ddlvalue['display'] = stack_maxima_latex_tidy($value[2]);
+                        } else {
+                            // No tidy for CASText2 it does it itself.
+                            $ddlvalue['display'] = $value[2];
+                        }
                     }
                     if (trim($value[1]) == 'true') {
                         $ddlvalue['correct'] = true;
@@ -216,8 +222,13 @@ class stack_dropdown_input extends stack_input {
             // By default, we wrap displayed values in <code> tags.
             foreach ($ddlvalues as $key => $value) {
                 $display = trim($ddlvalues[$key]['display']);
-                if (substr($display, 0, 1) == '"' && substr($display, 0, 1) == '"') {
-                    $ddlvalues[$key]['display'] = substr($display, 1, strlen($display) - 2);
+                if (substr($display, 0, 1) == '"') {
+                    $ddlvalues[$key]['display'] = stack_utils::maxima_string_to_php_string($display);
+                } else if (substr($display, 0, 9) === '["%root",') {
+                    // In case we see CASText2 values we need to postproc them.
+                    $tmp = castext2_parser_utils::string_to_list($display, true);
+                    $tmp = castext2_parser_utils::unpack_maxima_strings($tmp);
+                    $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_parsed($tmp);
                 } else {
                     $cs = stack_ast_container::make_from_teacher_source($display);
                     if ($cs->get_valid()) {
@@ -226,7 +237,12 @@ class stack_dropdown_input extends stack_input {
                     $ddlvalues[$key]['display'] = '<code>'.$display.'</code>';
                 }
                 if ($ddlvalues[$key]['correct']) {
-                    $correctanswerdisplay[] = $display;
+                    if (substr($display, 0, 9) === '["%root",') {
+                        $tmp = castext2_parser_utils::unpack_maxima_strings($display);
+                        $correctanswerdisplay[] = castext2_parser_utils::postprocess_parsed($tmp);
+                    } else {
+                        $correctanswerdisplay[] = $display;
+                    }
                 }
             }
             $this->ddlvalues = $this->key_order($ddlvalues);
@@ -262,7 +278,6 @@ class stack_dropdown_input extends stack_input {
             // We use the display term here because it might differ explicitly from the above "value".
             // So, we send the display form to LaTeX, and then replace it with the LaTeX below.
             $csv = stack_ast_container::make_from_teacher_source('val'.$key.':'.$value['display']);
-            $csv->set_nounify(1);
             $csvs[] = $csv;
         }
 
@@ -292,8 +307,12 @@ class stack_dropdown_input extends stack_input {
         foreach ($ddlvalues as $key => $value) {
             // Was the original expression a string?  If so, don't use the LaTeX version.
             $display = trim($ddlvalues[$key]['display']);
-            if (substr($display, 0, 1) == '"' && substr($display, 0, 1) == '"') {
-                $ddlvalues[$key]['display'] = substr($display, 1, strlen($display) - 2);
+            if (substr($display, 0, 9) === '["%root",') {
+                // In case we saw CASText2 values we need to postproc them.
+                $ddlvalues[$key]['display'] = castext2_parser_utils::postprocess_mp_parsed(
+                    $at1->get_by_key('val'.$key)->get_evaluated());
+            } else if (substr($display, 0, 1) == '"') {
+                $ddlvalues[$key]['display'] = stack_utils::maxima_string_to_php_string($display);
             } else {
                 // Note, we've chosen to add LaTeX maths environments here.
                 $disp = $at1->get_by_key('val'.$key)->get_latex();
@@ -551,16 +570,18 @@ class stack_dropdown_input extends stack_input {
      * not the CAS values.  These next two methods map between the keys and the CAS values.
      */
     protected function get_input_ddl_value($key) {
-        $val = '';
         // Resolve confusion over null values in the key.
         if (0 === $key || '0' === $key) {
             $key = '';
         }
-        if (array_key_exists($key, $this->ddlvalues)) {
+        if (array_key_exists(trim($key), $this->ddlvalues)) {
             return $this->ddlvalues[$key]['value'];
         }
-        throw new stack_exception('stack_dropdown_input: could not find a value for key '.$key);
-
+        // The tidy question script returns the name of the input during tidying.
+        // That is useful for figuring out where in the question this input occurs.
+        if ($key !== $this->name) {
+            throw new stack_exception('stack_dropdown_input: could not find a value for key '.$key);
+        }
         return false;
     }
 

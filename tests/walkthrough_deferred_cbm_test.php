@@ -14,6 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_walkthrough_test_base;
+use question_cbm;
+use question_state;
+use stack_boolean_input;
+use stack_input_factory;
+use stack_potentialresponse_tree_lite;
+use stdClass;
+
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -30,6 +41,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * @group qtype_stack
+ * @covers \qtype_stack
  */
 class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
 
@@ -44,7 +56,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         }
 
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredcbm', $outof);
 
         // Check the right behaviour is used.
@@ -116,7 +128,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_save_answers_to_all_parts_confirm_valid_and_stubmit() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 12);
 
         // Check the initial state.
@@ -208,7 +220,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_save_partially_complete_and_partially_invalid_response_then_stubmit() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
 
         // Check the initial state.
@@ -277,7 +289,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_save_completely_blank_response_then_stubmit() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
 
         // Check the initial state.
@@ -333,20 +345,47 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
 
         // Create a stack question - we use test0, then replace the input with
         // a dropdown, to get a question that does not require validation.
-        $q = test_question_maker::make_question('stack', 'test0');
+        $q = \test_question_maker::make_question('stack', 'test0');
         // @codingStandardsIgnoreStart
         $q->inputs['ans1'] = stack_input_factory::make(
                 'dropdown', 'ans1', '[[1+x,false],[2+x,true]]');
         // @codingStandardsIgnoreEnd
 
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('2+x');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = '0';
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '2+x';
+        $newnode->answertest          = 'EqualComAss';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         $this->start_attempt_at_question($q, 'deferredcbm', $outof);
 

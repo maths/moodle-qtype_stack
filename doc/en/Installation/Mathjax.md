@@ -7,7 +7,7 @@ STACK generates LaTeX code on the fly and expects to use a Moodle filter to conv
 These are notes on configuring the MathJax filter options for use with STACK.
 
 1. Do not use "TeX filter compatibility" unless you want all equations to appear inline!
-2. To add support for [actuarial notation](../Authoring/Actuarial.md) you need to add the option 'enclose.js' to the extensions.  I.e. within the "MathJax configuration" text we need the following.   
+2. To add support for [actuarial notation](../Reference/Actuarial.md) you need to add the option 'enclose.js' to the extensions.  I.e. within the "MathJax configuration" text we need the following.   
 
         TeX: { extensions: ['enclose.js'] }
 
@@ -57,7 +57,7 @@ Please note the following.
 
 * These settings enable only the strict LaTeX maths environments, and does not support the use of dollars;
 * The `processEscapes` flag enables you to include a dollar symbol in mathematics environments with `\$`.
-* The line `extensions: ['enclose.js'],` enables support for [actuarial notation](../Authoring/Actuarial.md).
+* The line `extensions: ['enclose.js'],` enables support for [actuarial notation](../Reference/Actuarial.md).
 * The line `Macros: { pounds: '{\\it\\unicode{xA3}}', euro: '\\unicode{x20AC}' }` enables support for the UK pounds sign and the Euro symbol in LaTeX using `\pounds` and `\euro` macros respectively.  E.g. \(\pounds\) and \(\euro\).
 
 ### What about dollar mathematics delimiters? ###  {#delimiters}

@@ -795,6 +795,8 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('stackversion', XMLDB_TYPE_TEXT, null, null, null, null, null, 'questionid');
 
+        $table->add_field('feedbackvariables', XMLDB_TYPE_TEXT, 'small', null, XMLDB_NOTNULL, null, null);
+
         // Conditionally launch add field stackversion.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
@@ -863,6 +865,74 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021010100, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2022042700) {
+        // Changing type of field truescore on table qtype_stack_prt_nodes to char.
+        $table = new xmldb_table('qtype_stack_prt_nodes');
+        $field = new xmldb_field('truescore', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, '1', 'truescoremode');
+
+        // Launch change of type for field truescore.
+        $dbman->change_field_type($table, $field);
+
+        // Changing type of field truepenalty on table qtype_stack_prt_nodes to char.
+        $table = new xmldb_table('qtype_stack_prt_nodes');
+        $field = new xmldb_field('truepenalty', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'truescore');
+
+        // Launch change of type for field truepenalty.
+        $dbman->change_field_type($table, $field);
+
+        // Changing type of field falsescore on table qtype_stack_prt_nodes to char.
+        $table = new xmldb_table('qtype_stack_prt_nodes');
+        $field = new xmldb_field('falsescore', XMLDB_TYPE_CHAR, '255', null, null, null, '0', 'falsescoremode');
+
+        // Launch change of type for field falsescore.
+        $dbman->change_field_type($table, $field);
+
+        // Changing type of field falsepenalty on table qtype_stack_prt_nodes to char.
+        $table = new xmldb_table('qtype_stack_prt_nodes');
+        $field = new xmldb_field('falsepenalty', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'falsescore');
+
+        // Launch change of type for field falsepenalty.
+        $dbman->change_field_type($table, $field);
+
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2022042700, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2023042200) {
+
+        // Define field description to be added to qtype_stack_prt_nodes.
+        $table = new xmldb_table('qtype_stack_prt_nodes');
+        $field = new xmldb_field('description', XMLDB_TYPE_CHAR, '255', null, null, null, '', 'nodename');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define question description field to be added to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('questiondescription', XMLDB_TYPE_TEXT, 'medium', null, null, null, null, 'questionnote');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('questiondescriptionformat', XMLDB_TYPE_INTEGER,
+            '2', null, XMLDB_NOTNULL, null, '0', 'questiondescription');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2023042200, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2023042800) {
+        // Define field description to be added to qtype_stack_qtests.
+        $table = new xmldb_table('qtype_stack_qtests');
+        $field = new xmldb_field('description', XMLDB_TYPE_CHAR, '255', null, null, null, '', 'testcase');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2023042800, 'qtype', 'stack');
+    }
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version

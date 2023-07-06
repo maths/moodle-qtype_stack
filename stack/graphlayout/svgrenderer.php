@@ -23,10 +23,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
-defined('MOODLE_INTERNAL') || die();
-
-
 /**
  * Displays a {@link stack_abstract_graph} as SVG.
  *
@@ -75,7 +71,7 @@ class stack_abstract_graph_svg_renderer {
     public static function render(stack_abstract_graph $g, $id) {
         $renderer = new self($g);
         list($minx, $maxx) = $g->x_range();
-        $width = ceil((2 + $maxx - $minx) * self::SCALE / 2);
+        $width = ceil((5 + $maxx - $minx) * self::SCALE / 2);
         $height = ceil((0.3 + $g->max_depth()) * self::SCALE);
 
         $output = '';
@@ -101,7 +97,7 @@ class stack_abstract_graph_svg_renderer {
      */
     protected function to_svg() {
         list($minx) = $this->g->x_range();
-        $this->dx = self::SCALE * (1 - $minx) / 2;
+        $this->dx = self::SCALE * (2.5 - $minx) / 2;
 
         foreach ($this->g->get_nodes() as $node) {
             if (!is_null($node->right)) {
@@ -124,7 +120,7 @@ class stack_abstract_graph_svg_renderer {
     }
 
     /**
-     * Generate the SVG code for and edge, with its label.
+     * Generate the SVG code for an edge, with its label.
      * @param stack_abstract_graph_node $parent
      * @param int $direction one of stack_abstract_graph::LEFT or stack_abstract_graph::RIGHT.
      */

@@ -14,6 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_exception;
+use stack_utils;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/test_base.php');
@@ -28,14 +34,9 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_utils
  */
 class stack_utils_test extends qtype_stack_testcase {
-
-    public function test_matching_pairs() {
-        $this->assertTrue(stack_utils::check_matching_pairs('Hello $world$!', '$'));
-        $this->assertFalse(stack_utils::check_matching_pairs('Hello @world!', '@'));
-        $this->assertTrue(stack_utils::check_matching_pairs('', '$'));
-    }
 
     public function test_check_bookends() {
         $this->assertSame('left', stack_utils::check_bookends('x+1)^2', '(', ')'));

@@ -135,18 +135,43 @@ op_usedp(ex, opused) := block(
    apply("or", maplist(lambda([ex2], op_usedp(ex2, opused)), args(ex)))
 )$
 
-/* Count the occurances of v in ex. */
-count_occurances(ex, v):=block(
+/* Count the occurances of v in ex. 
+   v can be a string (for safe_op) or atom.
+*/
+count_occurances(ex, v):=block([isop],
   if ex=v then return(1),
   if atom(ex) then return(0),
-  apply("+", map(lambda([ex2], count_occurances(ex2, v)), args(ex)))
+  isop:0,
+  if safe_op(ex)=v then isop:1,
+  isop+apply("+", map(lambda([ex2], count_occurances(ex2, v)), args(ex)))
 )$
-
 /* Recurse over a whole expression tree to see if the predicate is satisfied anywhere. */
 recurse_predp(ex, pr):= block(
   if mapatom(ex) then return(pr(ex)),
   pr(ex) or apply("or", map(lambda([ex2], recurse_predp(ex2, pr)), args(ex)))
 );
+
+/* ********************************************** */
+/* Functions for selecting parts of an expression */
+/* ********************************************** */
+
+/* This function selects, and displays, parts of an expression for which the predicate is true. */
+select(p1, ex) := block(
+  if p1(ex) then return(disp_select(ex)),
+  if atom(ex) then return(ex),
+  apply(op(ex), map(lambda([ex2], select(p1, ex2)), args(ex)))
+)$
+
+/* This function applys the function f1 to parts already selected by the function select. */
+select_apply([ex1]) := block([f1, ex, s1],
+  f1:first(ex1),
+  ex:second(ex1),
+  s1:true,
+  if ev(is(length(ex1)>2), simp) then s1:third(ex1),
+  if atom(ex) then return(ex),
+  if safe_op(ex)="disp_select" then if s1 then return(f1(first(args(ex)))) else return(f1(ex)),
+  apply(op(ex), map(lambda([ex2], select_apply(f1, ex2, s1)), args(ex)))
+)$
 
 /* ********************************** */
 /* General list and utility functions */
@@ -156,16 +181,10 @@ recurse_predp(ex, pr):= block(
 element_listp(ex, l) := any_listp(lambda([ex2], is(ex2=ex)), l)$
 
 /* all_listp(p,l) true if all elements of l satisfy p. */
-all_listp(p, l) := block([ret],
-  if listp(l) then ret:apply("and", maplist(p, l)) else ret:"fail",
-  return(ret)
-)$
+all_listp(p, l) := if listp(l) then apply("and", maplist(p, l)) else error("all_listp expects its argument to be a list.")$
 
 /* any_listp(p,l) true if all elements of l satisfy p. */
-any_listp(p, l) := block([ret],
-  if listp(l) then ret:apply("or", maplist(p, l)) else ret:"fail",
-  return(ret)
-)$
+any_listp(p, l) := if listp(l) then apply("or", maplist(p, l)) else error("any_listp expects its argument to be a list.")$
 
 /* Returns true iff a and b are lists (not necessarily same length) with one or more common elements, false o/w. */
 listsoverlap(a, b) := not(emptyp(intersection(setify(a), setify(b))))$
@@ -244,7 +263,6 @@ ntuplep(ex):= if safe_op(ex)="ntuple" then true else false$
 
 /* An ellipsis */
 texput(dotdotdot, "\\ldots")$
-
 
 /* ********************************** */
 /* Type predicates                    */
@@ -411,7 +429,7 @@ real_numberp(ex):= block([keepfloat, trigexpand, logexpand],
 
 /* Do we have a real number, inf or -inf?  */
 extended_real_numberp(ex) := block(
-    if ex=inf or ex=-inf then return(true),
+    if (ex=inf or ex=-inf or ex=minf or ex=-minf) then return(true),
     return(real_numberp(ex))
 )$
 
@@ -443,6 +461,35 @@ complex_exponentialp(ex):=block([ex2],
     if safe_op(ex2)="exp" and is(imag_numberp(first(args(ex2)))) then return(true),
     return(false)
 )$
+
+polarform_simp(ex) := block([%_r, %_theta, %_pf, simp],
+    /* We can't return a meaningful value for arg(ex) so we just return 0. */
+    if is(ev(ex, simp)=0) then return(0),
+    /* It is a design choice to return a positive real number, rather than r*%e^0, or r*%e^(%i*0). */
+    if ev(real_numberp(ex) and ex>0, simp) then return(ex),
+    simp:false,
+    %_pf:ev(polarform(ex), simp),
+    /* Purely imaginary numbers somtimes return just %e^{...} */
+    if is(part(%_pf,1)=%e) then return(%_pf),
+    /* We really do have something in the form r*%e^theta to pick apart. */
+    %_pf:args(%_pf),
+    %_r:first(%_pf),
+    %_theta:part(second(%_pf),2),
+    ev(%_r, simp) * %e^(ev(%i*imagpart(%_theta), simp))
+)$
+/* 
+  polarform_simp(1+%i);
+  polarform_simp(0);
+  polarform_simp(1);
+  polarform_simp(-2);
+  polarform_simp(%i);
+  polarform_simp(2*%i);
+  polarform_simp(-%i);
+  polarform_simp(-2*%i);
+  polarform_simp(sqrt(3)+%i*sqrt(3));
+  polarform_simp(1/sqrt(2)*(-1+%i));
+*/
+
 
 /* Decides if an expression is precicely of the form a*10^n, where a is an integer, or a float, and n is an integer. */
 scientific_notationp(ex) := block([tn],
@@ -518,7 +565,7 @@ anyfloat(l) := block([ret:false],
  return(ret) )$
 
 /* Decides if any floats are in the expression. */
-anyfloatex(ex) := block([partswitch,ret,kloop],
+anyfloatex(ex) := block([partswitch, end, ret, kloop],
   ret:false,
   ex:ev(ex,simp),
   if floatnump(ex) then return(true),
@@ -537,6 +584,68 @@ radcan_num(ex):= block(
    if emptyp(listofvars(ex)) then return(radcan(ex)),
    apply(op(ex), map(radcan_num, args(ex)))
 )$
+
+/* Check if - appears in an expression. */
+freeof_mminusp(ex) := block(
+  if atom(ex) then return(true),
+  if safe_op(ex)="-" then return(false),
+  all_listp(freeof_mminusp, args(ex))
+)$
+
+/* Fine control over the display of complex numbers. 
+    This general purpose function "does the right thing" with simplification assumed to be true.
+*/
+display_complex(ex) := block([exr, exi],
+    if real_numberp(ex) then return(ex),
+    exr:ev(realpart(ex), simp), 
+    exi:ev(imagpart(ex), simp), 
+    if is(exr=0) then exr:null,
+    if is(exi=1) then exi:null,
+    if ev(is(exi=-1),simp) then exi:-1*null,
+    disp_complex(exr, exi)
+ )$
+
+texdisp_complex(ex) := block([ps, sxr, exi, simp],
+    simp:false,
+    ps:"+",
+    if is(first(args(ex))=null) then block(
+        sxr:"",
+        ps:""
+    ) else sxr:tex1(first(args(ex))),
+    exi:second(args(ex)),
+
+    if real_numberp(exi) then block(
+        if ev(is(exi < 0), simp) then ps: "",
+        return(sconcat(sxr, ps, tex1(exi), "\\,", tex1(%i)))
+    ) else if ev(is(exi=null), simp) then return(sconcat(sxr, ps, tex1(%i))) 
+      else if ev(is(exi=-1*null), simp) then return(sconcat(sxr, "-", tex1(%i))) 
+      else block(
+       if not(freeof_mminusp(exi)) then block(
+         ps:"-",
+         /* TODO: more subtle removal of the minus sign?! */
+         exi:ev(-1*exi, simp)
+       ),
+       sconcat(sxr, ps, tex1(%i), "\\,", tex1(exi))
+    )
+)$
+texput(disp_complex, texdisp_complex)$
+
+/* Because we have null being used differently in two places we need a remove function. */
+remove_disp_complex(ex1, ex2) := ev(ex1, null=0)+ev(ex2, null=1)*%i$
+
+/* This function is a display-level way to ensure brackets get displayed. */
+texdisp_parens(ex) := sconcat("\\left( ", tex1(first(args(ex))), " \\right)")$
+texput(disp_parens, texdisp_parens)$
+
+remove_disp_parens(ex) := ev(ex, disp_parens=lambda([ex2], ex2))$
+
+/* This function is a display-level way to select part of an expression. */
+texdisp_select(ex) := sconcat("\\color{red}{\\underline{", tex1(first(args(ex))), "}}")$
+texput(disp_select, texdisp_select)$
+
+/* A single function to remove display forms.  Used by answer tests to "clean" an expression. */
+
+remove_disp(ex) := ev(ex, disp_parens=lambda([ex2], ex2), disp_select=lambda([ex2], ex2), disp_complex=remove_disp_complex)$
 
 
 /* This function is designed for displaying decimal places. It is also useful for currency. */
@@ -754,7 +863,7 @@ recursemod(ex, n) := block(
 algebraic_equivalence_zero(ex) := algebraic_equivalence(ex, 0)$
 
 algebraic_equivalence(SA, SB) :=
-    block([keepfloat, trigexpand, logexpand, ex, vi],
+    block([keepfloat, trigexpand, logexpand, sumsplitfact, ex, vi],
 
     if SA=SB then return(true),
     /* Remove +- if we can early. */
@@ -766,6 +875,7 @@ algebraic_equivalence(SA, SB) :=
     trigexpand:false,
     logexpand:super,
     keepfloat:true,
+    sumsplitfact:false,
     /* In some cases we just go inside the function one level. */
     if (safe_op(SA)=safe_op(SB) and (safe_op(SA)="sqrt" or safe_op(SA)="abs")) then
       (SA:first(args(SA)),
@@ -937,6 +1047,12 @@ subst_equiv([ex]):=block([ex1, ex2, l1, lv1, lv2, lvi, lvp, lvs, lve, lvpres, il
  lv1:setdifference(lv1, get_ops(ex1)),
  lv2:setdifference(lv2, get_ops(ex2)),
  if length(lv1)#length(lv2) then return([]),
+ /* We don't include any variables which the teacher fixes. */
+ if not(emptyp(l1)) then (
+   l1:setify(l1),
+   lv1:setdifference(lv1, l1),
+   lv2:setdifference(lv2, l1)
+ ),
  /* If the lists are too long, try a weaker condition */
  /* We assume the variables which occur in both are correctly assigned. */
  /* Can we find a permutation of those left in each? */
@@ -945,19 +1061,15 @@ subst_equiv([ex]):=block([ex1, ex2, l1, lv1, lv2, lvi, lvp, lvs, lve, lvpres, il
    lv1:setdifference(lv1, lvi),
    lv2:setdifference(lv2, lvi)
   ),
- /* We don't include any variables which the teacher fixes. */
- if not(emptyp(l1)) then (
-   l1:setify(l1),
-   lv2:setdifference(lv2, l1)
- ),
  lv1:listify(lv1),
  lv2:listify(lv2),
  if length(lv1)>perm_size then return(false),
  /*                                  */
- lvp:listify(permutations(lv2)),
+ lvp:listify(permutations(lv1)),
  /* Create a list of subsitutions */
- lvs:map(lambda([ex], zip_with("=", lv1, ex)), lvp),
- /* Create list of expressions with which to compare ex1 */
+ lvs:map(lambda([ex], zip_with("=", ex, lv2)), lvp),
+ lvs:map(sort, lvs),
+  /* Create list of expressions with which to compare ex1 */
  lve:map(lambda([ex], ev(ex1, ex)), lvs),
  lve:map(lambda([ex], ATAlgEquivfun(ex, ex2)), lve),
  lve:map(second,lve),
@@ -1133,6 +1245,7 @@ logic_to_poly(ex) := block(
     if polynomialp(ex, listofvars(ex)) then return(ex),
 
     /* Solve an equation by factoring and joining each factor with =0 */
+    if equationp(ex) then ex:subst("%or", "nounor", pm_replace(ex)),
     if equationp(ex) then return(ineqprepare(ex)),
 
     if not(logicp(ex) or safe_op(ex) = "%and" or safe_op(ex) = "%or") then return(ex),
@@ -2209,7 +2322,8 @@ stack_eval_equiv_arg(ex, showlogic, showdomain, equivdebug, debuglist) := block(
     ret:transpose(ret),
     ret:apply(argument, args(ret)),
     /* Construct a separate note. The note should be the same length as the argument, so normally has "EMPTYCHAR" as the first entry.*/
-    note:second(A),
+    /* If we return a list, then the PHP unpacking side now has problems, but we want to encapsulate the note as a single object, without | characters */
+    note:sconcat("(", simplode(second(A), ","), ")"),
     return([res, ret, note])
 )$
 
@@ -2270,7 +2384,11 @@ check_stack_eval_arg(ex) := block([ret],
 )$
 
 /* An answer test based on equivalence reasoning. */
-ATEquiv(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos:false],
+ATEquiv([ex]) := block([SA, SB, SO, SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos:false],
+    SA:first(ex),
+    SB:second(ex),
+    SO:[],
+    if length(ex)>2 then SO:third(ex),
 
     /* Turn on simplification and error catch. */
     SAA:errcatch(ev(SA, simp, nouns)),
@@ -2304,7 +2422,11 @@ ATEquiv(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack,
 )$
 
 /* An answer test based on equivalence reasoning. */
-ATEquivFirst(SA, SB, SO) := block([SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos:false],
+ATEquivFirst([ex]) := block([SA, SB, SO, SAA, SAB, SOO, opts, ret, A, AnswerNote, FeedBack, assume_pos:false],
+    SA:first(ex),
+    SB:second(ex),
+    SO:[],
+    if length(ex)>2 then SO:third(ex),
 
     /* Turn on simplification and error catch. */
     SAA:errcatch(ev(SA, simp, nouns)),

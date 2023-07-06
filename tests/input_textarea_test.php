@@ -14,7 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_cas_security;
+use stack_input;
+use stack_input_factory;
+use stack_input_state;
+use stack_options;
+use stack_textarea_input;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -31,6 +39,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_textarea_input
  */
 class input_textarea_test extends qtype_stack_testcase {
     public function test_render_blank() {
@@ -60,6 +69,15 @@ class input_textarea_test extends qtype_stack_testcase {
                             'st_ans1', false, null));
     }
 
+    public function test_render_pre_syntaxhint_placeholder() {
+        $el = stack_input_factory::make('textArea', 'test', null, null,
+            array('syntaxHint' => '[y=?, z=?]', 'syntaxAttribute' => 1));
+        $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" ' .
+            'class="maxima-list" placeholder="y = ?' ."\n" . 'z = ?" rows="5" cols="20"></textarea>',
+            $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+                'st_ans1', false, null));
+    }
+
     public function test_render_disabled() {
         $el = stack_input_factory::make('textArea', 'input', null);
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" ' .
@@ -84,8 +102,9 @@ class input_textarea_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2 = -7*x,a*b = 2]', $state->contentsmodified);
         $this->assertEquals('<table style="vertical-align: middle;" border="0" cellpadding="2" cellspacing="0" align="center">' .
-                '<tbody><tr><td>\(\displaystyle x^2=-7\cdot x \)</td></tr><tr><td>\(\displaystyle a\cdot b=2 \)</td>' .
-                '</tr></tbody></table>', $state->contentsdisplayed);
+                '<tbody><tr><td><div align="center">\(\displaystyle x^2=-7\cdot x \)</div></td></tr>' .
+                '<tr><td><div align="center">\(\displaystyle a\cdot b=2 \)</div></td></tr>' .
+                '</tbody></table>', $state->contentsdisplayed);
         $this->assertEquals('\( \left[ a , b , x \right]\) ', $state->lvars);
         $this->assertEquals('<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" ' .
                 'class="maxima-list" rows="5" cols="20">x^2=-7*x'."\n".'ab=2</textarea>',
@@ -134,13 +153,15 @@ class input_textarea_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2=-7x\n[a=1,b=2"), $options, '[x^2=-7*x,[a=1,b=2]]',
                 new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('You have a missing right bracket', substr($state->errors, 0, 32));
+        // This is now empty.
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('missing_stars | missingRightBracket', $state->note);
         $this->assertEquals('<table style="vertical-align: middle;" border="0" cellpadding="2" cellspacing="0" align="center">' .
-                '<tbody><tr><td>\(\displaystyle x^2=-7\cdot x \)</td></tr><tr>' .
-                '<td><span class="stacksyntaxexample">[a=1,b=2</span></td>' .
-                '<td>You have a missing right bracket <span class="stacksyntaxexample">]</span> ' .
-                'in the expression: <span class="stacksyntaxexample">[a=1,b=2</span>.</td></tr>' .
+                '<tbody><tr><td><div align="center">\(\displaystyle x^2=-7\cdot x \)</div></td></tr><tr>' .
+                '<td><div align="center"><span class="stacksyntaxexample">[a=1,b=2</span></div>' .
+                '<div class="alert alert-danger stackinputerror">You have a missing right bracket ' .
+                '<span class="stacksyntaxexample">]</span> ' .
+                'in the expression: <span class="stacksyntaxexample">[a=1,b=2</span>.</div></td></tr>' .
                 '</tbody></table>', $state->contentsdisplayed);
         $this->assertEquals('<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" class="maxima-list" ' .
                 'rows="5" cols="20">x^2=-7x'."\n".'[a=1,b=2</textarea>',
@@ -155,12 +176,13 @@ class input_textarea_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "x^2=-7x\n[a=1,b=2"), $options, '[x^2=-7*x,[a=1,b=2]]',
                 new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('You have a missing right bracket', substr($state->errors, 0, 32));
+        // This is now empty.
+        $this->assertEquals('', $state->errors);
         $this->assertEquals('missing_stars | missingRightBracket', $state->note);
-        $this->assertEquals('\(\displaystyle x^2=-7\cdot x \)<br/>' .
+        $this->assertEquals('\(\displaystyle x^2=-7\cdot x \) <br/>' .
                 '<span class="stacksyntaxexample">[a=1,b=2</span> ' .
                 'You have a missing right bracket <span class="stacksyntaxexample">]</span> ' .
-                'in the expression: <span class="stacksyntaxexample">[a=1,b=2</span>.<br/>', $state->contentsdisplayed);
+                'in the expression: <span class="stacksyntaxexample">[a=1,b=2</span>. <br/>', $state->contentsdisplayed);
         $this->assertEquals('<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" class="maxima-list" ' .
                 'rows="5" cols="20">x^2=-7x'."\n".'[a=1,b=2</textarea>',
                 $el->render($state, 'sans1', false, null));
@@ -215,6 +237,19 @@ class input_textarea_test extends qtype_stack_testcase {
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
+    }
+
+    public function test_validate_student_response_same_type_true_valid_3() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('textArea', 'sans1', '[x=1,x=2,x=3]');
+        // Long answer than re-sizes the rendered version.
+        $state = $el->validate_student_response(array('sans1' => "x=1\nx=2\nx=3\nx=4\nx=5\nx=6\nx=7\nx=8\nx=9"),
+            $options, '[x=1,x=2,x=3]', new stack_cas_security());
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('<textarea name="sans1" id="sans1" autocapitalize="none" spellcheck="false" ' .
+            'class="maxima-list" rows="10" cols="20">' . "x=1\nx=2\nx=3\nx=4\nx=5\nx=6\nx=7\nx=8\nx=9</textarea>",
+            $el->render($state, 'sans1', false, null));
     }
 }
 

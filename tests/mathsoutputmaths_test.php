@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use stack_maths;
+use stack_maths_output_maths;
+use stack_utils;
+use advanced_testcase;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
@@ -27,6 +34,7 @@ require_once(__DIR__ . '/../doc/docslib.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_maths_output_maths
  */
 class mathsoutputmaths_test extends advanced_testcase {
 

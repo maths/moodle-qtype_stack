@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use stack_boolean_input;
+use stack_input;
+use stack_input_factory;
+use stack_input_state;
+use question_testcase;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -28,6 +36,7 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_boolean_input
  */
 class input_boolean_rendering_test extends question_testcase {
 
@@ -41,7 +50,7 @@ class input_boolean_rendering_test extends question_testcase {
 
     public function test_render_not_answered() {
         $el = stack_input_factory::make('boolean', 'ans1', stack_boolean_input::T);
-        $this->assert(new question_contains_select_expectation(
+        $this->assert(new \question_contains_select_expectation(
                         'stack1__ans1', $this->expected_choices(), stack_boolean_input::NA),
                 $el->render(new stack_input_state(
                         stack_input::BLANK, array(stack_boolean_input::NA), '', '', '', '', '', ''),
@@ -50,7 +59,7 @@ class input_boolean_rendering_test extends question_testcase {
 
     public function test_render_true() {
         $el = stack_input_factory::make('boolean', 'ans2', stack_boolean_input::T);
-        $this->assert(new question_contains_select_expectation('stack1__ans2', $this->expected_choices(),
+        $this->assert(new \question_contains_select_expectation('stack1__ans2', $this->expected_choices(),
                 stack_boolean_input::T), $el->render(new stack_input_state(
                         stack_input::VALID, array(stack_boolean_input::T), '', '', '', '', '', ''),
                         'stack1__ans2', false, null));
@@ -58,7 +67,7 @@ class input_boolean_rendering_test extends question_testcase {
 
     public function test_render_false() {
         $el = stack_input_factory::make('boolean', 'ans3', stack_boolean_input::T);
-        $this->assert(new question_contains_select_expectation('stack1__ans3', $this->expected_choices(),
+        $this->assert(new \question_contains_select_expectation('stack1__ans3', $this->expected_choices(),
                 stack_boolean_input::F), $el->render(new stack_input_state(
                         stack_input::VALID, array(stack_boolean_input::F), '', '', '', '', '', ''),
                         'stack1__ans3', false, null));
@@ -66,7 +75,7 @@ class input_boolean_rendering_test extends question_testcase {
 
     public function test_render_disabled() {
         $el = stack_input_factory::make('boolean', 'input', stack_boolean_input::T);
-        $this->assert(new question_contains_select_expectation('stack1__ans1', $this->expected_choices(),
+        $this->assert(new \question_contains_select_expectation('stack1__ans1', $this->expected_choices(),
                 stack_boolean_input::NA, false), $el->render(new stack_input_state(
                         stack_input::BLANK, array(), '', '', '', '', ''),
                         'stack1__ans1', true, null));

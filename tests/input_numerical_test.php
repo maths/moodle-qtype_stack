@@ -14,6 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_cas_security;
+use stack_input;
+use stack_input_factory;
+use stack_input_state;
+use stack_options;
+
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -28,6 +38,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_numerical_input
  */
 class input_numerical_test extends qtype_stack_testcase {
 
@@ -705,7 +716,7 @@ class input_numerical_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'intnum');
         $state = $el->validate_student_response(array('sans1' => "sin(pi/2)"), $options, '1729', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assert_equals_ignore_spaces_and_e('sin(pi/2)', $state->contentsmodified);
+        $this->assert_equals_ignore_spaces_and_e('sin(%pi/2)', $state->contentsmodified);
         $this->assertEquals('\[ \sin \left( \frac{\pi}{2} \right) \]', $state->contentsdisplayed);
         $this->assertEquals('This input expects an explicit integer.', $state->errors);
     }

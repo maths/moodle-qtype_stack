@@ -2,6 +2,8 @@
 
 STACK is being used live at many institutions, including the University of Edinburgh, the UK Open University, Aalto, Loughborough University, and the University of Birmingham in the UK.
 
+We appreciate some people perfer hosted services as an alterntaive to running their own server. We are pleased to work with EDINA at the University of Edinburgh as a [recommended hosting partner](https://stack.edina.ac.uk/).
+
 STACK is designed to be used on a Linux-based server.  The Windows/MS option exists to help teachers author questions offline, and for demonstration and development.  However, for demonstration, development and offline use we strongly recommend using VirtualBox instead of the Windows port.  Note also that support for the optimized Maxima image is not available on Windows platforms, which is a substantial performance improvement.
 
 ## 0. Set up PHP with mbstring
@@ -22,8 +24,12 @@ and then re-start the web server.
 
 ## 1. Set up Moodle.
 
-* Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).  We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  STACK has been tested on Moodle 3.9 to 3.11.  STACK is untested on versions before Moodle 3.9.  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will will drop them from our list.
-* Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.
+Please ensure you have [installed Moodle](http://docs.moodle.org/en/Main_page).
+
+* STACK has been tested on Moodle 3.9 to Moodle 4.0 inclusive.  (STACK is untested on versions before Moodle 3.9.)
+* We intend to support STACK within the normal Moodle [release cycle](https://docs.moodle.org/dev/Releases).  We intend to support all future Moodle releases. If your version of Moodle is not listed here please contact the developers: we probably simply have not done the testing of future versions yet.  For longer support of older versions of Moodle please contact us, otherwise will will drop them from our list.
+
+Please ensure LaTeX can be displayed.  We currently support [MathJax](Mathjax.md) through the Moodle MathJax filter.
 
 Consider updating the MathJax settings to wrap long equations. In particular, add
 
@@ -35,13 +41,13 @@ to `filter_mathjaxloader | mathjaxconfig` in the filter settings: Dashboard > Si
 
 ## 2. Install gnuplot and Maxima
 
-Ensure gcc, gnuplot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.38.1 to 5.44.0 are supported.  Please contact the developers to request support for other versions.  (Newer versions will be supported, and prompts to test them are welcome.)
+Ensure gcc, gnuplot and [Maxima](http://maxima.sourceforge.net) are installed on your server.  Currently Maxima 5.38.1 to 5.47.0 are supported.  Please contact the developers to request support for other versions.  (Newer versions will be supported, and prompts to test them are welcome.)
 
-We currently recommend that you use Maxima 5.41.0.
+We currently recommend that you use any version of Maxima after 5.43.0.
 
 Please note 
 
-* Please avoid versions 5.37.x which are known to have a minor bug which affects STACK. In particular with `simp:false`, \(s^{-1}\) is transformed into \(1/s\).  This apparently minor change makes it impossible to distinguish between the two forms.  This causes all sorts of problems.  Do not use Maxim 5.37.1 to 5.37.3.
+* Please avoid versions 5.37.x which are known to have a minor bug which affects STACK. In particular with `simp:false`, \(s^{-1}\) is transformed into \(1/s\).  This apparently minor change makes it impossible to distinguish between the two forms.  This causes all sorts of problems.  Do not use Maxima 5.37.1 to 5.37.3.
 * Older versions of Maxima:  in particular, Maxima 5.23.2 has some differences which result in \(1/\sqrt{x} \neq \sqrt{1/x}\), and similar problems.  This means that we have an inconsistency between questions between versions of maxima.   Of course, we can argue about which values of \(x\) make \(1/\sqrt{x} = \sqrt{1/x}\), but currently the unit tests and assumption is that these expressions should be considered to be algebraically equivalent!   So, older versions of Maxima are not supported for a reason.  Please test thoroughly if you try to use an older version, and expect some errors in the mathematical parts of the code.
 * If you install more than one version of Maxima then you will need to tell STACK which version to use.  Otherwise just use the "default" option.
 
@@ -57,18 +63,18 @@ STACK requires these.
 
 1. Obtain Deferred feedback with explicit validation behaviour code. You can [download the zip file](https://github.com/maths/moodle-qbehaviour_dfexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle/question/behaviour/dfexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfexplicitvaildate -> dfexplicitvaildate`.) 
 
-    Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
+Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
 
         git clone https://github.com/maths/moodle-qbehaviour_dfexplicitvaildate.git question/behaviour/dfexplicitvaildate
 
 2. Obtain Deferred feedback with CBM and explicit validation behaviour code. You can [download the zip file](https://github.com/maths/moodle-qbehaviour_dfcbmexplicitvaildate/zipball/master), unzip it, and place it in the directory `moodle/question/behaviour/dfcbmexplicitvaildate`. (You will need to rename the directory `moodle-qbehaviour_dfcbmexplicitvaildate -> dfcbmexplicitvaildate`.) 
 
-    Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
-    
+Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
+
         git clone https://github.com/maths/moodle-qbehaviour_dfcbmexplicitvaildate.git question/behaviour/dfcbmexplicitvaildate
 2. Obtain adaptivemutlipart behaviour code. You can [download the zip file](https://github.com/maths/moodle-qbehaviour_adaptivemultipart/zipball/master), unzip it, and place it in the directory `moodle/question/behaviour/adaptivemultipart`. (You will need to rename the directory `moodle-qbehaviour_adaptivemultipart  -> adaptivemultipart`.) 
 
-    Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
+Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
     
         git clone https://github.com/maths/moodle-qbehaviour_adaptivemultipart.git question/behaviour/adaptivemultipart
 3. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
@@ -86,17 +92,24 @@ STACK is a question type for the Moodle quiz.
 3. As the admin user, navigate to `Home > Site administration > Plugins > Question types > STACK`.  Please choose and save the appropriate options.
 4. On the same page, click on the link to the healthcheck script.  This writes local configuration files and then helps you verify that all aspects of STACK are working properly.
 
-You must be able to connect to the CAS, and for the CAS to successfully create plots, before you can use STACK. You might want to try [optimising Maxima](../CAS/Optimising_Maxima.md) access times.
+You must be able to connect to the CAS, and for the CAS to successfully create plots, before you can use STACK. You might want to try [optimising Maxima](Optimising_Maxima.md) access times.
 
 You should now have a question type available to the Moodle quiz.
 
-## 5. Post-install confirmation.
+## 5. Multi-language support
+
+STACK questions can be localised into [multiple languages](../Authoring/Languages.md).
+
+1. Your site administrator must enable the [Moodle multi-language content filter](http://docs.moodle.org/en/Multi-language_content_filter).
+2. The multi-language content filter must be applied before the MathJax filter, otherwise strange results will occur.
+
+## 6. Post-install confirmation.
 
 It is essential to confirm that the PHP scripts are connecting to the CAS.
 
 We have special scripts which provide confirmation and trouble-shooting data to [test the installation](Testing_installation.md).
 
-## 6. Optional (but recommended): Fix DB case sensitivity issue.
+## 7. Optional (but recommended): Fix DB case sensitivity issue.
 
 Using a database with a case insensitive collation can cause issues; for example MySQL with utf8mb4_unicode_ci. This is a general problem of Moodle, not specific to this plugin. See [Database collation issue](https://docs.moodle.org/dev/Database_collation_issue).
 
@@ -112,28 +125,35 @@ ALTER TABLE mdl_qtype_stack_inputs CHANGE name name VARCHAR(32) CHARACTER SET ut
 
 STACK will work without this fix, but input names will not be case sensitive (!) as far as Moodle's database is concerned.  This will throw errors for some questions.
 
-# Migration from STACK 3.X to STACK 4.0
+# Updating to new versions of STACK 4.X
 
-STACK 4.0 has one important change in the question authoring.  [CAS text](../Authoring/CASText.md) now uses `{@...@}` in include mathematics in the text.  The change from `@...@` to `{@...@}` gives us matching parentheses to parse, which is much better.  The `{..}` will not break LaTeX.
+If STACK is already installed, as described above, it can be updated via git, like this:
 
-You will need to update all your existing questions which include CAS calculations. This includes all fields, e.g. in the feedback as well.  To help with this process we have an automatic conversion script.  As an admin user navigate to 
+1. Go into your moodle-dir and execute:
 
-    Site administration -> 
-    Plugins ->
-    Question Types ->
-    STACK
+        cd question/type/stack
+        git pull
+        cd ..
+        cd ..
+        cd behaviour/dfcbmexplicitvaildate/
+        git pull
+        cd ..
+        cd dfcbmexplicitvaildate/
+        git pull
+        cd ..
+        cd adaptivemultipart/
+        git pull
 
-Then choose the link "The fix maths delimiters script".  If you have any difficulties with this process please contact the developers.
+2. Then login as admin in your moodle and update the database.
 
-# Migration from STACK 2.X to STACK 3.0
+3. As admin user, navigate to yourmoodle/admin/settings.php?section=qtypesettingstack 
 
-If you wish to import STACK 2 questions into STACK 3 you will need to install the STACK question format separately.  This is distributed as `qformat_stack`.  It provides a different _question format_ for the Moodle quiz importer.
+4. Check for the correct maxima version.
 
-1. Obtain the code. You can [download the zip file](https://github.com/maths/moodle-qformat_stack/zipball/master), unzip it, and place it in the directory `moodle/question/format/stack`. (You will need to rename the directory `moodle-qformat_stack -> stack`.) 
+5. Click on the link to the healthcheck script.  This writes local configuration files and then helps you verify that all aspects of STACK are working properly.
 
-    Alternatively, get the code using git by running the following command in the top level folder of your Moodle install: 
-    
-        git clone https://github.com/maths/moodle-qformat_stack.git question/format/stack
-2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
+6. On the same site, you might need to create a new maxima image, by using the button at the end of the page.
 
-There have been a number of changes between STACK 2 and STACK 3.  This feature has not been tested since STACK 4.0.  If you need to use this please contact the developers.  Also, see the [notes on the importer](../Authoring/ImportExport.md) before using it.
+It is a good idea to bulk test your materials with the new version.
+
+If you are upgrading from much older versions please look at the [migrations page](Migration.md).

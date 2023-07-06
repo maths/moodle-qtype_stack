@@ -14,6 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_walkthrough_test_base;
+use stack_cas_security;
+use stack_input;
+use stack_input_factory;
+use stack_input_state;
+use stack_options;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -28,6 +37,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_dropdown_input
  */
 class input_dropdown_test extends qtype_stack_walkthrough_test_base {
     protected function expected_choices() {
@@ -125,7 +135,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
 
     public function test_render_not_answered() {
         $el = $this->make_dropdown();
-        $this->assert(new question_contains_select_expectation(
+        $this->assert(new \question_contains_select_expectation(
                         'stack1__ans1', $this->expected_choices(), ''),
                 $el->render(new stack_input_state(
                         stack_input::BLANK, array(), '', '', '', '', ''), 'stack1__ans1', false, null));
@@ -133,7 +143,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
 
     public function test_render_x_plus_1() {
         $el = $this->make_dropdown();
-        $this->assert(new question_contains_select_expectation(
+        $this->assert(new \question_contains_select_expectation(
                         'stack1__ans1', $this->expected_choices(), 'x+1'),
                 $el->render(new stack_input_state(
                         stack_input::SCORE, array('x+1'), '', '', '', '', ''), 'stack1__ans1', false, null));
@@ -182,7 +192,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
 
     public function test_render_x_plus_2() {
         $el = $this->make_dropdown();
-        $this->assert(new question_contains_select_expectation(
+        $this->assert(new \question_contains_select_expectation(
                         'stack1__ans1', $this->expected_choices(), 'x+2'),
                 $el->render(new stack_input_state(
                         stack_input::SCORE, array('x+3'), '', '', '', '', ''), 'stack1__ans1', false, null));
@@ -190,7 +200,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
 
     public function test_render_disabled() {
         $el = $this->make_dropdown();
-        $this->assert(new question_contains_select_expectation(
+        $this->assert(new \question_contains_select_expectation(
                         'stack1__ans1', $this->expected_choices(), ''),
                 $el->render(new stack_input_state(
                         stack_input::BLANK, array(), '', '', '', '', ''), 'stack1__ans1', true, null));

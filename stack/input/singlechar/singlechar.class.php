@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Input that accepts a single character.
  *
@@ -26,7 +24,8 @@ class stack_singlechar_input extends stack_input {
 
     protected $extraoptions = array(
         'nounits' => true,
-        'allowempty' => false
+        'allowempty' => false,
+        'validator' => false
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

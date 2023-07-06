@@ -1,17 +1,19 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 19.01.2x ] */
+/* [ Created with wxMaxima version 20.12.1 ] */
 /* [wxMaxima: title   start ]
 STACK Sandbox
    [wxMaxima: title   end   ] */
 
 
 /* [wxMaxima: comment start ]
-This document loads the extra files needed for STACK.
-See https://github.com/maths/moodle-qtype_stack
+This workbook allows you to use the STACK libraries with desktop Maxima.
+See https://docs.stack-assessment.org/en/CAS/STACK-Maxima_sandbox
+The source code is at https://github.com/maths/moodle-qtype_stack
 
-1. Set your operating system with the variable maximaplatform. For Windows set it to "win".
-2. Set the stacklocation variable to the location of this sandbox file and the needed maxima and lisp files.
-3. Specify a directory for temporary working files, e.g. /tmp or C:/tmp
+1. Clone/downlod the source code of STACK.  E.g. https://github.com/maths/moodle-qtype_stack/archive/master.zip
+2. Set your operating system with the variable maximaplatform. For Windows set it to "win".
+3. Set the stacklocation variable below to the location of the STACK source code you downloaded, e.g. c:/tmp/stackroot
+4. Specify a directory for temporary working files, e.g. /tmp or C:/tmp
 
 [Directories in 2 & 3 can be the same if you don't mind clutter.]
 
@@ -43,6 +45,8 @@ stacktmplocation:"/tmp"$
 */
 file_search_maxima:append( [sconcat(stacklocation, "/stack/maxima/###.{mac,mc}")] , file_search_maxima)$
 file_search_lisp:append( [sconcat(stacklocation, "/stack/maxima/###.{lisp}")] , file_search_lisp)$
+file_search_maxima:append( [sconcat(stacklocation, "/stack/maxima/contrib/###.{mac,mc}")] , file_search_maxima)$
+file_search_lisp:append( [sconcat(stacklocation, "/stack/maxima/contrib/###.{lisp}")] , file_search_lisp)$
 file_search_maxima:append( [sconcat(stacktmplocation, "/###.{mac,mc}")] , file_search_maxima)$
 file_search_lisp:append( [sconcat(stacktmplocation, "/###.{lisp}")] , file_search_lisp)$
 
@@ -79,7 +83,14 @@ load("stackmaxima.mac")$
 load("stats")$
 load("distrib")$
 load("descriptive")$
+alias(stack_include_contrib, load)$
+
 print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+
 /* [wxMaxima: input   end   ] */
 
 
@@ -93,4 +104,4 @@ debug:true;
 
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 19.01.2x"$
+"Created with wxMaxima 20.12.1"$

@@ -9,6 +9,9 @@ Please read the section on [inputs](Inputs.md) first.  If you are new to STACK p
 
 Multiple choice input types return a CAS object which is then assessed by the potential response tree.  For this reason, these inputs do not provide "feedback" fields for each possible answer, as does the Moodle multiple choice input type.
 
+* Checkbox inputs return a *list* of the CAS objects selected;
+* Dropdown inputs and radio inputs return a single *expression*, which is the CAS object selected.
+
 The goal of these input types is to provide *modest* facilities for MCQ.  An early design decision was to restrict each of the possible answers to be a CAS expression.  In particular, we decided *NOT* to make each possible answer [CASText](CASText.md).  Adopting CASText would have provided more flexibility but would have significantly increased the complexity of the internal code. If these features are extensively used we will consider a different input type.
 
 ## Model answer ##
@@ -99,8 +102,10 @@ Either `ta1` or `ta2` can be used with the MCQ inputs, in this case dropdown pro
 
 ## Internals ##
 
-The dropdown and radio inputs return the `value`, but the checkbox type returns the student's answer as Maxima list,
+The dropdown and radio inputs return the `value`, but the checkbox type returns the student's answer as Maxima `list`,
 even if they have only chosen one option.
+
+The function `mcq_correct` returns a list, so for dropdown and radio you might need to take the `first` element when using this function to extract values from the list of teacher's answers.
 
 If, when authoring a question, you switch from radio/dropdown to checkboxes or back, you will probably break a PRT because of mismatched types.
 
@@ -297,6 +302,21 @@ The language strings are not CAStext, they are simply raw strings.  It is possib
     [oc(-inf,a), false, sconcat("The half interval: ", stack_disp(oc(-inf,a),"i"))]
 
 The argument `"i"` here displays the expression "inline", other options are `""` (you are responsible for maths environments), `"d"` (displayed), and `"di"` (inline but using displaystyle).  If you construct strings in this way the display of any equations will not respect the display options in the particular input since variables are typically defined in the question variables and the input options are not available at that point in the code base.
+
+## Inline CASText as MCQ labels ## {#castextlabels}
+
+Since 4.4 it has been possible to write more complex labels using inline CASText. Inline CASText is basically a static string value wrapped in special function call and how one would use it is as follows:
+
+    /* The old way of constructing a string: */
+    [oc(-inf,a), false, sconcat("The half interval: ", stack_disp(oc(-inf,a),"i"))]
+    /* Same using a inline CASText */
+    [oc(-inf,a), false, castext("The half interval: {@oc(-inf,a)@}")]
+
+You may write normal CASText syntax inside that string and it should behave exactly like it does in question-text or PRT feedback etc.. The only limitation at this time is that the list that includes these labels must be defined in the question-variables, you may not write inline CASText directly to the model answer field of the input. The `castext()`-function is not a real CAS-function it is converted to more complex logic at compile time and therefore it must receive a static string as its argument.
+
+The most obvious use case for inline CASText is to provide localisation inside MCQ labels in situatiosn where the mlang2-filter is not an option:
+
+    [true, true, castext("[[lang code='en']]Yes[[/lang]][[lang code='fi']]Kyllä[[/lang]]")]
 
 ## Dealing with plots in MCQ ##
 

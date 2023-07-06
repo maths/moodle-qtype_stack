@@ -269,12 +269,6 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             // If there are plots in the output.
             $plot = isset($local['display']) ? substr_count($local['display'], '!ploturl!') : 0;
             if ($plot > 0) {
-                // @codingStandardsIgnoreStart
-                // For latex mode, remove the mbox.
-                // This handles forms: \mbox{image} and (earlier?) \mbox{{} {image} {}}.
-                // @codingStandardsIgnoreEnd
-                $local['display'] = preg_replace("|\\\mbox{({})? (<html>.+</html>) ({})?}|", "$2", $local['display']);
-
                 if ($this->wwwroothasunderscores) {
                     $local['display'] = str_replace($this->wwwrootfixupfind,
                             $this->wwwrootfixupreplace, $local['display']);

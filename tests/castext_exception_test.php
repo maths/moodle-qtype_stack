@@ -14,37 +14,44 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use TypeError;
+use castext2_evaluatable;
+use qtype_stack_testcase;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
-require_once(__DIR__ . '/../stack/cas/castext.class.php');
+require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
 
 // Unit tests for {@link stack_cas_text}.
+
+// Note there is no stack_cas_text class in castext2, in castext2
+// castext is a CAS-statement like any other and the focus is on
+// generating/compiling it from the source castext-code and then
+// post-processing the response from CAS to turn it to a string.
+// The closest to the original is the castext2_evaluatable class.
 
 /**
  * @group qtype_stack
  */
-class castext_exception_test extends basic_testcase {
+class castext_exception_test extends qtype_stack_testcase {
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     */
     public function test_exception_1() {
-        $session = new stack_cas_session2(array());
-        $this->expectException(stack_exception::class);
-        $at1 = new stack_cas_text(array(), null, null);
-        $at1->get_valid();
+        $this->expectException(TypeError::class);
+        $at1 = castext2_evaluatable::make_from_source(array(), null);
     }
 
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     */
     public function test_exception_2() {
-        $session = new stack_cas_session2(array());
-        $this->expectException(stack_exception::class);
-        $at1 = new stack_cas_text("Hello world", array(1), null);
-        $at1->get_valid();
-    }
-
-    public function test_exception_3() {
-        $session = new stack_cas_session2(array());
-        $this->expectException(stack_exception::class);
-        $at1 = new stack_cas_text("Hello world", $session, "abc");
-        $at1->get_valid();
+        $this->expectException(TypeError::class);
+        $at1 = castext2_evaluatable::make_from_source("Hello world", array(1));
     }
 }

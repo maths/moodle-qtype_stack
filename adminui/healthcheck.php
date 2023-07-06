@@ -32,7 +32,8 @@ require_once($CFG->libdir .'/filelib.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/options.class.php');
-require_once(__DIR__ . '/../stack/cas/castext.class.php');
+require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
+require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/../stack/cas/connector.dbcache.class.php');
 require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
 
@@ -169,7 +170,7 @@ output_cas_text(stack_string('healthcheckconnect'),
 
 // If we have a linux machine, and we are testing the raw connection then we should
 // attempt to automatically create an optimized maxima image on the system.
-if ($config->platform === 'linux' and $genuinecascall) {
+if ($config->platform === 'linux' && $genuinecascall) {
     echo $OUTPUT->heading(stack_string('healthautomaxopt'), 3);
     echo html_writer::tag('p', stack_string('healthautomaxoptintro'));
     list($message, $debug, $result, $commandline, $rawcommand)
@@ -242,11 +243,13 @@ function output_cas_text($title, $intro, $castext) {
     echo html_writer::tag('p', $intro);
     echo html_writer::tag('pre', s($castext));
 
-    $ct = new stack_cas_text($castext, null, 0);
+    $ct = castext2_evaluatable::make_from_source($castext, 'healthcheck');
+    $session = new stack_cas_session2([$ct]);
+    $session->instantiate();
 
-    echo html_writer::tag('p', stack_ouput_castext($ct->get_display_castext()));
+    echo html_writer::tag('p', stack_ouput_castext($ct->get_rendered()));
     echo output_debug(stack_string('errors'), $ct->get_errors());
-    echo output_debug(stack_string('debuginfo'), $ct->get_debuginfo());
+    echo output_debug(stack_string('debuginfo'), $session->get_debuginfo());
 }
 
 

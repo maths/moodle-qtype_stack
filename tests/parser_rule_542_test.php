@@ -14,18 +14,26 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use maxima_parser_utils;
+use qtype_stack_testcase;
+use stack_ast_filter_542_no_functions_at_all;
+use stack_cas_security;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/cas/parsingrules/542_no_functions_at_all.filter.php');
 
-// TODO: update these tests to match the realisty of 042 => 442 & 542.
+// TODO: update these tests to match the reality of 042 => 442 & 542.
 
 /**
  * Unit tests for {@link stack_ast_filter_no_functions_at_all_042}.
  * @group qtype_stack
  * @group qtype_stack_ast_filters
+ * @covers \ast_filter_542_no_functions_at_all_auto_generated_test
  */
 class parser_rule_542_test extends qtype_stack_testcase {
 

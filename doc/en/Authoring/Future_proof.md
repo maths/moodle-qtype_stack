@@ -33,7 +33,7 @@ To ensure consistent presentation you should avoid using inline CSS styles in yo
 
 If your CASText document contains scripts like JSXGraph content definitions you should ensure that if they require some external files to be evaluated you include those files with the question as links to external files will be broken at some point or the external files themselves change. In the case of JSXGraph use the `jsxgraph` CASText block which will handle the scripts at STACK level.
 
-__All external files/links are bad!__ If you have images or other documents related to the question they should be included in the question. Avoid embedded frames, applets and other interactive content. To test inclusion you should be able to export the question and import it to a freshly installed raw system on a computer not connected to the internet and those questions should work. *There is nothing wrong with internal files of any type, as long as they come with the question.*
+__All external files/links are bad!__ If you have images or other documents related to the question they should be included in the question. Avoid embedded frames, applets and other interactive content. To test inclusion you should be able to export the question and import it to a freshly installed raw system on a computer not connected to the internet and those questions should work. *There is nothing wrong with internal files of any type, as long as they come with the question.* Use of the [include](Inclusions.md) feature from 4.4 is also a bad thing, but you can make it less bad if the included file is present on a public server and if it is versioned so that one can link to a version that never changes.
 
 ## Writing CAS code
 

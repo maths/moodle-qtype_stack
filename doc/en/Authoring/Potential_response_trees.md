@@ -1,34 +1,32 @@
 # Potential response trees
 
-The potential response tree is the algorithm which establishes the mathematical properties of the student's answer and assigns outcomes. For examples of how to use this, see the entry on [improving feedback](Authoring_quick_start_3.md) in the quick start guide.
+The potential response tree is the algorithm which establishes the mathematical properties of the student's answer and assigns outcomes. For examples of how to use this, see the entry on [improving feedback](/AbInitio/Authoring_quick_start_3.md) in the quick start guide.
 
 ## When is the tree used? ##
 
-Each potential response tree relies on one or more of the [inputs](Inputs.md). STACK automatically detects which elements are needed in the [answer tests](Answer_tests.md) or [feedback variables](Variables.md#Feedback_variables). The first time a student submits an input it is validated. The second time it is submitted it is available for assessment by a potential response tree. Only when all inputs upon which a tree relies are valid and submitted 
-will the tree be traversed.
+Each potential response tree relies on one or more of the [inputs](Inputs.md). STACK automatically detects which elements are needed in the [answer tests](Answer_Tests/index.md) or [feedback variables](Variables.md#Feedback_variables). The first time a student submits an input it is validated. The second time it is submitted it is available for assessment by a potential response tree. Only when all inputs upon which a tree relies are valid and submitted will the tree be traversed.
 
 ## Before the tree is traversed ##
 
-Each potential response tree can set Maxima's level of [simplification](../CAS/Simplification.md). Before the tree is traversed the [feedback variables](Variables.md#Feedback_variables) are evaluated. The feedback variables may depend on the values of the [question variables](Variables.md#Question_variables) and the [inputs](Inputs.md). The values of these variables are available to the [answer tests](Answer_tests.md) and all [CASText](CASText.md) fields within the tree, for example the feedback could be built using these variables.
+Each potential response tree can set Maxima's level of [simplification](../CAS/Simplification.md). Before the tree is traversed the [feedback variables](Variables.md#Feedback_variables) are evaluated. The feedback variables may depend on the values of the [question variables](Variables.md#Question_variables) and the [inputs](Inputs.md). The values of these variables are available to the [answer tests](Answer_Tests/index.md) and all [CASText](CASText.md) fields within the tree, for example the feedback could be built using these variables.
 
 Notes:
 
 1. You cannot define a feedback variable with the same name as an input.  For example, if your input is `ans1` then it is tempting to define a feedback variable `ans1:exdowncase(ans1)` to ensure it is in lower case.  Do not do this!  Please use a different variable name.  This is because in some situations the answer test will choose to take the raw value of `ans1` exactly as the student typed it.  Any redefinition will interfere with this process.
 
-2. If one of the feedback variables throws an error then this will not stop the PRT executing.  If there is an error, this will be flagged in the response summary as `[RUNTIME_FV_ERROR]` (fv here means feedback variables).
+2. If one of the feedback variables throws an error then this will not stop the PRT executing.  If there is an error, this will be flagged in the response summary as `[RUNTIME_FV_ERROR]` (fv here means feedback variables).  See notes on [error trapping](Error_trapping.md) for advice on how to use this.
 
 ## Traversing the tree ##
 
 A potential response tree (technically an acyclic directed graph) consists of an arbitrary number of linked nodes we call potential responses.
 
-In each node two expressions are compared using a specified [answer tests](Answer_tests.md), and the result is either `true` or `false`. A corresponding branch of the tree has the opportunity to each of the following.
+In each node two expressions are compared using a specified [answer tests](Answer_Tests/index.md), and the result is either `true` or `false`. A corresponding branch of the tree has the opportunity to each of the following.
 
-1. Adjust the score, (e.g. assign a value, add or subtract a value)
+1. Adjust the score, (e.g. assign a value, add or subtract a value).  Scores can be floating point numbers or variables defined elsewhere (e.g. question variables/feedback variables).
 2. Add written feedback specifically for the student
-3. Generate an "[answer 
-note](Potential_response_trees.md#Answer_note)", used by the teacher for evaluative assessment
+3. Generate an "[answer note](Potential_response_trees.md#Answer_note)", used by the teacher for evaluative assessment
 4. Nominate the next node, or end the process.
-5. Any run-time error during traversing the tree will cause an error.  This error will stop further exectution of the tree, and students will see a runtime error message.  This will be flagged in the response summary as `[RUNTIME_ERROR]`.  If you have statements likely to throw an error you should evaluate them in the feedback variables first.
+5. Any runtime error during traversing the tree will cause an error.  This error will stop further exectution of the tree, and students will see a runtime error message.  This will be flagged in the response summary as `[RUNTIME_ERROR]`.  If you have statements likely to throw an error you should evaluate them in the feedback variables first. See notes on [error trapping](Error_trapping.md) for advice on how to use this.
 
 ## Outcomes  ##
 
@@ -47,7 +45,7 @@ The potential response tree itself is expected to return a numerical raw score b
 
 The answer note is a tag which is key for reporting purposes. It is designed to record the outcome of each answer test and the unique path through the tree. This is automatically generated, but can be changed to something meaningful. When looking for identical paths through the tree we have to do so, regardless of which random numbers were selected in this variant of the question given to a particular student.  Hence, this string may not depend on any of the variables.
 
-The answer note is the concatenation of each answer note from the [answer tests](Answer_tests.md) and then the corresponding true/false branch.  This note provides a record of the result of applying each test and the route taken through the tree.
+The answer note is the concatenation of each answer note from the [answer tests](Answer_Tests/index.md) and then the corresponding true/false branch.  This note provides a record of the result of applying each test and the route taken through the tree.
 
 This field is given a default value automatically and is used for [reporting](Reporting.md) students' work.
 

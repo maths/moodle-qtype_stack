@@ -1,23 +1,26 @@
+
+
 # Development track for STACK
 
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
-How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
+## Version 4.4.5
 
-## Version 4.3.11
+DONE
+1. Add in the `s_assert` function to allow teachers to unit-test individual question variable values.
+2. Add in the `[[hint]]` [question block](../Authoring/Question_blocks/Dynamic_blocks.md).  Fixes issue #968, thanks to Michael Kallweit.
+3. Add in the `stack_include_contrib()` for easier inclusion of libraries.
+4. Add in the `[[todo]]` [question block](../Authoring/Question_blocks/Static_blocks.md).
+5. Caschat page now saves question variables and general feedback back into the question.  Fixes issue #984.
+6. Confirm support for Maxima 5.46.0 and 5.47.0.
 
-1. Release documentation under CC-BY-SA.
+TODO: 
 
-## Version 4.4
-
-1. Caching validation.
-2. Compiled PRTs.
-3. CASText2.
-
-## Maxima side PRTs.
-
-* Change behaviour of UnitsAbsolute in response to discussion of issue #448.
+1. Support for PHP 8.2.  See issue #986.
+2. Fix markdown problems. See issue #420.
+3. Error messages: use caserror.class more fully to use user information to target error messages.
+4. Remove all "cte" code from Maxima - mostly install.
 
 ## For "inputs 2"?
 

@@ -28,6 +28,7 @@ require_once(__DIR__.'/../../../../config.php');
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
+require_once(__DIR__ . '/../stack/bulktester.class.php');
 
 $preview = optional_param('preview', true, PARAM_BOOL);
 
@@ -40,15 +41,8 @@ $PAGE->set_context($context);
 $PAGE->set_title(stack_string('replacedollarsindextitle'));
 
 // Load the necessary data.
-$counts = $DB->get_records_sql_menu("
-            SELECT ctx.id, COUNT(q.id) AS numstackquestions
-              FROM {context} ctx
-              JOIN {question_categories} qc ON qc.contextid = ctx.id
-              JOIN {question} q ON q.category = qc.id
-             WHERE q.qtype = 'stack'
-          GROUP BY ctx.id, ctx.path
-          ORDER BY ctx.path
-        ");
+$bulktester = new stack_bulk_tester();
+$counts = $bulktester->get_num_stack_questions_by_context();
 
 // Display.
 echo $OUTPUT->header();

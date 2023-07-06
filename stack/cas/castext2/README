@@ -1,0 +1,36 @@
+Some key differences to the Abacus era castext:
+
+ - We now have parser grammar level logic for some key blocks:
+   'if' has its branches handled in parser and does not require the complex
+        postprocessing it did in the old system.
+   'comment' and 'escape' blocks do actually work for any content even broken
+        syntax.
+
+ - Block logic now consists of a compile step and a postprocess step and is 
+   a single pass system as opposed to the old one where we parsed the generated
+   output as long as we had something to process in the output. Now blocks 
+   generate an CAS expression in the compile phase that will either generate 
+   a straight string value or a list representing parameters for a postprocess
+   step that will turn those paramters to a raw string.
+
+   There is no direct connection between compile and postprocess and the compile
+   step can thus be cached and its result is processable even even without 
+   knowing the original code used to generate it.
+
+ - '@' and '#' chars are now allowed within {@...@} and {#...#} blocks again due
+   to the parser grammar being better.
+
+ - Mathmode paintting is being done outside the actual parser to simplify 
+   the parser grammar and to allow them to be tuned separately. The mathmode
+   identification logic can now ignore 'comment'-blocks and block parameters
+   leading to more logical results.
+
+ - Overall there are less steps in the process as the parser grammar now 
+   actually describes a nested block system and the number of 'special' cases
+   is lesser.
+
+Like the MaximaParser this parser comes from the UI side of Stateful and is 
+therefore first implemented for JavaScript client-side processing. Should 
+the parser grammar need fixes they need to be done there. PEG.js used there
+has PHP as one generation targets and seems to be better supportted and overall
+easier to use than the old Abacus parser built on PHP-PEG.

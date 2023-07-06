@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Connection to Maxima for linux-like systems.
  *
@@ -79,7 +77,7 @@ class stack_cas_connection_linux extends stack_cas_connection_base {
             $this->debug->log('', 'Warning: could not stream_set_blocking to be FALSE on the CAS process.');
         }
 
-        while ($continue and !feof($pipes[1])) {
+        while ($continue && !feof($pipes[1])) {
 
             $now = microtime(true);
 

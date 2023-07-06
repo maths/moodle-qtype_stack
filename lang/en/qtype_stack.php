@@ -40,6 +40,7 @@ $string['debuginfo']         = 'Debug info';
 $string['exceptionmessage']  = '{$a}';
 $string['runtimeerror']      = 'This question generated an unexpected internal error.  Please seek advice, e.g. from a teacher.';
 $string['runtimefielderr']   = 'The field ""{$a->field}"" generated the following error: {$a->err}';
+$string['version']           = 'Version';
 
 // Capability names.
 $string['stack:usediagnostictools'] = 'Use the STACK tools';
@@ -52,6 +53,7 @@ $string['stackversionerror']    = 'This question uses {$a->pat} in the {$a->qfie
 $string['stackversionerroralt'] = 'An alternative is {$a}.';
 $string['stackversionmulerror'] = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
 $string['stackversionregexp']   = 'The RegExp answer test is not supported after STACK version 4.3.  Please use the new SRegExp instead.';
+$string['stackfileuseerror']    = 'One or more files (e.g. images) are associated internally with the {$a}, but none appear to be used in the current text itself.';
 
 // Strings used on the editing form.
 $string['addanothernode'] = 'Add another node';
@@ -81,6 +83,7 @@ $string['boxsize'] = 'Input box size';
 $string['boxsize_help'] = 'Width of the html formfield.';
 $string['boxsize_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Box_Size';
 $string['bulktestindexintro_desc'] = 'The <a href="{$a->link}">run the question tests in bulk script</a> lets you easily run all the STACK questions in a given context. Not only does this test the questions. It is also a good way to re-populate the CAS cache after it has been cleared.';
+$string['dependenciesintro_desc'] = 'Check questions for <a href="{$a->link}">dependencies</a>, such as use of JSXGraph or inclusion of external maxima code.';
 $string['checkanswertype'] = 'Check the type of the response';
 $string['checkanswertype_help'] = 'If yes, answers which are of a different "type" (e.g. expression, equation, matrix, list, set) are rejected as invalid.';
 $string['checkanswertype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Check_Type';
@@ -198,6 +201,9 @@ $string['numericalinputminmaxerr'] = 'The required minimum number of numerical p
 $string['numericalinputminsfmaxdperr'] = 'Do not specify requirements for both decimal places and significant figures in the same input.';
 $string['numericalinputoptinterr'] = 'The value of the option <code>{$a->opt}</code> should be an integer, but in fact it is <code>{$a->val}</code>.';
 $string['numericalinputoptboolerr'] = 'The value of the option <code>{$a->opt}</code> should be boolean, but in fact it is <code>{$a->val}</code>.';
+$string['inputvalidatorerr'] = 'The name of a validator function must be a valid maxima identifier in the form of letters a-zA-Z optionally followed by digits.';
+$string['inputvalidatorerrcouldnot'] = 'The optional validator threw internal Maxima errors.';
+$string['inputvalidatorerrors'] = 'The optional validator returned errors {$a->err}.';
 $string['inputopterr'] = 'The value of the option <code>{$a->opt}</code> cannot be given as <code>{$a->val}</code>.';
 $string['inputwillberemoved'] = 'This input is no longer referred to in the question text. If you save the question now, the data about this input will be lost. Please confirm that you want to do this. Alternatively edit the question text to put back the \'[[input:{$a}]]\' and \'[[validation:{$a}]]\' placeholders.';
 $string['insertstars'] = 'Insert stars';
@@ -214,6 +220,7 @@ $string['multiplicationsign_help'] = 'Controls how multiplication signs are disp
 $string['multiplicationsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#multiplication';
 $string['multcross'] = 'Cross';
 $string['multdot'] = 'Dot';
+$string['multonlynumbers'] = 'Only numbers';
 $string['mustverify'] = 'Student must verify';
 $string['mustverify_help'] = 'Specifies whether the student\'s input is presented back to them as a forced two step process before this input is made available to the scoring mechanism.  Syntax errors are always reported back.';
 $string['mustverify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Student_must_verify';
@@ -253,7 +260,7 @@ $string['optionsnotrequired'] = 'This input type does not require any options.';
 $string['penalty'] = 'Penalty';
 $string['penalty_help'] = 'The penalty scheme deducts this value from the result of each PRT for each different and valid attempt which is not completely correct.';
 $string['penalty_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Feedback.md';
-$string['penaltyerror'] = 'The penalty must be a numeric value between 0 and 1.';
+$string['penaltyerror'] = 'The penalty must be a numeric value between 0 and 1 or a variable (which is not checked).';
 $string['penaltyerror2'] = 'The penalty must empty, or be a numeric value between 0 and 1.';
 $string['prtcorrectfeedback'] = 'Standard feedback for correct';
 $string['prtheading'] = 'Potential response tree: {$a}';
@@ -266,7 +273,7 @@ $string['prtremovedconfirmbelow'] = 'Potential response tree \'{$a}\' has been r
 $string['prtremovedconfirm'] = 'I confirm that I want to remove this potential response tree from this question.';
 $string['prts'] = 'Potential response trees';
 $string['prtwillbecomeactivewhen'] = 'This potential response tree will become active when the student has answered: {$a}';
-$string['prtruntimeerror'] = 'Node {$a->node} generated the following runtime error: {$a->error}';
+$string['prtruntimeerror'] = '{$a->prt} generated the following runtime error: {$a->error}';
 $string['prtwillberemoved'] = 'This potential response tree is no longer referred to in the question text or specific feedback. If you save the question now, the data about this potential response tree will be lost. Please confirm that you want to do this. Alternatively edit the question text or specific feedback to put back the \'[[feedback:{$a}]]\' placeholder.';
 $string['feedbackstyle'] = 'PRT feedback style';
 $string['feedbackstyle_help'] = 'Controls how PRT feedback is displayed.';
@@ -277,7 +284,10 @@ $string['feedbackstyle2'] = 'Compact';
 $string['feedbackstyle3'] = 'Symbol only';
 $string['questionnote'] = 'Question note';
 $string['questionnote_help'] = 'The question note is CASText.  The purpose of a question note is to distinguish between random variants of a question. Two question variants are equal if and only if the question notes are equal.  In later analysis it is very helpful to leave a meaningful question note.';
+$string['questiondescription'] = 'Question description';
+$string['questiondescription_help'] = 'The question description is CASText.  The purpose of a question description is to provide a meaningful place to discuss the question.  This is not available to students.';
 $string['questionnote_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Question_note.md';
+$string['questionnote_missing'] = 'The question note is empty.  Please add a meaningful question note (summary).';
 $string['questionnotempty'] = 'The question note cannot be empty when rand() appears in the question variables.  The question note is used to distinguish between different random variants of the question.';
 $string['questionsimplify'] = 'Question-level simplify';
 $string['questionsimplify_help'] = 'Sets the global variable "simp" within Maxima for the whole question.';
@@ -303,6 +313,9 @@ $string['questionvariables_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php
 $string['questionvariablevalues'] = 'Question variable values';
 $string['quiet'] = 'Quiet';
 $string['quiet_help'] = 'When set to yes any feedback automatically generated by the answer tests is suppressed, and not displayed to the student.  The feedback fields in the branches are unaffected by this option.';
+// The icon fa-volume-off isn't very good really.
+$string['quiet_icon_true']  = '<span style="font-size: 1.25em; color:red;"><i class="fa fa-microphone-slash" aria-hidden="true"></i></span>';
+$string['quiet_icon_false'] = '<span style="font-size: 1.25em; color:blue;"><i class="fa fa-commenting-o"></i></span>';
 $string['renamequestionparts'] = 'Rename parts of the question';
 $string['requiredfield'] = 'This field is required!';
 $string['requirelowestterms'] = 'Require lowest terms';
@@ -310,16 +323,14 @@ $string['requirelowestterms_help'] = 'When this option is set to yes, any coeffi
 $string['requirelowestterms_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Require_lowest_terms';
 $string['sans'] = 'SAns';
 $string['sans_help'] = 'This is the first argument to the answer test function.  In asymmetrical tests this is considered to be the "student\'s answer" although it may be any valid CAS expression, and may depend on the question variables or the feedback variables.';
-$string['sans_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
-$string['sansinvalid'] = 'SAns is invalid: {$a}';
+$string['sans_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_Tests/index.md';
 $string['sansrequired'] = 'SAns must not be empty.';
 $string['stop'] = '[stop]';
 $string['score'] = 'Score';
-$string['scoreerror'] = 'The score must be a numeric value between 0 and 1.';
+$string['scoreerror'] = 'The score must be a numeric value between 0 and 1, or a variable (which is not checked).';
 $string['scoremode'] = 'Mod';
 $string['specificfeedback'] = 'Specific feedback';
 $string['specificfeedback_help'] = 'By default, feedback for each potential response tree will be shown in this block.  It can be moved to the question text, in which case Moodle will have less control over when it is displayed by various behaviours.';
-$string['specificfeedbacktags'] = 'Specific feedback must not contain the token(s) \'{$a}\'.';
 $string['sqrtsign'] = 'Surd for square root';
 $string['sqrtsign_help'] = 'Controls how surds are displayed.';
 $string['sqrtsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#surd';
@@ -335,19 +346,23 @@ $string['syntaxattribute_help'] = 'The syntax hint will appear as an editable *v
 $string['syntaxattribute_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Syntax_Hint';
 $string['syntaxattributevalue'] = 'Value';
 $string['syntaxattributeplaceholder'] = 'Placeholder';
+$string['nosemicolon'] = 'You must not end Maxima expressions with a semicolon here.';
 $string['tans'] = 'TAns';
 $string['tans_help'] = 'This is the second argument to the answer test function.  In asymmetrical tests this is considered to be the "teacher\'s answer" although it may be any valid CAS expression, and may depend on the question variables or the feedback variables.';
-$string['tans_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
-$string['tansinvalid'] = 'TAns is invalid: {$a}';
+$string['tans_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_Tests/index.md';
 $string['tansrequired'] = 'TAns must not be empty.';
 $string['teachersanswer'] = 'Model answer';
 $string['teachersanswer_help'] = 'The teacher must specify a model answer for each input.  This must be a valid Maxima string, and may be formed from the question variables.';
 $string['teachersanswer_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#model_answer';
 $string['testoptions'] = 'Test options';
 $string['testoptions_help'] = 'This field enables answer tests to accept an option, e.g. a variable or a numerical precision.';
-$string['testoptions_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
+$string['testoptions_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_Tests/index.md';
 $string['testoptionsinvalid'] = 'The test options are invalid: {$a}';
 $string['testoptionsrequired'] = 'Test options are required for this test.';
+$string['description'] = 'Description';
+$string['description_err'] = 'The node description is longer than 255 characters.';
+$string['testoptions_help'] = 'This field the teacher to record the purpose of the test';
+$string['testoptions_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Potential_response_trees.md';
 $string['truebranch'] = 'True branch';
 $string['truebranch_help'] = 'These fields control what happens when the answer test passes
 ### Mod and score
@@ -396,6 +411,7 @@ $string['languageproblemsmissing'] = 'The language tag {$a->lang} is missing fro
 $string['languageproblemsextra']   = 'The field {$a->field} has the following languages not in the question text: {$a->langs}.';
 
 $string['alttextmissing']    = 'One or more images appears to have a missing or empty \'alt\' tag in "{$a->field}" ({$a->num}).';
+$string['todowarning']       = 'You have un-resolved todo blocks in "{$a->field}".';
 
 // Admin settings.
 $string['settingajaxvalidation'] = 'Instant validation';
@@ -463,6 +479,9 @@ $string['replacedollarstitle'] = 'Replace $s in question texts in {$a}';
 $string['replacedollarserrors'] = 'The following questions generated errors.';
 
 // Strings used by the bulk run question tests script.
+$string['expand'] = 'Expand';
+$string['expandtitle'] = 'Show question categories';
+$string['unauthorisedbulktest'] = 'You do not have suitable access to any STACK questions';
 $string['bulktestcontinuefromhere'] = 'Run again or resume, starting from here';
 $string['bulktestindexintro'] = 'Clicking on any of the links will run all the question tests in all the STACK questions in that context';
 $string['bulktestindextitle'] = 'Run the question tests in bulk';
@@ -471,6 +490,9 @@ $string['bulktestnogeneralfeedback'] = 'This question does not have any general 
 $string['bulktestnodeployedseeds'] = 'This question does have random variants, but has no deployed seeds.';
 $string['bulktestrun'] = 'Run all the question tests for all the questions in the system (slow, admin only)';
 $string['bulktesttitle'] = 'Running all the question tests in {$a}';
+$string['bulktestallincontext'] = 'Test all';
+$string['testalltitle'] = 'Test all questions in this context';
+$string['testallincategory'] = 'Test all questions in this category';
 $string['overallresult'] = 'Overall result';
 $string['seedx'] = 'Seed {$a}';
 $string['testpassesandfails'] = '{$a->passes} passes and {$a->fails} failures.';
@@ -486,31 +508,32 @@ $string['createtestcase'] = 'Create test case';
 $string['currentlyselectedvariant'] = 'This is the variant shown below';
 $string['deletetestcase'] = 'Delete test case {$a->no} for question {$a->question}';
 $string['deletetestcaseareyousure'] = 'Are you sure you want to delete test case {$a->no} for question {$a->question}?';
-$string['deletethistestcase'] = 'Delete this test case...';
-$string['deploy'] = 'Deploy';
+$string['deletethistestcase'] = 'Delete this test case.';
+$string['deploy'] = 'Deploy single variant';
 $string['deployedprogress'] = 'Deploying variants';
 $string['deployedvariants'] = 'Deployed variants';
 $string['deployedvariantsn'] = 'Deployed variants ({$a})';
-$string['deploymany'] = 'Attempt to automatically deploy the following number of variants:';
+$string['deploymanybtn'] = 'Deploy # of variants:';
 $string['deploymanyerror'] = 'Error in user input: cannot deploy "{$a->err}" variants.';
-$string['deployduplicateerror'] = 'Duplicate question notes detected in the deployed variants.  We strongly recommend each question note is only deployed once, otherwise you will have difficulty collecting meaningful stats when grouping by variant.  Please consider deleting some variants with duplicate notes.';
+$string['deployduplicateerror'] = 'Duplicate question notes detected in the deployed variants. We strongly recommend each question note is only deployed once, otherwise you will have difficulty collecting meaningful stats when grouping by variant.  Please consider deleting some variants with duplicate notes.';
 $string['deploytoomanyerror'] = 'STACK will try to deploy up to at most 100 new variants in any one request.  No new variants deployed.';
 $string['deploymanynonew'] = 'Too many repeated existing question notes were generated.';
-$string['deploymanynotes'] = 'Note, STACK will give up if there are 10 failed attempts to generate a new question note, or when one question test fails.';
+$string['deploymanynotes'] = 'Attempt to automatically deploy a number of variants. STACK will give up if there are 10 failed attempts to generate a new question note, or when one question test fails.';
 $string['deploymanysuccess'] = 'Number of new variants successfully created, tested and deployed: {$a->no}.';
 $string['deployoutoftime'] = 'Time limit exceeded by using approx {$a->time} seconds.  Please try again to deploy more.';
-$string['deployremoveall'] = 'Undeploy all variants: ';
-$string['deploytestall'] = 'Run all tests on all deployed variants (slow): ';
-$string['deployfromlist'] = 'Remove all existing variants and deploy from a list of positive integer seeds, one on each line: ';
+$string['deployremoveall'] = 'Undeploy all variants';
+$string['deploytestall'] = 'Run all tests on all deployed variants (slow)';
+$string['deployfromlist'] = 'List positive integer seeds, one on each line.';
+$string['deployfromlistexisting'] = 'Current seeds:';
+$string['deployfromlistbtn'] = 'Remove variants and re-deploy from list';
 $string['deployfromlisterror'] = 'An error was detected in your list of integers, and so no changes were made to the list of deployed variants.';
 $string['editingtestcase'] = 'Editing test case {$a->no} for question {$a->question}';
-$string['editthistestcase'] = 'Edit this test case...';
+$string['editthistestcase'] = 'Edit this test case.';
+$string['confirmthistestcase'] = 'Confirm current test behaviour.';
 $string['expectedanswernote'] = 'Expected answer note';
 $string['expectedoutcomes'] = 'Expected PRT outcomes: [inputs used]';
 $string['expectedpenalty'] = 'Expected penalty';
 $string['expectedscore'] = 'Expected score';
-$string['exportthisquestion'] = 'Export this question';
-$string['exportthisquestion_help'] = 'This will create a Moodle XML export file containing just this one question. One example of when this is useful if you think this question demonstrates a bug in STACK that you would like to report to the developers.';
 $string['inputdisplayed'] = 'Displayed as';
 $string['inputentered'] = 'Value entered';
 $string['inputexpression'] = 'Test input';
@@ -531,25 +554,32 @@ $string['questiontests'] = 'Question tests';
 $string['questiontestsfor'] = 'Question tests for seed {$a}';
 $string['questiontestspass'] = 'All question tests passed.';
 $string['questiontestsdefault'] = '(Default)';
-$string['runquestiontests'] = 'Question tests & deployed variants';
-$string['runquestiontests_help'] = 'The question tests unit-test the questions to ensure the behaviour matches expectations expressed by the teacher, and deployed variants ensure random versions seen by a student are pre-tested against the question tests. These are tools to help you create and test reliable questions and should be used in all cases a question will be used by students.';
+$string['runquestiontests'] = 'STACK question dashboard';
+$string['runquestiontests_help'] = 'The dashboard runs question tests which unit-test the questions to ensure the behaviour matches expectations expressed by the teacher, and deployed variants ensure random versions seen by a student are pre-tested against the question tests. These are tools to help you create and test reliable questions and should be used in all cases a question will be used by students.  The dashboard also has numerous other STACK specific functions.';
 $string['runquestiontests_alert'] = 'Question is missing tests or variants.';
-$string['seethisquestioninthequestionbank'] = 'See this question in the question bank';
-$string['editquestioninthequestionbank'] = 'Edit this question';
+$string['runquestiontests_auto'] = 'Automatically adding one test case assuming the teacher\'s input gets full marks.  Please check the answer note carefully.';
+$string['runquestiontests_autoprompt'] = 'Add test case assuming the teacher\'s input gets full marks.';
+$string['autotestcase'] = 'Test case assuming the teacher\'s input gets full marks.';
 $string['showingundeployedvariant'] = 'Showing undeployed variant: {$a}';
-$string['switchtovariant'] = 'Switch to arbitrary variant';
+$string['switchtovariant'] = 'Switch to variant: ';
 $string['testcasexresult'] = 'Test case {$a->no} {$a->result}';
 $string['testingquestion'] = 'Testing question {$a}';
 $string['testingquestionvariants'] = 'Preparing question variants';
 $string['testinputs'] = 'Test inputs';
 $string['testinputsimpwarning'] = 'Please note that test inputs are always <em>unsimplified</em> regardless of the question or PRT option setting.  Please use <tt>ev(...,simp)</tt> to simplify part or all of the test input expressions.';
 $string['testthisvariant'] = 'Switch to test this variant';
-$string['tidyquestion'] = 'Tidy STACK question tool';
 $string['tidyquestionx'] = 'Rename the parts of question {$a}';
 $string['undeploy'] = 'Un-deploy';
 $string['variant'] = 'Variant';
 
-$string['basicquestionreport'] = 'Basic question use report';
+$string['editquestioninthequestionbank'] = '<i class="fa fa-pencil"></i> Edit question';
+$string['seethisquestioninthequestionbank'] = '<i class="fa fa-list-alt"></i> Show in question bank';
+$string['exportthisquestion'] = '<i class="fa fa-download"></i> Export as Moodle XML';
+$string['exportthisquestion_help'] = 'This will create a Moodle XML export file containing just this one question. One example of when this is useful if you think this question demonstrates a bug in STACK that you would like to report to the developers.';
+$string['tidyquestion'] = '<i class="fa fa-sort-amount-asc"></i> Tidy inputs and PRTs';
+$string['sendgeneralfeedback'] = '<i class="fa fa-file-text"></i> Send general feedback to the CAS';
+
+$string['basicquestionreport'] = '<i class="fa fa-bar-chart"></i> Analyze responses';
 $string['basicquestionreport_help'] = 'Generates a very basic report on attempts at this question on the server. Useful for deciding which PRT test can be added to improve feedback in the light of what the student actually does.  (Most questions are only used in one place)';
 $string['basicreportraw'] = 'Raw data';
 $string['basicreportnotes'] = 'Frequency of answer notes, for each PRT, regardless of which variant was used';
@@ -564,6 +594,8 @@ $string['equivfirstline'] = 'You have used the wrong first line in your argument
 // Support scripts: CAS chat, healthcheck, etc.
 $string['all'] = 'All';
 $string['chat'] = 'Send to the CAS';
+$string['savechat'] = 'Save back to question';
+$string['savechatmsg'] = 'Question variables and general feedback saved back to the question.';
 $string['castext'] = 'CAS text';
 $string['chat_desc'] = 'The <a href="{$a->link}">CAS chat script</a> lets you test the connection to the CAS, and try out Maxima syntax.';
 $string['chatintro'] = 'This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a handy way to check if the CAS is working, and to test various inputs.  The first text box enables variables to be defined, the second is for the CAS text itself.';
@@ -596,7 +628,7 @@ $string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \f
 $string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
 $string['healthcheckplots'] = 'Graph plotting';
 $string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
-$string['healthchecksampleplots'] = 'Two example plots below.  {@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@} {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],grid2d)@}  A third, smaller, plot may be displayed here with traditional axes.  (Newer versions of Maxima only.) {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3],[size,250,250])@}';
+$string['healthchecksampleplots'] = 'Two example plots below.  {@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@} {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],grid2d)@}  A third, smaller, plot should be displayed below with traditional axes. {@plot([x,2*x^2-1,x*(4*x^2-3),8*x^4-8*x^2+1,x*(16*x^4-20*x^2+5),(2*x^2-1)*(16*x^4-16*x^2+1)],[x,-1,1],[y,-1.2,1.2],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3],[size,250,250])@}';
 $string['healthchecksstackmaximaversion'] = 'Maxima version';
 $string['healthchecksstackmaximaversionfixoptimised'] = 'Please <a href="{$a->url}">rebuild your optimised Maxima executable</a>.';
 $string['healthchecksstackmaximaversionfixserver'] = 'Please rebuild the Maxima code on your MaximaPool server.';
@@ -625,7 +657,7 @@ $string['healthcheckcreateimage'] = 'Create Maxima image';
 $string['stackInstall_replace_dollars_desc'] = 'The <a href="{$a->link}">fix maths delimiters script</a> can be used to replace old-style delimiters like <code>@...@</code>, <code>$...$</code> and <code>$$...$$</code> in your questions with the new recommended <code>{@...@}</code>, <code>\(...\)</code> and <code>\[...\]</code>.';
 $string['stackInstall_testsuite_title'] = 'A test suite for STACK Answer tests';
 $string['stackInstall_testsuite_title_desc'] = 'The <a href="{$a->link}">answer-tests script</a> verifies that the answer tests are performing correctly. They are also useful to learn by example how each answer-test can be used.';
-$string['stackInstall_testsuite_intro'] = 'This page allows you to test that the STACK answer tests are functioning correctly.  Note that only answer tests can be checked through the web interface.  Other Maxima commands need to be checked from the command line: see unittests.mac.';
+$string['stackInstall_testsuite_intro'] = 'This page allows you to see answer test examples, and to test that the STACK answer tests are functioning correctly.  Note that only answer tests can be checked through the web interface.  If the mark is negative this indicates an expected fail, with -1 being a failure due to an expected internal error.';
 $string['stackInstall_testsuite_choose'] = 'Please choose an answer test.';
 $string['stackInstall_testsuite_pass'] = 'All tests passed!';
 $string['stackInstall_testsuite_fail'] = 'Not all tests passed!';
@@ -637,19 +669,20 @@ $string['stackInstall_testsuite_nodeployedseeds'] = 'Questions with random varia
 $string['stackInstall_testsuite_errors'] = 'This question generated the following errors at runtime.';
 $string['answertest'] = 'Answer test';
 $string['answertest_help'] = 'An answer test is used to compare two expressions to establish whether they satisfy some mathematical criteria.';
-$string['answertest_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_tests.md';
-$string['testsuitecolpassed'] = 'Passed?';
+$string['answertest_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Answer_Tests/index.md';
+$string['answertest_ab'] = 'Test';
+$string['testsuitecolpassed'] = '?';
 $string['studentanswer'] = 'Student response';
 $string['teacheranswer'] = 'Teacher answer';
 $string['options'] = 'Options';
+$string['options_short'] = 'Opt';
 $string['testsuitefeedback'] = 'Feedback';
 $string['testsuitecolerror'] = 'CAS errors';
-$string['testsuitecolrawmark'] = 'Raw mark';
-$string['testsuitecolexpectedscore'] = 'Expected mark';
-$string['testsuitepass'] = 'Pass';
-$string['testsuiteknownfail'] = 'Expected failure';
-$string['testsuiteknownfailmaths'] = 'Expected failure (maths)';
-$string['testsuitefail'] = 'Fail';
+$string['testsuitecolmark'] = 'Mark';
+$string['testsuitepass'] = '<span style="color:green;"><i class="fa fa-check"></i></span>';
+$string['testsuiteknownfail'] = '<span style="color:orange;"><i class="fa fa-adjust"></i></span>';
+$string['testsuiteknownfailmaths'] = '<span style="color:orange;"><i class="fa fa-adjust"></i>!</span>';
+$string['testsuitefail'] = '<span style="color:red;"><i class="fa fa-times"></i></span>';
 $string['testsuitenotests']       = 'Number of tests: {$a->no}. ';
 $string['testsuiteteststook']     = 'Tests took {$a->time} seconds. ';
 $string['testsuiteteststookeach'] = 'Average per test: {$a->time} seconds. ';
@@ -697,6 +730,7 @@ $string['stackCas_unknownFunctionCase']     = 'Input is case sensitive: {$a->for
 $string['stackCas_unknownVariableCase']     = 'Input is case sensitive: {$a->forbid} is an unknown variable. Did you mean {$a->lower}?';
 $string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: {$a->forbid}.';
 $string['stackCas_forbiddenWord']           = 'The expression {$a->forbid} is forbidden.';
+$string['stackCas_forbiddenntuple']         = 'Coordinates are not permitted in this input.';
 $string['stackCas_bracketsdontmatch']       = 'The brackets are incorrectly nested in the expression: {$a->cmd}.';
 $string['stackCas_chained_inequalities']    = 'You appear to have "chained inequalities" e.g. \(a &lt b &lt c\).  You need to connect individual inequalities with logical operations such as \(and\) or \(or\).';
 $string['stackCas_backward_inequalities']   = 'Non-strict inequalities e.g. \( \leq \) or \( \geq \) must be entered as <= or >=.  You have {$a->cmd} in your expression, which is backwards.';
@@ -762,6 +796,7 @@ $string['stackBlock_multiple_else']          = 'Multiple else branches in an if 
 $string['stackBlock_elif_after_else']        = '"elif" after an "else" in an if block.';
 $string['unrecognisedfactstags']             = 'The following facts tag(s) are not recognized: {$a->tags}.';
 $string['stackHintOld']                      = 'The CASText has old-style hint tags. These should now be in the form <pre>[[facts:tag]]</pre>';
+$string['unknown_block']                     = 'Unknown block of type {$a->type} requested!';
 
 $string['Maxima_DivisionZero']  = 'Division by zero.';
 $string['Maxima_Args']  = 'args: argument must be a non-atomic expression. ';
@@ -780,6 +815,8 @@ $string['Equiv_Illegal_list']  = 'Lists are not allowed when reasoning by equiva
 $string['Equiv_Illegal_matrix']  = 'Matrices are not allowed when reasoning by equivalence.';
 $string['CommaError']     = 'Your answer contains commas which are not part of a list, set or matrix.  <ul><li>If you meant to type in a list, please use <tt>{...}</tt>,</li><li>If you meant to type in a set, please use <tt>{...}</tt>.</li></ul>';
 $string['Bad_assignment']   = 'When listing the values of a variable you should do so in the following way: {$a->m0}.  Please modify your input.';
+$string['ValidateVarsSpurious']   = 'These variables are not needed: {$a->m0}.';
+$string['ValidateVarsMissing']   = 'These variables are missing: {$a->m0}.';
 $string['Illegal_identifiers_in_units']           = 'The input contains a variable name when just units were expected.';
 $string['Illegal_illegal_operation_in_units']     = 'The operator <code>{$a}</code> is not allowed in this input.';
 $string['Illegal_illegal_power_of_ten_in_units']  = 'The value may not contain non integer powers of ten.';
@@ -791,6 +828,8 @@ $string['stackBlock_jsxgraph_width']       = 'The width of a JSXGraph must use a
 $string['stackBlock_jsxgraph_height']      = 'The height of a JSXGraph must use a known CSS-length unit.';
 $string['stackBlock_jsxgraph_width_num']   = 'The numeric portion of the width of a JSXGraph must be a raw number and must not contain any extra chars.';
 $string['stackBlock_jsxgraph_height_num']  = 'The numeric portion of the height of a JSXGraph must be a raw number and must not contain any extra chars.';
+$string['stackBlock_jsxgraph_underdefined_dimension'] = 'When defining aspect-ratio for the JSXGraph one must define either width or height of the graph.';
+$string['stackBlock_jsxgraph_overdefined_dimension'] = 'When defining aspect-ratio for the JSXGraph one should only define width or height not both.';
 $string['stackBlock_jsxgraph_ref']         = 'The jsxgraph-block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
 $string['stackBlock_jsxgraph_param']       = 'The jsxgraph-block supports only these parameters in this context: {$a->param}.';
 
@@ -831,6 +870,7 @@ $string['stackOptions_AnsTest_values_Diff']                = "Diff";
 $string['stackOptions_AnsTest_values_Int']                 = "Int";
 $string['stackOptions_AnsTest_values_String']              = "String";
 $string['stackOptions_AnsTest_values_StringSloppy']        = "StringSloppy";
+$string['stackOptions_AnsTest_values_Levenshtein']         = "Levenshtein";
 $string['stackOptions_AnsTest_values_SRegExp']             = "SRegExp";
 
 $string['AT_NOTIMPLEMENTED']        = 'This answer test has not been implemented. ';
@@ -841,6 +881,9 @@ $string['AT_InvalidOptions']        = 'Option field is invalid. {$a->errors}';
 $string['AT_EmptySA']               = 'Attempted to execute an answer test with an empty student answer, probably a CAS validation problem when authoring the question.';
 $string['AT_EmptyTA']               = 'Attempted to execute an answer test with an empty teacher answer, probably a CAS validation problem when authoring the question.';
 $string['AT_raw_sans_needed']       = 'Some answer tests rely on the raw input from a student, and so the "SAns" field of the node should be the name of a question input.  Please check the following (prt.node) which looks like a calculated value instead: {$a->prt}';
+
+$string['ATString_SA_not_string']     = 'Your answer should be a string, but is not. ';
+$string['ATString_SB_not_string']     = 'The teacher\'s answer should be a string, but is not. ';
 
 $string['ATAlgEquiv_SA_not_expression'] = 'Your answer should be an expression, not an equation, inequality, list, set or matrix. ';
 $string['ATAlgEquiv_SA_not_matrix']     = 'Your answer should be a matrix, but is not. ';
@@ -975,7 +1018,11 @@ $string['ATSysEquiv_SA_wrong_variables']        = 'Your answer uses the wrong va
 $string['ATSysEquiv_SA_system_underdetermined'] = 'The equations in your system appear to be correct, but you need others besides.';
 $string['ATSysEquiv_SA_system_overdetermined']  = 'The entries underlined in red below are those that are incorrect. {$a->m0} ';
 
-$string['ATRegEx_missing_option']               = 'Missing regular expression in CAS Option field.';
+$string['ATLevenshtein_SA_not_string']          = 'The first argument to the Levenshtein answer test must be a string. The test failed. Please contact your teacher.';
+$string['ATLevenshtein_SB_malformed']           = 'The second argument to the Levenshtein answer test must be in the form [allow, deny] where each item is a list of strings.  This argument is malformed and so the test failed. Please contact your teacher.';
+$string['ATLevenshtein_tol_not_number']         = 'The tolerance in the Levenshtein answer test must be a number, but is not. The test failed. Please contact your teacher.';
+$string['ATLevenshtein_upper_not_boolean']      = 'The case sensitivity option in the Levenshtein answer test must be a boolean, but is not. The test failed. Please contact your teacher.';
+$string['ATLevenshtein_match']                  = 'The closest match was "{$a->m0}".';
 
 $string['ATSRegExp_SB_not_string']              = 'The second argument to the SRegExp answer test must be a string. The test failed. Please contact your teacher.';
 $string['ATSRegExp_SA_not_string']              = 'The first argument to the SRegExp answer test must be a string. The test failed. Please contact your teacher.';
@@ -1028,7 +1075,7 @@ $string['stackDoc_directoryStructure']  = 'Directory structure';
 $string['stackDoc_version']             = 'Your site is running STACK version {$a}.';
 $string['stackDoc_licence']             = 'The STACK documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.';
 $string['stackDoc_licence_alt']         = 'Creative Commons License';
-$string['stackDoc_AnswerTestResults']   = '# Answer test results
+$string['stackDoc_AnswerTestResults']   = 'Answer test results
 
 This page exposes the results of running answer tests on STACK test cases.  This page is automatically generated from the STACK unit tests and is designed to show question authors what answer tests actually do.  This includes cases where answer tests currentl fail, which gives a negative expected mark.  Comments and further test cases are very welcome.';
 
@@ -1314,3 +1361,13 @@ g(x){\rm d}x -\int {{\rm d}f\over {\rm d}x}\left\{\int g(x){\rm d}x\right\}{\rm 
 $string['Illegal_singleton_power'] = 'This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';
 $string['Illegal_singleton_floats'] = 'This input does not accept decimal numbers in the given form. This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';
 $string['Illegal_singleton_integer'] = 'This input does not accept integer values. This input requires a numeric value presented in one of the following forms: <code>{$a->forms}</code>';
+
+$string['castext_debug_header_key'] = 'Variable name';
+$string['castext_debug_header_value_simp'] = 'Simplified value';
+$string['castext_debug_header_value_no_simp'] = 'Value';
+$string['castext_debug_header_disp_simp'] = 'Simplified displayed value';
+$string['castext_debug_header_disp_no_simp'] = 'Displayed value';
+$string['castext_debug_no_vars'] = 'This question has no question variables to debug!';
+
+$string['castext_error_header'] = 'Rendering of text content failed.';
+$string['castext_error_unevaluated'] = 'This text content was never evaluated.';

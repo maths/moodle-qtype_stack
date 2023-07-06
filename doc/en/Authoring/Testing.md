@@ -2,39 +2,9 @@
 
 This page deals with testing questions and quality control. This is largely done through the question test functionality.
 
+High-quality question production needs care at each stage.  An [authoring workflow](Workflow.md) is described separately.
+
 We have separate advice on [fixing broken questions](Fixing_broken_questions.md) in a live quiz.
-
-## Question authoring checklist ##
-
-High-quality question production needs care at each stage.
-
-__Minimal requirements__
-
-1. The question name should be meaningful and consistent, i.e. match up to course, section and topic.  E.g. `2018ILA-Wk3-Q2: equation of plane`.
-2. Is the phrasing of the question clear to students?
-3. Will students know how to input an answer?
-   * Could a "syntax hint" or message in the question help?
-   * Can "validation" help, e.g. by telling students how many significant figures are expected? (See the "numbers" input type.)
-4. Use question variable stubs throughout, to enable efficient random generation.  (E.g. define the correct answer in question variables, rather than hard-wiring a specific expression).
-5. Add a meaingful question note which will make sense later, not just a list of randomly generated numbers.  This could be an abreviated form of the question together with the answer.
-6. Add question tests for one correct and at least one incorrect variant. (See below.) Always make sure the question marks the correct answer as correct!
-7. Check all options in the question, inputs and PRTs.
-
-__Phase 1__
-
-1. Minimal random variants.
-2. Worked solution ("General feedback") reflecting the random variables.
-3. Consider likely mistakes, and add feedback to test for this.
-4. Add at least one question test to test for each eventuality identified above.
-
-__Phase 2__
-
-Use data obtained from one cycle of attempts by students.
-
-1. Did the question operate correctly?  E.g. were correct answers correctly marked, and incorrect answers rejected?
-2. What did students get wrong?  Is there a reason for these answers such as a common misconception?  If so, add nodes to the PRTs to test for this and improve feedback.
-3. Add further question tests to test each misconception.
-4. Is there any significant difference between random variants?
 
 ## Testing for quality control  ##
 
@@ -80,6 +50,8 @@ On the question testing page is a "Send to CAS" button.  Pressing this sends the
 
 A Moodle administrator can run all of the questions tests within a particular course, or across the whole site by following the links on the STACK admin page.  It is useful do to this after upgrading the STACK code on the server to identify any test cases which have changed.
 
+Test cases can include a meaningful description of up to 255 characters.  This field is a simple string, and is not castext.
+
 ## Test case construction and Maxima evaluation
 
 Test cases are always written assuming `simp:false` regardless of the option set elsewhere.  If you want to construct a simplified test case then wrap this in `ev(... , simp)` to simplify the expression generating the test case.  This behaviour is required to enable construction of unsimplified test cases.
@@ -108,7 +80,7 @@ In this case, you can prevent evaluation of limits by using an apostrophie in th
 
 ### Test case construction and MCQ
 
-Remember that MCQ input types return a CAS expression.  However, you must ensure each testcase actually corresponds to an option provided to the student, otherwise STACK will generate a run-time error.  Hence you cannot construct a test case from the list provided as the "Teacher's answer" in these input types!
+Remember that MCQ input types return a CAS expression.  However, you must ensure each testcase actually corresponds to an option provided to the student, otherwise STACK will generate a runtime error.  Hence you cannot construct a test case from the list provided as the "Teacher's answer" in these input types!
 
 It is sensible to use the helper functions.  E.g. for a radio/dropdown use
 
@@ -122,6 +94,18 @@ For the checkbox type you will need the whole list.
 
 You can construct test cases using the functions such as `dispdp` to create a test-case input with trailing zeros.  This is neeeded if the input, or answer test, is testing for a minimum number of decimal places or significant figures.
 
+
+## Testing values of variables
+
+STACK provides a special function `s_assert(ex1, ex2)` which can be used in the question variables and feedback variables.  If `is(ex1=ex2)` does not evaluate to `true` then this function throws a maxima error message.  This can be used to create a run-time error and prevent a question, and a particular variant, being used.
+
+For example, if you have an expression `1/n` and the variable `n` is randomly generated you need to prevent a random version being zero.  In this case put the following in the question variables.
+
+    s_assert(is(n=0), false);
+
+This test will throw an error when `n` is zero.
+
+In many situations this kind of test creation will be simpler than mapping onto student inputs.
 
 ## STACK-Maxima sandbox ##
 

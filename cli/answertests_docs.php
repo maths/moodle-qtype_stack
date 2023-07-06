@@ -33,148 +33,152 @@ require_once($CFG->dirroot . '/question/type/stack/stack/options.class.php');
 require_once($CFG->dirroot . '/question/type/stack/stack/answertest/controller.class.php');
 require_once($CFG->dirroot . '/question/type/stack/tests/fixtures/answertestfixtures.class.php');
 
-$anstest = 'ALL';
-
 // Get the list of available tests.
 $availabletests = stack_answertest_test_data::get_available_tests();
-$availabletests['ALL'] = stack_string('all');
-if (!array_key_exists($anstest, $availabletests)) {
-    $anstest = '';
-}
+// Create a separate table for each test: breaks up the page better.
 
-if ($anstest === 'ALL') {
-    $tests = stack_answertest_test_data::get_all();
-} else if (!$anstest) {
-    $tests = array();
-} else {
+foreach ($availabletests as $anstest) {
+    // One file per answer test.
+    ob_start( );
+    echo "\n\n" . html_writer::tag('h2', $anstest);
+
     $tests = stack_answertest_test_data::get_tests_for($anstest);
-}
 
-// Set up the results table.
-$columns = array(
-    'name'          => stack_string('answertest'),
-    'passed'        => stack_string('testsuitecolpassed'),
-    'studentanswer' => stack_string('studentanswer'),
-    'teacheranswer' => stack_string('teacheranswer'),
-    'options'       => stack_string('options'),
-    'error'         => stack_string('testsuitecolerror'),
-    'rawmark'       => stack_string('testsuitecolrawmark'),
-    'expectedscore' => stack_string('testsuitecolexpectedscore'),
-    'feedback'      => stack_string('testsuitefeedback'),
-    'answernote'    => stack_string('answernote'),
-    'expectednote'  => '',
-);
-if ($anstest !== 'ALL') {
-    array_shift($columns);
-}
-$table = new flexible_table('stack_answertests');
-$table->define_columns(array_keys($columns));
-$table->define_headers(array_values($columns));
-$table->set_attribute('class', 'generaltable generalbox stacktestsuite');
-$table->define_baseurl('');
-$table->setup();
-
-// Run the tests.
-$allpassed = true;
-$failedtable = array();
-$notests = 0;
-$start = microtime(true);
-
-ob_start( );
-
-$oldtest = '';
-foreach ($tests as $test) {
-
-    $notests++;
-
-    if ($oldtest != $test->name) {
-        if ('' != $oldtest) {
-            $table->add_separator();
-        }
-        $oldtest = $test->name;
-    }
-
-    if ($test->notes) {
-        reset($columns);
-        $firstcol = key($columns);
-        $table->add_data_keyed(array($firstcol => $test->notes), 'notes');
-    }
-
-    set_time_limit(30);
-    list($passed, $error, $rawmark, $feedback, $ansnote, $expectednote, $trace)
-    = stack_answertest_test_data::run_test($test);
-    $allpassed = $allpassed && $passed;
-
-    if ($passed) {
-        $class = 'pass';
-        if (-1 === $test->expectedscore) {
-            $class = 'expectedfail';
-            $passedcol = stack_string('testsuiteknownfail');
-        } else if (-2 === $test->expectedscore) {
-            $class = 'expectedfail';
-            $passedcol = stack_string('testsuiteknownfailmaths');
-        } else {
-            $passedcol = stack_string('testsuitepass');
-        }
-    } else {
-        $class = 'fail';
-        $passedcol = stack_string('testsuitefail');
-    }
-
-    $row = array(
-        'name'          => $test->name,
-        'passed'        => $passedcol,
-        'studentanswer' => s($test->studentanswer),
-        'teacheranswer' => s($test->teacheranswer),
-        'options'       => s($test->options),
-        'error'         => $error,
-        'rawmark'       => $rawmark,
-        'expectedscore' => $test->expectedscore,
-        'feedback'      => format_text($feedback),
-        'answernote'    => $ansnote,
-        'expectednote'  => $expectednote,
+    // Set up the results table.
+    $columns = array(
+        'name'          => stack_string('answertest_ab'),
+        'passed'        => stack_string('testsuitecolpassed'),
+        'studentanswer' => stack_string('studentanswer'),
+        'teacheranswer' => stack_string('teacheranswer'),
+        'options'       => stack_string('options_short'),
+        'rawmark'       => stack_string('testsuitecolmark'),
+        'answernote'    => stack_string('answernote'),
     );
-    if (!$passed) {
-        $row['answernote'] .= html_writer::tag('pre', $trace);
-        $failedtable[] = $row;
+
+    $table = new flexible_table('stack_answertests');
+    $table->define_columns(array_keys($columns));
+    $table->define_headers(array_values($columns));
+    $table->set_attribute('class', 'generaltable generalbox stacktestsuite');
+    $table->define_baseurl('');
+    $table->setup();
+
+    // Run the tests.
+    $allpassed = true;
+    $failedtable = array();
+    $notests = 0;
+    $start = microtime(true);
+
+    $oldtest = '';
+    foreach ($tests as $test) {
+
+        $notests++;
+
+        if ($oldtest != $test->name) {
+            if ('' != $oldtest) {
+                $table->add_separator();
+            }
+            $oldtest = $test->name;
+        }
+
+        if ($test->notes) {
+            reset($columns);
+            $firstcol = key($columns);
+            // This is a slight cludge to get multiple columns in a row.
+            $notes = html_writer::tag('td', $test->notes, array('colspan' => '6'));
+            $table->add_data(array($notes), 'notes');
+        }
+
+        set_time_limit(30);
+        list($passed, $error, $rawmark, $feedback, $ansnote, $expectednote, $trace)
+            = stack_answertest_test_data::run_test($test);
+        $allpassed = $allpassed && $passed;
+
+        if ($passed) {
+            $class = 'pass';
+            if (-1 === $test->expectedscore) {
+                $class = 'expectedfail';
+                $passedcol = stack_string('testsuiteknownfail');
+            } else if (-2 === $test->expectedscore) {
+                $class = 'expectedfail';
+                $passedcol = stack_string('testsuiteknownfailmaths');
+            } else if (-3 === $test->expectedscore) {
+                $class = 'expectedfail';
+                $passedcol = stack_string('testsuiteknownfailmaths');
+            } else {
+                $passedcol = stack_string('testsuitepass');
+            }
+        } else {
+            $class = 'fail';
+            $passedcol = stack_string('testsuitefail');
+        }
+
+        $sans = implode("\n", str_split(s($test->studentanswer), 30));
+        $tans = implode("\n", str_split(s($test->teacheranswer), 30));
+        $topt = '';
+        if ($test->options != '') {
+            $topt = html_writer::tag('pre', implode("\n", str_split(s($test->options), 15)));
+        }
+        $mark = $test->expectedscore;
+        if ($rawmark !== $test->expectedscore && $test->expectedscore > 0) {
+            $mark = $rawmark . ' <> ' . $test->expectedscore;
+        }
+        $row = array(
+            'name'          => $test->name,
+            'passed'        => $passedcol,
+            'studentanswer' => html_writer::tag('pre', $sans),
+            'teacheranswer' => html_writer::tag('pre', $tans),
+            'options'       => $topt,
+            'rawmark'       => $mark,
+            'answernote'    => $ansnote,
+        );
+        if (!$passed) {
+            $row['answernote'] .= html_writer::tag('pre', $trace);
+            $failedtable[] = $row;
+        }
+
+        $table->add_data_keyed($row, $class);
+
+        // Add errors as a separate row for better spacing.
+        $row = [];
+        $row[] = html_writer::tag('td', '', array('colspan' => '2'));
+        $row[] = html_writer::tag('td', $error, array('colspan' => '4'));
+        if ($error != '') {
+            $table->add_data($row, $class);
+        }
+        // Add feeback as a separate row for better spacing.
+        $row = [];
+        $row[] = html_writer::tag('td', '', array('colspan' => '2'));
+        $row[] = html_writer::tag('td', $feedback, array('colspan' => '4'));
+        if ($feedback != '' && $feedback != $error) {
+            $table->add_data($row, $class);
+        }
     }
+    $table->finish_output();
 
-    $table->add_data_keyed($row, $class);
+    $output = ob_get_clean( );
+
+    // This is to break up the resulting single line in the text file.
+    // Otherwise editors, git, etc. have a miserable time.
+    $output = str_replace('<td class=', "\n  <td class=", $output);
+    $output = str_replace('<tr class=', "\n<tr class=", $output);
+    $output = str_replace("</tr>", "\n</tr>", $output);
+    $output = str_replace(",EQUIVCHAR", ", EQUIVCHAR", $output);
+    $output = str_replace(",EMPTYCHAR", ", EMPTYCHAR", $output);
+    $output = str_replace(",CHECKMARK", ", CHECKMARK", $output);
+    // If we don't strip id tags the whole file will change everytime we add a test!
+    // String too long for a single regular expression match.
+    $lines = explode("\n", $output);
+    $pat = array('/\sid="stack_answertests_r\d+_c\d+"/',
+                 '/\sid="stack_answertests_r\d+"/');
+    $rep = array('', '');
+    foreach ($lines as $key => $line) {
+        $lines[$key] = preg_replace($pat, $rep, $line);
+    }
+    $output = implode("\n", $lines);
+    $output = '# ' . $anstest . ': ' . stack_string('stackDoc_AnswerTestResults') . "\n\n" . $output;
+
+    file_put_contents('../doc/en/Authoring/Answer_Tests/Results/'. $anstest .'.md', $output);
 }
-
-$table->finish_output();
-
-$output = ob_get_clean( );
-
-// This is to break up the resulting single line in the text file.
-// Otherwise editors, git, etc. have a miserable time.
-$output = str_replace('<td class=', "\n  <td class=", $output);
-$output = str_replace('<tr class=', "\n<tr class=", $output);
-$output = str_replace("</tr>", "\n</tr>", $output);
-$output = str_replace(",EQUIVCHAR", ", EQUIVCHAR", $output);
-$output = str_replace(",EMPTYCHAR", ", EMPTYCHAR", $output);
-$output = str_replace(",CHECKMARK", ", CHECKMARK", $output);
-// If we don't strip id tags the whole file will change everytime we add a test!
-// String too long for a single regular expression match.
-$lines = explode("\n", $output);
-$pat = array('/\sid="stack_answertests_r\d+_c\d+"/',
-             '/\sid="stack_answertests_r\d+"/');
-$rep = array('', '');
-foreach ($lines as $key => $line) {
-    $lines[$key] = preg_replace($pat, $rep, $line);
-}
-$output = implode("\n", $lines);
-$output = stack_string('stackDoc_AnswerTestResults') . "\n\n" . $output;
-
-// Add the Maxima version at the end of the table for reference.
-$settings = get_config('qtype_stack');
-$libs = array_map('trim', explode(',', $settings->maximalibraries));
-asort($libs);
-$libs = implode(', ', $libs);
-$vstr = $settings->version . ' (' . $libs . ')';
-$output .= '<br/>'.stack_string('stackDoc_version', $vstr);
-
-file_put_contents('../doc/en/Authoring/Answer_tests_results.md', $output);
 
 // Output the factsheet.
 

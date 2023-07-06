@@ -208,8 +208,6 @@ function stack_string_sanitise($str) {
  * @return array page context, selected seed (or null), and URL parameters.
  */
 function qtype_stack_setup_question_test_page($question) {
-    global $PAGE;
-
     $seed = optional_param('seed', null, PARAM_INT);
     $urlparams = array('questionid' => $question->id);
     if (!is_null($seed) && $question->has_random_variants()) {
@@ -230,11 +228,37 @@ function qtype_stack_setup_question_test_page($question) {
         $urlparams['courseid'] = $courseid;
 
     } else {
-        require_login();
         $context = $question->get_context();
-        $PAGE->set_context($context);
-        // Note that in the other cases, require_login will set the correct page context.
+        if ($context->contextlevel == CONTEXT_MODULE) {
+            $urlparams['cmid'] = $context->instanceid;
+        } else if ($context->contextlevel == CONTEXT_COURSE) {
+            $urlparams['courseid'] = $context->instanceid;
+        } else {
+            $urlparams['courseid'] = SITEID;
+        }
     }
 
     return array($context, $seed, $urlparams);
+}
+
+/* This class is needed to ignore requests for pluginfile rewrites in the bulk tester
+ * and possibly elsewhere, e.g. API.
+ */
+class stack_outofcontext_process {
+
+    public function __construct() {
+    }
+
+    /**
+     * Calls {@link question_rewrite_question_urls()} with appropriate parameters
+     * for content belonging to this question.
+     * @param string $text the content to output.
+     * @param string $component the component name (normally 'question' or 'qtype_...')
+     * @param string $filearea the name of the file area.
+     * @param int $itemid the item id.
+     * @return string the content with the URLs rewritten.
+     */
+    public function rewrite_pluginfile_urls($text, $component, $filearea, $itemid) {
+        return $text;
+    }
 }

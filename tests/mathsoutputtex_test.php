@@ -14,6 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_maths;
+use stack_utils;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
@@ -26,6 +32,7 @@ require_once(__DIR__ . '/../doc/docslib.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_maths_output_tex
  */
 class mathsoutputtex_test extends qtype_stack_testcase {
 
@@ -47,10 +54,9 @@ class mathsoutputtex_test extends qtype_stack_testcase {
                 .'<a .*alt="x\^2".*</(a|script)> \.</p>\n$~',
                 stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).'));
 
-        // Test docs - make sure maths inside <textarea> is not rendered, and <textarea> is retained.
-        $expectation = '<p><textarea readonly="readonly" rows="3" cols="50">' . "\n" .
-            'Differentiate \[x^2 + y^2\] with respect to \(x\).</textarea></p>' . "\n";
-        $this->assertEquals($expectation,
+        // Test docs - make sure maths inside <textarea> is not rendered.
+        $this->assertMatchesRegularExpression('~^<p>.*\n' .
+                'Differentiate \\\\\\\\\[x\^2 \+ y\^2\\\\\\\\\] with respect to \\\\\\\\\(x\\\\\\\\\)\..*</p>\n$~',
                 stack_docs_render_markdown('<textarea readonly="readonly" rows="3" cols="50">' . "\n" .
                         'Differentiate \[x^2 + y^2\] with respect to \(x\).</textarea>'));
 

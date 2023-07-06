@@ -130,7 +130,7 @@ foreach ($questions as $id) {
         $urlparams['category'] .= ',' . $question->contextid;
         $questionbanklink = (new moodle_url('/question/edit.php', $urlparams))->out(false);
         $question->seed = 0;
-        if ($question->validate_against_stackversion() !== '') {
+        if ($question->validate_against_stackversion($context) !== '') {
             cli_writeln(' Upgrade issues in ' . $id->id . ': ' . $question->name);
             $fails = true;
         }
@@ -159,6 +159,7 @@ foreach ($questions as $id) {
         $options->readonly = true;
         $options->flags = question_display_options::HIDDEN;
         $options->suppressruntestslink = true;
+        $question->castextprocessor = new castext2_qa_processor($quba->get_question_attempt($slot));
 
         // Create the question text, question note and worked solutions.
         // This involves instantiation, which may fail.
@@ -171,7 +172,7 @@ foreach ($questions as $id) {
         try {
             if (trim($question->generalfeedback) !== '') {
                 $workedsolution = $question->get_generalfeedback_castext();
-                $workedsolution->get_display_castext();
+                $workedsolution->get_rendered($question->castextprocessor);
             }
         } catch (Exception $erendersolution) {
             cli_writeln(' Solution render issues in ' . $id->id . ': ' . $question->name);

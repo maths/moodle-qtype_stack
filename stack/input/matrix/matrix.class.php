@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * A basic text-field input.
  *
@@ -30,7 +28,9 @@ class stack_matrix_input extends stack_input {
         'nounits' => false,
         'simp' => false,
         'allowempty' => false,
-        'consolidatesubscripts' => false
+        'consolidatesubscripts' => false,
+        'checkvars' => 0,
+        'validator' => false
     );
 
     public function adapt_to_model_answer($teacheranswer) {
@@ -80,7 +80,7 @@ class stack_matrix_input extends stack_input {
         $allblank = true;
         foreach ($contents as $row) {
             foreach ($row as $val) {
-                if (!('' == trim($val) or '?' == $val or 'null' == $val)) {
+                if (!('' == trim($val) || '?' == $val || 'null' == $val)) {
                     $allblank = false;
                 }
             }
@@ -238,10 +238,14 @@ class stack_matrix_input extends stack_input {
 
         $tc = $state->contents;
         $blank = $this->is_blank_response($state->contents);
+        $useplaceholder = false;
         if ($blank) {
             $syntaxhint = $this->parameters['syntaxHint'];
             if (trim($syntaxhint) != '') {
                 $tc = $this->maxima_to_array($syntaxhint);
+                if ($this->parameters['syntaxAttribute'] == '1') {
+                    $useplaceholder = true;
+                }
                 $blank = false;
             }
         }
@@ -283,8 +287,12 @@ class stack_matrix_input extends stack_input {
                 if ($val === 'null' || $val === 'EMPTYANSWER') {
                     $val = '';
                 }
+                $field = 'value';
+                if ($useplaceholder) {
+                    $field = 'placeholder';
+                }
                 $name = $fieldname.'_sub_'.$i.'_'.$j;
-                $xhtml .= '<td><input type="text" name="'.$name.'" value="'.$val.'" size="'.
+                $xhtml .= '<td><input type="text" id="'.$name.'" name="'.$name.'" '.$field.'="'.$val.'" size="'.
                         $this->parameters['boxWidth'].'"'.$attr.'></td>';
             }
 

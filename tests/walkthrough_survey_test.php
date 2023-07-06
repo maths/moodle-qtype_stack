@@ -14,6 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_walkthrough_test_base;
+use question_state;
+use question_pattern_expectation;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -30,13 +36,14 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * @group qtype_stack
+ * @covers \qtype_stack
  */
 class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
 
     public function test_neither_inputs_nor_prts() {
 
         // Create the stack question 'test0'.
-        $q = test_question_maker::make_question('stack', 'information');
+        $q = \test_question_maker::make_question('stack', 'information');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         // Check the right behaviour is used.
@@ -87,7 +94,7 @@ class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
     public function test_no_prts_left_blank() {
 
         // Create the stack question 'test0'.
-        $q = test_question_maker::make_question('stack', 'survey');
+        $q = \test_question_maker::make_question('stack', 'survey');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
         // Check the right behaviour is used.
@@ -121,7 +128,7 @@ class walkthrough_survey_test extends qtype_stack_walkthrough_test_base {
     public function test_no_prts_answered() {
 
         // Create the stack question 'test0'.
-        $q = test_question_maker::make_question('stack', 'survey');
+        $q = \test_question_maker::make_question('stack', 'survey');
         $this->start_attempt_at_question($q, 'interactive', 1);
 
         // Check the right behaviour is used.

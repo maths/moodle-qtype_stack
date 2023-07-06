@@ -14,14 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Base class for Stack unit tests.
- *
- * @package    qtype_stack
- * @copyright  2012 The Open University
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -30,7 +22,7 @@ require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 
 
 /**
- * Base class for Stack unit tests. If you subclass this class, then code that
+ * Base class for STACK unit tests. If you subclass this class, then code that
  * needs to call maxima will work (providing you have set up the neccessary
  * defines in phpunit.xml.
  *
@@ -170,16 +162,28 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
     /**
      * Different versions of Maxima output floats in slighly different ways.
-     * Revert some of those irrelevant differences.
-     * We always expect the E in 3.0E8 to be upper case.
-     * Upper case is used to avoid a conflict with the base of the natural logarithms.
+     * Normalise some of those irrelevant differences.
+     *
+     * 1. Normalise E in 3.0E8 to be upper case (to avoid conflict with Euler's Number)
+     * 2. Normalise the coefficient to be < 10
+     *
+     * For example, the string: "Avogadro's number is 60.220e22 and the speed of light
+     * is about 30e7" will be normalised to "Avagardo's number is 6.022E23 and the speed
+     * of light is about 3E8".
+     *
+     * It also preserves the number of decimals and presence of a '+' sign.
+     * For example 30.0e9 becomes 3.0E10 and 3e+10 becomes 3E+11.
      */
     public static function prepare_actual_maths_floats($content) {
-
-        // We don't add in a trailing zero at this point as that would break a decimal places display function test.
-        $content = preg_replace('~(-?\b\d+(?:\.\d*)?)e([-+]?\d+\b)~', '$1E$2', $content);
-
-        return $content;
+        return preg_replace_callback(
+            '~(-?\b\d+(?:\.\d*)?)[eE]([-+]?\d+\b)~',
+            function(array $matches): string {
+                $decimals = strlen(explode('.', $matches[1])[1] ?? '') ?: 0;
+                $fixedbase = sprintf("%.{$decimals}E", (float)$matches[0]);
+                return strpos($matches[2], '+') !== false ? $fixedbase : str_replace('+', '', $fixedbase);
+            },
+            $content
+        );
     }
 
     /**
@@ -190,10 +194,10 @@ abstract class qtype_stack_testcase extends advanced_testcase {
     public function assert_equals_ignore_spaces_and_e(string $expected, string $actual) {
 
         // Data gathered on 26/06/2021.
-        // Maxima 5.38.0 SBCL 1.2.4.debian.                1.0e-5
-        // Maxima 5.43.2 SBCL 1.4.14 (x86_64-w64-mingw32). 1.0e-5
-        // Maxima 5.42.1 GCL 2.6.12.                       1.0E-5
-        // Maxima 5.44.0 CLISP 2.49 (2010-07-07).          1.0E-5
+        // Maxima 5.38.0 SBCL 1.2.4.debian.                1.0e-5.
+        // Maxima 5.43.2 SBCL 1.4.14 (x86_64-w64-mingw32). 1.0e-5.
+        // Maxima 5.42.1 GCL 2.6.12.                       1.0E-5.
+        // Maxima 5.44.0 CLISP 2.49 (2010-07-07).          1.0E-5.
 
         $e = trim(preg_replace('/[\t\n\r\s]+/', ' ', $expected));
         $a = trim(preg_replace('/[\t\n\r\s]+/', ' ', $actual));
@@ -206,6 +210,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
         $this->assertEquals($e, $a);
     }
 
+    // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
         // TODO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
@@ -214,7 +219,9 @@ abstract class qtype_stack_testcase extends advanced_testcase {
             parent::assertRegExp($pattern, $string);
         }
     }
+    // phpcs:enable
 
+    // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void {
         // TODO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertDoesNotMatchRegularExpression')) {
@@ -223,18 +230,19 @@ abstract class qtype_stack_testcase extends advanced_testcase {
             parent::assertNotRegExp($pattern, $string);
         }
     }
+    // phpcs:enable
 }
 
 
 /**
- * Base class for Stack walkthrough tests.
+ * Base class for STACK walkthrough tests.
  *
  * Sets up the Maxima connection, and provides some additional asserts.
  *
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_test_base {
+abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough_test_base {
     protected $currentoutput = null;
 
     public function setUp() :void {
@@ -258,28 +266,31 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         $question = $this->quba->get_question($this->slot);
         $attempt  = $this->quba->get_question_attempt($this->slot);
         $qa       = $attempt->get_last_qt_data();
+        if (!array_key_exists($index, $question->prts)) {
+            throw new Exception("The PRT $index does not exist in this question!");
+        }
         $result   = $question->get_prt_result($index, $qa, $finalsubmit);
 
         if (is_null($score)) {
-            $this->assertNull($result->score);
+            $this->assertNull($result->get_score());
         } else {
             if ($score == 0) {
                 // PHP will think a null and are equal, so explicity check not null.
-                $this->assertNotNull($result->score);
+                $this->assertNotNull($result->get_score());
             }
-            $this->assertEquals($score, $result->score, 'Wrong score.  The PRT returned ' .
-                    $result->score . ' but we expected ' . $score . '.');
+            $this->assertEquals($score, $result->get_score(), 'Wrong score.  The PRT returned ' .
+                    $result->get_score() . ' but we expected ' . $score . '.');
         }
 
         if (is_null($penalty)) {
-            $this->assertNull($result->penalty);
+            $this->assertNull($result->get_penalty());
         } else {
             if ($penalty == 0) {
                 // PHP will think a null and are equal, so explicity check not null.
-                $this->assertNotNull($result->penalty);
+                $this->assertNotNull($result->get_penalty());
             }
-            $this->assertEquals($penalty, $result->penalty, 'Wrong penalty.  The PRT returned ' .
-                    $result->penalty . ' but we expected ' . $penalty . '.');
+            $this->assertEquals($penalty, $result->get_penalty(), 'Wrong penalty.  The PRT returned ' .
+                    $result->get_penalty() . ' but we expected ' . $penalty . '.');
         }
     }
 
@@ -289,7 +300,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         $qa       = $attempt->get_last_qt_data();
         $result   = $question->get_prt_result($index, $qa, false);
 
-        $this->assertEquals($note, implode(' | ', $result->__get('answernotes')));
+        $this->assertEquals($note, implode(' | ', $result->get_answernotes()));
     }
 
     protected function check_response_summary($note) {
@@ -297,6 +308,16 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         $attempt  = $this->quba->get_question_attempt($this->slot);
         $qs = $attempt->get_last_step();
         $this->assertEquals($note, $qs->get_new_response_summary());
+    }
+
+    /*
+     * This function is needed because Maxima versions generate different error messages.
+     */
+    protected function check_response_summary_contains($note) {
+        $question = $this->quba->get_question($this->slot);
+        $attempt  = $this->quba->get_question_attempt($this->slot);
+        $qs = $attempt->get_last_step();
+        $this->assertTrue((strpos($qs->get_new_response_summary(), $note) !== false));
     }
 
     protected function check_output_contains_text_input($name, $value = null, $enabled = true) {
@@ -452,6 +473,7 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
         $this->assertEquals($expected, $actual);
     }
 
+    // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
         // TODO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
@@ -460,7 +482,9 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
             parent::assertRegExp($pattern, $string);
         }
     }
+    // phpcs:enable
 
+    // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void {
         // TODO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertDoesNotMatchRegularExpression')) {
@@ -469,4 +493,5 @@ abstract class qtype_stack_walkthrough_test_base extends qbehaviour_walkthrough_
             parent::assertNotRegExp($pattern, $string);
         }
     }
+    // phpcs:enable
 }

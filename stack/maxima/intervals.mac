@@ -203,13 +203,7 @@ inintervalp(p, A) := block ([Ans, Args, x, y, Atemp, cc:cc(0,1), oo:oo(0,1), co:
         Ans
 )$
 
-intervalp(X) := block([A:X, cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1)],
-    if atom(A) then return(false),
-
-    cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
-    if (op(A)=cc or op(A)=oo or op(A)=co or op(A)=oc) then return(true),
-    false
-)$
+intervalp(X) := if (safe_op(X)="cc" or safe_op(X)="oo" or safe_op(X)="oc" or safe_op(X)="co") then true else false$
 
 realsetp(ex) := block(
     if is(ex=all) then return(true),
@@ -550,6 +544,8 @@ interval_intersect(X,Y) := block([A, B, Ans:[], temp, m, n, i:1, j:1],
     if is(B=all) then return(A),
     if atom(A) then return({}),
     if atom(B) then return({}),
+    if is(A={}) then return({}),
+    if is(B={}) then return({}),
 
     if op(A)=%union then A:args(A),
     if op(B)=%union then B:args(B),
@@ -796,7 +792,9 @@ interval_set_complement(X):= block([A:X, Ans:[], temp, n, i:1],
     apply(%union, Ans)
 )$
 
-/* Turns a single variable system over the reals in to a set of real numbers, together with insoluable bits (if any). */
+
+
+/* Turns a single variable system over the reals into a set of real numbers, together with insoluable bits (if any). */
 single_variable_solver_real(ex) := block([v, rs1, rs2],
     if is(ex=false) then return(none),
     if is(ex=true) then return(all),
@@ -812,6 +810,7 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
     if not(length(v)=1) then return(ex),
     v:first(v),
     ex:abs_replace_eq(ex),
+    ex:stack_noteq_single_remove(ex),
     ex:subst("%and", "nounand", ex),
     ex:subst("%or", "nounor", ex),
     /* %not is not an infix operator... */
@@ -839,8 +838,7 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
 
     rs1:ex,
     rs2:false,
-    if safe_op(ex)="%or" then block
-        (
+    if safe_op(ex)="%or" then block(
         rs1:ev(sublist(args(ex), realset_soft_p), simp),
         rs2:ev(sublist(args(ex), lambda([ex2], not realset_soft_p(ex2))), simp),
         if is(length(rs1)=1) then rs1:first(rs1),
@@ -863,6 +861,7 @@ single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
     /* Equations should look real. */
     if not(freeof(%i,ex)) then return(ex),
 
+    if equationp(ex) then ex:subst("%or", "nounor", pm_replace(ex)),
     if equationp(ex) then return(ev(equation_to_intervals(ex, v), simp)),
     if linear_inequalityp(ex) then return(ev(linear_inequality_to_interval(ex), simp)),
 
@@ -881,7 +880,7 @@ single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
 )$
 
 equation_to_intervals(ex, v) := block([sol0, sol1, sol2],
-    sol0:solve(ex, v),
+    sol0:radcan(solve(ex, v)),
     if sol0=[] then return({}),
     if logic_edgep(sol0) then return(sol0),
     /* We need the "freeof" clause to catch rearrangements of equations. */

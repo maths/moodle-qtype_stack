@@ -55,11 +55,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     private $validationcontext = null;
 
     /**
-     * @var string Used by the testing setup only.
-     */
-    private $testclean;
-
-    /**
      * AST value coming back from CAS.
      */
     private $evaluated;
@@ -81,7 +76,9 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         if ('' == trim($err)) {
             return false;
         } else {
-            $this->errors[] = $err;
+            // Force validation first so that all the errors are in the same form.
+            $this->get_valid();
+            $this->errors[] = new $this->errclass($err, $this->get_source_context());
             // Old behaviour was to return the combined errors, but apparently it was not used in master?
             // TODO: maybe remove the whole return?
             return $this->get_errors();
@@ -118,13 +115,16 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
         $validationmethod = $this->validationcontext['validationmethod'];
 
-        $vcmd = 'stack_validate(['.$starredanswer.'], '.$lowestterms.','.$tans.','.$fltfmt.')';
+        $checkvars = $this->validationcontext['checkvars'];
+
+        $vcmd = 'stack_validate(['.$starredanswer.'], '.$lowestterms.','.$tans.','.$fltfmt.','.$checkvars.')';
         if ($validationmethod == 'typeless') {
-            // Note, we don't pass in the teacher's as this option is ignored by the typeless validation.
-            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', false,'.$fltfmt.')';
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.','.$tans.','.
+                $fltfmt.','.$checkvars.', false)';
         }
         if ($validationmethod == 'equiv') {
-            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.', true,'.$fltfmt.')';
+            $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.','.$tans.','.
+                $fltfmt.','.$checkvars.', true)';
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
@@ -177,7 +177,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
     // If we "CAS validate" this string, then we need to set various options.
     // If the teacher's answer is null then we use typeless validation, otherwise we check type.
-    public function set_cas_validation_context($vname, $lowestterms, $tans, $validationmethod, $simp) {
+    public function set_cas_validation_context($vname, $lowestterms, $tans, $validationmethod, $simp, $checkvars) {
 
         if (!($validationmethod == 'checktype' || $validationmethod == 'typeless' || $validationmethod == 'units'
                 || $validationmethod == 'unitsnegpow' || $validationmethod == 'equiv')) {
@@ -189,7 +189,8 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
             'lowestterms'      => $lowestterms,
             'tans'             => $tans,
             'validationmethod' => $validationmethod,
-            'simp'             => $simp
+            'simp'             => $simp,
+            'checkvars'        => $checkvars,
         );
     }
 
@@ -201,7 +202,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         if (null === $this->evaluated) {
             throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
         }
-        return $this->ast_to_string($this->evaluated);
+        return $this->ast_to_string($this->evaluated, array('checkinggroup' => true));
     }
 
     /* This function returns something a teacher might claim a student types in.
@@ -262,6 +263,25 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         return $ast;
     }
 
+    /**
+     * For when you want to look at the AST after basic filters and
+     * don't care about multiple statements or comments.
+     */
+    public function get_commentles_primary_statement() {
+        $commentfilter = stack_parsing_rule_factory::get_by_common_name('901_remove_comments');
+        $ast = clone $this->ast;
+        $dummya = [];
+        $dummyb = [];
+        $ast = $commentfilter->filter($ast, $dummyb, $dummya, new stack_cas_security());
+        if ($ast instanceof MP_Root) {
+            // After removal of comments should be the first.
+            $ast = $ast->items[0];
+            // The evaluation-flag transformation has already happened.
+            $ast = $ast->statement;
+        }
+        return $ast;
+    }
+
     public function add_answernote($val) {
         $this->answernotes[] = $val;
     }
@@ -299,17 +319,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     }
 
     /**
-     * Replace the ast, with a human readable value, so we can test equality cleanly and dump values.
-     */
-    public function test_clean() {
-        if ($this->ast) {
-            $this->testclean = $this->ast->toString(array('nosemicolon' => true));
-        }
-        $this->ast = null;
-        return true;
-    }
-
-    /**
      * Cloning is complex when we have object references.
      */
     public function __clone() {
@@ -317,5 +326,56 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         if ($this->evaluated) {
             $this->evaluated = clone $this->evaluated;
         }
+    }
+
+    /**
+     * Identify simplification modifications. For #849.
+     * The identified value is not trustworthy and only gives a hint of
+     * the last seen mod, this will not work with references or conditionals.
+     * Should be good enough for CASText.
+     */
+    public function identify_simplification_modifications(): array {
+        $r = [
+            'simp-accessed' => false,
+            'simp-modified' => false,
+            'last-seen' => null,
+            'out-of-ev-write' => false
+        ];
+
+        // Ensure depth with a group.
+        $ast = new MP_Group([$this->get_commentles_primary_statement()]);
+
+        $seek = function($node) use (&$r) {
+            if ($node instanceof MP_Identifier && $node->value === 'simp') {
+                $r['simp-accessed'] = true;
+                if ($node->parentnode instanceof MP_Operation && ($node->parentnode->op === ':' ||
+                        $node->parentnode->op === '=') && $node->parentnode->lhs === $node) {
+                    $r['simp-modified'] = true;
+                    $val = $node->parentnode->rhs;
+                    if ($val instanceof MP_Boolean) {
+                        $r['last-seen'] = $val->value;
+                    }
+                }
+                if ($node->parentnode instanceof MP_FunctionCall && $node->parentnode->name instanceof MP_Atom &&
+                        $node->parentnode->name->value === 'ev') {
+                    if (array_search($node, $node->parentnode->arguments, true) > 0) {
+                        $r['last-seen'] = true;
+                    }
+                }
+                if ($node->parentnode instanceof MP_Operation && $node->parentnode->op === ':' &&
+                        $node->parentnode->lhs === $node && !($node->parentnode->parentnode instanceof MP_FunctionCall &&
+                        $node->parentnode->parentnode->name instanceof MP_Atom &&
+                        $node->parentnode->parentnode->name->value === 'ev')) {
+                    // Not perfect but should identify if a modification
+                    // is not part of 'ev' definitions. Still false positives
+                    // if done within an `ev` that holds `simp` itself.
+                    $r['out-of-ev-write'] = true;
+                }
+            }
+            return true;
+        };
+        $ast->callbackRecurse($seek);
+
+        return $r;
     }
 }

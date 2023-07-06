@@ -164,7 +164,10 @@ unary_minus_remove(ex):= block(
 )$
 
 equals_commute_prepare(ex):=block([ex1n],
-    ex1n:subst(nounset, set, ex),
+    /* We need to strip out any internal simplification. */
+    ex1n:parse_string(string(ex)),
+
+    ex1n:subst(nounset, set, ex1n),
     ex1n:noun_arith_full(ex1n),
     ex1n:flatten_recurse_nouns(ex1n),
     ex1n:sort_nouns(ex1n),
@@ -198,18 +201,19 @@ ATEqualComAss(sa, sb) :=
     if (is(SBB=[STACKERROR]) or is(SBB=[])) then
         return([false,false,StackAddNote("", "ATEqualComAss_STACKERROR_TAns"), ""]),
 
-    sa:remove_stackeq(sa),
-    sb:remove_stackeq(sb),
-
+    /* We need a copy here because lists are passed by reference and the coloring of incorrect entries
+       causes problems when the values are used later in a PRT.  This problem did not occur with single call answer tests. */
+    SAA:remove_stackeq(copy(sa)),
+    SBB:remove_stackeq(copy(sb)),
     /* We need to check things are of the same type */
-    ret:ATSameTypefun(sa,sb),
+    ret:ATSameTypefun(SAA, SBB),
     if ret[2]=false then
         (ret[3]:StackAddNote("ATEqualComAss ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
-    ret:block([simp:true, ret], ATAlgEquiv(sa, sb)),
+    ret:block([simp:true, ret], ATAlgEquiv(SAA, SBB)),
     if ret[2]=false then
         (ret[3]:StackAddNote("ATEqualComAss (AlgEquiv-false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
     /* Now actually apply this test */
-    if equals_commute_associate(sa, sb) then
+    if equals_commute_associate(SAA, SBB) then
         (RawMark:true, AnswerNote:"")
     else
         (RawMark:false, AnswerNote:StackAddNote("","ATEqualComAss (AlgEquiv-true)")),
@@ -252,31 +256,31 @@ ATEqualComAssRules(sa, sb, so) :=
     if any_listp(lambda([ex], ev(subsetp(ex, setify(so)), simp) ), INCOMPATIBLE_TRANS) then
         return([false,false,StackAddNote("", "ATEqualComAssRules_Opt_Incompatible"), StackAddFeedback("", "ATEqualComAssRules_Opt_Incompatible")]),
 
-    sa:remove_stackeq(sa),
-    sb:remove_stackeq(sb),
+    SAA:remove_stackeq(copy(sa)),
+    SBB:remove_stackeq(copy(sb)),
 
     /* We need to check things are of the same type */
-    ret:ATSameTypefun(sa,sb),
+    ret:ATSameTypefun(SAA, SBB),
     if ret[2]=false then
         (ret[3]:StackAddNote("ATEqualComAssRules ", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ret[4]]) ),
-    ret:block([simp:true, ret], ATAlgEquiv(sa, sb)),
+    ret:block([simp:true, ret], ATAlgEquiv(SAA, SBB)),
     /* If they are not algebraically equivalent then we bail. */
     if ret[2]=false then
         (ret[3]:StackAddNote("ATEqualComAssRules (AlgEquiv-false)", StackTrimNote(ret[3])), return([false, ret[2], ret[3], ""])),
 
     /* Put the expressions in basic form. */
-    sa:equals_commute_prepare(sa),
-    sb:equals_commute_prepare(sb),
+    SAA:equals_commute_prepare(SAA),
+    SBB:equals_commute_prepare(SBB),
 
-    if debug then print(["Transforming",sa]),
-    sa:transl(sa, so),
-    if debug then print(["Transforming",sb]),
-    sb:transl(sb, so),
+    if debug then print(["Transforming", SAA]),
+    SAA:transl(SAA, so),
+    if debug then print(["Transforming", SBB]),
+    SBB:transl(SBB, so),
 
     AnswerNote:"",
-    if debugtest then AnswerNote:StackAddNote("ATEqualComAssRules: ", string([sa, sb])),
+    if debugtest then AnswerNote:StackAddNote("ATEqualComAssRules: ", string([SAA, SBB])),
     /* Now actually apply this test */
-    if is(sa=sb) then
+    if is(SAA = SBB) then
         RawMark:true
     else
         RawMark:false,
@@ -290,7 +294,7 @@ NEG_TRANS:[negNeg, negDiv, negOrd]$
 INT_ARITH:[intAdd, intMul, intPow]$
 DIV_TRANS:[recipMul, divDiv, divCancel]$
 
-ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist])$
+ALL_TRANS:append(ALG_TRANS, ID_TRANS, NEG_TRANS, DIV_TRANS, INT_ARITH, [intFac, negDist, sqrtRem])$
 
 /* Set up a hash table of functions and their corresponding predicate. */
 ALL_TRANSP[assAdd] : assAddp$
@@ -320,6 +324,8 @@ ALL_TRANSP[intAdd] : intAddp$
 ALL_TRANSP[intMul] : intMulp$
 ALL_TRANSP[intPow] : intPowp$
 ALL_TRANSP[intFac] : intFacp$
+
+ALL_TRANSP[sqrtRem] : sqrtRemp$
 
 /* These rules are not included in ALL_TRANS. */
 ALL_TRANSP[mminusInt] : mminusIntp$
@@ -601,6 +607,14 @@ divCancel(ex) := block([ex1, ex2, ex3],
   if length(ex1)=1 then return(first(ex1)),
   return(apply("nounmul", ex1))
 )$ 
+
+/**********************************************************/
+/* Dealing with powers.                                   */
+
+/* Remove the square root function. */
+sqrtRemp(ex):= is(safe_op(ex)="sqrt")$
+sqrtRem(ex):=first(ex) nounpow (1 nounmul UNARY_RECIP(2))$
+
 
 /**********************************************************/
 /* We either have an integer, or "UNARY_MINUS * integer". */

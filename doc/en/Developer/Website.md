@@ -8,7 +8,7 @@ Instructions for updating the main website [www.stack-assessment.org](https://ww
 
 ## Framework
 
-The website is built using [MkDocs](https://www.mkdocs.org/), a static site generator which converts STACK documentation, within the `/doc` directory, into HTML files and pushes them to the `gh-pages` branch. The website structure mirrors the file structure: the file `doc/en/Authoring/Answer_tests.md` will be available on `docs.stack-assessment.org/en/Authoring/Answer_tests/`. Every sub-folder has an `index.md` file that will take that folder's name on the website: `doc/en/Authoring/index.md` will be available on `docs.stack-assessment.org/en/Authoring/`.
+The website is built using [MkDocs](https://www.mkdocs.org/), a static site generator which converts STACK documentation, within the `/doc` directory, into HTML files and pushes them to the `gh-pages` branch. The website structure mirrors the file structure: the file `doc/en/Authoring/Answer_Tests/index.md` will be available on `docs.stack-assessment.org/en/Authoring/Answer_tests/`. Every sub-folder has an `index.md` file that will take that folder's name on the website: `doc/en/Authoring/index.md` will be available on `docs.stack-assessment.org/en/Authoring/`.
 
 MkDocs is configured in the `mkdocs.yml` file. MkDocs has a full list of [available configuration options](https://www.mkdocs.org/user-guide/configuration/). MkDocs can either generate the navigation bar automatically, or accept a custom navigation configuration in the `nav` variable. The online docs uses the first option. The advantage is that new files are automatically added to the navigation bar when they are added to the repository. The disadvantage is that we cannot tweak the navigation bar manually. The online docs get around this with a number of workarounds.
 
@@ -44,7 +44,7 @@ When you change the documentation, the website automatically updates as well. Th
 
 ### Updating the style
 
-The online docs uses a custom [CSS stylesheet](../../../custom.css) which you can edit. This stylesheet builds upon the stylesheets of MkDocs and Material.
+The online docs uses a custom [CSS stylesheet](https://github.com/maths/moodle-qtype_stack/blob/master/doc/custom.css) which you can edit. This stylesheet builds upon the stylesheets of MkDocs and Material.
 
 You can also edit the theme directly. Any file in the `site_overrides` folder will override files of the same name in [Material's directory](https://github.com/squidfunk/mkdocs-material/tree/master/material). The `main.html` file is designed to make it easy to override some [predetermined blocks](https://squidfunk.github.io/mkdocs-material/customization/#overriding-blocks), but sometimes it is necessary to override files directly. Notice we directly override some of [Material's partials](https://github.com/squidfunk/mkdocs-material/tree/master/material/partials).
 

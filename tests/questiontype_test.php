@@ -14,6 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack;
+use qtype_stack_walkthrough_test_base;
+use stack_potentialresponse_tree_state;
+use stack_question_test;
+use test_question_maker;
+use question_possible_response;
+use question_check_specified_fields_expectation;
+use context_system;
+use stdClass;
+use function stack_utils\get_config;
+use qformat_xml;
+
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -30,6 +45,7 @@ require_once(__DIR__ . '/../questiontype.php');
 
 /**
  * @group qtype_stack
+ * @covers \qtype_stack
  */
 class questiontype_test extends qtype_stack_walkthrough_test_base {
 
@@ -110,11 +126,6 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $expectedq->stamp = $q->stamp;
         $expectedq->version = $q->version;
         $expectedq->timemodified = $q->timemodified;
-
-        $eprts = $expectedq->prts;
-        foreach ($q->prts as $key => $prt) {
-            $this->assertEquals($eprts[$key]->get_maxima_representation(), $prt->get_maxima_representation());
-        }
         $expectedq->prts = null;
         $q->prts = null;
         $this->assertEquals($expectedq, $q);
@@ -136,19 +147,19 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $seed = 1;
 
         $testcases = array();
-        $qtest = new stack_question_test(array('ans1' => 'x^3'));
+        $qtest = new stack_question_test('', array('ans1' => 'x^3'));
         $qtest->add_expected_result('odd', new stack_potentialresponse_tree_state(
                 1, true, 1, 0, '', array('odd-1-T')));
         $testcases[] = $qtest;
 
-        $qtest = new stack_question_test(array('ans1' => 'x^2'));
+        $qtest = new stack_question_test('', array('ans1' => 'x^2'));
         $qtest->add_expected_result('odd', new stack_potentialresponse_tree_state(
                 1, true, 0, 0.4, '', array('odd-1-F')));
         $testcases[] = $qtest;
 
         // This unit test runs a question test, with an input name as
         // the expected answer, which should work.
-        $qtest = new stack_question_test(array('ans2' => 'ans2'));
+        $qtest = new stack_question_test('', array('ans2' => 'ans2'));
         $qtest->add_expected_result('even', new stack_potentialresponse_tree_state(
                 1, true, 1, 0, '', array('even-1-T')));
 
@@ -181,7 +192,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>' . get_config('qtype_stack', 'version') . '</text>
+      <text>' . \get_config('qtype_stack', 'version') . '</text>
     </stackversion>
     <questionvariables>
       <text></text>
@@ -192,6 +203,9 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <questionnote>
       <text></text>
     </questionnote>
+    <questiondescription format="html">
+      <text>This is a rather wonderful question!</text>
+    </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
@@ -239,6 +253,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description></description>
         <answertest>EqualComAss</answertest>
         <sans>ans1</sans>
         <tans>2</tans>
@@ -265,6 +280,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <deployedseed>12345</deployedseed>
     <qtest>
       <testcase>1</testcase>
+      <description>Basic test of question</description>
       <testinput>
         <name>ans1</name>
         <value>2</value>
@@ -473,7 +489,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
 
         $expectedq->deployedseeds = array('12345');
 
-        $qtest = new stack_question_test(array('ans1' => '2'), 1);
+        $qtest = new stack_question_test('', array('ans1' => '2'), 1);
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
                         1, true, 1, 0, '', array('firsttree-1-T')));
         $expectedq->testcases[1] = $qtest;

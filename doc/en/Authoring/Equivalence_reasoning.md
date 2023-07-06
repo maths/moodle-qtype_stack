@@ -62,6 +62,8 @@ We need to tell STACK to compare the first line of the student's working to the 
 Type `firstline` into the Extra options box within the `Input:ans1` header.
 This ensures a student's response will be invalid if they don't have the correct first line.
 
+`firstline` can also be used in the Syntax hint box. The first line is then already written in the answer-field when the student opens the question.
+
 ### Setting the potential response tree ###
 
 As a minimal potential response tree have one node, with 

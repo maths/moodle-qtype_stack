@@ -38,7 +38,7 @@ This question creates two random matrices and asks students to multiply them tog
 
 Given a complex number \(z=ae^{ib}\) determine \(|z^{n}|\) and \(\arg(z^{n})\).  Where \(a\), \(b\) and \(n\) are randomly generated numbers.
 
-See the [authoring quick start 7](Authoring_quick_start_7.md).
+See the [authoring quick start 7](/AbInitio/Authoring_quick_start_7.md).
 
 ### `test_5_cubic-spline` ###
 
@@ -69,13 +69,13 @@ This file contains two example multiple choice questions. (Not the place to star
 
 ## `v4-syntax-samples.xml` ##
 
-With v4.0 of STACK the CASText parts of the question gain blocks which allow the text to contain segments that are evaluated further and which may have parameters that define their behaviour.  See the specific documentation about [blocks](Question_blocks.md) for more details.
+With v4.0 of STACK the CASText parts of the question gain blocks which allow the text to contain segments that are evaluated further and which may have parameters that define their behaviour.  See the specific documentation about [blocks](Question_blocks/index.md) for more details.
 
 ## Open Educational Resources ##
 
 * The FETLAR project released a large collection of STACK questions in English covering calculus and algebra in April 2010.  These are now part of the [demonstration course](https://stack2.maths.ed.ac.uk/demo2018/).
 * Questions to cover all parts of the [The Map of Algebraic Manipulation](http://www.mth.kcl.ac.uk/staff/ad_barnard/Pocket.pdf).
-* Questions to cover all of the [Calculus Refresher](../../content/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
+* Questions to cover all of the [Calculus Refresher](https://docs.stack-assessment.org/content/final0502-calc-ref-ukmlsc.pdf) by Dr Tony Croft and Dr Anthony Kay.
 
 Abacus is a material bank for STEM education which seeks to produce, share and host high-quality educational material between collaborators.  For more information see [https://abacus.aalto.fi/](https://abacus.aalto.fi/)
 

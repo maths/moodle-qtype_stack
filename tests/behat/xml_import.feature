@@ -14,12 +14,10 @@ Feature: Test importing STACK questions from Moodle XML files.
     And the following "course enrolments" exist:
       | user    | course | role           |
       | teacher | C1     | editingteacher |
-    And I log in as "teacher"
-    And I am on "Course 1" course homepage
 
   @javascript @_file_upload
   Scenario: import a STACK question from a Moodle XML file
-    When I navigate to "Question bank > Import" in current page administration
+    When I am on the "Course 1" "core_question > course question import" page logged in as "teacher"
     And I set the field "id_format_xml" to "1"
     And I upload "question/type/stack/samplequestions/sample_questions.xml" file to "Import" filemanager
     And I press "id_submitbutton"
@@ -30,8 +28,7 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I should see "test_5_cubic_spline"
 
     # Now export again.
-    And I am on "Course 1" course homepage
-    And I navigate to "Question bank > Export" in current page administration
+    And I am on the "Course 1" "core_question > course question export" page
     And I set the field "id_format_xml" to "1"
     And I press "Export questions to file"
     And following "click here" should download between "50000" and "70000" bytes

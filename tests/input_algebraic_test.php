@@ -14,6 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_cas_security;
+use stack_input;
+use stack_input_factory;
+use stack_input_state;
+use stack_options;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -29,6 +38,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_algebraic_input
  */
 class input_algebraic_test extends qtype_stack_testcase {
 
@@ -271,7 +281,7 @@ class input_algebraic_test extends qtype_stack_testcase {
     }
 
     public function test_validate_student_response_ex() {
-        /* The variable ex is used an argument to some Maxima functions and as a local variable. */
+        // The variable ex is used an argument to some Maxima functions and as a local variable.
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '3*ex+2*ey+5*ez');
         $state = $el->validate_student_response(array('sans1' => '3*ex+2*ey+5*ez'), $options,
@@ -833,6 +843,17 @@ class input_algebraic_test extends qtype_stack_testcase {
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 
+    public function test_validate_ln() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '3 ln 19');
+        $el->set_parameter('insertStars', 4);
+        $state = $el->validate_student_response(array('sans1' => '3 ln 19'), $options, '3*ln(19)', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('spaces | forbiddenVariable', $state->note);
+        $this->assertEquals('3*ln*19', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">3 ln 19</span>', $state->contentsdisplayed);
+    }
+
     public function test_validate_set_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '{a,b,c}');
@@ -1368,7 +1389,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => $sa), $options, '%union({3,4,5})',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::INVALID);
-        $this->assertEquals('spaces | forbiddenChar', $state->note);
+        $this->assertEquals('spaces | forbiddenChar_parserError', $state->note);
         $this->assertEquals('CAS commands may not contain the following characters: ;.', $state->errors);
         $this->assertEquals('', $state->contentsmodified);
         $this->assertEquals($ta, $state->contentsdisplayed);
@@ -1557,6 +1578,20 @@ class input_algebraic_test extends qtype_stack_testcase {
                 . '<code>(1,-1)</code>', $el->get_teacher_answer_display('ntuple(1,-1)', '\left(1, -1\right)'));
     }
 
+    public function test_validate_student_response_ntuple_forbid() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '[1,2]');
+        $el->set_parameter('forbidWords', 'ntuple');
+        $state = $el->validate_student_response(array('sans1' => '(1,2)'), $options, '[1,2]',
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::INVALID);
+        $this->assertEquals($state->contentsmodified, 'ntuple(1,2)');
+        $this->assertEquals($state->contentsdisplayed,
+            '<span class="stacksyntaxexample">(1,2)</span>');
+        $this->assertEquals('forbiddenFunction', $state->note);
+        $this->assertEquals('Coordinates are not permitted in this input.', $state->errors);
+    }
+
     public function test_validate_consolidatesubscripts() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'state', 'M_1');
@@ -1566,5 +1601,96 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('M1', $state->contentsmodified);
         $this->assertEquals('\[ M_{1} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_checkvars() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'ans2', 'a+b+c');
+
+        $el->set_parameter('options', 'checkvars:1');
+        $state = $el->validate_student_response(array('ans2' => 'x^2+z'), $options, 'a+b+c',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('x^2+z', $state->contentsmodified);
+        $this->assertEquals('\[ x^2+z \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('These variables are not needed: x, z.', $state->errors);
+
+        $el->set_parameter('options', 'checkvars:2');
+        $state = $el->validate_student_response(array('ans2' => 'x^2+z'), $options, 'a+b+c',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('x^2+z', $state->contentsmodified);
+        $this->assertEquals('\[ x^2+z \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('These variables are missing: a, b, c.', $state->errors);
+
+        $el->set_parameter('options', 'checkvars:3');
+        $state = $el->validate_student_response(array('ans2' => 'x^2+z'), $options, 'a+b+c',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('x^2+z', $state->contentsmodified);
+        $this->assertEquals('\[ x^2+z \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('These variables are not needed: x, z. ' .
+            'These variables are missing: a, b, c.', $state->errors);
+    }
+
+    public function test_invalid_validator_name() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'state', 'x^2');
+        $el->set_parameter('options', 'validator:bad%functionname');
+        $el->validate_extra_options();
+
+        $this->assertEquals(array('The name of a validator function must be a valid maxima identifier ' .
+            'in the form of letters a-zA-Z optionally followed by digits.'),
+            $el->get_errors());
+    }
+
+    public function test_missing_validator_() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'state', 'x^2');
+        $el->set_parameter('options', 'validator:missingfunction');
+        $el->validate_extra_options();
+        $this->assertEquals(array(), $el->get_errors());
+
+        $state = $el->validate_student_response(array('state' => 'x^2'), $options, 'x^2',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('x^2', $state->contentsmodified);
+        $this->assertEquals('\[ x^2 \]', $state->contentsdisplayed);
+        $this->assertEquals('The optional validator threw internal Maxima errors.',
+            $state->errors);
+    }
+
+    public function test_validate_student_response_conjugate() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '2*conjugate(x)');
+        $state = $el->validate_student_response(array('sans1' => 'conjugate(x)'), $options, 'conjugate(x)',
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('conjugate(x)', $state->contentsmodified);
+        $displayed = '\[ x^\star \]';
+        if ($this->adapt_to_new_maxima('5.47.0')) {
+            $displayed = '\[ x^{\ast} \]';
+        }
+        $this->assertEquals($displayed, $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
+
+        $state = $el->validate_student_response(array('sans1' => 'conjugate(x)^2'), $options, 'conjugate(x)^2',
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('conjugate(x)^2', $state->contentsmodified);
+        $displayed = '\[ {x^\star}^2 \]';
+        if ($this->adapt_to_new_maxima('5.47.0')) {
+            // Personally I (CJS) prefer these brackets, so I'm going to keep them.
+            $displayed = '\[ {\left(x^{\ast}\right)}^2 \]';
+        }
+        $this->assertEquals($displayed, $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
 }

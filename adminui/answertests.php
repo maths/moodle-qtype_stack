@@ -72,18 +72,17 @@ if ($anstest === 'ALL') {
 
 // Set up the results table.
 $columns = array(
-    'name'          => stack_string('answertest'),
+    'name'          => stack_string('answertest_ab'),
     'passed'        => stack_string('testsuitecolpassed'),
     'studentanswer' => stack_string('studentanswer'),
     'teacheranswer' => stack_string('teacheranswer'),
-    'options'       => stack_string('options'),
+    'options'       => stack_string('options_short'),
+    'rawmark'       => stack_string('testsuitecolmark'),
     'error'         => stack_string('testsuitecolerror'),
-    'rawmark'       => stack_string('testsuitecolrawmark'),
-    'expectedscore' => stack_string('testsuitecolexpectedscore'),
     'feedback'      => stack_string('testsuitefeedback'),
     'answernote'    => stack_string('answernote'),
-    'expectednote'  => '',
 );
+
 if ($anstest !== 'ALL') {
     array_shift($columns);
 }
@@ -122,7 +121,9 @@ foreach ($tests as $test) {
     if ($test->notes) {
         reset($columns);
         $firstcol = key($columns);
-        $table->add_data_keyed(array($firstcol => $test->notes), 'notes');
+        // This is a slight cludge to get multiple columns in a row.
+        $notes = html_writer::tag('td', $test->notes, array('colspan' => '8'));
+        $table->add_data(array($notes), 'notes');
     }
 
     set_time_limit(30);
@@ -138,6 +139,9 @@ foreach ($tests as $test) {
         } else if (-2 === $test->expectedscore) {
             $class = 'expectedfail';
             $passedcol = stack_string('testsuiteknownfailmaths');
+        } else if (-3 === $test->expectedscore) {
+            $class = 'expectedfail';
+            $passedcol = stack_string('testsuiteknownfailmaths');
         } else {
             $passedcol = stack_string('testsuitepass');
         }
@@ -146,18 +150,26 @@ foreach ($tests as $test) {
         $passedcol = stack_string('testsuitefail');
     }
 
+    $sans = implode("\n", str_split(s($test->studentanswer), 30));
+    $tans = implode("\n", str_split(s($test->teacheranswer), 30));
+    $topt = '';
+    if ($test->options != '') {
+        $topt = html_writer::tag('pre', implode("\n", str_split(s($test->options), 15)));
+    }
+    $mark = $test->expectedscore;
+    if ($rawmark !== $test->expectedscore && $test->expectedscore > 0) {
+        $mark = $rawmark . ' <> ' . $test->expectedscore;
+    }
     $row = array(
         'name'          => $test->name,
         'passed'        => $passedcol,
-        'studentanswer' => s($test->studentanswer),
-        'teacheranswer' => s($test->teacheranswer),
-        'options'       => s($test->options),
+        'studentanswer' => html_writer::tag('pre', $sans),
+        'teacheranswer' => html_writer::tag('pre', $tans),
+        'options'       => $topt,
+        'rawmark'       => $mark,
         'error'         => $error,
-        'rawmark'       => $rawmark,
-        'expectedscore' => $test->expectedscore,
         'feedback'      => format_text($feedback),
         'answernote'    => $ansnote,
-        'expectednote'  => $expectednote,
     );
     if (!$passed) {
         $row['answernote'] .= html_writer::tag('pre', $trace);
@@ -170,7 +182,6 @@ foreach ($tests as $test) {
 
 $table->finish_output();
 
-// Overall summary.
 if ($notests > 0) {
     $took = (microtime(true) - $start);
     $rtook = round($took, 5);

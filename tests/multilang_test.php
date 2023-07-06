@@ -14,6 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_multilang;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/test_base.php');
@@ -26,6 +31,7 @@ require_once(__DIR__ . '/../lang/multilang.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_multilang
  */
 class multilang_test extends qtype_stack_testcase {
 
@@ -59,6 +65,26 @@ class multilang_test extends qtype_stack_testcase {
         $ml = new stack_multilang();
         $this->assertEquals($en, $ml->filter($enfi, 'en'));
         $this->assertEquals($fi, $ml->filter($enfi, 'fi'));
+    }
+
+    public function test_filter_langs_other() {
+        $mlang = '{mlang fi}foo{mlang}{mlang en,other}foo{mlang}';
+        $block = '[[lang code="fi"]]foo[[/lang]][[lang code="EN-us,other"]]foo[[/lang]]';
+        $other  = '<span lang="en" class="multilang">Looks good to me.</span>';
+
+        $ml = new stack_multilang();
+        $this->assertEquals(['fi', 'en', 'other'], $ml->languages_used($mlang));
+        $this->assertEquals(['fi', 'en_us', 'other'], $ml->languages_used($block));
+        $this->assertEquals(['en'], $ml->languages_used($other));
+    }
+
+    public function test_filter_identify_other() {
+        $mlang = '{mlang fi}foo{mlang}{mlang en,other}foo{mlang}';
+        $block = '[[lang code="fi"]]foo[[/lang]][[lang code="EN-us,other"]]foo[[/lang]]';
+
+        $ml = new stack_multilang();
+        $this->assertEquals([2, ['fi' => true, 'en' => true, 'other' => true]], $ml->identify_tool($mlang));
+        $this->assertEquals([3, ['fi' => true, 'en_us' => true, 'other' => true]], $ml->identify_tool($block));
     }
 
     public function test_filter_langs_embedded() {

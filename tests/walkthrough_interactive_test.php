@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_walkthrough_test_base;
+use stack_boolean_input;
+use question_state;
+use question_pattern_expectation;
+use question_hint;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -27,12 +35,13 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * @group qtype_stack
+ * @covers \qtype_stack
  */
 class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_partially_right_the_right() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $q->hints = array(
             new question_hint(1, 'This is the first hint.', FORMAT_HTML),
             new question_hint(2, 'This is the second hint.', FORMAT_HTML),
@@ -63,10 +72,11 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         // Save a partially correct response for validation.
         $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
                 '-submit' => 1));
-
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
         $this->render();
+        $expected = '';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', 'x^2');
         $this->check_output_contains_text_input('ans3', 'x');
@@ -90,6 +100,10 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
         $this->render();
+        $expected = 'Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: x [score]; ans4: false [score]; ' .
+            'odd: # = 1 | odd-0-1; even: # = 1 | even-0-1; oddeven: # = 0.5 | oddeven-0-1 | oddeven-1-0; ' .
+            'unique: # = 0 | unique-0-0';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3', false);
         $this->check_output_contains_text_input('ans2', 'x^2', false);
         $this->check_output_contains_text_input('ans3', 'x', false);
@@ -114,6 +128,8 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
         $this->render();
+        $expected = '';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', 'x^2');
         $this->check_output_contains_text_input('ans3', 'x');
@@ -136,6 +152,8 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
         $this->render();
+        $expected = '';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3');
         $this->check_output_contains_text_input('ans2', 'x^2');
         $this->check_output_contains_text_input('ans3', '0');
@@ -163,6 +181,10 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         $this->check_prt_score('oddeven', 1, 0);
         $this->check_prt_score('unique', 1, 0);
         $this->render();
+        $expected = 'Seed: 1; ans1: x^3 [score]; ans2: x^2 [score]; ans3: 0 [score]; ans4: true [score]; ' .
+            'odd: # = 1 | odd-0-1; even: # = 1 | even-0-1; oddeven: # = 1 | oddeven-0-1 | oddeven-1-1; ' .
+            'unique: # = 1 | ATLogic_True. | unique-0-1';
+        $this->check_response_summary($expected);
         $this->check_output_contains_text_input('ans1', 'x^3', false);
         $this->check_output_contains_text_input('ans2', 'x^2', false);
         $this->check_output_contains_text_input('ans3', '0', false);
@@ -184,7 +206,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_partially_right_three_times_no_validation() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $q->hints = array(
             new question_hint(1, 'This is the first hint.', FORMAT_HTML),
             new question_hint(2, 'This is the second hint.', FORMAT_HTML),
@@ -348,7 +370,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_sumbit_and_finish_before_validating() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $q->hints = array(
             new question_hint(1, 'This is the first hint.', FORMAT_HTML),
             new question_hint(2, 'This is the second hint.', FORMAT_HTML),
@@ -422,7 +444,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_divide_by_0() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'divide');
+        $q = \test_question_maker::make_question('stack', 'divide');
         $this->start_attempt_at_question($q, 'interactive', 1);
 
         // Check the initial state.
@@ -491,7 +513,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_submit_and_finish_incomplete() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $q->hints = array(
             new question_hint(1, 'This is the first hint.', FORMAT_HTML),
             new question_hint(2, 'This is the second hint.', FORMAT_HTML),

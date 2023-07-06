@@ -8,16 +8,11 @@ Unit testing for STACK comes in the following three parts.
 
 These three mechanisms aim to provide comprehensive testing of STACK.  The last category are a compromise, and are designed to expose the results of unit tests to question authors in a reasonably attractive manner to inform them of what each answer test is actually supposed to do.  Links to these tests are in the healthcheck page.
 
-STACK uses the Travis continuous integration mechanism so that all unit tests are triggered when a commit is pushed to GitHub.
-See [https://travis-ci.org/maths/moodle-qtype_stack](https://travis-ci.org/maths/moodle-qtype_stack).
+STACK uses the moodle-ci continuous integration mechanism via github actions so that all unit tests are triggered when a commit is pushed to github.
 
 # PHP Unit tests
 
-Moodle uses PHPUnit for its unit tests. Setting this up and getting it working
-is a bit of a pain, but you only have to follow the instructions in
-[the Moodle PHPUnit documentation](http://docs.moodle.org/dev/PHPUnit) once to get it working.
-
-**NOTE: do not use linux-optimised when running the unit tests.** The STACK installation must be set to `linux` (or `win` of course).
+Moodle uses PHPUnit for its unit tests. Setting this up and getting it working is a bit of a pain, but you only have to follow the instructions in [the Moodle PHPUnit documentation](http://docs.moodle.org/dev/PHPUnit) once to get it working.
 
 ## STACK-specific set-up steps ##
 
@@ -38,7 +33,7 @@ Other options for the platform are `linux` and `linux-optimised`.
     define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND',   'maxima --use-version=5.42.0');
     define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDOPT',   '');
     define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDSERVER',   'http://pool.home:8080/MaximaPool/MaximaPool');
-    define('QTYPE_STACK_TEST_CONFIG_CASTIMEOUT',      '5');
+    define('QTYPE_STACK_TEST_CONFIG_CASTIMEOUT',      '20');
     define('QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES', 'stats, distrib, descriptive, simplex');
     define('QTYPE_STACK_TEST_CONFIG_CASDEBUGGING',    '0');
     define('QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND',     '');
@@ -52,14 +47,33 @@ for testing in order to test a new release of Maxima, for example.
 
 If you want to run just the unit tests for STACK, you can use the command
 
-    vendor\bin\phpunit --group qtype_stack
     vendor/bin/phpunit --group qtype_stack
 
 To make sure this keeps working, please annotate all test classes with
 
     /**
      * @group qtype_stack
+     * @covers class_name
      */
+
+To generate coverage reports you need to install xdebug.  Then modify php.ini configuration file to include xdebug.mode=coverage.
+
+Commands are
+
+    vendor/bin/phpunit --testsuite qtype_stack_testsuite --coverage-html folder-name 
+    vendor/bin/phpunit question/type/stack/tests/test.php --coverage-html folder-name 
+
+(where folder-name is the folder that you want to contains the report)
+
+If, for some reason, you have the STACK code in your codebase, and you want to run other
+unit tests on a server without Maxima installed, then you will get an error when you
+try to install the PHPunit site. You can avoid that by putting
+
+    define('QTYPE_STACK_TEST_CONFIG_PLATFORM',        'none');
+
+in your config.php file. This will prevent the install from trying to create maxima-optimised.
+It will also cause most of the STACK unit tests to be skipped.
+
 
 ## Stop resetting the dataroot directory.
 

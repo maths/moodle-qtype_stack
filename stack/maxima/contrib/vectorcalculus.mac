@@ -1,0 +1,48 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2023 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Vector calculus functions for STACK                         */
+/*                                                              */
+/*  V1.0 June 2023                                              */
+/*                                                              */
+/****************************************************************/
+
+
+/****************************************************************/
+/* Calculate the divergence of a vector-valued function         */
+/****************************************************************/
+div(u, vars):= block([div_vec],
+    if not(listp(vars)) or emptyp(vars) then error("div: the second argument must be a list of variables."),
+    if matrixp(u) then funcs: list_matrix_entries(u) else funcs: flatten(u),
+    /* TODO: confirm div should always simplify? */
+    div_vec: map(lambda([ex], ev(diff(funcs[ex],vars[ex]), simp)), ev(makelist(ii,ii,1,length(vars)), simp)),
+    return(apply("+", div_vec))
+);
+s_test_case(div([x^2*cos(y),y^3],[x,y]), 2*x*cos(y)+3*y^2)$
+s_test_case(div(transpose(matrix([x^2*cos(y),y^3])),[x,y]), 2*x*cos(y)+3*y^2)$
+s_test_case(div(matrix([x^2*cos(y),y^3]),[x,y]), 2*x*cos(y)+3*y^2)$
+
+/****************************************************************/
+/* Calculate the curl of a vector-valued function               */
+/****************************************************************/
+curl(u,vars):= block([cux, cuy, cuz],
+    if not(listp(vars)) or emptyp(vars) then error("curl: the second argument must be a list of 3 variables."),
+    if matrixp(u) then [ux,uy,uz]: list_matrix_entries(u) else [ux,uy,uz]: flatten(u),
+    cux: diff(uz,vars[2]) - diff(uy,vars[3]),
+    cuy: diff(ux,vars[3]) - diff(uz,vars[1]),
+    cuz: diff(uy,vars[1]) - diff(ux,vars[2]),
+    return(transpose(matrix([cux,cuy,cuz])))
+);

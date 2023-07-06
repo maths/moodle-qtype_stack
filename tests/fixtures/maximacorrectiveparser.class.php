@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * This script runs the answers tests and verifies the results.
  *
@@ -72,6 +70,9 @@ class maxima_corrective_parser_test_data {
                     array(0 => '\'^\' is an invalid final character in <span class="stacksyntaxexample">x^</span>')),
             array('2+!4*x', null, array(0 => 'badpostfixop'),
                     array(0 => 'You have a bad "postfix" operator in your expression.')),
+            array('/* Comment */', '/* Comment */', array(), array()),
+            array('/* Open comment', null, array(0 => 'spaces', 1 => 'spuriousop'),
+                array(0 => 'Unknown operator: <span class="stacksyntaxexample">/*</span>.'))
             );
 
     public static function get_raw_test_data() {

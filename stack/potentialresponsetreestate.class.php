@@ -233,8 +233,13 @@ class stack_potentialresponse_tree_state {
         $cleanvars[] = stack_ast_container::make_from_teacher_source('simp:' . $simp, '', new stack_cas_security());
 
         $cleansession = new stack_cas_session2($cleanvars, $options, $this->seed);
-        $feedbackct = new stack_cas_text($feedback, $cleansession, $this->seed);
-        $result = $feedbackct->get_display_castext();
+        $feedbackct = castext2_evaluatable::make_from_source($feedback, 'PRT-feedback');
+        $result = '';
+        if ($feedbackct->get_valid()) {
+            $cleansession->add_statement($feedbackct);
+            $cleansession->instantiate();
+            $result = $feedbackct->get_rendered();
+        }
         $this->_errors = trim($this->_errors . ' ' . $feedbackct->get_errors());
         $this->_errors = trim($this->_errors . ' ' . $this->cascontext->get_errors());
         return $result;

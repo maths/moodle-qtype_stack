@@ -90,7 +90,7 @@ class stack_input_factory {
         $types = array();
         foreach (new DirectoryIterator(__DIR__) as $item) {
             // Skip . and .. and non-dirs.
-            if ($item->isDot() or !$item->isDir()) {
+            if ($item->isDot() || !$item->isDir()) {
                 continue;
             }
 

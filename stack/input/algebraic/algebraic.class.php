@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * A basic text-field input.
  *
@@ -31,7 +29,9 @@ class stack_algebraic_input extends stack_input {
         'allowempty' => false,
         'nounits' => false,
         'align' => 'left',
-        'consolidatesubscripts' => false
+        'consolidatesubscripts' => false,
+        'checkvars' => 0,
+        'validator' => false
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

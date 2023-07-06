@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 // Holds the results of one {@link stack_question_test).
 //
 // @copyright 2012 The Open University.
@@ -95,7 +93,7 @@ class stack_question_test_result {
         $this->inputerrors[$inputname]         = $error;
     }
 
-    public function set_prt_result($prtname, stack_potentialresponse_tree_state $actualresult) {
+    public function set_prt_result($prtname, prt_evaluatable $actualresult) {
         $this->actualresults[$prtname] = $actualresult;
     }
 
@@ -136,21 +134,30 @@ class stack_question_test_result {
 
             $state = new stdClass();
             $state->expectedscore = $expectedresult->score;
+            if (!is_null($state->expectedscore)) {
+                // Single PRTs only work to three decimal places, so we only expect that level.
+                $state->expectedscore = round($state->expectedscore + 0, 3);
+            }
             $state->expectedpenalty = $expectedresult->penalty;
+            if (!is_null($state->expectedpenalty)) {
+                // Single PRTs only work to three decimal places, so we only expect that level.
+                $state->expectedpenalty = round($state->expectedpenalty + 0, 3);
+            }
             $state->expectedanswernote = reset($expectedanswernote);
 
             if (array_key_exists($prtname, $this->actualresults)) {
                 $actualresult = $this->actualresults[$prtname];
-                $state->score = $actualresult->score;
-                $state->penalty = $actualresult->penalty;
-                $state->answernote = implode(' | ', $actualresult->answernotes);
-                $state->trace = implode("\n", $actualresult->trace);
-                $state->feedback = $actualresult->feedback;
-                $state->debuginfo = $actualresult->debuginfo;
+                $state->score = $actualresult->get_score();
+                $state->penalty = $actualresult->get_penalty();
+                $state->answernote = implode(' | ', $actualresult->get_answernotes());
+                $state->trace = implode("\n", $actualresult->get_trace());
+                $state->feedback = $actualresult->get_feedback();
+                $state->debuginfo = $actualresult->get_debuginfo();
             } else {
                 $state->score = '';
                 $state->penalty = '';
                 $state->answernote = '';
+                $state->trace = '';
                 $state->feedback = '';
                 $state->debuginfo = '';
             }
@@ -175,7 +182,7 @@ class stack_question_test_result {
                     $reason[] = stack_string('penalty');
                 }
             }
-            if (!$this->test_answer_note($state->expectedanswernote, $actualresult->answernotes)) {
+            if (!$this->test_answer_note($state->expectedanswernote, $actualresult->get_answernotes())) {
                 $state->testoutcome = false;
                 $reason[] = stack_string('answernote');
             }
@@ -218,5 +225,133 @@ class stack_question_test_result {
             }
         }
         return true;
+    }
+
+    /**
+     * Create an HTML output of the test result.
+     */
+    public function html_output($question, $key = null) {
+        $html = '';
+        if ($this->passed()) {
+            $outcome = html_writer::tag('span', stack_string('testsuitepass'), array('class' => 'pass'));
+        } else {
+            $outcome = html_writer::tag('span', stack_string('testsuitefail'), array('class' => 'fail'));
+        }
+        if ($key !== null) {
+            $html .= html_writer::tag('h3', stack_string('testcasexresult',
+                array('no' => $key, 'result' => $outcome)));
+        }
+
+        if (trim($this->testcase->description) !== '') {
+            $html .= html_writer::tag('p', $this->testcase->description);
+        }
+
+        if ($this->emptytestcase) {
+            $html .= html_writer::tag('p', stack_string_error('questiontestempty'));
+        }
+        // Display the information about the inputs.
+        $inputstable = new html_table();
+        $inputstable->head = array(
+            stack_string('inputname'),
+            stack_string('inputexpression'),
+            stack_string('inputentered'),
+            stack_string('inputdisplayed'),
+            stack_string('inputstatus'),
+            stack_string('errors'),
+        );
+        $inputstable->attributes['class'] = 'generaltable stacktestsuite';
+
+        $typeininputs = array();
+        foreach ($this->get_input_states() as $inputname => $inputstate) {
+            $inputval = $inputstate->input;
+            if (false === $inputstate->input) {
+                $inputval = '';
+            } else {
+                if ($inputval !== '') {
+                    $typeininputs[$inputname] = $inputname . ':' . $inputstate->modified . ";\n";
+                }
+            }
+            $inputstable->data[] = array(
+                s($inputname),
+                s($inputstate->rawinput),
+                s($inputval),
+                stack_ouput_castext($inputstate->display),
+                stack_string('inputstatusname' . $inputstate->status),
+                $inputstate->errors,
+            );
+        }
+
+        $html .= html_writer::table($inputstable);
+
+        // Display the information about the PRTs.
+        $prtstable = new html_table();
+        $prtstable->head = array(
+            stack_string('prtname'),
+            stack_string('score'),
+            stack_string('expectedscore'),
+            stack_string('penalty'),
+            stack_string('expectedpenalty'),
+            stack_string('answernote'),
+            stack_string('expectedanswernote'),
+            get_string('feedback', 'question'),
+            stack_string('testsuitecolpassed'),
+        );
+        $prtstable->attributes['class'] = 'generaltable stacktestsuite';
+
+        $debuginfo = '';
+        $inputsneeded = $question->get_cached('required');
+        foreach ($this->get_prt_states() as $prtname => $state) {
+
+            $prtinputs = array();
+            // If we delete a PRT we'll end up with a non-existent prt name here.
+            if ($inputsneeded != null && array_key_exists($prtname, $inputsneeded)) {
+                foreach (array_keys($inputsneeded[$prtname]) as $inputname) {
+                    if (array_key_exists($inputname, $typeininputs)) {
+                        $prtinputs[] = $typeininputs[$inputname];
+                    }
+                }
+            }
+
+            if ($state->testoutcome) {
+                $prtstable->rowclasses[] = 'pass';
+                $passedcol = stack_string('testsuitepass');
+            } else {
+                $prtstable->rowclasses[] = 'fail';
+                $passedcol = stack_string('testsuitefail').$state->reason;
+            }
+
+            // Sort out excessive decimal places from the DB.
+            if (is_null($state->expectedscore) || '' === $state->expectedscore) {
+                $expectedscore = '';
+            } else {
+                $expectedscore = $state->expectedscore + 0;
+            }
+            if (is_null($state->expectedpenalty) || '' === $state->expectedpenalty) {
+                $expectedpenalty = stack_string('questiontestsdefault');
+            } else {
+                // Single PRTs only work to four decimal places, so we only expect that level.
+                $expectedpenalty = round($state->expectedpenalty + 0, 4);
+            }
+
+            $answernotedisplay = html_writer::tag('summary', s($state->answernote))
+            . html_writer::tag('pre', implode('', $prtinputs) . $state->trace);
+            $answernotedisplay = html_writer::tag('details', $answernotedisplay);
+
+            $prtstable->data[] = array(
+                $prtname,
+                $state->score,
+                $expectedscore,
+                $state->penalty,
+                $expectedpenalty,
+                $answernotedisplay,
+                s($state->expectedanswernote),
+                format_text($state->feedback),
+                $passedcol,
+            );
+            // TODO: reinstate debuginfo here.
+        }
+
+        $html .= html_writer::table($prtstable);
+        return($html);
     }
 }

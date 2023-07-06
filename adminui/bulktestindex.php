@@ -54,19 +54,67 @@ $bulktester = new stack_bulk_tester();
 echo $OUTPUT->header();
 echo $OUTPUT->heading(stack_string('replacedollarsindex'));
 
-echo html_writer::start_tag('ul');
-foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstackquestions) {
-    echo html_writer::tag('li', html_writer::link(
-            new moodle_url('/question/type/stack/adminui/bulktest.php',
-                    $urlparams + ['contextid' => $contextid]),
-            context::instance_by_id($contextid)->get_context_name(true, true) . ' (' . $numstackquestions . ')'));
+// Find in which contexts the user can edit questions.
+$questionsbycontext = $bulktester->get_num_stack_questions_by_context();
+$availablequestionsbycontext = array();
+foreach ($questionsbycontext as $contextid => $numquestions) {
+    $context = context::instance_by_id($contextid);
+    if (has_capability('moodle/question:editall', $context)) {
+        $name = $context->get_context_name(true, true);
+        if (strpos($name, 'Quiz:') === 0) { // Quiz-specific question category.
+            $course = $context->get_course_context(false);
+            if ($course === false) {
+                $name = 'UnknownCourse: ' . $name;
+            } else {
+                $name = $course->get_context_name(true, true) . ': ' . $name;
+            }
+        }
+        $availablequestionsbycontext[$name] = array(
+            'contextid' => $contextid,
+            'numquestions' => $numquestions);
+    }
 }
-echo html_writer::end_tag('ul');
 
-if (has_capability('moodle/site:config', context_system::instance())) {
-    echo html_writer::tag('p', html_writer::link(
-            new moodle_url('/question/type/stack/adminui/bulktestall.php', $urlparams),
-            stack_string('bulktestrun')));
+ksort($availablequestionsbycontext);
+
+// List all contexts available to the user.
+if (count($availablequestionsbycontext) == 0) {
+    echo html_writer::tag('p', get_string('unauthorisedbulktest', 'qtype_stack'));
+} else {
+    echo html_writer::start_tag('ul');
+    foreach ($availablequestionsbycontext as $name => $info) {
+        $contextid = $info['contextid'];
+        $numquestions = $info['numquestions'];
+
+        $testallurl = new moodle_url('/question/type/stack/adminui/bulktest.php', array('contextid' => $contextid));
+        $testalllink = html_writer::link($testallurl,
+            get_string('bulktestallincontext', 'qtype_stack'), array('title' => get_string('testalltitle', 'qtype_stack')));
+        $litext = $name . ' (' . $numquestions . ') ' . $testalllink;
+
+        echo html_writer::start_tag('details');
+        echo html_writer::tag('summary', $litext);
+
+        $categories = $bulktester->get_categories_for_context($contextid);
+        echo html_writer::start_tag('ul', array('class' => 'expandable'));
+        foreach ($categories as $cat) {
+            if ($cat->count > 0) {
+                $url = new moodle_url('/question/type/stack/adminui/bulktest.php',
+                    array('contextid' => $contextid, 'categoryid' => $cat->id));
+                $linktext = $cat->name . ' (' . $cat->count . ')';
+                $link = html_writer::link($url, $linktext);
+                echo html_writer::tag('li', $link,
+                    array('title' => get_string('testallincategory', 'qtype_stack')));
+            }
+        }
+        echo html_writer::end_tag('ul');
+        echo html_writer::end_tag('details');
+    }
+    echo html_writer::end_tag('ul');
+
+    if (has_capability('moodle/site:config', context_system::instance())) {
+        echo html_writer::tag('p', html_writer::link(
+            new moodle_url('/question/type/stack/adminui/bulktestall.php'), get_string('bulktestrun', 'qtype_stack')));
+    }
 }
 
 echo $OUTPUT->footer();

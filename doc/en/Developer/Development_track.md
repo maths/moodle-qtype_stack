@@ -15,11 +15,12 @@ DONE
 5. Caschat page now saves question variables and general feedback back into the question.  Fixes issue #984.
 6. Confirm support for Maxima 5.46.0 and 5.47.0.
 
-TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
- #671, #420
+TODO: 
 
-1. Error messages: use caserror.class more fully to use user information to target error messages.
-2. Remove all "cte" code from Maxima - mostly install.
+1. Support for PHP 8.2.  See issue #986.
+2. Fix markdown problems. See issue #420.
+3. Error messages: use caserror.class more fully to use user information to target error messages.
+4. Remove all "cte" code from Maxima - mostly install.
 
 ## For "inputs 2"?
 

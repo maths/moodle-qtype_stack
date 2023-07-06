@@ -555,9 +555,10 @@ class castext2_test extends qtype_stack_testcase {
      */
     public function test_stackfltfmt() {
         $input = '{@a@}, {@(stackfltfmt:"~f",a)@}';
-        // Note that 0.000012 has rounding in clisp which is not the point of this test!
-        $preamble = array('stackfltfmt:"~e"', 'a:0.000013');
-        $output = '\({1.3e-5}\), \({0.000013}\)';
+        // Note that 0.000012 has rounding in clisp which is not the point of this test.
+        // And 0.000013 has rounding in SBCL/GCL!
+        $preamble = array('stackfltfmt:"~e"', 'a:0.000016');
+        $output = '\({1.6e-5}\), \({0.000016}\)';
         $this->assertEquals($output, strtolower($this->evaluate($input, $preamble)));
     }
 

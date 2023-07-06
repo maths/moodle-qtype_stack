@@ -53,7 +53,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.js') . '";';
 
-        $code .= 'stack_js.button_clicked("stack-adaptbutton-' .self::$countadaptbuttons. '", function(e) => {';
+        $code .= 'stack_js.button_clicked("stack-adaptbutton-' .self::$countadaptbuttons. '", function(e){';
 
         // $code .= 'stack_js.request_access_to_button("stack-adaptbutton-' .self::$countadaptbuttons. '").then((id) => {';
         //$code .= 'stack_js.button_clicked("stack-adaptbutton-' .self::$countadaptbuttons. '").then(() => {';

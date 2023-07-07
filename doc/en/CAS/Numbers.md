@@ -127,6 +127,8 @@ STACK now supports a mechanism for changing the decimal separator and using a co
 
     stackfltfmt:"comma";
 
+If you use this option then items in sets, lists and as arguments to functions will no longer be separated by a comma.  To avoid conflicting notation, items will be separated by a semicolon (`;`).
+
 ## Notes about numerical rounding ##
 
 There are two ways to round numbers ending in a digit \(5\).  

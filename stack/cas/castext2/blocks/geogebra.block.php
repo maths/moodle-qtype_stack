@@ -58,12 +58,9 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
         $iparams['title'] = 'STACK GeoGebra ' . self::$countgraphs;
         self::$countgraphs = self::$countgraphs + 1;
 
-
         // TODO:
         //  1. Do we need to load some CSS as well?
-        //  2. Check for multiple things targetting the same input. i.e.
-        //     `watchvarA` and `remembervarA`
-
+        
         // The bits of code we construct. We could simply output these into
         // the same output variable as these are not coming in mixed but lets
         // keep the code clean.
@@ -266,7 +263,6 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
             $setcode->arguments[] = new MP_String("\n};\n");
         }
 
-
         // Extract some basics.
         $divid = 'stack-geogebra';
         $width = '500px';
@@ -328,6 +324,12 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
             '"showToolBar": false,"showAlgebraInput": false,"showMenuBar": false,' .
             'material_id:"x3tzeapm"};';
         $commonprecode .= "\nvar params = presetparams;";
+
+        // NOTE the way input refs works here is somewhat tied to the STACK-JS
+        // implementation and the way the set/watch/remember functions get defined.
+        // Basically, we just declare these variables with values they will be
+        // having after the input gets "connected" but we will only use these
+        // after the inputs are ready.
 
         // Add the inputrefs, in STACK-JS the id is the name.
         // We could consider a prefix if there is a real risk of collision.
@@ -396,14 +398,19 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
         if (count($inputmapping) > 0) {
             $promises = [];
             $vars = [];
-            // TODO: Here we have a potenttial problem, if we bind to the same
-            // input with multiple means we will be calling request_access
-            // multiple times for same input and that is not supported,
-            // so once everything else works lets look at this.
+            // NOTE that not all varaibles will be mapped here to avoid
+            // calling `request_access_to_input` for the same input multiple 
+            // times. As the value the promise resolves to is know we actually
+            // already know the results and have set them, we just want to
+            // wait for them to be ready.
+            $handledinputs = [];
             foreach ($inputmapping as $value => $key) {
                 // That true there makes us sync input-events as well, like we did before.
-                $promises[] = 'stack_js.request_access_to_input("' . $key . '",true)';
-                $vars[] = $value;
+                if (!isset($handledinputs[$key])) {
+                    $promises[] = 'stack_js.request_access_to_input("' . $key . '",true)';
+                    $vars[] = $value;
+                    $handledinputs[$key] = true;
+                }
             }
             $commonpostcode .= "\nPromise.all([" . implode(',', $promises) . '])';
             $commonpostcode .= "\n.then(([" . implode(',', $vars) . ']) => {';
@@ -411,12 +418,11 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
         } else {
             $commonpostcode .= "\nwindow.addEventListener('load', function() {applet.inject('geogebrabox');});";
         }
+        // Remember to close the script tag.
+        $commonpostcode .= "\n</script>";
 
         // There is no more commonpostcode, so we will dump that.
         $r->items[] = new MP_String($commonpostcode);
-
-        // Remember to close the script tag.
-        $r->items[] = new MP_String("\n</script>");
 
         return $r;
     }

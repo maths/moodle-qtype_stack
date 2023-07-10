@@ -38,7 +38,7 @@ It is reasonable to expect students to be consistent in their use of the '`,`' w
 Therefore students cannot use all of '`.`', '`,`' and '`;`' in a single expression without inconsistency.
 
 In the current STACK design student input of `1,23` would be invalid and generate an error: "A comma in your expression appears in a strange way."  Many users will wish to retain this behaviour.  Therefore although this expression is not ambiguous, in a British context it does not follow common usage and could well indicate a misunderstanding about how to type in sets, lists, coordinates functions etc.
-A similar problem occurs in a continental context where `1;23` contains an unencapsulated list separation. This expression is not ambiguous and a similar error message such as "A in your expression appears in a strange way." would be similarly helpful.
+A similar problem occurs in a continental context where `1;23` contains an unencapsulated list separation. This expression is not ambiguous and a similar error message such as "A semicolon in your expression appears in a strange way." would be similarly helpful.
 
 Examples.
 

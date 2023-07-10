@@ -15,6 +15,11 @@ DONE
 5. Caschat page now saves question variables and general feedback back into the question.  Fixes issue #984.
 6. Confirm support for Maxima 5.46.0 and 5.47.0.
 
+Support the use of a [comma as the decimal separator](Syntax_numbers.md)
+1. (Done) Mechanism for Maxima to output LaTeX.
+2. Mechanism to output expressions as they should be typed.
+3. Input parsing mechanism.
+
 TODO: 
 
 1. Support for PHP 8.2.  See issue #986.

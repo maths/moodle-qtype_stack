@@ -655,11 +655,16 @@ remove_disp(ex) := ev(ex, disp_parens=lambda([ex2], ex2), disp_select=lambda([ex
 /* Note, displaydp does not do any rounding, it is only display.  Use significantfigures.   */
 /* To print out *values* with trailing decimal places use this function.                    */
 
-displaydptex(ex):=block([ss, n, dp],
+displaydptex(ex):=block([ss, n, dp, tx],
   [n, dp]:args(ex),
   ss:sconcat("~,", string(dp), "f"),
   if is(equal(dp,0)) then ss:"~d",
-  ev(printf(false, ss, ev(float(n))), simp)
+  tx:ev(printf(false, ss, ev(float(n))), simp),
+  if is(stackfltsep = ",") then (
+    tx:ssubst("\\ ", ",", tx),
+    tx:ssubst(",", ".", tx)
+  ),
+  tx
 );
 texput(displaydp, displaydptex);
 
@@ -783,11 +788,16 @@ scientific_notation([a]) := block([oldsimp, x, ex, ex2, ex3, exn],
 )$
 
 /* displysci is an inert internal function of three arguments. */
-displayscitex(ex):=block([ss, n, dp],
+displayscitex(ex):=block([ss, n, dp, tx],
   [n, dp, expo]:args(ex),
   ss:sconcat("~,", string(dp), "f \\times 10^{~a}"),
   if is(equal(dp, 0)) then ss:"~d \\times 10^{~a}",
-  ev(printf(false, ss, ev(float(n)), expo), simp)
+  tx:ev(printf(false, ss, ev(float(n)), expo), simp),
+  if is(stackfltsep = ",") then (
+    tx:ssubst("\\ ", ",", tx),
+    tx:ssubst(",", ".", tx)
+  ),
+  tx
 )$
 texput(displaysci, displayscitex)$
 

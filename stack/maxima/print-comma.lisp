@@ -1,5 +1,7 @@
 (in-package :cl-user)
 
+(setq stackdecimalsep #\,)
+
 (defun inject-comma (string comma-char comma-interval)
   (let* ((len (length string))
          (offset (mod len comma-interval)))

@@ -7738,6 +7738,10 @@
       "contextvariable": "true",
       "built-in": true
   },
+  "texput_decimal": {
+      "function": "t",
+      "contextvariable": "true"
+  },
   "texsub": {
       "function": "s",
       "built-in": true

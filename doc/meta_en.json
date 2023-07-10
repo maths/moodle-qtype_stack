@@ -795,6 +795,11 @@
         "description":"Discussion of future plans for dealing with syntax of answers and STACK."
         },
         {
+        "file":"Syntax_numbers.md",
+        "title":"Discussion of support for using comma as the decimal separator",
+        "description":"Discussion of support for using comma as the decimal separator."
+        },
+        {
         "file":"Unit_tests.md",
         "title":"Unit Tests - STACK Documentation",
         "description":"Information on the three types of unit tests supported by STACK; PHP Unit tests, Maxima unit tests and tests scripts exposed to the question author."

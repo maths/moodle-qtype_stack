@@ -515,6 +515,6 @@
     ;; car of texsym of a matchfix operator is the lead op
     r (append (list (nth 1 (texsym (caar x)))) r)
     ;; cdr is the trailing op
-    x (tex-list (cdr x) nil r (or (nth 2 (texsym (caar x))) (if (string= $stackfltfmt '"comma") '" ; " '" , "))))
+    x (tex-list (cdr x) nil r (or (nth 2 (texsym (caar x))) (if (string= $stackfltsep '",") '" ; " '" , "))))
   (append l x))
 

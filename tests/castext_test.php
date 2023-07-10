@@ -1321,7 +1321,7 @@ class castext_test extends qtype_stack_testcase {
         $st = 'The number {@3.1415@} is written with commas. ';
         $st .= 'Sets {@{1.2, 4, 5, 3.123}@} and lists {@[1.2, 4, 5, 3.123]@}';
 
-        $a2 = array('stackfltfmt:"comma"');
+        $a2 = array('stackfltsep:","');
         $s2 = array();
         foreach ($a2 as $s) {
             $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());

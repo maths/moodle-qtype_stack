@@ -160,7 +160,6 @@ load("inequalities.mac");
 load("intervals.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
-load("print-comma.lisp");
 load("stackstrings.mac");
 load("fboundp.mac");
 
@@ -749,18 +748,26 @@ stack_disp_strip_dollars(ex) := block(
 /* Display of numbers. Thanks to Robert Dodier. */
 stackintfmt: "~d";
 stackfltfmt: "~a";
-?texnumformat(x) := if ev(floatnump(x),simp) then (
-    if stackfltfmt = "comma" then
-        ev(printf_float(false, x, false, false, ",", ".", 3), simp)
-    else 
-        ev(printf(false, stackfltfmt, x), simp)
+stackfltsep: ".";
+texput_decimal(ex):= stackfltsep:ex$
+
+?texnumformat(x) := block([tx],
+    if ev(floatnump(x), simp) then block(
+        tx:ev(printf(false, stackfltfmt, x), simp)
     ) else if ev(integerp(x),simp) then (
         if (is(stackintfmt="~r") or is(stackintfmt="~:r")) then
-            sconcat("\\mbox{",ev(printf(false, stackintfmt, x), simp),"}")
+            tx:sconcat("\\mbox{",ev(printf(false, stackintfmt, x), simp),"}")
         else
-            ev(printf(false, stackintfmt, x), simp)
+            tx:ev(printf(false, stackintfmt, x), simp)
     ) else
-    string(x);
+    tx:string(x),
+    /* We need this separation because validation displays trailing zeros and this is controlled by stackfltfmt. */
+    if is(stackfltsep = ",") then (
+        tx:ssubst("\\ ", ",", tx),
+        tx:ssubst(",", ".", tx)
+    ),
+    tx
+)$
 /* Some systems are throwing an error here, which is spurious. */
 errcatch(compile(?texnumformat));
 

@@ -26,6 +26,8 @@ These standards to not provide advice on how to separate items, e.g. in lists, a
 1. A set containing the single number six fifths, \(\frac{6}{5}\).
 2. A set containing the two integers one and two.
 
+There is also a discussion of [number styles in the NUMBAS system](https://docs.numbas.org.uk/en/latest/number-notation.html).
+
 ## Design of syntax for decimal separators
 
 The only opportunity for ambiguity arises in the use of a comma '`,`' in an expression, which could be a decimal separator or a list separator.
@@ -95,3 +97,6 @@ Internally, we retain strict Maxima syntax.  _Teachers must use strict Maxima sy
 
 (Note to self, strings may contain harmless punctuation characters which should not be changed...)
 
+## Practial implementation in other software
+
+1. NUMBAS also uses the semicolon to separate list items, as discussed in [NUMBAS issue 889](https://github.com/numbas/Numbas/issues/889)

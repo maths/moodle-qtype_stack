@@ -1,12 +1,12 @@
 /* Style for input type boolean as a button*/
 .boolean-pressed {
-    background-color: black;
+    background-color: red;
     color: white;
 }
 .boolean-pressed:hover {
     background-color: white;
     color: white;
-  }
+}
 
 /* Style for hint question block */
 details.stack-hint {

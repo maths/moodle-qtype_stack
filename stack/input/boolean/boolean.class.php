@@ -67,6 +67,7 @@ class stack_boolean_input extends stack_input {
         $element_select = html_writer::select(self::get_choices(), $fieldname,
                 $value, '', $attributes);
 
+        //changed
         $attributes = array();
         $element_button_id = $fieldname . "-button";
         $attributes['id'] = $element_button_id;
@@ -94,8 +95,8 @@ class stack_boolean_input extends stack_input {
             });');
         
         return $element_select . $element_button . $element_script;
+        //end
     }
-
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name);

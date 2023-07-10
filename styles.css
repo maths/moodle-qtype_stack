@@ -3,6 +3,10 @@
     background-color: black;
     color: white;
 }
+.boolean-pressed:hover {
+    background-color: white;
+    color: white;
+  }
 
 /* Style for hint question block */
 details.stack-hint {

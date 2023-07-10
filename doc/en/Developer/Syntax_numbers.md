@@ -2,7 +2,7 @@
 
 ___This is a proposal for discussion as of 10 July 2023.___
 
-This document discusses entry of numbers into STACK.  This discussion will also be relevant to other online assessment systems and technology more generally.  When we type in a string of symbols into a computer there is a context and assumptions which arise from that context.  For example is `e` the base of the natural logarithms or is `e` to be interpreted as part of a floating point number, e.g. `6.6263−34`? There are two related issues.
+This document discusses entry of numbers into STACK.  This discussion will also be relevant to other online assessment systems and technology more generally.  When we type in a string of symbols into a computer there is a context and assumptions which arise from that context.  For example is `e` the base of the natural logarithms or is `e` to be interpreted as part of a floating point number, e.g. `6.6263e−34`? There are two related issues.
 
 * Which symbol to use as the decimal separator, '`,`' or '`.`'?
 * Support for number bases (other than decimal).

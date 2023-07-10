@@ -100,3 +100,14 @@ Internally, we retain strict Maxima syntax.  _Teachers must use strict Maxima sy
 ## Practial implementation in other software
 
 1. NUMBAS also uses the semicolon to separate list items, as discussed in [NUMBAS issue 889](https://github.com/numbas/Numbas/issues/889)
+
+
+### Comments from Peter Mayer:
+In the school context, it is almost exclusively common in German-speaking countries to use the "," as a decimal separator. In contrast, I have never encountered a "." as a decimal separator. the "." is usually used as a thousands separator: 1002 = 1.002 and can also be used in conjunction with a comma: 1002,54 = 1.002,54. A ";" is usually used in schools only in geometry as an alternative to A(4|5): A(4;5).
+
+As a suggestion, I would like to point out the behavior of Microsoft Excel at this point here, in the German version, the "," and "." are also used according to my comment from above. In formulas, the individual arguments are separated by a ";".
+If you switch to the English version, however, thousands are separated by "," and decimal numbers by "." as well as the parameters of functions by ",". Maybe it is advisable to approach this behavior, because there could be synnergies. 
+
+
+***As a silver bullet, however, I would suggest the following:***
+In Moodle there is a method (unformat_float lib/moodlelib.php:8880) that converts local numbers entered by the user into a standard-compliant number, which can then also be stored in the DB. Depending on the viewer, this can then be output again in the respective local representation (format_float; lib/moodlelib.php:8847) of the viewer. The advantage would be that thereby no special cases must be considered but, everything can be kept as before. Only the user input and output has to be converted accordingly, and moodle does that itself.

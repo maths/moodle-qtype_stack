@@ -378,7 +378,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('select', $inputname . 'type', stack_string('inputtype'), $this->typechoices);
         $mform->setDefault($inputname . 'type', $this->stackconfig->inputtype);
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
-
+        //changed
         $mform->addElement('select', $inputname . 'displaytype', "Display style" , ['dropdown','click button','toogle button'] );
         $mform->hideIf($inputname . 'displaytype', $inputname . 'type', 'neq', 'boolean');
 
@@ -697,6 +697,9 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'modelans'}           = $input->tans;
             $question->{$inputname . 'boxsize'}            = $input->boxsize;
             // TODO: remove this when we delete it from the DB.
+            //changed
+            $question->{$inputname . 'displaystyle'}        = $input->displaystyle;
+            $question->{$inputname . 'buttontitle'}        = $input->buttontitle;
             $question->{$inputname . 'strictsyntax'}       = true;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
             $question->{$inputname . 'syntaxhint'}         = $input->syntaxhint;

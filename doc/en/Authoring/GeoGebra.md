@@ -49,7 +49,7 @@ For example, the sub-tag value could look like:  `set = "A,B,C,D,a2,E__fixed"` a
     [[geogebra set = "A,B,C,D,a2,E__fixed"]]
     [[/geogebra]]
 
-To be able to make things easy for question authors, the following name conventions _must_ be followed:
+To be able to make things consistent and easy for question authors, the following name conventions _must_ be followed:
 
 1. Names of variables must be equal in both STACK and GeoGebra.
 2. Values must be `int` or `float` STACK variables.

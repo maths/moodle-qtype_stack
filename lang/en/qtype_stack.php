@@ -844,7 +844,7 @@ $string['stackBlock_geogebra_link_help']   = 'You want to edit this material? If
 $string['stackBlock_geogebra_heading']     = 'GeoGebra materials';
 // Define the stackBlock GeoGebra strings for global admin options.
 $string['stackBlock_geogebra_settingdefaultoptions'] = 'Options for GeoGebra in STACK';
-$string['stackBlock_geogebra_settingdefaultoptions_desc'] = 'We recommend to read the documentation of GeoGebra and STACK';
+$string['stackBlock_geogebra_settingdefaultoptions_desc'] = 'The documentation for using GeoGebra with STACK is under Authoring/GeoGebra.md';
 $string['stackBlock_geogebrabaseurl'] = 'Link to GeoGebra hosting (optional)';
 $string['stackBlock_geogebrabaseurl_help'] = 'Here you can add a custom link, if you host GeoGebra scripts on your own server. If you just want to use a specific GeoGebra version, use: https://www.geogebra.org/apps/5.0.498.0/web3d (e.g. for version 5.0.498.0)';
 

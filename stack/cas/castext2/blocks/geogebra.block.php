@@ -22,33 +22,27 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-require_once __DIR__ . '/../block.interface.php';
-require_once __DIR__ . '/../block.factory.php';
+require_once(__DIR__ . '/../block.interface.php');
+require_once(__DIR__ . '/../block.factory.php');
 
-require_once __DIR__ . '/root.specialblock.php';
-require_once __DIR__ . '/stack_translate.specialblock.php';
+require_once(__DIR__ . '/root.specialblock.php');
+require_once(__DIR__ . '/stack_translate.specialblock.php');
 
-class stack_cas_castext2_geogebra extends stack_cas_castext2_block
-{
+class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
     private static $countgraphs = 1;
 
-    //compatibility with php 7.4: Defining "str_ends_with" if not in existence, delete this function when dropping support for php 7.4, replace all occurences of this->str_ends_with(args) by str_ends_with(args)
-    private function str_ends_with($word, $search_string)
-    {
-        $search_string_len = mb_strlen($search_string);
-        if (
-            mb_substr($word, -$search_string_len, $search_string_len) ==
-            $search_string
-        ) {
+    // Compatibility with php 7.4: Defining "str_ends_with" if not in existence, delete this function when
+    // dropping support for php 7.4, replace all occurences of this->str_ends_with(args) by str_ends_with(args).
+    private function str_ends_with($word, $searchstring) {
+        $searchstringlen = mb_strlen($searchstring);
+        if (mb_substr($word, -$searchstringlen, $searchstringlen) == $searchstring) {
             return true;
         }
         return false;
     }
 
-    public function compile($format, $options): ?MP_Node
-    {
-        // We are outputting as [[iframe]], so we will generate some 
-        // parameters for it on the side.
+    public function compile($format, $options): ?MP_Node {
+        // We are outputting as [[iframe]], so we will generate some parameters for it on the side.
         $r = new MP_List([new MP_String('iframe')]);
         $iparams = ['scrolling' => false];
         // For now we run without the sandbox, THIS NEES TO BE FIXED WITH GEOGEBRA SIDES HELP..
@@ -59,8 +53,8 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
         self::$countgraphs = self::$countgraphs + 1;
 
         // TODO:
-        //  1. Do we need to load some CSS as well?
-        
+        // 1. Do we need to load some CSS as well?
+
         // The bits of code we construct. We could simply output these into
         // the same output variable as these are not coming in mixed but lets
         // keep the code clean.
@@ -133,9 +127,9 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
             }
         }
         // TODO: as there was no dynamic content inside that loop might as well
-        // directly generate as a singular MP_String, on the other hand 
-        // the simplifier during compilation will turn that to a string and 
-        // writing it like this makes it simpler to add any dynamic bits needed 
+        // directly generate as a singular MP_String, on the other hand
+        // the simplifier during compilation will turn that to a string and
+        // writing it like this makes it simpler to add any dynamic bits needed
         // in the future.
 
         // Here we include some CAS variables into the output so this will
@@ -165,22 +159,23 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
                         $set_fixed = true;
                     }
                     if ($this->str_ends_with($geogebraname, '__preserve')) {
-                        // Assuming: object should preserve its defintion, e.g. to be a point on an object
+                        // Assuming: object should preserve its defintion, e.g. to be a point on an object.
                         $geogebraname = substr($geogebraname, 0, -10);
                         $set_preserve = true;
                     }
                     if ($this->str_ends_with($geogebraname, '__hide')) {
-                        // Assuming: object should be hidden at startup
+                        // Assuming: object should be hidden at startup.
                         $geogebraname = substr($geogebraname, 0, -6);
                         $set_hide = true;
                     }
                     if ($this->str_ends_with($geogebraname, '__show')) {
-                        // Assuming: object should be shown at startup
+                        // Assuming: object should be shown at startup.
                         $geogebraname = substr($geogebraname, 0, -6);
                         $set_show = true;
                     }
                     if ($this->str_ends_with($geogebraname, '__novalue')) {
-                        // Assuming: object should not be set to a given value, keyword is useful in combination with __hide or __show
+                        // Assuming: object should not be set to a given value,
+                        // keyword is useful in combination with __hide or __show.
                         $geogebraname = substr($geogebraname, 0, -9);
                         $set_novalue = true;
                     }
@@ -194,23 +189,24 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
                         // Removing __fixed (7 characters).
                         $setcode->arguments[] = new MP_String(
                             "\n appletObject.evalCommand('" .
-                            $geogebraname . ' = Point({'); 
+                            $geogebraname . ' = Point({');
                         $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(1)])]);
                         $setcode->arguments[] = new MP_String(',');
-                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(2)])]); 
+                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(2)])]);
                         $setcode->arguments[] = new MP_String("})');\n");
                         // appletObject.evalCommand('G= Point({{#fx#},4})');
-                    } elseif ($set_preserve) {
-                        //Assuming point definition should be preserved while setting object: ATTENTION GGB Applet language must be English for this to work!
+                    } else if ($set_preserve) {
+                        // Assuming point definition should be preserved while setting object:
+                        // ATTENTION GGB Applet language must be English for this to work!
                         $setcode->arguments[] = new MP_String("\n appletObject.evalCommand('SetCoords(" .
                             $geogebraname .
                             ',');
                         $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(1)])]);
                         $setcode->arguments[] = new MP_String(',');
-                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(2)])]); 
+                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(2)])]);
                         $setcode->arguments[] = new MP_String(")');\n");
-                    } elseif ($set_novalue) {
-                        //assuming point value should not be set, useful when using __show/ __hide
+                    } else if ($set_novalue) {
+                        // Assuming point value should not be set, useful when using __show/ __hide.
                         // NOOP.
                     } else {
                         // Assuming point is interactable by the user.
@@ -220,7 +216,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
                             ' = (');
                         $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(1)])]);
                         $setcode->arguments[] = new MP_String(',');
-                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(2)])]); 
+                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(2)])]);
                         $setcode->arguments[] = new MP_String(")');\n");
                     }
                 } else {
@@ -229,11 +225,11 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
                     // Please set angle by setting defining points.
                     if ($set_preserve) {
                         $setcode->arguments[] = new MP_String("\n appletObject.evalCommand('SetValue(" .
-                            $geogebraname . ','); 
+                            $geogebraname . ',');
                         $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier($geogebraname)]);
                         $setcode->arguments[] = new MP_String(")');\n");
-                    } elseif ($set_novalue) {
-                        //assuming value should not be set, useful when using __show/ __hide
+                    } else if ($set_novalue) {
+                        // Assuming value should not be set, useful when using __show/ __hide.
                         // NOOP
                     } else {
                         $setcode->arguments[] = new MP_String("\n appletObject.evalCommand('" .
@@ -242,17 +238,17 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
                         $setcode->arguments[] = new MP_String("');\n");
                     }
                 }
-                //end of section for setting values according to suffix
+                // End of section for setting values according to suffix.
 
-                //section to show or hide objects if there are according suffix readings
+                // Section to show or hide objects if there are according suffix readings.
                 if ($set_show) {
-                    //assuming: object should be shown in view 1 (use case: if object is hidden by default)
+                    // Assuming: object should be shown in view 1 (use case: if object is hidden by default).
                     $setcode->arguments[] = new MP_String(
                         "\n appletObject.evalCommand('SetVisibleInView(" .
                         $geogebraname .
                         ",1,true)');\n");
-                } elseif ($set_hide) {
-                    //assuming: object should be hidden (use case: if object is shown by default)
+                } else if ($set_hide) {
+                    // Assuming: object should be hidden (use case: if object is shown by default).
                     $setcode->arguments[] = new MP_String(
                         "\n appletObject.evalCommand('SetVisibleInView(" .
                         $geogebraname .
@@ -285,7 +281,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
             // Unset the undefined dimension, if both are defined then we have a problem.
             if (array_key_exists('height', $this->params)) {
                 $style = "height:$height;aspect-ratio:$aspectratio;";
-            } elseif (array_key_exists('width', $this->params)) {
+            } else if (array_key_exists('width', $this->params)) {
                 $style = "width:$width;aspect-ratio:$aspectratio;";
             }
         }
@@ -293,7 +289,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
         // All the IFRAME related parameters are no known we can add them to the output.
         $r->items[] = new MP_String(json_encode($iparams));
 
-        // Then lets add some script tags to the head to load some stuff.
+        // Then let's add some script tags to the head to load some stuff.
         $mathjax = stack_get_mathjax_url();
         // Silence the MathJax message that blinks on top of every graph.
         $r->items[] = new MP_List([
@@ -361,7 +357,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
             }
         }
 
-        // In the code after the block contents we make sure we have 
+        // In the code after the block contents we make sure we have
         // 'appletOnLoad' logic and if we have that we modify it.
         $commonpostcode = 'if("appletOnLoad" in params){';
         $commonpostcode .= "\n var _tmp = params['appletOnLoad'];";
@@ -382,10 +378,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
 
         $commonpostcode .= "\nvar applet = new GGBApplet(params, true);";
         $customgeogebrabaseurl = stack_utils::get_config()->geogebrabaseurl;
-        if (
-            isset($customgeogebrabaseurl) &&
-            trim($customgeogebrabaseurl) != ''
-        ) {
+        if (isset($customgeogebrabaseurl) && trim($customgeogebrabaseurl) != '') {
             // Use JSON-encode to ensure that should the URL have something fancy
             // in it we can still survive.
             $commonpostcode .=
@@ -399,7 +392,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
             $promises = [];
             $vars = [];
             // NOTE that not all varaibles will be mapped here to avoid
-            // calling `request_access_to_input` for the same input multiple 
+            // calling `request_access_to_input` for the same input multiple
             // times. As the value the promise resolves to is know we actually
             // already know the results and have set them, we just want to
             // wait for them to be ready.
@@ -429,8 +422,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
 
 
 
-    public function is_flat(): bool
-    {
+    public function is_flat(): bool {
         return false;
     }
 
@@ -438,8 +430,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
         return 'This is never happening! The logic goes to [[iframe]].';
     }
 
-    public function validate_extract_attributes(): array
-    {   
+    public function validate_extract_attributes(): array {
         // Note that all the "set" variables are actually CAS variables.
         // So we should return the nosuffix versions here for checking.
         // Not a major issue as the security system will stop any calls and
@@ -448,8 +439,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
         return [];
     }
 
-    public function validate(&$errors = [], $options = []): bool
-    {
+    public function validate(&$errors = [], $options = []): bool {
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.
         $valid = true;
@@ -569,7 +559,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block
                         'var' => $varname,
                     ]);
                 }
-            } elseif (
+            } else if (
                 $key !== 'width' &&
                 $key !== 'height' &&
                 $key !== 'aspect-ratio' &&

@@ -2,7 +2,7 @@
 
 Author Tim Lutz - University of Edinburgh and University of Education Heidelberg, 2022-23.
 
-STACK supports inclusion of dynamic graphs using GeoGebra: [https://geogebra.org](https://geogebra.org).  This page documents how to use GeoGebra applets to display visuals, and as a STACK input.
+STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.org](https://geogebra.org).  This page documents how to use GeoGebra applets both to display GeoGebra visuals, and as a STACK input.
 
 Information from GeoGebra applets can be linked to STACK inputs and assessed by potential response trees in the normal way.  To help with assessment, STACK provides a number of [geometry related maxima functions](../CAS/Geometry.md).
 
@@ -26,7 +26,7 @@ For the material [https://www.geogebra.org/m/seehz3km](https://www.geogebra.org/
 
 ## Add the material_id to a new STACK task
 
-Then include the following question text, which includes a simple `[[geogebra]]` [block](Question_blocks.md).
+Then include the following question text, which includes a simple `[[geogebra]]` [question block](Question_blocks/index.md).
 
     <p>You can show an applet:</p>
     [[geogebra]]
@@ -35,7 +35,13 @@ Then include the following question text, which includes a simple `[[geogebra]]`
 
 ## Using the sub-tags "set", "watch" and "remember"
 
-### naming conventions
+The "set", "watch" and "remember" tags to the `[[geogebra]]` question block link Maxima values to GeoGebra objects in various ways.
+
+* "set" will set a GeoGebra object, point or value to a STACK-calculated value.
+* "watch" enables a STACK input to listen to values and points in GeoGebra.
+* "remember" is needed when you do not want to calculate feedback with some of the GeoGebra objects in an applet, but you do want to be able to save and restore the state of an applet when the student returns to the question later.
+
+### Naming conventions
 
 The sub-tag `set` parameter value is a string of (unique), comma-separated, GeoGebra-objects with latin names.
 For example, the sub-tag value could look like:  `set = "A,B,C,D,a2,E__fixed"` and would be placed in the block as
@@ -45,18 +51,20 @@ For example, the sub-tag value could look like:  `set = "A,B,C,D,a2,E__fixed"` a
 
 To be able to make things easy for question authors, the following name conventions _must_ be followed:
 
-1. Names of variables must be equal in STACK and GeoGebra.
-2. Values are `int` or `float` STACK variables.
-3. Points are represented as array in STACK like: e.g. `[2,3]`, which means a point with \(x=2, y=3\).  The Maxima object would be for point \(D\) e.g. `D:[2,3]`.
-4. Value-names must start with lower case letters.
-5. Angles are used like values, and so must be named lowercase letters in Latin-Alphabet, (not Greek unicode letters!) and values are radians
-6. Point-names must start with upper case letters
+1. Names of variables must be equal in both STACK and GeoGebra.
+2. Values must be `int` or `float` STACK variables.
+3. Point-names must start with upper case letters.
+4. Points are represented as a list in STACK like: e.g. `[2,3]`, which means a point with \(x=2, y=3\).  The Maxima object would be for point \(D\) e.g. `D:[2,3]`.
+5. Value-names must start with lower case letters.
+6. Angles are used like values, and so must be named lowercase letters in Latin-Alphabet, (not Greek unicode letters!) and values must be in radians.
 
 ## Using the "set" sub-tag
 
-With the "set" sub-tag you can set a GeoGebra object point or value to a STACK-calculated value.
+With the "set" sub-tag you can set a GeoGebra object, point or value to a STACK-calculated value.
 
-Points will be set free to manipulate, unless you add `__fixed` or other double-underscore-tags to the Point-name. A full list of available options see "set: double-underscore-tags in the "advanced use-cases"-section.  Angles cannot be set directly, set points instead!
+Points will be set free to manipulate, unless you add `__fixed` or other double-underscore-tags to the Point-name. A full list of available options see "set: double-underscore-tags in the "advanced use-cases"-section.
+
+Angles cannot be set directly, set points instead!
 
 ### A minimal example
 
@@ -90,7 +98,8 @@ Set the question text:
     [[input:A]][[validation:A]]
     [[input:b]][[validation:b]]
 
-Note:
+Recall that since `A` is upper case it must be a point, and since `b` is lower case it will be a value/angle.  Note:
+
 1. `A` _must_ be an algebraic-input and you _must_ allow floats!
 2. You can access `A` in STACK for feedback as a list of values for points `A[0]->x-value`, `A[1]->y-value`
 3. You can access `b` in STACK as value. If `b` represents an angle then `b` is in radians.

@@ -45,7 +45,7 @@ class stack_cas_castext2_reveal extends stack_cas_castext2_block {
         // This should have enough randomness to avoid collisions.
         $uid = '' . rand(100, 999) . time() . '_' . $count;
         $count = $count + 1;
-        
+
         // Name and hide the contents.
         $body->items[] = new MP_String('<div style="display:none;" id="stack-reveal-' . $uid . '">');
 

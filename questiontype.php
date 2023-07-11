@@ -194,6 +194,8 @@ class qtype_stack extends question_type {
             $input->boxsize            = $fromform->{$inputname . 'boxsize'};
             // TODO: remove this when we remove strictsyntax from the DB.
             $input->strictsyntax       = true;
+            $input->displaytype        = $fromform->{$inputname . 'displaytype'};
+            $input->buttontitles        = $fromform->{$inputname . 'buttontitles'};
             $input->insertstars        = $fromform->{$inputname . 'insertstars'};
             $input->syntaxhint         = $fromform->{$inputname . 'syntaxhint'};
             $input->syntaxattribute    = $fromform->{$inputname . 'syntaxattribute'};
@@ -490,6 +492,8 @@ class qtype_stack extends question_type {
                 'syntaxHint'      => $inputdata->syntaxhint,
                 'syntaxAttribute' => $inputdata->syntaxattribute,
                 'forbidWords'     => $inputdata->forbidwords,
+                'displaytype'     => $inputdata->displaytype,
+                'buttontitles'     => $inputdata->buttontitles,
                 'allowWords'      => $inputdata->allowwords,
                 'forbidFloats'    => (bool) $inputdata->forbidfloat,
                 'lowestTerms'     => (bool) $inputdata->requirelowestterms,

@@ -700,7 +700,7 @@ class qtype_stack_edit_form extends question_edit_form {
             // TODO: remove this when we delete it from the DB.
             //changed
             $question->{$inputname . 'displaytype'}        = $input->displaytype;
-            $question->{$inputname . 'buttontitles'}        = $input->buttontitles;
+            $question->{$inputname . 'buttontitles'}       = $input->buttontitles;
             $question->{$inputname . 'strictsyntax'}       = true;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
             $question->{$inputname . 'syntaxhint'}         = $input->syntaxhint;

@@ -205,7 +205,7 @@ class stack_question_test_result {
      * @return bool whether the answer notes match sufficiently.
      */
     protected function test_answer_note($expected, $actual) {
-        $lastactual = array_pop($actual);
+        $lastactual = array_pop($actual) ?? '';
         if ('NULL' == $expected) {
             return '' == trim($lastactual);
         }

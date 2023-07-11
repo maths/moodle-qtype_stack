@@ -1458,7 +1458,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver']) {
                 foreach ($qfields as $field) {
-                    if (strstr($this->$field, $checkpat['pat'])) {
+                    if (strstr($this->$field ?? '', $checkpat['pat'])) {
                         $a = array('pat' => $checkpat['pat'], 'ver' => $checkpat['ver'], 'qfield' => stack_string($field));
                         $err = stack_string('stackversionerror', $a);
                         if (array_key_exists('alt', $checkpat)) {
@@ -1516,7 +1516,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $fields = array('questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription');
         foreach ($fields as $field) {
             $text = $this->$field;
-            $filesexpected = preg_match($pat, $text);
+            $filesexpected = preg_match($pat, $text ?? '');
             $filesfound    = $fs->get_area_files($context->id, 'question', $field, $this->id);
             if (!$filesexpected && $filesfound != array()) {
                 $errors[] = stack_string('stackfileuseerror', stack_string($field));

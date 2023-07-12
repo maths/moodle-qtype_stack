@@ -14,7 +14,7 @@
     width: 60px;
     height: 34px;
 }
-.stack-input-toogle-button{
+.stack-toogle-button.stack-input-toogle-button{
     opacity: 0;
     width: 0;
     height: 0;

@@ -66,13 +66,18 @@ class stack_boolean_input extends stack_input {
 
         $element_select = html_writer::select(self::get_choices(), $fieldname,
                 $value, '', $attributes);
-
-        //changed
+        //toggle-Button
         $attributes = array();
         $element_button_id = $fieldname . "-button";
         $attributes['id'] = $element_button_id;
         $attributes['class'] = 'stack-toogle-button';
-        $attributes['type'] = 'button';
+        $attributes['type'] = 'checkbox';
+        //changed
+        // $attributes = array();
+        // $element_button_id = $fieldname . "-button";
+        // $attributes['id'] = $element_button_id;
+        // $attributes['class'] = 'stack-toogle-button';
+        // $attributes['type'] = 'button';
         //$attributes['onclick'] = 'document.getElementsByName("' . $fieldname . '")[0].value = document.getElementsByName("' . $fieldname . '")[0].value=="true" ? "false" : "true" ; document.getElementsByName("' . $fieldname . '")[0].classList.toggle("boolean-pressed"); ';
         $attributes['onclick'] = '
             if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
@@ -83,7 +88,7 @@ class stack_boolean_input extends stack_input {
                 document.getElementById("' . $element_button_id . '").classList.add("boolean-pressed");
             };
         ';
-        $element_button = html_writer::tag('button', "Click me", $attributes);
+        $element_button = html_writer::tag('input', "<span class='slider'></span>", $attributes);
         
         $element_script = html_writer::tag('script', 'document.addEventListener("DOMContentLoaded", function(){
                 if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
@@ -93,8 +98,9 @@ class stack_boolean_input extends stack_input {
                 };
                 console.log("okneu");
             });');
+        $element_label = html_writer::tag('label',$element_button,$attributes['class']);
         
-        return $element_select . $element_button . $element_script;
+        return $element_select . $element_label . $element_script;
         //end
     }
 

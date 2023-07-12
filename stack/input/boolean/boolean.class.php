@@ -66,7 +66,7 @@ class stack_boolean_input extends stack_input {
 
         $element_select = html_writer::select(self::get_choices(), $fieldname,
                 $value, '', $attributes);
-        //toggle-Button
+        //Toggle-Button
         $attributes = array();
         $element_button_id = $fieldname . "-button";
         $attributes['id'] = $element_button_id;
@@ -79,8 +79,10 @@ class stack_boolean_input extends stack_input {
             document.getElementsByName("' . $fieldname . '")[0].value = "true";
         };
         ';
-        $element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
-        //changed
+        //$element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
+        //Toogle-Button with Text
+        $element_button = html_writer::tag('input', "<span class='slider round'></span><span class='labels' data-on='ON' data-off='OFF'></span>", $attributes);
+        // 'Click me'-Button
         // $attributes = array();
         // $element_button_id = $fieldname . "-button";
         // $attributes['id'] = $element_button_id;

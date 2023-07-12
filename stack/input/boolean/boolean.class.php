@@ -79,7 +79,7 @@ class stack_boolean_input extends stack_input {
             document.getElementsByName("' . $fieldname . '")[0].value = "true";
         };
         ';
-        $element_button = html_writer::tag('input', "<span class='slider round'></span><span class='slider-labels' data-on='ON' data-off='OFF'></span>", $attributes);
+        $element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
         //changed
         // $attributes = array();
         // $element_button_id = $fieldname . "-button";

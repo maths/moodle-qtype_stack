@@ -21,6 +21,7 @@
     cursor: pointer;
 }
 .stack-toogle-button input{
+    display: block;
     display: none;
 }
 .stack-toogle-button .slider::before {

@@ -110,7 +110,7 @@ class stack_boolean_input extends stack_input {
         $attributes['class'] = 'stack-toogle-button';
         $element_label = html_writer::tag('label',$element_button,$attributes);
         
-        return $element_select . $element_label . $element_script;
+        return $element_select . $element_label ;
         //end
     }
 

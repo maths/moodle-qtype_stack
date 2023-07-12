@@ -81,7 +81,7 @@ class stack_boolean_input extends stack_input {
         ';
         //$element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
         //Toogle-Button with Text
-        $element_button = html_writer::tag('input', "<span class='slider round'></span><span class='labels' data-on='ON' data-off='OFF'></span>", $attributes);
+        $element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='ON' data-off='OFF'></span>", $attributes);
         // 'Click me'-Button
         // $attributes = array();
         // $element_button_id = $fieldname . "-button";

@@ -1,11 +1,6 @@
 /* Style for input type boolean as a button*/
 .stack-clickme-button{
-    display: inline-block;
     font-size: 15px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    outline: none;
     color: black;
     background-color: #e7e7e7;
     border: none;
@@ -110,7 +105,7 @@
 .stack-parent-toogle-button{
     display: grid;
     grid-template-columns: 200px auto;
-    align-items: self-end;
+    align-items: inherit;
     gap: 10px;
 }
 /* Style for hint question block */

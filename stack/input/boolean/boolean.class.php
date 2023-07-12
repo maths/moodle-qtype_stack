@@ -67,58 +67,54 @@ class stack_boolean_input extends stack_input {
         $element_select = html_writer::select(self::get_choices(), $fieldname,
                 $value, '', $attributes);
         //Toggle-Button
-        // $attributes = array();
-        // $element_button_id = $fieldname . "-button";
-        // $attributes['id'] = $element_button_id;
-        // $attributes['class'] = 'stack-input-toogle-button';
-        // $attributes['type'] = 'checkbox';
-        // $attributes['onclick'] = '
-        // if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
-        //      document.getElementsByName("' . $fieldname . '")[0].value = "false";
-        // } else {
-        //     document.getElementsByName("' . $fieldname . '")[0].value = "true";
-        // };
-        // ';
-        // $element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
-        //Toogle-Button with Text
-        //$element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
-        // 'Click me'-Button
         $attributes = array();
         $element_button_id = $fieldname . "-button";
         $attributes['id'] = $element_button_id;
-        $attributes['class'] = 'stack-clickme-button';
-        $attributes['type'] = 'button';
-        //$attributes['onclick'] = 'document.getElementsByName("' . $fieldname . '")[0].value = document.getElementsByName("' . $fieldname . '")[0].value=="true" ? "false" : "true" ; document.getElementsByName("' . $fieldname . '")[0].classList.toggle("boolean-pressed"); ';
+        $attributes['class'] = 'stack-input-toogle-button';
+        $attributes['type'] = 'checkbox';
         $attributes['onclick'] = '
-            if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
-                 document.getElementsByName("' . $fieldname . '")[0].value = "false";
-                 document.getElementById("' . $element_button_id . '").classList.remove("boolean-pressed");
-                 document.getElementById("' . $element_button_id . '").classList.add("not-pressed");
-            } else {
-                document.getElementsByName("' . $fieldname . '")[0].value = "true";
-                document.getElementById("' . $element_button_id . '").classList.add("boolean-pressed");
-                document.getElementById("' . $element_button_id . '").classList.remove("not-pressed");
-            };
+        if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
+             document.getElementsByName("' . $fieldname . '")[0].value = "false";
+        } else {
+            document.getElementsByName("' . $fieldname . '")[0].value = "true";
+        };
         ';
-        $element_button = html_writer::tag('button', "Click me", $attributes);
-        
-        $element_script = html_writer::tag('script', 'document.addEventListener("DOMContentLoaded", function(){
-                if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
-                     document.getElementById("' . $element_button_id . '").classList.add("boolean-pressed");
-                     document.getElementById("' . $element_button_id . '").classList.add("not-pressed");
-                } else {
-                    document.getElementById("' . $element_button_id . '").classList.remove("boolean-pressed");
-                    document.getElementById("' . $element_button_id . '").classList.remove("not-pressed");
-                };
-                console.log("okneu");
-            });');
+        $element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
+        //Toogle-Button with Text
+        //$element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
+        // 'Click me'-Button
         // $attributes = array();
-        // $attributes['class'] = 'stack-toogle-button';
-        // $element_label = html_writer::tag('label',$element_button,$attributes);
+        // $element_button_id = $fieldname . "-button";
+        // $attributes['id'] = $element_button_id;
+        // $attributes['class'] = 'stack-clickme-button';
+        // $attributes['type'] = 'button';
+        // //$attributes['onclick'] = 'document.getElementsByName("' . $fieldname . '")[0].value = document.getElementsByName("' . $fieldname . '")[0].value=="true" ? "false" : "true" ; document.getElementsByName("' . $fieldname . '")[0].classList.toggle("boolean-pressed"); ';
+        // $attributes['onclick'] = '
+        //     if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
+        //          document.getElementsByName("' . $fieldname . '")[0].value = "false";
+        //          document.getElementById("' . $element_button_id . '").classList.remove("boolean-pressed");
+        //     } else {
+        //         document.getElementsByName("' . $fieldname . '")[0].value = "true";
+        //         document.getElementById("' . $element_button_id . '").classList.add("boolean-pressed");
+        //     };
+        // ';
+        // $element_button = html_writer::tag('button', "Click me", $attributes);
+        
+        // $element_script = html_writer::tag('script', 'document.addEventListener("DOMContentLoaded", function(){
+        //         if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
+        //              document.getElementById("' . $element_button_id . '").classList.add("boolean-pressed");
+        //         } else {
+        //             document.getElementById("' . $element_button_id . '").classList.remove("boolean-pressed");
+        //         };
+        //         console.log("okneu");
+        //     });');
+        $attributes = array();
+        $attributes['class'] = 'stack-toogle-button';
+        $element_label = html_writer::tag('label',$element_button,$attributes);
         
         
-        //return $element_select . $element_label ;
-        return $element_select . $element_button . $element_script ;
+        return $element_select . $element_label ;
+        // return $element_select . $element_button . $element_script ;
         //end
     }
 

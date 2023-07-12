@@ -20,33 +20,31 @@
     border-radius: var(--height);
     cursor: pointer;
 }
-.stack-toogle-button.stack-input-toogle-button{
-    opacity: 0;
-    width: 0;
-    height: 0;
+.stack-toogle-button input{
+    display: none;
 }
-.slider {
+.stack-toogle-button .slider::before {
+    content: '';
     position: absolute;
-    cursor: pointer;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
+    width: calc(var(--height));
+    height: calc(var(--height));
+    border-radius: calc(var(--height) / 2);
+    background-color: #fff;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s ease-in-out;
 }
   
-.slider:before {
+.stack-toogle-button .slider {
     position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--height);
+    background-color: #ccc;
+    transition: all 0.4s ease-in-out;
 }
   
 .stack-input-toogle-button:checked + .slider {

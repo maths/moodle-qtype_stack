@@ -9,10 +9,16 @@
 }
 /* Style for input type boolean as a toggle button*/
 .stack-toogle-button {
+    --width: 80px;
+    --height: calc(var(--width) / 3);
+
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: var(--width);
+    height: var(--height);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+    border-radius: var(--height);
+    cursor: pointer;
 }
 .stack-toogle-button.stack-input-toogle-button{
     opacity: 0;

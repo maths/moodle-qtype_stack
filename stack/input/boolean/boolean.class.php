@@ -70,7 +70,7 @@ class stack_boolean_input extends stack_input {
         $attributes = array();
         $element_button_id = $fieldname . "-button";
         $attributes['id'] = $element_button_id;
-        $attributes['class'] = 'stack-toogle-button';
+        $attributes['class'] = 'stack-input-toogle-button';
         $attributes['type'] = 'checkbox';
         //changed
         // $attributes = array();
@@ -88,7 +88,7 @@ class stack_boolean_input extends stack_input {
                 document.getElementById("' . $element_button_id . '").classList.add("boolean-pressed");
             };
         ';
-        $element_button = html_writer::tag('input', "<span class='slider'></span>", $attributes);
+        $element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
         
         $element_script = html_writer::tag('script', 'document.addEventListener("DOMContentLoaded", function(){
                 if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {

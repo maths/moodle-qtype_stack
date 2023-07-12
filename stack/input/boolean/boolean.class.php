@@ -98,7 +98,9 @@ class stack_boolean_input extends stack_input {
                 };
                 console.log("okneu");
             });');
-        $element_label = html_writer::tag('label',$element_button,$attributes['class']);
+        $attributes = array();
+        $attributes['class'] = 'stack-toogle-button';
+        $element_label = html_writer::tag('label',$element_button,$attributes);
         
         return $element_select . $element_label . $element_script;
         //end

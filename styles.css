@@ -1,32 +1,26 @@
 /* Style for input type boolean as a button*/
 .stack-clickme-button{
-    background-color: #e7e7e7; 
-    border: none;
-    color: black;
-    padding: 16px 32px;
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    transition-duration: 0.4s;
-    cursor: pointer;
+    outline: none;
+    color: black;
+    background-color: #e7e7e7;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
 }
 .boolean-pressed {
     background-color: #555555;
     color: white;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }
-.boolean-pressed:hover {
-    background-color: #e7e7e7;
-    color: black;
-}
-.not-pressed{
-    background-color: #e7e7e7; 
-    color: black
-}
-.not-pressed:hover{
-    background-color: #555555;
-    color: white;
+.stack-clickme-button:hover {
+    background-color: grey;
 }
 /* Style for input type boolean as a toggle button*/
 .stack-toogle-button {

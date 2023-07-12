@@ -46,7 +46,34 @@
     background-color: #ccc;
     transition: all 0.4s ease-in-out;
 }
-  
+.stack-toogle-button .slider-labels {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+    font-family: sans-serif;
+    transition: all 0.4s ease-in-out;
+}
+.stack-toogle-button .slider-labels::after {
+    content: attr(data-off);
+    position: absolute;
+    right: 5px;
+    color: #4d4d4d;
+    opacity: 1;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s ease-in-out;
+}
+.stack-toogle-button .slider-labels::before {
+    content: attr(data-on);
+    position: absolute;
+    left: 5px;
+    color: #ffffff;
+    opacity: 0;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
+    transition: all 0.4s ease-in-out;
+}
 .stack-input-toogle-button:checked + .slider {
     background-color: #2196F3;
 }
@@ -57,8 +84,8 @@
   
 .stack-input-toogle-button:checked+.slider::before {
     transform: translateX(calc(var(--width) - var(--height)));
-  }
-  .toggle input:checked~.silder-labels::after {
+}
+.toggle input:checked~.silder-labels::after {
     opacity: 0;
 }
 

@@ -1,11 +1,20 @@
 /* Style for input type boolean as a button*/
 .boolean-pressed {
-    background-color: red;
+    background-color: #555555;
     color: white;
 }
 .boolean-pressed:hover {
-    background-color: white;
+    background-color: #555555;
     color: white;
+}
+.stack-clickme-button{
+    border-radius: 8px;
+    transition-duration: 0.4s;
+    background-color: #e7e7e7; 
+    color: black;
+}
+.stack-clickme-button:hover{
+    background-color: #e7e7e7;
 }
 /* Style for input type boolean as a toggle button*/
 .stack-toogle-button {

@@ -1600,7 +1600,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         $pat = '/\[\[todo/';
         foreach ($tocheck as $field => $text) {
-            if (preg_match($pat, $text)) {
+            if (preg_match($pat, $text ?? '')) {
                 $warnings[] = stack_string_error('todowarning', array('field' => $field));
             }
         }

@@ -1,4 +1,11 @@
 /* Style for input type boolean as a button*/
+.stack-button{
+    --width: 80px;
+    --height: calc(var(--width) / 3);
+    width: var(--width);
+    height: var(--height);
+    cursor: pointer;
+}
 .stack-clickme-button{
     font-size: 15px;
     color: black;
@@ -18,16 +25,10 @@
 }
 /* Style for input type boolean as a toggle button*/
 .stack-toogle-button {
-    --width: 80px;
-    --height: calc(var(--width) / 3);
-
     position: relative;
     display: block;
-    width: var(--width);
-    height: var(--height);
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
     border-radius: var(--height);
-    cursor: pointer;
 }
 .stack-input-toogle-button{
     display: none;

@@ -66,9 +66,9 @@
 .stack-input-toogle-button:checked+.slider::before {
     transform: translateX(calc(var(--width) - var(--height)));
 }
-.que .stack-toogle-button {
+/* .que .stack-toogle-button {
     display: block;
-}
+} */
 .stack-toogle-button .slider-labels {
     position: absolute;
     top: 8px;
@@ -106,8 +106,13 @@
 
 .stack-input-toogle-button:checked~.slider-labels::before {
     opacity: 1;
-  }
-
+}
+.stack-parent-toogle-button{
+    display: grid;
+    grid-template-columns: 200px auto;
+    align-items: self-end;
+    gap: 10px;
+}
 /* Style for hint question block */
 details.stack-hint {
     padding: 2px;
@@ -120,7 +125,6 @@ details.stack-hint {
 div.stack-hint-content {
     padding: 10px;
 }
-
 /* Styles used when questions are being attempted. */
 .que.stack .stackruntimeerrror {
     color: #c02200;

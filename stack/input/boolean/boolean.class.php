@@ -93,9 +93,11 @@ class stack_boolean_input extends stack_input {
             if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
                  document.getElementsByName("' . $fieldname . '")[0].value = "false";
                  document.getElementById("' . $element_button_id . '").classList.remove("boolean-pressed");
+                 document.getElementById("' . $element_button_id . '").classList.add("not-pressed");
             } else {
                 document.getElementsByName("' . $fieldname . '")[0].value = "true";
                 document.getElementById("' . $element_button_id . '").classList.add("boolean-pressed");
+                document.getElementById("' . $element_button_id . '").classList.remove("not-pressed");
             };
         ';
         $element_button = html_writer::tag('button', "Click me", $attributes);
@@ -103,8 +105,10 @@ class stack_boolean_input extends stack_input {
         $element_script = html_writer::tag('script', 'document.addEventListener("DOMContentLoaded", function(){
                 if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
                      document.getElementById("' . $element_button_id . '").classList.add("boolean-pressed");
+                     document.getElementById("' . $element_button_id . '").classList.add("not-pressed");
                 } else {
                     document.getElementById("' . $element_button_id . '").classList.remove("boolean-pressed");
+                    document.getElementById("' . $element_button_id . '").classList.remove("not-pressed");
                 };
                 console.log("okneu");
             });');

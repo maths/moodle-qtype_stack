@@ -63,7 +63,7 @@ class stack_boolean_input extends stack_input {
         if ($value === 'EMPTYANSWER') {
             $value = '';
         }
-
+        $attributes['hidden']="hidden";
         $element_select = html_writer::select(self::get_choices(), $fieldname,
                 $value, '', $attributes);
         //Toggle-Button

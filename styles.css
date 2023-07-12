@@ -58,6 +58,13 @@
 .stack-input-toogle-button:checked+.slider::before {
     transform: translateX(calc(var(--width) - var(--height)));
   }
+  .toggle input:checked~.silder-labels::after {
+    opacity: 0;
+}
+
+.toggle input:checked~.slider-labels::before {
+    opacity: 1;
+}
 /* Rounded sliders */
 .slider.round {
     position: absolute;

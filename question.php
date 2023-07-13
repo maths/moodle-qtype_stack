@@ -1492,7 +1492,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
 
             $options = $input->get_parameter('options');
-            if (trim($options) !== '') {
+            if (trim($options ?? '') !== '') {
                 $options = explode(',', $options);
                 foreach ($options as $opt) {
                     $opt = strtolower(trim($opt));

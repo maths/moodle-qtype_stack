@@ -607,7 +607,7 @@ class input_units_test extends qtype_stack_testcase {
             . '<span class="nolink">\( 9,81\, {\mathrm{m}}/{\mathrm{s}^2} \)</span></span>, which can be typed in as follows: '
             . '<code>9,81*m/s^2</code>',
             $el->get_teacher_answer_display($state->contentsmodified, '9,81\, {\mathrm{m}}/{\mathrm{s}^2}'));
-        
+
     }
 
     public function test_validate_student_response_display_negpow_3() {

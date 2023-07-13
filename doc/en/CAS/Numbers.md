@@ -123,11 +123,7 @@ Maxima has a separate system for controlling the number of decimal digits used i
 
 ## Changing the decimal separator, e.g. using a comma for separating decimals ##
 
-STACK now supports a mechanism for changing the decimal separator and using a comma for separating decimals.  Using the following in the question variables will print floating point numbers with a comma instead of the decimal point throughout the question, including students' inputs
-
-    texput_decimal(",");
-
-For finer control in other parts of the question, just set the variable
+STACK now supports a mechanism for changing the decimal separator and using a comma for separating decimals.  A question level option can be used to choose `,` or `.` as the decimal separator.  For finer control in other parts of the question, just set the variable
 
     stackfltsep:",";
 

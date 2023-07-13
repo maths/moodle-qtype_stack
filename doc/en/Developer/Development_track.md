@@ -14,11 +14,13 @@ DONE
 4. Add in the `[[todo]]` [question block](../Authoring/Question_blocks/Static_blocks.md).
 5. Caschat page now saves question variables and general feedback back into the question.  Fixes issue #984.
 6. Confirm support for Maxima 5.46.0 and 5.47.0.
+7. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TODO: possible option to change shape at the input level?)
 
 Support the use of a [comma as the decimal separator](Syntax_numbers.md)
 1. (Done) Mechanism for Maxima to output LaTeX.
-2. Mechanism to output expressions as they should be typed.
+2. (Done) Mechanism to output expressions as they should be typed.
 3. Input parsing mechanism.
+4. (Done) Question wide option for decimal separator added.  TODO: how to give access to this?
 
 TODO: 
 

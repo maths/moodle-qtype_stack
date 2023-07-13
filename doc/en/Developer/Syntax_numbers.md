@@ -92,7 +92,7 @@ Students do not type in expression termination symbols `;`, freeing up this symb
 Internally, we retain strict Maxima syntax.  _Teachers must use strict Maxima syntax, so that numbers are typed in base 10, and the decimal point (`.`) must be used by teachers as the decimal separator._   This simplifies the problem considerably, as input parsing is only required for students' answers.
 
 1. Mechanism for Maxima to output LaTeX. (Done - but more work needed on testing and question-wide options)
-2. Mechanism to output expressions as they should be typed.  E.g. "The teacher's answer is \(???\) which can be typed as `???`".
+2. Mechanism to output expressions as they should be typed.  E.g. "The teacher's answer is \(???\) which can be typed as `???`". (Done - but more work needed on testing and question-wide options)
 3. Input parsing mechanism for _students' answers only_.
 
 (Note to self, strings may contain harmless punctuation characters which should not be changed...)
@@ -108,4 +108,5 @@ In the school context, it is almost exclusively common in German-speaking countr
 As a suggestion, I would like to point out the behavior of Microsoft Excel.  In the German version, the '`,`' and '`.`' are also used according to my comment above. In formulas, the individual arguments are separated by a '`;`'.  If you switch to the English version, however, thousands are separated by '`,`' and decimal numbers by '`.`' as well as the parameters of functions by '`,`'. Maybe it is advisable to approach this behavior, because there could be synnergies. 
 
 ***As a silver bullet, however, I would suggest the following:***
+
 In Moodle there is a method (unformat_float lib/moodlelib.php:8880) that converts local numbers entered by the user into a standard-compliant number, which can then also be stored in the DB. Depending on the viewer, this can then be output again in the respective local representation ([format_float; lib/moodlelib.php](https://github.com/moodle/moodle/blob/master/lib/moodlelib.php#L8830)) of the viewer. The advantage would be that thereby no special cases must be considered but, everything can be kept as before. Only the user input and output has to be converted accordingly, and moodle does that itself.

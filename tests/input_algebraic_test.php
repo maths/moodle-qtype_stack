@@ -1693,4 +1693,24 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals($displayed, $state->contentsdisplayed);
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
+
+    public function test_decimal_output_1() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('algebraic', 'state', '{3.1415,2.71}', $options);
+        $el->set_parameter('forbidFloats', false);
+
+        // TODO: this should fail when we update the student input parsing!
+        $state = $el->validate_student_response(array('state' => '{3.1415,2.71}'), $options, '{3.1415,2.71}',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('{3.1415,2.71}', $state->contentsmodified);
+        $this->assertEquals('\[ \left \{3,1415 ; 2,7100 \right \} \]', $state->contentsdisplayed);
+        $this->assertEquals('',
+            $state->errors);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( \{3,1415 ; 2,7100 \right \} \)</span></span>, which can be typed in as follows: '
+            . '<code>{3,1415;2,71}</code>',
+            $el->get_teacher_answer_display($state->contentsmodified, '\{3,1415 ; 2,7100 \right \}'));
+    }
 }

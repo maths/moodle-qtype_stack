@@ -96,11 +96,12 @@ class stack_varmatrix_input extends stack_input {
         }
 
         // Read matrix bracket style from options.
-        $matrixbrackets = 'matrixroundbrackets';
+        // The default brackets for matrices are square in options.
+        $matrixbrackets = 'matrixsquarebrackets';
         if ($this->options) {
             $matrixparens = $this->options->get_option('matrixparens');
-            if ($matrixparens == '[') {
-                $matrixbrackets = 'matrixsquarebrackets';
+            if ($matrixparens == '(') {
+                $matrixbrackets = 'matrixroundbrackets';
             } else if ($matrixparens == '|') {
                 $matrixbrackets = 'matrixbarbrackets';
             } else if ($matrixparens == '') {

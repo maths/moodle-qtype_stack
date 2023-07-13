@@ -256,10 +256,10 @@ class stack_matrix_input extends stack_input {
         }
 
         // Read matrix bracket style from options.
-        $matrixbrackets = 'matrixroundbrackets';
+        $matrixbrackets = 'matrixsquarebrackets';
         $matrixparens = $this->options->get_option('matrixparens');
-        if ($matrixparens == '[') {
-            $matrixbrackets = 'matrixsquarebrackets';
+        if ($matrixparens == '(') {
+            $matrixbrackets = 'matrixroundbrackets';
         } else if ($matrixparens == '|') {
             $matrixbrackets = 'matrixbarbrackets';
         } else if ($matrixparens == '') {

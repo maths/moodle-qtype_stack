@@ -37,6 +37,15 @@ class stack_options {
                 'caskey'     => 'OPT_OUTPUT',
                 'castype'    => 'string',
              ),
+            // Currently no way for users to set this option.
+            'decimals'       => array(
+                'type'       => 'list',
+                'value'      => '.',
+                'strict'     => true,
+                'values'     => array('.', ','),
+                'caskey'     => 'texput_decimal',
+                'castype'    => 'fun',
+            ),
             'multiplicationsign'   => array(
                 'type'       => 'list',
                 'value'      => 'dot',

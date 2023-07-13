@@ -313,10 +313,21 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
-    public function get_inputform(bool $keyless = false, $nounify = null, $nontuples = false): string {
+    public function get_inputform(bool $keyless = false, $nounify = null, $nontuples = false,
+            $decimals = '.'): string {
         if (!($nounify === null || is_int($nounify))) {
             throw new stack_exception('stack_ast_container: nounify must be null or an integer.');
         }
+        if (!($decimals === '.' || $decimals === ',')) {
+            throw new stack_exception('stack_ast_container: decimal option must be "." or ",".');
+        }
+        $decimal = '.';
+        $listsep = ',';
+        if ($decimals == ',') {
+            $decimal = ',';
+            $listsep = ';';
+        }
+
         $params = array('inputform' => true,
                 'qmchar' => true,
                 'pmchar' => 0,
@@ -324,7 +335,9 @@ class stack_ast_container_silent implements cas_evaluatable {
                 'keyless' => $keyless,
                 'dealias' => false, // This is needed to stop pi->%pi etc.
                 'nounify' => $nounify,
-                'nontuples' => $nontuples
+                'nontuples' => $nontuples,
+                'decimal' => $decimal,
+                'listsep' => $listsep
                 );
         return $this->ast_to_string($this->ast, $params);
     }

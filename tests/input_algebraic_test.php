@@ -1592,6 +1592,21 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('Coordinates are not permitted in this input.', $state->errors);
     }
 
+    public function test_validate_student_response_no_dot_dot() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '3.14*2.78');
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(array('sans1' => '3.14.2.78'), $options, '3.14*2.78',
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::INVALID);
+        $this->assertEquals('3.14 . 2.78', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">3.14.2.78</span>',
+            $state->contentsdisplayed);
+        $this->assertEquals('MatrixMultWithFloat', $state->note);
+        $this->assertEquals('Using matrix multiplication "." with scalar floats is forbidden, ' .
+            'use normal multiplication "*" instead for the same result. 3.14 . 2.78', $state->errors);
+    }
+
     public function test_validate_consolidatesubscripts() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'state', 'M_1');

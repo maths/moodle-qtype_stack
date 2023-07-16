@@ -24,16 +24,16 @@
     background-color: grey;
 }
 /* Style for input type boolean as a toggle button*/
-.stack-toogle-button {
+.stack-toggle-button {
     position: relative;
     display: block;
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
     border-radius: var(--height);
 }
-.stack-input-toogle-button{
+.stack-input-toggle-button{
     display: none;
 }
-.stack-toogle-button .slider::before {
+.stack-toggle-button .slider::before {
     content: '';
     position: absolute;
     top: 0;
@@ -46,7 +46,7 @@
     transition: all 0.4s ease-in-out;
 }
   
-.stack-toogle-button .slider {
+.stack-toggle-button .slider {
     position: absolute;
     top: 0;
     left: 0;
@@ -56,16 +56,16 @@
     background-color: #ccc;
     transition: all 0.4s ease-in-out;
 }
-.stack-input-toogle-button:checked + .slider {
+.stack-input-toggle-button:checked + .slider {
     background-color: #2196F3;
 }
-.stack-input-toogle-button:checked+.slider::before {
+.stack-input-toggle-button:checked+.slider::before {
     transform: translateX(calc(var(--width) - var(--height)));
 }
 /* .que .stack-toogle-button {
     display: block;
 } */
-.stack-toogle-button .slider-labels {
+.stack-toggle-button .slider-labels {
     position: absolute;
     top: 8px;
     left: 0;
@@ -76,7 +76,7 @@
     transition: all 0.4s ease-in-out;
   }
 
-.stack-toogle-button .slider-labels::after {
+.stack-toggle-button .slider-labels::after {
     content: attr(data-off);
     position: absolute;
     right: 5px;
@@ -86,7 +86,7 @@
     transition: all 0.4s ease-in-out;
   }
 
-.stack-toogle-button .slider-labels::before {
+.stack-toggle-button .slider-labels::before {
     content: attr(data-on);
     position: absolute;
     left: 5px;
@@ -96,14 +96,14 @@
     transition: all 0.4s ease-in-out;
   }
 
-.stack-input-toogle-button:checked~.slider-labels::after {
+.stack-input-toggle-button:checked~.slider-labels::after {
     opacity: 0;
   }
 
-.stack-input-toogle-button:checked~.slider-labels::before {
+.stack-input-toggle-button:checked~.slider-labels::before {
     opacity: 1;
 }
-.stack-parent-toogle-button{
+.stack-parent-toggle-button{
     display: grid;
     grid-template-columns: 200px auto;
     align-items: inherit;

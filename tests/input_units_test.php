@@ -1116,4 +1116,26 @@ class input_units_test extends qtype_stack_testcase {
             '\[ \[ 0.0\, \mathrm{M}\mathrm{Pa} \]</span></span> \), which can be typed in as follows: <code>0.0*MPa</code>',
             $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
+
+    public function test_validate_student_response_complex_1() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '570.37298*ohm');
+        $el->set_parameter('insertStars', 1);
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(array('sans1' => '(72.0*%i-570.37298)*ohm'), $options, '570.37298*ohm',
+            new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('(72.0*%i-570.37298)*ohm', $state->contentsmodified);
+        $this->assertEquals('\[ \left( 72.0\, \mathrm{i}-570.37298\right)\, \Omega \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+
+        $state = $el->validate_student_response(array('sans1' => '(72.0-%i*570.37298)*ohm'), $options, '570.37298*ohm',
+            new stack_cas_security(true));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('(72.0-%i*570.37298)*ohm', $state->contentsmodified);
+        $this->assertEquals('\[ \left( 72.0-570.37298\, \mathrm{i}\right)\, \Omega \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
 }

@@ -966,7 +966,8 @@ abstract class stack_input {
                 // One of those things logic nouns hid.
                 $val = '';
             }
-            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply);
+            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
+                array(), 'Root', $this->options->get_option('decimals'));
 
             $caslines[] = $answer;
             $valid = $valid && $answer->get_valid();

@@ -77,6 +77,29 @@ class maxima_corrective_parser {
         $letters = json_decode(file_get_contents(__DIR__ . '/unicode/letters-stack.json'), true);
         $stringles = str_replace(array_keys($letters), array_values($letters), $stringles);
 
+        // Check for all three of . and , and ; which must indicate inconsistency.
+        if (strpos($stringles, '.') !== false and
+            strpos($stringles, ',') !== false and
+            strpos($stringles, ';') !== false) {
+                $errors[] = stack_string('stackCas_decimal_usedthreesep');
+        }
+        $decimals = '.';
+        if (array_key_exists('decimals', $parseroptions)) {
+            $decimals = $parseroptions['decimals'];
+        }
+        if ($decimals  == ',') {
+            // Clearly there is a lot more work to do here to get this all to work!
+            if (strpos($stringles, '.') !== false) {
+                $answernote[] = 'forbiddenCharDecimal';
+                $errors[] = stack_string('stackCas_decimal_usedcomma');
+                return null;
+            }
+            // Now we change from strict continental to British decimals.
+            // This is just place holders for now.
+            $stringles = str_replace(array(','), array('.'), $stringles);
+            $stringles = str_replace(array(';'), array(','), $stringles);
+        }
+
         // Check for invalid chars at this point as they may prove to be difficult to
         // handle latter, also strings are safe already.
         $superscript = json_decode(file_get_contents(__DIR__ . '/unicode/superscript-stack.json'), true);
@@ -208,7 +231,7 @@ class maxima_corrective_parser {
             $parser = new MP_Parser();
             $ast = $parser->parse($string, $parseroptions);
         } catch (SyntaxError $e) {
-            self::handle_parse_error($e, $string, $errors, $answernote);
+            self::handle_parse_error($e, $string, $errors, $answernote, $decimals);
             return null;
         }
 
@@ -237,7 +260,7 @@ class maxima_corrective_parser {
         return $ast;
     }
 
-    public static function handle_parse_error($exception, $string, &$errors, &$answernote) {
+    public static function handle_parse_error($exception, $string, &$errors, &$answernote, $decimals) {
         // @codingStandardsIgnoreStart
         // We also disallow backticks.
         static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>';
@@ -408,7 +431,11 @@ class maxima_corrective_parser {
                     mb_substr($string, $exception->grammarOffset)));
             $answernote[] = 'missing_stars';
         } else if ($foundchar === ',' || (ctype_digit($foundchar) && $previouschar === ',')) {
-            $errors[] = stack_string('stackCas_unencpsulated_comma');
+            if ($decimals == '.') {
+                $errors[] = stack_string('stackCas_unencpsulated_comma');
+            } else {
+                $errors[] = stack_string('stackCas_unencpsulated_semicolon');
+            }
             $answernote[] = 'unencapsulated_comma';
         } else if ($foundchar === '\\') {
             $errors[] = stack_string('illegalcaschars');

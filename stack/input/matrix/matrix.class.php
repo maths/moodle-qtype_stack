@@ -189,7 +189,8 @@ class stack_matrix_input extends stack_input {
         foreach ($contents as $row) {
             $modifiedrow = array();
             foreach ($row as $val) {
-                $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply);
+                $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
+                    array(), 'Root', $this->options->get_option('decimals'));
                 if ($answer->get_valid()) {
                     $modifiedrow[] = $answer->get_inputform();
                 } else {

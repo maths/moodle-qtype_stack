@@ -97,6 +97,10 @@ Internally, we retain strict Maxima syntax.  _Teachers must use strict Maxima sy
 
 (Note to self, strings may contain harmless punctuation characters which should not be changed...)
 
+TODO.
+
+1. Sort out AJAX validation of both matrix inputs.
+
 ## Practial implementation in other software
 
 1. NUMBAS also uses the semicolon to separate list items, as discussed in [NUMBAS issue 889](https://github.com/numbas/Numbas/issues/889)

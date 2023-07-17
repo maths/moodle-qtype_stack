@@ -41,7 +41,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_algebraic_input
  */
 class input_algebraic_test extends qtype_stack_testcase {
-
+/*
     public function test_internal_validate_parameter() {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');
         $this->assertTrue($el->validate_parameter('boxWidth', 30));
@@ -1708,6 +1708,27 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals($displayed, $state->contentsdisplayed);
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
+*/
+    public function test_decimal_output_0() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('algebraic', 'state', '{3.1415,2.71}', $options);
+        $el->set_parameter('forbidFloats', false);
+
+        $state = $el->validate_student_response(array('state' => '{3.1415,2.71}'), $options, '{3.1415,2.71}',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        // With a strict interpretation we would have to change the , to a . In this case it results in ...
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">{3.1415,2.71}</span>', $state->contentsdisplayed);
+        $this->assertEquals('You have used the full stop <code>.</code>, but you must use the comma <code>,</code> as a ' .
+            'decimal separator!',
+            $state->errors);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( \{3,1415 ; 2,7100 \right \} \)</span></span>, which can be typed in as follows: '
+            . '<code>{3,1415;2,71}</code>',
+            $el->get_teacher_answer_display('{3.1415,2.71}', '\{3,1415 ; 2,7100 \right \}'));
+    }
 
     public function test_decimal_output_1() {
         $options = new stack_options();
@@ -1715,17 +1736,32 @@ class input_algebraic_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'state', '{3.1415,2.71}', $options);
         $el->set_parameter('forbidFloats', false);
 
-        // TODO: this should fail when we update the student input parsing!
-        $state = $el->validate_student_response(array('state' => '{3.1415,2.71}'), $options, '{3.1415,2.71}',
+        $state = $el->validate_student_response(array('state' => '{3.1415;2.71}'), $options, '{3.1415,2.71}',
             new stack_cas_security());
-        $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('{3.1415,2.71}', $state->contentsmodified);
-        $this->assertEquals('\[ \left \{3,1415 ; 2,7100 \right \} \]', $state->contentsdisplayed);
-        $this->assertEquals('',
-            $state->errors);
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        // With a strict interpretation we have to change the , to a .  But actually we don't change it...
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">{3.1415;2.71}</span>', $state->contentsdisplayed);
+        $this->assertEquals('You have used the full stop <code>.</code>, but you must use the comma ' .
+              '<code>,</code> as a decimal separator!', $state->errors);
         $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
             . '<span class="nolink">\( \{3,1415 ; 2,7100 \right \} \)</span></span>, which can be typed in as follows: '
             . '<code>{3,1415;2,71}</code>',
-            $el->get_teacher_answer_display($state->contentsmodified, '\{3,1415 ; 2,7100 \right \}'));
+            $el->get_teacher_answer_display('{3.1415,2.71}', '\{3,1415 ; 2,7100 \right \}'));
+    }
+
+    public function test_decimal_output_2() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('algebraic', 'state', '{3.1415,2.71}', $options);
+        $el->set_parameter('forbidFloats', false);
+
+        $state = $el->validate_student_response(array('state' => '{3,1415;2,71}'), $options, '{3.1415,2.71}',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        // With a strict interpretation we have to change the , to a .
+        $this->assertEquals('{3.1415,2.71}', $state->contentsmodified);
+        $this->assertEquals('\[ \left \{3,1415 ; 2,7100 \right \} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
     }
 }

@@ -126,12 +126,14 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     public static function make_from_student_source(string $raw, string $context,
             stack_cas_security $securitymodel, array $filterstoapply = array(),
-            array $filteroptions = array(), string $grammar = 'Root') {
+            array $filteroptions = array(), string $grammar = 'Root', string $decimals = '.') {
 
         $errors = array();
         $answernotes = array();
         $parseroptions = array('startRule' => $grammar,
-                               'letToken' => stack_string('equiv_LET'));
+                               'letToken' => stack_string('equiv_LET'),
+                               'decimals' => $decimals
+        );
 
         // Force the security filter to use 's'.
         if (isset($filteroptions['998_security'])) {

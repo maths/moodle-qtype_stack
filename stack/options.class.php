@@ -69,14 +69,6 @@ class stack_options {
                 'caskey'     => 'make_logic',
                 'castype'    => 'fun',
             ),
-            'floats'   => array(
-                'type'       => 'boolean',
-                'value'      => 1,
-                'strict'     => true,
-                'values'     => array(),
-                'caskey'     => 'OPT_NoFloats',
-                'castype'    => 'ex',
-            ),
             'sqrtsign'   => array(
                 'type'       => 'boolean',
                 'value'      => true,

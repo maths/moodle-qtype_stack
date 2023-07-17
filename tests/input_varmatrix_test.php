@@ -241,4 +241,19 @@ class input_varmatrix_test extends qtype_stack_testcase {
                 $state->contentsdisplayed);
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
+
+    public function test_validate_student_response_valid_logs() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
+        $inputvals = array(
+            'ans1' => "log(9)^2*y^2*9^(x*y) log(9)^2*x*y*9^(x*y)+log(9)*9^(x*y)\n" .
+            "log(9)^2*x*y*9^(x*y)+log(9)*9^(x*y) log(9)^2*x^2*9^(x*y)",
+        );
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([a,b],[c,d])', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('matrix([log(9)^2*y^2*9^(x*y),log(9)^2*x*y*9^(x*y)+log(9)*9^(x*y)],'.
+            '[log(9)^2*x*y*9^(x*y)+log(9)*9^(x*y),log(9)^2*x^2*9^(x*y)])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{cc} \ln ^2\left(9\right)\cdot y^2\cdot 9^{x\cdot y} & \ln ^2\left(9\right)\cdot x\cdot y\cdot 9^{x\cdot y}+\ln \left( 9 \right)\cdot 9^{x\cdot y} \\\\ \ln ^2\left(9\right)\cdot x\cdot y\cdot 9^{x\cdot y}+\ln \left( 9 \right)\cdot 9^{x\cdot y} & \ln ^2\left(9\right)\cdot x^2\cdot 9^{x\cdot y} \end{array}\right] \]',
+            $state->contentsdisplayed);
+    }
 }

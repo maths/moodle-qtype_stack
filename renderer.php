@@ -206,6 +206,10 @@ class qtype_stack_renderer extends qtype_renderer {
             $question->castextprocessor = new castext2_qa_processor($qa);
         }
 
+        if ($question->specificfeedbackinstantiated === null) {
+            // Invalid question, otherwise this would be here.
+            return '';
+        }
         $feedbacktext = $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor);
         if (!$feedbacktext) {
             return '';

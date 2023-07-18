@@ -18,20 +18,22 @@ Individual users can also set their editor preferences:
 
     User Dashboard > Preferences > Editor preferences > Manage editors
 
-## Find the material_id
+## Adding a geogebra question block using the material_id
 
-To include a GeoGebra applet into a STACK question, first create or search for an existing GeoGebra applet at geogebra.org. The easiest way to use GeoGebra in STACK is to use an applet at geogebra.org. The applet must be publicly avaiable through a url. To set things up we need the material-id of an applet, we want to show.
+The easiest way to use GeoGebra in STACK is to use an applet hosted at geogebra.org. The applet must be publicly avaiable through a url. 
+
+To include a GeoGebra applet into a STACK castext field (e.g. the question text), first create or search for an existing GeoGebra applet at geogebra.org. To set things up we need the material_id of an applet, we want to show.
 
 For the material [https://www.geogebra.org/m/seehz3km](https://www.geogebra.org/m/seehz3km) the material_id is: `seehz3km`
 
-## Add the material_id to a new STACK task
-
-Then include the following question text, which includes a simple `[[geogebra]]` [question block](Question_blocks/index.md).
+An example `[[geogebra]]` [question block](Question_blocks/index.md) is shown below.
 
     <p>You can show an applet:</p>
     [[geogebra]]
     params["material_id"]="seehz3km";
     [[/geogebra]]
+
+This illustrates how the material_id is used.
 
 ## Using the sub-tags "set", "watch" and "remember"
 
@@ -52,17 +54,17 @@ For example, the sub-tag value could look like:  `set = "A,B,C,D,a2,E__fixed"` a
 To be able to make things easy for question authors, the following name conventions _must_ be followed:
 
 1. Names of variables must be equal in both STACK and GeoGebra.
-2. Values must be `int` or `float` STACK variables.
-3. Point-names must start with upper case letters.
-4. Points are represented as a list in STACK like: e.g. `[2,3]`, which means a point with \(x=2, y=3\).  The Maxima object would be for point \(D\) e.g. `D:[2,3]`.
-5. Value-names must start with lower case letters.
-6. Angles are used like values, and so must be named lowercase letters in Latin-Alphabet, (not Greek unicode letters!) and values must be in radians.
+2. Value-names must start with lower case letters.
+3. Values must be `int` or `float` STACK variables.
+4. Angles are used like values, and so must be named lowercase letters in Latin-Alphabet, (not Greek unicode letters!) and values must be in radians.
+5. Point-names must start with upper case letters.
+6. Points are represented as a list in STACK.  For example `D:[2,3]`, means a point \(D\) with \(x=2, y=3\).  
 
 ## Using the "set" sub-tag
 
 With the "set" sub-tag you can set a GeoGebra object, point or value to a STACK-calculated value.
 
-Points will be set free to manipulate, unless you add `__fixed` or other double-underscore-tags to the Point-name. A full list of available options see "set: double-underscore-tags in the "advanced use-cases"-section.
+By default points are free to manipulate in the applet, unless you add `__fixed` or other double-underscore-tags to the Point-name. A full list of available options see "set: double-underscore-tags in the "advanced use-cases"-section.
 
 Angles cannot be set directly, set points instead!
 

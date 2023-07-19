@@ -14,6 +14,7 @@ DONE
 4. Add in the `[[todo]]` [question block](../Authoring/Question_blocks/Static_blocks.md).
 5. Caschat page now saves question variables and general feedback back into the question.  Fixes issue #984.
 6. Confirm support for Maxima 5.46.0 and 5.47.0.
+7. All inputs now "allowempty" and "hideanswer" as extra options.  Fixes issue #997.
 
 TODO: 
 

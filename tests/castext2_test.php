@@ -677,7 +677,6 @@ class castext2_test extends qtype_stack_testcase {
 
     public function test_plot_if() {
         $input = '{@plot(if x<=0 then x^2+1 else sin(x)/x, [x,-4,20], [y,-1,6])@}';
-        $output = '';
 
         $this->assertTrue(strpos($this->evaluate($input), '!ploturl!stackplot') > 0);
     }

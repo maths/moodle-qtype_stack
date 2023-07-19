@@ -288,6 +288,17 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals('\[ 1\, \]', $state->contentsdisplayed);
     }
 
+    public function test_validate_student_response_student_calculation() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('units', 'sans1', '9.81*m');
+        $el->set_parameter('insertStars', 0);
+        $state = $el->validate_student_response(array('sans1' => '9.4*m-53*cm'), $options, '9.81*m',
+            new stack_cas_security(true, '', '', array('tans')));
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('9.4*m-53*cm', $state->contentsmodified);
+        $this->assertEquals('\[ 9.4\, \mathrm{m}-53\, \mathrm{c}\mathrm{m}\, \]', $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_student_powers_ten() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');

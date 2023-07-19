@@ -676,8 +676,14 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     public function test_plot_if() {
+        // This test case caused an error in Maxima 5.45.0.
+        // The fix to this error is the use of ex:%_ce_expedite(ex) in the plot function to remove %_C.
+        // However, we need to actively evaluate the %_C functions at the point we remove them.
+        // When expressions occur within the "then" clause they are not actually evaluated and in Maxima 5.45.0
+        // this happens _after_ the list of variables has been created.  So at that point, %_C(sin) contributes an extra
+        // variable "sin" to the picture, and so plot2d throws a (needless) error.  Hence, the fix is to
+        // expedite the security checks before we send the cleaned-up expression to plot2d.
         $input = '{@plot(if x<=0 then x^2+1 else sin(x)/x, [x,-4,20], [y,-1,6])@}';
-        $output = '';
 
         $this->assertTrue(strpos($this->evaluate($input), '!ploturl!stackplot') > 0);
     }

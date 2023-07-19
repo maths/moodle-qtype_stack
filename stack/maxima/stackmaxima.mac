@@ -1087,6 +1087,7 @@ set output ", afn),
     set_plot_option([gnuplot_out_file, tfnp1]),
     if plotdebug then print(plot_options),
     /* Create and execute the actual plot commands. */
+    ex:%_ce_expedite(ex),
     pltargs: append([ex], ral),
     if plotdebug then print(pltargs),
     plotfunmake: funmake(plot2d, pltargs),

@@ -24,9 +24,9 @@ class stack_algebraic_input extends stack_input {
 
     protected $extraoptions = array(
         'hideanswer' => false,
+        'allowempty' => false,
         'simp' => false,
         'rationalized' => false,
-        'allowempty' => false,
         'nounits' => false,
         'align' => 'left',
         'consolidatesubscripts' => false,

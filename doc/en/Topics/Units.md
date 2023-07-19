@@ -44,17 +44,18 @@ Let us assume that the correct answer is `12.1*m/s^2`.
 
 Stack provides an input type to enable teachers to support students in entering answers with scientific units.
 
-This input type is built closely on the algebraic input type with the following differences.
+The goal of this input is to validate against the pattern `number * units`.  
 
 1. The input type will check both the teacher's answer and the student's answer for units.  The input will require the student's answer to have units if and only if the teacher's answer also has units.  This normally forces the student to use units.  Also, students sometimes add units to dimensionless quantities (such as pH) and this input type will also enable a teacher to reject such input as invalid when the teacher does not use units.
-2. This input type *always accepts floating-point numbers*, regardless of the option set on the edit form.  The input type should display the same number of significant figures as typed in by the student.  Note that all other input types truncate the display of unnecessary trailing zeros in floating point numbers, loosing information about significant figures.  If you want to specifically test for significant figures, use this input type, with the teacher's answer having no units.
-3. The student must type a number of some kind.  Entering units on their own will be invalid.  If you want to ask a student for units, then use the algebraic input type.  Units on their own are a not valid expression for this input.
-4. If the teacher shows the validation, "with variable list" this will be displayed as "the units found in your answer are"...
-5. The student is permitted to use variable names in this input type.
-6. The "insert stars" option is unchanged.  You may or may not want your students to type a `*` or space between the numbers and units for implied multiplication.
-7. You may want the single letter variable names options here.  Note that since `km` literally means `k*m=1000*m` this is not a problem with most units.
-8. The input type checks for units in a case sensitive way.  If there is more than one option then STACK suggests a list.  E.g. if the student types `mhz` then STACK suggests `MHz` or `mHz`.
-9. You can require numerical accuracy at validation by using the `mindp`, `maxdp`, `minsf` and `maxsf` extra options, as documented in the [numerical input](../Authoring/Numerical_input.md).
+2. In validating against the pattern `number * units` we do not accept complex expressions which might simplify to this with some additional calculations.  For example, an answer such as `9.4*m-53*cm` is not considered valid by this input.
+3. This input type *always accepts floating-point numbers*, regardless of the option set on the edit form.  The input type should display the same number of significant figures as typed in by the student.  Note that all other input types truncate the display of unnecessary trailing zeros in floating point numbers, loosing information about significant figures.  If you want to specifically test for significant figures, use this input type, with the teacher's answer having no units.
+4. The student must type a number of some kind.  Entering units on their own will be invalid.  If you want to ask a student for units, then use the algebraic input type.  Units on their own are a not valid expression for this input.
+5. If the teacher shows the validation, "with variable list" this will be displayed as "the units found in your answer are"...
+6. The student is permitted to use variable names in this input type.
+7. The "insert stars" option is unchanged.  You may or may not want your students to type a `*` or space between the numbers and units for implied multiplication.
+8. You may want the single letter variable names options here.  Note that since `km` literally means `k*m=1000*m` this is not a problem with most units.
+9. The input type checks for units in a case sensitive way.  If there is more than one option then STACK suggests a list.  E.g. if the student types `mhz` then STACK suggests `MHz` or `mHz`.
+10. You can require numerical accuracy at validation by using the `mindp`, `maxdp`, `minsf` and `maxsf` extra options, as documented in the [numerical input](../Authoring/Numerical_input.md).
 
 There are surprisingly few ambiguities in the units set up, but there will be some that the developers have missed (correctly dealing with ambiguous input is by definition an impossible problem!).  Please contact us with suggestions for improvements.
 

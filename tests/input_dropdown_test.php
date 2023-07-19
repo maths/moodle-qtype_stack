@@ -271,6 +271,16 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
                 $el->get_teacher_answer_display(null, null));
     }
 
+    public function test_teacher_answer_display_hideanswer() {
+        $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,false],[2+x^2,false],[{},true,"None of these"]]', null, array());
+        $el->adapt_to_model_answer('[[1+x,false],[2+x^2,false],[{},true,"None of these"]]');
+        $el->set_parameter('options', 'hideanswer');
+
+        $correctresponse = '';
+        $this->assertEquals($correctresponse,
+            $el->get_teacher_answer_display(null, null));
+    }
+
     public function test_teacher_answer_html_entities() {
         $options = new stack_options();
         $ta = '[[A,false,"n/a"],[B,true,"&ge;"],[C,false,"&le;"],[D,false,"="],[E,false,"?"]]';

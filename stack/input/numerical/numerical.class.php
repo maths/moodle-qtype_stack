@@ -29,6 +29,7 @@ class stack_numerical_input extends stack_input {
      */
     protected $extraoptions = array(
         'hideanswer' => false,
+        'allowempty' => false,
         'nounits' => false,
         'simp' => false,
         // Forbid variables.  Always true for numerical inputs.
@@ -46,7 +47,6 @@ class stack_numerical_input extends stack_input {
         // Require min/max number of significant figures?
         'minsf' => false,
         'maxsf' => false,
-        'allowempty' => false,
         'align' => 'left',
         'validator' => false
     );

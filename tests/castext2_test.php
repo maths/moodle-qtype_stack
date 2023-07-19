@@ -684,7 +684,6 @@ class castext2_test extends qtype_stack_testcase {
         // variable "sin" to the picture, and so plot2d throws a (needless) error.  Hence, the fix is to
         // expedite the security checks before we send the cleaned-up expression to plot2d.
         $input = '{@plot(if x<=0 then x^2+1 else sin(x)/x, [x,-4,20], [y,-1,6])@}';
-        $output = '';
 
         $this->assertTrue(strpos($this->evaluate($input), '!ploturl!stackplot') > 0);
     }

@@ -2,6 +2,18 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.4.5
+
+Released July 2023.
+
+1. Add in the `s_assert` function to allow teachers to unit-test individual question variable values.
+2. Add in the `[[hint]]` [question block](../Authoring/Question_blocks/Dynamic_blocks.md).  Fixes issue #968, thanks to Michael Kallweit.
+3. Add in the `stack_include_contrib()` for easier inclusion of libraries.
+4. Add in the `[[todo]]` [question block](../Authoring/Question_blocks/Static_blocks.md).
+5. Caschat page now saves question variables and general feedback back into the question.  Fixes issue #984.
+6. Confirm support for Maxima 5.46.0 and 5.47.0.
+7. All inputs now "allowempty" and "hideanswer" as extra options.  Fixes issue #997.
+
 ## Version 4.4.4
 
 Released June 2023.

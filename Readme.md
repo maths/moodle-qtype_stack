@@ -22,7 +22,7 @@ The STACK project has been running since 2005, and we are committed to long term
 
 ## Documentation
 
-The [documentation is here](https://stack-assessment.org/), including the [installation instructions](https://docs.stack-assessment.org/en/Installation/).
+The [documentation is here](https://docs.stack-assessment.org/en/), including the [installation instructions](https://docs.stack-assessment.org/en/Installation/).
 
 ## License
 

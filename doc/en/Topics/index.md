@@ -13,3 +13,4 @@ Current topics include:
 * [Propositional Logic](Propositional_Logic.md)
 * [Scientific Units](Units.md)
 * [Vector Calculus](Vector_Calculus.md)
+* [Unsorted multi-input](Unsorted_multi_input.md) questions

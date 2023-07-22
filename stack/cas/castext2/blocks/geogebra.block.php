@@ -183,16 +183,18 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                 // Note at this point the name has no suffixes. No know ones that is, or non typoed ones...
                 if (ctype_upper(substr($geogebraname, 0, 1))) {
                     // Assuming geogebraname is the (therefore uppercased) name of an object of type: point.
+                    $xcoord = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_List ([new MP_Integer(1)])])]);
+                    $ycoord = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_List ([new MP_Integer(2)])])]);
                     if ($set_fixed) {
                         // Assuming point must not be interactable by the user.
-                        // appletObject.evalCommand('POINTNAME= xPoint({XCOORD,YCOORD})
+                        // appletObject.evalCommand('POINTNAME= Point({XCOORD,YCOORD})
                         // Removing __fixed (7 characters).
                         $setcode->arguments[] = new MP_String(
                             "\n appletObject.evalCommand('" .
                             $geogebraname . ' = Point({');
-                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(1)])]);
+                        $setcode->arguments[] = $xcoord;
                         $setcode->arguments[] = new MP_String(',');
-                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(2)])]);
+                        $setcode->arguments[] = $ycoord;
                         $setcode->arguments[] = new MP_String("})');\n");
                         // appletObject.evalCommand('G= Point({{#fx#},4})');
                     } else if ($set_preserve) {
@@ -201,9 +203,9 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                         $setcode->arguments[] = new MP_String("\n appletObject.evalCommand('SetCoords(" .
                             $geogebraname .
                             ',');
-                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(1)])]);
+                        $setcode->arguments[] = $xcoord;
                         $setcode->arguments[] = new MP_String(',');
-                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(2)])]);
+                        $setcode->arguments[] = $ycoord;
                         $setcode->arguments[] = new MP_String(")');\n");
                     } else if ($set_novalue) {
                         // Assuming point value should not be set, useful when using __show/ __hide.
@@ -213,11 +215,11 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                         // appletObject.evalCommand('POINTNAME=(XCOORD,YCOORD)')
                         $setcode->arguments[] = new MP_String("\n appletObject.evalCommand('" .
                             $geogebraname .
-                            ' = (');
-                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(1)])]);
+                            ' = Point({');
+                        $setcode->arguments[] = $xcoord;
                         $setcode->arguments[] = new MP_String(',');
-                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_Integer(2)])]);
-                        $setcode->arguments[] = new MP_String(")');\n");
+                        $setcode->arguments[] = $ycoord;
+                        $setcode->arguments[] = new MP_String("})');\n");
                     }
                 } else {
                     // Assuming geogebraname is the name of an object of type: value or angle (therefore latin lowercase)

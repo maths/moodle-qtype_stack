@@ -464,9 +464,9 @@ $string['settingserveruserpass'] = 'Server username:password';
 $string['settingserveruserpass_desc'] = 'If you are using Platform type: Server, and if you have set up your Maxima pool server with HTTP authentication, then you can put the username and password here. That is slighly safer than putting them in the URL. The format is username:password.';
 $string['settingusefullinks'] = 'Useful links';
 $string['settingmaximalibraries'] = 'Load optional Maxima libraries:';
-$string['settingmaximalibraries_desc'] = 'This is a comma separated list of Maxima library names which will be automatically loaded into Maxima.  Only supported library names can be used: "stats, distrib, descriptive, simplex". These libraries will not be loaded if you have saved a maxima image to optimise performance.';
-$string['settingmaximalibraries_error'] = 'The following package is not supported: {$a}';
-$string['settingmaximalibraries_failed'] = 'It appears as if some of the Maxima packages you have asked for have failed to load.  Please refer to the installation instructions for notes about this error.';
+$string['settingmaximalibraries_desc'] = 'This is a comma separated list of Maxima library names which will be automatically loaded into Maxima.  Only supported library names can be used: "stats, distrib, descriptive, simplex". When you change the listed libraties you must rebuild the Maxima optimised image.';
+$string['settingmaximalibraries_error'] = 'Please edit the STACK plugin setting <tt>qtype_stack | maximalibraries</tt>. The following package is not supported: {$a}';
+$string['settingmaximalibraries_failed'] = 'It appears as if some of the Maxima packages you have asked for have failed to load.';
 
 // Strings used by replace dollars script.
 $string['replacedollarscount'] = 'This category contains {$a} STACK questions.';
@@ -658,6 +658,7 @@ $string['healthcheckcreateimage'] = 'Create Maxima image';
 $string['healthcheckmaximaavailable'] = 'Versions of Maxima available on this server';
 $string['healthcheckpass'] = 'The healthcheck passed without detecting any issues.  However, please read the detail below carefully.  Not every problem can be automatically detected.';
 $string['healthcheckfail'] = 'The healthcheck detected serious problems.  Please read the diagnostic information below for more detail.';
+$string['healthcheckfaildocs'] = 'Detailed notes and trouble-shooting advice is given in the documentation under <a href="{$a->link}">Installation > Testing installation</a>.';
 $string['stackInstall_replace_dollars_desc'] = 'The <a href="{$a->link}">fix maths delimiters script</a> can be used to replace old-style delimiters like <code>@...@</code>, <code>$...$</code> and <code>$$...$$</code> in your questions with the new recommended <code>{@...@}</code>, <code>\(...\)</code> and <code>\[...\]</code>.';
 $string['stackInstall_testsuite_title'] = 'A test suite for STACK Answer tests';
 $string['stackInstall_testsuite_title_desc'] = 'The <a href="{$a->link}">answer-tests script</a> verifies that the answer tests are performing correctly. They are also useful to learn by example how each answer-test can be used.';

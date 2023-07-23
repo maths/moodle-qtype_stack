@@ -7,6 +7,8 @@ past development history is documented on [Development history](Development_hist
 
 ## Version 4.4.6
 
+1. Refactor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
+
 TODO: 
 
 1. Support for PHP 8.2.  See issue #986.

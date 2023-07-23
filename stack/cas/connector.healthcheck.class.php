@@ -56,15 +56,25 @@ class stack_cas_healthcheck {
         $test['details'] = null;
         $this->tests[] = $test;
 
+        // List the requested maxima packages in ths summary.
+        $test = array();
+        $test['tag'] = 'settingmaximalibraries';
+        $test['result'] = null;
+        $test['summary'] = $config->maximalibraries;
+        $test['details'] = null;
+        $this->tests[] = $test;
+
         // Check if the current options for library packages are permitted (maximalibraries).
         list($result, $message) = stack_cas_configuration::validate_maximalibraries();
         if (!$result) {
             $this->ishealthy = false;
             $test = array();
-            $test['tag'] = 'stackmaximalibraries';
+            $test['tag'] = 'settingmaximalibraries';
             $test['result'] = $result;
             $test['summary'] = $message;
-            $test['details'] = $message;
+            $test['details'] = html_writer::tag('p', $message);
+            $test['details'] .= html_writer::tag('p', stack_string('settingmaximalibraries_failed'));
+            $test['details'] .= html_writer::tag('p', stack_string('settingmaximalibraries_desc'));
             $this->tests[] = $test;
         }
 
@@ -104,20 +114,19 @@ class stack_cas_healthcheck {
                 }
 
                 break;
-            case 'server':
-                // We do nothing to this.
+            case 'linux':
+                // On a raw linux server list the versions of Maxima available.
+                $connection = stack_connection_helper::make();
+                $test = array();
+                $test['tag'] = 'healthcheckmaximaavailable';
+                $test['result'] = null;
+                $test['summary'] = null;
+                $test['details'] = html_writer::tag('pre', $connection->get_maxima_available());
+                $this->tests[] = $test;
                 break;
             default:
-                // Linux/optimised.
-                $connection = stack_connection_helper::make();
-                if (is_a($connection, 'stack_cas_connection_linux')) {
-                    $test = array();
-                    $test['tag'] = 'healthcheckmaximaavailable';
-                    $test['result'] = null;
-                    $test['summary'] = null;
-                    $test['details'] = html_writer::tag('pre', $connection->get_maxima_available());
-                    $this->tests[] = $test;
-                }
+                // Server/optimised.
+                // TODO: add in any specific tests for these setups?
                 break;
         }
 
@@ -182,13 +191,7 @@ class stack_cas_healthcheck {
             $this->tests[] = $test;
         }
 
-        $test = array();
-        $test['tag'] = 'settingmaximalibraries';
-        $test['result'] = null;
-        $test['summary'] = $config->maximalibraries;
-        $test['details'] = null;
-        $this->tests[] = $test;
-
+        // Record whether caching is taking place in the summary.
         $test = array();
         $test['tag'] = 'settingcasresultscache';
         $test['result'] = null;

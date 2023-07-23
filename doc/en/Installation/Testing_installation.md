@@ -17,6 +17,7 @@ The healthcheck script checks the following.
 * Check LaTeX is being converted correctly?  Check [MathJax](Mathjax.md) or another LaTeX converter.
 * Can PHP call external applications?  No, then change PHP settings. 
 * Can PHP call Maxima? No, then see below.
+* Does Maxima support unicode?  Distributed versions of Maxima do (as of July 2023) but if you compile Maxima from source then you must include unicode support.
 * Graph plotting. Are auto-generated plots being created correctly?  There should be two different graphs.  If not, check the gnuplot settings, and directory permissions.
 
 The CAS-debug option in the STACK settings will provide a very verbose output which is indispensable at this stage.  Turn this off for production servers, as it is wasteful of storage, particularly when caching results.
@@ -64,13 +65,15 @@ For example you may be evaluating the latest release of STACK on a test server, 
 like to know if the upgrade will break any of your existing questions.
 (And you don't want to do a lot of exporting and importing.)
 
-# Troubleshooting an upgrade
+# Troubleshooting an install/upgrade
 
 When you upgrade, the STACK plugin will try to automatically recreate the optimised Maxima image.  Occasionally this will not work and you will need to troubleshoot why.
 
 ### 1. GOAL: maxima works on the server
 
-Check Maxima is installed and working.  E.g. type `maxima` on the command line, and try a non-trivial calculation such as `diff(sin(x^2),x);` to confirm Maxima is working.  Use `quit();` to exit.
+Check Maxima is installed and working.  E.g. type `maxima` on the command line, and try a non-trivial calculation such as `diff(sin(x^2),x);` to confirm Maxima is working.
+
+Use `quit();` to exit.
 
 ### 2. GOAL: STACK works!
 

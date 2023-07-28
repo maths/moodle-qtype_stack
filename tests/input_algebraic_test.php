@@ -151,7 +151,7 @@ class input_algebraic_test extends qtype_stack_testcase {
           . '<code>x^2/(1+x^2)</code>', $el->get_teacher_answer_display('x^2/(1+x^2)', '\frac{x^2}{1+x^2}'));
 
         $el->set_parameter('showValidation', 1);
-        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive"><p>Your last answer was interpreted as follows: ' .
                 '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ x^2 \]</span></span></p>' .
                 '<input type="hidden" name="sans1_val" value="x^2" />The variables found in your answer were: ' .
                 '<span class="filter_mathjaxloader_equation"><span class="nolink">\( \left[ x \right]\)</span></span> ' .
@@ -159,7 +159,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
 
         $el->set_parameter('showValidation', 2);
-        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive"><p>Your last answer was interpreted as follows: ' .
                 '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ x^2 \]</span></span></p>' .
                 '<input type="hidden" name="sans1_val" value="x^2" /></div>';
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
@@ -167,7 +167,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $el->set_parameter('showValidation', 3);
         // We re-generate the state to get inline displayed equations.
         $state = $el->validate_student_response(array('sans1' => 'x^2'), $options, 'x^2/(1+x^2)', new stack_cas_security());
-        $vr = '<span class="stackinputfeedback compact" id="sans1_val"><span class="filter_mathjaxloader_equation">' .
+        $vr = '<span class="stackinputfeedback compact" id="sans1_val" aria-live="assertive"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( x^2 \)</span></span><input type="hidden" name="sans1_val" value="x^2" /></span>';
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
     }
@@ -179,7 +179,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
 
         $el->set_parameter('showValidation', 1);
-        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive"><p>Your last answer was interpreted as follows: ' .
                 '<span class="stacksyntaxexample">2x(1+x^2)</span></p>' .
                 '<input type="hidden" name="sans1_val" value="2x(1+x^2)" /><div class="alert alert-danger stackinputerror">' .
                 'This answer is invalid. You seem to be missing * characters. ' .
@@ -295,7 +295,7 @@ class input_algebraic_test extends qtype_stack_testcase {
             $state->contentsdisplayed);
 
         $el->set_parameter('showValidation', 1);
-        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as ' .
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive"><p>Your last answer was interpreted as ' .
             'follows: <span class="filter_mathjaxloader_equation"><span class="nolink">' .
             '\[ 3\cdot {\it ex}+2\cdot {\it ey}+5\cdot {\it ez} \]</span></span></p>' .
             '<input type="hidden" name="sans1_val" value="3*ex+2*ey+5*ez" />The variables found in your answer ' .
@@ -1271,7 +1271,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals($state->contentsdisplayed,
                 '\[ \left( 1,\, 2\right] \]');
         $el->set_parameter('showValidation', 1);
-        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive"><p>Your last answer was interpreted as follows: ' .
               '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left( 1,\, 2\right] \]</span></span>' .
               '</p><input type="hidden" name="sans1_val" value="oc(1,2,3)" />' .
               '<div class="alert alert-danger stackinputerror">This answer is invalid. Interval construction must have ' .

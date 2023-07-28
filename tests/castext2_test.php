@@ -719,4 +719,10 @@ class castext2_test extends qtype_stack_testcase {
         $output = 'Xoverride';
         $this->assertEquals($output, $this->evaluate($input));
     }
+
+    public function test_maplist_labda() {
+        $input = '{@maplist(lambda([ex], x^ex), [1,2,3,4])@}';
+        $output = '\({\left[ x , x^2 , x^3 , x^4 \right]}\)';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
 }

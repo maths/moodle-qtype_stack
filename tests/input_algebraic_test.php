@@ -41,7 +41,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  * @covers \stack_algebraic_input
  */
 class input_algebraic_test extends qtype_stack_testcase {
-/*
+
     public function test_internal_validate_parameter() {
         $el = stack_input_factory::make('algebraic', 'input', 'x^2');
         $this->assertTrue($el->validate_parameter('boxWidth', 30));
@@ -1708,7 +1708,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals($displayed, $state->contentsdisplayed);
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
-*/
+
     public function test_decimal_output_0() {
         $options = new stack_options();
         $options->set_option('decimals', ',');

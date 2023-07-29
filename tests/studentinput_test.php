@@ -72,9 +72,6 @@ class studentinput_test extends qtype_stack_testcase {
 
         $this->assert_equals_ignore_spaces_and_e($result->display, $result->casdisplay);
         $this->assertEquals($result->ansnotes, $result->casnotes);
-        if (!$result->passed) {
-            print_r($result);
-        }
         $this->assertTrue($result->passed);
     }
 

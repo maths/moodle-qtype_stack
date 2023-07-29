@@ -217,6 +217,29 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ a , b \right]\) ', $state->lvars);
     }
 
+    public function test_validate_student_response_decimals() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
+        $el->set_parameter('forbidFloats', false);
+        // Teacher's answer must be in strict syntax.
+        $el->adapt_to_model_answer('matrix([3.14,2.71],[4,5])');
+        $inputvals = array(
+            'ans1_sub_0_0' => '3,14',
+            'ans1_sub_0_1' => '2,71',
+            'ans1_sub_1_0' => '4',
+            'ans1_sub_1_1' => '5',
+        );
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([3.14,2.71],[4,5])', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        // Contents are as typed by the student.
+        $this->assertEquals(array(array('3,14', '2,71'), array('4', '5')), $state->contents);
+        // Modified contents must be strict Maxima syntax.
+        $this->assertEquals('matrix([3.14,2.71],[4,5])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{cc} 3,14 & 2,71 \\\\ 4 & 5 \end{array}\right] \]',
+            $state->contentsdisplayed);
+    }
+
     public function test_validate_student_response_valid_round() {
         $options = new stack_options();
         $options->set_option('matrixparens', '(');

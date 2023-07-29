@@ -381,18 +381,89 @@ class stack_matrix_input extends stack_input {
         return $valid;
     }
 
+    public function get_correct_response($value) {
+
+        if (trim($value) == 'EMPTYANSWER' || $value === null) {
+            $value = '';
+        }
+        // TODO: refactor this ast creation away.
+        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
+        $cs->set_nounify(0);
+
+        // Hard-wire to strict Maxima syntax.
+        $decimal = '.';
+        $listsep = ',';
+        $params = array('checkinggroup' => true,
+            'qmchar' => false,
+            'pmchar' => 1,
+            'nosemicolon' => true,
+            'keyless' => true,
+            'dealias' => false, // This is needed to stop pi->%pi etc.
+            'nounify' => 0,
+            'nontuples' => false,
+            'decimal' => $decimal,
+            'listsep' => $listsep
+        );
+        if ($cs->get_valid()) {
+            $value = $cs->ast_to_string(null, $params);
+        }
+        $response = $this->maxima_to_response_array($value);
+
+        // Once we have the correct array, within the array, use the correct decimal separator.
+        $decimal = '.';
+        $listsep = ',';
+        if ($this->options->get_option('decimals') === ',') {
+            $decimal = ',';
+            $listsep = ';';
+        }
+        $params = array('checkinggroup' => true,
+            'qmchar' => false,
+            'pmchar' => 1,
+            'nosemicolon' => true,
+            'keyless' => true,
+            'dealias' => false, // This is needed to stop pi->%pi etc.
+            'nounify' => 0,
+            'nontuples' => false,
+            'decimal' => $decimal,
+            'listsep' => $listsep
+        );
+        foreach ($response as $ckey => $cell) {
+            $cs = stack_ast_container::make_from_teacher_source($cell, '', new stack_cas_security(), array());
+            $cs->set_nounify(0);
+            if ($cs->get_valid()) {
+                $response[$ckey] = $cs->ast_to_string(null, $params);
+            }
+        }
+        return $response;
+    }
+
     /**
      * The AJAX instant validation method mostly returns a Maxima expression.
      * Mostly, we need an array, labelled with the input name.
      *
-     * The matrix type is different.  The javascript creates a single Maxima expression,
+     * The matrix type is different.  The javascript creates a JSON encoded object,
      * and we need to split this up into an array of individual elements.
      *
      * @param string $in
      * @return array
      */
     protected function ajax_to_response_array($in) {
-        return  $this->maxima_to_response_array($in);
+
+        $tc = json_decode($in);
+        for ($i = 0; $i < $this->height; $i++) {
+            for ($j = 0; $j < $this->width; $j++) {
+                $val = trim($tc[$i][$j]);
+                if ('?' == $val) {
+                    $val = '';
+                }
+                $response[$this->name.'_sub_'.$i.'_'.$j] = $val;
+            }
+        }
+
+        if ($this->requires_validation()) {
+            $response[$this->name . '_val'] = $in;
+        }
+        return $response;
     }
 
     /**

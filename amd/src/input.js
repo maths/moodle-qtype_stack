@@ -416,7 +416,7 @@ define([
                 var bits = element.name.substring(idPrefix.length + 5).split('_');
                 values[bits[0]][bits[1]] = element.value.replace(/^\s+|\s+$/g, '');
             });
-            return 'matrix([' + values.join('],[') + '])';
+            return JSON.stringify(values);
         };
     }
 

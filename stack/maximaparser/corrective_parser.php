@@ -78,8 +78,8 @@ class maxima_corrective_parser {
         $stringles = str_replace(array_keys($letters), array_values($letters), $stringles);
 
         // Check for all three of . and , and ; which must indicate inconsistency.
-        if (strpos($stringles, '.') !== false and
-            strpos($stringles, ',') !== false and
+        if (strpos($stringles, '.') !== false &&
+            strpos($stringles, ',') !== false &&
             strpos($stringles, ';') !== false) {
                 $errors[] = stack_string('stackCas_decimal_usedthreesep');
         }
@@ -87,7 +87,7 @@ class maxima_corrective_parser {
         if (array_key_exists('decimals', $parseroptions)) {
             $decimals = $parseroptions['decimals'];
         }
-        if ($decimals  == ',') {
+        if ($decimals == ',') {
             // Clearly there is a lot more work to do here to get this all to work!
             if (strpos($stringles, '.') !== false) {
                 $answernote[] = 'forbiddenCharDecimal';

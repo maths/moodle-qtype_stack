@@ -3259,7 +3259,7 @@ table_difference(T1, T2) := table_zip_with(lambda([ex1,ex2], if ex1=ex2 then ex1
 /*  Trees                                                 */
 /*                                                        */
 /* ****************************************************** */
-disptree(e) := sconcat("<ul class='tree'><li>", tree_rec(e), "</li></ul>");
+disptree(e) := sconcat("<ul class='algebratree'><li>", tree_rec(e), "</li></ul>");
 
 /* A list of functions which should use the TeX representation.  (Defined as a list to be user-editable) */
 

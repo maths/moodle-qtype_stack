@@ -2005,10 +2005,10 @@ class castext_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $cs2->add_statement($at2);
         $cs2->instantiate();
-        $this->assertEquals("\({x=a\,{\mbox{ or }}\, b}\): <ul class='tree'><li><span class='op'>\(\,{\mbox{ or }}\, \)" .
+        $this->assertEquals("\({x=a\,{\mbox{ or }}\, b}\): <ul class='algebratree'><li><span class='op'>\(\,{\mbox{ or }}\, \)" .
             "</span><ul><li><code>=</code><ul><li><span class='atom'>\(x\)</span></li><li><span class='atom'>\(a\)</span>" .
             "</li></ul></li><li><span class='atom'>\(b\)</span></li></ul></li></ul> <br/> " .
-            "\({x=\left(a\,{\mbox{ or }}\, b\\right)}\): <ul class='tree'><li><code>=</code><ul><li><span class='atom'>" .
+            "\({x=\left(a\,{\mbox{ or }}\, b\\right)}\): <ul class='algebratree'><li><code>=</code><ul><li><span class='atom'>" .
             "\(x\)</span></li><li><span class='op'>\(\,{\mbox{ or }}\, \)</span><ul><li><span class='atom'>\(a\)</span>" .
             "</li><li><span class='atom'>\(b\)</span></li></ul></li></ul></li></ul>", $at2->get_rendered());
 
@@ -2022,7 +2022,7 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at2);
         $cs2->instantiate();
         $this->assertEquals("\({1+\left(\\frac{\mathrm{d}^2}{\mathrm{d} x^2} \sin \left( x\cdot y \\right)\\right)}\): " .
-            "<ul class='tree'><li><code>+</code><ul><li><span class='atom'>\(1\)</span></li><li><span class='op'>" .
+            "<ul class='algebratree'><li><code>+</code><ul><li><span class='atom'>\(1\)</span></li><li><span class='op'>" .
             "\(\\frac{\mathrm{d}^2 }{\mathrm{d} x^2} \)</span><ul><li><code>sin</code><ul><li><code>*</code><ul><li>" .
             "<span class='atom'>\(x\)</span></li><li><span class='atom'>\(y\)</span></li></ul></li></ul></li></ul></li>" .
             "</ul></li></ul>", $at2->get_rendered());
@@ -2031,7 +2031,7 @@ class castext_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $cs2->add_statement($at2);
         $cs2->instantiate();
-        $this->assertEquals("<ul class='tree'><li><span class='op'>\({ \pm }\)</span><ul><li><span class='atom'>\(a\)" .
+        $this->assertEquals("<ul class='algebratree'><li><span class='op'>\({ \pm }\)</span><ul><li><span class='atom'>\(a\)" .
             "</span></li><li><span class='op'>\(\Gamma\)</span><ul><li><span class='atom'>\(x\)</span></li></ul></li>" .
             "</ul></li></ul>", $at2->get_rendered());
 
@@ -2039,14 +2039,14 @@ class castext_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $cs2->add_statement($at2);
         $cs2->instantiate();
-        $this->assertEquals("<ul class='tree'><li><span class='op'>\(\sqrt{}\)</span><ul><li>" .
+        $this->assertEquals("<ul class='algebratree'><li><span class='op'>\(\sqrt{}\)</span><ul><li>" .
             "<span class='atom'>\(x\)</span></li></ul></li></ul>", $at2->get_rendered());
 
         $at2 = castext2_evaluatable::make_from_source("{@disptree('limit(1/(x+1),x,0))@}", 'test-case');
         $this->assertTrue($at2->get_valid());
         $cs2->add_statement($at2);
         $cs2->instantiate();
-        $this->assertEquals("<ul class='tree'><li><span class='op'>\(\lim_{x\\rightarrow{0}} \cdots \)</span><ul>" .
+        $this->assertEquals("<ul class='algebratree'><li><span class='op'>\(\lim_{x\\rightarrow{0}} \cdots \)</span><ul>" .
             "<li><code>/</code><ul><li><span class='atom'>\(1\)</span></li><li><code>+</code><ul>" .
             "<li><span class='atom'>\(x\)</span></li><li><span class='atom'>\(1\)</span></li></ul></li></ul>" .
             "</li></ul></li></ul>", $at2->get_rendered());
@@ -2055,7 +2055,7 @@ class castext_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $cs2->add_statement($at2);
         $cs2->instantiate();
-        $this->assertEquals("<ul class='tree'><li><code>*</code><ul><li><span class='atom'>\(2\)</span></li>" .
+        $this->assertEquals("<ul class='algebratree'><li><code>*</code><ul><li><span class='atom'>\(2\)</span></li>" .
             "<li><span class='atom'>\(\left[\begin{array}{cc} a & b \\\\ c & d \\end{array}\\right]\)</span></li>" .
             "</ul></li></ul>", $at2->get_rendered());
     }
@@ -2079,7 +2079,7 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at2);
         $cs2->instantiate();
 
-        $this->assertEquals("<ul class='tree'><li><span class='op'>\(\diamond\)</span><ul><li>" .
+        $this->assertEquals("<ul class='algebratree'><li><span class='op'>\(\diamond\)</span><ul><li>" .
             "<span class='atom'>\(a\)</span></li><li><span class='atom'>\(b\)</span></li></ul></li></ul>",
             $at2->get_rendered());
     }

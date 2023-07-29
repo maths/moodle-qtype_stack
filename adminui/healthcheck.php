@@ -106,7 +106,7 @@ if ($healthcheck->get_overall_result()) {
     echo html_writer::tag('p', stack_string('healthcheckfail'), array('class' => 'overallresult fail'));
 }
 echo html_writer::tag('p', get_string('healthcheckfaildocs', 'qtype_stack',
-    array('link' => (string) new moodle_url('/question/type/stack/doc/doc.php/Installation/Testing_installation.md'))),
+    array('link' => (string) new moodle_url('/question/type/stack/doc/doc.php/Installation/Testing_installation.md')))
     );
 
 // State of the cache.

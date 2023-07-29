@@ -40,7 +40,7 @@ class stack_options {
             // Currently no way for users to set this option.
             'decimals'       => array(
                 'type'       => 'list',
-                'value'      => '.',
+                'value'      => ',',
                 'strict'     => true,
                 'values'     => array('.', ','),
                 'caskey'     => 'texput_decimal',

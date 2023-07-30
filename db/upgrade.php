@@ -934,7 +934,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2023042800, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2023073000) {
+    if ($oldversion < 2023042801) {
 
         // Define field displaytype and buttontitles to be added to qtype_stack_input.
         $table = new xmldb_table('qtype_stack_inputs');
@@ -948,7 +948,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         }
         
         // STACK savepoint reached.
-        upgrade_plugin_savepoint(true, 2023073000, 'qtype', 'stack');
+        upgrade_plugin_savepoint(true, 2023042801, 'qtype', 'stack');
     }
     // Add new upgrade blocks just above here.
 

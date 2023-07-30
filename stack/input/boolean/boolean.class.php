@@ -63,14 +63,16 @@ class stack_boolean_input extends stack_input {
         if ($value === 'EMPTYANSWER') {
             $value = '';
         }
-        //$attributes['hidden']="hidden";
+
+        //$attributes['hidden']="hidden"; //For Toggle-Button with Text
         $element_select = html_writer::select(self::get_choices(), $fieldname,
                 $value, '', $attributes);
+
         // //Toggle-Button
         // $attributes = array();
         // $element_button_id = $fieldname . "-button";
         // $attributes['id'] = $element_button_id;
-        // $attributes['class'] = 'stack-input-toogle-button';
+        // $attributes['class'] = 'stack-input-toggle-button';
         // $attributes['type'] = 'checkbox';
         // $attributes['onclick'] = '
         // if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
@@ -80,8 +82,9 @@ class stack_boolean_input extends stack_input {
         // };
         // ';
         // $element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
-        //Toogle-Button with Text
+        //Toggle-Button with Text
         //$element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
+        
         // 'Click me'-Button
         $attributes = array();
         $element_button_id = $fieldname . "-button";
@@ -109,18 +112,19 @@ class stack_boolean_input extends stack_input {
                 console.log("okneu");
             });');
 
+        // For Toggle-Button
         // $attributes = array();
         // $attributes['class'] = 'stack-button stack-toogle-button';
         // $element_label = html_writer::tag('label',$element_button,$attributes);
 
         $attributes = array();
-        $attributes['class'] = 'stack-parent-toogle-button';
+        $attributes['class'] = 'stack-parent-toggle-button';
         //$element_div=html_writer::tag('div',$element_select . $element_label,$attributes);
         $element_div=html_writer::tag('div',$element_select . $element_button . $element_script,$attributes);
         
         
         return $element_div ;
-        // return $element_select . $element_button . $element_script ;
+        // return $element_select . $element_button . $element_script ; //For Toggle-Button
         //end
     }
 

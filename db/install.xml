@@ -46,8 +46,6 @@
         <FIELD NAME="type" TYPE="char" LENGTH="32" NOTNULL="true" SEQUENCE="false" COMMENT="The type of input element this is."/>
         <FIELD NAME="tans" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="The model answer for this input, that could be part of a correct solution."/>
         <FIELD NAME="boxsize" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="15" SEQUENCE="false" COMMENT="The desired size for the input."/>
-        <FIELD NAME="displaytype" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="How Boolean should be displayed."/>
-        <FIELD NAME="buttontitles" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="What the title of the button should be."/>
         <FIELD NAME="strictsyntax" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether this input element should validate the input strictly."/>
         <FIELD NAME="insertstars" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether this input should automatically insert *s where there is implicit multiplication."/>
         <FIELD NAME="syntaxhint" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="An optional initial value to display in the input to help the student know what to type."/>
@@ -57,6 +55,8 @@
         <FIELD NAME="forbidfloat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether floating point numbers should be rejected in this input."/>
         <FIELD NAME="requirelowestterms" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether any fractions in the input must be given in lowest terms."/>
         <FIELD NAME="checkanswertype" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the type of the students answer (expression, list, ...) should be validated to ensure it is the same as tans."/>
+        <FIELD NAME="displaytype" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="How Boolean should be displayed."/>
+        <FIELD NAME="buttontitles" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="What the title of the button should be."/>
         <FIELD NAME="mustverify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the interpretation of this input must be verified by the student before it is graded."/>
         <FIELD NAME="showvalidation" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the validation results for this input should be displayed."/>
         <FIELD NAME="options" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Extra options that are interpreted in an input-specific way."/>

@@ -941,7 +941,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
 
         // Conditionally launch add field displaytype.
-        $field = new xmldb_field('displaytype', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, null, 'checkanswertype');
+        $field = new xmldb_field('displaytype',XMLDB_TYPE_INTEGER, '3', null, XMLDB_NOTNULL, null, '1', 'checkanswertype');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }

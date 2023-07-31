@@ -23,7 +23,7 @@ $CFG->maximaversion = '5.44.0';
 $CFG->platform            = 'server';
 //$CFG->platform            = 'linux-optimised';
 $CFG->maximacommandopt    = 'timeout --kill-after=10s 10s ' . $CFG->dataroot . '/stack/maxima_opt_auto';
-$CFG->maximacommandserver = 'http://maxima:8080/maxima';
+$CFG->maximacommandserver = getenv('MAXIMA_URL') ?: 'http://maxima:8080/maxima';
 /*
  * These settings are hard-wired here.  See settings.php for more details.
  * You probably don't need to change many of the following.

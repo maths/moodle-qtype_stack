@@ -110,3 +110,21 @@ As a suggestion, I would like to point out the behavior of Microsoft Excel.  In 
 ***As a silver bullet, however, I would suggest the following:***
 
 In Moodle there is a method (unformat_float lib/moodlelib.php:8880) that converts local numbers entered by the user into a standard-compliant number, which can then also be stored in the DB. Depending on the viewer, this can then be output again in the respective local representation ([format_float; lib/moodlelib.php](https://github.com/moodle/moodle/blob/master/lib/moodlelib.php#L8830)) of the viewer. The advantage would be that thereby no special cases must be considered but, everything can be kept as before. Only the user input and output has to be converted accordingly, and moodle does that itself.
+
+### Comments from Björn Gerß:
+
+I agree with Chris' analyses and Peter's comment.
+
+Weak option
+
+For my use case, I would like a behavior as in Strict continental. I completely understand why the weak options are proposed, but in German-speaking schools only the calculator works in British mode and no one writes it done like that. So the weak option is not needed for school use. This might be different in university use, where writing like in the weak-option is more common.
+
+Where to put the option
+
+If the option is part of the question, it is possible to mix settings from question to question. I think this is confusing for students.
+So I would suggest a site wide option.
+
+In my use case, it isn't essential, but we might think of connection the option to the language the student is using.
+On the last annual meeting, there were many talks about translating question. As a user, I would expect a British behavior when moodle is set to English and a Continental when moodle is set to German. So it could be best to have a sitewide option for a behavior for every installed language. As the most instances of moodle have a clear focus on the type of student, I assume it only rarely the wish to change the setting between different courses.
+
+With the sitewide option, imported material is also no problem anymore

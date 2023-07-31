@@ -122,3 +122,16 @@ Where to put the option:  If the option is part of the question, it is possible 
 In my use case, it isn't essential, but we might think of connection the option to the language the student is using. On the last annual meeting, there were many talks about translating question. As a user, I would expect a British behavior when moodle is set to English and a Continental when moodle is set to German. So it could be best to have a sitewide option for a behavior for every installed language. As the most instances of moodle have a clear focus on the type of student, I assume it only rarely the wish to change the setting between different courses.
 
 With the sitewide option, imported material is also no problem anymore
+
+### Comments from Matti Harjula:
+
+A site-level setting is indeed something that would be nice, but for larger multi-locale sites where needs may vary between courses and subjects, we really need to be able to override it at the question and, preferably, course level, think #993. Personally, I would want the following:
+ 
+ 1. A site-level setting that allows choosing between traditional CAS syntax (using the separators we have used up to this point) and using locale-specific separators which would match with the active locale that gets chosen by the course or by the student.
+ 2. That site level setting could then be overridden at lower levels, e.g. course, quiz, question, or even at the input level.
+ 3. At the input level, the setting would have even more options, e.g., not tying it to the active locale but instead allowing one to override it, maybe even defining a custom separator combination that is not backed by a locale.
+ 4. When that setting gets overridden and differs from the site level (or course level), we should always provide a note in the user interface describing what the syntax is within this question or even for a given input.
+
+When we eventually get this, and there will be a site-level setting I strongly suggest that the default value for it will be to keep using the current CAS syntax so that no system switches to something unexpected.
+
+And I really want to be able to target this at the input level, even though the use for that would mainly be for teaching cultural syntax differences and would not be used outside those few extra special materials. For that it would be enough to be able to set those options through some magical "extra options" syntax. At the question level, a simple dropdown for selecting between "CAS/locale" should be enough.

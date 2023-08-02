@@ -1,12 +1,7 @@
 # STACK-Dynexite-API
-This branch contains a version of STACK, which has been extended by a REST-API for integration into Dynexite.
+This repository contains a version of the moodle plugin STACK, which has been extended by a standalone REST-API for integration into external systems, designed for the specific needs of the Dynexite examination system.
 
-Documentation about the applied modifications is available [in Redmine](https://projects.medien.rwth-aachen.de/projects/dynexite/wiki/Stack-Integration).
-
-## Deployment
-The STACK service is intended to be deployed as a Docker container. Pre-made images are available in the Dynexite registry under the identifier `registry.dynexite.rwth-aachen.de/stack/stack`. A sample docker-compose file can be found [here](./api/docker/docker-compose.yml).
-
-NOTE: The pre-built images rely on a recent version of the apache2 webserver, which requires a linux kernel version of 3.17 or newer on the Docker host.
+Information about the API, usage instructions as well as documentation of the performed changes is available in the file [README.md](api/README.md) inside of the api directory. The original STACK Readme is preserved below.
 
 # STACK 4.4.2
 

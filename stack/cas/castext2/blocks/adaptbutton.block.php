@@ -28,7 +28,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $body = new MP_List([new MP_String('%root')]);
 
-        $onclick = "";
+        $onclick = "document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked=true";
         if (isset($this->params['show_ids'])) {
             $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
             foreach ($split_show_id as &$id )
@@ -44,6 +44,8 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
                 $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
             }
         }
+
+        $body->items[] = new MP_String('<input type="checkbox" id="checkbox-adaptbutton-'.self::$countadaptbuttons.'" name="checkbox-isclicked" style="display: none;">');
 
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
             self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
@@ -105,6 +107,9 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         if (!isset($this->params['show_ids']) && !isset($this->params['hide_ids'])) {
             return $r;
         }
+        if (!isset($this->params['is_clicked'])) {
+            return $r;
+        }
         return $r;
     }
 
@@ -116,6 +121,11 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         }
         if (!array_key_exists('show_ids', $this->params) && !array_key_exists('hide_ids', $this->params)) {
             $errors[] = new $options['errclass']('Adaptbutton block requires a show_ids or a hide_ids parameter.', $options['context'] . '/' .
+                $this->position['start'] . '-' . $this->position['end']);
+            return false;
+        }
+        if (!array_key_exists('is_clicked', $this->params)) {
+            $errors[] = new $options['errclass']('Adaptbutton block requires a is_clicked parameter.', $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);
             return false;
         }

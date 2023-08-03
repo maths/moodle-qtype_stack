@@ -41,9 +41,6 @@ $CFG->serveruserpass = '';
 // Do not change this from zero.  The API has no parser cache.
 $CFG->parsercacheinputlength = 0;
 
-// Tells the code you are not using this as part of Moodle.
-$CFG->useaspartof = 'api';
-
 $CFG->caspreparse = 'true';
 $CFG->plotcommand = "gnuplot";
 $CFG->ajaxvalidation = 0;
@@ -72,8 +69,8 @@ $CFG->inputcheckanswertype = 1;
 $CFG->inputmustverify = 1;
 $CFG->inputshowvalidation = 1;
 
-$CFG->stackmaximaversion = "2022060100";
-$CFG->version = "2022060100";
+$CFG->stackmaximaversion = "2023010400";
+$CFG->version = "2023010400";
 
 // Do not change this setting.
 $CFG->mathsdisplay = 'api';

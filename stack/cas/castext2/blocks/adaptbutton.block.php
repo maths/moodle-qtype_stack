@@ -45,14 +45,23 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
                 $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
             }
         }
-        $onclick .= "document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked=true;";
-        $onclick .= "console.log(document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked);";
+
+        //Input boolean for state of adaptbutton
+        // $onclick .= "document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked=true;";
+        // $onclick .= "console.log(document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked);";
+
+        // $body->items[] = new MP_String('<input type="checkbox" id="checkbox-adaptbutton-'.self::$countadaptbuttons.
+        // '" style="display: none; visibility: hidden;">');
+
+        //Input algebraic
+        $onclick .= "document.getElementById('number-adaptbutton-".self::$countadaptbuttons."').value++;";
+        $onclick .= "console.log(document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').value);";
+
+        $body->items[] = new MP_String('<input type="number" id="number-adaptbutton-'.self::$countadaptbuttons.
+        '" value="0" style="display: none; visibility: hidden;">');
 
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
         self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
-
-        $body->items[] = new MP_String('<input type="checkbox" id="checkbox-adaptbutton-'.self::$countadaptbuttons.
-            '" name="checkbox-isclicked" style="display: none; visibility: hidden;">');
 
         // $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
         //     self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');

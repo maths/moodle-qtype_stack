@@ -55,7 +55,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         //Input algebraic
         $onclick .= "document.getElementById('number-adaptbutton-".self::$countadaptbuttons."').value++;";
-        $onclick .= "console.log(document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').value);";
+        $onclick .= "console.log(document.getElementById('number-adaptbutton-".self::$countadaptbuttons."').value);";
 
         $body->items[] = new MP_String('<input type="number" id="number-adaptbutton-'.self::$countadaptbuttons.
         '" value="0" style="display: none; visibility: hidden;">');

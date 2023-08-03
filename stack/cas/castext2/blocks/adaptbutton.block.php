@@ -45,7 +45,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
                 $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
             }
         }
-        $onclick .= "document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked=true";
+        $onclick .= "document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked=true;";
         $onclick .= "console.log(document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked);";
 
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 

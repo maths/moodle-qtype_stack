@@ -28,7 +28,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $body = new MP_List([new MP_String('%root')]);
 
-        $onclick = "checkbox-button-".self::$countadaptbuttons."=document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."');";
+        $onclick = "const checkbox-button-".self::$countadaptbuttons."=document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."');";
         $onclick = "checkbox-button-".self::$countadaptbuttons.".checked = true;";
         $onclick = "console.log(checkbox-button-".self::$countadaptbuttons.".checked);";
         if (isset($this->params['show_ids'])) {

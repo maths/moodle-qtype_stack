@@ -30,7 +30,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
 
         $onclick = "document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked=true";
-        $onclick .= "console.log(checkbox-button.checked);";
+        $onclick .= "console.log(document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked);";
         if (isset($this->params['show_ids'])) {
             $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
             foreach ($split_show_id as &$id )

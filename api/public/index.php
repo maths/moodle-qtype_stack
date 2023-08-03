@@ -16,6 +16,7 @@ $app->addBodyParsingMiddleware();
 
 $errorMiddleware = $app->addErrorMiddleware(false, true, true);
 $errorHandler = $errorMiddleware->getDefaultErrorHandler();
+$errorHandler->forceContentType("application/json");
 $errorHandler->registerErrorRenderer('application/json', ErrorRenderer::class);
 
 $app->post('/render', RenderController::class);

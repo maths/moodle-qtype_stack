@@ -46,10 +46,11 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
             }
         }
 
-        $body->items[] = new MP_String('<input type="checkbox" id="checkbox-adaptbutton-'.self::$countadaptbuttons.'" name="checkbox-isclicked" style="display: none; visibility: hidden;">');
-
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
-            self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
+        self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
+
+        $body->items[] = new MP_String('<input type="checkbox" id="checkbox-adaptbutton-'.self::$countadaptbuttons.
+            '" name="checkbox-isclicked" style="display: none; visibility: hidden;">');
 
         // $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
         //     self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');

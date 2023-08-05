@@ -59,36 +59,31 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         // $body->items[] = new MP_String('<input type="number" id="number-adaptbutton-'.self::$countadaptbuttons.
         // '" value="0" style="display: none; visibility: hidden;">');
 
-        $onclick .= 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
-        $onclick .= 'stack_js.request_access_to_input("' . $this->params['save_state'] . '", true).then((id) => {';
-        // So that should give us access to the input.
-        // Once we get the access immediately bind a listener to it.
-        $onclick .= 'const input = document.getElementById(id);';
-        $onclick .= 'input.value="true";';
-        $onclick .= '});';
-
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
         self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
 
         // IFRAME
-        // $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
-        // $code .= 'stack_js.request_access_to_input("' . $this->params['save_state'] . '", true).then((id) => {';
-        // // So that should give us access to the input.
-        // // Once we get the access immediately bind a listener to it.
-        // $code .= 'const input = document.getElementById(id);';
-        // $code .= 'input.value="true"';
-        // $code .= '});';
-        // //Now add a hidden [[iframe]] with suitable scripts.
-        // $body->items[] = new MP_List([
-        //     new MP_String('iframe'),
-        //     new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
-        //             self::$countadaptbuttons . '.'])),
-        //     new MP_List([
-        //         new MP_String('script'),
-        //         new MP_String(json_encode(['type' => 'module'])),
-        //         new MP_String($code)
-        //     ])
-        // ]);
+        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
+        $code .= 'stack_js.request_access_to_input("' . $this->params['save_state'] . '", true).then((id) => {';
+        // So that should give us access to the input.
+        // Once we get the access immediately bind a listener to it.
+        $code .= 'const input = document.getElementById(id);';
+        $code .= 'const button = document.getElementById("stack-adaptbutton-' . self::$countadaptbuttons .'");';
+        $code .= 'button.addEventListener("click",(e)=>{';
+        $code .= 'input.value="true";});';
+        $code .= '});';
+    
+        //Now add a hidden [[iframe]] with suitable scripts.
+        $body->items[] = new MP_List([
+            new MP_String('iframe'),
+            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
+                    self::$countadaptbuttons . '.'])),
+            new MP_List([
+                new MP_String('script'),
+                new MP_String(json_encode(['type' => 'module'])),
+                new MP_String($code)
+            ])
+        ]);
 
         // Update count.
         self::$countadaptbuttons = self::$countadaptbuttons + 1;

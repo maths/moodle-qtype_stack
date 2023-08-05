@@ -28,7 +28,6 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $body = new MP_List([new MP_String('%root')]);
 
-
         $onclick = "";
         if (isset($this->params['show_ids'])) {
             $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
@@ -54,41 +53,32 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         // '" style="display: none; visibility: hidden;">');
 
         //Input algebraic
-        $onclick .= "document.getElementById('number-adaptbutton-".self::$countadaptbuttons."').value++;";
-        $onclick .= "console.log(document.getElementById('number-adaptbutton-".self::$countadaptbuttons."').value);";
+        // $onclick .= "document.getElementById('number-adaptbutton-".self::$countadaptbuttons."').value++;";
+        // $onclick .= "console.log(document.getElementById('number-adaptbutton-".self::$countadaptbuttons."').value);";
 
-        $body->items[] = new MP_String('<input type="number" id="number-adaptbutton-'.self::$countadaptbuttons.
-        '" value="0" style="display: none; visibility: hidden;">');
+        // $body->items[] = new MP_String('<input type="number" id="number-adaptbutton-'.self::$countadaptbuttons.
+        // '" value="0" style="display: none; visibility: hidden;">');
+
+        $onclick .= 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
+        $onclick .= 'stack_js.request_access_to_input("' . $this->params['save_state'] . '", true).then((id) => {';
+        // So that should give us access to the input.
+        // Once we get the access immediately bind a listener to it.
+        $onclick .= 'const input = document.getElementById(id);';
+        $onclick .= 'input.value="true"';
+        $onclick .= '});';
 
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
         self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
 
-        // $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
-        //     self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');
-
-        // $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.js') . '";';
-
-        // $code .= 'stack_js.button_clicked("stack-adaptbutton-' .self::$countadaptbuttons. '", function(e){';
-
-        // $code .= 'stack_js.request_access_to_button("stack-adaptbutton-' .self::$countadaptbuttons. '").then((id) => {';
-        //$code .= 'stack_js.button_clicked("stack-adaptbutton-' .self::$countadaptbuttons. '").then(() => {';
-        // So that should give us access to the input.
-        // Once we get the access immediately bind a listener to it.
-        // $code .= 'const button = document.getElementById(id);';
-        // $code .= 'button.addEventListener("click",(e)=>{';
-
-        // $code .= 'console.log("Button wurde geklickt!");';
-        // if (isset($this->params['show_ids'])) {
-        //     $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['show_ids'] . '",true);});';
-        // }   
-        // if (isset($this->params['hide_ids'])) {
-        //     $code .= 'stack_js.toggle_visibility("stack-adapt-' . $this->params['hide_ids'] . '",false);';
-        // }         
-        //$code .= 'console.log("Zugriff auf Button mit ID ' .self::$countadaptbuttons. 'erhalten!");})';
-        //$code .= '.catch(function(error) {console.error("Keine ahnung was für ein fehler", error);';
-
+        // IFRAME
+        // $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
+        // $code .= 'stack_js.request_access_to_input("' . $this->params['save_state'] . '", true).then((id) => {';
+        // // So that should give us access to the input.
+        // // Once we get the access immediately bind a listener to it.
+        // $code .= 'const input = document.getElementById(id);';
+        // $code .= 'input.value="true"';
         // $code .= '});';
-        //Now add a hidden [[iframe]] with suitable scripts.
+        // //Now add a hidden [[iframe]] with suitable scripts.
         // $body->items[] = new MP_List([
         //     new MP_String('iframe'),
         //     new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
@@ -99,8 +89,6 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         //         new MP_String($code)
         //     ])
         // ]);
-
-
 
         // Update count.
         self::$countadaptbuttons = self::$countadaptbuttons + 1;
@@ -120,9 +108,9 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         if (!isset($this->params['show_ids']) && !isset($this->params['hide_ids'])) {
             return $r;
         }
-        // if (!isset($this->params['is_clicked'])) {
-        //     return $r;
-        // }
+        if (!isset($this->params['save_state'])) {
+            return $r;
+        }
         return $r;
     }
 
@@ -137,11 +125,11 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
                 $this->position['start'] . '-' . $this->position['end']);
             return false;
         }
-        // if (!array_key_exists('is_clicked', $this->params)) {
-        //     $errors[] = new $options['errclass']('Adaptbutton block requires a is_clicked parameter.', $options['context'] . '/' .
-        //         $this->position['start'] . '-' . $this->position['end']);
-        //     return false;
-        // }
+        if (!array_key_exists('save_state', $this->params)) {
+            $errors[] = new $options['errclass']('Adaptbutton block requires a save_state parameter.', $options['context'] . '/' .
+                $this->position['start'] . '-' . $this->position['end']);
+            return false;
+        }
         return true;
     }
 }

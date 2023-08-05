@@ -64,7 +64,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         // So that should give us access to the input.
         // Once we get the access immediately bind a listener to it.
         $onclick .= 'const input = document.getElementById(id);';
-        $onclick .= 'input.value="true"';
+        $onclick .= 'input.value="true";';
         $onclick .= '});';
 
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 

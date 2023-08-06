@@ -86,8 +86,7 @@ window.addEventListener("message", (e) => {
     case 'initial-input':
         // 1. Get the input we have prepared.
         const element = document.getElementById(msg.name);
-        console.log(msg.name);
-
+        
         // 2. Set its value. But don't trigger changes.
         DISABLE_CHANGES[msg.name] = true;
         element.value = msg.value;
@@ -195,6 +194,7 @@ export const stack_js = {
         document.body.appendChild(input);
 
         input.addEventListener('change', (e) => {
+            console.log("test")
             if (!DISABLE_CHANGES[inputname]) {
                 // Just send a message.
                 const msg = {

@@ -68,8 +68,8 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         // So that should give us access to the input.
         // Once we get the access immediately bind a listener to it.
         $code .= 'const input = document.getElementById(id);';
-        $code .= 'const button = document.getElementById("stack-adaptbutton-' . self::$countadaptbuttons .'");';
-        $code .= 'button.addEventListener("click",(e)=>{';
+        //$code .= 'const button = document.getElementById("stack-adaptbutton-' . self::$countadaptbuttons .'");';
+        //$code .= 'button.addEventListener("click",(e)=>{';
         $code .= 'input.value="true";});';
         $code .= '});';
     

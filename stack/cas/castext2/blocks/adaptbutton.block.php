@@ -71,7 +71,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $code .= "input.value='true'; \n}); \n";
         $code .= "}" ;
             
-        $body->items[] = new MP_String('<script>'.$code.'</script>');
+        $body->items[] = new MP_String('<script type=module>'.$code.'</script>');
 
         // //Now add a hidden [[iframe]] with suitable scripts.
         // $body->items[] = new MP_List([

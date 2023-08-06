@@ -86,6 +86,7 @@ window.addEventListener("message", (e) => {
     case 'initial-input':
         // 1. Get the input we have prepared.
         const element = document.getElementById(msg.name);
+        console.log(msg.name);
 
         // 2. Set its value. But don't trigger changes.
         DISABLE_CHANGES[msg.name] = true;

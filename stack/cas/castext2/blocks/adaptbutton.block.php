@@ -70,7 +70,8 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $code .= 'const input = document.getElementById(id);';
         //$code .= 'const button = document.getElementById("stack-adaptbutton-' . self::$countadaptbuttons .'");';
         //$code .= 'button.addEventListener("click",(e)=>{';
-        $code .= 'input.value="true";});';
+        //$code .= 'input.value="true";});';
+        $code .= 'input.value="true";';
         $code .= '});';
     
         //Now add a hidden [[iframe]] with suitable scripts.

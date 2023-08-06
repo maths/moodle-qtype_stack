@@ -68,23 +68,25 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         // So that should give us access to the input.
         // Once we get the access immediately bind a listener to it.
         $code .= 'const input = document.getElementById(id);';
-        //$code .= 'const button = document.getElementById("stack-adaptbutton-' . self::$countadaptbuttons .'");';
-        //$code .= 'button.addEventListener("click",(e)=>{';
-        //$code .= 'input.value="true";});';
-        $code .= 'input.value="true";';
+        $code .= 'const button = document.getElementById("stack-adaptbutton-' . self::$countadaptbuttons .'");';
+        $code .= 'button.addEventListener("click",(e)=>{';
+        $code .= 'input.value="true";});';
+        //$code .= 'input.value="true";';
         $code .= '});';
     
-        //Now add a hidden [[iframe]] with suitable scripts.
-        $body->items[] = new MP_List([
-            new MP_String('iframe'),
-            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
-                    self::$countadaptbuttons . '.'])),
-            new MP_List([
-                new MP_String('script'),
-                new MP_String(json_encode(['type' => 'module'])),
-                new MP_String($code)
-            ])
-        ]);
+        $body->items[] = new MP_String('<script>'.$code.'</script>');
+
+        // //Now add a hidden [[iframe]] with suitable scripts.
+        // $body->items[] = new MP_List([
+        //     new MP_String('iframe'),
+        //     new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
+        //             self::$countadaptbuttons . '.'])),
+        //     new MP_List([
+        //         new MP_String('script'),
+        //         new MP_String(json_encode(['type' => 'module'])),
+        //         new MP_String($code)
+        //     ])
+        // ]);
 
         // Update count.
         self::$countadaptbuttons = self::$countadaptbuttons + 1;

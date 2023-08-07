@@ -62,28 +62,28 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
         self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
 
-        $code = "function is_clicked(){ \n";
-        // $code .= 'const button = document.getElementById("stack-adaptbutton-' . self::$countadaptbuttons .'");' . "\n";
-        $code .= "import {stack_js} from ". stack_cors_link('stackjsiframe.min.js')."; \n";
+        //$code = "function is_clicked(){ \n";
+        $code = "import {stack_js} from ". stack_cors_link('stackjsiframe.min.js')."; \n";
+        $code .= "const button = document.getElementById('stack-adaptbutton- ". self::$countadaptbuttons ."');\n";
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id); \n";
-        // $code .= 'button.addEventListener("click",(e)=>{' . "\n";
+        $code .= "button.addEventListener('click',(e)=>{\n";
         $code .= "input.value='true'; \n}); \n";
-        $code .= "}" ;
+        $code .= '});';
             
-        $body->items[] = new MP_String('<script type=module>'.$code.'</script>');
+        // $body->items[] = new MP_String('<script type=module>'.$code.'</script>');
 
-        // //Now add a hidden [[iframe]] with suitable scripts.
-        // $body->items[] = new MP_List([
-        //     new MP_String('iframe'),
-        //     new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
-        //             self::$countadaptbuttons . '.'])),
-        //     new MP_List([
-        //         new MP_String('script'),
-        //         new MP_String(json_encode(['type' => 'module'])),
-        //         new MP_String($code)
-        //     ])
-        // ]);
+        //Now add a hidden [[iframe]] with suitable scripts.
+        $body->items[] = new MP_List([
+            new MP_String('iframe'),
+            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
+                    self::$countadaptbuttons . '.'])),
+            new MP_List([
+                new MP_String('script'),
+                new MP_String(json_encode(['type' => 'module'])),
+                new MP_String($code)
+            ])
+        ]);
 
         // Update count.
         self::$countadaptbuttons = self::$countadaptbuttons + 1;

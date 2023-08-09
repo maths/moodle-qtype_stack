@@ -1179,6 +1179,8 @@ class qtype_stack extends question_type {
             $output .= "      <forbidfloat>{$input->forbidfloat}</forbidfloat>\n";
             $output .= "      <requirelowestterms>{$input->requirelowestterms}</requirelowestterms>\n";
             $output .= "      <checkanswertype>{$input->checkanswertype}</checkanswertype>\n";
+            $output .= "      <displaytype>{$input->displaytype}</displaytype>\n";
+            $output .= "      <buttontitles>{$input->buttontitles}</buttontitles>\n";
             $output .= "      <mustverify>{$input->mustverify}</mustverify>\n";
             $output .= "      <showvalidation>{$input->showvalidation}</showvalidation>\n";
             $output .= "      <options>{$input->options}</options>\n";

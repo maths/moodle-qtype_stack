@@ -162,6 +162,8 @@ class stack_input_factory {
     public static function get_parameters_fromform_mapping($type) {
         $parametermapping = array(
             'sameType'           => 'checkanswertype',
+            'displayType'        => 'displaytype',
+            'buttonTitles'       => 'buttontitles',
             'mustVerify'         => 'mustverify',
             'showValidation'     => 'showvalidation',
             'boxWidth'           => 'boxsize',

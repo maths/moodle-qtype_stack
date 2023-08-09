@@ -139,8 +139,8 @@ class stack_boolean_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return array(
-                'displaytype'     => 0,
-                'buttontitles'    => '',
+                'displayType'     => 0,
+                'buttonTitles'    => '',
                 'mustVerify'      => false,
                 'showValidation'  => 0,
                 'options'         => ''

@@ -324,4 +324,15 @@ class stack_options {
             '3' => get_string('showvalidationcompact', 'qtype_stack'),
         );
     }
+
+    /**
+     * @return array of choices for the button display type select menu.
+     */
+    public static function get_displaytype_options() {
+        return array(
+            '0' => 'dropdown',
+            '1' => 'click button', 
+            '2' => 'toggle button',
+        );
+    }
 }

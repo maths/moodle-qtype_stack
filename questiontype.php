@@ -412,7 +412,7 @@ class qtype_stack extends question_type {
                 array('questionid' => $question->id), 'name',
                 'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
                 'syntaxhint, syntaxattribute, forbidwords, allowwords, forbidfloat, requirelowestterms, ' .
-                'checkanswertype, mustverify, showvalidation, options');
+                'checkanswertype, displaytype, buttontitles, mustverify, showvalidation, options');
 
         $question->prts = $DB->get_records('qtype_stack_prts',
                 array('questionid' => $question->id), 'name',

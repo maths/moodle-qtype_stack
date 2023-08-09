@@ -82,6 +82,9 @@ $string['autosimplifyprt_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/C
 $string['boxsize'] = 'Input box size';
 $string['boxsize_help'] = 'Width of the html formfield.';
 $string['boxsize_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Box_Size';
+$string['buttontitles'] = 'Button title(s)';
+$string['buttontitles_help'] = 'Assigns a label to the button.';
+$string['buttontitles_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Buttontitles';
 $string['bulktestindexintro_desc'] = 'The <a href="{$a->link}">run the question tests in bulk script</a> lets you easily run all the STACK questions in a given context. Not only does this test the questions. It is also a good way to re-populate the CAS cache after it has been cleared.';
 $string['dependenciesintro_desc'] = 'Check questions for <a href="{$a->link}">dependencies</a>, such as use of JSXGraph or inclusion of external maxima code.';
 $string['checkanswertype'] = 'Check the type of the response';

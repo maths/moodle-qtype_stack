@@ -133,6 +133,10 @@ A selection menu allowing you to choose how the button for a boolean (true/false
 * Click button: A button that, when pressed, toggles between true and false states with each subsequent press.
 * Toggle button: A toggle button that switches between true and false when pressed.
 
+### Button Title ### {#Buttontitles}
+
+This allows you to set a label for the boolean button.
+
 ### Insert Stars ### {#Insert_Stars}
 
 Insert Stars affect the way STACK treats the validation of CAS strings.

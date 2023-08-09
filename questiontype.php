@@ -1385,6 +1385,8 @@ class qtype_stack extends question_type {
         $fromform->{$name . 'forbidfloat'}        = $format->getpath($xml, array('#', 'forbidfloat', 0, '#'), 1);
         $fromform->{$name . 'requirelowestterms'} = $format->getpath($xml, array('#', 'requirelowestterms', 0, '#'), 0);
         $fromform->{$name . 'checkanswertype'}    = $format->getpath($xml, array('#', 'checkanswertype', 0, '#'), 0);
+        $fromform->{$name . 'displaytype'}        = $format->getpath($xml, array('#', 'displaytype', 0, '#'), 0);
+        $fromform->{$name . 'buttontitles'}       = $format->getpath($xml, array('#', 'buttontitles', 0, '#'), '');
         $fromform->{$name . 'mustverify'}         = $format->getpath($xml, array('#', 'mustverify', 0, '#'), 1);
         $fromform->{$name . 'showvalidation'}     = $format->getpath($xml, array('#', 'showvalidation', 0, '#'), 1);
         $fromform->{$name . 'options'}            = $format->getpath($xml, array('#', 'options', 0, '#'), '');

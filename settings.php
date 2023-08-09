@@ -173,6 +173,11 @@ $settings->add(new admin_setting_configselect('qtype_stack/inputinsertstars',
         get_string('insertstars_help', 'qtype_stack'), '0',
         stack_options::get_insert_star_options()));
 
+$settings->add(new admin_setting_configselect('qtype_stack/inputdisplaytype',
+        get_string('displaytype', 'qtype_stack'),
+        get_string('displaytype_help', 'qtype_stack'), '0',
+        stack_options::get_insert_star_options()));
+
 $settings->add(new admin_setting_configtext('qtype_stack/inputforbidwords',
         get_string('forbidwords', 'qtype_stack'),
         get_string('forbidwords_help', 'qtype_stack'), '', PARAM_RAW));

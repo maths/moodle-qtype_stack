@@ -94,6 +94,12 @@ $string['defaultmarkzeroifnoprts'] = 'The default mark must be 0 if this questio
 $string['defaultprtcorrectfeedback'] = 'Correct answer, well done.';
 $string['defaultprtincorrectfeedback'] = 'Incorrect answer.';
 $string['defaultprtpartiallycorrectfeedback'] = 'Your answer is partially correct.';
+$string['displaytype'] = 'Display style';
+$string['displaytype_help'] = 'How the button should be displayed.';
+$string['displaytype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Display_Type';
+$string['displaytypedropdown'] = 'Dropdown';
+$string['displaytypeclickbutton'] = 'Click button';
+$string['displaytypetogglebutton'] = 'Toggle button';
 $string['symbolicprtcorrectfeedback'] = '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span>';
 $string['symbolicprtincorrectfeedback'] = '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span>';
 $string['symbolicprtpartiallycorrectfeedback'] = '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>';

@@ -125,6 +125,14 @@ A single letter can be entered.  This is useful for creating multiple-choice que
 
 The width of the input box.
 
+### Display Style ### {#Display_Type}
+
+A selection menu allowing you to choose how the button for a boolean (true/false) value should be displayed. This menu provides options for customizing the visual representation of the button, giving you control over its appearance based on the boolean state it represents.
+
+* Dropdown: A dropdown menu for selecting either true or false, accompanied by a confirmation button.
+* Click button: A button that, when pressed, toggles between true and false states with each subsequent press.
+* Toggle button: A toggle button that switches between true and false when pressed.
+
 ### Insert Stars ### {#Insert_Stars}
 
 Insert Stars affect the way STACK treats the validation of CAS strings.

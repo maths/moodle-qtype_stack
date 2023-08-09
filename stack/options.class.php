@@ -330,9 +330,9 @@ class stack_options {
      */
     public static function get_displaytype_options() {
         return array(
-            '0' => 'dropdown',
-            '1' => 'click button', 
-            '2' => 'toggle button',
+            '0' => get_string('displaytypedropdown', 'qtype_stack'),
+            '1' => get_string('displaytypeclickbutton', 'qtype_stack'),
+            '2' => get_string('displaytypetogglebutton', 'qtype_stack'),
         );
     }
 }

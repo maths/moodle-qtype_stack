@@ -496,6 +496,8 @@ class qtype_stack extends question_type {
                 'forbidFloats'    => (bool) $inputdata->forbidfloat,
                 'lowestTerms'     => (bool) $inputdata->requirelowestterms,
                 'sameType'        => (bool) $inputdata->checkanswertype,
+                'displayType'     => (int) $inputdata->displaytype,
+                'buttonTitles'    => $inputdata->buttontitles,
                 'mustVerify'      => (bool) $inputdata->mustverify,
                 'showValidation'  => $inputdata->showvalidation,
                 'options'         => $inputdata->options,

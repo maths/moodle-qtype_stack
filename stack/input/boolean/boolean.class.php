@@ -64,7 +64,6 @@ class stack_boolean_input extends stack_input {
             $value = '';
         }
 
-        $attributes['hidden']="hidden"; //For Toggle-Button with Text
         $element_select = html_writer::select(self::get_choices(), $fieldname,
         $value, '', $attributes);
 
@@ -91,7 +90,7 @@ class stack_boolean_input extends stack_input {
                 ';
                 $element_button = html_writer::tag('button', "Click me", $attributes);
                 
-                $element_script = html_writer::tag('script', 'document.addEventListener("DOMContentLoaded", function(){
+                $element_script = html_writer::script('document.addEventListener("DOMContentLoaded", function(){
                         if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
                             document.getElementById("' . $element_button_id . '").classList.add("boolean-pressed");
                         } else {
@@ -100,9 +99,7 @@ class stack_boolean_input extends stack_input {
                         console.log("okneu");
                     });');
 
-                $attributes = array();
-                $attributes['class'] = 'stack-parent-toggle-button';
-                $element_complete=html_writer::tag('div',$element_select . $element_button . $element_script,$attributes);
+                $element_complete=html_writer::div($element_select . $element_button . $element_script,'stack-parent-toggle-button');
                 break;
             case 2:
                 //Toggle-Button
@@ -118,15 +115,15 @@ class stack_boolean_input extends stack_input {
                         document.getElementsByName("' . $fieldname . '")[0].value = "true";
                     };
                 ';
-                //$element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
+                $element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
                 //Toggle-Button with Text
-                $element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
+                //
+                //$element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
                 
                 $attributes = array();
                 $attributes['class'] = 'stack-button stack-toggle-button';
                 $element_label = html_writer::tag('label',$element_button,$attributes);
-                $attributes['class'] = 'stack-parent-toggle-button';
-                $element_complete=html_writer::tag('div',$element_select . $element_label,$attributes);
+                $element_complete=html_writer::div($element_select . $element_label,'stack-parent-toggle-button');
                 break;
             default:
                 echo "This type is not set."; break;

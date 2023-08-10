@@ -1,6 +1,6 @@
 /* Style for input type boolean as a button*/
 .stack-button{
-    --width: 80px;
+    --width: max-content !important;
     --height: calc(var(--width) / 3);
     width: var(--width);
     height: var(--height);
@@ -13,12 +13,13 @@
     border: none;
     border-radius: 8px;
     box-shadow: 0 5px #999;
+    transform: translateY(-4px);
 }
 .boolean-pressed {
     background-color: #555555;
     color: white;
     box-shadow: 0 1px #666;
-    transform: translateY(4px);
+    /*transform: translateY(4px);*/
 }
 .stack-clickme-button:hover {
     background-color: grey;

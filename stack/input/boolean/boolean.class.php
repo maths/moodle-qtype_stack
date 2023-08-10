@@ -88,7 +88,8 @@ class stack_boolean_input extends stack_input {
                         document.getElementById("' . $element_button_id . '").classList.add("boolean-pressed");
                     };
                 ';
-                $element_button = html_writer::tag('button', "Click me", $attributes);
+                $title = (empty($this->parameters['buttonTitles'])) ? 'Click me' : $this->parameters['buttonTitles'];
+                $element_button = html_writer::tag('button', $title, $attributes);
                 
                 $element_script = html_writer::script('document.addEventListener("DOMContentLoaded", function(){
                         if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
@@ -115,7 +116,7 @@ class stack_boolean_input extends stack_input {
                         document.getElementsByName("' . $fieldname . '")[0].value = "true";
                     };
                 ';
-                $element_button = html_writer::tag('input', "<span class='slider round'>test text</span>", $attributes);
+                $element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
                 //Toggle-Button with Text
                 //$element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
                 

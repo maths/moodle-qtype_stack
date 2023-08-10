@@ -64,7 +64,7 @@ class stack_boolean_input extends stack_input {
             $value = '';
         }
 
-        //$attributes['hidden']="hidden"; //For Toggle-Button with Text
+        $attributes['hidden']="hidden"; //For Toggle-Button with Text
         $element_select = html_writer::select(self::get_choices(), $fieldname,
         $value, '', $attributes);
 

@@ -100,6 +100,8 @@ class stack_boolean_input extends stack_input {
                 document.getElementsByName("' . $fieldname . '")[0].value = "true";
                 document.getElementById("' . $element_button_id . '").classList.add("boolean-pressed");
             };
+            console.log('.$this->parameters['displayType'].')
+            console.log('.$this->parameters['buttonTitles'].')
         ';
         $element_button = html_writer::tag('button', "Click me", $attributes);
         

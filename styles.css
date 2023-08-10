@@ -19,7 +19,7 @@
     background-color: #555555;
     color: white;
     box-shadow: 0 1px #666;
-    /*transform: translateY(4px);*/
+    transform: translateY(0px);
 }
 .stack-clickme-button:hover {
     background-color: grey;

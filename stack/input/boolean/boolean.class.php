@@ -71,8 +71,9 @@ class stack_boolean_input extends stack_input {
         switch ($this->parameters['displayType']) {
             case 0:
                 //Default settings
+                $element_complete=$element_select;
                 break;
-            case 1:
+            case 1: 
                 // 'Click me'-Button
                 $attributes = array();
                 $element_button_id = $fieldname . "-button";
@@ -101,7 +102,7 @@ class stack_boolean_input extends stack_input {
 
                 $attributes = array();
                 $attributes['class'] = 'stack-parent-toggle-button';
-                $element_div=html_writer::tag('div',$element_select . $element_button . $element_script,$attributes);
+                $element_complete=html_writer::tag('div',$element_select . $element_button . $element_script,$attributes);
                 break;
             case 2:
                 //Toggle-Button
@@ -124,12 +125,12 @@ class stack_boolean_input extends stack_input {
                 $attributes = array();
                 $attributes['class'] = 'stack-button stack-toogle-button';
                 $element_label = html_writer::tag('label',$element_button,$attributes);
-                $element_div=html_writer::tag('div',$element_select . $element_label,$attributes);
+                $element_complete=html_writer::tag('div',$element_select . $element_label,$attributes);
                 break;
             default:
                 echo "This type is not set."; break;
         }
-        return $element_div ;
+        return $element_complete ;
         //end
     }
 

@@ -19,7 +19,7 @@ global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../../../../../config.php');
-require_once(__DIR__ . '/../../../vle_specific.php');
+require_once(__DIR__ . '/../../../../vle_specific.php');
 
 class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 

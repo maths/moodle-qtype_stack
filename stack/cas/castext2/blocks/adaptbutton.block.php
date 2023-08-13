@@ -65,8 +65,8 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $qaid = $_GET['qaid'];
         $tdid = $_GET['id'];
         $name = $_GET['name'];
-        $dm = new question_engine_data_mapper();
-        $qa = $dm->load_question_attempt($qaid);
+        //$dm = new question_engine_data_mapper();
+        //$qa = $dm->load_question_attempt($qaid);
         //$qaname = $qa->get_qt_field_name($params['name']);
 
         $onclick .="const input = document.getElementById('".$this->params['save_state']."');";

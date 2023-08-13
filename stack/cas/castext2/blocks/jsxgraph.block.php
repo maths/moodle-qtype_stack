@@ -316,16 +316,3 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         return $valid;
     }
 }
-
-
-import {stack_js} from 'http://localhost:8000/question/type/stack/corsscripts/cors.php?name=stackjsiframe.min.js';
-import {stack_jxg} from 'http://localhost:8000/question/type/stack/corsscripts/cors.php?name=stackjsxgraph.min.js';
-Promise.all([stack_js.request_access_to_input("ans1",true)]).then(([stateRef]) => {
-var divid = "jxgbox";
-var BOARDID = divid; 
-var board = JXG.JSXGraph.initBoard(divid, { boundingbox:[-10,5,10,-5], axis:true, showCopyright:false }); 
-var p = board.create('point', [1,1], { size:2, name:'P', withLabel:true, snapToGrid:true, snapSizeX:0.1, snapSizeY:0.1 }); 
-stack_jxg.bind_point(stateRef,p); 
-var f = board.create('functiongraph', [ function(x) { return x*(p.Y()/p.X()) } ]); 
-board.unsuspendUpdate(); 
-});

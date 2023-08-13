@@ -15,7 +15,10 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 defined('MOODLE_INTERNAL') || die();
 
-
+global $CFG;
+require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/../../../config.php');
+require_once(__DIR__ . '/vle_specific.php');
 require_once(__DIR__ . '/../block.interface.php');
 
 class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
@@ -59,34 +62,40 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         // $body->items[] = new MP_String('<input type="number" id="number-adaptbutton-'.self::$countadaptbuttons.
         // '" value="0" style="display: none; visibility: hidden;">');
 
-        $onclick.="const input = document.getElementById('".$this->params['save_state']."');";
+        $qaid = $_GET['qaid'];
+        $tdid = $_GET['id'];
+        $name = $_GET['name'];
+        $dm = new question_engine_data_mapper();
+        $qa = $dm->load_question_attempt($qaid);
+        //$qaname = $qa->get_qt_field_name($params['name']);
+
+        $onclick .="const input = document.getElementById('".$this->params['save_state']."');";
         $onclick .= "input.value='true';";
+        $onclick .="console.log(".$qaid." , ".$tdid." , ".$name.")";
 
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
         self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
 
         
-        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
-        $code .= "import {stack_jxg} from '" . stack_cors_link('stackjsxgraph.min.js') . "';\n";
-        $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
-        $code .= "const input = document.getElementById(id);\n";
-        //zum$code .= "input.addEventListener('change',(e)=>{";
-        $code .= "input.value='Das ist ein test input';";
-        $code .= '});';
-            
-        // $body->items[] = new MP_String('<script type=module>'.$code.'</script>');
+        // $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+        // $code .= "import {stack_jxg} from '" . stack_cors_link('stackjsxgraph.min.js') . "';\n";
+        // $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
+        // $code .= "const input = document.getElementById(id);\n";
+        // //zum$code .= "input.addEventListener('change',(e)=>{";
+        // $code .= "input.value='Das ist ein test input';";
+        // $code .= '});';
 
-        //Now add a hidden [[iframe]] with suitable scripts.
-        $body->items[] = new MP_List([
-            new MP_String('iframe'),
-            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
-                    self::$countadaptbuttons . '.'])),
-            new MP_List([
-                new MP_String('script'),
-                new MP_String(json_encode(['type' => 'module'])),
-                new MP_String($code)
-            ])
-        ]);
+        // //Now add a hidden [[iframe]] with suitable scripts.
+        // $body->items[] = new MP_List([
+        //     new MP_String('iframe'),
+        //     new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
+        //             self::$countadaptbuttons . '.'])),
+        //     new MP_List([
+        //         new MP_String('script'),
+        //         new MP_String(json_encode(['type' => 'module'])),
+        //         new MP_String($code)
+        //     ])
+        // ]);
 
         // Update count.
         self::$countadaptbuttons = self::$countadaptbuttons + 1;

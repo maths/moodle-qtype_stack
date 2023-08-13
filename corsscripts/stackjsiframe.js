@@ -194,7 +194,6 @@ export const stack_js = {
         document.body.appendChild(input);
 
         input.addEventListener('change', (e) => {
-            console.log("test")
             if (!DISABLE_CHANGES[inputname]) {
                 // Just send a message.
                 const msg = {

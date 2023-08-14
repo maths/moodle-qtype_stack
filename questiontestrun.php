@@ -431,6 +431,16 @@ if ($question->has_random_variants()) {
         echo ' ' . stack_string('deploymanynotes');
         echo html_writer::end_tag('form');
 
+        // Systematic deployment of variants.
+        echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploysystematic',
+            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
+        echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey())), array('seed'));
+        echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'class' => 'btn btn-secondary',
+            'value' => stack_string('deploysystematicbtn')));
+        echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 3,
+            'id' => 'deploysystematicfield', 'name' => 'deploysystematic', 'value' => ''));
+        echo html_writer::end_tag('form');
+
         // Deploy many from a CS list of integer seeds.
         echo "\n" . html_writer::start_tag('form', array('method' => 'get', 'class' => 'deployfromlist',
             'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));

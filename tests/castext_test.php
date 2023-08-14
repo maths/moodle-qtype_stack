@@ -2159,4 +2159,29 @@ class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
         $this->assertEquals("Hello world", $at2->get_rendered());
     }
+
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_pick_seed() {
+        $a2 = array();
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $cs2 = new stack_cas_session2($s2, $options, 123456);
+
+        $textinput = "{@stack_seed@}";
+        $at1 = castext2_evaluatable::make_from_source($textinput, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+
+        $this->assertEquals('\({123456}\)', $at1->get_rendered());
+    }
 }

@@ -24,11 +24,11 @@ If you want to use this data in a question, you can use a variable to index elem
 
 If you want to exclude the moon, then you can omit seed 4, and deploy only seeds 1,2,3,5,6,7,8,9,10.
 
-It is your responsibility to make sure the index remains within range!  You can ensure this by creating an index variable such as `n1:mod(stack_seed,11);` and then using this
+It is your responsibility to make sure the index remains within range!  You can ensure this by creating an index variable such as `n1:mod(stack_seed-1,10)+1;` and then using this
 
     The planet {@planet[n1]@} has mass \({@mass[n1]*10^(24)@} \mathrm{kg}\).
 
-It is sensible to always ensure your `stack_seed` does not create run-time errors.
+It is sensible to always ensure your `stack_seed` does not create run-time errors.  Notice that although the `mod` function does return `0` we have avoided possible zero indexes when defining `n1`.
 
 Of course, there are many other ways to map deployed seeds onto systematic deployment of variants.  Using consecutive integers from \(1, \ldots, n\) as the starting point is probably simplest and easiest to maintain.  For this reason there is a special option to do this on the deploy variants page.
 

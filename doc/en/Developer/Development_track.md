@@ -9,6 +9,7 @@ past development history is documented on [Development history](Development_hist
 
 1. Refactor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
 2. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
+3. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
 
 TODO: 
 

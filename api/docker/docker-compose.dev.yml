@@ -19,6 +19,7 @@ services:
 #       target: profiling
     volumes:
       - ../../:/srv/stack
+      - /srv/stack/api/vendor/
       - ../profiles:/profiles
     restart: unless-stopped
     ports:

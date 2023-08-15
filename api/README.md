@@ -109,6 +109,7 @@ The `POST /validate` is used to get validation feedback for a single input of a 
 
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
 - `inputName`: The name of the input to be validated.
+- `answers`. A map from string to string, containing the answers.
 
 The validation route returns a single string field `Validation` with the corresponding rendered output.
 

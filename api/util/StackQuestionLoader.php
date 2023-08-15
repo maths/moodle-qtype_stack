@@ -16,6 +16,11 @@ class StackQuestionLoader
         $xmlData = new SimpleXMLElement($xml);
         $question = new \qtype_stack_question();
 
+        //Throw error if more then one question element is contained in the xml
+        if (count($xmlData->question) != 1) {
+            throw new \stack_exception("The provided xml file contains more than one question element");
+        }
+
         //Collect included files
         $files = array();
         if($xmlData->question->questiontext) {

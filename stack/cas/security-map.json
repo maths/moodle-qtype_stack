@@ -7319,7 +7319,7 @@
       "function": "s"
   },
   "stack_seed": {
-      "variable": "t"
+      "constant": "t"
   },
   "stack_unit_si_declare": {
       "function": "s",

@@ -1,14 +1,12 @@
 # Systematic deployment
 
-STACK has the option to create [random variants](Random.md) of questions.  However, users also need to systematically deploy all variants of a question in a simple manner.
+STACK has the option to create [random variants](Random.md) of questions.  However, users may need to systematically deploy all variants of a question in a simple manner.  For example, where there is a small number of cases and all should be readily available.
 
-Every CAS (Maxima) session contains a Maxima variable `stack_seed` which holds the integer value of the seed used by that variant of the question.
-
-Note, in Maxima the list index starts at 1. I.e the first element of a list is `l[1]` (not zero).
+Every CAS (Maxima) session contains a constant `stack_seed` which holds the integer value of the seed used by that variant of the question.
 
 ##  Deploying every variant
 
-The `stack_seed` variable can be used to deploy every variant of a question.  As an example, consider the data below (from https://nssdc.gsfc.nasa.gov/planetary/factsheet/)
+The constant `stack_seed` can be used to deploy every variant of a question.  As an example, consider the data below (from https://nssdc.gsfc.nasa.gov/planetary/factsheet/)
 
     planet:["Mercury", "Venus", "Earth", "Moon", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
     /* mass 10^(24)kg. */
@@ -18,11 +16,15 @@ The `stack_seed` variable can be used to deploy every variant of a question.  As
     /* Distance from Sun (106 km) */
     dist:[57.9, 108.2, 149.6, 0.384, 228.0, 778.5, 1432.0, 2867.0, 4515.0, 5906.4];
 
-If you want to use this data in a question, you can use a variable to index elements in these lists.  In particular, you can deploy seeds 1,2,3,4,5,6,7,8,9,10.  Then in castext you can use the variable `stack_seed` as an index to the data, e.g.
+If you want to use this data in a question, you can use a variable to index elements in these lists.  In particular, you can deploy seeds 1,2,3,4,5,6,7,8,9,10.  Then in the question variables or castext you can use the variable `stack_seed` as an index to the data, e.g.
 
     The planet {@planet[stack_seed]@} has mass \({@mass[stack_seed]*10^(24)@} \mathrm{kg}\).
 
-If you want to exclude the moon, then you can omit seed 4, and deploy only seeds 1,2,3,5,6,7,8,9,10.
+We recommend you add in a question variable, e.g. `n1:stack_seed;` and then use this variable (e.g. `n1`) as your index.
+
+If you want to exclude the moon, then you can omit seed 4, and deploy only seeds 1,2,3,5,6,7,8,9,10. (Of course, alternatively you could delete the entries for the moon from the list!)
+
+Note, in Maxima the list index starts at 1. I.e the first element of a list is `l[1]` (not zero).
 
 It is your responsibility to make sure the index remains within range!  You can ensure this by creating an index variable such as `n1:mod(stack_seed-1,10)+1;` and then using this
 
@@ -34,7 +36,7 @@ Of course, there are many other ways to map deployed seeds onto systematic deplo
 
 Notes
 
-1. you can combine use of `stack_seed` with random functions.  There is nothing wrong with seeding the random number generator from a small integer!
+1. You can combine use of `stack_seed` with random functions.  There is nothing wrong with seeding the random number generator from a small integer!
 2. STACK auto-detects random functions.  You must refer to `stack_seed`, or a random function, in the _question variables_ to trigger use of deployed variants.  Otherwise STACK will think deployed variants are not needed.  If necessary add in a variable `n1:stack_seed;` and then use `n1` as your index to make sure you have explicitly made use of `stack_seed`.
-3. There is nothing special about the variable `stack_seed`.  You are free to reassign values to this variable within the question.
+3. The variable `stack_seed` is a constant.  You cannot reassign values to this variable within the question.
 4. Just as with randomisation, you must create a question note to distinguish between variants of a question.

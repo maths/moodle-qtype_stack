@@ -83,7 +83,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $code .= "input.dispatchEvent(new Event('change'));";
         $code .= '});';
 
-        $code .= "stack_js.request_access_to_button('stack-adaptbutton-'". self::$countadaptbuttons . "', true).then((id) => {\n";
+        $code .= "stack_js.request_access_to_button('stack-adaptbutton-". self::$countadaptbuttons . "', true).then((id) => {\n";
         $code .= "const button = document.getElementById(id);\n";
         $code .= "button.addEventListener('click',(e)=>{";
         $code .= "console.log('iframe funktioniert');)};";

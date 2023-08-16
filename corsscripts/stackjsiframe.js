@@ -24,7 +24,6 @@ let DISABLE_CHANGES = {};
  * Basically, the set of inputs that wait registration to complete.
  */
 let INPUT_PROMISES = {};
-let BUTTON_PROMISES = {};
 
 /* A promise that will resolve when we first hear from the VLE side.
  * It is important to not send anything before we are absolutely certain that
@@ -100,19 +99,6 @@ window.addEventListener("message", (e) => {
         delete INPUT_PROMISES[msg.name];
         
         break;
-    //changed
-    case 'initial-button':
-        // 1. Get the input we have prepared.
-        const element2 = document.getElementById(msg.name);
-
-        // 3. Resolve the promise so that things can move forward.
-        BUTTON_PROMISES[msg.name](element2.id);
-
-        // 4. Remove the promise from our logic so that the timeout 
-        // logic does not trigger.
-        delete BUTTON_PROMISES[msg.name];
-        
-        break;
     case 'changed-input':
         // 1. Find the input.
         const input = document.getElementById(msg.name);
@@ -125,17 +111,6 @@ window.addEventListener("message", (e) => {
         DISABLE_CHANGES[msg.name] = false;
 
         break;
-    //changed
-    case 'button-clicked':
-        // 1. Find the button.
-        const button = document.getElementById(msg.name);
-
-        // 2. Trigger the click event.
-        const clickEvent = new Event('click');
-        button.dispatchEvent(clickEvent);
-
-        break;
-
     case 'ping':
         clearInterval(pinger);
         do_connect(true);
@@ -285,59 +260,6 @@ export const stack_js = {
             src: FRAME_ID
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
-    },
-    //changed
-    // button_clicked: function(buttonId, handler){
-    //     const button = document.getElementById(buttonId);
-    //     if (button){
-    //         button.addEventListener('click',handler);
-    //     } else {
-    //         console.error("Fehler");
-    //     }
-    // },
-    request_access_to_button: function(buttonname) {
-        const button = document.createElement('button');
-        button.style.display = 'none';
-        button.id = buttonname;
-        DISABLE_CHANGES[buttonname] = false;
-
-        document.body.appendChild(button);
-
-        button.addEventListener('click', async (e) => {
-            if (!DISABLE_CHANGES[buttonname]) {
-                // Just send a message.
-                const msg = {
-                    version: 'STACK-JS:1.0.0',
-                    type: 'button-clicked',
-                    name: buttonname,
-                    src: FRAME_ID
-                };
-                CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
-            }
-        });
-        // Send the connection request.
-        CONNECTED.then((whatever) => {
-            const msg ={
-                version: 'STACK-JS:1.0.0',
-                type: 'register-button-listener',  //??
-                name: buttonname,
-                src: FRAME_ID
-            };
-            window.parent.postMessage(JSON.stringify(msg), '*');
-        });
-        // So our promise passes that resolve onto a dict
-        // from which it will be resolved if we get 
-        // the correct message after resolving it will be
-        // removed from that dict, if not removed then when 
-        // this times out we will reject this promise.
-        return new Promise((resolve, reject) => {
-            BUTTON_PROMISES[buttonname] = resolve;
-            setTimeout(() => {
-                if (buttonname in BUTTON_PROMISES) {
-                    reject('No response to button registration of "' + buttonname + '" in 5s.');
-                }
-            }, 5000);
-        });
     },
 };
 export default stack_js;

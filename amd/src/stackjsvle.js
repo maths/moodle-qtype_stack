@@ -44,7 +44,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
     /* For event handling, lists of IFRAMES listening particular inputs.
      */
     let INPUTS = {};
-    
+    let BUTTONS = {};
     /* For event handling, lists of IFRAMES listening particular inputs
      * and their input events. By default we only listen to changes.
      * We report input events as changes to the other side.
@@ -132,7 +132,25 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
         possible = document.querySelector('.formulation select[id$="_' + name + '"]');
         return possible;
     }
-    
+    //For a button with access to input (adaptbutton)
+    function vle_get_button_element(name, srciframe) {
+        let initialcandidate = document.getElementById(srciframe);
+        let iter = initialcandidate;
+        while (iter && !iter.classList.contains('formulation')) {
+            iter = iter.parentElement;
+        }
+        if (iter && iter.classList.contains('formulation')) {
+            // iter now represents the borders of the question containing
+            // this IFRAME.
+            let possible = iter.querySelector('button[id$="' + name + '"]');
+            if (possible !== null) {
+                return possible;
+            }
+        }
+        // If none found within the question itself, search everywhere.
+        let possible = document.querySelector('.formulation button[id$="' + name + '"]');
+        return possible;
+    }
     /**
      * Triggers any VLE specific scripting related to updates of the given
      * input element.
@@ -271,6 +289,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
         }
         let element = null;
         let input = null;
+        let button = null;
 
         let response = {
             version: 'STACK-JS:1.0.0'
@@ -427,7 +446,55 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             }
 
             break;
-            
+        case 'register-button-listener':
+            // 1. Find the button.
+            button = vle_get_button_element(msg.name, msg.src);
+
+            if (button === null) {
+                // Requested something that is not available.
+                response.type = 'error';
+                response.msg = 'Failed to connect to input: "' + msg.name + '"';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+                return;
+            }
+
+            response.type = 'initial-button';
+            response.name = msg.name;
+            response.tgt = msg.src;
+
+            // 2. Add listener for click of this button.
+            if (button.id in BUTTONS) {
+                if (msg.src in BUTTONS[button.id]) {
+                    // DO NOT BIND TWICE!
+                    return;
+                }
+                BUTTONS[button.id].push(msg.src);
+            } else {
+                BUTTONS[button.id] = [msg.src];
+                button.addEventListener('click', () => {
+                        if (DISABLE_CHANGES) {
+                            return;
+                        }
+                        let resp = {
+                            version: 'STACK-JS:1.0.0',
+                            type: 'clicked-button',
+                            name: msg.name
+                        };
+                        for (let tgt of BUTTONS[button.id]) {
+                            resp['tgt'] = tgt;
+                            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
+                        }
+                    });
+            }
+
+            // 3. Let the requester know that we have bound things
+            //    and let it know the initial value.
+            if (!(msg.src in BUTTONS[button.id])) {
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            }
+                
+            break;
         case 'changed-input':
             // 1. Find the input.
             input = vle_get_input_element(msg.name, msg.src);
@@ -473,7 +540,49 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             }
 
             break;
-        
+
+        case 'clicked-button':  
+            // 1. Find the button.
+            button = vle_get_button_element(msg.name, msg.src);
+
+            if (button === null) {
+                // Requested something that is not available.
+                const ret = {
+                    version: 'STACK-JS:1.0.0',
+                    type: 'error',
+                    msg: 'Failed to modify button: "' + msg.name + '"',
+                    tgt: msg.src
+                };
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(ret), '*');
+                return;
+            }
+
+            // Disable change events.
+            DISABLE_CHANGES = true;
+
+            // TODO: Radio buttons should we check that value is possible?
+            button.value = msg.value;
+
+            // Trigger VLE side actions.
+            vle_update_button(button);
+
+            // Enable change tracking.
+            DISABLE_CHANGES = false;
+
+            // Tell all other frames, that care, about this.
+            response.type = 'clicked-button';
+            response.name = msg.name;
+            response.value = msg.value;
+
+            for (let tgt of BUTTONS[button.id]) {
+                if (tgt !== msg.src) {
+                    response.tgt = tgt;
+                    IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(response), '*');
+                }
+            }
+
+            break;
+
         case 'toggle-visibility':
             // 1. Find the element.
             element = vle_get_element(msg.target);
@@ -548,6 +657,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
             return;
         case 'initial-input':
+        case 'initial-button':
         case 'error':
             // These message types are for the other end.
             break;

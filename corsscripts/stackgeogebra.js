@@ -35,48 +35,19 @@ export const stack_geogebra = {
                 var tmp = JSON.stringify([pointx, pointy]);
                 initialX = false; // ignore these after initial change.
                 initialY = false;
+                // Avoid event when some of the coords are not valid numbers.
                 if (theInput.value != tmp) {
-                    // Avoid resetting this, as some event models migth trigger
+                    // Avoid resetting this, as some event models might trigger
                     // change events even when no change actually happens.
-                    theInput.value = tmp;
-                    var e = new Event('change');
-                    theInput.dispatchEvent(e);
+                    if (pointx!=null && !Number.isNaN(pointx) && pointy!=null && !Number.isNaN(pointy)){
+                        theInput.value = tmp;
+                        var e = new Event('change');
+                        theInput.dispatchEvent(e);
+                    }
                 }
             }
         }
       setInterval(updateValues, 300);//time based listening is the only option because we can not listen to single objects
-
-        var lastValue = JSON.stringify([appletRef.getXcoord(pointname), appletRef.getYcoord(pointname)]);
-
-        // Then from input to graph. 'input' for live stuff and 'change' for other.
-        theInput.addEventListener('input', function() {
-            if (theInput.value != lastValue) {
-                // Only when something changed.
-                try {
-                    var tmp = JSON.parse(theInput.value);
-                    if (typeof tmp[0] == 'number' && typeof tmp[1] == 'number') {
-                        appletRef.setCoords(pointname,tmp);
-                    }
-                } catch (err) {
-                    // We do not care about this.
-                }
-                lastValue = theInput.value;
-            }
-        });
-        theInput.addEventListener('change', function() {
-            if (theInput.value != lastValue) {
-                // Only when something changed.
-                try {
-                    var tmp = JSON.parse(theInput.value);
-                    if (typeof tmp[0] == 'number' && typeof tmp[1] == 'number') {
-                        appletRef.setCoords(pointname,tmp);
-                    }
-                } catch (err) {
-                    // We do not care about this.
-                }
-                lastValue = theInput.value;
-            }
-        });
     },
     bind_value: function(inputRef, appletRef, valuename) {
         // This function takes a GeoGebra name of a value object and binds its value to a given input.
@@ -103,7 +74,7 @@ export const stack_geogebra = {
           }
           if (movedInitial) {
               var tmp = JSON.stringify(appletRef.getValue(valuename));
-              if (theInput.value != tmp) {
+              if (theInput.value != tmp && tmp!=null && typeof tmp === "number" && !Number.isNaN(tmp)) {
                   // Avoid resetting this, as some event models might trigger
                   // change events even when no change actually happens.
                   theInput.value = tmp;
@@ -113,38 +84,6 @@ export const stack_geogebra = {
           }
         }
         setInterval(updateValues, 300);//time based listening is the only option because we can not listen to single objects
-
-        var lastValue = JSON.stringify(appletRef.getValue(valuename));
-
-        // Then from input to graph. 'input' for live stuff and 'change' for other.
-        theInput.addEventListener('input', function() {
-            if (theInput.value !== lastValue) {
-                // Only when something changed.
-                try {
-                    var tmp = JSON.parse(theInput.value);
-                    if (typeof tmp == 'number') {
-                        appletRef.setValue(valuename,tmp);
-                    }
-                } catch (err) {
-                    // We do not care about this.
-                }
-                lastValue = theInput.value;
-            }
-        });
-        theInput.addEventListener('change', function() {
-            if (theInput.value !== lastValue) {
-                // Only when something changed.
-                try {
-                    var tmp = JSON.parse(theInput.value);
-                    if (typeof tmp == 'number') {
-                        appletRef.setValue(valuename,tmp);
-                    }
-                } catch (err) {
-                    // We do not care about this.
-                }
-                lastValue = theInput.value;
-            }
-        });
     },
     bind_value_to_remember_JSON: function(inputRef, appletRef, valuename) {
         //This function takes a GeoGebra name of a value object and binds its value to a given input.
@@ -201,38 +140,6 @@ export const stack_geogebra = {
             }
         }
         setInterval(updateValues, 300);//time based listening is the only option because we can not listen to single objects
-
-        var lastValue = JSON.stringify(appletRef.getValue(valuename));
-
-        // Then from input to graph. 'input' for live stuff and 'change' for other.
-        theInput.addEventListener('input', function() {
-            try {
-                var tmp = JSON.parse(theInput.value);
-                if (JSON.stringify(tmp[valuename]) !== lastValue) {
-                    // Only when something changed.
-                    if (typeof tmp[valuename] == 'number') {
-                        appletRef.setValue(valuename,tmp[valuename]);
-                    }
-                }
-                lastValue = JSON.stringify(tmp[valuename]);
-            } catch (err) {
-                // We do not care about this.
-            }
-        });
-        theInput.addEventListener('change', function() {
-            try {
-                var tmp = JSON.parse(theInput.value);
-                if (tmp[valuename] !== lastValue) {
-                    // Only when something changed.
-                    if (typeof tmp[valuename] == 'number') {
-                        appletRef.setValue(valuename,tmp[valuename]);
-                    }
-                lastValue = JSON.stringify(tmp[valuename]);
-                }
-            } catch (err){
-                    // We do not care about this.
-            }
-        });
     },
     bind_point_to_remember_JSON: function(inputRef, appletRef, pointname) {
         // This function takes a GeoGebra point object and binds its coordinates to a given STACK input.
@@ -293,40 +200,7 @@ export const stack_geogebra = {
             }
         }
         setInterval(updateValues, 300);//time based listening is the only option because we can not listen to single objects
-
-        var lastValue = JSON.stringify([appletRef.getXcoord(pointname), appletRef.getYcoord(pointname)]);
-
-        // Then from input to graph. 'input' for live stuff and 'change' for other.
-        theInput.addEventListener('input', function() {
-
-            try{
-                var tmp = JSON.parse(theInput.value);
-                if (JSON.stringify(tmp[pointname]) !== lastValue) {
-                    // Only when something changed.
-                        if (typeof tmp[pointname][0] == 'number' && typeof tmp[pointname][1] == 'number') {
-                            appletRef.setCoords(pointname,tmp[pointname]);
-                        }
-                    lastValue =  JSON.stringify(tmp[pointname]);
-                }
-            } catch (err) {
-                // We do not care about this.
-            }
-        });
-        theInput.addEventListener('change', function() {
-            try{
-                var tmp = JSON.parse(theInput.value);
-                if (JSON.stringify(tmp[pointname]) !== lastValue) {
-                    // Only when something changed.
-                    if (typeof tmp[pointname][0] == 'number' && typeof tmp[pointname][1] == 'number') {
-                        appletRef.setCoords(pointname,tmp[pointname]);
-                    }
-                    lastValue = JSON.stringify(tmp[pointname]);
-                }
-            } catch(err){
-                // We do not care about this.
-            }
-        });
-    }
-};
+}
+}
 
 export default stack_geogebra;

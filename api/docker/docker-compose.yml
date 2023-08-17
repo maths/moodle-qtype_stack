@@ -14,7 +14,7 @@ services:
       GOEMAXIMA_QUEUE_LEN: 32
     read_only: true
   stack:
-    image: registry.dynexite.rwth-aachen.de/stack/stack
+    image: registry.git.rwth-aachen.de/medien-public/moodle-stack
     restart: unless-stopped
     ports:
       - '3080:80'

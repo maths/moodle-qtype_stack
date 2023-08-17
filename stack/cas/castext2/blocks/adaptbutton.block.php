@@ -76,7 +76,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
 
         
-        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n";
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
         $code .= "input.value='Das ist ein test input';\n";

@@ -158,7 +158,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
      * input element.
      *
      * @param {HTMLElement} inputelement the input element that has changed
-     * @param {HTMLElement} buttonelement the input element that has changed
+     * @param {HTMLElement} buttonelement the button element that has clicked
      */
     function vle_update_input(inputelement) {
         // Triggering a change event may be necessary.

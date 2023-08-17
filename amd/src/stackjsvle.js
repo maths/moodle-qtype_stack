@@ -45,11 +45,13 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
      */
     let INPUTS = {};
     let BUTTONS = {};
+
     /* For event handling, lists of IFRAMES listening particular inputs
      * and their input events. By default we only listen to changes.
      * We report input events as changes to the other side.
      */
     let INPUTS_INPUT_EVENT = {};
+    let BUTTONS_BUTTON_EVENT = {}; 
 
     /* A flag to disable certain things. */
     let DISABLE_CHANGES = false;
@@ -167,7 +169,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
         inputelement.dispatchEvent(i);
     }
     function vle_update_button(buttonelement) {
-        // Triggering a change event may be necessary.
+        // Triggering a click event may be necessary.
         const c = new Event('click');
         buttonelement.dispatchEvent(c);
     }
@@ -453,7 +455,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             if (button === null) {
                 // Requested something that is not available.
                 response.type = 'error';
-                response.msg = 'Failed to connect to input: "' + msg.name + '"';
+                response.msg = 'Failed to connect to button: "' + msg.name + '"';
                 response.tgt = msg.src;
                 IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
                 return;
@@ -462,6 +464,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             response.type = 'initial-button';
             response.name = msg.name;
             response.tgt = msg.src;
+            response['button-type'] = 'button';
 
             // 2. Add listener for click of this button.
             if (button.id in BUTTONS) {
@@ -479,13 +482,39 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
                         let resp = {
                             version: 'STACK-JS:1.0.0',
                             type: 'clicked-button',
-                            name: msg.name
+                            name: msg.name,
                         };
                         for (let tgt of BUTTONS[button.id]) {
                             resp['tgt'] = tgt;
                             IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
                         }
                     });
+            }
+            if (('track-button' in msg) && msg['track-button']) {
+                if (button.id in BUTTONS_BUTTON_EVENT) {
+                    if (msg.src in BUTTONS_BUTTON_EVENT[button.id]) {
+                        // DO NOT BIND TWICE!
+                        return;
+                    }
+                    BUTTONS_BUTTON_EVENT[button.id].push(msg.src);
+                } else {
+                    BUTTONS[button.id] = [msg.src];
+
+                    button.addEventListener('click', () => {
+                        if (DISABLE_CHANGES) {
+                            return;
+                        }
+                        let resp = {
+                            version: 'STACK-JS:1.0.0',
+                            type: 'clicked-button',
+                            name: msg.name
+                        };
+                        for (let tgt of BUTTONS_BUTTON_EVENT[button.id]) {
+                            resp['tgt'] = tgt;
+                            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
+                        }
+                    });
+                }
             }
 
             // 3. Let the requester know that we have bound things
@@ -550,29 +579,19 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
                 const ret = {
                     version: 'STACK-JS:1.0.0',
                     type: 'error',
-                    msg: 'Failed to modify button: "' + msg.name + '"',
+                    msg: 'Failed to click button: "' + msg.name + '"',
                     tgt: msg.src
                 };
                 IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(ret), '*');
                 return;
             }
 
-            // Disable change events.
-            DISABLE_CHANGES = true;
-
-            // TODO: Radio buttons should we check that value is possible?
-            button.value = msg.value;
-
             // Trigger VLE side actions.
             vle_update_button(button);
-
-            // Enable change tracking.
-            DISABLE_CHANGES = false;
 
             // Tell all other frames, that care, about this.
             response.type = 'clicked-button';
             response.name = msg.name;
-            response.value = msg.value;
 
             for (let tgt of BUTTONS[button.id]) {
                 if (tgt !== msg.src) {

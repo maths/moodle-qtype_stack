@@ -237,7 +237,7 @@ export const stack_js = {
 
     request_access_to_button: function(buttonname, buttonevents) {
         const button = document.createElement('button');
-        button.type = 'hidden';
+        button.type = 'button';
         button.id = buttonname;
         DISABLE_CHANGES[buttonname] = false;
 
@@ -264,6 +264,9 @@ export const stack_js = {
                 name: buttonname,
                 src: FRAME_ID
             };
+            if (buttonevents === true) {
+                msg['track-button'] = true; 
+            }
             window.parent.postMessage(JSON.stringify(msg), '*');
         });
 
@@ -273,7 +276,7 @@ export const stack_js = {
         // removed from that dict, if not removed then when 
         // this times out we will reject this promise.
         return new Promise((resolve, reject) => {
-            BUTTON_PROMISES[inputname] = resolve;
+            BUTTON_PROMISES[buttonname] = resolve;
             setTimeout(() => {
                 if (buttonname in BUTTON_PROMISES) {
                     reject('No response to button registration of "' + buttonname + '" in 5s.');

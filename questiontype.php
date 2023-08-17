@@ -94,12 +94,11 @@ class qtype_stack extends question_type {
      */
     protected function fix_dollars_in_form_data($fromform) {
         $questionfields = array('questiontext', 'generalfeedback', 'specificfeedback',
-                'prtcorrect', 'prtpartiallycorrect', 'prtincorrect');
+                'prtcorrect', 'prtpartiallycorrect', 'prtincorrect', 'questiondescription');
         foreach ($questionfields as $field) {
             $fromform->{$field}['text'] = stack_maths::replace_dollars($fromform->{$field}['text']);
         }
         $fromform->questionnote = stack_maths::replace_dollars($fromform->questionnote);
-        $fromform->questiondescription = stack_maths::replace_dollars($fromform->questiondescription['text']);
 
         $prtnames = array_keys($this->get_prt_names_from_question($fromform->questiontext['text'],
                 $fromform->specificfeedback['text']));

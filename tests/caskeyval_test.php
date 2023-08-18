@@ -307,4 +307,13 @@ class caskeyval_test extends qtype_stack_testcase {
                     "ta1:expand(df_simp);";
         $this->assertEquals($expected, $s->get_keyval_representation());
     }
+
+    public function test_stack_seed_redef() {
+        $tests = 'v:2;stack_seed:2';
+        $kv = new stack_cas_keyval($tests);
+        $this->assertFalse($kv->get_valid());
+        $expected = array('Redefinition of key constants is forbidden: ' .
+            '<span class="stacksyntaxexample">stack_seed</span>.');
+        $this->assertEquals($expected, $kv->get_errors());
+    }
 }

@@ -1271,11 +1271,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     /**
-     * @param string Input text (raw keyvals) to check for random functions.
+     * @param string Input text (raw keyvals) to check for random functions, or use of stack_seed.
      * @return bool Actual test of whether text uses randomisation.
      */
     public static function random_variants_check($text) {
-        return preg_match('~\brand~', $text) || preg_match('~\bmultiselqn~', $text);
+        return preg_match('~\brand~', $text) || preg_match('~\bmultiselqn~', $text)
+            || preg_match('~\bstack_seed~', $text);
     }
 
     public function get_num_variants() {

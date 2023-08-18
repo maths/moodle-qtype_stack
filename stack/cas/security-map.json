@@ -7318,6 +7318,9 @@
   "stackunits_make": {
       "function": "s"
   },
+  "stack_seed": {
+      "constant": "t"
+  },
   "stack_unit_si_declare": {
       "function": "s",
       "contextvariable": "true"

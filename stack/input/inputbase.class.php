@@ -1464,7 +1464,8 @@ abstract class stack_input {
             $class .= ' empty';
         }
 
-        $feedback = html_writer::tag($divspan, $feedback, array('class' => $class, 'id' => $fieldname.'_val'));
+        $feedback = html_writer::tag($divspan, $feedback,
+            ['class' => $class, 'id' => $fieldname.'_val', 'aria-live' => 'assertive']);
         $response = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
 
         return $response;

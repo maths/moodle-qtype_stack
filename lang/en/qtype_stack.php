@@ -412,6 +412,7 @@ $string['languageproblemsmissing'] = 'The language tag {$a->lang} is missing fro
 $string['languageproblemsextra']   = 'The field {$a->field} has the following languages not in the question text: {$a->langs}.';
 
 $string['alttextmissing']    = 'One or more images appears to have a missing or empty \'alt\' tag in "{$a->field}" ({$a->num}).';
+$string['todowarning']       = 'You have un-resolved todo blocks in "{$a->field}".';
 
 // Admin settings.
 $string['settingajaxvalidation'] = 'Instant validation';
@@ -464,9 +465,9 @@ $string['settingserveruserpass'] = 'Server username:password';
 $string['settingserveruserpass_desc'] = 'If you are using Platform type: Server, and if you have set up your Maxima pool server with HTTP authentication, then you can put the username and password here. That is slighly safer than putting them in the URL. The format is username:password.';
 $string['settingusefullinks'] = 'Useful links';
 $string['settingmaximalibraries'] = 'Load optional Maxima libraries:';
-$string['settingmaximalibraries_desc'] = 'This is a comma separated list of Maxima library names which will be automatically loaded into Maxima.  Only supported library names can be used: "stats, distrib, descriptive, simplex". These libraries will not be loaded if you have saved a maxima image to optimise performance.';
-$string['settingmaximalibraries_error'] = 'The following package is not supported: {$a}';
-$string['settingmaximalibraries_failed'] = 'It appears as if some of the Maxima packages you have asked for have failed to load.  Please refer to the installation instructions for notes about this error.';
+$string['settingmaximalibraries_desc'] = 'This is a comma separated list of Maxima library names which will be automatically loaded into Maxima.  Only supported library names can be used: "stats, distrib, descriptive, simplex". When you change the listed libraties you must rebuild the Maxima optimised image.';
+$string['settingmaximalibraries_error'] = 'Please edit the STACK plugin setting <tt>qtype_stack | maximalibraries</tt>. The following package is not supported: {$a}';
+$string['settingmaximalibraries_failed'] = 'It appears as if some of the Maxima packages you have asked for have failed to load.';
 
 // Strings used by replace dollars script.
 $string['replacedollarscount'] = 'This category contains {$a} STACK questions.';
@@ -515,6 +516,7 @@ $string['deployedvariants'] = 'Deployed variants';
 $string['deployedvariantsn'] = 'Deployed variants ({$a})';
 $string['deploymanybtn'] = 'Deploy # of variants:';
 $string['deploymanyerror'] = 'Error in user input: cannot deploy "{$a->err}" variants.';
+$string['deploysystematicbtn'] = 'Deploy seeds from 1 to: ';
 $string['deployduplicateerror'] = 'Duplicate question notes detected in the deployed variants. We strongly recommend each question note is only deployed once, otherwise you will have difficulty collecting meaningful stats when grouping by variant.  Please consider deleting some variants with duplicate notes.';
 $string['deploytoomanyerror'] = 'STACK will try to deploy up to at most 100 new variants in any one request.  No new variants deployed.';
 $string['deploymanynonew'] = 'Too many repeated existing question notes were generated.';
@@ -594,6 +596,8 @@ $string['equivfirstline'] = 'You have used the wrong first line in your argument
 // Support scripts: CAS chat, healthcheck, etc.
 $string['all'] = 'All';
 $string['chat'] = 'Send to the CAS';
+$string['savechat'] = 'Save back to question';
+$string['savechatmsg'] = 'Question variables and general feedback saved back to the question.';
 $string['castext'] = 'CAS text';
 $string['chat_desc'] = 'The <a href="{$a->link}">CAS chat script</a> lets you test the connection to the CAS, and try out Maxima syntax.';
 $string['chatintro'] = 'This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a handy way to check if the CAS is working, and to test various inputs.  The first text box enables variables to be defined, the second is for the CAS text itself.';
@@ -608,9 +612,7 @@ $string['healthcheckcache_db'] = 'CAS results are being cached in the database.'
 $string['healthcheckcache_none'] = 'CAS results are not being cached.';
 $string['healthcheckcache_otherdb'] = 'CAS results are being cached in another database.';
 $string['healthcheckcachestatus'] = 'The cache currently contains {$a} entries.';
-$string['healthcheckconfig'] = 'Maxima configuration file';
 $string['healthcheckconfigintro1'] = 'Found, and using, Maxima in the following directory:';
-$string['healthcheckconfigintro2'] = 'Trying to automatically write the Maxima configuration file.';
 $string['healthcheckconnect'] = 'Trying to connect to the CAS';
 $string['healthcheckconnectintro'] = 'We are trying to evaluate the following CAS text:';
 $string['healthcheckfilters'] = 'Please ensure that the {$a->filter} is enabled on the <a href="{$a->url}">Manage filters</a> page.';
@@ -621,9 +623,12 @@ $string['healthchecklatexmathjax'] = 'STACK relies on the Moodle MathJax filter.
 $string['healthcheckmathsdisplaymethod'] = 'Maths display method being used: {$a}.';
 $string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
 $string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';
-$string['healthchecksamplecas'] = 'The derivative of {@ x^4/(1+x^4) @} is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = {@ diff(x^4/(1+x^4),x) @}. \]  Confirm if unicode is supported: \(\forall\) should be displayed {@unicode(8704)@}.';
+$string['healthchecksamplecas'] = 'The derivative of {@ x^4/(1+x^4) @} is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = {@ diff(x^4/(1+x^4),x) @}. \]';
+$string['healthcheckconnectunicode'] = 'Trying to send unicode to the CAS';
+$string['healthchecksamplecasunicode'] = 'Confirm if unicode is supported: \(\forall\) should be displayed {@unicode(8704)@}.';
 $string['healthchecksampledisplaytex'] = '\[\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}.\]';
 $string['healthchecksampleinlinetex'] = '\(\sum_{n=1}^\infty \frac{1}{n^2} = \frac{\pi^2}{6}\).';
+$string['healthcheckmaximalocal'] = 'Contents of the maximalocal file';
 $string['healthcheckplots'] = 'Graph plotting';
 $string['healthcheckplotsintro'] = 'There should be two different plots.  If two identical plots are seen then this is an error in naming the plot files. If no errors are returned, but a plot is not displayed then one of the following may help.  (i) check read permissions on the two temporary directories. (ii) change the options used by GNUPlot to create the plot. Currently there is no web interface to these options.';
 $string['healthchecksampleplots'] = 'Two example plots below.  {@plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3])@} {@plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3],grid2d)@}  A third, smaller, plot should be displayed below with traditional axes. {@plot([x,2*x^2-1,x*(4*x^2-3),8*x^4-8*x^2+1,x*(16*x^4-20*x^2+5),(2*x^2-1)*(16*x^4-16*x^2+1)],[x,-1,1],[y,-1.2,1.2],[box, false],[yx_ratio, 1],[axes, solid],[xtics, -3, 1, 3],[ytics, -3, 1, 3],[size,250,250])@}';
@@ -652,6 +657,10 @@ $string['healthautomaxopt_notok'] = 'Maxima image not created automatically.';
 $string['healthautomaxopt_nolisp'] = 'Unable to determine LISP version, so Maxima image not created automatically.';
 $string['healthautomaxopt_nolisprun'] = 'Unable to automatically locate lisp.run.  Try "sudo updatedb" from the command line and refer to the optimization docs.';
 $string['healthcheckcreateimage'] = 'Create Maxima image';
+$string['healthcheckmaximaavailable'] = 'Versions of Maxima available on this server';
+$string['healthcheckpass'] = 'The healthcheck passed without detecting any issues.  However, please read the detail below carefully.  Not every problem can be automatically detected.';
+$string['healthcheckfail'] = 'The healthcheck detected serious problems.  Please read the diagnostic information below for more detail.';
+$string['healthcheckfaildocs'] = 'Detailed notes and trouble-shooting advice is given in the documentation under <a href="{$a->link}">Installation > Testing installation</a>.';
 $string['stackInstall_replace_dollars_desc'] = 'The <a href="{$a->link}">fix maths delimiters script</a> can be used to replace old-style delimiters like <code>@...@</code>, <code>$...$</code> and <code>$$...$$</code> in your questions with the new recommended <code>{@...@}</code>, <code>\(...\)</code> and <code>\[...\]</code>.';
 $string['stackInstall_testsuite_title'] = 'A test suite for STACK Answer tests';
 $string['stackInstall_testsuite_title_desc'] = 'The <a href="{$a->link}">answer-tests script</a> verifies that the answer tests are performing correctly. They are also useful to learn by example how each answer-test can be used.';
@@ -738,6 +747,7 @@ $string['stackCas_trigop']                  = 'You must apply {$a->trig} to an a
 $string['stackCas_trigexp']                 = 'You cannot take a power of a trig function by writing {$a->forbid}. The square of the value of \(\{$a->identifier}(x)\) is typed in as <tt>{$a->identifier}(x)^2</tt>.  The inverse of \(\{$a->identifier}(x)\) is written <tt>a{$a->identifier}(x)</tt> and not \(\{$a->identifier}^{-1}(x)\) .';
 $string['stackCas_trigparens']              = 'When you apply a trig function to its arguments you must use round parentheses not square brackets.  E.g {$a->forbid}.';
 $string['stackCas_triginv']                 = 'Inverse trig functions are written {$a->goodinv} not {$a->badinv}.';
+$string['stackCas_baddotdot']               = 'Using matrix multiplication "." with scalar floats is forbidden, use normal multiplication "*" instead for the same result. ';
 $string['stackCas_badLogIn']                = 'You have typed in the expression <tt>In</tt>.  The natural logarithm is entered as <tt>ln</tt> in lower case.  ("Lima November" not "India November")';
 $string['stackCas_unitssynonym']            = 'You appear to have units {$a->forbid}.  Did you mean {$a->unit}?';
 $string['stackCas_unknownUnitsCase']        = 'Input of units is case sensitive:  {$a->forbid} is an unknown unit. Did you mean one from the following list {$a->unit}?';

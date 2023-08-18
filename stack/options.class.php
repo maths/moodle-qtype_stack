@@ -69,14 +69,6 @@ class stack_options {
                 'caskey'     => 'make_logic',
                 'castype'    => 'fun',
             ),
-            'floats'   => array(
-                'type'       => 'boolean',
-                'value'      => 1,
-                'strict'     => true,
-                'values'     => array(),
-                'caskey'     => 'OPT_NoFloats',
-                'castype'    => 'ex',
-            ),
             'sqrtsign'   => array(
                 'type'       => 'boolean',
                 'value'      => true,
@@ -141,7 +133,6 @@ class stack_options {
         $this->set_option('inversetrig', $stackconfig->inversetrig);
         $this->set_option('logicsymbol', $stackconfig->logicsymbol);
         $this->set_option('matrixparens', $stackconfig->matrixparens);
-        $this->set_option('floats', (bool) $stackconfig->inputforbidfloat);
         $this->set_option('sqrtsign', (bool) $stackconfig->sqrtsign);
         $this->set_option('simplify', (bool) $stackconfig->questionsimplify);
         $this->set_option('assumepos', (bool) $stackconfig->assumepositive);

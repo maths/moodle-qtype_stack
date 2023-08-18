@@ -25,9 +25,10 @@ class stack_matrix_input extends stack_input {
     protected $height;
 
     protected $extraoptions = array(
+        'hideanswer' => false,
+        'allowempty' => false,
         'nounits' => false,
         'simp' => false,
-        'allowempty' => false,
         'consolidatesubscripts' => false,
         'checkvars' => 0,
         'validator' => false

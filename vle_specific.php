@@ -187,3 +187,10 @@ function stack_get_mathjax_url(): string {
     // TODO: figure out how to support VLE local with CORS.
     return 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
 }
+
+/*
+ * Give the VLE a chance to clear any question cache.
+ */
+function stack_clear_vle_question_cache(int $questionid) {
+    question_bank::notify_question_edited($questionid);
+}

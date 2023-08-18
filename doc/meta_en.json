@@ -533,6 +533,11 @@
         "description":"Functions for displaying the tree representation of a mathematical expression."
         },
         {
+        "file":"Workflow.md",
+        "title":"Workflow - STACK Documentation",
+        "description":"Suggestions for effective question authoring workflow, especially when working collaboratively."
+        },
+        {
         "file":"Numerical_input.md",
         "title":"Numerical Input - STACK Documentation",
         "description":"Information on STACK's numerical input type."
@@ -617,6 +622,11 @@
         "description":"Information on using different functions in STACK to generate random values."
         },
         {
+        "file":"Systematic_deployment.md",
+        "title":"Systematic deployment - STACK Documentation",
+        "description":"Information on how to systematically deploy all variants of a question."
+        },
+        {
         "file":"Real_Intervals.md",
         "title":"Real intervals - STACK Documentation",
         "description":"Information on representing, displaying and manipulating intervals in the real line."
@@ -650,6 +660,11 @@
         "file":"Validator.md",
         "title":"Creating bespoke validation - STACK Documentation",
         "description":"How to create bespoke validation of student's input."
+        },
+        {
+        "file":"Workflow.md",
+        "title":"Question authoring workflow - STACK Documentation",
+        "description":"This page suggests workflow for authoring STACK questions."
         }
       ]
       },

@@ -141,7 +141,7 @@ if ($question->options->get_option('simplify')) {
     $simp = '';
 }
 
-$questionvarsinputs = $question->questionvariables;
+$questionvarsinputs = '';
 foreach ($question->get_correct_response() as $key => $val) {
     if (substr($key, -4, 4) !== '_val') {
         $questionvarsinputs .= "\n{$key}:{$val};";
@@ -150,7 +150,8 @@ foreach ($question->get_correct_response() as $key => $val) {
 
 // We've chosen not to send a specific seed since it is helpful to test the general feedback in a random context.
 $chatparams = $urlparams;
-$chatparams['maximavars'] = $questionvarsinputs;
+$chatparams['maximavars'] = $question->questionvariables;
+$chatparams['inputs'] = $questionvarsinputs;
 $chatparams['simp'] = $simp;
 $chatparams['cas'] = $question->generalfeedback;
 $chatlink = new moodle_url('/question/type/stack/adminui/caschat.php', $chatparams);
@@ -428,6 +429,16 @@ if ($question->has_random_variants()) {
         echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 4,
                 'id' => 'deploymanyfield', 'name' => 'deploymany', 'value' => ''));
         echo ' ' . stack_string('deploymanynotes');
+        echo html_writer::end_tag('form');
+
+        // Systematic deployment of variants.
+        echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploysystematic',
+            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
+        echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey())), array('seed'));
+        echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'class' => 'btn btn-secondary',
+            'value' => stack_string('deploysystematicbtn')));
+        echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 3,
+            'id' => 'deploysystematicfield', 'name' => 'deploysystematic', 'value' => ''));
         echo html_writer::end_tag('form');
 
         // Deploy many from a CS list of integer seeds.

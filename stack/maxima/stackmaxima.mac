@@ -1075,6 +1075,7 @@ set output ", afn),
     set_plot_option([gnuplot_out_file, tfnp1]),
     if plotdebug then print(plot_options),
     /* Create and execute the actual plot commands. */
+    ex:%_ce_expedite(ex),
     pltargs: append([ex], ral),
     if plotdebug then print(pltargs),
     plotfunmake: funmake(plot2d, pltargs),
@@ -3246,7 +3247,7 @@ table_difference(T1, T2) := table_zip_with(lambda([ex1,ex2], if ex1=ex2 then ex1
 /*  Trees                                                 */
 /*                                                        */
 /* ****************************************************** */
-disptree(e) := sconcat("<ul class='tree'><li>", tree_rec(e), "</li></ul>");
+disptree(e) := sconcat("<ul class='algebratree'><li>", tree_rec(e), "</li></ul>");
 
 /* A list of functions which should use the TeX representation.  (Defined as a list to be user-editable) */
 
@@ -3300,4 +3301,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2023060600$
+stackmaximaversion:2023072102$

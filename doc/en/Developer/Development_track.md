@@ -16,8 +16,11 @@ past development history is documented on [Development history](Development_hist
 Support the use of a [comma as the decimal separator](Syntax_numbers.md)
 1. (Done) Mechanism for Maxima to output LaTeX.
 2. (Done) Mechanism to output expressions as they should be typed.
-3. Input parsing mechanism.
-4. (Done) Question wide option for decimal separator added.  TODO: how to give access to this?
+3. (Done) Question wide option for decimal separator added.  TODO: how to give access to this?
+4. Core input parsing mechanism for strict syntax.
+5. Input parsing mechanism for weak syntax (but nobody has actually asked for this yet...).
+6. Refactor matrix of variable size.
+
 
 TODO: 
 

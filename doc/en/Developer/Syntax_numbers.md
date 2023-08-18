@@ -95,7 +95,6 @@ Internally, we retain strict Maxima syntax.  _Teachers must use strict Maxima sy
 2. Mechanism to output expressions as they should be typed.  E.g. "The teacher's answer is \(???\) which can be typed as `???`". (Done - but more work needed on testing and question-wide options)
 3. Input parsing mechanism for _students' answers only_.
 
-TODO: refactor matrix of variable size.
 
 ## Practial implementation in other software
 

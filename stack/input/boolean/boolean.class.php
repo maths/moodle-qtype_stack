@@ -116,9 +116,9 @@ class stack_boolean_input extends stack_input {
                         document.getElementsByName("' . $fieldname . '")[0].value = "true";
                     };
                 ';
-                $element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
+                //$element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
                 //Toggle-Button with Text
-                //$element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
+                $element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
                 
                 $attributes = array();
                 $attributes['class'] = 'stack-button stack-toggle-button';

@@ -64,16 +64,15 @@ class stack_boolean_input extends stack_input {
             $value = '';
         }
 
-        $element_select = html_writer::select(self::get_choices(), $fieldname,
-        $value, '', $attributes);
-
         switch ($this->parameters['displayType']) {
             case 0:
                 //Default settings
-                $element_complete=$element_select;
+                $element_complete=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
                 break;
             case 1: 
                 // 'Click me'-Button
+                $attributes['disabled'] = 'disabled';
+                $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
                 $attributes = array();
                 $element_button_id = $fieldname . "-button";
                 $attributes['id'] = $element_button_id;
@@ -104,6 +103,9 @@ class stack_boolean_input extends stack_input {
                 break;
             case 2:
                 //Toggle-Button
+                $attributes['hidden']='hidden';
+                $element_select=html_writer::select(self::get_choices(), $fieldname,
+                $value, '', $attributes);
                 $attributes = array();
                 $element_button_id = $fieldname . "-button";
                 $attributes['id'] = $element_button_id;
@@ -116,8 +118,6 @@ class stack_boolean_input extends stack_input {
                         document.getElementsByName("' . $fieldname . '")[0].value = "true";
                     };
                 ';
-                //$element_button = html_writer::tag('input', "<span class='slider round'></span>", $attributes);
-                //Toggle-Button with Text
                 $element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
                 
                 $attributes = array();

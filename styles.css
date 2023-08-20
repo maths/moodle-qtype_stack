@@ -59,7 +59,7 @@
     width: 100%;
     height: 100%;
     border-radius: var(--height);
-    background-color: #787373;
+    background-color: #9a9595;
     transition: all 0.4s ease-in-out;
 }
 .no-answer.stack-toggle-button .slider {

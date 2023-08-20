@@ -301,7 +301,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
         case 'register-input-listener':
             // 1. Find the input.
             input = vle_get_input_element(msg.name, msg.src);
-
+            console.log("Das ist ein Test, änderungen werden heir übernommen.")
             if (input === null) {
                 // Requested something that is not available.
                 response.type = 'error';

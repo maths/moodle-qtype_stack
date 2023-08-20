@@ -61,21 +61,9 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         // $body->items[] = new MP_String('<input type="number" id="number-adaptbutton-'.self::$countadaptbuttons.
         // '" value="0" style="display: none; visibility: hidden;">');
 
-        // $qaid = $_GET['qaid'];
-        // $tdid = $_GET['id'];
-        // $name = $_GET['name'];
-        //$dm = new question_engine_data_mapper();
-        //$qa = $dm->load_question_attempt($qaid);
-        //$qaname = $qa->get_qt_field_name($params['name']);
-
-        // $onclick .="const input = document.getElementById('".$this->params['save_state']."');";
-        // $onclick .= "input.value='true';";
-        // $onclick .="console.log(".$qaid." , ".$tdid." , ".$name.")";
-
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
         self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
 
-        
         $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n";
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
@@ -88,7 +76,6 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $code .= "button.addEventListener('click',(e)=>{\n";
         $code .= "console.log('iframe funktioniert');\n});\n";
         $code .= "});\n";
-
 
         //Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([

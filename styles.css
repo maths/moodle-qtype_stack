@@ -1,9 +1,9 @@
 /* Style for input type boolean as a button*/
-.custom-select.stack-select-clickme:disabled{
+/* .custom-select.stack-select-clickme:disabled{
     color: black;
     background: white;
     background-color: white;
-}
+} */
 .stack-button{
     --height: calc(var(--width) / 3);
     width: var(--width);

@@ -1,12 +1,12 @@
 /* Style for input type boolean as a button*/
 .stack-button{
-    --width: max-content !important;
     --height: calc(var(--width) / 3);
     width: var(--width);
     height: var(--height);
     cursor: pointer;
 }
 .stack-clickme-button{
+    --width: max-content !important;
     font-size: 15px;
     color: black;
     background-color: #e7e7e7;
@@ -26,6 +26,7 @@
 }
 /* Style for input type boolean as a toggle button*/
 .stack-toggle-button {
+    --width: 80px;
     position: relative;
     display: block;
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);

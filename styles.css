@@ -1,6 +1,6 @@
 /* Style for input type boolean as a button*/
-.stack-select-clickme{
-    appearance: none;
+.stack-select-clickme:disabled{
+    color: black;
     background: white;
 }
 .stack-button{

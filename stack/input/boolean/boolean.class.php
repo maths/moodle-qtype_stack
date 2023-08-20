@@ -81,6 +81,9 @@ class stack_boolean_input extends stack_input {
                 $attributes['class'] = 'stack-button stack-clickme-button';
                 $attributes['type'] = 'button';
                 $attributes['onclick'] = '
+                    if (document.getElementsByName("' . $fieldname . '")[0].contains("no_answer")) {
+                        document.getElementById("' . $element_button_id . '").classList.remove("no-answer");
+                    }
                     if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
                         document.getElementsByName("' . $fieldname . '")[0].value = "false";
                         document.getElementById("' . $element_button_id . '").classList.remove("boolean-pressed");
@@ -106,6 +109,7 @@ class stack_boolean_input extends stack_input {
             case 2:
                 //Toggle-Button
                 $attributes['hidden']='hidden';
+                $attributes['class']='no-answer';
                 $element_select=html_writer::select(self::get_choices(), $fieldname,
                 $value, '', $attributes);
                 $attributes = array();
@@ -114,6 +118,9 @@ class stack_boolean_input extends stack_input {
                 $attributes['class'] = 'stack-input-toggle-button';
                 $attributes['type'] = 'checkbox';
                 $attributes['onclick'] = '
+                    if (document.getElementById("stack-button-' . $fieldname . '").contains("no-answer")) {
+                        document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
+                    }
                     if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
                         document.getElementsByName("' . $fieldname . '")[0].value = "false";
                     } else {
@@ -123,7 +130,8 @@ class stack_boolean_input extends stack_input {
                 $element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
                 
                 $attributes = array();
-                $attributes['class'] = 'stack-button stack-toggle-button';
+                $attributes['id'] = 'stack-button-'.$fieldname;
+                $attributes['class'] = 'stack-button stack-toggle-button no-answer';
                 $element_label = html_writer::tag('label',$element_button,$attributes);
                 $element_complete=html_writer::div($element_select . $element_label,'stack-parent-toggle-button');
                 break;

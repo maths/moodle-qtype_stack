@@ -51,8 +51,7 @@
     background-color: #fff;
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
     transition: all 0.4s ease-in-out;
-}
-  
+} 
 .stack-toggle-button .slider {
     position: absolute;
     top: 0;
@@ -81,18 +80,25 @@
     font-size: 12px;
     font-family: sans-serif;
     transition: all 0.4s ease-in-out;
-  }
-
-.stack-toggle-button .slider-labels::after {
-    content: attr(data-off);
+}
+.no-answer.stack-toggle-button .slider-labels::after {
+    content: '';
     position: absolute;
     right: 5px;
     color: #4d4d4d;
     opacity: 1;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
     transition: all 0.4s ease-in-out;
-  }
-
+}
+.stack-toggle-button .slider-labels::after {
+    content: attr(data-off);
+    position: absolute;
+    right: 5px;
+    color: #d9d1d1;
+    opacity: 1;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s ease-in-out;
+}
 .stack-toggle-button .slider-labels::before {
     content: attr(data-on);
     position: absolute;
@@ -101,12 +107,10 @@
     opacity: 0;
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
     transition: all 0.4s ease-in-out;
-  }
-
+}
 .stack-input-toggle-button:checked~.slider-labels::after {
     opacity: 0;
-  }
-
+}
 .stack-input-toggle-button:checked~.slider-labels::before {
     opacity: 1;
 }

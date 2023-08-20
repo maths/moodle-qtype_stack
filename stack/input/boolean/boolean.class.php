@@ -71,6 +71,7 @@ class stack_boolean_input extends stack_input {
                 break;
             case 1: 
                 // 'Click me'-Button
+                $attributes['class'] = 'stack-select-clickme';
                 $attributes['disabled'] = 'disabled';
                 $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
                 $attributes = array();

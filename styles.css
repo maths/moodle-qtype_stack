@@ -1,4 +1,8 @@
 /* Style for input type boolean as a button*/
+.stack-select-clickme{
+    appearance: none;
+    background: white;
+}
 .stack-button{
     --height: calc(var(--width) / 3);
     width: var(--width);

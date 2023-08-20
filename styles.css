@@ -2,6 +2,7 @@
 .stack-select-clickme:disabled{
     color: black;
     background: white;
+    background-color: white;
 }
 .stack-button{
     --height: calc(var(--width) / 3);

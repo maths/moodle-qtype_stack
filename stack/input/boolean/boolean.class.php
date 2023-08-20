@@ -93,8 +93,8 @@ class stack_boolean_input extends stack_input {
                 ';
                 $title = (empty($this->parameters['buttonTitles'])) ? 'Click me' : $this->parameters['buttonTitles'];
                 $element_button = html_writer::tag('button', $title, $attributes);
-
-                $element_complete=html_writer::div($element_select . $element_button ,'stack-parent-toggle-button');
+                
+                $element_complete=html_writer::div($element_select . $element_button,'stack-parent-toggle-button');
                 break;
             case 2:
                 //Toggle-Button

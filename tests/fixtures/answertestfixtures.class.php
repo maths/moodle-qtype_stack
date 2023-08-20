@@ -90,6 +90,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '5.1e-2', '51/1000', 1, '', ''),
         array('AlgEquiv', '', '0.333333333333333', '1/3', 0, '', ''),
         array('AlgEquiv', '', '(0.5+x)*2', '2*x+1', 1, '', ''),
+        // Interesting rounding error.
+        array('AlgEquiv', '', '100.4-80.0', '20.4', 0, '', ''),
 
         array('AlgEquiv', '', 'sqrt(-1)', '%i', 1, '', 'Complex numbers'),
         array('AlgEquiv', '', '%i', 'e^(i*pi/2)', 1, '', ''),

@@ -81,8 +81,8 @@ class stack_boolean_input extends stack_input {
                 $attributes['class'] = 'stack-button stack-clickme-button no-answer';
                 $attributes['type'] = 'button';
                 $attributes['onclick'] = '
-                    if (document.getElementById('. $element_button_id .'").classList.contains("no-answer")) {
-                        document.getElementById(' . $element_button_id .'").classList.remove("no-answer");
+                    if (document.getElementById("'. $element_button_id .'").classList.contains("no-answer")) {
+                        document.getElementById("' . $element_button_id .'").classList.remove("no-answer");
                     }
                     if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
                         document.getElementsByName("' . $fieldname . '")[0].value = "false";

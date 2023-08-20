@@ -4,6 +4,10 @@
     background: white;
     background-color: white;
 }
+.custom-select:disabled{
+    color: black;
+    background-color: white;
+}
 .stack-button{
     --height: calc(var(--width) / 3);
     width: var(--width);

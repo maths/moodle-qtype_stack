@@ -71,10 +71,9 @@ class stack_boolean_input extends stack_input {
                 break;
             case 1: 
                 // 'Click me'-Button
-                //$attributes['class'] = 'stack-select-clickme';
-                //$attributes['disabled'] = 'disabled';
                 $attributes['hidden']='hidden';
                 $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
+
                 $attributes = array();
                 $element_button_id = $fieldname . "-button";
                 $attributes['id'] = $element_button_id;
@@ -94,24 +93,14 @@ class stack_boolean_input extends stack_input {
                 ';
                 $title = (empty($this->parameters['buttonTitles'])) ? 'Click me' : $this->parameters['buttonTitles'];
                 $element_button = html_writer::tag('button', $title, $attributes);
-                
-                $element_script = html_writer::script('document.addEventListener("DOMContentLoaded", function(){
-                        if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
-                            document.getElementById("' . $element_button_id . '").classList.add("boolean-pressed");
-                        } else {
-                            document.getElementById("' . $element_button_id . '").classList.remove("boolean-pressed");
-                        };
-                        console.log("okneu");
-                    });');
 
-                $element_complete=html_writer::div($element_select . $element_button . $element_script,'stack-parent-toggle-button');
+                $element_complete=html_writer::div($element_select . $element_button ,'stack-parent-toggle-button');
                 break;
             case 2:
                 //Toggle-Button
                 $attributes['hidden']='hidden';
-                $attributes['class']='no-answer';
-                $element_select=html_writer::select(self::get_choices(), $fieldname,
-                $value, '', $attributes);
+                $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
+
                 $attributes = array();
                 $element_button_id = $fieldname . "-button";
                 $attributes['id'] = $element_button_id;

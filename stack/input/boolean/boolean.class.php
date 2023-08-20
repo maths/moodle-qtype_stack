@@ -118,7 +118,7 @@ class stack_boolean_input extends stack_input {
                 $attributes['class'] = 'stack-input-toggle-button';
                 $attributes['type'] = 'checkbox';
                 $attributes['onclick'] = '
-                    if (document.getElementById("stack-button-' . $fieldname . '").contains("no-answer")) {
+                    if (document.getElementById("stack-button-' . $fieldname . '").classList.contains("no-answer")) {
                         document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
                     }
                     if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {

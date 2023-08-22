@@ -498,7 +498,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
                     }
                     BUTTONS_BUTTON_EVENT[button.id].push(msg.src);
                 } else {
-                    BUTTONS[button.id] = [msg.src];
+                    BUTTONS_BUTTON_EVENT[button.id] = [msg.src];
 
                     button.addEventListener('click', () => {
                         if (DISABLE_CHANGES) {

@@ -49,7 +49,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');
 
         $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n";
-        $code .= "counter=0;\n";
+        $code .= "var counter=0;\n";
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
         $code .= "stack_js.request_access_to_button('stack-adaptbutton-". self::$countadaptbuttons . "', true).then((id) => {\n";

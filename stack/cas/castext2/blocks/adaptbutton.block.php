@@ -60,14 +60,16 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
             $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
             foreach ($split_show_id as &$id )
             {
-                $code.= "document.getElementById('stack-adapt-" . $id . "').style.display='block';";
+                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
+                #$code.= "document.getElementById('stack-adapt-" . $id . "').style.display='block';";
             }
         }   
         if (isset($this->params['hide_ids'])) {
             $split_hide_id = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
             foreach ($split_hide_id as &$id )
             {
-                $code .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
+                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',true);";
+                #$code .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
             }
         }
         $code .= "console.log('iframe funktioniert');\n});\n";

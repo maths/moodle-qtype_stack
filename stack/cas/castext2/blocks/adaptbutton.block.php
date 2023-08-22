@@ -60,7 +60,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
             $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
             foreach ($split_show_id as &$id )
             {
-                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
+                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',true);";
                 #$code.= "document.getElementById('stack-adapt-" . $id . "').style.display='block';";
             }
         }   
@@ -68,7 +68,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
             $split_hide_id = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
             foreach ($split_hide_id as &$id )
             {
-                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',true);";
+                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
                 #$code .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
             }
         }

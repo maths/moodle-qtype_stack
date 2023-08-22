@@ -31,32 +31,18 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $body = new MP_List([new MP_String('%root')]);
 
-        //Input boolean for state of adaptbutton
-        // $onclick .= "document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked=true;";
-        // $onclick .= "console.log(document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked);";
-
-        // $body->items[] = new MP_String('<input type="checkbox" id="checkbox-adaptbutton-'.self::$countadaptbuttons.
-        // '" style="display: none; visibility: hidden;">');
-
-        //Input algebraic
-        // $onclick .= "document.getElementById('number-adaptbutton-".self::$countadaptbuttons."').value++;";
-        // $onclick .= "console.log(document.getElementById('number-adaptbutton-".self::$countadaptbuttons."').value);";
-
-        // $body->items[] = new MP_String('<input type="number" id="number-adaptbutton-'.self::$countadaptbuttons.
-        // '" value="0" style="display: none; visibility: hidden;">');
-
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
         self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');
 
         $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n";
-        $code .= "var counter=0;\n";
+        //$code .= "var counter=0;\n";
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
         $code .= "stack_js.request_access_to_button('stack-adaptbutton-". self::$countadaptbuttons . "', true).then((id) => {\n";
         $code .= "const button = document.getElementById(id);\n";
         $code .= "button.addEventListener('click',(e)=>{\n";
-        //$code .= "input.value='true';\n";
-        $code .= "input.value=counter++;\n";
+        $code .= "input.value='true';\n";
+        //$code .= "input.value=counter++;\n";
         $code .= "input.dispatchEvent(new Event('change'));\n";
         if (isset($this->params['show_ids'])) {
             $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
@@ -123,12 +109,6 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
                 $this->position['start'] . '-' . $this->position['end']);
             return false;
         }
-        // Optional
-        // if (!array_key_exists('save_state', $this->params)) {
-        //     $errors[] = new $options['errclass']('Adaptbutton block requires a save_state parameter.', $options['context'] . '/' .
-        //         $this->position['start'] . '-' . $this->position['end']);
-        //     return false;
-        // }
         return true;
     }
 }

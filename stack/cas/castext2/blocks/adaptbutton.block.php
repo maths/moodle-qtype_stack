@@ -51,8 +51,6 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n";
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
-        $code .= "});\n";
-
         $code .= "stack_js.request_access_to_button('stack-adaptbutton-". self::$countadaptbuttons . "', true).then((id) => {\n";
         $code .= "const button = document.getElementById(id);\n";
         $code .= "button.addEventListener('click',(e)=>{\n";
@@ -73,6 +71,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
             }
         }
         $code .= "console.log('iframe funktioniert');\n});\n";
+        $code .= "});\n";
         $code .= "});\n";
 
         //Now add a hidden [[iframe]] with suitable scripts.

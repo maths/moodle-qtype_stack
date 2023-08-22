@@ -13,12 +13,20 @@ class StackQuestionLoader
 {
     static public function loadXML($xml) {
         //TODO: Consider defaults
-        $xmlData = new SimpleXMLElement($xml);
+        try {
+            $xmlData = new SimpleXMLElement($xml);
+        } catch (\Exception $e) {
+            throw new \stack_exception("The provided file does not contain valid XML");
+        }
         $question = new \qtype_stack_question();
 
         //Throw error if more then one question element is contained in the xml
         if (count($xmlData->question) != 1) {
-            throw new \stack_exception("The provided xml file contains more than one question element");
+            throw new \stack_exception("The provided XML file does not contain exactly one question element");
+        }
+
+        if (((string) $xmlData->question->attributes()->type) !== "stack") {
+            throw new \stack_exception("The provided question is not of type STACK");
         }
 
         //Collect included files

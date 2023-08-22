@@ -31,22 +31,6 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
         $body = new MP_List([new MP_String('%root')]);
 
-        $onclick = "";
-        if (isset($this->params['show_ids'])) {
-            $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
-            foreach ($split_show_id as &$id )
-            {
-                $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='block';";
-            }
-        }   
-        if (isset($this->params['hide_ids'])) {
-            $split_hide_id = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
-            foreach ($split_hide_id as &$id )
-            {
-                $onclick .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
-            }
-        }
-
         //Input boolean for state of adaptbutton
         // $onclick .= "document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked=true;";
         // $onclick .= "console.log(document.getElementById('checkbox-adaptbutton-".self::$countadaptbuttons."').checked);";
@@ -62,18 +46,32 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         // '" value="0" style="display: none; visibility: hidden;">');
 
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
-        self::$countadaptbuttons . '" onclick="' . $onclick . '" >' . $this->params['title'] . '</button>');
+        self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');
 
-        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n";
+        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
-        $code .= "input.value='Das ist ein test input';\n";
-        $code .= "input.dispatchEvent(new Event('change'));\n";
         $code .= "});\n";
 
         $code .= "stack_js.request_access_to_button('stack-adaptbutton-". self::$countadaptbuttons . "', true).then((id) => {\n";
         $code .= "const button = document.getElementById(id);\n";
         $code .= "button.addEventListener('click',(e)=>{\n";
+        $code .= "input.value='true';\n";
+        $code .= "input.dispatchEvent(new Event('change'));\n";
+        if (isset($this->params['show_ids'])) {
+            $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
+            foreach ($split_show_id as &$id )
+            {
+                $code.= "document.getElementById('stack-adapt-" . $id . "').style.display='block';";
+            }
+        }   
+        if (isset($this->params['hide_ids'])) {
+            $split_hide_id = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
+            foreach ($split_hide_id as &$id )
+            {
+                $code .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
+            }
+        }
         $code .= "console.log('iframe funktioniert');\n});\n";
         $code .= "});\n";
 

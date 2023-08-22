@@ -48,7 +48,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
         self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');
 
-        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n";
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
         $code .= "});\n";

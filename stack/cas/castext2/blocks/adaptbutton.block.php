@@ -49,19 +49,20 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');
 
         $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n";
+        $code .= "counter=0;\n";
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
         $code .= "stack_js.request_access_to_button('stack-adaptbutton-". self::$countadaptbuttons . "', true).then((id) => {\n";
         $code .= "const button = document.getElementById(id);\n";
         $code .= "button.addEventListener('click',(e)=>{\n";
-        $code .= "input.value='true';\n";
+        //$code .= "input.value='true';\n";
+        $code .= "input.value=counter++;\n";
         $code .= "input.dispatchEvent(new Event('change'));\n";
         if (isset($this->params['show_ids'])) {
             $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
             foreach ($split_show_id as &$id )
             {
                 $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',true);";
-                #$code.= "document.getElementById('stack-adapt-" . $id . "').style.display='block';";
             }
         }   
         if (isset($this->params['hide_ids'])) {
@@ -69,10 +70,9 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
             foreach ($split_hide_id as &$id )
             {
                 $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
-                #$code .= "document.getElementById('stack-adapt-" . $id . "').style.display='none';";
             }
         }
-        $code .= "console.log('iframe funktioniert');\n});\n";
+        $code .= "\n});\n";
         $code .= "});\n";
         $code .= "});\n";
 
@@ -123,11 +123,12 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
                 $this->position['start'] . '-' . $this->position['end']);
             return false;
         }
-        if (!array_key_exists('save_state', $this->params)) {
-            $errors[] = new $options['errclass']('Adaptbutton block requires a save_state parameter.', $options['context'] . '/' .
-                $this->position['start'] . '-' . $this->position['end']);
-            return false;
-        }
+        // Optional
+        // if (!array_key_exists('save_state', $this->params)) {
+        //     $errors[] = new $options['errclass']('Adaptbutton block requires a save_state parameter.', $options['context'] . '/' .
+        //         $this->position['start'] . '-' . $this->position['end']);
+        //     return false;
+        // }
         return true;
     }
 }

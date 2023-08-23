@@ -82,8 +82,6 @@ We have always worked on the basis of being as forgiving as possible, and accept
 To be decided.
 
 * To what extent do continental teachers accept use of '`.`' as a decimal separator?  If _never_ then we probably don't need the "weak" options proposed above.
-* Can teachers set this option at the question level or should it respect a site-wide option?  (It's a shame Moodle can't set plugin options at the course level, otherwise we'd return to the cascading options which were available in STACK 1.0 some twenty years ago...)
-* How can we _easily_ allow teachers to set/override this option for imported materials?
 
 ## Practical implementation in STACK
 
@@ -91,10 +89,7 @@ Students do not type in expression termination symbols `;`, freeing up this symb
 
 Internally, we retain strict Maxima syntax.  _Teachers must use strict Maxima syntax, so that numbers are typed in base 10, and the decimal point (`.`) must be used by teachers as the decimal separator._   This simplifies the problem considerably, as input parsing is only required for students' answers.
 
-1. Mechanism for Maxima to output LaTeX. (Done - but more work needed on testing and question-wide options)
-2. Mechanism to output expressions as they should be typed.  E.g. "The teacher's answer is \(???\) which can be typed as `???`". (Done - but more work needed on testing and question-wide options)
-3. Input parsing mechanism for _students' answers only_.
-
+Currently the only option available is "strict".
 
 ## Practial implementation in other software
 

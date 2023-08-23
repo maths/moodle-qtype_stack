@@ -12,15 +12,7 @@ past development history is documented on [Development history](Development_hist
 2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TODO: possible option to change shape at the input level?)
 3. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
 4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
-
-Support the use of a [comma as the decimal separator](Syntax_numbers.md)
-1. (Done) Mechanism for Maxima to output LaTeX.
-2. (Done) Mechanism to output expressions as they should be typed.
-3. (Done) Question wide option for decimal separator added.  TODO: how to give access to this?
-4. Core input parsing mechanism for strict syntax.
-5. Input parsing mechanism for weak syntax (but nobody has actually asked for this yet...).
-6. Refactor matrix of variable size.
-
+5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
 
 TODO: 
 

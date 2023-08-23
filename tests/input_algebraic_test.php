@@ -1770,4 +1770,20 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \left \{3,1415 ; 2,7100 \right \} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
+
+    public function test_decimal_output_3() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        // Teacher must use correct syntax.
+        $el = stack_input_factory::make('algebraic', 'state', 'matrix([3.1415,2.71])', $options);
+        $el->set_parameter('forbidFloats', false);
+
+        // Student uses commas and semicolons.
+        $state = $el->validate_student_response(array('state' => 'matrix([3,1415;2,71])'), $options,
+            'matrix([3.1415,2.71])', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('matrix([3.1415,2.71])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{cc} 3,1415 & 2,7100 \end{array}\right] \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
 }

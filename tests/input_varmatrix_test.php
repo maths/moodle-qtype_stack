@@ -143,6 +143,21 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->lvars);
     }
 
+    public function test_validate_student_response_invalid_two_blank() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
+        $inputvals = array(
+            'ans1' => "1 2 3\n4",
+        );
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('matrix([1,2,3],[4,QMCHAR,QMCHAR])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{ccc} 1 & 2 & 3 \\\\ 4 & \color{red}{?} & \color{red}{?} \end{array}\right] \]',
+            $state->contentsdisplayed);
+        $this->assertEquals('', $state->lvars);
+    }
+
     public function test_validate_student_response_invalid() {
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
@@ -152,7 +167,7 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars', $state->note);
-        $this->assertEquals('matrix(EMPTYCHAR,[4,5,6])', $state->contentsmodified);
+        $this->assertEquals('matrix([1,EMPTYCHAR,3],[4,5,6])', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">matrix([1,2x,3],[4,5,6])</span>',
                 $state->contentsdisplayed);
         $this->assertEquals('', $state->lvars);
@@ -167,11 +182,11 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars | missingLeftBracket', $state->note);
-        $this->assertEquals('matrix(EMPTYCHAR,[4,5,6])', $state->contentsmodified);
+        $this->assertEquals('matrix([1,EMPTYCHAR,3],[4,5,6])', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">matrix([1,2x),3],[4,5,6])</span>',
                 $state->contentsdisplayed);
         $this->assertEquals('You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
-                '<span class="stacksyntaxexample">[1,2*x),3]</span>.', $state->errors);
+                '<span class="stacksyntaxexample">2*x)</span>.', $state->errors);
         $this->assertEquals('', $state->lvars);
     }
 
@@ -184,13 +199,13 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars | missingLeftBracket', $state->note);
-        $this->assertEquals('matrix(EMPTYCHAR,EMPTYCHAR)', $state->contentsmodified);
+        $this->assertEquals('matrix([1,EMPTYCHAR,3],[4,5,EMPTYCHAR])', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">matrix([1,2x),3],[4,5,6a])</span>',
                 $state->contentsdisplayed);
         $this->assertEquals('You have a missing left bracket <span class="stacksyntaxexample">(</span> in the expression: ' .
-                '<span class="stacksyntaxexample">[1,2*x),3]</span>. ' .
+                '<span class="stacksyntaxexample">2*x)</span>.    ' .
                 'You seem to be missing * characters. Perhaps you meant to type ' .
-                '<span class="stacksyntaxexample">[4,5,6<span class="stacksyntaxexamplehighlight">*</span>a]</span>.',
+                '<span class="stacksyntaxexample">6<span class="stacksyntaxexamplehighlight">*</span>a</span>.',
                 $state->errors);
         $this->assertEquals('', $state->lvars);
     }
@@ -270,5 +285,39 @@ class input_varmatrix_test extends qtype_stack_testcase {
             '\ln ^2\left(9\right)\cdot x\cdot y\cdot 9^{x\cdot y}+\ln \left( 9 \right)\cdot 9^{x\cdot y} & ' .
             '\ln ^2\left(9\right)\cdot x^2\cdot 9^{x\cdot y} \end{array}\right] \]',
             $state->contentsdisplayed);
+    }
+
+    public function test_validate_student_response_decimals_dot() {
+        $options = new stack_options();
+        $options->set_option('decimals', '.');
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
+        $el->set_parameter('forbidFloats', false);
+        $inputvals = array(
+            'ans1' => "x 2.7\n sqrt(2) 3.14",
+        );
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([a,b],[c,d])', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('matrix([x,2.7],[sqrt(2),3.14])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{cc} x & 2.7 \\\\ \sqrt{2} & 3.1 \end{array}\right] \]',
+            $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
+    }
+
+    public function test_validate_student_response_decimals_continental() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
+        $el->set_parameter('forbidFloats', false);
+        $inputvals = array(
+            'ans1' => "x 2,7\n sqrt(2) 3,14",
+        );
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([a,b],[c,d])', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('matrix([x,2.7],[sqrt(2),3.14])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{cc} x & 2,7 \\\\ \sqrt{2} & 3,1 \end{array}\right] \]',
+            $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
 }

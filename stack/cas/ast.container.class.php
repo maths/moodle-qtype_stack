@@ -216,6 +216,9 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
          * (3) we want ? characters, and no semicolons.
          * (4) we want +- and not #pm#.
          * (5) ntuples have to be stripped off.
+         *
+         * Note we do not construct test cases using the decimal comma.
+         * The only place a comma is accepted is when a student really types it!
          */
 
         $dispval = $this->displayvalue;

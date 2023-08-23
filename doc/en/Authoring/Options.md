@@ -36,6 +36,17 @@ any penalty \(\ge 0.66\) and \(\le 0.67\) is changed to \(0.6666667\).
 
 The following options affect how mathematics is displayed.
 
+### Decimal separator ### {#decimals}
+
+Choose the symbol for the decimal separator used by student input.  There are currently two choices.
+
+* `.`, the British decimal point.
+* `,`, the comma, as used in much of Europe.
+
+The design of this option is discussed further in the [developer docs](../Developer/Syntax_numbers.md).
+
+Teachers must always use strict Maxima syntax, which requires `.`, including in test case construction.
+
 ### Multiplication Sign ### {#multiplication}
 
 * (none), e.g. \(x(x+1)\)

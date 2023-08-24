@@ -381,7 +381,7 @@ class qtype_stack_edit_form extends question_edit_form {
         
         $mform->addElement('select', $inputname . 'displaytype', stack_string('displaytype') ,stack_options::get_displaytype_options());
         $mform->setDefault($inputname . 'displaytype', $this->stackconfig->inputdisplaytype);
-        $mform->hideIf($inputname . 'displaytype', $inputname . 'type', 'neq', ['auswahl', 'matrix', 'boolean']);  
+        $mform->hideIf($inputname . 'displaytype', $inputname . 'type', 'neq','boolean');  
 
         $mform->addElement('text', $inputname . 'buttontitles', stack_string('buttontitles') , array('size' => 20));
         $mform->setType($inputname . 'buttontitles', PARAM_RAW);

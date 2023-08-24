@@ -378,15 +378,22 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('select', $inputname . 'type', stack_string('inputtype'), $this->typechoices);
         $mform->setDefault($inputname . 'type', $this->stackconfig->inputtype);
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
-        //changed
+        
         $mform->addElement('select', $inputname . 'displaytype', stack_string('displaytype') ,stack_options::get_displaytype_options());
         $mform->setDefault($inputname . 'displaytype', $this->stackconfig->inputdisplaytype);
-        $mform->hideIf($inputname . 'displaytype', $inputname . 'type', 'neq', 'boolean');  
+        $mform->hideIf($inputname . 'displaytype', $inputname . 'type', 'neq', ['auswahl', 'matrix', 'boolean']);  
 
         $mform->addElement('text', $inputname . 'buttontitles', stack_string('buttontitles') , array('size' => 20));
         $mform->setType($inputname . 'buttontitles', PARAM_RAW);
         $mform->hideIf($inputname . 'buttontitles', $inputname . 'type', 'neq', 'boolean');
-        //$mform->hideIf($inputname . 'buttontitles', $inputname . 'displaytype', 'neq', 'click button');
+
+        $mform->addElement('select', $inputname . 'auswahltype', stack_string('auswahltype') ,stack_options::get_auswahltype_options());
+        $mform->setDefault($inputname . 'auswahltype', $this->stackconfig->inputauswahltype);
+        $mform->hideIf($inputname . 'auswahltype', $inputname . 'type', 'neq', 'auswahl'); 
+
+        $mform->addElement('select', $inputname . 'matrixsize', stack_string('matrixsize') ,stack_options::get_matrixsize_options());
+        $mform->setDefault($inputname . 'matrixsize', $this->stackconfig->inputmatrixsize);
+        $mform->hideIf($inputname . 'matrixsize', $inputname . 'type', 'neq', 'matrix'); 
 
         $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), array('size' => 20));
         $mform->setType($inputname . 'modelans', PARAM_RAW);
@@ -700,6 +707,8 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'boxsize'}            = $input->boxsize;
             // TODO: remove this when we delete it from the DB.
             $question->{$inputname . 'displaytype'}        = $input->displaytype;
+            $question->{$inputname . 'auswahltype'}        = $input->auswahltype;
+            $question->{$inputname . 'matrixsize'}         = $input->matrixsize;
             $question->{$inputname . 'buttontitles'}       = $input->buttontitles;
             $question->{$inputname . 'strictsyntax'}       = true;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;

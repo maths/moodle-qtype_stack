@@ -178,6 +178,16 @@ $settings->add(new admin_setting_configselect('qtype_stack/inputdisplaytype',
         get_string('displaytype_help', 'qtype_stack'), '0',
         stack_options::get_displaytype_options()));
 
+$settings->add(new admin_setting_configselect('qtype_stack/inputauswahltype',
+        get_string('auswahltype', 'qtype_stack'),
+        get_string('auswahltype_help', 'qtype_stack'), '0',
+        stack_options::get_auswahltype_options()));
+
+$settings->add(new admin_setting_configselect('qtype_stack/inputmatrixsize',
+        get_string('matrixsize', 'qtype_stack'),
+        get_string('matrixsize_help', 'qtype_stack'), '0',
+        stack_options::get_matrixsize_options()));
+
 $settings->add(new admin_setting_configtext('qtype_stack/inputforbidwords',
         get_string('forbidwords', 'qtype_stack'),
         get_string('forbidwords_help', 'qtype_stack'), '', PARAM_RAW));

@@ -955,6 +955,29 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         // STACK savepoint reached.
         upgrade_plugin_savepoint(true, 2023080701, 'qtype', 'stack');
     }
+
+    if ($oldversion < 2023082400) {
+
+        // Define field displaytype and buttontitles to be added to qtype_stack_input.
+        $table = new xmldb_table('qtype_stack_inputs');
+
+
+        // Conditionally launch add field displaytype.
+        $field = new xmldb_field('auswahltype',XMLDB_TYPE_INTEGER, '3', null, XMLDB_NOTNULL, null, '0', 'buttontitles');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Conditionally launch add field displaytype.
+        $field = new xmldb_field('matrixsize', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'auswahltype');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        
+        // STACK savepoint reached.
+        upgrade_plugin_savepoint(true, 2023082400, 'qtype', 'stack');
+    }
+
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version

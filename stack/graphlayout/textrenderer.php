@@ -30,6 +30,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_prt_graph_text_renderer {
+
+    /*
+     * Hold the graph itself.
+     */
+    protected $g = null;
+
     /**
      * Output a graph as SVG.
      * @param stack_abstract_graph $g the graph to display.

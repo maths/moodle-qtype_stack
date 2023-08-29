@@ -221,13 +221,13 @@ foreach ($samplearguments as $argument) {
                 echo html_writer::tag('h3', $cskey . ": ". $title).
                     html_writer::tag('p', $argument['narrative']);
                 if (!$debug && $verbose) {
-                    echo html_writer::tag('pre', htmlspecialchars($argument['casstring'])).
+                    echo html_writer::tag('pre', htmlspecialchars($argument['casstring'], ENT_COMPAT)).
                     html_writer::tag('p', $errs);
                 }
                 echo html_writer::tag('p', stack_ouput_castext($displaytext));
                 if ($debug) {
-                    echo html_writer::tag('pre', $cskey . ": ". htmlspecialchars($cs1->get_inputform()) .
-                            ";\nDL:" . htmlspecialchars($argument['debuglist']) . ";").
+                    echo html_writer::tag('pre', $cskey . ": ". htmlspecialchars($cs1->get_inputform(), ENT_COMPAT) .
+                        ";\nDL:" . htmlspecialchars($argument['debuglist'], ENT_COMPAT) . ";").
                         html_writer::tag('p', $errs);
                 }
                 echo "\n<hr/>\n\n\n";

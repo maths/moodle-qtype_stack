@@ -14,6 +14,9 @@ past development history is documented on [Development history](Development_hist
 TODO: 
 
 1. Support for PHP 8.2.  See issue #986.
+  * Deprecated: Creation of dynamic property question_display_options::$suppressruntestslink is deprecated in /var/www/html/moodle42/question/type/stack/questiontestrun.php on line 127
+    The question_display_options class is a moodle issue.
+
 2. Fix markdown problems. See issue #420.
 3. Error messages: use caserror.class more fully to use user information to target error messages.
 4. Remove all "cte" code from Maxima - mostly install.

@@ -436,7 +436,8 @@ class stack_auswahl_input extends stack_input {
         if ($this->errors) {
             return $this->render_error($this->errors);
         }
-
+        echo $this->get_ddldisplay();
+        echo $this->get_ddltype();
         // Create html.
         $result = '';
         $values = $this->get_choices();
@@ -447,7 +448,6 @@ class stack_auswahl_input extends stack_input {
             if (array_key_exists(0, $selected)) {
                 $select = $selected[0];
             }
-    
             $inputattributes = array();
             if ($readonly) {
                 $inputattributes['disabled'] = 'disabled';
@@ -460,7 +460,6 @@ class stack_auswahl_input extends stack_input {
             if ($this->get_ddltype() == 'select') {
                 unset($values['']);
             }
-    
             $result .= html_writer::select($values, $fieldname, $select,
                 $notanswered, $inputattributes);
         } else {

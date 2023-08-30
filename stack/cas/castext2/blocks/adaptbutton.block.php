@@ -113,6 +113,11 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
                 $this->position['start'] . '-' . $this->position['end']);
             return false;
         }
+        if (!array_key_exists('save_state', $this->params)) {
+            $errors[] = new $options['errclass']('Adaptbutton block requires a save_state parameter.', $options['context'] . '/' .
+                $this->position['start'] . '-' . $this->position['end']);
+            return false;
+        }
         return true;
     }
 }

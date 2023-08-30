@@ -38,30 +38,33 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         //$code .= "var counter=0;\n";
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
+        $code .= "if (input.value=='true'){ hide_and_show(); }\n";
         $code .= "stack_js.request_access_to_button('stack-adaptbutton-". self::$countadaptbuttons . "', true).then((id) => {\n";
         $code .= "const button = document.getElementById(id);\n";
         $code .= "button.addEventListener('click',(e)=>{\n";
         $code .= "input.value='true';\n";
         //$code .= "input.value=counter++;\n";
         $code .= "input.dispatchEvent(new Event('change'));\n";
-        $code .= "if (input.value=='true'){\n";
-        if (isset($this->params['show_ids'])) {
-            $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
-            foreach ($split_show_id as &$id )
-            {
-                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',true);";
+        $code .= "hide_and_show();\n";
+        $code .= "\n});\n"; // end of button event click
+        $code .= "});\n"; // end of button request
+        $code .= "});\n"; // end of input request
+        $code .= "function hide_and_show(){";
+            if (isset($this->params['show_ids'])) {
+                $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
+                foreach ($split_show_id as &$id )
+                {
+                    $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',true);";
+                }
+            }   
+            if (isset($this->params['hide_ids'])) {
+                $split_hide_id = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
+                foreach ($split_hide_id as &$id )
+                {
+                    $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
+                }
             }
-        }   
-        if (isset($this->params['hide_ids'])) {
-            $split_hide_id = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
-            foreach ($split_hide_id as &$id )
-            {
-                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
-            }
-        }
-        $code .= "}\n});\n";
-        $code .= "});\n";
-        $code .= "});\n";
+        $code .= "}";
 
         //Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([

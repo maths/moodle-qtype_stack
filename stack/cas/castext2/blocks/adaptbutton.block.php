@@ -44,6 +44,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $code .= "input.value='true';\n";
         //$code .= "input.value=counter++;\n";
         $code .= "input.dispatchEvent(new Event('change'));\n";
+        $code .= "if (input.value=='true'){\n";
         if (isset($this->params['show_ids'])) {
             $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
             foreach ($split_show_id as &$id )
@@ -58,7 +59,7 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
                 $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
             }
         }
-        $code .= "\n});\n";
+        $code .= "}\n});\n";
         $code .= "});\n";
         $code .= "});\n";
 

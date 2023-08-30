@@ -41,8 +41,10 @@ class stack_auswahl_input extends stack_input {
     //protected $ddltype = $this->get_ddltype($this->parameters['auswahlType']);
     //$auswahlchoice= $this->parameters['auswahlType'];
 
-    protected $ddltype = 'select';
+    //protected $ddltype = 'select';
     //protected $ddltype = $this->get_ddltype();
+    //protected $ddltype = 0;
+    protected $ddltype;
 
     /*
      * ddldisplay must be either 'LaTeX' or 'casstring' and it determines what is used for the displayed
@@ -705,9 +707,9 @@ class stack_auswahl_input extends stack_input {
         return false;
     }
 
-    protected function get_ddltype(){
+    protected function set_ddltype(){
         switch ($this->parameters['auswahlType']){
-            case 0: return 'select';
+            case 0: $ddltype='select'; break;
             case 1: return 'checkbox';
             case 2: return 'radio';
             default: echo 'Error: unknown type.'; break;

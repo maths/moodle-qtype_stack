@@ -40,7 +40,6 @@ class stack_auswahl_input extends stack_input {
     //protected $ddltype = $this->parameters['auswahlType'];
     //protected $ddltype = $this->get_ddltype($this->parameters['auswahlType']);
     //$auswahlchoice= $this->parameters['auswahlType'];
-
     //protected $ddltype = 'select';
     //protected $ddltype = $this->get_ddltype();
     //protected $ddltype = 0;
@@ -50,7 +49,7 @@ class stack_auswahl_input extends stack_input {
      * ddldisplay must be either 'LaTeX' or 'casstring' and it determines what is used for the displayed
      * string the student uses.  The default is LaTeX, but this doesn't always work in dropdowns.
      */
-    protected $ddldisplay = 'casstring';
+    protected $ddldisplay ;
 
     //For Checkbox
     // protected $ddltype = 'checkbox';
@@ -90,6 +89,7 @@ class stack_auswahl_input extends stack_input {
     protected $teacheranswerdisplay = '';
 
     protected function internal_contruct() {
+
         $options = $this->get_parameter('options');
         if ($options != null && trim($options) != '') {
             $options = explode(',', $options);
@@ -234,12 +234,12 @@ class stack_auswahl_input extends stack_input {
             }
         }
 
-        if ($this->ddltype != 'checkbox' && $numbercorrect === 0) {
+        if ($this->get_ddltype() != 'checkbox' && $numbercorrect === 0) {
             $this->errors[] = stack_string('ddl_nocorrectanswersupplied');
             return;
         }
 
-        if ($this->ddldisplay === 'casstring') {
+        if ($this->get_ddldisplay() === 'casstring') {
             $correctanswerdisplay = array();
             // By default, we wrap displayed values in <code> tags.
             foreach ($ddlvalues as $key => $value) {
@@ -277,7 +277,7 @@ class stack_auswahl_input extends stack_input {
          * list of the values of those things the teacher said are correct.
          */
 
-        if ($this->ddltype == 'checkbox') {
+        if ($this->get_ddltype() == 'checkbox') {
             $this->teacheranswervalue = '['.implode(',', $correctanswer).']';
             $this->teacheranswerdisplay = '<code>'.'['.implode(',', $correctanswerdisplay).']'.'</code>';
         } else {
@@ -287,7 +287,7 @@ class stack_auswahl_input extends stack_input {
             $this->teacheranswerdisplay = '<code>'.implode(', ', $correctanswerdisplay).'</code>';
         }
 
-        if ($this->ddldisplay === 'casstring') {
+        if ($this->get_ddldisplay() === 'casstring') {
             return;
         }
         if (empty($ddlvalues)) {
@@ -338,7 +338,7 @@ class stack_auswahl_input extends stack_input {
             } else {
                 // Note, we've chosen to add LaTeX maths environments here.
                 $disp = $at1->get_by_key('val'.$key)->get_latex();
-                switch ($this->ddldisplay) {
+                switch ($this->get_ddldisplay()) {
                     case 'LaTeX':
                         $ddlvalues[$key]['display'] = '\('.$disp.'\)';
                         break;
@@ -374,7 +374,7 @@ class stack_auswahl_input extends stack_input {
         }
         unset($values[0]);
         // For the 'checkbox' type remove the "not answered" option.  This isn't needed.
-        if ('checkbox' == $this->ddltype) {
+        if ('checkbox' == $this->get_ddltype()) {
             if (array_key_exists('', $values)) {
                 unset($values['']);
             }
@@ -512,7 +512,7 @@ class stack_auswahl_input extends stack_input {
         if (array_key_exists('', $values)) {
             $notanswered = $values[''];
         }
-        if ($this->ddltype == 'select') {
+        if ($this->get_ddltype() == 'select') {
             unset($values['']);
         }
 
@@ -707,9 +707,9 @@ class stack_auswahl_input extends stack_input {
         return false;
     }
 
-    protected function set_ddltype(){
+    protected function get_ddltype(){
         switch ($this->parameters['auswahlType']){
-            case 0: $ddltype='select'; break;
+            case 0: return'select'; 
             case 1: return 'checkbox';
             case 2: return 'radio';
             default: echo 'Error: unknown type.'; break;

@@ -37,34 +37,13 @@ class stack_auswahl_input extends stack_input {
     /*
      * ddltype must be one of 'select' 0 dropdown, 'checkbox' 1 or 'radio' 2.
      */
-    //protected $ddltype = $this->parameters['auswahlType'];
-    //protected $ddltype = $this->get_ddltype($this->parameters['auswahlType']);
-    //$auswahlchoice= $this->parameters['auswahlType'];
-    //protected $ddltype = 'select';
-    //protected $ddltype = $this->get_ddltype();
-    //protected $ddltype = 0;
-    protected $ddltype;
+    protected $ddltype = '';
 
     /*
      * ddldisplay must be either 'LaTeX' or 'casstring' and it determines what is used for the displayed
      * string the student uses.  The default is LaTeX, but this doesn't always work in dropdowns.
      */
-    protected $ddldisplay ;
-
-    //For Checkbox
-    // protected $ddltype = 'checkbox';
-    // /*
-    //  * Default ddldisplay for checkboxes is 'LaTeX'.
-    //  */
-    // protected $ddldisplay = 'LaTeX';
-
-    // For Radio
-    // protected $ddltype = 'radio';
-    // /*
-    //  * Default ddldisplay for radio is 'LaTeX'.
-    //  */
-    // protected $ddldisplay = 'LaTeX';
-
+    protected $ddldisplay = '';
 
     /*
      * Controls whether a "not answered" option is presented to the students.
@@ -89,6 +68,7 @@ class stack_auswahl_input extends stack_input {
     protected $teacheranswerdisplay = '';
 
     protected function internal_contruct() {
+        $this->ddldisplay=$this->get_ddldisplay();
 
         $options = $this->get_parameter('options');
         if ($options != null && trim($options) != '') {
@@ -239,7 +219,7 @@ class stack_auswahl_input extends stack_input {
             return;
         }
 
-        if ($this->get_ddldisplay() === 'casstring') {
+        if ($this->ddldisplay === 'casstring') {
             $correctanswerdisplay = array();
             // By default, we wrap displayed values in <code> tags.
             foreach ($ddlvalues as $key => $value) {
@@ -287,7 +267,7 @@ class stack_auswahl_input extends stack_input {
             $this->teacheranswerdisplay = '<code>'.implode(', ', $correctanswerdisplay).'</code>';
         }
 
-        if ($this->get_ddldisplay() === 'casstring') {
+        if ($this->ddldisplay === 'casstring') {
             return;
         }
         if (empty($ddlvalues)) {
@@ -338,7 +318,7 @@ class stack_auswahl_input extends stack_input {
             } else {
                 // Note, we've chosen to add LaTeX maths environments here.
                 $disp = $at1->get_by_key('val'.$key)->get_latex();
-                switch ($this->get_ddldisplay()) {
+                switch ($this->ddldisplay) {
                     case 'LaTeX':
                         $ddlvalues[$key]['display'] = '\('.$disp.'\)';
                         break;
@@ -421,20 +401,18 @@ class stack_auswahl_input extends stack_input {
      * @return string
      */
     public function contents_to_maxima($contents) {
+        if ($this->get_ddltype()=='checkbox'){
+            $vals = array();
+            foreach ($contents as $key) {
+                $vals[] = $this->get_input_ddl_value($key);
+            }
+            if ($vals == array( 0 => '')) {
+                return '';
+            }
+            return '['.implode(',', $vals).']';
+        }
         return $this->get_input_ddl_value($contents[0]);
     }
-    //For Checkbox
-    // public function contents_to_maxima($contents) {
-    //     $vals = array();
-    //     foreach ($contents as $key) {
-    //         $vals[] = $this->get_input_ddl_value($key);
-    //     }
-    //     if ($vals == array( 0 => '')) {
-    //         return '';
-    //     }
-    //     return '['.implode(',', $vals).']';
-    // }
-
 
     /* This function always returns an array where the key is the key in the ddlvalues.
      */
@@ -464,60 +442,60 @@ class stack_auswahl_input extends stack_input {
         $values = $this->get_choices();
         $selected = $state->contents;
 
-        //for Checkbox and Radio
-        // $selected = array_flip($state->contents);
-        // $radiobuttons = array();
-        // $classes = array();
-        // foreach ($values as $key => $ansid) {
-        //     $inputattributes = array( 
-        //         'type' => 'checkbox',    //For radio just changed it to 'radio'
-        //         'name' => $fieldname.'_'.$key,
-        //         'value' => $key,
-        //         'id' => $fieldname.'_'.$key
-        //     );
-        //     $labelattributes = array(
-        //         'for' => $fieldname.'_'.$key
-        //     );
-        //     if (array_key_exists($key, $selected)) {
-        //         $inputattributes['checked'] = 'checked';
-        //     }
-        //     if ($readonly) {
-        //         $inputattributes['disabled'] = 'disabled';
-        //     }
-        //     $radiobuttons[] = html_writer::empty_tag('input', $inputattributes) .
-        //         html_writer::tag('label', $ansid, $labelattributes);
-        //     //For radio
-        //     if ('' === $key) {
-        //         // This separates the "not answered" input from the others.
-        //         $radiobuttons[] = '<br />';
-        //     }
-        // }
-        // $result .= html_writer::start_tag('div', array('class' => 'answer'));
-        // foreach ($radiobuttons as $key => $radio) {
-        //     $result .= html_writer::tag('div', stack_maths::process_lang_string($radio), array('class' => 'option'));
-        // }
-        // $result .= html_writer::end_tag('div');
-        
-        $select = 0;
-        if (array_key_exists(0, $selected)) {
-            $select = $selected[0];
+        if ($this->get_ddltype()=='select'){
+            $select = 0;
+            if (array_key_exists(0, $selected)) {
+                $select = $selected[0];
+            }
+    
+            $inputattributes = array();
+            if ($readonly) {
+                $inputattributes['disabled'] = 'disabled';
+            }
+    
+            $notanswered = '';
+            if (array_key_exists('', $values)) {
+                $notanswered = $values[''];
+            }
+            if ($this->get_ddltype() == 'select') {
+                unset($values['']);
+            }
+    
+            $result .= html_writer::select($values, $fieldname, $select,
+                $notanswered, $inputattributes);
+        } else {
+            $selected = array_flip($state->contents);
+            $radiobuttons = array();
+            $classes = array();
+            foreach ($values as $key => $ansid) {
+                $inputattributes = array( 
+                    'type' => $this->get_ddltype(),    //'radio' or 'checkbox'
+                    'name' => $fieldname.'_'.$key,
+                    'value' => $key,
+                    'id' => $fieldname.'_'.$key
+                );
+                $labelattributes = array(
+                    'for' => $fieldname.'_'.$key
+                );
+                if (array_key_exists($key, $selected)) {
+                    $inputattributes['checked'] = 'checked';
+                }
+                if ($readonly) {
+                    $inputattributes['disabled'] = 'disabled';
+                }
+                $radiobuttons[] = html_writer::empty_tag('input', $inputattributes) .
+                    html_writer::tag('label', $ansid, $labelattributes);
+                if ($this->get_ddltype()=='radio' && '' === $key) {
+                    // This separates the "not answered" input from the others.
+                    $radiobuttons[] = '<br />';
+                }
+            }
+            $result .= html_writer::start_tag('div', array('class' => 'answer'));
+            foreach ($radiobuttons as $key => $radio) {
+                $result .= html_writer::tag('div', stack_maths::process_lang_string($radio), array('class' => 'option'));
+            }
+            $result .= html_writer::end_tag('div');
         }
-
-        $inputattributes = array();
-        if ($readonly) {
-            $inputattributes['disabled'] = 'disabled';
-        }
-
-        $notanswered = '';
-        if (array_key_exists('', $values)) {
-            $notanswered = $values[''];
-        }
-        if ($this->get_ddltype() == 'select') {
-            unset($values['']);
-        }
-
-        $result .= html_writer::select($values, $fieldname, $select,
-            $notanswered, $inputattributes);
 
         return $result;
     }
@@ -531,10 +509,11 @@ class stack_auswahl_input extends stack_input {
         $expected = array();
         $expected[$this->name] = PARAM_RAW;
 
-        // For Checkbox
-        // foreach ($this->ddlvalues as $key => $val) {
-        //     $expected[$this->name.'_'.$key] = PARAM_RAW;
-        // }
+        if($this->get_ddltype()=='checkbox'){
+            foreach ($this->ddlvalues as $key => $val) {
+                $expected[$this->name.'_'.$key] = PARAM_RAW;
+            }
+        }
 
         if ($this->requires_validation()) {
             $expected[$this->name . '_val'] = PARAM_RAW;
@@ -576,9 +555,10 @@ class stack_auswahl_input extends stack_input {
      * @return string the teacher's answer, suitable for testcase construction.
      */
     public function get_teacher_answer_testcase() {
+        if($this->get_ddltype()=='checkbox'){
+            return 'mcq_correct(' . $this->teacheranswer . ')';
+        }
         return 'first(mcq_correct(' . $this->teacheranswer . '))';
-        // for Checkbox
-        // return 'mcq_correct(' . $this->teacheranswer . ')';
     }
 
     /**
@@ -588,39 +568,33 @@ class stack_auswahl_input extends stack_input {
      * @return string
      */
     public function maxima_to_response_array($in) {
-        if ('' == $in) {
-            return array();
-        }
+        if($this->get_ddltype()=='checkbox'){
+            if ('' === $in || '[]' === $in) {
+                return array();
+            }
+            
+            $tc = stack_utils::list_to_array($in, false);
+            $response = array();
+            foreach ($tc as $key => $val) {
+                $ddlkey = $this->get_input_ddl_key($val);
+                $response[$this->name.'_'.$ddlkey] = $ddlkey;
+            }
+            // The name field is used by the question testing mechanism for the full answer.
+            $response[$this->name] = $in;
+        } else {
+            if ('' == $in ) {
+                return array();
+            }
 
-        $ddlkey = $this->get_input_ddl_key($in);
-        $response[$this->name] = $ddlkey;
+            $ddlkey = $this->get_input_ddl_key($in);
+            $response[$this->name] = $ddlkey;
+        }
 
         if ($this->requires_validation()) {
             $response[$this->name . '_val'] = $in;
         }
         return $response;
     }
-
-    //For Checkbox     
-    // public function maxima_to_response_array($in) {
-    //     if ('' === $in || '[]' === $in) {
-    //         return array();
-    //     }
-
-    //     $tc = stack_utils::list_to_array($in, false);
-    //     $response = array();
-    //     foreach ($tc as $key => $val) {
-    //         $ddlkey = $this->get_input_ddl_key($val);
-    //         $response[$this->name.'_'.$ddlkey] = $ddlkey;
-    //     }
-    //     // The name field is used by the question testing mechanism for the full answer.
-    //     $response[$this->name] = $in;
-
-    //     if ($this->requires_validation()) {
-    //         $response[$this->name . '_val'] = $in;
-    //     }
-    //     return $response;
-    // }
 
     /**
      * @return string the teacher's answer, displayed to the student in the general feedback.
@@ -639,25 +613,22 @@ class stack_auswahl_input extends stack_input {
      */
     public function response_to_contents($response) {
         $contents = array();
+        if($this->get_ddltype()=='checkbox'){
+            // Did the student chose the "Not answered" response?
+            if (array_key_exists($this->name.'_', $response)) {
+                    return array();
+            }
+            foreach ($this->ddlvalues as $key => $val) {
+                if (array_key_exists($this->name.'_'.$key, $response)) {
+                    $contents[] = (int) $response[$this->name.'_'.$key];
+                }
+            }            
+        }
         if (array_key_exists($this->name, $response)) {
             $contents[] = (int) $response[$this->name];
         }
         return $contents;
     }
-    // For Checkbox
-    // public function response_to_contents($response) {
-    //     // Did the student chose the "Not answered" response?
-    //     if (array_key_exists($this->name.'_', $response)) {
-    //             return array();
-    //     }
-    //     $contents = array();
-    //     foreach ($this->ddlvalues as $key => $val) {
-    //         if (array_key_exists($this->name.'_'.$key, $response)) {
-    //             $contents[] = (int) $response[$this->name.'_'.$key];
-    //         }
-    //     }
-    //     return $contents;
-    // }
 
     /**
      * Decide if the contents of this attempt is blank.
@@ -707,6 +678,9 @@ class stack_auswahl_input extends stack_input {
         return false;
     }
 
+    /*
+     * ddltype must be one of 'select' 0 dropdown, 'checkbox' 1 or 'radio' 2.
+     */
     protected function get_ddltype(){
         switch ($this->parameters['auswahlType']){
             case 0: return'select'; 
@@ -716,6 +690,9 @@ class stack_auswahl_input extends stack_input {
         }
     }
 
+    /*
+     * Default ddldisplay for checkboxes and radio is 'LaTeX'.
+     */
     protected function get_ddldisplay(){
         switch ($this->parameters['auswahlType']){
             case 0: return 'casstring';
@@ -724,16 +701,18 @@ class stack_auswahl_input extends stack_input {
     }
 
     //Only exist for Checkbox
-    // protected function ajax_to_response_array($in) {
-    //     if (((string) $in) === '') {
-    //         return array();
-    //     }
-    //     $selected = explode(',', $in);
-    //     $result = array();
-    //     foreach ($selected as $choice) {
-    //         $result[$this->name . '_' . $choice] = $choice;
-    //     }
-    //     return $result;
-    // }
+    protected function ajax_to_response_array($in) {
+        if($this->get_ddltype()=='checkbox'){
+            if (((string) $in) === '') {
+                return array();
+            }
+            $selected = explode(',', $in);
+            $result = array();
+            foreach ($selected as $choice) {
+                $result[$this->name . '_' . $choice] = $choice;
+            }
+            return $result;
+        }
+    }
 
 }

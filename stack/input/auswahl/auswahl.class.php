@@ -401,6 +401,7 @@ class stack_auswahl_input extends stack_input {
      * @return string
      */
     public function contents_to_maxima($contents) {
+        echo $this->get_ddltype();
         if ($this->get_ddltype()=='checkbox'){
             $vals = array();
             foreach ($contents as $key) {

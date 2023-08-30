@@ -401,7 +401,6 @@ class stack_auswahl_input extends stack_input {
      * @return string
      */
     public function contents_to_maxima($contents) {
-        echo $this->get_ddltype();
         if ($this->get_ddltype()=='checkbox'){
             $vals = array();
             foreach ($contents as $key) {
@@ -662,7 +661,7 @@ class stack_auswahl_input extends stack_input {
         // The tidy question script returns the name of the input during tidying.
         // That is useful for figuring out where in the question this input occurs.
         if ($key !== $this->name) {
-            throw new stack_exception('stack_auswahl_input: could not find a value for key '.$key);
+            throw new stack_exception('stack_auswahl_input: could not find a value for key '.$key. $this->get_ddltype());
         }
         return false;
     }

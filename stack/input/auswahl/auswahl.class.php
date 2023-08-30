@@ -38,7 +38,11 @@ class stack_auswahl_input extends stack_input {
      * ddltype must be one of 'select' 0 dropdown, 'checkbox' 1 or 'radio' 2.
      */
     //protected $ddltype = $this->parameters['auswahlType'];
+    //protected $ddltype = $this->get_ddltype($this->parameters['auswahlType']);
+    //$auswahlchoice= $this->parameters['auswahlType'];
+
     protected $ddltype = 'select';
+    //protected $ddltype = $this->get_ddltype();
 
     /*
      * ddldisplay must be either 'LaTeX' or 'casstring' and it determines what is used for the displayed
@@ -701,8 +705,8 @@ class stack_auswahl_input extends stack_input {
         return false;
     }
 
-    protected function get_ddltype($type_number){
-        switch ($type_number){
+    protected function get_ddltype(){
+        switch ($this->parameters['auswahlType']){
             case 0: return 'select';
             case 1: return 'checkbox';
             case 2: return 'radio';
@@ -710,8 +714,8 @@ class stack_auswahl_input extends stack_input {
         }
     }
 
-    protected function get_ddldisplay($type_number){
-        switch ($type_number){
+    protected function get_ddldisplay(){
+        switch ($this->parameters['auswahlType']){
             case 0: return 'casstring';
             default: return 'LaTeX';
         }

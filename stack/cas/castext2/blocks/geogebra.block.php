@@ -58,9 +58,12 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         // The bits of code we construct. We could simply output these into
         // the same output variable as these are not coming in mixed but let's
         // keep the code clean.
-        $setcode = new MP_FunctionCall(new MP_Identifier('sconcat'), [new MP_String("function initialgeogebraset(){};\n")]);
-        $remembercode = new MP_FunctionCall(new MP_Identifier('sconcat'), [new MP_String("function rememberGeoGebraObjects(){};\n")]);
-        $watchcode = new MP_FunctionCall(new MP_Identifier('sconcat'), [new MP_String("function watchGeoGebraObjects(){};\n")]);
+        $setcode = new MP_FunctionCall(new MP_Identifier('sconcat'),
+            [new MP_String("function initialgeogebraset(){};\n")]);
+        $remembercode = new MP_FunctionCall(new MP_Identifier('sconcat'),
+            [new MP_String("function rememberGeoGebraObjects(){};\n")]);
+        $watchcode = new MP_FunctionCall(new MP_Identifier('sconcat'),
+            [new MP_String("function watchGeoGebraObjects(){};\n")]);
 
         // Start by identifying the inputs we deal with.
         $inputmapping = [];
@@ -75,9 +78,11 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
             if (isset($this->params[$param])) {
                 // If need be fill in the necessary bits of these functions.
                 if ($param === 'watch') {
-                    $watchcode->arguments[0]->value = "function watchGeoGebraObjects(){\n var appletObject = applet.getAppletObject();";
+                    $watchcode->arguments[0]->value =
+                        "function watchGeoGebraObjects(){\n var appletObject = applet.getAppletObject();";
                 } else if ($param === 'remember') {
-                    $remembercode->arguments[0]->value = "function rememberGeoGebraObjects(){\n var appletObject = applet.getAppletObject();";
+                    $remembercode->arguments[0]->value =
+                        "function rememberGeoGebraObjects(){\n var appletObject = applet.getAppletObject();";
                 }
 
                 $ids = explode(',', $this->params[$param]);
@@ -137,15 +142,16 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         // Here we include some CAS variables into the output so this will
         // be a mixture of static string segments and `string`-calls.
         if (isset($this->params['set'])) {
-            $setcode->arguments[0]->value = "function initialgeogebraset(){\n var appletObject = applet.getAppletObject();";
+            $setcode->arguments[0]->value =
+                "function initialgeogebraset(){\n var appletObject = applet.getAppletObject();";
             $setvars = explode(',', $this->params['set']);
             foreach ($setvars as $geogebraname) {
                 $geogebraname = trim($geogebraname);
-                $set_fixed = false;
-                $set_preserve = false;
-                $set_hide = false;
-                $set_show = false;
-                $set_novalue = false;
+                $setfixed = false;
+                $setpreserve = false;
+                $sethide = false;
+                $setshow = false;
+                $setnovalue = false;
 
                 // Identify suffixes.
                 while (
@@ -158,38 +164,42 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                     if ($this->str_ends_with($geogebraname, '__fixed')) {
                         // Assuming: point must not be interactable by the user.
                         $geogebraname = substr($geogebraname, 0, -7);
-                        $set_fixed = true;
+                        $setfixed = true;
                     }
                     if ($this->str_ends_with($geogebraname, '__preserve')) {
                         // Assuming: object should preserve its defintion, e.g. to be a point on an object.
                         $geogebraname = substr($geogebraname, 0, -10);
-                        $set_preserve = true;
+                        $setpreserve = true;
                     }
                     if ($this->str_ends_with($geogebraname, '__hide')) {
                         // Assuming: object should be hidden at startup.
                         $geogebraname = substr($geogebraname, 0, -6);
-                        $set_hide = true;
+                        $sethide = true;
                     }
                     if ($this->str_ends_with($geogebraname, '__show')) {
                         // Assuming: object should be shown at startup.
                         $geogebraname = substr($geogebraname, 0, -6);
-                        $set_show = true;
+                        $setshow = true;
                     }
                     if ($this->str_ends_with($geogebraname, '__novalue')) {
                         // Assuming: object should not be set to a given value,
                         // keyword is useful in combination with __hide or __show.
                         $geogebraname = substr($geogebraname, 0, -9);
-                        $set_novalue = true;
+                        $setnovalue = true;
                     }
                 }
                 // Note at this point the name has no suffixes. No know ones that is, or non typoed ones...
                 if (ctype_upper(substr($geogebraname, 0, 1))) {
                     // Assuming geogebraname is the (therefore uppercased) name of an object of type: point.
-                    $xcoord = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_List ([new MP_Integer(1)])])]);
-                    $ycoord = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_List ([new MP_Integer(2)])])]);
-                    if ($set_fixed) {
+                    $xcoord = new MP_FunctionCall(new MP_Identifier('string'),
+                        [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_List ([new MP_Integer(1)])])]);
+                    $ycoord = new MP_FunctionCall(new MP_Identifier('string'),
+                        [new MP_Indexing(new MP_Identifier($geogebraname), [new MP_List ([new MP_Integer(2)])])]);
+                    if ($setfixed) {
                         // Assuming point must not be interactable by the user.
+                        // @codingStandardsIgnoreStart
                         // appletObject.evalCommand('POINTNAME= Point({XCOORD,YCOORD})
+                        // @codingStandardsIgnoreEnd
                         // Removing __fixed (7 characters).
                         $setcode->arguments[] = new MP_String(
                             "\n appletObject.evalCommand('" .
@@ -198,8 +208,10 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                         $setcode->arguments[] = new MP_String(',');
                         $setcode->arguments[] = $ycoord;
                         $setcode->arguments[] = new MP_String("})');\n");
+                        // @codingStandardsIgnoreStart
                         // appletObject.evalCommand('G= Point({{#fx#},4})');
-                    } else if ($set_preserve) {
+                        // @codingStandardsIgnoreEnd
+                    } else if ($setpreserve) {
                         // Assuming point definition should be preserved while setting object:
                         // ATTENTION GGB Applet language must be English for this to work!
                         $setcode->arguments[] = new MP_String("\n appletObject.evalCommand('SetCoords(" .
@@ -209,12 +221,15 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                         $setcode->arguments[] = new MP_String(',');
                         $setcode->arguments[] = $ycoord;
                         $setcode->arguments[] = new MP_String(")');\n");
-                    } else if ($set_novalue) {
+                    } else if ($setnovalue) {
                         // Assuming point value should not be set, useful when using __show/ __hide.
                         // NOOP.
+                        $setnovalue = true;
                     } else {
                         // Assuming point is interactable by the user.
+                        // @codingStandardsIgnoreStart
                         // appletObject.evalCommand('POINTNAME=(XCOORD,YCOORD)')
+                        // @codingStandardsIgnoreEnd
                         $setcode->arguments[] = new MP_String("\n appletObject.evalCommand('" .
                             $geogebraname .
                             ' = Point({');
@@ -227,31 +242,34 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                     // Assuming geogebraname is the name of an object of type: value or angle (therefore latin lowercase)
                     // setting angle by size not supported.
                     // Please set angle by setting defining points.
-                    if ($set_preserve) {
+                    if ($setpreserve) {
                         $setcode->arguments[] = new MP_String("\n appletObject.evalCommand('SetValue(" .
                             $geogebraname . ',');
-                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier($geogebraname)]);
+                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'),
+                            [new MP_Identifier($geogebraname)]);
                         $setcode->arguments[] = new MP_String(")');\n");
-                    } else if ($set_novalue) {
+                    } else if ($setnovalue) {
                         // Assuming value should not be set, useful when using __show/ __hide.
-                        // NOOP
+                        // NOOP.
+                        $setnovalue = true;
                     } else {
                         $setcode->arguments[] = new MP_String("\n appletObject.evalCommand('" .
                             $geogebraname . ' = ');
-                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier($geogebraname)]);
+                        $setcode->arguments[] = new MP_FunctionCall(new MP_Identifier('string'),
+                            [new MP_Identifier($geogebraname)]);
                         $setcode->arguments[] = new MP_String("');\n");
                     }
                 }
                 // End of section for setting values according to suffix.
 
                 // Section to show or hide objects if there are according suffix readings.
-                if ($set_show) {
+                if ($setshow) {
                     // Assuming: object should be shown in view 1 (use case: if object is hidden by default).
                     $setcode->arguments[] = new MP_String(
                         "\n appletObject.evalCommand('SetVisibleInView(" .
                         $geogebraname .
                         ",1,true)');\n");
-                } else if ($set_hide) {
+                } else if ($sethide) {
                     // Assuming: object should be hidden (use case: if object is shown by default).
                     $setcode->arguments[] = new MP_String(
                         "\n appletObject.evalCommand('SetVisibleInView(" .

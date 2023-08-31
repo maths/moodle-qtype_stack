@@ -106,7 +106,7 @@ The simplest solution for storing state is to add a `string` type input field to
 
  1. Create and hide an input with CSS, e.g. `<p style="display:none">[[input:stateStore]] [[validation:stateStore]]</p>` (but probably not while you develop the question!)
  2. Make the input a "string" type.
- 3. Turn off the validation and verification of the field. 
+ 3. Turn off the validation ("Show the validation") and verification ("Student must verify") of the input field.
  4. Use the extra option `hideanswer` to make sure the teacher's answer is not shown to students.
  5. That input field should not be connected to any PRTs.
  6. You can use the syntax hint feature to pass in a default value but only if that is not parametric (currently the syntax hint is not CASText: see the todo list).

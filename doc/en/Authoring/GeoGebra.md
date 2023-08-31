@@ -2,11 +2,16 @@
 
 Author Tim Lutz - University of Edinburgh and University of Education Heidelberg, 2022-23.
 
-STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.org](https://geogebra.org).  This page documents how to use GeoGebra applets both to display GeoGebra visuals, and as a STACK input.
+STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.org](https://geogebra.org).  This page documents how to use GeoGebra applets both to display GeoGebra worksheets as part of a STACK question, and how to connect GeoGebra worksheets to a STACK input.
 
-Information from GeoGebra applets can be linked to STACK inputs and assessed by potential response trees in the normal way.  To help with assessment, STACK provides a number of [geometry related maxima functions](../CAS/Geometry.md).
+Information from GeoGebra applets can be linked to STACK inputs and then assessed by potential response trees in the normal way.  To help with assessment, STACK provides a number of [geometry related maxima functions](../CAS/Geometry.md).
 
-Please note that significant computation and calculation can be done within GeoGebra itself.  In many cases it might be much better to establish mathematical properties within the GeoGebra applet itself, and link the _results_ to STACK inputs.  These results could be the distance between relevant objects, or boolean results.
+Please note that significant computation and calculation can be done within GeoGebra itself.  In many cases it might be much better to establish mathematical properties within the GeoGebra applet, and link the _results_ to STACK inputs.  These results could be the distance between relevant objects, or boolean results.
+
+A current restriction of STACK design is that you cannot have a variable name in question variables which also matches the name of an input.
+For example, you cannot randomly generate the initial position of a point \(A\) with the "set" instruction, and also link this GeoGebra object to the input `input:A` with a "watch" instruction.
+In this situation you will need to have _dependent_ objects (probably hidden) in GeoGebra which match to inputs.
+(This is hard-wired into the design of STACK and cannot be changed, sorry.)
 
 ## Before we start: Check Editor preferences
 
@@ -50,7 +55,7 @@ To be able to make things consistent and easy for question authors, the followin
 1. Names of variables must be equal in both STACK and GeoGebra.
 2. Value-names must start with lower case letters.
 3. Values must be `int` or `float` STACK variables.
-4. Angles are used like values, and so must be named lowercase letters in Latin-Alphabet, (not Greek unicode letters!) and values must be in radians.
+4. Angles are used like values, and so must be named lowercase letters in Latin-Alphabet, (not Greek unicode letters!) and values must be in radians.  (If you want to show a Greek letter to the student, then have a parallel internal variable which is used by STACK.  E.g. call the angle \(\alpha\) visibly in GGB, but have a hidden GGB variable \(a\) which you can watch.)
 5. Point-names must start with upper case letters.
 6. Points are represented as a list in STACK.  For example `D:[2,3]`, means a point \(D\) with \(x=2, y=3\).  (While STACK has an inert `ntuple` command which can be used for representing and displaying coordinates, we have chosen to use lists in this design.)
 
@@ -68,7 +73,7 @@ By default points are free to manipulate in the applet, unless you add `__fixed`
 
 Angles cannot be set directly, set points instead!
 
-### A minimal example
+### A minimal example question with "set": can a student read (randomly) generated coordinates?
 
 Set the question variables:
 
@@ -82,32 +87,55 @@ Set the question text:
     [[/geogebra]]
     Write the coordinates of \(A\): [[input:ans1]][[validation:ans1]]
 
-Then you will need to fill in the teacher's answer and a PRT to make a working question.  (Also, be sure to set HTML format for the question text if useing the plain text edit.)
+Then complete the question as follows.
+
+1. In the input, make the model answer `A`.  This is a list.
+2. Make sure you set "forbid floats" option in the input to be false, if you want to!
+3. Complete the default potential response tree `prt1` as `ATAlgEquiv(ntupleify(ans1),ntupleify(A))`
+
+This should give a minimal working GGB question with "set".
+
+The use of the STACK function `ntupleify` ensures both the student's answer and teacher's answer is converted from a list to an `ntuple`.  `ntuple` is a data type in STACK allowing an "n-tuple" such as \( (1,2) \) to be a different data type from a "list" \( [1,2] \).  Internally in STACK/GGB lists are given preference in the design, but completing the PRT as above will allow student input of coordinates using traditional round brackets, which is interpreted by STACK as as a data type `ntuple`.  See the docs on [sets, lists, sequences and n-typles](../CAS/Maxima/#sets-lists-sequences-n-tuples).
+
+Now, the above question can readily be adapted by making `A` a randomly generated object, if required.
 
 ## Using the "watch" sub-tag 
 
 With the "watch" sub-tag someone can listen to values and points in GeoGebra. These values can then be used to calculate feedback in STACK.  The values will be assigned to a STACK input.  Note, inputs can be "hidden" from the student.
 
-### Minimal example watching point A and value or angle b
+General notes for watched objects
 
-Set the question variables to be empty in this example.
+1. Points, e.g. `A`, _must_ be an algebraic-input and you _must_ allow floats!
+2. You can access `A` in STACK for feedback as a list of values for points `A[0]->x-value`, `A[1]->y-value`
+3. Numbers/angles e.g. `b` can be an algebraic or numerical input, and you _must_ allow floats!
+4. You can access `b` in STACK as value. If `b` represents an angle then `b` is in radians.
+
+### Minimal example watching point A.
+
+Set the question variables to be
+
+    ta1:[2,3];
 
 Set the question text:
 
-    [[geogebra watch="A,b"]]
+    [[geogebra watch="A"]]
     params["material_id"]="seehz3km";
     [[/geogebra]]
+    Move \(A\) to be the point \((2,3)\)
     [[input:A]][[validation:A]]
-    [[input:b]][[validation:b]]
 
-Recall that since `A` is upper case it must be a point, and since `b` is lower case it will be a value/angle.  Note:
+Recall that since the object in `watch="A"` is written in upper case it must be a point.
 
-1. `A` _must_ be an algebraic-input and you _must_ allow floats!
-2. You can access `A` in STACK for feedback as a list of values for points `A[0]->x-value`, `A[1]->y-value`
-3. `b` can be an algebraic or numerical input, and you _must_ allow floats!
-4. You can access `b` in STACK as value. If `b` represents an angle then `b` is in radians.
+Then complete the question as follows.
 
-Later we will [hide the inputs](Inputs.md#extra_option_hideanswer) from students, but for testing it is helpful to see the input boxes.  Inputs can be hidden with the STACK "extra option" `hideanswer` in the input.
+1. In the input, make the model answer `ta1`.  This is a list, and has a different name from the watched point..
+2. Make sure you set "forbid floats" option in the input to be false, if you want to!
+3. Complete the default potential response tree `prt1` as `ATAlgEquiv(ntupleify(A),ntupleify(ta1))`
+
+Once the question is working you can hide the inputs from students, but for testing it is helpful to see the input boxes.
+
+1. Hide an input with CSS, e.g. `<p style="display:none">[[input:A]] [[validation:A]]</p>` (but probably not while you develop the question!)
+2. Turn off the validation ("Show the validation") and verification ("Student must verify") of the input field. 
 
 ## Using the "remember" sub-tag
 
@@ -116,20 +144,43 @@ If you do not want to calculate feedback with some of the GeoGebra objects in an
 You still need an input in the question to store these values. The only way STACK can store "state" is through inputs.
 This input _must_ be of type "string" (because we store these values as a JSON-string internally).
 
-### Minimal example remember A,B,C
+### Minimal example remember B,C
 
-Set the question variables to be empty in this example.
+In the above example (watch), we want to remember the positions of \(B\) and \(C\)
 
 Set the question text:
 
-    [[geogebra remember="A,B,C"]]
+    [[geogebra watch="A" remember="B,C"]]
     params["material_id"]="seehz3km";
     [[/geogebra]]
+    Move \(A\) to be the point \((2,3)\)
+    [[input:A]][[validation:A]]
     [[input:remember]][[validation:remember]]
 
-1. The input _must_ be of type string, and can not be used to calculate values in STACK feedback for now. 
-2. The name "remember" is for easy restoring purposes.  Of course, any name could be used.
-3. Remember to [hide the input](Inputs.md#extra_option_hideanswer) from students with the STACK "extra option" `hideanswer` in the input.
+1. The `remember` input _must_ be of type string, and can not be used to calculate values in STACK feedback.
+2. For the "model answer" use the empty string `""`.
+3. The name "remember" is for easy restoring purposes.  Of course, any name could be used.
+4. We don't want to show the model answer of "remember" as part of the teacher's final answer (if available during the quiz) so [hide the input](Inputs.md#extra_option_hideanswer) from students with the STACK "extra option" `hideanswer` in the "remember" input.
+5. Once working, hide the "remember" input with CSS, e.g. `<p style="display:none">[[input:remember]][[validation:remember]]</p>` (but probably not while you develop the question!)
+
+### Minimal example watching an indirect GGB object, e.g. angle k.
+
+In the above example we have angle \(k\).  To watch this value we can add `k` to the list of watched variables.  E.g.
+
+    [[geogebra watch="A,k" remember="B,C"]]
+    params["material_id"]="seehz3km";
+    [[/geogebra]]
+    Move \(A\) to be the point \((2,3)\), and points \(B,C\) so that there is a right angle at \(B\).
+    [[input:A]][[validation:A]]
+    [[input:A]][[validation:A]]
+    [[input:remember]][[validation:remember]]
+
+1. Numbers/angles e.g. input `k` can be an algebraic or numerical input, and you _must_ allow floats!
+2. The value of \(k\) will come through as a float.  Hence, you need to check if this is sufficiently close to \(\pi/2\) with a numerical test.  You could add the test `ATNumAbsolute(k,%pi/2,0.01)` to check \(|k-\pi/2|<0.01\) as a check the angle is right.
+
+An alternative would be to check this in GeoGebra and create a variable with a value of \(0\) or \(1\), and watch this proxy variable.  The advangage of a numerical test is that you could give feedback which includes the angle.
+
+   Your angle is {@round(k*180/%pi@} degrees, which is not a right angle!
 
 ## Advanced use-cases
 
@@ -203,6 +254,31 @@ TODO: documentation for common app settings which can be addressed through param
 
 TODO: further documentation of the API for more complex tasks and custom named inputs
 
-TODO: document the use of `<div style="display:none"> ... </div>` as an alternative to the hide inputs.  
+### Example: using some advanced features.
 
-TODO: does GeoGebra have a boolean type? If so, can we have an example linking a GeoGebra boolean to STACK?  If people start writing assessment code within a GeoGebra applet itself then it would be helpful to just return true/false to STACK inputs!
+This example illustrates some of the advanced features 
+
+Set the question variables to be
+
+    A:[-2,0];
+    B:[1,0];
+
+Set the question text to be
+
+    [[geogebra set="A,B" watch="a,b" remember="P"]]
+    params["material_id"]="rukrpcs5";
+    [[/geogebra]]
+    Move \(P\) so that the angle \(\alpha\) is a right angle.
+    [[input:a]][[validation:a]]
+    [[input:b]][[validation:b]]
+    [[input:remember]][[validation:remember]]
+
+Notes
+
+1. This GGB sheet has a variable `a` (hidden) which stores the angle \(\alpha\) in a way STACK can access the Greek letter.
+2. This GGB sheet has a boolean variable `b`.  This will comes through to STACK as a number, \(0\) or \(1\).
+3. The use of `"remember"` means we need an string input to store the state of `P` between attempts.
+
+### Future plans
+
+1. GeoGebra boolean types should come through to STACK as just return true/false (not 0,1).

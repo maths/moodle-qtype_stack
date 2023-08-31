@@ -9,5 +9,5 @@ ___Note that unless already defined in Maxima, function names should match funct
 
 ### `Distance`
 
-`Distance(A, B)` returns the Euclidean distance between points represented as lists.  Works in any dimenstion.
+`Distance(A, B)` returns the Euclidean distance between points represented as lists.  Works in any dimension.
 

@@ -368,8 +368,6 @@ class stack_inputvalidation_test_data {
         array('root(x)', 'php_true', 'root(x)', 'cas_true', '\sqrt{x}', '', ''),
         array('root(x,3)', 'php_true', 'root(x,3)', 'cas_true', 'x^{\frac{1}{3}}', '', ''),
         array('root(2,-3)', 'php_true', 'root(2,-3)', 'cas_true', '2^{\frac{1}{-3}}', '', ''),
-        array('conjugate(x)', 'php_true', 'conjugate(x)', 'cas_true', 'x^\star', '', ''),
-        array('conjugate(x)^2', 'php_true', 'conjugate(x)^2', 'cas_true', '{x^\star}^2', '', ''),
         // Parser rules in 4.3, identify cases where known functions (cf) are prefixed with single letter variables.
         array('bsin(t)', 'php_true', 'b*sin(t)', 'cas_true', 'b\cdot \sin \left( t \right)', 'missing_stars', ""),
         // So we have added gcf as a function so it is not g*cf...

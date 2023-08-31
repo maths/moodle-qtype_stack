@@ -45,12 +45,6 @@ The "set", "watch" and "remember" tags to the `[[geogebra]]` question block link
 
 ### Naming conventions
 
-The sub-tag `set` parameter value is a string of (unique), comma-separated, GeoGebra-objects with latin names.
-For example, the sub-tag value could look like:  `set = "A,B,C,D,a2,E__fixed"` and would be placed in the block as
-
-    [[geogebra set = "A,B,C,D,a2,E__fixed"]]
-    [[/geogebra]]
-
 To be able to make things consistent and easy for question authors, the following name conventions _must_ be followed:
 
 1. Names of variables must be equal in both STACK and GeoGebra.
@@ -58,11 +52,17 @@ To be able to make things consistent and easy for question authors, the followin
 3. Values must be `int` or `float` STACK variables.
 4. Angles are used like values, and so must be named lowercase letters in Latin-Alphabet, (not Greek unicode letters!) and values must be in radians.
 5. Point-names must start with upper case letters.
-6. Points are represented as a list in STACK.  For example `D:[2,3]`, means a point \(D\) with \(x=2, y=3\).  
+6. Points are represented as a list in STACK.  For example `D:[2,3]`, means a point \(D\) with \(x=2, y=3\).  (While STACK has an inert `ntuple` command which can be used for representing and displaying coordinates, we have chosen to use lists in this design.)
+
+The value of the `set` parameter must be a string of (unique), comma-separated, GeoGebra-objects with latin names.
+For example, the sub-tag value could look like:  `set = "A,B,C,D,a2,E__fixed"` and would be placed in the block as
+
+    [[geogebra set = "A,B,C,D,a2,E__fixed"]]
+    [[/geogebra]]
 
 ## Using the "set" sub-tag
 
-With the "set" sub-tag you can set a GeoGebra object, point or value to a STACK-calculated value.
+With the "set" sub-tag you can set a GeoGebra object (currently a point or a value) to a STACK-calculated value when the applet is first loaded.
 
 By default points are free to manipulate in the applet, unless you add `__fixed` or other double-underscore-tags to the Point-name. A full list of available options see "set: double-underscore-tags in the "advanced use-cases"-section.
 
@@ -104,8 +104,10 @@ Recall that since `A` is upper case it must be a point, and since `b` is lower c
 
 1. `A` _must_ be an algebraic-input and you _must_ allow floats!
 2. You can access `A` in STACK for feedback as a list of values for points `A[0]->x-value`, `A[1]->y-value`
-3. You can access `b` in STACK as value. If `b` represents an angle then `b` is in radians.
-4. Later we will [hide the inputs](Inputs.md#extra_option_hideanswer) from students, but for testing it is helpful to see the input boxes.  This is done with the STACK "extra option" `hideanswer` in the input.
+3. `b` can be an algebraic or numerical input, and you _must_ allow floats!
+4. You can access `b` in STACK as value. If `b` represents an angle then `b` is in radians.
+
+Later we will [hide the inputs](Inputs.md#extra_option_hideanswer) from students, but for testing it is helpful to see the input boxes.  Inputs can be hidden with the STACK "extra option" `hideanswer` in the input.
 
 ## Using the "remember" sub-tag
 

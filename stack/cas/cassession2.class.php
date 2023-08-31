@@ -315,8 +315,10 @@ class stack_cas_session2 {
         // We will build the whole command here.
         // No protection in the block.
         $preblock = '';
-        $command = 'block([]' .
+        $command = 'block([stack_seed]' .
                 self::SEP . 'stack_randseed(' . $this->seed . ')';
+        // Make the value of the seed available in the session.
+        $command .= self::SEP . 'stack_seed:' . $this->seed;
         // The options.
         $command .= $this->options->get_cas_commands()['commands'];
         // Some parts of logic storage.

@@ -608,7 +608,14 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
 
             // As the SOP is intentionally broken we need to allow
             // scripts from everywhere.
-            frm.csp = "script-src: 'unsafe-inline' 'self' '*';img-src: '*';";
+
+            // NOTE: this bit commented out as long as the csp-attribute
+            // is not supported by more browsers.
+            // frm.csp = "script-src: 'unsafe-inline' 'self' '*';";
+            // frm.csp = "script-src: 'unsafe-inline' 'self' '*';img-src: '*';";
+
+            // Plug the content into the frame.
+            frm.srcdoc = content;
 
             // The target DIV will have its children removed.
             // This allows that div to contain some sort of loading
@@ -616,10 +623,6 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             // Naturally the frame will then start to load itself.
             document.getElementById(targetdivid).replaceChildren(frm);
             IFRAMES[iframeid] = frm;
-
-            // Move the content over.
-            const src = new Blob([content], {type: 'text/html; charset=utf-8'});
-            frm.src = URL.createObjectURL(src);
         }
 
     };

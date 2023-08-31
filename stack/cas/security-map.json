@@ -39,6 +39,10 @@
       "function": "f",
       "globalyforbiddenvariable": true
   },
+  "%_ce_expedite": {
+      "function": "f",
+      "globalyforbiddenvariable": true
+  },
   "%ERR": {
       "variable": "f"
   },
@@ -7313,6 +7317,9 @@
   },
   "stackunits_make": {
       "function": "s"
+  },
+  "stack_seed": {
+      "constant": "t"
   },
   "stack_unit_si_declare": {
       "function": "s",

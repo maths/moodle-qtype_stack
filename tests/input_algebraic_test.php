@@ -151,7 +151,8 @@ class input_algebraic_test extends qtype_stack_testcase {
           . '<code>x^2/(1+x^2)</code>', $el->get_teacher_answer_display('x^2/(1+x^2)', '\frac{x^2}{1+x^2}'));
 
         $el->set_parameter('showValidation', 1);
-        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive">' .
+                '<p>Your last answer was interpreted as follows: ' .
                 '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ x^2 \]</span></span></p>' .
                 '<input type="hidden" name="sans1_val" value="x^2" />The variables found in your answer were: ' .
                 '<span class="filter_mathjaxloader_equation"><span class="nolink">\( \left[ x \right]\)</span></span> ' .
@@ -159,7 +160,8 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
 
         $el->set_parameter('showValidation', 2);
-        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive">' .
+                '<p>Your last answer was interpreted as follows: ' .
                 '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ x^2 \]</span></span></p>' .
                 '<input type="hidden" name="sans1_val" value="x^2" /></div>';
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
@@ -167,7 +169,8 @@ class input_algebraic_test extends qtype_stack_testcase {
         $el->set_parameter('showValidation', 3);
         // We re-generate the state to get inline displayed equations.
         $state = $el->validate_student_response(array('sans1' => 'x^2'), $options, 'x^2/(1+x^2)', new stack_cas_security());
-        $vr = '<span class="stackinputfeedback compact" id="sans1_val"><span class="filter_mathjaxloader_equation">' .
+        $vr = '<span class="stackinputfeedback compact" id="sans1_val" aria-live="assertive">' .
+                '<span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( x^2 \)</span></span><input type="hidden" name="sans1_val" value="x^2" /></span>';
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
     }
@@ -179,7 +182,8 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
 
         $el->set_parameter('showValidation', 1);
-        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive">' .
+                '<p>Your last answer was interpreted as follows: ' .
                 '<span class="stacksyntaxexample">2x(1+x^2)</span></p>' .
                 '<input type="hidden" name="sans1_val" value="2x(1+x^2)" /><div class="alert alert-danger stackinputerror">' .
                 'This answer is invalid. You seem to be missing * characters. ' .
@@ -295,7 +299,8 @@ class input_algebraic_test extends qtype_stack_testcase {
             $state->contentsdisplayed);
 
         $el->set_parameter('showValidation', 1);
-        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as ' .
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive">' .
+            '<p>Your last answer was interpreted as ' .
             'follows: <span class="filter_mathjaxloader_equation"><span class="nolink">' .
             '\[ 3\cdot {\it ex}+2\cdot {\it ey}+5\cdot {\it ez} \]</span></span></p>' .
             '<input type="hidden" name="sans1_val" value="3*ex+2*ey+5*ez" />The variables found in your answer ' .
@@ -1271,7 +1276,8 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals($state->contentsdisplayed,
                 '\[ \left( 1,\, 2\right] \]');
         $el->set_parameter('showValidation', 1);
-        $vr = '<div class="stackinputfeedback standard" id="sans1_val"><p>Your last answer was interpreted as follows: ' .
+        $vr = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive">' .
+              '<p>Your last answer was interpreted as follows: ' .
               '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left( 1,\, 2\right] \]</span></span>' .
               '</p><input type="hidden" name="sans1_val" value="oc(1,2,3)" />' .
               '<div class="alert alert-danger stackinputerror">This answer is invalid. Interval construction must have ' .
@@ -1592,6 +1598,21 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('Coordinates are not permitted in this input.', $state->errors);
     }
 
+    public function test_validate_student_response_no_dot_dot() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '3.14*2.78');
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(array('sans1' => '3.14.2.78'), $options, '3.14*2.78',
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::INVALID);
+        $this->assertEquals('3.14 . 2.78', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">3.14.2.78</span>',
+            $state->contentsdisplayed);
+        $this->assertEquals('MatrixMultWithFloat', $state->note);
+        $this->assertEquals('Using matrix multiplication "." with scalar floats is forbidden, ' .
+            'use normal multiplication "*" instead for the same result. 3.14 . 2.78', $state->errors);
+    }
+
     public function test_validate_consolidatesubscripts() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'state', 'M_1');
@@ -1661,5 +1682,36 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('\[ x^2 \]', $state->contentsdisplayed);
         $this->assertEquals('The optional validator threw internal Maxima errors.',
             $state->errors);
+    }
+
+    public function test_validate_student_response_conjugate() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '2*conjugate(x)');
+        $state = $el->validate_student_response(array('sans1' => 'conjugate(x)'), $options, 'conjugate(x)',
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('conjugate(x)', $state->contentsmodified);
+        $displayed = '\[ x^\star \]';
+        if ($this->adapt_to_new_maxima('5.47.0')) {
+            $displayed = '\[ x^{\ast} \]';
+        }
+        $this->assertEquals($displayed, $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
+
+        $state = $el->validate_student_response(array('sans1' => 'conjugate(x)^2'), $options, 'conjugate(x)^2',
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('conjugate(x)^2', $state->contentsmodified);
+        $displayed = '\[ {x^\star}^2 \]';
+        if ($this->adapt_to_new_maxima('5.47.0')) {
+            // Personally I (CJS) prefer these brackets, so I'm going to keep them.
+            $displayed = '\[ {\left(x^{\ast}\right)}^2 \]';
+        }
+        $this->assertEquals($displayed, $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
 }

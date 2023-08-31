@@ -305,3 +305,16 @@ all_ops(%_expr) := block([%_edge, %_next_edge, %_tmp, %_op, %_result],
 /* We need to compile %_CE_rem so that it is available to lisp as a lisp function. */
 compile(%_ce_rem)$
 
+/* Remove %C_ and %E from expessions, but evaluate them now. I.e. expedite the checks. */
+%_ce_expedite(ex) := block([ex2,simp],
+  /* We need to assume simp:false, so unevaluated/simplified expressions don't potentially throw errors here. */
+  simp:false,
+  /* The case below is atoms and things like m[k], which should not be processed further. */
+  if safe_op(ex) = "" then return(ex),
+  if safe_op(ex) = "(" and safe_op(first(args(ex))) = "%_C" then (ev(first(args(ex))), return(%_ce_rem(second(args(ex))))),
+  if safe_op(ex) = "(" and safe_op(first(args(ex))) = "%_E" then (ev(first(args(ex))), return(%_ce_rem(second(args(ex))))),
+  /* Rather subtle order of evaluation issue. */
+  ex2:args(ex),
+  ex2:map(%_ce_expedite, ex2),
+  substpart(op(ex), ex2, 0)
+)$

@@ -56,7 +56,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         // 1. Do we need to load some CSS as well?
 
         // The bits of code we construct. We could simply output these into
-        // the same output variable as these are not coming in mixed but lets
+        // the same output variable as these are not coming in mixed but let's
         // keep the code clean.
         $setcode = new MP_FunctionCall(new MP_Identifier('sconcat'), [new MP_String("function initialgeogebraset(){};\n")]);
         $remembercode = new MP_FunctionCall(new MP_Identifier('sconcat'), [new MP_String("function rememberGeoGebraObjects(){};\n")]);
@@ -102,19 +102,21 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                     } else if ($param === 'remember') {
                         // Points and values/angles are different.
                         if (ctype_upper(substr($geogebraname, 0, 1))) {
-                            $remembercode->arguments[] = new MP_String("\n stack_geogebra.bind_point_to_remember_JSON(remembervar" .
+                            $remembercode->arguments[] = new MP_String(
+                                "\n stack_geogebra.bind_point_to_remember_JSON(remembervar" .
                             $geogebraname .
                             ",appletObject,\"" .
                             $geogebraname .
                             "\");");
                         } else {
-                            $remembercode->arguments[] = new MP_String("\n stack_geogebra.bind_value_to_remember_JSON(remembervar" .
+                            $remembercode->arguments[] = new MP_String(
+                                "\n stack_geogebra.bind_value_to_remember_JSON(remembervar" .
                             $geogebraname .
                             ",appletObject,\"" .
                             $geogebraname .
                             "\");");
                         }
-                        $inputmapping['remembervar' . $geogebraname] = $geogebraname;
+                        $inputmapping['remembervar' . $geogebraname] = 'remember';
                     }
                 }
 

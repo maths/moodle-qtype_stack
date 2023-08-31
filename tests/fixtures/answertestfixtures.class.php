@@ -1617,6 +1617,9 @@ class stack_answertest_test_data {
             'ATNumerical_wrongentries: TA/SA=[3.14159], SA/TA=[3.1].', ''),
         array('NumRelative', '0.1', '{1.414,3.1}', '{pi,sqrt(2)}', 1, '', ''),
         array('NumRelative', '0.1', '{0,1,2}', '{0,1,2}', 1, '', ''),
+        // What happens with floating point complex numbers?
+        // This is rejected as not a real number.
+        array('NumRelative', '0.1', '0.99*%i', '%i', 0, 'ATNumerical_SA_not_number.', 'Complex numbers'),
 
         array('NumAbsolute', '', '1/0', '0', -1, 'ATNumAbsolute_STACKERROR_SAns.', 'Basic tests'),
         array('NumAbsolute', '', '0', '1/0', -1, 'ATNumAbsolute_STACKERROR_TAns.', ''),

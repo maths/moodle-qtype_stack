@@ -172,7 +172,7 @@ In the above example we have angle \(k\).  To watch this value we can add `k` to
     [[/geogebra]]
     Move \(A\) to be the point \((2,3)\), and points \(B,C\) so that there is a right angle at \(B\).
     [[input:A]][[validation:A]]
-    [[input:A]][[validation:A]]
+    [[input:k]][[validation:k]]
     [[input:remember]][[validation:remember]]
 
 1. Numbers/angles e.g. input `k` can be an algebraic or numerical input, and you _must_ allow floats!

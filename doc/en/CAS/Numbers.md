@@ -58,9 +58,9 @@ Rounding like this can also occur in calculations, for example
     v0:1-(p1+p2+p3);
     v1:0.18;
 
-Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115123125783*10^-17\) and so `ATAlgEquiv(v0,v1)` will give false.  Please always use a [numerical test](../Authoring/Answer_Tests/Numerical.md) when testing floats.
+Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115123125783\times 10^{-17}\) and so `ATAlgEquiv(v0,v1)` will give false.  Please always use a [numerical test](../Authoring/Answer_Tests/Numerical.md) when testing floats.
 
-
+As another example, try `100.4-80.0;` in a desktop Maxima session.
 
 ## Maxima and floats with trailing zeros ##
 

@@ -1378,3 +1378,12 @@ $string['castext_debug_no_vars'] = 'This question has no question variables to d
 
 $string['castext_error_header'] = 'Rendering of text content failed.';
 $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
+
+
+$string['parser_position'] = 'at char {$a->column} of line {$a->line}';
+$string['parser_position_first_line'] = 'at char {$a->column}';
+$string['parser_unexpected_char'] = 'Unexpected character "{$a->char}" found {$a->at}.';
+$string['parser_open_comment'] = 'Expected comment starting {$a->at} to end.';
+$string['parser_open_string'] = 'Expected string starting {$a->at} to end.';
+$string['parser_cannot_end_with'] = 'This expression cannot end with "{$a->endswith}".';
+$string['parser_did_not_expect'] = 'Did not expect to see "{$a->token}" {$a->at}.';

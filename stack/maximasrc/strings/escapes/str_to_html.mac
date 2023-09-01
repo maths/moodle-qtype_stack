@@ -1,0 +1,14 @@
+/**
+ * A function to convert a string to an escaped HTML/XML string.
+ *
+ * Do note that this is not idempotent, and will escape the escaped things if
+ * the original already uses entities.
+ *
+ * @param[string] string_to_escape, the string to be escaped.
+ * @return[string] a string with all characters sensitive in HTML/XML turned to entities.
+ */
+str_to_html(string_to_escape) := simplode(map(str_to_html_char, charlist(string_to_escape)))$
+
+
+s_test_case(simp) := is(str_to_html("&>ö")="&amp;&gt;ö")$
+s_test_case(simp) := is(str_to_html("&lt;")="&amp;lt;")$

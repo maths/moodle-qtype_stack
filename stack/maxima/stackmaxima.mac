@@ -161,6 +161,7 @@ load("intervals.mac");
 load("stackunits.mac");
 load("stackstrings.mac");
 load("fboundp.mac");
+load("compiled.mac");
 
 load("stacktex.lisp");
 /* Ensure back compatability with versions before 5.41.0. */

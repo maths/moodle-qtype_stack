@@ -1,0 +1,20 @@
+/**
+ * A function to convert singular characters to HTML/XML-entities if necessary.
+ *
+ * Note that `str_to_html` is probably the more convenient function, if you are not
+ * testing chars one by one.
+ * 
+ * @param[string] c, a single character string.
+ * @return[string] a string with a character sensitive in HTML/XML turned to an entity if necessary.
+ */
+str_to_html_char(c) := if c = "&" then "&amp;"
+                  else if c = "'" then "&#39;" /* &apos; is for XHTML, we need to still deal with HTML. */
+                  else if c = "\"" then "&quot;"
+                  else if c = ">" then "&gt;"
+                  else if c = "<" then "&lt;"
+                  else c$
+
+
+
+s_test_case(simp) := is(str_to_html_char("<")="&lt;")$
+s_test_case(simp) := is(str_to_html_char("ä")="ä")$

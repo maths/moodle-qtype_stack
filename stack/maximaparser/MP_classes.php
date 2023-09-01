@@ -38,6 +38,9 @@
  * 'qmchar'                  If defined and true prints question marks directly if present as QMCHAR.
  * 'pmchar'                  If defined prints +- marks directly if present as #pm#.
  * 'flattree'                Used for debugging of the internals.  Does not print checking groups by design.
+ * 'listseparator'           Changes the outputted list separator from ','.
+ * 'decimalseparator'        Changes the outputted decimal separator from '.'.
+ * 'statementseparator'      Changes the outputted statement separator from ';'.
  */
 
 defined('MOODLE_INTERNAL') || die();
@@ -716,10 +719,17 @@ class MP_Float extends MP_Atom {
         }
 
         if ($this->raw !== null) {
+            if (isset($params['decimalseparator'])) {
+                return strtoupper(str_replace('.', $params['decimalseparator'], $this->raw));
+            }
             return strtoupper($this->raw);
         } else if ($this->value === null) {
             // This is a special output case for type-inference caching.
             return 'stack_unknown_float';
+        }
+
+        if (isset($params['decimalseparator'])) {
+            return strtoupper(str_replace('.', $params['decimalseparator'], '' . $this->value));
         }
 
         return strtoupper('' . $this->value);
@@ -1141,6 +1151,12 @@ class MP_FunctionCall extends MP_Node {
             }
         }
 
+        // The tunable list separator is used for argument lists as well.
+        $ls = ',';
+        if (isset($params['listseparator'])) {
+            $ls = $params['listseparator'];
+        }
+
         // Two cases we need to consider.
         // We want the inputform with nouns, e.g. to store.
         // We want the inputform without nouns, e.g. "the teacher's answer is..." situation.
@@ -1157,7 +1173,7 @@ class MP_FunctionCall extends MP_Node {
             }
         }
 
-        return $n . '(' . implode(',', $ar) . ')';
+        return $n . '(' . implode($ls, $ar) . ')';
     }
     // Covenience functions that work only after $parentnode has been filled in.
     public function is_definition(): bool {
@@ -1277,7 +1293,13 @@ class MP_Group extends MP_Node {
             return $indent . '(' . implode(', ', $ar) . ')';
         }
 
-        return '(' . implode(',', $ar) . ')';
+        // The tunable list separator is used for groups as well.
+        $ls = ',';
+        if (isset($params['listseparator'])) {
+            $ls = $params['listseparator'];
+        }
+
+        return '(' . implode($ls, $ar) . ')';
     }
 
     public function replace($node, $with) {
@@ -1365,7 +1387,13 @@ class MP_Set extends MP_Node {
             return $indent . '{' . implode(', ', $ar) . '}';
         }
 
-        return '{' . implode(',', $ar) . '}';
+        // The tunable list separator is used for sets as well.
+        $ls = ',';
+        if (isset($params['listseparator'])) {
+            $ls = $params['listseparator'];
+        }
+
+        return '{' . implode($ls, $ar) . '}';
     }
 
     public function replace($node, $with) {
@@ -1463,7 +1491,13 @@ class MP_List extends MP_Node {
             return $indent . '[' . implode(', ', $ar) . ']';
         }
 
-        return '[' . implode(',', $ar) . ']';
+        // The tunable list separator.
+        $ls = ',';
+        if (isset($params['listseparator'])) {
+            $ls = $params['listseparator'];
+        }
+
+        return '[' . implode($ls, $ar) . ']';
     }
 
     public function replace($node, $with) {
@@ -1950,7 +1984,13 @@ class MP_EvaluationFlag extends MP_Node {
     }
 
     public function toString($params = null): string {
-        return ',' . $this->name->toString($params) . '=' . $this->value->toString($params);
+        // List separator is also used for evaluation flags.
+        $ls = ',';
+        if (isset($params['listseparator'])) {
+            $ls = $params['listseparator'];
+        }
+
+        return $ls . $this->name->toString($params) . '=' . $this->value->toString($params);
     }
 
     public function replace($node, $with) {
@@ -2160,10 +2200,13 @@ class MP_Root extends MP_Node {
 
         foreach ($this->items as $item) {
             $r .= $item->toString($params);
-        }
-
-        if (!isset($params['nosemicolon'])) {
-            $r .= ";\n";
+            if (!isset($params['nosemicolon'])) {
+                if (isset($params['statementseparator'])) {
+                    $r .= $params['statementseparator'];
+                } else {
+                    $r .= ";\n";
+                }
+            }
         }
 
         return $r;

@@ -1,0 +1,24 @@
+/**
+ * A function to convert a string to an escaped JavaScript string.
+ *
+ * Do note that this is not idempotent, and will escape the escaped things if
+ * the original already uses escapes.
+ *
+ * Does not add quotes of any kind at the ends of the string. So wrap your output 
+ * in a sensible way e.g. `var str="{@str_to_js(someMaximaString)@}";`.
+ *
+ * Also be aware that if you are doing this in CASText there exists a block that
+ * generates fully wrapped JavaScript strings from whatever CASText contents the block has
+ * it may be simpler to use than first constructing a separate Maxima string. You could 
+ * use it like this, inseide a CASText segment:
+ * ```
+ * var str= [[jsstring]]Something with {@injections@}, or other CASText.[[/jsstring]];
+ * ```
+ *
+ * @param[string] string_to_escape, the string to be escaped.
+ * @return[string] a string with all characters sensitive in HTML/XML turned to entities.
+ */
+str_to_js(string_to_escape) := simplode(map(str_to_js_char, charlist(string_to_escape)))$
+
+s_test_case(simp) := is(str_to_js("\"'\"")="\\\"\\'\\\"")$
+s_test_case(simp) := is(str_to_js("&lt;")="&lt;")$

@@ -1,0 +1,8 @@
+This folder contains the Maxima sources for selected STACK-Maxima features
+these have been divided into subfolders by theme and are compiled into
+a singular compiled.mac by scripts in the `/cli/`-directory.
+
+There is no need for end users to worry about these as all releases come with
+an already compiled results.
+
+These exists to provide documentation. And ways for mixing testing with the content.

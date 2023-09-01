@@ -1,0 +1,808 @@
+[
+  {
+    "note!": "This is basically the full grammar with all the flow-control.",
+    "left": "Start",
+    "right": ["Root"],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+  },
+  {
+    "left": "Root",
+    "right": [null],
+    "php": "$term = new MP_Root([]);\n$term->position = ['start'=>1,'end'=>1,'start-col'=>1,'start-row'=>1];",
+    "ts": "term = new MPRoot([]);"
+  },
+	{
+		"left": "Root",
+		"right": ["StatementList"],
+    "php": "$term = new MP_Root($term0);\n$term->position = ['start' => $term0[0]->position['start'], 'start-col' => $term0[0]->position['start-col'], 'start-row' => $term0[0]->position['start-row'], 'end' => $term0[0]->position['end']];\n$term->position['end'] = $term0[count($term0)-1]->position['end'];",
+    "ts": "term0 = commentdump.concat(term0);\nterm = new MPRoot($term0);\nstartposition = term0[0];\nendposition = term0[term0.length-1];"
+	},
+	{
+		"left": "StatementList",
+		"right": ["Statement", "EvalFlags", "StatementListN"],
+    "php": "$term = array_merge([new MP_Statement($term0, $term1)], $term2);\n$term[0]->position['start'] = $term0->position['start'];\n$term[0]->position['start-col'] = $term0->position['start-col'];\n$term[0]->position['start-row'] = $term0->position['start-row'];\nif (count($term1) > 0) {\n>$term[0]->position['end'] = $term1[count($term1)-1]->position['end'];\n} else {\n>$term[0]->position['end'] = $term0->position['end'];\n}",
+    "ts": "endposition = term1.length > 0 ? term1[term1.length-1] : term0;\n/*TODO pick up comments*/term = [new MPStatement(term0, term1)].concat(term2);\npositiontargetoverride = term[0];\nstartposition = term0;"
+	},
+	{
+		"left": "StatementListN",
+		"right": ["END_TOKEN", "Statement", "EvalFlags", "StatementListN"],
+    "php": "$term = array_merge([new MP_Statement($term1, $term2)], $term3);\n$term[0]->position['start'] = $term1->position['start'];\n$term[0]->position['start-col'] = $term1->position['start-col'];\n$term[0]->position['start-row'] = $term1->position['start-row'];\nif (count($term2) > 0) {\n>$term[0]->position['end'] = $term2[count($term2)-1]->position['end'];\n} else {\n>$term[0]->position['end'] = $term1->position['end'];\n}",
+    "ts": "endposition = term2.length > 0 ? term1[term2.length-1] : term1;\n/*TODO pick up comments*/term = [new MPStatement(term1, term2)].concat(term3);\npositiontargetoverride = term[0];\nstartposition = term1;"
+	},
+	{
+		"left": "StatementListN",
+		"right": [null],
+    "php": "$term = [];",
+    "ts": "term = [];"
+	},
+	{
+		"left": "StatementListN",
+		"right": ["END_TOKEN"],
+    "php": "$term = [];",
+    "ts": "term = [];"
+	},
+  {
+   "left": "EvalFlags",
+   "right": ["LIST_SEP", "ID", "EvalFlags"],
+   "php": "$term = array_merge([new MP_EvaluationFlag(new MP_Identifier($term1->value), new MP_Boolean(true))], $term2);\n$term[0]->name->position = ['start' => $term1->position, 'start-col' => $term1->column, 'start-row' => $term1->line, 'end' => $term1->position + $term1->length];\n$term[0]->position = ['start' => $term1->position, 'start-col' => $term1->column, 'start-row' => $term1->line, 'end' => $term1->position + $term1->length];",
+   "ts": "term = [new MPEvaluationFlag(new MPIdentifier(term1.value), new MPBoolean(true))].concat(term2);\npositiontargetoverride = term[0];\nendposition = term1;"
+  },
+  {
+   "left": "EvalFlags",
+   "right": ["LIST_SEP", "ID", ":", "Statement", "EvalFlags"],
+   "php": "$term = array_merge([new MP_EvaluationFlag(new MP_Identifier($term1->value), $term3)], $term4);\n$term[0]->name->position = ['start' => $term1->position, 'start-col' => $term1->column, 'start-row' => $term1->line, 'end' => $term1->position + $term1->length];\n$term[0]->position = ['start' => $term1->position, 'start-col' => $term1->column, 'start-row' => $term1->line, 'end' => $term3->position['end']];",
+   "ts": "term = [new MPEvaluationFlag(new MPIdentifier(term1.value), $term3)].concat(term4);\npositiontargetoverride = term[0];\nendposition = term3;"
+  },
+  {
+   "left": "EvalFlags",
+   "right": ["LIST_SEP", "ID", "=", "Statement", "EvalFlags"],
+   "php": "$term = array_merge([new MP_EvaluationFlag(new MP_Identifier($term1->value), $term3)], $term4);\n$term[0]->name->position = ['start' => $term1->position, 'start-col' => $term1->column, 'start-row' => $term1->line, 'end' => $term1->position + $term1->length];\n$term[0]->position = ['start' => $term1->position, 'start-col' => $term1->column, 'start-row' => $term1->line, 'end' => $term3->position['end']];",
+   "ts": "term = [new MPEvaluationFlag(new MPIdentifier(term1.value), $term3)].concat(term4);\npositiontargetoverride = term[0];\nendposition = term3;"
+  },
+  {
+   "left": "EvalFlags",
+   "right": [null],
+   "php": "$term = [];",
+   "ts": "term = [];"
+  },
+	{
+		"left": "List",
+		"right": ["[", "StatementNullList", "]"],
+	  "php": "$term = new MP_List($term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term2->position + 1];",
+    "ts": "term = new MPList(term1);\nendposition = term2;"
+  },
+	{
+		"left": "Set",
+		"right": ["{", "StatementNullList", "}"],
+    "php": "$term = new MP_Set($term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term2->position + 1];",
+    "ts": "term = new MPSet(term1);\nendposition = term2;"
+	},
+	{
+		"left": "Group",
+		"right": ["(", "StatementNullList", ")"],
+    "php": "$term = new MP_Group($term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term2->position + 1];",
+    "ts": "term = new MPGroup(term1);\nendposition = term2;"
+	},
+	{
+		"left": "StatementNullList",
+		"right": ["Statement", "TermList"],
+    "php": "$term = array_merge([$term0], $term1);",
+    "ts": "term = [term0].concat($term1);"
+	},
+	{
+		"left": "StatementNullList",
+		"right": [null],
+    "php": "$term = [];",
+    "ts": "term = [];"
+	},
+	{
+		"left": "TermList",
+		"right": ["LIST_SEP", "Statement", "TermList"],
+    "php": "$term = array_merge([$term1], $term2);",
+    "ts": "term = [term1].concat($term2);"
+	},
+	{
+		"left": "TermList",
+		"right": [null],
+    "php": "$term = [];",
+    "ts": "term = [];"
+	},
+	{
+		"left": "Statement",
+		"right": ["TopOp"],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+	},
+	{
+		"left": "Term",
+		"right": ["BOOL"],
+    "php": "$term = new MP_Boolean($term0->value);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term0->position + $term0->length];",
+    "ts": "term = new MPBoolean(term0.value);"
+	},
+	{
+		"left": "Term",
+		"right": ["INT"],
+    "php": "$term = new MP_Integer($term0->value, $term0->value);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term0->position + $term0->length];",
+    "ts": "term = new MPInteger(term0.value, term0.value);"
+	},
+  {
+    "left": "Term",
+    "right": ["FLOAT"],
+    "php": "$term = new MP_Float($term0->value, $term0->value);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term0->position + $term0->length];",
+    "ts": "term = new MPFloat(term0.value, term0.value);"
+  },
+  {
+    "left": "Term",
+    "right": ["CallOrIndex?"],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+  },
+	{
+    "left": "IndexableOrCallable",
+    "right": ["STRING"],
+    "php": "$term = new MP_String($term0->value);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term0->position + $term0->length];",
+    "ts": "term = new MPString(term0.value);"
+  },
+  {
+    "left": "IndexableOrCallable",
+    "right": ["ID"],
+    "php": "$term = new MP_Identifier($term0->value);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term0->position + $term0->length];",
+    "ts": "term = new MPIdentifier(term0.value);"
+  },
+  {
+    "note!": "We really need to check for these in security filtering. But for now they are present in the parser so that we can parse the whole STACK-Maxima code.",
+    "left": "IndexableOrCallable",
+    "right": ["?", "LISP_ID"],
+    "php": "$term = new MP_Identifier($term0->value . $term1->value);\n\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position + $term1->length];",
+    "ts": "term = new MPIdentifier(term0.value + term1.value);\nendposition = term1;"
+  },
+  {
+    "left": "IndexableOrCallable",
+    "right": ["List"],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+  },
+  {
+    "left": "IndexableOrCallable",
+    "right": ["Set"],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+  },
+  {
+    "left": "IndexableOrCallable",
+    "right": ["Group"],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+  },
+  {
+    "left": "CallOrIndex?",
+    "right": ["IndexableOrCallable", "ListsOrGroups"],
+    "php": "$term = $term0;\nwhile (count($term1) > 0) {\n>$item = array_shift($term1);\n>if ($item instanceof MP_List) {\n>>$term = new MP_Indexing($term, [$item]);\n>} else if ($item instanceof MP_Group) {\n>>$term = new MP_FunctionCall($term, $item->items);\n>}\n>$term->position['start'] = $term0->position['start'];\n>$term->position['start-col'] = $term0->position['start-col'];\n>$term->position['start-row'] = $term0->position['start-row'];\n>$term->position['end'] = $item->position['end'];\n}",
+    "ts": "term = term0;\nwhile (term1.length > 0) {\n>item = term1.shift();\n>if (item instanceof MP_List) {\n>>term = new MPIndexing(term, [item]);\n>} else if ($item instanceof MP_Group) {\n>>term = new MPFunctionCall(term, item,items);\n>}\n>endposition = item;\n>term.position['start'] = term0.position['start'];\n>term.position['start-col'] = term0.position['start-col'];\n>term.position['start-row'] = term0.position['start-row'];\n>term.position['end'] = item.position['end'];\n}"
+  },
+  {
+    "left": "ListsOrGroups",
+    "right": ["List", "ListsOrGroups"],
+    "php": "$term = array_merge([$term0], $term1);",
+    "ts": "term = [term0].concat($term1);"
+  },
+  {
+    "left": "ListsOrGroups",
+    "right": [null],
+    "php": "$term = [];",
+    "ts": "term = [];"
+  },
+  {
+    "left": "ListsOrGroups",
+    "right": ["Group", "ListsOrGroups"],
+    "php": "$term = array_merge([$term0], $term1);",
+    "ts": "term = [term0].concat($term1);"
+  },
+  {
+    "left": "Term",
+    "right": ["Flow"],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+  },
+
+	{
+		"left": "Flow",
+		"right": ["IfBase"],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+	},
+	{
+		"left": "Flow",
+		"right": ["Loop"],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+	},
+	{
+		"left": "IfBase",
+		"right": ["if", "Statement", "then", "Statement", "IfTail"],
+    "php": "$term = new MP_If(array_merge([$term1], $term4[0]), array_merge([$term3], $term4[1]));\n$endposition = count($term->branches) > 0 ? $term->branches[count($term->branches)-1] : $term3;\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $endposition->position['end']];",
+    "ts": "term = new MPIf([$term1].concat($term4[0]), [$term3].concat(term4[1]));\nendposition = term.braches.length > 0 ? term.branches[term.branches.length-1] : term3;"
+	},
+	{
+		"left": "IfTail",
+		"right": ["else", "Statement"],
+    "php": "$term = [[],[$term1]];",
+    "ts": "term = [[],[term1]];"
+	},
+	{
+		"left": "IfTail",
+		"right": ["elseif", "Statement", "then", "Statement", "IfTail"],
+    "php": "$term = [array_merge([$term1], $term4[0]), array_merge([$term3], $term4[1])];",
+    "ts": "term = [[term1].concat(term4[0]), [term3].concat(term4[1])];"
+	},
+	{
+		"left": "IfTail",
+		"right": [null],
+    "php": "$term = [[],[]];",
+    "ts": "term = [[],[]];"
+	},
+	{
+		"left": "Loop",
+		"right": ["LoopBits", "do", "Statement"],
+    "php": "$term = new MP_Loop($term2, $term0);\n$term->position = ['end' => $term2->position['end']];\n$term->position['start'] = count($term->conf) ? $term->conf[0]->position['start'] : $term1->position;\n$term->position['start-row'] = count($term->conf) ? $term->conf[0]->position['start-row'] : $term1->line;\n$term->position['start-col'] = count($term->conf) ? $term->conf[0]->position['start-col'] : $term1->column;",
+    "ts": "term = new MPLoop(term2, term0);\nstartposition = term.conf.length > 0 ? term.conf[0] : term1;\nendposition = term2;"
+	},
+	{
+		"left": "LoopBits",
+		"right": ["LoopBit", "LoopBits"],
+    "php": "$term = array_merge([$term0], $term1);",
+    "ts": "term = [term0].concat(term1);"
+	},
+	{
+		"left": "LoopBits",
+		"right": [null],
+    "php": "$term = [];",
+    "ts": "term = [];"
+	},
+	{
+		"left": "LoopBit",
+		"right": ["for", "Statement"],
+    "php": "$term = new MP_LoopBit($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPLoopBit(term0[1], term1);\nendposition = term1;"
+	},
+	{
+		"left": "LoopBit",
+		"right": ["from", "Statement"],
+    "php": "$term = new MP_LoopBit($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPLoopBit(term0[1], term1);\nendposition = term1;"
+	},
+	{
+		"left": "LoopBit",
+		"right": ["step", "Statement"],
+    "php": "$term = new MP_LoopBit($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPLoopBit(term0[1], term1);\nendposition = term1;"
+	},
+	{
+		"left": "LoopBit",
+		"right": ["next", "Statement"],
+    "php": "$term = new MP_LoopBit($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPLoopBit(term0[1], term1);\nendposition = term1;"
+	},
+	{
+		"left": "LoopBit",
+		"right": ["in", "Statement"],
+    "php": "$term = new MP_LoopBit($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPLoopBit(term0[1], term1);\nendposition = term1;"
+	},
+	{
+		"left": "LoopBit",
+		"right": ["thru", "Statement"],
+    "php": "$term = new MP_LoopBit($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPLoopBit(term0[1], term1);\nendposition = term1;"
+	},
+	{
+		"left": "LoopBit",
+		"right": ["while", "Statement"],
+    "php": "$term = new MP_LoopBit($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPLoopBit(term0[1], term1);\nendposition = term1;"
+	},
+	{
+		"left": "LoopBit",
+		"right": ["unless", "Statement"],
+    "php": "$term = new MP_LoopBit($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPLoopBit(term0[1], term1);\nendposition = term1;"
+	},
+  {
+    "left": "TopOp",
+    "right": [
+      "OpInfix"
+    ],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+  },
+  {
+    "left": "TopOp",
+    "right": [
+      "OpSuffix"
+    ],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+  },
+  {
+    "left": "TopOp",
+    "right": [
+      "OpPrefix"
+    ],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+  },
+  {
+    "left": "TopOp",
+    "right": [
+      "Term"
+    ],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+  },
+  {
+    "left": "TopOp",
+    "right": [
+      "Abs"
+    ],
+    "php": "$term = $term0;",
+    "ts": "term = term0;"
+  },
+  {
+    "left": "OpPrefix",
+    "right": [
+      "-",
+      "TopOp"
+    ],
+    "php": "$term = new MP_PrefixOp($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPPrefixOp(term0.value, term1);\nendposition = term1;"
+  },
+  {
+    "left": "OpPrefix",
+    "right": [
+      "+",
+      "TopOp"
+    ],
+    "php": "$term = new MP_PrefixOp($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPPrefixOp(term0.value, term1);\nendposition = term1;"
+  },
+  {
+    "left": "OpPrefix",
+    "right": [
+      "+-",
+      "TopOp"
+    ],
+    "php": "$term = new MP_PrefixOp($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPPrefixOp(term0.value, term1);\nendposition = term1;"
+  },
+  {
+    "left": "OpPrefix",
+    "right": [
+      "#pm#",
+      "TopOp"
+    ],
+    "php": "$term = new MP_PrefixOp($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPPrefixOp(term0.value, term1);\nendposition = term1;"
+  },
+  {
+    "left": "OpPrefix",
+    "right": [
+      "''",
+      "TopOp"
+    ],
+    "php": "$term = new MP_PrefixOp($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPPrefixOp(term0.value, term1);\nendposition = term1;"
+  },
+  {
+    "left": "OpPrefix",
+    "right": [
+      "'",
+      "TopOp"
+    ],
+    "php": "$term = new MP_PrefixOp($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPPrefixOp(term0.value, term1);\nendposition = term1;"
+  },
+  {
+    "left": "OpPrefix",
+    "right": [
+      "not",
+      "TopOp"
+    ],
+    "php": "$term = new MP_PrefixOp($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPPrefixOp(term0.value, term1);\nendposition = term1;"
+  },
+  {
+    "note!": "The space is intentional.",
+    "left": "OpPrefix",
+    "right": [
+      "not ",
+      "TopOp"
+    ],
+    "php": "$term = new MP_PrefixOp($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPPrefixOp(term0.value, term1);\nendposition = term1;"
+  },
+  {
+    "left": "OpPrefix",
+    "right": [
+      "?? ",
+      "TopOp"
+    ],
+    "php": "$term = new MP_PrefixOp($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPPrefixOp(term0.value, term1);\nendposition = term1;"
+  },
+  {
+    "left": "OpPrefix",
+    "right": [
+      "? ",
+      "TopOp"
+    ],
+    "php": "$term = new MP_PrefixOp($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPPrefixOp(term0.value, term1);\nendposition = term1;"
+  },
+  {
+    "left": "OpPrefix",
+    "right": [
+      "?",
+      "TopOp"
+    ],
+    "php": "$term = new MP_PrefixOp($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPPrefixOp(term0.value, term1);\nendposition = term1;"
+  },
+  {
+    "left": "OpPrefix",
+    "right": [
+      "UNARY_RECIP",
+      "TopOp"
+    ],
+    "php": "$term = new MP_PrefixOp($term0->value, $term1);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term1->position['end']];",
+    "ts": "term = new MPPrefixOp(term0.value, term1);\nendposition = term1;"
+  },
+  {
+    "left": "OpSuffix",
+    "right": [
+      "TopOp",
+      "!"
+    ],
+    "php": "$term = new MP_PostfixOp($term1->value, $term0);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term1->position + $term1->length];",
+    "ts": "term = new MPPostfixOp(term1.value, term0);\nendposition = term1;"
+  },
+  {
+    "left": "OpSuffix",
+    "right": [
+      "TopOp",
+      "!!"
+    ],
+    "php": "$term = new MP_PostfixOp($term1->value, $term0);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term1->position + $term1->length];",
+    "ts": "term = new MPPostfixOp(term1.value, term0);\nendposition = term1;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "#",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "#pm#",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "**",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "^^",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "^",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      ".",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "*",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];\nif ($term1->note !== null) {\n>$term->position[$term1->note === 'inserted with whitespace' ? 'fixspaces' : 'insertstars'] = true;\n}",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;\nif (term1.length > 5) {\n>term.position[term1[5] === 'inserted with whitespace' ? 'fixspaces' : 'insertstars'] = true;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "/",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "-",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "+",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "+-",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "and",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "or",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "nounand",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "nounor",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "::=",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      ":=",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "::",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      ":",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "<=",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "<",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      ">=",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      ">",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "=",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "~",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "nounadd",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "nounsub",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "nounpow",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "noundiv",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "blankmult",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "STACKpmOPT",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "OpInfix",
+    "right": [
+      "TopOp",
+      "nouneq",
+      "TopOp"
+    ],
+    "php": "$term = new MP_Operation($term1->value, $term0, $term2);\n$term->position = ['start' => $term0->position['start'], 'start-col' => $term0->position['start-col'], 'start-row' => $term0->position['start-row'], 'end' => $term2->position['end']];",
+    "ts": "term = new MPOperation(term1.value, term0, term2);\nendposition = term2;"
+  },
+  {
+    "left": "Abs",
+    "right": [
+      "|",
+      "TopOp",
+      "|"
+    ],
+    "php": "$term = new MP_FunctionCall(new MP_Identifier('abs'), [$term1]);\n$term->position = ['start' => $term0->position, 'start-col' => $term0->column, 'start-row' => $term0->line, 'end' => $term2->position + 1];",
+    "ts": "term = new MPFunctionCall(new MPIdentifier('abs'), [term1]);\nendposition = term2;"
+  }
+]

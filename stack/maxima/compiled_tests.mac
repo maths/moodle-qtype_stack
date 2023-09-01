@@ -1,0 +1,39 @@
+/* Result of compilation do not edit. */
+s_test_fails: 0$ 
+s_test_success: 0$
+s_exec_test(src_name, src_pos) := block([simp],
+    simp:true,
+    if not s_test_case(true) then (
+        print(sconcat("Test[simp=true ] failure '",src_name,"' test case ", src_pos)),
+        s_test_fails: s_test_fails + 1
+    ) else 
+        s_test_success: s_test_success + 1,
+    simp:false,
+    if not s_test_case(false) then (
+        print(sconcat("Test[simp=false] failure '",src_name,"' test case ", src_pos)),
+        s_test_fails: s_test_fails + 1
+    ) else 
+        s_test_success: s_test_success + 1
+)$
+s_test_case(simp):=is(stack_unit_si_to_si_base(1000*g) = 1*kg)$
+s_exec_test("stackunits/stack_unit_si_to_si_base.mac:57",1)$
+s_test_case(simp):=is(stack_unit_si_to_si_base(stackunits(1000,g)) = stackunits(1,kg))$
+s_exec_test("stackunits/stack_unit_si_to_si_base.mac:58",2)$
+s_test_case(simp):=is(str_to_html("&>ö") = "&amp;&gt;ö")$
+s_exec_test("strings/escapes/str_to_html.mac:13",1)$
+s_test_case(simp):=is(str_to_html("&lt;") = "&amp;lt;")$
+s_exec_test("strings/escapes/str_to_html.mac:14",2)$
+s_test_case(simp):=is(str_to_html_char("<") = "&lt;")$
+s_exec_test("strings/escapes/str_to_html_char.mac:19",1)$
+s_test_case(simp):=is(str_to_html_char("ä") = "ä")$
+s_exec_test("strings/escapes/str_to_html_char.mac:20",2)$
+s_test_case(simp):=is(str_to_js("\"'\"") = "\\\"\\'\\\"")$
+s_exec_test("strings/escapes/str_to_js.mac:23",1)$
+s_test_case(simp):=is(str_to_js("&lt;") = "&lt;")$
+s_exec_test("strings/escapes/str_to_js.mac:24",2)$
+s_test_case(simp):=is(str_to_js_char("\"") = "\\\"")$
+s_exec_test("strings/escapes/str_to_js_char.mac:17",1)$
+s_test_case(simp):=is(str_to_js_char("ä") = "ä")$
+s_exec_test("strings/escapes/str_to_js_char.mac:18",2)$
+simp:true$
+if s_test_fails = 0 then print("All tests successfully executed.")$

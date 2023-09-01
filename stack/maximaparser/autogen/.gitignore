@@ -1,0 +1,14 @@
+# Not all the files generated are sensible to commit.
+closures.txt
+graph.dot
+closures.json
+first.json
+follow.json
+goto.json
+predict.json
+table.json
+transitions.json
+numbered-grammar.json
+numbered-grammar-Root.json
+numbered-grammar-Equivline.json
+node_modules/

@@ -28,7 +28,7 @@ require_once(__DIR__ . '/evaluatable_object.interfaces.php');
 require_once(__DIR__ . '/../../locallib.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/../maximaparser/utils.php');
-require_once(__DIR__ . '/../maximaparser/corrective_parser.php');
+require_once(__DIR__ . '/../maximaparser/parser.options.class.php');
 require_once(__DIR__ . '/../maximaparser/MP_classes.php');
 
 class stack_ast_container_silent implements cas_evaluatable {
@@ -130,8 +130,9 @@ class stack_ast_container_silent implements cas_evaluatable {
 
         $errors = array();
         $answernotes = array();
-        $parseroptions = array('startRule' => $grammar,
-                               'letToken' => stack_string('equiv_LET'));
+        // TODO: Old as in not yet localised.
+        $parseroptions = stack_parser_options::get_old_config();
+        $parseroptions->primaryrule = $grammar;
 
         // Force the security filter to use 's'.
         if (isset($filteroptions['998_security'])) {
@@ -148,8 +149,15 @@ class stack_ast_container_silent implements cas_evaluatable {
             $filterstoapply[] = '998_security';
         }
 
-        // Use the corective parser as this comes from the student.
-        $ast = maxima_corrective_parser::parse($raw, $errors, $answernotes, $parseroptions);
+        $ast = null;
+        // Do the parse.
+        try {
+            $notes = [];
+            $ast = maxima_parser_utils::parse_po($raw, $parseroptions, $notes);
+            $answernotes = $notes;
+        } catch (stack_parser_exception $e) {
+            maxima_parser_utils::translate_exception($e, $errors, $answernotes);
+        }
 
         // Get the filter pipeline. Even if we would not use it in case of
         // ast = null, we still want to check that the request is valid.
@@ -182,8 +190,8 @@ class stack_ast_container_silent implements cas_evaluatable {
         // or not and thus affect the teachers ability to write into them.
         $errors = array();
         $answernotes = array();
-        $parseroptions = array('startRule' => 'Root',
-                               'letToken' => stack_string('equiv_LET'));
+        // TODO: Old as in not yet localised.
+        $parseroptions = stack_parser_options::get_old_config();
 
         if ($securitymodel === null) {
             $securitymodel = new stack_cas_security();
@@ -191,12 +199,13 @@ class stack_ast_container_silent implements cas_evaluatable {
 
         // Use the raw parser if it does not work this is invalid input.
         $ast = null;
+        // Do the parse.
         try {
-            $ast = maxima_parser_utils::parse($raw);
-        } catch (SyntaxError $e) {
-            $ast = maxima_corrective_parser::parse($raw, $errors, $answernotes, $parseroptions);
-            // All stars that were insertted by that are invalid.
-            // And that comes from the strict filter later.
+            $notes = [];
+            $ast = maxima_parser_utils::parse_po($raw, $parseroptions, $notes);
+            $answernotes = $notes;
+        } catch (stack_parser_exception $e) {
+            maxima_parser_utils::translate_exception($e, $errors, $answernotes);
         }
 
         // As we take no filter options for teachers sourced stuff lets build them from scratch.

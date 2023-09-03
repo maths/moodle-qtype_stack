@@ -67,7 +67,7 @@ Major rewrite of the PRT and CASText systems, focus on performance and limitatio
 2. Caching validation.
 3. Compiled PRTs, which are now true `if`-statements in the CAS and issue #150 is now handled.
 4. The marks and penalty fields in the PRTs can be numbers, or other variables defined elsewhere in the question.
-5  Change behaviour of UnitsAbsolute in response to discussion of issue #448.
+5. Change behaviour of UnitsAbsolute in response to discussion of issue #448.
 6. CASText2 is the new [CASText-system](../Authoring/Question_blocks/index.md) and it supports mixed formats and provides new blocks for declaring formats.
 7. Markdown is now a supportted format and value injections into it will get correctly escaped. Use triple slashes for math-mode...
 8. There are now means of [including external](../Authoring/Inclusions.md) code and CASText fragments from an URL.

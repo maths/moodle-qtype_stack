@@ -98,6 +98,9 @@ class maxima_corrective_parser {
             // This is just place holders for now.
             $stringles = str_replace(array(','), array('.'), $stringles);
             $stringles = str_replace(array(';'), array(','), $stringles);
+            // It turns out I forgot about this example. matrix([3,1415;2,71]).matrix([1];[2]).
+            // Matrix multiplication should be fine!
+            // One solution might be to allow all three in an expression, i.e. weak continental.
         }
 
         // Check for invalid chars at this point as they may prove to be difficult to

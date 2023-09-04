@@ -1771,7 +1771,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
     }
 
-    public function test_decimal_output_3() {
+    public function test_decimal_output_matrix_1() {
         $options = new stack_options();
         $options->set_option('decimals', ',');
         // Teacher must use correct syntax.
@@ -1785,5 +1785,30 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('matrix([3.1415,2.71])', $state->contentsmodified);
         $this->assertEquals('\[ \left[\begin{array}{cc} 3,1415 & 2,7100 \end{array}\right] \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
+
+        // Student uses commas and semicolons for separation of items in functions.
+        $state = $el->validate_student_response(array('state' => 'matrix([3,1415];[2,71])'), $options,
+            'matrix([3.1415],[2.71])', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('matrix([3.1415],[2.71])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{c} 3,1415 \\\\ 2,7100 \end{array}\right] \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_decimal_output_matrix_2() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        // Teacher must use correct syntax.
+        $el = stack_input_factory::make('algebraic', 'state', 'matrix([3.1415,2.71])', $options);
+        $el->set_parameter('forbidFloats', false);
+
+        // Student uses commas and semicolons.
+        // But only for numbers, not for list separators in function arguments or matrix multiplication!
+        $state = $el->validate_student_response(array('state' => 'matrix([3,1415;2,71]).matrix([1];[2])'), $options,
+            'matrix([3.1415,2.71])', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">matrix([3,1415;2,71]).matrix([1];[2])</span>', $state->contentsdisplayed);
+        $this->assertEquals('forbiddenCharDecimal', $state->note);
     }
 }

@@ -469,13 +469,17 @@ class stack_auswahl_input extends stack_input {
             foreach ($values as $key => $ansid) {
                 $inputattributes = array( 
                     'type' => $this->get_ddltype(),    //'radio' or 'checkbox'
-                    'name' => $fieldname.'_'.$key,
                     'value' => $key,
                     'id' => $fieldname.'_'.$key
                 );
                 $labelattributes = array(
                     'for' => $fieldname.'_'.$key
                 );
+                if ($this->get_ddltype()=='radio'){
+                    $inputattributes['name'] = $fieldname;
+                } else {
+                    $inputattributes['name'] = $fieldname.'_'.$key;
+                }
                 if (array_key_exists($key, $selected)) {
                     $inputattributes['checked'] = 'checked';
                 }

@@ -79,7 +79,11 @@ abstract class stack_input {
         'allowWords',
         'forbidFloats',
         'lowestTerms',
-        'sameType');
+        'sameType',
+        'auswahlType',
+        'displayType',
+        'buttonTitles',
+        'matrixSize');
 
     /**
      * From STACK 4.1 we are not going to continue to add input options as columns in the database.

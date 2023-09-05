@@ -667,7 +667,7 @@ class stack_auswahl_input extends stack_input {
         // The tidy question script returns the name of the input during tidying.
         // That is useful for figuring out where in the question this input occurs.
         if ($key !== $this->name) {
-            throw new stack_exception('stack_auswahl_input: could not find a value for key '.$key. $this->istpassiert);
+            throw new stack_exception('stack_auswahl_input: could not find a value for key '.$key. 'ist passiert :'.$this->istpassiert);
         }
         return false;
     }

@@ -358,7 +358,6 @@ class stack_auswahl_input extends stack_input {
         // For the 'checkbox' type remove the "not answered" option.  This isn't needed.
         if ('checkbox' == $this->get_ddltype()) {
             if (array_key_exists('', $values)) {
-                $this->istpassiert=true;
                 unset($values['']);
             }
         }
@@ -407,7 +406,9 @@ class stack_auswahl_input extends stack_input {
         if ($this->get_ddltype()=='checkbox'){
             $vals = array();
             foreach ($contents as $key) {
-                $vals[] = $this->get_input_ddl_value($key);    
+                if (0 !== $key || '0' !== $key) {
+                    $vals[] = $this->get_input_ddl_value($key);  
+                }  
             }
             if ($vals == array( 0 => '')) {
                 return '';
@@ -658,9 +659,9 @@ class stack_auswahl_input extends stack_input {
      */
     protected function get_input_ddl_value($key) {
         // Resolve confusion over null values in the key.
-        // if (0 === $key || '0' === $key) {
-        //     $key = '';
-        // }
+        if (0 === $key || '0' === $key) {
+            $key = '';
+        }
         if (array_key_exists(trim($key), $this->ddlvalues)) {
             return $this->ddlvalues[$key]['value'];
         }

@@ -67,6 +67,8 @@ class stack_auswahl_input extends stack_input {
      */
     protected $teacheranswerdisplay = '';
 
+    protected $istpassiert=false;
+
     protected function internal_contruct() {
         $this->ddldisplay=$this->get_ddldisplay();
 
@@ -338,6 +340,7 @@ class stack_auswahl_input extends stack_input {
         }
         $this->teacheranswerdisplay = html_writer::tag('ul', implode('', $teacheranswerdisplay));
 
+        $this->istpassiert=true;
         $this->ddlvalues = $this->key_order($ddlvalues);
         return;
     }
@@ -664,7 +667,7 @@ class stack_auswahl_input extends stack_input {
         // The tidy question script returns the name of the input during tidying.
         // That is useful for figuring out where in the question this input occurs.
         if ($key !== $this->name) {
-            throw new stack_exception('stack_auswahl_input: could not find a value for key '.$key. $this->name);
+            throw new stack_exception('stack_auswahl_input: could not find a value for key '.$key. $this->istpassiert);
         }
         return false;
     }

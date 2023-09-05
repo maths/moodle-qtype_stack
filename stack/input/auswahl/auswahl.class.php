@@ -357,8 +357,8 @@ class stack_auswahl_input extends stack_input {
         unset($values[0]);
         // For the 'checkbox' type remove the "not answered" option.  This isn't needed.
         if ('checkbox' == $this->get_ddltype()) {
-            //$this->istpassiert=true;
             if (array_key_exists('', $values)) {
+                $this->istpassiert=true;
                 unset($values['']);
             }
         }

@@ -404,7 +404,7 @@ class stack_auswahl_input extends stack_input {
         if ($this->get_ddltype()=='checkbox'){
             $vals = array();
             foreach ($contents as $key) {
-                if ($key != ''){
+                if ($key != '' || $key!= '0'){
                     $vals[] = $this->get_input_ddl_value($key);
                 }
             }
@@ -666,7 +666,7 @@ class stack_auswahl_input extends stack_input {
         // The tidy question script returns the name of the input during tidying.
         // That is useful for figuring out where in the question this input occurs.
         if ($key !== $this->name) {
-            throw new stack_exception('stack_auswahl_input: could not find a value for key '.$key);
+            throw new stack_exception('stack_auswahl_input: could not find a value for key '.$key. $this->name);
         }
         return false;
     }

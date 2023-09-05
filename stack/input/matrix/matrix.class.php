@@ -21,11 +21,31 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_matrix_input extends stack_input {
+
     protected $width;
     protected $height;
 
+    protected function get_size(){
+        switch ($this->parameters['matrixSize']){
+            case 0: return 'var'; 
+            case 1: return 'fix';
+            default: echo 'Error: unknown type.'; break;
+        }
+    }
+
+    // for var
+    private static $tostringparams = array('inputform' => true,
+        'qmchar' => true,
+        'pmchar' => 0,
+        'nosemicolon' => true,
+        'dealias' => false, // This is needed to stop pi->%pi etc.
+        'nounify' => true,
+        'varmatrix' => true
+    );
+
     protected $extraoptions = array(
-        'nounits' => false,
+        'nounits' => false,  //not for var
+        'rationalized' => false,   //for var
         'simp' => false,
         'allowempty' => false,
         'consolidatesubscripts' => false,
@@ -33,6 +53,7 @@ class stack_matrix_input extends stack_input {
         'validator' => false
     );
 
+    //not for var
     public function adapt_to_model_answer($teacheranswer) {
 
         // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
@@ -51,6 +72,7 @@ class stack_matrix_input extends stack_input {
         $this->width = $cs->get_list_element(1, true)->value;
     }
 
+    // not for var
     public function get_expected_data() {
         $expected = array();
 
@@ -76,6 +98,7 @@ class stack_matrix_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
+    // not for var
     protected function is_blank_response($contents) {
         $allblank = true;
         foreach ($contents as $row) {
@@ -95,6 +118,7 @@ class stack_matrix_input extends stack_input {
      * @return string
      * @access public
      */
+    // diffrent for var 
     public function response_to_contents($response) {
         // At the start of an attempt we will have a completely blank matrix.
         // This must be spotted and a blank attempt returned.
@@ -130,6 +154,37 @@ class stack_matrix_input extends stack_input {
             }
         }
         return $matrix;
+
+        // $contents = array();
+        // if (array_key_exists($this->name, $response)) {
+        //     $sans = $response[$this->name];
+        //     $rowsin = explode("\n", $sans);
+        //     foreach ($rowsin as $key => $row) {
+        //         $cleanrow = trim($row);
+        //         if ($cleanrow !== '') {
+        //             $contents[] = $cleanrow;
+        //         }
+        //     }
+        // }
+        // // Transform into lists.
+        // $maxlen = 0;
+        // foreach ($contents as $key => $row) {
+        //     $entries = preg_split('/\s+/', $row);
+        //     $maxlen = max(count($entries), $maxlen);
+        //     $contents[$key] = $entries;
+        // }
+
+        // foreach ($contents as $key => $row) {
+        //     // Pad out short rows.
+        //     for ($i = 0; $i < ($maxlen - count($row)); $i++) {
+        //         $row[] = '?';
+        //     }
+        //     $contents[$key] = '[' . implode(',', $row) . ']';
+        // }
+        // if ($contents == array() && $this->get_extra_option('allowempty')) {
+        //     $contents = array('EMPTYANSWER');
+        // }
+        // return $contents;
     }
 
     public function contents_to_maxima($contents) {
@@ -138,12 +193,14 @@ class stack_matrix_input extends stack_input {
             $matrix[] = '['.implode(',', $row).']';
         }
         return 'matrix('.implode(',', $matrix).')';
+        // return 'matrix('.implode(',', $contents).')';  //for var just this
     }
 
     /**
      * Takes a Maxima matrix object and returns an array of values.
      * @return array
      */
+    // nnot for var
     private function maxima_to_array($in) {
 
         // Build an empty array.
@@ -176,6 +233,7 @@ class stack_matrix_input extends stack_input {
      * @param array $contents the content array of the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
+    // not for var
     protected function validate_contents($contents, $basesecurity, $localoptions) {
 
         $errors = array();
@@ -235,7 +293,7 @@ class stack_matrix_input extends stack_input {
         if ($this->errors) {
             return $this->render_error($this->errors);
         }
-
+        // completly diffrent to var
         $tc = $state->contents;
         $blank = $this->is_blank_response($state->contents);
         $useplaceholder = false;
@@ -308,6 +366,75 @@ class stack_matrix_input extends stack_input {
         $xhtml .= '</tbody></table></div>';
 
         return $xhtml;
+
+         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
+        // used as minimums. If the current input is bigger, the box is expanded.
+
+        // if ($this->errors) {
+        //     return $this->render_error($this->errors);
+        // }
+
+        // $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
+        // $attributes = array(
+        //     'name'           => $fieldname,
+        //     'id'             => $fieldname,
+        //     'autocapitalize' => 'none',
+        //     'spellcheck'     => 'false',
+        //     'class'          => 'varmatrixinput',
+        //     'size'           => $this->parameters['boxWidth'] * 1.1,
+        //     'style'          => 'width: '.$size.'em',
+        // );
+
+        // if ($this->is_blank_response($state->contents)) {
+        //     $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+        //     if ($this->parameters['syntaxAttribute'] == '1') {
+        //         $attributes['placeholder'] = $current;
+        //         $current = '';
+        //     }
+        // } else {
+        //     $current = array();
+        //     foreach ($state->contents as $row) {
+        //         $cs = stack_ast_container::make_from_teacher_source($row);
+        //         if ($cs->get_valid()) {
+        //             $current[] = $cs->ast_to_string(null, self::$tostringparams);
+        //         }
+        //     }
+        //     $current = implode("\n", $current);
+        // }
+
+        // // Sort out size of text area.
+        // $sizecontent = $current;
+        // if ($this->is_blank_response($state->contents) && $this->parameters['syntaxAttribute'] == '1') {
+        //     $sizecontent = $attributes['placeholder'];
+        // }
+        // $rows = stack_utils::list_to_array($sizecontent, false);
+        // $attributes['rows'] = max(5, count($rows) + 1);
+
+        // $boxwidth = $this->parameters['boxWidth'];
+        // foreach ($rows as $row) {
+        //     $boxwidth = max($boxwidth, strlen($row) + 5);
+        // }
+        // $attributes['cols'] = $boxwidth;
+
+        // if ($readonly) {
+        //     $attributes['readonly'] = 'readonly';
+        // }
+
+        // // Read matrix bracket style from options.
+        // $matrixbrackets = 'matrixroundbrackets';
+        // if ($this->options) {
+        //     $matrixparens = $this->options->get_option('matrixparens');
+        //     if ($matrixparens == '[') {
+        //         $matrixbrackets = 'matrixsquarebrackets';
+        //     } else if ($matrixparens == '|') {
+        //         $matrixbrackets = 'matrixbarbrackets';
+        //     } else if ($matrixparens == '') {
+        //         $matrixbrackets = 'matrixnobrackets';
+        //     }
+        // }
+
+        // $xhtml = html_writer::tag('textarea', htmlspecialchars($current), $attributes);
+        // return html_writer::tag('div', $xhtml, array('class' => $matrixbrackets));
     }
 
     /**
@@ -331,6 +458,8 @@ class stack_matrix_input extends stack_input {
             }
         }
 
+        // for var, not the upper part, add this
+        // $response[$this->name] = $this->maxima_to_raw_input($in);
         if ($this->requires_validation()) {
             $response[$this->name . '_val'] = $in;
         }
@@ -338,6 +467,7 @@ class stack_matrix_input extends stack_input {
 
     }
 
+    // same for var
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
@@ -361,7 +491,10 @@ class stack_matrix_input extends stack_input {
             'forbidFloats'       => true,
             'lowestTerms'        => true,
             'sameType'           => true,
-            'options'            => ''
+            // This looks odd, but the teacher's answer is a list and the student's a matrix. Just for var
+            // 'sameType'           => false, 
+            'options'            => '',
+            'matrixSize'         => 0
         );
     }
 
@@ -369,6 +502,7 @@ class stack_matrix_input extends stack_input {
      * Each actual extension of this base class must decide what parameter values are valid.
      * @return array of parameters names.
      */
+    // same for var
     public function internal_validate_parameter($parameter, $value) {
         $valid = true;
         switch($parameter) {
@@ -391,6 +525,10 @@ class stack_matrix_input extends stack_input {
      */
     protected function ajax_to_response_array($in) {
         return  $this->maxima_to_response_array($in);
+        //for var
+        // $in = explode('<br>', $in);
+        // $in = implode("\n", $in);
+        // return array($this->name => $in);
     }
 
     /**
@@ -412,6 +550,7 @@ class stack_matrix_input extends stack_input {
      * @return array with the parsed elements, if no elements then array
      *         contains only the input string
      */
+    // not for var
     public function modinput_tokenizer($in) {
         $bracecount = 0;
         $parenthesiscount = 0;
@@ -465,6 +604,35 @@ class stack_matrix_input extends stack_input {
         }
 
         return $out;
+    }
+
+    // just for var
+    protected function caslines_to_answer($caslines, $secrules = false) {
+        $vals = array();
+        foreach ($caslines as $line) {
+            if ($line->get_valid()) {
+                $vals[] = $line->get_evaluationform();
+            } else {
+                // This is an empty place holder for an invalid expression.
+                $vals[] = 'EMPTYCHAR';
+            }
+        }
+        $s = 'matrix('.implode(',', $vals).')';
+        if (!$secrules) {
+            $secrules = $caslines[0]->get_securitymodel();
+        }
+        return stack_ast_container::make_from_student_source($s, '', $secrules);
+    }
+
+    /**
+     * Transforms a Maxima list into raw input.
+     *
+     * @param string $in
+     * @return string
+     */
+    private function maxima_to_raw_input($in) {
+        $cs = stack_ast_container::make_from_teacher_source($in);
+        return $cs->ast_to_string(null, self::$tostringparams);
     }
 
 }

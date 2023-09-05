@@ -404,7 +404,7 @@ class stack_auswahl_input extends stack_input {
         if ($this->get_ddltype()=='checkbox'){
             $vals = array();
             foreach ($contents as $key) {
-                if ($key !== ''){
+                if ($key != ''){
                     $vals[] = $this->get_input_ddl_value($key);
                 }
             }

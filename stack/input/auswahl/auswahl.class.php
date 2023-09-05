@@ -340,7 +340,6 @@ class stack_auswahl_input extends stack_input {
         }
         $this->teacheranswerdisplay = html_writer::tag('ul', implode('', $teacheranswerdisplay));
 
-        $this->istpassiert=true;
         $this->ddlvalues = $this->key_order($ddlvalues);
         return;
     }
@@ -358,6 +357,7 @@ class stack_auswahl_input extends stack_input {
         unset($values[0]);
         // For the 'checkbox' type remove the "not answered" option.  This isn't needed.
         if ('checkbox' == $this->get_ddltype()) {
+            $this->istpassiert=true;
             if (array_key_exists('', $values)) {
                 unset($values['']);
             }

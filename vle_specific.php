@@ -14,6 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
+// This file defines question_display_options which the next class extends.
+require_once(__DIR__.'/../../../lib/questionlib.php');
+require_once('questiondisplayoptions.php');
 
 /**
  * A collection of things that are a bit VLE specific and have been
@@ -193,4 +198,15 @@ function stack_get_mathjax_url(): string {
  */
 function stack_clear_vle_question_cache(int $questionid) {
     question_bank::notify_question_edited($questionid);
+}
+
+/*
+ * This is needed to put links to the STACK question dashboard into the question.
+ */
+function question_display_options() {
+    $options = new qtype_stack_question_display_options();
+    $options->readonly = true;
+    $options->flags = question_display_options::HIDDEN;
+    $options->suppressruntestslink = true;
+    return $options;
 }

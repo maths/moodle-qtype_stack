@@ -1731,9 +1731,9 @@ class input_algebraic_test extends qtype_stack_testcase {
             'decimal separator!',
             $state->errors);
         $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-            . '<span class="nolink">\( \{3,1415 ; 2,7100 \right \} \)</span></span>, which can be typed in as follows: '
+            . '<span class="nolink">\( \{3{,}1415 ; 2{,}7100 \right \} \)</span></span>, which can be typed in as follows: '
             . '<code>{3,1415;2,71}</code>',
-            $el->get_teacher_answer_display('{3.1415,2.71}', '\{3,1415 ; 2,7100 \right \}'));
+            $el->get_teacher_answer_display('{3.1415,2.71}', '\{3{,}1415 ; 2{,}7100 \right \}'));
     }
 
     public function test_decimal_output_1() {
@@ -1751,9 +1751,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('You have used the full stop <code>.</code>, but you must use the comma ' .
               '<code>,</code> as a decimal separator!', $state->errors);
         $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-            . '<span class="nolink">\( \{3,1415 ; 2,7100 \right \} \)</span></span>, which can be typed in as follows: '
+            . '<span class="nolink">\( \{3{,}1415 ; 2{,}7100 \right \} \)</span></span>, which can be typed in as follows: '
             . '<code>{3,1415;2,71}</code>',
-            $el->get_teacher_answer_display('{3.1415,2.71}', '\{3,1415 ; 2,7100 \right \}'));
+            $el->get_teacher_answer_display('{3.1415,2.71}', '\{3{,}1415 ; 2{,}7100 \right \}'));
     }
 
     public function test_decimal_output_2() {
@@ -1767,7 +1767,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         // With a strict interpretation we have to change the , to a .
         $this->assertEquals('{3.1415,2.71}', $state->contentsmodified);
-        $this->assertEquals('\[ \left \{3,1415 ; 2,7100 \right \} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \left \{3{,}1415 ; 2{,}7100 \right \} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
 
@@ -1783,7 +1783,7 @@ class input_algebraic_test extends qtype_stack_testcase {
             'matrix([3.1415,2.71])', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('matrix([3.1415,2.71])', $state->contentsmodified);
-        $this->assertEquals('\[ \left[\begin{array}{cc} 3,1415 & 2,7100 \end{array}\right] \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \left[\begin{array}{cc} 3{,}1415 & 2{,}7100 \end{array}\right] \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
 
         // Student uses commas and semicolons for separation of items in functions.
@@ -1791,7 +1791,7 @@ class input_algebraic_test extends qtype_stack_testcase {
             'matrix([3.1415],[2.71])', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('matrix([3.1415],[2.71])', $state->contentsmodified);
-        $this->assertEquals('\[ \left[\begin{array}{c} 3,1415 \\\\ 2,7100 \end{array}\right] \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \left[\begin{array}{c} 3{,}1415 \\\\ 2{,}7100 \end{array}\right] \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
 
@@ -1808,7 +1808,8 @@ class input_algebraic_test extends qtype_stack_testcase {
             'matrix([3.1415,2.71])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('', $state->contentsmodified);
-        $this->assertEquals('<span class="stacksyntaxexample">matrix([3,1415;2,71]).matrix([1];[2])</span>', $state->contentsdisplayed);
+        $this->assertEquals('<span class="stacksyntaxexample">matrix([3,1415;2,71]).matrix([1];[2])</span>',
+            $state->contentsdisplayed);
         $this->assertEquals('forbiddenCharDecimal', $state->note);
     }
 }

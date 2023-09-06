@@ -614,9 +614,9 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">9.81m/s^2</span>', $state->contentsdisplayed);
         $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-            . '<span class="nolink">\( 9,81\, {\mathrm{m}}/{\mathrm{s}^2} \)</span></span>, which can be typed in as follows: '
+            . '<span class="nolink">\( 9{,}81\, {\mathrm{m}}/{\mathrm{s}^2} \)</span></span>, which can be typed in as follows: '
             . '<code>9,81*m/s^2</code>',
-            $el->get_teacher_answer_display('9.81*m/s^2', '9,81\, {\mathrm{m}}/{\mathrm{s}^2}'));
+            $el->get_teacher_answer_display('9.81*m/s^2', '9{,}81\, {\mathrm{m}}/{\mathrm{s}^2}'));
     }
 
     public function test_validate_student_response_display_decimals_1() {
@@ -628,11 +628,11 @@ class input_units_test extends qtype_stack_testcase {
             new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.81*m/s^2', $state->contentsmodified);
-        $this->assertEquals('\[ 9,81\, {\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 9{,}81\, {\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
         $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-            . '<span class="nolink">\( 9,81\, {\mathrm{m}}/{\mathrm{s}^2} \)</span></span>, which can be typed in as follows: '
+            . '<span class="nolink">\( 9{,}81\, {\mathrm{m}}/{\mathrm{s}^2} \)</span></span>, which can be typed in as follows: '
             . '<code>9,81*m/s^2</code>',
-            $el->get_teacher_answer_display($state->contentsmodified, '9,81\, {\mathrm{m}}/{\mathrm{s}^2}'));
+            $el->get_teacher_answer_display($state->contentsmodified, '9{,}81\, {\mathrm{m}}/{\mathrm{s}^2}'));
     }
 
     public function test_validate_student_response_display_negpow_3() {

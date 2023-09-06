@@ -236,7 +236,7 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals(array(array('3,14', '2,71'), array('4', '5')), $state->contents);
         // Modified contents must be strict Maxima syntax.
         $this->assertEquals('matrix([3.14,2.71],[4,5])', $state->contentsmodified);
-        $this->assertEquals('\[ \left[\begin{array}{cc} 3,14 & 2,71 \\\\ 4 & 5 \end{array}\right] \]',
+        $this->assertEquals('\[ \left[\begin{array}{cc} 3{,}14 & 2{,}71 \\\\ 4 & 5 \end{array}\right] \]',
             $state->contentsdisplayed);
     }
 

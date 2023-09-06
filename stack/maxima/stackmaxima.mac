@@ -764,7 +764,7 @@ texput_decimal(ex):= stackfltsep:ex$
     /* We need this separation because validation displays trailing zeros and this is controlled by stackfltfmt. */
     if is(stackfltsep = ",") then (
         tx:ssubst("\\ ", ",", tx),
-        tx:ssubst(",", ".", tx)
+        tx:ssubst("{,}", ".", tx)
     ),
     tx
 )$

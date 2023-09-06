@@ -1335,9 +1335,9 @@ class castext_test extends qtype_stack_testcase {
         $cs2->instantiate();
 
         $this->assertEquals(
-            'The number \({3,1415}\) is written with commas. ' .
-            'Sets \({\left \{1,2 ; 3,123 ; 4 ; 5 \right \}}\) ' .
-            'and lists \({\left[ 1,2 ; 4 ; 5 ; 3,123 \right]}\)',
+            'The number \({3{,}1415}\) is written with commas. ' .
+            'Sets \({\left \{1{,}2 ; 3{,}123 ; 4 ; 5 \right \}}\) ' .
+            'and lists \({\left[ 1{,}2 ; 4 ; 5 ; 3{,}123 \right]}\)',
             $at2->get_rendered());
     }
 

@@ -83,7 +83,8 @@ class stack_question_test {
         $question = question_bank::load_question($questionid);
         // Hard-wire testing to use the decimal point.
         // Teachers must use strict Maxima syntax, including in test case construction.
-        // I appreciate teachers will, reasonably, want to test the input mechanism but the added internal complexity here is serious.
+        // I appreciate teachers will, reasonably, want to test the input mechanism.
+        // The added internal complexity here is serious.
         // This complexity includes things like matrix input types which need a valid Maxima expression as the value of the input.
         $question->options->set_option('decimals', '.');
         if (!is_null($seed)) {

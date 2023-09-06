@@ -69,6 +69,11 @@ class stack_input_state {
     protected $_lvars;
 
     /**
+     * @var string value of the simp flag.
+     */
+    protected $_simp;
+
+    /**
      * Constructor
      *
      * @param array $contents the current contents of this input.  An array with

@@ -124,9 +124,7 @@ if ($string) {
         }
         // Only print each error once.
         $errs = $ct->get_errors(false);
-        foreach ($session->get_errors(false) as $err) {
-            $errs = array_merge($errs, $err);
-        }
+        $errs = array_merge($errs, $session->get_errors(false));
         if ($errs) {
             $errs = stack_string_error('errors') . ': ' . implode(' ', array_unique($errs));
             $errs = html_writer::tag('div', $errs, array('class' => 'error'));

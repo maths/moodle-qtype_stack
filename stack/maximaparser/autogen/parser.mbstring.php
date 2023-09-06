@@ -63,6 +63,7 @@ if (!class_exists("SyntaxError", false)) {
 }
 
 class MP_Parser {
+    private $options              = null;
     private $peg_currPos          = 0;
     private $peg_reportedPos      = 0;
     private $peg_cachedPos        = 0;

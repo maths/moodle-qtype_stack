@@ -36,6 +36,7 @@ define('NO_OUTPUT_BUFFERING', true);
 require_once(__DIR__.'/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/vle_specific.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/questiontest.php');
 require_once(__DIR__ . '/stack/bulktester.class.php');
@@ -121,11 +122,7 @@ $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
 
 // Prepare the display options.
-$options = new question_display_options();
-$options->readonly = true;
-$options->flags = question_display_options::HIDDEN;
-$options->suppressruntestslink = true;
-
+$options = question_display_options();
 // Start output.
 echo $OUTPUT->header();
 $renderer = $PAGE->get_renderer('qtype_stack');

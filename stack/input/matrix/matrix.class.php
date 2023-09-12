@@ -260,7 +260,7 @@ class stack_matrix_input extends stack_input {
 
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
 
-        if ($this->get_size()) {
+        if ($this->get_size()=='fix') {
             $valid = true;
             // Now validate the input as CAS code.
             $modifiedcontents = array();

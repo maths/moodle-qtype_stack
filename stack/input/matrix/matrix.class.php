@@ -517,7 +517,6 @@ class stack_matrix_input extends stack_input {
             'allowWords'         => '',
             'forbidFloats'       => true,
             'lowestTerms'        => true,
-            //'sameType'           => true,
             // This looks odd, but the teacher's answer is a list and the student's a matrix.
             'sameType'           => false, 
             'options'            => '',

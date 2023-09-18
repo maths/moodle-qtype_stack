@@ -74,7 +74,7 @@ export const stack_geogebra = {
           }
           if (movedInitial) {
               var tmp = JSON.stringify(appletRef.getValue(valuename));
-              if (theInput.value != tmp && tmp!=null && typeof tmp === "number" && !Number.isNaN(tmp)) {
+              if (theInput.value != tmp && tmp!=null) {
                   // Avoid resetting this, as some event models might trigger
                   // change events even when no change actually happens.
                   theInput.value = tmp;

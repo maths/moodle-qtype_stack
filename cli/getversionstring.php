@@ -86,7 +86,7 @@ $stackmaxima = $matches[1];
 $pluginversion = $plugin->version;
 $requiredmoodle = $plugin->requires;
 $pluginname = explode(' ', $plugin->release)[0];
-$maximas = implode(',', $settings->maximaversions);
+$maximas = implode(', ', $settings->maximaversions);
 
 if ($stackmaxima != $pluginversion) {
     throw new coding_exception('Maxima libraries version number not matching plugin version number.');	

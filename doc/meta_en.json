@@ -790,6 +790,11 @@
         "description":"Before upgrading to a new version of STACK, you may want to check if the new version will change any of your existing questions."
         },
         {
+        "file":"STACK_versions.md",
+        "title":"STACK versions",
+        "description":"Records a mapping between the Moodle plugin version number and STACK release."
+        },
+        {
         "file":"Security_map.md",
         "title":"Security-map",
         "description":"This document explains how the Maxima statement parser infrastruture works."

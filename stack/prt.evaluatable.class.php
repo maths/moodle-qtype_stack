@@ -103,9 +103,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
         return $this->evaluated !== null;
     }
 
-    // Some spaghetti. TODO: eliminate.
     public function override_feedback(string $feedback) {
-        $this->_feedback = 'spaghetti';
         $this->renderedfeedback = $feedback;
     }
 

@@ -264,7 +264,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
             // would obviously work but would be more expensive.
             //
             // Note that pure strings are even simpler...
-            if (mb_substr($this->value, 0, 1) === '"') {
+            if (mb_substr((string) $this->value, 0, 1) === '"') {
                 // If it evaluated to entirely flat result.
                 $this->evaluated  = stack_utils::maxima_string_to_php_string($this->value);
                 if ($this->statics !== null) {

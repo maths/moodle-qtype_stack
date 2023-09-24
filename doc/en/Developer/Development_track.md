@@ -10,13 +10,13 @@ past development history is documented on [Development history](Development_hist
 1. Refactor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
 2. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
 3. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
+4. Confirm support for PHP 8.2, (fixes issue #986).
 
 TODO: 
 
-1. Support for PHP 8.2.  See issue #986.
-2. Fix markdown problems. See issue #420.
-3. Error messages: use caserror.class more fully to use user information to target error messages.
-4. Remove all "cte" code from Maxima - mostly install.
+1. Fix markdown problems. See issue #420.
+2. Error messages: use caserror.class more fully to use user information to target error messages.
+3. Remove all "cte" code from Maxima - mostly install.
 
 Done:
 

@@ -97,7 +97,7 @@ This should give a minimal working GGB question with "set".
 
 The use of the STACK function `ntupleify` ensures both the student's answer and teacher's answer is converted from a list to an `ntuple`.  `ntuple` is a data type in STACK allowing an "n-tuple" such as \( (1,2) \) to be a different data type from a "list" \( [1,2] \).  Internally in STACK/GGB lists are given preference in the design, but completing the PRT as above will allow student input of coordinates using traditional round brackets, which is interpreted by STACK as as a data type `ntuple`.  See the docs on [sets, lists, sequences and n-typles](../CAS/Maxima/#sets-lists-sequences-n-tuples).
 
-Now, the above question can readily be adapted by making `A` a randomly generated object, if required.
+The question can readily be adapted by making `A` a randomly generated object, if required.
 
 ## Using the "watch" sub-tag 
 
@@ -121,7 +121,7 @@ Set the question text:
     [[geogebra watch="A"]]
     params["material_id"]="seehz3km";
     [[/geogebra]]
-    Move \(A\) to be the point \((2,3)\)
+    Move \(A\) to be the point \({@ntupleify(ta1)@}\)
     [[input:A]][[validation:A]]
 
 Recall that since the object in `watch="A"` is written in upper case it must be a point.
@@ -130,12 +130,18 @@ Then complete the question as follows.
 
 1. In the input, make the model answer `ta1`.  This is a list, and has a different name from the watched point..
 2. Make sure you set "forbid floats" option in the input to be false, if you want to!
-3. Complete the default potential response tree `prt1` as `ATAlgEquiv(ntupleify(A),ntupleify(ta1))`
+3. Complete the default potential response tree `prt1` as `ATAlgEquiv(ntupleify(A), ntupleify(ta1))`
 
 Once the question is working you can hide the inputs from students, but for testing it is helpful to see the input boxes.
 
 1. Hide an input with CSS, e.g. `<p style="display:none">[[input:A]] [[validation:A]]</p>` (but probably not while you develop the question!)
 2. Turn off the validation ("Show the validation") and verification ("Student must verify") of the input field. 
+
+Extensions to this basic question:
+
+1. The question can readily be adapted by making `ta1` a randomly generated object, if required.
+2. The answer test requires _exact_ positioning of point `A` on the required coordinates.  In this GGB sheet we have "snap to grid" so it is reasonable to ask for exact positioning of the poing `A` in this case.  An alterntaive approximate positioning \( ||A-ta1||<0.1 \) can be established using the Num-GT answer test: `ATGT(0.1, Distance(A,ta1))`.  STACK provides a number of [geometry related maxima functions](../CAS/Geometry.md), including `Distance` which is used here.
+
 
 ## Using the "remember" sub-tag
 
@@ -153,7 +159,7 @@ Set the question text:
     [[geogebra watch="A" remember="B,C"]]
     params["material_id"]="seehz3km";
     [[/geogebra]]
-    Move \(A\) to be the point \((2,3)\)
+    Move \(A\) to be the point \({@ntupleify(ta1)@}\)
     [[input:A]][[validation:A]]
     [[input:remember]][[validation:remember]]
 
@@ -170,7 +176,7 @@ In the above example we have angle \(k\).  To watch this value we can add `k` to
     [[geogebra watch="A,k" remember="B,C"]]
     params["material_id"]="seehz3km";
     [[/geogebra]]
-    Move \(A\) to be the point \((2,3)\), and points \(B,C\) so that there is a right angle at \(B\).
+    Move \(A\) to be the point \({@ntupleify(ta1)@}\), and points \(B,C\) so that there is a right angle at \(B\).
     [[input:A]][[validation:A]]
     [[input:k]][[validation:k]]
     [[input:remember]][[validation:remember]]
@@ -223,7 +229,7 @@ A__hide__fixed->set A as a fixed point and hide it.
 A__fixed__hide-> keyword order is not relevant, set A as a fixed point and hide it.
 
 -special keyword `novalue`
-The GeoGebraobject value should not be set, this keyword is helpful, if you just want to hide or show something, see "multiple keywords"
+The GeoGebra object value should not be set, this keyword is helpful, if you just want to hide or show something, see "multiple keywords"
 
 set="A__hide__novalue"->hide A, but do not set A
 
@@ -231,7 +237,7 @@ set="A_hide_novalue" watch="A" -> watch A, but hide it and do not set it.
 
 ### Using commands inside `[[geogebra]][[/geogebra]]`
 
-You can use the following commands inside the geogebra tag if the sub tags cant fit your task idea:
+You can use the following commands inside the geogebra tag if the sub tags do not fit your task idea:
 
 * `stack_geogebra_bind_point(args)`
 * `stack_geogebra_bind_value(args)`

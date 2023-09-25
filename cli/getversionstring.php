@@ -33,13 +33,13 @@ require_once($CFG->libdir.'/adminlib.php');
 
 // Fake settings object to catch some values.
 class fakesettings {
-	public $maximaversions = [];
-	function add($some) {
-		if ($some->name === 'maximaversion') {
-			$this->maximaversions = $some->choices;
-			unset($this->maximaversions['default']);
-		}
-	}
+    public $maximaversions = [];
+    public function add($some) {
+        if ($some->name === 'maximaversion') {
+            $this->maximaversions = $some->choices;
+            unset($this->maximaversions['default']);
+        }
+    }
 }
 $settings = new fakesettings();
 
@@ -48,7 +48,6 @@ require(__DIR__ . '/../settings.php');
 // Fake plugin object.
 $plugin = new stdClass();
 require(__DIR__ . '/../version.php');
-
 
 // Get cli options.
 list($options, $unrecognized) = cli_get_params(['help' => false, 'only' => 'row'], ['h' => 'help']);
@@ -61,15 +60,15 @@ if ($unrecognized) {
 if ($options['help']) {
     echo "This script extracts version numbers from various sources in the code.
 The numbers it provides are as follows:
- 
+
  - 'pluginversion', the version number, the date one, of the plugin from version.php.
  - 'pluginname', the version number, the human one, of the plugin from version.php.
  - 'stackmaxima', the version number at the end of stackmaxima.mac.
  - 'maximas', the supported Maximas from settings.php.
  - 'requiredmoodle', the minimum Moodle version from version.php.
 
-With the additional option '--only' one can query for only one of these. 
-e.g. '--only=pluginname'. By default outputs selected ones in the order used in that 
+With the additional option '--only' one can query for only one of these.
+e.g. '--only=pluginname'. By default outputs selected ones in the order used in that
 table in the docs.
 ";
     exit(0);
@@ -89,31 +88,31 @@ $pluginname = explode(' ', trim($plugin->release))[0];
 $maximas = implode(', ', $settings->maximaversions);
 
 if ($stackmaxima != $pluginversion) {
-	echo "$stackmaxima != $pluginversion\n";
-    throw new coding_exception('Maxima libraries version number not matching plugin version number.');	
+    echo "$stackmaxima != $pluginversion\n";
+    throw new coding_exception('Maxima libraries version number not matching plugin version number.');
 }
 
 switch($options['only']) {
-	case 'row':
-		echo "$pluginname | $pluginversion | $maximas\n";
-		break;
-	case 'stackmaxima':
-		echo "$stackmaxima\n";
-		break;
-	case 'maximas':
-		echo "$maximas\n";
-		break;
-	case 'pluginversion':
-		echo "$pluginversion\n";
-		break;
-	case 'pluginname':
-		echo "$pluginname\n";
-		break;
-	case 'requiredmoodle':
-		echo "$requiredmoodle\n";
-		break;
-	default:
-		echo "Unknown option for '--only', the options are:
+    case 'row':
+        echo "$pluginname | $pluginversion | $maximas\n";
+        break;
+    case 'stackmaxima':
+        echo "$stackmaxima\n";
+        break;
+    case 'maximas':
+        echo "$maximas\n";
+        break;
+    case 'pluginversion':
+        echo "$pluginversion\n";
+        break;
+    case 'pluginname':
+        echo "$pluginname\n";
+        break;
+    case 'requiredmoodle':
+        echo "$requiredmoodle\n";
+        break;
+    default:
+        echo "Unknown option for '--only', the options are:
  - 'pluginversion', the version number, the date one, of the plugin from version.php.
  - 'pluginname', the version number, the human one, of the plugin from version.php.
  - 'stackmaxima', the version number at the end of stackmaxima.mac.

@@ -587,11 +587,6 @@
         "description":"Information on authoring questions involving permutation as a product of disjoint cycles."
         },
         {
-        "file":"Plots.md",
-        "title":"Plots - STACK Documentation",
-        "description":"Information on plotting graphs in STACK."
-        },
-        {
         "file":"Predicate_functions.md",
         "title":"Predicate Functions - STACK Documentation",
         "description":"Predicate functions are those that return Boolean values true or false. These are often useful when authoring STACK questions."
@@ -645,6 +640,20 @@
         "file":"Workflow.md",
         "title":"Question authoring workflow - STACK Documentation",
         "description":"This page suggests workflow for authoring STACK questions."
+        }
+      ]
+      },
+      {
+      "Plots":[
+        {
+        "file":"index.md",
+        "title":"Plots - STACK Documentation",
+        "description":"Information on plotting graphs in STACK."
+        },
+        {
+        "file":"Plots.md",
+        "title":"Embedding Maxima-generated plots via the plot() command",
+        "description":"Embedding Maxima generated plots via the plot() command"
         }
       ]
       },

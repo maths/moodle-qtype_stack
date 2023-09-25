@@ -59,18 +59,18 @@ if ($unrecognized) {
 }
 
 if ($options['help']) {
-    echo "This script extracts version numbers from various sources in the code
-the numbers it provides are as follows:
+    echo "This script extracts version numbers from various sources in the code.
+The numbers it provides are as follows:
  
  - 'pluginversion', the version number, the date one, of the plugin from version.php.
  - 'pluginname', the version number, the human one, of the plugin from version.php.
- - 'stackmaxima', the version nubmer at the end of stackmaxima.mac.
+ - 'stackmaxima', the version number at the end of stackmaxima.mac.
  - 'maximas', the supported Maximas from settings.php.
- - 'requiredmoodle', the minimum Moodle version.
+ - 'requiredmoodle', the minimum Moodle version from version.php.
 
-With the additional option --only one can query for only one of these. 
-e.g. '--only=pluginname'. By default outputs all in the order used in that table in
-the docs.
+With the additional option '--only' one can query for only one of these. 
+e.g. '--only=pluginname'. By default outputs selected ones in the order used in that 
+table in the docs.
 ";
     exit(0);
 }
@@ -85,10 +85,11 @@ if (!preg_match('~stackmaximaversion:(\d{10})~',
 $stackmaxima = $matches[1];
 $pluginversion = $plugin->version;
 $requiredmoodle = $plugin->requires;
-$pluginname = explode(' ', $plugin->release)[0];
+$pluginname = explode(' ', trim($plugin->release))[0];
 $maximas = implode(', ', $settings->maximaversions);
 
 if ($stackmaxima != $pluginversion) {
+	echo "$stackmaxima != $pluginversion\n";
     throw new coding_exception('Maxima libraries version number not matching plugin version number.');	
 }
 
@@ -97,7 +98,7 @@ switch($options['only']) {
 		echo "$pluginname | $pluginversion | $maximas\n";
 		break;
 	case 'stackmaxima':
-		echo "stackmaxima\n";
+		echo "$stackmaxima\n";
 		break;
 	case 'maximas':
 		echo "$maximas\n";
@@ -111,4 +112,11 @@ switch($options['only']) {
 	case 'requiredmoodle':
 		echo "$requiredmoodle\n";
 		break;
+	default:
+		echo "Unknown option for '--only', the options are:
+ - 'pluginversion', the version number, the date one, of the plugin from version.php.
+ - 'pluginname', the version number, the human one, of the plugin from version.php.
+ - 'stackmaxima', the version number at the end of stackmaxima.mac.
+ - 'maximas', the supported Maximas from settings.php.
+ - 'requiredmoodle', the minimum Moodle version from version.php.\n\n";
 }

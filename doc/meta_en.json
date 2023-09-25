@@ -523,6 +523,11 @@
         "description":"Suggestions for effective question authoring workflow, especially when working collaboratively."
         },
         {
+        "file":"Worked_Solution.md",
+        "title":"Worked solution tools - STACK Documentation",
+        "description":"Suggestions for effective authoring of worked solutions."
+        },
+        {
         "file":"Numerical_input.md",
         "title":"Numerical Input - STACK Documentation",
         "description":"Information on STACK's numerical input type."

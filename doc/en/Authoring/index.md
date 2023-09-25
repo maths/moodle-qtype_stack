@@ -64,5 +64,5 @@ If you cannot find documentation on the topic you are looking for, it may be loc
 
 * [Inequalities](/CAS/Inequalities.md),
 * [Randomisation](/CAS/Random.md),
-* [Plotting graphs](/CAS/Plots.md),
+* [Plotting graphs../Plots/Plots.md),
 * [Simplification](/CAS/Simplification.md).

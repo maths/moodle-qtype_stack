@@ -1,6 +1,6 @@
 # JSXGraph
 
-This page documents use of JSXGraph to display visuals. This is a somewhat advanced topic. For basic plots and visuals you may prefer to [use Maxima to plot graphs](../CAS/Plots.md). 
+This page documents use of JSXGraph to display visuals. This is a somewhat advanced topic. For basic plots and visuals you may prefer to [use Maxima to plot graphs](../Plots/Plots.md). 
 
 STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/).
 

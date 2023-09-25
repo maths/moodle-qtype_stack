@@ -2,9 +2,9 @@
 
 Author Tim Lutz - University of Edinburgh and University of Education Heidelberg, 2022-23.
 
-STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.org](https://geogebra.org).  This page documents how to use GeoGebra applets both to display GeoGebra worksheets as part of a STACK question, and how to connect GeoGebra worksheets to a STACK input.
+STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.org](https://geogebra.org).  This page is reference documentation when using GeoGebra applets both to display GeoGebra worksheets as part of a STACK question, and how to connect GeoGebra worksheets to a STACK input.
 
-Information from GeoGebra applets can be linked to STACK inputs and then assessed by potential response trees in the normal way.  To help with assessment, STACK provides a number of [geometry related maxima functions](../CAS/Geometry.md).
+To help with assessment, STACK provides a number of [geometry related maxima functions](../CAS/Geometry.md).
 
 Please note that significant computation and calculation can be done within GeoGebra itself.  In many cases it might be much better to establish mathematical properties within the GeoGebra applet, and link the _results_ to STACK inputs.  These results could be the distance between relevant objects, or boolean results.
 
@@ -12,16 +12,6 @@ A current restriction of STACK design is that you cannot have a variable name in
 For example, you cannot randomly generate the initial position of a point \(A\) with the "set" instruction, and also link this GeoGebra object to the input `input:A` with a "watch" instruction.
 In this situation you will need to have _dependent_ objects (probably hidden) in GeoGebra which match to inputs.
 (This is hard-wired into the design of STACK and cannot be changed, sorry.)
-
-## Before we start: Check Editor preferences
-
-Note, we strongly recommend you do not use an HTML-aware editor when using GeoGebra questions.  Instead turn off the editor within Moodle and edit the raw HTML.
-
-    Site administration > Plugins > Text editors > Manage editors
-
-Individual users can also set their editor preferences:
-
-    User Dashboard > Preferences > Editor preferences > Manage editors
 
 ## Adding a geogebra question block using the material_id
 
@@ -95,7 +85,7 @@ Then complete the question as follows.
 
 This should give a minimal working GGB question with "set".
 
-The use of the STACK function `ntupleify` ensures both the student's answer and teacher's answer is converted from a list to an `ntuple`.  `ntuple` is a data type in STACK allowing an "n-tuple" such as \( (1,2) \) to be a different data type from a "list" \( [1,2] \).  Internally in STACK/GGB lists are given preference in the design, but completing the PRT as above will allow student input of coordinates using traditional round brackets, which is interpreted by STACK as as a data type `ntuple`.  See the docs on [sets, lists, sequences and n-typles](../CAS/Maxima/#sets-lists-sequences-n-tuples).
+The use of the STACK function `ntupleify` ensures both the student's answer and teacher's answer is converted from a list to an `ntuple`.  `ntuple` is a data type in STACK allowing an "n-tuple" such as \( (1,2) \) to be a different data type from a "list" \( [1,2] \).  Internally in STACK/GGB lists are given preference in the design, but completing the PRT as above will allow student input of coordinates using traditional round brackets, which is interpreted by STACK as as a data type `ntuple`.  See the docs on [sets, lists, sequences and n-typles](../CAS/Maxima.md#sets-lists-sequences-n-tuples).
 
 The question can readily be adapted by making `A` a randomly generated object, if required.
 

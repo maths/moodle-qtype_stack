@@ -138,7 +138,7 @@ STACK loads the contributed Maxima package `log10`.  This defines logarithms to 
 2. `lg` is an alias for \(\log_{10}\), which are logarithms to base \(10\).
     It is not possible to redefine the command `log` to be to the base \(10\).
 
-## Sets, lists, sequences, n-tuples ##
+## Sets, lists, sequences, n-tuples {#sets-lists-sequences-n-tuples}
 
 It is very useful to be able to display expressions such as comma separated lists, and n-tuples
 \[ 1,2,3,4,\cdots \]

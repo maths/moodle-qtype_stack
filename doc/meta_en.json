@@ -411,7 +411,7 @@
         {
         "file":"GeoGebra.md",
         "title":"Using GeoGebra blocks in STACK questions - STACK Documentation",
-        "description":"How to use GeoGebra to display graphs and as a STACK input type."
+        "description":"Reference documentation for GeoGebra blocks."
         },
         {
         "file":"HELM.md",
@@ -973,6 +973,11 @@
         "file":"Discrete_mathematics.md",
         "title":"Discrete mathematics and graph theory - STACK Documentation",
         "description":"Information on representing, displaying and manipulating graphs, as in graph theory rather than graph sketching."
+        },
+        {
+        "file":"Authoring_GeoGebra.md",
+        "title":"Using GeoGebra blocks in STACK questions - STACK Documentation",
+        "description":"How to use GeoGebra to display graphs and as a STACK input type."
         },
         {
         "file":"Levenshtein_distance.md",

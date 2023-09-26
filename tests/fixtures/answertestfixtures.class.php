@@ -2095,6 +2095,10 @@ class stack_answertest_test_data {
         array('UnitsStrict', '2', '-(36*Kj)/mol', '-36*Kj/mol', 1, 'ATUnits_units_match.', ''),
         array('UnitsStrict', '2', '-(36.2*Kj)/mol', '-36.3*Kj/mol', 0,
             'ATNumSigFigs_WrongDigits. ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '3.58e-9*mg', 'displaydp(3.58e-9,2)*mg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '3.58e-9*mg', 'displaysf(3.58e-9,3)*mg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '3', '-9.82*m/s^2', 'stackunits(displaydp(-9.815,3),m/s^2)', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '3', '-9.82*m/s^2', 'stackunits(displaysf(-9.815,4),m/s^2)', 1, 'ATUnits_units_match.', ''),
 
         array('UnitsRelative', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
         array('UnitsRelative', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),
@@ -2110,6 +2114,8 @@ class stack_answertest_test_data {
         array('UnitsRelative', '0.002', '0.0*kVA', '0.0*kVA', 1, 'ATUnits_units_match.', ''),
 
         array('UnitsStrictRelative', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrictRelative', '0.01', '12.3*m/s', 'stackunits(12.3,m/s)', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrictRelative', '0.01', '12.3*m/s', 'stackunits(displaydp(12.3,1),m/s)', 1, 'ATUnits_units_match.', ''),
         array('UnitsStrictRelative', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),
         array('UnitsStrictRelative', '0.15', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units kg.', ''),
         array('UnitsStrictRelative', '0.05', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units kg.', ''),
@@ -2131,6 +2137,7 @@ class stack_answertest_test_data {
         array('UnitsAbsolute', '0.09', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units kg.', ''),
         array('UnitsAbsolute', '5*kJ', '-123000*J', '-123*kJ', 1, 'ATUnits_compatible_units (kg*m^2)/s^2.', 'Units in the options'),
         array('UnitsAbsolute', '5*kJ', '-123006*J', '-123*kJ', 1, 'ATUnits_compatible_units (kg*m^2)/s^2.', ''),
+        array('UnitsAbsolute', '5*kJ', '-123006*J', 'stackunits(-123,kJ)', 1, 'ATUnits_compatible_units (kg*m^2)/s^2.', ''),
         array('UnitsAbsolute', '5*kJ', '-129006*J', '-123*kJ', 0, 'ATUnits_compatible_units (kg*m^2)/s^2.', ''),
         array('UnitsAbsolute', '0.1*kN*ns/(mm*Hz)', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 1, 'ATUnits_compatible_units kg.', ''),
         array('UnitsAbsolute', '0.09*kN*ns/(mm*Hz)', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units kg.', ''),

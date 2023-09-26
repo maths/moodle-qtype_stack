@@ -165,7 +165,7 @@ class stack_input_factory {
             'displayType'        => 'displaytype',
             'choiceType'         => 'choicetype',
             'matrixSize'         => 'matrixsize',
-            'buttonTitles'       => 'buttontitles',
+            'buttonTitles'       => 'buttontitles', 
             'mustVerify'         => 'mustverify',
             'showValidation'     => 'showvalidation',
             'boxWidth'           => 'boxsize',

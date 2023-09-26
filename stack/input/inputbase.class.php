@@ -82,7 +82,7 @@ abstract class stack_input {
         'sameType',
         'choiceType',
         'displayType',
-        'buttonTitles',
+        'buttonTitles', 
         'matrixSize');
 
     /**

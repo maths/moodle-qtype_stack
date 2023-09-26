@@ -843,3 +843,4 @@ class qtype_stack_edit_form extends question_edit_form {
         return 'stack';
     }
 }
+ 

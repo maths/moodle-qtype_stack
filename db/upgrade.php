@@ -959,7 +959,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     if ($oldversion < 2023082400) {
 
         // Define field displaytype and buttontitles to be added to qtype_stack_input.
-        $table = new xmldb_table('qtype_stack_inputs');
+        $table = new xmldb_table('qtype_stack_inputs'); 
 
 
         // Conditionally launch add field displaytype.

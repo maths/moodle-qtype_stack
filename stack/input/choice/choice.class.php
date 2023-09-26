@@ -720,3 +720,4 @@ class stack_choice_input extends stack_input {
     }
 
 }
+ 

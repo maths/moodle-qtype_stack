@@ -143,3 +143,4 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
         );
     }
 }
+ 

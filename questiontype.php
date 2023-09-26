@@ -2431,3 +2431,4 @@ class qtype_stack extends question_type {
         return array_keys($compile['required']);
     }
 }
+ 

@@ -667,3 +667,4 @@ class stack_matrix_input extends stack_input {
     }
 
 }
+ 

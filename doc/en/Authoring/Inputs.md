@@ -135,7 +135,7 @@ A selection menu allowing you to choose how the button for a boolean (true/false
 
 ### Button Title ### {#Buttontitles}
 
-This allows you to set a label for the boolean button.
+This allows you to set a label for the boolean button. 
 
 ### Choice Type ### {#Choice_Type}
 

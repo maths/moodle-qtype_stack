@@ -62,7 +62,7 @@
         <FIELD NAME="mustverify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the interpretation of this input must be verified by the student before it is graded."/>
         <FIELD NAME="showvalidation" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the validation results for this input should be displayed."/>
         <FIELD NAME="options" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Extra options that are interpreted in an input-specific way."/>
-      </FIELDS>
+      </FIELDS> 
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="questionid" TYPE="foreign" FIELDS="questionid" REFTABLE="question" REFFIELDS="id"/>

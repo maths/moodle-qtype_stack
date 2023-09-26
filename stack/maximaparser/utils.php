@@ -281,8 +281,12 @@ class maxima_parser_utils {
                                 if (isset($remotes[$remoteurl])) {
                                     $srccode = $remotes[$remoteurl];
                                 } else {
-                                    $srccode = file_get_contents($remoteurl);
-                                    $remotes[$remoteurl] = $srccode;
+                                    $file_headers = get_headers($remoteurl);
+                                    $srccode = false;
+                                    if (strpos($file_headers[0], '404') === false){
+                                        $srccode = file_get_contents($remoteurl);
+                                        $remotes[$remoteurl] = $srccode;
+                                    }
                                 }
                                 if ($srccode === false) {
                                     // Do not give the address in the output.

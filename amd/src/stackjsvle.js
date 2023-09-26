@@ -754,3 +754,4 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
 
     };
 });
+ 

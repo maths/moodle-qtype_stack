@@ -336,4 +336,4 @@ export const stack_js = {
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
 };
-export default stack_js;
+export default stack_js; 

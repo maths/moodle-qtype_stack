@@ -121,3 +121,4 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         return true;
     }
 }
+ 

@@ -87,13 +87,13 @@ Note, the teacher's answer and any syntax hint must be a list!  If you just pass
 
 #### True/False ####
 
-Simple drop down. A Boolean value is assigned to the variable name.
+Simple drop down with diffrent styles (see #Display_Type). A Boolean value is assigned to the variable name.
 
 If the teacher's correct answer should leave this blank (e.g. not answered at all) then use the tag `EMPTYANSWER`. (There are some edge cases where only some inputs are used in the correct answer to a question, so not answering is correct here).  If you use the extra option `allowempty` then empty answers are considered valid, and the value of this input is `EMPTYANSWER`.
 
-#### Dropdown/Checkbox/Radio ####
+#### Choice : Dropdown/Checkbox/Radio ####
 
-The dropdown, checkbox and radio input types enable teachers to create [multiple-choice](Multiple_choice_questions.md) questions.  See the separate documentation.
+The choice input type, where you can choose between dropdown, checkbox and radio input types, enable teachers to create [multiple-choice](Multiple_choice_questions.md) questions.  See the separate documentation.
 
 #### String input ####
 
@@ -130,12 +130,20 @@ The width of the input box.
 A selection menu allowing you to choose how the button for a boolean (true/false) value should be displayed. This menu provides options for customizing the visual representation of the button, giving you control over its appearance based on the boolean state it represents.
 
 * Dropdown: A dropdown menu for selecting either true or false, accompanied by a confirmation button.
-* Click button: A button that, when pressed, toggles between true and false states with each subsequent press.
-* Toggle button: A toggle button that switches between true and false when pressed.
+* Click button: A button that, when pressed, toggles between true and false states with each subsequent press. The button can have a title that is entered in button titles. If it has never been pressed, the button is black by default and represents 'not answered'. Blue represents true, and gray represents false.
+* Toggle button: A toggle button that switches between true and false when pressed. If it has never been pressed, the button is gray and without title by default and represents 'not answered'. It shows true or false, depending on the selection.
 
 ### Button Title ### {#Buttontitles}
 
 This allows you to set a label for the boolean button.
+
+### Choice Type ### {#Choice_Type}
+
+For [multiple-choice](Multiple_choice_questions.md) questions, the options are radio buttons, checkboxes, or a dropdown list.
+
+### Matrix Size ### {#Matrix_Size}
+
+For matrix input, whether the size of the matrix is variable or fixed.
 
 ### Insert Stars ### {#Insert_Stars}
 

@@ -80,7 +80,7 @@ abstract class stack_input {
         'forbidFloats',
         'lowestTerms',
         'sameType',
-        'auswahlType',
+        'choiceType',
         'displayType',
         'buttonTitles',
         'matrixSize');

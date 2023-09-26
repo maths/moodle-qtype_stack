@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../../cas/castext2/utils.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-class stack_auswahl_input extends stack_input {
+class stack_choice_input extends stack_input {
 
     /*
      * ddlvalues is an array of the types used.
@@ -538,7 +538,7 @@ class stack_auswahl_input extends stack_input {
     public static function get_parameters_defaults() {
 
         return array(
-            'auswahlType'    => 0,
+            'choiceType'    => 0,
             'mustVerify'     => false,
             'showValidation' => 0,
             'options'        => '',
@@ -686,7 +686,7 @@ class stack_auswahl_input extends stack_input {
      * ddltype must be one of 'select' 0 dropdown, 'checkbox' 1 or 'radio' 2.
      */
     protected function get_ddltype(){
-        switch ($this->parameters['auswahlType']){
+        switch ($this->parameters['choiceType']){
             case 0: return'select'; 
             case 1: return 'checkbox';
             case 2: return 'radio';
@@ -698,7 +698,7 @@ class stack_auswahl_input extends stack_input {
      * Default ddldisplay for checkboxes and radio is 'LaTeX'.
      */
     protected function get_ddldisplay(){
-        switch ($this->parameters['auswahlType']){
+        switch ($this->parameters['choiceType']){
             case 0: return 'casstring';
             default: return 'LaTeX';
         }

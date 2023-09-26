@@ -963,13 +963,13 @@ function xmldb_qtype_stack_upgrade($oldversion) {
 
 
         // Conditionally launch add field displaytype.
-        $field = new xmldb_field('auswahltype',XMLDB_TYPE_INTEGER, '3', null, XMLDB_NOTNULL, null, '0', 'buttontitles');
+        $field = new xmldb_field('choicetype',XMLDB_TYPE_INTEGER, '3', null, XMLDB_NOTNULL, null, '0', 'buttontitles');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
 
         // Conditionally launch add field displaytype.
-        $field = new xmldb_field('matrixsize', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'auswahltype');
+        $field = new xmldb_field('matrixsize', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'choicetype');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }

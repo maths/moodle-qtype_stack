@@ -339,11 +339,11 @@ class stack_options {
     /**
      * @return array of choices for the auswahl display type select menu.
      */
-    public static function get_auswahltype_options() {
+    public static function get_choicetype_options() {
         return array(
-            '0' => get_string('auswahltypedropdown', 'qtype_stack'),
-            '1' => get_string('auswahltypecheckbox', 'qtype_stack'),
-            '2' => get_string('auswahltyperadiobuttons', 'qtype_stack'),
+            '0' => get_string('choicetypedropdown', 'qtype_stack'),
+            '1' => get_string('choicetypecheckbox', 'qtype_stack'),
+            '2' => get_string('choicetyperadiobuttons', 'qtype_stack'),
         );
     }
 

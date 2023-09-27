@@ -11,7 +11,6 @@ This document assumes you have worked through the following sections of the Auth
 * [Authoring quick start 1](../AbInitio/Authoring_quick_start_1.md): A basic question.
 * [Authoring quick start 2](../AbInitio/Authoring_quick_start_2.md): Question variables.
 * [Authoring quick start 3](../AbInitio/Authoring_quick_start_3.md): Improving feedback.
-* [Authoring quick start 4](../AbInitio/Authoring_quick_start_4.md): Randomisation.
 
 __We strongly recommend you do not use an HTML-aware editor when using GeoGebra questions.__  Instead turn off the editor within Moodle and edit the raw HTML.  Individual users can set their editor preferences by following:
 
@@ -26,10 +25,10 @@ Move the points \(A\) and \(B\) (on a GeoGebra applet) so that the line \(AB\) i
 
 Notes.
 
-* \(m\) and \(c\) are randomly generated integers by STACK.
-* We should listen to the _gradient_ of the line \(AB\) as an input.
+* \(m\) and \(c\) are defined by STACK in the question variables.  Ultimately these could be randomly genereated.  They illustrate how to _set_ values in an applet.
+* We should listen to the _gradient_ of the line \(AB\) as an input.  This illustrates how to _watch_ a value in GeoGebra and link it to a STACK input.
 * \(A\) and \(B\) are points in the GeoGebra applet.  We need to _remember_ the position a student leaves the points in.
-* The potential response tree should multiply \(m\) by the gradient of \(AB\) to check this is \(-1\).
+* In this question, the potential response tree should multiply the variable \(m\) by the gradient of \(AB\) to check this is \(-1\).  We don't worry about the position of the student's line otherwise.
 
 ## 1. Create the GeoGebra applet
 
@@ -37,20 +36,17 @@ The first step is to create a GeoGebra applet and publish it online.   You will 
 
 1. Login to [https://www.geogebra.org/](https://www.geogebra.org/) 
 2. Create a blank applet directly on the GeoGebra website.
- * Create numbers `m=2` and `c=3`.  These will be given a value by STACK when the question is started by the student.
+ * Create numbers `m=2` and `c=3`.  These will be given a value by STACK when the question is started by the student, but we must set sensible initial values.
  * Create the line `l=m*x+c`.
  * Create points A and B and a line through them.  Call this line `f`.
- * Create the new variable `ans1=Slope(f)`.   STACK will listen to the value of this variable `ans1`.
- * Hide the slope, and other object names as needed.
+ * Create the new variable `ans1=Slope(f)`.   We will setup the question to a STACK input will _watch_ the value of this variable `ans1`.
+ * Hide the slope, and other object names as needed in the GGB applet.
  * Hide the algebra window on GeoGebra, leaving only the geometry window.
-3. Publish the GeoGebra file.  You will need the id from the URL.  For example, if your GeoGebra file has URL `https://www.geogebra.org/calculator/anr6ujyf` then the id is the last part `anr6ujyf`.  This code is needed for `material_id`.  E.g. `material_id:"anr6ujyf"`.
-
+3. Save and publish the GeoGebra file.  You will need the id from the URL.  For example, if your GeoGebra file has URL `https://www.geogebra.org/calculator/anr6ujyf` then the id is the last part `anr6ujyf`.  This code is needed to link STACK to GeoGebra, for the value of `material_id`.  E.g. `params["material_id"]="anr6ujyf";` within the GeoGebra block.
 
 ## 2. Create a minimal STACK question containing the materials
 
-Add the following text to the STACK question where you would like the GeoGebra applet to appear.  This uses the `[[geogebra]]` block.
-
-Set the question variables.  Initially the question variables are fixed values. Later these values will be randomly generated.
+Create a new question.  Set the question variables.  Initially the question variables are fixed values. Later these values will be randomly generated.
 
     m:2;
     c:-1;
@@ -64,16 +60,16 @@ Set the question text:
     Move the points \(A\) and \(B\) so that the line \(AB\) is perpendicular the line shown in the applet.
     [[input:ans1]][[validation:ans1]]
 
-Then complete the question as follows.
+Notice this uses the `[[geogebra]]` question block. Then complete the question as follows.
 
-1. Make sure the question text is "HTML" format (not moodle auto format)
+1. Make sure the question text is "HTML" format (not moodle auto format, or something else).
 2. Input `ans1` should have Model answer equal to `-1/m`.
 3. Input `ans1` should "Forbid float" set to no/false (GeoGebra will return floating point numbers)
-4. Set up the PRT with node 1 testing `ATNumAbsolute(ans1*m, -1, 0.1)`.  This checks the product of the gradient of the lines is within \(0.1\) of \(-1\) - i.e. are they close to perpendicular.  (You could opt for a strict algebraic equivalence if you prefer.)
+4. Set up the PRT with node 1 testing `ATNumAbsolute(ans1*m, -1, 0.1)`.  This checks the product of the gradient of the lines is within \(0.1\) of \(-1\) - i.e. are they close to perpendicular.  (You could opt for a strict algebraic equivalence `ATAlgEquiv(ans1*m, -1)` if you prefer.)
 
 Notes
 
-* The tag `[[geogebra set="c,m" watch="ans1"]]` contains information about which variables within GeoGebra to set and which to watch.
+* The tag `[[geogebra set="c,m" watch="ans1"]]` contains information about which variables within GeoGebra to _set_ and which to _watch_.
 * There are strict naming conventions which must be followed, e.g. names _must_ match in GeoGebra and in STACK.  This is explained in more detail in the [GeoGebra](../Authoring/GeoGebra.md) reference documentation.
 
 ## 3. Preliminary test of the STACK question
@@ -81,33 +77,35 @@ Notes
 At this point you should have a working, minimal STACK question. So save and preview the question.
 
 1. Confirm the GeoGebra worksheet shows in the question and points \(A\) and \(B\) are visible to move.
-2. Confirm as you move the points that the gradient is placed into input `ans1`
+2. Confirm as you move the points that the gradient is placed into input `ans1`, which at this point you can see.
 
 ## 4. Remember the positions of points \(A\) and \(B\)
 
 While the question sets and watches values inside the applet, we also need to _remember_ the positions of \(A\) and \(B\) so these are retained when the page reloads (after check, or navigation).
 
-You still need an input in the question to store these values. The only way STACK can store "state" is through inputs.
-This input _must_ be of type "string" (because we store these values as a JSON-string internally).
+You still need an input in the question to store any values you want to remember. The only way STACK can store "state" is through inputs.  This input _must_ be of type "string" (because we store these values as a JSON-string internally).  
 
 We need to add in a new input `[[input:remember]][[validation:remember]]` at the end of the question text.  Verify the question text and update the form, to set up this new input as follows.
 
-1. The `remember` input _must_ be of type string, and can not be used to calculate values in STACK feedback.
+1. The `remember` input _must_ be of type string.
 2. For the "model answer" use the empty string `""`.
 3. We don't want to show the model answer of "remember" as part of the teacher's final answer (if available during the quiz) so [hide the input](../Authoring/Inputs.md#extra_option_hideanswer) from students with the STACK "extra option" `hideanswer` in the "remember" input.
+4. Values in _remember_ are not available to the PRT and can not be used to calculate values in STACK feedback.
 
 ## 5. Polish and tidy the question.
 
-Once you have the question working, you can create random versions, add a worked solution and so on.  For example you could choose
+Once you have the question working, you can add better feedback, add a worked solution, create random versions, and so on.  For example you could choose
 
 ```
     m:rand_with_step(2,3,1);
     c:rand_with_step(2,3,1);
 ```
 
-Then add in an answer note such as `\[ y={@m*x+c@} \]`.
+Then add in an answer note such as `\[ y={@m*x+c@} \]`.  [Authoring quick start 4](../AbInitio/Authoring_quick_start_4.md) provides advice on randomisation.
 
-You should hide the inputs with CSS, e.g. `<p style="display:none">...</p>`.
+You could also have an additional algebraic input asking the student to find the equation of their line.  At this point there are lots of options for combining a geometric diagram within a larger question.
+
+You should hide the inputs from students with CSS after testing, e.g. `<p style="display:none">...</p>`.
 
 For reference the full question text should now be
 

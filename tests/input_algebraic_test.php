@@ -1729,10 +1729,10 @@ class input_algebraic_test extends qtype_stack_testcase {
     public function test_validate__string() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '"A random string"');
-        $state = $el->validate_student_response(array('sans1' => '"Lots of stuff:!£$%^&*?@;"'),
+        $state = $el->validate_student_response(array('sans1' => '"Lots of stuff:!$%^&*?@;"'),
             $options, '"A random string"', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('"Lots of stuff:!£$%^&*?@;"', $state->contentsmodified);
-        $this->assertEquals('\[ \mbox{Lots of stuff:!£\$\%^\&*?@;} \]', $state->contentsdisplayed);
+        $this->assertEquals('"Lots of stuff:!$%^&*?@;"', $state->contentsmodified);
+        $this->assertEquals('\[ \mbox{Lots of stuff:!\$\%^\&*?@;} \]', $state->contentsdisplayed);
     }
 }

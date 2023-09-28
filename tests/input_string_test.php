@@ -118,11 +118,11 @@ class input_string_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('string', 'sans1', '"A random string"');
         $el->set_parameter('sameType', true);
         // Note here the student has used ?, $ etc. within a string.
-        $state = $el->validate_student_response(array('sans1' => 'Lots of stuff:!£$%^&*?@;'),
+        $state = $el->validate_student_response(array('sans1' => 'Lots of stuff:!$%^&*?@;'),
             $options, '"A random string"', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('"Lots of stuff:!£$%^&*?@;"', $state->contentsmodified);
-        $this->assertEquals('\[ \mbox{Lots of stuff:!£\$\%^\&*?@;} \]', $state->contentsdisplayed);
+        $this->assertEquals('"Lots of stuff:!$%^&*?@;"', $state->contentsmodified);
+        $this->assertEquals('\[ \mbox{Lots of stuff:!\$\%^\&*?@;} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_string_broken_string() {

@@ -16,7 +16,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
 // Note that is a complete rewrite of cassession, in this we generate
 // no "caching" in the form of keyval representations as we do not
 // necessarily return enough information from the CAS to do that, for
@@ -42,6 +41,9 @@ class stack_cas_session2 {
      */
     private $statements;
 
+    /**
+     * @var bool
+     */
     private $instantiated;
 
     /**
@@ -49,9 +51,18 @@ class stack_cas_session2 {
      */
     private $options;
 
+    /**
+     * @var int
+     */
     private $seed;
 
-    private $errors;
+    /**
+     * @var string
+     *
+     * In the event of a timeout (the only session level error) this is as much raw output
+     * from Maxima as we can manage to reasonably get back.
+     */
+    private $timeoutdebug = '';
 
     /**
      * @var string the name of the error-wrapper-class, tuneable for use in
@@ -59,20 +70,9 @@ class stack_cas_session2 {
      */
     public $errclass = 'stack_cas_error';
 
-
-    /**
-     * @var string
-     *
-     * In the event that we can't parse the outout this holds an error message which might help
-     * a user track down what has gone wrong. Basically, this is as much raw output from Maxima as
-     * we can manage to reasonably get back.
-     */
-    private $timeouterrmessage;
-
     public function __construct(array $statements, $options = null, $seed = null) {
 
         $this->instantiated = false;
-        $this->errors = array();
         $this->statements = $statements;
 
         foreach ($statements as $statement) {
@@ -207,51 +207,30 @@ class stack_cas_session2 {
      */
     public function get_errors($implode = true, $withcontext = true) {
         $errors = array();
-        $this->timeouterrmessage = trim($this->timeouterrmessage ?? '');
+
+        if ($this->timeoutdebug !== '') {
+            $errors[] = array(stack_string('stackCas_failedtimeout'));
+        }
 
         foreach ($this->statements as $num => $statement) {
             $err = $statement->get_errors('implode');
             if ($err) {
-                if ($err === 'TIMEDOUT' && $this->timeouterrmessage === '') {
-                    $errors[$num] = $statement->get_errors(false);
-                } else if ($err !== 'TIMEDOUT') {
-                    // Regular error message.
-                    $errors[$num] = $statement->get_errors(false);
-                }
-                // If we have timeout and a nonempty timeout message do nothing.
+                $errors[$num] = $statement->get_errors(false);
             }
         }
 
-        if ($implode !== true) {
-            if ($this->timeouterrmessage !== '') {
-                $errors[] = $this->timeouterrmessage;
-            }
-            return $errors;
-        }
-
+        /* Make sure each error is only reported once. */
         $unique = array();
         foreach ($errors as $errs) {
             foreach ($errs as $err) {
                 $unique[$err] = true;
             }
         }
-        if ($this->timeouterrmessage !== '') {
-            $unique[$this->timeouterrmessage] = true;
+        $unique = array_keys($unique);
+        if ($implode == true) {
+            return implode(' ', $unique);
         }
-        return implode(' ', array_keys($unique));
-
-        foreach ($this->errors as $statementerrors) {
-            foreach ($statementerrors as $value) {
-                // Element [0] is the list of errors.
-                // Element [1] is the context information.
-                if ($withcontext) {
-                    $r[] = implode(' ', $value[1] . ': ' .$value[0]);
-                } else {
-                    $r[] = implode(' ', $value[0]);
-                }
-            }
-        }
-        return implode(' ', $r);
+        return $unique;
     }
 
     /**
@@ -409,11 +388,11 @@ class stack_cas_session2 {
         $display = array();
 
         if (!isset($results['timeout']) || $results['timeout'] === true) {
-            if (array_key_exists('timeouterrmessage', $results)) {
-                $this->timeouterrmessage = $results['timeouterrmessage'];
+            if (array_key_exists('timeoutdebug', $results)) {
+                $this->timeoutdebug = $results['timeoutdebug'];
             }
             foreach ($this->statements as $num => $statement) {
-                $errors = array(new $this->errclass('TIMEDOUT', ''));
+                $errors = array(new $this->errclass(stack_string('stackCas_failedtimeout'), ''));
                 $statement->set_cas_status($errors, array(), array());
             }
             return false;
@@ -451,15 +430,6 @@ class stack_cas_session2 {
                 }
             }
         }
-        if (array_key_exists('errors', $results)) {
-            $this->errors = array();
-            foreach ($results['errors'] as $key => $value) {
-                // Element [0] is the list of errors.
-                // Element [1] is the context information.
-                $this->errors[$key] = $value;
-            }
-        }
-
         // Then push those to the objects we are handling.
         foreach ($this->statements as $num => $statement) {
             $err = array();
@@ -580,8 +550,8 @@ class stack_cas_session2 {
     }
 
     public function get_debuginfo() {
-        if (trim($this->timeouterrmessage ?? '') !== '') {
-            return $this->timeouterrmessage;
+        if (trim($this->timeoutdebug ?? '') !== '') {
+            return $this->timeoutdebug;
         }
         return '';
     }

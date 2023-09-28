@@ -281,9 +281,9 @@ class maxima_parser_utils {
                                 if (isset($remotes[$remoteurl])) {
                                     $srccode = $remotes[$remoteurl];
                                 } else {
-                                    $file_headers = get_headers($remoteurl);
+                                    $fileheaders = get_headers($remoteurl);
                                     $srccode = false;
-                                    if (strpos($file_headers[0], '404') === false){
+                                    if (strpos($fileheaders[0], '404') === false) {
                                         $srccode = file_get_contents($remoteurl);
                                         $remotes[$remoteurl] = $srccode;
                                     }

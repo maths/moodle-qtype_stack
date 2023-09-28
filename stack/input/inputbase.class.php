@@ -811,11 +811,10 @@ abstract class stack_input {
                         'nontuples' => false
         );
         $interpretedanswer = $answerd->ast_to_string(null, $params);
-        // TODO: apply a filter to check the ast!
-        if (!(strpos($interpretedanswer, '?') === false) ||
-            !(strpos($interpretedanswer, 'QMCHAR') === false)) {
+        if (!(strpos($interpretedanswer, 'QMCHAR') === false)) {
             $valid = false;
             $errors[] = stack_string('qm_error');
+            $notes['qm_error'] = true;
         }
 
         if ($notes == array()) {

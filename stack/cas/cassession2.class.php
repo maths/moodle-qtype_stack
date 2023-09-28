@@ -416,125 +416,127 @@ class stack_cas_session2 {
                 $errors = array(new $this->errclass('TIMEDOUT', ''));
                 $statement->set_cas_status($errors, array(), array());
             }
-        } else {
-            if (array_key_exists('values', $results)) {
-                foreach ($results['values'] as $key => $value) {
-                    if (is_string($value)) {
-                        try {
-                            if (!isset($collectvalues[$key]) || $collectvalues[$key] instanceof cas_value_extractor) {
-                                $ast = maxima_parser_utils::parse($value, 'Root', false);
-                                // Let's unpack the MP_Root immediately.
-                                $asts[$key] = $ast->items[0];
-                            } else {
-                                $asts[$key] = $value;
-                            }
-                        } catch (Exception $e) {
-                            throw new stack_exception('stack_cas_session: tried to parse the value ' .
-                                    $value . ', but got the following exception ' . $e->getMessage());
-                        }
-                    }
-                }
-            }
-            if (array_key_exists('presentation', $results)) {
-                foreach ($results['presentation'] as $key => $value) {
-                    if (is_string($value)) {
-                        $latex[$key] = $value;
-                    }
-                }
-            }
-            if (array_key_exists('display', $results)) {
-                foreach ($results['display'] as $key => $value) {
-                    if (is_string($value)) {
-                        $display[$key] = $value;
-                    }
-                }
-            }
-            if (array_key_exists('errors', $results)) {
-                $this->errors = array();
-                foreach ($results['errors'] as $key => $value) {
-                    // Element [0] is the list of errors.
-                    // Element [1] is the context information.
-                    $this->errors[$key] = $value;
-                }
-            }
-
-            // Then push those to the objects we are handling.
-            foreach ($this->statements as $num => $statement) {
-                $err = array();
-                if (array_key_exists('errors', $results)) {
-                    if (array_key_exists('s' . $num, $results['errors'])) {
-                        foreach ($results['errors']['s' . $num] as $errs) {
-                            // The first element is a list of errors declared
-                            // at a given position in the logic.
-                            // There can be multiple errors from multiple positions.
-                            // The second element is the position.
-                            foreach ($errs[0] as $er) {
-                                $err[] = new $this->errclass(stack_utils::maxima_translate_string($er), $errs[1]);
-                            }
-                        }
-                    }
-                }
-                // Check for ignores.
-                $last = null;
-                $errb = array();
-                foreach ($err as $error) {
-                    if (strpos($error->get_legacy_error(), 'STACK: ignore previous error.') !== false) {
-                        $last = null;
-                    } else {
-                        if ($last !== null) {
-                            $errb[] = $last;
-                        }
-                        $last = $error;
-                    }
-                }
-                if ($last !== null) {
-                    $errb[] = $last;
-                }
-                $err = $errb;
-
-                $answernotes = array();
-                if (array_key_exists('notes', $results)) {
-                    if (array_key_exists('s' . $num, $results['notes'])) {
-                        $answernotes = $results['notes']['s' . $num];
-                    }
-                }
-                $feedback = array();
-                if (array_key_exists('feedback', $results)) {
-                    if (array_key_exists('s' . $num, $results['feedback'])) {
-                        $feedback = $results['feedback']['s' . $num];
-                    }
-                }
-                $statement->set_cas_status($err, $answernotes, $feedback);
-            }
-
-            // Check the Maxima versions match and fail badly if not.
-            if (array_key_exists('__stackmaximaversion', $results['values'])) {
-                $usedversion = $results['values']['__stackmaximaversion'];
-                $config = stack_utils::get_config();
-                if ($usedversion !== $config->stackmaximaversion) {
-                    $errors = array(new $this->errclass(stack_string_error('healthchecksstackmaximaversionmismatch',
-                        array('fix' => '', 'usedversion' => $usedversion, 'expectedversion' => $config->stackmaximaversion)), ''));
-                    foreach ($this->statements as $num => $statement) {
-                        $statement->set_cas_status($errors, array(), array());
-                    }
-                }
-            }
-
-            foreach ($collectvalues as $key => $statement) {
-                $statement->set_cas_evaluated_value($asts[$key]);
-            }
-            foreach ($collectlatex as $key => $statement) {
-                $statement->set_cas_latex_value($latex[$key]);
-            }
-            foreach ($collectdvs as $key => $statement) {
-                $statement->set_cas_display_value($display[$key]);
-            }
-            foreach ($collectdvsandvalues as $key => $statement) {
-                $statement->set_cas_evaluated_value($asts[$key]);
-                $statement->set_cas_display_value($display[$key]);
-            }
-            $this->instantiated = true;
+            return false;
         }
+
+        if (array_key_exists('values', $results)) {
+            foreach ($results['values'] as $key => $value) {
+                if (is_string($value)) {
+                    try {
+                        if (!isset($collectvalues[$key]) || $collectvalues[$key] instanceof cas_value_extractor) {
+                            $ast = maxima_parser_utils::parse($value, 'Root', false);
+                            // Let's unpack the MP_Root immediately.
+                            $asts[$key] = $ast->items[0];
+                        } else {
+                            $asts[$key] = $value;
+                        }
+                    } catch (Exception $e) {
+                        throw new stack_exception('stack_cas_session: tried to parse the value ' .
+                                $value . ', but got the following exception ' . $e->getMessage());
+                    }
+                }
+            }
+        }
+        if (array_key_exists('presentation', $results)) {
+            foreach ($results['presentation'] as $key => $value) {
+                if (is_string($value)) {
+                    $latex[$key] = $value;
+                }
+            }
+        }
+        if (array_key_exists('display', $results)) {
+            foreach ($results['display'] as $key => $value) {
+                if (is_string($value)) {
+                    $display[$key] = $value;
+                }
+            }
+        }
+        if (array_key_exists('errors', $results)) {
+            $this->errors = array();
+            foreach ($results['errors'] as $key => $value) {
+                // Element [0] is the list of errors.
+                // Element [1] is the context information.
+                $this->errors[$key] = $value;
+            }
+        }
+
+        // Then push those to the objects we are handling.
+        foreach ($this->statements as $num => $statement) {
+            $err = array();
+            if (array_key_exists('errors', $results)) {
+                if (array_key_exists('s' . $num, $results['errors'])) {
+                    foreach ($results['errors']['s' . $num] as $errs) {
+                        // The first element is a list of errors declared
+                        // at a given position in the logic.
+                        // There can be multiple errors from multiple positions.
+                        // The second element is the position.
+                        foreach ($errs[0] as $er) {
+                            $err[] = new $this->errclass(stack_utils::maxima_translate_string($er), $errs[1]);
+                        }
+                    }
+                }
+            }
+            // Check for ignores.
+            $last = null;
+            $errb = array();
+            foreach ($err as $error) {
+                if (strpos($error->get_legacy_error(), 'STACK: ignore previous error.') !== false) {
+                    $last = null;
+                } else {
+                    if ($last !== null) {
+                        $errb[] = $last;
+                    }
+                    $last = $error;
+                }
+            }
+            if ($last !== null) {
+                $errb[] = $last;
+            }
+            $err = $errb;
+
+            $answernotes = array();
+            if (array_key_exists('notes', $results)) {
+                if (array_key_exists('s' . $num, $results['notes'])) {
+                    $answernotes = $results['notes']['s' . $num];
+                }
+            }
+            $feedback = array();
+            if (array_key_exists('feedback', $results)) {
+                if (array_key_exists('s' . $num, $results['feedback'])) {
+                    $feedback = $results['feedback']['s' . $num];
+                }
+            }
+            $statement->set_cas_status($err, $answernotes, $feedback);
+        }
+
+        // Check the Maxima versions match and fail badly if not.
+        if (array_key_exists('__stackmaximaversion', $results['values'])) {
+            $usedversion = $results['values']['__stackmaximaversion'];
+            $config = stack_utils::get_config();
+            if ($usedversion !== $config->stackmaximaversion) {
+                $errors = array(new $this->errclass(stack_string_error('healthchecksstackmaximaversionmismatch',
+                    array('fix' => '', 'usedversion' => $usedversion, 'expectedversion' => $config->stackmaximaversion)), ''));
+                foreach ($this->statements as $num => $statement) {
+                    $statement->set_cas_status($errors, array(), array());
+                }
+            }
+        }
+
+        foreach ($collectvalues as $key => $statement) {
+            $statement->set_cas_evaluated_value($asts[$key]);
+        }
+        foreach ($collectlatex as $key => $statement) {
+            $statement->set_cas_latex_value($latex[$key]);
+        }
+        foreach ($collectdvs as $key => $statement) {
+            $statement->set_cas_display_value($display[$key]);
+        }
+        foreach ($collectdvsandvalues as $key => $statement) {
+            $statement->set_cas_evaluated_value($asts[$key]);
+            $statement->set_cas_display_value($display[$key]);
+        }
+        $this->instantiated = true;
+
         return $this->instantiated;
     }
 

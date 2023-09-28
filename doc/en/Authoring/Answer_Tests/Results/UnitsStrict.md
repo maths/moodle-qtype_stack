@@ -413,4 +413,42 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">Your answer contains the wrong number of significant digits.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">UnitsStrict</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>3.58e-9*mg</pre></td>
+  <td class="cell c3"><pre>displaydp(3.58e-9,2)*mg</pre></td>
+  <td class="cell c4"><pre>[3,2]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATUnits_units_match.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">UnitsStrict</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>3.58e-9*mg</pre></td>
+  <td class="cell c3"><pre>displaysf(3.58e-9,3)*mg</pre></td>
+  <td class="cell c4"><pre>[3,2]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATUnits_units_match.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">UnitsStrict</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-9.82*m/s^2</pre></td>
+  <td class="cell c3"><pre>stackunits(displaydp(-9.815,3)
+,m/s^2)</pre></td>
+  <td class="cell c4"><pre>3</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATUnits_units_match.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">UnitsStrict</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-9.82*m/s^2</pre></td>
+  <td class="cell c3"><pre>stackunits(displaysf(-9.815,4)
+,m/s^2)</pre></td>
+  <td class="cell c4"><pre>3</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATUnits_units_match.</td>
 </tr></tbody></table></div>

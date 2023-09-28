@@ -313,6 +313,15 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>100.4-80.0</pre></td>
+  <td class="cell c3"><pre>20.4</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Complex numbers</td></td>
 </tr>

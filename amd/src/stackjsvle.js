@@ -178,7 +178,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
         // TODO: look into replacing this with DOMPurify or some such.
 
         let parser = new DOMParser();
-        let doc = parser.parseFromString(src);
+        let doc = parser.parseFromString(src, "text/html");
 
         // First remove all <script> tags. Also <style> as we do not want
         // to include too much style.

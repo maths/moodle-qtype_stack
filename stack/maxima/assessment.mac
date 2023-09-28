@@ -693,7 +693,7 @@ make_displaydpvalue(ex):= block([n,d],
 remove_displaydp(ex):= block(
     if atom(ex) then return(ex),
     if arrayp(ex) then return(arraymake(op(ex), maplist(make_displaydpvalue, args(ex)))),
-    if not(is(safe_op(ex)="displaydp")) then return(apply(op(ex), maplist(make_displaydpvalue, args(ex)))),
+    if not(is(safe_op(ex)="displaydp")) then return(apply(op(ex), maplist(remove_displaydp, args(ex)))),
     return(first(args(ex)))
 );
 

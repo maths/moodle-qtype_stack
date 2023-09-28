@@ -811,11 +811,10 @@ abstract class stack_input {
                         'nontuples' => false
         );
         $interpretedanswer = $answerd->ast_to_string(null, $params);
-        // TODO: apply a filter to check the ast!
-        if (!(strpos($interpretedanswer, '?') === false) ||
-            !(strpos($interpretedanswer, 'QMCHAR') === false)) {
+        if (!(strpos($interpretedanswer, 'QMCHAR') === false)) {
             $valid = false;
             $errors[] = stack_string('qm_error');
+            $notes['qm_error'] = true;
         }
 
         if ($notes == array()) {
@@ -1018,7 +1017,7 @@ abstract class stack_input {
         }
 
         if (array_key_exists('rationalnum', $this->extraoptions) && $this->extraoptions['rationalnum']) {
-            $additionalvars['rationalnum'] = stack_ast_container::make_from_teacher_source('rationalnum('.$this->name.')',
+            $additionalvars['rationalnum'] = stack_ast_container::make_from_teacher_source('rational_numberp('.$this->name.')',
                     '', new stack_cas_security(), array());
         }
 

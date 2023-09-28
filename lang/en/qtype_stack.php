@@ -769,6 +769,7 @@ $string['stackCas_CASError']                = 'The CAS returned the following er
 $string['stackCas_allFailed']               = 'CAS failed to return any evaluated expressions.  Please check your connection with the CAS.';
 $string['stackCas_failedReturn']            = 'CAS failed to return any data.';
 $string['stackCas_failedReturnOne']         = 'CAS failed to return some data.';
+$string['stackCas_failedtimeout']           = 'CAS failed to return any data due to timeout.';
 
 // Used in keyval.class.php.
 $string['stackCas_inputsdefined']           = 'You may not use input names as variables.  You have tried to define <code>{$a}</code>';

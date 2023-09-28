@@ -3253,6 +3253,8 @@ disptree(e) := sconcat("<ul class='algebratree'><li>", tree_rec(e), "</li></ul>"
 
 tree_texlist:{"#pm#", "%union", "%intersection"};
 tree_rec(e) := block([treelist],
+  /* We don't need to wrap strings in LaTeX and unwrap them later in this display function! */
+  if stringp(e) then return(sconcat("<span class='atom'>", e ,"</span>")),
   if atom(e) then return(sconcat("<span class='atom'>", stack_disp(e, "i") ,"</span>")),
   if is(safe_op(e)="treestop") then return(sconcat("<span class='atom'>", stack_disp(first(e), "i") ,"</span>")),
   if is(safe_op(e)="matrix") then return(sconcat("<span class='atom'>", stack_disp(e, "i") ,"</span>")),

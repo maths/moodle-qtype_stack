@@ -83,9 +83,15 @@ At this point you should have a working, minimal STACK question. So save and pre
 
 While the question sets and watches values inside the applet, we also need to _remember_ the positions of \(A\) and \(B\) so these are retained when the page reloads (after check, or navigation).
 
-You still need an input in the question to store any values you want to remember. The only way STACK can store "state" is through inputs.  This input _must_ be of type "string" (because we store these values as a JSON-string internally).  
+For this, add a tag remember with both points \(A\) and \(B\) to the block heading:
 
-We need to add in a new input `[[input:remember]][[validation:remember]]` at the end of the question text.  Verify the question text and update the form, to set up this new input as follows.
+    [[geogebra set="c,m" watch="ans1" remember="A,B"]]
+    params["material_id"]="anr6ujyf";
+    [[/geogebra]]
+    Move the points \(A\) and \(B\) so that the line \(AB\) is perpendicular the line shown in the applet.
+    [[input:ans1]][[validation:ans1]]
+
+To actually store the coordinates of \(A\) and \(B\), we need to add in a new input `[[input:remember]][[validation:remember]]` at the end of the question text.  Verify the question text and update the form, to set up this new input as follows.
 
 1. The `remember` input _must_ be of type string.
 2. For the "model answer" use the empty string `""`.

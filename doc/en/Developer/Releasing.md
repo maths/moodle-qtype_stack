@@ -40,6 +40,7 @@ Version numbers
 
  * version.php
  * stackmaxima.mac
+ * Run `php cli/getversionstring.php` and add output to `doc/en/Developer/STACK_versions.md`.
  * `MATURITY_STABLE`?
  * Check both the Moodle versions, and the required number. (https://moodledev.io/general/releases)
 

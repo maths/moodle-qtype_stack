@@ -31,7 +31,7 @@ class stack_answertest_general_cas extends stack_anstest {
      * $var bool If this variable is set to true or false we override the
      *      simplification options in the CAS variables.
      */
-    private $simp;
+    protected $simp;
 
     /**
      * @param  string $sans

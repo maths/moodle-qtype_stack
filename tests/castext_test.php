@@ -2085,6 +2085,29 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_display_tree_strings() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $vars = 't1:("text \\\\(x^2\\\\)" nounand "text 30");';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@disptree(t1)@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals("<ul class='algebratree'><li><span class='op'>\(\,{\mbox{ and }}\, \)</span><ul>" .
+            "<li><span class='atom'>text \(x^2\)</span></li><li><span class='atom'>text 30</span></li></ul></li></ul>",
+            $at2->get_rendered());
+    }
+
+    /**
      * @covers \qtype_stack\castext2_evaluatable::make_from_source
      * @covers \qtype_stack\stack_cas_keyval
      */

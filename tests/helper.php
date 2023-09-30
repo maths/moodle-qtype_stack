@@ -130,7 +130,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '2', null, array('boxWidth' => 5));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -875,7 +875,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make('boolean', 'ans1', 'ta');
 
-        $q->options->questionsimplify = 1;
+        $q->options->set_option('simplify', true);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1195,7 +1195,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '3.14', null, array('boxWidth' => 5, 'forbidFloats' => false));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1253,7 +1253,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'numerical', 'ans1', '0.040', null, array('boxWidth' => 5, 'forbidFloats' => false));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1372,7 +1372,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'units', 'ans1', '9.81*m/s^2', null, array('boxWidth' => 5, 'forbidFloats' => false));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1432,7 +1432,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'units', 'ans1', '9.81*m/s^2', null, array('boxWidth' => 5, 'forbidFloats' => false));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1492,7 +1492,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'equiv', 'ans1', 'ta', null, array('boxWidth' => 20, 'forbidFloats' => false));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1684,7 +1684,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                     'algebraic', 'ans1', '2', null, array('boxWidth' => 5, 'insertStars' => 2));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -2767,7 +2767,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'checkbox', 'ans1', '[[x^2+1<0,false],[A,false,"Generalizations are false"],[clcr(a,b), false]]', null, null);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -2828,7 +2828,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '2', null, array('boxWidth' => 5));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -2888,7 +2888,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'units', 'ans1', 'stackunits(9.81,m*s^-2)', null, array('boxWidth' => 5, 'options' => 'mul'));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -2948,7 +2948,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'string', 'ans1', 'ta1', null, array('boxWidth' => 25));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -3033,7 +3033,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'string', 'ans1', 'ta', null, array('boxWidth' => 25));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -3099,7 +3099,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans2'] = stack_input_factory::make(
                 'algebraic', 'ans2', 'sin(x)', null, array('boxWidth' => 10, 'showValidation' => 3));
 
-        $q->options->questionsimplify = 1;
+        $q->options->set_option('simplify', true);
 
         $prt = new stdClass;
         $prt->name              = 'prt1';
@@ -3233,7 +3233,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', 'blob', null, array('boxWidth' => 5, 'allowWords' => 'blob'));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', true);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -3325,7 +3325,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'matrix', 'ans1', 'ta', new stack_options(),
             array('boxWidth' => 5, 'allowWords' => 'blob'));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';

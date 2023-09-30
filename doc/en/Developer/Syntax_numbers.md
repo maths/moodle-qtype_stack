@@ -1,7 +1,5 @@
 # Entry of numbers in STACK
 
-___This is a proposal for discussion as of 10 July 2023.___
-
 This document discusses entry of numbers into STACK.  This discussion will also be relevant to other online assessment systems and technology more generally.  When we type in a string of symbols into a computer there is a context and assumptions which arise from that context.  For example is `e` the base of the natural logarithms or is `e` to be interpreted as part of a floating point number, e.g. `6.6263e−34`? There are two related issues.
 
 * Which symbol to use as the decimal separator, '`,`' or '`.`'?
@@ -79,10 +77,6 @@ We have always worked on the basis of being as forgiving as possible, and accept
 3. If the student's expression contains a '`.`' then any commas are interpreted as list separators.
 4. If a student's expression contains both dots '`.`' and semicolon '`;`' then a student cannot use '`,`' without ambiguity.  A question-level option is needed to determine the probable meaning.
 
-To be decided.
-
-* To what extent do continental teachers accept use of '`.`' as a decimal separator?  If _never_ then we probably don't need the "weak" options proposed above.
-
 ## Practical implementation in STACK
 
 Students do not type in expression termination symbols `;`, freeing up this symbol for use in students' input for separating list items, including lists which are arguments to functions.
@@ -90,7 +84,7 @@ Students do not type in expression termination symbols `;`, freeing up this symb
 Internally, we retain strict Maxima syntax.  _Teachers must use strict Maxima syntax, so that numbers are typed in base 10, and the decimal point (`.`) must be used by teachers as the decimal separator._   This simplifies the problem considerably, as input parsing is only required for students' answers.
 
 1. Currently the only option available is "strict".
-2. TODO: `matrix([3,1415;2,71]).matrix([1];[2])` this example should be parsed, but currently the system rejects this.
+2. TODO: Allow student input of `matrix([3,1415;2,71]).matrix([1];[2])` this example should be parsed, but currently the system rejects this.
 
 ## Practial implementation in other software
 

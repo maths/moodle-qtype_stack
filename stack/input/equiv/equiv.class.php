@@ -116,7 +116,7 @@ class stack_equiv_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
-        $output = html_writer::tag('textarea', htmlspecialchars($current), $attributes);
+        $output = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
 
         return $output;
     }

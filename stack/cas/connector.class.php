@@ -106,13 +106,13 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $split = $raw;
         if (mb_strpos($split, $startmark) === false) {
             $this->debug->log('Timedout', true);
-            return array('timeout' => true, 'debug' => $split, 'timeouterrmessage' => $errmsg);
+            return array('timeout' => true, 'debug' => $split, 'timeoutdebug' => $errmsg);
         }
         $split = mb_substr($split, mb_strpos($split, $startmark) + mb_strlen($startmark));
 
         if (mb_strpos($split, $endmark) === false) {
             $this->debug->log('Timedout', 'in the middle of output');
-            return array('timeout' => true, 'debug' => $split, 'timeouterrmessage' => $errmsg);
+            return array('timeout' => true, 'debug' => $split, 'timeoutdebug' => $errmsg);
         }
         $split = mb_substr($split, 0, mb_strpos($split, $endmark));
 

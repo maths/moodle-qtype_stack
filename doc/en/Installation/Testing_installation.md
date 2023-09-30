@@ -39,7 +39,7 @@ If you wish to subvert this process you will need to alter the source code of ST
 
 # Caching CAS output
 
-By default, the interactions with the CAS are cached.  You can connect freshly to the CAS each time, which is useful for  debugging, and this option is available on the STACK configuration page.  To clear the cache, click the button on the bottom of the healthcheck script. 
+By default, the interactions with the CAS are cached.  You can connect freshly to the CAS each time, which is useful for  debugging, and this option is available on the STACK configuration page.  To clear the cache, click the button on the healthcheck script. 
 
 ## Optimizing Maxima 
 
@@ -132,7 +132,7 @@ If you get the following error `loadfile: failed to load /usr/share/maxima/5.32.
 
 ### 6. Goal: create optimised image.
 
-Now press the "Create Maxima Image" button at the bottom of the healthcheck script page to create the optimised image, and read the output of the refreshed healthcheck page.  Note, this page updates some of your settings in the plugin page. In particular, it changes `qtype_stack | platform` to optimised and fills in the value of `qtype_stack | maximacommandopt`.
+Now press the "Create Maxima Image" button on the healthcheck script page to create the optimised image, and read the output of the refreshed healthcheck page.  Note, this page updates some of your settings in the plugin page. In particular, it changes `qtype_stack | platform` to optimised and fills in the value of `qtype_stack | maximacommandopt`.
 
 __Reload the plugin page (but don't save over the top).__
 

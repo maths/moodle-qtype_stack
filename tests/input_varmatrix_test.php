@@ -136,7 +136,7 @@ class input_varmatrix_test extends qtype_stack_testcase {
         );
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('', $state->note);
+        $this->assertEquals('qm_error', $state->note);
         $this->assertEquals('matrix([1,2,3],[4,6,QMCHAR])', $state->contentsmodified);
         $this->assertEquals('\[ \left[\begin{array}{ccc} 1 & 2 & 3 \\\\ 4 & 6 & \color{red}{?} \end{array}\right] \]',
                 $state->contentsdisplayed);
@@ -151,7 +151,7 @@ class input_varmatrix_test extends qtype_stack_testcase {
         );
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('', $state->note);
+        $this->assertEquals('qm_error', $state->note);
         $this->assertEquals('matrix([1,2,3],[4,QMCHAR,QMCHAR])', $state->contentsmodified);
         $this->assertEquals('\[ \left[\begin{array}{ccc} 1 & 2 & 3 \\\\ 4 & \color{red}{?} & \color{red}{?} \end{array}\right] \]',
             $state->contentsdisplayed);
@@ -262,7 +262,7 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $state = $el->validate_student_response($inputvals, $options,
                 'matrix([null,null],[null,null])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('', $state->note);
+        $this->assertEquals('qm_error', $state->note);
         $this->assertEquals('matrix([1,2],[x,QMCHAR])', $state->contentsmodified);
         $this->assertEquals('\[ \left[\begin{array}{cc} 1 & 2 \\\\ x & \color{red}{?} \end{array}\right] \]',
                 $state->contentsdisplayed);

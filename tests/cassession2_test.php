@@ -1193,7 +1193,6 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
         $at1->instantiate();
 
-        $errors = $at1->get_errors(false);
         foreach ($tests as $key => $test) {
             $cs = $at1->get_by_key('p'.$key);
             if ($tests[$key][6] === '') {
@@ -1202,7 +1201,7 @@ class cassession2_test extends qtype_stack_testcase {
                 $this->assertEquals($test[5], $cs->get_display());
             } else {
                 $this->assertFalse($cs->get_valid());
-                $this->assertEquals($test[6], implode($errors[$key]));
+                $this->assertEquals($test[6], $cs->get_errors('implode'));
             }
         }
     }
@@ -2446,7 +2445,7 @@ class cassession2_test extends qtype_stack_testcase {
 
         $session->instantiate();
         $this->assertFalse($session->is_instantiated());
-        $this->assertEquals('TIMEDOUT', $s1->get_errors());
+        $this->assertEquals('CAS failed to return any data due to timeout.', $s1->get_errors());
     }
 
     public function test_complex_number_display() {

@@ -65,7 +65,7 @@ class stack_notes_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
-        return html_writer::tag('textarea', htmlspecialchars($current), $attributes) .
+        return html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes) .
             html_writer::tag('div', "", array('class' => 'clearfix'));
     }
 

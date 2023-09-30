@@ -18,7 +18,7 @@ Computer algebra systems are most often designed for either the research mathema
 * [Matrices and vectors](Matrix.md).
 * [Statistics](Statistics.md).
 * [Randomly generated objects](Random.md).
-* [Plots](Plots.md) and graphics.
+* [Plots](../Plots/Plots.md) and graphics.
 * [Buggy rules](Buggy_rules.md) implements rules which are not always valid!
 
 ## Developer information, and other topics {#developer}

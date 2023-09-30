@@ -13,13 +13,13 @@ past development history is documented on [Development history](Development_hist
 3. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
 4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
 5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
+6. Confirm support for PHP 8.2, (fixes issue #986).
 
 TODO: 
 
-1. Support for PHP 8.2.  See issue #986.
-2. Fix markdown problems. See issue #420.
-3. Error messages: use caserror.class more fully to use user information to target error messages.
-4. Remove all "cte" code from Maxima - mostly install.
+1. Fix markdown problems. See issue #420.
+2. Error messages: use caserror.class more fully to use user information to target error messages.
+3. Remove all "cte" code from Maxima - mostly install.
 
 ## For "inputs 2"?
 

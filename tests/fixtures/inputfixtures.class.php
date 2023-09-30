@@ -298,6 +298,7 @@ class stack_inputvalidation_test_data {
         array('psi', 'php_true', 'psi', 'cas_true', '\psi', '', "The derivative of \(\log (\gamma (x))\) of order \(n+1\)."),
         array('omega', 'php_true', 'omega', 'cas_true', '\omega', '', ""),
         array('p=?*s', 'php_true', 'p = ?*s', 'cas_true', 'p=\color{red}{?}\cdot s', '', "Question marks"),
+        array('"WA?@AAA@AA"', 'php_true', '"WA?@AAA@AA"', 'cas_true', '\mbox{WA?@AAA@AA}', '', ""),
         array('(x+2)3', 'php_true', '(x+2)*3', 'cas_true', '\left(x+2\right)\cdot 3', 'missing_stars', "Implicit multiplication"),
         array('(x+2)y', 'php_true', '(x+2)*y', 'cas_true', '\left(x+2\right)\cdot y', 'missing_stars', ""),
         array('3(x+1)', 'php_true', '3*(x+1)', 'cas_true', '3\cdot \left(x+1\right)', 'missing_stars', ""),

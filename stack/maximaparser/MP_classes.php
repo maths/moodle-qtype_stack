@@ -1532,7 +1532,7 @@ class MP_PrefixOp extends MP_Node {
 
     public function __clone() {
         $this->rhs = clone $this->rhs;
-        $this->rhs->parent = $this;
+        $this->rhs->parentnode = $this;
     }
 
     public function getChildren() {
@@ -1631,7 +1631,7 @@ class MP_PostfixOp extends MP_Node {
 
     public function __clone() {
         $this->lhs = clone $this->lhs;
-        $this->lhs->parent = $this;
+        $this->lhs->parentnode = $this;
     }
 
     public function getChildren() {

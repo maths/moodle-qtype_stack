@@ -12,6 +12,10 @@ This document assumes you have worked through the following sections of the Auth
 * [Authoring quick start 2](../AbInitio/Authoring_quick_start_2.md): Question variables.
 * [Authoring quick start 3](../AbInitio/Authoring_quick_start_3.md): Improving feedback.
 
+__We strongly recommend you do not use an HTML-aware editor when using GeoGebra questions.__  Instead turn off the editor within Moodle and edit the raw HTML.  Individual users can set their editor preferences by following:
+
+    User Dashboard > Preferences > Editor preferences > Manage editors
+
 ## Question design
 
 The goal is to create the following question.

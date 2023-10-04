@@ -76,7 +76,7 @@ At this point you should have a working, minimal STACK question. So save and pre
 
 ## 4. Remember the positions of points \(A\) and \(B\)
 
-While the question sets and watches values inside the applet, we also need to _remember_ the positions of \(A\) and \(B\) so these are retained when the page reloads (after check, or navigation).
+While the question sets and watches values inside the applet, the Moodle quiz also needs to _remember_ the positions the student left \(A\) and \(B\) in so that these are retained when the page reloads (after check, or navigation).
 
 For this, add a tag remember with both points \(A\) and \(B\) to the block heading:
 

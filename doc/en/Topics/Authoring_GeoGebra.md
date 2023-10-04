@@ -85,8 +85,9 @@ For this, add a tag remember with both points \(A\) and \(B\) to the block headi
     [[/geogebra]]
     Move the points \(A\) and \(B\) so that the line \(AB\) is perpendicular the line shown in the applet.
     [[input:ans1]][[validation:ans1]]
+    [[input:remember]][[validation:remember]]
 
-To actually store the coordinates of \(A\) and \(B\), we need to add in a new input `[[input:remember]][[validation:remember]]` at the end of the question text.  Verify the question text and update the form, to set up this new input as follows.
+Notice two changes.  (1) there is a `remember` argument in the geogebra block tag and (2) there is a new input in the question.  To actually store the coordinates of \(A\) and \(B\), we need to add in a new input `[[input:remember]][[validation:remember]]` at the end of the question text.  Verify the question text and update the form, to set up this new input as follows.
 
 1. The `remember` input _must_ be of type string.
 2. For the "model answer" use the empty string `""`.

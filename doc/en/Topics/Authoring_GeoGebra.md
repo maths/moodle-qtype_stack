@@ -16,6 +16,8 @@ __We strongly recommend you do not use an HTML-aware editor when using GeoGebra 
 
     User Dashboard > Preferences > Editor preferences > Manage editors
 
+__A note on licenses:__ Please note that the [GeoGebra's license](https://www.geogebra.org/license) does not match the [STACK licence](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).  Users of STACK remain entirely responsible for complying with licenes for materials, and media embedded inside STACK questions.
+
 ## Question design
 
 The goal is to create the following question.

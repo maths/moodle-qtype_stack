@@ -13,6 +13,9 @@ For example, you cannot randomly generate the initial position of a point \(A\) 
 In this situation you will need to have _dependent_ objects (probably hidden) in GeoGebra which match to inputs.
 (This is hard-wired into the design of STACK and cannot be changed, sorry.)
 
+__A note on licenses:__ Please note that the [GeoGebra's license](https://www.geogebra.org/license) does not match the [STACK licence](https://github.com/maths/moodle-qtype_stack/blob/master/COPYING.txt).  Users of STACK remain entirely responsible for complying with licenes for materials, and media embedded inside STACK questions.
+
+
 ## Adding a geogebra question block using the material_id
 
 The easiest way to use GeoGebra in STACK is to use an applet hosted at geogebra.org. The applet must be publicly avaiable through a url. 

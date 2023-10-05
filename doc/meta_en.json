@@ -18,6 +18,11 @@
         "description":"Information on contributers and users of the STACK project."
         },
         {
+        "file":"License.md",
+        "title":"STACK license information",
+        "description":"Information on the STACK project license."
+        },
+        {
         "file":"Publications.md",
         "title":"Publications about STACK",
         "description":"STACK has been the subject of research, including published books and articles."

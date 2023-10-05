@@ -2211,9 +2211,12 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               FBB:errcatch(ev(log(SB),simp)),
               if is(FBB = []) then (print("STACK: ignore previous error. (EQUIVLOG)")),
               if not(emptyp(FBB)) then block(
-                  ATres:ev(ATAlgEquiv(SA, first(FBB)), simp),
+                  /* Errcatch to avoid log(0) errors.... */
+                  ATres:errcatch(ev(ATAlgEquiv(SA, first(FBB)), simp)),
+                  if is(ATres = []) then (print("STACK: ignore previous error. (EQUIVLOG)")),
                   if (debug) then print(ATres),
-                  if second(ATres) then block(
+                  if not(emptyp(ATres)) and second(first(ATres)) then block(
+                      ATres:first(ATres),
                       malrulecont:false,
                       eqoutcome[ev(id, simp)]:true,
                       eqoutsymb[ev(id, simp)]:EQUIVLOG,

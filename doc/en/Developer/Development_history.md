@@ -24,6 +24,8 @@ This is a bug-fix release.
 
 Released May 2023.
 
+__Action required__ Check that all your materials using `[[iframe]]`, `[[javascript]]`, `[[style]`, `[[script]]`, and `[[cors]]` continue to work with this version.  See the section on identifying questions using particular blocks in the [Maintaining questions](../Maintaining/index.md) section.
+
 1. Rename testing page as "STACK question dashboard" and make it much easier to add a test case based on the teacher's answer.
 2. Better cleaning of unicode from students' input strings.
 3. Add link to the dependency checker to the plugin page.
@@ -38,6 +40,7 @@ Major re-working of Javascript in STACK.  Specifically
 3. Various related blocks like `[[iframe]]`, `[[javascript]]`, `[[style]`, `[[script]]`, and `[[cors]]`
 4. This version does not yet forbide all JavaScript outside STACK-JS, but do prepare future updates to do so and start migrating existing scripts into STACK-JS.
 
+These changes are significant and we strongly recommned you test all affected questions.
 
 ## Version 4.4.2
 
@@ -61,7 +64,7 @@ This is mainly a bug fix version.  Version 4.4.0 has a number of major re-writes
 
 Released July 2022.
 
-Major rewrite of the PRT and CASText systems, focus on performance and limitations of the previous systems.  This release has changed/tightened up some question authoring causing some problems with existing questions.  For this reason we have written dedicated [release notes](Release_notes_4_4_x.md) for v4.4.0.
+Major rewrite of the PRT and CASText systems, focus on performance and limitations of the previous systems.  This release has changed/tightened up some question authoring causing some problems with existing questions.  For this reason we have written dedicated [release notes](../Installation/Release_notes_4_4_x.md) for v4.4.0.
 
 1. Release documentation under CC-BY-SA.
 2. Caching validation.

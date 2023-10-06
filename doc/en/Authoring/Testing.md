@@ -4,7 +4,7 @@ This page deals with testing questions and quality control. This is largely done
 
 High-quality question production needs care at each stage.  An [authoring workflow](Workflow.md) is described separately.
 
-We have separate advice on [fixing broken questions](Fixing_broken_questions.md) in a live quiz.
+We have separate advice on [fixing broken questions](../Maintaining/Fixing_broken_questions.md) in a live quiz.
 
 ## Testing for quality control  ##
 

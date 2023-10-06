@@ -125,7 +125,9 @@ ALTER TABLE mdl_qtype_stack_inputs CHANGE name name VARCHAR(32) CHARACTER SET ut
 
 STACK will work without this fix, but input names will not be case sensitive (!) as far as Moodle's database is concerned.  This will throw errors for some questions.
 
-# Updating to new versions of STACK 4.X
+# Upgrading to new versions of STACK
+
+Please check the [release notes](../Developer/Development_history.md) carefully.  Some upgrades inevitably require review/changes to existing STACK questions. We do our best to maintain back compatibility, but some changes are unavoidable.
 
 If STACK is already installed, as described above, it can be updated via git, like this:
 

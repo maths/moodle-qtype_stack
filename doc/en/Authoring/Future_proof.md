@@ -35,6 +35,8 @@ If your CASText document contains scripts like JSXGraph content definitions you 
 
 __All external files/links are bad!__ If you have images or other documents related to the question they should be included in the question. Avoid embedded frames, applets and other interactive content. To test inclusion you should be able to export the question and import it to a freshly installed raw system on a computer not connected to the internet and those questions should work. *There is nothing wrong with internal files of any type, as long as they come with the question.* Use of the [include](Inclusions.md) feature from 4.4 is also a bad thing, but you can make it less bad if the included file is present on a public server and if it is versioned so that one can link to a version that never changes.
 
+STACK does provide the option for [inclusions](Inclusions.md) within questions.  If you regularly use `stack_inlude` in your questions please consider contributing your libraries to the STACK core code.  Contributing tested libraries is the best way to ensure longer term maintainance!
+
 ## Writing CAS code
 
 The CAS code (internally keyvals and CASStrings) consists of Maxima assignment statements. Occasionally, Maxima's behaviour changes, and occasionally there are changes in the STACK provided Maxima functions. Changes cannot be avoided, but you can try to develop your questions based on as new as possible Maxima version to give them longer life. Otherwise there are some details that should be noted:

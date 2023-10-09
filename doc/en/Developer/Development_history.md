@@ -24,7 +24,7 @@ This is a bug-fix release.
 
 Released May 2023.
 
-__Action required__ Check that all your materials using `[[iframe]]`, `[[javascript]]`, `[[style]`, `[[script]]`, and `[[cors]]` continue to work with this version.  See the section on identifying questions using particular blocks in the [Maintaining questions](../Maintaining/index.md) section.
+__Action required__ Check that all your materials using `[[jsxgraph]]` continue to work with this version.  See the section on identifying questions using particular blocks in the [Maintaining questions](../Maintaining/index.md) section.
 
 1. Rename testing page as "STACK question dashboard" and make it much easier to add a test case based on the teacher's answer.
 2. Better cleaning of unicode from students' input strings.

@@ -4,7 +4,7 @@ This section of the documentation provides information on testing questions and 
 
     [...]/question/type/stack/adminui/index.php
 
-To make use of these tools (in Moodle) users require the capability `qtype/stack:usediagnostictools` via Moodle's capability system.  If your institution restricts site admin status, then this capability will allow a subset of users to access these functions.
+To make use of these tools (in Moodle) users require the capability `qtype/stack:usediagnostictools` via Moodle's capability system.  If your institution restricts site admin status, then this capability will allow a subset of users to access these functions. If that is also not possible, you might be able to convince your site administrators to run the tests themselves and give you the results.
 
 When you upgrade, or before you upgrade, please check the [release notes](../Developer/Development_history.md) carefully.
 

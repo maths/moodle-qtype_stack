@@ -30,8 +30,8 @@
 
 /* An example of how to use these functions.
 
-stack_include_contrib("prooflib.mac");
-stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/tree/proof-builder/stack/maxima/proofsamples/odd-squaredodd.mac");
+stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/proof-builder/stack/maxima/contrib/prooflib.mac");
+stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/proof-builder/stack/maxima/proofsamples/odd-squaredodd.mac");
 tap:ev(proof_ans, map(lambda([ex], ex=dispproof), proof_types));
 
 {@thm@}

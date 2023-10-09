@@ -1,0 +1,158 @@
+/*  Author Chris Sangwin
+    University of Edinburgh
+    Copyright (C) 2023 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/******************************************************************/
+/*  Functions for representing, typesetting and assessing proof.  */
+/*  Mostly for use with Parsons problems.                         */
+/*                                                                */
+/*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                         */
+/*  V1.0 Sept 2023                                                */
+/*                                                                */
+/*  Other files in this directory are sample proofs.              */
+/*  Each must define                                              */
+/*  1. a variable "thm" to hold a statement of the theorem.       */
+/*  2. a variable "proof_steps", which is a list of strings.      */
+/*  3. a variable "proof_ans"                                     */
+/*                                                                */
+/******************************************************************/
+
+/* An example of how to use these functions.
+
+stack_include_contrib("prooflib.mac");
+stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/tree/proof-builder/stack/maxima/proofsamples/odd-squaredodd.mac");
+tap:ev(proof_ans, map(lambda([ex], ex=dispproof), proof_types));
+
+{@thm@}
+{@tap@}
+*/
+
+/******************************************************************/
+/* Types of proof.                                                */
+/*                                                                */
+/* proof()       - general, unspecified proof                     */
+/* proof_c()     - general proof, with commutative arguments      */
+/*                                                                */
+/* proof_iff()   - if any only if                                 */
+/* proof_cases() - proof by exhaustive cases                      */
+/* proof_ind()   - proof by induction                             */
+/*                                                                */
+/******************************************************************/
+
+/* General proof functions                                        */
+
+/* Note, "proof" is assumed to come first in this list, as we use "rest" below for other types. */
+proof_types:[proof, proof_c, proof_iff, proof_cases, proof_ind];
+
+proofp(ex) := block(
+  if atom(ex) then true,
+  if elementp(op(ex), setify(proof_types)) then return(true),
+  return(false)
+);
+
+s_test_case(proofp(proof(1,2,3)), true);
+s_test_case(proofp(sin(x)), false);
+
+proof_validatep(ex) := block(
+  if atom(ex) then return(true),
+  if op(ex) = proof_iff then
+      if not(is(length(args(ex)) = 2)) then return(false)
+                                       else return(all_listp(proof_validatep, args(ex))),
+  if op(ex) = proof_ind then
+      if not(is(length(args(ex)) = 4)) then return(false)
+                                       else return(all_listp(proof_validatep, args(ex))),
+  /* Validate all remaning proof types. */
+  if proofp(ex) then return(all_listp(proof_validatep, args(ex))),
+  return(false)
+);
+
+s_test_case(proof_validatep(proof(1,2,3)), true);
+s_test_case(proof_validatep(proof(1,2,proof(4,5,6))), true);
+s_test_case(proof_validatep(proof(1,2,proof_iff(4,5))), true);
+/* proof_iff must have exactly two sub-proofs. */
+s_test_case(proof_validatep(proof(1,2,proof_iff(4))), false);
+s_test_case(proof_validatep(proof(1,2,proof_iff(4,5,6))), false);
+/* proof_ind must have exactly four sub-proofs. */
+s_test_case(proof_validatep(proof_ind(1,proof(2,3),proof(4,5),6)), true);
+s_test_case(proof_validatep(proof_ind(1,proof(2,3),proof(4,5))), false);
+
+/* Is this a type of proof which can reorder its arguments? */
+proof_commutep(ex):=block(
+    if atom(ex) then false,
+    if is(op(ex)=proof_c) then return(true),
+    if is(op(ex)=proof_iff) then return(true),
+    return(false)
+);
+
+/*
+ * Create a normalised proof tree. 
+ * To establish equivalence of proof trees we compare the normalised form.
+ * This basically sorts and "simplifies" its arguments.
+*/
+proof_normal(ex) := block(
+  if atom(ex) then return(ex),
+  /* Only sort arguments to types of proof which commute. */
+  if proof_commutep(ex) then return(apply(op(ex), sort(map(proof_normal, args(ex))))),
+  /* Some proof types have subsets of arguments which commute. */
+  if op(ex) = proof_cases then return(apply(proof_cases, append([first(args(ex))], sort(map(proof_normal, rest(args(ex))))))),
+  if op(ex) = proof_ind then return(apply(proof_ind,append([first(args(ex))], sort([proof_normal(second(args(ex))), proof_normal(third(args(ex)))]), [fourth(args(ex))]))),
+  return(apply(op(ex), map(proof_normal, args(ex))))
+);
+
+s_test_case(proof_normal(proof_iff(B,A)), proof_iff(A,B));
+s_test_case(proof_normal(proof_ind(D,C,B,A)), proof_ind(D,B,C,A));
+s_test_case(proof_normal(proof_cases(D,C,B,A)), proof_cases(D,A,B,C));
+
+/******************************************************************/
+/*                                                                */
+/*  Assessment functions                                          */
+/*                                                                */
+/******************************************************************/
+
+/*
+ * Count the number of matching elements in
+ * two identical length lists.
+ */
+count_matches(l1, l2):= if emptyp(l1) then 0 else
+    ((if is(first(l1)=first(l2)) then 1 else 0) + count_matches(rest(l1), rest(l2)));
+
+/*
+ * Create a list of first differences between list memebers, i.e. Delta = l[n]-l[n+1].
+ */
+first_diff(ex):=if is(length(ex)=1) then [] else append([first(ex)-second(ex)], list_diff(rest(ex)));
+
+
+
+/******************************************************************/
+/*                                                                */
+/*  Display functions                                             */
+/*                                                                */
+/******************************************************************/
+
+/* Make use of the existing styles.  See https://docs.stack-assessment.org/en/Topics/Proof/ */
+dispproof([ex]) := block([ex1],
+    apply(sconcat, flatten(append(["<div class=\"proof-block\">"], [simplode(map(lambda([ex2], if integerp(ex2) then proof_steps[ex2] else ex2), ex), "<br/>")], ["</div>"])))
+);
+
+/* Use the summary/details HTML tag.
+dispproof([ex]) := block([ex1],
+    apply(sconcat, flatten(append(["<summary><details><div class=\"proof-block\">"], [simplode(map(lambda([ex2], if integerp(ex2) then proof_steps[ex2] else ex2), ex), "<br/>")], ["</div></details></summary>"])))
+);
+*/
+
+/* Flatten to a paragraph.
+dispproof([ex]) := block([ex1],
+    apply(sconcat, flatten(append(["<p>"], [simplode(map(lambda([ex2], if integerp(ex2) then proof_steps[ex2] else ex2), ex), " ")], ["</p>"])))
+);
+*/

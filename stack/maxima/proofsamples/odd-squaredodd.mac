@@ -1,0 +1,22 @@
+/****************************************************************/
+thm:"\\(n\\) is odd if and only if \\(n^2\\) is odd.";
+
+/****************************************************************/
+proof_steps: [
+    "Assume that \\(n\\) is odd.",
+    "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
+    "\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
+    "Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
+    "Hence \\(n^2\\) is odd.",
+
+    "We reformulate \"\\(n^2\\) is odd \\(\\Rightarrow \\) \\(n\\) is odd \" as the contrapositive.",
+    "Assume that \\(n\\) is not odd.",
+    "Then \\(n\\) is even, and so there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m\\).",
+    "\\[ n^2 = (2m)^2 = 2(2m^2).\\]",
+    "Define \\(M=2m^2\\in\\mathbb{Z}\\) then \\(n^2=2M\\).",
+    "Hence \\(n^2\\) is even."
+];
+
+/****************************************************************/
+/* This is how the teacher defines their answer, as nested proofs. */
+proof_ans:proof(proof(1,2,3,4,5),proof(6,7,8,9,10,11));

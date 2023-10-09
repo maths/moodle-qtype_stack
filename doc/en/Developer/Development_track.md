@@ -14,6 +14,7 @@ past development history is documented on [Development history](Development_hist
 4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
 5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
 6. Confirm support for PHP 8.2, (fixes issue #986).
+7. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).
 
 TODO: 
 

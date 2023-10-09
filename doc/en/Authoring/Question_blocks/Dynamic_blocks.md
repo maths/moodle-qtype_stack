@@ -72,3 +72,6 @@ var label = "\\({f\\left(x\\right)=\\sqrt{x}}\\)";
 
 Note, this block is _not_ designed to output Maxima expressins in JS format. For example, this block will not convert `x^2` into `x**2`.
 
+## Parsons block ##
+
+The [Parsons block](../Parsons.md) allows users (e.g. students) to assemble pre-written text into a correct order.  This block can be linked with an input to create a Parsons problem.

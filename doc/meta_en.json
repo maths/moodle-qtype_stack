@@ -444,6 +444,11 @@
         "description":"Documentation for the Option section in a STACK question."
         },
         {
+        "file":"Parsons.md",
+        "title":"Parson's problems blocks- STACK Documentation",
+        "description":"Reference documentation for the Parson's question block."
+        },
+        {
         "file":"Potential_response_trees.md",
         "title":"Potential Response Trees - STACK Documentation",
         "description":"Information on using potential response trees in the STACK online assessment system."
@@ -977,6 +982,11 @@
         "file":"Linear_algebra.md",
         "title":"Linear Algebra - STACK Documentation",
         "description":"Information on working with linear algebra in a STACK question."
+        },
+        {
+        "file":"Parsons.md",
+        "title":"Parson's problems - STACK Documentation",
+        "description":"Documentation for writing Parson's problems in a STACK question."
         },
         {
         "file":"Proof.md",

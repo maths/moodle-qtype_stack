@@ -33,6 +33,7 @@ Question blocks are divided into three broad groups.
   * Reveal
   * JSXGraph
   * JSString
+  * Parsons
 4. [System blocks](System_blocks.md), which are not realy intended for end-users.
 
 ## General syntax ##

@@ -1,0 +1,22 @@
+/****************************************************************/
+thm:"The sum of the first \\(n\\) odd integers, starting from one, is \\(n^2\\).";
+
+
+/****************************************************************/
+proof_steps: [
+    "Let \\(P(n)\\) be the statement \"\\(\\sum_{k=1}^n (2k-1) = n^2\\)\".",
+
+    "Note that \\(\\sum_{k=1}^1 (2k-1) = 1 = 1^2\\)",
+    "Hence \\(P(1)\\) is true.",
+
+    "Assume \\(P(n)\\) is true.",
+    "Then \\(\\sum_{k=1}^{n+1} (2k-1)\\)",
+    "\\( = \\sum_{k=1}^n (2k-1) + (2(n+1)-1)\\)",
+    "\\( = n^2 + 2n +1 = (n+1)^2.\\)",
+    "Hence \\(P(n+1)\\) is true.",
+
+    "Since \\(P(1)\\) is true and \\(P(n+1)\\) follows from \\(P(n)\\) we conclude that \\(P(n)\\) is true for all \\(n\\) by the principle of mathematical induction.",
+];
+
+/****************************************************************/
+proof_ans:proof_ind(1,proof(2,3),proof(5,6,7,8),9);

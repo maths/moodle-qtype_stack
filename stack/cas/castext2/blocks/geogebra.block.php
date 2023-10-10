@@ -232,11 +232,11 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                         // @codingStandardsIgnoreEnd
                         $setcode->arguments[] = new MP_String("\n appletObject.evalCommand('" .
                             $geogebraname .
-                            ' = Point({');
+                            ' = (');
                         $setcode->arguments[] = $xcoord;
                         $setcode->arguments[] = new MP_String(',');
                         $setcode->arguments[] = $ycoord;
-                        $setcode->arguments[] = new MP_String("})');\n");
+                        $setcode->arguments[] = new MP_String(")');\n");
                     }
                 } else {
                     // Assuming geogebraname is the name of an object of type: value or angle (therefore latin lowercase)

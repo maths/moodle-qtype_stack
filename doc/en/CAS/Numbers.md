@@ -58,9 +58,9 @@ Rounding like this can also occur in calculations, for example
     v0:1-(p1+p2+p3);
     v1:0.18;
 
-Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115123125783*10^-17\) and so `ATAlgEquiv(v0,v1)` will give false.  Please always use a [numerical test](../Authoring/Answer_Tests/Numerical.md) when testing floats.
+Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115123125783\times 10^{-17}\) and so `ATAlgEquiv(v0,v1)` will give false.  Please always use a [numerical test](../Authoring/Answer_Tests/Numerical.md) when testing floats.
 
-
+As another example, try `100.4-80.0;` in a desktop Maxima session.
 
 ## Maxima and floats with trailing zeros ##
 
@@ -120,6 +120,19 @@ Maxima has a separate system for controlling the number of decimal digits used i
 
     fpprec:20,          /* Work with 20 digits. */
     fpprintprec:12,     /* Print only 12 digits. */
+
+## Changing the decimal separator, e.g. using a comma for separating decimals ##
+
+STACK now supports a mechanism for changing the decimal separator and using a comma for separating decimals.  A question level option can be used to choose `,` or `.` as the decimal separator.  For finer control in other parts of the question, just set the variable
+
+    stackfltsep:",";
+
+The global variables `stackfltfmt` and `stackfltsep` should have independent effects.
+
+If you use the option for a comma then items in sets, lists and as arguments to functions will no longer be separated by a comma.  To avoid conflicting notation, items will be separated by a semicolon (`;`).
+
+If you separate decimal groups of digits with commas, e.g. if `stackfltfmt:"~:d"`, then these commas are replaced by spaces to avoid ambiguity.  The replacement of commas occurs in integers as well as floats to make sure commas in integers cause no confusion.
+
 
 ## Notes about numerical rounding ##
 

@@ -156,11 +156,15 @@ flatten_pow_minus_one(ex):= block(
     ex
 )$
 
-/* Recursive rule which takes UNARY_MINUS nounmul n, where n is an integer to -n */
-unary_minus_remove(ex):= block(
+/* Recursive rule which takes UNARY_MINUS nounmul n, where n is an integer/float to -n */
+unary_minus_remove(ex):= block([exl],
     if atom(ex) then return(ex),
-    if safe_op(ex)="nounmul" and is(first(args(ex))=UNARY_MINUS) and integerp(second(args(ex))) then return(-second(args(ex))),
-    apply(op(ex), maplist(unary_minus_remove, args(ex)))
+    if not(safe_op(ex)="nounmul") or not(is(first(args(ex))=UNARY_MINUS)) then return(apply(op(ex), maplist(unary_minus_remove, args(ex)))),
+    /* The sort moves any numbers to the front of the list of arguments for *. */
+    exl:sort(rest(args(ex))),
+    if is(length(exl)=1) then return(-first(exl)),
+    exl[1]:-first(exl),
+    apply("nounmul", exl)
 )$
 
 equals_commute_prepare(ex):=block([ex1n],

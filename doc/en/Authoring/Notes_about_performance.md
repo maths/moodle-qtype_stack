@@ -1,10 +1,6 @@
 # Notes about performance
 
-Authoring style may affect the performance of the questions—the technical performance in the form of response times and bandwidth usage. Of course, one could say many things about the pedagogical performance of questions, but that is something that this document skips.
-
-Some things have changed in 4.4, but most of this applies to all STACK materials.
-
-The further down you read this, the less likely it is to apply to normal usage.
+Authoring style may affect the server performance of the questions—the technical performance in the form of response times and bandwidth usage. Of course, one could say many things about the pedagogical performance of questions, but that is something that this document skips.
 
 When we are talking about affecting the performance, in most cases, the effects are linear; adding more inputs means that we need to process more inputs, and the time used grows accordingly. The bits that matter are the non-linear ones, e.g. unknown execution lengths or filling the buffers with unused data might simply push things over some limit and increase the processing time unexpectedly.
 

@@ -2,7 +2,7 @@
 
 Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.
 
-## Features to add for STACK 4.5 or later ##
+## Features to add later ##
 
 ### Units inputs ###
 
@@ -34,6 +34,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ### Other ideas ###
 
+* How can we _easily_ allow teachers to set/override this option for imported materials?
 * Document ways of using JSXGraph  `http://jsxgraph.org` for better support of graphics.
 * Better options for automatically generated plots.  (Aalto use of tikzpicture?)  (Draw package?)
 * 3D Graphics.  Can we use: https://threejs.org/
@@ -69,7 +70,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
   * WIRIS
 * Possible Maxima packages:
   * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
-* Auto deploy.  E.g. if the first variable in the question variables is a single a:rand(n), then loop a=0..(n-1).
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 
 

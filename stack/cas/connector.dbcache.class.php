@@ -63,6 +63,15 @@ class stack_cas_connection_db_cache implements stack_cas_connection {
         return $result;
     }
 
+    public function get_maxima_available() {
+        if ('linux' != stack_connection_helper::get_platform()) {
+            return stack_string('healthunabletolistavail');
+        }
+        $this->command = 'maxima --list-avail';
+        $rawresult = $this->compute('');
+        return $rawresult;
+    }
+
     public function json_compute($command): array {
         $cached = $this->get_cached_result($command);
         if ($cached->result) {

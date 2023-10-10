@@ -92,7 +92,10 @@ abstract class stack_input {
      * For examples see the numerical input.
      * @var array
      */
-    protected $extraoptions = array();
+    protected $extraoptions = array(
+        'hideanswer' => false,
+        'allowempty' => false
+    );
 
     /**
      * The question level options for CAS sessions.
@@ -154,6 +157,9 @@ abstract class stack_input {
             throw new stack_exception('stack_input: $options must be stack_options.');
         }
         $this->options = $options;
+        if ($this->options === null) {
+            $this->options = new stack_options();
+        }
 
         if (!(null === $parameters || is_array($parameters))) {
             throw new stack_exception('stack_input: __construct: 3rd argumenr, $parameters, ' .
@@ -166,14 +172,14 @@ abstract class stack_input {
             }
         }
 
-        $this->internal_contruct();
+        $this->internal_construct();
     }
 
     /**
      * This allows each input type to adapt to the values of parameters.  For example, the dropdown and units
      * use this to sort out options.
      */
-    protected function internal_contruct() {
+    protected function internal_construct() {
         $options = $this->get_parameter('options');
         if (trim($options ?? '') != '') {
             $options = explode(',', $options);
@@ -471,7 +477,7 @@ abstract class stack_input {
         if ($parameter == 'insertStars') {
             $this->parameters['grammarAutofixes'] = stack_input_factory::convert_legacy_insert_stars($value);
         }
-        $this->internal_contruct();
+        $this->internal_construct();
     }
 
     /**
@@ -825,11 +831,10 @@ abstract class stack_input {
                         'nontuples' => false
         );
         $interpretedanswer = $answerd->ast_to_string(null, $params);
-        // TODO: apply a filter to check the ast!
-        if (!(strpos($interpretedanswer, '?') === false) ||
-            !(strpos($interpretedanswer, 'QMCHAR') === false)) {
+        if (!(strpos($interpretedanswer, 'QMCHAR') === false)) {
             $valid = false;
             $errors[] = stack_string('qm_error');
+            $notes['qm_error'] = true;
         }
 
         if ($notes == array()) {
@@ -980,7 +985,8 @@ abstract class stack_input {
                 // One of those things logic nouns hid.
                 $val = '';
             }
-            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply);
+            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
+                array(), 'Root', $this->options->get_option('decimals'));
 
             $caslines[] = $answer;
             $valid = $valid && $answer->get_valid();
@@ -1032,7 +1038,7 @@ abstract class stack_input {
         }
 
         if (array_key_exists('rationalnum', $this->extraoptions) && $this->extraoptions['rationalnum']) {
-            $additionalvars['rationalnum'] = stack_ast_container::make_from_teacher_source('rationalnum('.$this->name.')',
+            $additionalvars['rationalnum'] = stack_ast_container::make_from_teacher_source('rational_numberp('.$this->name.')',
                     '', new stack_cas_security(), array());
         }
 
@@ -1409,6 +1415,12 @@ abstract class stack_input {
         $cs->set_nounify(0);
         $val = '';
 
+        $decimal = '.';
+        $listsep = ',';
+        if ($this->options->get_option('decimals') === ',') {
+            $decimal = ',';
+            $listsep = ';';
+        }
         $params = array('checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
@@ -1416,7 +1428,9 @@ abstract class stack_input {
             'keyless' => true,
             'dealias' => false, // This is needed to stop pi->%pi etc.
             'nounify' => 0,
-            'nontuples' => false
+            'nontuples' => false,
+            'decimal' => $decimal,
+            'listsep' => $listsep
         );
         if ($cs->get_valid()) {
             $value = $cs->ast_to_string(null, $params);
@@ -1466,7 +1480,8 @@ abstract class stack_input {
             $class .= ' empty';
         }
 
-        $feedback = html_writer::tag($divspan, $feedback, array('class' => $class, 'id' => $fieldname.'_val'));
+        $feedback = html_writer::tag($divspan, $feedback,
+            ['class' => $class, 'id' => $fieldname.'_val', 'aria-live' => 'assertive']);
         $response = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
 
         return $response;

@@ -1,20 +1,25 @@
 
+
 # Development track for STACK
 
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
-## Version 4.4.5
 
-DONE
-1. Add in the `s_assert` function to allow teachers to unit-test individual question variable values.
-2. Add in the `hint` [question block](../Authoring/Question_blocks/Dynamic_blocks.md).  Fixes issue #968, thanks to Michael Kallweit.
+## Version 4.4.6
 
-TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
- #671, #420
+1. Refactor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
+2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TODO: possible option to change shape at the input level?)
+3. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
+4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
+5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
+6. Confirm support for PHP 8.2, (fixes issue #986).
 
-1. Error messages: use caserror.class more fully to use user information to target error messages.
-2. Remove all "cte" code from Maxima - mostly install.
+TODO: 
+
+1. Fix markdown problems. See issue #420.
+2. Error messages: use caserror.class more fully to use user information to target error messages.
+3. Remove all "cte" code from Maxima - mostly install.
 
 ## For "inputs 2"?
 

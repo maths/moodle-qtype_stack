@@ -33,7 +33,7 @@ Other options for the platform are `linux` and `linux-optimised`.
     define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMAND',   'maxima --use-version=5.42.0');
     define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDOPT',   '');
     define('QTYPE_STACK_TEST_CONFIG_MAXIMACOMMANDSERVER',   'http://pool.home:8080/MaximaPool/MaximaPool');
-    define('QTYPE_STACK_TEST_CONFIG_CASTIMEOUT',      '5');
+    define('QTYPE_STACK_TEST_CONFIG_CASTIMEOUT',      '20');
     define('QTYPE_STACK_TEST_CONFIG_MAXIMALIBRARIES', 'stats, distrib, descriptive, simplex');
     define('QTYPE_STACK_TEST_CONFIG_CASDEBUGGING',    '0');
     define('QTYPE_STACK_TEST_CONFIG_PLOTCOMMAND',     '');

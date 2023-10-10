@@ -33,11 +33,6 @@ class stack_boolean_input extends stack_input {
         );
     }
 
-    protected $extraoptions = array(
-        'hideanswer' => false,
-        'allowempty' => false
-    );
-
     protected function extra_validation($contents) {
         $validation = $contents[0];
         if ($validation === 'EMPTYANSWER') {

@@ -2,39 +2,9 @@
 
 This page deals with testing questions and quality control. This is largely done through the question test functionality.
 
-We have separate advice on [fixing broken questions](Fixing_broken_questions.md) in a live quiz.
+High-quality question production needs care at each stage.  An [authoring workflow](Workflow.md) is described separately.
 
-## Question authoring checklist ##
-
-High-quality question production needs care at each stage.
-
-__Minimal requirements__
-
-1. The question name should be meaningful and consistent, i.e. match up to course, section and topic.  E.g. `2018ILA-Wk3-Q2: equation of plane`.
-2. Is the phrasing of the question clear to students?
-3. Will students know how to input an answer?
-   * Could a "syntax hint" or message in the question help?
-   * Can "validation" help, e.g. by telling students how many significant figures are expected? (See the "numbers" input type.)
-4. Use question variable stubs throughout, to enable efficient random generation.  (E.g. define the correct answer in question variables, rather than hard-wiring a specific expression).
-5. Add a meaingful question note which will make sense later, not just a list of randomly generated numbers.  This could be an abreviated form of the question together with the answer.
-6. Add question tests for one correct and at least one incorrect variant. (See below.) Always make sure the question marks the correct answer as correct!
-7. Check all options in the question, inputs and PRTs.
-
-__Phase 1__
-
-1. Minimal random variants.
-2. Worked solution ("General feedback") reflecting the random variables.
-3. Consider likely mistakes, and add feedback to test for this.
-4. Add at least one question test to test for each eventuality identified above.
-
-__Phase 2__
-
-Use data obtained from one cycle of attempts by students.
-
-1. Did the question operate correctly?  E.g. were correct answers correctly marked, and incorrect answers rejected?
-2. What did students get wrong?  Is there a reason for these answers such as a common misconception?  If so, add nodes to the PRTs to test for this and improve feedback.
-3. Add further question tests to test each misconception.
-4. Is there any significant difference between random variants?
+We have separate advice on [fixing broken questions](../Maintaining/Fixing_broken_questions.md) in a live quiz.
 
 ## Testing for quality control  ##
 
@@ -85,6 +55,8 @@ Test cases can include a meaningful description of up to 255 characters.  This f
 ## Test case construction and Maxima evaluation
 
 Test cases are always written assuming `simp:false` regardless of the option set elsewhere.  If you want to construct a simplified test case then wrap this in `ev(... , simp)` to simplify the expression generating the test case.  This behaviour is required to enable construction of unsimplified test cases.
+
+Test cases are always written using the period `.` as the decimal separator.  This corresponds to strict Maxima syntax, which teachers should always use.
 
 You can (and should) constuct test cases based on invalid expressions.  If the raw testcase expression cannot be sent to the CAS, e.g. a missing bracket, then this invalidity will be tested.
 

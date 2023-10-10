@@ -90,6 +90,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '5.1e-2', '51/1000', 1, '', ''),
         array('AlgEquiv', '', '0.333333333333333', '1/3', 0, '', ''),
         array('AlgEquiv', '', '(0.5+x)*2', '2*x+1', 1, '', ''),
+        // Interesting rounding error.
+        array('AlgEquiv', '', '100.4-80.0', '20.4', 0, '', ''),
 
         array('AlgEquiv', '', 'sqrt(-1)', '%i', 1, '', 'Complex numbers'),
         array('AlgEquiv', '', '%i', 'e^(i*pi/2)', 1, '', ''),
@@ -144,6 +146,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '(k+7)/(k^2+4*k-12)', '(k+8)/(k^2+4*k-12)', 0, '', ''),
         array('AlgEquiv', '', '-(2*k+6)/(k^2+4*k-12)', '-(2*k+6)/(k^2+4*k-12)', 1, '', ''),
         array('AlgEquiv', '', '1/n-1/(n+1)', '1/(n*(n+1))', 1, '', ''),
+        array('AlgEquiv', '', '1/(a-b)-1/(b-a)', '1/(a-b)+1/(b-a)', 0, '', ''),
         array('AlgEquiv', '', '0.5*x^2+3*x-1', 'x^2/2+3*x-1', 1, '', ''),
         array('AlgEquiv', '', '14336000000*x^13+250265600000*x^12+1862860800000*x^11+7623925760000*x^10+' .
             '18290677760000*x^9+24744757985280*x^8+14567212351488*x^7-3267871272960*x^6-6408053107200*x^5+' .
@@ -664,16 +667,27 @@ class stack_answertest_test_data {
         array('SubstEquiv', '', '{x^2-1,x^2}', '{A^2+1,A^2}', 0, 'ATSet_wrongentries.', ''),
         array('SubstEquiv', '', '{A+1,B^2,C}', '{B,C+1,A^2}', 1, 'ATSubstEquiv_Subst [A = C,B = A,C = B].', ''),
         array('SubstEquiv', '', '{1,{A,B},C}', '{1,{a,b},C}', 1, 'ATSubstEquiv_Subst [A = a,B = b,C = C].', ''),
+        // Will not match since x in the teacher's answer is fixed here.
+        array('SubstEquiv', '[x]', 'y=A+B', 'x=a+b', 0, 'ATEquation_default', ''),
+        array('SubstEquiv', '[z]', 'y=A+B', 'x=a+b', 1, 'ATSubstEquiv_Subst [A = a,B = b,y = x].', ''),
         // Optional argument to fix some variables within an expression.
         array('SubstEquiv', '', 'A*cos(t)+B*sin(t)', 'P*cos(t)+Q*sin(t)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = t].', ''),
         array('SubstEquiv', '', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = x].', ''),
-        array('SubstEquiv', '[x]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 0, '', 'Fix some variables.'),
-        // Fixes variables only in the teacher's answer.
-        array('SubstEquiv', '[t]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = x].', ''),
+        // Fixes variables.
+        array('SubstEquiv', '[x]', 'A*cos(x)+B*sin(x)', 'P*cos(x)+Q*sin(x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q].',
+            'Fix some variables.'),
+        array('SubstEquiv', '[x]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 0, '', ''),
+        array('SubstEquiv', '[t]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 0, '', ''),
+        array('SubstEquiv', '[z]', 'A*cos(t)+B*sin(t)', 'P*cos(x)+Q*sin(x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,t = x].', ''),
         array('SubstEquiv', '[x,t]', 'A*cos(t)*e^x+B*sin(t)*e^x+C*sin(2*x)+D*cos(2*x)',
             'P*cos(t)*e^x+Q*sin(t)*e^x+R*sin(2*x)+S*cos(2*x)', 1, 'ATSubstEquiv_Subst [A = P,B = Q,C = R,D = S].', ''),
+        // Fix one.
         array('SubstEquiv', '', 'sqrt(2*g*y)', 'sqrt(2*g*x)', 1, 'ATSubstEquiv_Subst [g = g,y = x].', ''),
         array('SubstEquiv', '[g]', 'sqrt(2*g*y)', 'sqrt(2*g*x)', 1, 'ATSubstEquiv_Subst [y = x].', ''),
+        array('SubstEquiv', '[x]', 'C1*%e^x*sin(4*x)+C2*%e^x*cos(4*x)+C4*x*%e^-x+C3*%e^-x', 'e^(x)*A*cos(4*x)+B*e^(x)*sin(4*x)+C*e^(-x)+D*x*e^(-x)', 1, 'ATSubstEquiv_Subst [C1 = B,C2 = A,C3 = C,C4 = D].',''),
+        array('SubstEquiv', '[x]', 'C1*%e^x*sin(4*x)+C2*%e^x*cos(4*x)+C4*x*%e^-x+C3*%e^-x', 'C4*x*e^(-x)+e^(x)*C1*cos(4*x)+C2*e^(x)*sin(4*x)+C3*e^(-x)', 1, 'ATSubstEquiv_Subst [C1 = C2,C2 = C1,C3 = C3,C4 = C4].',''),
+        array('SubstEquiv', '[x]', 'C1*%e^x*sin(4*x)+C2*%e^x*cos(4*x)+C4*x*%e^-x+C3*%e^-x', 'A*x*e^(-x)+e^(x)*B*cos(4*x)+C*e^(x)*sin(4*x)+D*e^(-x)', 1, 'ATSubstEquiv_Subst [C1 = C,C2 = B,C3 = D,C4 = A].',''),
+        array('SubstEquiv', '[x]', 'C1*%e^x*sin(4*x)+C2*%e^x*cos(4*x)+C4*x*%e^-x+C3*%e^-x', 'e^(x)*C1*cos(4*x)+C2*e^(x)*sin(4*x)+C3*e^(-x)+C4*x*e^(-x)', 1, 'ATSubstEquiv_Subst [C1 = C2,C2 = C1,C3 = C3,C4 = C4].',''),
 
         array('EqualComAss', '', '1/0', '0', -1, 'ATEqualComAss_STACKERROR_SAns.', ''),
         array('EqualComAss', '', '0', '1/0', -1, 'ATEqualComAss_STACKERROR_TAns.', ''),
@@ -1606,6 +1620,9 @@ class stack_answertest_test_data {
             'ATNumerical_wrongentries: TA/SA=[3.14159], SA/TA=[3.1].', ''),
         array('NumRelative', '0.1', '{1.414,3.1}', '{pi,sqrt(2)}', 1, '', ''),
         array('NumRelative', '0.1', '{0,1,2}', '{0,1,2}', 1, '', ''),
+        // What happens with floating point complex numbers?
+        // This is rejected as not a real number.
+        array('NumRelative', '0.1', '0.99*%i', '%i', 0, 'ATNumerical_SA_not_number.', 'Complex numbers'),
 
         array('NumAbsolute', '', '1/0', '0', -1, 'ATNumAbsolute_STACKERROR_SAns.', 'Basic tests'),
         array('NumAbsolute', '', '0', '1/0', -1, 'ATNumAbsolute_STACKERROR_TAns.', ''),
@@ -2079,6 +2096,10 @@ class stack_answertest_test_data {
         array('UnitsStrict', '2', '-(36*Kj)/mol', '-36*Kj/mol', 1, 'ATUnits_units_match.', ''),
         array('UnitsStrict', '2', '-(36.2*Kj)/mol', '-36.3*Kj/mol', 0,
             'ATNumSigFigs_WrongDigits. ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '3.58e-9*mg', 'displaydp(3.58e-9,2)*mg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '[3,2]', '3.58e-9*mg', 'displaysf(3.58e-9,3)*mg', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '3', '-9.82*m/s^2', 'stackunits(displaydp(-9.815,3),m/s^2)', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrict', '3', '-9.82*m/s^2', 'stackunits(displaysf(-9.815,4),m/s^2)', 1, 'ATUnits_units_match.', ''),
 
         array('UnitsRelative', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
         array('UnitsRelative', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),
@@ -2094,6 +2115,8 @@ class stack_answertest_test_data {
         array('UnitsRelative', '0.002', '0.0*kVA', '0.0*kVA', 1, 'ATUnits_units_match.', ''),
 
         array('UnitsStrictRelative', '0.01', '12.3*m/s', '12.3*m/s', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrictRelative', '0.01', '12.3*m/s', 'stackunits(12.3,m/s)', 1, 'ATUnits_units_match.', ''),
+        array('UnitsStrictRelative', '0.01', '12.3*m/s', 'stackunits(displaydp(12.3,1),m/s)', 1, 'ATUnits_units_match.', ''),
         array('UnitsStrictRelative', '0.01', '12*m/s', '12.3*m/s', 0, 'ATUnits_units_match.', ''),
         array('UnitsStrictRelative', '0.15', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units kg.', ''),
         array('UnitsStrictRelative', '0.05', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units kg.', ''),
@@ -2115,6 +2138,7 @@ class stack_answertest_test_data {
         array('UnitsAbsolute', '0.09', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units kg.', ''),
         array('UnitsAbsolute', '5*kJ', '-123000*J', '-123*kJ', 1, 'ATUnits_compatible_units (kg*m^2)/s^2.', 'Units in the options'),
         array('UnitsAbsolute', '5*kJ', '-123006*J', '-123*kJ', 1, 'ATUnits_compatible_units (kg*m^2)/s^2.', ''),
+        array('UnitsAbsolute', '5*kJ', '-123006*J', 'stackunits(-123,kJ)', 1, 'ATUnits_compatible_units (kg*m^2)/s^2.', ''),
         array('UnitsAbsolute', '5*kJ', '-129006*J', '-123*kJ', 0, 'ATUnits_compatible_units (kg*m^2)/s^2.', ''),
         array('UnitsAbsolute', '0.1*kN*ns/(mm*Hz)', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 1, 'ATUnits_compatible_units kg.', ''),
         array('UnitsAbsolute', '0.09*kN*ns/(mm*Hz)', '1.1*Mg/10^6', '1.2*kN*ns/(mm*Hz)', 0, 'ATUnits_compatible_units kg.', ''),

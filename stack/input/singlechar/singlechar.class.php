@@ -23,8 +23,9 @@
 class stack_singlechar_input extends stack_input {
 
     protected $extraoptions = array(
-        'nounits' => true,
+        'hideanswer' => false,
         'allowempty' => false,
+        'nounits' => true,
         'validator' => false
     );
 

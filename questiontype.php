@@ -94,12 +94,11 @@ class qtype_stack extends question_type {
      */
     protected function fix_dollars_in_form_data($fromform) {
         $questionfields = array('questiontext', 'generalfeedback', 'specificfeedback',
-                'prtcorrect', 'prtpartiallycorrect', 'prtincorrect');
+                'prtcorrect', 'prtpartiallycorrect', 'prtincorrect', 'questiondescription');
         foreach ($questionfields as $field) {
             $fromform->{$field}['text'] = stack_maths::replace_dollars($fromform->{$field}['text']);
         }
         $fromform->questionnote = stack_maths::replace_dollars($fromform->questionnote);
-        $fromform->questiondescription = stack_maths::replace_dollars($fromform->questiondescription['text']);
 
         $prtnames = array_keys($this->get_prt_names_from_question($fromform->questiontext['text'],
                 $fromform->specificfeedback['text']));
@@ -160,6 +159,7 @@ class qtype_stack extends question_type {
         $options->prtincorrect              = $this->import_or_save_files($fromform->prtincorrect,
                     $context, 'qtype_stack', 'prtincorrect', $fromform->id);
         $options->prtincorrectformat        = $fromform->prtincorrect['format'];
+        $options->decimals                  = $fromform->decimals;
         $options->multiplicationsign        = $fromform->multiplicationsign;
         $options->sqrtsign                  = $fromform->sqrtsign;
         $options->complexno                 = $fromform->complexno;
@@ -307,7 +307,9 @@ class qtype_stack extends question_type {
                 // The empty string should be used instead. (Also see issue #974).
                 $node->testoptions         = '';
                 if (property_exists($fromform, $prtname . 'testoptions')) {
-                    $node->testoptions         = $fromform->{$prtname . 'testoptions'}[$nodename];
+                    if (array_key_exists($nodename, $fromform->{$prtname . 'testoptions'})) {
+                        $node->testoptions         = $fromform->{$prtname . 'testoptions'}[$nodename];
+                    }
                 }
                 $node->quiet               = $fromform->{$prtname . 'quiet'}[$nodename];
                 $node->truescoremode       = $fromform->{$prtname . 'truescoremode'}[$nodename];
@@ -382,7 +384,7 @@ class qtype_stack extends question_type {
         }
 
         if (isset($fromform->testcases)) {
-            // If the data includes the defintion of the question tests that there
+            // If the data includes the definition of the question tests that there
             // should be (i.e. when doing import) then replace the existing set
             // of tests with the new one.
             $this->save_question_tests($fromform->id, $fromform->testcases);
@@ -474,6 +476,7 @@ class qtype_stack extends question_type {
         }
 
         $question->options = new stack_options();
+        $question->options->set_option('decimals',           $questiondata->options->decimals);
         $question->options->set_option('multiplicationsign', $questiondata->options->multiplicationsign);
         $question->options->set_option('complexno',          $questiondata->options->complexno);
         $question->options->set_option('inversetrig',        $questiondata->options->inversetrig);
@@ -517,13 +520,19 @@ class qtype_stack extends question_type {
                     $inputdata->type, $inputdata->name, $inputdata->tans, $question->options, $parameters);
         }
 
+        $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
+
         $totalvalue = 0;
         $allformative = true;
-        foreach ($questiondata->prts as $name => $prtdata) {
-            // At this point we do not have the PRT method is_formative() available to us.
-            if ($prtdata->feedbackstyle > 0) {
-                $totalvalue += $prtdata->value;
-                $allformative = false;
+        foreach ($prtnames as $name) {
+            // If not then we have just created the PRT.
+            if (array_key_exists($name, $questiondata->prts)) {
+                $prtdata = $questiondata->prts[$name];
+                // At this point we do not have the PRT method is_formative() available to us.
+                if ($prtdata->feedbackstyle > 0) {
+                    $totalvalue += $prtdata->value;
+                    $allformative = false;
+                }
             }
         }
         if ($questiondata->prts && !$allformative && $totalvalue < 0.0000001) {
@@ -531,8 +540,6 @@ class qtype_stack extends question_type {
                     'The $totalvalue, the marks available for the question, must be positive in question ' .
                     $question->name);
         }
-
-        $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
 
         foreach ($prtnames as $name) {
             if (array_key_exists($name, $questiondata->prts)) {
@@ -1160,6 +1167,7 @@ class qtype_stack extends question_type {
                         $options->prtpartiallycorrectformat, $contextid, 'prtpartiallycorrect', $questiondata->id);
         $output .= $this->export_xml_text($format, 'prtincorrect', $options->prtincorrect,
                         $options->prtincorrectformat, $contextid, 'prtincorrect', $questiondata->id);
+        $output .= "    <decimals>{$options->decimals}</decimals>\n";
         $output .= "    <multiplicationsign>{$options->multiplicationsign}</multiplicationsign>\n";
         $output .= "    <sqrtsign>{$options->sqrtsign}</sqrtsign>\n";
         $output .= "    <complexno>{$options->complexno}</complexno>\n";
@@ -1305,6 +1313,7 @@ class qtype_stack extends question_type {
         }
         $fromform->prtincorrect          = $this->import_xml_text($xml, 'prtincorrect', $format, $fformat);
         $fromform->penalty               = $format->getpath($xml, array('#', 'penalty', 0, '#'), 0.1);
+        $fromform->decimals              = $format->getpath($xml, array('#', 'decimals', 0, '#'), '.');
         $fromform->multiplicationsign    = $format->getpath($xml, array('#', 'multiplicationsign', 0, '#'), 'dot');
         $fromform->sqrtsign              = $format->getpath($xml, array('#', 'sqrtsign', 0, '#'), 1);
         $fromform->complexno             = $format->getpath($xml, array('#', 'complexno', 0, '#'), 'i');
@@ -1510,6 +1519,7 @@ class qtype_stack extends question_type {
         $fixingdollars = array_key_exists('fixdollars', $fromform);
 
         $this->options = new stack_options();
+        $this->options->set_option('decimals',           $fromform['decimals']);
         $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);
         $this->options->set_option('complexno',          $fromform['complexno']);
         $this->options->set_option('inversetrig',        $fromform['inversetrig']);

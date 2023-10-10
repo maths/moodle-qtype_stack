@@ -31,8 +31,12 @@
  * @copyright  2023 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
-    "use strict";
+define([
+    'core/event'
+], function(
+    CustomEvents
+) {
+    'use strict';
     // Note the VLE specific include of logic.
 
     /* All the IFRAMES have unique identifiers that they give in their
@@ -178,7 +182,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
         // TODO: look into replacing this with DOMPurify or some such.
 
         let parser = new DOMParser();
-        let doc = parser.parseFromString(src);
+        let doc = parser.parseFromString(src, "text/html");
 
         // First remove all <script> tags. Also <style> as we do not want
         // to include too much style.
@@ -602,7 +606,12 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
 
             // As the SOP is intentionally broken we need to allow
             // scripts from everywhere.
-            frm.csp = "script-src: 'unsafe-inline' 'self' '*';";
+            // NOTE: this bit commented out as long as the csp-attribute
+            // is not supported by more browsers.
+            // frm.csp = "script-src: 'unsafe-inline' 'self' '*';";
+
+            // Plug the content into the frame.
+            frm.srcdoc = content;
 
             // The target DIV will have its children removed.
             // This allows that div to contain some sort of loading
@@ -610,10 +619,6 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             // Naturally the frame will then start to load itself.
             document.getElementById(targetdivid).replaceChildren(frm);
             IFRAMES[iframeid] = frm;
-
-            // Move the content over.
-            const src = new Blob([content], {type: 'text/html; charset=utf-8'});
-            frm.src = URL.createObjectURL(src);
         }
 
     };

@@ -24,6 +24,7 @@
         <FIELD NAME="prtpartiallycorrectformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Text format for the prtpartiallycorrect field."/>
         <FIELD NAME="prtincorrect" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Standard feedback displayed for any PRT that returns a score of 0."/>
         <FIELD NAME="prtincorrectformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Text format for the prtincorrect field."/>
+        <FIELD NAME="decimals" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="." SEQUENCE="false" COMMENT="The symbol to use for the decimal separator."/>
         <FIELD NAME="multiplicationsign" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="dot" SEQUENCE="false" COMMENT="The symbol to use for multiplication."/>
         <FIELD NAME="sqrtsign" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to display square roots as surds."/>
         <FIELD NAME="complexno" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="i" SEQUENCE="false" COMMENT="How complex numbers should be displayed and represented."/>

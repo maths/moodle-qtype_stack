@@ -72,4 +72,4 @@ Note, the question summary is stored in a database and will not be updated if yo
 
 ## Site-wide usage ##
 
-Moodle Admins can get stats on [site-wide STACK usage](../Developer/Local_Usage.md).
+Moodle Admins can get stats on [site-wide STACK usage](../Maintaining/Local_Usage.md).

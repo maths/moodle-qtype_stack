@@ -55,6 +55,7 @@ Therefore, a value of `3` both inserts `*`s for implied multiplication and allow
 
 Support other issues in context, at the parsing stage.
 
+* Support the use of a [comma as the decimal separator](Syntax_numbers.md)
 * Base M numbers
 * Allow entry of unicode?
 * Spot order of precedence problems:  `x = 1 or 2` (normally used to mean `x=1 or x=2`).

@@ -325,7 +325,8 @@ class stack_matrix_input extends stack_input {
                     }
                     $blank = false;
                 }
-            } elseif ($this->get_size()=='var') {
+            } 
+            if ($this->get_size()=='var') {
                 $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
                 if ($this->parameters['syntaxAttribute'] == '1') {
                     $attributes['placeholder'] = $current;

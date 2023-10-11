@@ -175,10 +175,11 @@ class stack_matrix_input extends stack_input {
 
             foreach ($matrix as $key => $row) {
                 // Pad out short rows.
+                $padrow = array();
                 for ($i = 0; $i < ($maxlen - count($row)); $i++) {
                     $row[] = '?';
                 }
-                $matrix[$key] = '[' . implode(',', $row) . ']';
+                $matrix[$key] = array_merge($row, $padrow);
             }
             if ($matrix == array() && $this->get_extra_option('allowempty')) {
                 $matrix = array('EMPTYANSWER');

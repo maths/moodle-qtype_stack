@@ -342,6 +342,7 @@ class stack_matrix_input extends stack_input {
         }
 
         // Read matrix bracket style from options.
+        // The default brackets for matrices are square in options.
         $matrixbrackets = 'matrixsquarebrackets';
         $matrixparens = $this->options->get_option('matrixparens');
         if ($matrixparens == '(') {

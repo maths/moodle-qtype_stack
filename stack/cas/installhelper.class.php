@@ -183,10 +183,6 @@ class stack_cas_configuration {
     public function copy_maxima_bat() {
         global $CFG;
 
-        if ($this->settings->platform != 'win') {
-            return true;
-        }
-
         $batchfilename = $this->maxima_win_location() . 'bin/maxima.bat';
         if (substr_count($batchfilename, ' ') === 0) {
             $batchfilecontents = "rem Auto-generated Maxima batch file.  \n\n";
@@ -203,16 +199,6 @@ class stack_cas_configuration {
                     ' to location ' . $CFG->dataroot . '/stack/maxima.bat');
         }
         return true;
-    }
-
-    public function maxima_bat_is_ok() {
-        global $CFG;
-
-        if ($this->settings->platform != 'win') {
-            return true;
-        }
-
-        return is_readable($CFG->dataroot . '/stack/maxima.bat');
     }
 
     public function get_maximalocal_contents() {
@@ -324,8 +310,6 @@ END;
         make_upload_directory('stack/plots');
         make_upload_directory('stack/tmp');
 
-        self::get_instance()->copy_maxima_bat();
-
         if (!file_put_contents(self::maximalocal_location(), self::generate_maximalocal_contents())) {
             throw new stack_exception('Failed to write Maxima configuration file.');
         }
@@ -337,14 +321,6 @@ END;
      */
     public static function generate_maximalocal_contents() {
         return self::get_instance()->get_maximalocal_contents();
-    }
-
-    /**
-     * Generate the contents for the maximalocal configuration file.
-     * @return string the contents that the maximalocal.mac file should have.
-     */
-    public static function maxima_bat_is_missing() {
-        return !self::get_instance()->maxima_bat_is_ok();
     }
 
     /**

@@ -73,7 +73,8 @@ $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
                 array('5.40.0' => '5.40.0', '5.41.0' => '5.41.0', '5.42.0' => '5.42.0',
                       '5.42.1' => '5.42.1', '5.42.2' => '5.42.2',
                       '5.43.0' => '5.43.0', '5.43.1' => '5.43.1', '5.43.2' => '5.43.2',
-                      '5.44.0' => '5.44.0', 'default' => 'default')));
+                      '5.44.0' => '5.44.0', '5.46.0' => '5.46.0', '5.47.0' => '5.47.0',
+                      'default' => 'default')));
 
 $settings->add(new admin_setting_configtext('qtype_stack/castimeout',
         get_string('settingcastimeout', 'qtype_stack'),
@@ -241,6 +242,11 @@ $settings->add(new admin_setting_configtextarea('qtype_stack/prtincorrect',
         get_string('prtincorrectfeedback', 'qtype_stack'), '',
         get_string('symbolicprtincorrectfeedback', 'qtype_stack') . ' ' .
             get_string('defaultprtincorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
+
+$settings->add(new admin_setting_configselect('qtype_stack/decimals',
+        get_string('decimals', 'qtype_stack'),
+        get_string('decimals_help', 'qtype_stack'), '.',
+        stack_options::get_decimals_sign_options()));
 
 $settings->add(new admin_setting_configselect('qtype_stack/multiplicationsign',
         get_string('multiplicationsign', 'qtype_stack'),

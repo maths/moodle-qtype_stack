@@ -36,6 +36,7 @@ define('NO_OUTPUT_BUFFERING', true);
 require_once(__DIR__.'/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/vle_specific.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/stack/questiontest.php');
 require_once(__DIR__ . '/stack/bulktester.class.php');
@@ -121,11 +122,7 @@ $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
 
 // Prepare the display options.
-$options = new question_display_options();
-$options->readonly = true;
-$options->flags = question_display_options::HIDDEN;
-$options->suppressruntestslink = true;
-
+$options = question_display_options();
 // Start output.
 echo $OUTPUT->header();
 $renderer = $PAGE->get_renderer('qtype_stack');
@@ -429,6 +426,16 @@ if ($question->has_random_variants()) {
         echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 4,
                 'id' => 'deploymanyfield', 'name' => 'deploymany', 'value' => ''));
         echo ' ' . stack_string('deploymanynotes');
+        echo html_writer::end_tag('form');
+
+        // Systematic deployment of variants.
+        echo html_writer::start_tag('form', array('method' => 'get', 'class' => 'deploysystematic',
+            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)));
+        echo html_writer::input_hidden_params(new moodle_url($PAGE->url, array('sesskey' => sesskey())), array('seed'));
+        echo ' ' . html_writer::empty_tag('input', array('type' => 'submit', 'class' => 'btn btn-secondary',
+            'value' => stack_string('deploysystematicbtn')));
+        echo ' ' . html_writer::empty_tag('input', array('type' => 'text', 'size' => 3,
+            'id' => 'deploysystematicfield', 'name' => 'deploysystematic', 'value' => ''));
         echo html_writer::end_tag('form');
 
         // Deploy many from a CS list of integer seeds.

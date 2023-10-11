@@ -492,3 +492,29 @@
 (defmfun $get_texword (x) (or (get x 'texword) (get (get x 'reversealias) 'texword)))
 
 (defmfun $get_texsym (x) (car (or (get x 'texsym) (get x 'strsym) (get x 'dissym) (stripdollar x))))
+
+;; *************************************************************************************************
+;; Added 20 Feb 2022.
+;; 
+;; Change the list separation on tex output when commas are used for decimal separators.
+;;
+;; Code below makes the list separator a normal "texput" concern. 
+;; E.g. in maxima: texput(stacklistsep, " ; ");
+;; (defprop $stacklistsep " , " texword)
+;;
+;;(defun tex-matchfix (x l r)
+;;  (setq l (append l (car (texsym (caar x))))
+;;    ;; car of texsym of a matchfix operator is the lead op
+;;    r (append (list (nth 1 (texsym (caar x)))) r)
+;;    ;; cdr is the trailing op
+;;    x (tex-list (cdr x) nil r (or (nth 2 (texsym (caar x))) (get '$stacklistsep 'texword))))
+;;  (append l x))
+
+(defun tex-matchfix (x l r)
+  (setq l (append l (car (texsym (caar x))))
+    ;; car of texsym of a matchfix operator is the lead op
+    r (append (list (nth 1 (texsym (caar x)))) r)
+    ;; cdr is the trailing op
+    x (tex-list (cdr x) nil r (or (nth 2 (texsym (caar x))) (if (string= $stackfltsep '",") '" ; " '" , "))))
+  (append l x))
+

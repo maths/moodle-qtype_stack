@@ -955,6 +955,14 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']      = "Rational expressions.";
+        $newarg['narrative']  = '';
+        $newarg['casstring']  = "[1/(a-b)-1/(b-a),stackeq(1/(a-b)+1/(b-a))]";
+        $newarg['debuglist']  = "(EMPTYCHAR,QMCHAR)";
+        $newarg['outcome']    = false;
+        $samplearguments[]    = $newarg;
+
+        $newarg = array();
         $newarg['section'] = 'Equate coefficients';
         $samplearguments[] = $newarg;
 

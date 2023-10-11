@@ -37,6 +37,14 @@ class stack_options {
                 'caskey'     => 'OPT_OUTPUT',
                 'castype'    => 'string',
              ),
+            'decimals'       => array(
+                'type'       => 'list',
+                'value'      => '.',
+                'strict'     => true,
+                'values'     => array('.', ','),
+                'caskey'     => 'texput_decimal',
+                'castype'    => 'fun',
+            ),
             'multiplicationsign'   => array(
                 'type'       => 'list',
                 'value'      => 'dot',
@@ -68,14 +76,6 @@ class stack_options {
                 'values'     => array('lang', 'symbol'),
                 'caskey'     => 'make_logic',
                 'castype'    => 'fun',
-            ),
-            'floats'   => array(
-                'type'       => 'boolean',
-                'value'      => 1,
-                'strict'     => true,
-                'values'     => array(),
-                'caskey'     => 'OPT_NoFloats',
-                'castype'    => 'ex',
             ),
             'sqrtsign'   => array(
                 'type'       => 'boolean',
@@ -136,12 +136,12 @@ class stack_options {
     public function set_site_defaults() {
         $stackconfig = stack_utils::get_config();
         // Display option does not match up to $stackconfig->mathsdisplay).
+        $this->set_option('decimals', $stackconfig->decimals);
         $this->set_option('multiplicationsign', $stackconfig->multiplicationsign);
         $this->set_option('complexno', $stackconfig->complexno);
         $this->set_option('inversetrig', $stackconfig->inversetrig);
         $this->set_option('logicsymbol', $stackconfig->logicsymbol);
         $this->set_option('matrixparens', $stackconfig->matrixparens);
-        $this->set_option('floats', (bool) $stackconfig->inputforbidfloat);
         $this->set_option('sqrtsign', (bool) $stackconfig->sqrtsign);
         $this->set_option('simplify', (bool) $stackconfig->questionsimplify);
         $this->set_option('assumepos', (bool) $stackconfig->assumepositive);
@@ -251,6 +251,16 @@ class stack_options {
         return array(
                 '0' => get_string('syntaxattributevalue', 'qtype_stack'),
                 '1' => get_string('syntaxattributeplaceholder', 'qtype_stack'),
+        );
+    }
+
+    /**
+     * @return array of choices for the decimal sign select menu.
+     */
+    public static function get_decimals_sign_options() {
+        return array(
+            '.'    => '.',
+            ','    => ',',
         );
     }
 

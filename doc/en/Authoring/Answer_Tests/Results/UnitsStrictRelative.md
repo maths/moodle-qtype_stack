@@ -18,6 +18,25 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">UnitsStrictRelative</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>12.3*m/s</pre></td>
+  <td class="cell c3"><pre>stackunits(12.3,m/s)</pre></td>
+  <td class="cell c4"><pre>0.01</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATUnits_units_match.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">UnitsStrictRelative</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>12.3*m/s</pre></td>
+  <td class="cell c3"><pre>stackunits(displaydp(12.3,1),m
+/s)</pre></td>
+  <td class="cell c4"><pre>0.01</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATUnits_units_match.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">UnitsStrictRelative</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>12*m/s</pre></td>
   <td class="cell c3"><pre>12.3*m/s</pre></td>
   <td class="cell c4"><pre>0.01</pre></td>
@@ -120,24 +139,6 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c4"><pre>0.01</pre></td>
   <td class="cell c5">1</td>
   <td class="cell c6">ATUnits_units_match.</td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
-</tr>
-<tr class="emptyrow">
-  <td class="cell c0"></td>
-  <td class="cell c1"></td>
-  <td class="cell c2"></td>
-  <td class="cell c3"></td>
-  <td class="cell c4"></td>
-  <td class="cell c5"></td>
-  <td class="cell c6"></td>
 </tr>
 <tr class="emptyrow">
   <td class="cell c0"></td>

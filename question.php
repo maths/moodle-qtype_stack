@@ -1271,11 +1271,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     /**
-     * @param string Input text (raw keyvals) to check for random functions.
+     * @param string Input text (raw keyvals) to check for random functions, or use of stack_seed.
      * @return bool Actual test of whether text uses randomisation.
      */
     public static function random_variants_check($text) {
-        return preg_match('~\brand~', $text) || preg_match('~\bmultiselqn~', $text);
+        return preg_match('~\brand~', $text) || preg_match('~\bmultiselqn~', $text)
+            || preg_match('~\bstack_seed~', $text);
     }
 
     public function get_num_variants() {
@@ -1458,7 +1459,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver']) {
                 foreach ($qfields as $field) {
-                    if (strstr($this->$field, $checkpat['pat'])) {
+                    if (strstr($this->$field ?? '', $checkpat['pat'])) {
                         $a = array('pat' => $checkpat['pat'], 'ver' => $checkpat['ver'], 'qfield' => stack_string($field));
                         $err = stack_string('stackversionerror', $a);
                         if (array_key_exists('alt', $checkpat)) {
@@ -1492,7 +1493,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
 
             $options = $input->get_parameter('options');
-            if (trim($options) !== '') {
+            if (trim($options ?? '') !== '') {
                 $options = explode(',', $options);
                 foreach ($options as $opt) {
                     $opt = strtolower(trim($opt));
@@ -1516,7 +1517,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $fields = array('questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription');
         foreach ($fields as $field) {
             $text = $this->$field;
-            $filesexpected = preg_match($pat, $text);
+            $filesexpected = preg_match($pat, $text ?? '');
             $filesfound    = $fs->get_area_files($context->id, 'question', $field, $this->id);
             if (!$filesexpected && $filesfound != array()) {
                 $errors[] = stack_string('stackfileuseerror', stack_string($field));
@@ -1600,7 +1601,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         $pat = '/\[\[todo/';
         foreach ($tocheck as $field => $text) {
-            if (preg_match($pat, $text)) {
+            if (preg_match($pat, $text ?? '')) {
                 $warnings[] = stack_string_error('todowarning', array('field' => $field));
             }
         }

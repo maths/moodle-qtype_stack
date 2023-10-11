@@ -56,7 +56,7 @@ STACK is designed to cover the needs of a large variety of users across mathemat
 * Questions can be [randomised](../CAS/Random.md) to ensure different students see different variants of a question.
 * There are many different kinds of [inputs](../Authoring/Inputs.md). These are, for example, where the student enters a mathematical expression, or makes a true/false selection.
 * Partial credit is possible when an expression only satisfies some of the required properties.
-* [Plots](../CAS/Plots.md) can be dynamically generated and included within any part of the question, including feedback in the form of a plot of the student's expression.
+* [Plots](../Plots/Plots.md) can be dynamically generated and included within any part of the question, including feedback in the form of a plot of the student's expression.
 * Students can work line by line [reasoning by equivalence](../CAS/Equivalence_reasoning.md) until they have a final answer in the correct form. 
 * STACK supports working with [significant figures](../Authoring/Answer_Tests/Numerical.md) and [scientific units](../Topics/Units.md).
 

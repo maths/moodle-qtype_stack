@@ -37,6 +37,7 @@ define('CLI_SCRIPT', true);
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir.'/clilib.php');
 require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/../vle_specific.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/bulktester.class.php');
@@ -119,7 +120,7 @@ foreach ($questions as $id) {
         'category' => $questiondata->category,
         'lastchanged' => $id->id,
         'courseid' => cat_to_course($questiondata->category));
-    if ($questiondata->hidden) {
+    if (property_exists($questiondata, 'hidden') && $questiondata->hidden) {
         $urlparams['showhidden'] = 1;
     }
 
@@ -155,10 +156,7 @@ foreach ($questions as $id) {
         }
 
         // Prepare the display options.
-        $options = new question_display_options();
-        $options->readonly = true;
-        $options->flags = question_display_options::HIDDEN;
-        $options->suppressruntestslink = true;
+        $options = question_display_options();
         $question->castextprocessor = new castext2_qa_processor($quba->get_question_attempt($slot));
 
         // Create the question text, question note and worked solutions.

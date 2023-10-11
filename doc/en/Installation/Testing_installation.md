@@ -17,6 +17,7 @@ The healthcheck script checks the following.
 * Check LaTeX is being converted correctly?  Check [MathJax](Mathjax.md) or another LaTeX converter.
 * Can PHP call external applications?  No, then change PHP settings. 
 * Can PHP call Maxima? No, then see below.
+* Does Maxima support unicode?  Distributed versions of Maxima do (as of July 2023) but if you compile Maxima from source then you must include unicode support.
 * Graph plotting. Are auto-generated plots being created correctly?  There should be two different graphs.  If not, check the gnuplot settings, and directory permissions.
 
 The CAS-debug option in the STACK settings will provide a very verbose output which is indispensable at this stage.  Turn this off for production servers, as it is wasteful of storage, particularly when caching results.
@@ -38,7 +39,7 @@ If you wish to subvert this process you will need to alter the source code of ST
 
 # Caching CAS output
 
-By default, the interactions with the CAS are cached.  You can connect freshly to the CAS each time, which is useful for  debugging, and this option is available on the STACK configuration page.  To clear the cache, click the button on the bottom of the healthcheck script. 
+By default, the interactions with the CAS are cached.  You can connect freshly to the CAS each time, which is useful for  debugging, and this option is available on the STACK configuration page.  To clear the cache, click the button on the healthcheck script. 
 
 ## Optimizing Maxima 
 
@@ -50,6 +51,10 @@ At any stage you can evaluate a fragment of CASText by using the CASChat script.
 
 ## Testing your questions when you upgrade
 
+We have a whole section of the documentation dedicated to [maintaining questions](../Maintaining/index.md) for the longer term.
+
+Please check the [release notes](../Developer/Development_history.md) carefully.
+
 Whenever you upgrade to a new version of the STACK plugin, it is a really good idea to run all
 of the [question tests](../Authoring/Testing.md) to be sure that the behaviour of STACK has not
 changed in a way that breaks any of your questions. To do this, go to 
@@ -59,18 +64,20 @@ changed in a way that breaks any of your questions. To do this, go to
 and follow the "run the question tests in bulk script" link.
 
 It is even possible, with a bit of hacking, to [execute the question tests from
-one Moodle site on a different Moodle site](../Developer/Running_question_tests_other_site.md).
+one Moodle site on a different Moodle site](../Maintaining/Running_question_tests_other_site.md).
 For example you may be evaluating the latest release of STACK on a test server, and you would
 like to know if the upgrade will break any of your existing questions.
 (And you don't want to do a lot of exporting and importing.)
 
-# Troubleshooting an upgrade
+# Troubleshooting an install/upgrade
 
 When you upgrade, the STACK plugin will try to automatically recreate the optimised Maxima image.  Occasionally this will not work and you will need to troubleshoot why.
 
 ### 1. GOAL: maxima works on the server
 
-Check Maxima is installed and working.  E.g. type `maxima` on the command line, and try a non-trivial calculation such as `diff(sin(x^2),x);` to confirm Maxima is working.  Use `quit();` to exit.
+Check Maxima is installed and working.  E.g. type `maxima` on the command line, and try a non-trivial calculation such as `diff(sin(x^2),x);` to confirm Maxima is working.
+
+Use `quit();` to exit.
 
 ### 2. GOAL: STACK works!
 
@@ -129,7 +136,7 @@ If you get the following error `loadfile: failed to load /usr/share/maxima/5.32.
 
 ### 6. Goal: create optimised image.
 
-Now press the "Create Maxima Image" button at the bottom of the healthcheck script page to create the optimised image, and read the output of the refreshed healthcheck page.  Note, this page updates some of your settings in the plugin page. In particular, it changes `qtype_stack | platform` to optimised and fills in the value of `qtype_stack | maximacommandopt`.
+Now press the "Create Maxima Image" button on the healthcheck script page to create the optimised image, and read the output of the refreshed healthcheck page.  Note, this page updates some of your settings in the plugin page. In particular, it changes `qtype_stack | platform` to optimised and fills in the value of `qtype_stack | maximacommandopt`.
 
 __Reload the plugin page (but don't save over the top).__
 

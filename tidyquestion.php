@@ -23,7 +23,6 @@
  */
 
 require_once(__DIR__.'/../../../config.php');
-
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/tidyquestionform.php');
@@ -78,10 +77,7 @@ $quba->process_action($slot, $response);
 $question->setup_fake_feedback_and_input_validation();
 
 // Prepare the display options.
-$options = new question_display_options();
-$options->readonly = true;
-$options->flags = question_display_options::HIDDEN;
-$options->suppressruntestslink = true;
+$options = question_display_options();
 
 // Create the form for renaming bits of the question.
 $form = new qtype_stack_tidy_question_form($PAGE->url, $question);

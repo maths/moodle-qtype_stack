@@ -91,6 +91,15 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">UnitsAbsolute</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>-123006*J</pre></td>
+  <td class="cell c3"><pre>stackunits(-123,kJ)</pre></td>
+  <td class="cell c4"><pre>5*kJ</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATUnits_compatible_units (kg*m^2)/s^2.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">UnitsAbsolute</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>-129006*J</pre></td>
   <td class="cell c3"><pre>-123*kJ</pre></td>
   <td class="cell c4"><pre>5*kJ</pre></td>

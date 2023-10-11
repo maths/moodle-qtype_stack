@@ -67,12 +67,23 @@ class stack_dropdown_input extends stack_input {
      */
     protected $teacheranswerdisplay = '';
 
-    protected function internal_contruct() {
+    protected function internal_construct() {
         $options = $this->get_parameter('options');
         if ($options != null && trim($options) != '') {
             $options = explode(',', $options);
             foreach ($options as $option) {
                 $option = strtolower(trim($option));
+
+                list($opt, $arg) = stack_utils::parse_option($option);
+                if (array_key_exists($opt, $this->extraoptions)) {
+                    if ($arg === '') {
+                        // Extra options with no argument set a Boolean flag.
+                        $this->extraoptions[$opt] = true;
+                    } else {
+                        $this->extraoptions[$opt] = $arg;
+                    }
+                    break;
+                }
 
                 switch($option) {
                     // Does a student see LaTeX or cassting values?
@@ -529,6 +540,9 @@ class stack_dropdown_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        if ($this->get_extra_option('hideanswer')) {
+            return '';
+        }
         // Can we really ignore the $value and $display inputs here and rely on the internal state?
         return stack_string('teacheranswershow_mcq', array('display' => $this->teacheranswerdisplay));
     }

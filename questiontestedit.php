@@ -24,6 +24,7 @@
 require_once(__DIR__.'/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/vle_specific.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/questiontestform.php');
 require_once(__DIR__ . '/stack/questiontest.php');
@@ -155,10 +156,7 @@ if ($mform->is_cancelled()) {
 }
 
 // Prepare the display options.
-$options = new question_display_options();
-$options->readonly = true;
-$options->flags = question_display_options::HIDDEN;
-$options->suppressruntestslink = true;
+$options = question_display_options();
 
 // Display the page.
 echo $OUTPUT->header();

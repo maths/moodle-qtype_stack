@@ -271,7 +271,7 @@ define([
         let input = null;
 
         let response = {
-            version: 'STACK-JS:1.0.0'
+            version: 'STACK-JS:1.1.0'
         };
 
         switch (msg.type) {
@@ -502,13 +502,10 @@ define([
 
             if (element === null) {
                 // Requested something that is not available.
-                const ret = {
-                    version: 'STACK-JS:1.0.0',
-                    type: 'error',
-                    msg: 'Failed to find element: "' + msg.target + '"',
-                    tgt: msg.src
-                };
-                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(ret), '*');
+                response.type = 'error';
+                response.msg = 'Failed to find element: "' + msg.target + '"';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
                 return;
             }
 
@@ -518,6 +515,29 @@ define([
             // If we tune something we should let the VLE know about it.
             vle_update_dom(element);
 
+            break;
+        case 'get-content':
+            // 1. Find the element.
+            element = vle_get_element(msg.target);
+            // 2. Build the message.
+            response.type = 'xfer-content';
+            response.tgt = msg.src;
+            response.target = msg.target;
+            response.content = null;
+            if (element !== null) {
+                // TODO: Should we sanitise the content? Probably not as using
+                // this to interrogate neighbouring questions only allows
+                // messing with the other questions and not anything outside
+                // them. If we do not sanitise it we allow some interesting
+                // question-analytics tooling, and if we do we really don't
+                // gain anything sensible.
+                // Matti's opinnion is to not sanitise at this point as
+                // interraction between questions is not inherently evil
+                // and could be of use even at the level of reading code from
+                // from other questions.
+                response.content = element.innerHTML;
+            }
+            IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
             break;
         case 'resize-frame':
             // 1. Find the frames wrapper div.

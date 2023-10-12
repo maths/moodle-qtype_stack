@@ -42,6 +42,20 @@ Both these approaches can be combined
 [[/ parsons ]]
 ````
 
+## Adding `Sortable.js` options to the `[[parsons]]` block
+
+The `[[parsons]]` block is a wrapper for the Javascript library "Sortable.js", optimised and with default options for Parson's problems.  As such, there are a very wide range of options for this javascript library.  These options are all passed into the block as a JSON string.   To do this we separate out the arguments to the block into separate "steps" and "options" fields. 
+
+````
+[[ parsons state="maxima_value1" ]]
+{ "steps": {{# stackjson_stringify(proof_steps) #}},
+  "options": {....}
+}
+[[/ parsons ]]
+````
+
+The default options are TODO: confirm the above syntax and the default options!
+
 ## Block paramaters
 
 1. Parameter `state` gives the tree built up from the keys from which the applet should be initialised.

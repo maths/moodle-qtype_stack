@@ -34,7 +34,7 @@ class stack_maths_output_oumaths extends stack_maths_output_filter_base {
      */
     public static function filter_is_installed() {
         global $CFG;
-        return file_exists($CFG->dirroot . '/filter/maths/filter.php');
+        return file_exists($CFG->dirroot . '/filter/oumaths/filter.php');
     }
 
     protected function initialise_delimiters() {

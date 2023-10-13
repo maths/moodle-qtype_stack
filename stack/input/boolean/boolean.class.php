@@ -69,7 +69,7 @@ class stack_boolean_input extends stack_input {
                 $attributes['hidden']='hidden';
                 $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
 
-                $attributes = array();
+                array_pop($attributes);
                 $element_button_id = $fieldname . "-button";
                 $attributes['id'] = $element_button_id;
                 $attributes['class'] = 'stack-button stack-clickme-button no-answer';
@@ -96,7 +96,7 @@ class stack_boolean_input extends stack_input {
                 $attributes['hidden']='hidden';
                 $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
 
-                $attributes = array();
+                array_pop($attributes);
                 $element_button_id = $fieldname . "-button";
                 $attributes['id'] = $element_button_id;
                 $attributes['class'] = 'stack-input-toggle-button';
@@ -123,7 +123,6 @@ class stack_boolean_input extends stack_input {
                 echo "This type is not set."; break;
         }
         return $element_complete ;
-        //end
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {

@@ -31,9 +31,10 @@
  * @copyright  2023 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define([
-    'core/event'
-], function(
+define(
+    "qtype_stack/stackjsvle",
+    ['core/event'], 
+    function(
     CustomEvents
 ) {
     'use strict';

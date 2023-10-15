@@ -56,16 +56,9 @@ class stack_cas_healthcheck {
         $test['details'] = null;
         $this->tests[] = $test;
 
-        // List the requested maxima packages in ths summary.
-        $test = array();
-        $test['tag'] = 'settingmaximalibraries';
-        $test['result'] = null;
-        $test['summary'] = $config->maximalibraries;
-        $test['details'] = null;
-        $this->tests[] = $test;
-
         // Check if the current options for library packages are permitted (maximalibraries).
-        list($result, $message) = stack_cas_configuration::validate_maximalibraries();
+        list($result, $message, $livetestcases) = stack_cas_configuration::validate_maximalibraries();
+        // The livetestcases are used below, once we have a live maxima or image ready to test.
         if (!$result) {
             $this->ishealthy = false;
             $test = array();
@@ -190,6 +183,57 @@ class stack_cas_healthcheck {
             $test['details'] = stack_string($message, $details);
             $this->tests[] = $test;
         }
+
+        // Check that each library really is loaded into the current connection.
+        if ($this->ishealthy) {
+            // At this point everything _should_ be working so we use a regular session connection.
+            $s = array();
+            foreach ($livetestcases as $lib => $test) {
+                $s[$lib] = stack_ast_container::make_from_teacher_source($test, 'test_library', new stack_cas_security());
+            }
+            $session = new stack_cas_session2($s);
+            if ($session->get_valid()) {
+                $session->instantiate();
+            }
+
+            $result = true;
+            $message = 'healthchecksstacklibrariesworkingok';
+            $details = '';
+            if ($session->is_instantiated()) {
+                $failed = array();
+                foreach ($livetestcases as $lib => $test) {
+                    // We assume the maxima expression testing each library must return true if and only if it works.
+                    if ($s[$lib]->get_value() != 'true') {
+                        $failed[] = $lib;
+                    }
+                }
+                if ($failed != array()) {
+                    $this->ishealthy = false;
+                    $result = false;
+                    $message = 'healthchecksstacklibrariesworkingfailed';
+                    $details = array('err' => implode(', ', $failed));
+                }
+            } else {
+                $this->ishealthy = false;
+                $result = false;
+                $message = 'healthchecksstacklibrariesworkingsession';
+                $details = array('err' => $session->get_errors(true));
+            }
+
+            $test = array();
+            $test['tag'] = 'healthchecksstacklibrariesworking';
+            $test['result'] = $result;
+            $test['summary'] = stack_string($message, $details);
+            $test['details'] = stack_string($message, $details);
+            $this->tests[] = $test;
+        }
+        // List the requested maxima packages in the summary.
+        $test = array();
+        $test['tag'] = 'settingmaximalibraries';
+        $test['result'] = null;
+        $test['summary'] = $config->maximalibraries;
+        $test['details'] = null;
+        $this->tests[] = $test;
 
         // Record whether caching is taking place in the summary.
         $test = array();

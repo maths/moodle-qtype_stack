@@ -76,10 +76,10 @@ The following laws govern index manipulation:
 For any base \(c>0\) with \(c \neq 1\):
 \[\log_c(a) = b \mbox{, means } a = c^b\]
 \[\log_c(a) + \log_c(b) = \log_c(ab)\]
-\[\log_c(a) - \log_c(b) = \log_c\left(\frac{a}{c}\right)\]
+\[\log_c(a) - \log_c(b) = \log_c\left(\frac{a}{b}\right)\]
 \[n\log_c(a) = \log_c\left(a^n\right)\]
 \[\log_c(1) = 0\]
-\[\log_c(b) = 1\]
+\[\log_c(c) = 1\]
 The formula for a change of base is:
 \[\log_a(x) = \frac{\log_b(x)}{\log_b(a)}\]
 Logarithms to base \(e\), denoted \(\log_e\) or alternatively \(\ln\) are called natural logarithms.  The letter \(e\) represents the exponential constant which is approximately \(2.718\).

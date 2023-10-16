@@ -16,6 +16,27 @@ past development history is documented on [Development history](Development_hist
 6. Confirm support for PHP 8.2, (fixes issue #986).
 7. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).
 
+TODO : Parson's problems
+
+1. Incorporate prototype into parsons.block.php
+2. Choose default options for Sortable.js and document them
+3. unit tests
+4. choose css : review proof styles in top-level css and choose/propose styles for Parsons
+5. choose Sortable.js version: add to core scripts and minify
+6. Hashing keys
+7. Develop t1.html further with additional functionality (iff/nested list)
+
+A. All functionality to be JSON strings (as in Sam's code)
+B. Block to accept and produce Maxima proof expressions
+
+Parson's options
+
+1. use once or re-use strings
+2. flat list vs. nested/tree
+3. Different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this? 
+4. create templates from the start for different proof types
+5. restrict blocks to fixed number of steps
+
 TODO: 
 
 1. Fix markdown problems. See issue #420.

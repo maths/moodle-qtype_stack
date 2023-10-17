@@ -4,7 +4,7 @@ thm:"There are infinitely many prime numbers.";
 
 /****************************************************************/
 proof_steps: [
-    "Assume, for a contradiction, that there are onlqy a finite number of prime numbers.",
+    "Assume, for a contradiction, that there are only a finite number of prime numbers.",
     "List all the prime numbers \\( p_1, p_2, \\cdots, p_n\\).",
     "Every natural number is either a member of this list, or is divisible by a number on this list.",
     "Consider \\(N=p_1\\times p_2 \\times \\cdots \\times p_n +1.\\)",

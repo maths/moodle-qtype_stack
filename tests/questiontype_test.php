@@ -218,6 +218,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <prtincorrect format="html">
       <text><![CDATA[<p>Incorrect answer.</p>]]></text>
     </prtincorrect>
+    <decimals>.</decimals>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
@@ -339,6 +340,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <prtincorrect format="html">
       <text><![CDATA[<p>Incorrect answer.</p>]]></text>
     </prtincorrect>
+    <decimals>.</decimals>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
@@ -441,6 +443,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
                                                     'format' => FORMAT_HTML, 'files' => array());;
         $expectedq->prtincorrect          = array('text' => '<p>Incorrect answer.</p>',
                                                     'format' => FORMAT_HTML, 'files' => array());;
+        $expectedq->decimals              = '.';
         $expectedq->multiplicationsign    = 'dot';
         $expectedq->sqrtsign              = 1;
         $expectedq->complexno             = 'i';

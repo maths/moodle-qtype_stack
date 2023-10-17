@@ -341,6 +341,19 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
+    public function test_latex_matrixparens_indirect_lmxchar() {
+        $input = '\[ f(x) := \left\{ {@(lmxchar:"", f)@} \right. \]';
+        $preamble = array('f:matrix([4*x+4, x<1],[-x^2-4*x-8, x>=1])');
+        $output = '\[ f(x) := \left\{ {\begin{array}{cc} 4\cdot x+4 & x < 1 \\\\ ' .
+            '-x^2-4\cdot x-8 & x\geq 1 \end{array}} \right. \]';
+        $options = new stack_options();
+        $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
+    }
+
+    /**
      * Block-system "define"-block, functional requirements:
      *  1. Allow inline changes to any value.
      *  2. Handle simplification.

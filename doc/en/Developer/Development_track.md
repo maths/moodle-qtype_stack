@@ -5,12 +5,15 @@
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
+
 ## Version 4.4.6
 
 1. Refactor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
-2. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
-3. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
-4. Confirm support for PHP 8.2, (fixes issue #986).
+2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TODO: possible option to change shape at the input level?)
+3. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
+4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
+5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
+6. Confirm support for PHP 8.2, (fixes issue #986).
 
 TODO: 
 

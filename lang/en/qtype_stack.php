@@ -216,12 +216,15 @@ $string['insertstarsassumesinglechar'] = 'Insert stars assuming single-character
 $string['insertspaces'] = 'Insert stars for spaces only';
 $string['insertstarsspaces'] = 'Insert stars for implied multiplication and for spaces';
 $string['insertstarsspacessinglechar'] = 'Insert stars assuming single-character variables, implied and for spaces';
-$string['multiplicationsign'] = 'Multiplication sign';
-$string['multiplicationsign_help'] = 'Controls how multiplication signs are displayed.';
-$string['multiplicationsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#multiplication';
+$string['decimals'] = 'Decimal separator';
+$string['decimals_help'] = 'Choose the symbol, and options, for the decimal separator.';
+$string['decimals_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#decimals';
 $string['multcross'] = 'Cross';
 $string['multdot'] = 'Dot';
 $string['multonlynumbers'] = 'Only numbers';
+$string['multiplicationsign'] = 'Multiplication sign';
+$string['multiplicationsign_help'] = 'Controls how multiplication signs are displayed.';
+$string['multiplicationsign_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#multiplication';
 $string['mustverify'] = 'Student must verify';
 $string['mustverify_help'] = 'Specifies whether the student\'s input is presented back to them as a forced two step process before this input is made available to the scoring mechanism.  Syntax errors are always reported back.';
 $string['mustverify_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Student_must_verify';
@@ -640,6 +643,10 @@ $string['healthchecksstackmaximanotupdated'] = 'It seems that STACK has not been
 $string['healthchecksstackmaximatooold'] = 'So old the version is unknown!';
 $string['healthchecksstackmaximaversionmismatch'] = 'The version of the STACK-Maxima libraries being used ({$a->usedversion}) does not match what is expected ({$a->expectedversion}) by this version of the STACK question type. {$a->fix}';
 $string['healthchecksstackmaximaversionok'] = 'Correct and expected STACK-Maxima library version being used ({$a->usedversion}).';
+$string['healthchecksstacklibrariesworking'] = 'Maxima optional libraries';
+$string['healthchecksstacklibrariesworkingok'] = 'Maxima optional libraries appear to be actually loading correctly.';
+$string['healthchecksstacklibrariesworkingsession'] = 'Checking the optional maxima libraries threw the following error: {$a->err}';
+$string['healthchecksstacklibrariesworkingfailed'] = 'The following optional maxima library/libraries appear not to load: {$a->err}.  Try recreating your Maxima image.';
 $string['healthuncached'] = 'Uncached CAS call';
 $string['healthuncachedintro'] = 'This section always sends a genuine call to the CAS, regardless of the current cache settings.  This is needed to ensure the connection to the CAS is really currently working.';
 $string['healthuncachedstack_CAS_ok'] = 'CAS returned data as expected.  You have a live connection to the CAS.';
@@ -742,6 +749,7 @@ $string['stackCas_bracketsdontmatch']       = 'The brackets are incorrectly nest
 $string['stackCas_chained_inequalities']    = 'You appear to have "chained inequalities" e.g. \(a &lt b &lt c\).  You need to connect individual inequalities with logical operations such as \(and\) or \(or\).';
 $string['stackCas_backward_inequalities']   = 'Non-strict inequalities e.g. \( \leq \) or \( \geq \) must be entered as <= or >=.  You have {$a->cmd} in your expression, which is backwards.';
 $string['stackCas_unencpsulated_comma']     = 'A comma in your expression appears in a strange way.  Commas are used to separate items in lists, sets etc.  You need to use a decimal point, not a comma, in floating point numbers.';
+$string['stackCas_unencpsulated_semicolon'] = 'A semicolon (;) in your expression appears in a strange way.  Semicolons are used to separate items in lists, sets etc.';
 $string['stackCas_trigspace']               = 'To apply a trig function to its arguments you must use brackets, not spaces.  For example use {$a->trig} instead.';
 $string['stackCas_trigop']                  = 'You must apply {$a->trig} to an argument.  You seem to have {$a->forbid}, which looks like you have tried to use {$a->trig} as a variable name.';
 $string['stackCas_trigexp']                 = 'You cannot take a power of a trig function by writing {$a->forbid}. The square of the value of \(\{$a->identifier}(x)\) is typed in as <tt>{$a->identifier}(x)^2</tt>.  The inverse of \(\{$a->identifier}(x)\) is written <tt>a{$a->identifier}(x)</tt> and not \(\{$a->identifier}^{-1}(x)\) .';
@@ -763,6 +771,8 @@ $string['stackCas_functionNameSubstitutionToForbiddenOne'] = 'The function name 
 $string['stackCas_overlyComplexSubstitutionGraphOrRandomisation'] = 'The question code has overly complex substitutions or builds randomisation in an incremental and hard to validate way, the validation has timed out to deal with this simplify the logic, check the documentation for quidance.';
 $string['stackCas_redefine_built_in']       = 'Redefining a built in function "{$a->name}" is forbidden.';
 $string['stackCas_nested_function_declaration'] = 'Definition of a function inside another function is now forbidden, use renaming of the function if you need to switch function definitions from within another function.';
+$string['stackCas_decimal_usedthreesep']        = 'You have used the full stop <code>.</code>, the comma <code>,</code> and semicolon <code>;</code> in your expression.  Please be consistent with decimal position (<code>.</code> or <code>,</code>) and list item separators (<code>,</code> or <code>;</code>).  Your answer is ambiguous!';
+$string['stackCas_decimal_usedcomma']           = 'You have used the full stop <code>.</code>, but you must use the comma <code>,</code> as a decimal separator!';
 
 // Used in cassession.class.php.
 $string['stackCas_CASError']                = 'The CAS returned the following error(s):';
@@ -1172,10 +1182,10 @@ $string['alg_logarithms_name'] = 'The Laws of Logarithms';
 $string['alg_logarithms_fact'] = 'For any base \(c>0\) with \(c \neq 1\):
 \[\log_c(a) = b \mbox{, means } a = c^b\]
 \[\log_c(a) + \log_c(b) = \log_c(ab)\]
-\[\log_c(a) - \log_c(b) = \log_c\left(\frac{a}{c}\right)\]
+\[\log_c(a) - \log_c(b) = \log_c\left(\frac{a}{b}\right)\]
 \[n\log_c(a) = \log_c\left(a^n\right)\]
 \[\log_c(1) = 0\]
-\[\log_c(b) = 1\]
+\[\log_c(c) = 1\]
 The formula for a change of base is:
 \[\log_a(x) = \frac{\log_b(x)}{\log_b(a)}\]
 Logarithms to base \(e\), denoted \(\log_e\) or alternatively \(\ln\) are called natural logarithms.  The letter \(e\) represents the exponential constant which is approximately \(2.718\).';

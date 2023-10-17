@@ -10,7 +10,7 @@ The files one needs to copy over are `jsxgraph.min.css` and `jsxgraphcore.min.js
 
 The old STACK side `jsxgraph.js` that provided the `stack_jxg` features is now called `stackjsxgraph.js` and is being served from that same CORS-header tuning directory with that specific script.
 
-We do not apply Moodles or any othe systems JavaScript processing on these, no need to run `grunt` or any such tool.
+We do not apply Moodles or any other systems JavaScript processing on these, no need to run `grunt` or any such tool.
 
 ## NOTE!
 

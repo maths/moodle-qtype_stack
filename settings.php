@@ -243,6 +243,11 @@ $settings->add(new admin_setting_configtextarea('qtype_stack/prtincorrect',
         get_string('symbolicprtincorrectfeedback', 'qtype_stack') . ' ' .
             get_string('defaultprtincorrectfeedback', 'qtype_stack'), PARAM_RAW, 60, 3));
 
+$settings->add(new admin_setting_configselect('qtype_stack/decimals',
+        get_string('decimals', 'qtype_stack'),
+        get_string('decimals_help', 'qtype_stack'), '.',
+        stack_options::get_decimals_sign_options()));
+
 $settings->add(new admin_setting_configselect('qtype_stack/multiplicationsign',
         get_string('multiplicationsign', 'qtype_stack'),
         get_string('multiplicationsign_help', 'qtype_stack'), 'dot',

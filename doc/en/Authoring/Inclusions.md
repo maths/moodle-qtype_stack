@@ -2,8 +2,7 @@
 
 This is an expert level topic, please avoid this feature unless you feel that you 
 understand the implications and concecuences of it. Note that using this feature
-goes against the self-contained material principle present in 
-[the guidelines](Future_proof.md).
+goes against the self-contained material principle present in [the future proof guidelines](Future_proof.md).
 
 That being said, a common request on the wish-list has been to provide some means
 of sharing code between questions. The inclusion-feature is the first step towards

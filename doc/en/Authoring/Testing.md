@@ -4,7 +4,7 @@ This page deals with testing questions and quality control. This is largely done
 
 High-quality question production needs care at each stage.  An [authoring workflow](Workflow.md) is described separately.
 
-We have separate advice on [fixing broken questions](Fixing_broken_questions.md) in a live quiz.
+We have separate advice on [fixing broken questions](../Maintaining/Fixing_broken_questions.md) in a live quiz.
 
 ## Testing for quality control  ##
 
@@ -55,6 +55,8 @@ Test cases can include a meaningful description of up to 255 characters.  This f
 ## Test case construction and Maxima evaluation
 
 Test cases are always written assuming `simp:false` regardless of the option set elsewhere.  If you want to construct a simplified test case then wrap this in `ev(... , simp)` to simplify the expression generating the test case.  This behaviour is required to enable construction of unsimplified test cases.
+
+Test cases are always written using the period `.` as the decimal separator.  This corresponds to strict Maxima syntax, which teachers should always use.
 
 You can (and should) constuct test cases based on invalid expressions.  If the raw testcase expression cannot be sent to the CAS, e.g. a missing bracket, then this invalidity will be tested.
 

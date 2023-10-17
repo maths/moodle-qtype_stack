@@ -1317,6 +1317,33 @@ class castext_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
+    public function test_numerical_display_commas() {
+        $st = 'The number {@3.1415@} is written with commas. ';
+        $st .= 'Sets {@{1.2, 4, 5, 3.123}@} and lists {@[1.2, 4, 5, 3.123]@}';
+
+        $a2 = array('stackfltsep:","');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals(
+            'The number \({3{,}1415}\) is written with commas. ' .
+            'Sets \({\left \{1{,}2 ; 3{,}123 ; 4 ; 5 \right \}}\) ' .
+            'and lists \({\left[ 1{,}2 ; 4 ; 5 ; 3{,}123 \right]}\)',
+            $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_inline_fractions() {
         $s = '{@(stack_disp_fractions("i"), 1/x)@} {@(stack_disp_fractions("d"), 1/x)@} {@(stack_disp_fractions("i"), 1/x)@}';
 

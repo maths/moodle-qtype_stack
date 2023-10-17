@@ -254,6 +254,10 @@ export const stack_jxg = {
         } else {
             objectinput[object.id] = [input];
         }
+        if (!(input in serializers)) {
+            /* If someone does registrations before other bindings to that input. */
+            _commonsetup(input);
+        }
         serializers[input][object.id] = serializer;
 
         registerobject(object);

@@ -30,6 +30,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
     /* This is not something we want people to edit in general. */
     public static $namedversions = [
         /* TODO: change to proof minimised scripts
+         * make this `cdn-latest` if possible, no point in having it
+         * pointing to a particular version.
          */
         'cdn' => [
             'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraph.min.css',
@@ -146,6 +148,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // For binding we need to import the binding libraries.
         $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
+        // TODO : this should be the sortablejs "binding" library.
+        // TODO : note that this sortablejs "binding" library will likely be much simpler, it may just require supplementing sortablejs with the refresh code
+        // in Sam's code
         $r->items[] = new MP_String("import {stack_jxg} from '" . stack_cors_link('stackjsxgraph.min.js') . "';\n");
 
         // Do we need to bind anything?
@@ -163,6 +168,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $r->items[] = new MP_String($linkcode);
         }
 
+        // TODO : edit divid
         // Plug in the div id = board id thing.
         $r->items[] = new MP_String('var divid = "jxgbox";var BOARDID = divid;');
 
@@ -172,6 +178,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
         $opt2['in iframe'] = true;
 
+        // TODO :edit this block, this will loop over proof steps. Here instead we no longer assume the code is JavaScript at all, 
+        // but either strings or maxima expressions.
         foreach ($this->children as $item) {
             // Assume that all code inside is JavaScript and that we do not
             // want to do the markdown escaping or any other in it.

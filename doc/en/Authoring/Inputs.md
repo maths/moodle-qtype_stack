@@ -76,6 +76,8 @@ We cannot use the `EMPTYANSWER` tag for the teacher's answer with the matrix inp
 
     ta:transpose(matrix([null,null,null]));
 
+The shape of the parentheses surrounding the brackets is taken from the question level options, except matrix inputs cannont display curly brackets `{`.  (If you can create CSS to do this, please contact the developers!)
+
 #### Text area ####
 
 This input allows the user to type in multiple lines, where each line must be a valid algebraic expression.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list. Note, the teacher's answer and any syntax hint must be a list, of valid Maxima exprssions!  If you just pass in an expression strange behaviour may result.

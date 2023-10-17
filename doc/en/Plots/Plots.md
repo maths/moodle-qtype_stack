@@ -115,6 +115,13 @@ Now use:
 
     {@plot(pg2(x), [x,(x0-5),(x0+5)], [y,-10,10], [legend,false])@}
 
+A further example of a step functio:
+
+    step_fn(x,x0) := unit_step(x-x0-1/2) - unit_step(x-x0+1/2) + und*kron_delta(x,x0+1/2)+ und*kron_delta(x,x0-1/2);
+    p1:sum(step_fn(x,2*k),k,-3,3);
+
+which can be used with `{@plot(p1,[x,-5,5])@}`.
+
 For a discontinuous function, with end points, add in discrete plots.
 
     C:-5;

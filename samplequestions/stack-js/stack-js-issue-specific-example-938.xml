@@ -115,6 +115,7 @@ simp:true;
     <prtincorrect format="html">
       <text></text>
     </prtincorrect>
+    <decimals>.</decimals>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>0</sqrtsign>
     <complexno>i</complexno>

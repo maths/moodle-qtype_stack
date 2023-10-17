@@ -153,6 +153,9 @@ abstract class stack_input {
             throw new stack_exception('stack_input: $options must be stack_options.');
         }
         $this->options = $options;
+        if ($this->options === null) {
+            $this->options = new stack_options();
+        }
 
         if (!(null === $parameters || is_array($parameters))) {
             throw new stack_exception('stack_input: __construct: 3rd argumenr, $parameters, ' .
@@ -965,7 +968,8 @@ abstract class stack_input {
                 // One of those things logic nouns hid.
                 $val = '';
             }
-            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply);
+            $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
+                array(), 'Root', $this->options->get_option('decimals'));
 
             $caslines[] = $answer;
             $valid = $valid && $answer->get_valid();
@@ -1394,6 +1398,12 @@ abstract class stack_input {
         $cs->set_nounify(0);
         $val = '';
 
+        $decimal = '.';
+        $listsep = ',';
+        if ($this->options->get_option('decimals') === ',') {
+            $decimal = ',';
+            $listsep = ';';
+        }
         $params = array('checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
@@ -1401,7 +1411,9 @@ abstract class stack_input {
             'keyless' => true,
             'dealias' => false, // This is needed to stop pi->%pi etc.
             'nounify' => 0,
-            'nontuples' => false
+            'nontuples' => false,
+            'decimal' => $decimal,
+            'listsep' => $listsep
         );
         if ($cs->get_valid()) {
             $value = $cs->ast_to_string(null, $params);

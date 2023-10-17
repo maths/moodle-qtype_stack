@@ -2,7 +2,7 @@
 
 You can't remove or add a question to a live Moodle quiz, but you can modify it.  If you edit a live STACK question then students will see the updates.
 
-1. Did you add any [question tests](Testing.md) to your question?  If not, add these now.  The testing page has a lot of information, including values of the question variables, and gives specific information of what is going into the answer tests and what values are returned.  This page will also show some runtime errors, not all of which are displayed to students (and so are invisible on the preview testing page).
+1. Did you add any [question tests](../Authoring/Testing.md) to your question?  If not, add these now.  The testing page has a lot of information, including values of the question variables, and gives specific information of what is going into the answer tests and what values are returned.  This page will also show some runtime errors, not all of which are displayed to students (and so are invisible on the preview testing page).
 2. Duplicate the question, rather than editing a live question in a quiz.  Decide what changes need to be made before editing the broken live question.  The database has no "undo" so you cannot revert once the question is saved, and you can only test a saved question...
 3. There are "regrade" and "dry-run regrade" options in the Moodle quiz.  If you are happy with the new behaviour of the question you can regrade. You can also manually assign a mark in the Moodle quiz. 
 4. It is ok to add nodes to an existing PRT and "regrade".  However, the Moodle DB caches outcomes, so unless the score changes you will not see new stats.  If you are using the basic question usage report to generate stats you might need to change the marks, regrade, change the marks back and regrade again to update the usage report stats.
@@ -30,7 +30,7 @@ If your javascript code, e.g. JSXGraph, also stops working this is almost certai
 
 __Do not change anything which alters the randomisation of variants.__
 
-In particular, do not add, remove or re-order `rand` statements or other statement which will increment the state of the pseudo random number generation. Students get a "seed" which starts the pseudo-random number generator.  If your changes change the random version, then the students' previous answers will still stand, and will now most likely be "wrong".  Minor typographical mistakes can be fixed, but often there is nothing you can do to fix seriously bad random versions.  This is why we have the "deploy" system and [question tests](Testing.md) so question variants can be checked in advance....
+In particular, do not add, remove or re-order `rand` statements or other statement which will increment the state of the pseudo random number generation. Students get a "seed" which starts the pseudo-random number generator.  If your changes change the random version, then the students' previous answers will still stand, and will now most likely be "wrong".  Minor typographical mistakes can be fixed, but often there is nothing you can do to fix seriously bad random versions.  This is why we have the "deploy" system and [question tests](../Authoring/Testing.md) so question variants can be checked in advance....
 
 Modifying the question variables in a way which does not alter random versions should be fine. E.g. adding variables for test case consturction or improving a worked solution.
 
@@ -61,7 +61,7 @@ then any subsequent random number generation will be changed as well.  Indeed, s
 
 and make the question note include both `n1` and `n2` to show there are distinct random versions including both `n1` and `n2` as random variables.
 
-Of course, if the question author has created [question tests](Testing.md) in the first place, and deployed random variants to check in advance, this problem would never have occured!
+Of course, if the question author has created [question tests](../Authoring/Testing.md) in the first place, and deployed random variants to check in advance, this problem would never have occured!
 
 ## I forgot to deploy random variants.
 

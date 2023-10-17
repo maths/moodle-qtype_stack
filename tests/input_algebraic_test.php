@@ -1726,6 +1726,104 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
 
+    public function test_decimal_output_0() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('algebraic', 'state', '{3.1415,2.71}', $options);
+        $el->set_parameter('forbidFloats', false);
+
+        $state = $el->validate_student_response(array('state' => '{3.1415,2.71}'), $options, '{3.1415,2.71}',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        // With a strict interpretation we would have to change the , to a . In this case it results in ...
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">{3.1415,2.71}</span>', $state->contentsdisplayed);
+        $this->assertEquals('You have used the full stop <code>.</code>, but you must use the comma <code>,</code> as a ' .
+            'decimal separator!',
+            $state->errors);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( \{3{,}1415 ; 2{,}7100 \right \} \)</span></span>, which can be typed in as follows: '
+            . '<code>{3,1415;2,71}</code>',
+            $el->get_teacher_answer_display('{3.1415,2.71}', '\{3{,}1415 ; 2{,}7100 \right \}'));
+    }
+
+    public function test_decimal_output_1() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('algebraic', 'state', '{3.1415,2.71}', $options);
+        $el->set_parameter('forbidFloats', false);
+
+        $state = $el->validate_student_response(array('state' => '{3.1415;2.71}'), $options, '{3.1415,2.71}',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        // With a strict interpretation we have to change the , to a .  But actually we don't change it...
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">{3.1415;2.71}</span>', $state->contentsdisplayed);
+        $this->assertEquals('You have used the full stop <code>.</code>, but you must use the comma ' .
+              '<code>,</code> as a decimal separator!', $state->errors);
+        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( \{3{,}1415 ; 2{,}7100 \right \} \)</span></span>, which can be typed in as follows: '
+            . '<code>{3,1415;2,71}</code>',
+            $el->get_teacher_answer_display('{3.1415,2.71}', '\{3{,}1415 ; 2{,}7100 \right \}'));
+    }
+
+    public function test_decimal_output_2() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('algebraic', 'state', '{3.1415,2.71}', $options);
+        $el->set_parameter('forbidFloats', false);
+
+        $state = $el->validate_student_response(array('state' => '{3,1415;2,71}'), $options, '{3.1415,2.71}',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        // With a strict interpretation we have to change the , to a .
+        $this->assertEquals('{3.1415,2.71}', $state->contentsmodified);
+        $this->assertEquals('\[ \left \{3{,}1415 ; 2{,}7100 \right \} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_decimal_output_matrix_1() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        // Teacher must use correct syntax.
+        $el = stack_input_factory::make('algebraic', 'state', 'matrix([3.1415,2.71])', $options);
+        $el->set_parameter('forbidFloats', false);
+
+        // Student uses commas and semicolons.
+        $state = $el->validate_student_response(array('state' => 'matrix([3,1415;2,71])'), $options,
+            'matrix([3.1415,2.71])', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('matrix([3.1415,2.71])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{cc} 3{,}1415 & 2{,}7100 \end{array}\right] \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+
+        // Student uses commas and semicolons for separation of items in functions.
+        $state = $el->validate_student_response(array('state' => 'matrix([3,1415];[2,71])'), $options,
+            'matrix([3.1415],[2.71])', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('matrix([3.1415],[2.71])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{c} 3{,}1415 \\\\ 2{,}7100 \end{array}\right] \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_decimal_output_matrix_2() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        // Teacher must use correct syntax.
+        $el = stack_input_factory::make('algebraic', 'state', 'matrix([3.1415,2.71])', $options);
+        $el->set_parameter('forbidFloats', false);
+
+        // Student uses commas and semicolons.
+        // But only for numbers, not for list separators in function arguments or matrix multiplication!
+        $state = $el->validate_student_response(array('state' => 'matrix([3,1415;2,71]).matrix([1];[2])'), $options,
+            'matrix([3.1415,2.71])', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">matrix([3,1415;2,71]).matrix([1];[2])</span>',
+            $state->contentsdisplayed);
+        $this->assertEquals('forbiddenCharDecimal', $state->note);
+    }
+
     public function test_validate__string() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '"A random string"');

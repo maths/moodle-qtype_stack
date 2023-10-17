@@ -28,8 +28,19 @@ require_once(__DIR__ . '/cassession2.class.php');
 class stack_cas_configuration {
     protected static $instance = null;
 
-    /** @var array This variable controls which optional packages are supported by STACK. */
-    public static $maximalibraries = array('stats', 'distrib', 'descriptive', 'simplex');
+    /**
+     * @var array This variable controls which optional packages are supported by STACK.
+     * Each key is the library name, and the value checks the library appears loaded and working.
+     * Each must return a boolean value true if and only if the library is loaded.
+     *
+     * When adding a library update the language string settingmaximalibraries_desc.
+     **/
+    public static $maximalibraries = array(
+        'stats' => 'is(op(test_mean([1,2,3]))=inference_result)',
+        'distrib' => 'not(is(op(pdf_normal(1,3,1))=pdf_normal))',
+        'descriptive' => 'atom(mean([1,2,3.2]))',
+        'simplex' => 'floatnump(epsilon_lp)'
+    );
 
     protected $settings;
 
@@ -261,7 +272,7 @@ END;
             foreach ($maximalib as $lib) {
                 $lib = trim($lib);
                 // Only include and load supported libraries.
-                if (in_array($lib, self::$maximalibraries)) {
+                if (in_array($lib, array_keys(self::$maximalibraries))) {
                     $contents .= 'load("'.$lib.'")$'."\n";
                 }
             }
@@ -337,19 +348,27 @@ END;
     protected function get_validate_maximalibraries() {
 
         $valid = true;
+        // Hold test cases for libraries to test.
+        $livetestcases = array();
         $message = '';
+        $permittedlibraries = array_keys(self::$maximalibraries);
         $maximalib = $this->settings->maximalibraries;
         $maximalib = explode(',', $maximalib);
         foreach ($maximalib as $lib) {
             $lib = trim($lib);
             // Only include and load supported libraries.
-            if ($lib !== '' && !in_array($lib, self::$maximalibraries)) {
-                $valid = false;
-                $a = $lib;
-                $message .= stack_string('settingmaximalibraries_error', $a);
+            if ($lib !== '') {
+                if (in_array($lib, $permittedlibraries)) {
+                    // We need to check the library really loaded in the Maxima image.
+                    $livetestcases[$lib] = self::$maximalibraries[$lib];
+                } else {
+                    $valid = false;
+                    $a = $lib;
+                    $message .= stack_string('settingmaximalibraries_error', $a);
+                }
             }
         }
-        return(array($valid, $message));
+        return(array($valid, $message, $livetestcases));
     }
 
     /**

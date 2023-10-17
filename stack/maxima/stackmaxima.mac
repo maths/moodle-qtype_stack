@@ -159,6 +159,7 @@ load("noun_simp.mac");
 load("inequalities.mac");
 load("intervals.mac");
 load("stackunits.mac");
+load("stacktex.lisp");
 load("stackstrings.mac");
 load("fboundp.mac");
 
@@ -747,14 +748,26 @@ stack_disp_strip_dollars(ex) := block(
 /* Display of numbers. Thanks to Robert Dodier. */
 stackintfmt: "~d";
 stackfltfmt: "~a";
-?texnumformat(x) := if ev(floatnump(x),simp) then
-    ev(printf(false, stackfltfmt, x), simp) else if ev(integerp(x),simp) then (
+stackfltsep: ".";
+texput_decimal(ex):= stackfltsep:ex$
+
+?texnumformat(x) := block([tx],
+    if ev(floatnump(x), simp) then block(
+        tx:ev(printf(false, stackfltfmt, x), simp)
+    ) else if ev(integerp(x),simp) then (
         if (is(stackintfmt="~r") or is(stackintfmt="~:r")) then
-            sconcat("\\mbox{",ev(printf(false, stackintfmt, x), simp),"}")
+            tx:sconcat("\\mbox{",ev(printf(false, stackintfmt, x), simp),"}")
         else
-            ev(printf(false, stackintfmt, x), simp)
+            tx:ev(printf(false, stackintfmt, x), simp)
     ) else
-    string(x);
+    tx:string(x),
+    /* We need this separation because validation displays trailing zeros and this is controlled by stackfltfmt. */
+    if is(stackfltsep = ",") then (
+        tx:ssubst("\\ ", ",", tx),
+        tx:ssubst("{,}", ".", tx)
+    ),
+    tx
+)$
 /* Some systems are throwing an error here, which is spurious. */
 errcatch(compile(?texnumformat));
 
@@ -3302,4 +3315,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2023092400$
+stackmaximaversion:2023093000$

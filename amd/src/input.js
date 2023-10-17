@@ -416,14 +416,14 @@ define([
                 var bits = element.name.substring(idPrefix.length + 5).split('_');
                 values[bits[0]][bits[1]] = element.value.replace(/^\s+|\s+$/g, '');
             });
-            return 'matrix([' + values.join('],[') + '])';
+            return JSON.stringify(values);
         };
     }
 
     /**
      * Initialise all the inputs in a STACK question.
      *
-     * @param {String} questionDivId id of the outer dic of the question.
+     * @param {String} questionDivId id of the outer div of the question.
      * @param {String} prefix prefix added to the input names for this question.
      * @param {String} qaid Moodle question_attempt id.
      * @param {String[]} inputs names of all the inputs that should have instant validation.

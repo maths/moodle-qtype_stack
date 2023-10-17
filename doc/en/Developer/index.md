@@ -32,8 +32,4 @@ There is information on [clearing the cache](Question_state_caching.md).
 
 You can also read on [adding support for Maxima packages](Maxima_packages.md).
 
-If you have recently upgraded from an older STACK version, you may need to [upgrade question defaults](UpgradeDefaults.md).
-
-You may want to know how to [run question tests on a development server](Running_question_tests_other_site.md) before upgrading to a new version of STACK.
-
 You can read about the design of the [PHP interface to the CAS](PHP-CAS.md).

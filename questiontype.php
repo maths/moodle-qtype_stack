@@ -159,6 +159,7 @@ class qtype_stack extends question_type {
         $options->prtincorrect              = $this->import_or_save_files($fromform->prtincorrect,
                     $context, 'qtype_stack', 'prtincorrect', $fromform->id);
         $options->prtincorrectformat        = $fromform->prtincorrect['format'];
+        $options->decimals                  = $fromform->decimals;
         $options->multiplicationsign        = $fromform->multiplicationsign;
         $options->sqrtsign                  = $fromform->sqrtsign;
         $options->complexno                 = $fromform->complexno;
@@ -471,6 +472,7 @@ class qtype_stack extends question_type {
         }
 
         $question->options = new stack_options();
+        $question->options->set_option('decimals',           $questiondata->options->decimals);
         $question->options->set_option('multiplicationsign', $questiondata->options->multiplicationsign);
         $question->options->set_option('complexno',          $questiondata->options->complexno);
         $question->options->set_option('inversetrig',        $questiondata->options->inversetrig);
@@ -1157,6 +1159,7 @@ class qtype_stack extends question_type {
                         $options->prtpartiallycorrectformat, $contextid, 'prtpartiallycorrect', $questiondata->id);
         $output .= $this->export_xml_text($format, 'prtincorrect', $options->prtincorrect,
                         $options->prtincorrectformat, $contextid, 'prtincorrect', $questiondata->id);
+        $output .= "    <decimals>{$options->decimals}</decimals>\n";
         $output .= "    <multiplicationsign>{$options->multiplicationsign}</multiplicationsign>\n";
         $output .= "    <sqrtsign>{$options->sqrtsign}</sqrtsign>\n";
         $output .= "    <complexno>{$options->complexno}</complexno>\n";
@@ -1298,6 +1301,7 @@ class qtype_stack extends question_type {
         }
         $fromform->prtincorrect          = $this->import_xml_text($xml, 'prtincorrect', $format, $fformat);
         $fromform->penalty               = $format->getpath($xml, array('#', 'penalty', 0, '#'), 0.1);
+        $fromform->decimals              = $format->getpath($xml, array('#', 'decimals', 0, '#'), '.');
         $fromform->multiplicationsign    = $format->getpath($xml, array('#', 'multiplicationsign', 0, '#'), 'dot');
         $fromform->sqrtsign              = $format->getpath($xml, array('#', 'sqrtsign', 0, '#'), 1);
         $fromform->complexno             = $format->getpath($xml, array('#', 'complexno', 0, '#'), 'i');
@@ -1499,6 +1503,7 @@ class qtype_stack extends question_type {
         $fixingdollars = array_key_exists('fixdollars', $fromform);
 
         $this->options = new stack_options();
+        $this->options->set_option('decimals',           $fromform['decimals']);
         $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);
         $this->options->set_option('complexno',          $fromform['complexno']);
         $this->options->set_option('inversetrig',        $fromform['inversetrig']);

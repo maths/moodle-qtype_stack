@@ -19,4 +19,4 @@ proof_steps: [
 
 /****************************************************************/
 /* This is how the teacher defines their answer, as nested proofs. */
-proof_ans:proof(proof(1,2,3,4,5),proof(6,7,8,9,10,11));
+proof_ans:proof_iff(proof(1,2,3,4,5),proof(6,7,8,9,10,11));

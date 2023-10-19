@@ -20,12 +20,6 @@
 /*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                         */
 /*  V1.0 Sept 2023                                                */
 /*                                                                */
-/*  Other files in this directory are sample proofs.              */
-/*  Each must define                                              */
-/*  1. a variable "thm" to hold a statement of the theorem.       */
-/*  2. a variable "proof_steps", which is a list of strings.      */
-/*  3. a variable "proof_ans"                                     */
-/*                                                                */
 /******************************************************************/
 
 /* An example of how to use these functions.
@@ -45,7 +39,8 @@ tap:ev(proof_ans, map(lambda([ex], ex=dispproof), proof_types));
 /* proof_c()     - general proof, with commutative arguments      */
 /*                                                                */
 /* proof_iff()   - if any only if                                 */
-/* proof_cases() - proof by exhaustive cases                      */
+/* proof_cases() - proof by exhaustive cases, the first element   */
+/*                 is assumed to justify the cases.               */
 /* proof_ind()   - proof by induction                             */
 /*                                                                */
 /******************************************************************/

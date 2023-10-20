@@ -32,7 +32,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define([
-    'core/event'
+    'core_filters/events'
 ], function(
     CustomEvents
 ) {
@@ -83,7 +83,7 @@ define([
     }
 
     /**
-     * Returns an input element with a given name, if an only if that element
+     * Returns an input element with a given name, if and only if that element
      * exists inside a portion of DOM that represents a question.
      *
      * Note that, the input element may have a name that multiple questions

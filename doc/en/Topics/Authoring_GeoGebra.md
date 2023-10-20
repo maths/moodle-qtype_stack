@@ -2,7 +2,7 @@
 
 Information from GeoGebra applets can be linked to STACK inputs and then assessed by potential response trees in the normal way.  The purpose of this document is to help you author your first question using GeoGebra as an input.
 
-Reference documentation for [GeoGebra](../Authoring/GeoGebra.md) is elsewhere.
+Reference documentation for using [GeoGebra](../Authoring/GeoGebra.md) applets is elsewhere.
 
 ## Before we start
 
@@ -12,7 +12,7 @@ This document assumes you have worked through the following sections of the Auth
 * [Authoring quick start 2](../AbInitio/Authoring_quick_start_2.md): Question variables.
 * [Authoring quick start 3](../AbInitio/Authoring_quick_start_3.md): Improving feedback.
 
-__We strongly recommend you do not use an HTML-aware editor when using GeoGebra questions.__  Instead turn off the editor within Moodle and edit the raw HTML.  Individual users can set their editor preferences by following:
+__We strongly recommend you do not use an HTML-aware editor when editing STACK questions containing GeoGebra.__  Instead turn off the editor within Moodle and edit the raw HTML.  Individual users can set their editor preferences by following:
 
     User Dashboard > Preferences > Editor preferences > Manage editors
 

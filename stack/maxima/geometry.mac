@@ -20,7 +20,6 @@
 
 /**
  * Euclidean length of the vector (represented as a list) from the origin to the point.
- * If one of the lists is shorter, assume the same value for missing dimensions.
  *
  * @param[list] v1 list of values 
  * @return[scalar expression] the Euclidean length of the vector.

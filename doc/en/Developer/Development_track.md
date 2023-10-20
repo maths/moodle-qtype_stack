@@ -14,16 +14,13 @@ past development history is documented on [Development history](Development_hist
 4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
 5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
 6. Confirm support for PHP 8.2, (fixes issue #986).
+7. Add in [GeoGebra support](..//Authoring/GeoGebra.md).
 
 TODO: 
 
 1. Fix markdown problems. See issue #420.
 2. Error messages: use caserror.class more fully to use user information to target error messages.
 3. Remove all "cte" code from Maxima - mostly install.
-
-Done:
-
-1. Add in [GeoGebra support](..//Authoring/GeoGebra.md).
 
 ## For "inputs 2"?
 

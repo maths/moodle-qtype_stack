@@ -4,7 +4,7 @@ This section of the STACK documentation contains information on how to author qu
 
 Current topics include:
 
-* [GeoGebra questions](Authoring_GeoGebra.md)
+* [GeoGebra questions](GeoGebra.md)
 * [Curve sketching](Curve_sketching.md)
 * [Differential equations](Differential_equations.md)
 * [Discrete mathematics](Discrete_mathematics.md)

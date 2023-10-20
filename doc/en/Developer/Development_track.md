@@ -5,6 +5,14 @@
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
+## Version 4.5.0
+
+This version will require moodle 4.0+, and will no longer support Moodle 3.x (which ends its general support on 14 November 2022, and security support ends on 11 December 2023.)
+
+Todo: 
+
+1. Change 'core/event' to 'core_filters/events' in input.js and stackjsvle.js.
+2. Strip out parallel DB support in reporting etc.  Search for `stack_determine_moodle_version()`
 
 ## Version 4.4.6
 

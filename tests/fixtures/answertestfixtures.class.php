@@ -1485,6 +1485,8 @@ class stack_answertest_test_data {
         array('Int', 'x', 'ln(k*(x^2+7*x+7))', 'ln(x^2+7*x+7)+c', 1, 'ATInt_true_equiv.', ''),
         array('Int', 'x', 'ln(x^2+7*x+7)', 'ln(abs(x^2+7*x+7))+c', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''),
         array('Int', 'x', 'ln(x^2+7*x+7)+c', 'ln(abs(x^2+7*x+7))+c', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''),
+        array('Int', 'x', '-2*log(x)-(10*x^6)/3+x^3/3+5*log(x^4)+c',
+            '-2*log(abs(x))+(10*x^6)/3-x^3/3-5/x^3+c', 0, 'ATInt_generic. ATInt_logabs.', ''),
         array('Int', 'x', 'ln(abs(x^2+7*x+7))+c', 'ln(abs(x^2+7*x+7))+c', 1, 'ATInt_true_equiv.', ''),
         array('Int', 'x', 'ln(k*abs(x^2+7*x+7))', 'ln(abs(x^2+7*x+7))+c', 1, 'ATInt_true_equiv.', ''),
         // In these examples there are two logarithms.  The student should be *consistent*

@@ -97,19 +97,19 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Plug in some style and scripts.
         $mathjax = stack_get_mathjax_url();
         // Silence the MathJax message that blinks on top of every graph.
-        $r->items[] = new MP_List([
+        /*$r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/x-mathjax-config'])),
             new MP_String('MathJax.Hub.Config({messageStyle: "none"});')
-        ]);
-        $r->items[] = new MP_List([
+        ]);*/
+        /*$r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))
-        ]);
-        $r->items[] = new MP_List([
+        ]);*/
+        /*$r->items[] = new MP_List([
             new MP_String('style'),
             new MP_String(json_encode(['href' => $css]))
-        ]);
+        ]);*/
         $r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $js]))
@@ -138,22 +138,55 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Add the div to the doc.
-        // Note that we have two divs, the exterior one defines the size
-        // and the interior one contains the graph.
+        // Add container divs for the proof lists to be accessed by sortable
+        $r->items[] = new MP_String('<script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>');
+        $r->items[] = new MP_String('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" 
+			  rel="stylesheet" 
+			  integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" 
+			  crossorigin="anonymous">
+		<style>body{background-color:inherit;}
+			#usedList:empty {height:50px;background-color:floralwhite}
+			#availableList > li {background-color:lightcoral}
+			#availableList:empty {height:50px;background-color:lightpink} 
+		</style>');
 
-        // TODO :change div class?
-        $r->items[] = new MP_String('<div style="' . $astyle .
-            '"><div class="jxgbox" id="jxgbox" style="width:100%;height:100%;"></div></div><script type="module">');
+        $r->items[] = new MP_String('<div class="container" style="width:100%;height:100%:">
+            <div class="row">
+                <ul class="list-group col" id="usedList"></ul>
+                    <ul class="list-group col" id="availableList"></ul>
+            </div>
+        </div>');
+        // Add the div containing the Parsons sortable list to the doc.
+        // Note that we have two divs, the exterior one defines the size
+        // and the interior one contains two lists
+        $r->items[] = new MP_String('<script type="module">');
 
         // For binding we need to import the binding libraries.
         $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
+        $r->items[] = new MP_String("import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n");
         // TODO : this should be the sortablejs "binding" library.
         // TODO : note that this sortablejs "binding" library will likely be much simpler, it may just require supplementing sortablejs with the refresh code
         // in Sam's code
-        $r->items[] = new MP_String("import {stack_jxg} from '" . stack_cors_link('stackjsxgraph.min.js') . "';\n");
+        //$r->items[] = new MP_String("import {stack_jxg} from '" . stack_cors_link('stackjsxgraph.min.js') . "';\n");
 
-        // Do we need to bind anything?
+        
+        $r->items[] = new MP_String('var proofSteps = ');
+
+        $opt2 = [];
+        if ($options !== null) {
+            $opt2 = array_merge([], $options);
+        }
+        $opt2['in iframe'] = true;
+
+        foreach ($this->children as $item) {
+            // Assume that all code inside is JavaScript and that we do not
+            // want to do the markdown escaping or any other in it.
+            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
+            if ($c !== null) {
+                $r->items[] = $c;
+            }
+        }
+        
         if (count($inputs) > 0) {
             // Then we need to link up to the inputs.
             $promises = [];
@@ -168,26 +201,60 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $r->items[] = new MP_String($linkcode);
         }
 
-        // TODO : edit divid
+        //$r->items[] = new MP_String(';' . "\n");
+
+        $r->items[] = new MP_String('var state;' . "\n");
+        $r->items[] = new MP_String('state = {used: [], available: []};' . "\n");
+        $r->items[] = new MP_String('state.available = [...Object.keys(proofSteps)];' . "\n");
+
+		$r->items[] = new MP_String('let usedList = document.getElementById("usedList");' . "\n");
+		$r->items[] = new MP_String('for (const key in state.used) {' . "\n");
+		$r->items[] = new MP_String('let li = document.createElement("li");' . "\n");
+		$r->items[]	= new MP_String('li.innerText = proofSteps[state.used[key]];' . "\n");
+		$r->items[] = new MP_String('li.setAttribute("data-id",key);' . "\n");
+		$r->items[] = new MP_String('li.className = "list-group-item";' . "\n");
+		$r->items[] = new MP_String('usedList.appendChild(li);' . "\n");
+		$r->items[] = new MP_String('};' . "\n");
+		$r->items[] = new MP_String('let existsAvailable = (typeof state.available === "object");' . "\n");
+		$r->items[] = new MP_String('let availableList = document.getElementById("availableList");' . "\n");
+		$r->items[] = new MP_String('if (existsAvailable) {' . "\n");
+		$r->items[] = new MP_String('for (const key in state.available) {' . "\n");
+		$r->items[] = new MP_String('let li = document.createElement("li");' . "\n");
+		$r->items[] = new MP_String('li.innerText = proofSteps[state.available[key]];' . "\n");
+		$r->items[] = new MP_String('li.setAttribute("data-id",key);' . "\n");
+		$r->items[] = new MP_String('li.className = "list-group-item";' . "\n");
+		$r->items[] = new MP_String('availableList.appendChild(li);' . "\n");
+		$r->items[] = new MP_String('};' . "\n");
+		$r->items[] = new MP_String('}' . "\n");
+
+        $r->items[] = new MP_String('MathJax.typesetPromise();');
+        $r->items[] = new MP_String('function updateState(newUsed, newAvailable, log_new_state = false) {' . "\n");
+        $r->items[] = new MP_String('const newState = {used: [], available: []};' . "\n");
+        $r->items[] = new MP_String('newState.used = newUsed.toArray();' . "\n");
+        $r->items[] = new MP_String('newState.available = newAvailable.toArray();' . "\n");
+        $r->items[] = new MP_String('state = newState;' . "\n");
+        $r->items[] = new MP_String('};' . "\n");
+
+		$r->items[] = new MP_String('var sortableUsed = Sortable.create(usedList, {' . "\n");
+        $r->items[] = new MP_String('animation: 50,' . "\n");
+		$r->items[] = new MP_String('ghostClass: "list-group-item-info",' . "\n");
+		$r->items[] = new MP_String('group: "shared", ' . "\n");
+		$r->items[] = new MP_String('onSort: (evt) => {' . "\n");
+        $r->items[] = new MP_String('updateState(sortableUsed, sortableAvailable, true);' . "\n");
+		$r->items[] = new MP_String('},' . "\n");
+		$r->items[] = new MP_String('});' . "\n");
+		$r->items[] = new MP_String('var sortableAvailable = Sortable.create(availableList, {' . "\n");
+        $r->items[] = new MP_String('animation: 50,' . "\n");
+        $r->items[] = new MP_String('ghostClass: "list-group-item-info",' . "\n");
+		$r->items[] = new MP_String('group: "shared",' . "\n");
+		$r->items[] = new MP_String('onSort: (evt) => {' . "\n");
+        $r->items[] = new MP_String('updateState(sortableUsed, sortableAvailable, false);' . "\n");
+		$r->items[] = new MP_String('},' . "\n");
+		$r->items[] = new MP_String('});' . "\n");
+        // TODO : edon't need divid?
         // Plug in the div id = board id thing.
-        $r->items[] = new MP_String('var divid = "jxgbox";var BOARDID = divid;');
+        //$r->items[] = new MP_String('var divid = "parsons"; var BOARDID = divid;');
 
-        $opt2 = [];
-        if ($options !== null) {
-            $opt2 = array_merge([], $options);
-        }
-        $opt2['in iframe'] = true;
-
-        // TODO :edit this block, this will loop over proof steps. Here instead we no longer assume the code is JavaScript at all, 
-        // but either strings or maxima expressions.
-        foreach ($this->children as $item) {
-            // Assume that all code inside is JavaScript and that we do not
-            // want to do the markdown escaping or any other in it.
-            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
-            if ($c !== null) {
-                $r->items[] = $c;
-            }
-        }
 
         if (count($inputs) > 0) {
             // Close the `then(`.

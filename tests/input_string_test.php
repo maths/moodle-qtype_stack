@@ -57,8 +57,9 @@ class input_string_test extends qtype_stack_testcase {
                 .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="0" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('0'), '', '', '', '', ''),
                         'stack1__ans1', false, null));
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation"><span class="nolink">' .
-                '\( \\mbox{Hello world} \)</span></span>, which can be typed in as follows: <code>Hello world</code>',
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\( \\mbox{Hello world} \)</span></span>, which can be typed as <code>Hello world</code>, ' .
+                'would be correct.',
                 $el->get_teacher_answer_display('"Hello world"', '\\mbox{Hello world}'));
     }
 
@@ -71,9 +72,9 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"Hello world"', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{Hello world} \]', $state->contentsdisplayed);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\[ \[ \mbox{Hello world} \]</span></span> \), ' .
-                'which can be typed in as follows: <code>Hello world</code>',
+                'which can be typed as <code>Hello world</code>, would be correct.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 

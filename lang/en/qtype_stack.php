@@ -403,8 +403,8 @@ $string['ddl_duplicates'] = 'Duplicate values have been found when generating th
 $string['ddl_badanswer'] = 'The model answer field for this input is malformed: <code>{$a}</code>. ';
 $string['ddl_unknown'] = 'STACK received <code>{$a}</code> but this is not listed by the teacher as an option. ';
 
-$string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
-$string['teacheranswershow_disp'] = 'A correct answer is {$a->display}.';
+$string['teacheranswershow']      = 'The answer \( {$a->display} \), which can be typed as {$a->value}, would be correct.';
+$string['teacheranswershow_disp'] = 'The answer {$a->display} would be correct.';
 $string['teacheranswershow_mcq']  = 'A correct answer is: {$a->display}';
 $string['teacheranswershownotes'] = 'A correct answer is not provided for this input.';
 $string['teacheranswerempty']     = 'This input can be left blank.';

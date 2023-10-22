@@ -185,6 +185,32 @@ An alternative would be to check this in GeoGebra and create a variable with a v
 
    Your angle is {@round(k*180/%pi)@} degrees, which is not a right angle!
 
+### Example: using some advanced features.
+
+This example illustrates some of the advanced features 
+
+Set the question variables to be
+
+    A:[-2,0];
+    B:[1,0];
+
+Set the question text to be
+
+    [[geogebra set="A,B" watch="a,b" remember="P"]]
+    params["material_id"]="rukrpcs5";
+    [[/geogebra]]
+    Move \(P\) so that the angle \(\alpha\) is a right angle.
+    [[input:a]][[validation:a]]
+    [[input:b]][[validation:b]]
+    [[input:remember]][[validation:remember]]
+
+Notes
+
+1. This GGB sheet has a variable `a` (hidden) which stores the angle \(\alpha\) in a way STACK can access the Greek letter.
+2. This GGB sheet has a boolean variable `b`.  This will comes through to STACK as a number, \(0\) or \(1\).
+3. The use of `"remember"` means we need an string input to store the state of `P` between attempts.
+   
+
 # Advanced use-cases
 
 ## set: double-underscore-tags
@@ -256,30 +282,6 @@ You can use the following commands inside the geogebra tag if the sub tags do no
 
 Advanced users might want to look at documentation for common app settings which can be addressed through params["nameOfSetting"] array, as shown in [https://wiki.geogebra.org/en/Reference:GeoGebra_App_Parameters](https://wiki.geogebra.org/en/Reference:GeoGebra_App_Parameters).
 
-### Example: using some advanced features.
-
-This example illustrates some of the advanced features 
-
-Set the question variables to be
-
-    A:[-2,0];
-    B:[1,0];
-
-Set the question text to be
-
-    [[geogebra set="A,B" watch="a,b" remember="P"]]
-    params["material_id"]="rukrpcs5";
-    [[/geogebra]]
-    Move \(P\) so that the angle \(\alpha\) is a right angle.
-    [[input:a]][[validation:a]]
-    [[input:b]][[validation:b]]
-    [[input:remember]][[validation:remember]]
-
-Notes
-
-1. This GGB sheet has a variable `a` (hidden) which stores the angle \(\alpha\) in a way STACK can access the Greek letter.
-2. This GGB sheet has a boolean variable `b`.  This will comes through to STACK as a number, \(0\) or \(1\).
-3. The use of `"remember"` means we need an string input to store the state of `P` between attempts.
 
 ### Future plans
 

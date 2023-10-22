@@ -269,7 +269,7 @@ You can use the following commands inside the geogebra tag if the sub tags do no
 * `stack_geogebra_bind_value_to_remember_JSON(args)`
 * `stack_geogebra_bind_point_to_remember_JSON(args)`
 
-#### Example
+#### Example of using commands inside `[[geogebra]][[/geogebra]]` blocks
 
     [[geogebra input-ref-stateStore="stateRef" set="b" watch="B"]]
     params["material_id"]="AEAVEqPy";
@@ -282,6 +282,13 @@ You can use the following commands inside the geogebra tag if the sub tags do no
 
 Advanced users might want to look at documentation for common app settings which can be addressed through params["nameOfSetting"] array, as shown in [https://wiki.geogebra.org/en/Reference:GeoGebra_App_Parameters](https://wiki.geogebra.org/en/Reference:GeoGebra_App_Parameters).
 
+#### Example of using commands inside `[[geogebra]][[/geogebra]]` blocks to define not existing non-point or value elements
+
+     I want to display the function x^3 in GeoGebra
+     [[geogebra]]
+     params["appletOnLoad"]=function(){appletObject.evalCommand("f(x):=x^3")}; 
+     [[/geogebra]]
+     [[input:ans1]] [[validation:ans1]]
 
 ### Future plans
 

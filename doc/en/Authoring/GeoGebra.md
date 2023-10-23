@@ -66,7 +66,9 @@ By default points are free to manipulate in the applet, unless you add `__fixed`
 Notes
 
 1. No checking is done that the object in STACK matches one in GeoGebra.  If it does not exist it will be created by GeoGebra.
-2. Currently setting points and values are the only supported objects.  There is nothing stopping uses set objects, e.g. you could define `g:x^3` and set this in an applet.  However, the syntax does not match perfectly so that `g:%pi*x^3` will throw an error in GeoGebra.  (This functionality may be supported in the future but matching maxima syntax to GeoGebra syntax is a lot of work.)
+2. Currently setting points and values are the only supported objects.  Users can set objects, e.g. you could define `g:x^3` and set this in an appletm 
+
+
 3. Angles cannot be set directly, set points instead!
 
 ### A minimal example question with "set": can a student read (randomly) generated coordinates?
@@ -282,14 +284,17 @@ You can use the following commands inside the geogebra tag if the sub tags do no
 
 Advanced users might want to look at documentation for common app settings which can be addressed through params["nameOfSetting"] array, as shown in [https://wiki.geogebra.org/en/Reference:GeoGebra_App_Parameters](https://wiki.geogebra.org/en/Reference:GeoGebra_App_Parameters).
 
-#### Example of using commands inside `[[geogebra]][[/geogebra]]` blocks to define not existing non-point or value elements
+#### Example of using commands inside `[[geogebra]][[/geogebra]]` blocks to define geogbra objects
 
-     I want to display the function x^3 in GeoGebra
+It is possible to update existing objects, or indeed to create new objects inside GeoGebra.  An example is below.
+
+     I want to display the function \(x^3\) in GeoGebra
      [[geogebra]]
      params["appletOnLoad"]=function(){appletObject.evalCommand("f(x):=x^3")}; 
      [[/geogebra]]
      [[input:ans1]] [[validation:ans1]]
 
+Please note that the STACK and GeoGebra syntax do not match perfectly.  For example, `g:%pi*x^3` will throw an error in GeoGebra because `%pi` in Maxima does not match `pi` in GeoGebra.  (Functionality to match sytax may be supported in the future but matching maxima syntax to GeoGebra syntax is a lot of work.)
 ### Future plans
 
 1. GeoGebra boolean types should come through to STACK as just return true/false (not 0,1).

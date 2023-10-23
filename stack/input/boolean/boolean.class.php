@@ -72,24 +72,31 @@ class stack_boolean_input extends stack_input {
                 array_pop($attributes);
                 $element_button_id = $fieldname . "-button";
                 $attributes['id'] = $element_button_id;
-                $attributes['class'] = 'stack-button stack-clickme-button no-answer';
+                $attributes['class'] = 'stack-button stack-clickme-button';
                 $attributes['type'] = 'button';
-                $attributes['onclick'] = '
-                    if (document.getElementById("'. $element_button_id .'").classList.contains("no-answer")) {
-                        document.getElementById("' . $element_button_id .'").classList.remove("no-answer");
+                $attributes['onclick'] = 'changeButton();';
+                $button_script= '
+                    if (document.getElementById("stack-button-' . $fieldname . '")[0].value !== "") {
+                        document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
                     }
-                    if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
-                        document.getElementsByName("' . $fieldname . '")[0].value = "false";
-                        document.getElementById("' . $element_button_id . '").classList.remove("boolean-pressed");
-                    } else {
-                        document.getElementsByName("' . $fieldname . '")[0].value = "true";
-                        document.getElementById("' . $element_button_id . '").classList.add("boolean-pressed");
-                    };
+                    if (document.getElementById("stack-button-' . $fieldname . '")[0].value == "true") {
+                        document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
+                    }
+                    function changeButton() {
+                        if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
+                            document.getElementsByName("' . $fieldname . '")[0].value = "false";
+                            document.getElementById("stack-button-' . $fieldname . '").classList.remove("boolean-pressed");
+                        } else {
+                            document.getElementsByName("' . $fieldname . '")[0].value = "true";
+                            document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
+                        };
+                    }
                 ';
+                $element_script = html_writer::script($button_script);
                 $title = (empty($this->parameters['buttonTitles'])) ? 'Click me' : $this->parameters['buttonTitles'];
                 $element_button = html_writer::tag('button', $title, $attributes); 
                 
-                $element_complete=html_writer::div($element_select . $element_button,'stack-parent-toggle-button');
+                $element_complete=html_writer::div($element_select . $element_button . $element_script,'stack-parent-toggle-button');
                 break;
             case 2:
                 //Toggle-Button
@@ -99,25 +106,36 @@ class stack_boolean_input extends stack_input {
                 array_pop($attributes);
                 $element_button_id = $fieldname . "-button";
                 $attributes['id'] = $element_button_id;
-                $attributes['class'] = 'stack-input-toggle-button';
+                $attributes['class'] = 'stack-input-toggle-button no-answer';
                 $attributes['type'] = 'checkbox';
                 $attributes['onclick'] = '
-                    if (document.getElementById("stack-button-' . $fieldname . '").classList.contains("no-answer")) {
+                    changeButton();
+                ';
+                $button_script= '
+                    if (document.getElementById("stack-button-' . $fieldname . '")[0].value !== "") {
                         document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
                     }
-                    if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
-                        document.getElementsByName("' . $fieldname . '")[0].value = "false";
-                    } else {
-                        document.getElementsByName("' . $fieldname . '")[0].value = "true";
-                    };
+                    if (document.getElementById("stack-button-' . $fieldname . '")[0].value == "true") {
+                        document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
+                    }
+                    function changeButton() {
+                        if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
+                            document.getElementsByName("' . $fieldname . '")[0].value = "false";
+                            document.getElementById("stack-button-' . $fieldname . '").classList.remove("boolean-pressed");
+                        } else {
+                            document.getElementsByName("' . $fieldname . '")[0].value = "true";
+                            document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
+                        };
+                    }
                 ';
+                $element_script = html_writer::script($button_script);
                 $element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
                 
                 $attributes = array();
                 $attributes['id'] = 'stack-button-'.$fieldname;
                 $attributes['class'] = 'stack-button stack-toggle-button no-answer';
                 $element_label = html_writer::tag('label',$element_button,$attributes);
-                $element_complete=html_writer::div($element_select . $element_label,'stack-parent-toggle-button');
+                $element_complete=html_writer::div($element_select . $element_label . $element_script,'stack-parent-toggle-button');
                 break;
             default:
                 echo "This type is not set."; break;
@@ -143,4 +161,5 @@ class stack_boolean_input extends stack_input {
                 'options'         => ''
         );
     }
+
 }

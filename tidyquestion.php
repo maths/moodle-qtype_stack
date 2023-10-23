@@ -51,11 +51,7 @@ $PAGE->set_pagelayout('admin');
 require_login();
 
 // The URL back to the preview page.
-if (stack_determine_moodle_version() < 400) {
-    $returnurl = question_preview_url($questionid, null, null, null, null, $context);
-} else {
-    $returnurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
-}
+$returnurl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
 // Create the question usage we will use.
 $quba = question_engine::make_questions_usage_by_activity('qtype_stack', $context);
 $quba->set_preferred_behaviour('adaptive');

@@ -72,17 +72,20 @@ class stack_boolean_input extends stack_input {
                 array_pop($attributes);
                 $element_button_id = $fieldname . "-button";
                 $attributes['id'] = $element_button_id;
-                $attributes['class'] = 'stack-button stack-clickme-button';
+                $attributes['class'] = 'stack-button stack-clickme-button no-answer';
                 $attributes['type'] = 'button';
                 $attributes['onclick'] = 'changeButton();';
                 $button_script= '
-                    if (document.getElementById("stack-button-' . $fieldname . '")[0].value !== "") {
+                    if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
                         document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
                     }
                     if (document.getElementById("stack-button-' . $fieldname . '")[0].value == "true") {
                         document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
                     }
                     function changeButton() {
+                        if (document.getElementById("stack-button-' . $fieldname . '").classList.contains("no-answer")) {
+                            document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
+                        }
                         if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
                             document.getElementsByName("' . $fieldname . '")[0].value = "false";
                             document.getElementById("stack-button-' . $fieldname . '").classList.remove("boolean-pressed");
@@ -112,13 +115,16 @@ class stack_boolean_input extends stack_input {
                     changeButton();
                 ';
                 $button_script= '
-                    if (document.getElementById("stack-button-' . $fieldname . '")[0].value !== "") {
+                    if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
                         document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
                     }
                     if (document.getElementById("stack-button-' . $fieldname . '")[0].value == "true") {
                         document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
                     }
                     function changeButton() {
+                        if (document.getElementById("stack-button-' . $fieldname . '").classList.contains("no-answer")) {
+                            document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
+                        }
                         if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
                             document.getElementsByName("' . $fieldname . '")[0].value = "false";
                             document.getElementById("stack-button-' . $fieldname . '").classList.remove("boolean-pressed");

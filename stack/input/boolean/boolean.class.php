@@ -134,7 +134,26 @@ class stack_boolean_input extends stack_input {
                         };
                     }
                 ';
-                $element_script = html_writer::script($button_script);
+                $element_script = html_writer::script('
+                if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
+                    document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
+                }
+                if (document.getElementById("stack-button-' . $fieldname . '")[0].value == "true") {
+                    document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
+                }
+                function changeButton() {
+                    if (document.getElementById("stack-button-' . $fieldname . '").classList.contains("no-answer")) {
+                        document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
+                    }
+                    if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
+                        document.getElementsByName("' . $fieldname . '")[0].value = "false";
+                        document.getElementById("stack-button-' . $fieldname . '").classList.remove("boolean-pressed");
+                    } else {
+                        document.getElementsByName("' . $fieldname . '")[0].value = "true";
+                        document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
+                    };
+                }
+            ');
                 $element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
                 
                 $attributes = array();

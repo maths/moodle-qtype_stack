@@ -112,25 +112,25 @@ class stack_boolean_input extends stack_input {
                 array_pop($attributes);
                 $element_button_id = $fieldname . "-button";
                 $attributes['id'] = $element_button_id;
-                $attributes['class'] = 'stack-input-toggle-button no-answer';
+                $attributes['class'] = 'stack-input-toggle-button';
                 $attributes['type'] = 'checkbox';
                 $attributes['onclick'] = '             
                     if (document.getElementById("' . $fieldname . '-button").classList.contains("no-answer")) {
-                        document.getElementById("' . $fieldname . '-button").classList.remove("no-answer");
+                        document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
                     }
                     if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
                         document.getElementsByName("' . $fieldname . '")[0].value = "false";
-                        document.getElementById("' . $fieldname . '-button").classList.remove("boolean-pressed");
+                        document.getElementById("stack-button-' . $fieldname . '").classList.remove("boolean-pressed");
                     } else {
                         document.getElementsByName("' . $fieldname . '")[0].value = "true";
-                        document.getElementById("' . $fieldname . '-button").classList.add("boolean-pressed");
+                        document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
                     }';
                 $button_script= '
                     if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
-                        document.getElementById("' . $fieldname . '-button").classList.remove("no-answer");
+                        document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
                     }
                     if (document.getElementsByName("' . $fieldname . '")[0].value == "true") {
-                        document.getElementById("' . $fieldname . '-button").classList.add("boolean-pressed");
+                        document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
                     }
                 ';
                 $element_script = html_writer::tag('script',$button_script);

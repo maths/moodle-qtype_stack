@@ -114,7 +114,7 @@ class stack_boolean_input extends stack_input {
                 $attributes['id'] = $element_button_id;
                 $attributes['class'] = 'stack-input-toggle-button';
                 $attributes['type'] = 'checkbox';
-                $attributes['onclick'] = '             
+                $attributes['onclick'] = '
                     if (document.getElementById("stack-button-' . $fieldname . '").classList.contains("no-answer")) {
                         document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
                     }
@@ -122,8 +122,8 @@ class stack_boolean_input extends stack_input {
                         document.getElementsByName("' . $fieldname . '")[0].value = "false";
                     } else {
                         document.getElementsByName("' . $fieldname . '")[0].value = "true";
-                    }
-                }';
+                    };
+                ';
                 $button_script= '
                     if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
                         document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");

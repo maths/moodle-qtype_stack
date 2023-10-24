@@ -89,7 +89,7 @@ class stack_boolean_input extends stack_input {
                     if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
                         document.getElementById("' . $fieldname . '-button").classList.remove("no-answer");
                     }
-                    if (document.getElementById("' . $fieldname . '-button")[0].value == "true") {
+                    if (document.getElementByName("' . $fieldname . '")[0].value == "true") {
                         document.getElementById("' . $fieldname . '-button").classList.add("boolean-pressed");
                     }
                 ';
@@ -109,49 +109,26 @@ class stack_boolean_input extends stack_input {
                 $attributes['id'] = $element_button_id;
                 $attributes['class'] = 'stack-input-toggle-button no-answer';
                 $attributes['type'] = 'checkbox';
-                $attributes['onclick'] = '
-                    changeButton();
-                ';
-                $button_script= '
-                    if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
-                        document.getElementById("stack' . $fieldname . '-button").classList.remove("no-answer");
-                    }
-                    if (document.getElementById("stack-button-' . $fieldname . '")[0].value == "true") {
-                        document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
-                    }
-                    function changeButton() {
-                        if (document.getElementById("stack-button-' . $fieldname . '").classList.contains("no-answer")) {
-                            document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
-                        }
-                        if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
-                            document.getElementsByName("' . $fieldname . '")[0].value = "false";
-                            document.getElementById("stack-button-' . $fieldname . '").classList.remove("boolean-pressed");
-                        } else {
-                            document.getElementsByName("' . $fieldname . '")[0].value = "true";
-                            document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
-                        };
-                    }
-                ';
-                $element_script = html_writer::script('
-                if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
-                    document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
-                }
-                if (document.getElementById("stack-button-' . $fieldname . '")[0].value == "true") {
-                    document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
-                }
-                function changeButton() {
-                    if (document.getElementById("stack-button-' . $fieldname . '").classList.contains("no-answer")) {
-                        document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
+                $attributes['onclick'] = '                        
+                    if (document.getElementById("' . $fieldname . '-button").classList.contains("no-answer")) {
+                        document.getElementById("' . $fieldname . '-button").classList.remove("no-answer");
                     }
                     if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
                         document.getElementsByName("' . $fieldname . '")[0].value = "false";
-                        document.getElementById("stack-button-' . $fieldname . '").classList.remove("boolean-pressed");
+                        document.getElementById("' . $fieldname . '-button").classList.remove("boolean-pressed");
                     } else {
                         document.getElementsByName("' . $fieldname . '")[0].value = "true";
-                        document.getElementById("stack-button-' . $fieldname . '").classList.add("boolean-pressed");
-                    };
-                }
-            ');
+                        document.getElementById("' . $fieldname . '-button").classList.add("boolean-pressed");
+                    }';
+                $button_script= '
+                    if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
+                        document.getElementById("' . $fieldname . '-button").classList.remove("no-answer");
+                    }
+                    if (document.getElementByName("' . $fieldname . '")[0].value == "true") {
+                        document.getElementById("' . $fieldname . '-button").classList.add("boolean-pressed");
+                    }
+                ';
+                $element_script = html_writer::tag('script',$button_script);
                 $element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
                 
                 $attributes = array();

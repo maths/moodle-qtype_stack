@@ -30,7 +30,7 @@
     box-shadow: 0 1px #4c81b1d0;
     transform: translateY(0px);
 }
-.stack-clickme-button:hover {
+.stack-clickme-button.hovered:hover {
     background-color: grey;
 }
 /* Style for input type boolean as a toggle button*/

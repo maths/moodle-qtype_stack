@@ -72,7 +72,7 @@ class stack_boolean_input extends stack_input {
                 array_pop($attributes);
                 $element_button_id = $fieldname . "-button";
                 $attributes['id'] = $element_button_id;
-                $attributes['class'] = 'stack-button stack-clickme-button no-answer';
+                $attributes['class'] = 'stack-button stack-clickme-button no-answer hovered';
                 $attributes['type'] = 'button';
                 $attributes['onclick'] = '         
                     var selectElem = document.getElementsByName("' . $fieldname . '")[0];
@@ -93,6 +93,9 @@ class stack_boolean_input extends stack_input {
                     }
                     if (document.getElementsByName("' . $fieldname . '")[0].value == "true") {
                         document.getElementById("' . $fieldname . '-button").classList.add("boolean-pressed");
+                    }
+                    if (document.getElementById("' . $fieldname . '-button").disabled) {
+                        document.getElementById("' . $fieldname . '-button").classList.remove("hovered");
                     }
                 ';
                 $element_script = html_writer::tag('script',$button_script);

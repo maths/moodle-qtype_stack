@@ -74,7 +74,9 @@ class stack_boolean_input extends stack_input {
                 $attributes['id'] = $element_button_id;
                 $attributes['class'] = 'stack-button stack-clickme-button no-answer';
                 $attributes['type'] = 'button';
-                $attributes['onclick'] = '                        
+                $attributes['onclick'] = '         
+                    var selectElem = document.getElementsByName("' . $fieldname . '")[0];
+
                     if (document.getElementById("' . $fieldname . '-button").classList.contains("no-answer")) {
                         document.getElementById("' . $fieldname . '-button").classList.remove("no-answer");
                     }
@@ -89,7 +91,7 @@ class stack_boolean_input extends stack_input {
                     if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
                         document.getElementById("' . $fieldname . '-button").classList.remove("no-answer");
                     }
-                    if (document.getElementByName("' . $fieldname . '")[0].value == "true") {
+                    if (document.getElementsByName("' . $fieldname . '")[0].value == "true") {
                         document.getElementById("' . $fieldname . '-button").classList.add("boolean-pressed");
                     }
                 ';
@@ -109,7 +111,7 @@ class stack_boolean_input extends stack_input {
                 $attributes['id'] = $element_button_id;
                 $attributes['class'] = 'stack-input-toggle-button no-answer';
                 $attributes['type'] = 'checkbox';
-                $attributes['onclick'] = '                        
+                $attributes['onclick'] = '             
                     if (document.getElementById("' . $fieldname . '-button").classList.contains("no-answer")) {
                         document.getElementById("' . $fieldname . '-button").classList.remove("no-answer");
                     }
@@ -124,7 +126,7 @@ class stack_boolean_input extends stack_input {
                     if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
                         document.getElementById("' . $fieldname . '-button").classList.remove("no-answer");
                     }
-                    if (document.getElementByName("' . $fieldname . '")[0].value == "true") {
+                    if (document.getElementsByName("' . $fieldname . '")[0].value == "true") {
                         document.getElementById("' . $fieldname . '-button").classList.add("boolean-pressed");
                     }
                 ';

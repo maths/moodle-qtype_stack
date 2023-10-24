@@ -128,6 +128,9 @@ class stack_boolean_input extends stack_input {
                     if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
                         document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
                     }
+                    if (document.getElementsByName("' . $fieldname . '")[0].value == "true") {
+                     document.getElementById("' . $fieldname . '-button").checked=true;
+                    }
                 ';
                 $element_script = html_writer::tag('script',$button_script);
                 $element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);

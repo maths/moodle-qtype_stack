@@ -95,7 +95,7 @@ class stack_boolean_input extends stack_input {
                         };
                     }
                 ';
-                $element_script = html_writer::script($button_script);
+                $element_script = html_writer::tag('script',$button_script);
                 $title = (empty($this->parameters['buttonTitles'])) ? 'Click me' : $this->parameters['buttonTitles'];
                 $element_button = html_writer::tag('button', $title, $attributes); 
                 

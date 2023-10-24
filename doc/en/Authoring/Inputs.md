@@ -70,9 +70,11 @@ The size of the matrix is inferred from the model answer.
 STACK then adds an appropriate grid of boxes (of size Box Size) for the student to fill in.
 This is easier than typing in [Maxima](../CAS/Maxima.md)'s matrix command, but does give the game away about the size of the required matrix.
 
+Whether a fixed or variable size is presented to the student depends on the selection of [Matrix Size](Inputs.md#Matrix_Size). For variable-size matrices, students have the option to select the matrix size themselves. 
+
 _The student may not fill in part of a matrix._  If they do so, the remaining entries will be completed with `?` characters which render the attempt invalid. STACK cannot cope with empty boxes here.
 
-We cannot use the `EMPTYANSWER` tag for the teacher's answer with the matrix input, because the size of the matrix is inferred from the model answer.  If a teacher really wants a correct answer to be empty inputs then they must use a correctly formatted matrix with `null` values
+We cannot use the `EMPTYANSWER` tag for the teacher's answer with the matrix input with fixed size, because the size of the matrix is inferred from the model answer.  If a teacher really wants a correct answer to be empty inputs then they must use the varibale size matrix or for fixed-size a correctly formatted matrix with `null` values
 
     ta:transpose(matrix([null,null,null]));
 

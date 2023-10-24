@@ -49,6 +49,22 @@ Notes
 1. hint blocks can be nested.
 2. the content of the hint is styled within a `stack-hint-content` div tag.
 
+## Adapt block and Adaptbutton block##
+
+This block allows sections of text to be shown and hidden with a press of an adaptbutton. It saves the state if the adaptbutton is pressed in the input.
+
+    ```
+    [[adapt id='1']]
+    This text will be shown until the adaptbutton has been clicked. When it is clicked, the value of the input 'ans1' is set to 'true'.
+    [[adaptbutton title=’Click me’ hide_ids='1' save_state='ans1' show_ids='3; 4']][[/adaptbutton]]
+    [[/adapt]]
+    [[adapt id='2' hidden='true']]
+    This text is hidden if you did not press the adaptbutton.
+    [[/adapt]]
+    ```
+
+The adaptbutton can hide and reveal multiple adapt-blocks. Separation is done using a semicolon, for example: hide_ids='1;2;3'.
+
 ## JSXGraph block ##
 
 STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/). The key feature of this block is the ability to bind elements of the graph to inputs of the question. See the specific documentation on including [JSXGraph](../JSXGraph.md) elements.

@@ -56,6 +56,7 @@ $string['stackversionregexp']   = 'The RegExp answer test is not supported after
 $string['stackfileuseerror']    = 'One or more files (e.g. images) are associated internally with the {$a}, but none appear to be used in the current text itself.';
 
 // Strings used on the editing form.
+$string['generalerrors']     = 'There are errors in your question.  Please check carefully below.';
 $string['addanothernode'] = 'Add another node';
 $string['allnodefeedbackmustusethesameformat'] = 'All the feedback for all the nodes in a PRT must use the same text format.';
 $string['answernote'] = 'Answer note';
@@ -264,7 +265,7 @@ $string['optionsnotrequired'] = 'This input type does not require any options.';
 $string['penalty'] = 'Penalty';
 $string['penalty_help'] = 'The penalty scheme deducts this value from the result of each PRT for each different and valid attempt which is not completely correct.';
 $string['penalty_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Feedback.md';
-$string['penaltyerror'] = 'The penalty must be a numeric value between 0 and 1 or a variable (which is not checked).';
+$string['penaltyf'] = 'The penalty must be a numeric value between 0 and 1 or a variable (which is not checked).';
 $string['penaltyerror2'] = 'The penalty must empty, or be a numeric value between 0 and 1.';
 $string['prtcorrectfeedback'] = 'Standard feedback for correct';
 $string['prtheading'] = 'Potential response tree: {$a}';

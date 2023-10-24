@@ -1765,6 +1765,7 @@ class qtype_stack extends question_type {
 
         // Convert the $errors array from our array of arrays format to the
         // standard array of strings format.
+        $errorsexit = false;
         foreach ($errors as $field => $messages) {
             if ($messages) {
                 foreach ($messages as $key => $val) {
@@ -1773,9 +1774,14 @@ class qtype_stack extends question_type {
                     }
                 }
                 $errors[$field] = implode(' ', $messages);
+                $errorsexit = true;
             } else {
                 unset($errors[$field]);
             }
+        }
+        if ($errorsexit) {
+            // Add a message next to the question name to create a more prominent error alert.
+            $errors['name'] = stack_string_error('generalerrors');
         }
 
         return $errors;

@@ -219,7 +219,7 @@ if (data_submitted() && optional_param('geogebras', false, PARAM_BOOL)) {
      * form then we probably have something else in play or a "TODO" note.
      */
     $qs = $DB->get_recordset_sql('SELECT q.id as questionid FROM {question} q, {qtype_stack_options} o WHERE ' .
-        'q.id = o.questionid AND q.hidden = 0 AND ' .
+        'q.id = o.questionid AND ' .
         $DB->sql_like('o.compiledcache', ':trg', false) . ';', ['trg' => '%geogebra%']);
     echo '<h4>Questions containing GeogGebra related terms</h4>';
     echo '<table><thead><tr><th>Question</th>' .
@@ -246,9 +246,14 @@ if (data_submitted() && optional_param('geogebras', false, PARAM_BOOL)) {
         // Confirm that it does have these.
         if ($block || $filter || $other) {
             list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
+            if (stack_determine_moodle_version() < 400) {
+                $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
+            } else {
+                $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+                    null, null, null, null, $context);
+            }
             echo "<tr><td>" . $q->name . ' ' .
-                $OUTPUT->action_icon(question_preview_url($item->questionid, null, null, null, null, $context),
-            new pix_icon('t/preview', get_string('preview'))) . '</td>';
+                $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td>';
             echo "<td>$block</td><td>$filter</td><td>$other</td></tr>";
         }
     }

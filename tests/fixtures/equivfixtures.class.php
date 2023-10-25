@@ -1,4 +1,3 @@
-
 <?php
 // This file is part of Stack - https://stack.maths.ed.ac.uk/demo/
 //

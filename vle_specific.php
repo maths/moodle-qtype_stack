@@ -210,3 +210,86 @@ function question_display_options() {
     $options->suppressruntestslink = true;
     return $options;
 }
+
+
+/*
+ * This uses whatever methods the VLE wants to use to fetch included urls
+ * for the inclusion methods and can do caching at the request level.
+ *
+ * The requirements are as follows:
+ *  1. Must not cache, over multiple requests, the inclusion must use
+ *     remote version at the time of inclusion.
+ *  2. Supports inclusion from http(s)://, contrib(l):// and template(l)://
+ *     URLs.
+ *  3. contrib:// is special shorthand for fetchign a file from a particular
+ *     GitHub side folder. If the "l" suffix is there then the file will be red 
+ *     from a matching local folder, if fetching from GitHub fails we do not
+ *     automatically fall-back to the local version.
+ *  4. template:// is similalr but has a different folder.
+ *
+ *  contrib:// is for CAS side stuff and template:// is for CASText side stuff.
+ *
+ *  Returns the string content of the URL/file. If failign return false.
+ */
+function stack_fetch_included_content(string $url): string | bool {
+    static $cache = [];
+    $lc = trim(strtolower($url));
+    $good = false;
+    $islocalfile = false;
+    $error = 'Not a fetchable URL type.';
+    $translated = $url;
+    if (strpos($lc, 'http://') === 0 || strpos($lc, 'https://') === 0) {
+        $good = true;
+    } else if (strpos($lc, 'contrib://') === 0 || strpos($lc, 'contribl://') === 0) {
+        $path = explode('://', $url, 2)[1];
+        if (strpos('..', $path) !== false || strpos('/', $path) === 0) {
+            $error = 'Traversing the directory tree is forbidden.';
+        } else {
+            $good = true;
+            if (strpos($lc, 'contrib://') === 0) {
+                $translated = 'https://raw.githubusercontent.com/maths/moodle-qtype_stack/' .
+                                        'master/stack/maxima/contrib/' . $path;
+            } else {
+                $islocalfile = true;
+                $translated = __DIR__ . '/stack/maxima/contrib/' . $path;
+            }
+        }
+    } else if (strpos($lc, 'template://') === 0 || strpos($lc, 'templatel://') === 0) {
+        $path = explode('://', $url, 2)[1];
+        if (strpos('..', $path) !== false || strpos('/', $path) === 0) {
+            $error = 'Traversing the directory tree is forbidden.';
+        } else {
+            $good = true;
+            if (strpos($lc, 'template://') === 0) {
+                $translated = 'https://raw.githubusercontent.com/maths/moodle-qtype_stack/' .
+                                        'master/stack/cas/castext2/template/' . $path;
+            } else {
+                $islocalfile = true;
+                $translated = __DIR__ . '/stack/cas/castext2/template/' . $path;
+            }
+        }
+    }
+    // Not actually passing the $error out now, it is here for documentation 
+    // and possible future use.
+
+    if ($good) {
+        if (!isset($cache[$translated])) {
+            // Feel free to apply any proxying here if you want.
+            // Just remember that $islocalfile might be true and you might do
+            // something else then.
+            if ($islocalfile) {
+                $cache[$translated] = file_get_contents($translated);
+            } else {
+                $headers = get_headers($translated);
+                if (strpos($headers[0], '404') === false) {
+                    $cache[$translated] = file_get_contents($translated);
+                } else {
+                    $cache[$translated] = false;
+                }
+            }
+        }
+        return $cache[$translated];
+    }
+    $cache[$translated] = false;
+    return false;
+}

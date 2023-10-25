@@ -24,6 +24,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/autogen/parser.mbstring.php');
 // Also needs stack_string().
 require_once(__DIR__ . '/../../locallib.php');
+require_once(__DIR__ . '/../../vle_specific.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/MP_classes.php');
 
@@ -247,8 +248,6 @@ class maxima_parser_utils {
     // Generates errors if inclusions within inclusions or inclusions in unexpected places.
     // Returns either the AST or some form of an exception.
     public static function parse_and_insert_missing_semicolons_with_includes($str) {
-        static $remotes = [];
-
         $root = self::parse_and_insert_missing_semicolons($str);
         if ($root instanceof MP_Root) {
             if (isset($root->position['fixedsemicolons'])) {
@@ -259,7 +258,7 @@ class maxima_parser_utils {
             // Ok now seek for the inclusions if any are there.
             $includecount = 0;
             $errors = [];
-            $include = function($node) use (&$includecount, &$errors, &$remotes) {
+            $include = function($node) use (&$includecount, &$errors) {
                 if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom &&
                     ($node->name->value === 'stack_include' || $node->name->value === 'stack_include_contrib')) {
                     // Now the first requirement for this is that this must be a top level item
@@ -275,15 +274,9 @@ class maxima_parser_utils {
                                 // such stuff.
                                 $remoteurl = $node->arguments[0]->value;
                                 if ($node->name->value === 'stack_include_contrib') {
-                                    $remoteurl = 'https://raw.githubusercontent.com/maths/moodle-qtype_stack/' .
-                                        'master/stack/maxima/contrib/' . $remoteurl;
+                                    $remoteurl = 'contrib://' . $remoteurl;
                                 }
-                                if (isset($remotes[$remoteurl])) {
-                                    $srccode = $remotes[$remoteurl];
-                                } else {
-                                    $srccode = file_get_contents($remoteurl);
-                                    $remotes[$remoteurl] = $srccode;
-                                }
+                                $srccode = stack_fetch_included_content($remoteurl);
                                 if ($srccode === false) {
                                     // Do not give the address in the output.
                                     $errors[] = 'stack_include or stack_include_contrib, could not retrieve: ' . $remoteurl;

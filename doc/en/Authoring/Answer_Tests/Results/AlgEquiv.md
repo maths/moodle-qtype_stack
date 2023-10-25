@@ -793,6 +793,15 @@ z^2)^(3/2))</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>1/(a-b)-1/(b-a)</pre></td>
+  <td class="cell c3"><pre>1/(a-b)+1/(b-a)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.5*x^2+3*x-1</pre></td>
   <td class="cell c3"><pre>x^2/2+3*x-1</pre></td>
   <td class="cell c4"></td>

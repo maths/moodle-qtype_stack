@@ -225,7 +225,7 @@ function question_display_options() {
  *
  *  Returns the string content of the URL/file. If failign return false.
  */
-function stack_fetch_included_content(string $url): string | bool {
+function stack_fetch_included_content(string $url) {
     static $cache = [];
     $lc = trim(strtolower($url));
     $good = false;
@@ -263,7 +263,7 @@ function stack_fetch_included_content(string $url): string | bool {
             }
         }
     }
-    // Not actually passing the $error out now, it is here for documentation 
+    // Not actually passing the $error out now, it is here for documentation
     // and possible future use.
 
     if ($good) {
@@ -272,11 +272,13 @@ function stack_fetch_included_content(string $url): string | bool {
             // Just remember that $islocalfile might be true and you might do
             // something else then.
             if ($islocalfile) {
+                $translated = clean_param($translated, PARAM_SAFEPATH);
                 $cache[$translated] = file_get_contents($translated);
             } else {
+                $translated = clean_param($translated, PARAM_URL);
                 $headers = get_headers($translated);
                 if (strpos($headers[0], '404') === false) {
-                    $cache[$translated] = file_get_contents($translated);
+                    $cache[$translated] = download_file_content($translated);
                 } else {
                     $cache[$translated] = false;
                 }

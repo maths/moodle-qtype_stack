@@ -277,3 +277,12 @@ $settings->add(new admin_setting_configselect('qtype_stack/matrixparens',
         get_string('matrixparens', 'qtype_stack'),
         get_string('matrixparens_help', 'qtype_stack'), '[',
         stack_options::get_matrix_parens_options()));
+
+// Options for GeoGebra in STACK block.
+$settings->add(new admin_setting_heading('geogebraoptionsheading',
+        get_string('stackBlock_geogebra_settingdefaultoptions', 'qtype_stack'),
+        get_string('stackBlock_geogebra_settingdefaultoptions_desc', 'qtype_stack')));
+
+$settings->add(new admin_setting_configtext('qtype_stack/geogebrabaseurl',
+        get_string('stackBlock_geogebrabaseurl', 'qtype_stack'),
+        get_string('stackBlock_geogebrabaseurl_help', 'qtype_stack'), '', PARAM_RAW));

@@ -94,6 +94,7 @@ textarea[name=maximavars] {
 .que.stack input[type=text] {
     max-width: 100%;
 }
+.que.stack .geogebra-right,
 .que.stack .numerical-right,
 .que.stack .algebraic-right,
 .que.stack .algebraic-units-right {

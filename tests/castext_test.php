@@ -1598,6 +1598,18 @@ class castext_test extends qtype_stack_testcase {
     }
 
     /**
+     * @covers \qtype_stack\stack_cas_castext2_geogebra
+     */
+    public function test_stack_geogebra_statestore() {
+        // Eigenen test schreibenXXX.
+        $st = '[[geogebra input-ref-stateStore="stateRef"]]' .
+              '[[/geogebra]]';
+
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $this->assertTrue($at2->get_valid());
+    }
+
+    /**
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_ast_container
      */

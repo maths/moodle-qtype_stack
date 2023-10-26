@@ -175,7 +175,8 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             json_encode($code),
             json_encode($divid),
             json_encode($title),
-            $scrolling ? 'true' : 'false'
+            $scrolling ? 'true' : 'false',
+            isset($parameters['no sandbox']) && $parameters['no sandbox']
         ];
 
         // As the content is large we cannot simply use the js_amd_call.

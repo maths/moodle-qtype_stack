@@ -18,6 +18,11 @@
         "description":"Information on contributers and users of the STACK project."
         },
         {
+        "file":"License.md",
+        "title":"STACK license information",
+        "description":"Information on the STACK project license."
+        },
+        {
         "file":"Publications.md",
         "title":"Publications about STACK",
         "description":"STACK has been the subject of research, including published books and articles."
@@ -404,6 +409,21 @@
         "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
         },
         {
+        "file":"GeoGebra.md",
+        "title":"Using GeoGebra blocks in STACK questions - STACK Documentation",
+        "description":"Reference documentation for GeoGebra blocks."
+        },
+        {
+        "file":"HELM.md",
+        "title":"HELM materials in STACK",
+        "description":"Providing versions of the HELM project materials as moodle quizzes, with materials in STACK format."
+        },
+        {
+        "file":"ImportExport.md",
+        "title":"Importing and Exporting - STACK Documentation",
+        "description":"Information on importing and exporting questions in STACK."
+        },
+        {
         "file":"Inclusions.md",
         "title":"Including external content in questions",
         "description":"Advice on including external content in questions."
@@ -560,6 +580,11 @@
         "file":"Greek.md",
         "title":"The Greek Alphabet - STACK Documentation",
         "description":"Information on displaying greek letters in STACK."
+        },
+        {
+        "file":"Geometry.md",
+        "title":"Geometry related function - STACK Documentation",
+        "description":"Information on geometry related functions in STACK, particulary related to the GeoGebra input type."
         },
         {
         "file":"Inequalities.md",
@@ -972,6 +997,11 @@
         "file":"Discrete_mathematics.md",
         "title":"Discrete mathematics and graph theory - STACK Documentation",
         "description":"Information on representing, displaying and manipulating graphs, as in graph theory rather than graph sketching."
+        },
+        {
+        "file":"GeoGebra.md",
+        "title":"Using GeoGebra blocks in STACK questions - STACK Documentation",
+        "description":"How to write a minimal question useing GeoGebra as a STACK input type."
         },
         {
         "file":"Levenshtein_distance.md",

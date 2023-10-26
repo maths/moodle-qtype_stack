@@ -83,7 +83,7 @@ define([
     }
 
     /**
-     * Returns an input element with a given name, if an only if that element
+     * Returns an input element with a given name, if and only if that element
      * exists inside a portion of DOM that represents a question.
      *
      * Note that, the input element may have a name that multiple questions
@@ -602,8 +602,12 @@ define([
            @param {String} title a descriptive name for the iframe.
            @param {bool} scrolling whether we have overflow:scroll or
                   overflow:hidden.
+           @param {bool} evil allows certain special cases to act without
+                  sandboxing, this is a feature that will be removed so do
+                  not rely on it only use it to test STACK-JS before you get your
+                  thing to run in a sandbox.
          */
-        create_iframe(iframeid, content, targetdivid, title, scrolling) {
+        create_iframe(iframeid, content, targetdivid, title, scrolling, evil) {
             const frm = document.createElement('iframe');
             frm.id = iframeid;
             frm.style.width = '100%';
@@ -622,13 +626,17 @@ define([
             // document building in JS has been seen.
             // UNDER NO CIRCUMSTANCES DO WE ALLOW-SAME-ORIGIN!
             // That would defeat the whole point of this.
-            frm.sandbox = 'allow-scripts allow-downloads';
+            if (!evil) {
+                frm.sandbox = 'allow-scripts allow-downloads';
+            }
 
             // As the SOP is intentionally broken we need to allow
             // scripts from everywhere.
+
             // NOTE: this bit commented out as long as the csp-attribute
             // is not supported by more browsers.
             // frm.csp = "script-src: 'unsafe-inline' 'self' '*';";
+            // frm.csp = "script-src: 'unsafe-inline' 'self' '*';img-src: '*';";
 
             // Plug the content into the frame.
             frm.srcdoc = content;

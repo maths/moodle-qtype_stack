@@ -38,7 +38,7 @@ assumes that the code is of the same format as the context, so if your included
 content is in Markdown-format including it directly to HTML-context may cause 
 trouble.
 
-Typical use case would be to have a JSXGraph plotting logic that expect that
+Typical use case would be to have a JSXGraph or GeoGebra plotting logic that expect that
 certain variables contain parameters for plotting and one would then simply
 make sure that one would populate those parameters before inclusion of the plotting 
 logic for example like this:

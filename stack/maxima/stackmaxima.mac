@@ -158,6 +158,7 @@ load("validator.mac");
 load("noun_simp.mac");
 load("inequalities.mac");
 load("intervals.mac");
+load("geometry.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
 load("stackstrings.mac");
@@ -3018,7 +3019,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
            (rawmk:false, fb:StackAddFeedback("", "ATInt_generic", stack_disp(SBdisp, "d"), stack_disp(var, "i"), stack_disp(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
     /* Has the student used log(x) vs log(abs(x)) in their answer? */
     if not(SAUsedLogAbs) and SBUsedLogAbs then
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
+            (rawmk:false, fb:StackAddFeedback(fb, "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
     /* Has the student been inconsistent in using log(x) vs log(abs(x)) in their answer? */
     if not(SAConsistentLogs) then
             (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs_inconsistent"), ansnote:StackAddNote(ansnote, "ATInt_logabs_inconsistent")),
@@ -3315,4 +3316,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2023093000$
+stackmaximaversion:2023102000$

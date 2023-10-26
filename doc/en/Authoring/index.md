@@ -26,6 +26,7 @@ The authoring documentation also covers topics on:
 * [Fact Sheets](Fact_sheets.md),
 * [Question blocks](Question_blocks/index.md),
 * [Using JSXGraph](JSXGraph.md).
+* [Using GeoGebra](GeoGebra.md).
 
 #### [Input types](Inputs.md)
 

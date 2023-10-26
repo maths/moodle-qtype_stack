@@ -35,6 +35,7 @@ Check
 
 * Run PHP [unit tests](Unit_tests.md).
 * Run code checker.
+* If needed re-build the minified Javascript (e.g. `npx grunt --root=question/type/stack`).
 
 Version numbers
 

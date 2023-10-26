@@ -613,9 +613,9 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">9.81m/s^2</span>', $state->contentsdisplayed);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-            . '<span class="nolink">\( 9{,}81\, {\mathrm{m}}/{\mathrm{s}^2} \)</span></span>, which can be typed in as follows: '
-            . '<code>9,81*m/s^2</code>',
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( 9{,}81\, {\mathrm{m}}/{\mathrm{s}^2} \)</span></span>, which can be typed as '
+            . '<code>9,81*m/s^2</code>, would be correct.',
             $el->get_teacher_answer_display('9.81*m/s^2', '9{,}81\, {\mathrm{m}}/{\mathrm{s}^2}'));
     }
 
@@ -629,9 +629,9 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.81*m/s^2', $state->contentsmodified);
         $this->assertEquals('\[ 9{,}81\, {\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-            . '<span class="nolink">\( 9{,}81\, {\mathrm{m}}/{\mathrm{s}^2} \)</span></span>, which can be typed in as follows: '
-            . '<code>9,81*m/s^2</code>',
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( 9{,}81\, {\mathrm{m}}/{\mathrm{s}^2} \)</span></span>, which can be typed as '
+            . '<code>9,81*m/s^2</code>, would be correct.',
             $el->get_teacher_answer_display($state->contentsmodified, '9{,}81\, {\mathrm{m}}/{\mathrm{s}^2}'));
     }
 
@@ -1155,8 +1155,9 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals('\[ 0.0\, \mathrm{M}\mathrm{Pa} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
         // This can't unit test issue #868, because the 0.0*MPa has not passed through the whole chain of events.
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation"><span class="nolink">' .
-            '\[ \[ 0.0\, \mathrm{M}\mathrm{Pa} \]</span></span> \), which can be typed in as follows: <code>0.0*MPa</code>',
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+            '\[ \[ 0.0\, \mathrm{M}\mathrm{Pa} \]</span></span> \), which can be typed as <code>0.0*MPa</code>' .
+            ', would be correct.',
             $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 

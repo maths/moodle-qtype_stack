@@ -360,6 +360,48 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton('penalty', 'penalty', 'qtype_stack');
         $mform->setDefault('penalty', 0.1000000);
         $mform->addRule('penalty', null, 'required', null, 'client');
+
+        // Search for the need of GeoGebra specific edit-fields.
+        $geogebracount = substr_count($this->get_current_question_text(), "[[/geogebra]]");
+        if ($geogebracount > 0) {
+            // GeoGebra specific edit-fields should be displayed.
+            // Add heading to GeoGebra related edit-form entries.
+            $geogebraheading = $mform->createElement('static', 'stackBlock_geogebra_heading',
+                stack_string('stackBlock_geogebra_heading'));
+            $mform->insertElementBefore($geogebraheading, 'questiontext');
+
+            // Add function to get GeoGebra material_ids in STACK questiontext.
+            function get_geogebra_material_ids($str) {
+                $start = "material_id:\"";
+                $end = "\"";
+                $materialids = array();
+                $startlen = strlen($start);
+                $endlen = strlen($end);
+                $startf = $cons = $conend = 0;
+                while (false !== ($cons = strpos($str, $start, $startf))) {
+                    $cons += $startlen;
+                    $conend = strpos($str, $end, $cons);
+                    if (false === $conend) {
+                        break;
+                    }
+                    $materialids[] = substr($str, $cons, $conend - $cons);
+                    $startf = $conend + $endlen;
+                }
+                return $materialids;
+            }
+            $listofmaterialids = get_geogebra_material_ids($this->get_current_question_text());
+
+            // Use the existing material_ids to dynamically display links in edit-form to geogebra.org.
+            $listofmaterialidslen = count($listofmaterialids);
+            for ($i = 0; $i < $listofmaterialidslen; $i++) {
+                $outmaterial = stack_string('stackBlock_geogebra_link') . ": " . $listofmaterialids[$i];
+                $qgeogebralink = html_writer::link("https://www.geogebra.org/m/" . $listofmaterialids[$i],
+                    $outmaterial, array('target' => 'popup'));
+                $qglinks[$i] = $mform->createElement('static', 'stackBlock_geogebra_link'. $i , '', $qgeogebralink);
+                $mform->insertElementBefore($qglinks[$i], 'questiontext');
+                $mform->addHelpButton('stackBlock_geogebra_link'. $i , 'stackBlock_geogebra_link', 'qtype_stack');
+            }
+        }
     }
 
     /**

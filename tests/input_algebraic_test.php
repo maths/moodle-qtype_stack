@@ -157,9 +157,10 @@ class input_algebraic_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'sans1', 'x^2/(1+x^2)');
         $state = $el->validate_student_response(array('sans1' => 'x^2'), $options, 'x^2/(1+x^2)', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-          . '<span class="nolink">\( \frac{x^2}{1+x^2} \)</span></span>, which can be typed in as follows: '
-          . '<code>x^2/(1+x^2)</code>', $el->get_teacher_answer_display('x^2/(1+x^2)', '\frac{x^2}{1+x^2}'));
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
+          . '<span class="nolink">\( \frac{x^2}{1+x^2} \)</span></span>, which can be typed as '
+          . '<code>x^2/(1+x^2)</code>, would be correct.',
+            $el->get_teacher_answer_display('x^2/(1+x^2)', '\frac{x^2}{1+x^2}'));
 
         $el->set_parameter('showValidation', 1);
         $vr = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive">' .
@@ -277,9 +278,10 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
         $this->assertEquals('1 < x nounand x < 7', $state->contentsmodified);
         $this->assertEquals('\[ 1 < x\,{\mbox{ and }}\, x < 7 \]', $state->contentsdisplayed);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-            . '<span class="nolink">\( 1<x \,{\mbox{and}}\,x<8 \)</span></span>, which can be typed in as follows: '
-            . '<code>1 < x and x < 8</code>', $el->get_teacher_answer_display('1<x nounand x<8', '1<x \,{\mbox{and}}\,x<8'));
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( 1<x \,{\mbox{and}}\,x<8 \)</span></span>, which can be typed as '
+            . '<code>1 < x and x < 8</code>, would be correct.',
+            $el->get_teacher_answer_display('1<x nounand x<8', '1<x \,{\mbox{and}}\,x<8'));
     }
 
     public function test_validate_student_response_algebraic_10() {
@@ -435,9 +437,10 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('2*sqrt(+2)/3', $state->contentsmodified);
         $this->assertEquals('\[ \frac{2\cdot \sqrt{2}}{3} \]', $state->contentsdisplayed);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-            . '<span class="nolink">\( \frac{2\cdot \sqrt{2}}{3} \)</span></span>, which can be typed in as follows: '
-            . '<code>2*sqrt(2)/3</code>', $el->get_teacher_answer_display('2*sqrt(2)/3', '\frac{2\cdot \sqrt{2}}{3}'));
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( \frac{2\cdot \sqrt{2}}{3} \)</span></span>, which can be typed as '
+            . '<code>2*sqrt(2)/3</code>, would be correct.',
+            $el->get_teacher_answer_display('2*sqrt(2)/3', '\frac{2\cdot \sqrt{2}}{3}'));
     }
 
     public function test_validate_student_response_sametype_true_1() {
@@ -828,9 +831,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('lg(27,3)', $state->contentsmodified);
         $this->assertEquals('\[ \log_{3}\left(27\right) \]', $state->contentsdisplayed);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\[ \[ \log_{3}\left(27\right) \]</span></span> \), ' .
-                'which can be typed in as follows: <code>lg(27,3)</code>',
+                'which can be typed as <code>lg(27,3)</code>, would be correct.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 
@@ -841,9 +844,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('lg(23,10)', $state->contentsmodified);
         $this->assertEquals('\[ \log_{10}\left(23\right) \]', $state->contentsdisplayed);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\[ \[ \log_{10}\left(23\right) \]</span></span> \), ' .
-                'which can be typed in as follows: <code>lg(23,10)</code>',
+                'which can be typed as <code>lg(23,10)</code>, would be correct.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 
@@ -854,9 +857,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('lg(19)', $state->contentsmodified);
         $this->assertEquals('\[ \log_{10}\left(19\right) \]', $state->contentsdisplayed);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\[ \[ \log_{10}\left(19\right) \]</span></span> \), ' .
-                'which can be typed in as follows: <code>lg(19)</code>',
+                'which can be typed as <code>lg(19)</code>, would be correct.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 
@@ -967,9 +970,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('3*sin(a*b)', $state->contentsmodified);
         $this->assertEquals('Illegal spaces found in expression <span class="stacksyntaxexample">' .
                 '3*sin(a<span class="stacksyntaxexamplehighlight">_</span>b)</span>.', $state->errors);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 3\, \sin(a \cdot b) \)</span></span>, ' .
-                'which can be typed in as follows: <code>3*sin(a*b)</code>',
+                'which can be typed as <code>3*sin(a*b)</code>, would be correct.',
                 $el->get_teacher_answer_display('3*sin(a*b)', '3\\, \\sin(a \cdot b)'));
     }
 
@@ -1051,9 +1054,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ x= \pm b \]', $state->contentsdisplayed);
         // Internally the teacher's answer will be in the #pm# form, which is not what students type.
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-                . '<span class="nolink">\( x= \pm b \)</span></span>, which can be typed in as follows: '
-                . '<code>x = +-b</code>', $el->get_teacher_answer_display('x= #pm# b', 'x= \pm b'));
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
+                . '<span class="nolink">\( x= \pm b \)</span></span>, which can be typed as '
+                . '<code>x = +-b</code>, would be correct.', $el->get_teacher_answer_display('x= #pm# b', 'x= \pm b'));
     }
 
     public function test_validate_student_response_pm_expr() {
@@ -1067,9 +1070,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ {a \pm b \pm c} \]', $state->contentsdisplayed);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-                . '<span class="nolink">\( {a \pm b \pm c} \)</span></span>, which can be typed in as follows: '
-                . '<code>a+-b+-c</code>', $el->get_teacher_answer_display('a#pm#b#pm#c', '{a \pm b \pm c}'));
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
+                . '<span class="nolink">\( {a \pm b \pm c} \)</span></span>, which can be typed as '
+                . '<code>a+-b+-c</code>, would be correct.', $el->get_teacher_answer_display('a#pm#b#pm#c', '{a \pm b \pm c}'));
     }
 
     public function test_validate_student_response_pm_eq() {
@@ -1083,9 +1086,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('\[ {x \pm a}={y \pm b} \]', $state->contentsdisplayed);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-                . '<span class="nolink">\( {x \pm a}={y \pm b} \)</span></span>, which can be typed in as follows: '
-                . '<code>x+-a = y+-b</code>',
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
+                . '<span class="nolink">\( {x \pm a}={y \pm b} \)</span></span>, which can be typed as '
+                . '<code>x+-a = y+-b</code>, would be correct.',
                 $el->get_teacher_answer_display('x #pm# a = y #pm# b', '{x \pm a}={y \pm b}'));
     }
 
@@ -1112,8 +1115,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('sin(x)', $state->contentsmodified);
         $this->assertEquals('\[ \sin \left( x \right) \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation"><span class="nolink">' .
-                '\[ \[ \sin \left( x \right) \]</span></span> \), which can be typed in as follows: <code>sin(x)</code>',
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\[ \[ \sin \left( x \right) \]</span></span> \), which can be typed as <code>sin(x)</code>,' .
+                ' would be correct.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
                 'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="algebraic-right" value="sin(x)" />',
@@ -1146,9 +1150,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
         // Note the unknown unit is not in roman here.
         $this->assertEquals('\( \left[ a , \mathrm{m} , \mathrm{s} \right]\) ', $state->lvars);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation"><span class="nolink">' .
                 '\[ \[ \frac{9.81\cdot a\cdot \mathrm{m}}{\mathrm{s}} \]</span></span> \), ' .
-                'which can be typed in as follows: <code>9.81*a*m/s</code>',
+                'which can be typed as <code>9.81*a*m/s</code>, would be correct.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 
@@ -1590,9 +1594,10 @@ class input_algebraic_test extends qtype_stack_testcase {
                 '\[ \left(1, 2\right) \]');
         $this->assertEquals('', $state->note);
 
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-                . '<span class="nolink">\( \left(1, -1\right) \)</span></span>, which can be typed in as follows: '
-                . '<code>(1,-1)</code>', $el->get_teacher_answer_display('ntuple(1,-1)', '\left(1, -1\right)'));
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
+                . '<span class="nolink">\( \left(1, -1\right) \)</span></span>, which can be typed as '
+                . '<code>(1,-1)</code>, would be correct.',
+            $el->get_teacher_answer_display('ntuple(1,-1)', '\left(1, -1\right)'));
     }
 
     public function test_validate_student_response_ntuple_forbid() {
@@ -1741,9 +1746,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('You have used the full stop <code>.</code>, but you must use the comma <code>,</code> as a ' .
             'decimal separator!',
             $state->errors);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-            . '<span class="nolink">\( \{3{,}1415 ; 2{,}7100 \right \} \)</span></span>, which can be typed in as follows: '
-            . '<code>{3,1415;2,71}</code>',
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( \{3{,}1415 ; 2{,}7100 \right \} \)</span></span>, which can be typed as '
+            . '<code>{3,1415;2,71}</code>, would be correct.',
             $el->get_teacher_answer_display('{3.1415,2.71}', '\{3{,}1415 ; 2{,}7100 \right \}'));
     }
 
@@ -1761,9 +1766,9 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('<span class="stacksyntaxexample">{3.1415;2.71}</span>', $state->contentsdisplayed);
         $this->assertEquals('You have used the full stop <code>.</code>, but you must use the comma ' .
               '<code>,</code> as a decimal separator!', $state->errors);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">'
-            . '<span class="nolink">\( \{3{,}1415 ; 2{,}7100 \right \} \)</span></span>, which can be typed in as follows: '
-            . '<code>{3,1415;2,71}</code>',
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
+            . '<span class="nolink">\( \{3{,}1415 ; 2{,}7100 \right \} \)</span></span>, which can be typed as '
+            . '<code>{3,1415;2,71}</code>, would be correct.',
             $el->get_teacher_answer_display('{3.1415,2.71}', '\{3{,}1415 ; 2{,}7100 \right \}'));
     }
 

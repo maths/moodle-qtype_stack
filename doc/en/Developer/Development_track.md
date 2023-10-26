@@ -5,8 +5,18 @@
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
+## Version 4.6.0
 
-## Version 4.4.6
+This version will require moodle 4.0+, and will no longer support Moodle 3.x (which ends its general support on 14 November 2022, and security support ends on 11 December 2023.)
+
+Todo: 
+
+1. Change 'core/event' to 'core_filters/events' in input.js and stackjsvle.js.
+2. Strip out parallel DB support in reporting etc.  Search for `stack_determine_moodle_version()`
+
+## Version 4.5.0
+
+Please note, this is the _last_ version of STACK which will support Moodle 3.x.
 
 1. Refactor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
 2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TODO: possible option to change shape at the input level?)
@@ -14,7 +24,8 @@ past development history is documented on [Development history](Development_hist
 4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
 5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
 6. Confirm support for PHP 8.2, (fixes issue #986).
-7. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).
+7. Add in a [GeoGebra block](../Authoring/GeoGebra.md), and see [GeoGebra authoring](../Topics/GeoGebra.md).  Thanks to Tim Lutz for contributing this code as part of the AuthOMath project.
+8. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).
 
 TODO : Parson's problems
 

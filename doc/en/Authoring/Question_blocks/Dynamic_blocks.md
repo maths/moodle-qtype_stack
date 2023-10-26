@@ -72,6 +72,13 @@ var label = "\\({f\\left(x\\right)=\\sqrt{x}}\\)";
 
 Note, this block is _not_ designed to output Maxima expressins in JS format. For example, this block will not convert `x^2` into `x**2`.
 
+## GeoGebra block ##
+
+STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.org](https://geogebra.org) both as static visuals and as a STACK input.  This block is documented fully on the [GeoGebra page](../GeoGebra.md).
+
 ## Parsons block ##
 
 The [Parsons block](../Parsons.md) allows users (e.g. students) to assemble pre-written text into a correct order.  This block can be linked with an input to create a Parsons problem.
+
+
+

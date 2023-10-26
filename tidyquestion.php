@@ -51,6 +51,7 @@ $PAGE->set_pagelayout('admin');
 require_login();
 
 // The URL back to the preview page.
+// TODO, when we drop support for Moodle 3, this link needs to go back to the dashboard, not the preview.
 if (stack_determine_moodle_version() < 400) {
     $returnurl = question_preview_url($questionid, null, null, null, null, $context);
 } else {

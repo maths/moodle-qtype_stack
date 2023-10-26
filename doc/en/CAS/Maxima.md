@@ -138,7 +138,7 @@ STACK loads the contributed Maxima package `log10`.  This defines logarithms to 
 2. `lg` is an alias for \(\log_{10}\), which are logarithms to base \(10\).
     It is not possible to redefine the command `log` to be to the base \(10\).
 
-## Sets, lists, sequences, n-tuples ##
+## Sets, lists, sequences, n-tuples {#sets-lists-sequences-n-tuples}
 
 It is very useful to be able to display expressions such as comma separated lists, and n-tuples
 \[ 1,2,3,4,\cdots \]
@@ -152,7 +152,12 @@ STACK provides an inert function `sequence`.  All this does is display its argum
 * `sequencep` is a predicate to decide if the expression is a sequence.
 * The atom `dotdotdot` is displayed using the tex `\ldots` which looks like \(\ldots\).  This atom cannot be entered by students.
 
-STACK provides an inert function `ntuple`.  All this does is display its arguments with round brackets. For example `ntuple(1,2,3,4)` is displayed \((1,2,3,4)\).  `ntupleify` and `ntuplep` construct and test for ntuples. In strict Maxima syntax `(a,b,c)` is equivalent to `block(a,b,c)`.  If students type in `(a,b,c)` using a STACK input it is filtered to `ntuple(a,b,c)`. Teachers must use the `ntuple` function explicitly to construct question variables, teacher's answers, test cases and so on. The `ntuple` is useful for students to type in coordinates.
+STACK provides an inert function `ntuple`.  All this does is display its arguments with round brackets. For example `ntuple(1,2,3,4)` is displayed \((1,2,3,4)\).  
+
+* `ntupleify` creates an n-tuple from the arguments of the expression.  This turns lists, sets etc. into an n-tuple. 
+* `ntuplep` is a predicate to decide if the expression is an ntuples. 
+
+In strict Maxima syntax `(a,b,c)` is equivalent to `block(a,b,c)`.  If students type in `(a,b,c)` using a STACK input it is filtered to `ntuple(a,b,c)`. Teachers must use the `ntuple` function explicitly to construct question variables, teacher's answers, test cases and so on. The `ntuple` is useful for students to type in coordinates.
 
 If you want to use these functions, then you can create question variables as follows
 

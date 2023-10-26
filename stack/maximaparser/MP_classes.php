@@ -1672,7 +1672,7 @@ class MP_PostfixOp extends MP_Node {
 
 class MP_Indexing extends MP_Node {
     public $target = null;
-    // This is and identifier or a function call.
+    // This is an identifier or a function call.
     public $indices = null;
     // These are MP_List objects.
     public function __construct($target, $indices) {

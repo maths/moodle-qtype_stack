@@ -184,6 +184,9 @@ class castext2_parser_utils {
                     case 'script':
                         $fmt = self::RAWFORMAT;
                         break;
+                    case 'geogebra':
+                        $fmt = self::RAWFORMAT;
+                        break;
                     case 'demarkdown':
                     case 'markdownformat':
                         $fmt = self::MDFORMAT;

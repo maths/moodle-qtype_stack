@@ -56,6 +56,7 @@ $string['stackversionregexp']   = 'The RegExp answer test is not supported after
 $string['stackfileuseerror']    = 'One or more files (e.g. images) are associated internally with the {$a}, but none appear to be used in the current text itself.';
 
 // Strings used on the editing form.
+$string['generalerrors']     = 'There are errors in your question.  Please check carefully below.';
 $string['addanothernode'] = 'Add another node';
 $string['allnodefeedbackmustusethesameformat'] = 'All the feedback for all the nodes in a PRT must use the same text format.';
 $string['answernote'] = 'Answer note';
@@ -83,7 +84,7 @@ $string['boxsize'] = 'Input box size';
 $string['boxsize_help'] = 'Width of the html formfield.';
 $string['boxsize_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Box_Size';
 $string['bulktestindexintro_desc'] = 'The <a href="{$a->link}">run the question tests in bulk script</a> lets you easily run all the STACK questions in a given context. Not only does this test the questions. It is also a good way to re-populate the CAS cache after it has been cleared.';
-$string['dependenciesintro_desc'] = 'Check questions for <a href="{$a->link}">dependencies</a>, such as use of JSXGraph or inclusion of external maxima code.';
+$string['dependenciesintro_desc'] = 'The <a href="{$a->link}">dependencies</a>, checker finds questions with dependencies such as JSXGraph or inclusion of external maxima code.';
 $string['checkanswertype'] = 'Check the type of the response';
 $string['checkanswertype_help'] = 'If yes, answers which are of a different "type" (e.g. expression, equation, matrix, list, set) are rejected as invalid.';
 $string['checkanswertype_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Check_Type';
@@ -186,6 +187,7 @@ $string['inputtypeunits'] = 'Units';
 $string['inputtypeequiv'] = 'Equivalence reasoning';
 $string['inputtypestring'] = 'String';
 $string['inputtypenumerical'] = 'Numerical';
+$string['inputtypegeogebra'] = 'GeoGebra';
 $string['numericalinputmustnumber'] = 'This input expects a number.';
 $string['numericalinputvarsforbidden'] = 'This input expects a number, and so may not contain variables.';
 $string['numericalinputmustfloat'] = 'This input expects a floating point number.';
@@ -402,8 +404,8 @@ $string['ddl_duplicates'] = 'Duplicate values have been found when generating th
 $string['ddl_badanswer'] = 'The model answer field for this input is malformed: <code>{$a}</code>. ';
 $string['ddl_unknown'] = 'STACK received <code>{$a}</code> but this is not listed by the teacher as an option. ';
 
-$string['teacheranswershow']      = 'A correct answer is \( {$a->display} \), which can be typed in as follows: {$a->value}';
-$string['teacheranswershow_disp'] = 'A correct answer is {$a->display}.';
+$string['teacheranswershow']      = 'The answer \( {$a->display} \), which can be typed as {$a->value}, would be correct.';
+$string['teacheranswershow_disp'] = 'The answer {$a->display} would be correct.';
 $string['teacheranswershow_mcq']  = 'A correct answer is: {$a->display}';
 $string['teacheranswershownotes'] = 'A correct answer is not provided for this input.';
 $string['teacheranswerempty']     = 'This input can be left blank.';
@@ -841,7 +843,6 @@ $string['Illegal_illegal_power_of_ten_in_units']  = 'The value may not contain n
 $string['Illegal_input_form_units']               = 'This input expects a numerical value followed or multiplied by an expression defining an unit, e.g. <code>1.23*W/m^2</code>. Note that the unit required here may be something else.';
 $string['Illegal_x10'] = 'Your answer appears to use the character "x" as a multiplication sign.  Please use <code>*</code> for multiplication.';
 
-
 $string['stackBlock_jsxgraph_width']       = 'The width of a JSXGraph must use a known CSS-length unit.';
 $string['stackBlock_jsxgraph_height']      = 'The height of a JSXGraph must use a known CSS-length unit.';
 $string['stackBlock_jsxgraph_width_num']   = 'The numeric portion of the width of a JSXGraph must be a raw number and must not contain any extra chars.';
@@ -853,6 +854,24 @@ $string['stackBlock_jsxgraph_param']       = 'The jsxgraph-block supports only t
 
 $string['stackBlock_parsons_width']       = 'The width of a Parsons block must use a known CSS-length unit.';
 $string['stackBlock_parsons_height']      = 'The height of a Parsons block must use a known CSS-length unit.';
+
+// Define the stackBlock GeoGebra strings.
+$string['stackBlock_geogebra_width']       = 'The width of a GeoGebra Applet must use a known CSS-length unit.';
+$string['stackBlock_geogebra_height']      = 'The height of a GeoGebra Applet must use a known CSS-length unit.';
+$string['stackBlock_geogebra_width_num']   = 'The numeric portion of the width of a GeoGebra Applet must be a raw number and must not contain any extra chars.';
+$string['stackBlock_geogebra_height_num']  = 'The numeric portion of the height of a GeoGebra Applet must be a raw number and must not contain any extra chars.';
+$string['stackBlock_geogebra_underdefined_dimension'] = 'When defining aspect-ratio for the GeoGebra Applet one must define either width or height of the graph.';
+$string['stackBlock_geogebra_overdefined_dimension'] = 'When defining aspect-ratio for the GeoGebra Applet one should only define width or height not both.';
+$string['stackBlock_geogebra_ref']         = 'The geogebra-block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
+$string['stackBlock_geogebra_param']       = 'The geogebra-block supports only these parameters in this context: {$a->param}.';
+$string['stackBlock_geogebra_link']        = 'Link to referenced GeoGebra material';
+$string['stackBlock_geogebra_link_help']   = 'You want to edit this material? If this is your own GeoGebra material at geogebra.org, you can edit it. If this is not your GeoGebra material, you have to copy the material at geogebra.org first. Then you have to publish the material and edit the material_id value below in question text.';
+$string['stackBlock_geogebra_heading']     = 'GeoGebra materials';
+// Define the stackBlock GeoGebra strings for global admin options.
+$string['stackBlock_geogebra_settingdefaultoptions'] = 'Options for GeoGebra in STACK';
+$string['stackBlock_geogebra_settingdefaultoptions_desc'] = 'The documentation for using GeoGebra with STACK is under Authoring/GeoGebra.md';
+$string['stackBlock_geogebrabaseurl'] = 'Link to GeoGebra hosting (optional)';
+$string['stackBlock_geogebrabaseurl_help'] = 'Here you can add a custom link, if you host GeoGebra scripts on your own server. If you just want to use a specific GeoGebra version, use: https://www.geogebra.org/apps/5.0.498.0/web3d (e.g. for version 5.0.498.0)';
 
 // Answer tests.
 $string['stackOptions_AnsTest_values_AlgEquiv']            = "AlgEquiv";
@@ -984,7 +1003,7 @@ $string['ATInt_error_list']          = 'The answer test failed.  Please contact 
 $string['ATInt_const_int']           = 'You need to add a constant of integration. This should be an arbitrary constant, not a number.';
 $string['ATInt_const']               = 'You need to add a constant of integration, otherwise this appears to be correct.  Well done.';
 $string['ATInt_EqFormalDiff']        = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration.  Please ask your teacher about this.';
-$string['ATInt_logabs']              = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, your answer differs from the correct answer in a significant way, that is to say not just, e.g., a constant of integration.  Your teacher may expect you to use the result \(\int\frac{1}{x} dx = \log(|x|)+c\), rather than \(\int\frac{1}{x} dx = \log(x)+c\).  Please ask your teacher about this.';
+$string['ATInt_logabs']              = 'Your teacher may expect you to use the result \(\int\frac{1}{x} dx = \log(|x|)+c\), rather than \(\int\frac{1}{x} dx = \log(x)+c\).  Please ask your teacher about this.';
 $string['ATInt_weirdconst']          = 'The formal derivative of your answer does equal the expression that you were asked to integrate.  However, you have a strange constant of integration.  Please ask your teacher about this.';
 $string['ATInt_logabs_inconsistent'] = 'There appear to be strange inconsistencies between your use of \(\log(...)\) and \(\log(|...|)\).  Please ask your teacher about this.  ';
 $string['ATInt_diff']                = 'It looks like you have differentiated instead!';

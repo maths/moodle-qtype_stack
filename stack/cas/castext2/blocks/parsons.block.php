@@ -164,6 +164,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // For binding we need to import the binding libraries.
         $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
         $r->items[] = new MP_String("import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n");
+        $r->items[] = new MP_String("import {stack_sortable} from '" . stack_cors_link('stacksortable.js') . "';\n");
         // TODO : this should be the sortablejs "binding" library.
         // TODO : note that this sortablejs "binding" library will likely be much simpler, it may just require supplementing sortablejs with the refresh code
         // in Sam's code
@@ -202,32 +203,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         //$r->items[] = new MP_String(';' . "\n");
-
+        // TOOD : abstract some of these as functions to stacksortable.js
         $r->items[] = new MP_String('var state;' . "\n");
         $r->items[] = new MP_String('state = {used: [], available: []};' . "\n");
         $r->items[] = new MP_String('state.available = [...Object.keys(proofSteps)];' . "\n");
 
-		$r->items[] = new MP_String('let usedList = document.getElementById("usedList");' . "\n");
-		$r->items[] = new MP_String('for (const key in state.used) {' . "\n");
-		$r->items[] = new MP_String('let li = document.createElement("li");' . "\n");
-		$r->items[]	= new MP_String('li.innerText = proofSteps[state.used[key]];' . "\n");
-		$r->items[] = new MP_String('li.setAttribute("data-id",key);' . "\n");
-		$r->items[] = new MP_String('li.className = "list-group-item";' . "\n");
-		$r->items[] = new MP_String('usedList.appendChild(li);' . "\n");
-		$r->items[] = new MP_String('};' . "\n");
-		$r->items[] = new MP_String('let existsAvailable = (typeof state.available === "object");' . "\n");
-		$r->items[] = new MP_String('let availableList = document.getElementById("availableList");' . "\n");
-		$r->items[] = new MP_String('if (existsAvailable) {' . "\n");
-		$r->items[] = new MP_String('for (const key in state.available) {' . "\n");
-		$r->items[] = new MP_String('let li = document.createElement("li");' . "\n");
-		$r->items[] = new MP_String('li.innerText = proofSteps[state.available[key]];' . "\n");
-		$r->items[] = new MP_String('li.setAttribute("data-id",key);' . "\n");
-		$r->items[] = new MP_String('li.className = "list-group-item";' . "\n");
-		$r->items[] = new MP_String('availableList.appendChild(li);' . "\n");
-		$r->items[] = new MP_String('};' . "\n");
-		$r->items[] = new MP_String('}' . "\n");
+        $r->items[] = new MP_String('stack_sortable.generate_available(proofSteps, state, "availableList");' . "\n");
 
-        $r->items[] = new MP_String('MathJax.typesetPromise();');
+        $r->items[] = new MP_String('MathJax.typesetPromise();' . "\n");
         $r->items[] = new MP_String('function updateState(newUsed, newAvailable, log_new_state = false) {' . "\n");
         $r->items[] = new MP_String('const newState = {used: [], available: []};' . "\n");
         $r->items[] = new MP_String('newState.used = newUsed.toArray();' . "\n");
@@ -235,25 +218,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_String('state = newState;' . "\n");
         $r->items[] = new MP_String('};' . "\n");
 
-		$r->items[] = new MP_String('var sortableUsed = Sortable.create(usedList, {' . "\n");
-        $r->items[] = new MP_String('animation: 50,' . "\n");
-		$r->items[] = new MP_String('ghostClass: "list-group-item-info",' . "\n");
-		$r->items[] = new MP_String('group: "shared", ' . "\n");
-		$r->items[] = new MP_String('onSort: (evt) => {' . "\n");
-        $r->items[] = new MP_String('updateState(sortableUsed, sortableAvailable, true);' . "\n");
-		$r->items[] = new MP_String('},' . "\n");
-		$r->items[] = new MP_String('});' . "\n");
-		$r->items[] = new MP_String('var sortableAvailable = Sortable.create(availableList, {' . "\n");
-        $r->items[] = new MP_String('animation: 50,' . "\n");
-        $r->items[] = new MP_String('ghostClass: "list-group-item-info",' . "\n");
-		$r->items[] = new MP_String('group: "shared",' . "\n");
-		$r->items[] = new MP_String('onSort: (evt) => {' . "\n");
-        $r->items[] = new MP_String('updateState(sortableUsed, sortableAvailable, false);' . "\n");
-		$r->items[] = new MP_String('},' . "\n");
-		$r->items[] = new MP_String('});' . "\n");
-        // TODO : edon't need divid?
-        // Plug in the div id = board id thing.
-        //$r->items[] = new MP_String('var divid = "parsons"; var BOARDID = divid;');
+        //r->items[] = new MP_String('stack_sortable.create(document.getElementById("usedList"), document.getElementById("availableList"));' . "\n");
+        $r->items[] = new MP_String('var opt3 = {ghostClass: "list-group-item-info", group: "shared", onSort: (evt) => {updateState(sortableUsed,sortableAvailable);}}' . "\n");
+
+        $r->items[] = new MP_String('var sortableUsed = Sortable.create(usedList, opt3);' . "\n");
+        $r->items[] = new MP_String('var sortableAvailable = Sortable.create(availableList, opt3);' . "\n");
+
 
 
         if (count($inputs) > 0) {

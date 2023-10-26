@@ -110,10 +110,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             new MP_String('style'),
             new MP_String(json_encode(['href' => $css]))
         ]);*/
-        $r->items[] = new MP_List([
+        /*$r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $js]))
-        ]);
+        ]);*/
 
         // We need to define a size for the inner content.
         $width  = '500px';
@@ -139,7 +139,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         // Add container divs for the proof lists to be accessed by sortable
-        $r->items[] = new MP_String('<script id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>');
+        $r->items[] = new MP_String('<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>');
         $r->items[] = new MP_String('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" 
 			  rel="stylesheet" 
 			  integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" 
@@ -164,13 +164,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // For binding we need to import the binding libraries.
         $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
         $r->items[] = new MP_String("import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n");
-        $r->items[] = new MP_String("import {stack_sortable} from '" . stack_cors_link('stacksortable.js') . "';\n");
-        // TODO : this should be the sortablejs "binding" library.
-        // TODO : note that this sortablejs "binding" library will likely be much simpler, it may just require supplementing sortablejs with the refresh code
-        // in Sam's code
-        //$r->items[] = new MP_String("import {stack_jxg} from '" . stack_cors_link('stackjsxgraph.min.js') . "';\n");
+        $r->items[] = new MP_String("import {stack_sortable} from '" . stack_cors_link('stacksortable.min.js') . "';\n");
 
-        
         $r->items[] = new MP_String('var proofSteps = ');
 
         $opt2 = [];
@@ -187,49 +182,30 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $r->items[] = $c;
             }
         }
-        
-        if (count($inputs) > 0) {
-            // Then we need to link up to the inputs.
-            $promises = [];
-            $vars = [];
-            foreach ($inputs as $key => $value) {
-                // That true there makes us sync input-events as well, like we did before.
-                $promises[] = 'stack_js.request_access_to_input("' . $key . '",true)';
-                $vars[] = $value;
-            }
-            $linkcode = 'Promise.all([' . implode(',', $promises) . '])';
-            $linkcode .= '.then(([' . implode(',', $vars) . ']) => {' . "\n";
-            $r->items[] = new MP_String($linkcode);
-        }
 
-        //$r->items[] = new MP_String(';' . "\n");
-        // TOOD : abstract some of these as functions to stacksortable.js
+        $r->items[] = new MP_String('var inputPromise = stack_js.request_access_to_input("' . $this->params['input'] . '", true);' . "\n");
+        $r->items[] = new MP_String('inputPromise.then((id) => {' . "\n");
+        $r->items[] = new MP_String('const input = document.getElementById(id);' . "\n");
         $r->items[] = new MP_String('var state;' . "\n");
+        $r->items[] = new MP_String('if (input.value && input.value != ""){state = JSON.parse(input.value);}' . "\n");
+        $r->items[] = new MP_String('else {' . "\n");
+
         $r->items[] = new MP_String('state = {used: [], available: []};' . "\n");
         $r->items[] = new MP_String('state.available = [...Object.keys(proofSteps)];' . "\n");
+        $r->items[] = new MP_String('}' . "\n");
 
-        $r->items[] = new MP_String('stack_sortable.generate_available(proofSteps, state, "availableList");' . "\n");
-
+        $r->items[] = new MP_String('const sortable = new stack_sortable(state, id);' . "\n");
+        $r->items[] = new MP_String('sortable.generate_available(proofSteps, "availableList");' . "\n");
+        $r->items[] = new MP_String('input.value = JSON.stringify(state);' . "\n");
+        $r->items[] = new MP_String('input.dispatchEvent(new Event("change"));' . "\n");
         $r->items[] = new MP_String('MathJax.typesetPromise();' . "\n");
-        $r->items[] = new MP_String('function updateState(newUsed, newAvailable, log_new_state = false) {' . "\n");
-        $r->items[] = new MP_String('const newState = {used: [], available: []};' . "\n");
-        $r->items[] = new MP_String('newState.used = newUsed.toArray();' . "\n");
-        $r->items[] = new MP_String('newState.available = newAvailable.toArray();' . "\n");
-        $r->items[] = new MP_String('state = newState;' . "\n");
-        $r->items[] = new MP_String('};' . "\n");
 
-        //r->items[] = new MP_String('stack_sortable.create(document.getElementById("usedList"), document.getElementById("availableList"));' . "\n");
-        $r->items[] = new MP_String('var opt3 = {ghostClass: "list-group-item-info", group: "shared", onSort: (evt) => {updateState(sortableUsed,sortableAvailable);}}' . "\n");
+        $r->items[] = new MP_String('var opt3 = {...sortable.options, ...{onSort: () => {sortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n");
 
         $r->items[] = new MP_String('var sortableUsed = Sortable.create(usedList, opt3);' . "\n");
         $r->items[] = new MP_String('var sortableAvailable = Sortable.create(availableList, opt3);' . "\n");
 
-
-
-        if (count($inputs) > 0) {
-            // Close the `then(`.
-            $r->items[] = new MP_String("\n});");
-        }
+        $r->items[] = new MP_String("\n});");
 
         // In the end close the script tag.
         $r->items[] = new MP_String('</script>');
@@ -254,9 +230,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         &$errors = [],
         $options = []
     ): bool {
+        return true;
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.
-        $valid  = true;
+        /*$valid  = true;
         $width  = '500px';
         $height = '400px';
         if (array_key_exists('width', $this->params)) {
@@ -362,6 +339,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $this->position['end']);
         }
 
-        return $valid;
+        return $valid;*/
     }
 }

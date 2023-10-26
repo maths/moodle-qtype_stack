@@ -5,48 +5,34 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-export const stack_sortable = {
-    generate_available: function (proofSteps, state, availableId) {
+export const stack_sortable = class {
+
+    constructor(state, inputid, options = {animation: 50}) {
+        this.state = state;
+        this.inputid = inputid;
+        this.options = {...{ghostClass: "list-group-item-info", group: "shared"}, ...options};
+    }
+    
+    generate_available(proofSteps, availableId) {
         let availableList = document.getElementById(availableId);
-        for (const key in state.available) {
+        for (const key in this.state.available) {
             let li = document.createElement("li");
-            li.innerText = proofSteps[state.available[key]];
+            li.innerText = proofSteps[this.state.available[key]];
             li.setAttribute("data-id", key);
             li.className = "list-group-item";
             availableList.append(li);
         };
-    },
+    }
 
-    update_state: function (newUsed, newAvailable) {
+    update_state(newUsed, newAvailable) {
         var newState = {used: [], available: []};
         newState.used = newUsed.toArray();
         newState.available = newAvailable.toArray();
-        state = newState;
-    },
-
-    options: {
-            animation: 50,
-            ghostClass: "list-group-item-info",
-            group: "shared",
-        },
-    /*create: function(usedList, availableList) {
-		var sortableUsed = Sortable.create(usedList, {
-			animation: 50,
-			ghostClass: 'list-group-item-info',
-			group: 'shared', 
-			onSort: () => { 
-				this.update_state(sortableUsed, sortableAvailable);  
-			},
-		});
-		var sortableAvailable = Sortable.create(availableList, {
-			animation: 50,
-			ghostClass: 'list-group-item-info',
-			group: 'shared',
-			onSort: () => { 
-				this.update_state(sortableUsed, sortableAvailable);
-			},
-		});
-    },*/
+        let input = document.getElementById(this.inputid);
+        input.dispatchEvent(new Event('change'));
+        input.value = JSON.stringify(newState);
+        this.state = newState;
+    }
 };
 
 export default {stack_sortable};

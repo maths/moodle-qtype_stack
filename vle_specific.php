@@ -215,8 +215,8 @@ function question_display_options() {
  *     remote version at the time of inclusion.
  *  2. Supports inclusion from http(s)://, contrib(l):// and template(l)://
  *     URLs.
- *  3. contrib:// is special shorthand for fetchign a file from a particular
- *     GitHub side folder. If the "l" suffix is there then the file will be red 
+ *  3. contrib:// is special shorthand for fetching a file from a particular
+ *     GitHub side folder. If the "l" suffix is there then the file will be read 
  *     from a matching local folder, if fetching from GitHub fails we do not
  *     automatically fall-back to the local version.
  *  4. template:// is similalr but has a different folder.
@@ -230,41 +230,47 @@ function stack_fetch_included_content(string $url) {
     $lc = trim(strtolower($url));
     $good = false;
     $islocalfile = false;
-    $error = 'Not a fetchable URL type.';
-    $translated = $url;
-    if (strpos($lc, 'http://') === 0 || strpos($lc, 'https://') === 0) {
-        $good = true;
-    } else if (strpos($lc, 'contrib://') === 0 || strpos($lc, 'contribl://') === 0) {
-        $path = explode('://', $url, 2)[1];
-        if (strpos('..', $path) !== false || strpos('/', $path) === 0) {
-            $error = 'Traversing the directory tree is forbidden.';
-        } else {
-            $good = true;
-            if (strpos($lc, 'contrib://') === 0) {
-                $translated = 'https://raw.githubusercontent.com/maths/moodle-qtype_stack/' .
-                                        'master/stack/maxima/contrib/' . $path;
-            } else {
-                $islocalfile = true;
-                $translated = __DIR__ . '/stack/maxima/contrib/' . $path;
-            }
-        }
-    } else if (strpos($lc, 'template://') === 0 || strpos($lc, 'templatel://') === 0) {
-        $path = explode('://', $url, 2)[1];
-        if (strpos('..', $path) !== false || strpos('/', $path) === 0) {
-            $error = 'Traversing the directory tree is forbidden.';
-        } else {
-            $good = true;
-            if (strpos($lc, 'template://') === 0) {
-                $translated = 'https://raw.githubusercontent.com/maths/moodle-qtype_stack/' .
-                                        'master/stack/cas/castext2/template/' . $path;
-            } else {
-                $islocalfile = true;
-                $translated = __DIR__ . '/stack/cas/castext2/template/' . $path;
-            }
-        }
-    }
     // Not actually passing the $error out now, it is here for documentation
     // and possible future use.
+    $error = 'Not a fetchable URL type.';
+    $translated = $url;
+    if (strpos($url, '://') === false) {
+        $good = false;
+        return false;
+    }
+    $path = explode('://', $url, 2)[1];
+    if (strpos($lc, 'http://') === 0 || strpos($lc, 'https://') === 0) {
+        $good = true;
+    } else {
+        if (strpos($path, '..') !== false || strpos($path, '/') === 0 || strpos($path, '~') === 0) {
+            $error = 'Traversing the directory tree is forbidden.';
+            $good = false;
+            return false;
+        }
+    }
+
+    if (strpos($lc, 'contrib://') === 0 || strpos($lc, 'contribl://') === 0) {
+        $good = true;
+        if (strpos($lc, 'contrib://') === 0) {
+            $translated = 'https://raw.githubusercontent.com/maths/moodle-qtype_stack/' .
+                                    'master/stack/maxima/contrib/' . $path;
+        } else {
+            $islocalfile = true;
+            $translated = __DIR__ . '/stack/maxima/contrib/' . $path;
+        }
+    } else if (strpos($lc, 'template://') === 0 || strpos($lc, 'templatel://') === 0) {
+        $good = true;
+        if (strpos($lc, 'template://') === 0) {
+            $translated = 'https://raw.githubusercontent.com/maths/moodle-qtype_stack/' .
+                                    'master/stack/cas/castext2/template/' . $path;
+        } else {
+            $islocalfile = true;
+            $translated = __DIR__ . '/stack/cas/castext2/template/' . $path;
+        }
+    } else {
+        $good = false;
+        return false;
+    }
 
     if ($good) {
         if (!isset($cache[$translated])) {
@@ -272,7 +278,6 @@ function stack_fetch_included_content(string $url) {
             // Just remember that $islocalfile might be true and you might do
             // something else then.
             if ($islocalfile) {
-                $translated = clean_param($translated, PARAM_SAFEPATH);
                 $cache[$translated] = file_get_contents($translated);
             } else {
                 $translated = clean_param($translated, PARAM_URL);

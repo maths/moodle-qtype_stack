@@ -5,7 +5,7 @@
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
-## Version 4.4.6
+## Version 4.4.7
 
 TODO: 
 

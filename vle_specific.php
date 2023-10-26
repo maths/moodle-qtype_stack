@@ -267,9 +267,6 @@ function stack_fetch_included_content(string $url) {
             $islocalfile = true;
             $translated = __DIR__ . '/stack/cas/castext2/template/' . $path;
         }
-    } else {
-        $good = false;
-        return false;
     }
 
     if ($good) {

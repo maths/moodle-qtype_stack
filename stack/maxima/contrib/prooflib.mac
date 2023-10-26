@@ -20,12 +20,6 @@
 /*  Chris Sangwin, <C.J.Sangwin@ed.ac.uk>                         */
 /*  V1.0 Sept 2023                                                */
 /*                                                                */
-/*  Other files in this directory are sample proofs.              */
-/*  Each must define                                              */
-/*  1. a variable "thm" to hold a statement of the theorem.       */
-/*  2. a variable "proof_steps", which is a list of strings.      */
-/*  3. a variable "proof_ans"                                     */
-/*                                                                */
 /******************************************************************/
 
 /* An example of how to use these functions.
@@ -45,7 +39,8 @@ tap:ev(proof_ans, map(lambda([ex], ex=dispproof), proof_types));
 /* proof_c()     - general proof, with commutative arguments      */
 /*                                                                */
 /* proof_iff()   - if any only if                                 */
-/* proof_cases() - proof by exhaustive cases                      */
+/* proof_cases() - proof by exhaustive cases, the first element   */
+/*                 is assumed to justify the cases.               */
 /* proof_ind()   - proof by induction                             */
 /*                                                                */
 /******************************************************************/
@@ -95,6 +90,12 @@ proof_commutep(ex):=block(
     return(false)
 );
 
+/* Takes a proof tree and flattens this to a list. */
+proof_flatten(ex):=apply(proof, flatten(ev(ex,map(lambda([ex2], ex2="["), proof_types))));
+
+s_test_case(proof_flatten(proof_iff(proof(A,B),proof(C))), proof(A,B,C));
+s_test_case(proof_flatten(proof_c(proof(A,proof(B,C)),proof(D))), proof(A,B,C,D));
+
 /*
  * Create a normalised proof tree. 
  * To establish equivalence of proof trees we compare the normalised form.
@@ -110,6 +111,7 @@ proof_normal(ex) := block(
   return(apply(op(ex), map(proof_normal, args(ex))))
 );
 
+s_test_case(proof_normal(proof_c(B,A,D,C)), proof_c(A,B,C,D));
 s_test_case(proof_normal(proof_iff(B,A)), proof_iff(A,B));
 s_test_case(proof_normal(proof_ind(D,C,B,A)), proof_ind(D,B,C,A));
 s_test_case(proof_normal(proof_cases(D,C,B,A)), proof_cases(D,A,B,C));
@@ -119,6 +121,51 @@ s_test_case(proof_normal(proof_cases(D,C,B,A)), proof_cases(D,A,B,C));
 /*  Assessment functions                                          */
 /*                                                                */
 /******************************************************************/
+
+/* Create a list of all proof trees which are alternatives to this.
+   Clearly this is a potentially exponential algorithm, so use with care!
+*/
+proof_alternatives(ex):=block([p1,p2],
+    p2:proof_one_alternatives(ex),
+    do (p1:p2, p2:proof_one_distrib(p1), if is(p1=p2) then return(proof_ensure_list(p2)))
+);
+
+proof_one_alternatives(pr) := block(
+  if atom(pr) then return(pr),
+  if proof_commutep(pr) then return(apply(pf_one, map(lambda([ex], apply(op(pr), map(proof_one_alternatives, ex))), listify(permutations(args(pr)))))),
+  /* In a proof by exhaustive cases the first element is fixed. */
+  if op(pr)=proof_cases then return(apply(pf_one, map(lambda([ex], apply(op(pr), append([first(args(pr))], map(proof_one_alternatives, ex)))), listify(permutations(rest(args(pr))))))),
+  /* In a proof by induction cases the first element and last elents are fixed. */
+  if op(pr) = proof_ind then return(apply(pf_one, map(lambda([ex], apply(op(pr), append([first(args(pr))],
+      map(proof_one_alternatives, ex), [fourth(args(pr))]))), listify(permutations([second(args(pr)), third(args(pr))]))))),
+  apply(op(pr), map(proof_one_alternatives, args(pr)))
+);
+
+proof_one_distribp(ex):= not(atom(ex)) and is(op(ex)=pf_one);
+
+proof_one_distrib(ex):= block([_a,_i,_l],
+   if atom(ex) then return(ex),
+   if freeof(pf_one, ex) then return(ex),
+   /* If pf_one has worked its way to the top we return the list of options. */ 
+   if is(op(ex)=pf_one) then return(args(ex)),
+   if (listp(ex)) then return(flatten(map(proof_one_distrib, ex))),
+   /* Pull out first argument to have pf_one */
+   _i:sublist_indices(args(ex), proof_one_distribp),
+   /* If none of the arguments need distribution, then go one level down. */
+   if emptyp(_i) then return(apply(op(ex), map(proof_one_distrib, args(ex)))),
+   _i:first(_i),
+   _a:args(part(args(ex),_i)),
+   _l:ev(makelist(k,k,1,length(_a)),simp),
+    /* This list is not free of pf_one, so we take the first. */
+   apply(pf_one, map(lambda([ex2], block([_aa], _aa:copy(args(ex)), _aa[_i]:_a[ex2], return(apply(op(ex),_aa)))), _l))
+);
+
+proof_ensure_list(ex):= if listp(ex) then return(ex) else return([ex]);
+
+
+s_test_case(proof_alternatives(proof(A,B,C,D)), [proof(A,B,C,D)]);
+s_test_case(proof_alternatives(proof_c(A,B)), [proof_c(A,B),proof_c(B,A)]);
+s_test_case(proof_alternatives(proof_ind(A,B,C,D)), [proof_ind(A,B,C,D),proof_ind(A,C,B,D)]);
 
 /*
  * Count the number of matching elements in

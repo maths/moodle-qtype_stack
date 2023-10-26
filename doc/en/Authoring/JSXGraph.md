@@ -88,7 +88,7 @@ In this example we provide a simple slider.  Notice in this example we use the J
       board.unsuspendUpdate();
     [[/jsxgraph]]
 
-## General considerations when building interactive graphs
+## General considerations when building interactive graphs {#manual_binding}
 
 In general you should pay attention on how your graph reacts to the student returning to the page/question later. For example, will your graph 
 reset to display the original situation or will it at least move all movable things to the positions the student last left them? If 

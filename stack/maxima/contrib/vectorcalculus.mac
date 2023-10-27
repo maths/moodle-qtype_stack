@@ -31,9 +31,9 @@ div(u, vars):= block([div_vec],
     return(apply("+", div_vec))
 );
 
-s_test_case(simp) := is(div([x^2*cos(y),y^3],[x,y]) = 2*x*cos(y)+3*y^2);
-s_test_case(simp) := is(div(transpose(matrix([x^2*cos(y),y^3])),[x,y]) = 2*x*cos(y)+3*y^2);
-s_test_case(simp) := is(div(matrix([x^2*cos(y),y^3]),[x,y]) = 2*x*cos(y)+3*y^2);
+s_test_case(div([x^2*cos(y),y^3],[x,y]), 2*x*cos(y)+3*y^2);
+s_test_case(div(transpose(matrix([x^2*cos(y),y^3])),[x,y]), 2*x*cos(y)+3*y^2);
+s_test_case(div(matrix([x^2*cos(y),y^3]),[x,y]), 2*x*cos(y)+3*y^2);
 
 /****************************************************************/
 /* Calculate the curl of a vector-valued function               */

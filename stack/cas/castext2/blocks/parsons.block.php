@@ -38,29 +38,16 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraphcore.min.js'],
         'local' => [
             'css' => 'cors://jsxgraph.min.css',
-            'js' => 'cors://jsxgraphcore.min.js',
+            'js' => 'cors://sortable.min.js',
         ]
     ];
 
     public function compile($format, $options):  ? MP_Node {
-        /* TODO : edit this compile function to turn JSON (decoded in PHP using JSON_decode) into 
-         * relevant Maxima expression. For example, if JSON looks like {"step 1" : 5, "q" : 2, "c" : 1, "g" : 4, "f" : 3},
-         * then compile should give out proof(5, 2, 1, 4, 3) (i.e., MP_Identifier)
-         */
         $r = new MP_List([new MP_String('iframe')]);
 
-        // We need to transfer the parameters forward.
-        // Only the size parameters matter.
-        $xpars = [];
-        $inputs = []; // From inputname to variable name.
-        foreach ($this->params as $key => $value) {
-            if (substr($key, 0, 10) !== 'input-ref-') {
-                $xpars[$key] = $value;
-            } else {
-                $inputname = substr($key, 10);
-                $inputs[$inputname] = $value;
-            }
-        }
+        // Define iframe params --------------------------------------------------
+        $xpars = $this->params;
+
         // These are some of the othe parameters we do not need to push forward.
         if (isset($xpars['version'])) {
             unset($xpars['version']);
@@ -77,7 +64,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Set a title.
         $xpars['title'] = 'STACK Parsons ///PARSONS_COUNT///';
 
-        // Figure out what scripts we serve.
+        // Figure out what scripts we serve ---------------------------------------
         $css = self::$namedversions['local']['css'];
         $js = self::$namedversions['local']['js'];
         if (isset($this->params['version']) &&
@@ -96,12 +83,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // Plug in some style and scripts.
         $mathjax = stack_get_mathjax_url();
-        // Silence the MathJax message that blinks on top of every graph.
-        /*$r->items[] = new MP_List([
-            new MP_String('script'),
-            new MP_String(json_encode(['type' => 'text/x-mathjax-config'])),
-            new MP_String('MathJax.Hub.Config({messageStyle: "none"});')
-        ]);*/
         /*$r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))
@@ -115,7 +96,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $js]))
         ]);*/
 
-        // We need to define a size for the inner content.
+        // We need to define a size for the inner content. ---------------------------------
         $width  = '500px';
         $height = '400px';
         $aspectratio = false;
@@ -138,8 +119,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Add container divs for the proof lists to be accessed by sortable
-        $r->items[] = new MP_String('<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>');
+        // Add container divs for the proof lists to be accessed by sortable ------------------
+        $r->items[] = new MP_String('<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>');
         $r->items[] = new MP_String('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" 
 			  rel="stylesheet" 
 			  integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" 
@@ -156,17 +137,15 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                     <ul class="list-group col" id="availableList"></ul>
             </div>
         </div>');
-        // Add the div containing the Parsons sortable list to the doc.
-        // Note that we have two divs, the exterior one defines the size
-        // and the interior one contains two lists
-        $r->items[] = new MP_String('<script type="module">');
 
-        // For binding we need to import the binding libraries.
-        $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
-        $r->items[] = new MP_String("import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n");
-        $r->items[] = new MP_String("import {stack_sortable} from '" . stack_cors_link('stacksortable.min.js') . "';\n");
+        // JS script ------------------------------------------------------------------------------
 
-        $r->items[] = new MP_String('var proofSteps = ');
+        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+        $code .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
+        $code .= "import {stack_sortable} from '" . stack_cors_link('stacksortable.min.js') . "';\n";
+
+        // Extract the proof steps from the inner content
+        $code .= 'var proofSteps = ';
 
         $opt2 = [];
         if ($options !== null) {
@@ -179,36 +158,32 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             // want to do the markdown escaping or any other in it.
             $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
             if ($c !== null) {
-                $r->items[] = $c;
+                $code .= $c->value;
             }
         }
 
-        $r->items[] = new MP_String('var inputPromise = stack_js.request_access_to_input("' . $this->params['input'] . '", true);' . "\n");
-        $r->items[] = new MP_String('inputPromise.then((id) => {' . "\n");
-        $r->items[] = new MP_String('const input = document.getElementById(id);' . "\n");
-        $r->items[] = new MP_String('var state;' . "\n");
-        $r->items[] = new MP_String('if (input.value && input.value != ""){state = JSON.parse(input.value);}' . "\n");
-        $r->items[] = new MP_String('else {' . "\n");
+        // Link up to STACK inputs
+        $code .= 'var inputPromise = stack_js.request_access_to_input("' . $this->params['input'] . '", true);' . "\n";
+        $code .= 'inputPromise.then((id) => {' . "\n";
+        
+        // Generate initial state
+        $code .= 'var state;' . "\n";
+        $code .= 'state = {used: [], available: [...Object.keys(proofSteps)]};' . "\n";
 
-        $r->items[] = new MP_String('state = {used: [], available: []};' . "\n");
-        $r->items[] = new MP_String('state.available = [...Object.keys(proofSteps)];' . "\n");
-        $r->items[] = new MP_String('}' . "\n");
-
-        $r->items[] = new MP_String('const sortable = new stack_sortable(state, id);' . "\n");
-        $r->items[] = new MP_String('sortable.generate_available(proofSteps, "availableList");' . "\n");
-        $r->items[] = new MP_String('input.value = JSON.stringify(state);' . "\n");
-        $r->items[] = new MP_String('input.dispatchEvent(new Event("change"));' . "\n");
-        $r->items[] = new MP_String('MathJax.typesetPromise();' . "\n");
-
-        $r->items[] = new MP_String('var opt3 = {...sortable.options, ...{onSort: () => {sortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n");
-
-        $r->items[] = new MP_String('var sortableUsed = Sortable.create(usedList, opt3);' . "\n");
-        $r->items[] = new MP_String('var sortableAvailable = Sortable.create(availableList, opt3);' . "\n");
-
-        $r->items[] = new MP_String("\n});");
-
-        // In the end close the script tag.
-        $r->items[] = new MP_String('</script>');
+        // Create the sortable objects by filling in the container div
+        $code .= 'const sortable = new stack_sortable(state, id, "availableList");' . "\n";
+        $code .= 'sortable.generate_available(proofSteps);' . "\n";
+        $code .= 'MathJax.typesetPromise();' . "\n";
+        $code .= 'var opts = {...sortable.options, ...{onSort: () => {sortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
+        $code .= 'var sortableUsed = Sortable.create(usedList, opts);' . "\n";
+        $code .= 'var sortableAvailable = Sortable.create(availableList, opts);' . "\n";
+        $code .= "\n});";
+        
+        $r->items[] = new MP_List([
+            new MP_String('script'),
+            new MP_String(json_encode(['type' => 'module'])),
+            new MP_String($code)
+        ]);
 
         return $r;
     }

@@ -29,5 +29,72 @@ Notes
 * Lists are a special case of a tree with one root (the list creation function) and an arbitrary number of nodes in order.  Hence our design explicitly includes traditional Parson's problems as a special case.
 * Teachers who do not want to scaffold explicit block structures (e.g. signal types of proof blocks) can choose to restrict students to (i) flat lists, or (ii) lists of lists.
 
+## Question variables
+
+In the current basic implementation _Question variables_ should be left blank, as they are not used. Shortly, one will be able to define proof steps using Maxima arrays within the _Question variables_ field and include these in the Parsons block as defined in the Question text section.
+
+## Question text
+
+Here is where one should write the text of the proof and also where the Parson's block should be defined, containing the structure of the Parson's problem. Within the header of the Parson's block, ensure that `input="inputvar"` is included, where `inputvar` is the identifier of the input block, for example `input="ans1"` as below. A minimal working example for the proof that _n is odd if and only if n^2 is odd_ is achieved by placing the following in the _Question text_ field:
+````
+<p> Let \(n\) be an integer. Show that \(n\) is odd if and only if \(n^2\) is odd. </p>
+[[ parsons input="ans1" ]]
+{ 
+  "1":"Assume that \\(n\\) is odd.",
+  "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
+  "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]\",
+  "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
+  "5": "Assume that \\(n\\) is even.",
+  "6": "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."
+}
+[[/ parsons ]]
+<p>[[input:ans1]] [[validation:ans1]]</p>
+````
+
+Additional display options including `height` and `width` may also be passed to the header, as in 
+````
+[[ parsons input="ans1" height="360px" width="100%"]]
+{ 
+  "1":"Assume that \\(n\\) is odd.",
+  "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
+  "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]\",
+  "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
+  "5": "Assume that \\(n\\) is even.",
+  "6": "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."
+}
+[[/parsons]]
+````
+
+The Parson's drag and drop lists are created using the Sortable JavaScript library. These lists come with their own set of [options](https://github.com/SortableJS/Sortable#options), currently these are set at the default option for `"animation"` which controls the animation speed.
+````
+{
+    "animation": 50,
+}
+````
+Currently, these cannot be toggled, but shortly one will be able to pass any Sortable option to the lists by having a JSON that is structured as follows in the Parson's block:
+````
+[[ parsons input="ans1" height="360px" width="100%"]]
+{
+    "steps": { 
+        "1":"Assume that \\(n\\) is odd.",
+        "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
+        "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]\",
+        "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
+        "5": "Assume that \\(n\\) is even.",
+        "6": "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."
+    },
+    "options": {
+        "animation" : 150,
+    }
+}
+[[/parsons]]
+````
+
+
+## Input: ans1
+
+The _Input type_ field should be **String**. The _Model answer_ field should be the Maxima representation of the proof solution. For the above example this should be `proof(1, 2, 3, 4)`.
+
+
 
 

@@ -8,18 +8,10 @@ Users interact with the strings, dragging them into a tree structure.  Note, a l
 
 ## Authoring JSON within the question text itself.
 
-Assume the question author writes a list of strings in Maxima, `proof_steps` with both the correct and incorrect strings.
+Here is a basic example of use:
 
 ````
-[[ parsons state="maxima_value1" ]]
-{# stackjson_stringify(proof_steps) #}
-[[/ parsons ]]
-````
-
-or they can avoid strings going via Maimxa at all by writing JSON directly
-
-````
-[[ parsons state="maxima_value1" ]]
+[[ parsons input="ans1" ]]
 { 
   "1":"Assume that \\(n\\) is odd.",
   "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
@@ -29,10 +21,21 @@ or they can avoid strings going via Maimxa at all by writing JSON directly
 [[/ parsons ]]
 ````
 
+Assume the question author writes a list of strings in Maxima, `proof_steps` in the question variables with both the correct and incorrect strings.
+
+````
+[[ parsons input="ans1" ]]
+{# stackjson_stringify(proof_steps) #}
+[[/ parsons ]]
+````
+
+or they can avoid strings going via Maimxa at all by writing JSON directly
+
+
 Both these approaches can be combined
 
 ````
-[[ parsons state="maxima_value1" ]]
+[[ parsons input="ans1" ]]
 { 
   "1":{#proof_steps[1]#},
   "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
@@ -47,7 +50,7 @@ Both these approaches can be combined
 The `[[parsons]]` block is a wrapper for the Javascript library "Sortable.js", optimised and with default options for Parson's problems.  As such, there are a very wide range of options for this javascript library.  These options are all passed into the block as a JSON string.   To do this we separate out the arguments to the block into separate "steps" and "options" fields. 
 
 ````
-[[ parsons state="maxima_value1" ]]
+[[ parsons input="ans1" ]]
 { "steps": {{# stackjson_stringify(proof_steps) #}},
   "options": {....}
 }
@@ -59,5 +62,5 @@ The default options are TODO: confirm the above syntax and the default options!
 ## Block paramaters
 
 1. Parameter `state` gives the tree built up from the keys from which the applet should be initialised.
-2. The applet returns up updated state (indentical format: maxima expression) for evaluation by a PRT.  This is linked to an input with parameter `input-ref-???`.
+2. The applet returns up updated state (indentical format: maxima expression) for evaluation by a PRT.  This is linked to an input with parameter `input=`.
 3. `height` and `width` paramaters exist.  TODO: examples/specs.

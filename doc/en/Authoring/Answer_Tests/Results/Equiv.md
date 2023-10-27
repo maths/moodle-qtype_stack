@@ -1605,6 +1605,20 @@ x),(x+10-5*(x-6))/(x-6)= (4*x-
 <tr class="pass">
   <td class="cell c0">Equiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[1/(a-b)-1/(b-a),stackeq(1/(a-
+b)+1/(b-a))]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">(EMPTYCHAR,QMCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\frac{1}{a-b}-\frac{1}{b-a}& \cr \color{red}{?}&=\frac{1}{a-b}+\frac{1}{b-a}& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[a*x^2+b*x+c=0,a=0 nounand b=0
  nounand c=0,a*x^2+b*x+c=0]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
@@ -2135,25 +2149,6 @@ x-3))]</pre></td>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &2\cdot x^3-9\cdot x^2+10\cdot x-3& \cr &\mbox{Let }x = 1& \cr \color{green}{\Leftrightarrow}&2\cdot 1^3-9\cdot 1^2+10\cdot 1-3& \cr \color{green}{\checkmark}&=0& \cr &\mbox{So}& \cr &2\cdot x^3-9\cdot x^2+10\cdot x-3& \cr \color{green}{\checkmark}&=\left(x-1\right)\cdot \left(2\cdot x^2-7\cdot x+3\right)& \cr \color{green}{\checkmark}&=\left(x-1\right)\cdot \left(2\cdot x-1\right)\cdot \left(x-3\right)& \cr \end{array}\]</td></td>
-</tr>
-<tr class="pass">
-  <td class="cell c0">Equiv</td>
-  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>[2*x^2+x&gt;=6, 2*x^2+x-6&gt;=
-0, (2*x-3)*(x+2)&gt;= 0,((2*x-
-3)&gt;=0 and (x+2)&gt;=0) or (
-(2*x-3)&lt;=0 and (x+2)&lt;=0)
-, (x&gt;=3/2 and x&gt;=-2) or 
-(x&lt;=3/2 and x&lt;=-2), x&gt
-;=3/2 or x &lt;=-2]</pre></td>
-  <td class="cell c3"><pre>[]</pre></td>
-  <td class="cell c4"></td>
-  <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
-</tr>
-<tr class="pass">
-  <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &2\cdot x^2+x\geq 6& \cr \color{green}{\Leftrightarrow}&2\cdot x^2+x-6\geq 0& \cr \color{green}{\Leftrightarrow}&\left(2\cdot x-3\right)\cdot \left(x+2\right)\geq 0& \cr \color{green}{\Leftrightarrow}&2\cdot x-3\geq 0\,{\mbox{ and }}\, x+2\geq 0\,{\mbox{ or }}\, 2\cdot x-3\leq 0\,{\mbox{ and }}\, x+2\leq 0& \cr \color{green}{\Leftrightarrow}&x\geq \frac{3}{2}\,{\mbox{ and }}\, x\geq -2\,{\mbox{ or }}\, x\leq \frac{3}{2}\,{\mbox{ and }}\, x\leq -2& \cr \color{green}{\Leftrightarrow}&x\geq \frac{3}{2}\,{\mbox{ or }}\, x\leq -2& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>

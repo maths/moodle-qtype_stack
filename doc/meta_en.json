@@ -439,6 +439,11 @@
         "description":"JSXGraph is a useful tool for creating graphs in your STACK questions."
         },
         {
+        "file":"Advanced_JSXGraph.md",
+        "title":"JSXGraph advanced usage - STACK Documentation",
+        "description":"Advanced features of JSXGraph in STACK questions."
+        },
+        {
         "file":"Variables.md",
         "title":"Question and Answer Variables - STACK Documentation",
         "description":"Information on defining and manipulating CAS variables in STACK."

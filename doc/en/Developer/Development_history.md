@@ -2,6 +2,12 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.4.6
+
+Released October 2023.
+
+This is a bug-fix release.
+
 ## Version 4.4.5
 
 Released July 2023.

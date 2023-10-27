@@ -95,6 +95,10 @@ Currently, these cannot be toggled, but shortly one will be able to pass any Sor
 
 The _Input type_ field should be **String**. The _Model answer_ field should be the Maxima representation of the proof solution. For the above example this should be `proof(1, 2, 3, 4)`.
 
+## Potential response tree: prt1
+
+TODO
+
 
 
 

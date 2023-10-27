@@ -1,5 +1,3 @@
-
-
 # Development track for STACK
 
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The

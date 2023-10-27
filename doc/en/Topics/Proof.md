@@ -5,9 +5,9 @@ In STACK the basic assumption is that a student's answer will be a mathematical 
 A discussion of [_Practical Online Assessment of Mathematical Proof_](https://www.tandfonline.com/doi/abs/10.1080/0020739X.2021.1896813) was given by Sangwin, C.J. and Bickerton, R. (2023), International Journal of Mathematical Education in Science and Technology}, 53(10) doi:10.1080/0020739X.2021.1896813.   This included more structured questions making use of
 
 * faded worked examples and,
-* reading comprehension questions. 
+* reading comprehension questions.
 
-Colleagues assessing proof might also consider [semi-automatic marking](../Moodle/Semi-automatic_Marking.md).
+Colleagues assessing proof might also consider [semi-automatic marking](../Moodle/Semi-automatic_Marking.md) and using [Parson's problems](Parsons.md).
 
 ## Styles
 

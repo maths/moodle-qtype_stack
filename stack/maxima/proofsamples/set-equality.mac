@@ -3,14 +3,14 @@ thm:"Let \\(f: X \\to Y\\) be a function, and assume that \\(A,B \\subset X\\), 
 
 /****************************************************************/
 proof_steps: [
-    "To prove set equality \\(V=W\\) we have to prove two cases: (i) \\(V\\subseteq W\\), and (ii) \\(W\\subseteq V\\).",
-    "Let \\( x\\in f^{-1}(Y\\setminus C) \\).",
-    "Then \\( f(x)\\in Y\\setminus C \\).",
-    "This implies \\( f(x)\\not\\in C \\).",
-    "Hence \\( x\\not\\in f^{-1}(C) \\).",
-    "Hence \\(x\\in  X \\setminus f^{-1}(C)\\).",
-    "Let \\( x\\in X \\setminus f^{-1}(C)\\).",
-    "Hence \\(x\\in  f^{-1}(Y \\setminus C)\\)."
+    ["defn_eq",  "To prove set equality \\(V=W\\) we have to prove two cases: (i) \\(V\\subseteq W\\), and (ii) \\(W\\subseteq V\\)."],
+    ["assume_A", "Let \\( x\\in f^{-1}(Y\\setminus C) \\)."],
+    ["step_a",   "Then \\( f(x)\\in Y\\setminus C \\)."],
+    ["step_b",   "This implies \\( f(x)\\not\\in C \\)."],
+    ["step_c",   "Hence \\( x\\not\\in f^{-1}(C) \\)."],
+    ["conc_A",   "Hence \\(x\\in  X \\setminus f^{-1}(C)\\)."],
+    ["assume_B", "Let \\( x\\in X \\setminus f^{-1}(C)\\)."],
+    ["conc_B",   "Hence \\(x\\in  f^{-1}(Y \\setminus C)\\)."]
 ];
 
 /****************************************************************/

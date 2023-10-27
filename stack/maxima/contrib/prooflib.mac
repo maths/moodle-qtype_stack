@@ -26,7 +26,7 @@
 
 stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/proof-builder/stack/maxima/contrib/prooflib.mac");
 stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/proof-builder/stack/maxima/proofsamples/odd-squaredodd.mac");
-tap:ev(proof_ans, map(lambda([ex], ex=dispproof), proof_types));
+tap:ev(proof_disp_replacesteps(proof_ans, proof_steps), map(lambda([ex], ex=dispproof), proof_types));
 
 {@thm@}
 {@tap@}
@@ -179,27 +179,52 @@ count_matches(l1, l2):= if emptyp(l1) then 0 else
  */
 first_diff(ex):=if is(length(ex)=1) then [] else append([first(ex)-second(ex)], list_diff(rest(ex)));
 
-
-
 /******************************************************************/
 /*                                                                */
 /*  Display functions                                             */
 /*                                                                */
 /******************************************************************/
 
+/*
+ *  Return the step "k" from the proof "pf".
+ */
+proof_getstep(k, pf) := block([keylist],
+    if integerp(k) then return(second(pf[k])),
+    keylist:sublist(pf, lambda([ex], is(first(ex)=k))),
+    if not(emptyp(keylist)) then return(second(first(keylist))),
+    return(sconcat("Error: could not identify step: ", k))
+);
+
+/*
+ * This function replaces integers and keys with the literal strings from the proof.
+ */
+proof_disp_replacesteps(ex, proof_steps) := block(
+   if integerp(ex) or stringp(ex) then return(proof_getstep(ex, proof_steps)),
+   if atom(ex) then return(sconcat("Error: the following atom does not index a step: ", string(ex))),
+   apply(op(ex), map(lambda([ex2], proof_disp_replacesteps(ex2, proof_steps)), args(ex)))
+);
+
+/**
+ * Take a proof of numbered indexes, and translate this into string keys.
+ */
+proof_steps_sub(ex, pf):= block(
+   if integerp(ex) then return(first(proof_steps[ex])),
+   apply(op(ex), map(lambda([ex2], proof_steps_sub(ex2, pf)), args(ex)))
+);
+
 /* Make use of the existing styles.  See https://docs.stack-assessment.org/en/Topics/Proof/ */
 dispproof([ex]) := block([ex1],
-    apply(sconcat, flatten(append(["<div class=\"proof-block\">"], [simplode(map(lambda([ex2], if integerp(ex2) then proof_steps[ex2] else ex2), ex), "<br/>")], ["</div>"])))
+    apply(sconcat, flatten(append(["<div class=\"proof-block\">"], [simplode(ex, "<br/>")], ["</div>"])))
 );
 
 /* Use the summary/details HTML tag.
 dispproof([ex]) := block([ex1],
-    apply(sconcat, flatten(append(["<summary><details><div class=\"proof-block\">"], [simplode(map(lambda([ex2], if integerp(ex2) then proof_steps[ex2] else ex2), ex), "<br/>")], ["</div></details></summary>"])))
+    apply(sconcat, flatten(append(["<summary><details><div class=\"proof-block\">"], [simplode(ex, "<br/>")], ["</div></details></summary>"])))
 );
 */
 
 /* Flatten to a paragraph.
 dispproof([ex]) := block([ex1],
-    apply(sconcat, flatten(append(["<p>"], [simplode(map(lambda([ex2], if integerp(ex2) then proof_steps[ex2] else ex2), ex), " ")], ["</p>"])))
+    apply(sconcat, flatten(append(["<p>"], [simplode(ex, " ")], ["</p>"])))
 );
 */

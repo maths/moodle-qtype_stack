@@ -4,16 +4,16 @@ thm:"\\(\\log_2(3)\\) is irrational.";
 
 /****************************************************************/
 proof_steps: [
-    "Assume, for a contradiction, that \\(\\log_2(3)\\) is rational.",
-    "Then \\(\\log_2(3) = \\frac{p}{q}>0\\) where ",
-    "\\(p\\) and \\(q\\neq 0\\) are positive integers.",
-    "Using the definition of logarithm:",
-    "\\[ 3 = 2^{\\frac{p}{q}}\\]",
-    "\\[ 3^q = 2^p\\]",
-    "The left hand side is always odd and the right hand side is always even.",
-    "This is a contradiction.",
-    "Hence \\(\\log_2(3)\\) is irrational."
+    ["assume",    "Assume, for a contradiction, that \\(\\log_2(3)\\) is rational."],
+    ["defn_rat",  "Then \\(\\log_2(3) = \\frac{p}{q}>0\\) where "],
+    ["defn_rat2", "\\(p\\) and \\(q\\neq 0\\) are positive integers."],
+    ["defn_log",  "Using the definition of logarithm:"],
+    ["defn_log2", "\\[ 3 = 2^{\\frac{p}{q}}\\]"],
+    ["alg",       "\\[ 3^q = 2^p\\]"],
+    ["alg_int",   "The left hand side is always odd and the right hand side is always even."],
+    ["contra",    "This is a contradiction."],
+    ["conc",      "Hence \\(\\log_2(3)\\) is irrational."]
 ];
 
 /****************************************************************/
-proof_ans:proof(1,2,3,4,5,6,7,8,9);
+proof_ans:proof("assume","defn_rat","defn_rat2","defn_log","defn_log2","alg","alg_int","contra","conc");

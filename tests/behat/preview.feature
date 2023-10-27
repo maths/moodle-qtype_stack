@@ -1,4 +1,4 @@
-@qtype @qtype_oumatrix
+@qtype @qtype_stack
 Feature: Test how STACK questions work using Preview in the qeustoin bank
   As a teacher
   In order to check my STACK questions will work for students

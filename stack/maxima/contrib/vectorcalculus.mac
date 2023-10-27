@@ -20,7 +20,6 @@
 /*                                                              */
 /****************************************************************/
 
-
 /****************************************************************/
 /* Calculate the divergence of a vector-valued function         */
 /****************************************************************/
@@ -31,9 +30,10 @@ div(u, vars):= block([div_vec],
     div_vec: map(lambda([ex], ev(diff(funcs[ex],vars[ex]), simp)), ev(makelist(ii,ii,1,length(vars)), simp)),
     return(apply("+", div_vec))
 );
-s_test_case(div([x^2*cos(y),y^3],[x,y]), 2*x*cos(y)+3*y^2)$
-s_test_case(div(transpose(matrix([x^2*cos(y),y^3])),[x,y]), 2*x*cos(y)+3*y^2)$
-s_test_case(div(matrix([x^2*cos(y),y^3]),[x,y]), 2*x*cos(y)+3*y^2)$
+
+s_test_case(div([x^2*cos(y),y^3],[x,y]), 2*x*cos(y)+3*y^2);
+s_test_case(div(transpose(matrix([x^2*cos(y),y^3])),[x,y]), 2*x*cos(y)+3*y^2);
+s_test_case(div(matrix([x^2*cos(y),y^3]),[x,y]), 2*x*cos(y)+3*y^2);
 
 /****************************************************************/
 /* Calculate the curl of a vector-valued function               */

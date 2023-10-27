@@ -40,19 +40,8 @@ require_once(__DIR__ . '/../utils.php');
  */
 class stack_cas_castext2_include extends stack_cas_castext2_block {
 
-    // Avoid retrieving the same file multiple times during the same request.
-    private static $extcache = [];
-
-    private static function file_get_contents($url) {
-        if (isset(self::$extcache[$url])) {
-            return self::$extcache[$url];
-        }
-        self::$extcache[$url] = file_get_contents($url);
-        return self::$extcache[$url];
-    }
-
     public function compile($format, $options): ?MP_Node {
-        $src = self::file_get_contents($this->params['src']);
+        $src = stack_fetch_included_content($this->params['src']);
         if (isset($options['in include'])) {
             // We will need to rethink the validate_extract_attributes()-logic
             // to extract casstrings from nested inclusions. Also loops...
@@ -79,7 +68,7 @@ class stack_cas_castext2_include extends stack_cas_castext2_block {
     public function validate_extract_attributes(): array {
         // This is tricky, we need to validate the attributes of the included content.
         // To do that we need to retrieve it and process it again, luckily this gets cached.
-        $src = self::file_get_contents($this->params['src']);
+        $src = stack_fetch_included_content($this->params['src']);
         if ($src === false) {
             throw new stack_exception('Include block source not accessible: ' . $this->params['src']);
         }

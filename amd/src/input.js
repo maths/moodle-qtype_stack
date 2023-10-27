@@ -423,7 +423,7 @@ define([
     /**
      * Initialise all the inputs in a STACK question.
      *
-     * @param {String} questionDivId id of the outer dic of the question.
+     * @param {String} questionDivId id of the outer div of the question.
      * @param {String} prefix prefix added to the input names for this question.
      * @param {String} qaid Moodle question_attempt id.
      * @param {String[]} inputs names of all the inputs that should have instant validation.
@@ -440,7 +440,7 @@ define([
         // With JS With instant validation, we don't need the Check button, so hide it.
         if (allok && (questionDiv.classList.contains('dfexplicitvaildate') ||
                 questionDiv.classList.contains('dfcbmexplicitvaildate'))) {
-            questionDiv.querySelector('.im-controls input.submit').hidden = true;
+                        questionDiv.querySelector('.im-controls input.submit, .im-controls button.submit').hidden = true;
         }
     }
 

@@ -440,13 +440,7 @@ define([
         // With JS With instant validation, we don't need the Check button, so hide it.
         if (allok && (questionDiv.classList.contains('dfexplicitvaildate') ||
                 questionDiv.classList.contains('dfcbmexplicitvaildate'))) {
-<<<<<<< HEAD
-                    if (!(questionDiv.querySelector('.im-controls input.submit') === null)) {
-                            questionDiv.querySelector('.im-controls input.submit').hidden = true;
-                    }
-=======
                         questionDiv.querySelector('.im-controls input.submit, .im-controls button.submit').hidden = true;
->>>>>>> master
         }
     }
 

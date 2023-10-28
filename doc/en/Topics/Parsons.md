@@ -99,6 +99,3 @@ The _Input type_ field should be **String**. The _Model answer_ field should be 
 
 TODO
 
-
-
-

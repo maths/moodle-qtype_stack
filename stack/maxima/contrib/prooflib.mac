@@ -26,6 +26,9 @@
 
 stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/proof-builder/stack/maxima/contrib/prooflib.mac");
 stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/proof-builder/stack/maxima/proofsamples/odd-squaredodd.mac");
+
+(For local testing: stack_include("contribl://prooflib.mac");)
+
 tap:ev(proof_disp_replacesteps(proof_ans, proof_steps), map(lambda([ex], ex=dispproof), proof_types));
 
 {@thm@}
@@ -162,7 +165,6 @@ proof_one_distrib(ex):= block([_a,_i,_l],
 
 proof_ensure_list(ex):= if listp(ex) then return(ex) else return([ex]);
 
-
 s_test_case(proof_alternatives(proof(A,B,C,D)), [proof(A,B,C,D)]);
 s_test_case(proof_alternatives(proof_c(A,B)), [proof_c(A,B),proof_c(B,A)]);
 s_test_case(proof_alternatives(proof_ind(A,B,C,D)), [proof_ind(A,B,C,D),proof_ind(A,C,B,D)]);
@@ -211,6 +213,12 @@ proof_steps_sub(ex, pf):= block(
    if integerp(ex) then return(first(proof_steps[ex])),
    apply(op(ex), map(lambda([ex2], proof_steps_sub(ex2, pf)), args(ex)))
 );
+
+/**
+ * Replace displayed LaTeX mathematics delimiters with inline.
+ */
+proof_inline_maths(st) := ssubst("\\)", "\\]", ssubst("\\(", "\\[", st));
+s_test_case(proof_inline_maths("\\[ 3 = 2^{\\frac{p}{q}}\\]"), "\\( 3 = 2^{\\frac{p}{q}}\\)");
 
 /* Make use of the existing styles.  See https://docs.stack-assessment.org/en/Topics/Proof/ */
 dispproof([ex]) := block([ex1],

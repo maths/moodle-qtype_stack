@@ -4022,7 +4022,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->check_prt_score('prt1', 0.0, 0.35);
+        $this->check_response_summary('Seed: 1; ans1: x^3 [score]; prt1: # = 0 | prt1-1-F');
         $this->check_answer_note('prt1', 'prt1-1-F');
+        $this->render();
         $this->check_current_output(
             new question_pattern_expectation('/Give an example of a function/'),
             new question_pattern_expectation('/However, in your answer/'),

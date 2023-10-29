@@ -3403,10 +3403,10 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionvariables = "pt:5;ta2:(x-pt)^2";
 
         $q->questiontext = '[[lang code="en,other"]] Give an example of a function \(f(x)\) with a stationary point ' .
-            'at \(x={@pt@}\).[/lang]][[lang code="da"]] Giv et eksempel på en funktion \(f(x)\) med et stationært ' .
-            'punkt ved \(x={@pt@}\). [[/lang]] [[input:ans1]][[validation:ans1]]';
+            'at \(x={@pt@}\).[[/lang]][[lang code="da"]] Giv et eksempel på en funktion \(f(x)\) med et stationært ' .
+            'punkt ved \(x={@pt@}\). [[/lang]] [[input:ans1]][[validation:ans1]][[feedback:prt1]]';
 
-        $q->specificfeedback = '[[feedback:prt1]]';
+        $q->specificfeedback = '';
         $q->penalty = 0.35; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(

@@ -66,6 +66,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'sregexp',            // Uses the SRegExp answer test, and string input.
             'feedbackstyle',      // Test the various feedbackstyle options.
             'multilang',          // Check for mismatching languages.
+            'lang_blocks',        // Check for mismatching languages using STACK's [[lang...]] block mechanism.
             'block_locals',       // Make sure local variables within a block are still permitted student input.
             'validator'           // Test teacher-defined input validators.
         );
@@ -3390,6 +3391,72 @@ class qtype_stack_test_helper extends question_test_helper {
 
         return $q;
     }
+
+    /**
+     * @return qtype_stack_question a question which tests language blocks.
+     */
+    public static function make_stack_question_lang_blocks() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2020112300';
+        $q->name = 'langblocks';
+        $q->questionvariables = "pt:5;ta2:(x-pt)^2";
+
+        $q->questiontext = '[[lang code="en,other"]] Give an example of a function \(f(x)\) with a stationary point ' .
+            'at \(x={@pt@}\).[/lang]][[lang code="da"]] Giv et eksempel på en funktion \(f(x)\) med et stationært ' .
+            'punkt ved \(x={@pt@}\). [[/lang]] [[input:ans1]][[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:prt1]]';
+        $q->penalty = 0.35; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'ta2', new stack_options(),
+            array('boxWidth' => 5, 'allowWords' => ''));
+
+        $q->options->set_option('simplify', true);
+
+        $prt = new stdClass;
+        $prt->name              = 'prt1';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'subst(x=pt,diff(ans1,x))';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '[[lang code="en,other"]]At a stationary point, \\(f\'(x)\\) ' .
+                'should be zero. However, in your answer, \\(f\'({@pt@})={@subst(x=pt,diff(ans1,x))@}\\).[[/lang]]' .
+                '[[lang code="da"]]Ved et stationært punkt skal \\(f\'(x)\\) være nul. Men i dit svar er ' .
+                '\\(f\'({@pt@})={@subst(x=pt,diff(ans2,x))@}\\).[[/lang]]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt1-1-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt1-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+}
 
     /**
      * @return qtype_stack_question.

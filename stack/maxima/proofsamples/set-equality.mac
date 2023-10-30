@@ -16,4 +16,5 @@ proof_steps: [
 /****************************************************************/
 /* This is how the teacher defines their answer, as nested proofs. */
 proof_ans:proof_cases(1,proof(2,3,4,5,6),proof(7,5,4,3,8));
+proof_cases("defn_eq",proof("assume_A","step_a","step_b","step_c","conc_A"),proof("assume_B","step_c","step_b","step_a","conc_B"));
  

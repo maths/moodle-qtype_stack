@@ -71,7 +71,7 @@ The Parson's drag and drop lists are created using the Sortable JavaScript libra
     "animation": 50,
 }
 ````
-Currently, these cannot be toggled, but shortly one will be able to pass any Sortable option to the lists by having a JSON that is structured as follows in the Parson's block:
+Most Sortable options can be toggled by passing a JSON that is structured as follows in the Parson's block:
 ````
 [[ parsons input="ans1" height="360px" width="100%"]]
 {
@@ -89,11 +89,12 @@ Currently, these cannot be toggled, but shortly one will be able to pass any Sor
 }
 [[/parsons]]
 ````
-
+However, note that some options cannot be toggled as they are required for the proper functioning of the Sortable lists. Hence, any user-defined options for `ghostClass` and `group` are overwritten.
 
 ## Input: ans1
 
-The _Input type_ field should be **String**. The _Model answer_ field should be the Maxima representation of the proof solution. For the above example this should be `proof(1, 2, 3, 4)`.
+The _Input type_ field should be **String**. The _Model answer_ field should be the Maxima representation of the proof solution. 
+For the above example this should be `proof(1, 2, 3, 4)`.
 
 ## Potential response tree: prt1
 

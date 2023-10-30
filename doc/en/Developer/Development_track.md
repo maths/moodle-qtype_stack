@@ -25,18 +25,24 @@ Please note, this is the _last_ version of STACK which will support Moodle 3.x.
 7. Add in a [GeoGebra block](../Authoring/GeoGebra.md), and see [GeoGebra authoring](../Topics/GeoGebra.md).  Thanks to Tim Lutz for contributing this code as part of the AuthOMath project.
 8. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).
 
-TODO : Parson's problems
+
+Create a working Parson's block
 
 1. Incorporate prototype into parsons.block.php
 2. Choose default options for Sortable.js and document them
-3. unit tests
-4. choose css : review proof styles in top-level css and choose/propose styles for Parsons
-5. choose Sortable.js version: add to core scripts and minify
+3. Unit tests
+4. Choose css : review proof styles in top-level css and choose/propose styles for Parsons
+   Please choose one list above the other!
+5. Choose Sortable.js version: add to core scripts and minify
 6. Hashing keys
-7. Develop t1.html further with additional functionality (iff/nested list)
+7. Nested list: `nestedSortable`
+8. Do not require an input (teacher's might want to display).
 
 A. All functionality to be JSON strings (as in Sam's code)
 B. Block to accept and produce Maxima proof expressions
+
+1. How can we embed cas content into strings?  E.g. `{@plot(x^2,[x,-2,2])@}`.
+2. Allow teachers to define strings in the question variables, e.g. `{# stackjson_stringify(proof_steps) #}`
 
 Parson's options
 
@@ -45,6 +51,7 @@ Parson's options
 3. Different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this? 
 4. create templates from the start for different proof types
 5. restrict blocks to fixed number of steps
+
 
 TODO: 
 

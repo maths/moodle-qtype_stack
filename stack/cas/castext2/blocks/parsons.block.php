@@ -162,6 +162,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
+        // parse steps and options separately if they exist
+        $code .= 'var userOpts;' . "\n";
+        $code .= 'if (JSON.stringify(Object.keys(proofSteps)) === JSON.stringify([ "steps", "options" ])) {' . "\n";
+        $code .= 'userOpts = proofSteps["options"];' . "\n";
+        $code .= 'proofSteps = proofSteps["steps"];' . "\n";
+        $code .= '}' . "\n";
+
         // Link up to STACK inputs
         $code .= 'var inputPromise = stack_js.request_access_to_input("' . $this->params['input'] . '", true);' . "\n";
         $code .= 'inputPromise.then((id) => {' . "\n";
@@ -171,7 +178,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'state = {used: [], available: [...Object.keys(proofSteps)]};' . "\n";
 
         // Create the sortable objects by filling in the container div
-        $code .= 'const sortable = new stack_sortable(state, id, "availableList");' . "\n";
+        $code .= 'const sortable = new stack_sortable(state, id, "availableList", userOpts);' . "\n";
         $code .= 'sortable.generate_available(proofSteps);' . "\n";
         $code .= 'MathJax.typesetPromise();' . "\n";
         $code .= 'var opts = {...sortable.options, ...{onSort: () => {sortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";

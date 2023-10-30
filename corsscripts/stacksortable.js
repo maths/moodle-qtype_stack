@@ -7,13 +7,21 @@
 
 export const stack_sortable = class {
 
-    constructor(state, inputId, availableId, options = {animation: 50}) {
+    constructor(state, inputId, availableId, options = null) {
         this.state = state;
         this.inputId = inputId;
         this.input = document.getElementById(this.inputId);
         this.availableId = availableId;
         this.available = document.getElementById(this.availableId);
-        this.options = {...{ghostClass: "list-group-item-info", group: "shared"}, ...options};
+        // TODO : additional default options?
+        this.defaultOptions = {animation: 50};
+        if (options == null) {
+            this.userOptions = this.defaultOptions;
+        } else {
+            this.userOptions = Object.assign(this.defaultOptions, options);
+        };
+        // do not allow a user to replace ghostClass or group 
+        this.options = Object.assign(this.userOptions, {ghostClass: "list-group-item-info", group: "shared"});
     }
     
     generate_available(proofSteps) {

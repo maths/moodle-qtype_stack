@@ -117,8 +117,17 @@ class stack_cas_healthcheck {
                 $test['details'] = html_writer::tag('pre', $connection->get_maxima_available());
                 $this->tests[] = $test;
                 break;
+            case 'server':
+                if (!empty($CFG->proxyhost) && !is_proxybypass(get_config('qtype_stack', 'maximacommandserver'))) {
+                    $test = array();
+                    $test['tag'] = 'healthcheckproxysettings';
+                    $test['result'] = false;
+                    $test['summary'] = stack_string('healthcheckproxysettings');
+                    $this->tests[] = $test;
+                    break;
+                }
             default:
-                // Server/optimised.
+                // Server-proxy/optimised.
                 // TODO: add in any specific tests for these setups?
                 break;
         }

@@ -65,7 +65,8 @@ $settings->add(new admin_setting_configselect('qtype_stack/platform',
                 'linux'            => get_string('settingplatformtypelinux',                'qtype_stack'),
                 'linux-optimised'  => get_string('settingplatformtypelinuxoptimised',       'qtype_stack'),
                 'win'              => get_string('settingplatformtypewin',                 'qtype_stack'),
-                'server'           => get_string('settingplatformtypeserver',              'qtype_stack'))));
+                'server'           => get_string('settingplatformtypeserver',              'qtype_stack'),
+                'server-proxy'     => get_string('settingplatformtypeserverproxy',         'qtype_stack'))));
 
 $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
         get_string('settingcasmaximaversion', 'qtype_stack'),

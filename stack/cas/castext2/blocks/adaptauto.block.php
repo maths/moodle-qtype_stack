@@ -25,47 +25,38 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
         $body = new MP_List([new MP_String('%root')]);
 
         $code = "";
-        if (isset($this->params['show_id'])) {
-            $code .= "document.getElementById('stack-adapt-" . $this->params['show_id'] . "').style.display='block';";
+        if (isset($this->params['show_ids'])) {
+            $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
+            foreach ($split_show_id as &$id )
+            {
+                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',true);";
+            }
         }   
-        if (isset($this->params['hide_id'])) {
-            $code .= "document.getElementById('stack-adapt-" . $this->params['hide_id'] . "').style.display='none';";
+        if (isset($this->params['hide_ids'])) {
+            $split_hide_id = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
+            foreach ($split_hide_id as &$id )
+            {
+                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
+            }
         }
 
         $body->items[] = new MP_String('<script>document.addEventListener("DOMContentLoaded", function(){');
         $body->items[] = new MP_String($code);
         $body->items[] = new MP_String('});</script>');
 
-
-/*
-        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
-        $code .= 'stack_js.request_access_to_input("' . $this->params['input'] . '", true).then((id) => {';
-        // So that should give us access to the input.
-        // Once we get the access immediately bind a listener to it.
-        $code .= 'const input = document.getElementById(id);';
-        $code .= 'input.addEventListener("click",(e)=>{';
-        if (isset($this->params['show_id'])) {
-            $code .= 'stack_js.toggle_visibility("' . $this->params['show_id'] . '",true);});';
-        }   
-        if (isset($this->params['hide_id'])) {
-            $code .= 'stack_js.toggle_visibility("' . $this->params['show_id'] . '",false);});';
-        }         
-
-        $code .= '});';
+        // iframe 
 
         // Now add a hidden [[iframe]] with suitable scripts.
-        $body->items[] = new MP_List([
-            new MP_String('iframe'),
-            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
-                    self::$countadaptbuttons . '.'])),
-            new MP_List([
-                new MP_String('script'),
-                new MP_String(json_encode(['type' => 'module'])),
-                new MP_String($code)
-            ])
-        ]);
-
-*/
+        // $body->items[] = new MP_List([
+        //     new MP_String('iframe'),
+        //     new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
+        //             self::$countadaptbuttons . '.'])),
+        //     new MP_List([
+        //         new MP_String('script'),
+        //         new MP_String(json_encode(['type' => 'module'])),
+        //         new MP_String($code)
+        //     ])
+        // ]);
 
         return $body;
     }
@@ -76,15 +67,15 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
 
     public function validate_extract_attributes(): array {
         $r = array();
-        if (!isset($this->params['show_id']) && !isset($this->params['hide_id'])) {
+        if (!isset($this->params['show_ids']) && !isset($this->params['hide_ids'])) {
             return $r;
         }
         return $r;
     }
 
     public function validate(&$errors=[], $options=[]): bool {
-        if (!array_key_exists('show_id', $this->params) && !array_key_exists('hide_id', $this->params)) {
-            $errors[] = new $options['errclass']('Adaptbutton block requires a show_id or a hide_id parameter.', $options['context'] . '/' .
+        if (!array_key_exists('show_ids', $this->params) && !array_key_exists('hide_ids', $this->params)) {
+            $errors[] = new $options['errclass']('Adaptbutton block requires a show_ids or a hide_ids parameter.', $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);
             return false;
         }

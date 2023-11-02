@@ -100,6 +100,3 @@ For the above example this should be `proof(1, 2, 3, 4)`.
 
 TODO
 
-
-
-

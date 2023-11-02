@@ -9,9 +9,20 @@ A discussion of [_Practical Online Assessment of Mathematical Proof_](https://ww
 
 Colleagues assessing proof might also consider [semi-automatic marking](../Moodle/Semi-automatic_Marking.md) and using [Parson's problems](Parsons.md).
 
+## Representation of text-based proof
+
+STACK provides libraries to represent and manage lines of a text-based proof.  The goals are
+
+* to manage strings forming part of a traditional written proof;
+* to represent the macro structure of a proof, arranged into nested blocks;
+* to separate the text of the proof from choices of how to display a proof;
+* to provide teachers with tools to assess students' attempts at [Parson's problems](Parsons.md).
+
+The goals do not include automatic proof checking.
+
 ## Styles
 
-From STACK 4.3 we support the following CSS styles to enable consistent display of mathematical proof, and arguments in general.  General style was also introduced with the [HELM](../Reference/HELM.md) materials.
+We support the following CSS styles to enable consistent display of mathematical proof, and arguments in general.  General style was also introduced with the [HELM](../Reference/HELM.md) materials.
 
 ### `<div class="proof">`
 

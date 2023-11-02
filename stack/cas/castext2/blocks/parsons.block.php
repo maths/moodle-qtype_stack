@@ -145,14 +145,16 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             </div>
         </div>');
 
+        $r->items[] = new MP_String('<script type="module">');
         // JS script ------------------------------------------------------------------------------
 
-        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
-        $code .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
-        $code .= "import {stack_sortable} from '" . stack_cors_link('stacksortable.min.js') . "';\n";
-
+        $importCode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+        $importCode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
+        $importCode .= "import {stack_sortable} from '" . stack_cors_link('stacksortable.min.js') . "';\n";
+        
+        $r->items[] = new MP_String($importCode);
         // Extract the proof steps from the inner content
-        $code .= 'var proofSteps = ';
+        $r->items[] = new MP_String('var proofSteps = ');
 
         $opt2 = [];
         if ($options !== null) {
@@ -166,12 +168,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             // want to do the markdown escaping or any other in it.
             $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
             if ($c !== null) {
-                $code .= $c->value;
+                $r->items[] = $c;
             }
         }
 
         // parse steps and options separately if they exist
-        $code .= 'var userOpts;' . "\n";
+        $code = 'var userOpts;' . "\n";
         $code .= 'if (JSON.stringify(Object.keys(proofSteps)) === JSON.stringify([ "steps", "options" ])) {' . "\n";
         $code .= 'userOpts = proofSteps["options"];' . "\n";
         $code .= 'proofSteps = proofSteps["steps"];' . "\n";
@@ -203,11 +205,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $code .= "\n});";
         };
         
-        $r->items[] = new MP_List([
-            new MP_String('script'),
-            new MP_String(json_encode(['type' => 'module'])),
-            new MP_String($code)
-        ]);
+        $r->items[] = new MP_String($code);
+
+        $r->items[] = new MP_String('</script>');
 
         return $r;
     }

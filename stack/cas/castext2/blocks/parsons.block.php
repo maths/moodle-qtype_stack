@@ -46,8 +46,15 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r = new MP_List([new MP_String('iframe')]);
 
         // Define iframe params --------------------------------------------------
-        $xpars = $this->params;
-
+        $xpars = [];
+        $inputs = []; // From inputname to variable name.
+        foreach ($this->params as $key => $value) {
+            if ($key !== 'input') {
+                $xpars[$key] = $value;
+            } else {
+                $inputs[$key] = $value;
+            }
+        }
         // These are some of the othe parameters we do not need to push forward.
         if (isset($xpars['version'])) {
             unset($xpars['version']);
@@ -153,6 +160,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
         $opt2['in iframe'] = true;
 
+        // TODO: avoid value, as not everything will be a string
         foreach ($this->children as $item) {
             // Assume that all code inside is JavaScript and that we do not
             // want to do the markdown escaping or any other in it.
@@ -170,21 +178,30 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= '}' . "\n";
 
         // Link up to STACK inputs
-        $code .= 'var inputPromise = stack_js.request_access_to_input("' . $this->params['input'] . '", true);' . "\n";
-        $code .= 'inputPromise.then((id) => {' . "\n";
+        if (count($inputs) > 0) {
+            $code .= 'var inputPromise = stack_js.request_access_to_input("' . $this->params['input'] . '", true);' . "\n";
+            $code .= 'inputPromise.then((id) => {' . "\n";
+        } else {
+            $code .= 'var id;' . "\n";
+        };
         
         // Generate initial state
         $code .= 'var state;' . "\n";
         $code .= 'state = {used: [], available: [...Object.keys(proofSteps)]};' . "\n";
 
         // Create the sortable objects by filling in the container div
-        $code .= 'const sortable = new stack_sortable(state, id, "availableList", userOpts);' . "\n";
+        $code .= 'const sortable = new stack_sortable(state, "availableList", id, userOpts);' . "\n";
         $code .= 'sortable.generate_available(proofSteps);' . "\n";
-        $code .= 'MathJax.typesetPromise();' . "\n";
+        if (count($inputs) > 0) {
+            $code .= 'MathJax.typesetPromise();' . "\n";
+        };
         $code .= 'var opts = {...sortable.options, ...{onSort: () => {sortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
         $code .= 'var sortableUsed = Sortable.create(usedList, opts);' . "\n";
         $code .= 'var sortableAvailable = Sortable.create(availableList, opts);' . "\n";
-        $code .= "\n});";
+
+        if (count($inputs) > 0) {
+            $code .= "\n});";
+        };
         
         $r->items[] = new MP_List([
             new MP_String('script'),

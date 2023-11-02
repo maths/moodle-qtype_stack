@@ -7,10 +7,12 @@
 
 export const stack_sortable = class {
 
-    constructor(state, inputId, availableId, options = null) {
+    constructor(state, availableId, inputId = null, options = null) {
         this.state = state;
         this.inputId = inputId;
-        this.input = document.getElementById(this.inputId);
+        if (inputId != null) {
+            this.input = document.getElementById(this.inputId);
+        };
         this.availableId = availableId;
         this.available = document.getElementById(this.availableId);
         // TODO : additional default options?
@@ -28,20 +30,24 @@ export const stack_sortable = class {
         for (const key in this.state.available) {
             let li = document.createElement("li");
             li.innerText = proofSteps[this.state.available[key]];
-            li.setAttribute("data-id", key);
+            li.setAttribute("data-id", this.state.available[key]);
             li.className = "list-group-item";
             this.available.append(li);
         };
-        this.input.value = JSON.stringify(this.state);
-        this.input.dispatchEvent(new Event("change"));
+        if (this.inputId != null) {
+            this.input.value = JSON.stringify(this.state);
+            this.input.dispatchEvent(new Event("change"));
+        };
     }
 
     update_state(newUsed, newAvailable) {
         var newState = {used: [], available: []};
         newState.used = newUsed.toArray();
         newState.available = newAvailable.toArray();
-        this.input.value = JSON.stringify(newState);
-        this.input.dispatchEvent(new Event('change'));
+        if (this.inputId != null) {
+            this.input.value = JSON.stringify(newState);
+            this.input.dispatchEvent(new Event('change'));
+        };
         this.state = newState;
     }
 };

@@ -42,12 +42,12 @@ Here is where one should write the text of the proof and also where the Parson's
 { 
   "1":"Assume that \\(n\\) is odd.",
   "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-  "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]\",
+  "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
   "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
   "5": "Assume that \\(n\\) is even.",
   "6": "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."
-}
-[[/ parsons ]]
+};
+[[/parsons ]]
 <p>[[input:ans1]] [[validation:ans1]]</p>
 ````
 
@@ -57,11 +57,11 @@ Additional display options including `height` and `width` may also be passed to 
 { 
   "1":"Assume that \\(n\\) is odd.",
   "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-  "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]\",
+  "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
   "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
   "5": "Assume that \\(n\\) is even.",
   "6": "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."
-}
+};
 [[/parsons]]
 ````
 
@@ -78,7 +78,7 @@ Most Sortable options can be toggled by passing a JSON that is structured as fol
     "steps": { 
         "1":"Assume that \\(n\\) is odd.",
         "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-        "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]\",
+        "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
         "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
         "5": "Assume that \\(n\\) is even.",
         "6": "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."

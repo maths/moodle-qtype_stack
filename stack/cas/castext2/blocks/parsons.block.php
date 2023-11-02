@@ -162,7 +162,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
         $opt2['in iframe'] = true;
 
-        // TODO: avoid value, as not everything will be a string
         foreach ($this->children as $item) {
             // Assume that all code inside is JavaScript and that we do not
             // want to do the markdown escaping or any other in it.
@@ -174,9 +173,11 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // parse steps and options separately if they exist
         $code = 'var userOpts;' . "\n";
+        $code .= 'if (typeof proofSteps === "string") {proofSteps = JSON.parse(proofSteps);}' . "\n";
         $code .= 'if (JSON.stringify(Object.keys(proofSteps)) === JSON.stringify([ "steps", "options" ])) {' . "\n";
         $code .= 'userOpts = proofSteps["options"];' . "\n";
         $code .= 'proofSteps = proofSteps["steps"];' . "\n";
+        $code .= 'if (typeof proofSteps === "string") {proofSteps = JSON.parse(proofSteps);}' . "\n";
         $code .= '}' . "\n";
 
         // Link up to STACK inputs

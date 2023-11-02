@@ -173,7 +173,7 @@ sa:proof_parsons_interpret(ans1);
 ````
 
 Set up the potential response tree to check if the student's proof `sa` is in the set of possible teacher's proofs.
-The simplest way is `ATAlgEquiv(elementp(sa,tal),true)` to confirm the student's answer is in the set of answers equivalent to teacher's answer.
+The simplest way is `ATAlgEquiv(elementp(sa,tas), true)` to confirm the student's answer is in the set of answers equivalent to teacher's answer.
 
 To see this in action, try the following in the general feedback to display both proof options.
 

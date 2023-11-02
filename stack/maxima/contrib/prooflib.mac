@@ -94,7 +94,7 @@ proof_commutep(ex):=block(
 );
 
 /* Takes a proof tree and flattens this to a list. */
-proof_flatten(ex):=apply(proof, flatten(ev(ex,map(lambda([ex2], ex2="["), proof_types))));
+proof_flatten(ex) := apply(proof, flatten(ev(ex, map(lambda([ex2], ex2="["), proof_types))));
 
 s_test_case(proof_flatten(proof_iff(proof(A,B),proof(C))), proof(A,B,C));
 s_test_case(proof_flatten(proof_c(proof(A,proof(B,C)),proof(D))), proof(A,B,C,D));

@@ -57,6 +57,35 @@ The `[[parsons]]` block is a wrapper for the Javascript library "Sortable.js", o
 [[/ parsons ]]
 ````
 
+The Parson's drag and drop lists are created using the Sortable JavaScript library. These lists come with their own set of [options](https://github.com/SortableJS/Sortable#options), currently these are set at the default option for `"animation"` which controls the animation speed.
+
+````
+{
+    "animation": 50,
+}
+````
+
+Most Sortable options can be toggled by passing a JSON that is structured as follows in the Parson's block:
+
+````
+[[ parsons input="ans1" height="360px" width="100%"]]
+{
+    "steps": { 
+        "1":"Assume that \\(n\\) is odd.",
+        "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
+        "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
+        "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
+        "5": "Assume that \\(n\\) is even.",
+        "6": "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."
+    },
+    "options": {
+        "animation" : 150,
+    }
+}
+[[/parsons]]
+````
+However, note that some options cannot be toggled as they are required for the proper functioning of the Sortable lists. Hence, any user-defined options for `ghostClass` and `group` are overwritten.
+
 The default options are TODO: confirm the above syntax and the default options!
 
 ## Block paramaters
@@ -64,3 +93,20 @@ The default options are TODO: confirm the above syntax and the default options!
 1. Parameter `state` gives the tree built up from the keys from which the applet should be initialised.
 2. The applet returns up updated state (indentical format: maxima expression) for evaluation by a PRT.  This is linked to an input with parameter `input=`.
 3. `height` and `width` paramaters exist.  TODO: examples/specs.
+
+### Block paramaters: `height` and `width`
+
+Additional display options including `height` and `width` may also be passed to the header, as in 
+
+````
+[[ parsons input="ans1" height="360px" width="100%"]]
+{ 
+  "1":"Assume that \\(n\\) is odd.",
+  "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
+  "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
+  "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
+  "5": "Assume that \\(n\\) is even.",
+  "6": "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."
+};
+[[/parsons]]
+````

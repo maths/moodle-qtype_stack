@@ -45,7 +45,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
     public function compile($format, $options):  ? MP_Node {
         $r = new MP_List([new MP_String('iframe')]);
 
-        // Define iframe params --------------------------------------------------
+        // Define iframe params.
         $xpars = [];
         $inputs = []; // From inputname to variable name.
         foreach ($this->params as $key => $value) {
@@ -55,7 +55,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $inputs[$key] = $value;
             }
         }
-        // These are some of the othe parameters we do not need to push forward.
+        // These are some of the other parameters we do not need to push forward.
         if (isset($xpars['version'])) {
             unset($xpars['version']);
         }
@@ -71,7 +71,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Set a title.
         $xpars['title'] = 'STACK Parsons ///PARSONS_COUNT///';
 
-        // Figure out what scripts we serve ---------------------------------------
+        // Figure out what scripts we serve.
         $css = self::$namedversions['local']['css'];
         $js = self::$namedversions['local']['js'];
         if (isset($this->params['version']) &&
@@ -103,8 +103,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $js]))
         ]);*/
 
-        // We need to define a size for the inner content. ---------------------------------
-        $width  = '500px';
+        // We need to define a size for the inner content.
+        $width  = '100%';
         $height = '400px';
         $aspectratio = false;
         if (array_key_exists('width', $xpars)) {
@@ -126,17 +126,17 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Add container divs for the proof lists to be accessed by sortable ------------------
+        // Add container divs for the proof lists to be accessed by sortable.
         $r->items[] = new MP_String('<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>');
         $r->items[] = new MP_String('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" 
-			  rel="stylesheet" 
-			  integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" 
-			  crossorigin="anonymous">
-		<style>body{background-color:inherit;}
-			#usedList:empty {height:50px;background-color:floralwhite}
-			#availableList > li {background-color:lightcoral}
-			#availableList:empty {height:50px;background-color:lightpink} 
-		</style>');
+              rel="stylesheet" 
+              integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" 
+              crossorigin="anonymous">
+            <style>body{background-color:inherit;}
+            #usedList:empty {height:50px;background-color:floralwhite}
+            #availableList > li {background-color:lightcoral}
+            #availableList:empty {height:50px;background-color:lightpink} 
+        </style>');
 
         $r->items[] = new MP_String('<div class="container" style="width:100%;height:100%:">
             <div class="row">
@@ -145,13 +145,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             </div>
         </div>');
 
-        // JS script ------------------------------------------------------------------------------
+        // JS script.
 
         $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $code .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
         $code .= "import {stack_sortable} from '" . stack_cors_link('stacksortable.min.js') . "';\n";
 
-        // Extract the proof steps from the inner content
+        // Extract the proof steps from the inner content.
         $code .= 'var proofSteps = ';
 
         $opt2 = [];
@@ -225,7 +225,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         return [];
     }
 
-    public function validate(
+    public function validate (
         &$errors = [],
         $options = []
     ): bool {

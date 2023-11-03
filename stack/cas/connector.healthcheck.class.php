@@ -121,7 +121,7 @@ class stack_cas_healthcheck {
                 if (!empty($CFG->proxyhost) && !is_proxybypass(get_config('qtype_stack', 'maximacommandserver'))) {
                     $test = [];
                     $test['tag'] = 'healthcheckproxysettings';
-                    $test['result'] = false;
+                    $test['result'] = null;
                     $test['summary'] = stack_string('healthcheckproxysettings');
                     $this->tests[] = $test;
                     break;

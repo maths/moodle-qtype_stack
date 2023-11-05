@@ -93,9 +93,7 @@ Then you can set up the potential response tree to be `ATAlgEquiv(sa,ta)` to con
 
 # Parson's question with block order options
 
-TODO!  To get this following example to work we need to sort out `{# stackjson_stringify(proof_steps) #}` in the Parson's block.
-
-The following Parson's question is an _if and only if_ proof, containing two blocks in order.
+sThe following Parson's question is an _if and only if_ proof, containing two blocks in order.
 
 The input is unchanged from the above example. For the question variables use
 
@@ -131,29 +129,6 @@ The complete question text is
 <p>Let \(n\in\mathbb{N}\).  Show that \(n\) is odd if and only if \(n^2\) is odd. </p>
 [[parsons input="ans1"]]
 {# stackjson_stringify(proof_steps) #}
-[[/parsons ]]
-<p>[[input:ans1]] [[validation:ans1]]</p>
-````
-
-FOR NOW
-
-````
-<p>Let \(n\in\mathbb{N}\).  Show that \(n\) is odd if and only if \(n^2\) is odd. </p>
-[[parsons input="ans1"]]
-{
-    "assodd":     "Assume that \\(n\\) is odd.",
-    "defn_odd":   "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-    "alg_odd":    "\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
-    "def_M_odd":  "Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
-    "conc_odd":   "Hence \\(n^2\\) is odd.",
-
-    "contrapos":  "We reformulate \"\\(n^2\\) is odd \\(\\Rightarrow \\) \\(n\\) is odd \" as the contrapositive.",
-    "assnotodd":  "Assume that \\(n\\) is not odd.",
-    "even":       "Then \\(n\\) is even, and so there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m\\).",
-    "alg_even":   "\\[ n^2 = (2m)^2 = 2(2m^2).\\]",
-    "def_M_even": "Define \\(M=2m^2\\in\\mathbb{Z}\\) then \\(n^2=2M\\).",
-    "conc_even":  "Hence \\(n^2\\) is even."
-};
 [[/parsons ]]
 <p>[[input:ans1]] [[validation:ans1]]</p>
 ````

@@ -24,10 +24,10 @@ export const stack_sortable = class {
         } else {
             this.userOptions = Object.assign(this.defaultOptions, options);
         };
-        // do not allow a user to replace ghostClass or group 
+        // Do not allow a user to replace ghostClass or group.
         this.options = Object.assign(this.userOptions, {ghostClass: "list-group-item-info", group: "shared"});
     }
-    
+
     generate_available(proofSteps) {
         for (const key in this.state.available) {
             let li = document.createElement("li");

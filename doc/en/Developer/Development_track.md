@@ -41,9 +41,6 @@ Create a working Parson's block
 A. All functionality to be JSON strings (as in Sam's code)
 B. Block to accept and produce Maxima proof expressions
 
-1. How can we embed cas content into strings?  E.g. `{@plot(x^2,[x,-2,2])@}`.
-2. Allow teachers to define strings in the question variables, e.g. `{# stackjson_stringify(proof_steps) #}`
-
 Parson's options
 
 1. use once or re-use strings
@@ -52,6 +49,10 @@ Parson's options
 4. create templates from the start for different proof types
 5. restrict blocks to fixed number of steps
 
+Future work.
+
+1. Embed plots into strings draggable blocks:  e.g. `"{@plot(x^2,[x,-1,1],[size,250,250])@}"`.
+   Note, this doesn't work, even defining a variable such as `s1:castext("{@plot(x^2,[x,-1,1],[size,250,250])@}");` and using this.
 
 TODO: 
 

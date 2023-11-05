@@ -21,8 +21,11 @@ We might expect/require two conscious and separate blocks
 1.  Assume \(A\), \(\cdots\), hence \(B\).
 2.  Assume \(B\), \(\cdots\), hence \(A\).
 
-The order in which these two sub-proofs are presented is (normally) irrelevant.  That is the _if and only if_ proof construct allows its two sub-proofs to commute.  This is precisely the same sense in which \(A=B\) and \(B=A\) are equivalent. There are _blocks_ within the proof which can change order. Furthermore, since proofs are often nested blocks these sub-proofs may themselves have acceptable options for correctness. If the student has an opportunity to indicate more structure, then the assessment logic becomes considerably simpler, more reliable and transparent. Actually, we think there is significant educational merit in making this structure explicit and consciously separating proof-structure from the finer grained details.
-It is true that professional mathematicians often omit indicating explicit structure, they abbreviate and omit whole blocks ("the other cases are similar") but these are all further examples of expert reversal.
+The order in which these two sub-proofs are presented is (normally) irrelevant.  That is the _if and only if_ proof construct allows its two sub-proofs to commute.  This is precisely the same sense in which \(A=B\) and \(B=A\) are equivalent. There are _blocks_ within the proof which can change order. Furthermore, since proofs are often nested blocks these sub-proofs may themselves have acceptable options for correctness.
+
+Proofs often contain local variables.  Use of explicit block-structres clarify the local scope of variables, and the local scope of assumptions.
+
+If the student has an opportunity to indicate more structure, then the assessment logic becomes considerably simpler, more reliable and transparent. Actually, we think there is significant educational merit in making this structure explicit and consciously separating proof-structure from the finer grained details. It is true that professional mathematicians often omit indicating explicit structure, they abbreviate and omit whole blocks ("the other cases are similar") but these are all further examples of expert reversal.
 
 Notes
 
@@ -154,7 +157,6 @@ FOR NOW
 [[/parsons ]]
 <p>[[input:ans1]] [[validation:ans1]]</p>
 ````
-
 
 Notice the function `stackjson_stringify` turns the variable `proof_steps` into a JSON object.
 

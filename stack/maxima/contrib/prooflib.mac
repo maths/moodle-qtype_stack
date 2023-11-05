@@ -25,11 +25,12 @@
 /* An example of how to use these functions.
 
 stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/proof-builder/stack/maxima/contrib/prooflib.mac");
-stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/proof-builder/stack/maxima/proofsamples/odd-squaredodd.mac");
+stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/proof-builder/stack/maxima/contrib/proofsamples/odd-squaredodd.mac");
 
-(For local testing: stack_include("contribl://prooflib.mac");)
+stack_include("contribl://prooflib.mac");
+stack_include("contribl://proofsamples/odd-squaredodd.mac");
 
-tap:ev(proof_disp_replacesteps(proof_ans, proof_steps), map(lambda([ex], ex=dispproof), proof_types));
+tap:proof_display(proof_ans, proof_steps);
 
 {@thm@}
 {@tap@}
@@ -49,6 +50,7 @@ tap:ev(proof_disp_replacesteps(proof_ans, proof_steps), map(lambda([ex], ex=disp
 /******************************************************************/
 
 /* General proof functions                                        */
+/* Please update Proof/Proof_CAS_library.md with new types.       */
 
 /* Note, "proof" is assumed to come first in this list, as we use "rest" below for other types. */
 proof_types:[proof, proof_c, proof_iff, proof_cases, proof_ind];
@@ -167,6 +169,7 @@ proof_ensure_list(ex):= if listp(ex) then return(ex) else return([ex]);
 
 s_test_case(proof_alternatives(proof(A,B,C,D)), [proof(A,B,C,D)]);
 s_test_case(proof_alternatives(proof_c(A,B)), [proof_c(A,B),proof_c(B,A)]);
+s_test_case(proof_alternatives(proof_iff(A,B)), [proof_iff(A,B),proof_iff(B,A)]);
 s_test_case(proof_alternatives(proof_ind(A,B,C,D)), [proof_ind(A,B,C,D),proof_ind(A,C,B,D)]);
 
 /*
@@ -209,7 +212,10 @@ proof_getstep(k, pf) := block([keylist],
     if integerp(k) then return(second(pf[k])),
     keylist:sublist(pf, lambda([ex], is(first(ex)=k))),
     if not(emptyp(keylist)) then return(second(first(keylist))),
-    return(sconcat("Error: could not identify step: ", k))
+    /* If the string is not in the pf list, then just return it unchanged.
+       Teachers can use this to adapt proofs which use some of the steps.
+    */
+    k
 );
 
 /*
@@ -222,7 +228,8 @@ proof_disp_replacesteps(ex, proof_steps) := block(
 );
 
 /**
- * Take a proof of numbered indexes, and translate this into string keys.
+ * Take a proof "ex" and a list "pf" of [key, step] pairs and translate this into a proof tree with
+ * the keys replaced by corresponding strings.
  */
 proof_steps_sub(ex, pf):= block(
    if integerp(ex) then return(first(proof_steps[ex])),
@@ -235,10 +242,29 @@ proof_steps_sub(ex, pf):= block(
 proof_inline_maths(st) := ssubst("\\)", "\\]", ssubst("\\(", "\\[", st));
 s_test_case(proof_inline_maths("\\[ 3 = 2^{\\frac{p}{q}}\\]"), "\\( 3 = 2^{\\frac{p}{q}}\\)");
 
+
+/**
+ * Take a proof, and any proof steps and display them using proof CSS.
+ */
+proof_display(proof_ans, proof_steps) := ev(proof_disp_replacesteps(proof_ans, proof_steps), map(lambda([ex], ex=dispproof), proof_types));
+
 /* Make use of the existing styles.  See https://docs.stack-assessment.org/en/Topics/Proof/ */
 dispproof([ex]) := block([ex1],
     apply(sconcat, flatten(append(["<div class=\"proof-block\">"], [simplode(ex, "<br/>")], ["</div>"])))
 );
+
+
+
+/**
+ * Take a proof, and any proof steps and display them using proof CSS.
+ */
+proof_display_para(proof_ans, proof_steps) := ev(proof_disp_replacesteps(proof_ans, proof_steps), map(lambda([ex], ex=dispproof_para), proof_types));
+
+/* Flatten to a paragraph. */
+dispproof_para([ex]) := block([ex1],
+    apply(sconcat, flatten(append(["<p>"], [simplode(ex, " ")], ["</p>"])))
+);
+
 
 /* Use the summary/details HTML tag.
 dispproof([ex]) := block([ex1],
@@ -246,8 +272,3 @@ dispproof([ex]) := block([ex1],
 );
 */
 
-/* Flatten to a paragraph.
-dispproof([ex]) := block([ex1],
-    apply(sconcat, flatten(append(["<p>"], [simplode(ex, " ")], ["</p>"])))
-);
-*/

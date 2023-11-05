@@ -1,28 +1,8 @@
-# Assessment of proof
-
-In STACK the basic assumption is that a student's answer will be a mathematical expression, e.g. a polynomial or an equation.  The facilities for assessing a student's free-form proof is limited.
-
-A discussion of [_Practical Online Assessment of Mathematical Proof_](https://www.tandfonline.com/doi/abs/10.1080/0020739X.2021.1896813) was given by Sangwin, C.J. and Bickerton, R. (2023), International Journal of Mathematical Education in Science and Technology}, 53(10) doi:10.1080/0020739X.2021.1896813.   This included more structured questions making use of
-
-* faded worked examples and,
-* reading comprehension questions.
-
-Colleagues assessing proof might also consider [semi-automatic marking](../Moodle/Semi-automatic_Marking.md) and using [Parson's problems](Parsons.md).
-
-## Representation of text-based proof
-
-STACK provides libraries to represent and manage lines of a text-based proof.  The goals are
-
-* to manage strings forming part of a traditional written proof;
-* to represent the macro structure of a proof, arranged into nested blocks;
-* to separate the text of the proof from choices of how to display a proof;
-* to provide teachers with tools to assess students' attempts at [Parson's problems](Parsons.md).
-
-The goals do not include automatic proof checking.
-
-## Styles
+# CSS Styles for displaying proof
 
 We support the following CSS styles to enable consistent display of mathematical proof, and arguments in general.  General style was also introduced with the [HELM](../Reference/HELM.md) materials.
+
+Note, the precise style will also depend on the styles in your learning environment.  The `class="proof"` styles focus on block structure and layout, e.g. indenting blocks and column layout.  Colour and typeface are generally not specified in the proof styles (although a white background is defined).  Styles are defined in `styles.css` of the top-level of the STACK plugin.
 
 ### `<div class="proof">`
 

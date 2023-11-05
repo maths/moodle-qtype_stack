@@ -688,6 +688,25 @@
       ]
       },
       {
+      "Proof":[
+        {
+        "file":"index.md",
+        "title":"Proof - STACK Documentation",
+        "description":"General discussion of assessment of proof with STACK."
+        },
+        {
+        "file":"Proof_CAS_library.md",
+        "title":"CAS libraries for representing text-based proofs",
+        "description":"Reference documentation on the libraries in STACK for representing text-based proofs."
+        },
+        {
+        "file":"Proof_styles.md",
+        "title":"CSS Styles for displaying proof",
+        "description":"Reference documentation on the CSS styles in STACK for representing text-based proofs."
+        }
+      ]
+      },
+      {
       "Installation":[
         {
         "file":"index.md",

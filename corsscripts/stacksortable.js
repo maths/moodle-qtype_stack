@@ -7,7 +7,7 @@
 
 export const stack_sortable = class {
 
-    constructor(state, availableId, inputId = null, options = null) {
+    constructor(state, availableId, usedId, inputId = null, options = null) {
         this.state = state;
         this.inputId = inputId;
         if (inputId != null) {
@@ -15,6 +15,8 @@ export const stack_sortable = class {
         };
         this.availableId = availableId;
         this.available = document.getElementById(this.availableId);
+        this.usedId = usedId;
+        this.used = document.getElementById(this.usedId);
         // TODO : additional default options?
         this.defaultOptions = {animation: 50};
         if (options == null) {
@@ -34,9 +36,15 @@ export const stack_sortable = class {
             li.className = "list-group-item";
             this.available.append(li);
         };
-        if (this.inputId != null) {
-            this.input.value = JSON.stringify(this.state);
-            this.input.dispatchEvent(new Event("change"));
+    }
+
+    generate_used(proofSteps) {
+        for (const key in this.state.used) {
+            let li = document.createElement("li");
+            li.innerText = proofSteps[this.state.used[key]];
+            li.setAttribute("data-id", this.state.used[key]);
+            li.className = "list-group-item";
+            this.used.append(li);
         };
     }
 

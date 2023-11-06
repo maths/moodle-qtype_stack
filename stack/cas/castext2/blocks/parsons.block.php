@@ -173,11 +173,11 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // parse steps and options separately if they exist
         $code = 'var userOpts;' . "\n";
-        $code .= 'if (typeof proofSteps === "string") {proofSteps = JSON.parse(proofSteps);}' . "\n";
+        $code .= 'if (typeof proofSteps === "string") {proofSteps = Object.fromEntries(new Map(Object.values(JSON.parse(proofSteps))));}' . "\n";
         $code .= 'if (JSON.stringify(Object.keys(proofSteps)) === JSON.stringify([ "steps", "options" ])) {' . "\n";
         $code .= 'userOpts = proofSteps["options"];' . "\n";
         $code .= 'proofSteps = proofSteps["steps"];' . "\n";
-        $code .= 'if (typeof proofSteps === "string") {proofSteps = JSON.parse(proofSteps);}' . "\n";
+        $code .= 'if (typeof proofSteps === "string") {proofSteps = Object.fromEntries(new Map(Object.values(JSON.parse(proofSteps))));}' . "\n";
         $code .= '}' . "\n";
 
         // Link up to STACK inputs
@@ -188,12 +188,20 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $code .= 'var id;' . "\n";
         };
         
-        // Generate initial state
+        // Generate state
         $code .= 'var state;' . "\n";
-        $code .= 'state = {used: [], available: [...Object.keys(proofSteps)]};' . "\n";
+        // If we already have a stored state in the statestringinput input, then we use this state
+        $code .= 'let stateStore = document.getElementById(id);' . "\n";
+        $code .= 'if (stateStore.value && stateStore.value != ""){' . "\n";
+        $code .= 'state = JSON.parse(stateStore.value);}' . "\n";
+
+        // otherwise we generate the initial state based on the contents of the block
+        $code .= 'else {' . "\n";
+        $code .= 'state = {used: [], available: [...Object.keys(proofSteps)]};}' . "\n";
 
         // Create the sortable objects by filling in the container div
-        $code .= 'const sortable = new stack_sortable(state, "availableList", id, userOpts);' . "\n";
+        $code .= 'const sortable = new stack_sortable(state, "availableList", "usedList", id, userOpts);' . "\n";
+        $code .= 'sortable.generate_used(proofSteps);' . "\n";
         $code .= 'sortable.generate_available(proofSteps);' . "\n";
         if (count($inputs) > 0) {
             $code .= 'MathJax.typesetPromise();' . "\n";

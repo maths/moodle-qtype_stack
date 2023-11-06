@@ -36,6 +36,17 @@ Notes
 
 The following is a minimal Parson's question where there student is expected to create a list in one and only one order.
 
+## Question variables
+
+Define the following question variables:
+
+````
+stack_include("contribl://prooflib.mac");
+ta:proof("assume","defn_rat","defn_rat2","defn_log","defn_log2","alg","alg_int","contra","conc");
+````
+
+The optional library `prooflib.mac` contain many useful functions for dealing with student's answers which represent proofs.
+
 ## Question text
 
 The example question text below contains a Parson's block. Within the header of the Parson's block, ensure that `input="inputvar"` is included, where `inputvar` is the identifier of the input, for example `input="ans1"` as below. A minimal working example for the proof that _\(\log_2(3)\) is irrational_ is achieved by placing the following in the _Question text_ field:
@@ -72,15 +83,6 @@ Notes:
 
 ## Potential response tree: prt1
 
-Define the following question variables:
-
-````
-stack_include("contribl://prooflib.mac");
-ta:proof("assume","defn_rat","defn_rat2","defn_log","defn_log2","alg","alg_int","contra","conc");
-````
-
-The optional library `prooflib.mac` contain many useful functions for dealing with student's answers which represent proofs.
-
 Define the feedback variables:
 
 ````
@@ -93,7 +95,7 @@ Then you can set up the potential response tree to be `ATAlgEquiv(sa,ta)` to con
 
 # Parson's question with block order options
 
-sThe following Parson's question is an _if and only if_ proof, containing two blocks in order.
+The following Parson's question is an _if and only if_ proof, containing two blocks in order.
 
 The input is unchanged from the above example. For the question variables use
 
@@ -164,3 +166,8 @@ Notice this proof has two sub-proofs, which can occur in any order.  Therefore w
 </tr></table>
 Can you see the differences between these proofs?
 ````
+
+## Polish and tidy the question.
+
+You should hide the inputs from students with CSS after testing, e.g. `<p style="display:none">...</p>`.
+

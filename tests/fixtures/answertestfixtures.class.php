@@ -104,6 +104,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'inf', '-inf', 0, '', ''),
         array('AlgEquiv', '', '2*inf', 'inf', 0, '', ''),
         array('AlgEquiv', '', '0*inf', '0', 1, '', ''),
+        array('AlgEquiv', '', 'exp(-%i)', 'inf', 0, '', ''),
 
         array('AlgEquiv', '', 'x^(1/2)', 'sqrt(x)', 1, '', 'Powers and roots'),
         array('AlgEquiv', '', 'x', 'sqrt(x^2)', 0, '', ''),

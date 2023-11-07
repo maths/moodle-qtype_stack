@@ -40,10 +40,15 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
             }
         }
 
-        $body->items[] = new MP_String('<script>document.addEventListener("DOMContentLoaded", function(){');
-        $body->items[] = new MP_String($code);
-        $body->items[] = new MP_String('});</script>');
+        // $body->items[] = new MP_String('<script>document.addEventListener("DOMContentLoaded", function(){');
+        // $body->items[] = new MP_String($code);
+        // $body->items[] = new MP_String('});</script>');
     
+        $body->items[] = new MP_List([
+                new MP_String('script'),
+                new MP_String(json_encode(['type' => 'module'])),
+                new MP_String($code)
+        ]);
 
         // Now add a hidden [[iframe]] with suitable scripts.
         // $body->items[] = new MP_List([

@@ -65,6 +65,23 @@ This block allows sections of text to be shown and hidden with a press of an ada
 
 The adaptbutton can hide and reveal multiple adapt-blocks. Separation is done using a semicolon, for example: hide_ids='1;2;3'.
 
+## Adaptauto block ##
+
+This block allows sections of text to be shown and hidden when the DOM is fully loaded. 
+
+    ```
+    [[adapt id='1']]
+    The text will be displayed until adaptauto is loaded.
+    [[/adapt]]
+    [[adapt id='2' hidden='true']]
+    This text is hidden until adaptauto is loaded. Can be used as feedback.
+    [[/adapt]]
+    <!-- Should be in node flase or true feedback -->
+    [[adaptauto show_ids='2' hide_ids='1']][[/adaptauto]]
+    ```
+
+The adaptauto can hide and reveal multiple adapt-blocks. Separation is done using a semicolon, for example: hide_ids='1;2;3'.
+
 ## JSXGraph block ##
 
 STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-bayreuth.de/wiki/](http://jsxgraph.uni-bayreuth.de/wiki/). The key feature of this block is the ability to bind elements of the graph to inputs of the question. See the specific documentation on including [JSXGraph](../JSXGraph.md) elements.

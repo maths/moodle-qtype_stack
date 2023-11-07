@@ -79,7 +79,11 @@ abstract class stack_input {
         'allowWords',
         'forbidFloats',
         'lowestTerms',
-        'sameType');
+        'sameType',
+        'choiceType',
+        'displayType',
+        'buttonTitles', 
+        'matrixSize');
 
     /**
      * From STACK 4.1 we are not going to continue to add input options as columns in the database.
@@ -371,6 +375,19 @@ abstract class stack_input {
                     }
                     if (!$good) {
                         $this->errors[] = stack_string('inputvalidatorerr', array('opt' => $option, 'val' => $arg));
+                    }
+
+                    break;
+                case 'button':
+                    // Perform simple checking of function names: not fully general.
+                    $good = true;
+                    if ($arg === false) {
+                        $good = true;
+                    } else if (!preg_match('/^([a-zA-Z]+|[a-zA-Z]+[0-9a-zA-Z_]*[0-9a-zA-Z]+)$/', $arg)) {
+                        $good = false;
+                    }
+                    if (!$good) {
+                        $this->errors[] = stack_string('inputbuttonerr', array('opt' => $option, 'val' => $arg));
                     }
                     break;
 

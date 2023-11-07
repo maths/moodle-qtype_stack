@@ -196,6 +196,10 @@ class qtype_stack extends question_type {
             $input->strictsyntax       = true;
             $input->insertstars        = $fromform->{$inputname . 'insertstars'};
             $input->syntaxhint         = $fromform->{$inputname . 'syntaxhint'};
+            $input->displaytype        = $fromform->{$inputname . 'displaytype'};
+            $input->choicetype         = $fromform->{$inputname . 'choicetype'};
+            $input->matrixsize         = $fromform->{$inputname . 'matrixsize'};
+            $input->buttontitles       = $fromform->{$inputname . 'buttontitles'};
             $input->syntaxattribute    = $fromform->{$inputname . 'syntaxattribute'};
             $input->forbidwords        = $fromform->{$inputname . 'forbidwords'};
             $input->allowwords         = $fromform->{$inputname . 'allowwords'};
@@ -412,7 +416,7 @@ class qtype_stack extends question_type {
                 array('questionid' => $question->id), 'name',
                 'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
                 'syntaxhint, syntaxattribute, forbidwords, allowwords, forbidfloat, requirelowestterms, ' .
-                'checkanswertype, mustverify, showvalidation, options');
+                'checkanswertype, displaytype, choicetype, matrixsize, buttontitles, mustverify, showvalidation, options');
 
         $question->prts = $DB->get_records('qtype_stack_prts',
                 array('questionid' => $question->id), 'name',
@@ -497,6 +501,10 @@ class qtype_stack extends question_type {
                 'forbidFloats'    => (bool) $inputdata->forbidfloat,
                 'lowestTerms'     => (bool) $inputdata->requirelowestterms,
                 'sameType'        => (bool) $inputdata->checkanswertype,
+                'displayType'     => (int) $inputdata->displaytype,
+                'choiceType'     => (int) $inputdata->choicetype,
+                'matrixSize'     => (int) $inputdata->matrixsize,
+                'buttonTitles'    => $inputdata->buttontitles,
                 'mustVerify'      => (bool) $inputdata->mustverify,
                 'showValidation'  => $inputdata->showvalidation,
                 'options'         => $inputdata->options,
@@ -1183,6 +1191,10 @@ class qtype_stack extends question_type {
             $output .= "      <forbidfloat>{$input->forbidfloat}</forbidfloat>\n";
             $output .= "      <requirelowestterms>{$input->requirelowestterms}</requirelowestterms>\n";
             $output .= "      <checkanswertype>{$input->checkanswertype}</checkanswertype>\n";
+            $output .= "      <displaytype>{$input->displaytype}</displaytype>\n";
+            $output .= "      <choicetype>{$input->choicetype}</choicetype>\n";
+            $output .= "      <matrixsize>{$input->matrixsize}</matrixsize>\n";
+            $output .= "      <buttontitles>{$input->buttontitles}</buttontitles>\n";
             $output .= "      <mustverify>{$input->mustverify}</mustverify>\n";
             $output .= "      <showvalidation>{$input->showvalidation}</showvalidation>\n";
             $output .= "      <options>{$input->options}</options>\n";
@@ -1388,6 +1400,10 @@ class qtype_stack extends question_type {
         $fromform->{$name . 'forbidfloat'}        = $format->getpath($xml, array('#', 'forbidfloat', 0, '#'), 1);
         $fromform->{$name . 'requirelowestterms'} = $format->getpath($xml, array('#', 'requirelowestterms', 0, '#'), 0);
         $fromform->{$name . 'checkanswertype'}    = $format->getpath($xml, array('#', 'checkanswertype', 0, '#'), 0);
+        $fromform->{$name . 'displaytype'}        = $format->getpath($xml, array('#', 'displaytype', 0, '#'), 0);
+        $fromform->{$name . 'choicetype'}         = $format->getpath($xml, array('#', 'choicetype', 0, '#'), 0);
+        $fromform->{$name . 'matrixsize'}         = $format->getpath($xml, array('#', 'matrixsize', 0, '#'), 0);
+        $fromform->{$name . 'buttontitles'}       = $format->getpath($xml, array('#', 'buttontitles', 0, '#'), '');
         $fromform->{$name . 'mustverify'}         = $format->getpath($xml, array('#', 'mustverify', 0, '#'), 1);
         $fromform->{$name . 'showvalidation'}     = $format->getpath($xml, array('#', 'showvalidation', 0, '#'), 1);
         $fromform->{$name . 'options'}            = $format->getpath($xml, array('#', 'options', 0, '#'), '');
@@ -2425,3 +2441,4 @@ class qtype_stack extends question_type {
         return array_keys($compile['required']);
     }
 }
+ 

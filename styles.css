@@ -1,3 +1,126 @@
+/* Style for input type boolean as a button*/
+/* .custom-select.stack-select-clickme:disabled{
+    color: black;
+    background: white;
+    background-color: white;
+} */
+.stack-button{
+    --height: calc(var(--width) / 3);
+    width: var(--width);
+    height: var(--height);
+    cursor: pointer;
+}
+.stack-clickme-button{
+    --width: max-content !important;
+    font-size: 15px;
+    color: black;
+    background-color: #e7e7e7;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 5px #999;
+    transform: translateY(-4px);
+}
+.no-answer.stack-clickme-button{
+    background-color: #1c1c1c;
+    color: white;
+}
+.boolean-pressed {
+    background-color: #2196F3;;
+    color: white;
+    box-shadow: 0 1px #4c81b1d0;
+    transform: translateY(0px);
+}
+.stack-clickme-button.hovered:hover {
+    background-color: grey;
+}
+/* Style for input type boolean as a toggle button*/
+.stack-toggle-button {
+    --width: 80px;
+    position: relative;
+    display: block;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+    border-radius: var(--height);
+}
+.stack-input-toggle-button{
+    display: none;
+}
+.stack-toggle-button .slider::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(var(--height));
+    height: calc(var(--height));
+    border-radius: calc(var(--height) / 2);
+    background-color: #fff;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+    transition: all 0.4s ease-in-out;
+} 
+.stack-toggle-button .slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--height);
+    background-color: #9a9595;
+    transition: all 0.4s ease-in-out;
+}
+.no-answer.stack-toggle-button .slider {
+    background-color: #ccc;
+}
+.stack-input-toggle-button:checked + .slider {
+    background-color: #2196F3;
+}
+.stack-input-toggle-button:checked+.slider::before {
+    transform: translateX(calc(var(--width) - var(--height)));
+}
+/* .que .stack-toogle-button {
+    display: block;
+} */
+.stack-toggle-button .slider-labels {
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 13px;
+    font-family: sans-serif;
+    transition: all 0.4s ease-in-out;
+}
+.no-answer.stack-toggle-button .slider-labels::after {
+    content: '';
+}
+.stack-toggle-button .slider-labels::after {
+    content: attr(data-off);
+    position: absolute;
+    right: 5px;
+    color: #2e2c2c;
+    opacity: 1;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    transition: all 0.4s ease-in-out;
+}
+.stack-toggle-button .slider-labels::before {
+    content: attr(data-on);
+    position: absolute;
+    left: 5px;
+    color: #ffffff;
+    opacity: 0;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4);
+    transition: all 0.4s ease-in-out;
+}
+.stack-input-toggle-button:checked~.slider-labels::after {
+    opacity: 0;
+}
+.stack-input-toggle-button:checked~.slider-labels::before {
+    opacity: 1;
+}
+.stack-parent-toggle-button{
+    display: grid;
+    grid-template-columns: 200px auto;
+    align-items: inherit;
+    gap: 10px;
+}
 /* Style for hint question block */
 details.stack-hint {
     padding: 2px;
@@ -10,7 +133,6 @@ details.stack-hint {
 div.stack-hint-content {
     padding: 10px;
 }
-
 /* Styles used when questions are being attempted. */
 .que.stack .stackruntimeerrror {
     color: #c02200;

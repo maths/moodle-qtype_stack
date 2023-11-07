@@ -41,15 +41,15 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
         }
 
         // Now add a hidden [[iframe]] with suitable scripts.
-        $body->items[] = new MP_List([
-            new MP_String('iframe'),
-            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptauto.'])),
-            new MP_List([
-                new MP_String('script'),
-                new MP_String(json_encode(['type' => 'module'])),
-                new MP_String($code)
-            ])
-        ]);
+        // $body->items[] = new MP_List([
+        //     new MP_String('iframe'),
+        //     new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptauto.'])),
+        //     new MP_List([
+        //         new MP_String('script'),
+        //         new MP_String(json_encode(['type' => 'module'])),
+        //         new MP_String($code)
+        //     ])
+        // ]);
 
         return $body;
     }

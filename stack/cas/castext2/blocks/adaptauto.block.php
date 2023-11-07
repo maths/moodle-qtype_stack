@@ -24,7 +24,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
 
         $body = new MP_List([new MP_String('%root')]);
 
-        $code = "";
+        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
         if (isset($this->params['show_ids'])) {
             $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
             foreach ($split_show_id as &$id )
@@ -43,7 +43,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
         // Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([
             new MP_String('iframe'),
-            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton.'])),
+            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptauto.'])),
             new MP_List([
                 new MP_String('script'),
                 new MP_String(json_encode(['type' => 'module'])),

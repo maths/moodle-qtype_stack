@@ -36,6 +36,17 @@ Notes
 
 The following is a minimal Parson's question where there student is expected to create a list in one and only one order.
 
+## Question variables
+
+Define the following question variables:
+
+````
+stack_include("contribl://prooflib.mac");
+ta:proof("assume","defn_rat","defn_rat2","defn_log","defn_log2","alg","alg_int","contra","conc");
+````
+
+The optional library `prooflib.mac` contain many useful functions for dealing with student's answers which represent proofs.
+
 ## Question text
 
 The example question text below contains a Parson's block. Within the header of the Parson's block, ensure that `input="inputvar"` is included, where `inputvar` is the identifier of the input, for example `input="ans1"` as below. A minimal working example for the proof that _\(\log_2(3)\) is irrational_ is achieved by placing the following in the _Question text_ field:
@@ -72,15 +83,6 @@ Notes:
 
 ## Potential response tree: prt1
 
-Define the following question variables:
-
-````
-stack_include("contribl://prooflib.mac");
-ta:proof("assume","defn_rat","defn_rat2","defn_log","defn_log2","alg","alg_int","contra","conc");
-````
-
-The optional library `prooflib.mac` contain many useful functions for dealing with student's answers which represent proofs.
-
 Define the feedback variables:
 
 ````
@@ -92,8 +94,6 @@ The student's answer will be a _JSON string_, but we need to interpret which of 
 Then you can set up the potential response tree to be `ATAlgEquiv(sa,ta)` to confirm the student's answer is the same as the teacher's answer.
 
 # Parson's question with block order options
-
-TODO!  To get this following example to work we need to sort out `{# stackjson_stringify(proof_steps) #}` in the Parson's block.
 
 The following Parson's question is an _if and only if_ proof, containing two blocks in order.
 
@@ -135,29 +135,6 @@ The complete question text is
 <p>[[input:ans1]] [[validation:ans1]]</p>
 ````
 
-FOR NOW
-
-````
-<p>Let \(n\in\mathbb{N}\).  Show that \(n\) is odd if and only if \(n^2\) is odd. </p>
-[[parsons input="ans1"]]
-{
-    "assodd":     "Assume that \\(n\\) is odd.",
-    "defn_odd":   "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-    "alg_odd":    "\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
-    "def_M_odd":  "Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
-    "conc_odd":   "Hence \\(n^2\\) is odd.",
-
-    "contrapos":  "We reformulate \"\\(n^2\\) is odd \\(\\Rightarrow \\) \\(n\\) is odd \" as the contrapositive.",
-    "assnotodd":  "Assume that \\(n\\) is not odd.",
-    "even":       "Then \\(n\\) is even, and so there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m\\).",
-    "alg_even":   "\\[ n^2 = (2m)^2 = 2(2m^2).\\]",
-    "def_M_even": "Define \\(M=2m^2\\in\\mathbb{Z}\\) then \\(n^2=2M\\).",
-    "conc_even":  "Hence \\(n^2\\) is even."
-};
-[[/parsons ]]
-<p>[[input:ans1]] [[validation:ans1]]</p>
-````
-
 Notice the function `stackjson_stringify` turns the variable `proof_steps` into a JSON object.
 
 Notice in this example the teacher's proof is nested.  This can be seen if we use numerical keys, not string keys and define 
@@ -189,3 +166,8 @@ Notice this proof has two sub-proofs, which can occur in any order.  Therefore w
 </tr></table>
 Can you see the differences between these proofs?
 ````
+
+## Polish and tidy the question.
+
+You should hide the inputs from students with CSS after testing, e.g. `<p style="display:none">...</p>`.
+

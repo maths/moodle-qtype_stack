@@ -110,3 +110,14 @@ Additional display options including `height` and `width` may also be passed to 
 };
 [[/parsons]]
 ````
+
+## Adding plots to a Parson's block
+
+TODO: confirm if we can embed HTML.  If so, then the following should work.
+
+Since HTML can be embedded into strings dragged within a Parson's block, images can be included with the HTML `<img>` tags as normal.
+
+STACK-generated [plots](../Plots/index.md) cannot be included just using `{@plot(x^2,[x,-1,1])@}` as might be expected.  This is because of the _order_ of evaluation.  The full URL of the image is only created in the (complex) chain of events after the value has been substituted into the Javascript code. Instead, to embed STACK-generated images evaluate a static string using the Maxima `castext` function, and then use the value of `s1` in the Parson's block.  For example.
+
+    s1:castext("{@plot(x^2,[x,-1,1],[size,250,250])@}");
+

@@ -102,10 +102,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $js]))
         ]);*/
-        $resizeScript = '<script type="text/javascript">' . "\n";
+        /*$resizeScript = '<script type="text/javascript">' . "\n";
         $resizeScript .= 'function resizeIframe(iframe) {' . "\n";
         $resizeScript .= 'iframe.height = iframe.contentWindow.document.body.scrollHeight + "px";}' . "\n";
-        $resizeScript .= '</script>';
+        $resizeScript .= '</script>';*/
 
         // We need to define a size for the inner content.
         $width  = '100%';
@@ -209,7 +209,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'sortable.generate_available(proofSteps);' . "\n";
 
         if (count($inputs) > 0) {
-            //$code .= 'MathJax.typesetPromise();' . "\n";
+            $code .= 'MathJax.typesetPromise();' . "\n";
         };
         $code .= 'var opts = {...sortable.options, ...{onSort: () => {sortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
         $code .= 'var sortableUsed = Sortable.create(usedList, opts);' . "\n";

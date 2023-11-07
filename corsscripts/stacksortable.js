@@ -31,7 +31,7 @@ export const stack_sortable = class {
     generate_available(proofSteps) {
         for (const key in this.state.available) {
             let li = document.createElement("li");
-            li.innerText = proofSteps[this.state.available[key]];
+            li.innerHTML = proofSteps[this.state.available[key]];
             li.setAttribute("data-id", this.state.available[key]);
             li.className = "list-group-item";
             this.available.append(li);
@@ -41,7 +41,7 @@ export const stack_sortable = class {
     generate_used(proofSteps) {
         for (const key in this.state.used) {
             let li = document.createElement("li");
-            li.innerText = proofSteps[this.state.used[key]];
+            li.innerHTML = proofSteps[this.state.used[key]];
             li.setAttribute("data-id", this.state.used[key]);
             li.className = "list-group-item";
             this.used.append(li);

@@ -102,10 +102,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $js]))
         ]);*/
+        $resizeScript = '<script type="text/javascript">' . "\n";
+        $resizeScript .= 'function resizeIframe(iframe) {' . "\n";
+        $resizeScript .= 'iframe.height = iframe.contentWindow.document.body.scrollHeight + "px";}' . "\n";
+        $resizeScript .= '</script>';
 
         // We need to define a size for the inner content.
         $width  = '100%';
-        $height = '400px';
+        $height = '100px';
         $aspectratio = false;
         if (array_key_exists('width', $xpars)) {
             $width = $xpars['width'];
@@ -138,7 +142,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             #availableList:empty {height:50px;background-color:lightpink} 
         </style>');
 
-        $r->items[] = new MP_String('<div class="container" style="width:100%;height:100%:">
+        $r->items[] = new MP_String('<div class="container" style="' . $astyle . '">
             <div class="row">
                 <ul class="list-group col" id="usedList"></ul>
                     <ul class="list-group col" id="availableList"></ul>
@@ -203,8 +207,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'const sortable = new stack_sortable(state, "availableList", "usedList", id, userOpts);' . "\n";
         $code .= 'sortable.generate_used(proofSteps);' . "\n";
         $code .= 'sortable.generate_available(proofSteps);' . "\n";
+
         if (count($inputs) > 0) {
-            $code .= 'MathJax.typesetPromise();' . "\n";
+            //$code .= 'MathJax.typesetPromise();' . "\n";
         };
         $code .= 'var opts = {...sortable.options, ...{onSort: () => {sortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
         $code .= 'var sortableUsed = Sortable.create(usedList, opts);' . "\n";

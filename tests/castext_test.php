@@ -672,7 +672,7 @@ class castext_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
-    public function test_plot_small() {
+    public function test_plot_small_margin() {
 
         $a2 = array('p:sin(x)');
         $s2 = array();
@@ -681,7 +681,8 @@ class castext_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session2($s2, null, 0);
 
-        $at1 = castext2_evaluatable::make_from_source('A small plot: {@plot(p, [x,-2,3], [size,200,100])@}', 'test-case');
+        $at1 = castext2_evaluatable::make_from_source('A small plot: {@plot(p, [x,-2,3], [size,200,100], [margin, 1])@}',
+            'test-case');
         $this->assertTrue($at1->get_valid());
         $cs2->add_statement($at1);
         $cs2->instantiate();

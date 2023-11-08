@@ -182,9 +182,9 @@ A last direct example of question variables
 
 ````
 proof_steps:[
-  [ "A", plot(sqrt(x),[x,-1,1],[size,250,250])],
-  [ "b", plot(x,[x,-1,1],[size,250,250])],
-  [ "C", plot(x^2,[x,-1,1],[size,250,250])],
-  [ "D", plot(x^3,[x,-1,1],[size,250,250])]
+  [ "A", plot(sqrt(x),[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])],
+  [ "B", plot(x,[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])],
+  [ "C", plot(x^2,[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])],
+  [ "D", plot(x^3,[x,-1,1],[size,180,180],[margin,1.7],[yx_ratio, 1],[plottags,false])]
 ];
 ````

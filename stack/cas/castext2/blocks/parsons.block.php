@@ -31,7 +31,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
     public static $namedversions = [
         'local' => [
             'css' => 'cors://sortable.min.css',
-            'js' => 'cors://sortable.min.js',
         ]
     ];
 
@@ -55,26 +54,18 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (isset($xpars['overridecss'])) {
             unset($xpars['overridecss']);
         }
-        if (isset($xpars['overridejs'])) {
-            unset($xpars['overridejs']);
-        }
         
         // Set a title.
         $xpars['title'] = 'STACK Parsons ///PARSONS_COUNT///';
 
         // Figure out what scripts we serve.
         $css = self::$namedversions['local']['css'];
-        $js = self::$namedversions['local']['js'];
         if (isset($this->params['version']) &&
             isset(self::$namedversions[$this->params['version']])) {
             $css = self::$namedversions[$this->params['version']]['css'];
-            $js = self::$namedversions[$this->params['version']]['js'];
         }
         if (isset($this->params['overridecss'])) {
             $css = $this->params['overridecss'];
-        }
-        if (isset($this->params['overridejs'])) {
-            $js = $this->params['overridejs'];
         }
 
         $r->items[] = new MP_String(json_encode($xpars));
@@ -89,10 +80,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             new MP_String('style'),
             new MP_String(json_encode(['href' => $css]))
         ]);
-        /*$r->items[] = new MP_List([
-            new MP_String('script'),
-            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $js]))
-        ]);*/
 
         // We need to define a size for the inner content.
         $width  = '100%';
@@ -167,26 +154,17 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         } else {
             $code .= 'var id;' . "\n";
         };
-        
-        // Generate state
-        $code .= 'var state;' . "\n";
-        // If we already have a stored state in the statestringinput input, then we use this state
-        $code .= 'let stateStore = document.getElementById(id);' . "\n";
-        $code .= 'if (stateStore.value && stateStore.value != ""){' . "\n";
-        $code .= 'state = JSON.parse(stateStore.value);}' . "\n";
 
-        // otherwise we generate the initial state based on the contents of the block
-        $code .= 'else {' . "\n";
-        $code .= 'state = {used: [], available: [...Object.keys(proofSteps)]};}' . "\n";
-
-        // Create the sortable objects by filling in the container div
-        $code .= 'const sortable = new stack_sortable(state, "availableList", "usedList", id, userOpts);' . "\n";
-        $code .= 'sortable.generate_used(proofSteps);' . "\n";
-        $code .= 'sortable.generate_available(proofSteps);' . "\n";
-
+        // Instantiate STACK sortable helper class
+        $code .= 'const sortable = new stack_sortable(proofSteps, "availableList", "usedList", id, userOpts);' . "\n";
+        // Generate the two lists in HTML
+        $code .= 'sortable.generate_used();' . "\n";
+        $code .= 'sortable.generate_available();' . "\n";
+        // Typeset MathJax
         if (count($inputs) > 0) {
             $code .= 'MathJax.typesetPromise();' . "\n";
         };
+        // Create the Sortable objects
         $code .= 'var opts = {...sortable.options, ...{onSort: () => {sortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
         $code .= 'var sortableUsed = Sortable.create(usedList, opts);' . "\n";
         $code .= 'var sortableAvailable = Sortable.create(availableList, opts);' . "\n";

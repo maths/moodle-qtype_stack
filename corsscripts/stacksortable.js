@@ -7,9 +7,10 @@
 
 export const stack_sortable = class {
 
-    constructor(state, availableId, usedId, inputId = null, options = null) {
-        this.state = state;
+    constructor(proofSteps, availableId, usedId, inputId = null, options = null) {
+        this.proofSteps = proofSteps;
         this.inputId = inputId;
+        this.state = this._generate_state(this.proofSteps, this.inputId);
         if (inputId != null) {
             this.input = document.getElementById(this.inputId);
         };
@@ -28,20 +29,25 @@ export const stack_sortable = class {
         this.options = Object.assign(this.userOptions, {ghostClass: "list-group-item-info", group: "shared"});
     }
 
-    generate_available(proofSteps) {
+    _generate_state(proofSteps, inputId) {
+        let stateStore = document.getElementById(inputId);
+        return stateStore.value && stateStore.value != "" ? JSON.parse(stateStore.value) : {used: [], available: [...Object.keys(proofSteps)]};
+    }
+
+    generate_available() {
         for (const key in this.state.available) {
             let li = document.createElement("li");
-            li.innerHTML = proofSteps[this.state.available[key]];
+            li.innerHTML = this.proofSteps[this.state.available[key]];
             li.setAttribute("data-id", this.state.available[key]);
             li.className = "list-group-item";
             this.available.append(li);
         };
     }
 
-    generate_used(proofSteps) {
+    generate_used() {
         for (const key in this.state.used) {
             let li = document.createElement("li");
-            li.innerHTML = proofSteps[this.state.used[key]];
+            li.innerHTML = this.proofSteps[this.state.used[key]];
             li.setAttribute("data-id", this.state.used[key]);
             li.className = "list-group-item";
             this.used.append(li);

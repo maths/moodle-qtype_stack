@@ -29,15 +29,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
     /* This is not something we want people to edit in general. */
     public static $namedversions = [
-        /* TODO: change to proof minimised scripts
-         * make this `cdn-latest` if possible, no point in having it
-         * pointing to a particular version.
-         */
-        'cdn' => [
-            'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraph.min.css',
-            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraphcore.min.js'],
         'local' => [
-            'css' => 'cors://jsxgraph.min.css',
+            'css' => 'cors://sortable.min.css',
             'js' => 'cors://sortable.min.js',
         ]
     ];
@@ -65,9 +58,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (isset($xpars['overridejs'])) {
             unset($xpars['overridejs']);
         }
-
-        // Disable scrolling for this.
-        $xpars['scrolling'] = false;
+        
         // Set a title.
         $xpars['title'] = 'STACK Parsons ///PARSONS_COUNT///';
 
@@ -89,23 +80,19 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_String(json_encode($xpars));
 
         // Plug in some style and scripts.
-        $mathjax = stack_get_mathjax_url();
-        /*$r->items[] = new MP_List([
-            new MP_String('script'),
-            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))
-        ]);*/
-        /*$r->items[] = new MP_List([
+        $r->items[] = new MP_String('<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>');
+        $r->items[] = new MP_List([
+            new MP_String('style'),
+            new MP_String(json_encode(['href' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css']))
+        ]);
+        $r->items[] = new MP_List([
             new MP_String('style'),
             new MP_String(json_encode(['href' => $css]))
-        ]);*/
+        ]);
         /*$r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $js]))
         ]);*/
-        /*$resizeScript = '<script type="text/javascript">' . "\n";
-        $resizeScript .= 'function resizeIframe(iframe) {' . "\n";
-        $resizeScript .= 'iframe.height = iframe.contentWindow.document.body.scrollHeight + "px";}' . "\n";
-        $resizeScript .= '</script>';*/
 
         // We need to define a size for the inner content.
         $width  = '100%';
@@ -131,17 +118,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         // Add container divs for the proof lists to be accessed by sortable.
-        $r->items[] = new MP_String('<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>');
-        $r->items[] = new MP_String('<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" 
-              rel="stylesheet" 
-              integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" 
-              crossorigin="anonymous">
-            <style>body{background-color:inherit;}
-            #usedList:empty {height:50px;background-color:floralwhite}
-            #availableList > li {background-color:lightcoral}
-            #availableList:empty {height:50px;background-color:lightpink} 
-        </style>');
-
         $r->items[] = new MP_String('<div class="container" style="' . $astyle . '">
             <div class="row">
                 <ul class="list-group col" id="usedList"></ul>

@@ -5,6 +5,21 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+export function preprocess_steps(proofSteps, userOpts) {
+    if (typeof proofSteps === "string") {
+        proofSteps = Object.fromEntries(new Map(Object.values(JSON.parse(proofSteps))));
+    };
+    if (JSON.stringify(Object.keys(proofSteps)) === JSON.stringify([ "steps", "options" ])) {
+        userOpts = proofSteps["options"];
+        proofSteps = proofSteps["steps"];
+    };
+    if (typeof proofSteps === "string") {
+        proofSteps = Object.fromEntries(new Map(Object.values(JSON.parse(proofSteps))));
+    };
+
+    return [proofSteps, userOpts];
+}
+
 export const stack_sortable = class {
 
     constructor(proofSteps, availableId, usedId, inputId = null, options = null) {

@@ -117,7 +117,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         $importCode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $importCode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
-        $importCode .= "import {stack_sortable} from '" . stack_cors_link('stacksortable.min.js') . "';\n";
+        $importCode .= "import {preprocess_steps, stack_sortable} from '" . stack_cors_link('stacksortable.min.js') . "';\n";
 
         $r->items[] = new MP_String($importCode);
         // Extract the proof steps from the inner content
@@ -140,12 +140,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // parse steps and options separately if they exist
         $code = 'var userOpts;' . "\n";
-        $code .= 'if (typeof proofSteps === "string") {proofSteps = Object.fromEntries(new Map(Object.values(JSON.parse(proofSteps))));}' . "\n";
-        $code .= 'if (JSON.stringify(Object.keys(proofSteps)) === JSON.stringify([ "steps", "options" ])) {' . "\n";
-        $code .= 'userOpts = proofSteps["options"];' . "\n";
-        $code .= 'proofSteps = proofSteps["steps"];' . "\n";
-        $code .= 'if (typeof proofSteps === "string") {proofSteps = Object.fromEntries(new Map(Object.values(JSON.parse(proofSteps))));}' . "\n";
-        $code .= '}' . "\n";
+        $code .= '[proofSteps, userOpts] = preprocess_steps(proofSteps, userOpts);' . "\n";
 
         // Link up to STACK inputs
         if (count($inputs) > 0) {

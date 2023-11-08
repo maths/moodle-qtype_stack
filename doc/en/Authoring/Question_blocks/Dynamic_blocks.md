@@ -76,7 +76,7 @@ This block allows sections of text to be shown and hidden when the DOM is fully 
     [[adapt id='2' hidden='true']]
     This text is hidden until adaptauto is loaded. Can be used as feedback.
     [[/adapt]]
-    <!-- Should be in node flase or true feedback -->
+    <!-- Should be in node false or true feedback -->
     [[adaptauto show_ids='2' hide_ids='1']][[/adaptauto]]
     ```
 

@@ -134,7 +134,57 @@ Additional display options including `height` and `width` may also be passed to 
 
 Since HTML can be embedded into strings dragged within a Parson's block, images can be included with the HTML `<img>` tags as normal.
 
-STACK-generated [plots](../Plots/index.md) cannot be included just using `{@plot(x^2,[x,-1,1])@}` as might be expected.  This is because of the _order_ of evaluation.  The full URL of the image is only created in the (complex) chain of events after the value has been substituted into the Javascript code. Instead, to embed STACK-generated images evaluate a static string using the Maxima `castext` function, and then use the value of `s1` in the Parson's block.  For example.
+STACK-generated [plots](../Plots/index.md) can also be included just using `{@plot(x^2,[x,-1,1])@}` as might be expected.  This is because of the _order_ of evaluation.  The full URL of the image is only created in the (complex) chain of events after the value has been substituted into the Javascript code. 
 
-    s1:castext("{@plot(x^2,[x,-1,1],[size,250,250])@}");
+````
+[[ parsons input="ans1"]]
+{ 
+  "A":"The inverse function of \\(f(x)=x^2\\)) has graph",
+  "B":{#plot(x^2,[x,-1,1],[size,250,250])#},
+};
+[[/parsons]]
+````
 
+Notice that since the value of `plot(...)` is a Maxima string of `<img>` tag, there is no need to add in string quotes when defining the JSON above.  The `{#...#}` will print `"` as part of the output.  However, for convenience string quotes are removed from the display form `{@...@}` (as typically you just want the plot without quotes).  Hence this is an alternative.
+
+````
+[[ parsons input="ans1"]]
+{ 
+  "A":"The inverse function of \\(f(x)=x^2\\)) has graph",
+  "B":"{@plot(sqrt(x),[x,-1,1],[size,250,250])@}",
+};
+[[/parsons]]
+````
+
+An alternatove is to use the Maxima `castext` function, e.g.
+
+    s1:castext("Consider this graph {@plot(x^2,[x,-1,1],[size,250,250])@}");
+
+and then use the value of `s1`, either in the Parson's block or when defining a `proof_steps` array in the question variables.  E.g. define the question variables
+
+````
+s1:castext("{@plot(sqrt(x),[x,-1,1],[size,250,250])@}");
+proof_steps:[
+  [ "A", "The inverse function of \\(f(x)=x^2\\) has graph"],
+  [ "B", s1]
+];
+````
+
+and the question text
+
+````
+[[ parsons input="ans1"]]
+{# stackjson_stringify(proof_steps) #}
+[[/parsons]]
+````
+
+A last direct example of question variables
+
+````
+proof_steps:[
+  [ "A", plot(sqrt(x),[x,-1,1],[size,250,250])],
+  [ "b", plot(x,[x,-1,1],[size,250,250])],
+  [ "C", plot(x^2,[x,-1,1],[size,250,250])],
+  [ "D", plot(x^3,[x,-1,1],[size,250,250])]
+];
+````

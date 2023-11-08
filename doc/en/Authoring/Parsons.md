@@ -31,7 +31,6 @@ Assume the question author writes a list of strings in Maxima, `proof_steps` in 
 
 or they can avoid strings going via Maimxa at all by writing JSON directly
 
-
 Both these approaches can be combined
 
 ````
@@ -94,6 +93,26 @@ The default options are TODO: confirm the above syntax and the default options!
 2. The applet returns up updated state (indentical format: maxima expression) for evaluation by a PRT.  This is linked to an input with parameter `input=`.
 3. `height` and `width` paramaters exist.  TODO: examples/specs.
 
+## Random generation of `proof_step` order
+
+To track which random variants of a question a student sees, and make sure they return to the same varient, we need to perform all randomisation at the Maxima level.
+
+You must define steps as Maxima objects using a `proof_steps` list (see the documentation of for [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_libraries.md)) then you can randomly order the `proof_steps` as follows.
+
+1. Define `proof_steps` as normal.
+2. Add in `proof_steps:random_permutation(proof_steps);` to the question variables.
+3. Add in a question note `{@map(first, proof_steps)@}` to create a meaningful, minimal, question note giving the order of steps.
+
+Note, if you randomly generate random variants it is _strongly recommended_ you use text-based keys.  Keeping track of permuted numerical keys will be impossible!
+
+## Block connection with Maxima
+
+All communication to and from the Parsons block uses the JSON format.  However, internally STACK uses maxima objets.  We therefore need to convert between Maxima syntax and JSON format.
+
+1. The maxima function `stackjson_stringify(proof_steps)` will convert a list of `proof_steps` into a JSON string.
+2. The maxima function `proof_parsons_interpret(ans1)` will convert a JSON string into a [proof construction function](../Proof/Proof_CAS_library.md).
+3. The maxima function `proof_parsons_key_json(ta, proof_steps)` takes the teacher's answer `ta` and a list of proof steps `proof_steps` and creates a JSON string which represents `ta` and lists any available (unused) strings from the `proof_steps` list.  This function is needed to set up the "model answer" field in the inputs from a maxima representation of the proof.
+
 ### Block paramaters: `height` and `width`
 
 Additional display options including `height` and `width` may also be passed to the header, as in 
@@ -112,8 +131,6 @@ Additional display options including `height` and `width` may also be passed to 
 ````
 
 ## Adding plots to a Parson's block
-
-TODO: confirm if we can embed HTML.  If so, then the following should work.
 
 Since HTML can be embedded into strings dragged within a Parson's block, images can be included with the HTML `<img>` tags as normal.
 

@@ -199,6 +199,12 @@ removeonce(ex, l) := block(
   append([first(l)], removeonce(ex,rest(l)))
 )$
 
+/* All the elements of l1, which do not occur in l2.  Removes all occurances from l1, not one at a time. */
+listdifference(l1, l2) := block(
+  if emptyp(l1) or emptyp(l2) then return(l1),
+  listdifference(sublist(l1, lambda([ex], not(ev(is(ex=first(l2)), simp)))), rest(l2))
+);
+
 /* Remove any common elements from [l1,l2], with duplication. */
 list_cancel(ex) := block([l1, l2, l3],
   l1:first(ex),

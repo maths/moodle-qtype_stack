@@ -23,6 +23,8 @@ We might expect/require two conscious and separate blocks
 
 The order in which these two sub-proofs are presented is (normally) irrelevant.  That is the _if and only if_ proof construct allows its two sub-proofs to commute.  This is precisely the same sense in which \(A=B\) and \(B=A\) are equivalent. There are _blocks_ within the proof which can change order. Furthermore, since proofs are often nested blocks these sub-proofs may themselves have acceptable options for correctness.
 
+STACK provides "proof construction functions" with arguments. For example, an if and only if proof would be represented as `proof_iff(A,B)`.
+
 Proofs often contain local variables.  Use of explicit block-structres clarify the local scope of variables, and the local scope of assumptions.
 
 If the student has an opportunity to indicate more structure, then the assessment logic becomes considerably simpler, more reliable and transparent. Actually, we think there is significant educational merit in making this structure explicit and consciously separating proof-structure from the finer grained details. It is true that professional mathematicians often omit indicating explicit structure, they abbreviate and omit whole blocks ("the other cases are similar") but these are all further examples of expert reversal.
@@ -32,9 +34,10 @@ Notes
 * Lists are a special case of a tree with one root (the list creation function) and an arbitrary number of nodes in order.  Hence our design explicitly includes traditional Parson's problems as a special case.
 * Teachers who do not want to scaffold explicit block structures (e.g. signal types of proof blocks) can choose to restrict students to (i) flat lists, or (ii) lists of lists.
 
-# Minimal Parson's question
+# Example 1: a minimal Parson's question
 
 The following is a minimal Parson's question where there student is expected to create a list in one and only one order.
+It shows the proof that _\(\log_2(3)\) is irrational_.
 
 ## Question variables
 
@@ -47,9 +50,11 @@ ta:proof("assume","defn_rat","defn_rat2","defn_log","defn_log2","alg","alg_int",
 
 The optional library `prooflib.mac` contain many useful functions for dealing with student's answers which represent proofs.
 
+The variable `ta` holds the teacher's answer which is a proof construction function `proof`.  The arguments to this function are string keys, e.g. `"alg"` which refer to lines in the proof.  The teacher expects these lines in this order.
+
 ## Question text
 
-The example question text below contains a Parson's block. Within the header of the Parson's block, ensure that `input="inputvar"` is included, where `inputvar` is the identifier of the input, for example `input="ans1"` as below. A minimal working example for the proof that _\(\log_2(3)\) is irrational_ is achieved by placing the following in the _Question text_ field:
+The example question text below contains a Parson's block. Within the header of the Parson's block, ensure that `input="ans1"` is included, where `ans1` is the identifier of the input. Place the following in the _Question text_ field:
 
 ````
 <p>Show that \(\log_2(3)\) is irrational. </p>
@@ -71,15 +76,16 @@ The example question text below contains a Parson's block. Within the header of 
 
 Notes:
 
-1. The Parson's block requires a JSON object containins `"key":"string"` pairs. The `string` will be shown to the student.  The student's answer will be returned in terms of the `key` tags.  Numbers can be used as keys, but names keys above will be more specific.
+1. The Parson's block requires a JSON object containins `"key":"string"` pairs. The `string` will be shown to the student.  The student's answer will be returned in terms of the `key` tags.  Numbers can be used as keys, but named keys above will be more specific.  We strongly recommend using named keys.
 2. The `\` character in the string must be protected!  Notice that `\(...\)` needs to be typed as `\\(...\\)`.
 3. The [Parson's block](../Authoring/Parsons.md) has a wide range of options such as `height` and `width` which are documented elsewhere.
 
 ## Input: ans1
 
 1. The _Input type_ field should be **String**. 
-2. The _Model answer_ field should be initially empty, i.e. `""`
+2. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `proof_parsons_key_json(ta, [])`.  You can replace the empty list in the second argument with a `proof_steps` list if you want to display unused steps as well.  (How to construct and use a `proof_steps` list will be documented below.)
 3. Set the option "Student must verify" to "no".
+4. Set the extra options to "hideanswer" to make sure the JSON representation of the teacher's answer is not shown to the student later as an answer.
 
 ## Potential response tree: prt1
 
@@ -89,11 +95,11 @@ Define the feedback variables:
 sa:proof_parsons_interpret(ans1);
 ````
 
-The student's answer will be a _JSON string_, but we need to interpret which of the strings have been used and in what order.  The `proof_parsons_interpret` takes a JSON string and  builds a proof representation object.
+The student's answer will be a _JSON string_, but we need to interpret which of the strings have been used and in what order.  The `proof_parsons_interpret` function takes a JSON string and  builds a proof representation object.
 
 Then you can set up the potential response tree to be `ATAlgEquiv(sa,ta)` to confirm the student's answer is the same as the teacher's answer.
 
-# Parson's question with block order options
+# Example question 2: a proof with interchangable block order
 
 The following Parson's question is an _if and only if_ proof, containing two blocks in order.
 
@@ -101,7 +107,6 @@ The input is unchanged from the above example. For the question variables use
 
 ````
 stack_include("contribl://prooflib.mac");
-dispproof_para([ex]) := block([ex1],apply(sconcat, flatten(append(["<p>"], [simplode(ex, " ")], ["</p>"]))));
 
 ta:proof_iff(proof("assodd","defn_odd","alg_odd","def_M_odd","conc_odd"), proof("contrapos","assnotodd","even","alg_even","def_M_even","conc_even"));
 
@@ -158,11 +163,11 @@ To see this in action, try the following in the general feedback to display both
 
 ````
 This is the proof, written with some structure
-{@ev(tad[1], map(lambda([ex], ex=dispproof), proof_types))@}
+{@proof_display(tad[2], proof_steps)@}
 Notice this proof has two sub-proofs, which can occur in any order.  Therefore we have two correct versions of this proof.
 <table><tr>
-<td><div class="proof">{@ev(tad[1], map(lambda([ex], ex=dispproof_para), proof_types))@}</div></td>
-<td><div class="proof">{@ev(tad[2], map(lambda([ex], ex=dispproof_para), proof_types))@}</div></td>
+<td><div class="proof">{@proof_display_para(tad[1], proof_steps)@}</div></td>
+<td><div class="proof">{@proof_display_para(tad[2], proof_steps)@}</div></td>
 </tr></table>
 Can you see the differences between these proofs?
 ````
@@ -171,3 +176,22 @@ Can you see the differences between these proofs?
 
 You should hide the inputs from students with CSS after testing, e.g. `<p style="display:none">...</p>`.
 
+Note that all connection between the Parson's block and a string input is JSON format.  Therefore input `ans1` is a string, and we convert to and from JSON at various places in the process.
+
+It is likely you will want to randomly permute the strings in the `proof_steps` list before the student sees them.  This is documented in the [Parson's block reference documentation](../Authoring/Parsons.md).
+
+## "The teacher's answer is"....
+
+The design of the interaction between the Parson's block and a STACK input is through JSON.  This raw JSON will not be meaningful to students, hence the suggestion to hide the inputs from students with CSS after testing, e.g. `<p style="display:none">...</p>`.
+
+We recommend the string input holding the JSON does not get shown to the student as a "correct answer". Set the extra options to "hideanswer" in the input to stop this input being displayed.
+
+To display a correct proof as a "teacher's answer"
+
+1. Create a new input `ans2`.
+2. The _Input type_ field should be **String**. 
+3. The _Model answer_ field should display the correct proof constructed from a proof construction functions `ta` and a list of proof steps `proof_steps`.  Set the model answer to `proof_display(ta, proof_steps)`.  You can choose any of the other display functions in the [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_library.md).
+4. Set the option "Student must verify" to "no".
+5. Hide this input with CSS `<p style="display:none">...</p>`.
+
+This input is not used in any PRT.

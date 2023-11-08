@@ -199,6 +199,26 @@ proof_parsons_interpret(st) := block([pf],
 );
 s_test_case(proof_parsons_interpret("{\"used\":[\"0\",\"3\",\"5\"],\"available\":[\"1\",\"2\",\"4\",\"6\",\"7\"]}"), proof("0","3","5"));
 
+/*
+ * Takes a proof, and proof steps list and returns the keys not used in the proof_steps.
+ * Needed to create a "teacher's answer" in JSON block, including unused text.
+*/
+proof_parsons_keys_used_unused(proof_ans, proof_steps) := block([tkeys, skeys],
+  tkeys:map(first, proof_steps),
+  skeys:ev(proof_ans, map(lambda([ex], ex="["), proof_types), simp),
+  /* TODO: update this when we deal with trees (and have examples) */
+  skeys:flatten(skeys),
+  return([skeys, listdifference(tkeys, ev(unique(skeys), simp))])
+);
+
+/* Construct the "used" and "available" keys when the teacher's answer is used. */
+proof_parsons_key_json(proof_ans, proof_steps) := block([pkeys],
+  /* Ensure all keys are string keys. */
+  if not(emptyp(proof_steps)) then proof_ans:proof_keys_sub(proof_ans, proof_steps),
+  pkeys:proof_parsons_keys_used_unused(proof_ans, proof_steps),
+  sconcat("{\"used\":", stackjson_stringify(first(pkeys)), ", \"available\":", stackjson_stringify(second(pkeys)), "}")
+);
+
 /******************************************************************/
 /*                                                                */
 /*  Display functions                                             */
@@ -231,9 +251,10 @@ proof_disp_replacesteps(ex, proof_steps) := block(
  * Take a proof "ex" and a list "pf" of [key, step] pairs and translate this into a proof tree with
  * the keys replaced by corresponding strings.
  */
-proof_steps_sub(ex, pf):= block(
+proof_keys_sub(ex, proof_steps):= block(
    if integerp(ex) then return(first(proof_steps[ex])),
-   apply(op(ex), map(lambda([ex2], proof_steps_sub(ex2, pf)), args(ex)))
+   if stringp(ex) then return(ex),
+   apply(op(ex), map(lambda([ex2], proof_keys_sub(ex2, proof_steps)), args(ex)))
 );
 
 /**
@@ -252,8 +273,6 @@ proof_display(proof_ans, proof_steps) := ev(proof_disp_replacesteps(proof_ans, p
 dispproof([ex]) := block([ex1],
     apply(sconcat, flatten(append(["<div class=\"proof-block\">"], [simplode(ex, "<br/>")], ["</div>"])))
 );
-
-
 
 /**
  * Take a proof, and any proof steps and display them using proof CSS.

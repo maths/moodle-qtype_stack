@@ -191,7 +191,7 @@ To display a correct proof as a "teacher's answer"
 1. Create a new input `ans2`.
 2. The _Input type_ field should be **String**. 
 3. The _Model answer_ field should display the correct proof constructed from a proof construction functions `ta` and a list of proof steps `proof_steps`.  Set the model answer to `proof_display(ta, proof_steps)`.  You can choose any of the other display functions in the [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_library.md).
-4. Set the option "Student must verify" to "no".
+4. Set the option "Student must verify" to "no" and "Show the validation" to "no".
 5. Hide this input with CSS `<p style="display:none">...</p>`.
 
 This input is not used in any PRT.

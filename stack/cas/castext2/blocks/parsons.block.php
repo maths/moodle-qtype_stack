@@ -29,8 +29,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
     /* This is not something we want people to edit in general. */
     public static $namedversions = [
+        'cdn' => [
+            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js',
+        ],
         'local' => [
             'css' => 'cors://sortable.min.css',
+            'js' => 'cors://sortable.min.js'
         ]
     ];
 
@@ -54,6 +58,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (isset($xpars['overridecss'])) {
             unset($xpars['overridecss']);
         }
+        if (isset($xpars['overridejs'])) {
+            unset($xpars['overridejs']);
+        }
 
         // Set default width and height here, we want to push forward to overwrite the iframe defaults 
         // if they are not provided in the block parameters
@@ -67,12 +74,17 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // Figure out what scripts we serve.
         $css = self::$namedversions['local']['css'];
+        $js = self::$namedversions['local']['js'];
         if (isset($this->params['version']) &&
             isset(self::$namedversions[$this->params['version']])) {
-            $css = self::$namedversions[$this->params['version']]['css'];
+            $css = self::$namedversions['local']['css'];
+            $js = self::$namedversions[$this->params['version']]['js'];
         }
         if (isset($this->params['overridecss'])) {
             $css = $this->params['overridecss'];
+        }
+        if (isset($this->params['overridejs'])) {
+            $js = $this->params['overridejs'];
         }
 
         $r->items[] = new MP_String(json_encode($xpars));
@@ -86,6 +98,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_List([
             new MP_String('style'),
             new MP_String(json_encode(['href' => $css]))
+        ]);
+        $r->items[] = new MP_List([
+            new MP_String('script'),
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $js]))
         ]);
 
         // We need to define a size for the inner content.
@@ -149,16 +165,16 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         };
 
         // Instantiate STACK sortable helper class
-        $code .= 'const sortable = new stack_sortable(proofSteps, "availableList", "usedList", id, userOpts);' . "\n";
+        $code .= 'const stackSortable = new stack_sortable(proofSteps, "availableList", "usedList", id, userOpts);' . "\n";
         // Generate the two lists in HTML
-        $code .= 'sortable.generate_used();' . "\n";
-        $code .= 'sortable.generate_available();' . "\n";
+        $code .= 'stackSortable.generate_used();' . "\n";
+        $code .= 'stackSortable.generate_available();' . "\n";
         // Typeset MathJax
         if (count($inputs) > 0) {
             $code .= 'MathJax.typesetPromise();' . "\n";
         };
         // Create the Sortable objects
-        $code .= 'var opts = {...sortable.options, ...{onSort: () => {sortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
+        $code .= 'var opts = {...stackSortable.options, ...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
         $code .= 'var sortableUsed = Sortable.create(usedList, opts);' . "\n";
         $code .= 'var sortableAvailable = Sortable.create(availableList, opts);' . "\n";
 
@@ -167,7 +183,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         };
         
         $r->items[] = new MP_String($code);
-
         $r->items[] = new MP_String('</script>');
 
         return $r;
@@ -186,22 +201,21 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         return [];
     }
 
+    public function validate_JSON_contents($contents) : bool {
+        //$contents = json_decode($json_contents, true);
+        $val_types = array_unique(array_map('gettype', array_values($contents)));
+        return array_keys($contents) === ["steps", "options"] || (count($val_types) == 1 && $val_types[0] == "string");
+    }
+
     public function validate (
         &$errors = [],
         $options = []
     ): bool {
-        return true;
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.
-        /*$valid  = true;
-        $width  = '500px';
-        $height = '400px';
-        if (array_key_exists('width', $this->params)) {
-            $width = $this->params['width'];
-        }
-        if (array_key_exists('height', $this->params)) {
-            $height = $this->params['height'];
-        }
+        $valid  = true;
+        $width  = array_key_exists('width', $this->params) ? $this->params['width'] : '100%';
+        $height = array_key_exists('height', $this->params) ? $this->params['height'] : '400px';
 
         // NOTE! List ordered by length. For the trimming logic.
         $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
@@ -211,7 +225,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $heightend  = false;
         $widthtrim  = $width;
         $heighttrim = $height;
-
+        
         foreach ($validunits as $suffix) {
             if (!$widthend && strlen($width) > strlen($suffix) &&
                 substr($width, -strlen($suffix)) === $suffix) {
@@ -231,67 +245,64 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         if (!$widthend) {
             $valid    = false;
-            $err[] = stack_string('stackBlock_jsxgraph_width');
+            $err[] = stack_string('stackBlock_parsons_width');
         }
         if (!$heightend) {
             $valid    = false;
-            $err[] = stack_string('stackBlock_jsxgraph_height');
+            $err[] = stack_string('stackBlock_parsons_height');
         }
         if (!preg_match('/^[0-9]*[\.]?[0-9]+$/', $widthtrim)) {
             $valid    = false;
-            $err[] = stack_string('stackBlock_jsxgraph_width_num');
+            $err[] = stack_string('stackBlock_parsons_width_num');
         }
         if (!preg_match('/^[0-9]*[\.]?[0-9]+$/', $heighttrim)) {
             $valid    = false;
-            $err[] = stack_string('stackBlock_jsxgraph_height_num');
+            $err[] = stack_string('stackBlock_parsons_height_num');
         }
 
         if (array_key_exists('width', $this->params) &&
             array_key_exists('height', $this->params) &&
             array_key_exists('aspect-ratio', $this->params)) {
             $valid    = false;
-            $err[] = stack_string('stackBlock_jsxgraph_overdefined_dimension');
+            $err[] = stack_string('stackBlock_parsons_overdefined_dimension');
         }
         if (!(array_key_exists('width', $this->params) ||
             array_key_exists('height', $this->params)) &&
             array_key_exists('aspect-ratio', $this->params)) {
             $valid    = false;
-            $err[] = stack_string('stackBlock_jsxgraph_underdefined_dimension');
+            $err[] = stack_string('stackBlock_parsons_underdefined_dimension');
         }
 
-        if (array_key_exists('version', $this->params) && array_key_exists($this->params['version'], self::$namedversions)) {
+        // Check version is only one of valid options
+        if (array_key_exists('version', $this->params) && !array_key_exists($this->params['version'], self::$namedversions)) {
             $valid    = false;
-            $err[] = stack_string('stackBlock_jsxgraph_unknown_named_version');
+            $validversions = ['cdn', 'local'];
+            $err[] = stack_string('stackBlock_parsons_unknown_named_version', ['version' => implode(', ', $validversions)]);
         }
 
+        // Check that only valid parameters are passed to block header
         $valids = null;
         foreach ($this->params as $key => $value) {
-            if (substr($key, 0, 10) === 'input-ref-') {
-                $varname = substr($key, 10);
-                if (isset($options['inputs']) && !isset($options['inputs'][$varname])) {
-                    $err[] = stack_string('stackBlock_jsxgraph_input_missing',
-                        ['var' => $varname]);
-                }
-            } else if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
-                    $key !== 'version' && $key !== 'overridejs' && $key !== 'overridecss') {
-                $err[] = "Unknown parameter '$key' for jsxgraph-block.";
+            if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
+                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input') {
+                $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
-                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss', 'overridejs'];
-                    // The variable $inputdefinitions is not defined!
-                    if ($inputdefinitions !== null) {
-                        $tmp    = $root->get_parameter('ioblocks');
-                        $inputs = [];
-                        foreach ($inputdefinitions->get_names() as $key) {
-                            $inputs[] = "input-ref-$key";
-                        }
-                        $valids = array_merge($valids, $inputs);
-                    }
-                    $err[] = stack_string('stackBlock_jsxgraph_param', [
+                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss', 'overridejs', 'input'];
+                    $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids)]);
                 }
             }
         }
+
+        // Check the JSON contents are of the right format, i.e., either the depth is 1 or the depth is 2 and the keys are ['steps', 'options'].
+        $contents = json_decode(($this->children[0]->compile(castext2_parser_utils::RAWFORMAT, []))->value, true);
+        // either this is a string (when using Maxima and stackjson_stringify) or it's a JSON. The former case we sanitise on the JS side so we can ignore this here.
+        if (!gettype($contents) == "string") {
+            if (!self::validate_JSON_contents(json_decode(($this->children[0]->compile(castext2_parser_utils::RAWFORMAT, []))->value, true))) {
+                $err[] = stack_string('stackBlock_parsons_contents');
+            }
+        };
 
         // Wrap the old string errors with the context details.
         foreach ($err as $er) {
@@ -299,6 +310,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $this->position['end']);
         }
 
-        return $valid;*/
+        return $valid;
     }
 }

@@ -55,15 +55,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             unset($xpars['overridecss']);
         }
 
-        // Set default width and height here, we want to push forward to overwrite the iframe defaults
-        $width = "100%";
-        $height = "400px";
-        if (array_key_exists('width', $xpars)) {
-            $width = $xpars['width'];
-        }
-        if (array_key_exists('height', $xpars)) {
-            $height = $xpars['height'];
-        }
+        // Set default width and height here, we want to push forward to overwrite the iframe defaults 
+        // if they are not provided in the block parameters
+        $width = array_key_exists('width', $xpars) ? $xpars['width'] : "100%";
+        $height = array_key_exists('height', $xpars) ? $xpars['height'] : "400px";
         $xpars['width'] = $width;
         $xpars['height'] = $height;
         

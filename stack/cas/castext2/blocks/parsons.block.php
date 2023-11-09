@@ -54,6 +54,18 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (isset($xpars['overridecss'])) {
             unset($xpars['overridecss']);
         }
+
+        // Set default width and height here, we want to push forward to overwrite the iframe defaults
+        $width = "100%";
+        $height = "400px";
+        if (array_key_exists('width', $xpars)) {
+            $width = $xpars['width'];
+        }
+        if (array_key_exists('height', $xpars)) {
+            $height = $xpars['height'];
+        }
+        $xpars['width'] = $width;
+        $xpars['height'] = $height;
         
         // Set a title.
         $xpars['title'] = 'STACK Parsons ///PARSONS_COUNT///';
@@ -82,16 +94,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         ]);
 
         // We need to define a size for the inner content.
-        $width  = '100%';
-        $height = '100px';
         $aspectratio = false;
-        if (array_key_exists('width', $xpars)) {
-            $width = $xpars['width'];
-        }
-        if (array_key_exists('height', $xpars)) {
-            $height = $xpars['height'];
-        }
-
         $astyle = "width:calc($width - 3px);height:calc($height - 3px);";
 
         if (array_key_exists('aspect-ratio', $xpars)) {

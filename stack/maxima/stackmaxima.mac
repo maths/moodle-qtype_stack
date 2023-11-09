@@ -980,7 +980,7 @@ set_plot_option([gnuplot_default_term_command, ""]);
 plot(ex, [ra]) :=  /*stack_web_plot*/
     block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr,
         filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug,
-        plotgrid2d, size, psize, plot_size, plot_tags, stack_mtell_quiet, plotpid],
+        plotgrid2d, size, psize, plot_size, plot_tags, stack_mtell_quiet, plotpid, margin],
     stack_mtell_quiet:true,
     plotdebug: false,
     /* Check for grid2d  in the plotoptions. */
@@ -1025,7 +1025,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /**********************************************************/
     /* Remove from option list ral any non-permitted options. */
     kill(y),
-    permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics, adapt_depth],
+    permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics, adapt_depth, margin],
     /* In the case the list of variables is empty we need to add in "x" so the constant functions can be plotted. */
     if not(emptyp(lvs)) then permitted_options:append([first(lvs)], permitted_options)
     else  permitted_options:append([x], permitted_options),
@@ -1057,13 +1057,22 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
         ) else block(
             ral: append(ral, [[legend, false]])
         ),
-    /* Add in the command for the grid. */
-    if plotgrid2d and MAXIMA_VERSION_NUM>34 then
-        ral: append(ral, [grid2d]),
     if not(PLOT_TERMINAL="svg") then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, psize, "
 set output ", afn),
     /* Gnuplot only allows alpha-numeric characters in the plot name, so not even spaces!  This is a problem with the string function. */
     if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, psize, " ", PLOT_TERM_OPT),
+    /* Reduce margins around plots: this can be added in again with CSS if required, but can't be clipped later. */
+    if member(margin, maplist(first, ral)) then block([lv],
+            /* If we have [legend, true] then we should use the default legend */
+            lv: first(sublist(ral, lambda([ex], listp(ex) and (first(ex)=margin)))),
+            ral:delete(lv, ral),
+            if not(numberp(second(lv))) then error("Plot error: margin must be a number, found: ", second(lv)),
+            lv:second(lv),
+            if PLOT_TERMINAL="svg" then preamble:concat(preamble, ascii(10), "set lmargin ", string(lv), ascii(10), "set rmargin ", string(lv), ascii(10), "set tmargin ", string(lv), ascii(10), "set bmargin ", string(lv))
+        ),
+    /* Add in the command for the grid. */
+    if plotgrid2d and MAXIMA_VERSION_NUM>34 then
+        ral: append(ral, [grid2d]),
     if plotdebug then print(preamble),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
     if PLOT_TERMINAL="svg" then

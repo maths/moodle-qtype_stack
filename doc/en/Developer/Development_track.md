@@ -23,7 +23,8 @@ Please note, this is the _last_ version of STACK which will support Moodle 3.x.
 5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
 6. Confirm support for PHP 8.2, (fixes issue #986).
 7. Add in a [GeoGebra block](../Authoring/GeoGebra.md), and see [GeoGebra authoring](../Topics/GeoGebra.md).  Thanks to Tim Lutz for contributing this code as part of the AuthOMath project.
-8. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).
+8. Add in an option `margin` to control margins around STACK-generated plots.
+9. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).
 
 
 Create a working Parson's block

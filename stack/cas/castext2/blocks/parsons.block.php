@@ -1,18 +1,18 @@
 <?php
-// This file is part of Stateful
+// This file is part of STACK
 //
-// Stateful is free software: you can redistribute it and/or modify
+// STACK is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// Stateful is distributed in the hope that it will be useful,
+// STACK is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
+// along with STACK.  If not, see <http://www.gnu.org/licenses/>.
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
@@ -61,6 +61,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (isset($xpars['overridejs'])) {
             unset($xpars['overridejs']);
         }
+        if (isset($xpars['orientation'])) {
+            unset($xpars['orientation']);
+        }
 
         // Set default width and height here, we want to push forward to overwrite the iframe defaults 
         // if they are not provided in the block parameters
@@ -93,10 +96,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_String('<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>');
         $r->items[] = new MP_List([
             new MP_String('style'),
-            new MP_String(json_encode(['href' => 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css']))
-        ]);
-        $r->items[] = new MP_List([
-            new MP_String('style'),
             new MP_String(json_encode(['href' => $css]))
         ]);
         $r->items[] = new MP_List([
@@ -118,11 +117,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Add container divs for the proof lists to be accessed by sortable.
+        // Add correctly oriented container divs for the proof lists to be accessed by sortable.
+        $orientation = isset($this->params['orientation']) ? $this->params['orientation'] : 'horizontal';
+        $outer = $orientation === 'horizontal' ? 'row' : 'col';
+        $inner = $orientation === 'horizontal' ? 'col' : 'row';
         $r->items[] = new MP_String('<div class="container" style="' . $astyle . '">
-            <div class="row">
-                <ul class="list-group col" id="usedList"></ul>
-                    <ul class="list-group col" id="availableList"></ul>
+            <div class="' . $outer . '">
+                <ul class="list-group ' . $inner . '" id="usedList"></ul>
+                    <ul class="list-group ' . $inner . '" id="availableList"></ul>
             </div>
         </div>');
 
@@ -132,8 +134,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $importCode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $importCode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
         $importCode .= "import {preprocess_steps, stack_sortable} from '" . stack_cors_link('stacksortable.min.js') . "';\n";
-
         $r->items[] = new MP_String($importCode);
+
         // Extract the proof steps from the inner content
         $r->items[] = new MP_String('var proofSteps = ');
 
@@ -152,7 +154,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // parse steps and options separately if they exist
+        // parse steps and Sortable options separately if they exist
         $code = 'var userOpts;' . "\n";
         $code .= '[proofSteps, userOpts] = preprocess_steps(proofSteps, userOpts);' . "\n";
 
@@ -284,11 +286,11 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $valids = null;
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
-                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input') {
+                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input' && $key !== 'orientation') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
-                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss', 'overridejs', 'input'];
+                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss', 'overridejs', 'input', 'orientation'];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids)]);
                 }

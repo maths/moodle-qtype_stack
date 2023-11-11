@@ -258,6 +258,16 @@ proof_keys_sub(ex, proof_steps):= block(
 );
 
 /**
+ * Take a proof "ex" and a list "pf" of [key, step] pairs and translate this into a proof tree with
+ * the keys replaced by corresponding integers.
+ */
+proof_keys_int(ex, proof_steps):= block(
+   if integerp(ex) then return(ex),
+   if stringp(ex) then return(first(sublist_indices(proof_steps, lambda([ex2], is(ex=first(ex2)))))),
+   apply(op(ex), map(lambda([ex2], proof_keys_int(ex2, proof_steps)), args(ex)))
+);
+
+/**
  * Replace displayed LaTeX mathematics delimiters with inline.
  */
 proof_inline_maths(st) := ssubst("\\)", "\\]", ssubst("\\(", "\\[", st));
@@ -291,3 +301,51 @@ dispproof([ex]) := block([ex1],
 );
 */
 
+/******************************************************************/
+/*                                                                */
+/*  Assessment and feedback functions                             */
+/*                                                                */
+/******************************************************************/
+
+/*
+   Damerau-levenstein
+   Based on https://en.wikipedia.org/wiki/Levenshtein_distance
+
+   Assumes two lists of tags a, b.
+   Returns a list [m, [narrative]].
+*/
+proof_damerau_levenstein(a,b) := block(
+  if emptyp(a) then return([length(b), if emptyp(b) then [] else [apply(dl_missing, b)]]),
+  if emptyp(b) then return([length(a), [apply(dl_toomany, a)]]),
+  if is(first(a)=first(b)) then return(dl_combine([0, [dl_ok(first(a))]], proof_damerau_levenstein(rest(a), rest(b)))),
+  /* This is adjacent letter swap. */
+  if is(min(length(a),length(b))>=2) and is(first(a)=second(b)) and is(second(a)=first(b)) then
+        return(dl_combine([1, apply(dl_swap, [first(a), second(a)])], proof_damerau_levenstein(rest(rest(a)), rest(rest(b)) ))),
+  dl_min([proof_damerau_levenstein(rest(a),b),
+          proof_damerau_levenstein(a,rest(b)),
+          proof_damerau_levenstein(rest(a), rest(b))],
+         first(a), first(b))
+);
+
+/* The first element of this list is the cost, the second element of the list is the narrarative. */
+dl_combine(A,B) := [first(A)+first(B), flatten([second(A), second(B)])];
+
+dl_min(L, fa, fb) := block([m, l, dl_tags],
+  dl_tags:[dl_toomany(fa), dl_missing(fb), dl_subs(fa, fb)],
+  m:apply(min, map(first, L)),
+  l:sublist_indices(L, lambda([ex], is(first(ex)=m))),
+  dl_combine([1,dl_tags[first(l)]], [m, second(L[first(l)])])
+);
+
+/*
+  This function performs assessment of the student's proof.
+*/
+proof_assessment(sa, ta, pf) := block([tal, m, l],
+  sa:proof_flatten(sa),
+  /* Find closest proof to the alternatives. */
+  tal:proof_alternatives(ta),
+  tal:map(lambda([ex], proof_damerau_levenstein(sa, proof_flatten(ex))), tal),
+  m:apply(min, map(first, tal)),
+  l:sublist_indices(tal, lambda([ex], is(first(ex)=m))),
+  first(l)
+);

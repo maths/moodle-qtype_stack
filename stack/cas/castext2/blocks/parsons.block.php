@@ -68,6 +68,22 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Set default width and height here, we want to push forward to overwrite the iframe defaults 
         // if they are not provided in the block parameters
         $width = array_key_exists('width', $xpars) ? $xpars['width'] : "100%";
+        // TODO: set default based on number of proof steps
+        /*$opt2 = [];
+        if ($options !== null) {
+            $opt2 = array_merge([], $options);
+        }
+        $opt2['in iframe'] = true;
+        /*foreach ($this->children as $item) {
+            // Assume that all code inside is JavaScript and that we do not
+            // want to do the markdown escaping or any other in it.
+            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
+            if ($c !== null) {
+                $num_steps = $c->;
+            };
+        };
+        $num_steps = $this->children[1]->compile(castext2_parser_utils::RAWFORMAT, $opt2)->arguments[2]->arguments[1];*/
+        //$num_steps = ($this->children[0]->compile(castext2_parser_utils::RAWFORMAT, $opt2))->value;
         $height = array_key_exists('height', $xpars) ? $xpars['height'] : "400px";
         $xpars['width'] = $width;
         $xpars['height'] = $height;
@@ -93,6 +109,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_String(json_encode($xpars));
 
         // Plug in some style and scripts.
+        //$mathjax = stack_get_mathjax_url();
+        /*$r->items[] = new MP_List([
+            new MP_String('script'),
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))]);*/
         $r->items[] = new MP_String('<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>');
         $r->items[] = new MP_List([
             new MP_String('style'),
@@ -105,15 +125,17 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // We need to define a size for the inner content.
         $aspectratio = false;
-        $astyle = "width:calc($width - 3px);height:calc($height - 3px);";
+        $innerwidth = substr($width, -1) === 'px' ? "$width - 3px" : "100% - 3px";
+        $innerheight = substr($width, -1) === 'px' ? "$height - 3px" : "100% - 3px";
+        $astyle = "width:calc($innerwidth);height:calc($innerheight);";
 
         if (array_key_exists('aspect-ratio', $xpars)) {
             $aspectratio = $xpars['aspect-ratio'];
             // Unset the undefined dimension, if both are defined then we have a problem.
             if (array_key_exists('height', $xpars)) {
-                $astyle = "height:calc($height - 3px);aspect-ratio:$aspectratio;";
+                $astyle = "height:calc($innerheight);aspect-ratio:$aspectratio;";
             } else if (array_key_exists('width', $xpars)) {
-                $astyle = "width:calc($width - 3px);aspect-ratio:$aspectratio;";
+                $astyle = "width:calc($innerwidth);aspect-ratio:$aspectratio;";
             }
         }
 
@@ -204,7 +226,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
     }
 
     public function validate_JSON_contents($contents) : bool {
-        //$contents = json_decode($json_contents, true);
+        // TODO : check steps are reasonable
         $val_types = array_unique(array_map('gettype', array_values($contents)));
         return array_keys($contents) === ["steps", "options"] || (count($val_types) == 1 && $val_types[0] == "string");
     }

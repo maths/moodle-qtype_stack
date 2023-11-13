@@ -83,7 +83,7 @@ class stack_ans_test_controller {
         'EqualComAssRules'     => array(true, true, false, false),
         'CasEqual'             => array(false, false, false, false),
         'SameType'             => array(false, false, true, false),
-        'SubstEquiv'           => array(false, true, true, false),
+        'SubstEquiv'           => array('optional', true, true, false),
         'SysEquiv'             => array(false, false, true, false),
         'Sets'                 => array(false, false, false, false),
         'Expanded'             => array(false, false, true, false),

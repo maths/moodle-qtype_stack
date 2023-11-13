@@ -46,6 +46,9 @@ export const stack_sortable = class {
 
     _generate_state(proofSteps, inputId) {
         let stateStore = document.getElementById(inputId);
+        if (stateStore == null) {
+            return {used: [], available: [...Object.keys(proofSteps)]}
+        }
         return stateStore.value && stateStore.value != "" ? JSON.parse(stateStore.value) : {used: [], available: [...Object.keys(proofSteps)]};
     }
 

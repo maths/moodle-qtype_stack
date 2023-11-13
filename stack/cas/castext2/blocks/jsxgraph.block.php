@@ -121,15 +121,17 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             $height = $xpars['height'];
         }
 
-        $astyle = "width:calc($width - 3px);height:calc($height - 3px);";
+        $innerwidth = substr($width, -1) === 'px' ? "$width - 3px" : "100% - 3px";
+        $innerheight = substr($width, -1) === 'px' ? "$height - 3px" : "100% - 3px";
+        $astyle = "width:calc($innerwidth);height:calc($innerheight);";
 
         if (array_key_exists('aspect-ratio', $xpars)) {
             $aspectratio = $xpars['aspect-ratio'];
             // Unset the undefined dimension, if both are defined then we have a problem.
             if (array_key_exists('height', $xpars)) {
-                $astyle = "height:calc($height - 3px);aspect-ratio:$aspectratio;";
+                $astyle = "height:calc($innerheight);aspect-ratio:$aspectratio;";
             } else if (array_key_exists('width', $xpars)) {
-                $astyle = "width:calc($width - 3px);aspect-ratio:$aspectratio;";
+                $astyle = "width:calc($innerwidth);aspect-ratio:$aspectratio;";
             }
         }
 

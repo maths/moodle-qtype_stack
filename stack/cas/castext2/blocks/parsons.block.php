@@ -109,11 +109,11 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_String(json_encode($xpars));
 
         // Plug in some style and scripts.
-        //$mathjax = stack_get_mathjax_url();
-        /*$r->items[] = new MP_List([
+        $mathjax = stack_get_mathjax_url();
+        $r->items[] = new MP_List([
             new MP_String('script'),
-            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))]);*/
-        $r->items[] = new MP_String('<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>');
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))]);
+        //$r->items[] = new MP_String('<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>');
         $r->items[] = new MP_List([
             new MP_String('style'),
             new MP_String(json_encode(['href' => $css]))
@@ -195,7 +195,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'stackSortable.generate_available();' . "\n";
         // Typeset MathJax
         if (count($inputs) > 0) {
-            $code .= 'MathJax.typesetPromise();' . "\n";
+            $code .= 'MathJax.Hub.Typeset();' . "\n";
         };
         // Create the Sortable objects
         $code .= 'var opts = {...stackSortable.options, ...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";

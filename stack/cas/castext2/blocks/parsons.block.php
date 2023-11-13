@@ -71,7 +71,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $height = array_key_exists('height', $xpars) ? $xpars['height'] : "400px";
         $xpars['width'] = $width;
         $xpars['height'] = $height;
-        
+
         // Set a title.
         $xpars['title'] = 'STACK Parsons ///PARSONS_COUNT///';
 
@@ -166,16 +166,16 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $code .= 'var id;' . "\n";
         };
 
-        // Instantiate STACK sortable helper class
+        // Instantiate STACK sortable helper class.
         $code .= 'const stackSortable = new stack_sortable(proofSteps, "availableList", "usedList", id, userOpts);' . "\n";
-        // Generate the two lists in HTML
+        // Generate the two lists in HTML.
         $code .= 'stackSortable.generate_used();' . "\n";
         $code .= 'stackSortable.generate_available();' . "\n";
-        // Typeset MathJax
+        // Typeset MathJax.
         if (count($inputs) > 0) {
             $code .= 'MathJax.typesetPromise();' . "\n";
         };
-        // Create the Sortable objects
+        // Create the Sortable objects.
         $code .= 'var opts = {...stackSortable.options, ...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
         $code .= 'var sortableUsed = Sortable.create(usedList, opts);' . "\n";
         $code .= 'var sortableAvailable = Sortable.create(availableList, opts);' . "\n";
@@ -183,7 +183,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (count($inputs) > 0) {
             $code .= "\n});";
         };
-        
+
         $r->items[] = new MP_String($code);
         $r->items[] = new MP_String('</script>');
 
@@ -227,7 +227,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $heightend  = false;
         $widthtrim  = $width;
         $heighttrim = $height;
-        
+
         foreach ($validunits as $suffix) {
             if (!$widthend && strlen($width) > strlen($suffix) &&
                 substr($width, -strlen($suffix)) === $suffix) {
@@ -275,14 +275,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $err[] = stack_string('stackBlock_parsons_underdefined_dimension');
         }
 
-        // Check version is only one of valid options
+        // Check version is only one of valid options.
         if (array_key_exists('version', $this->params) && !array_key_exists($this->params['version'], self::$namedversions)) {
             $valid    = false;
             $validversions = ['cdn', 'local'];
             $err[] = stack_string('stackBlock_parsons_unknown_named_version', ['version' => implode(', ', $validversions)]);
         }
 
-        // Check that only valid parameters are passed to block header
+        // Check that only valid parameters are passed to block header.
         $valids = null;
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
@@ -299,7 +299,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // Check the JSON contents are of the right format, i.e., either the depth is 1 or the depth is 2 and the keys are ['steps', 'options'].
         $contents = json_decode(($this->children[0]->compile(castext2_parser_utils::RAWFORMAT, []))->value, true);
-        // either this is a string (when using Maxima and stackjson_stringify) or it's a JSON. The former case we sanitise on the JS side so we can ignore this here.
+        // Either this is a string (when using Maxima and stackjson_stringify) or it's a JSON. The former case we sanitise on the JS side so we can ignore this here.
         if (!gettype($contents) == "string") {
             if (!self::validate_JSON_contents(json_decode(($this->children[0]->compile(castext2_parser_utils::RAWFORMAT, []))->value, true))) {
                 $err[] = stack_string('stackBlock_parsons_contents');

@@ -29,15 +29,20 @@ Please note, this is the _last_ version of STACK which will support Moodle 3.x.
 
 Create a working Parson's block
 
-1. Incorporate prototype into parsons.block.php
-2. Choose default options for Sortable.js and document them
-3. Unit tests
-4. Choose css : review proof styles in top-level css and choose/propose styles for Parsons
+Essential 
+1. Choose and document default options for Sortable.js and document them
+2. Unit tests
+3. Choose css : review proof styles in top-level css and choose/propose styles for Parsons
    Please choose one list above the other!
-5. Choose Sortable.js version: add to core scripts and minify
-6. Hashing keys
-7. Nested list: `nestedSortable`
-8. Do not require an input (teacher's might want to display).
+4. Nested lists
+5. double tap
+6. Auto-size (i. internal best guess; ii. js iframe dynamic rescaling)
+7. Confirm MathJax default
+8. User button for vertical vs. horizontal
+
+Later
+1. Hashing keys
+
 
 A. All functionality to be JSON strings (as in Sam's code)
 B. Block to accept and produce Maxima proof expressions

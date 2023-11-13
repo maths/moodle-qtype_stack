@@ -96,6 +96,20 @@ class stack_checkbox_input extends stack_dropdown_input {
         return $result;
     }
 
+    public function renderApiData($tavalue)
+    {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = array();
+
+        $data['type'] = 'checkbox';
+        $data['options'] = $this->get_choices();
+
+        return $data;
+    }
+
     /**
      * Get the input variable that this input expects to process.
      * All the variable names should start with $this->name.
@@ -195,5 +209,15 @@ class stack_checkbox_input extends stack_dropdown_input {
             }
         }
         return $allblank;
+    }
+
+    public function getApiSolution($tavalue) {
+        $solution = [];
+        foreach ($this->ddlvalues as $key => $value) {
+            if($value['correct']) {
+                $solution['_' . $key] = strval($key);
+            }
+        }
+        return $solution;
     }
 }

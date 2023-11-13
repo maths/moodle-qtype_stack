@@ -1409,3 +1409,10 @@ $string['castext_debug_no_vars'] = 'This question has no question variables to d
 
 $string['castext_error_header'] = 'Rendering of text content failed.';
 $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
+
+
+
+
+//API
+$string['api_no_deployed_variants'] = 'The question XML does not contain deployed variants';
+$string['api_seed_not_in_variants'] = 'The specified seed belongs to no deployed variant';

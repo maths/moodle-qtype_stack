@@ -61,6 +61,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (isset($xpars['overridejs'])) {
             unset($xpars['overridejs']);
         }
+        if (isset($xpars['orientation'])) {
+            unset($xpars['orientation']);
+        }
 
         // Set default width and height here, we want to push forward to overwrite the iframe defaults 
         // if they are not provided in the block parameters
@@ -118,11 +121,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Add container divs for the proof lists to be accessed by sortable.
+        // Add correctly oriented container divs for the proof lists to be accessed by sortable.
+        $orientation = isset($this->params['orientation']) ? $this->params['orientation'] : 'horizontal';
+        $outer = $orientation === 'horizontal' ? 'row' : 'col';
+        $inner = $orientation === 'horizontal' ? 'col' : 'row';
         $r->items[] = new MP_String('<div class="container" style="' . $astyle . '">
-            <div class="row">
-                <ul class="list-group col" id="usedList"></ul>
-                    <ul class="list-group col" id="availableList"></ul>
+            <div class="' . $outer . '">
+                <ul class="list-group ' . $inner . '" id="usedList"></ul>
+                    <ul class="list-group ' . $inner . '" id="availableList"></ul>
             </div>
         </div>');
 
@@ -284,11 +290,11 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $valids = null;
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
-                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input') {
+                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input' && $key !== 'orientation') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
-                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss', 'overridejs', 'input'];
+                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss', 'overridejs', 'input', 'orientation'];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids)]);
                 }

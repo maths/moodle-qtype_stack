@@ -317,12 +317,13 @@ dispproof([ex]) := block([ex1],
   Returns the process of getting from s to t.
   Original author Achim Eichhorn Achim.Eichhorn(at)hs-esslingen.de modified by Chris Sangwin to track process.
 */
-proof_damerau_levenstein(s, t) := block([m, n, XY, XYaction, i, j, d, temp, L, lm, li, dl_tags],
+proof_damerau_levenstein(s, t) := block([m, n, XY, XYaction, i, j, d, temp, L, lm, li, dl_tags, simp],
+    simp:true,
     if(s=t) then return([0,[]]), /* Equal strings result in 0, nothing to do. */
     m:length(s),
     n:length(t),
     XY: matrix(makelist(i,i,0,n), makelist(0,i,1,n+1)),
-    XYaction: matrix(makelist([],i,0,n), makelist([],i,1,n+1)),
+    XYaction: matrix(makelist(makelist(dl_add(t[k]),k,1,i),i,0,n), makelist([],i,1,n+1)),
     for i:1 thru m do (
         XY[2][1]:i,
         XYaction[2][1]:makelist(dl_delete(s[k]),k,1,i),
@@ -340,7 +341,7 @@ proof_damerau_levenstein(s, t) := block([m, n, XY, XYaction, i, j, d, temp, L, l
             li:last(sublist_indices(L, lambda([ex], is(ex=lm)))),
             dl_tags:[append(XYaction[2][j],[dl_add(t[j])]),
                           append(XYaction[1][j+1],[dl_delete(s[i])]),
-                          append(XYaction[1][j],[if is(c=0) then dl_ok(s[i]) else dl_subs(t[j],s[i])])],
+                          append(XYaction[1][j],[if is(c=0) then dl_ok(s[i]) else dl_subs(s[i],t[j])])],
             if is(i<m and j<n) then dl_tags:append(dl_tags,  [append(XYaction[1][j],[dl_swap(s[i],s[i+1])])]),
             XY[2][j+1]:L[li],
             XYaction[2][j+1]:dl_tags[li]
@@ -348,16 +349,22 @@ proof_damerau_levenstein(s, t) := block([m, n, XY, XYaction, i, j, d, temp, L, l
         XY:rowswap(XY, 1, 2),
         XYaction:rowswap(XYaction, 1, 2)
       ),
-    d:XY[1][n+1],
-    return([XY[1][n+1],proof_damerau_levenstein_tidy(XYaction[1][n+1])])
+      return([XY[1][n+1],proof_damerau_levenstein_tidy(XYaction[1][n+1])])
 );
 
 /* dl_swap is always followed by a dl_subs, which we change. */
 proof_damerau_levenstein_tidy(L) := block(
   if emptyp(L) then return(L),
-  if op(first(L))=dl_swap then return(append([first(L),dl_swap_follow(first(first(L)))], proof_damerau_levenstein_tidy(rest(rest(L))))),
+  if op(first(L))=dl_swap then return(append([first(L),dl_swap_follow(second(first(L)))], proof_damerau_levenstein_tidy(rest(rest(L))))),
   return(append([first(L)], proof_damerau_levenstein_tidy(rest(L))))
 );
+
+s_test_case(proof_damerau_levenstein([1,2,3],[1,2,3]), [0,[]]);
+s_test_case(proof_damerau_levenstein([1,2,3],[1,2,3,4]), [1,[dl_ok(1),dl_ok(2),dl_ok(3),dl_add(4)]]);
+s_test_case(proof_damerau_levenstein([1,3,4],[1,2,3,4]), [1,[dl_ok(1),dl_add(2),dl_ok(3),dl_ok(4)]]);
+s_test_case(proof_damerau_levenstein([3,4],[1,2,3,4]), [2,[dl_add(1),dl_add(2),dl_ok(3),dl_ok(4)]]);
+s_test_case(proof_damerau_levenstein([1,3,2,4],[1,2,3,4]), [1,[dl_ok(1),dl_swap(3,2),dl_swap_follow(2),dl_ok(4)]]);
+
 
 /*
   This function performs assessment of the student's proof.
@@ -377,44 +384,43 @@ proof_assessment(sa, tal) := block([sal, L, m, l],
   l:first(sublist_indices(L, lambda([ex], is(first(ex)=m)))),
   return(L[l]) 
  );
- 
 
-/* Tex values of the dl_functions used above. */
+/* String values of the dl_functions used above. */
 dl_empty_disp(ex) := "";
+dl_add_disp(ex) := sconcat("<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-left'></i></span> ", ex);
 dl_ok_disp(ex) := "<span style='font-size: 1.1em; color:green;'><i class='fa fa-check'></i></span>";
 dl_delete_disp(ex) := "<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-right'></i></span>";
 dl_swap_disp([ex]) := "<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-down'></i></span>";
 dl_swap_follow_disp(ex) := "<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-up'></i></span>";
-dl_add_disp(ex) := sconcat("<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-left'></i></span> ", ex);
 dl_subs_disp([ex]) := sconcat("<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-right'></i></span> ",
-                            "<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-left'></i></span> ", first(ex));
+                            "<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-left'></i></span> ", second(ex));
 
-proof_column_disp(ex):= sconcat("<div class='proof-column'>", "", ex, "</div>");
-proof_column_disp2(ex):= sconcat("<div class='proof-column2'>", ex, "</div>");
+proof_line_disp(ex1, ex2):= sconcat("<div class='proof-line'>",    ex1, ex2, "</div>");
+proof_column_disp(ex):=     sconcat("<div class='proof-column'>",  ex,       "</div>");
+proof_column_disp2(ex):=    sconcat("<div class='proof-column2'>", ex,       "</div>");
 
-proof_assessment_display(sa, saa, pf) := block([st, k],
-  sal:args(proof_flatten(sa)),
-  sal:proof_disp_replacesteps(sal, pf),
+dl_disp(ex):=ev(ex, dl_empty=dl_empty_disp, dl_ok=dl_ok_disp, dl_delete=dl_delete_disp, dl_add=dl_add_disp,
+                    dl_swap=dl_swap_disp, dl_swap_follow=dl_swap_follow_disp, dl_subs=dl_subs_disp);
+
+proof_assessment_display(saa, pf) := block([st, k],
+  /* An empty list is returned when we have a correct proof. */
+  if emptyp(saa) then return(""),
   saa:proof_disp_replacesteps(saa, pf),
-  st:"",
-  for k:1 thru max(length(sal),length(saa)) do block([saa_k, sal_k, saa_disp],
-    /* Run off the ends of both lists. */
-    saa_k:dl_empty(null),
-    sal_k:"",
-    if (k<=length(saa)) then
-      saa_k:saa[k],
-    if (k<=length(sal)) then
-      sal_k:sal[k],
-    if op(saa_k)=dl_add then block([saa_disp],
-      saa_disp:proof_column_disp2(dl_add_disp(first(args(saa_k)))),
-      st:sconcat(st, "<div class='proof-line'>",proof_column_disp(""),saa_disp,"</div>"),
-      if (not(sal_k="")) then 
-        st:sconcat(st, "<div class='proof-line'>",proof_column_disp(sal_k),proof_column_disp2(dl_ok_disp(null)),"</div>")
-    ) else block([saa_disp],
-      saa_disp:proof_column_disp2(ev(saa_k, dl_empty=dl_empty_disp, dl_ok=dl_ok_disp, dl_delete=dl_delete_disp,
-                                            dl_swap=dl_swap_disp, dl_swap_follow=dl_swap_follow_disp, dl_subs=dl_subs_disp)),
-      st:sconcat(st, "<div class='proof-line'>",proof_column_disp(sal_k),saa_disp,"</div>")
-    )
+  /* sal is now a list of strings from the proof. */
+  st:[],
+  for k:1 thru length(saa) do block([s0,s1],
+    s0:saa[k],
+    s1:first(s0),
+    if is(op(s0)=dl_add) then
+        st:append(st, [[dl_empty(null), s0]])
+    else
+        st:append(st, [[s1, s0]])
   ),
-  st:sconcat("<div class='proof'>", st, "</div>")
+  /* Turn the st list of lists into a string to display. */
+    st:dl_disp(st),
+  for k:1 thru length(saa) do block(
+     st[k]:proof_line_disp(proof_column_disp(first(st[k])), proof_column_disp2(second(st[k])))
+  ),
+  st:apply(sconcat, st),  
+  sconcat("<div class='proof'>", st, "</div>")
 );

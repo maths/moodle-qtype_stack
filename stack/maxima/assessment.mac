@@ -947,6 +947,7 @@ algebraic_equivalence(SA, SB) :=
        ex:first(args(ex)),
     if (safe_op(ex)="*" or safe_op(ex)="^") then
        if not(any_listp(algebraic_equivalence_zero, args(ex))) then return(false),
+    keepfloat:false,
     ex:errcatch(ratsimp(ex)),
     if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),
     ex:ex[1],

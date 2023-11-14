@@ -90,6 +90,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '5.1e-2', '51/1000', 1, '', ''),
         array('AlgEquiv', '', '0.333333333333333', '1/3', 0, '', ''),
         array('AlgEquiv', '', '(0.5+x)*2', '2*x+1', 1, '', ''),
+        array('AlgEquiv', '', '0.333333333333333*x^2', 'x^2/3', 0, '', ''),
+        array('AlgEquiv', '', '0.1*(2.0*s^2+6.0*s-25.0)/s', '(2*s^2+6*s-25)/(10*s)', 1, '', ''),
+        array('AlgEquiv', '', '0.1*(2.0*s^2+6.0*s-25.00001)/s', '(2*s^2+6*s-25)/(10*s)', 0, '', ''),
         // Interesting rounding error.
         array('AlgEquiv', '', '100.4-80.0', '20.4', 0, '', ''),
 

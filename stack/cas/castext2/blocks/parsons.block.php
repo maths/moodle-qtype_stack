@@ -193,10 +193,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Generate the two lists in HTML
         $code .= 'stackSortable.generate_used();' . "\n";
         $code .= 'stackSortable.generate_available();' . "\n";
+
         // Typeset MathJax
         if (count($inputs) > 0) {
             $code .= 'MathJax.Hub.Typeset();' . "\n";
         };
+
+        // Add Double Click events
+        $code .= 'stackSortable.add_dblclick_listener();' . "\n";
         // Create the Sortable objects
         $code .= 'var opts = {...stackSortable.options, ...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
         $code .= 'var sortableUsed = Sortable.create(usedList, opts);' . "\n";

@@ -72,6 +72,23 @@ export const stack_sortable = class {
         };
     }
 
+    add_dblclick_listener() {
+        var availableLi = this.available.getElementsByClassName("list-group-item");
+        for (var i = 0; i < availableLi.length; i++) {
+            availableLi[i].addEventListener('dblclick', (e) => {
+                if (e.target.parentNode.id == this.availableId) {
+                    var li = this.available.removeChild(e.target);
+                    this.used.append(li);
+                }
+                else if (e.target.parentNode.id == this.usedId) {
+                    var li = this.used.removeChild(e.target);
+                    this.available.prepend(li);
+                }
+            });
+        }
+
+    }
+
     update_state(newUsed, newAvailable) {
         var newState = {used: [], available: []};
         newState.used = newUsed.toArray();

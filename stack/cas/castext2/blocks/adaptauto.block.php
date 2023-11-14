@@ -25,11 +25,11 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
         $body = new MP_List([new MP_String('%root')]);
 
         $code = "";
-        if (isset($this->params['show_id'])) {
-            $code .= "document.getElementById('stack-adapt-" . $this->params['show_id'] . "').style.display='block';";
+        if (isset($this->params['show_ids'])) {
+            $code .= "document.getElementById('stack-adapt-" . $this->params['show_ids'] . "').style.display='block';";
         }   
-        if (isset($this->params['hide_id'])) {
-            $code .= "document.getElementById('stack-adapt-" . $this->params['hide_id'] . "').style.display='none';";
+        if (isset($this->params['hide_ids'])) {
+            $code .= "document.getElementById('stack-adapt-" . $this->params['hide_ids'] . "').style.display='none';";
         }
 
         $body->items[] = new MP_String('<script>document.addEventListener("DOMContentLoaded", function(){');
@@ -76,7 +76,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
 
     public function validate_extract_attributes(): array {
         $r = array();
-        if (!isset($this->params['show_id']) && !isset($this->params['hide_id'])) {
+        if (!isset($this->params['show_ids']) && !isset($this->params['hide_ids'])) {
             return $r;
         }
         return $r;
@@ -84,7 +84,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
 
     public function validate(&$errors=[], $options=[]): bool {
         if (!array_key_exists('show_id', $this->params) && !array_key_exists('hide_id', $this->params)) {
-            $errors[] = new $options['errclass']('Adaptbutton block requires a show_id or a hide_id parameter.', $options['context'] . '/' .
+            $errors[] = new $options['errclass']('Adaptauto block requires a show_ids or a hide_ids parameter.', $options['context'] . '/' .
                 $this->position['start'] . '-' . $this->position['end']);
             return false;
         }

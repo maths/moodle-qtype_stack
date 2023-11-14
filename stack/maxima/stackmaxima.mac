@@ -159,6 +159,7 @@ load("noun_simp.mac");
 load("inequalities.mac");
 load("intervals.mac");
 load("geometry.mac");
+load("proof.mac");
 load("stackunits.mac");
 load("stacktex.lisp");
 load("stackstrings.mac");

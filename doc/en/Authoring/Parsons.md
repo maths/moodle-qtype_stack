@@ -97,7 +97,7 @@ The default options are TODO: confirm the above syntax and the default options!
 
 To track which random variants of a question a student sees, and make sure they return to the same varient, we need to perform all randomisation at the Maxima level.
 
-You must define steps as Maxima objects using a `proof_steps` list (see the documentation of for [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_libraries.md)) then you can randomly order the `proof_steps` as follows.
+You must define steps as Maxima objects using a `proof_steps` list (see the documentation of for [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_library.md)) then you can randomly order the `proof_steps` as follows.
 
 1. Define `proof_steps` as normal.
 2. Add in `proof_steps:random_permutation(proof_steps);` to the question variables.

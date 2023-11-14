@@ -695,6 +695,11 @@
         "description":"General discussion of assessment of proof with STACK."
         },
         {
+        "file":"Proof_assessment.md",
+        "title":"CAS libraries for assessing Parsons problems and proofs",
+        "description":"Reference documentation on the libraries in STACK for assessment of proofs as Parsons problems."
+        },
+        {
         "file":"Proof_CAS_library.md",
         "title":"CAS libraries for representing text-based proofs",
         "description":"Reference documentation on the libraries in STACK for representing text-based proofs."

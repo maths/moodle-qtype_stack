@@ -64,6 +64,8 @@ Note that the variable `proof_steps` is a _list_ of lists:  `[ ["key", "step", (
 
 `proof_keys_sub(ex, proof_steps)` takes a proof built from numbered indexes, and translate this into string keys.  In the above example, it might be easier to author a proof as `proof(1,2,3,4,5)` rather than type in `proof("assodd","defn_odd","alg_odd","def_M_odd","conc_odd")`. The whole design could be built on numbered keys (and these are valid), but string keys are easier to remember and easier to interpret when looking at students' attempts.  Also, string keys can be inserted later without the need to re-number existing numerical keys. Do not use numerical keys if you intend to randomly permute the strings in the proof!
 
+`proof_keys_int(ex, proof_steps)` takes a proof built from string keys, and translate this into numbered indexes.
+
 `proof_getstep(key, proof_steps)` looks for the key `key` in the `proof_steps` list.  They key can be either a numerical, or string key.  If found then the function returns the full string, otherwise the key is returned without an error.  One advantage of this approach is that the teacher can define abreviated, alternative proofs using some of the strings in `proof_steps`, e.g. using the above example the following omits all the detail in the sub-proofs, focusing on the structure and hypothesis/conclusion of each block.
 
 ````
@@ -77,4 +79,12 @@ When displayed, the keys `"\\(\\cdots\\)"` do not occur in `proof_steps`, so are
 To display a whole proof whole proof usinf proof-step lists use `proof_display(P1, proof_steps)`.  E.g. add `{@proof_display(P1, proof_steps)@}` to the appropriate castext.  This will (1) replace all keys in the proof `P1` with the corrsponding strings in `proof_steps` (if they exist) and (2) display the structure using the nested `<div class="proof-block">` from the [CSS Styles for displaying proof](Proof_styles.md).
 
 `proof_display_para(P1, proof_steps)` displays a complete proof, but using HTML paragraphs to split blocks.  This is a more traditioanl presentation of proof.
+
+## Example proofs
+
+Example proofs are distributed with STACK in a `proofsamples` sub-folder of the maxima "contrib" folder: [https://github.com/maths/moodle-qtype_stack/tree/master/stack/maxima/contrib](https://github.com/maths/moodle-qtype_stack/tree/master/stack/maxima/contrib).  These proofs can be loaded with `stack_include` in the normal way.  Each file contains
+
+1. A string variable `thm` showing the Theorem to be proved.
+2. A proof steps list `proof_steps`
+3. A variable `proof_ans` which contains one proof the teacher considers correct.
 

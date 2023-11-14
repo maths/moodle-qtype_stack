@@ -8,8 +8,8 @@ proof_steps: [
     ["defn_rat",  "Then \\(\\log_2(3) = \\frac{p}{q}>0\\) where "],
     ["defn_rat2", "\\(p\\) and \\(q\\neq 0\\) are positive integers."],
     ["defn_log",  "Using the definition of logarithm:"],
-    ["defn_log2", "\\[ 3 = 2^{\\frac{p}{q}}\\]"],
-    ["alg",       "\\[ 3^q = 2^p\\]"],
+    ["defn_log2", "\\( 3 = 2^{\\frac{p}{q}}\\)"],
+    ["alg",       "\\( 3^q = 2^p\\)"],
     ["alg_int",   "The left hand side is always odd and the right hand side is always even."],
     ["contra",    "This is a contradiction."],
     ["conc",      "Hence \\(\\log_2(3)\\) is irrational."]

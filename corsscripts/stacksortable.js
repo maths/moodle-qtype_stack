@@ -72,7 +72,18 @@ export const stack_sortable = class {
         };
     }
 
-    add_dblclick_listener() {
+    update_state(newUsed, newAvailable) {
+        var newState = {used: [], available: []};
+        newState.used = newUsed.toArray();
+        newState.available = newAvailable.toArray();
+        if (this.inputId != null) {
+            this.input.value = JSON.stringify(newState);
+            this.input.dispatchEvent(new Event('change'));
+        };
+        this.state = newState;
+    }
+
+    update_state_dblclick(newUsed, newAvailable) {
         var availableLi = this.available.getElementsByClassName("list-group-item");
         for (var i = 0; i < availableLi.length; i++) {
             availableLi[i].addEventListener('dblclick', (e) => {
@@ -84,20 +95,9 @@ export const stack_sortable = class {
                     var li = this.used.removeChild(e.target);
                     this.available.prepend(li);
                 }
+                this.update_state(newUsed, newAvailable);
             });
         }
-
-    }
-
-    update_state(newUsed, newAvailable) {
-        var newState = {used: [], available: []};
-        newState.used = newUsed.toArray();
-        newState.available = newAvailable.toArray();
-        if (this.inputId != null) {
-            this.input.value = JSON.stringify(newState);
-            this.input.dispatchEvent(new Event('change'));
-        };
-        this.state = newState;
     }
 };
 

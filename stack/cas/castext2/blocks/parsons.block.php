@@ -194,13 +194,16 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'stackSortable.generate_used();' . "\n";
         $code .= 'stackSortable.generate_available();' . "\n";
 
-        // Add Double Click events
-        $code .= 'stackSortable.add_dblclick_listener();' . "\n";
-        
         // Create the Sortable objects
         $code .= 'var opts = {...stackSortable.options, ...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
         $code .= 'var sortableUsed = Sortable.create(usedList, opts);' . "\n";
         $code .= 'var sortableAvailable = Sortable.create(availableList, opts);' . "\n";
+
+        // Add double-click events
+        $code .= 'stackSortable.update_state_dblclick(sortableUsed, sortableAvailable);' . "\n";
+
+        // Typeset MathJax
+        $code .= 'MathJax.Hub.Typeset();' . "\n";
 
         if (count($inputs) > 0) {
             $code .= "\n});";

@@ -35,10 +35,10 @@ Essential
 3. Choose css : review proof styles in top-level css and choose/propose styles for Parsons
    Please choose one list above the other!
 4. Nested lists
-5. double tap
-6. Auto-size (i. internal best guess; ii. js iframe dynamic rescaling)
-7. Confirm MathJax default
-8. User button for vertical vs. horizontal
+5. Auto-size (i. internal best guess; ii. js iframe dynamic rescaling)
+6. Confirm MathJax default
+7. User button for vertical vs. horizontal
+8. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block.  We can talk about this.
 
 Later
 1. Hashing keys

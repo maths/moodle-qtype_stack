@@ -44,8 +44,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Define iframe params.
         $xpars = [];
         $inputs = []; // From inputname to variable name.
+        $clone = "false"; // whether to have all keys in available list cloned
         foreach ($this->params as $key => $value) {
-            if ($key !== 'input') {
+            if ($key === 'clone') {
+                $clone = $value;
+            }
+            else if ($key !== 'input') {
                 $xpars[$key] = $value;
             } else {
                 $inputs[$key] = $value;
@@ -143,10 +147,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $orientation = isset($this->params['orientation']) ? $this->params['orientation'] : 'horizontal';
         $outer = $orientation === 'horizontal' ? 'row' : 'col';
         $inner = $orientation === 'horizontal' ? 'col' : 'row';
+        $innerUl = '<ul class="list-group ' . $inner . '" id="usedList"></ul>
+                        <ul class="list-group ' . $inner . '" id="availableList"></ul>';
+        if ($clone === 'true') {
+            $innerUl .= '<ul class="list-group ' . $inner . '" id="bin"></ul>';
+        }
         $r->items[] = new MP_String('<div class="container" style="' . $astyle . '">
-            <div class="' . $outer . '">
-                <ul class="list-group ' . $inner . '" id="usedList"></ul>
-                    <ul class="list-group ' . $inner . '" id="availableList"></ul>
+            <div class="' . $outer . '">' . $innerUl . '
             </div>
         </div>');
 
@@ -189,15 +196,21 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         };
 
         // Instantiate STACK sortable helper class.
-        $code .= 'const stackSortable = new stack_sortable(proofSteps, "availableList", "usedList", id, userOpts);' . "\n";
+        $code .= 'const stackSortable = new stack_sortable(proofSteps, "availableList", "usedList", id, userOpts, "' . $clone .'");' . "\n";
         // Generate the two lists in HTML.
         $code .= 'stackSortable.generate_used();' . "\n";
         $code .= 'stackSortable.generate_available();' . "\n";
 
         // Create the Sortable objects
-        $code .= 'var opts = {...stackSortable.options, ...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
-        $code .= 'var sortableUsed = Sortable.create(usedList, opts);' . "\n";
-        $code .= 'var sortableAvailable = Sortable.create(availableList, opts);' . "\n";
+        $code .= 'var usedOpts = {...stackSortable.options.used, ...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
+        $code .= 'var availableOpts = {...stackSortable.options.available, ...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
+        $code .= 'var sortableUsed = Sortable.create(usedList, usedOpts);' . "\n";
+        $code .= 'var sortableAvailable = Sortable.create(availableList, availableOpts);' . "\n";
+
+        // Create bin for clone mode
+        if ($clone === "true") {
+            $code .= 'var sortableBin = Sortable.create(bin, {group: {name: "sortableBin", pull: false, put: "sortableUsed"}, onAdd: (e) => {document.getElementById("bin").removeChild(e.item);}});' . "\n";
+        }
 
         // Add double-click events
         $code .= 'stackSortable.update_state_dblclick(sortableUsed, sortableAvailable);' . "\n";
@@ -311,11 +324,11 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $valids = null;
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
-                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input' && $key !== 'orientation') {
+                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input' && $key !== 'orientation' && $key !== 'clone') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
-                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss', 'overridejs', 'input', 'orientation'];
+                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss', 'overridejs', 'input', 'orientation', 'clone'];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids)]);
                 }

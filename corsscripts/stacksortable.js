@@ -22,7 +22,7 @@ export function preprocess_steps(proofSteps, userOpts) {
 
 export const stack_sortable = class {
 
-    constructor(proofSteps, availableId, usedId, inputId = null, options = null) {
+    constructor(proofSteps, availableId, usedId, inputId = null, options = null, clone = false) {
         this.proofSteps = proofSteps;
         this.inputId = inputId;
         this.state = this._generate_state(this.proofSteps, this.inputId);
@@ -33,15 +33,23 @@ export const stack_sortable = class {
         this.available = document.getElementById(this.availableId);
         this.usedId = usedId;
         this.used = document.getElementById(this.usedId);
+        // Design for options:
+        // options = {used : {// options for the used list}, available : {// options for the available list}}
         // TODO : additional default options?
-        this.defaultOptions = {animation: 50};
+        this.defaultOptions = {used: {animation: 50}, available: {animation: 50}};
         if (options == null) {
             this.userOptions = this.defaultOptions;
         } else {
-            this.userOptions = Object.assign(this.defaultOptions, options);
+            // TODO: if options is flat object assign same to both used available, else index into options.used and options.available
+            this.userOptions = {used: Object.assign(this.defaultOptions.used, options.used), available: Object.assign(this.defaultOptions.available, options.available)};
         };
+        // define group correctly based on clone
+        this.clone = clone
+        var group_val = {used: {name: "sortableUsed", pull: true, put: true}};
+        group_val.available = (clone === "true") ? {name: "sortableAvailable", pull: "clone", revertClone: true, put: false} : {name: "sortableAvailable", pull: true, put: true};
         // Do not allow a user to replace ghostClass or group.
-        this.options = Object.assign(this.userOptions, {ghostClass: "list-group-item-info", group: "shared"});
+        this.options = {used: Object.assign(this.userOptions.used, {ghostClass: "list-group-item-info", group: group_val.used}), 
+                        available : Object.assign(this.userOptions.available, {ghostClass: "list-group-item-info", group: group_val.available})};
     }
 
     _generate_state(proofSteps, inputId) {
@@ -73,9 +81,7 @@ export const stack_sortable = class {
     }
 
     update_state(newUsed, newAvailable) {
-        var newState = {used: [], available: []};
-        newState.used = newUsed.toArray();
-        newState.available = newAvailable.toArray();
+        var newState = {used: newUsed.toArray(), available: newAvailable.toArray()};
         if (this.inputId != null) {
             this.input.value = JSON.stringify(newState);
             this.input.dispatchEvent(new Event('change'));
@@ -88,12 +94,18 @@ export const stack_sortable = class {
         for (var i = 0; i < availableLi.length; i++) {
             availableLi[i].addEventListener('dblclick', (e) => {
                 if (e.target.parentNode.id == this.availableId) {
-                    var li = this.available.removeChild(e.target);
-                    this.used.append(li);
+                    if (this.clone === "true") {
+                        this.used.append(e.target.cloneNode(true));
+                    } else {
+                        var li = this.available.removeChild(e.target);
+                        this.used.append(li);
+                    }
                 }
                 else if (e.target.parentNode.id == this.usedId) {
-                    var li = this.used.removeChild(e.target);
-                    this.available.prepend(li);
+                    if (this.clone !== "true") {
+                        var li = this.used.removeChild(e.target);
+                        this.available.prepend(li);
+                    }
                 }
                 this.update_state(newUsed, newAvailable);
             });

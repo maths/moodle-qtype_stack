@@ -390,6 +390,7 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('text', $inputname . 'buttontitles', stack_string('buttontitles') , array('size' => 20));
         $mform->setType($inputname . 'buttontitles', PARAM_RAW);
+        $mform->setDefault($inputname . 'buttontitles', '');
         $mform->hideIf($inputname . 'buttontitles', $inputname . 'type', 'neq', 'boolean');
 
         $mform->addElement('select', $inputname . 'choicetype', stack_string('choicetype') ,stack_options::get_choicetype_options());

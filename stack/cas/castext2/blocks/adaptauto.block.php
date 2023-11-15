@@ -45,7 +45,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
         }
         $code .= '});';
 
-        // $body->items[] = new MP_String('<script>document.addEventListener("DOMContentLoaded", function(){');
+        // $body->items[] = new MP_String('<script>');
         // $body->items[] = new MP_String($code);
         // $body->items[] = new MP_String('});</script>');
 
@@ -64,6 +64,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
     }
 
     public function is_flat(): bool {
+        // Never flat, the [[iframe]] portion needs extra processing.
         return true;
     }
 
@@ -78,7 +79,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
     public function validate(&$errors=[], $options=[]): bool {
         if (!array_key_exists('show_ids', $this->params) && !array_key_exists('hide_ids', $this->params)) {
             $errors[] = new $options['errclass']('Adaptauto block requires a show_ids or a hide_ids parameter.', $options['context'] . '/' .
-                $this->position['start'] . '-' . $this->position['end']);
+            $this->position['start'] . '-' . $this->position['end']);
             return false;
         }
         return true;

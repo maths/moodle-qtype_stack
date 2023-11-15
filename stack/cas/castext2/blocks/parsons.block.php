@@ -216,7 +216,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'stackSortable.update_state_dblclick(sortableUsed, sortableAvailable);' . "\n";
 
         // Typeset MathJax
-        $code .= 'MathJax.Hub.Typeset();' . "\n";
+        $code .= 'MathJax.Hub.Queue(["Typeset", MathJax.Hub]);' . "\n";
 
         if (count($inputs) > 0) {
             $code .= "\n});";

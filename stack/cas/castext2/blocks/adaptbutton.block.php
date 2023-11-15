@@ -18,28 +18,34 @@ defined('MOODLE_INTERNAL') || die();
 global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/../block.interface.php');
-require_once(__DIR__ . '/../../../../../../../config.php');
-require_once(__DIR__ . '/../../../../vle_specific.php');
+// Register a counter.
+require_once(__DIR__ . '/iframe.block.php');
+stack_cas_castext2_iframe::register_counter('///ADAPTBUTTON_COUNT///');
 
 class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
 
     // All reveals need unique (at request level) identifiers,
     // we use running numbering.
-    private static $countadaptbuttons = 1;
 
     public function compile($format, $options): ?MP_Node {
 
+        static $count = 0;
+
         $body = new MP_List([new MP_String('%root')]);
 
+        // This should have enough randomness to avoid collisions.
+        $uid = '' . rand(100, 999) . time() . '_' . $count;
+        $count = $count + 1;
+
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
-        self::$countadaptbuttons . '">' . $this->params['title'] . '</button>');
+        $uid . '">' . $this->params['title'] . '</button>');
 
         $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n";
         //$code .= "var counter=0;\n";
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
         $code .= "if (input.value=='true'){ hide_and_show(); }\n";
-        $code .= "stack_js.request_access_to_button('stack-adaptbutton-". self::$countadaptbuttons . "', true).then((id) => {\n";
+        $code .= "stack_js.request_access_to_button('stack-adaptbutton-". $uid . "', true).then((id) => {\n";
         $code .= "const button = document.getElementById(id);\n";
         $code .= "button.addEventListener('click',(e)=>{\n";
         $code .= "input.value='true';\n";
@@ -69,17 +75,13 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         //Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([
             new MP_String('iframe'),
-            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
-                    self::$countadaptbuttons . '.'])),
+            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton  ///ADAPTBUTTON_COUNT///.'])),
             new MP_List([
                 new MP_String('script'),
                 new MP_String(json_encode(['type' => 'module'])),
                 new MP_String($code)
             ])
         ]);
-
-        // Update count.
-        self::$countadaptbuttons = self::$countadaptbuttons + 1;
 
         return $body;
     }

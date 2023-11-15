@@ -17,6 +17,9 @@ defined('MOODLE_INTERNAL') || die();
 
 
 require_once(__DIR__ . '/../block.interface.php');
+// Register a counter.
+require_once(__DIR__ . '/iframe.block.php');
+stack_cas_castext2_iframe::register_counter('///ADAPTAUTO_COUNT///');
 
 class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
 
@@ -24,48 +27,38 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
 
         $body = new MP_List([new MP_String('%root')]);
 
-        $code = "";
+        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n";
+        $code .= 'document.addEventListener("DOMContentLoaded", function(){';
         if (isset($this->params['show_ids'])) {
-            $code .= "document.getElementById('stack-adapt-" . $this->params['show_ids'] . "').style.display='block';";
+            $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
+            foreach ($split_show_id as &$id )
+            {
+                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',true);";
+            }
         }   
         if (isset($this->params['hide_ids'])) {
-            $code .= "document.getElementById('stack-adapt-" . $this->params['hide_ids'] . "').style.display='none';";
+            $split_hide_id = preg_split ("/[\ \n\;]+/", $this->params['hide_ids']); 
+            foreach ($split_hide_id as &$id )
+            {
+                $code .= "stack_js.toggle_visibility('stack-adapt-" . $id . "',false);";
+            }
         }
-
-        $body->items[] = new MP_String('<script>document.addEventListener("DOMContentLoaded", function(){');
-        $body->items[] = new MP_String($code);
-        $body->items[] = new MP_String('});</script>');
-
-
-/*
-        $code = 'import {stack_js} from "' . stack_cors_link('stackjsiframe.min.js') . '";';
-        $code .= 'stack_js.request_access_to_input("' . $this->params['input'] . '", true).then((id) => {';
-        // So that should give us access to the input.
-        // Once we get the access immediately bind a listener to it.
-        $code .= 'const input = document.getElementById(id);';
-        $code .= 'input.addEventListener("click",(e)=>{';
-        if (isset($this->params['show_id'])) {
-            $code .= 'stack_js.toggle_visibility("' . $this->params['show_id'] . '",true);});';
-        }   
-        if (isset($this->params['hide_id'])) {
-            $code .= 'stack_js.toggle_visibility("' . $this->params['show_id'] . '",false);});';
-        }         
-
         $code .= '});';
+
+        // $body->items[] = new MP_String('<script>document.addEventListener("DOMContentLoaded", function(){');
+        // $body->items[] = new MP_String($code);
+        // $body->items[] = new MP_String('});</script>');
 
         // Now add a hidden [[iframe]] with suitable scripts.
         $body->items[] = new MP_List([
             new MP_String('iframe'),
-            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptbutton ' .
-                    self::$countadaptbuttons . '.'])),
+            new MP_String(json_encode(['hidden' => true, 'title' => 'Logic container for a adaptauto ///ADAPTAUTO_COUNT///.'])),
             new MP_List([
                 new MP_String('script'),
                 new MP_String(json_encode(['type' => 'module'])),
                 new MP_String($code)
             ])
         ]);
-
-*/
 
         return $body;
     }

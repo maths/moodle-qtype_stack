@@ -533,6 +533,11 @@
         "description":"Information on testing a STACK question."
         },
         {
+        "file":"Tidy_Tool.md",
+        "title":"Tidy Tool - STACK Documentation",
+        "description":"How to tidy up PRT node names with STACK's tidy tool."
+        },
+        {
         "file":"Trees.md",
         "title":"Trees - STACK Documentation",
         "description":"Functions for displaying the tree representation of a mathematical expression."

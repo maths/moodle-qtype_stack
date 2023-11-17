@@ -1,4 +1,6 @@
-STACK questions can easily get messy. You may have one long question and delete some inputs, or duplicate a question and use it as a template but have to heavily edit it. Another example is to add nodes in an existing PRT and place these nodes between existing nodes. The numbering won't be in order and it will make it harder to follow the PRT.
+## Tidy Tool
+
+STACK potential response trees, and other parts of questions, can easily get messy. You may have one long question and delete some inputs, or duplicate a question and use it as a template but have to heavily edit it. Another example is to add nodes in an existing PRT and place these nodes between existing nodes. The numbering won't be in order and it will make it harder to follow the PRT logic.
 
 In STACK, there is a "tidy tool" that can help with resolving these annoying issues. 
 
@@ -8,34 +10,18 @@ This opens a page where you can see the preview of the question, the name of eac
 
 Here are 2 examples to demonstrate this feature. 
 
-	1. A  question with 1 input and messy nodes in the PRT
+## A question with 1 input and messy nodes in the PRT
 	
-	The tool suggests the new names for the nodes so they will appear in arithmetic order. 
-	
-	<div class="float-none img-middle">
-    <figure class="figure">
-        <img class="figure-img img-fluid" src="../Images/PRT_messy.PNG" alt="A messy PRT">
-        <figcaption class="figure-caption">A messy PRT</figcaption>
-    </figure>
-</div>
+The tool suggests the new names for the nodes so they will appear in arithmetic order. 
 
-	Go back into the question and you can see the change at the nodes of the PRT.
+![A messy PRT](../../content/PRT_messy.png)
 	
-		<div class="float-none img-middle">
-    <figure class="figure">
-        <img class="figure-img img-fluid" src="../Images/PRT_tidy.PNG" alt="The PRT in a tidy order">
-        <figcaption class="figure-caption">The PRT in a tidy order</figcaption>
-    </figure>
-</div>
+Go back into the question and you can see the change at the nodes of the PRT.
+	
+![A tidy PRT](../../content/PRT_tidy.png)
 
+## A question with messy input names
+	
+The question has five inputs but because some inputs were removed, the names of the inputs are not in order. You need to type the new names of the inputs and PRTs.
 
-	2. A question with messy input names
-	
-	The question has 5 inputs but because some inputs were removed, the names of the inputs are not in order. You need to type the new names of the inputs and PRTs.
-	
-	<div class="float-none img-middle">
-    <figure class="figure">
-        <img class="figure-img img-fluid" src="../Images/Tidy_inputs.PNG" alt="Tidy input names">
-        <figcaption class="figure-caption">Tidy input names</figcaption>
-    </figure>
-</div>
+![A tidy PRT](../../content/Tidy_inputs.png)

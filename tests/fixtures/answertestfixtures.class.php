@@ -446,6 +446,10 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x>1 and x<5', '5>x and 1<x', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'not (x<=2 and -2<=x)', 'x>2 or -2>x', 1, 'ATLogic_True.', ''),
 
+        // This is the expected bevaviour as we are representing a set of numbers.
+        array('AlgEquiv', '', 'sigma>1', 'x>1', 1, 'ATInequality_solver.', ''),
+        array('AlgEquiv', '', 'a>1', 'x>1', 1, 'ATInequality_solver.', ''),
+        array('AlgEquiv', '', 'sigma>1', 'x>2', 0, '', ''),
         array('AlgEquiv', '', 'x>2 or -2>x', 'not (x<=2 and -2<=x)', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'x>=1 or 1<=x', 'x>=1', 1, '', ''),
         array('AlgEquiv', '', 'x>=1 and x<=1', 'x=1', 1, 'ATInequality_solver.', ''),

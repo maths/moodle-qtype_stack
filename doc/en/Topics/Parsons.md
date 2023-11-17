@@ -81,7 +81,7 @@ Notes:
 
 ## Input: ans1
 
-1. The _Input type_ field should be **String**. 
+1. The _Input type_ field should be **String**.
 2. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `proof_parsons_key_json(ta, [])`.  You can replace the empty list in the second argument with a `proof_steps` list if you want to display unused steps as well.  (How to construct and use a `proof_steps` list will be documented below.)
 3. Set the option "Student must verify" to "no".
 4. Set the extra options to "hideanswer" to make sure the JSON representation of the teacher's answer is not shown to the student later as an answer.
@@ -101,8 +101,6 @@ Then you can set up the potential response tree to be `ATAlgEquiv(sa,ta)` to con
 # Example question 2: a proof with interchangable block order
 
 The following Parson's question is an _if and only if_ proof, containing two blocks in order.
-
-The input is unchanged from the above example. For the question variables use
 
 ````
 stack_include("contribl://prooflib.mac");
@@ -141,13 +139,19 @@ The complete question text is
 
 Notice the function `stackjson_stringify` turns the variable `proof_steps` into a JSON object.
 
-Notice in this example the teacher's proof is nested.  This can be seen if we use numerical keys, not string keys and define 
+Notice in this example the teacher's proof is nested.  This can be seen if we use numerical keys, not string keys and define
 
 ````
 ta:proof_iff(proof(1,2,3,4,5),proof(6,7,8,9,10,11));
 ````
 
 The two blocks can be in either order.  Prooflib provides a function to automatically create both options.  Notice the command `tal:proof_alternatives(ta);` in the question variables.  The variable `tal` will be a list of both options for the if and only if proof.  Note that `proof_alternatives` will recurse over all sub-proofs.  Types of supported proof structure are documented within the prooflib file.  Then we have to "flatten" each of these proofs to a set of list-based proofs: `tas:setify(map(proof_flatten, tal));`
+
+There is one change in input from the above example:
+
+1. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `proof_parsons_key_json(ta, proof_steps)`.  
+
+In this example all steps are used, however if you add extra steps (distracters) then the model answer field has to separate these into used and unused lists, hence both the teacher's answer `ta` and the whole `proof_steps` list is needed.
 
 As before, define the feedback variables to interpret the JSON as a proof:
 
@@ -190,7 +194,7 @@ We recommend the string input holding the JSON does not get shown to the student
 To display a correct proof as a "teacher's answer"
 
 1. Create a new input `ans2`.
-2. The _Input type_ field should be **String**. 
+2. The _Input type_ field should be **String**.
 3. The _Model answer_ field should display the correct proof constructed from a proof construction functions `ta` and a list of proof steps `proof_steps`.  Set the model answer to `proof_display(ta, proof_steps)`.  You can choose any of the other display functions in the [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_library.md).
 4. Set the option "Student must verify" to "no" and "Show the validation" to "no".
 5. Hide this input with CSS `<p style="display:none">...</p>`.

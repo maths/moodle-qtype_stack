@@ -171,18 +171,8 @@ s_test_case(proof_alternatives(proof(A,B,C,D)), [proof(A,B,C,D)]);
 s_test_case(proof_alternatives(proof_c(A,B)), [proof_c(A,B),proof_c(B,A)]);
 s_test_case(proof_alternatives(proof_iff(A,B)), [proof_iff(A,B),proof_iff(B,A)]);
 s_test_case(proof_alternatives(proof_ind(A,B,C,D)), [proof_ind(A,B,C,D),proof_ind(A,C,B,D)]);
+s_test_case(proof_alternatives(proof_cases(A,B,C)), [proof_iff(A,B,C),proof_iff(A,C,B)]);
 
-/*
- * Count the number of matching elements in
- * two identical length lists.
- */
-count_matches(l1, l2):= if emptyp(l1) then 0 else
-    ((if is(first(l1)=first(l2)) then 1 else 0) + count_matches(rest(l1), rest(l2)));
-
-/*
- * Create a list of first differences between list memebers, i.e. Delta = l[n]-l[n+1].
- */
-first_diff(ex):=if is(length(ex)=1) then [] else append([first(ex)-second(ex)], list_diff(rest(ex)));
 
 /******************************************************************/
 /*                                                                */

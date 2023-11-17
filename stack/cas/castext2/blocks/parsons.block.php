@@ -144,6 +144,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         // Add correctly oriented container divs for the proof lists to be accessed by sortable.
+
         $orientation = isset($this->params['orientation']) ? $this->params['orientation'] : 'horizontal';
         $outer = $orientation === 'horizontal' ? 'row' : 'col';
         $inner = $orientation === 'horizontal' ? 'col' : 'row';
@@ -152,8 +153,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if ($clone === 'true') {
             $innerUl .= '<ul class="list-group ' . $inner . '" id="bin"></ul>';
         }
+        $r->items[] = new MP_String('<button> Orientation </button>');
         $r->items[] = new MP_String('<div class="container" style="' . $astyle . '">
-            <div class="' . $outer . '">' . $innerUl . '
+            <div class=row>' . $innerUl . '
             </div>
         </div>');
 
@@ -162,9 +164,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         $importCode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $importCode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
-        $importCode .= "import {preprocess_steps, stack_sortable} from '" . stack_cors_link('stacksortable.min.js') . "';\n";
+        $importCode .= "import {preprocess_steps, stack_sortable, add_orientation_listener} from '" . stack_cors_link('stacksortable.min.js') . "';\n";
         $r->items[] = new MP_String($importCode);
-
+        // TODO :automatically set orientation based on device
+        $r->items[] = new MP_String('add_orientation_listener();' . "\n");
         // Extract the proof steps from the inner content
         $r->items[] = new MP_String('var proofSteps = ');
 
@@ -200,6 +203,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Generate the two lists in HTML.
         $code .= 'stackSortable.generate_used();' . "\n";
         $code .= 'stackSortable.generate_available();' . "\n";
+
+
 
         // Create the Sortable objects
         $code .= 'var usedOpts = {...stackSortable.options.used, ...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";

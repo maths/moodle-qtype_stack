@@ -20,6 +20,30 @@ export function preprocess_steps(proofSteps, userOpts) {
     return [proofSteps, userOpts];
 }
 
+export function flip_orientation() {
+    var usedList = document.getElementById('usedList');
+    var availableList = document.getElementById('availableList');
+    var bin = document.getElementById('bin');
+    var newClass = usedList.className == 'list-group row' ? 'list-group col' : 'list-group row';
+    usedList.setAttribute('class', newClass);
+    availableList.setAttribute('class', newClass);
+    if (bin != null) {
+        bin.setAttribute('class', newClass);
+    }
+}
+
+export function add_orientation_listener() {
+    const button = document.querySelector('button');
+    button.addEventListener('click', () => flip_orientation());
+}
+
+export function add_dblclick_listeners() {
+    var items = document.getElementsByClassName("list-group-item");
+    for (var i; i < items.length; i++) {
+        items[i].addEventListener('dblclick');
+    }
+}
+
 export const stack_sortable = class {
 
     constructor(proofSteps, availableId, usedId, inputId = null, options = null, clone = false) {
@@ -90,26 +114,22 @@ export const stack_sortable = class {
     }
 
     update_state_dblclick(newUsed, newAvailable) {
-        var availableLi = this.available.getElementsByClassName("list-group-item");
-        for (var i = 0; i < availableLi.length; i++) {
-            availableLi[i].addEventListener('dblclick', (e) => {
-                if (e.target.parentNode.id == this.availableId) {
-                    if (this.clone === "true") {
-                        this.used.append(e.target.cloneNode(true));
-                    } else {
-                        var li = this.available.removeChild(e.target);
-                        this.used.append(li);
-                    }
-                }
-                else if (e.target.parentNode.id == this.usedId) {
-                    if (this.clone !== "true") {
-                        var li = this.used.removeChild(e.target);
-                        this.available.prepend(li);
-                    }
+        this.available.addEventListener('dblclick', (e) => {
+            if (e.target.matches(".list-group-item")) {
+                var li = (this.clone === "true") ? e.target.cloneNode(true) : this.available.removeChild(e.target);
+                this.used.append(li);
+                this.update_state(newUsed, newAvailable)
+            }
+        });
+        this.used.addEventListener('dblclick', (e) => {
+            if (e.target.matches(".list-group-item")) {
+                var li = this.used.removeChild(e.target);
+                if (this.clone !== "true") {
+                    this.available.prepend(li);
                 }
                 this.update_state(newUsed, newAvailable);
-            });
-        }
+            }
+        });
     }
 };
 

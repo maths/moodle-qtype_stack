@@ -92,6 +92,8 @@ The default options are TODO: confirm the above syntax and the default options!
 1. Parameter `state` gives the tree built up from the keys from which the applet should be initialised.
 2. The applet returns up updated state (identical format: maxima expression) for evaluation by a PRT.  This is linked to an input with parameter `input=`.
 3. `height` and `width` parameters exist.  TODO: examples/specs.
+4. `clone` should take values `"true"` or `"false"`. It is `"false"` by default. When `"false"` there are two lists and each proof step is "single-use", here author must write all necessary proof steps even if they repeat; when `"true"` all proof steps are re-usable with no restrictions on how many times they are used, steps can only be dragged from the available list into the answer list, and there is a bin to tidy up steps.
+5. `orientation` can be used to fix the initial orientation shown to the user, `"horizontal"` will show lists side-by-side and `"vertical"` will show lists on top of each other. Note that there is a button on the page in which the user may switch the orientation to their preference while answering the question, so the `"orientation"` block parameter only determines the initial layout. It is `"horizontal"` by default.
 
 ## Random generation of `proof_step` order
 

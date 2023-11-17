@@ -11,7 +11,7 @@ Rather than a string of characters, we apply the metric to a list of `keys` tags
 
 ## General automatic assessment tools
 
-We assume that the teacher's answer is `ta` is expressed using ["proof construction functions"](Proof_CAS_library.md) e.g. 
+We assume that the teacher's answer is `ta` is expressed using ["proof construction functions"](Proof_CAS_library.md) e.g.
 
 ````
 ta:proof_iff("A","B");
@@ -19,10 +19,10 @@ ta:proof_iff("A","B");
 
 where the keys are part of a `proof_steps` list.
 
-Define `tal` to be the _list of teaacher's answers_.  This can be created automatically, e.g. `tal:proof_alternatives(ta)`
+Define `tal` to be the _list of teacher's answers_.  This can be created automatically, e.g. `tal:proof_alternatives(ta)`
 or a teacher can define a bespoke list of proofs.
 
-The assessment function `proof_assessment(sa, tal)` takes a proof provided by a student and a list of acceptible proofs and does the following.
+The assessment function `proof_assessment(sa, tal)` takes a proof provided by a student and a list of acceptable proofs and does the following.
 
 1. All proofs are flattened to lists of keys.  The Damerau-Levenshtein distance only applies to lists, not trees.
 2. Calculate the distance between the student's proof and each of the teacher's proofs (in `tal`), and identify the closest proof.
@@ -43,8 +43,8 @@ To display feedback use `{@proof_assessment_display(saa, proof_steps)@}` in a PR
 
 ## Bespoke feedback
 
-In addition to the automatic feedback, or as an alterntaive, a teacher can check other properties and define feedback as required.
+In addition to the automatic feedback, or as an alternative, a teacher can check other properties and define feedback as required.
 
 E.g. a teacher might want to provide feedback such as _"It makes no sense to use \(M\) before it is defined!"_.
 
-TODO: examples of how to do this, and general tools to support bespoke assessment....
+TODO: examples of how to do this, and general tools to support bespoke assessment.... 

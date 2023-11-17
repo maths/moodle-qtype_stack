@@ -26,45 +26,34 @@ Please note, this is the _last_ version of STACK which will support Moodle 3.x.
 8. Add in an option `margin` to control margins around STACK-generated plots.
 9. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).
 
-
-Create a working Parson's block
-
-Essential 
-1. Choose and document default options for Sortable.js and document them
-2. Unit tests
-3. Choose css : review proof styles in top-level css and choose/propose styles for Parsons
-   Please choose one list above the other!
-4. Nested lists
-5. double tap
-6. Auto-size (i. internal best guess; ii. js iframe dynamic rescaling)
-7. Confirm MathJax default
-8. User button for vertical vs. horizontal
-
-Later
-1. Hashing keys
-
-
-A. All functionality to be JSON strings (as in Sam's code)
-B. Block to accept and produce Maxima proof expressions
-
-Parson's options
-
-1. use once or re-use strings
-2. flat list vs. nested/tree
-3. Different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this? 
-4. create templates from the start for different proof types
-5. restrict blocks to fixed number of steps
-
-Future work.
-
-1. Embed plots into strings draggable blocks:  e.g. `"{@plot(x^2,[x,-1,1],[size,250,250])@}"`.
-   Note, this doesn't work, even defining a variable such as `s1:castext("{@plot(x^2,[x,-1,1],[size,250,250])@}");` and using this.
-
 TODO: 
 
 1. Fix markdown problems. See issue #420.
 2. Error messages: use caserror.class more fully to use user information to target error messages.
 3. Remove all "cte" code from Maxima - mostly install.
+
+## Parson's block development track
+
+Essential (v 4.5.0)
+
+1. Choose and document default options for Sortable.js and document them
+2. Unit tests
+3. Choose css : review proof styles in top-level css and choose/propose styles for Parsons
+   Please choose one list above the other!
+4. Nested lists (flat list vs. nested/tree)
+5. Auto-size (i. internal best guess; ii. js iframe dynamic rescaling)
+6. Confirm MathJax default
+7. User button for vertical vs. horizontal
+8. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block.  We can talk about this.
+9. Polish up the "use once" or "clone" strings.
+
+Later
+
+1. Hashing keys
+2. Different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this? 
+2. Create templates from the start for different proof types
+4. Restrict blocks to fixed number of steps
+5. Other draggable arrangements, e.g. fill in a 2*2 grid (for matching problems)
 
 ## For "inputs 2"?
 

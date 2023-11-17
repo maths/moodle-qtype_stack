@@ -47,6 +47,16 @@ By separating out these issues we provide more control, and wider opportunities 
 Consider the following theorem:  \(\sum_{k=1}^n (2k-1) = 1+3+5+\cdots + (2n-1) = n^2\).
 A traditional proof is shown below. This proof was published by DeMorgan in 1838.  According to Cajori (1918) this is the first use of the name "mathematical induction", although DeMorgan calls it "successive induction".
 
+<div style="color: #2f6473; background-color: #def2f8; border-color: #d1edf6;">
+<div class="proof">
+<p>The sum of any number of successive odd numbers, beginning from unity, is a square number, namely the square of half the even number which follows the last odd number.
+Let this proposition be true in any one single instance; that is, \(n\) being some whole number, let \(1,\, 3,\, 5,\, \ldots\) up to \(2n+1\) put together give \((n+1)^2\).
+Then the next odd number being \(2n+3\), the sum of all the odd numbers up to \(2n+3\) will be \((n+1)^2+2n+3\), or \(n^2+4n+4\), or \((n+2)^2\).  But \(n+2\) is half of the even number next following \(2n+3\): consequently, if the proposition be true of any one set of odd numbers, it is true of one more.  But it is true of the first odd number \(1\), for this is the square of half the even number next following.  Consequently, being true of \(1\), it is true of \(1+3\); being true of \(1+3\), it is true of \(1+3+5\); being true of \(1+3+5\), it is true of \(1+3+5+7\), and so on, {\em ad infinitum}.</p>
+</div>
+</div>
+
+This is the original version.
+
 ![DeMorgan's induction](../../content/DeMorgan1836-induction.jpeg)
 
 This proof is dense, difficult to read and lacks structure.  Since DeMorgan's day, proof by induction is a slightly more formal method of proof consisting of four parts, (i) a statement to be proved, (ii) a base case, (iii) the induction step, and (iv) the conclusion.  Here is a modern version.

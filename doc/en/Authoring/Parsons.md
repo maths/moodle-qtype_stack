@@ -12,7 +12,7 @@ Here is a basic example of use:
 
 ````
 [[ parsons input="ans1" ]]
-{ 
+{
   "1":"Assume that \\(n\\) is odd.",
   "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
   "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]\",
@@ -29,13 +29,13 @@ Assume the question author writes a list of strings in Maxima, `proof_steps` in 
 [[/ parsons ]]
 ````
 
-or they can avoid strings going via Maimxa at all by writing JSON directly
+or they can avoid strings going via Maxima at all by writing JSON directly
 
 Both these approaches can be combined
 
 ````
 [[ parsons input="ans1" ]]
-{ 
+{
   "1":{#proof_steps[1]#},
   "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
   "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]\",
@@ -46,7 +46,7 @@ Both these approaches can be combined
 
 ## Adding `Sortable.js` options to the `[[parsons]]` block
 
-The `[[parsons]]` block is a wrapper for the Javascript library "Sortable.js", optimised and with default options for Parson's problems.  As such, there are a very wide range of options for this javascript library.  These options are all passed into the block as a JSON string.   To do this we separate out the arguments to the block into separate "steps" and "options" fields. 
+The `[[parsons]]` block is a wrapper for the javascript library "Sortable.js", optimised and with default options for Parson's problems.  As such, there are a very wide range of options for this javascript library.  These options are all passed into the block as a JSON string.   To do this we separate out the arguments to the block into separate "steps" and "options" fields.
 
 ````
 [[ parsons input="ans1" ]]
@@ -69,7 +69,7 @@ Most Sortable options can be toggled by passing a JSON that is structured as fol
 ````
 [[ parsons input="ans1" height="360px" width="100%"]]
 {
-    "steps": { 
+    "steps": {
         "1":"Assume that \\(n\\) is odd.",
         "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
         "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
@@ -87,15 +87,15 @@ However, note that some options cannot be toggled as they are required for the p
 
 The default options are TODO: confirm the above syntax and the default options!
 
-## Block paramaters
+## Block parameters
 
 1. Parameter `state` gives the tree built up from the keys from which the applet should be initialised.
-2. The applet returns up updated state (indentical format: maxima expression) for evaluation by a PRT.  This is linked to an input with parameter `input=`.
-3. `height` and `width` paramaters exist.  TODO: examples/specs.
+2. The applet returns up updated state (identical format: maxima expression) for evaluation by a PRT.  This is linked to an input with parameter `input=`.
+3. `height` and `width` parameters exist.  TODO: examples/specs.
 
 ## Random generation of `proof_step` order
 
-To track which random variants of a question a student sees, and make sure they return to the same varient, we need to perform all randomisation at the Maxima level.
+To track which random variants of a question a student sees, and make sure they return to the same variant, we need to perform all randomisation at the Maxima level.
 
 You must define steps as Maxima objects using a `proof_steps` list (see the documentation of for [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_library.md)) then you can randomly order the `proof_steps` as follows.
 
@@ -113,13 +113,13 @@ All communication to and from the Parsons block uses the JSON format.  However, 
 2. The maxima function `proof_parsons_interpret(ans1)` will convert a JSON string into a [proof construction function](../Proof/Proof_CAS_library.md).
 3. The maxima function `proof_parsons_key_json(ta, proof_steps)` takes the teacher's answer `ta` and a list of proof steps `proof_steps` and creates a JSON string which represents `ta` and lists any available (unused) strings from the `proof_steps` list.  This function is needed to set up the "model answer" field in the inputs from a maxima representation of the proof.
 
-### Block paramaters: `height` and `width`
+### Block parameters: `height` and `width`
 
-Additional display options including `height` and `width` may also be passed to the header, as in 
+Additional display options including `height` and `width` may also be passed to the header, as in
 
 ````
 [[ parsons input="ans1" height="360px" width="100%"]]
-{ 
+{
   "1":"Assume that \\(n\\) is odd.",
   "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
   "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
@@ -134,11 +134,11 @@ Additional display options including `height` and `width` may also be passed to 
 
 Since HTML can be embedded into strings dragged within a Parson's block, images can be included with the HTML `<img>` tags as normal.
 
-STACK-generated [plots](../Plots/index.md) can also be included just using `{@plot(x^2,[x,-1,1])@}` as might be expected.  This is because of the _order_ of evaluation.  The full URL of the image is only created in the (complex) chain of events after the value has been substituted into the Javascript code. 
+STACK-generated [plots](../Plots/index.md) can also be included just using `{@plot(x^2,[x,-1,1])@}` as might be expected.  This is because of the _order_ of evaluation.  The full URL of the image is only created in the (complex) chain of events after the value has been substituted into the javascript code.
 
 ````
 [[ parsons input="ans1"]]
-{ 
+{
   "A":"The inverse function of \\(f(x)=x^2\\)) has graph",
   "B":{#plot(x^2,[x,-1,1],[size,250,250])#},
 };
@@ -149,7 +149,7 @@ Notice that since the value of `plot(...)` is a Maxima string of `<img>` tag, th
 
 ````
 [[ parsons input="ans1"]]
-{ 
+{
   "A":"The inverse function of \\(f(x)=x^2\\)) has graph",
   "B":"{@plot(sqrt(x),[x,-1,1],[size,250,250])@}",
 };

@@ -1,7 +1,6 @@
 /****************************************************************/
 thm:"\\(\\log_2(3)\\) is irrational.";
 
-
 /****************************************************************/
 proof_steps: [
     ["assume",    "Assume, for a contradiction, that \\(\\log_2(3)\\) is rational."],
@@ -16,4 +15,17 @@ proof_steps: [
 ];
 
 /****************************************************************/
+/* It is possible to add in extra, unnecessary.                 */
+/****************************************************************/
+wrong_steps:[
+    ["assume2",   "Assume, for a contradiction, that \\(\\log_2(3)\\) is irrational."],
+    ["defn_log3", "\\( 2 = 3^{\\frac{p}{q}}\\)"],
+    ["alg",       "\\( 2^q = 3^p\\)"]
+];
+/ * Remove this comment to use them!
+proof_steps:append(proof_steps,wrong_steps);
+*/
+
+/****************************************************************/
 proof_ans:proof("assume","defn_rat","defn_rat2","defn_log","defn_log2","alg","alg_int","contra","conc");
+

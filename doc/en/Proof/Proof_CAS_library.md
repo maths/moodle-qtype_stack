@@ -60,13 +60,13 @@ Note that the variable `proof_steps` is a _list_ of lists:  `[ ["key", "step", (
   * Using keys: `proof_iff(proof("assodd","defn_odd","alg_odd","def_M_odd","conc_odd"),proof("contrapos","assnotodd","even","alg_even","def_M_even","conc_even"))`
 3. The `proof_steps` list can contain an optional string argument `"comment"`.  This string can be used to store justification, explaination and narative.  Only some display functions use this argument, when it exists.
 4. Note that the backslash must be protected when defining these strings.
-5. The strings can contain HTML, including `<img>` tags for inclusing images within draggable elements.
+5. The strings can contain HTML, including `<img>` tags for including images within draggable elements.
 
 `proof_keys_sub(ex, proof_steps)` takes a proof built from numbered indexes, and translate this into string keys.  In the above example, it might be easier to author a proof as `proof(1,2,3,4,5)` rather than type in `proof("assodd","defn_odd","alg_odd","def_M_odd","conc_odd")`. The whole design could be built on numbered keys (and these are valid), but string keys are easier to remember and easier to interpret when looking at students' attempts.  Also, string keys can be inserted later without the need to re-number existing numerical keys. Do not use numerical keys if you intend to randomly permute the strings in the proof!
 
 `proof_keys_int(ex, proof_steps)` takes a proof built from string keys, and translate this into numbered indexes.
 
-`proof_getstep(key, proof_steps)` looks for the key `key` in the `proof_steps` list.  They key can be either a numerical, or string key.  If found then the function returns the full string, otherwise the key is returned without an error.  One advantage of this approach is that the teacher can define abreviated, alternative proofs using some of the strings in `proof_steps`, e.g. using the above example the following omits all the detail in the sub-proofs, focusing on the structure and hypothesis/conclusion of each block.
+`proof_getstep(key, proof_steps)` looks for the key `key` in the `proof_steps` list.  They key can be either a numerical, or string key.  If found then the function returns the full string, otherwise the key is returned without an error.  One advantage of this approach is that the teacher can define abbreviated, alternative proofs using some of the strings in `proof_steps`, e.g. using the above example the following omits all the detail in the sub-proofs, focusing on the structure and hypothesis/conclusion of each block.
 
 ````
 P2:proof_iff(proof("assodd","\\(\\cdots\\)","conc_odd"), proof("contrapos","assnotodd","\\(\\cdots\\)","conc_even"));
@@ -74,11 +74,13 @@ P2:proof_iff(proof("assodd","\\(\\cdots\\)","conc_odd"), proof("contrapos","assn
 
 When displayed, the keys `"\\(\\cdots\\)"` do not occur in `proof_steps`, so are returned unchanged.  (Alteratively a teacher could add keys to `proof_steps` for such situations.)
 
+`proof_parsons_key_json(ta, proof_steps)` is used to construct the _model answer_ in an input.  This function separates the keys in `proof_steps` into those used in `ta` and those which are unused.  This enables the _model_answer_ to construct a Parson's block as the teacher might leave it, with both the model answer and some strings unused.  Use `proof_parsons_key_json(ta, [])` to omit displaying any unused steps when showing the model answer.
+
 ## Displaying whole proof and proof-step pairs
 
-To display a whole proof whole proof usinf proof-step lists use `proof_display(P1, proof_steps)`.  E.g. add `{@proof_display(P1, proof_steps)@}` to the appropriate castext.  This will (1) replace all keys in the proof `P1` with the corrsponding strings in `proof_steps` (if they exist) and (2) display the structure using the nested `<div class="proof-block">` from the [CSS Styles for displaying proof](Proof_styles.md).
+To display a whole proof whole proof using proof-step lists use `proof_display(P1, proof_steps)`.  E.g. add `{@proof_display(P1, proof_steps)@}` to the appropriate castext.  This will (1) replace all keys in the proof `P1` with the corresponding strings in `proof_steps` (if they exist) and (2) display the structure using the nested `<div class="proof-block">` from the [CSS Styles for displaying proof](Proof_styles.md).
 
-`proof_display_para(P1, proof_steps)` displays a complete proof, but using HTML paragraphs to split blocks.  This is a more traditioanl presentation of proof.
+`proof_display_para(P1, proof_steps)` displays a complete proof, but using HTML paragraphs to split blocks.  This is a more traditional presentation of proof.
 
 ## Example proofs
 

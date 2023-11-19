@@ -934,7 +934,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2023092400, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2023093000) {
+    if ($oldversion < 2023111600) {
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('decimals', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, '.');
 
@@ -944,7 +944,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         }
 
         // STACK savepoint reached.
-        upgrade_plugin_savepoint(true, 2023093000, 'qtype', 'stack');
+        upgrade_plugin_savepoint(true, 2023111600, 'qtype', 'stack');
     }
 
     // Add new upgrade blocks just above here.

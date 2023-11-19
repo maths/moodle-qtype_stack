@@ -1183,6 +1183,9 @@ ATAlgEquivNouns(SA,SB) := block([simp:true, ret, newret, SAN, SBN],
 ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, AnswerNote, ret],
     Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
     keepfloat:true,
+    /* Reduce the number of different operators, where possible. */
+    if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
+    if ev(is(count_op(SB,STACKpmOPT)=1), simp) then SB:pm_replace(SB),
     /* Are we dealing with strings? */
     if stringp(SB) then
       if stringp(SA)#true then
@@ -3326,4 +3329,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2023102701$
+stackmaximaversion:2023111600$

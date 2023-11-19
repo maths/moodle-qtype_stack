@@ -90,6 +90,9 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '5.1e-2', '51/1000', 1, '', ''),
         array('AlgEquiv', '', '0.333333333333333', '1/3', 0, '', ''),
         array('AlgEquiv', '', '(0.5+x)*2', '2*x+1', 1, '', ''),
+        array('AlgEquiv', '', '0.333333333333333*x^2', 'x^2/3', 0, '', ''),
+        array('AlgEquiv', '', '0.1*(2.0*s^2+6.0*s-25.0)/s', '(2*s^2+6*s-25)/(10*s)', 1, '', ''),
+        array('AlgEquiv', '', '0.1*(2.0*s^2+6.0*s-25.00001)/s', '(2*s^2+6*s-25)/(10*s)', 0, '', ''),
         // Interesting rounding error.
         array('AlgEquiv', '', '100.4-80.0', '20.4', 0, '', ''),
 
@@ -104,6 +107,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'inf', '-inf', 0, '', ''),
         array('AlgEquiv', '', '2*inf', 'inf', 0, '', ''),
         array('AlgEquiv', '', '0*inf', '0', 1, '', ''),
+        array('AlgEquiv', '', 'exp(-%i)', 'inf', 0, '', ''),
 
         array('AlgEquiv', '', 'x^(1/2)', 'sqrt(x)', 1, '', 'Powers and roots'),
         array('AlgEquiv', '', 'x', 'sqrt(x^2)', 0, '', ''),
@@ -325,6 +329,10 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', '4*x^2-71*x+220 = 0 or 14*x^2-91*x+140 = 0',
             'x = 5/2 or x = 4 or x=4 or x = 55/4', 1, 'ATEquation_sides', ''),
         array('AlgEquiv', '', 'x^2=4', 'x=2 or x=-2', 1, 'ATEquation_ratio', ''),
+        array('AlgEquiv', '', 'x^2=4', 'x=2 nounor x=-2', 1, 'ATEquation_ratio', ''),
+        array('AlgEquiv', '', 'x^2-5*x+6=0', 'x=2 nounor x=3', 1, 'ATEquation_sides', ''),
+        array('AlgEquiv', '', 'x^2-5*x+6=0', 'x=(5 #pm# sqrt(25-24))/2', 1, 'ATEquation_sides', ''),
+        array('AlgEquiv', '', 'x^2-5*x+6=0', 'x=(5 #pm# sqrt(25-23))/2', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', 'a^3*b^3=0', 'a=0 or b=0', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', 'a^3*b^3=0', 'a*b=0', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', '(x-y)*(x+y)=0', 'x^2=y^2', 1, 'ATEquation_ratio', ''),
@@ -442,6 +450,10 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x>1 and x<5', '5>x and 1<x', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'not (x<=2 and -2<=x)', 'x>2 or -2>x', 1, 'ATLogic_True.', ''),
 
+        // This is the expected bevaviour as we are representing a set of numbers.
+        array('AlgEquiv', '', 'sigma>1', 'x>1', 1, 'ATInequality_solver.', ''),
+        array('AlgEquiv', '', 'a>1', 'x>1', 1, 'ATInequality_solver.', ''),
+        array('AlgEquiv', '', 'sigma>1', 'x>2', 0, '', ''),
         array('AlgEquiv', '', 'x>2 or -2>x', 'not (x<=2 and -2<=x)', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', 'x>=1 or 1<=x', 'x>=1', 1, '', ''),
         array('AlgEquiv', '', 'x>=1 and x<=1', 'x=1', 1, 'ATInequality_solver.', ''),
@@ -566,7 +578,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'A and (B or C)', 'A and (B or C)', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', '(A and B) or (A and C)', 'A and (B or C)', 1, 'ATLogic_True.', ''),
         array('AlgEquiv', '', '-(b#pm#sqrt(b^2-4*a*c))', '-b#pm#sqrt(b^2-4*a*c)', 1, 'ATLogic_True.', ''),
-        array('AlgEquiv', '', 'x=-b#pm#c^2', 'x=c^2-b or x=-c^2-b', 1, 'ATLogic_True.', ''),
+        array('AlgEquiv', '', 'x=-b#pm#c^2', 'x=c^2-b or x=-c^2-b', 1, 'ATEquation_sides', ''),
+        array('AlgEquiv', '', 'x=b#pm#c^2', 'x=c^2-b or x=-c^2-b', 0, 'ATEquation_default', ''),
         array('AlgEquiv', '', 'x#pm#a = y#pm#b', 'x#pm#a = y#pm#b', 1, 'ATEquation_sides', ''),
         array('AlgEquiv', '', 'x#pm#a = y#pm#b', 'x#pm#a = y#pm#c', 0, 'ATEquation_lhs_notrhs', ''),
         array('AlgEquiv', '', 'not(A) and not(B)', 'not(A or B)', 1, 'ATLogic_True.', ''),

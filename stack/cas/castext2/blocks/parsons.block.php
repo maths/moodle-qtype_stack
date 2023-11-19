@@ -44,12 +44,11 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Define iframe params.
         $xpars = [];
         $inputs = []; // From inputname to variable name.
-        $clone = "false"; // whether to have all keys in available list cloned
+        $clone = "false"; // Whether to have all keys in available list cloned.
         foreach ($this->params as $key => $value) {
             if ($key === 'clone') {
                 $clone = $value;
-            }
-            else if ($key !== 'input') {
+            } else if ($key !== 'input') {
                 $xpars[$key] = $value;
             } else {
                 $inputs[$key] = $value;
@@ -69,8 +68,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             unset($xpars['orientation']);
         }
 
-        // Set default width and height here, we want to push forward to overwrite the iframe defaults 
-        // if they are not provided in the block parameters
+        // Set default width and height here. 
+        // We want to push forward to overwrite the iframe defaults if they are not provided in the block parameters.
         $width = array_key_exists('width', $xpars) ? $xpars['width'] : "100%";
         // TODO: set default based on number of proof steps
         /*$opt2 = [];
@@ -148,27 +147,28 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $orientation = isset($this->params['orientation']) ? $this->params['orientation'] : 'horizontal';
         $outer = $orientation === 'horizontal' ? 'row' : 'col';
         $inner = $orientation === 'horizontal' ? 'col' : 'row';
-        $innerUl = '<ul class="list-group ' . $inner . '" id="usedList"></ul>
+        $innerui = '<ul class="list-group ' . $inner . '" id="usedList"></ul>
                         <ul class="list-group ' . $inner . '" id="availableList"></ul>';
         if ($clone === 'true') {
-            $innerUl .= '<ul class="list-group ' . $inner . '" id="bin"></ul>';
+            $innerui .= '<ul class="list-group ' . $inner . '" id="bin"></ul>';
         }
         $r->items[] = new MP_String('<button> Orientation </button>');
         $r->items[] = new MP_String('<div class="container" style="' . $astyle . '">
-            <div class=row>' . $innerUl . '
+            <div class=row>' . $innerui . '
             </div>
         </div>');
 
         // JS script.
         $r->items[] = new MP_String('<script type="module">');
 
-        $importCode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
-        $importCode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
-        $importCode .= "import {preprocess_steps, stack_sortable, add_orientation_listener} from '" . stack_cors_link('stacksortable.min.js') . "';\n";
-        $r->items[] = new MP_String($importCode);
-        // TODO :automatically set orientation based on device
+        $importcode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+        $importcode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
+        $importcode .= "import {preprocess_steps, stack_sortable, add_orientation_listener} from '" .
+            stack_cors_link('stacksortable.min.js') . "';\n";
+        $r->items[] = new MP_String($importcode);
+        // TODO :automatically set orientation based on device.
         $r->items[] = new MP_String('add_orientation_listener();' . "\n");
-        // Extract the proof steps from the inner content
+        // Extract the proof steps from the inner content.
         $r->items[] = new MP_String('var proofSteps = ');
 
         $opt2 = [];
@@ -178,49 +178,52 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $opt2['in iframe'] = true;
 
         foreach ($this->children as $item) {
-            // Assume that all code inside is JavaScript and that we do not
-            // want to do the markdown escaping or any other in it.
+            // Assume that all code inside is JavaScript.
+            // Assume we do not want to do the markdown escaping or any other in it.
             $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
             if ($c !== null) {
                 $r->items[] = $c;
             }
         }
 
-        // parse steps and Sortable options separately if they exist
+        // Parse steps and Sortable options separately if they exist.
         $code = 'var userOpts;' . "\n";
         $code .= '[proofSteps, userOpts] = preprocess_steps(proofSteps, userOpts);' . "\n";
 
-        // Link up to STACK inputs
+        // Link up to STACK inputs.
         if (count($inputs) > 0) {
-            $code .= 'var inputPromise = stack_js.request_access_to_input("' . $this->params['input'] . '", true);' . "\n";
+            $code .= 'var inputPromise = stack_js.request_access_to_input("' . $this->params['input'] . '", true);';
+            $code .= "\n";
             $code .= 'inputPromise.then((id) => {' . "\n";
         } else {
             $code .= 'var id;' . "\n";
         };
 
         // Instantiate STACK sortable helper class.
-        $code .= 'const stackSortable = new stack_sortable(proofSteps, "availableList", "usedList", id, userOpts, "' . $clone .'");' . "\n";
+        $code .= 'const stackSortable = new stack_sortable(proofSteps, "availableList", "usedList", id, userOpts, "' .
+                $clone .'");' . "\n";
         // Generate the two lists in HTML.
         $code .= 'stackSortable.generate_used();' . "\n";
         $code .= 'stackSortable.generate_available();' . "\n";
 
-
-
-        // Create the Sortable objects
-        $code .= 'var usedOpts = {...stackSortable.options.used, ...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
-        $code .= 'var availableOpts = {...stackSortable.options.available, ...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
+        // Create the Sortable objects.
+        $code .= 'var usedOpts = {...stackSortable.options.used, ...{onSort: () => ' .
+                '{stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
+        $code .= 'var availableOpts = {...stackSortable.options.available, ' .
+                '...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
         $code .= 'var sortableUsed = Sortable.create(usedList, usedOpts);' . "\n";
         $code .= 'var sortableAvailable = Sortable.create(availableList, availableOpts);' . "\n";
 
-        // Create bin for clone mode
+        // Create bin for clone mode.
         if ($clone === "true") {
-            $code .= 'var sortableBin = Sortable.create(bin, {group: {name: "sortableBin", pull: false, put: "sortableUsed"}, onAdd: (e) => {document.getElementById("bin").removeChild(e.item);}});' . "\n";
+            $code .= 'var sortableBin = Sortable.create(bin, {group: {name: "sortableBin", pull: false, put: ' .
+                '"sortableUsed"}, onAdd: (e) => {document.getElementById("bin").removeChild(e.item);}});' . "\n";
         }
 
-        // Add double-click events
+        // Add double-click events.
         $code .= 'stackSortable.update_state_dblclick(sortableUsed, sortableAvailable);' . "\n";
 
-        // Typeset MathJax
+        // Typeset MathJax.
         $code .= 'MathJax.Hub.Queue(["Typeset", MathJax.Hub]);' . "\n";
 
         if (count($inputs) > 0) {
@@ -247,7 +250,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
     }
 
     public function validate_JSON_contents($contents) : bool {
-        // TODO : check steps are reasonable
+        // TODO : check steps are reasonable.
         $val_types = array_unique(array_map('gettype', array_values($contents)));
         return array_keys($contents) === ["steps", "options"] || (count($val_types) == 1 && $val_types[0] == "string");
     }
@@ -319,32 +322,39 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         // Check version is only one of valid options.
-        if (array_key_exists('version', $this->params) && !array_key_exists($this->params['version'], self::$namedversions)) {
+        if (array_key_exists('version', $this->params) && !array_key_exists($this->params['version'],
+                self::$namedversions)) {
             $valid    = false;
             $validversions = ['cdn', 'local'];
-            $err[] = stack_string('stackBlock_parsons_unknown_named_version', ['version' => implode(', ', $validversions)]);
+            $err[] = stack_string('stackBlock_parsons_unknown_named_version', ['version' => implode(', ',
+                $validversions)]);
         }
 
         // Check that only valid parameters are passed to block header.
         $valids = null;
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
-                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input' && $key !== 'orientation' && $key !== 'clone') {
+                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input' &&
+                    $key !== 'orientation' && $key !== 'clone') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
-                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss', 'overridejs', 'input', 'orientation', 'clone'];
+                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss',
+                        'overridejs', 'input', 'orientation', 'clone'];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids)]);
                 }
             }
         }
 
-        // Check the JSON contents are of the right format, i.e., either the depth is 1 or the depth is 2 and the keys are ['steps', 'options'].
+        // Check the JSON contents are of the right format.
+        // Either the depth is 1 or the depth is 2 and the keys are ['steps', 'options'].
         $contents = json_decode(($this->children[0]->compile(castext2_parser_utils::RAWFORMAT, []))->value, true);
-        // Either this is a string (when using Maxima and stackjson_stringify) or it's a JSON. The former case we sanitise on the JS side so we can ignore this here.
+        // Either this is a string (when using Maxima and stackjson_stringify) or it's a JSON.
+        // The former case we sanitise on the JS side so we can ignore this here.
         if (!gettype($contents) == "string") {
-            if (!self::validate_JSON_contents(json_decode(($this->children[0]->compile(castext2_parser_utils::RAWFORMAT, []))->value, true))) {
+            if (!self::validate_JSON_contents(json_decode(($this->children[0]->compile(castext2_parser_utils::RAWFORMAT,
+                    []))->value, true))) {
                 $err[] = stack_string('stackBlock_parsons_contents');
             }
         };

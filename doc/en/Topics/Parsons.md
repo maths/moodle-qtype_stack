@@ -123,8 +123,6 @@ proof_steps: [
 ];
 
 tal:proof_alternatives(ta);
-tas:setify(map(proof_flatten, tal));
-tad:map(lambda([ex], proof_disp_replacesteps(ex, proof_steps)), tal);
 ````
 
 The complete question text is
@@ -166,11 +164,11 @@ To see this in action, try the following in the general feedback to display both
 
 ````
 This is the proof, written with some structure
-{@proof_display(tad[2], proof_steps)@}
+{@proof_display(tal[2], proof_steps)@}
 Notice this proof has two sub-proofs, which can occur in any order.  Therefore we have two correct versions of this proof.
 <table><tr>
-<td><div class="proof">{@proof_display_para(tad[1], proof_steps)@}</div></td>
-<td><div class="proof">{@proof_display_para(tad[2], proof_steps)@}</div></td>
+<td><div class="proof">{@proof_display_para(tal[1], proof_steps)@}</div></td>
+<td><div class="proof">{@proof_display_para(tal[2], proof_steps)@}</div></td>
 </tr></table>
 Can you see the differences between these proofs?
 ````
@@ -195,7 +193,7 @@ To display a correct proof as a "teacher's answer"
 
 1. Create a new input `ans2`.
 2. The _Input type_ field should be **String**.
-3. The _Model answer_ field should display the correct proof constructed from a proof construction functions `ta` and a list of proof steps `proof_steps`.  Set the model answer to `proof_display(ta, proof_steps)`.  You can choose any of the other display functions in the [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_library.md).
+3. The _Model answer_ field should display the correct proof constructed from a proof construction functions `ta` and a list of proof steps `proof_steps`.  Set the model answer to `proof_display(ta, proof_steps_prune(proof_steps))`.  You can choose any of the other display functions in the [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_library.md).  We choose to prune out the narrative here (with `proof_steps_prune`), which isn't really appropriate when saying "A correct answer would be....".
 4. Set the option "Student must verify" to "no" and "Show the validation" to "no".
 5. Hide this input with CSS `<p style="display:none">...</p>`.
 

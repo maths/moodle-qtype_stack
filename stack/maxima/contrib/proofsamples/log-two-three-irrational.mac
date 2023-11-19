@@ -23,7 +23,8 @@ proof_steps: [
 wrong_steps:[
     ["assume2",   "Assume, for a contradiction, that \\(\\log_2(3)\\) is irrational."],
     ["defn_log3", "\\( 2 = 3^{\\frac{p}{q}}\\)"],
-    ["alg2",      "\\( 2^q = 3^p\\)"]
+    ["alg2",      "\\( 2^q = 3^p\\)"],
+    ["alg_int2",  "The right hand side is always odd and the left hand side is always even."]
 ];
 /* Remove this comment to use them!
 proof_steps:append(proof_steps,wrong_steps);

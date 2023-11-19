@@ -68,10 +68,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             unset($xpars['orientation']);
         }
 
-        // Set default width and height here. 
+        // Set default width and height here.
         // We want to push forward to overwrite the iframe defaults if they are not provided in the block parameters.
         $width = array_key_exists('width', $xpars) ? $xpars['width'] : "100%";
-        // TODO: set default based on number of proof steps
+        // TODO: set default based on number of proof steps.
         /*$opt2 = [];
         if ($options !== null) {
             $opt2 = array_merge([], $options);
@@ -152,6 +152,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if ($clone === 'true') {
             $innerui .= '<ul class="list-group ' . $inner . '" id="bin"></ul>';
         }
+        // TODO: We should avoid an English word "Orientation", which would need translating, with an icon.
+        // $r->items[] = new MP_String("<button><i class='fa fa-refresh'></i></button>");
         $r->items[] = new MP_String('<button> Orientation </button>');
         $r->items[] = new MP_String('<div class="container" style="' . $astyle . '">
             <div class=row>' . $innerui . '
@@ -249,10 +251,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         return [];
     }
 
-    public function validate_JSON_contents($contents) : bool {
+    public function validate_json_contents($contents) : bool {
         // TODO : check steps are reasonable.
-        $val_types = array_unique(array_map('gettype', array_values($contents)));
-        return array_keys($contents) === ["steps", "options"] || (count($val_types) == 1 && $val_types[0] == "string");
+        $valtypes = array_unique(array_map('gettype', array_values($contents)));
+        return array_keys($contents) === ["steps", "options"] || (count($valtypes) == 1 && $valtypes[0] == "string");
     }
 
     public function validate (

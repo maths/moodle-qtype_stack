@@ -263,19 +263,57 @@ proof_keys_int(ex, proof_steps):= block(
 proof_inline_maths(st) := ssubst("\\)", "\\]", ssubst("\\(", "\\[", st));
 s_test_case(proof_inline_maths("\\[ 3 = 2^{\\frac{p}{q}}\\]"), "\\( 3 = 2^{\\frac{p}{q}}\\)");
 
+/*
+ * Prune out any narrative from the proof steps: used to display a proof without narrative.
+*/
+proof_line_prune(pfs) := [first(pfs), second(pfs)];
+proof_steps_prune(proof_steps) := map(proof_line_prune, proof_steps);
 
-/**
- * Take a proof, and any proof steps and display them using proof CSS.
+/*
+ *  Return the step "k" from the proof "pf" wrapped in html divs, and with any narrative.
  */
-proof_display(proof_ans, proof_steps) := ev(proof_disp_replacesteps(proof_ans, proof_steps), map(lambda([ex], ex=dispproof), proof_types));
+proof_getstep_html(k, pf) := block([keylist],
+    if integerp(k) then return(proof_line_html(pf[k])),
+    keylist:sublist(pf, lambda([ex], is(first(ex)=k))),
+    if not(emptyp(keylist)) then return(proof_line_html(first(keylist))),
+    /* If the string is not in the pf list, then just return it unchanged.
+       Teachers can use this to adapt proofs which use some of the steps.
+    */
+    k
+);
 
-/* Make use of the existing styles.  See https://docs.stack-assessment.org/en/Topics/Proof/ */
-dispproof([ex]) := block([ex1],
-    apply(sconcat, flatten(append(["<div class=\"proof-block\">"], [simplode(ex, "<br/>")], ["</div>"])))
+/*
+  Wrap lines in html divs, and add narrative if it exists. 
+  pfs is a line from the proof_steps array.
+*/
+proof_line_html(pfs) := block([st],
+  st:"",
+  if is(length(pfs)>2) then
+      st:proof_comment_disp(third(pfs)),
+  proof_line_disp(second(pfs), st)
+);
+
+/*
+ * This function replaces integers and keys with the html-wrapped strings from the proof.
+ */
+proof_disp_replacesteps_html(ex, proof_steps) := block(
+   if integerp(ex) or stringp(ex) then return(proof_getstep_html(ex, proof_steps)),
+   if atom(ex) then return(sconcat("Error: the following atom does not index a step: ", string(ex))),
+   apply(op(ex), map(lambda([ex2], proof_disp_replacesteps_html(ex2, proof_steps)), args(ex)))
 );
 
 /**
  * Take a proof, and any proof steps and display them using proof CSS.
+ */
+proof_display(proof_ans, proof_steps) := ev(proof_disp_replacesteps_html(proof_ans, proof_steps), map(lambda([ex], ex=dispproof), proof_types));
+
+/* Make use of the existing styles.  See https://docs.stack-assessment.org/en/Topics/Proof/ */
+dispproof([ex]) := block([ex1],
+    apply(sconcat, flatten(append(["<div class=\"proof-block\">"], [simplode(ex)], ["</div>"])))
+);
+
+/**
+ * Take a proof, and any proof steps and display them using paragraphs.
  */
 proof_display_para(proof_ans, proof_steps) := ev(proof_disp_replacesteps(proof_ans, proof_steps), map(lambda([ex], ex=dispproof_para), proof_types));
 
@@ -386,6 +424,7 @@ dl_subs_disp([ex]) := sconcat("<span style='font-size: 1.1em; color:red;'><i cla
                             "<span style='font-size: 1.1em; color:red;'><i class='fa fa-arrow-left'></i></span> ", second(ex));
 
 proof_line_disp(ex1, ex2):= sconcat("<div class='proof-line'>",    ex1, ex2, "</div>");
+proof_comment_disp(ex):=    sconcat("<div class='proof-comment'>", ex,       "</div>");
 proof_column_disp(ex):=     sconcat("<div class='proof-column'>",  ex,       "</div>");
 proof_column_disp2(ex):=    sconcat("<div class='proof-column2'>", ex,       "</div>");
 

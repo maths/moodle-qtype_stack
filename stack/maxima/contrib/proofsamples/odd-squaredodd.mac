@@ -20,7 +20,7 @@ proof_steps: [
     ["alg_even",   "\\( n^2 = (2m)^2 = 2(2m^2).\\)"],
     ["def_M_even", "Define \\(M=2m^2\\in\\mathbb{Z}\\) then \\(n^2=2M\\)."],
     ["conc_even",  "Hence \\(n^2\\) is even.",
-                   "This is the conclusion in the first half of an if any only if proof"
+                   "This is the conclusion in the second half of an if any only if proof"
     ]
 ];
 

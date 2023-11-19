@@ -5,12 +5,15 @@ thm:"\\(\\log_2(3)\\) is irrational.";
 proof_steps: [
     ["assume",    "Assume, for a contradiction, that \\(\\log_2(3)\\) is rational."],
     ["defn_rat",  "Then \\(\\log_2(3) = \\frac{p}{q}>0\\) where "],
-    ["defn_rat2", "\\(p\\) and \\(q\\neq 0\\) are positive integers."],
-    ["defn_log",  "Using the definition of logarithm:"],
+    ["defn_rat2", "\\(p\\) and \\(q\\neq 0\\) are positive integers.",
+                  "This is the definition of rational number."],
+    ["defn_log",  "Using the definition of logarithm:",
+                  "Recall that \\(\\log_a(b)=x \\Leftrightarrow a^x=b\\)."],
     ["defn_log2", "\\( 3 = 2^{\\frac{p}{q}}\\)"],
     ["alg",       "\\( 3^q = 2^p\\)"],
     ["alg_int",   "The left hand side is always odd and the right hand side is always even."],
-    ["contra",    "This is a contradiction."],
+    ["contra",    "This is a contradiction.",
+                  "Notice this is a genuine contradiction, making it difficult to reformulate as a contrapositive."],
     ["conc",      "Hence \\(\\log_2(3)\\) is irrational."]
 ];
 
@@ -22,7 +25,7 @@ wrong_steps:[
     ["defn_log3", "\\( 2 = 3^{\\frac{p}{q}}\\)"],
     ["alg",       "\\( 2^q = 3^p\\)"]
 ];
-/ * Remove this comment to use them!
+/* Remove this comment to use them!
 proof_steps:append(proof_steps,wrong_steps);
 */
 

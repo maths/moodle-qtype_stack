@@ -23,7 +23,7 @@ The variable `proof_types` is a list holding the names of all proof construction
 
 `proof_validatep` is a validation function: the argument must be a tree built from proof construction functions as operators (with the right number of arguments in some cases) or atoms which are integer or strings.
 
-`proof_flatten` turns a proof-tree into a list of steps.  E.g. `proof_flatten(proof_iff(A,B))` is just `[A.B]`.  This function is useful when the teacher creates a structured tree, but a student's proof is a flat list.
+`proof_flatten` turns a proof-tree into a list of steps.  E.g. `proof_flatten(proof_iff(A,B))` is just `[A, B]`.  This function is useful when the teacher creates a structured tree, but a student's proof is a flat list.
 
 `proof_normal` returns a normalised proof-tree, e.g. sorting arguments of commutative proof construction functions.  Note, this function does not change keys, so will not match proofs using integer keys with a proof using string keys.
 

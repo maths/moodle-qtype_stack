@@ -153,8 +153,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $innerui .= '<ul class="list-group ' . $inner . '" id="bin"></ul>';
         }
         // TODO: We should avoid an English word "Orientation", which would need translating, with an icon.
-        // $r->items[] = new MP_String("<button><i class='fa fa-refresh'></i></button>");
-        $r->items[] = new MP_String('<button> Orientation </button>');
+        $r->items[] = new MP_String("<button><i class='fa fa-refresh'></i></button>");
+        //$r->items[] = new MP_String('<button> Orientation </button>');
         $r->items[] = new MP_String('<div class="container" style="' . $astyle . '">
             <div class=row>' . $innerui . '
             </div>

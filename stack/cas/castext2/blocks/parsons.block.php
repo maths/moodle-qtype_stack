@@ -152,8 +152,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if ($clone === 'true') {
             $innerui .= '<ul class="list-group ' . $inner . '" id="bin"></ul>';
         }
-        // TODO: We should avoid an English word "Orientation", which would need translating, with an icon.
-        $r->items[] = new MP_String("<button><i class='fa fa-refresh'></i></button>");
+
+        $r->items[] = new MP_String("<button type='button' class='btn btn-secondary'><i class='fa fa-refresh'></i></button>");
         //$r->items[] = new MP_String('<button> Orientation </button>');
         $r->items[] = new MP_String('<div class="container" style="' . $astyle . '">
             <div class=row>' . $innerui . '
@@ -212,7 +212,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'var usedOpts = {...stackSortable.options.used, ...{onSort: () => ' .
                 '{stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
         $code .= 'var availableOpts = {...stackSortable.options.available, ' .
-                '...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
+                '...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}, onClick: (e) => {e.target.style.border = "medium solid";}}}' . "\n";
         $code .= 'var sortableUsed = Sortable.create(usedList, usedOpts);' . "\n";
         $code .= 'var sortableAvailable = Sortable.create(availableList, availableOpts);' . "\n";
 

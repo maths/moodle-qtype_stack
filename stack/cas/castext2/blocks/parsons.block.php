@@ -212,7 +212,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'var usedOpts = {...stackSortable.options.used, ...{onSort: () => ' .
                 '{stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
         $code .= 'var availableOpts = {...stackSortable.options.available, ' .
-                '...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}, onClick: (e) => {e.target.style.border = "medium solid";}}}' . "\n";
+                '...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
         $code .= 'var sortableUsed = Sortable.create(usedList, usedOpts);' . "\n";
         $code .= 'var sortableAvailable = Sortable.create(availableList, availableOpts);' . "\n";
 

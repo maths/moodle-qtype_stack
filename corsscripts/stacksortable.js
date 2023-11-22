@@ -113,16 +113,17 @@ export const stack_sortable = class {
         };
     }
 
-    _create_header(innerHTML) {
+    _create_header(innerHTML, id) {
         let i = document.createElement("i");
         i.innerHTML = innerHTML;
         i.className = "list-group-item header";
+        i.setAttribute("id", id);
         return i;
     }
 
     add_headers(headers) {
-        this.used.append(this._create_header(headers.used.header));
-        this.available.append(this._create_header(headers.available.header));
+        this.used.append(this._create_header(headers.used.header, "usedHeader"));
+        this.available.append(this._create_header(headers.available.header, "availableHeader"));
     }
 
     update_state(newUsed, newAvailable) {
@@ -146,7 +147,7 @@ export const stack_sortable = class {
             if (e.target.matches(".list-group-item")) {
                 var li = this.used.removeChild(e.target);
                 if (this.clone !== "true") {
-                    this.available.prepend(li);
+                    this.available.append(li);
                 }
                 this.update_state(newUsed, newAvailable);
             }

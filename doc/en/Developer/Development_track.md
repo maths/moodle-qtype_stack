@@ -50,6 +50,7 @@ Essential (v 4.5.0)
 8. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block.  We can talk about this.
 9. Polish up the "use once" or "clone" strings.
 10. Style suggestion: Move the bin icon to be next to, and the same size as, the "refresh" icon.  This preserves the full width for useful material (used/unused).
+11. Add a "clear used list" option in clone mode, to delete all items in the used list.
 
 Later
 

@@ -116,7 +116,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))]);
-        //$r->items[] = new MP_String('<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>');
         $r->items[] = new MP_List([
             new MP_String('style'),
             new MP_String(json_encode(['href' => $css]))
@@ -143,7 +142,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         // Add correctly oriented container divs for the proof lists to be accessed by sortable.
-
         $orientation = isset($this->params['orientation']) ? $this->params['orientation'] : 'horizontal';
         $outer = $orientation === 'horizontal' ? 'row' : 'col';
         $inner = $orientation === 'horizontal' ? 'col' : 'row';
@@ -154,7 +152,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         $r->items[] = new MP_String("<button type='button' class='btn btn-secondary'><i class='fa fa-refresh'></i></button>");
-        //$r->items[] = new MP_String('<button> Orientation </button>');
         $r->items[] = new MP_String('<div class="container" style="' . $astyle . '">
             <div class=row>' . $innerui . '
             </div>
@@ -165,7 +162,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         $importcode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $importcode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
-        $importcode .= "import {preprocess_steps, stack_sortable, add_orientation_listener} from '" .
+        $importcode .= "import {preprocess_steps, stack_sortable, add_orientation_listener, add_headers} from '" .
             stack_cors_link('stacksortable.min.js') . "';\n";
         $r->items[] = new MP_String($importcode);
         // TODO :automatically set orientation based on device.
@@ -189,8 +186,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         // Parse steps and Sortable options separately if they exist.
-        $code = 'var userOpts;' . "\n";
-        $code .= '[proofSteps, userOpts] = preprocess_steps(proofSteps, userOpts);' . "\n";
+        $code = 'var blockUserOpts = {used: {header: "' . stack_string('stackBlock_used_header') . '"}, available: {header: "' . stack_string('stackBlock_available_header') . '"}};' . "\n";
+        $code .= 'var sortableUserOpts = {};' . "\n";
+        $code .= '[proofSteps, blockUserOpts, sortableUserOpts] = preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts);' . "\n";
+
+        // Add headers
+        $code .= 'add_headers(blockUserOpts);' . "\n";
 
         // Link up to STACK inputs.
         if (count($inputs) > 0) {
@@ -202,7 +203,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         };
 
         // Instantiate STACK sortable helper class.
-        $code .= 'const stackSortable = new stack_sortable(proofSteps, "availableList", "usedList", id, userOpts, "' .
+        $code .= 'const stackSortable = new stack_sortable(proofSteps, "availableList", "usedList", id, sortableUserOpts, "' .
                 $clone .'");' . "\n";
         // Generate the two lists in HTML.
         $code .= 'stackSortable.generate_used();' . "\n";
@@ -337,12 +338,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
                     $key !== 'version' && $key !== 'overridecss' && $key !== 'input' &&
-                    $key !== 'orientation' && $key !== 'clone') {
+                    $key !== 'orientation' && $key !== 'clone' && $key !== 'headings') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
                     $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss',
-                        'overridejs', 'input', 'orientation', 'clone'];
+                        'overridejs', 'input', 'orientation', 'clone', 'headings'];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids)]);
                 }

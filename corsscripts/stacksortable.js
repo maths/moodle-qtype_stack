@@ -5,19 +5,42 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-export function preprocess_steps(proofSteps, userOpts) {
+export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
     if (typeof proofSteps === "string") {
         proofSteps = Object.fromEntries(new Map(Object.values(JSON.parse(proofSteps))));
     };
     if (JSON.stringify(Object.keys(proofSteps)) === JSON.stringify([ "steps", "options" ])) {
-        userOpts = proofSteps["options"];
+        var userOpts = proofSteps["options"];
         proofSteps = proofSteps["steps"];
+
+        // the only block option we currently support is 'header': ["used header", "available header"]
+        if (userOpts.header != null) {
+            blockUserOpts = {used: {header: userOpts.header[0]}, available: {header: userOpts.header[1]}};
+        }
+        
+        // Sortable options are passed as a flat JSON, we split over used and available to allow different settings to be applied later
+        delete userOpts.header;
+        sortableUserOpts = {used: userOpts, available: userOpts};
     };
     if (typeof proofSteps === "string") {
         proofSteps = Object.fromEntries(new Map(Object.values(JSON.parse(proofSteps))));
     };
 
-    return [proofSteps, userOpts];
+    return [proofSteps, blockUserOpts, sortableUserOpts];
+}
+
+export function add_headers(blockUserOpts) {
+    usedList = document.getElementById("usedList");
+    availableList = document.getElementById("availableList");
+    usedList.append(_create_header(blockUserOpts.used.header));
+    availableList.append(_create_header(blockUserOpts.available.header));
+}
+
+function _create_header(innerHTML) {
+    let i = document.createElement("i");
+    i.innerHTML = innerHTML;
+    i.className = "list-group-item header";
+    return i;
 }
 
 export function flip_orientation() {
@@ -57,23 +80,23 @@ export const stack_sortable = class {
         this.available = document.getElementById(this.availableId);
         this.usedId = usedId;
         this.used = document.getElementById(this.usedId);
-        // Design for options:
+        // Preprocessed options look like:
         // options = {used : {// options for the used list}, available : {// options for the available list}}
         // TODO : additional default options?
         this.defaultOptions = {used: {animation: 50}, available: {animation: 50}};
         if (options == null) {
             this.userOptions = this.defaultOptions;
         } else {
-            // TODO: if options is flat object assign same to both used available, else index into options.used and options.available
             this.userOptions = {used: Object.assign(this.defaultOptions.used, options.used), available: Object.assign(this.defaultOptions.available, options.available)};
         };
         // define group correctly based on clone
         this.clone = clone
         var group_val = {used: {name: "sortableUsed", pull: true, put: true}};
-        group_val.available = (clone === "true") ? {name: "sortableAvailable", pull: "clone", revertClone: true, put: false,} : {name: "sortableAvailable", pull: true, put: true};
+        group_val.available = (clone === "true") ? {name: "sortableAvailable", pull: "clone", revertClone: true, put: false} : {name: "sortableAvailable", pull: true, put: true};
+
         // Do not allow a user to replace ghostClass or group.
-        this.options = {used: Object.assign(this.userOptions.used, {ghostClass: "list-group-item-info", group: group_val.used}), 
-                        available : Object.assign(this.userOptions.available, {ghostClass: "list-group-item-info", group: group_val.available, sort: false})};
+        this.options = {used: Object.assign(this.userOptions.used, {ghostClass: "list-group-item-info", group: group_val.used, filter: ".header"}), 
+                        available : Object.assign(this.userOptions.available, {ghostClass: "list-group-item-info", group: group_val.available, sort: false, filter: ".header"})};
     }
 
     _generate_state(proofSteps, inputId) {

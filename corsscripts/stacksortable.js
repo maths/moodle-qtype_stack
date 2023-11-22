@@ -95,8 +95,8 @@ export const stack_sortable = class {
         group_val.available = (clone === "true") ? {name: "sortableAvailable", pull: "clone", revertClone: true, put: false} : {name: "sortableAvailable", pull: true, put: true};
 
         // Do not allow a user to replace ghostClass or group.
-        this.options = {used: Object.assign(this.userOptions.used, {ghostClass: "list-group-item-info", group: group_val.used, filter: ".header"}), 
-                        available : Object.assign(this.userOptions.available, {ghostClass: "list-group-item-info", group: group_val.available, sort: false, filter: ".header"})};
+        this.options = {used: Object.assign(this.userOptions.used, {ghostClass: "list-group-item-info", group: group_val.used}), 
+                        available : Object.assign(this.userOptions.available, {ghostClass: "list-group-item-info", group: group_val.available, sort: false})};
     }
 
     _generate_state(proofSteps, inputId) {

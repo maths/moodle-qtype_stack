@@ -29,20 +29,6 @@ export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
     return [proofSteps, blockUserOpts, sortableUserOpts];
 }
 
-export function add_headers(blockUserOpts) {
-    usedList = document.getElementById("usedList");
-    availableList = document.getElementById("availableList");
-    usedList.append(_create_header(blockUserOpts.used.header));
-    availableList.append(_create_header(blockUserOpts.available.header));
-}
-
-function _create_header(innerHTML) {
-    let i = document.createElement("i");
-    i.innerHTML = innerHTML;
-    i.className = "list-group-item header";
-    return i;
-}
-
 export function flip_orientation() {
     var usedList = document.getElementById('usedList');
     var availableList = document.getElementById('availableList');
@@ -125,6 +111,18 @@ export const stack_sortable = class {
             li.className = "list-group-item";
             this.used.append(li);
         };
+    }
+
+    _create_header(innerHTML) {
+        let i = document.createElement("i");
+        i.innerHTML = innerHTML;
+        i.className = "list-group-item header";
+        return i;
+    }
+
+    add_headers(headers) {
+        this.used.append(this._create_header(headers.used.header));
+        this.available.append(this._create_header(headers.available.header));
     }
 
     update_state(newUsed, newAvailable) {

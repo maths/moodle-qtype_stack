@@ -162,7 +162,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         $importcode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $importcode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
-        $importcode .= "import {preprocess_steps, stack_sortable, add_orientation_listener, add_headers} from '" .
+        $importcode .= "import {preprocess_steps, stack_sortable, add_orientation_listener} from '" .
             stack_cors_link('stacksortable.min.js') . "';\n";
         $r->items[] = new MP_String($importcode);
         // TODO :automatically set orientation based on device.
@@ -186,12 +186,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         // Parse steps and Sortable options separately if they exist.
-        $code = 'var blockUserOpts = {used: {header: "' . stack_string('stackBlock_used_header') . '"}, available: {header: "' . stack_string('stackBlock_available_header') . '"}};' . "\n";
+        $code = 'var headers = {used: {header: "' . stack_string('stackBlock_used_header') . '"}, available: {header: "' . stack_string('stackBlock_available_header') . '"}};' . "\n";
         $code .= 'var sortableUserOpts = {};' . "\n";
-        $code .= '[proofSteps, blockUserOpts, sortableUserOpts] = preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts);' . "\n";
+        $code .= '[proofSteps, headers, sortableUserOpts] = preprocess_steps(proofSteps, headers, sortableUserOpts);' . "\n";
 
-        // Add headers
-        $code .= 'add_headers(blockUserOpts);' . "\n";
 
         // Link up to STACK inputs.
         if (count($inputs) > 0) {
@@ -206,6 +204,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'const stackSortable = new stack_sortable(proofSteps, "availableList", "usedList", id, sortableUserOpts, "' .
                 $clone .'");' . "\n";
         // Generate the two lists in HTML.
+        $code .= 'stackSortable.add_headers(headers);' . "\n";
         $code .= 'stackSortable.generate_used();' . "\n";
         $code .= 'stackSortable.generate_available();' . "\n";
 

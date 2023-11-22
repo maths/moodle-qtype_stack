@@ -44,56 +44,53 @@ Both these approaches can be combined
 [[/parsons]]
 ````
 
-## Adding `Sortable.js` options to the `[[parsons]]` block
+## Customising the `[[parsons]]` block
 
-The `[[parsons]]` block is a wrapper for the javascript library "Sortable.js", optimised and with default options for Parson's problems.  As such, there are a very wide range of options for this javascript library.  These options are all passed into the block as a JSON string.   To do this we separate out the arguments to the block into separate "steps" and "options" fields.
+### JSON "options"
+
+The `[[parsons]]` block is a wrapper for the javascript library "Sortable.js", optimised and with default options for Parson's problems. Moreover, there are default settings we add in, such as the headers for each of the two lists. These may be customised by structuring the JSON in the block contents as follows: 
 
 ````
 [[parsons input="ans1"]]
 { "steps": {# stackjson_stringify(proof_steps) #},
-  "options": {....}
+  "options": {"header" : ["custom header for the answer list", "custom header for the available steps"],
+              "sortable option 1" : value,
+              ...
+              "sortable option n" : value}
 }
 [[/parsons]]
 ````
 
-The Parson's drag and drop lists are created using the Sortable JavaScript library. These lists come with their own set of [options](https://github.com/SortableJS/Sortable#options), currently these are set at the default option for `"animation"` which controls the animation speed.
+A list of all Sortable.js options can be found [here](https://github.com/SortableJS/Sortable#options), currently these are set at the default option for `"animation"` which controls the animation speed.
 
 ````
 {
     "animation": 50,
 }
 ````
+Most other Sortable options can be modified, except for `ghostClass` and `group` as these are required to be set for basic functionality.
 
-Most Sortable options can be toggled by passing a JSON that is structured as follows in the Parson's block:
-
+The only non-Sortable option that may currently be customised is the `header` option. The default for these are:
 ````
-[[parsons input="ans1" height="360px" width="100%"]]
 {
-    "steps": {
-        "1":"Assume that \\(n\\) is odd.",
-        "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
-        "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
-        "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
-        "5": "Assume that \\(n\\) is even.",
-        "6": "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n = 2m\\)."
-    },
-    "options": {
-        "animation" : 150,
-    }
+    "header": ["Construct your solution here:", "Drag from here:"]
 }
-[[/parsons]]
 ````
-However, note that some options cannot be toggled as they are required for the proper functioning of the Sortable lists. Hence, any user-defined options for `ghostClass` and `group` are overwritten.
+To modify these pass an array of length two, with first entry corresponding to the header for the answer list and the second entry corresponding to the header for the list of available steps.
 
-The default options are TODO: confirm the above syntax and the default options!
+### Block parameters
 
-## Block parameters
+Functionality and styling can be customised through the use of block parameters.
 
-1. Parameter `state` gives the tree built up from the keys from which the applet should be initialised.
-2. The applet returns up updated state (identical format: maxima expression) for evaluation by a PRT.  This is linked to an input with parameter `input=`.
-3. `height` and `width` parameters exist.  TODO: examples/specs.
-4. `clone` should take values `"true"` or `"false"`. It is `"false"` by default. When `"false"` there are two lists and each proof step is "single-use", here author must write all necessary proof steps even if they repeat; when `"true"` all proof steps are re-usable with no restrictions on how many times they are used, steps can only be dragged from the available list into the answer list, and there is a bin to tidy up steps.
-5. `orientation` can be used to fix the initial orientation shown to the user, `"horizontal"` will show lists side-by-side and `"vertical"` will show lists on top of each other. Note that there is a button on the page in which the user may switch the orientation to their preference while answering the question, so the `"orientation"` block parameter only determines the initial layout. It is `"horizontal"` by default.
+1. `input`: string. The name of the STACK input variable (e.g., `"ans1"`), this links to an internal `state` parameter that updates the input as a Maxima expression so that it can be evaluated by a PRT.
+2. `height`: string, of format "this fixes the height of the window containing the drag-and-drop lists, set as a positive-float `px` or float in `[0, 100]` `%`; default is `400px`.
+3. `width`: this fixes the width of the window containing the drag-and-drop lists, set as a positive-float `px` or float in `[0, 100]` `%`; default is `100%`.
+4. `aspect-ratio`: string, containing a float between 0 and 1. This can be used with `height` _or_ `width` (not both) and automatically determines the value of the un-used parameter in accordance with the value of `aspect-ratio`; unset by default.
+5. `clone` : string of the form `"true"` or `"false"`. It is `"false"` by default. When `"false"` there are two lists and each proof step is "single-use", here the author must write all necessary proof steps even if they repeat; when `"true"` all proof steps are re-usable with no restrictions on how many times they are used, steps can only be dragged from the available list into the answer list, and there is a bin to tidy up steps.
+6. `orientation` : string of the form `"horizontal"` or `"vertical"`. This can be used to fix the initial orientation shown to the user, `"horizontal"` will show lists side-by-side and `"vertical"` will show lists on top of each other. Note that there is a button on the page in which the user may switch the orientation to their preference while answering the question, so the `"orientation"` block parameter only determines the initial layout. It is `"horizontal"` by default.
+7. `override-css` : string containing the location of a local CSS file or a href to an external CSS stylesheet. This will override all CSS styling of the drag-and-drop listing, so it should be used with care. However, it can be used to customise the styling of the lists by writing one's own custom CSS file and passing in the location of that file to this parameter. This parameter is unset by default.
+8. `override-js` : string containing a local JavaScript library or a href to a cdn of a JavaScript library. This will overwrite the Sortable library used with the library identified by the string. This should be used if one wishes to use an updated version of the Sortable library, or adding functionality with a custom library. Note that the custom library will need to either extend or import the base Sortable functionality. Unset by default.
+9. `version`: string of the form `"local"` or `"cdn"`. Whether to use STACK's local copy of the Sortable library or whether to pull version 1.15.0 of Sortable from cdn. This is `"local"` by default.
 
 ## Random generation of `proof_step` order
 

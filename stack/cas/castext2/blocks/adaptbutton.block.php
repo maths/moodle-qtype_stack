@@ -90,6 +90,10 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         return true;
     }
 
+    public function postprocess(array $params, castext2_processor $processor=null): string {
+        return 'Post processing of adaptbutton blocks never happens, this block is handled through [[iframe]].';
+    }
+
     public function validate_extract_attributes(): array {
         $r = array();
         if (!isset($this->params['title'])) {

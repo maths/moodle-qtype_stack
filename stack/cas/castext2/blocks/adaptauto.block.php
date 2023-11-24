@@ -15,8 +15,9 @@
 // along with Stateful.  If not, see <http://www.gnu.org/licenses/>.
 defined('MOODLE_INTERNAL') || die();
 
-
 require_once(__DIR__ . '/../block.interface.php');
+require_once(__DIR__ . '/../../../utils.class.php');
+
 // Register a counter.
 require_once(__DIR__ . '/iframe.block.php');
 stack_cas_castext2_iframe::register_counter('///ADAPTAUTO_COUNT///');
@@ -66,6 +67,10 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
     public function is_flat(): bool {
         // Never flat, the [[iframe]] portion needs extra processing.
         return true;
+    }
+
+    public function postprocess(array $params, castext2_processor $processor=null): string {
+        return 'Post processing of adaptauto blocks never happens, this block is handled through [[iframe]].';
     }
 
     public function validate_extract_attributes(): array {

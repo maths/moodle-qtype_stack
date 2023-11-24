@@ -29,8 +29,6 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
         $body = new MP_List([new MP_String('%root')]);
 
         $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
-        $code .= 'stack_js.request_access_to_input("ans1", true).then((id) => {'; 
-        $code .= "// do nothing, just make the iframe work better \n });";
         $code .= 'document.addEventListener("DOMContentLoaded", function(){';
         if (isset($this->params['show_ids'])) {
             $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 

@@ -28,7 +28,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
 
         $body = new MP_List([new MP_String('%root')]);
 
-        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n";
+        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $code .= 'document.addEventListener("DOMContentLoaded", function(){';
         if (isset($this->params['show_ids'])) {
             $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 
@@ -74,11 +74,7 @@ class stack_cas_castext2_adaptauto extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        $r = array();
-        if (!isset($this->params['show_ids']) && !isset($this->params['hide_ids'])) {
-            return $r;
-        }
-        return $r;
+        return array();
     }
 
     public function validate(&$errors=[], $options=[]): bool {

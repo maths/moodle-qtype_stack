@@ -147,7 +147,7 @@ export const stack_sortable = class {
             if (e.target.matches(".list-group-item")) {
                 var li = this.used.removeChild(e.target);
                 if (this.clone !== "true") {
-                    this.available.append(li);
+                    this.available.insertBefore(li, this.available.children[1]);
                 }
                 this.update_state(newUsed, newAvailable);
             }

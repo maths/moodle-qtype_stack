@@ -457,6 +457,7 @@ $string['settingplatformtypelinux'] = 'Linux';
 $string['settingplatformtypelinuxoptimised'] = 'Linux (optimised)';
 $string['settingplatformtypewin']  = 'Windows';
 $string['settingplatformtypeserver'] = 'Server';
+$string['settingplatformtypeserverproxy'] = 'Server (via proxy)';
 $string['settingplatformmaximacommand'] = 'Maxima command';
 $string['settingplatformmaximacommand_desc'] = 'If this is blank, STACK will make an educated guess as to where to find Maxima. If that fails, this should be set to the full path of the maxima or maxima-optimised executable.  Use for development and debugging only. Do not use on a production system: use optimised, or better, the Maxima Pool option.';
 $string['settingplatformmaximacommandopt'] = 'Optimised Maxima command';
@@ -629,6 +630,7 @@ $string['healthchecklatexmathjax'] = 'STACK relies on the Moodle MathJax filter.
 $string['healthcheckmathsdisplaymethod'] = 'Maths display method being used: {$a}.';
 $string['healthcheckmaximabat'] = 'The maxima.bat file is missing';
 $string['healthcheckmaximabatinfo'] = 'This script tried to automatically copy the maxima.bat script from inside "C:\Program files\Maxima-1.xx.y\bin" into "{$a}\stack". However, this seems not to have worked. Please copy this file manually.';
+$string['healthcheckproxysettings'] = '<strong>Warning:</strong> Moodle is set to use a proxy server but calls to maxima are bypassing this. Switch platform from "server" to "server (via proxy)" to route calls via the proxy server or add the maxima server to $CFG->proxybypass to make the bypass explicit. STACK should still function for now even if you do not make a change but Moodle proxy settings will be enforced in a later version.';
 $string['healthchecksamplecas'] = 'The derivative of {@ x^4/(1+x^4) @} is \[ \frac{d}{dx} \frac{x^4}{1+x^4} = {@ diff(x^4/(1+x^4),x) @}. \]';
 $string['healthcheckconnectunicode'] = 'Trying to send unicode to the CAS';
 $string['healthchecksamplecasunicode'] = 'Confirm if unicode is supported: \(\forall\) should be displayed {@unicode(8704)@}.';

@@ -45,9 +45,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $xpars = [];
         $inputs = []; // From inputname to variable name.
         $clone = "false"; // Whether to have all keys in available list cloned.
+        $length = 8;
         foreach ($this->params as $key => $value) {
             if ($key === 'clone') {
                 $clone = $value;
+            } else if ($key === 'length') {
+                $length = $value;
             } else if ($key !== 'input') {
                 $xpars[$key] = $value;
             } else {
@@ -71,23 +74,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Set default width and height here.
         // We want to push forward to overwrite the iframe defaults if they are not provided in the block parameters.
         $width = array_key_exists('width', $xpars) ? $xpars['width'] : "100%";
-        // TODO: set default based on number of proof steps.
-        /*$opt2 = [];
-        if ($options !== null) {
-            $opt2 = array_merge([], $options);
-        }
-        $opt2['in iframe'] = true;
-        /*foreach ($this->children as $item) {
-            // Assume that all code inside is JavaScript and that we do not
-            // want to do the markdown escaping or any other in it.
-            $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
-            if ($c !== null) {
-                $num_steps = $c->;
-            };
-        };
-        $num_steps = $this->children[1]->compile(castext2_parser_utils::RAWFORMAT, $opt2)->arguments[2]->arguments[1];*/
-        //$num_steps = ($this->children[0]->compile(castext2_parser_utils::RAWFORMAT, $opt2))->value;
-        $height = array_key_exists('height', $xpars) ? $xpars['height'] : "400px";
+        $height = array_key_exists('height', $xpars) ? $xpars['height'] : $length * 60 . 'px';
         $xpars['width'] = $width;
         $xpars['height'] = $height;
 
@@ -162,7 +149,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         $importcode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $importcode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
-        $importcode .= "import {preprocess_steps, stack_sortable, add_orientation_listener} from '" .
+        $importcode .= "import {preprocess_steps, stack_sortable, add_orientation_listener, add_rescale_height_listener} from '" .
             stack_cors_link('stacksortable.min.js') . "';\n";
         $r->items[] = new MP_String($importcode);
         // TODO :automatically set orientation based on device.
@@ -182,14 +169,21 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
             if ($c !== null) {
                 $r->items[] = $c;
+                //$num_steps = count(json_decode($c->toString()));
+                //$num_steps = count(explode(",", $c->toString()));
+                //$num_steps = count(explode(",", explode(":", explode(",", $c->toString()))));
+                //$xpars['height'] = $num_steps * 60 . 'px';
+                //$xpars['title'] = json_encode(explode(",", $c->toString()));
+                //$r->items[1] = new MP_String(json_encode($xpars));
             }
         }
+
+
 
         // Parse steps and Sortable options separately if they exist.
         $code = 'var headers = {used: {header: "' . stack_string('stackBlock_used_header') . '"}, available: {header: "' . stack_string('stackBlock_available_header') . '"}};' . "\n";
         $code .= 'var sortableUserOpts = {};' . "\n";
         $code .= '[proofSteps, headers, sortableUserOpts] = preprocess_steps(proofSteps, headers, sortableUserOpts);' . "\n";
-
 
         // Link up to STACK inputs.
         if (count($inputs) > 0) {
@@ -266,6 +260,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $valid  = true;
         $width  = array_key_exists('width', $this->params) ? $this->params['width'] : '100%';
         $height = array_key_exists('height', $this->params) ? $this->params['height'] : '400px';
+        $length = array_key_exists('length', $this->params) ? $this->params['length'] : '8';
 
         // NOTE! List ordered by length. For the trimming logic.
         $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
@@ -309,9 +304,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $valid    = false;
             $err[] = stack_string('stackBlock_parsons_height_num');
         }
+        if (!preg_match('/^[0-9]+$/', $length)) {
+            $valid = false;
+            $err[] = stack_string('stackBlock_parsons_length_num');
+        }
 
         if (array_key_exists('width', $this->params) &&
-            array_key_exists('height', $this->params) &&
+            (array_key_exists('height', $this->params) || array_key_exists('length', $this->params)) &&
             array_key_exists('aspect-ratio', $this->params)) {
             $valid    = false;
             $err[] = stack_string('stackBlock_parsons_overdefined_dimension');
@@ -322,6 +321,11 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $valid    = false;
             $err[] = stack_string('stackBlock_parsons_underdefined_dimension');
         }
+        if (array_key_exists('height', $this->params) &&
+            array_key_exists('length', $this->params)) {
+                $valid = false;
+                $err[] = stack_string('stackBlock_parsons_overdefined_height');
+            }
 
         // Check version is only one of valid options.
         if (array_key_exists('version', $this->params) && !array_key_exists($this->params['version'],
@@ -337,12 +341,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
                     $key !== 'version' && $key !== 'overridecss' && $key !== 'input' &&
-                    $key !== 'orientation' && $key !== 'clone') {
+                    $key !== 'orientation' && $key !== 'clone' && $key !== 'length') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
                     $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss',
-                        'overridejs', 'input', 'orientation', 'clone'];
+                        'overridejs', 'input', 'orientation', 'clone', 'length'];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids)]);
                 }

@@ -29,7 +29,7 @@ export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
     return [proofSteps, blockUserOpts, sortableUserOpts];
 }
 
-export function flip_orientation() {
+function _flip_orientation() {
     var usedList = document.getElementById('usedList');
     var availableList = document.getElementById('availableList');
     var bin = document.getElementById('bin');
@@ -43,7 +43,7 @@ export function flip_orientation() {
 
 export function add_orientation_listener() {
     const button = document.querySelector('button');
-    button.addEventListener('click', () => flip_orientation());
+    button.addEventListener('click', () => _flip_orientation());
 }
 
 export function add_dblclick_listeners() {
@@ -51,6 +51,22 @@ export function add_dblclick_listeners() {
     for (var i; i < items.length; i++) {
         items[i].addEventListener('dblclick');
     }
+}
+
+//function _resize_iframe_holder(e) {
+//    document.getElementById("stack-iframe-holder-1").height = Number(e.data.height);
+//}
+
+function _get_iframe_height() {
+    return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+}
+
+/*export function add_holder_resizer() {
+    document.addEventListener('message', _resize_iframe_holder);
+}*/
+
+export function add_rescale_height_listener() {
+    document.addEventListener('load', () => document.parentNode.postMessage({'height': _get_iframe_height()}));
 }
 
 export const stack_sortable = class {

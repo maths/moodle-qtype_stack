@@ -538,6 +538,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'binomial(n,k)', 'binomial(n,n-k)', 1, '', ''),
         array('AlgEquiv', '', '175!*56!/(55!*176!)', '17556/55176', 1, '', ''),
         array('AlgEquiv', '', '3*s*diff(q(s),s)', '3*s*diff(q(s),s)', 1, '', 'Unevaluated derviatives'),
+        array('AlgEquiv', '', '3*t*diff(q(s),s)', '3*diff(t*q(s),s)', 1, '', ''),
+        array('AlgEquiv', '', 'diff(diff(q(s),s),s)', 'diff(q(s),s,2)', 1, '', ''),
         array('AlgEquiv', '', 'sum(k^n,n,0,3)', 'sum(k^n,n,0,3)', 1, '', 'Sums and products'),
         array('AlgEquiv', '', '1+k+k^2+k^3', 'sum(k^n,n,0,3)', 1, '', ''),
         array('AlgEquiv', '', '1+k+k^2', 'sum(k^n,n,0,3)', 0, '', ''),

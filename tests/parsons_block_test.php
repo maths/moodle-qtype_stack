@@ -52,7 +52,7 @@ class parsons_block_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
-    public function test_get_all_raw_casstrings() {
+    public function test_basic_parsons_block() {
         $raw = '[[parsons]]{' .
             '"1":"Assume that \\(n\\) is odd.",' .
             '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
@@ -65,6 +65,24 @@ class parsons_block_test extends qtype_stack_testcase {
         $session = new stack_cas_session2([$at1]);
         $session->instantiate();
         $this->assertEquals($expected, $at1->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_parsons
+     */
+    public function test_pasrons_validate_length() {
+        $raw = '[[parsons length="a"]]{' .
+            '"1":"Assume that \\(n\\) is odd.",' .
+            '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
+            '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
+            '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
+            '} [[/parsons]]';
+        $expected = '<div style="width:100%;height:480px;" id="stack-iframe-holder-1"></div>';
+
+        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
+        $session = new stack_cas_session2([$at1]);
+        $this->assertFalse($at1->get_valid());
+        $this->assertEquals(stack_string('stackBlock_parsons_length_num'), $at1->get_errors());
     }
 
 }

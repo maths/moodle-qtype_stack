@@ -974,7 +974,8 @@ algebraic_equivalence(SA, SB) :=
 
 /* This test establishes if two expressions appear NOT to be equivalent.
    It does so by evaluating the expressions numerically.        */
-numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_quiet,listdummyvars],
+numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_quiet,listdummyvars,trigexpand],
+  trigexpand:false,
   stack_mtell_quiet:true,
   listdummyvars:false,
   /* We take the *union* of the two lists of variables, this way we
@@ -1020,7 +1021,7 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
   if first(sz) > 0.0001 then true else false
 )$
 
-/* Are there any user-defined function? */
+/* Are there any user-defined functions? */
 recurse_userfunctionp(ex):= block([op1],
   if atom(ex) then return(false),
   op1:ev(op(ex)),

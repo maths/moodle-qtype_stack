@@ -1488,7 +1488,7 @@ class MP_List extends MP_Node {
             return $indent . '[' . implode(', ', $ar) . ']';
         }
 
-        return '[' . implode(',', $ar) . ']';
+        return '[' . implode($sep, $ar) . ']';
     }
 
     public function replace($node, $with) {

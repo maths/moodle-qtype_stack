@@ -10,6 +10,7 @@ proof_steps: [
     ["defn_log",  "Using the definition of logarithm:",
                   "Recall that \\(\\log_a(b)=x \\Leftrightarrow a^x=b\\)."],
     ["defn_log2", "\\( 3 = 2^{\\frac{p}{q}}\\)"],
+    ["con",       "if and only if"],
     ["alg",       "\\( 3^q = 2^p\\)"],
     ["alg_int",   "The left hand side is always odd and the right hand side is always even."],
     ["contra",    "This is a contradiction.",
@@ -31,5 +32,5 @@ proof_steps:append(proof_steps,wrong_steps);
 */
 
 /****************************************************************/
-proof_ans:proof("assume","defn_rat","defn_rat2","defn_log","defn_log2","alg","alg_int","contra","conc");
+proof_ans:proof("assume","defn_rat","defn_rat2","defn_log","defn_log2","con","alg","alg_int","contra","conc");
 

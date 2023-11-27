@@ -26,7 +26,7 @@ class stack_cas_castext2_debug extends stack_cas_castext2_block {
         if (is_array($options) && isset($options['bound-vars'])) {
             $bounds = $options['bound-vars'];
         }
-
+//print_r($options);die();
         // We are lazy and are not going to write this logic ourselves,
         // instead fall back to CASText and let other parts do the task.
         if (count($bounds) == 0) {

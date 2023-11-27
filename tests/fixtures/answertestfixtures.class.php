@@ -852,6 +852,10 @@ class stack_answertest_test_data {
         array('EqualComAss', '', 'rationalized(1/(1+i))', '[i]', 1, '', ''),
         array('EqualComAss', '', 'rationalized(1/(1+1/root(3,2)))', '[root(3,2)]', 1, '', ''),
 
+        array('EqualComAss', '', 'B nounand A', 'A nounand B', 1, '', 'Logic'),
+        array('EqualComAss', '', 'A nounand A', 'A', 0, 'ATEqualComAss ATAlgEquiv_SA_not_expression.', ''),
+        array('EqualComAss', '', 'subst(["*"="nounand", "+"="nounor","!"="nounnot"], A*B)', 'A nounand B', 1, '', ''),
+
         // Differential equations.
         // Functions are evaluated with simp:false.
         array('EqualComAss', '', 'diff(y,x)', '0', 1, '', 'Differential Equations'),

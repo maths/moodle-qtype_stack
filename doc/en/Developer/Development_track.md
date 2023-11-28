@@ -56,6 +56,7 @@ overwritten, user should know when and why their input options are being discard
 13. Tick used items. Or allow student to mark items as used or unneeded.
 14. Better signaling for clone mode
 15. Change red colouring for the available list
+16. Validate JSON in javascript and expose errors to users on the page (rather than in the console).
 
 Later
 

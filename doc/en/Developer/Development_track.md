@@ -38,27 +38,27 @@ TODO:
 
 Essential (v 4.5.0)
 
-1. Choose and document default options for Sortable.js and document them
-2. Unit tests
-3. Choose css : review proof styles in top-level css and choose/propose styles for Parsons
-   Please choose one list above the other!
+1. Auto-size: js iframe dynamic rescaling? (best guess won't work...)
+2. Choose and document default options for Sortable.js and document them.
+3. Unit tests
 4. Make sure STACK CSS is loaded, i.e. https://github.com/maths/moodle-qtype_stack/blob/master/styles.css
    This contains some styles such as proof and trees we'd like within the iframe.
-5. Nested lists (flat list vs. nested/tree)
-6. Auto-size (i. internal best guess; ii. js iframe dynamic rescaling)
-7. Confirm MathJax default
-8. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block.  We can talk about this.
-9. Polish up the "use once" or "clone" strings.
-10. Style suggestion: Move the bin icon to be next to, and the same size as, the "refresh" icon.  This preserves the full width for useful material (used/unused).
-11. Add a "clear used list" option in clone mode, to delete all items in the used list.
+   Test with {@disptree(1+x^2)@}.
+5. Confirm MathJax default:   typeset  v2, v3? 
+6. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block.  We can talk about this.
+7. Polish up the "use once" or "clone" strings.
+8. Style suggestion: Move the bin icon to be next to, and the same size as, the "refresh" icon.  This preserves the full width for useful material (used/unused).
+9. Add a "clear used list" option in clone mode, to delete all items in the used list.
+10. Use syntax hint to set up a non-empty starting point....
 
 Later
 
 1. Hashing keys
-2. Different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this? 
+2. Different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
 2. Create templates from the start for different proof types
 4. Restrict blocks to fixed number of steps
 5. Other draggable arrangements, e.g. fill in a 2*2 grid (for matching problems)
+   Nested lists (flat list vs. nested/tree)
 
 ## For "inputs 2"?
 

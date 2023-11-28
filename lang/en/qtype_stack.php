@@ -83,7 +83,7 @@ $string['autosimplifyprt_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/C
 $string['boxsize'] = 'Input box size';
 $string['boxsize_help'] = 'Width of the html formfield.';
 $string['boxsize_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Inputs.md#Box_Size';
-$string['bulktestindexintro_desc'] = 'The <a href="{$a->link}">run the question tests in bulk script</a> lets you easily run all the STACK questions in a given context. Not only does this test the questions. It is also a good way to re-populate the CAS cache after it has been cleared.';
+$string['bulktestindexintro_desc'] = 'The <a href="{$a->link}">bulk test script</a> lets you easily run all the STACK question tests in a given context. Not only does this test the questions. It is also a good way to re-populate the CAS cache after it has been cleared.';
 $string['dependenciesintro_desc'] = 'The <a href="{$a->link}">dependencies</a>, checker finds questions with dependencies such as JSXGraph or inclusion of external maxima code.';
 $string['checkanswertype'] = 'Check the type of the response';
 $string['checkanswertype_help'] = 'If yes, answers which are of a different "type" (e.g. expression, equation, matrix, list, set) are rejected as invalid.';
@@ -1107,7 +1107,7 @@ $string['Interval_illegal_entries']             = 'The following should not appe
 // Documentation strings.
 $string['stackDoc_404']                 = 'Error 404';
 $string['stackDoc_docs']                = 'STACK Documentation';
-$string['stackDoc_docs_desc']           = '<a href="{$a->link}">Documentation for STACK</a>: a local static wiki documenting the code you actually have running on your server.';
+$string['stackDoc_docs_desc']           = 'The <a href="{$a->link}">documentation for STACK</a>: a local static wiki documenting the code you actually have running on your server.';
 $string['stackDoc_home']                = 'Documentation home';
 $string['stackDoc_index']               = 'Category index';
 $string['stackDoc_siteMap']             = 'Site map';

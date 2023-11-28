@@ -31,22 +31,23 @@ require_once(__DIR__ . '/stack/prt.class.php');
 // Useful links.
 $links = array(
     get_string('stackDoc_docs_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/doc/doc.php/'))),
+        array('link' => (string) new moodle_url('/question/type/stack/doc/doc.php/'))),
     get_string('healthcheck_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/adminui/healthcheck.php'))),
+        array('link' => (string) new moodle_url('/question/type/stack/adminui/healthcheck.php'))),
     get_string('chat_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/adminui/caschat.php'))),
-    get_string('stackInstall_testsuite_title_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/adminui/answertests.php'))),
-    get_string('stackInstall_input_title_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/adminui/studentinputs.php'))),
+        array('link' => (string) new moodle_url('/question/type/stack/adminui/caschat.php'))),
     get_string('bulktestindexintro_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/adminui/bulktestindex.php'))),
+        array('link' => (string) new moodle_url('/question/type/stack/adminui/bulktestindex.php'))),
     get_string('dependenciesintro_desc', 'qtype_stack',
         array('link' => (string) new moodle_url('/question/type/stack/adminui/dependencies.php'))),
     get_string('stackInstall_replace_dollars_desc', 'qtype_stack',
-            array('link' => (string) new moodle_url('/question/type/stack/adminui/replacedollarsindex.php'))),
+        array('link' => (string) new moodle_url('/question/type/stack/adminui/replacedollarsindex.php'))),
+    get_string('stackInstall_testsuite_title_desc', 'qtype_stack',
+        array('link' => (string) new moodle_url('/question/type/stack/adminui/answertests.php'))),
+    get_string('stackInstall_input_title_desc', 'qtype_stack',
+        array('link' => (string) new moodle_url('/question/type/stack/adminui/studentinputs.php'))),
 );
+
 $settings->add(new admin_setting_heading('docs',
         get_string('settingusefullinks', 'qtype_stack'),
         '* ' . implode("\n* ", $links)));

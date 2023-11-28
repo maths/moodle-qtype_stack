@@ -139,7 +139,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $innerui .= '<ul class="list-group ' . $inner . '" id="bin"></ul>';
         }
 
-        $r->items[] = new MP_String("<button type='button' class='btn btn-secondary'><i class='fa fa-refresh'></i></button>");
+        $r->items[] = new MP_String("<button type='button' class='btn btn-secondary' id='orientation'>
+            <i class='fa fa-refresh'></i></button>");
         $r->items[] = new MP_String('<div class="container" style="' . $astyle . '">
             <div class=row>' . $innerui . '
             </div>
@@ -154,7 +155,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             stack_cors_link('stacksortable.min.js') . "';\n";
         $r->items[] = new MP_String($importcode);
         // TODO :automatically set orientation based on device.
-        $r->items[] = new MP_String('add_orientation_listener();' . "\n");
+        $r->items[] = new MP_String('add_orientation_listener("orientation", "usedList", "availableList");' . "\n");
         // Extract the proof steps from the inner content.
         $r->items[] = new MP_String('var proofSteps = ');
 

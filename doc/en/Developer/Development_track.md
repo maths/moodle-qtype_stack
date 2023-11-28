@@ -48,8 +48,13 @@ Essential (v 4.5.0)
 6. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block.  We can talk about this.
 7. Polish up the "use once" or "clone" strings.
 8. Style suggestion: Move the bin icon to be next to, and the same size as, the "refresh" icon.  This preserves the full width for useful material (used/unused).
-9. Add a "clear used list" option in clone mode, to delete all items in the used list.
+9. Add a "clear used list" option in clone mode, to delete all items in the used list. Include an are you sure prompt
 10. Use syntax hint to set up a non-empty starting point....
+11. Check sortable for keyboard accessibility
+12. CSS styling fix for automated feedback
+13. Tick used items. Or allow student to mark items as used or unneeded.
+14. Better signaling for clone mode
+15. Change red colouring for the available list
 
 Later
 
@@ -59,6 +64,10 @@ Later
 4. Restrict blocks to fixed number of steps
 5. Other draggable arrangements, e.g. fill in a 2*2 grid (for matching problems)
    Nested lists (flat list vs. nested/tree)
+6. Allow student to select proof style (e.g. iff, contradiction) and pre-structure answer list accordingly
+7. Allow some strings in the correct answer to be optional. Allow authors to input a weight for each item and use weighted D-L distance, e.g., weight of 0 indicates that a step is not required, but will not be considered incorrect if included.
+8. Hover over a proof step to reveal more information (e.g., this could come from the third item in the list and give a hint/definition)
+
 
 ## For "inputs 2"?
 

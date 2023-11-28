@@ -1,0 +1,16 @@
+/****************************************************************/
+thm:"The harmonic series diverges.";
+
+
+/****************************************************************/
+proof_steps: [
+    ["defn_pn",    "Define \\(p_n\\) to be the \\(n\\)th prime number."],
+    ["pn_gt_n",    "We know that \\(p_n \\geq n > 0\\) for all natural numbers \\(n\\)."],
+    ["pn_lt_n",    "Hence \\(\\frac{1}{p_n} \\leq \\frac{1}{n}\\) for all natural numbers \\(n\\)."],
+    ["pn_div",     "We know that \\(\\sum_{n=1}^\\infty \\frac{1}{p_n}\\) diverges."],
+    ["comptst",    "Apply the comparison test: if \\(a_n \\leq b_n\\) and \\(\\sum_{n=1}^\\infty a_n\\) diverges then \\(\\sum_{n=1}^\\infty b_n\\) diverges."],
+    ["conc",       "The harmonic series diverges."]
+    ];
+
+/* This is how the teacher defines their answer, as nested proofs. */
+proof_ans:proof("defn_pn","pn_gt_n","pn_lt_n","pn_div","comptst","conc");

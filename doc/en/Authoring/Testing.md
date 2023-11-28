@@ -94,10 +94,13 @@ For the checkbox type you will need the whole list.
 
     tc1:mcq_correct(ta);
 
-### Test case construction and numerical precision.
+### Test case construction and numerical precision
 
 You can construct test cases using the functions such as `dispdp` to create a test-case input with trailing zeros.  This is neeeded if the input, or answer test, is testing for a minimum number of decimal places or significant figures.
 
+### Test case construction and decimal separators
+
+The decimal separator option (e.g. `.` or `,`) is a very thin layer based on the student input.  The teacher must always use a `.` (full stop) as the decimal separator in question variables.  Consistent with this, all test-case construction must use a `.` (full stop) as the decimal separator.  This means it's hard to test the functionality of the decimal separator option (sorry), but otherwise there is genuine confusion in the internal logic about _when_ to assume a `,` is a decimal separator or a list separator.  Also, if you change this option in the question you do not need to change all your test cases.
 
 ## Testing values of variables
 

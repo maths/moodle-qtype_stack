@@ -39,6 +39,8 @@ $confirmthistestcase = optional_param('confirmthistestcase', null, PARAM_INT);
 // Load the necessary data.
 $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
+// We hard-wire decimals to be a full stop when testing questions.
+$question->options->set_option('decimals', '.');
 if ($testcase || $confirmthistestcase) {
     $qtest = question_bank::get_qtype('stack')->load_question_test($questionid, $testcase);
 }
@@ -70,7 +72,6 @@ if (!is_null($seed)) {
 
 $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
-
 
 // Initialise $PAGE.
 $backurl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
@@ -125,7 +126,6 @@ if ($mform->is_cancelled()) {
         $inputs[$name] = $value;
     }
     $qtest = new stack_question_test($qtest->description, $inputs);
-
     $response = stack_question_test::compute_response($question, $inputs);
 
     foreach ($question->prts as $prtname => $prt) {

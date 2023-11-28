@@ -39,7 +39,8 @@ TODO:
 Essential (v 4.5.0)
 
 1. Auto-size: js iframe dynamic rescaling? (best guess won't work...)
-2. Choose and document default options for Sortable.js and document them.
+2. Choose and document default options for Sortable.js and document them. Make sure any overwritten options are warned as being 
+overwritten, user should know when and why their input options are being discarded.
 3. Unit tests
 4. Make sure STACK CSS is loaded, i.e. https://github.com/maths/moodle-qtype_stack/blob/master/styles.css
    This contains some styles such as proof and trees we'd like within the iframe.

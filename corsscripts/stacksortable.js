@@ -89,16 +89,22 @@ export const stack_sortable = class {
         if (options == null) {
             this.userOptions = this.defaultOptions;
         } else {
-            this.userOptions = {used: Object.assign(this.defaultOptions.used, options.used), available: Object.assign(this.defaultOptions.available, options.available)};
+            this.userOptions = {used: Object.assign(this.defaultOptions.used, options.used), 
+                available: Object.assign(this.defaultOptions.available, options.available)};
         };
         // define group correctly based on clone
         this.clone = clone
         var group_val = {used: {name: "sortableUsed", pull: true, put: true}};
-        group_val.available = (clone === "true") ? {name: "sortableAvailable", pull: "clone", revertClone: true, put: false} : {name: "sortableAvailable", pull: true, put: true};
+        group_val.available = (clone === "true") ? 
+            {name: "sortableAvailable", pull: "clone", revertClone: true, put: false} : 
+            {name: "sortableAvailable", pull: true, put: true};
 
         // Do not allow a user to replace ghostClass or group.
-        this.options = {used: Object.assign(this.userOptions.used, {ghostClass: "list-group-item-info", group: group_val.used}), 
-                        available : Object.assign(this.userOptions.available, {ghostClass: "list-group-item-info", group: group_val.available, sort: false})};
+        this.options = {used: 
+            Object.assign(this.userOptions.used, {ghostClass: "list-group-item-info", group: group_val.used}), 
+                        available : 
+            Object.assign(this.userOptions.available, {ghostClass: "list-group-item-info", group: group_val.available})
+        };
     }
 
     _generate_state(proofSteps, inputId) {
@@ -106,7 +112,9 @@ export const stack_sortable = class {
         if (stateStore == null) {
             return {used: [], available: [...Object.keys(proofSteps)]}
         }
-        return stateStore.value && stateStore.value != "" ? JSON.parse(stateStore.value) : {used: [], available: [...Object.keys(proofSteps)]};
+        return (stateStore.value && stateStore.value != "") ? 
+            JSON.parse(stateStore.value) : 
+            {used: [], available: [...Object.keys(proofSteps)]};
     }
 
     generate_available() {

@@ -853,8 +853,8 @@ $string['stackBlock_jsxgraph_overdefined_dimension'] = 'When defining aspect-rat
 $string['stackBlock_jsxgraph_ref']         = 'The jsxgraph-block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
 $string['stackBlock_jsxgraph_param']       = 'The jsxgraph-block supports only these parameters in this context: {$a->param}.';
 
-$string['stackBlock_used_header']         = 'Construct your solution here:';
-$string['stackBlock_available_header']    = 'Drag from here:';
+$string['stackBlock_parsons_used_header']         = 'Construct your solution here:';
+$string['stackBlock_parsons_available_header']    = 'Drag from here:';
 $string['stackBlock_parsons_width']       = 'The width of a Parson\'s block must use a known CSS-length unit.';
 $string['stackBlock_parsons_height']      = 'The height of a Parson\'s block must use a known CSS-length unit.';
 $string['stackBlock_parsons_width_num']   = 'The numeric portion of the width of a Parson\'s block must be a raw number and must not contain any extra chars.';

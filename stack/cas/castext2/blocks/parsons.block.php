@@ -73,6 +73,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // Set default width and height here.
         // We want to push forward to overwrite the iframe defaults if they are not provided in the block parameters.
+        // TODO : avoid hard-coding 60, extract from CSS?
         $width = array_key_exists('width', $xpars) ? $xpars['width'] : "100%";
         $height = array_key_exists('height', $xpars) ? $xpars['height'] : $length * 60 . 'px';
         $xpars['width'] = $width;
@@ -169,19 +170,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $c = $item->compile(castext2_parser_utils::RAWFORMAT, $opt2);
             if ($c !== null) {
                 $r->items[] = $c;
-                //$num_steps = count(json_decode($c->toString()));
-                //$num_steps = count(explode(",", $c->toString()));
-                //$num_steps = count(explode(",", explode(":", explode(",", $c->toString()))));
-                //$xpars['height'] = $num_steps * 60 . 'px';
-                //$xpars['title'] = json_encode(explode(",", $c->toString()));
-                //$r->items[1] = new MP_String(json_encode($xpars));
             }
         }
 
-
-
         // Parse steps and Sortable options separately if they exist.
-        $code = 'var headers = {used: {header: "' . stack_string('stackBlock_used_header') . '"}, available: {header: "' . stack_string('stackBlock_available_header') . '"}};' . "\n";
+        $code = 'var headers = {used: {header: "' . stack_string('stackBlock_parsons_used_header') . '"}, 
+        available: {header: "' . stack_string('stackBlock_parsons_available_header') . '"}};' . "\n";
         $code .= 'var sortableUserOpts = {};' . "\n";
         $code .= '[proofSteps, headers, sortableUserOpts] = preprocess_steps(proofSteps, headers, sortableUserOpts);' . "\n";
 
@@ -272,12 +266,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $heighttrim = $height;
 
         foreach ($validunits as $suffix) {
-            if (!$widthend && strlen($width) > strlen($suffix) &&
+            if (!$widthend && strlen($width) >= strlen($suffix) &&
                 substr($width, -strlen($suffix)) === $suffix) {
                 $widthend  = true;
                 $widthtrim = substr($width, 0, -strlen($suffix));
             }
-            if (!$heightend && strlen($height) > strlen($suffix) &&
+            if (!$heightend && strlen($height) >= strlen($suffix) &&
                 substr($height, -strlen($suffix)) === $suffix) {
                 $heightend  = true;
                 $heighttrim = substr($height, 0, -strlen($suffix));
@@ -291,19 +285,18 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (!$widthend) {
             $valid    = false;
             $err[] = stack_string('stackBlock_parsons_width');
+        } else if (!preg_match('/^[0-9]*[\.]?[0-9]+$/', $widthtrim)) {
+            $valid    = false;
+            $err[] = stack_string('stackBlock_parsons_width_num');
         }
         if (!$heightend) {
             $valid    = false;
             $err[] = stack_string('stackBlock_parsons_height');
-        }
-        if (!preg_match('/^[0-9]*[\.]?[0-9]+$/', $widthtrim)) {
-            $valid    = false;
-            $err[] = stack_string('stackBlock_parsons_width_num');
-        }
-        if (!preg_match('/^[0-9]*[\.]?[0-9]+$/', $heighttrim)) {
+        } else if (!preg_match('/^[0-9]*[\.]?[0-9]+$/', $heighttrim)) {
             $valid    = false;
             $err[] = stack_string('stackBlock_parsons_height_num');
         }
+
         if (!preg_match('/^[0-9]+$/', $length)) {
             $valid = false;
             $err[] = stack_string('stackBlock_parsons_length_num');

@@ -8,34 +8,17 @@ This opens a page where you can see the preview of the question, the name of eac
 
 Here are 2 examples to demonstrate this feature. 
 
-	1. A  question with 1 input and messy nodes in the PRT
+**Example 1:** A  question with 1 input and messy nodes in the PRT
 	
-	The tool suggests the new names for the nodes so they will appear in arithmetic order. 
+The tool suggests the new names for the nodes so they will appear in arithmetic order. 
 	
-	<div class="float-none img-middle">
-    <figure class="figure">
-        <img class="figure-img img-fluid" src="../Images/PRT_messy.PNG" alt="A messy PRT">
-        <figcaption class="figure-caption">A messy PRT</figcaption>
-    </figure>
-</div>
+![A messy PRT.](../Images/PRT_messy.png)
 
-	Go back into the question and you can see the change at the nodes of the PRT.
+Go back into the question and you can see the change at the nodes of the PRT.
 	
-		<div class="float-none img-middle">
-    <figure class="figure">
-        <img class="figure-img img-fluid" src="../Images/PRT_tidy.PNG" alt="The PRT in a tidy order">
-        <figcaption class="figure-caption">The PRT in a tidy order</figcaption>
-    </figure>
-</div>
+![The PRT in a tidy order.](../Images/PRT_tidy.png)
 
-
-	2. A question with messy input names
+**Example 2:** A question with messy input names
 	
-	The question has 5 inputs but because some inputs were removed, the names of the inputs are not in order. You need to type the new names of the inputs and PRTs.
-	
-	<div class="float-none img-middle">
-    <figure class="figure">
-        <img class="figure-img img-fluid" src="../Images/Tidy_inputs.PNG" alt="Tidy input names">
-        <figcaption class="figure-caption">Tidy input names</figcaption>
-    </figure>
-</div>
+The question has 5 inputs but because some inputs were removed, the names of the inputs are not in order. You need to type the new names of the inputs and PRTs.
+![Tidy input names](../Images/Tidy_inputs.png) 

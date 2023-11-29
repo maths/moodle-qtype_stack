@@ -175,7 +175,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         // Parse steps and Sortable options separately if they exist.
-        $code = 'var headers = {used: {header: "' . stack_string('stackBlock_parsons_used_header') . '"}, 
+        $code = 'var headers = {used: {header: "' . stack_string('stackBlock_parsons_used_header') . '"},
         available: {header: "' . stack_string('stackBlock_parsons_available_header') . '"}};' . "\n";
         $code .= 'var sortableUserOpts = {};' . "\n";
         $code .= '[proofSteps, headers, sortableUserOpts] = preprocess_steps(proofSteps, headers, sortableUserOpts);' . "\n";
@@ -321,7 +321,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             array_key_exists('length', $this->params)) {
                 $valid = false;
                 $err[] = stack_string('stackBlock_parsons_overdefined_height');
-            }
+        }
 
         // Check version is only one of valid options.
         if (array_key_exists('version', $this->params) && !array_key_exists($this->params['version'],

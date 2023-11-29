@@ -40,7 +40,6 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 require_once(__DIR__ . '/../stack/cas/secure_loader.class.php');
 require_once(__DIR__ . '/../lang/multilang.php');
 
-
 // Unit tests for {@link stack_cas_castext2_parsons}.
 
 /**
@@ -265,7 +264,7 @@ class parsons_block_test extends qtype_stack_testcase {
             '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
             '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
             '} [[/parsons]]';
-        
+
         $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
         $session = new stack_cas_session2([$at1]);
         $this->assertFalse($at1->get_valid());
@@ -282,7 +281,7 @@ class parsons_block_test extends qtype_stack_testcase {
             '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
             '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
             '} [[/parsons]]';
-        
+
         $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
         $session = new stack_cas_session2([$at1]);
         $this->assertFalse($at1->get_valid());
@@ -299,7 +298,7 @@ class parsons_block_test extends qtype_stack_testcase {
             '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
             '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
             '} [[/parsons]]';
-        
+
         $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
         $session = new stack_cas_session2([$at1]);
         $this->assertFalse($at1->get_valid());
@@ -316,7 +315,7 @@ class parsons_block_test extends qtype_stack_testcase {
             '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
             '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
             '} [[/parsons]]';
-        
+
         $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
         $session = new stack_cas_session2([$at1]);
         $this->assertFalse($at1->get_valid());
@@ -333,7 +332,7 @@ class parsons_block_test extends qtype_stack_testcase {
             '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
             '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
             '} [[/parsons]]';
-        
+
         $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
         $session = new stack_cas_session2([$at1]);
         $this->assertFalse($at1->get_valid());
@@ -397,6 +396,4 @@ class parsons_block_test extends qtype_stack_testcase {
             $this->assertEquals($err . ', ' . stack_string('stackBlock_parsons_param', ['param' => implode(', ', $validparameters)]), $at1->get_errors());
         }
     }
-
-
 }

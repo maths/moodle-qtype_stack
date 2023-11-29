@@ -469,6 +469,11 @@
         "description":"Documentation for the Option section in a STACK question."
         },
         {
+        "file":"Parsons.md",
+        "title":"Parson's problems blocks- STACK Documentation",
+        "description":"Reference documentation for the Parson's question block."
+        },
+        {
         "file":"Potential_response_trees.md",
         "title":"Potential Response Trees - STACK Documentation",
         "description":"Information on using potential response trees in the STACK online assessment system."
@@ -684,6 +689,30 @@
         "file":"Plots.md",
         "title":"Embedding Maxima-generated plots via the plot() command",
         "description":"Embedding Maxima generated plots via the plot() command"
+        }
+      ]
+      },
+      {
+      "Proof":[
+        {
+        "file":"index.md",
+        "title":"Proof - STACK Documentation",
+        "description":"General discussion of assessment of proof with STACK."
+        },
+        {
+        "file":"Proof_assessment.md",
+        "title":"CAS libraries for assessing Parsons problems and proofs",
+        "description":"Reference documentation on the libraries in STACK for assessment of proofs as Parsons problems."
+        },
+        {
+        "file":"Proof_CAS_library.md",
+        "title":"CAS libraries for representing text-based proofs",
+        "description":"Reference documentation on the libraries in STACK for representing text-based proofs."
+        },
+        {
+        "file":"Proof_styles.md",
+        "title":"CSS Styles for displaying proof",
+        "description":"Reference documentation on the CSS styles in STACK for representing text-based proofs."
         }
       ]
       },
@@ -1017,6 +1046,11 @@
         "file":"Linear_algebra.md",
         "title":"Linear Algebra - STACK Documentation",
         "description":"Information on working with linear algebra in a STACK question."
+        },
+        {
+        "file":"Parsons.md",
+        "title":"Parson's problems - STACK Documentation",
+        "description":"Documentation for writing Parson's problems in a STACK question."
         },
         {
         "file":"Proof.md",

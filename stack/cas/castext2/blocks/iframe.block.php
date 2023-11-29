@@ -48,9 +48,6 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             new MP_String(json_encode($this->params))
         ]);
 
-        // All formatting assumed to be raw HTML here.
-        $frmt = castext2_parser_utils::RAWFORMAT;
-
         $opt2 = [];
         if ($options !== null) {
             $opt2 = array_merge([], $options);
@@ -59,6 +56,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
         // Note that [[style]], [[body]], [[script]] blocks will be separated during post-processing.
         foreach ($this->children as $child) {
+            // All formatting assumed to be raw HTML here.
             $c = $child->compile(castext2_parser_utils::RAWFORMAT, $opt2);
             if ($c !== null) {
                 $r->items[] = $c;
@@ -169,6 +167,9 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         $code .= $scripts;
         $code .= '</head><body style="margin:0px;">' . $content . '</body></html>';
 
+        // Ensure plots get their full URL at this point.
+        $code = str_replace('!ploturl!',
+            moodle_url::make_file_url('/question/type/stack/plot.php', '/'), $code);
         // Escape some JavaScript strings.
         $args = [
             json_encode($frameid),

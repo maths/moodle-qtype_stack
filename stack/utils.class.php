@@ -781,6 +781,7 @@ class stack_utils {
         $converted = str_replace("\"", "\\\"", $converted);
         return '"' . $converted . '"';
     }
+
     /**
      * Converts a PHP string object containing a Maxima string as presented by the grind command to a PHP string object.
      * @param a string that contains ""-quotes around the content.
@@ -790,6 +791,22 @@ class stack_utils {
         $converted = str_replace("\\\\", "\\", $string);
         $converted = str_replace("\\\"", '"', $converted);
         return substr($converted, 1, -1);
+    }
+
+    /**
+     * Remove redundant "mbox" environments from Latex equations strings containing just strings.
+     * @param a string that contains ""-quotes around the content.
+     * @return a string without those quotes.
+     */
+    public static function maxima_string_strip_mbox($string) {
+        $converted = trim($string);
+        if (substr($converted, 0, 2) == '\(' || substr($converted, 0, 2) == '\[') {
+            $converted = substr($converted, 2, -2);
+        }
+        if (substr(trim($converted), 0, 6) == '\mbox{') {
+            return substr(trim($converted), 6, -1);
+        }
+        return $string;
     }
 
     /**

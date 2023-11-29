@@ -10,7 +10,7 @@ Current topics include:
 * [Discrete mathematics](Discrete_mathematics.md)
 * String similarity via the [Levenshtein distance](Levenshtein_distance.md)
 * [Linear algebra](Linear_algebra.md)
-* [Mathematical Proof](Proof.md)
+* [Mathematical Proof](../Proof/index.md)
 * [Propositional Logic](Propositional_Logic.md)
 * [Scientific Units](Units.md)
 * [Vector Calculus](Vector_Calculus.md)

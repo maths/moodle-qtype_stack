@@ -221,7 +221,7 @@ function question_display_options() {
  *  2. Supports inclusion from http(s)://, contrib(l):// and template(l)://
  *     URLs.
  *  3. contrib:// is special shorthand for fetching a file from a particular
- *     GitHub side folder. If the "l" suffix is there then the file will be read 
+ *     GitHub side folder. If the "l" suffix is there then the file will be read
  *     from a matching local folder, if fetching from GitHub fails we do not
  *     automatically fall-back to the local version.
  *  4. template:// is similalr but has a different folder.

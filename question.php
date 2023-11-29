@@ -344,9 +344,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // 1. question variables.
             $session = new stack_cas_session2([], $this->options, $this->seed);
 
-            // Construct the security object. But first units declaration into the session.
-            $units = (boolean) $this->get_cached('units');
-
             // If we are using localisation we should tell the CAS side logic about it.
             // For castext rendering and other tasks.
             if (count($this->get_cached('langs')) > 0) {
@@ -355,6 +352,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $session->add_statement(new stack_secure_loader('%_STACK_LANG:' .
                     stack_utils::php_string_to_maxima_string($selected), 'language setting'), false);
             }
+
+            // Construct the security object. But first units declaration into the session.
+            $units = (boolean) $this->get_cached('units');
 
             // If we have units we might as well include the units declaration in the session.
             // To simplify authors work and remove the need to call that long function.
@@ -559,6 +559,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $session = new stack_cas_session2([], $this->options, $this->seed);
         } else {
             $session = new stack_cas_session2($this->session->get_session(), $this->options, $this->seed);
+        }
+        if (count($this->get_cached('langs')) > 0) {
+            $ml = new stack_multilang();
+            $selected = $ml->pick_lang($this->get_cached('langs'));
+            $session->add_statement(new stack_secure_loader('%_STACK_LANG:' .
+                stack_utils::php_string_to_maxima_string($selected), 'language setting'), false);
         }
         $session->add_statement($hinttext);
         $session->instantiate();
@@ -782,6 +788,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             return $this->inputstates[$name];
         }
 
+        $lang = null;
+        if ($this->get_cached('langs') !== null && count($this->get_cached('langs')) > 0) {
+            $ml = new stack_multilang();
+            $lang = $ml->pick_lang($this->get_cached('langs'));
+        }
+
         // TODO: we should probably give the whole ast_container to the input.
         // Direct access to LaTeX and the AST might be handy.
         $teacheranswer = '';
@@ -798,7 +810,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
             $this->inputstates[$name] = $this->inputs[$name]->validate_student_response(
                 $response, $this->options, $teacheranswer, $this->security, $rawinput,
-                $this->castextprocessor, $qv);
+                $this->castextprocessor, $qv, $lang);
             return $this->inputstates[$name];
         }
         return '';
@@ -1143,6 +1155,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // So now we build a session to evaluate all the PRTs.
         $session = new stack_cas_session2([], $this->options, $this->seed);
+        if (count($this->get_cached('langs')) > 0) {
+            $ml = new stack_multilang();
+            $selected = $ml->pick_lang($this->get_cached('langs'));
+            $session->add_statement(new stack_secure_loader('%_STACK_LANG:' .
+                stack_utils::php_string_to_maxima_string($selected), 'language setting'), false);
+        }
 
         // Construct the security object. But first units declaration into the session.
         $units = (boolean) $this->get_cached('units');

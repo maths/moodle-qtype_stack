@@ -18,6 +18,24 @@ Comment blocks allow you to put content into CASText which will not be seen by s
 
 Before 4.4 the contents of the block needed to be syntactically correct CASText. That is no longer the case and you can much more easily use this block to comment our unfinished stuff.
 
+## Todo blocks ##
+
+"todo" blocks allow you to put items into CASText which indicate future work needed.  This will not be seen by students.
+
+    [[ todo ]] Place requests to collaborators here. This will not appear to students. [[/ todo ]]
+
+Any question with a todo will flag an error in the bulk tester.  This will _not_ throw an error in the editing form.  These blocks can also be found by the dependency checker.
+
+The todo block is similar to the comments block.  A different block is provided to facilitate searching for questions with specific "todo" items remaining.  The contents must be valid castext (unlike the comments block which can be anything) because in the future we may extend the functionality to display todo items in a teacher preview.  If you need to include invalid content either use the comment block, or escape block inside the todo, e.g.
+
+    [[todo]][[escape]]...[[/escape]][[/todo]]
+
+The contents of this block are replaced by the static
+
+    <!--- stack_todo --->
+
+to provide a searchable tag in instantiated text which is not visible in regular html, e.g. in the dependency checker.
+
 ## The debug block ##
 
 The special "debug" block allows question authors to see all the values of variables created during a session in a table.  Do not leave this block in a live question!

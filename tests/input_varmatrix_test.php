@@ -69,6 +69,17 @@ class input_varmatrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
+    public function test_render_syntax_hint_placeholder() {
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
+        $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
+        $el->set_parameter('syntaxAttribute', '1');
+        $this->assertEquals('<div class="matrixroundbrackets"><textarea name="ans1" id="ans1" autocapitalize="none" ' .
+                'spellcheck="false" class="varmatrixinput" size="5.5" style="width: 4.6em" placeholder="a b' .
+                "\n" . '? d" rows="5" cols="10"></textarea></div>',
+                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                        'ans1', false, null));
+    }
+
     public function test_validate_student_response_na() {
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
@@ -229,5 +240,23 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \left[\begin{array}{cc} 1 & 2 \\\\ x & \color{red}{?} \end{array}\right] \]',
                 $state->contentsdisplayed);
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
+    }
+
+    public function test_validate_student_response_valid_logs() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
+        $inputvals = array(
+            'ans1' => "log(9)^2*y^2*9^(x*y) log(9)^2*x*y*9^(x*y)+log(9)*9^(x*y)\n" .
+            "log(9)^2*x*y*9^(x*y)+log(9)*9^(x*y) log(9)^2*x^2*9^(x*y)",
+        );
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([a,b],[c,d])', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('matrix([log(9)^2*y^2*9^(x*y),log(9)^2*x*y*9^(x*y)+log(9)*9^(x*y)],'.
+            '[log(9)^2*x*y*9^(x*y)+log(9)*9^(x*y),log(9)^2*x^2*9^(x*y)])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{cc} \ln ^2\left(9\right)\cdot y^2\cdot 9^{x\cdot y} & ' .
+            '\ln ^2\left(9\right)\cdot x\cdot y\cdot 9^{x\cdot y}+\ln \left( 9 \right)\cdot 9^{x\cdot y} \\\\ ' .
+            '\ln ^2\left(9\right)\cdot x\cdot y\cdot 9^{x\cdot y}+\ln \left( 9 \right)\cdot 9^{x\cdot y} & ' .
+            '\ln ^2\left(9\right)\cdot x^2\cdot 9^{x\cdot y} \end{array}\right] \]',
+            $state->contentsdisplayed);
     }
 }

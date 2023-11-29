@@ -1,15 +1,18 @@
+
+
 # Development track for STACK
 
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
-## Version 4.4.5
+## Version 4.4.7
 
-TODO: List of long lasting issues dealt with, that might need to be notified/closed, note that some of these have connecting issues:
- #671, #420
+TODO: 
 
-1. Error messages: use caserror.class more fully to use user information to target error messages.
-2. Remove all "cte" code from Maxima - mostly install.
+1. Support for PHP 8.2.  See issue #986.
+2. Fix markdown problems. See issue #420.
+3. Error messages: use caserror.class more fully to use user information to target error messages.
+4. Remove all "cte" code from Maxima - mostly install.
 
 ## For "inputs 2"?
 

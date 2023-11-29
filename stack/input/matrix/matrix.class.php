@@ -25,9 +25,10 @@ class stack_matrix_input extends stack_input {
     protected $height;
 
     protected $extraoptions = array(
+        'hideanswer' => false,
+        'allowempty' => false,
         'nounits' => false,
         'simp' => false,
-        'allowempty' => false,
         'consolidatesubscripts' => false,
         'checkvars' => 0,
         'validator' => false
@@ -238,10 +239,14 @@ class stack_matrix_input extends stack_input {
 
         $tc = $state->contents;
         $blank = $this->is_blank_response($state->contents);
+        $useplaceholder = false;
         if ($blank) {
             $syntaxhint = $this->parameters['syntaxHint'];
             if (trim($syntaxhint) != '') {
                 $tc = $this->maxima_to_array($syntaxhint);
+                if ($this->parameters['syntaxAttribute'] == '1') {
+                    $useplaceholder = true;
+                }
                 $blank = false;
             }
         }
@@ -283,8 +288,12 @@ class stack_matrix_input extends stack_input {
                 if ($val === 'null' || $val === 'EMPTYANSWER') {
                     $val = '';
                 }
+                $field = 'value';
+                if ($useplaceholder) {
+                    $field = 'placeholder';
+                }
                 $name = $fieldname.'_sub_'.$i.'_'.$j;
-                $xhtml .= '<td><input type="text" id="'.$name.'" name="'.$name.'" value="'.$val.'" size="'.
+                $xhtml .= '<td><input type="text" id="'.$name.'" name="'.$name.'" '.$field.'="'.$val.'" size="'.
                         $this->parameters['boxWidth'].'"'.$attr.'></td>';
             }
 

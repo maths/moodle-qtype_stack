@@ -298,7 +298,15 @@ class qtype_stack extends question_type {
                 $node->answertest          = $fromform->{$prtname . 'answertest'}[$nodename];
                 $node->sans                = $fromform->{$prtname . 'sans'}[$nodename];
                 $node->tans                = $fromform->{$prtname . 'tans'}[$nodename];
-                $node->testoptions         = $fromform->{$prtname . 'testoptions'}[$nodename];
+                // For input types which do not have test options, the input field is hidden
+                // and therefore null is passed to $node->testoptions, which crashes the form.
+                // The empty string should be used instead. (Also see issue #974).
+                $node->testoptions         = '';
+                if (property_exists($fromform, $prtname . 'testoptions')) {
+                    if (array_key_exists($nodename, $fromform->{$prtname . 'testoptions'})) {
+                        $node->testoptions         = $fromform->{$prtname . 'testoptions'}[$nodename];
+                    }
+                }
                 $node->quiet               = $fromform->{$prtname . 'quiet'}[$nodename];
                 $node->truescoremode       = $fromform->{$prtname . 'truescoremode'}[$nodename];
                 $node->truescore           = $fromform->{$prtname . 'truescore'}[$nodename];
@@ -372,7 +380,7 @@ class qtype_stack extends question_type {
         }
 
         if (isset($fromform->testcases)) {
-            // If the data includes the defintion of the question tests that there
+            // If the data includes the definition of the question tests that there
             // should be (i.e. when doing import) then replace the existing set
             // of tests with the new one.
             $this->save_question_tests($fromform->id, $fromform->testcases);
@@ -503,13 +511,19 @@ class qtype_stack extends question_type {
                     $inputdata->type, $inputdata->name, $inputdata->tans, $question->options, $parameters);
         }
 
+        $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
+
         $totalvalue = 0;
         $allformative = true;
-        foreach ($questiondata->prts as $name => $prtdata) {
-            // At this point we do not have the PRT method is_formative() available to us.
-            if ($prtdata->feedbackstyle > 0) {
-                $totalvalue += $prtdata->value;
-                $allformative = false;
+        foreach ($prtnames as $name) {
+            // If not then we have just created the PRT.
+            if (array_key_exists($name, $questiondata->prts)) {
+                $prtdata = $questiondata->prts[$name];
+                // At this point we do not have the PRT method is_formative() available to us.
+                if ($prtdata->feedbackstyle > 0) {
+                    $totalvalue += $prtdata->value;
+                    $allformative = false;
+                }
             }
         }
         if ($questiondata->prts && !$allformative && $totalvalue < 0.0000001) {
@@ -517,8 +531,6 @@ class qtype_stack extends question_type {
                     'The $totalvalue, the marks available for the question, must be positive in question ' .
                     $question->name);
         }
-
-        $prtnames = array_keys($this->get_prt_names_from_question($question->questiontext, $question->specificfeedback));
 
         foreach ($prtnames as $name) {
             if (array_key_exists($name, $questiondata->prts)) {

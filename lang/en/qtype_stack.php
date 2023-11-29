@@ -411,6 +411,7 @@ $string['languageproblemsmissing'] = 'The language tag {$a->lang} is missing fro
 $string['languageproblemsextra']   = 'The field {$a->field} has the following languages not in the question text: {$a->langs}.';
 
 $string['alttextmissing']    = 'One or more images appears to have a missing or empty \'alt\' tag in "{$a->field}" ({$a->num}).';
+$string['todowarning']       = 'You have un-resolved todo blocks in "{$a->field}".';
 
 // Admin settings.
 $string['settingajaxvalidation'] = 'Instant validation';
@@ -593,6 +594,8 @@ $string['equivfirstline'] = 'You have used the wrong first line in your argument
 // Support scripts: CAS chat, healthcheck, etc.
 $string['all'] = 'All';
 $string['chat'] = 'Send to the CAS';
+$string['savechat'] = 'Save back to question';
+$string['savechatmsg'] = 'Question variables and general feedback saved back to the question.';
 $string['castext'] = 'CAS text';
 $string['chat_desc'] = 'The <a href="{$a->link}">CAS chat script</a> lets you test the connection to the CAS, and try out Maxima syntax.';
 $string['chatintro'] = 'This page enables CAS text to be evaluated directly. It is a simple script which is a useful minimal example, and a handy way to check if the CAS is working, and to test various inputs.  The first text box enables variables to be defined, the second is for the CAS text itself.';
@@ -737,6 +740,7 @@ $string['stackCas_trigop']                  = 'You must apply {$a->trig} to an a
 $string['stackCas_trigexp']                 = 'You cannot take a power of a trig function by writing {$a->forbid}. The square of the value of \(\{$a->identifier}(x)\) is typed in as <tt>{$a->identifier}(x)^2</tt>.  The inverse of \(\{$a->identifier}(x)\) is written <tt>a{$a->identifier}(x)</tt> and not \(\{$a->identifier}^{-1}(x)\) .';
 $string['stackCas_trigparens']              = 'When you apply a trig function to its arguments you must use round parentheses not square brackets.  E.g {$a->forbid}.';
 $string['stackCas_triginv']                 = 'Inverse trig functions are written {$a->goodinv} not {$a->badinv}.';
+$string['stackCas_baddotdot']               = 'Using matrix multiplication "." with scalar floats is forbidden, use normal multiplication "*" instead for the same result. ';
 $string['stackCas_badLogIn']                = 'You have typed in the expression <tt>In</tt>.  The natural logarithm is entered as <tt>ln</tt> in lower case.  ("Lima November" not "India November")';
 $string['stackCas_unitssynonym']            = 'You appear to have units {$a->forbid}.  Did you mean {$a->unit}?';
 $string['stackCas_unknownUnitsCase']        = 'Input of units is case sensitive:  {$a->forbid} is an unknown unit. Did you mean one from the following list {$a->unit}?';
@@ -1143,10 +1147,10 @@ $string['alg_logarithms_name'] = 'The Laws of Logarithms';
 $string['alg_logarithms_fact'] = 'For any base \(c>0\) with \(c \neq 1\):
 \[\log_c(a) = b \mbox{, means } a = c^b\]
 \[\log_c(a) + \log_c(b) = \log_c(ab)\]
-\[\log_c(a) - \log_c(b) = \log_c\left(\frac{a}{c}\right)\]
+\[\log_c(a) - \log_c(b) = \log_c\left(\frac{a}{b}\right)\]
 \[n\log_c(a) = \log_c\left(a^n\right)\]
 \[\log_c(1) = 0\]
-\[\log_c(b) = 1\]
+\[\log_c(c) = 1\]
 The formula for a change of base is:
 \[\log_a(x) = \frac{\log_b(x)}{\log_b(a)}\]
 Logarithms to base \(e\), denoted \(\log_e\) or alternatively \(\ln\) are called natural logarithms.  The letter \(e\) represents the exponential constant which is approximately \(2.718\).';

@@ -69,6 +69,15 @@ class input_textarea_test extends qtype_stack_testcase {
                             'st_ans1', false, null));
     }
 
+    public function test_render_pre_syntaxhint_placeholder() {
+        $el = stack_input_factory::make('textArea', 'test', null, null,
+            array('syntaxHint' => '[y=?, z=?]', 'syntaxAttribute' => 1));
+        $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" ' .
+            'class="maxima-list" placeholder="y = ?' ."\n" . 'z = ?" rows="5" cols="20"></textarea>',
+            $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+                'st_ans1', false, null));
+    }
+
     public function test_render_disabled() {
         $el = stack_input_factory::make('textArea', 'input', null);
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" ' .

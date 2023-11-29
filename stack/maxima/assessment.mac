@@ -427,6 +427,20 @@ real_numberp(ex):= block([keepfloat, trigexpand, logexpand],
     if floatnump(ex) then return(true) else return(false)
 )$
 
+/* Do we have a complex number?  */
+simp_complex_number_p(ex):= block([keepfloat, trigexpand, logexpand],
+    trigexpand:true,
+    logexpand:super,
+    keepfloat:true,
+    /* Using full ratsimp here makes this function unacceptably slow. */
+    ex:errcatch(ev(ex, lg=logbasesimp, simp)),
+    if ex=[] then return(false),
+    ex:ev(float(ex[1]),simp),
+    if listofvars(ex)#[] then return(false),
+    if floatnump(ex) then return(true),
+    if complex_number_p(ex) then return(true) else return(false)
+)$
+
 /* Do we have a real number, inf or -inf?  */
 extended_real_numberp(ex) := block(
     if (ex=inf or ex=-inf or ex=minf or ex=-minf) then return(true),
@@ -1047,6 +1061,12 @@ subst_equiv([ex]):=block([ex1, ex2, l1, lv1, lv2, lvi, lvp, lvs, lve, lvpres, il
  lv1:setdifference(lv1, get_ops(ex1)),
  lv2:setdifference(lv2, get_ops(ex2)),
  if length(lv1)#length(lv2) then return([]),
+ /* We don't include any variables which the teacher fixes. */
+ if not(emptyp(l1)) then (
+   l1:setify(l1),
+   lv1:setdifference(lv1, l1),
+   lv2:setdifference(lv2, l1)
+ ),
  /* If the lists are too long, try a weaker condition */
  /* We assume the variables which occur in both are correctly assigned. */
  /* Can we find a permutation of those left in each? */
@@ -1055,11 +1075,6 @@ subst_equiv([ex]):=block([ex1, ex2, l1, lv1, lv2, lvi, lvp, lvs, lve, lvpres, il
    lv1:setdifference(lv1, lvi),
    lv2:setdifference(lv2, lvi)
   ),
- /* We don't include any variables which the teacher fixes. */
- if not(emptyp(l1)) then (
-   l1:setify(l1),
-   lv2:setdifference(lv2, l1)
- ),
  lv1:listify(lv1),
  lv2:listify(lv2),
  if length(lv1)>perm_size then return(false),

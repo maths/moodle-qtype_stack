@@ -39,6 +39,10 @@
       "function": "f",
       "globalyforbiddenvariable": true
   },
+  "%_ce_expedite": {
+      "function": "f",
+      "globalyforbiddenvariable": true
+  },
   "%ERR": {
       "variable": "f"
   },
@@ -6737,6 +6741,9 @@
   "run_viewer": {
       "globalyforbiddenvariable": true,
       "variable": "f"
+  },
+  "s_assert": {
+      "function": "t"
   },
   "save": {
       "function": "f",

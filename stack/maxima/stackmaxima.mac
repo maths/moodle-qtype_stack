@@ -352,6 +352,17 @@ nary("blankmult", 0, 0);
 texput("blankmult", " ", nary);
 
 /* ****************************************************** */
+/* Unit testing of questions                              */
+/* ****************************************************** */
+/* This function allows a teacher to add unit tests to    */
+/* individual questions. At the end of the question       */
+/* variables, or in the feedback variables, particular    */
+/* values can throw runtime errors.                       */
+/* ****************************************************** */
+s_assert(ex1, ex2):= if is(ex1=ex2) then true else
+    error("s_assert: STACK expected '", string(ex2), "' but was given '", string(ex1), "'.");
+
+/* ****************************************************** */
 /* Random numbers                                         */
 /* ****************************************************** */
 /* http://random.mat.sbg.ac.at/generators/                */
@@ -1063,6 +1074,7 @@ set output ", afn),
     set_plot_option([gnuplot_out_file, tfnp1]),
     if plotdebug then print(plot_options),
     /* Create and execute the actual plot commands. */
+    ex:%_ce_expedite(ex),
     pltargs: append([ex], ral),
     if plotdebug then print(pltargs),
     plotfunmake: funmake(plot2d, pltargs),
@@ -3288,4 +3300,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2023060500$
+stackmaximaversion:2023102700$

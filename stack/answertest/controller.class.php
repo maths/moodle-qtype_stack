@@ -292,6 +292,22 @@ class stack_ans_test_controller {
     }
 
     /**
+     * Returns a list of the answer tests who do not require test options
+     *
+     * @return array
+     * @access public
+     */
+    public static function get_ans_tests_without_options() {
+        $anstests = array();
+        foreach (self::$pops as $key => $value) {
+            if ($value[0] === false) {
+                $anstests[] = $key;
+            }
+        }
+        return $anstests;
+    }
+
+    /**
      * Returns whether the testops should be processed by the CAS for this AnswerTest
      *
      * @return bool

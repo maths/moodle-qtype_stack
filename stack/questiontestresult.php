@@ -205,7 +205,7 @@ class stack_question_test_result {
      * @return bool whether the answer notes match sufficiently.
      */
     protected function test_answer_note($expected, $actual) {
-        $lastactual = array_pop($actual);
+        $lastactual = array_pop($actual) ?? '';
         if ('NULL' == $expected) {
             return '' == trim($lastactual);
         }
@@ -303,7 +303,8 @@ class stack_question_test_result {
         foreach ($this->get_prt_states() as $prtname => $state) {
 
             $prtinputs = array();
-            if ($inputsneeded != null) {
+            // If we delete a PRT we'll end up with a non-existent prt name here.
+            if ($inputsneeded != null && array_key_exists($prtname, $inputsneeded)) {
                 foreach (array_keys($inputsneeded[$prtname]) as $inputname) {
                     if (array_key_exists($inputname, $typeininputs)) {
                         $prtinputs[] = $typeininputs[$inputname];

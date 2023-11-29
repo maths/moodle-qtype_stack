@@ -229,13 +229,13 @@ stackunits_make(ex) := block([oldsimp, exn, exu, exl],
   exn:maplist(unary_minus_remove, exn),
   exn:stack_units_rational_number(exn),
   if (debug) then (print("stackunits_make: (2) reformulated numbers as "), print(exn)),
-  if is(first(exn) = UNARY_MINUS) then
-    (
+  if is(first(exn) = UNARY_MINUS) then block(
       exn:rest(exn),
       exn[1]:ev(-1*exn[1],simp)
-    ),
+  ),
   if length(exn)=1 then exn:first(exn) else exn:apply("nounmul", exn),
   if length(exu)=1 then exu:first(exu) else exu:apply("nounmul", exu),
+  if (debug) then (print("stackunits_make: (3) reformulated numbers as "), print(exn)),
   if (debug) then (print("stackunits_make: (3) reformulated units as "), print(exu)),
   verb_arith(stackunits(exn, exu))
 )$
@@ -260,7 +260,7 @@ stackunits_make_p(ex) := block(
     return(true),
   if emptyp(listofvars(ex)) then
     return(true),
-  if simp_numberp(ev(float(verb_arith(ex)), simp)) then
+  if simp_complex_number_p(ev(float(verb_arith(ex)), simp)) then
      return(true),
   return(false)
 )$

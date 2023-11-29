@@ -32,34 +32,29 @@ jobs:
       matrix: # I don't know why, but mariadb is much slower, so mostly use pgsql.
         # We use a mix of SBCL and GCL, but mostly prefer SBCL as it is faster.
         include:
+          # There is a known problem with PHP 8.2.
+          # Remove testing PHP 8.2 for now as this failure in CI will obscure other problems.
           - php: '8.1'
             moodle-branch: 'master'
             database: 'pgsql'
             maxima: 'SBCL'
-          - php: '8.0'
-            moodle-branch: 'master'
-            database: 'pgsql'
-            maxima: 'SBCL'
           - php: '8.1'
             moodle-branch: 'MOODLE_402_STABLE'
             database: 'pgsql'
-            maxima: 'SBCL'
-          - php: '8.1'
-            moodle-branch: 'MOODLE_402_STABLE'
-            database: 'mariadb'
-            maxima: 'SBCL'
+            maxima: 'GCL'
           - php: '8.0'
             moodle-branch: 'MOODLE_402_STABLE'
             database: 'pgsql'
             maxima: 'SBCL'
+          # Edinburgh is planning to run the setup below for 2023-24.
           - php: '7.4'
             moodle-branch: 'MOODLE_401_STABLE'
-            database: 'pgsql'
-            maxima: 'SBCL'
+            database: 'mariadb'
+            maxima: 'GCL'
           - php: '7.4'
             moodle-branch: 'MOODLE_400_STABLE'
             database: 'pgsql'
-            maxima: 'GCL'
+            maxima: 'SBCL'
           - php: '7.3'
             moodle-branch: 'MOODLE_311_STABLE'
             database: 'pgsql'
@@ -127,7 +122,7 @@ jobs:
  
           cp ${{ github.workspace }}/moodledata/phpu_moodledata/stack/maxima_opt_auto ${{ github.workspace }}/maxima_opt_auto
           # Try a command on the command line.
-          # echo "1+1; quit();" | timeout --kill-after=10s 10s ${{ github.workspace }}/maxima_opt_auto -eval '(cl-user::run)' 
+          # echo "1+1; quit();" | timeout --kill-after=100s 100s ${{ github.workspace }}/maxima_opt_auto -eval '(cl-user::run)' 
 
 
         env:
@@ -171,7 +166,7 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: Grunt
-        if: ${{ matrix.moodle-branch == 'MOODLE_311_STABLE' }}
+        if: ${{ matrix.moodle-branch == 'MOODLE_401_STABLE' }}
         run: moodle-plugin-ci grunt
 
       - name: PHPUnit tests

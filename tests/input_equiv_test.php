@@ -71,6 +71,19 @@ class input_equiv_test extends qtype_stack_testcase {
                     'stack1__ans1', false, null));
     }
 
+    public function test_render_syntaxhint_placeholder() {
+        $el = stack_input_factory::make('equiv', 'ans1', '[]');
+        $el->set_parameter('syntaxHint',
+            '[r1=0,r2=0,r3=0,r4=0,r5=0,r6=0]');
+        $el->set_parameter('syntaxAttribute', '1');
+        $this->assertEquals("<textarea class=\"equivinput\" name=\"stack1__ans1\" id=\"stack1__ans1\" " .
+            "rows=\"7\" cols=\"25\" autocapitalize=\"none\" spellcheck=\"false\" " .
+            "placeholder=\"r1 = 0\nr2 = 0\nr3 = 0\nr4 = 0\nr5 = 0\nr6 = 0\">" .
+            "</textarea>",
+            $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                'stack1__ans1', false, null));
+    }
+
     public function test_render_firstline() {
         $el = stack_input_factory::make('equiv', 'ans1', '[]');
         $el->set_parameter('syntaxHint', 'firstline');
@@ -676,6 +689,18 @@ class input_equiv_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
     }
 
+    public function test_validate_student_response_valid_empty() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('equiv', 'sans1', '[x^2-5*x+6,stackeq((x-2)*(x-3))]');
+        $el->set_parameter('options', 'allowempty');
+        $state = $el->validate_student_response(array('sans1' => ""), $options,
+            '[x^2-5*x+6,stackeq((x-2)*(x-3))]', new stack_cas_security());
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals('[EMPTYANSWER]', $state->contentsmodified);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('', $state->note);
+    }
+
     public function test_validate_student_response_surds() {
         $options = new stack_options();
         $options->set_option('multiplicationsign', 'none');
@@ -753,6 +778,10 @@ class input_equiv_test extends qtype_stack_testcase {
                 '<span class="nolink">\( ### \)</span></span>, which can be typed in as follows: <br/>' .
                 '<code>(x-a)^2 = 4</code><br/><code>x-a = +-2</code><br/><code>x = a+-2</code>',
                 $el->get_teacher_answer_display($val, '###'));
+
+        $el->set_parameter('options', 'hideanswer');
+        $this->assertEquals('', $el->get_teacher_answer_display($val, '###'));
+
     }
 
     public function test_validate_student_response_forbidwords_lists() {

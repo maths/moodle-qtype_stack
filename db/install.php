@@ -58,7 +58,7 @@ function xmldb_qtype_stack_install() {
         // Set to the same defaults as in settings.php - however, that has not been done
         // yet in the Moodle install code flow, so we have to duplicate here.
         set_config('maximaversion', 'default', 'qtype_stack');
-        set_config('castimeout', 10, 'qtype_stack');
+        set_config('castimeout', 20, 'qtype_stack');
         set_config('casresultscache', 'db', 'qtype_stack');
         set_config('caspreparse', 'true', 'qtype_stack');
         set_config('maximacommand', '', 'qtype_stack');

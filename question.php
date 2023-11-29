@@ -310,7 +310,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function start_attempt(question_attempt_step $step, $variant) {
-
         // @codingStandardsIgnoreStart
         // Work out the right seed to use.
         if (!is_null($this->seed)) {
@@ -1459,7 +1458,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver']) {
                 foreach ($qfields as $field) {
-                    if (strstr($this->$field, $checkpat['pat'])) {
+                    if (strstr($this->$field ?? '', $checkpat['pat'])) {
                         $a = array('pat' => $checkpat['pat'], 'ver' => $checkpat['ver'], 'qfield' => stack_string($field));
                         $err = stack_string('stackversionerror', $a);
                         if (array_key_exists('alt', $checkpat)) {
@@ -1493,7 +1492,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
 
             $options = $input->get_parameter('options');
-            if (trim($options) !== '') {
+            if (trim($options ?? '') !== '') {
                 $options = explode(',', $options);
                 foreach ($options as $opt) {
                     $opt = strtolower(trim($opt));
@@ -1517,7 +1516,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $fields = array('questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription');
         foreach ($fields as $field) {
             $text = $this->$field;
-            $filesexpected = preg_match($pat, $text);
+            $filesexpected = preg_match($pat, $text ?? '');
             $filesfound    = $fs->get_area_files($context->id, 'question', $field, $this->id);
             if (!$filesexpected && $filesfound != array()) {
                 $errors[] = stack_string('stackfileuseerror', stack_string($field));
@@ -1556,7 +1555,6 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // 2. Check alt-text exists.
         // Reminder: previous approach in Oct 2021 tried to use libxml_use_internal_errors, but this was a dead end.
-
         $tocheck = array();
         $text = '';
         if ($this->questiontextinstantiated !== null) {
@@ -1588,7 +1586,26 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
         }
 
-        // 3. Language warning checks.
+        // 3. Check for todo blocks.
+        $tocheck = array();
+        $fields = array('questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription');
+        foreach ($fields as $field) {
+            $tocheck[stack_string($field)] = $this->$field;
+        }
+        foreach ($this->prts as $prt) {
+            $text = trim($prt->get_feedback_test());
+            if ($text !== '') {
+                $tocheck[$prt->get_name()] = $text;
+            }
+        }
+        $pat = '/\[\[todo/';
+        foreach ($tocheck as $field => $text) {
+            if (preg_match($pat, $text ?? '')) {
+                $warnings[] = stack_string_error('todowarning', array('field' => $field));
+            }
+        }
+
+        // 4. Language warning checks.
         // Put language warning checks last (see guard clause below).
         // Check multi-language versions all have the same languages.
         $ml = new stack_multilang();
@@ -1711,7 +1728,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
                     // Invalidate the question definition cache.
                     // First from the next sessions.
-                    cache::make('core', 'questiondata')->delete($this->id);
+                    stack_clear_vle_question_cache($this->id);
                 }
             } catch (stack_exception $e) {
                 // TODO: what exactly do we use here as the key

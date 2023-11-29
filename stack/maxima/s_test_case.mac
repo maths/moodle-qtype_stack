@@ -1,0 +1,65 @@
+/*  Author Chris Sangwin
+    Copyright (C) 2023 Chris Sangwin
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/* ******************************************************** */
+/* Run STACK packages bespoke maxima unit tests.            */
+/*                                                          */
+/* To use this in the sandbox try something like            */
+/*                                                          */
+/*  stacklocation:"/var/www/html/m40/question/type/stack"$  */
+/*  load("s_test_case.mac");                                */
+/* ******************************************************** */
+
+print("************ s_test_case results.");
+
+load("s_test_case.lisp")$
+s_test_case_eval(ex1, ex2):= if(is(ex1=ex2)) then true else sconcat("Expected '", string(ex2), "' but got '", string(ex1), "'.");
+
+read_s_test_file(filename) := block([filedescr, stream, oneline, soneline, eof, cnt, s_failing],
+     /* Load the file to define any functions etc. it contains. */
+     load(filename),
+     /* A list to hold test cases which fail. */
+     s_failing:[],
+     eof: false,
+     filedescr:file_search(filename),
+     stream: ?open(filedescr),
+     while not eof do block(
+         oneline: ?readline(stream),
+         soneline: strim(" ", string(oneline)),
+         if is(slength(soneline)>12) and is(substring(soneline, 1, 13)="\"s_test_case") then block([ex],
+             ex:parse_string(oneline),
+             ex:ev(ex, s_test_case=s_test_case_eval),
+             if stringp(ex) then s_failing:append(s_failing, [[oneline, ex]])
+             ),
+         eof: not(?stringp(oneline))
+      ),
+      if emptyp(s_failing) then print(sconcat("All passed for: ", filename)) else block(
+         print(sconcat("FAILED in: ", filename)),
+         print(s_failing)
+         )
+    )$
+
+/* Automatically find files in the contrib directory.     */
+contrib_files:directory(sconcat(stacklocation, "/stack/maxima/contrib/*.mac"))$
+
+if emptyp(contrib_files) then print("WARNING: you need to redefine the stacklocation variable correctly to run the tests!");
+
+print("simp:false");
+simp:false;
+
+/* Load files in the contrib directory and run the tests. */
+while not(emptyp(contrib_files)) do block(
+    read_s_test_file(first(contrib_files)),
+    contrib_files:rest(contrib_files)
+    );

@@ -29,6 +29,8 @@ require_once(__DIR__ . '/../../utils.class.php');
 class stack_textarea_input extends stack_input {
 
     protected $extraoptions = array(
+        'hideanswer' => false,
+        'allowempty' => false,
         'nounits' => true,
         'simp' => false,
         'consolidatesubscripts' => false
@@ -52,6 +54,10 @@ class stack_textarea_input extends stack_input {
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+            if ($this->parameters['syntaxAttribute'] == '1') {
+                $attributes['placeholder'] = $current;
+                $current = '';
+            }
         } else {
             $current = implode("\n", $state->contents);
         }
@@ -90,6 +96,9 @@ class stack_textarea_input extends stack_input {
         $contents = array();
         if (array_key_exists($this->name, $response)) {
             $sans = $response[$this->name];
+            if (trim($sans) == '' && $this->get_extra_option('allowempty')) {
+                return array('EMPTYANSWER');
+            }
             $rowsin = explode("\n", $sans);
             $rowsout = array();
             foreach ($rowsin as $key => $row) {
@@ -115,8 +124,9 @@ class stack_textarea_input extends stack_input {
             'nontuples' => false
         );
         foreach ($caslines as $line) {
-            if ($line->get_valid()) {
-                $vals[] = $line->ast_to_string(null, $params);
+            $str = $line->ast_to_string(null, $params);
+            if ($line->get_valid() || $str === 'EMPTYANSWER') {
+                $vals[] = $str;
             } else {
                 // This is an empty place holder for an invalid expression.
                 $vals[] = 'EMPTYCHAR';
@@ -283,6 +293,9 @@ class stack_textarea_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        if ($this->get_extra_option('hideanswer')) {
+            return '';
+        }
         $values = stack_utils::list_to_array($value, false);
         foreach ($values as $key => $val) {
             if (trim($val) !== '' ) {

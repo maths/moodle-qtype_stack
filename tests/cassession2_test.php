@@ -2620,6 +2620,24 @@ class cassession2_test extends qtype_stack_testcase {
 
     }
 
+    public function test_s_test() {
+
+        $cases = array('t1:s_assert(a,b)');
+
+        $s1 = array();
+        foreach ($cases as $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case, '', new stack_cas_security(), array());
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $session = new stack_cas_session2($s1, $options, 0);
+        $this->assertTrue($session->get_valid());
+
+        $session->instantiate();
+        $this->assertTrue($session->is_instantiated());
+        $this->assertEquals('s_assert: STACK expected \' b \' but was given \' a \'.', $session->get_errors());
+    }
+
     public function test_stackmaximaversion() {
         // This test ensures that we are not running against different
         // version number of the STACK-Maxima scripts. For example,

@@ -1592,6 +1592,21 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('Coordinates are not permitted in this input.', $state->errors);
     }
 
+    public function test_validate_student_response_no_dot_dot() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '3.14*2.78');
+        $el->set_parameter('forbidFloats', false);
+        $state = $el->validate_student_response(array('sans1' => '3.14.2.78'), $options, '3.14*2.78',
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals($state->status, stack_input::INVALID);
+        $this->assertEquals('3.14 . 2.78', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">3.14.2.78</span>',
+            $state->contentsdisplayed);
+        $this->assertEquals('MatrixMultWithFloat', $state->note);
+        $this->assertEquals('Using matrix multiplication "." with scalar floats is forbidden, ' .
+            'use normal multiplication "*" instead for the same result. 3.14 . 2.78', $state->errors);
+    }
+
     public function test_validate_consolidatesubscripts() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'state', 'M_1');
@@ -1661,5 +1676,36 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('\[ x^2 \]', $state->contentsdisplayed);
         $this->assertEquals('The optional validator threw internal Maxima errors.',
             $state->errors);
+    }
+
+    public function test_validate_student_response_conjugate() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '2*conjugate(x)');
+        $state = $el->validate_student_response(array('sans1' => 'conjugate(x)'), $options, 'conjugate(x)',
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('conjugate(x)', $state->contentsmodified);
+        $displayed = '\[ x^\star \]';
+        if ($this->adapt_to_new_maxima('5.47.0')) {
+            $displayed = '\[ x^{\ast} \]';
+        }
+        $this->assertEquals($displayed, $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
+
+        $state = $el->validate_student_response(array('sans1' => 'conjugate(x)^2'), $options, 'conjugate(x)^2',
+            new stack_cas_security(false, '', '', array('ta')));
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('conjugate(x)^2', $state->contentsmodified);
+        $displayed = '\[ {x^\star}^2 \]';
+        if ($this->adapt_to_new_maxima('5.47.0')) {
+            // Personally I (CJS) prefer these brackets, so I'm going to keep them.
+            $displayed = '\[ {\left(x^{\ast}\right)}^2 \]';
+        }
+        $this->assertEquals($displayed, $state->contentsdisplayed);
+        $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
 }

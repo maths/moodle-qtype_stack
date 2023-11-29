@@ -197,8 +197,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'stackSortable.generate_used();' . "\n";
         $code .= 'stackSortable.generate_available();' . "\n";
 
-        //$code .= 'stack_js.resize_containing_frame("100%", "800px");' . "\n";
-
         // Create the Sortable objects.
         $code .= 'var usedOpts = {...stackSortable.options.used, ...{onSort: () => ' .
                 '{stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";

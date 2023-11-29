@@ -1,0 +1,26 @@
+/****************************************************************/
+thm:"There are infinitely many prime numbers.";
+
+
+/****************************************************************/
+proof_steps: [
+    ["assume",    "Assume, for a contradiction, that there are only a finite number of prime numbers."],
+    ["false_hyp", "List all the prime numbers \\( p_1, p_2, \\cdots, p_n\\)."],
+    ["obs1",      "Every natural number is either a member of this list, or is divisible by a number on this list."],
+    ["gadget",    "Consider \\(N=p_1\\times p_2 \\times \\cdots \\times p_n +1.\\)"],
+
+    ["notmem1",   "For all \\(k=1,\\cdots, n\\) the number \\(N > p_k\\)"],
+    ["notmem2",   "Hence \\(N\\neq p_k\\)."],
+    ["notmem3",   "Therefore \\(N\\) is not a member of the list."],
+
+    ["div1",      "For all \\(k=1,\\cdots, n\\) when we divide \\(N\\) by \\(p_k\\) we get remainder \\(1\\)."],
+    ["div2",      "Hence \\(N\\) is not divisible by any \\(p_k\\)."],
+
+    ["contra1",   "\\(N\\) is not a member of the list and is not divisible by a number on this list."],
+    ["contra2",   "This contradicts the fact that every number is either a member of this list, or is divisible by a number on this list."],
+    ["conc",      "Therefore the list of prime numbers is not finite."]
+    ];
+
+/* This is how the teacher defines their answer, as nested proofs. */
+proof_ans:proof(1,2,3,4,proof_c(proof(5,6,7),proof(8,9)),10,11,12);
+proof_ans:proof("assume","false_hyp","obs1","gadget",proof_c(proof("notmem1","notmem2","notmem3"),proof("div1","div2")),"contra1","contra2","conc");

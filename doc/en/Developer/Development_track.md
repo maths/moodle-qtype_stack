@@ -25,12 +25,52 @@ Please note, this is the _last_ version of STACK which will support Moodle 3.x.
 5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
 6. Confirm support for PHP 8.2, (fixes issue #986).
 7. Add in a [GeoGebra block](../Authoring/GeoGebra.md), and see [GeoGebra authoring](../Topics/GeoGebra.md).  Thanks to Tim Lutz for contributing this code as part of the AuthOMath project.
+8. Add in an option `margin` to control margins around STACK-generated plots.
+9. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).
 
 TODO: 
 
 1. Fix markdown problems. See issue #420.
 2. Error messages: use caserror.class more fully to use user information to target error messages.
 3. Remove all "cte" code from Maxima - mostly install.
+
+## Parson's block development track
+
+Essential (v 4.5.0)
+
+1. Auto-size: js iframe dynamic rescaling? (best guess won't work...)
+2. Choose and document default options for Sortable.js and document them. Make sure any overwritten options are warned as being 
+overwritten, user should know when and why their input options are being discarded.
+3. Unit tests
+4. Make sure STACK CSS is loaded, i.e. https://github.com/maths/moodle-qtype_stack/blob/master/styles.css
+   This contains some styles such as proof and trees we'd like within the iframe.
+   Test with {@disptree(1+x^2)@}.
+5. Confirm MathJax default:   typeset  v2, v3? 
+6. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block.  We can talk about this.
+7. Polish up the "use once" or "clone" strings.
+8. Style suggestion: Move the bin icon to be next to, and the same size as, the "refresh" icon.  This preserves the full width for useful material (used/unused).
+9. Add a "clear used list" option in clone mode, to delete all items in the used list. Include an are you sure prompt
+10. Use syntax hint to set up a non-empty starting point....
+11. Check sortable for keyboard accessibility
+12. CSS styling fix for automated feedback
+13. Tick used items. Or allow student to mark items as used or unneeded.
+14. Better signaling for clone mode
+15. Change red colouring for the available list
+16. Validate JSON in javascript and expose errors to users on the page (rather than in the console).
+17. MathJax double clickable
+
+Later
+
+1. Hashing keys
+2. Different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
+2. Create templates from the start for different proof types
+4. Restrict blocks to fixed number of steps
+5. Other draggable arrangements, e.g. fill in a 2*2 grid (for matching problems)
+   Nested lists (flat list vs. nested/tree)
+6. Allow student to select proof style (e.g. iff, contradiction) and pre-structure answer list accordingly
+7. Allow some strings in the correct answer to be optional. Allow authors to input a weight for each item and use weighted D-L distance, e.g., weight of 0 indicates that a step is not required, but will not be considered incorrect if included.
+8. Hover over a proof step to reveal more information (e.g., this could come from the third item in the list and give a hint/definition)
+
 
 ## For "inputs 2"?
 

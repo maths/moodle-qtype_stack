@@ -857,6 +857,21 @@ $string['stackBlock_jsxgraph_overdefined_dimension'] = 'When defining aspect-rat
 $string['stackBlock_jsxgraph_ref']         = 'The jsxgraph-block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
 $string['stackBlock_jsxgraph_param']       = 'The jsxgraph-block supports only these parameters in this context: {$a->param}.';
 
+$string['stackBlock_parsons_used_header']         = 'Construct your solution here:';
+$string['stackBlock_parsons_available_header']    = 'Drag from here:';
+$string['stackBlock_parsons_width']       = 'The width of a Parson\'s block must use a known CSS-length unit.';
+$string['stackBlock_parsons_height']      = 'The height of a Parson\'s block must use a known CSS-length unit.';
+$string['stackBlock_parsons_width_num']   = 'The numeric portion of the width of a Parson\'s block must be a raw number and must not contain any extra chars.';
+$string['stackBlock_parsons_height_num']  = 'The numeric portion of the height of a Parson\'s block must be a raw number and must not contain any extra chars.';
+$string['stackBlock_parsons_length_num']  = 'The numeric value of length must be a positive integer and must not contain any extra chars or numerical types.';
+$string['stackBlock_parsons_underdefined_dimension'] = 'When defining aspect-ratio for a Parson\'s block one must define either width or height of the lists.';
+$string['stackBlock_parsons_overdefined_dimension'] = 'When defining aspect-ratio for a Parson\'s block one should only define width or height/length not both.';
+$string['stackBlock_parsons_overdefined_height'] = 'When defining the height of a Parson\'s block one should only define height or length not both.';
+$string['stackBlock_parsons_unknown_named_version'] = 'The Parson\'s block only supports versions named: {$a->version}.';
+$string['stackBlock_parsons_ref']         = 'The Parson\'s block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
+$string['stackBlock_parsons_param']       = 'The Parson\'s block supports only these parameters in this context: {$a->param}.';
+$string['stackBlock_parsons_contents']    = 'The contents of a Parson\'s block must be a JSON of the form \'{"steps" : {"step 1" : "...", ...,}, "options" : {"option 1" : "...", ...}}\' or \'{"step 1" : "...", ...}\'.';
+
 // Define the stackBlock GeoGebra strings.
 $string['stackBlock_geogebra_width']       = 'The width of a GeoGebra Applet must use a known CSS-length unit.';
 $string['stackBlock_geogebra_height']      = 'The height of a GeoGebra Applet must use a known CSS-length unit.';

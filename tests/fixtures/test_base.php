@@ -437,6 +437,11 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
                 'The string ' . $string . ' should not be present in ' . $this->currentoutput);
     }
 
+    protected function check_output_does_not_contain_text($str) {
+        $this->assertStringNotContainsString($str, $this->currentoutput,
+            'The string ' . $str . ' should not be present in ' . $this->currentoutput);
+    }
+
     /**
      * Verify that some content, containing maths, that is due to be output, is as expected.
      *

@@ -3984,6 +3984,56 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $warnings);
     }
 
+    public function test_lang_blocks_en() {
+
+        // TODO: how do we explicitly set the user's preferences, i.e. language?
+        $q = \test_question_maker::make_question('stack', 'lang_blocks');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Give an example of a function/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+        $this->check_output_does_not_contain_text('Giv et eksempel');
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => 'x^3', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('prt1', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'x^3');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submition of an answer which is only partially correct.
+        $this->process_submission(array('ans1' => 'x^3', 'ans1_val' => 'x^3', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('prt1', 0.0, 0.35);
+        $this->check_response_summary('Seed: 1; ans1: x^3 [score]; prt1: # = 0 | prt1-1-F');
+        $this->check_answer_note('prt1', 'prt1-1-F');
+        $this->render();
+        $this->check_current_output(
+            new question_pattern_expectation('/Give an example of a function/'),
+            new question_pattern_expectation('/However, in your answer/'),
+            $this->get_no_hint_visible_expectation()
+            );
+        // Danish should not be seen in the output.
+        $this->check_output_does_not_contain_text('Men i dit svar er');
+    }
+
     public function test_block_locals() {
 
         $q = \test_question_maker::make_question('stack', 'block_locals');

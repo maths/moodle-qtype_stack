@@ -1387,8 +1387,6 @@ class stack_equiv_test_data {
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 
-        /* ....................................... */
-
         $newarg = array();
         $newarg['section'] = 'Induction steps';
         $samplearguments[] = $newarg;

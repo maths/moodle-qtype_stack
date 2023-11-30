@@ -88,4 +88,4 @@ Later
 * 1st version of API.
 * Enable individual questions to load Maxima libraries.  (See issue #305)
 * Markdown support?
-
+* SBCL on the continuous integration does not seem to have support for unicode.  There are examples in the inputs fixtures and walkthrough adapctive tests.  Search for SBCL.

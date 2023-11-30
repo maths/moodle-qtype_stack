@@ -296,7 +296,7 @@ class prt_test extends qtype_stack_testcase {
     }
 
     public function test_runtime_score_error() {
-        
+
         $newprt = new stdClass;
         $newprt->name = 'testprt';
         $newprt->id = '0';
@@ -306,7 +306,7 @@ class prt_test extends qtype_stack_testcase {
         $newprt->firstnodename = '0';
         $newprt->nodes = [];
         $newprt->autosimplify = true;
-        
+
         $node = $this->create_default_node();
         $node->id              = '0';
         $node->sans            = 'sans';
@@ -320,14 +320,14 @@ class prt_test extends qtype_stack_testcase {
         $node->falsefeedback   = 'Boo!';
         $node->falseanswernote = '1-0-0';
         $newprt->nodes[] = $node;
-        
+
         $prt = new stack_potentialresponse_tree_lite($newprt, 5);
-        
+
         $this->assertFalse($prt->is_formative());
         $this->assertEquals(array('Int' => true), $prt->get_answertests());
         $expected = array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0');
         $this->assertEquals($expected, $prt->get_all_answer_notes());
-        
+
         // For $inputs we only need the names of the inputs, not the full inputs.
         $inputs = array('sans' => true);
         $boundvars = array();
@@ -335,10 +335,10 @@ class prt_test extends qtype_stack_testcase {
         $security = new stack_cas_security();
         $pathprefix = '/p/' . '0';
         $sig = $prt->compile($inputs, $boundvars, $defaultpenalty, $security, $pathprefix, null);
-        
+
         // A correct answer should generate a runtime error.
         $inputs = array('sans' => '(x+1)^3/3+c');
-        
+
         $session = new stack_cas_session2([], new stack_options(), 123);
         // Add preamble from PRTs as well.
         if ($sig['be'] != '') {

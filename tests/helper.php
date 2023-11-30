@@ -3456,7 +3456,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
-}
+    }
 
     /**
      * @return qtype_stack_question.

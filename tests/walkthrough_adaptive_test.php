@@ -4193,7 +4193,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
         // Process a score request.
         $ia = 'phi^2-1';
-        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia,'-submit' => 1));
+        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1));
 
         $this->check_current_mark(1);
         $this->check_prt_score('firsttree', 1, 0);
@@ -4259,7 +4259,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // Process a validate request.
         $ia = 'phi^2-1';
         $this->process_submission(array('ans1' => $ia, '-submit' => 1));
-        
+
         $this->check_current_mark(null);
         $this->check_prt_score('firsttree', null, null);
         $this->render();
@@ -4273,7 +4273,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
         // Process a score request.
         $ia = 'phi^2-1';
-        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia,'-submit' => 1));
+        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1));
 
         $this->check_current_mark(1);
         $this->check_prt_score('firsttree', 1, 0);
@@ -4311,7 +4311,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_current_output(
             new question_no_pattern_expectation('/What is/'),
             new question_no_pattern_expectation('/Was ist/'),
-            new question_pattern_expectation('/Mikä on/'),
+            // The full string expectation is Mikä on.
+            // However, SBCL on github actions does not support unicode, so the accents do not show.
+            new question_pattern_expectation('/Mik/'),
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
@@ -4333,7 +4335,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
             new question_no_pattern_expectation('/Your answer contains the wrong variables/'),
-            new question_pattern_expectation('/Vastauksesi sisältää/')
+            // The full string expectation is Vastauksesi sisältää.
+            // However, SBCL on github actions does not support unicode, so the accents do not show.
+            new question_pattern_expectation('/Vastauksesi/')
             );
 
         // Process a validate request.
@@ -4353,7 +4357,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
         // Process a score request.
         $ia = 'phi^2-1';
-        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia,'-submit' => 1));
+        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1));
 
         $this->check_current_mark(1);
         $this->check_prt_score('firsttree', 1, 0);

@@ -370,7 +370,7 @@ class parsons_block_test extends qtype_stack_testcase {
             $session = new stack_cas_session2([$at1]);
             $this->assertFalse($at1->get_valid());
             $this->assertEquals(
-                stack_string('stackBlock_parsons_unknown_named_version', ['version' => implode(', ', $validversions)]), 
+                stack_string('stackBlock_parsons_unknown_named_version', ['version' => implode(', ', $validversions)]),
                 $at1->get_errors());
         }
     }
@@ -396,7 +396,7 @@ class parsons_block_test extends qtype_stack_testcase {
             $session = new stack_cas_session2([$at1]);
             $this->assertFalse($at1->get_valid());
             $this->assertEquals(
-                $err . ', ' . stack_string('stackBlock_parsons_param', ['param' => implode(', ', $validparameters)]), 
+                $err . ', ' . stack_string('stackBlock_parsons_param', ['param' => implode(', ', $validparameters)]),
                 $at1->get_errors());
         }
     }

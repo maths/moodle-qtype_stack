@@ -45,12 +45,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $xpars = [];
         $inputs = []; // From inputname to variable name.
         $clone = "false"; // Whether to have all keys in available list cloned.
-        $length = 8;
         foreach ($this->params as $key => $value) {
             if ($key === 'clone') {
                 $clone = $value;
-            } else if ($key === 'length') {
-                $length = $value;
             } else if ($key !== 'input') {
                 $xpars[$key] = $value;
             } else {
@@ -73,9 +70,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // Set default width and height here.
         // We want to push forward to overwrite the iframe defaults if they are not provided in the block parameters.
-        // TODO : avoid hard-coding 60, extract from CSS?
-        $width = array_key_exists('width', $xpars) ? $xpars['width'] : "100%";
-        $height = array_key_exists('height', $xpars) ? $xpars['height'] : $length * 60 . 'px';
+        $existsuserwidth = array_key_exists('width', $xpars);
+        $existsuserheight = array_key_exists('height', $xpars);
+        $width = $existsuserwidth ? $xpars['width'] : "100%";
+        $height = $existsuserheight ? $xpars['height'] : "400px";
         $xpars['width'] = $width;
         $xpars['height'] = $height;
 
@@ -119,9 +117,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (array_key_exists('aspect-ratio', $xpars)) {
             $aspectratio = $xpars['aspect-ratio'];
             // Unset the undefined dimension, if both are defined then we have a problem.
-            if (array_key_exists('height', $xpars)) {
+            if ($existsuserheight) {
                 $astyle = "height:calc(100% - 3px);aspect-ratio:$aspectratio;";
-            } else if (array_key_exists('width', $xpars)) {
+            } else if ($existsuserwidth) {
                 $astyle = "width:calc(100% - 3px);aspect-ratio:$aspectratio;";
             }
         }
@@ -138,7 +136,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         $r->items[] = new MP_String("<button type='button' class='btn btn-secondary' id='orientation'>
             <i class='fa fa-refresh'></i></button>");
-        $r->items[] = new MP_String('<div class="container" style="' . $astyle . '">
+        $r->items[] = new MP_String("<button type='button' class='btn btn-secondary' id='resize'>
+            <i class='fa fa-expand'></i></button>");
+        $r->items[] = new MP_String('<div class="container" id="sortableContainer" style="' . $astyle . '">
             <div class=row>' . $innerui . '
             </div>
         </div>');
@@ -148,9 +148,15 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         $importcode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $importcode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
-        $importcode .= "import {preprocess_steps, stack_sortable, add_orientation_listener, add_rescale_height_listener} from '" .
+        $importcode .= "import {preprocess_steps, stack_sortable, add_orientation_listener, get_iframe_height} from '" .
             stack_cors_link('stacksortable.min.js') . "';\n";
         $r->items[] = new MP_String($importcode);
+
+        // Add the resize button listener
+        $r->items[] = new MP_String('document.getElementById("resize").addEventListener(
+            "click", () => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});' . "\n");
+        
+        // Add flip orientation listener to the orientation button
         // TODO :automatically set orientation based on device.
         $r->items[] = new MP_String('add_orientation_listener("orientation", "usedList", "availableList");' . "\n");
         // Extract the proof steps from the inner content.
@@ -212,7 +218,16 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'stackSortable.update_state_dblclick(sortableUsed, sortableAvailable);' . "\n";
 
         // Typeset MathJax.
+        // TODO : MathJax 3 works with promises instead, so check for version and modify as necessary
         $code .= 'MathJax.Hub.Queue(["Typeset", MathJax.Hub]);' . "\n";
+
+        // Resize the outer iframe if the author does not pre-define width
+        // TODO : modify for Mathjax 3
+        if (!$existsuserheight) {
+            $code .= 'MathJax.Hub.Queue(
+                () => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");}
+            );' . "\n";
+        }
 
         if (count($inputs) > 0) {
             $code .= "\n});";
@@ -252,7 +267,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $valid  = true;
         $width  = array_key_exists('width', $this->params) ? $this->params['width'] : '100%';
         $height = array_key_exists('height', $this->params) ? $this->params['height'] : '400px';
-        $length = array_key_exists('length', $this->params) ? $this->params['length'] : '8';
 
         // NOTE! List ordered by length. For the trimming logic.
         $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
@@ -295,13 +309,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $err[] = stack_string('stackBlock_parsons_height_num');
         }
 
-        if (!preg_match('/^[0-9]+$/', $length)) {
-            $valid = false;
-            $err[] = stack_string('stackBlock_parsons_length_num');
-        }
-
         if (array_key_exists('width', $this->params) &&
-            (array_key_exists('height', $this->params) || array_key_exists('length', $this->params)) &&
+            array_key_exists('height', $this->params) &&
             array_key_exists('aspect-ratio', $this->params)) {
             $valid    = false;
             $err[] = stack_string('stackBlock_parsons_overdefined_dimension');
@@ -311,11 +320,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             array_key_exists('aspect-ratio', $this->params)) {
             $valid    = false;
             $err[] = stack_string('stackBlock_parsons_underdefined_dimension');
-        }
-        if (array_key_exists('height', $this->params) &&
-            array_key_exists('length', $this->params)) {
-                $valid = false;
-                $err[] = stack_string('stackBlock_parsons_overdefined_height');
         }
 
         // Check version is only one of valid options.
@@ -332,12 +336,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
                     $key !== 'version' && $key !== 'overridecss' && $key !== 'input' &&
-                    $key !== 'orientation' && $key !== 'clone' && $key !== 'length') {
+                    $key !== 'orientation' && $key !== 'clone') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
                     $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss',
-                        'overridejs', 'input', 'orientation', 'clone', 'length'];
+                        'overridejs', 'input', 'orientation', 'clone'];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids)]);
                 }

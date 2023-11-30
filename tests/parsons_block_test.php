@@ -58,29 +58,12 @@ class parsons_block_test extends qtype_stack_testcase {
             '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
             '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
             '} [[/parsons]]';
-        $expected = '<div style="width:100%;height:480px;" id="stack-iframe-holder-1"></div>';
+        $expected = '<div style="width:100%;height:400px;" id="stack-iframe-holder-1"></div>';
 
         $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
         $session = new stack_cas_session2([$at1]);
         $session->instantiate();
         $this->assertEquals($expected, $at1->get_rendered());
-    }
-
-    /**
-     * @covers \qtype_stack\stack_cas_castext2_parsons
-     */
-    public function test_parsons_validate_length() {
-        $raw = '[[parsons length="a"]]{' .
-            '"1":"Assume that \\(n\\) is odd.",' .
-            '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
-            '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
-            '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
-            '} [[/parsons]]';
-
-        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
-        $session = new stack_cas_session2([$at1]);
-        $this->assertFalse($at1->get_valid());
-        $this->assertEquals(stack_string('stackBlock_parsons_length_num'), $at1->get_errors());
     }
 
     /**
@@ -185,7 +168,6 @@ class parsons_block_test extends qtype_stack_testcase {
         }
     }
 
-
     /**
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
@@ -223,40 +205,6 @@ class parsons_block_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
-    public function test_parsons_validate_length_num() {
-        $validlengths = ['500', '4', '0', '1000000'];
-        $invalidlengths = ['-5', 'ghjd', '', '534.6'];
-
-        foreach ($validlengths as $lt) {
-            $raw = '[[parsons length="' . $lt . '"]]{' .
-                '"1":"Assume that \\(n\\) is odd.",' .
-                '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
-                '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
-                '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
-                '} [[/parsons]]';
-
-            $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
-            $session = new stack_cas_session2([$at1]);
-            $this->assertTrue($at1->get_valid());
-        }
-        foreach ($invalidlengths as $lt) {
-            $raw = '[[parsons length="' . $lt . '"]]{' .
-                '"1":"Assume that \\(n\\) is odd.",' .
-                '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
-                '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
-                '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
-                '} [[/parsons]]';
-
-            $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
-            $session = new stack_cas_session2([$at1]);
-            $this->assertFalse($at1->get_valid());
-            $this->assertEquals(stack_string('stackBlock_parsons_length_num'), $at1->get_errors());
-        }
-    }
-
-    /**
-     * @covers \qtype_stack\stack_cas_castext2_parsons
-     */
     public function test_parsons_overdefined_dimensions_1() {
         $raw = '[[parsons height="500px" width="100%" aspect-ratio="1"]]{' .
             '"1":"Assume that \\(n\\) is odd.",' .
@@ -269,57 +217,6 @@ class parsons_block_test extends qtype_stack_testcase {
         $session = new stack_cas_session2([$at1]);
         $this->assertFalse($at1->get_valid());
         $this->assertEquals(stack_string('stackBlock_parsons_overdefined_dimension'), $at1->get_errors());
-    }
-
-    /**
-     * @covers \qtype_stack\stack_cas_castext2_parsons
-     */
-    public function test_parsons_overdefined_dimensions_2() {
-        $raw = '[[parsons length="10" width="100%" aspect-ratio="1"]]{' .
-            '"1":"Assume that \\(n\\) is odd.",' .
-            '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
-            '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
-            '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
-            '} [[/parsons]]';
-
-        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
-        $session = new stack_cas_session2([$at1]);
-        $this->assertFalse($at1->get_valid());
-        $this->assertEquals(stack_string('stackBlock_parsons_overdefined_dimension'), $at1->get_errors());
-    }
-
-    /**
-     * @covers \qtype_stack\stack_cas_castext2_parsons
-     */
-    public function test_parsons_overdefined_height_1() {
-        $raw = '[[parsons length="10" height="100%" aspect-ratio="1"]]{' .
-            '"1":"Assume that \\(n\\) is odd.",' .
-            '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
-            '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
-            '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
-            '} [[/parsons]]';
-
-        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
-        $session = new stack_cas_session2([$at1]);
-        $this->assertFalse($at1->get_valid());
-        $this->assertEquals(stack_string('stackBlock_parsons_overdefined_height'), $at1->get_errors());
-    }
-
-    /**
-     * @covers \qtype_stack\stack_cas_castext2_parsons
-     */
-    public function test_parsons_overdefined_height_2() {
-        $raw = '[[parsons length="10" height="100%"]]{' .
-            '"1":"Assume that \\(n\\) is odd.",' .
-            '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
-            '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
-            '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
-            '} [[/parsons]]';
-
-        $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
-        $session = new stack_cas_session2([$at1]);
-        $this->assertFalse($at1->get_valid());
-        $this->assertEquals(stack_string('stackBlock_parsons_overdefined_height'), $at1->get_errors());
     }
 
     /**
@@ -381,7 +278,7 @@ class parsons_block_test extends qtype_stack_testcase {
     public function test_parsons_validate_params() {
         $invalidparameters = ['bad_param', 'HEIGHT', 'Height', 'override-css'];
         $validparameters = ['width', 'height', 'aspect-ratio', 'version', 'overridecss',
-        'overridejs', 'input', 'orientation', 'clone', 'length'];
+        'overridejs', 'input', 'orientation', 'clone'];
 
         foreach ($invalidparameters as $param) {
             $raw = '[[parsons ' . $param . '="500"]]{' .

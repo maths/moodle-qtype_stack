@@ -98,20 +98,8 @@ export function add_orientation_listener(buttonId, usedId, availableId) {
     button.addEventListener('click', () => _flip_orientation(usedId, availableId));
 }
 
-//function _resize_iframe_holder(e) {
-//    document.getElementById("stack-iframe-holder-1").height = Number(e.data.height);
-//}
-
-function _get_iframe_height() {
-    return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
-}
-
-/*export function add_holder_resizer() {
-    document.addEventListener('message', _resize_iframe_holder);
-}*/
-
-export function add_rescale_height_listener() {
-    document.addEventListener('load', () => document.parentNode.postMessage({'height': _get_iframe_height()}));
+export function get_iframe_height() {
+    return document.documentElement.offsetHeight;
 }
 
 /**
@@ -248,6 +236,13 @@ export const stack_sortable = class {
     add_headers(headers) {
         this.used.append(this._create_header(headers.used.header, "usedHeader"));
         this.available.append(this._create_header(headers.available.header, "availableHeader"));
+    }
+
+    add_item_to_available(innerHTML) {
+        let li = document.createElement("li");
+        li.innerHTML = innerHTML;
+        li.className = "list-group-item";
+        this.available.append(li);
     }
 
     /**

@@ -5,6 +5,14 @@ body {
     background-color:inherit;
 }
 
+button {
+    margin: 2px 3px;
+} 
+
+.container {
+    overflow: auto;
+}
+
 #usedList:empty { 
     height:50px; background-color: floralwhite; border: 2px solid rgb(155, 199, 206); 
 }

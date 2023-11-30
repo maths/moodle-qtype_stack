@@ -298,14 +298,18 @@ define([
             if (input.nodeName.toLowerCase() === 'select') {
                 response.value = input.value;
                 response['input-type'] = 'select';
+                response['input-readonly'] = input.hasAttribute('disabled');
             } else if (input.type === 'checkbox') {
                 response.value = input.checked;
                 response['input-type'] = 'checkbox';
+                response['input-readonly'] = input.hasAttribute('disabled');
             } else {
                 response.value = input.value;
                 response['input-type'] = input.type;
+                response['input-readonly'] = input.hasAttribute('readonly');
             }
             if (input.type === 'radio') {
+                response['input-readonly'] = input.hasAttribute('disabled');
                 response.value = '';
                 for (let inp of document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']')) {
                     if (inp.checked) {

@@ -115,17 +115,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // We need to define a size for the inner content.
         $aspectratio = false;
-        $innerwidth = substr($width, -1) === 'px' ? "$width - 3px" : "100% - 3px";
-        $innerheight = substr($width, -1) === 'px' ? "$height - 3px" : "100% - 3px";
-        $astyle = "width:calc($innerwidth);height:calc($innerheight);";
-
+        $astyle = "width:calc(100% - 3px);height:calc(100% - 3px);";
         if (array_key_exists('aspect-ratio', $xpars)) {
             $aspectratio = $xpars['aspect-ratio'];
             // Unset the undefined dimension, if both are defined then we have a problem.
             if (array_key_exists('height', $xpars)) {
-                $astyle = "height:calc($innerheight);aspect-ratio:$aspectratio;";
+                $astyle = "height:calc(100% - 3px);aspect-ratio:$aspectratio;";
             } else if (array_key_exists('width', $xpars)) {
-                $astyle = "width:calc($innerwidth);aspect-ratio:$aspectratio;";
+                $astyle = "width:calc(100% - 3px);aspect-ratio:$aspectratio;";
             }
         }
 

@@ -751,6 +751,7 @@ class stack_answertest_test_data {
             'Expressions with subscripts'),
         array('EqualComAss', '', 'rho*z*V/(4*pi*epsilon[1]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 0,
             'ATEqualComAss (AlgEquiv-false).', ''),
+        array('EqualComAss', '', '+1-2', '1-2', 1, '', 'Unary plus'),
         array('EqualComAss', '', '-1+2', '2-1', 1, '', 'Unary minus'),
         array('EqualComAss', '', '-1*2+3*4', '3*4-1*2', 1, '', ''),
         array('EqualComAss', '', '(-1*2)+3*4', '10', 0, 'ATEqualComAss (AlgEquiv-true).', ''),
@@ -1006,6 +1007,8 @@ class stack_answertest_test_data {
         array('CasEqual', '', '4^(-1/2)', '1/2', 0, 'ATCASEqual (AlgEquiv-true).', 'Numbers'),
         array('CasEqual', '', 'ev(4^(-1/2),simp)', 'ev(1/2,simp)', 1, 'ATCASEqual_true.', ''),
         array('CasEqual', '', '2^2', '4', 0, 'ATCASEqual (AlgEquiv-true).', ''),
+        // Below is the intended behaviour: these trees are not equal.
+        array('CasEqual', '', '+1-2', '1-2', 0, '', 'Unary plus'),
         array('CasEqual', '', 'a^2/b^3', 'a^2*b^(-3)', 0, 'ATCASEqual (AlgEquiv-true).', 'Powers'),
         array('CasEqual', '', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 'rho*z*V/(4*pi*epsilon[0]*(R^2+z^2)^(3/2))', 1,
             'ATCASEqual_true.', 'Expressions with subscripts'),

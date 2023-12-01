@@ -38,24 +38,20 @@ TODO:
 
 Essential (v 4.5.0)
 
-1. Auto-size: js iframe dynamic rescaling? (best guess won't work...)
 2. Choose and document default options for Sortable.js and document them. Make sure any overwritten options are warned as being 
 overwritten, user should know when and why their input options are being discarded.
-3. Unit tests
 4. Make sure STACK CSS is loaded, i.e. https://github.com/maths/moodle-qtype_stack/blob/master/styles.css
    This contains some styles such as proof and trees we'd like within the iframe.
    Test with {@disptree(1+x^2)@}.
 5. Confirm MathJax default:   typeset  v2, v3? 
 6. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block.  We can talk about this.
 7. Polish up the "use once" or "clone" strings.
-8. Style suggestion: Move the bin icon to be next to, and the same size as, the "refresh" icon.  This preserves the full width for useful material (used/unused).
 9. Add a "clear used list" option in clone mode, to delete all items in the used list. Include an are you sure prompt
 10. Use syntax hint to set up a non-empty starting point....
 11. Check sortable for keyboard accessibility
 12. CSS styling fix for automated feedback
 13. Tick used items. Or allow student to mark items as used or unneeded.
 14. Better signaling for clone mode
-15. Change red colouring for the available list
 16. Validate JSON in javascript and expose errors to users on the page (rather than in the console).
 17. MathJax double clickable
 

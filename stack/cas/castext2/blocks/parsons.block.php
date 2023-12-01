@@ -130,14 +130,19 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $inner = $orientation === 'horizontal' ? 'col' : 'row';
         $innerui = '<ul class="list-group ' . $inner . '" id="usedList"></ul>
                         <ul class="list-group ' . $inner . '" id="availableList"></ul>';
-        if ($clone === 'true') {
+        /*if ($clone === 'true') {
             $innerui .= '<ul class="list-group ' . $inner . '" id="bin"></ul>';
+        }*/
+
+        $r->items[] = new MP_String("<button type='button' class='parsons-button' id='orientation'>
+            <i class='fa fa-refresh'></i></button>");
+        $r->items[] = new MP_String("<button type='button' class='parsons-button' id='resize'>
+            <i class='fa fa-expand'></i></button>");
+        if ($clone === 'true') {
+            $r->items[] = new MP_String('<div class="parsons-button parsons-bin">
+            <i class="fa fa-trash bin-icon"></i><div class="drop-zone" id="bin"></div></div>');
         }
 
-        $r->items[] = new MP_String("<button type='button' class='btn btn-secondary' id='orientation'>
-            <i class='fa fa-refresh'></i></button>");
-        $r->items[] = new MP_String("<button type='button' class='btn btn-secondary' id='resize'>
-            <i class='fa fa-expand'></i></button>");
         $r->items[] = new MP_String('<div class="container" id="sortableContainer" style="' . $astyle . '">
             <div class=row>' . $innerui . '
             </div>

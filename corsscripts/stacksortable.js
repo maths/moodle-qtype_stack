@@ -64,13 +64,9 @@ export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
 function _flip_orientation(usedId, availableId) {
     var usedList = document.getElementById(usedId);
     var availableList = document.getElementById(availableId);
-    var bin = document.getElementById('bin');
     var newClass = usedList.className == 'list-group row' ? 'list-group col' : 'list-group row';
     usedList.setAttribute('class', newClass);
     availableList.setAttribute('class', newClass);
-    if (bin != null) {
-        bin.setAttribute('class', newClass);
-    }
 }
 
 /**

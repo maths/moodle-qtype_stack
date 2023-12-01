@@ -1780,7 +1780,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * Currently the cache contains the following keys:
      *  'units' for declaring the units-mode.
      *  'forbiddenkeys' for the lsit of those.
-     *  'contextvariable-qv' the pre-validated question-variables which are context variables.
+     *  'contextvariables-qv' the pre-validated question-variables which are context variables.
      *  'statement-qv' the pre-validated question-variables.
      *  'preamble-qv' the matching blockexternals.
      *  'required' the lists of inputs required by given PRTs an array by PRT-name.
@@ -1845,7 +1845,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         if ($questionvariables === null || trim($questionvariables) === '') {
             $cc['statement-qv'] = null;
             $cc['preamble-qv'] = null;
-            $cc['contextvariable-qv'] = null;
+            $cc['contextvariables-qv'] = null;
             $cc['security-context'] = [];
         } else {
             $kv = new stack_cas_keyval($questionvariables, $options);

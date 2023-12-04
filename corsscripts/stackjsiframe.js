@@ -318,6 +318,30 @@ export const stack_js = {
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
+
+
+    create_error(errmesg) {
+        const p = document.createElement('p');
+        p.appendChild(document.createTextNode(errmesg));
+
+        // 2. Do we already have an error-div?
+        const div = document.getElementById('error');
+        if (div) {
+            div.appendChild(p);
+        } else {
+            // If not
+            const div = document.createElement('div');
+            div.id = 'error';
+            div.style.color = 'red';
+            const h1 = document.createElement('h1');
+            h1.appendChild(document.createTextNode('Error'));
+            div.appendChild(h1);
+            div.appendChild(p);
+            
+            // We simply throw everything away and replace with the message.
+            document.body.replaceChildren(div);
+        }
+    }
 };
 
 export default stack_js;

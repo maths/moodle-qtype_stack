@@ -130,9 +130,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $inner = $orientation === 'horizontal' ? 'col' : 'row';
         $innerui = '<ul class="list-group ' . $inner . '" id="usedList"></ul>
                         <ul class="list-group ' . $inner . '" id="availableList"></ul>';
-        /*if ($clone === 'true') {
-            $innerui .= '<ul class="list-group ' . $inner . '" id="bin"></ul>';
-        }*/
 
         $r->items[] = new MP_String("<button type='button' class='parsons-button' id='orientation'>
             <i class='fa fa-refresh'></i></button>");
@@ -182,11 +179,16 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Parse steps and Sortable options separately if they exist.
+        // Parse steps and Sortable options separately if they exist. Invalid JSON will be identified by preprocess_steps function.
         $code = 'var headers = {used: {header: "' . stack_string('stackBlock_parsons_used_header') . '"},
         available: {header: "' . stack_string('stackBlock_parsons_available_header') . '"}};' . "\n";
         $code .= 'var sortableUserOpts = {};' . "\n";
-        $code .= '[proofSteps, headers, sortableUserOpts] = preprocess_steps(proofSteps, headers, sortableUserOpts);' . "\n";
+        $code .= 'var valid;' . "\n";
+        $code .= '[proofSteps, headers, sortableUserOpts, valid] = preprocess_steps(proofSteps, headers, sortableUserOpts);' . "\n";
+    
+        // If the author's JSON has invalid format throw an error
+        $code .= 'if (valid === false) 
+            {stack_js.create_error("' . stack_string('stackBlock_parsons_contents') . '");}' . "\n";
 
         // Link up to STACK inputs.
         if (count($inputs) > 0) {
@@ -255,12 +257,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
     public function validate_extract_attributes(): array {
         return [];
-    }
-
-    public function validate_json_contents($contents) : bool {
-        // TODO : check steps are reasonable.
-        $valtypes = array_unique(array_map('gettype', array_values($contents)));
-        return array_keys($contents) === ["steps", "options"] || (count($valtypes) == 1 && $valtypes[0] == "string");
     }
 
     public function validate (
@@ -352,18 +348,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 }
             }
         }
-
-        // Check the JSON contents are of the right format.
-        // Either the depth is 1 or the depth is 2 and the keys are ['steps', 'options'].
-        $contents = json_decode(($this->children[0]->compile(castext2_parser_utils::RAWFORMAT, []))->value, true);
-        // Either this is a string (when using Maxima and stackjson_stringify) or it's a JSON.
-        // The former case we sanitise on the JS side so we can ignore this here.
-        if (!gettype($contents) == "string") {
-            if (!self::validate_JSON_contents(json_decode(($this->children[0]->compile(castext2_parser_utils::RAWFORMAT,
-                    []))->value, true))) {
-                $err[] = stack_string('stackBlock_parsons_contents');
-            }
-        };
 
         // Wrap the old string errors with the context details.
         foreach ($err as $er) {

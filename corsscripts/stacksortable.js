@@ -15,12 +15,16 @@
  * @throws {SyntaxError} - If the proofSteps parameter is a string but cannot be parsed into a valid JSON object.
  */
 export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
-    // Check if proofSteps is a string and convert it to an object
+    // Check if proofSteps is a string and convert it to an object 
+    // (this occurs when proof steps are a flat list coming from a Maxima variable)
     if (typeof proofSteps === "string") {
-        proofSteps = Object.fromEntries(new Map(Object.values(JSON.parse(proofSteps))));
+        proofSteps = _stackstring_objectify(proofSteps);
     }
 
-    // Check if proofSteps has the expected structure
+    // Validate the object
+    var valid = _validate_parsons_JSON(proofSteps);
+
+    // Separate steps and options if they are present
     if (JSON.stringify(Object.keys(proofSteps)) === JSON.stringify(["steps", "options"])) {
         var userOpts = proofSteps["options"];
         proofSteps = proofSteps["steps"];
@@ -35,12 +39,46 @@ export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
         sortableUserOpts = { used: userOpts, available: userOpts };
     }
 
-    // Convert proofSteps to an object if it is still a string
+    // Convert proofSteps to an object if it is still a string (occurs when the proof steps comes from a Maxima variable)
     if (typeof proofSteps === "string") {
-        proofSteps = Object.fromEntries(new Map(Object.values(JSON.parse(proofSteps))));
+        proofSteps = _stackstring_objectify(proofSteps);
     }
 
-    return [proofSteps, blockUserOpts, sortableUserOpts];
+    return [proofSteps, blockUserOpts, sortableUserOpts, valid];
+}
+
+function _stackstring_objectify(stackjson_string) {
+    return Object.fromEntries(new Map(Object.values(JSON.parse(stackjson_string))));
+}
+
+function _validate_parsons_JSON(proofSteps) {
+    // If the JSON has depth 1 then it should be a valid proofStep JSON (i.e., should have string values)
+    if (Object.values(proofSteps).every((val) => !(typeof(val) == 'object'))) {
+        return _validate_proof_steps(proofSteps);
+    }
+    // Else the top-level of the JSON should have keys ["steps", "options"]. 
+    // The value for "keys" should be a valid proofStep JSON 
+    // We do not validate options here 
+    if (Object.values(proofSteps).some((val) => typeof(val) == "object")) {
+        if (JSON.stringify(Object.keys(proofSteps)) !== JSON.stringify(["steps", "options"])) {
+            return false;
+        }
+        if (!_validate_proof_steps(proofSteps["steps"])) {
+            return false;
+        }
+        return true;
+    }
+    // TODO : we are missing one case here in depth 2 case and unclear how to catch it: 
+    // if an author writes {"any string" : {#stackjson_stringify(proof_steps)#}},
+    // then this should throw an error
+}
+
+function _validate_proof_steps(proofSteps) {
+    // Case when proof steps are coming from a Maxima variable: convert to a JSON
+    if (typeof(proofSteps) == 'string') {
+        proofSteps = _stackstring_objectify(proofSteps);
+    }
+    return Object.values(proofSteps).every((val) => typeof(val) == 'string');
 }
 
 /**

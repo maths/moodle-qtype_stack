@@ -865,8 +865,8 @@ $string['stackBlock_parsons_overdefined_dimension'] = 'When defining aspect-rati
 $string['stackBlock_parsons_overdefined_height'] = 'When defining the height of a Parson\'s block one should only define height or length not both.';
 $string['stackBlock_parsons_unknown_named_version'] = 'The Parson\'s block only supports versions named: {$a->version}.';
 $string['stackBlock_parsons_ref']         = 'The Parson\'s block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
-$string['stackBlock_parsons_param']       = 'The Parson\'s block supports only these parameters in this context: {$a->param}.';
-$string['stackBlock_parsons_contents']    = 'The contents of a Parson\'s block must be a JSON of the form \'{"steps" : {"step 1" : "...", ...,}, "options" : {"option 1" : "...", ...}}\' or \'{"step 1" : "...", ...}\'.';
+$string['stackBlock_parsons_param']       = 'The Parson\'s block supports only these parameters in this context: \'{$a->param}\'.';
+$string['stackBlock_parsons_contents']    = 'The contents of a Parson\'s block must be a JSON of the form {#stackjson_stringify(proof_steps)#}. If you are passing custom objects then the Parson\'s block contents should be a JSON of the form {steps: {#stackjson_stringify(proof_steps)#}, options: {JSON containing Sortable options}}. Alternatively, the contents of the Parsons block may contain raw JSON equivalents. Make sure that the proof_steps Maxima variable is of the correct format. Note that all proof steps must be strings. See the documentation for details.';
 
 // Define the stackBlock GeoGebra strings.
 $string['stackBlock_geogebra_width']       = 'The width of a GeoGebra Applet must use a known CSS-length unit.';

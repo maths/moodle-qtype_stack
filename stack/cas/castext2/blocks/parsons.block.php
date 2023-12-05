@@ -111,7 +111,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         ]);
         $r->items[] = new MP_List([
             new MP_String('script'),
-            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $js]))
+            new MP_String(json_encode(['type' => 'module', 'src' => $js]))
         ]);
 
         // We need to define a size for the inner content.
@@ -141,6 +141,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if ($clone === 'true') {
             $r->items[] = new MP_String('<div class="parsons-button parsons-bin">
             <i class="fa fa-trash bin-icon"></i><div class="drop-zone" id="bin"></div></div>');
+            $r->items[] = new MP_String('<div class="parsons-button" id="delete-all">
+            <i class="fa fa-times-circle "></i></div>');
         }
 
         $r->items[] = new MP_String('<div class="container" id="sortableContainer" style="' . $astyle . '">
@@ -162,13 +164,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             stack_cors_link('stacksortable.min.js') . "';\n";
         $r->items[] = new MP_String($importcode);
 
-        // Add the resize button listener
-        $r->items[] = new MP_String('document.getElementById("resize").addEventListener(
-            "click", () => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});' . "\n");
-        
         // Add flip orientation listener to the orientation button
         // TODO: automatically set orientation based on device?
         $r->items[] = new MP_String('add_orientation_listener("orientation", "usedList", "availableList");' . "\n");
+        // Add the resize button listener
+        $r->items[] = new MP_String('document.getElementById("resize").addEventListener(
+            "click", () => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});' . "\n");
+
         // Extract the proof steps from the inner content.
         $r->items[] = new MP_String('var proofSteps = ');
 
@@ -236,7 +238,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         // Add double-click events.
-        $code .= 'stackSortable.update_state_dblclick(sortableUsed, sortableAvailable);' . "\n";
+        $code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
+
+        // Add delete-all button events.
+        $code .= 'stackSortable.add_delete_all_listener("delete-all", sortableUsed, sortableAvailable);' . "\n";
 
         // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
         $code .= ($mathjaxversion === "2") ? 

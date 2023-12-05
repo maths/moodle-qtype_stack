@@ -379,7 +379,7 @@ export const stack_sortable = class {
      * @param {Object} newAvailable - Updated available list.
      * @returns {void}
      */
-    update_state_dblclick(newUsed, newAvailable) {
+    add_dblclick_listeners(newUsed, newAvailable) {
         this.available.addEventListener('dblclick', (e) => {
             if (this._double_clickable(e.target)) {
                 var li = (this.clone === "true") ? e.target.cloneNode(true) : this.available.removeChild(e.target);
@@ -396,6 +396,16 @@ export const stack_sortable = class {
                 this.update_state(newUsed, newAvailable);
             }
         });
+    }
+    
+    add_delete_all_listener(buttonId, newUsed, newAvailable) {
+        const button = document.getElementById(buttonId);
+        button.addEventListener('click', () => {this._delete_all_from_used(); this.update_state(newUsed, newAvailable);});
+    }
+
+    _delete_all_from_used() {
+        const lis = document.querySelectorAll(`#${this.usedId} > .list-group-item`);
+        lis.forEach(li => {if (!li.matches(".header")) {li.parentNode.removeChild(li);}});
     }
 
     /**

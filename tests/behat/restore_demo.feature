@@ -22,7 +22,7 @@ Feature: Test restoring a backup including STACK questions
     Then I should see "Stack Syntax Quiz"
     And I am on the "Stack Syntax Quiz" "mod_quiz > edit" page
     And I should see "Syntax-21-Numbers-Greek"
-    
+
   @javascript @_file_upload
   Scenario: Restore the STACK demo course in Moodle ≥ 4.4.
     Given the site is running Moodle version 4.4 or higher

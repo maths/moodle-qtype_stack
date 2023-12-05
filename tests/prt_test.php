@@ -367,7 +367,7 @@ class prt_test extends qtype_stack_testcase {
         $session->add_statement(new stack_secure_loader('simp:false', 'prt-simplification'));
         $session->add_statement($prtev);
         $session->instantiate();
-        
+
         $this->assertEquals(0, $prtev->get_score());
         $expected = array('The score was not fully evaluated to a numerical value (check variable names).');
         $this->assertEquals($expected, $prtev->get_errors());

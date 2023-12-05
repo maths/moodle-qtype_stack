@@ -38,16 +38,16 @@ TODO:
 
 Essential (v 4.5.0)
 
-3. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block.  We can talk about this.
-4. Polish up the "use once" or "clone" strings.
-5. Confirmation for delete all?
-6. Use syntax hint to set up a non-empty starting point....
-7. Check sortable for keyboard accessibility*
-8. CSS styling fix for automated feedback
-10. Better signaling for clone mode*
-11. MathJax double clickable*
-12. Tidy and document JS*
-13. test override css and override js*
+1. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block.  We can talk about this.
+2. Polish up the "use once" or "clone" strings.
+3. Confirmation for delete all?
+4. Use syntax hint to set up a non-empty starting point....
+5. Check sortable for keyboard accessibility (Not build in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4) 
+6. CSS styling fix for automated feedback
+7. Better signaling for clone mode*
+8. Tidy and document JS*
+9. test override css and override js*
+10. MathJax async loading*
 
 
 Later

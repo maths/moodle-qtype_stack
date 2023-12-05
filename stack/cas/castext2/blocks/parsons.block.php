@@ -231,17 +231,15 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Options can now be validated since sortable objects have been instantiated, we throw warnings only
         $code .= 'stackSortable.validate_options(possibleOptionKeys);' . "\n";
 
-        // Create bin for clone mode.
+        // Create bin and add delete-all button events for clone mode.
         if ($clone === "true") {
             $code .= 'var sortableBin = Sortable.create(bin, {group: {name: "sortableBin", pull: false, put: ' .
                 '"sortableUsed"}, onAdd: (e) => {document.getElementById("bin").removeChild(e.item);}});' . "\n";
+            $code .= 'stackSortable.add_delete_all_listener("delete-all", sortableUsed, sortableAvailable);' . "\n";
         }
 
         // Add double-click events.
         $code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
-
-        // Add delete-all button events.
-        $code .= 'stackSortable.add_delete_all_listener("delete-all", sortableUsed, sortableAvailable);' . "\n";
 
         // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
         $code .= ($mathjaxversion === "2") ? 

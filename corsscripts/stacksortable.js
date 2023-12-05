@@ -382,14 +382,18 @@ export const stack_sortable = class {
     add_dblclick_listeners(newUsed, newAvailable) {
         this.available.addEventListener('dblclick', (e) => {
             if (this._double_clickable(e.target)) {
-                var li = (this.clone === "true") ? e.target.cloneNode(true) : this.available.removeChild(e.target);
+                // get highest-level parent
+                var li = this._get_moveable_parent_li(e.target);
+                li = (this.clone === "true") ? li.cloneNode(true) : this.available.removeChild(li);
                 this.used.append(li);
                 this.update_state(newUsed, newAvailable)
             }
         });
         this.used.addEventListener('dblclick', (e) => {
             if (this._double_clickable(e.target)) {
-                var li = this.used.removeChild(e.target);
+                // get highest-level parent
+                var li = this._get_moveable_parent_li(e.target);
+                this.used.removeChild(li);
                 if (this.clone !== "true") {
                     this.available.insertBefore(li, this.available.children[1]);
                 }
@@ -428,7 +432,15 @@ export const stack_sortable = class {
     }
 
     _double_clickable(item) {
-        return (item.matches(".list-group-item") && !item.matches(".header"));
+        return !item.matches(".header");
+    }
+
+    _get_moveable_parent_li(target) {
+        var li = target;
+        while (!li.matches(".list-group-item")) {
+            li = li.parentNode;
+        }
+        return li;
     }
 
     /**

@@ -6,6 +6,25 @@
  */
 
 /**
+ * Currently supported Sortable callback functions. This should be modified if updating the version of Sortable.js and
+ * new callback functions have been added.
+ */
+export const SUPPORTED_CALLBACK_FUNCTIONS = [
+    "onChoose",
+	"onUnchoose",
+	"onStart",
+	"onEnd",
+	"onAdd",
+	"onUpdate",
+	"onSort",
+	"onRemove",
+	"onFilter",
+	"onMove",
+	"onClone",
+	"onChange"
+]
+
+/**
  * Preprocesses proof steps and user options to a format expected by stack_sortable.
  *
  * @param {Object|string} proofSteps - The proof steps as an object or a JSON string.
@@ -31,12 +50,12 @@ export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
 
         // Process block user options for the 'header' setting
         if (userOpts.header != null) {
-            blockUserOpts = { used: { header: userOpts.header[0] }, available: { header: userOpts.header[1] } };
+            blockUserOpts = {used: {header: userOpts.header[0]}, available: {header: userOpts.header[1]}};
         }
 
         // Split Sortable options into used and available
         delete userOpts.header;
-        sortableUserOpts = { used: userOpts, available: userOpts };
+        sortableUserOpts = {used: userOpts, available: userOpts};
     }
 
     // Convert proofSteps to an object if it is still a string (occurs when the proof steps comes from a Maxima variable)
@@ -190,7 +209,8 @@ export const stack_sortable = class {
      * @param {string} availableId - ID of the available list element.
      * @param {string} usedId - ID of the used list element.
      * @param {string|null} inputId - ID of the input element for storing state (optional).
-     * @param {Object|null} options - Custom options for sortable lists (optional).
+     * @param {Object|null} options - Custom options for sortable lists 
+     *                                of form {used: UsedOptions, available: AvailableOptions} (optional).
      * @param {boolean} clone - Flag indicating whether to clone elements during sorting.
      */
     constructor(proofSteps, availableId, usedId, inputId = null, options = null, clone = false) {
@@ -218,14 +238,69 @@ export const stack_sortable = class {
         var group_val = {used: {name: "sortableUsed", pull: true, put: true}};
         group_val.available = (clone === "true") ? 
             {name: "sortableAvailable", pull: "clone", revertClone: true, put: false} : 
-            {name: "sortableAvailable", pull: true, put: true};
+            {name: "sortableAvailable", put: true};
 
         // Do not allow a user to replace ghostClass or group.
         this.options = {used: 
-            Object.assign(this.userOptions.used, {ghostClass: "list-group-item-info", group: group_val.used}), 
+            Object.assign(Object.assign({}, this.userOptions.used), {ghostClass: "list-group-item-info", group: group_val.used}), 
                         available : 
-            Object.assign(this.userOptions.available, {ghostClass: "list-group-item-info", group: group_val.available})
+            Object.assign(Object.assign({}, this.userOptions.available), {ghostClass: "list-group-item-info", group: group_val.available})
         };
+    }
+
+    validate_options(possibleOptionKeys) {
+        var err = '';
+        var keysRecognised = true;
+        var invalidKeys = [];
+        // If option is not recognised warn user 
+        Object.keys(this.options.used).forEach(key => {
+            if (!this._validate_option_key(key, possibleOptionKeys)) {
+                keysRecognised = false; 
+                if (!invalidKeys.includes(key)) {
+                    invalidKeys.push(key);
+                }
+            }
+        });
+        Object.keys(this.options.available).forEach(key => {
+            if (!this._validate_option_key(key, possibleOptionKeys)) {
+                keysRecognised = false; 
+                if (!invalidKeys.includes(key)) {
+                    invalidKeys.push(key);
+                }
+            }
+        });
+        if (!keysRecognised) {
+            err += "Unknown Sortable options `" + invalidKeys.join(", ") + "` found, they are being ignored."
+        }
+        // If option is one of those we overwrite warn user (we have to use this.userOptions as this.options will contain these keys)
+        var overwrittenKeys = [];
+        var keysPreserved = true;
+        ["ghostClass", "group", "onSort"].forEach(key => {if (Object.keys(this.userOptions.used).includes(key) || Object.keys(this.userOptions.available).includes(key)) {
+            keysPreserved = false;
+            overwrittenKeys.push(key);
+        }});
+        if (!keysPreserved) {
+            err += " User options `" + overwrittenKeys.join(", ") + "` found, they are unable to be modified and are being ignored."
+        }
+        if (!keysRecognised || !keysPreserved) {
+            this._throw_warning(err);
+        }
+    };
+
+    _validate_option_key(key, possibleOptionKeys) {
+        return possibleOptionKeys.includes(key);
+    }
+
+    _throw_warning(err) {
+        var warning = document.createElement("div");
+        warning.className = "sortable-warning";
+        var exclamation = document.createElement("i");
+        exclamation.className = "icon fa fa-exclamation-circle text-danger fa-fw";
+        warning.append(exclamation);
+        var warningMessage = document.createElement("span");
+        warningMessage.textContent = err;
+        warning.append(warningMessage);
+        document.body.insertBefore(warning, document.getElementById("sortableContainer"));
     }
 
     /**

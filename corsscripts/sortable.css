@@ -103,3 +103,9 @@ button {
     box-shadow: 0px 0px 0px 2px rgb(167, 89, 89) inset;
 }
 
+.sortable-warning {
+    float: right;
+    font-size: 0.8em;
+    margin: -0.3em -0.3em;
+}
+

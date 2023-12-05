@@ -153,7 +153,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         $importcode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $importcode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
-        $importcode .= "import {preprocess_steps, stack_sortable, add_orientation_listener, get_iframe_height} from '" .
+        $importcode .= "import {preprocess_steps, 
+                                stack_sortable, 
+                                add_orientation_listener, 
+                                get_iframe_height,
+                                SUPPORTED_CALLBACK_FUNCTIONS
+                } from '" .
             stack_cors_link('stacksortable.min.js') . "';\n";
         $r->items[] = new MP_String($importcode);
 
@@ -211,12 +216,18 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'stackSortable.generate_available();' . "\n";
 
         // Create the Sortable objects.
-        $code .= 'var usedOpts = {...stackSortable.options.used, ...{onSort: () => ' .
-                '{stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
-        $code .= 'var availableOpts = {...stackSortable.options.available, ' .
-                '...{onSort: () => {stackSortable.update_state(sortableUsed, sortableAvailable);}}}' . "\n";
-        $code .= 'var sortableUsed = Sortable.create(usedList, usedOpts);' . "\n";
-        $code .= 'var sortableAvailable = Sortable.create(availableList, availableOpts);' . "\n";
+        // First, instantiate with default options first in order to extract all possible options for validation
+        $code .= 'var sortableUsed = Sortable.create(usedList);' . "\n";
+        $code .= 'var possibleOptionKeys = Object.keys(sortableUsed.options).concat(SUPPORTED_CALLBACK_FUNCTIONS);' . "\n";
+        // Now set appropriate options
+        $code .= 'Object.entries(stackSortable.options.used).forEach(([key, val]) => sortableUsed.option(key, val));' . "\n";
+        $code .= 'var sortableAvailable = Sortable.create(availableList, stackSortable.options.available);' . "\n";
+        // Add the onSort option in order to link up to input and overwrite user onSort if passed
+        $code .= 'sortableUsed.option("onSort", () => {stackSortable.update_state(sortableUsed, sortableAvailable);});' . "\n";
+        $code .= 'sortableAvailable.option("onSort", () => {stackSortable.update_state(sortableUsed, sortableAvailable);});' . "\n";
+
+        // Options can now be validated since sortable objects have been instantiated, we throw warnings only
+        $code .= 'stackSortable.validate_options(possibleOptionKeys);' . "\n";
 
         // Create bin for clone mode.
         if ($clone === "true") {

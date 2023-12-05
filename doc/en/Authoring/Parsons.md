@@ -68,7 +68,7 @@ A list of all Sortable.js options can be found [here](https://github.com/Sortabl
     "animation": 50,
 }
 ````
-Most other Sortable options can be modified, except for `ghostClass` and `group` as these are required to be set for basic functionality.
+Most other Sortable options can be modified, except for `ghostClass`, `group` and `onSort` as these are required to be set for basic functionality.
 
 The only non-Sortable option that may currently be customised is the `header` option. The default for these are:
 ````
@@ -77,6 +77,8 @@ The only non-Sortable option that may currently be customised is the `header` op
 }
 ````
 To modify these pass an array of length two, with first entry corresponding to the header for the answer list and the second entry corresponding to the header for the list of available steps.
+
+Note that if you enter an unknown sortable option or if an attempt to pass `ghostClass`, `group`, or `onSort` is made, then these will simply be ignored. A warning will be displayed on the question page to signify this situation.
 
 ### Block parameters
 

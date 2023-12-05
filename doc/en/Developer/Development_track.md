@@ -38,20 +38,17 @@ TODO:
 
 Essential (v 4.5.0)
 
-1. Choose and document default options for Sortable.js and document them. Make sure any overwritten options are warned as being 
-overwritten, user should know when and why their input options are being discarded.
 3. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block.  We can talk about this.
 4. Polish up the "use once" or "clone" strings.
-5. Add a "clear used list" option in clone mode, to delete all items in the used list. Include an are you sure prompt
+5. Confirmation for delete all?
 6. Use syntax hint to set up a non-empty starting point....
-7. Check sortable for keyboard accessibility
+7. Check sortable for keyboard accessibility*
 8. CSS styling fix for automated feedback
-9. Tick used items. Or allow student to mark items as used or unneeded.
-10. Better signaling for clone mode
-11. MathJax double clickable
-12. Tidy and document JS
-13. test override css and override js
-15. document mathjax param
+10. Better signaling for clone mode*
+11. MathJax double clickable*
+12. Tidy and document JS*
+13. test override css and override js*
+
 
 Later
 
@@ -64,6 +61,7 @@ Later
 6. Allow student to select proof style (e.g. iff, contradiction) and pre-structure answer list accordingly
 7. Allow some strings in the correct answer to be optional. Allow authors to input a weight for each item and use weighted D-L distance, e.g., weight of 0 indicates that a step is not required, but will not be considered incorrect if included.
 8. Hover over a proof step to reveal more information (e.g., this could come from the third item in the list and give a hint/definition)
+9. Allow students to mark items (e.g. as used or unneeded) or tick used items
 
 
 ## For "inputs 2"?

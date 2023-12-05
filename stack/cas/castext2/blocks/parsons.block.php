@@ -188,7 +188,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
     
         // If the author's JSON has invalid format throw an error
         $code .= 'if (valid === false) 
-            {stack_js.create_error("' . stack_string('stackBlock_parsons_contents') . '");}' . "\n";
+            {stack_js.display_error("' . stack_string('stackBlock_parsons_contents') . '");}' . "\n";
 
         // Link up to STACK inputs.
         if (count($inputs) > 0) {

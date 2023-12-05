@@ -320,7 +320,7 @@ export const stack_js = {
     },
 
 
-    create_error(errmesg) {
+    display_error(errmesg) {
         const p = document.createElement('p');
         p.appendChild(document.createTextNode(errmesg));
 

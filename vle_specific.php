@@ -194,6 +194,13 @@ function stack_get_mathjax_url(): string {
 }
 
 /*
+ * Gets the url for MathJax 3.
+ */
+function stack_get_mathjax3_url() {
+    return 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+}
+
+/*
  * Give the VLE a chance to clear any question cache.
  */
 function stack_clear_vle_question_cache(int $questionid) {

@@ -45,9 +45,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $xpars = [];
         $inputs = []; // From inputname to variable name.
         $clone = "false"; // Whether to have all keys in available list cloned.
+        $mathjaxversion = "2"; // MathJax version (either "2" or "3")s
         foreach ($this->params as $key => $value) {
             if ($key === 'clone') {
                 $clone = $value;
+            } else if ($key === 'mathjax') {
+                $mathjaxversion = $value; 
             } else if ($key !== 'input') {
                 $xpars[$key] = $value;
             } else {
@@ -98,7 +101,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_String(json_encode($xpars));
 
         // Plug in some style and scripts.
-        $mathjax = stack_get_mathjax_url();
+        $mathjax = ($mathjaxversion === "2") ? stack_get_mathjax_url() : stack_get_mathjax3_url();
         $r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))]);
@@ -159,7 +162,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             "click", () => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});' . "\n");
         
         // Add flip orientation listener to the orientation button
-        // TODO :automatically set orientation based on device.
+        // TODO: automatically set orientation based on device?
         $r->items[] = new MP_String('add_orientation_listener("orientation", "usedList", "availableList");' . "\n");
         // Extract the proof steps from the inner content.
         $r->items[] = new MP_String('var proofSteps = ');
@@ -224,16 +227,17 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Add double-click events.
         $code .= 'stackSortable.update_state_dblclick(sortableUsed, sortableAvailable);' . "\n";
 
-        // Typeset MathJax.
-        // TODO : MathJax 3 works with promises instead, so check for version and modify as necessary
-        $code .= 'MathJax.Hub.Queue(["Typeset", MathJax.Hub]);' . "\n";
+        // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
+        $code .= ($mathjaxversion === "2") ? 
+            'MathJax.Hub.Queue(["Typeset", MathJax.Hub]);' : 
+            'var mathJaxPromise = MathJax.typesetPromise();';
 
-        // Resize the outer iframe if the author does not pre-define width
-        // TODO : modify for Mathjax 3
+        // Resize the outer iframe if the author does not pre-define width. Method depends on MathJax 2 or MathJax 3
         if (!$existsuserheight) {
-            $code .= 'MathJax.Hub.Queue(
-                () => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");}
-            );' . "\n";
+            $code .= ($mathjaxversion === "2") ?
+                'MathJax.Hub.Queue(() => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' : 
+                'mathJaxPromise.then(() => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});';
+            $code .= "\n";
         }
 
         if (count($inputs) > 0) {
@@ -332,17 +336,27 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $validversions)]);
         }
 
+        // Check MathJax version is valid.
+        if (array_key_exists('mathjax', $this->params)) {
+            $validmjversions = ['2', '3'];
+            if (!in_array($this->params['mathjax'], $validmjversions)) {
+                $valid = false;
+                $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', ['mjversion' => implode(', ', 
+                    $validmjversions)]);
+            }
+        }
+
         // Check that only valid parameters are passed to block header.
         $valids = null;
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
                     $key !== 'version' && $key !== 'overridecss' && $key !== 'input' &&
-                    $key !== 'orientation' && $key !== 'clone') {
+                    $key !== 'orientation' && $key !== 'clone' && $key !== 'mathjax') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
                     $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss',
-                        'overridejs', 'input', 'orientation', 'clone'];
+                        'overridejs', 'input', 'orientation', 'clone', 'mathjax'];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids)]);
                 }

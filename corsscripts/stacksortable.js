@@ -306,14 +306,14 @@ export const stack_sortable = class {
      */
     update_state_dblclick(newUsed, newAvailable) {
         this.available.addEventListener('dblclick', (e) => {
-            if (e.target.matches(".list-group-item")) {
+            if (this._double_clickable(e.target)) {
                 var li = (this.clone === "true") ? e.target.cloneNode(true) : this.available.removeChild(e.target);
                 this.used.append(li);
                 this.update_state(newUsed, newAvailable)
             }
         });
         this.used.addEventListener('dblclick', (e) => {
-            if (e.target.matches(".list-group-item")) {
+            if (this._double_clickable(e.target)) {
                 var li = this.used.removeChild(e.target);
                 if (this.clone !== "true") {
                     this.available.insertBefore(li, this.available.children[1]);
@@ -340,6 +340,10 @@ export const stack_sortable = class {
         return (stateStore.value && stateStore.value != "") ? 
             JSON.parse(stateStore.value) : 
             {used: [], available: [...Object.keys(proofSteps)]};
+    }
+
+    _double_clickable(item) {
+        return (item.matches(".list-group-item") && !item.matches(".header"));
     }
 
     /**

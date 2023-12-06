@@ -40,13 +40,9 @@ Essential (v 4.5.0)
 
 1. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block.  We can talk about this.
 2. Polish up the "use once" or "clone" strings.
-3. Confirmation for delete all?
-4. Use syntax hint to set up a non-empty starting point....
-5. Check sortable for keyboard accessibility (Not build in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4) 
-6. CSS styling fix for automated feedback
-7. Better signaling for clone mode*
-9. test override css and override js*
-
+3. Use syntax hint to set up a non-empty starting point....
+4. Check sortable for keyboard accessibility (SM: Not build in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4) 
+5. CSS styling fix for automated feedback
 
 Later
 
@@ -60,6 +56,8 @@ Later
 7. Allow some strings in the correct answer to be optional. Allow authors to input a weight for each item and use weighted D-L distance, e.g., weight of 0 indicates that a step is not required, but will not be considered incorrect if included.
 8. Hover over a proof step to reveal more information (e.g., this could come from the third item in the list and give a hint/definition)
 9. Allow students to mark items (e.g. as used or unneeded) or tick used items
+10. Confirmation for delete all?
+11. Alternative styling/signalling for clone mode?
 
 
 ## For "inputs 2"?

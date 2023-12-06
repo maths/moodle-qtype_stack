@@ -1,6 +1,6 @@
 /**
  * This is a library for SortableJS functionality used to generate STACK Parsons blocks.
- * 
+ *
  * @copyright  2023 University of Edinburgh
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -11,18 +11,19 @@
  */
 export const SUPPORTED_CALLBACK_FUNCTIONS = [
     "onChoose",
-	"onUnchoose",
-	"onStart",
-	"onEnd",
-	"onAdd",
-	"onUpdate",
-	"onSort",
-	"onRemove",
-	"onFilter",
-	"onMove",
-	"onClone",
-	"onChange"
-]
+    "onUnchoose",
+    "onStart",
+    "onEnd",
+    "onAdd",
+    "onUpdate",
+    "onSort",
+    "onRemove",
+    "onFilter",
+    "onMove",
+    "onClone",
+    "onChange"
+];
+
 /**
  * Preprocess and validate proof steps, block user options, and sortable user options ready for use in `stack_sortable` class.
  *
@@ -62,7 +63,7 @@ export const SUPPORTED_CALLBACK_FUNCTIONS = [
  * }, {}, {});
  */
 export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
-    // Check if proofSteps is a string and convert it to an object 
+    // Check if proofSteps is a string and convert it to an object
     // (this occurs when proof steps are a flat list coming from a Maxima variable)
     if (typeof proofSteps === "string") {
         proofSteps = _stackstring_objectify(proofSteps);
@@ -77,7 +78,7 @@ export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
         proofSteps = proofSteps["steps"];
 
         // Process block user options for the 'header' setting
-        if (userOpts.header != null) {
+        if (userOpts.header !== undefined) {
             blockUserOpts = {used: {header: userOpts.header[0]}, available: {header: userOpts.header[1]}};
         }
 
@@ -97,9 +98,10 @@ export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
 /**
  * Convert a JSON-formatted stack string array of format '[["key", "value"], ..., ["key", "value"]]' into a JavaScript object.
  *
- * @param {string} stackjson_string - The JSON-formatted stack string array of format '[["key", "value"], ..., ["key", "value"]]'.
+ * @param {string} stackjson_array_string - The JSON-formatted stack string array of format
+ * '[["key", "value"], ..., ["key", "value"]]'.
  * @returns {Object} - The JavaScript object created from the stack string.
- * 
+ *
  * @example
  * // Returns { key1: 'value1', key2: 'value2' }
  * _stackstring_objectify('["key1", "value1"], ["key2", "value2"]]');
@@ -154,9 +156,9 @@ function _validate_parsons_JSON(proofSteps) {
     if (Object.values(proofSteps).every((val) => !(typeof(val) == 'object'))) {
         return _validate_proof_steps(proofSteps);
     }
-    // Else the top-level of the JSON should have keys ["steps", "options"]. 
-    // The value for "keys" should be a valid proofStep JSON 
-    // We do not validate options here 
+    // Else the top-level of the JSON should have keys ["steps", "options"].
+    // The value for "keys" should be a valid proofStep JSON
+    // We do not validate options here
     if (Object.values(proofSteps).some((val) => typeof(val) == "object")) {
         if (JSON.stringify(Object.keys(proofSteps)) !== JSON.stringify(["steps", "options"])) {
             return false;
@@ -166,7 +168,7 @@ function _validate_parsons_JSON(proofSteps) {
         }
         return true;
     }
-    // TODO : we are missing one case here in depth 2 case and unclear how to catch it: 
+    // TODO : we are missing one case here in depth 2 case and unclear how to catch it:
     // if an author writes {"any string" : {#stackjson_stringify(proof_steps)#}},
     // then this should throw an error
 }
@@ -239,7 +241,7 @@ function _flip_orientation(usedId, availableId) {
 /**
  * Adds an event listener to a button element with the specified ID to trigger the flipping
  * of orientation between 'list-group row' and 'list-group col' classes for specified UI elements.
- * This event will also change the orientation of the bin element (if present), which is expected 
+ * This event will also change the orientation of the bin element (if present), which is expected
  * to have ID 'bin'.
  *
  * @param {string} buttonId - The ID of the button element to which the event listener is added.
@@ -325,7 +327,7 @@ export const stack_sortable = class {
      * @param {string} availableId - ID of the available list element.
      * @param {string} usedId - ID of the used list element.
      * @param {string|null} inputId - ID of the input element for storing state (optional).
-     * @param {Object|null} options - Custom options for sortable lists 
+     * @param {Object|null} options - Custom options for sortable lists
      *                                of form {used: UsedOptions, available: AvailableOptions} (optional).
      * @param {boolean} clone - Flag indicating whether to clone elements during sorting.
      */
@@ -333,14 +335,14 @@ export const stack_sortable = class {
         this.proofSteps = proofSteps;
         this.inputId = inputId;
         this.state = this._generate_state(this.proofSteps, this.inputId);
-        if (inputId != null) {
+        if (inputId !== null) {
             this.input = document.getElementById(this.inputId);
-        };
+        }
         this.availableId = availableId;
         this.available = document.getElementById(this.availableId);
         this.usedId = usedId;
         this.used = document.getElementById(this.usedId);
-        this.clone = clone
+        this.clone = clone;
 
         // TODO : additional default options?
         this.defaultOptions = {used: {animation: 50}, available: {animation: 50}};
@@ -363,17 +365,17 @@ export const stack_sortable = class {
      * @param {string} overwrittenErr - Error message for overwritten option keys.
      * @returns {void}
      *
-     * @throws {warningMessage} If there are unknown option keys or if certain keys are being overwritten, a warning 
+     * @throws {warningMessage} If there are unknown option keys or if certain keys are being overwritten, a warning
      * will appear on the question page.
      */
     validate_options(possibleOptionKeys, unknownErr, overwrittenErr) {
         var err = '';
         var keysRecognised = true;
         var invalidKeys = [];
-        // If option is not recognised warn user 
+        // If option is not recognised warn user
         Object.keys(this.options.used).forEach(key => {
             if (!this._validate_option_key(key, possibleOptionKeys)) {
-                keysRecognised = false; 
+                keysRecognised = false;
                 if (!invalidKeys.includes(key)) {
                     invalidKeys.push(key);
                 }
@@ -381,7 +383,7 @@ export const stack_sortable = class {
         });
         Object.keys(this.options.available).forEach(key => {
             if (!this._validate_option_key(key, possibleOptionKeys)) {
-                keysRecognised = false; 
+                keysRecognised = false;
                 if (!invalidKeys.includes(key)) {
                     invalidKeys.push(key);
                 }
@@ -390,11 +392,11 @@ export const stack_sortable = class {
         if (!keysRecognised) {
             err += unknownErr+ invalidKeys.join(", ") + ". ";
         }
-        // If option is one of those we overwrite warn user (we have to use this.userOptions as this.options will contain these keys)
+        // If option is overwritten warn user (we have to use this.userOptions as this.options will contain these keys)
         var overwrittenKeys = [];
         var keysPreserved = true;
-        ["ghostClass", "group", "onSort"].forEach(key => 
-            {if (Object.keys(this.userOptions.used).includes(key) || Object.keys(this.userOptions.available).includes(key)) 
+        ["ghostClass", "group", "onSort"].forEach(key =>
+            {if (Object.keys(this.userOptions.used).includes(key) || Object.keys(this.userOptions.available).includes(key))
                 {
                     keysPreserved = false;
                     overwrittenKeys.push(key);
@@ -407,7 +409,7 @@ export const stack_sortable = class {
         if (!keysRecognised || !keysPreserved) {
             this._display_warning(err);
         }
-    };
+    }
 
     /**
      * Generates the available list based on the current state.
@@ -451,10 +453,10 @@ export const stack_sortable = class {
      */
     update_state(newUsed, newAvailable) {
         var newState = {used: newUsed.toArray(), available: newAvailable.toArray()};
-        if (this.inputId != null) {
+        if (this.inputId !== null) {
             this.input.value = JSON.stringify(newState);
             this.input.dispatchEvent(new Event('change'));
-        };
+        }
         this.state = newState;
     }
 
@@ -473,7 +475,7 @@ export const stack_sortable = class {
                 var li = this._get_moveable_parent_li(e.target);
                 li = (this.clone === "true") ? li.cloneNode(true) : this.available.removeChild(li);
                 this.used.append(li);
-                this.update_state(newUsed, newAvailable)
+                this.update_state(newUsed, newAvailable);
             }
         });
         this.used.addEventListener('dblclick', (e) => {
@@ -490,7 +492,7 @@ export const stack_sortable = class {
     }
 
     /**
-     * Add a click event listener to a button to delete all items from the "used" list and 
+     * Add a click event listener to a button to delete all items from the "used" list and
      * updates the state accordingly.
      *
      * @method
@@ -515,11 +517,11 @@ export const stack_sortable = class {
      */
     _generate_state(proofSteps, inputId) {
         let stateStore = document.getElementById(inputId);
-        if (stateStore == null) {
-            return {used: [], available: [...Object.keys(proofSteps)]}
+        if (stateStore === null) {
+            return {used: [], available: [...Object.keys(proofSteps)]};
         }
-        return (stateStore.value && stateStore.value != "") ? 
-            JSON.parse(stateStore.value) : 
+        return (stateStore.value && stateStore.value != "") ?
+            JSON.parse(stateStore.value) :
             {used: [], available: [...Object.keys(proofSteps)]};
     }
 
@@ -535,7 +537,7 @@ export const stack_sortable = class {
     _validate_option_key(key, possibleOptionKeys) {
         return possibleOptionKeys.includes(key);
     }
-    
+
     /**
      * Set and merge user-provided options with default options.
      *
@@ -551,19 +553,19 @@ export const stack_sortable = class {
      */
     _set_user_options(options) {
         var userOptions;
-        if (options == null) {
+        if (options === null) {
             userOptions = this.defaultOptions;
         } else {
-            userOptions = {used: Object.assign(this.defaultOptions.used, options.used), 
+            userOptions = {used: Object.assign(this.defaultOptions.used, options.used),
                 available: Object.assign(this.defaultOptions.available, options.available)};
-        };
+        }
         return userOptions;
     }
 
     /**
-     * Set ghostClass and group options for both "used" and "available" lists. 
+     * Set ghostClass and group options for both "used" and "available" lists.
      *
-     * This private method sets the ghostClass and group options for both "used" and "available" lists 
+     * This private method sets the ghostClass and group options for both "used" and "available" lists
      * and will overwrite user options for ghostClass and group if they are provided. This is required
      * for the functionality of the Sortable lists.
      *
@@ -573,17 +575,17 @@ export const stack_sortable = class {
      */
     _set_ghostClass_and_group() {
         var group_val = {used: {name: "sortableUsed", pull: true, put: true}};
-        group_val.available = (this.clone === "true") ? 
-            {name: "sortableAvailable", pull: "clone", revertClone: true, put: false} : 
+        group_val.available = (this.clone === "true") ?
+            {name: "sortableAvailable", pull: "clone", revertClone: true, put: false} :
             {name: "sortableAvailable", put: true};
-        var options = {used: 
+        var options = {used:
             Object.assign(
-                Object.assign({}, this.userOptions.used), 
+                Object.assign({}, this.userOptions.used),
                             {ghostClass: "list-group-item-info", group: group_val.used}
-                        ), 
-                        available : 
+                        ),
+                        available :
             Object.assign(
-                Object.assign({}, this.userOptions.available), 
+                Object.assign({}, this.userOptions.available),
                             {ghostClass: "list-group-item-info", group: group_val.available}
                         )
         };

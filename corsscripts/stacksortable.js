@@ -248,7 +248,7 @@ export const stack_sortable = class {
         };
     }
 
-    validate_options(possibleOptionKeys) {
+    validate_options(possibleOptionKeys, unknownErr, overwrittenErr) {
         var err = '';
         var keysRecognised = true;
         var invalidKeys = [];
@@ -270,7 +270,7 @@ export const stack_sortable = class {
             }
         });
         if (!keysRecognised) {
-            err += "Unknown Sortable options `" + invalidKeys.join(", ") + "` found, they are being ignored."
+            err += unknownErr+ invalidKeys.join(", ") + ". ";
         }
         // If option is one of those we overwrite warn user (we have to use this.userOptions as this.options will contain these keys)
         var overwrittenKeys = [];
@@ -280,7 +280,7 @@ export const stack_sortable = class {
             overwrittenKeys.push(key);
         }});
         if (!keysPreserved) {
-            err += " User options `" + overwrittenKeys.join(", ") + "` found, they are unable to be modified and are being ignored."
+            err += overwrittenErr + overwrittenKeys.join(", ") + ".";
         }
         if (!keysRecognised || !keysPreserved) {
             this._throw_warning(err);

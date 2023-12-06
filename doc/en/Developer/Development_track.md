@@ -47,7 +47,6 @@ Essential (v 4.5.0)
 7. Better signaling for clone mode*
 8. Tidy and document JS*
 9. test override css and override js*
-10. MathJax async loading*
 
 
 Later

@@ -45,7 +45,6 @@ Essential (v 4.5.0)
 5. Check sortable for keyboard accessibility (Not build in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4) 
 6. CSS styling fix for automated feedback
 7. Better signaling for clone mode*
-8. Tidy and document JS*
 9. test override css and override js*
 
 

@@ -101,7 +101,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_String(json_encode($xpars));
 
         // Plug in some style and scripts.
-        $mathjax = ($mathjaxversion === "2") ? stack_get_mathjax_url() : stack_get_mathjax3_url();
+        $mathjax = ($mathjaxversion === "2") ? stack_get_mathjax2_url_cdnjs() : stack_get_mathjax3_url();
         $r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))]);
@@ -229,7 +229,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'sortableAvailable.option("onSort", () => {stackSortable.update_state(sortableUsed, sortableAvailable);});' . "\n";
 
         // Options can now be validated since sortable objects have been instantiated, we throw warnings only
-        $code .= 'stackSortable.validate_options(possibleOptionKeys);' . "\n";
+        $code .= 'stackSortable.validate_options(
+            possibleOptionKeys, 
+            "' . stack_string('stackBlock_unknown_sortable_option') . '", 
+            "' . stack_string('stackBlock_overwritten_sortable_option') . '");' . "\n";
 
         // Create bin and add delete-all button events for clone mode.
         if ($clone === "true") {

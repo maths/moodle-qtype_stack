@@ -45,7 +45,7 @@ To replace all `nounand` (etc) operators and replace them with the Maxima equiva
 
 Notes
 
-* There is no support for symbolic logic symbol input currently and students cannot type `&`, `*` for `and`, and similarly students cannot type `+` for `or`.
+* If you would like to accept `*` for `and` and `+` for `or` then you can use the feedback variables to replace operators.  E.g. by using `sa:subst(["*"="nounand", "+"="nounor","!"="nounnot"], ans1);`. Note that students cannot type `&` or an apostrophe as part of their input.  In the above example we use the post-fix factorial operator `!` is used for logical negation.
 * There is no existential operator (not that this is propositional logic, but for the record) or an interpretation of '?' as there exits, and there is no universal operator (which some people type in as `!`).
 * To change between language or symbols for logic, use the Logic symbols [option](../Authoring/Tables.md). The default behaviour is to use language.
 

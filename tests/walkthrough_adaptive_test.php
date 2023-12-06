@@ -3984,6 +3984,56 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $warnings);
     }
 
+    public function test_lang_blocks_en() {
+
+        // TODO: how do we explicitly set the user's preferences, i.e. language?
+        $q = \test_question_maker::make_question('stack', 'lang_blocks');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Give an example of a function/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+        $this->check_output_does_not_contain_text('Giv et eksempel');
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => 'x^3', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('prt1', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1', 'x^3');
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a submition of an answer which is only partially correct.
+        $this->process_submission(array('ans1' => 'x^3', 'ans1_val' => 'x^3', '-submit' => 1));
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(0);
+        $this->check_prt_score('prt1', 0.0, 0.35);
+        $this->check_response_summary('Seed: 1; ans1: x^3 [score]; prt1: # = 0 | prt1-1-F');
+        $this->check_answer_note('prt1', 'prt1-1-F');
+        $this->render();
+        $this->check_current_output(
+            new question_pattern_expectation('/Give an example of a function/'),
+            new question_pattern_expectation('/However, in your answer/'),
+            $this->get_no_hint_visible_expectation()
+            );
+        // Danish should not be seen in the output.
+        $this->check_output_does_not_contain_text('Men i dit svar er');
+    }
+
     public function test_block_locals() {
 
         $q = \test_question_maker::make_question('stack', 'block_locals');
@@ -4083,6 +4133,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_input_validator() {
 
+        $this->resetAfterTest();
+        set_config('lang', 'en');
+
         $q = test_question_maker::make_question('stack', 'validator');
         $this->start_attempt_at_question($q, 'adaptive', 1);
 
@@ -4096,7 +4149,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-            new question_pattern_expectation('/Type in the/'),
+            new question_pattern_expectation('/What is/'),
+            new question_no_pattern_expectation('/Was ist/'),
+            new question_no_pattern_expectation('/Mikä on/'),
             $this->get_does_not_contain_feedback_expectation(),
             $this->get_does_not_contain_num_parts_correct(),
             $this->get_no_hint_visible_expectation()
@@ -4117,7 +4172,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-            new question_pattern_expectation('/Your answer contains the wrong variables/')
+            new question_pattern_expectation('/Your answer contains the wrong variables/'),
+            new question_no_pattern_expectation('/Vastauksesi sisältää/')
             );
 
         // Process a validate request.
@@ -4134,5 +4190,188 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a score request.
+        $ia = 'phi^2-1';
+        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(1);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: phi^2-1 [score]; firsttree: # = 1 | firsttree-0-1';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/true answer/'),
+            new question_no_pattern_expectation('/richtig/'),
+            new question_no_pattern_expectation('/oikea/')
+            );
+    }
+
+    public function test_input_validator_jp() {
+        // This language is not in the question, so should default back to English.
+        $this->resetAfterTest();
+        set_config('lang', 'jp');
+
+        $q = test_question_maker::make_question('stack', 'validator');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/What is/'),
+            new question_no_pattern_expectation('/Was ist/'),
+            new question_no_pattern_expectation('/Mikä on/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process an invalidate request.
+        $ia = 'x^2-1';
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: x^2-1 [invalid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Your answer contains the wrong variables/'),
+            new question_no_pattern_expectation('/Vastauksesi sisältää/')
+            );
+
+        // Process a validate request.
+        $ia = 'phi^2-1';
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: phi^2-1 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a score request.
+        $ia = 'phi^2-1';
+        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(1);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: phi^2-1 [score]; firsttree: # = 1 | firsttree-0-1';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/true answer/'),
+            new question_no_pattern_expectation('/richtig/'),
+            new question_no_pattern_expectation('/oikea/')
+        );
+    }
+
+    public function test_input_validator_fi() {
+        // This language is in the question.
+        $this->resetAfterTest();
+        set_config('lang', 'fi');
+
+        $q = test_question_maker::make_question('stack', 'validator');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_no_pattern_expectation('/What is/'),
+            new question_no_pattern_expectation('/Was ist/'),
+            // The full string expectation is Mikä on.
+            // However, SBCL on github actions does not support unicode, so the accents do not show.
+            new question_pattern_expectation('/Mik/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+        );
+
+        // Process an invalidate request.
+        $ia = 'x^2-1';
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: x^2-1 [invalid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_no_pattern_expectation('/Your answer contains the wrong variables/'),
+            // The full string expectation is Vastauksesi sisältää.
+            // However, SBCL on github actions does not support unicode, so the accents do not show.
+            new question_pattern_expectation('/Vastauksesi/')
+            );
+
+        // Process a validate request.
+        $ia = 'phi^2-1';
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: phi^2-1 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+
+        // Process a score request.
+        $ia = 'phi^2-1';
+        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(1);
+        $this->check_prt_score('firsttree', 1, 0);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: phi^2-1 [score]; firsttree: # = 1 | firsttree-0-1';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_no_pattern_expectation('/true answer/'),
+            new question_no_pattern_expectation('/richtig/'),
+            new question_pattern_expectation('/oikea/')
+        );
     }
 }

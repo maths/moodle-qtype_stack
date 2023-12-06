@@ -31,3 +31,21 @@ validate_underscore(ex) := if is(sposition("_", string(ex)) = false) then ""
 /* Add in unit-test cases using STACK's s_test_case function.  At least two please! */
 s_test_case(validate_underscore(1+a1), "");
 s_test_case(validate_underscore(1+a_1), "Underscore characters are not permitted in this input.");
+
+/* The student may not use a user-defined function, or arrays, anywhere in their input. */
+
+validate_nofunctions(ex):= block([op1],
+  if atom(ex) then return(""),
+  op1:ev(op(ex)),
+  op1:apply(properties, [op1]),
+  if ev(emptyp(op1) or is(op1=[noun]),simp) then return("User-defined functions are not permitted in this input."),
+  apply(sconcat, map(validate_nofunctions, args(ex)))
+);
+
+s_test_case(validate_nofunctions(1+a1), "");
+s_test_case(validate_nofunctions(sin(n*x)), "");
+s_test_case(validate_nofunctions(-b#pm#sqrt(b^2-4*a*c)), "");
+s_test_case(validate_nofunctions(x(2)), "User-defined functions are not permitted in this input.");
+s_test_case(validate_nofunctions(x(t)), "User-defined functions are not permitted in this input.");
+s_test_case(validate_nofunctions(1+f(x+1)), "User-defined functions are not permitted in this input.");
+

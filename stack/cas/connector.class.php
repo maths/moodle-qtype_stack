@@ -177,7 +177,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $cmd = $settings->maximacommand;
         if ($settings->platform == 'linux-optimised') {
             $cmd = $settings->maximacommandopt;
-        } else if ($settings->platform == 'server') {
+        } else if (in_array($settings->platform, ['server', 'server-proxy'])) {
             $cmd = $settings->maximacommandserver;
         }
         if ('' === trim($cmd)) {

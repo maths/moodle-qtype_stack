@@ -160,3 +160,7 @@ Create a new question.
 
 2. Use the extra option `validator:validate_underscore` in the input.
 
+### Example: forbid user-defined functions and array entries
+
+As above, include the contributed validators.  Use the extra option `validator:validate_nofunctions` in the input.
+

@@ -1027,4 +1027,21 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertEquals($t3['last-seen'], false);
 
     }
+
+    public function test_teacher_answer_decimals() {
+        // This tests the functions which generate "The teacher's answer is".
+        $s = '{4.4,4}';
+        $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
+        $at1->set_nounify(0);
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('', $at1->get_errors());
+        $this->assertEquals($at1->get_inputform(true, 0, true, ','), '{4,4;4}');
+
+        $s = '[4.4,4]';
+        $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
+        $at1->set_nounify(0);
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('', $at1->get_errors());
+        $this->assertEquals($at1->get_inputform(true, 0, true, ','), '[4,4;4]');
+    }
 }

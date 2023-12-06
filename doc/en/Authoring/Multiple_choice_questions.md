@@ -117,7 +117,7 @@ To enable a student to indicate "none of the others", the teacher must add this 
 
 The radio and dropdown types always add a "not answered" option as the first option.  This allows a student to retract their choice, otherwise they will be unable to "uncheck" a radio button, which will be stored, validated and possibly assessed (to their potential detriment).  If you want to remove this then use the extra option `nonotanswered`, but keep in mind the possible effect when using the penalty scheme.
 
-If one of the items in the teacher's answer list is is the special variable name `notanswered`, and then default mesage `(No answer given)` will be replaced by the `display` value.  If no `display` value is given (and it is optional) then the original message will remain.  `notanswered` will not appear in the list of valid choices for a user and `value` for this input is ingored.
+If one of the items in the teacher's answer list is is the special variable name `notanswered`, and then default mesage `(Clear my choice)` will be replaced by the `display` value.  If no `display` value is given (and it is optional) then the original message will remain.  `notanswered` will not appear in the list of valid choices for a user and `value` for this input is ingored.
 
 
 ## Extra options ##

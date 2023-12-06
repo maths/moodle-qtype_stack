@@ -29,15 +29,25 @@ if (strpos('..', $scriptname) !== false
 }
 
 if (file_exists($scriptname)) {
-    header('HTTP/1.0 200 OK');
-    if (strrpos($scriptname, '.js') === strlen($scriptname) - 3) {
-        header('Content-Type: text/javascript;charset=UTF-8');
-    } else if (strrpos($scriptname, '.css') === strlen($scriptname) - 4) {
-        header('Content-Type: text/css;charset=UTF-8');
+    if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        header('HTTP/1.0 204 OK');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET');
+        header('Access-Control-Allow-Headers: *');
+        header('Access-Control-Max-Age: 86400');
+        header('Connection: keep-alive');
+    } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        header('HTTP/1.0 200 OK');
+        if (strrpos($scriptname, '.js') === strlen($scriptname) - 3) {
+            header('Content-Type: text/javascript;charset=UTF-8');
+        } else if (strrpos($scriptname, '.css') === strlen($scriptname) - 4) {
+            header('Content-Type: text/css;charset=UTF-8');
+        }
+        header('Cache-Control: public, max-age=31104000, immutable');
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Headers: *');
+        echo(file_get_contents($scriptname));
     }
-    header('Cache-Control: public, max-age=31104000, immutable');
-    header('Access-Control-Allow-Origin: *');
-    echo(file_get_contents($scriptname));
 } else {
     // Give the same error to stop people from trying to figure out
     // whether a given file exists, even when placed in a bad place.

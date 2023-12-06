@@ -39,7 +39,7 @@ Let's focus on the problem of differentiating \((x-1)^3\) with respect to \(x\).
 Notes:
 
 * Moodle has a wide choice for text editors, so the screenshots in this quick start guide might look slightly different to your variant of Moodle.  Also, the cut and paste may or may not include some of the formatting.
-* The text contains LaTeX mathematics environments.  Do not use mathematics environments `$..$` and `$$..$$`.  Instead you must use `\(..\)` and `\[..\]` for inline and displayed mathematics respectively.  (There is an automatic bulk converter if you have a lot of legacy materials.)
+* The text contains LaTeX mathematics environments.  Do not use mathematics environments `$..$` and `$$..$$`.  Instead you must use `\(..\)` and `\[..\]` for inline and displayed mathematics respectively.  (There is an automatic bulk converter if you have a lot of legacy materials, found on the Moodle qtype_stack plugin page.)
 * Internally the student's answer will be assigned to a variable `ans1`.
 * The tag `[[input:ans1]]` denotes the position of the box into which the student puts their answer.
 * The tag `[[validation:ans1]]` will be replaced by any feedback related to the validity of the input `ans1`, e.g. syntax errors caused by missing brackets.

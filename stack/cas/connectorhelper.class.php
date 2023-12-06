@@ -67,6 +67,10 @@ abstract class stack_connection_helper {
                 require_once(__DIR__ . '/connector.server.class.php');
                 $connection = new stack_cas_connection_server(self::$config, $debuglog);
                 break;
+            case 'server-proxy':
+                require_once(__DIR__ . '/connector.server_proxy.class.php');
+                $connection = new stack_cas_connection_server_proxy(self::$config, $debuglog);
+                break;
             case 'tomcat':
             case 'tomcat-optimised':
                 throw new stack_exception('stack_connection_helper: ' .
@@ -261,6 +265,7 @@ abstract class stack_connection_helper {
                 break;
 
             case 'server':
+            case 'server-proxy':
                 $fix = stack_string('healthchecksstackmaximaversionfixserver');
                 break;
 

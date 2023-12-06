@@ -226,14 +226,16 @@ texput(multsgnonlyfornumberssym, "\\times")$
 multsgnonlyfornumbers(e) := block([arglist, resstr, a, lastisnum, isnum, multsgn, str],
     arglist: args(e),
     a: pop(arglist),
-    resstr: if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
-        else sconcat("\\left(", tex1(a), "\\right)"),
+    resstr: if (safe_op(a) = "-" or (real_numberp(a) and is(a<0))) then sconcat("\\left(", tex1(a), "\\right)")
+                else if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
+                else sconcat("\\left(", tex1(a), "\\right)"),
     lastisnum: numberp(a),
     for a in arglist do (
         isnum: numberp(a),
         multsgn: if (lastisnum and isnum) then tex1(multsgnonlyfornumberssym) else "\\,",
-        str: if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
-            else sconcat("\\left(", tex1(a), "\\right)"),
+        str: if (safe_op(a) = "-" or (real_numberp(a) and is(a<0))) then sconcat("\\left(", tex1(a), "\\right)")
+                else if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
+                else sconcat("\\left(", tex1(a), "\\right)"),
         resstr: sconcat(resstr, multsgn, " ", str),
         lastisnum: isnum
     ),

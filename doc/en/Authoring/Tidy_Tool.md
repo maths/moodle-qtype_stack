@@ -1,4 +1,4 @@
-## Tidy Tool
+g## Tidy Tool
 
 STACK potential response trees, and other parts of questions, can easily get messy. You may have one long question and delete some inputs, or duplicate a question and use it as a template but have to heavily edit it. Another example is to add nodes in an existing PRT and place these nodes between existing nodes. The numbering won't be in order and it will make it harder to follow the PRT logic.
 
@@ -25,3 +25,4 @@ Go back into the question and you can see the change at the nodes of the PRT.
 The question has five inputs but because some inputs were removed, the names of the inputs are not in order. You need to type the new names of the inputs and PRTs.
 
 ![A tidy PRT](../../content/Tidy_inputs.png)
+

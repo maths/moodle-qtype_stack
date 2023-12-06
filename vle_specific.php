@@ -193,10 +193,6 @@ function stack_get_mathjax_url(): string {
     return 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
 }
 
-function stack_get_mathjax2_url_cdnjs() {
-    return 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML';
-}
-
 /*
  * Gets the url for MathJax 3.
  */

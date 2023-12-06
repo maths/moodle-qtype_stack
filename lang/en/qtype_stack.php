@@ -861,13 +861,14 @@ $string['stackBlock_parsons_width_num']   = 'The numeric portion of the width of
 $string['stackBlock_parsons_height_num']  = 'The numeric portion of the height of a Parson\'s block must be a raw number and must not contain any extra chars.';
 $string['stackBlock_parsons_length_num']  = 'The numeric value of length must be a positive integer and must not contain any extra chars or numerical types.';
 $string['stackBlock_parsons_underdefined_dimension'] = 'When defining aspect-ratio for a Parson\'s block one must define either width or height of the lists.';
-$string['stackBlock_parsons_overdefined_dimension'] = 'When defining aspect-ratio for a Parson\'s block one should only define width or height/length not both.';
-$string['stackBlock_parsons_overdefined_height'] = 'When defining the height of a Parson\'s block one should only define height or length not both.';
+$string['stackBlock_parsons_overdefined_dimension'] = 'When defining aspect-ratio for a Parson\'s block one should only define width or height not both.';
 $string['stackBlock_parsons_unknown_named_version'] = 'The Parson\'s block only supports versions named: {$a->version}.';
 $string['stackBlock_parsons_unknown_mathjax_version'] = 'The Parson\'s block only supports MathJax versions {$a->mjversion} for the mathjax parameter.';
 $string['stackBlock_parsons_ref']         = 'The Parson\'s block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
 $string['stackBlock_parsons_param']       = 'The Parson\'s block supports only these parameters in this context: \'{$a->param}\'.';
 $string['stackBlock_parsons_contents']    = 'The contents of a Parson\'s block must be a JSON of the form {#stackjson_stringify(proof_steps)#}. If you are passing custom objects then the Parson\'s block contents should be a JSON of the form {steps: {#stackjson_stringify(proof_steps)#}, options: {JSON containing Sortable options}}. Alternatively, the contents of the Parsons block may contain raw JSON equivalents. Make sure that the proof_steps Maxima variable is of the correct format. Note that all proof steps must be strings. See the documentation for details.';
+$string['stackBlock_unknown_sortable_option'] = 'Unknown Sortable options found, the following are being ignored: ';
+$string['stackBlock_overwritten_sortable_option'] = 'Unchangeable Sortable options found, the following are being ignored: ';
 
 // Define the stackBlock GeoGebra strings.
 $string['stackBlock_geogebra_width']       = 'The width of a GeoGebra Applet must use a known CSS-length unit.';

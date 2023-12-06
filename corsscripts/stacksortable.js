@@ -23,15 +23,43 @@ export const SUPPORTED_CALLBACK_FUNCTIONS = [
 	"onClone",
 	"onChange"
 ]
-
 /**
- * Preprocesses proof steps and user options to a format expected by stack_sortable.
+ * Preprocess and validate proof steps, block user options, and sortable user options ready for use in `stack_sortable` class.
  *
- * @param {Object|string} proofSteps - The proof steps as an object or a JSON string.
- * @param {Object} blockUserOpts - The block user options.
- * @param {Object} sortableUserOpts - The sortable user options.
- * @returns {[Object, Object, Object]} - An array containing preprocessed proof steps, block user options, and sortable user options.
- * @throws {SyntaxError} - If the proofSteps parameter is a string but cannot be parsed into a valid JSON object.
+ * The function takes proof steps in the form of a Parson's JSON or Maxima string variable, along with block user options
+ * and sortable user options. It performs the following tasks:
+ * 1. If `proofSteps` is a Maxima string of expected format, it converts it to an object using `_stackstring_objectify`.
+ * 2. It validates the structure of the Parson's JSON using `_validate_parsons_JSON`.
+ * 3. If the Parsons JSON contains "steps" and "options," it separates them.
+ *    - If "header" is present in options, it separates this away from Sortable options into `blockUserOpts`.
+ *    - It splits Sortable options into "used" and "available" and passes to `sortableUserOpts`.
+ * 4. If `proofSteps` is a Maxima string (after separation), it converts it to an object.
+ *
+ * @param {string|Object} proofSteps - The proof steps to be preprocessed. Either a JSON of expected format
+ * or
+ * @param {Object} blockUserOpts - Block user options for the 'header' setting, should be passed as an empty Object.
+ * @param {Object} sortableUserOpts - Sortable user options split into used and available, should be passed as an empty Object.
+ * @returns {Array} - An array containing preprocessed proof steps, block user options,
+ * sortable user options, and a boolean indicating the validity of the proof steps structure.
+ *
+ * @example
+ * // Returns [
+ * //   { step1: "Proof step 1", step2: "Proof step 2" },
+ * //   { used: { header: "Header 1" }, available: { header: "Header 2" } },
+ * //   { used: { option1: "Value 1" }, available: { option2: "Value 2" } },
+ * //   true
+ * // ]
+ * preprocess_steps({
+ *   steps: {
+ *     step1: "Proof step 1",
+ *     step2: "Proof step 2"
+ *   },
+ *   options: {
+ *     header: ["Header 1", "Header 2"],
+ *     option1: "Value 1",
+ *     option2: "Value 2"
+ *   }
+ * }, {}, {});
  */
 export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
     // Check if proofSteps is a string and convert it to an object 
@@ -66,10 +94,61 @@ export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
     return [proofSteps, blockUserOpts, sortableUserOpts, valid];
 }
 
-function _stackstring_objectify(stackjson_string) {
-    return Object.fromEntries(new Map(Object.values(JSON.parse(stackjson_string))));
+/**
+ * Convert a JSON-formatted stack string array of format '[["key", "value"], ..., ["key", "value"]]' into a JavaScript object.
+ *
+ * @param {string} stackjson_string - The JSON-formatted stack string array of format '[["key", "value"], ..., ["key", "value"]]'.
+ * @returns {Object} - The JavaScript object created from the stack string.
+ * 
+ * @example
+ * // Returns { key1: 'value1', key2: 'value2' }
+ * _stackstring_objectify('["key1", "value1"], ["key2", "value2"]]');
+ */
+function _stackstring_objectify(stackjson_array_string) {
+    return Object.fromEntries(new Map(Object.values(JSON.parse(stackjson_array_string))));
 }
 
+/**
+ * Validate the structure of Parson's JSON for proof steps.
+ *
+ * The function checks the structure of the provided Parson's JSON (`proofSteps`)
+ * to ensure it follows specific patterns:
+ * 1. If the JSON has depth 1, it should be a valid proofStep JSON (i.e., should have string values).
+ * 2. If the JSON has depth 2, the top-level keys should be ["steps", "options"], and the value for "steps"
+ *    should be a valid proofStep JSON. Options are not validated here.
+ *
+ * @param {Object} proofSteps - The Parson's JSON to be validated.
+ * @returns {boolean} - Returns true if the provided Parsons JSON follows the expected structure, false otherwise.
+ *
+ * @example
+ * // Returns true
+ * _validate_parsons_JSON({
+ *   "step1": "proof step 1",
+ *   "step2": "proof step 2"
+ * });
+ *
+ * @example
+ * // Returns true
+ * _validate_parsons_JSON({
+ *   "steps": {
+ *     "step1": "proof step 1",
+ *     "step2": "proof step 2"
+ *   },
+ *   "options": {
+ *     "option1": "value1",
+ *     "option2": "value2"
+ *   }
+ * });
+ *
+ * @example
+ * // Returns false
+ * _validate_parsons_JSON({
+ *   "invalidKey": {
+ *     "step1": "proof step 1",
+ *     "step2": "proof step 2"
+ *   }
+ * });
+ */
 function _validate_parsons_JSON(proofSteps) {
     // If the JSON has depth 1 then it should be a valid proofStep JSON (i.e., should have string values)
     if (Object.values(proofSteps).every((val) => !(typeof(val) == 'object'))) {
@@ -92,6 +171,37 @@ function _validate_parsons_JSON(proofSteps) {
     // then this should throw an error
 }
 
+/**
+ * Validate the structure of proof steps.
+ *
+ * The function checks the structure of the provided proof steps (`proofSteps`)
+ * to ensure that all values are strings.
+ *
+ * If the proof steps are provided as a Maxima variable (string of form '[["key", "value"], ...]'), they are converted
+ * to a JSON object using the `_stackstring_objectify` function before validation.
+ *
+ * @param {string|Object} proofSteps - The proof steps to be validated. If a string,
+ * it is assumed to be a Maxima variable and will be converted to a JSON object.
+ * @returns {boolean} - Returns true if all values in the proof steps are strings, false otherwise.
+ *
+ * @example
+ * // Returns true
+ * _validate_proof_steps({
+ *   step1: "Proof step 1",
+ *   step2: "Proof step 2"
+ * });
+ *
+ * @example
+ * // Returns true
+ * _validate_proof_steps('["step1", "Proof step 1"], ["step2", "Proof step 2"]]');
+ *
+ * @example
+ * // Returns false
+ * _validate_proof_steps({
+ *   step1: "Proof step 1",
+ *   step2: 123 // Not a string
+ * });
+ */
 function _validate_proof_steps(proofSteps) {
     // Case when proof steps are coming from a Maxima variable: convert to a JSON
     if (typeof(proofSteps) == 'string') {
@@ -151,6 +261,11 @@ export function add_orientation_listener(buttonId, usedId, availableId) {
     button.addEventListener('click', () => _flip_orientation(usedId, availableId));
 }
 
+/**
+ * Get the current height of the iframe's content document.
+ *
+ * @returns {number} - The height of the iframe's content document.
+ */
 export function get_iframe_height() {
     return document.documentElement.offsetHeight;
 }
@@ -164,7 +279,7 @@ export function get_iframe_height() {
  * @param {string} usedId - ID of the used list element.
  * @param {string|null} inputId - ID of the input element for storing state (optional).
  * @param {Object|null} options - Custom options for sortable lists (optional).
- * @param {boolean} clone - Flag indicating whether to clone elements during sorting.
+ * @param {boolean} clone - Flag indicating whether to clone elements during drag-and-drop.
  *
  * @property {Object} proofSteps - Object containing proof steps.
  * @property {string} inputId - ID of the input element for storing state (optional).
@@ -177,7 +292,8 @@ export function get_iframe_height() {
  * @method generate_used - Generates the used list based on the current state.
  * @method add_headers - Adds header elements to the used and available lists.
  * @method update_state - Updates the state based on changes in the used and available lists.
- * @method update_state_dblclick - Updates the state on double-click events in the lists.
+ * @method add_dblclick_listeners - Add listeners that moves items on double-click and updates state.
+ * @method add_delete_all_listener - Adds a listener that deletes all from the used list and updates state.
  *
  * @example
  * // Creating a StackSortable instance:
@@ -224,30 +340,32 @@ export const stack_sortable = class {
         this.available = document.getElementById(this.availableId);
         this.usedId = usedId;
         this.used = document.getElementById(this.usedId);
+        this.clone = clone
 
         // TODO : additional default options?
         this.defaultOptions = {used: {animation: 50}, available: {animation: 50}};
-        if (options == null) {
-            this.userOptions = this.defaultOptions;
-        } else {
-            this.userOptions = {used: Object.assign(this.defaultOptions.used, options.used), 
-                available: Object.assign(this.defaultOptions.available, options.available)};
-        };
-        // define group correctly based on clone
-        this.clone = clone
-        var group_val = {used: {name: "sortableUsed", pull: true, put: true}};
-        group_val.available = (clone === "true") ? 
-            {name: "sortableAvailable", pull: "clone", revertClone: true, put: false} : 
-            {name: "sortableAvailable", put: true};
+        this.userOptions = this._set_user_options(options);
 
-        // Do not allow a user to replace ghostClass or group.
-        this.options = {used: 
-            Object.assign(Object.assign({}, this.userOptions.used), {ghostClass: "list-group-item-info", group: group_val.used}), 
-                        available : 
-            Object.assign(Object.assign({}, this.userOptions.available), {ghostClass: "list-group-item-info", group: group_val.available})
-        };
+        // Do not allow a user to replace ghostClass or group
+        this.options = this._set_ghostClass_and_group();
     }
 
+    /**
+     * Validate user options against a list of possible option keys.
+     *
+     * This method checks the provided user options against a list of possible
+     * option keys. It verifies if each key is recognized and throws warnings if
+     * there are unknown keys or if certain keys are being overwritten.
+     *
+     * @method
+     * @param {string[]} possibleOptionKeys - List of possible option keys.
+     * @param {string} unknownErr - Error message for unknown option keys.
+     * @param {string} overwrittenErr - Error message for overwritten option keys.
+     * @returns {void}
+     *
+     * @throws {warningMessage} If there are unknown option keys or if certain keys are being overwritten, a warning 
+     * will appear on the question page.
+     */
     validate_options(possibleOptionKeys, unknownErr, overwrittenErr) {
         var err = '';
         var keysRecognised = true;
@@ -275,33 +393,21 @@ export const stack_sortable = class {
         // If option is one of those we overwrite warn user (we have to use this.userOptions as this.options will contain these keys)
         var overwrittenKeys = [];
         var keysPreserved = true;
-        ["ghostClass", "group", "onSort"].forEach(key => {if (Object.keys(this.userOptions.used).includes(key) || Object.keys(this.userOptions.available).includes(key)) {
-            keysPreserved = false;
-            overwrittenKeys.push(key);
-        }});
+        ["ghostClass", "group", "onSort"].forEach(key => 
+            {if (Object.keys(this.userOptions.used).includes(key) || Object.keys(this.userOptions.available).includes(key)) 
+                {
+                    keysPreserved = false;
+                    overwrittenKeys.push(key);
+                }
+            }
+        );
         if (!keysPreserved) {
             err += overwrittenErr + overwrittenKeys.join(", ") + ".";
         }
         if (!keysRecognised || !keysPreserved) {
-            this._throw_warning(err);
+            this._display_warning(err);
         }
     };
-
-    _validate_option_key(key, possibleOptionKeys) {
-        return possibleOptionKeys.includes(key);
-    }
-
-    _throw_warning(err) {
-        var warning = document.createElement("div");
-        warning.className = "sortable-warning";
-        var exclamation = document.createElement("i");
-        exclamation.className = "icon fa fa-exclamation-circle text-danger fa-fw";
-        warning.append(exclamation);
-        var warningMessage = document.createElement("span");
-        warningMessage.textContent = err;
-        warning.append(warningMessage);
-        document.body.insertBefore(warning, document.getElementById("sortableContainer"));
-    }
 
     /**
      * Generates the available list based on the current state.
@@ -310,13 +416,7 @@ export const stack_sortable = class {
      * @returns {void}
      */
     generate_available() {
-        for (const key in this.state.available) {
-            let li = document.createElement("li");
-            li.innerHTML = this.proofSteps[this.state.available[key]];
-            li.setAttribute("data-id", this.state.available[key]);
-            li.className = "list-group-item";
-            this.available.append(li);
-        };
+        this.state.available.forEach(key => this.available.append(this._create_li(key)));
     }
 
     /**
@@ -326,13 +426,7 @@ export const stack_sortable = class {
      * @returns {void}
      */
     generate_used() {
-        for (const key in this.state.used) {
-            let li = document.createElement("li");
-            li.innerHTML = this.proofSteps[this.state.used[key]];
-            li.setAttribute("data-id", this.state.used[key]);
-            li.className = "list-group-item";
-            this.used.append(li);
-        };
+        this.state.used.forEach(key => this.used.append(this._create_li(key)));
     }
 
     /**
@@ -345,13 +439,6 @@ export const stack_sortable = class {
     add_headers(headers) {
         this.used.append(this._create_header(headers.used.header, "usedHeader"));
         this.available.append(this._create_header(headers.available.header, "availableHeader"));
-    }
-
-    add_item_to_available(innerHTML) {
-        let li = document.createElement("li");
-        li.innerHTML = innerHTML;
-        li.className = "list-group-item";
-        this.available.append(li);
     }
 
     /**
@@ -372,7 +459,7 @@ export const stack_sortable = class {
     }
 
     /**
-     * Updates the state on double-click events in the lists.
+     * Adds double-click listeners to move items upon double-click and updates the state accordingly.
      *
      * @method
      * @param {Object} newUsed - Updated used list.
@@ -401,15 +488,20 @@ export const stack_sortable = class {
             }
         });
     }
-    
+
+    /**
+     * Add a click event listener to a button to delete all items from the "used" list and 
+     * updates the state accordingly.
+     *
+     * @method
+     * @param {string} buttonId - ID of the button element to attach the listener.
+     * @param {Object} newUsed - Updated "used" list.
+     * @param {Object} newAvailable - Updated "available" list.
+     * @returns {void}
+     */
     add_delete_all_listener(buttonId, newUsed, newAvailable) {
         const button = document.getElementById(buttonId);
         button.addEventListener('click', () => {this._delete_all_from_used(); this.update_state(newUsed, newAvailable);});
-    }
-
-    _delete_all_from_used() {
-        const lis = document.querySelectorAll(`#${this.usedId} > .list-group-item`);
-        lis.forEach(li => {if (!li.matches(".header")) {li.parentNode.removeChild(li);}});
     }
 
     /**
@@ -431,15 +523,106 @@ export const stack_sortable = class {
             {used: [], available: [...Object.keys(proofSteps)]};
     }
 
-    _double_clickable(item) {
-        return !item.matches(".header");
+    /**
+     * Validate if a given option key is among the possible option keys.
+     *
+     * @method
+     * @private
+     * @param {string} key - The option key to validate.
+     * @param {string[]} possibleOptionKeys - List of possible option keys.
+     * @returns {boolean} - Returns true if the option key is valid, false otherwise.
+     */
+    _validate_option_key(key, possibleOptionKeys) {
+        return possibleOptionKeys.includes(key);
+    }
+    
+    /**
+     * Set and merge user-provided options with default options.
+     *
+     * This private method sets user options for both "used" and "available" lists
+     * by merging the provided options with the default options. If no options are
+     * provided, it returns the default options.
+     *
+     * @method
+     * @private
+     * @param {Object|null} options - Custom options for sortable lists
+     *                                of form {used: UsedOptions, available: AvailableOptions} (optional).
+     * @returns {Object} - Merged user options for "used" and "available" lists.
+     */
+    _set_user_options(options) {
+        var userOptions;
+        if (options == null) {
+            userOptions = this.defaultOptions;
+        } else {
+            userOptions = {used: Object.assign(this.defaultOptions.used, options.used), 
+                available: Object.assign(this.defaultOptions.available, options.available)};
+        };
+        return userOptions;
     }
 
-    _get_moveable_parent_li(target) {
-        var li = target;
-        while (!li.matches(".list-group-item")) {
-            li = li.parentNode;
-        }
+    /**
+     * Set ghostClass and group options for both "used" and "available" lists. 
+     *
+     * This private method sets the ghostClass and group options for both "used" and "available" lists 
+     * and will overwrite user options for ghostClass and group if they are provided. This is required
+     * for the functionality of the Sortable lists.
+     *
+     * @method
+     * @private
+     * @returns {Object} - Options containing ghostClass and group settings for both lists.
+     */
+    _set_ghostClass_and_group() {
+        var group_val = {used: {name: "sortableUsed", pull: true, put: true}};
+        group_val.available = (this.clone === "true") ? 
+            {name: "sortableAvailable", pull: "clone", revertClone: true, put: false} : 
+            {name: "sortableAvailable", put: true};
+        var options = {used: 
+            Object.assign(
+                Object.assign({}, this.userOptions.used), 
+                            {ghostClass: "list-group-item-info", group: group_val.used}
+                        ), 
+                        available : 
+            Object.assign(
+                Object.assign({}, this.userOptions.available), 
+                            {ghostClass: "list-group-item-info", group: group_val.available}
+                        )
+        };
+        return options;
+    }
+
+    /**
+     * Display a warning message on the question page.
+     *
+     * @method
+     * @private
+     * @param {string} msg - The message to be displayed in the warning.
+     * @returns {void}
+     */
+    _display_warning(msg) {
+        var warning = document.createElement("div");
+        warning.className = "sortable-warning";
+        var exclamation = document.createElement("i");
+        exclamation.className = "icon fa fa-exclamation-circle text-danger fa-fw";
+        warning.append(exclamation);
+        var warningMessage = document.createElement("span");
+        warningMessage.textContent = msg;
+        warning.append(warningMessage);
+        document.body.insertBefore(warning, document.getElementById("sortableContainer"));
+    }
+
+    /**
+     * Create an HTML list item element based on keys in `this.proofSteps`.
+     *
+     * @method
+     * @private
+     * @param {string} proofKey - The key associated with the proof content in 'proofSteps'.
+     * @returns {HTMLElement} - The created list item element.
+     */
+    _create_li(proofKey) {
+        let li = document.createElement("li");
+        li.innerHTML = this.proofSteps[proofKey];
+        li.setAttribute("data-id", proofKey);
+        li.className = "list-group-item";
         return li;
     }
 
@@ -458,6 +641,53 @@ export const stack_sortable = class {
         i.className = "list-group-item header";
         i.setAttribute("id", id);
         return i;
+    }
+
+    /**
+     * Check if an HTML element is double-clickable (i.e., it is not a header element).
+     *
+     * This private method is called on items inside the used or available list.
+     *
+     * @method
+     * @private
+     * @param {HTMLElement} item - The HTML element to check for double-clickability.
+     * @returns {boolean} - Returns true if the element is double-clickable, false otherwise.
+     */
+    _double_clickable(item) {
+        return !item.matches(".header");
+    }
+
+    /**
+     * Get the nearest moveable parent list item for a given HTML element.
+     *
+     * This private method traverses the DOM hierarchy starting from the provided HTML
+     * element and finds the nearest parent list item with the class ".list-group-item".
+     * It is useful for identifying the moveable parent when doubling clicking on child
+     * elements (for example MathJax display elements) inside list items.
+     *
+     * @method
+     * @private
+     * @param {HTMLElement} target - The HTML element for which to find the moveable parent list item.
+     * @returns {HTMLElement|null} - The nearest parent list item with class ".list-group-item", or null if not found.
+     */
+    _get_moveable_parent_li(target) {
+        var li = target;
+        while (!li.matches(".list-group-item")) {
+            li = li.parentNode;
+        }
+        return li;
+    }
+
+    /**
+     * Delete all non-header items from the "used" list.
+     *
+     * @method
+     * @private
+     * @returns {void}
+     */
+    _delete_all_from_used() {
+        const lis = document.querySelectorAll(`#${this.usedId} > .list-group-item`);
+        lis.forEach(li => {if (!li.matches(".header")) {li.parentNode.removeChild(li);}});
     }
 
 };

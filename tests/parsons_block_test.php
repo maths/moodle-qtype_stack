@@ -275,46 +275,10 @@ class parsons_block_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\stack_cas_castext2_parsons
      */
-    public function test_parsons_unknown_mathjax_version() {
-        $validversions = ['2', '3'];
-        $invalidversions = ['4', '5', '1', '-5', 'ghjd', ''];
-
-        foreach ($validversions as $vs) {
-            $raw = '[[parsons mathjax="' . $vs . '"]]{' .
-                '"1":"Assume that \\(n\\) is odd.",' .
-                '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
-                '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
-                '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
-                '} [[/parsons]]';
-
-            $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
-            $session = new stack_cas_session2([$at1]);
-            $this->assertTrue($at1->get_valid());
-        }
-        foreach ($invalidversions as $vs) {
-            $raw = '[[parsons mathjax="' . $vs . '"]]{' .
-                '"1":"Assume that \\(n\\) is odd.",' .
-                '"2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).", ' .
-                '"3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]", ' .
-                '"4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).", ' .
-                '} [[/parsons]]';
-
-            $at1 = castext2_evaluatable::make_from_source($raw, 'test-case');
-            $session = new stack_cas_session2([$at1]);
-            $this->assertFalse($at1->get_valid());
-            $this->assertEquals(
-                stack_string('stackBlock_parsons_unknown_mathjax_version', ['mjversion' => implode(', ', $validversions)]), 
-                $at1->get_errors());
-        }
-    }
-
-    /**
-     * @covers \qtype_stack\stack_cas_castext2_parsons
-     */
     public function test_parsons_validate_params() {
         $invalidparameters = ['bad_param', 'HEIGHT', 'Height', 'override-css'];
         $validparameters = ['width', 'height', 'aspect-ratio', 'version', 'overridecss',
-        'overridejs', 'input', 'orientation', 'clone', 'mathjax'];
+        'overridejs', 'input', 'orientation', 'clone'];
 
         foreach ($invalidparameters as $param) {
             $raw = '[[parsons ' . $param . '="500"]]{' .

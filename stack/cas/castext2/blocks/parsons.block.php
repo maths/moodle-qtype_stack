@@ -45,12 +45,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $xpars = [];
         $inputs = []; // From inputname to variable name.
         $clone = "false"; // Whether to have all keys in available list cloned.
-        $mathjaxversion = "2"; // MathJax version (either "2" or "3")s
+        $mathjaxversion = "2"; // MathJax version (either "2" or "3")
         foreach ($this->params as $key => $value) {
             if ($key === 'clone') {
                 $clone = $value;
-            } else if ($key === 'mathjax') {
-                $mathjaxversion = $value; 
             } else if ($key !== 'input') {
                 $xpars[$key] = $value;
             } else {
@@ -368,12 +366,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
                     $key !== 'version' && $key !== 'overridecss' && $key !== 'input' &&
-                    $key !== 'orientation' && $key !== 'clone' && $key !== 'mathjax') {
+                    $key !== 'orientation' && $key !== 'clone') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
                     $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss',
-                        'overridejs', 'input', 'orientation', 'clone', 'mathjax'];
+                        'overridejs', 'input', 'orientation', 'clone'];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids)]);
                 }

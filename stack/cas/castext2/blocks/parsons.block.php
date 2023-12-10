@@ -45,7 +45,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $xpars = [];
         $inputs = []; // From inputname to variable name.
         $clone = "false"; // Whether to have all keys in available list cloned.
-        $mathjaxversion = "2"; // MathJax version (either "2" or "3")
+        $mathjaxversion = "2"; // MathJax version (either "2" or "3").
         foreach ($this->params as $key => $value) {
             if ($key === 'clone') {
                 $clone = $value;
@@ -153,19 +153,19 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         $importcode = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
         $importcode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
-        $importcode .= "import {preprocess_steps, 
-                                stack_sortable, 
-                                add_orientation_listener, 
+        $importcode .= "import {preprocess_steps,
+                                stack_sortable,
+                                add_orientation_listener,
                                 get_iframe_height,
                                 SUPPORTED_CALLBACK_FUNCTIONS
                 } from '" .
             stack_cors_link('stacksortable.min.js') . "';\n";
         $r->items[] = new MP_String($importcode);
 
-        // Add flip orientation listener to the orientation button
+        // Add flip orientation listener to the orientation button.
         // TODO: automatically set orientation based on device?
         $r->items[] = new MP_String('add_orientation_listener("orientation", "usedList", "availableList");' . "\n");
-        // Add the resize button listener
+        // Add the resize button listener.
         $r->items[] = new MP_String('document.getElementById("resize").addEventListener(
             "click", () => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});' . "\n");
 
@@ -193,9 +193,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'var sortableUserOpts = {};' . "\n";
         $code .= 'var valid;' . "\n";
         $code .= '[proofSteps, headers, sortableUserOpts, valid] = preprocess_steps(proofSteps, headers, sortableUserOpts);' . "\n";
-    
-        // If the author's JSON has invalid format throw an error
-        $code .= 'if (valid === false) 
+
+        // If the author's JSON has invalid format throw an error.
+        $code .= 'if (valid === false)
             {stack_js.display_error("' . stack_string('stackBlock_parsons_contents') . '");}' . "\n";
 
         // Link up to STACK inputs.
@@ -216,20 +216,20 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'stackSortable.generate_available();' . "\n";
 
         // Create the Sortable objects.
-        // First, instantiate with default options first in order to extract all possible options for validation
+        // First, instantiate with default options first in order to extract all possible options for validation.
         $code .= 'var sortableUsed = Sortable.create(usedList);' . "\n";
         $code .= 'var possibleOptionKeys = Object.keys(sortableUsed.options).concat(SUPPORTED_CALLBACK_FUNCTIONS);' . "\n";
-        // Now set appropriate options
+        // Now set appropriate options.
         $code .= 'Object.entries(stackSortable.options.used).forEach(([key, val]) => sortableUsed.option(key, val));' . "\n";
         $code .= 'var sortableAvailable = Sortable.create(availableList, stackSortable.options.available);' . "\n";
-        // Add the onSort option in order to link up to input and overwrite user onSort if passed
+        // Add the onSort option in order to link up to input and overwrite user onSort if passed.
         $code .= 'sortableUsed.option("onSort", () => {stackSortable.update_state(sortableUsed, sortableAvailable);});' . "\n";
         $code .= 'sortableAvailable.option("onSort", () => {stackSortable.update_state(sortableUsed, sortableAvailable);});' . "\n";
 
-        // Options can now be validated since sortable objects have been instantiated, we throw warnings only
+        // Options can now be validated since sortable objects have been instantiated, we throw warnings only.
         $code .= 'stackSortable.validate_options(
-            possibleOptionKeys, 
-            "' . stack_string('stackBlock_unknown_sortable_option') . '", 
+            possibleOptionKeys,
+            "' . stack_string('stackBlock_unknown_sortable_option') . '",
             "' . stack_string('stackBlock_overwritten_sortable_option') . '");' . "\n";
 
         // Create bin and add delete-all button events for clone mode.
@@ -243,14 +243,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
 
         // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
-        $code .= ($mathjaxversion === "2") ? 
-            'MathJax.Hub.Queue(["Typeset", MathJax.Hub]);' : 
+        $code .= ($mathjaxversion === "2") ?
+            'MathJax.Hub.Queue(["Typeset", MathJax.Hub]);' :
             'var mathJaxPromise = MathJax.typesetPromise();';
 
-        // Resize the outer iframe if the author does not pre-define width. Method depends on MathJax 2 or MathJax 3
+        // Resize the outer iframe if the author does not pre-define width. Method depends on MathJax 2 or MathJax 3.
         if (!$existsuserheight) {
             $code .= ($mathjaxversion === "2") ?
-                'MathJax.Hub.Queue(() => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' : 
+                'MathJax.Hub.Queue(() => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' :
                 'mathJaxPromise.then(() => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});';
             $code .= "\n";
         }
@@ -356,7 +356,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $validmjversions = ['2', '3'];
             if (!in_array($this->params['mathjax'], $validmjversions)) {
                 $valid = false;
-                $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', ['mjversion' => implode(', ', 
+                $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', ['mjversion' => implode(', ',
                     $validmjversions)]);
             }
         }

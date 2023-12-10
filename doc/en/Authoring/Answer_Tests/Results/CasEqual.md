@@ -98,6 +98,18 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">ATCASEqual (AlgEquiv-true).</td>
 </tr>
 <tr class="notes">
+  <td class="cell c0"><td colspan="6">Unary plus</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">CasEqual</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>+1-2</pre></td>
+  <td class="cell c3"><pre>1-2</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATCASEqual (AlgEquiv-true).</td>
+</tr>
+<tr class="notes">
   <td class="cell c0"><td colspan="6">Powers</td></td>
 </tr>
 <tr class="pass">

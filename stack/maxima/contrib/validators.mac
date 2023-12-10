@@ -37,7 +37,7 @@ s_test_case(validate_underscore(1+a_1), "Underscore characters are not permitted
 validate_all_one_letter_variables(ex) := if not(is(ev(lmax(map(lambda([ex2],slength(string(ex2))),listofvars(ex))),simp)>1)) then ""
         else "Only single-character variable names are permitted in this input. Perhaps you forgot to use an asterisk (*) somewhere, or perhaps you used a Greek letter.";
 
-s_test_case(validate_all_one_letter_variables(1, "");
+s_test_case(validate_all_one_letter_variables(1), "");
 s_test_case(validate_all_one_letter_variables((A*x+B)/(x^2+1) + C/x), "");
 s_test_case(validate_all_one_letter_variables((Ax+B)/(x^2+1) + C/x), "Only single-character variable names are permitted in this input. Perhaps you forgot to use an asterisk (*) somewhere, or perhaps you used a Greek letter.");
 s_test_case(validate_all_one_letter_variables((theta*x+B)/(x^2+1) + C/x), "Only single-character variable names are permitted in this input. Perhaps you forgot to use an asterisk (*) somewhere, or perhaps you used a Greek letter.");

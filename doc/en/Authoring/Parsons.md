@@ -2,7 +2,7 @@
 
 Parson’s problems require students to assemble pre-written text into a correct order by dragging blocks into a tree structure.  This block is needed to hold the javascript and strings which students can drag.
 
-STACK provides a `[[parsons]] ... [[/ parsons]]` [question block](Question_blocks/index.md).  The question author pre-defines strings.  These strings can be defined as Maxima variables in the question text, or just defined within the question block itself.
+STACK provides a `[[parsons]] ... [[/ parsons]]` [question block](Question_blocks/index.md).  The question author pre-defines strings to drag within the block.  These strings can be defined as Maxima variables in the question text, or just defined within the question block itself.
 
 Users interact with the strings, dragging them into a tree structure.  Note, a list is a special case of a more structured tree.  The block can be linked to a STACK input so that the student's configuration can be stored and/or assessed.  This page is reference documentation for the `[[parsons]]` block.  Documentation on how to use this block in a complete question is given under topics: [Authoring Parson's problems](../Topics/Parsons.md).
 
@@ -44,16 +44,18 @@ Both these approaches can be combined
 [[/parsons]]
 ````
 
+Note the `\` character needs to be protected within strings, so for example we have to type `\\(n=2m+1\\)` rather than just `\(n=2m+1\)`.
+
 ## Customising the `[[parsons]]` block
 
 ### JSON "options"
 
-The `[[parsons]]` block is a wrapper for the javascript library "Sortable.js", optimised and with default options for Parson's problems. Moreover, there are default settings we add in, such as the headers for each of the two lists. These may be customised by structuring the JSON in the block contents as follows: 
+The `[[parsons]]` block is a wrapper for the javascript library "Sortable.js", optimised and with default options for Parson's problems. Moreover, there are default settings we add in, such as the headers for each of the two lists. These may be customised by structuring the JSON in the block contents as follows:
 
 ````
 [[parsons input="ans1"]]
 { "steps": {# stackjson_stringify(proof_steps) #},
-  "options": {"header" : ["custom header for the answer list", "custom header for the available steps"],
+  "options": {"header" : ["Custom header for the answer list", "Custom header for the available steps"],
               "sortable option 1" : value,
               ...
               "sortable option n" : value}
@@ -84,13 +86,13 @@ Note that if you enter an unknown sortable option or if an attempt to pass `ghos
 
 Functionality and styling can be customised through the use of block parameters.
 
-1. `input`: string. The name of the STACK input variable (e.g., `"ans1"`), this links to an internal `state` parameter that updates the input as a Maxima expression so that it can be evaluated by a PRT.
+1. `input`: string. The name of the STACK input variable (e.g., `"ans1"`), this links to an internal `state` parameter that updates the input as a Maxima expression so that it can be stored and evaluated by a PRT.
 2. `height`: string containing a positive float + a valid CSS unit (e.g.`"480px"`, `"100%"`, ...). Default is to create a window of automatic height to fit all the content upon load. Entering a value for the `height` parameter in the block header fixes the height of the window containing the drag-and-drop lists and will disable automatic resizing of the window containing the lists. Students will still be able to automatically resize the window with the expand button.
 3. `width`: string containing a positive float + a valid CSS unit (e.g.`"480px"`, `"100%"`, ...).  Default is `"100%"`. This fixes the width of the window containing the drag-and-drop lists.
 4. `aspect-ratio`: string, containing a float between 0 and 1. This can be used with `height`/`length` _or_ `width` (not both) and automatically determines the value of the un-used parameter in accordance with the value of `aspect-ratio`; unset by default. An error will occur if one sets values for `aspect-ratio`, `width`, `height` _or_ `aspect-ratio`, `width`, `length`.
 5. `clone`: string of the form `"true"` or `"false"`. It is `"false"` by default. When `"false"` there are two lists and each proof step is "single-use", here the author must write all necessary proof steps even if they repeat; when `"true"` all proof steps are re-usable with no restrictions on how many times they are used, steps can only be dragged from the available list into the answer list, and there is a bin to tidy up steps.
 6. `orientation`: string of the form `"horizontal"` or `"vertical"`. This can be used to fix the initial orientation shown to the user, `"horizontal"` will show lists side-by-side and `"vertical"` will show lists on top of each other. Note that there is a button on the page in which the user may switch the orientation to their preference while answering the question, so the `"orientation"` block parameter only determines the initial layout. It is `"horizontal"` by default.
-7. `override-css`: string containing the location of a local CSS file contained in `question/type/stack/corsscripts/` directory in the format `cors://file-name` or a href to an external CSS stylesheet. This will override all CSS styling of the drag-and-drop listing, so it should be used with care. However, it can be used to customise the styling of the lists by writing one's own custom CSS file and passing in the location of that file to this parameter. This parameter is unset by default. 
+7. `override-css`: string containing the location of a local CSS file contained in `question/type/stack/corsscripts/` directory in the format `cors://file-name` or a href to an external CSS stylesheet. This will override all CSS styling of the drag-and-drop listing, so it should be used with care. However, it can be used to customise the styling of the lists by writing one's own custom CSS file and passing in the location of that file to this parameter. This parameter is unset by default.
 8. `override-js`: string containing a local JavaScript library or a href to a cdn of a JavaScript library. This will overwrite the Sortable library used with the library identified by the string. This should be used if one wishes to use an updated version of the Sortable library, or adding functionality with a custom library. Note that the custom library will need to either extend or import the base Sortable functionality. Unset by default.
 9. `version`: string of the form `"local"` or `"cdn"`. Whether to use STACK's local copy of the Sortable library or whether to pull version 1.15.0 of Sortable from cdn. This is `"local"` by default.
 
@@ -157,7 +159,7 @@ Notice that since the value of `plot(...)` is a Maxima string of `<img>` tag, th
 [[/parsons]]
 ````
 
-An alternatove is to use the Maxima `castext` function, e.g.
+An alternative is to use the Maxima `castext` function, e.g.
 
     s1:castext("Consider this graph {@plot(x^2,[x,-1,1],[size,250,250])@}");
 
@@ -185,4 +187,4 @@ proof_steps:[
 
 ## Adding trees to a Parson's block
 
-STACK enables question authors to display the tree structure of an algebraic expression using castext `{@disptree(1+2+pi*x^3)@}`.  
+STACK enables question authors to display the tree structure of an algebraic expression using castext `{@disptree(1+2+pi*x^3)@}`.

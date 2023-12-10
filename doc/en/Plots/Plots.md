@@ -2,7 +2,7 @@
 
 In STACK, the `plot` command has been defined to be a wrapper for Maxima's `plot2d` command.  The wrapper makes sure that an image file is given an appropriate name, file location, and that Maxima returns a URL to the user giving the image.  Not all of the features of `plot2d` are available through `plot`.
 
-For example, 
+For example,
 
 1. Try the following in a castext field. `{@plot(x^2,[x,-1,1])@}`.
 2. You can add a second variable to control the range of the y-axes. `plot(x^2,[x,-1,1],[y,0,2])`.
@@ -61,7 +61,7 @@ If you would like an expression as part of this then try
 
 Note, you cannot put language strings directly into the alt-text.  E.g. the following will not be translated.
 
-    {@plot(x^2,[x,-2,2],[alt,"[[lang code='en,other']]A quadratic curve[[/lang]][[lang code='no']]En kvadratisk kurve[[/lang]]"])@}  
+    {@plot(x^2,[x,-2,2],[alt,"[[lang code='en,other']]A quadratic curve[[/lang]][[lang code='no']]En kvadratisk kurve[[/lang]]"])@}
 
 You can define a castext element in the question variables which does get translated, e.g.
 
@@ -126,7 +126,7 @@ Now use:
 
     {@plot(pg2(x), [x,(x0-5),(x0+5)], [y,-10,10], [legend,false])@}
 
-A further example of a step functio:
+A further example of a step function:
 
     step_fn(x,x0) := unit_step(x-x0-1/2) - unit_step(x-x0+1/2) + und*kron_delta(x,x0+1/2)+ und*kron_delta(x,x0-1/2);
     p1:sum(step_fn(x,2*k),k,-3,3);

@@ -1,14 +1,16 @@
 # Maintaining questions and question banks
 
-This section of the documentation provides information on testing questions and maintaining question banks for the long term.  Access to functions related to maintaining STACK questions is through the "adminui" page
+This section of the documentation provides information on testing questions and maintaining question banks for the long term.  Access to functions related to testing STACK questions and maintaining question banks for the long term is through the "adminui" page
 
     [...]/question/type/stack/adminui/index.php
 
-(or available from the qtype_stack plugin setting page).  To make use of these tools (in Moodle) users require the capability `qtype/stack:usediagnostictools` via Moodle's capability system.  We stronly recommend anyone who regularly writes STACK questions across more than one Moodle course be given this capability.  It enables the following:
+(or available from the qtype_stack plugin setting page).  To make use of these tools (in Moodle) users require the capability `qtype/stack:usediagnostictools` via Moodle's capability system.  We strongly recommend anyone who regularly writes STACK questions across more than one Moodle course be given this capability.  It enables the following:
 
-* Bulk testing of questions.
+* Bulk testing of questions, and efficient follow-up via direct links to the "STACK question dashboard" for questions of interest
 * Identifying STACK questions using particular blocks, e.g. the "todo" block, or includes.
 * Bulk change of the default settings.
+* Direct connection to Maxima (with normal teacher privileges in place) through a "Chat" script
+* Ability to view unit test results for STACK answer tests online, which acts as comprehensive documentation for the intended behaviour, with commentary.
 
 If your institution restricts site admin status, then this capability will allow a subset of users to access these functions. If it is not possible to get this capability, then Moodle site administrators will need to run the tests themselves and give you the results.
 

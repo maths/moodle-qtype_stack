@@ -1,4 +1,4 @@
-# Support for proof and recepies in STACK
+# Support for proof in STACK
 
 In STACK the basic assumption is that a student's answer will be a mathematical expression, e.g. a polynomial or an equation.  While the facilities for assessing a student's free-form proof is limited (in any online assessment system), teachers can create materials for assessing students' understanding of proof in general, and of particular mathematical proofs.
 
@@ -23,7 +23,7 @@ Colleagues assessing proof might also consider [semi-automatic marking](../Moodl
 Mathematical writing, especially for students, commonly takes two forms.
 
 1. A mathematical proof, which is a deductive justification of a claim.  A proof is a "checkable record of reasoning".
-2. A mathematical recepie, which is a set of instructions for carrying out a procedure.
+2. A mathematical recipe, which is a set of instructions for carrying out a procedure.
 
 ## Presentation of proof
 
@@ -47,13 +47,9 @@ By separating out these issues we provide more control, and wider opportunities 
 Consider the following theorem:  \(\sum_{k=1}^n (2k-1) = 1+3+5+\cdots + (2n-1) = n^2\).
 A traditional proof is shown below. This proof was published by DeMorgan in 1838.  According to Cajori (1918) this is the first use of the name "mathematical induction", although DeMorgan calls it "successive induction".
 
-<div style="color: #2f6473; background-color: #def2f8; border-color: #d1edf6;">
-<div class="proof">
 <p>The sum of any number of successive odd numbers, beginning from unity, is a square number, namely the square of half the even number which follows the last odd number.
 Let this proposition be true in any one single instance; that is, \(n\) being some whole number, let \(1,\, 3,\, 5,\, \ldots\) up to \(2n+1\) put together give \((n+1)^2\).
 Then the next odd number being \(2n+3\), the sum of all the odd numbers up to \(2n+3\) will be \((n+1)^2+2n+3\), or \(n^2+4n+4\), or \((n+2)^2\).  But \(n+2\) is half of the even number next following \(2n+3\): consequently, if the proposition be true of any one set of odd numbers, it is true of one more.  But it is true of the first odd number \(1\), for this is the square of half the even number next following.  Consequently, being true of \(1\), it is true of \(1+3\); being true of \(1+3\), it is true of \(1+3+5\); being true of \(1+3+5\), it is true of \(1+3+5+7\), and so on, {\em ad infinitum}.</p>
-</div>
-</div>
 
 This is the original version.
 

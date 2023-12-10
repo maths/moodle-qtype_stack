@@ -33,7 +33,7 @@ A single validator function can be re-used on multiple inputs within a single qu
 
 ## Combining validators
 
-If you wish to test for a number of separate properties then it is probably best to create separate functions for each poperty and combine them into a single validator.
+If you wish to test for a number of separate properties then it is probably best to create separate functions for each property and combine them into a single validator.
 
 For example, imagine you would like the following:
 
@@ -45,7 +45,7 @@ E.g. `[x^2=1, y=1, x+z=1]` is a valid answer.  `[x^2+5, y=1]` is invalid (for tw
 
 Functions which establish these properties are:
 
-    /* Define validator fuctions separately. */
+    /* Define validator functions separately. */
     validate_islist(ex) := if listp(ex) then "" else "Your answer must be a list.";
     validate_allequations(ex) := if all_listp(equationp, ex) then "" else "All elements of your answer should be equations.";
     validate_checklen(ex) :=  if ev(is(length(ex)=3),simp) then "" else "Your list must have 3 elements.";

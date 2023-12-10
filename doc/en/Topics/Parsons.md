@@ -22,7 +22,7 @@ We might expect/require two conscious and separate blocks
 2.  Assume \(B\), \(\cdots\), hence \(A\).
 
 The order in which these two sub-proofs are presented is (normally) irrelevant.  That is the _if and only if_ proof construct allows its two sub-proofs to commute.  This is precisely the same sense in which \(A=B\) and \(B=A\) are equivalent. There are _blocks_ within the proof which can change order. Furthermore, since proofs are often nested blocks these sub-proofs may themselves have acceptable options for correctness.
-Proofs often contain local variables.  Use of explicit block-structres clarify the local scope of variables, and the local scope of assumptions.
+Proofs often contain local variables.  Use of explicit block-structures clarify the local scope of variables, and the local scope of assumptions.
 
 STACK provides ["proof construction functions"](../Proof/Proof_CAS_library.md) with arguments. For example, an if and only if proof would be represented as `proof_iff(A,B)`.  Here `A` and `B` are either sub-proofs or strings to be shown to the student.
 
@@ -75,7 +75,7 @@ The example question text below contains a Parson's block. Within the header of 
 
 Notes:
 
-1. The Parson's block requires a JSON object containins `"key":"string"` pairs. The `string` will be shown to the student.  The student's answer will be returned in terms of the `key` tags.  Numbers can be used as keys, but named keys above will be more specific.  We strongly recommend using named keys.
+1. The Parson's block requires a JSON object containing `"key":"string"` pairs. The `string` will be shown to the student.  The student's answer will be returned in terms of the `key` tags.  Numbers can be used as keys, but named keys above will be more specific.  We strongly recommend using named keys.
 2. The `\` character in the string must be protected!  Notice that `\(...\)` needs to be typed as `\\(...\\)`.
 3. The [Parson's block](../Authoring/Parsons.md) has a wide range of options such as `height` and `width` which are documented elsewhere.
 
@@ -98,7 +98,7 @@ The student's answer will be a _JSON string_, but we need to interpret which of 
 
 Then you can set up the potential response tree to be `ATAlgEquiv(sa,ta)` to confirm the student's answer is the same as the teacher's answer.
 
-# Example question 2: a proof with interchangable block order
+# Example question 2: a proof with interchangeable block order
 
 The following Parson's question is an _if and only if_ proof, containing two blocks in order.
 
@@ -147,7 +147,7 @@ The two blocks can be in either order.  Prooflib provides a function to automati
 
 There is one change in input from the above example:
 
-1. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `proof_parsons_key_json(ta, proof_steps)`.  
+1. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `proof_parsons_key_json(ta, proof_steps)`.
 
 In this example all steps are used, however if you add extra steps (distracters) then the model answer field has to separate these into used and unused lists, hence both the teacher's answer `ta` and the whole `proof_steps` list is needed.
 

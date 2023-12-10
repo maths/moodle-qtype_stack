@@ -26,7 +26,7 @@ Move the points \(A\) and \(B\) (on a GeoGebra applet) so that the line \(AB\) i
 
 Notes.
 
-* \(m\) and \(c\) are defined by STACK in the question variables.  Ultimately these could be randomly genereated.  They illustrate how to _set_ values in an applet.
+* \(m\) and \(c\) are defined by STACK in the question variables.  Ultimately these could be randomly generated.  They illustrate how to _set_ values in an applet.
 * We should listen to the _gradient_ of the line \(AB\) as an input.  This illustrates how to _watch_ a value in GeoGebra and link it to a STACK input.
 * \(A\) and \(B\) are points in the GeoGebra applet.  We need to _remember_ the position a student leaves the points in.
 * In this question, the potential response tree should multiply the variable \(m\) by the gradient of \(AB\) to check this is \(-1\).  We don't worry about the position of the student's line otherwise.
@@ -35,7 +35,7 @@ Notes.
 
 The first step is to create a GeoGebra applet and publish it online.   You will need the material id from the URL in GeoGebra to link the worksheet to a STACK question.
 
-1. Login to [https://www.geogebra.org/](https://www.geogebra.org/) 
+1. Login to [https://www.geogebra.org/](https://www.geogebra.org/)
 2. Create a blank applet directly on the GeoGebra website.
  * Create numbers `m=2` and `c=3`.  These will be given a value by STACK when the question is started by the student, but we must set sensible initial values.
  * Create the line `l=m*x+c`.
@@ -63,7 +63,7 @@ Set the question text - before entering make sure that the editor is switched to
 
 Notice this uses the `[[geogebra]]` question block. Then complete the question as follows.
 
-1. Make sure the question text is "HTML" format (not moodle auto format, or something else).
+1. Make sure the question text is "HTML" format (not Moodle auto format, or something else).
 2. Input `ans1` should have Model answer equal to `-1/m`.
 3. Input `ans1` should "Forbid float" set to no/false (GeoGebra will return floating point numbers)
 4. Set up the PRT with node 1 testing `ATNumAbsolute(ans1*m, -1, 0.1)`.  This checks the product of the gradient of the lines is within \(0.1\) of \(-1\) - i.e. are they close to perpendicular.  (You could opt for a strict algebraic equivalence `ATAlgEquiv(ans1*m, -1)` if you prefer.)

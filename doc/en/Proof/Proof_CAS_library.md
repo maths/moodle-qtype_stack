@@ -58,7 +58,7 @@ Note that the variable `proof_steps` is a _list_ of lists:  `[ ["key", "step", (
 2. The `key` can be an integer position in the proof_steps, a string `key`, or a string.
   * Using integers: `proof_iff(proof(1,2,3,4,5),proof(6,7,8,9,10,11))`;
   * Using keys: `proof_iff(proof("assodd","defn_odd","alg_odd","def_M_odd","conc_odd"),proof("contrapos","assnotodd","even","alg_even","def_M_even","conc_even"))`
-3. The `proof_steps` list can contain an optional string argument `"comment"`.  This string can be used to store justification, explaination and narative.  Some display functions use this argument, when it exists.  To prume out the comments use `proof_steps_prune(proof_steps)` as an argument to the display function.
+3. The `proof_steps` list can contain an optional string argument `"comment"`.  This string can be used to store justification, explanation and narrative.  Some display functions use this argument, when it exists.  To prune out the comments use `proof_steps_prune(proof_steps)` as an argument to the display function.
 4. Note that the backslash must be protected when defining these strings.
 5. The strings can contain HTML, including `<img>` tags for including images within draggable elements.
 

@@ -46,5 +46,3 @@ To display feedback use `{@proof_assessment_display(saa, proof_steps)@}` in a PR
 In addition to the automatic feedback, or as an alternative, a teacher can check other properties and define feedback as required.
 
 E.g. a teacher might want to provide feedback such as _"It makes no sense to use \(M\) before it is defined!"_.
-
-TODO: examples of how to do this, and general tools to support bespoke assessment.... 

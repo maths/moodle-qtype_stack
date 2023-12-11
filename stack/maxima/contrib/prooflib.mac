@@ -171,7 +171,7 @@ s_test_case(proof_alternatives(proof(A,B,C,D)), [proof(A,B,C,D)]);
 s_test_case(proof_alternatives(proof_c(A,B)), [proof_c(A,B),proof_c(B,A)]);
 s_test_case(proof_alternatives(proof_iff(A,B)), [proof_iff(A,B),proof_iff(B,A)]);
 s_test_case(proof_alternatives(proof_ind(A,B,C,D)), [proof_ind(A,B,C,D),proof_ind(A,C,B,D)]);
-s_test_case(proof_alternatives(proof_cases(A,B,C)), [proof_iff(A,B,C),proof_iff(A,C,B)]);
+s_test_case(proof_alternatives(proof_cases(A,B,C)), [proof_cases(A,B,C),proof_cases(A,C,B)]);
 
 
 /******************************************************************/

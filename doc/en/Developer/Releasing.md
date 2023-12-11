@@ -45,16 +45,16 @@ Version numbers
  * `MATURITY_STABLE`?
  * Check both the Moodle versions, and the required number. (https://moodledev.io/general/releases)
 
-Commit all changes to git, e.g. "Update version number for the 4.4.3 release."
+Commit all changes to git, e.g. "Update version number for the 4.6.0 release."
 
 ## 2. Create new tag with version name
 
-E.g. "v4.4.3".
+E.g. "v4.6.0".
 
 * Push to GitHub.
 * Push tags to GitHub 
  * Tortoise git: pulldown from push
- * Linux: `git tag -a v4.4.3 -m "Update version number for the 4.4.3 release."`
+ * Linux: `git tag -a v4.6.0 -m "Update version number for the 4.6.0 release."`
  * Linux: `git push`
  * Linux: `git push --tags`
 

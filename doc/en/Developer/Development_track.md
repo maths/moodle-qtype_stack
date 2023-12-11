@@ -5,7 +5,7 @@ past development history is documented on [Development history](Development_hist
 
 ## Version 4.6.0
 
-This version will require moodle 4.0+, and will no longer support Moodle 3.x (which ended its general support on 14 November 2022, and security support ended on 11 December 2023.)
+This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 
 TODO:
 

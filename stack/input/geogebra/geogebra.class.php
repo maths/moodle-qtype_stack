@@ -76,6 +76,11 @@ class stack_geogebra_input extends stack_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
+    public function renderApiData($tavalue) {
+        // Dummy function to allow code to run. GeoGebra not currently functional in API.
+        throw new stack_exception("Usage of geogebra is currently not supported.");
+    }
+
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);

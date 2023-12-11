@@ -21,7 +21,7 @@ Here is a basic example of use:
 [[/parsons]]
 ````
 
-Assume the question author writes a list of strings in Maxima, `proof_steps` in the question variables with both the correct and incorrect strings.
+Assume the question author writes a list `proof_steps` of pairs `["key", "string"]` in Maxima (as in the examples), in the question variables with both the correct and incorrect strings.
 
 ````
 [parsons input="ans1" ]]
@@ -31,12 +31,12 @@ Assume the question author writes a list of strings in Maxima, `proof_steps` in 
 
 or they can avoid strings going via Maxima at all by writing JSON directly
 
-Both these approaches can be combined
+Both these approaches can be combined, assuming `proof_steps` is a list of pairs `["key", "string"]` as in previous examples.
 
 ````
 [[parsons input="ans1"]]
 {
-  "1":{#proof_steps[1]#},
+  "1":{#proof_steps[1][2]#},
   "2":"Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\).",
   "3":"\\[ n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\]",
   "4":"Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
@@ -100,13 +100,13 @@ Functionality and styling can be customised through the use of block parameters.
 
 To track which random variants of a question a student sees, and make sure they return to the same variant, we need to perform all randomisation at the Maxima level.
 
-You must define steps as Maxima objects using a `proof_steps` list (see the documentation of for [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_library.md)) then you can randomly order the `proof_steps` as follows.
+To create a random order, you must define steps as Maxima objects using a `proof_steps` list (see the documentation of for [CAS libraries for representing text-based proofs](../Proof/Proof_CAS_library.md)) then you can randomly order the `proof_steps` as follows.
 
-1. Define `proof_steps` as normal.
+1. Define a variable `proof_steps` as normal.
 2. Add in `proof_steps:random_permutation(proof_steps);` to the question variables.
-3. Add in a question note `{@map(first, proof_steps)@}` to create a meaningful, minimal, question note giving the order of steps.
+3. Add in a question note such as `{@map(first, proof_steps)@}` to create a meaningful, minimal, question note giving the order of steps.
 
-Note, if you randomly generate random variants it is _strongly recommended_ you use text-based keys.  Keeping track of permuted numerical keys will be impossible!
+Note, if you randomly generate random variants it is _strongly recommended_ you use text-based keys.  Keeping track of permuted numerical keys will be very difficult!
 
 ## Block connection with Maxima
 

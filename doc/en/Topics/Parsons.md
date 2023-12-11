@@ -122,7 +122,10 @@ proof_steps: [
     ["conc_even",  "Hence \\(n^2\\) is even."]
 ];
 
+/* Generate the alternative proofs. */
 tal:proof_alternatives(ta);
+/* Create a set of flattened proofs. */
+tas:setify(map(proof_flatten, tal));
 ````
 
 The complete question text is

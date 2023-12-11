@@ -37,7 +37,7 @@ sa:proof_parsons_interpret(ans1);
 [pd, saa]:proof_assessment(sa, proof_alternatives(ta));
 ```
 
-The variable `pd` now contains the edit distance from the student's proof to the closest teacher's.  The teacher can decide if this is close enough (zero, of course means exact match) and whether to display the feedback.  If the number of edits required is at least the length of the teacher's proof then everything needs editing and there is little point displaying feedback!
+The variable `pd` now contains the edit distance from the student's proof to the closest teacher's.  The teacher can decide if this is close enough (zero, of course means exact match) and whether to display the feedback.  For example, use `ATAlgEquiv(pd,0)` to check if the student's proof matches one of the teacher's proofs.  If the number of edits required is at least the length of the teacher's proof then everything needs editing and there is little point displaying feedback!
 
 To display feedback use `{@proof_assessment_display(saa, proof_steps)@}` in a PRT feedback (or other castext).
 

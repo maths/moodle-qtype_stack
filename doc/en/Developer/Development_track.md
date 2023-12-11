@@ -5,9 +5,9 @@ past development history is documented on [Development history](Development_hist
 
 ## Version 4.6.0
 
-This version will require moodle 4.0+, and will no longer support Moodle 3.x (which ends its general support on 14 November 2022, and security support ends on 11 December 2023.)
+This version will require moodle 4.0+, and will no longer support Moodle 3.x (which ended its general support on 14 November 2022, and security support ended on 11 December 2023.)
 
-Todo:
+TODO:
 
 1. Change 'core/event' to 'core_filters/events' in input.js and stackjsvle.js.
 2. Strip out parallel DB support in reporting etc.  Search for `stack_determine_moodle_version()`
@@ -17,23 +17,9 @@ Todo:
 6. Error messages: use caserror.class more fully to use user information to target error messages.
 7. Remove all "cte" code from Maxima - mostly install.
 
-## Version 4.5.0
-
-Please note, this is the _last_ version of STACK which will support Moodle 3.x.
-
-1. Re-factor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
-2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TODO: possible option to change shape at the input level?)
-3. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
-4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
-5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
-6. Confirm support for PHP 8.2, (fixes issue #986).
-7. Add in a [GeoGebra block](../Authoring/GeoGebra.md), and see [GeoGebra authoring](../Topics/GeoGebra.md).  Thanks to Tim Lutz for contributing this code as part of the AuthOMath project.
-8. Add in an option `margin` to control margins around STACK-generated plots.
-9. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).
-
 ## Parson's block development track
 
-Essential (v 4.5.0)
+Essential (v 4.6.0)
 
 1. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block.  We can talk about this.
 2. Polish up the "use once" or "clone" strings.

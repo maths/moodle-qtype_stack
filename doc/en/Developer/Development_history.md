@@ -2,6 +2,24 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.5.0
+
+Released December 2023.
+
+Please note, this is the _last_ version of STACK which will support Moodle 3.x.
+
+1. Re-factor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
+2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TODO: possible option to change shape at the input level?)
+3. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
+4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
+5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
+6. Confirm support for PHP 8.2, (fixes issue #986).
+7. Add in a [GeoGebra block](../Authoring/GeoGebra.md), and see [GeoGebra authoring](../Topics/GeoGebra.md).  Thanks to Tim Lutz for contributing this code as part of the AuthOMath project.
+8. Add in an option `margin` to control margins around STACK-generated plots.
+9. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).  (First version, but still more to do including syntax hints, and locking after the quiz is closed.)
+
+There are also numerous minor improvements and bug fixes.
+
 ## Version 4.4.6
 
 Released October 2023.

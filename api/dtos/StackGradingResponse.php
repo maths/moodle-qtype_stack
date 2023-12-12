@@ -4,9 +4,13 @@ namespace api\dtos;
 
 class StackGradingResponse
 {
-    public bool $isGradable;
-    public float $Score;
-    public string $SpecificFeedback;
-    public array $Prts;
+    /** @var boolean */
+    public $isGradable;
+    /** @var float */
+    public $Score;
+    /** @var string */
+    public $SpecificFeedback;
+    /** @var array */
+    public $Prts;
     public $GradingAssets;
 }

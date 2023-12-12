@@ -4,14 +4,17 @@ namespace api\dtos;
 
 class StackRenderResponse
 {
-    public string $QuestionRender;
-    public string $QuestionSampleSolutionText;
+    /** @var string */
+    public $QuestionRender;
+    /** @var string */
+    public $QuestionSampleSolutionText;
     /** @var StackRenderInput[]  */
     public $QuestionInputs;
     public $QuestionAssets;
-    public int $QuestionSeed;
+    /** @var int */
+    public $QuestionSeed;
     /** @var int[]  */
-    public array $QuestionVariants;
+    public $QuestionVariants;
 }
 
 class StackRenderInput {

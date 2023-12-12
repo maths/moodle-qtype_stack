@@ -73,18 +73,26 @@ class GradingController
             $feedback = $result->get_feedback();
             $standardfeedback = $this->standard_prt_feedback($question, $result, $feedbackStyle);
 
-            $overallFeedback = match ($feedbackStyle) {
-                //Formative
-                0 => $feedback,
-                //Standard
-                1, 2 => $standardfeedback . $feedback,
-                //Compact
-                // Symbolic
-                3 => $standardfeedback,
-                // Invalid
-                default => "Invalid Feedback style"
-            };
-
+            switch ($feedbackStyle) {
+                // Formative.
+                case 0:
+                    $overallFeedback = $feedback;
+                    break;
+                // Standard.
+                case 1:
+                case 2:
+                    $overallFeedback = $standardfeedback . $feedback;
+                    break;
+                // Compact.
+                // Symbolic.
+                case 3:
+                    $overallFeedback = $standardfeedback;
+                    break;
+                // Invalid.
+                default:
+                    $overallFeedback = "Invalid Feedback style";
+                    break;
+            }
 
             $scores[$index] = $result->get_score();
 

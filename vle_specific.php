@@ -15,7 +15,7 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 defined('MOODLE_INTERNAL') || die();
-
+global $CFG;
 // This file defines question_display_options which the next class extends.
 require_once($CFG->libdir . '/questionlib.php');
 require_once('questiondisplayoptions.php');

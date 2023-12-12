@@ -182,9 +182,10 @@ if (data_submitted() && optional_param('jsxgraphs', false, PARAM_BOOL)) {
         $filter = 'false';
         $other = 'false';
         $json = json_encode($q->compiledcache);
-        if (mb_strpos($json, '[\\"jsxgraph\\",') !== false) {
+        if (mb_strpos($json, 'STACK JSXGraph') !== false && mb_strpos($json, 'JSXGRAPH_COUNT') !== false) {
             $block = 'true';
-            $json = str_replace('[\\"jsxgraph\\",', '', $json);
+            $json = str_replace('STACK JSXGraph', '', $json);
+            $json = str_replace('JSXGRAPH_COUNT', '', $json);
         }
         if (mb_strpos($json, '</jsxgraph>') !== false) {
             $filter = 'true';
@@ -192,7 +193,12 @@ if (data_submitted() && optional_param('jsxgraphs', false, PARAM_BOOL)) {
             $json = str_replace('<jsxgraph', '', $json);
         }
         if (mb_stripos($json, 'jsxgraph') !== false) {
+            // This currentyl provides false positives, as it cannot separate loaded
+            // scripts from those loaded through the block.
             $other = 'true';
+            if ($block === 'true') {
+                $other = 'maybe';
+            }
         }
         // Confirm that it does have these.
         if ($block || $filter || $other) {

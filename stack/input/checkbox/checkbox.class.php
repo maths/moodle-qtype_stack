@@ -96,13 +96,12 @@ class stack_checkbox_input extends stack_dropdown_input {
         return $result;
     }
 
-    public function renderApiData($tavalue)
-    {
+    public function renderApiData($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
 
-        $data = array();
+        $data = [];
 
         $data['type'] = 'checkbox';
         $data['options'] = $this->get_choices();

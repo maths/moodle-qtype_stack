@@ -93,13 +93,12 @@ class stack_numerical_input extends stack_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
-    public function renderApiData($tavalue)
-    {
+    public function renderApiData($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
 
-        $data = array();
+        $data = [];
 
         $data['type'] = 'numerical';
         $data['boxWidth'] = $this->parameters['boxWidth'];

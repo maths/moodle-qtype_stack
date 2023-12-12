@@ -75,7 +75,7 @@ class stack_notes_input extends stack_input {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
 
-        $data = array();
+        $data = [];
 
         $data['type'] = 'notes';
         $data['boxWidth'] = $this->parameters['boxWidth'];

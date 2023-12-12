@@ -1,4 +1,18 @@
 <?php
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Simple html output class
@@ -160,7 +174,7 @@ class html_writer {
         $attributes = (array)$attributes;
         $output = '';
 
-        if ($label !== '' and !is_null($label)) {
+        if ($label !== '' && !is_null($label)) {
             if (empty($attributes['id'])) {
                 $attributes['id'] = self::random_id('checkbox_');
             }
@@ -172,8 +186,8 @@ class html_writer {
 
         $output .= self::empty_tag('input', $attributes);
 
-        if ($label !== '' and !is_null($label)) {
-            $output .= self::tag('label', $label, array('for' => $attributes['id']));
+        if ($label !== '' && !is_null($label)) {
+            $output .= self::tag('label', $label, ['for' => $attributes['id']]);
         }
 
         return $output;
@@ -188,7 +202,7 @@ class html_writer {
      * @return string HTML fragment
      */
     public static function select_yes_no($name, $selected = true, array $attributes = null) {
-        $options = array('1' => get_string('yes'), '0' => get_string('no'));
+        $options = ['1' => get_string('yes'), '0' => get_string('no')];
 
         return self::select($options, $name, $selected, null, $attributes);
     }
@@ -208,19 +222,19 @@ class html_writer {
      * @return string HTML fragment
      */
     public static function select(
-        array $options, $name, $selected = '', $nothing = array('' => 'choosedots'), array $attributes = null) {
+        array $options, $name, $selected = '', $nothing = ['' => 'choosedots'], array $attributes = null) {
         $attributes = (array)$attributes;
         if (is_array($nothing)) {
             foreach ($nothing as $k => $v) {
-                if ($v === 'choose' or $v === 'choosedots') {
+                if ($v === 'choose' || $v === 'choosedots') {
                     $nothing[$k] = get_string('choosedots');
                 }
             }
             $options = $nothing + $options; // Keep keys, do not override.
         } else {
-            if (is_string($nothing) and $nothing !== '') {
+            if (is_string($nothing) && $nothing !== '') {
                 // BC.
-                $options = array('' => $nothing) + $options;
+                $options = ['' => $nothing] + $options;
             }
         }
 
@@ -279,7 +293,7 @@ class html_writer {
      * @return string HTML fragment
      */
     private static function select_option($label, $value, array $selected) {
-        $attributes = array();
+        $attributes = [];
         $value = (string)$value;
         if (in_array($value, $selected, true)) {
             $attributes['selected'] = 'selected';
@@ -301,7 +315,7 @@ class html_writer {
         if (empty($options)) {
             return '';
         }
-        $attributes = array('label' => $groupname);
+        $attributes = ['label' => $groupname];
         $output = '';
         foreach ($options as $value => $label) {
             $output .= self::select_option($label, $value, $selected);
@@ -326,7 +340,7 @@ class html_writer {
         }
         $currentdate = usergetdate($currenttime);
         $userdatetype = $type;
-        $timeunits = array();
+        $timeunits = [];
 
         switch ($type) {
             case 'years':
@@ -369,9 +383,9 @@ class html_writer {
         if (empty($attributes['id'])) {
             $attributes['id'] = self::random_id('ts_');
         }
-        $timerselector = self::select($timeunits, $name, $currentdate[$userdatetype], null, array('id' => $attributes['id']));
+        $timerselector = self::select($timeunits, $name, $currentdate[$userdatetype], null, ['id' => $attributes['id']]);
         $label = self::tag('label', get_string(substr($type, 0, -1), 'form'),
-            array('for' => $attributes['id'], 'class' => 'accesshide'));
+            ['for' => $attributes['id'], 'class' => 'accesshide']);
 
         return $label . $timerselector;
     }
@@ -414,7 +428,7 @@ class html_writer {
 
         $output = '';
         foreach ($params as $key => $value) {
-            $attributes = array('type' => 'hidden', 'name' => $key, 'value' => $value);
+            $attributes = ['type' => 'hidden', 'name' => $key, 'value' => $value];
             $output .= self::empty_tag('input', $attributes) . "\n";
         }
 
@@ -430,12 +444,12 @@ class html_writer {
      */
     public static function script($jscode, $url = null) {
         if ($jscode) {
-            $attributes = array('type' => 'text/javascript');
+            $attributes = ['type' => 'text/javascript'];
 
             return self::tag('script', "\n//<![CDATA[\n$jscode\n//]]>\n", $attributes) . "\n";
         } else {
             if ($url) {
-                $attributes = array('type' => 'text/javascript', 'src' => $url);
+                $attributes = ['type' => 'text/javascript', 'src' => $url];
 
                 return self::tag('script', '', $attributes) . "\n";
             } else {
@@ -506,8 +520,9 @@ class html_writer {
 
         // Explicitly assigned properties override those defined via $table->attributes.
         $table->attributes['class'] = trim($table->attributes['class']);
-        $attributes = array_merge($table->attributes, array('id' => $table->id, 'width' => $table->width,
-            'summary' => $table->summary, 'cellpadding' => $table->cellpadding, 'cellspacing' => $table->cellspacing));
+        $attributes = array_merge($table->attributes, ['id' => $table->id, 'width' => $table->width,
+            'summary' => $table->summary, 'cellpadding' => $table->cellpadding, 'cellspacing' => $table->cellspacing,
+            ]);
         $output = self::start_tag('table', $attributes) . "\n";
 
         $countcols = 0;
@@ -515,8 +530,8 @@ class html_writer {
         if (!empty($table->head)) {
             $countcols = count($table->head);
 
-            $output .= self::start_tag('thead', array()) . "\n";
-            $output .= self::start_tag('tr', array()) . "\n";
+            $output .= self::start_tag('thead', []) . "\n";
+            $output .= self::start_tag('tr', []) . "\n";
             $keys = array_keys($table->head);
             $lastkey = end($keys);
 
@@ -550,8 +565,9 @@ class html_writer {
                     $heading->attributes['class'] .= ' ' . $table->colclasses[$key];
                 }
                 $heading->attributes['class'] = trim($heading->attributes['class']);
-                $attributes = array_merge($heading->attributes, array('style' => $table->align[$key] . $table->size[$key] .
-                    $heading->style, 'scope' => $heading->scope, 'colspan' => $heading->colspan));
+                $attributes = array_merge($heading->attributes, ['style' => $table->align[$key] . $table->size[$key] .
+                    $heading->style, 'scope' => $heading->scope, 'colspan' => $heading->colspan,
+                    ]);
 
                 $tagtype = 'td';
                 if ($heading->header === true) {
@@ -565,8 +581,8 @@ class html_writer {
             if (empty($table->data)) {
                 // For valid XHTML strict every table must contain either a valid tr
                 // r a valid tbody... both of which must contain a valid td.
-                $output .= self::start_tag('tbody', array('class' => 'empty'));
-                $output .= self::tag('tr', self::tag('td', '', array('colspan' => count($table->head))));
+                $output .= self::start_tag('tbody', ['class' => 'empty']);
+                $output .= self::tag('tr', self::tag('td', '', ['colspan' => count($table->head)]));
                 $output .= self::end_tag('tbody');
             }
         }
@@ -575,12 +591,12 @@ class html_writer {
             $oddeven = 1;
             $keys = array_keys($table->data);
             $lastrowkey = end($keys);
-            $output .= self::start_tag('tbody', array());
+            $output .= self::start_tag('tbody', []);
 
             foreach ($table->data as $key => $row) {
                 if (($row === 'hr') && ($countcols)) {
                     $output .= self::tag('td', self::tag('div', '',
-                        array('class' => 'tabledivider')), array('colspan' => $countcols));
+                        ['class' => 'tabledivider']), ['colspan' => $countcols]);
                 } else {
                     // Convert array rows to html_table_rows and cell strings to html_table_cell objects.
                     if (!($row instanceof html_table_row)) {
@@ -605,14 +621,15 @@ class html_writer {
                         $row->attributes['class'] .= ' lastrow';
                     }
 
-                    $output .= self::start_tag('tr', array('class' => trim($row->attributes['class']),
-                            'style' => $row->style, 'id' => $row->id)) . "\n";
+                    $output .= self::start_tag('tr', ['class' => trim($row->attributes['class']),
+                            'style' => $row->style, 'id' => $row->id,
+                            ]) . "\n";
                     $keys2 = array_keys($row->cells);
                     $lastkey = end($keys2);
 
                     $gotlastkey = false; // Flag for sanity checking.
                     foreach ($row->cells as $key => $cell) {
-                        if ($gotlastkey0) {
+                        if ($gotlastkey) {
                             // This should never happen. Why do we have a cell after the last cell?
                             mtrace("A cell with key ($key) was found after the last key ($lastkey)");
                         }
@@ -641,9 +658,10 @@ class html_writer {
                         $tdstyle .= isset($table->size[$key]) ? $table->size[$key] : '';
                         $tdstyle .= isset($table->wrap[$key]) ? $table->wrap[$key] : '';
                         $cell->attributes['class'] = trim($cell->attributes['class']);
-                        $tdattributes = array_merge($cell->attributes, array('style' => $tdstyle .
+                        $tdattributes = array_merge($cell->attributes, ['style' => $tdstyle .
                             $cell->style, 'colspan' => $cell->colspan, 'rowspan' => $cell->rowspan,
-                            'id' => $cell->id, 'abbr' => $cell->abbr, 'scope' => $cell->scope));
+                            'id' => $cell->id, 'abbr' => $cell->abbr, 'scope' => $cell->scope,
+                            ]);
                         $tagtype = 'td';
                         if ($cell->header === true) {
                             $tagtype = 'th';
@@ -681,9 +699,9 @@ class html_writer {
      * @param array $attributes to be inserted in the tab, for example array('accesskey' => 'a')
      * @return string HTML of the label element
      */
-    public static function label($text, $for, $colonize = true, array $attributes = array()) {
+    public static function label($text, $for, $colonize = true, array $attributes = []) {
         if (!is_null($for)) {
-            $attributes = array_merge($attributes, array('for' => $for));
+            $attributes = array_merge($attributes, ['for' => $for]);
         }
         $text = trim($text);
         $label = self::tag('label', $text, $attributes);

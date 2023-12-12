@@ -117,13 +117,12 @@ class stack_varmatrix_input extends stack_input {
         return html_writer::tag('div', $xhtml, array('class' => $matrixbrackets));
     }
 
-    public function renderApiData($tavalue)
-    {
+    public function renderApiData($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
 
-        $data = array();
+        $data = [];
 
         $data['type'] = 'varmatrix';
         $data['boxWidth'] = $this->parameters['boxWidth'];

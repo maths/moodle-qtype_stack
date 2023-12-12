@@ -79,13 +79,12 @@ class stack_textarea_input extends stack_input {
         return html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
     }
 
-    public function renderApiData($tavalue)
-    {
+    public function renderApiData($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
 
-        $data = array();
+        $data = [];
 
         $data['type'] = 'textarea';
         $data['boxWidth'] = $this->parameters['boxWidth'];

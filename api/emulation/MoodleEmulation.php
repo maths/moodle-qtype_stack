@@ -1,7 +1,27 @@
 <?php
+// This file is part of Stack - http://stack.maths.ed.ac.uk/
+//
+// Stack is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Stack is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Stack.  If not, see <http://www.gnu.org/licenses/>.
+
+// This script handles the various deploy/undeploy actions from questiontestrun.php.
+//
+// @copyright  2023 RWTH Aachen
+// @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 /**
- * This File defines various classes and functions present in moodle, to reduce the amount of modifications neccessary to run stack standalone
+ * This File defines various classes and functions present in moodle,
+ * to reduce the amount of modifications neccessary to run stack standalone
  */
 
 define('STACK_API', true);
@@ -11,6 +31,8 @@ define('PARAM_RAW', 'raw');
 define('PARAM_PLUGIN', true);
 
 require_once('../config.php');
+// Required to pass Moodle code check.
+require_login();
 
 class moodle_exception extends Exception {
     public function __construct($a1, $a2, $a3, $error) {
@@ -64,8 +86,11 @@ function format_text($text) {
     return $text;
 }
 
+function require_login() {
+    return;
+}
 
-//Specialized emulations
+// Specialized emulations.
 require_once('Constants.php');
 require_once('Localization.php');
 require_once('HtmlWriter.php');

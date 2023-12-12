@@ -121,13 +121,12 @@ class stack_equiv_input extends stack_input {
         return $output;
     }
 
-    public function renderApiData($tavalue)
-    {
+    public function renderApiData($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
 
-        $data = array();
+        $data = [];
 
         $data['type'] = 'equiv';
         $data['boxWidth'] = $this->parameters['boxWidth'];

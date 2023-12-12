@@ -934,7 +934,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2023092400, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2023093000) {
+    if ($oldversion < 2023111600) {
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('decimals', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, '.');
 
@@ -944,7 +944,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         }
 
         // STACK savepoint reached.
-        upgrade_plugin_savepoint(true, 2023093000, 'qtype', 'stack');
+        upgrade_plugin_savepoint(true, 2023111600, 'qtype', 'stack');
     }
 
     // Add new upgrade blocks just above here.
@@ -968,7 +968,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     // If appropriate, clear the CAS cache and re-generate the image.
     if ($latestversion != $currentlyusedversion) {
         stack_cas_connection_db_cache::clear_cache($DB);
-        if (get_config('qtype_stack', 'platform') !== 'server') {
+        if (!in_array(get_config('qtype_stack', 'platform'), ['server', 'server-proxy'])) {
             $pbar = new progress_bar('healthautomaxopt', 500, true);
             list($ok, $message) = stack_cas_configuration::create_auto_maxima_image();
             $pbar->update(500, 500, get_string('healthautomaxopt', 'qtype_stack', array()));

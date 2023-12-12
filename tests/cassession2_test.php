@@ -430,7 +430,7 @@ class cassession2_test extends qtype_stack_testcase {
     public function test_multiplication_option_onum() {
 
         $s1 = [];
-        $cs = array('a:2*x', 'b:2*3*x', 'c:3*5^2', 'd:3*x^2');
+        $cs = array('a:2*x', 'b:2*3*x', 'c:3*5^2', 'd:3*x^2', 's1:x*(-y)', 's2:3*(-4)*x*(-y)');
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array());
         }
@@ -445,6 +445,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('2\times 3\, x', $s1[1]->get_display());
         $this->assertEquals('3\, 5^2', $s1[2]->get_display());
         $this->assertEquals('3\, x^2', $s1[3]->get_display());
+        $this->assertEquals('x\, \left(-y\right)', $s1[4]->get_display());
+        $this->assertEquals('3\times \left(-4\right)\, x\, \left(-y\right)', $s1[5]->get_display());
 
         $s1 = [];
         $cs = array('texput(multsgnonlyfornumberssym, "\\\\cdot")',

@@ -190,7 +190,14 @@ function stack_cors_link(string $filename): string {
  */
 function stack_get_mathjax_url(): string {
     // TODO: figure out how to support VLE local with CORS.
-    return 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    return 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+}
+
+/*
+ * Gets the url for MathJax 3.
+ */
+function stack_get_mathjax3_url() {
+    return 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
 }
 
 /*

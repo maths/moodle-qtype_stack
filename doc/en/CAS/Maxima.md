@@ -125,7 +125,7 @@ You can use Maxima's looping structures within Question variables. For example
     n : 1;
     for a:-3 thru 26 step 7 do n:n+a;
 
-The result will be \(n=56\). It is also possible to define functions within the question variables for use within a question. 
+The result will be \(n=56\). It is also possible to define functions within the question variables for use within a question.
 
     f(x) := x^2;
     n : f(4);
@@ -152,10 +152,10 @@ STACK provides an inert function `sequence`.  All this does is display its argum
 * `sequencep` is a predicate to decide if the expression is a sequence.
 * The atom `dotdotdot` is displayed using the tex `\ldots` which looks like \(\ldots\).  This atom cannot be entered by students.
 
-STACK provides an inert function `ntuple`.  All this does is display its arguments with round brackets. For example `ntuple(1,2,3,4)` is displayed \((1,2,3,4)\).  
+STACK provides an inert function `ntuple`.  All this does is display its arguments with round brackets. For example `ntuple(1,2,3,4)` is displayed \((1,2,3,4)\).
 
-* `ntupleify` creates an n-tuple from the arguments of the expression.  This turns lists, sets etc. into an n-tuple. 
-* `ntuplep` is a predicate to decide if the expression is an ntuples. 
+* `ntupleify` creates an n-tuple from the arguments of the expression.  This turns lists, sets etc. into an n-tuple.
+* `ntuplep` is a predicate to decide if the expression is an ntuples.
 
 In strict Maxima syntax `(a,b,c)` is equivalent to `block(a,b,c)`.  If students type in `(a,b,c)` using a STACK input it is filtered to `ntuple(a,b,c)`. Teachers must use the `ntuple` function explicitly to construct question variables, teacher's answers, test cases and so on. The `ntuple` is useful for students to type in coordinates.
 
@@ -179,7 +179,7 @@ Currently, students can enter expressions with "implied ntuples" E.g
 
 * Student input of `(1,2,3)` is interpreted as `ntuple(1,2,3)`.
 * Student input of `{(1,2,3),(4,5,6)}` is interpreted as `{ntuple(1,2,3),ntuple(4,5,6)}`.
-* Since no operations are defined on ntuples, students cannot currenlty enter things like `(1,2,3)+s*(1,0,0)`.  There is nothing to stop a teacher defining the expression tree `ntuple(1,2,3)+s*ntuple(1,0,0)`, but the operations `+` and `*` are not defined for ntuples and so nothing will happen!  If you want a student to enter the equation of a line/plane they should probably use the matrix syntax for vectors.  (This may change in the future).
+* Since no operations are defined on ntuples, students cannot currently enter things like `(1,2,3)+s*(1,0,0)`.  There is nothing to stop a teacher defining the expression tree `ntuple(1,2,3)+s*ntuple(1,0,0)`, but the operations `+` and `*` are not defined for ntuples and so nothing will happen!  If you want a student to enter the equation of a line/plane they should probably use the matrix syntax for vectors.  (This may change in the future).
 
 Matrices have options to control the display of the braces.  Matrices are displayed without commas.
 

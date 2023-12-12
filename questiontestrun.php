@@ -68,6 +68,8 @@ if (!$questiondata) {
     throw new stack_exception('questiondoesnotexist');
 }
 $question = question_bank::load_question($questionid);
+// We hard-wire decimals to be a full stop when testing questions.
+$question->options->set_option('decimals', '.');
 
 // Process any other URL parameters, and do require_login.
 list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);

@@ -66,8 +66,9 @@ class qtype_stack_test_helper extends question_test_helper {
             'sregexp',            // Uses the SRegExp answer test, and string input.
             'feedbackstyle',      // Test the various feedbackstyle options.
             'multilang',          // Check for mismatching languages.
+            'lang_blocks',        // Check for mismatching languages using STACK's [[lang...]] block mechanism.
             'block_locals',       // Make sure local variables within a block are still permitted student input.
-            'validator'           // Test teacher-defined input validators.
+            'validator'           // Test teacher-defined input validators and language.
         );
     }
 
@@ -3392,6 +3393,72 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * @return qtype_stack_question a question which tests language blocks.
+     */
+    public static function make_stack_question_lang_blocks() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2020112300';
+        $q->name = 'langblocks';
+        $q->questionvariables = "pt:5;ta2:(x-pt)^2";
+
+        $q->questiontext = '[[lang code="en,other"]] Give an example of a function \(f(x)\) with a stationary point ' .
+            'at \(x={@pt@}\).[[/lang]][[lang code="da"]] Giv et eksempel på en funktion \(f(x)\) med et stationært ' .
+            'punkt ved \(x={@pt@}\). [[/lang]] [[input:ans1]][[validation:ans1]][[feedback:prt1]]';
+
+        $q->specificfeedback = '';
+        $q->penalty = 0.35; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'ta2', new stack_options(),
+            array('boxWidth' => 5, 'allowWords' => ''));
+
+        $q->options->set_option('simplify', true);
+
+        $prt = new stdClass;
+        $prt->name              = 'prt1';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'subst(x=pt,diff(ans1,x))';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '[[lang code="en,other"]]At a stationary point, \\(f\'(x)\\) ' .
+                'should be zero. However, in your answer, \\(f\'({@pt@})={@subst(x=pt,diff(ans1,x))@}\\).[[/lang]]' .
+                '[[lang code="da"]]Ved et stationært punkt skal \\(f\'(x)\\) være nul. Men i dit svar er ' .
+                '\\(f\'({@pt@})={@subst(x=pt,diff(ans2,x))@}\\).[[/lang]]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt1-1-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt1-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
      * @return qtype_stack_question.
      */
     public static function make_stack_question_block_locals() {
@@ -3462,57 +3529,62 @@ class qtype_stack_test_helper extends question_test_helper {
         // We need to check that local variable names within the block are not invalid for student's input.
         $q->questionvariables = 'ta:phi^2-1;myvalidityidea(ex):=block(if ev(subsetp(setify(listofvars(ex)),' .
             'setify(listofvars(ta))), simp) then return(""),castext("[[lang code=\'fi\']]Vastauksesi sisältää ' .
-            'vääriä muuttujia.[[/lang]][[lang code=\'en\']]Your answer contains the wrong variables.[[/lang]]"));';
-        $q->questiontext = 'Type in the input {@ta@}.'
-            . '<p>[[input:ans1]]</p><div>[[validation:ans1]]</div>';
-            $q->generalfeedback = '';
-            $q->questionnote = '';
+            'vääriä muuttujia.[[/lang]][[lang code=\'en,other\']]Your answer contains the wrong variables.[[/lang]]"));';
+        // This question is also used to test the lang blocks at the top level.
+        $q->questiontext = "[[lang code='en,other']] What is {@ta@}? [[/lang]]<br>" .
+                           "[[lang code='de']] Was ist {@ta@}? [[/lang]]<br>" .
+                           "[[lang code='fi']] Mikä on {@ta@}? [[/lang]]<br>" .
+                           "[[input:ans1]] [[validation:ans1]]";
+        $q->generalfeedback = '';
+        $q->questionnote = '';
 
-            $q->specificfeedback = '[[feedback:firsttree]]';
-            $q->penalty = 0.25; // Non-zero and not the default.
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.25; // Non-zero and not the default.
 
-            $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'ta', null,
-                array('boxWidth' => 20, 'forbidWords' => '', 'allowWords' => '',
-                      'options' => 'validator:myvalidityidea'));
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'ta', null,
+            array('boxWidth' => 20, 'forbidWords' => '', 'allowWords' => '',
+                  'options' => 'validator:myvalidityidea'));
 
-            $prt = new stdClass;
-            $prt->name              = 'firsttree';
-            $prt->id                = 0;
-            $prt->value             = 1;
-            $prt->feedbackstyle     = 1;
-            $prt->feedbackvariables = '';
-            $prt->firstnodename     = '0';
-            $prt->nodes             = [];
-            $prt->autosimplify      = true;
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
 
-            $newnode = new stdClass;
-            $newnode->id                  = '0';
-            $newnode->nodename            = '0';
-            $newnode->description         = '';
-            $newnode->sans                = 'ans1';
-            $newnode->tans                = 'ta';
-            $newnode->answertest          = 'AlgEquiv';
-            $newnode->testoptions         = '';
-            $newnode->quiet               = false;
-            $newnode->falsescore          = '0';
-            $newnode->falsescoremode      = '=';
-            $newnode->falsepenalty        = $q->penalty;
-            $newnode->falsefeedback       = '';
-            $newnode->falsefeedbackformat = '1';
-            $newnode->falseanswernote     = 'firsttree-0-0';
-            $newnode->falsenextnode       = '-1';
-            $newnode->truescore           = '1';
-            $newnode->truescoremode       = '=';
-            $newnode->truepenalty         = $q->penalty;
-            $newnode->truefeedback        = '';
-            $newnode->truefeedbackformat  = '1';
-            $newnode->trueanswernote      = 'firsttree-0-1';
-            $newnode->truenextnode        = '-1';
-            $prt->nodes[] = $newnode;
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = "[[lang code='en,other']] wrong [[/lang]]<br> [[lang code='de']] falsch [[/lang]]" .
+            "<br> [[lang code='fi']] väärä [[/lang]]";
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = "[[lang code='en,other']] true answer [[/lang]]<br> [[lang code='de']] richtig [[/lang]]" .
+            "<br> [[lang code='fi']] oikea [[/lang]]";
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
 
-            $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-            return $q;
+        return $q;
     }
 }

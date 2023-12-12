@@ -25,7 +25,7 @@ To alter the order in STACK you can use the Maxima commands `orderless` and `ord
 
 See Maxima's documentation for more details.
 
-Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.  
+Only one `orderless` or `ordergreat` command can be issued in any session.  The last one encountered will be used and the others ignored.
 No warnings or errors are issued if more than one is encountered.
 
 ## Logarithms to an arbitrary base
@@ -44,7 +44,7 @@ For example (with `simp:true` or `simp:false`)
 
 results in `p=lg(27, 3)`, and `q=3`.
 
-The algebraic equivalence function `algebraic_equivalence`, and so anything upon which it depends, will automatically remove logarithms to other bases.  
+The algebraic equivalence function `algebraic_equivalence`, and so anything upon which it depends, will automatically remove logarithms to other bases.
 This includes the answer tests as needed.
 
 ## Selective simplification {#selective-simplification}
@@ -52,7 +52,7 @@ This includes the answer tests as needed.
 The level of simplification performed by Maxima can be controlled by changing Maxima's global variable `simp`, e.g.
 
     simp:true
-    
+
 When `simp` is set to `false`, no simplification is performed and Maxima is quite happy to deal with an expression such as \(1+4\) without actually performing the addition.
 This is most useful for dealing with very elementary expressions, and for [showing working](../CAS/Matrix.md#Showing-working).
 
@@ -62,7 +62,7 @@ When `simp` is set to `false`, you can evaluate an expression with simplificatio
 
     simp:false;
     a:ev(1+1,simp);
-    
+
 will give \(a=2\).
 
 ### Within CASText (question text, general feedback, etc.)
@@ -93,7 +93,7 @@ This command sets the value of `simp` for this expression, and all others which 
 
 ## Unary minus and simplification
 
-There are still some problems with the unary minus, e.g. sometimes we get the display \(4+(-3x)\) when we would actually like to always display as \(4-3x\).  
+There are still some problems with the unary minus, e.g. sometimes we get the display \(4+(-3x)\) when we would actually like to always display as \(4-3x\).
 This is a problem with the unary minus function `-(x)` as compared to binary infix subtraction `a-b`.
 
 To reproduce this problem type in the following into a Maxima session:
@@ -110,13 +110,13 @@ Notice the first subtraction is fine, but the second one is not.  To understand 
     ?print(p);
     ((MPLUS) ((MEXPT) $Y 3) ((MMINUS) ((MTIMES) 2 ((MEXPT) $Y 2))) ((MTIMES) ((MMINUS) 8) $Y))
 
-In the structure of this expression the first negative coefficient is `-(2*y^2)` BUT the second is `-(8)*y`.   
-This again is a crucial but subtle difference!  
+In the structure of this expression the first negative coefficient is `-(2*y^2)` BUT the second is `-(8)*y`.
+This again is a crucial but subtle difference!
 To address this issue we have a function
 
     unary_minus_sort(p);
 
-which pulls "-" out the front in a specific situation: that of a product with a negative number at the front.  
+which pulls "-" out the front in a specific situation: that of a product with a negative number at the front.
 The result here is the anticipated `y^3-2*y^2-8*y`.
 
 Note that STACK's display functions automatically apply `unary_minus_sort(...)` to any expression being displayed.
@@ -161,7 +161,7 @@ Like `disp_parens`, STACK provides a function `disp_select` which highlights par
 
 STACK provides the function `remove_disp_select(ex)` to remove this inert display function.  The function `remove_disp(ex)` removes all inert display functions.
 
-When creating feedback it is often useful to select, and highlight, part of an expression.  STACK provides a function `select(p1, ex)` to do this.  The select function traverses the expression tree for `ex` and when it encounters a sub-tree for which the predicate `p1` is true it adds `disp_select` to the sub-tree and stops traversing any further down that sub-tree.  While nested `disp_select` are possible (and will dispaly multiple underlines: another reason for having underline) this particular function stops once `p1` is true.  You will need to build nested display by hand.
+When creating feedback it is often useful to select, and highlight, part of an expression.  STACK provides a function `select(p1, ex)` to do this.  The select function traverses the expression tree for `ex` and when it encounters a sub-tree for which the predicate `p1` is true it adds `disp_select` to the sub-tree and stops traversing any further down that sub-tree.  While nested `disp_select` are possible (and will display multiple underlines: another reason for having underline) this particular function stops once `p1` is true.  You will need to build nested display by hand.
 
 For example, to select all the integers in an expression you can use the predicate `integerp` and `select(integerp, 1+x+0.5*x^2)` gives \(\color{red}{\underline{1}}+x+0.5\cdot x^{\color{red}{\underline{2}}}\).
 
@@ -240,7 +240,7 @@ To create the binomial coefficients
 
 ## Surds
 
-Imagine you would like the student to expand out \( (\sqrt{5}-2)(\sqrt{5}+4)=2\sqrt{5}-3 \). 
+Imagine you would like the student to expand out \( (\sqrt{5}-2)(\sqrt{5}+4)=2\sqrt{5}-3 \).
 There are two tests you probably want to apply to the student's answer.
 
 1. Algebraic equivalence with the correct answer: use `ATAlgEquiv`.

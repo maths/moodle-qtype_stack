@@ -72,7 +72,7 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('radio', 'ans1', '[[1+x,true],[2+y,false]]', null, array());
         // @codingStandardsIgnoreEnd
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
-                'id="stack1__ans1_" /><label for="stack1__ans1_">(No answer given)</label></div><div class="option">' .
+                'id="stack1__ans1_" /><label for="stack1__ans1_">(Clear my choice)</label></div><div class="option">' .
                 '<br /></div><div class="option"><input type="radio" name="stack1__ans1" value="1" ' .
                 'id="stack1__ans1_1" /><label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(1+x\)</span></span></label></div><div class="option">' .
@@ -93,7 +93,7 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         // @codingStandardsIgnoreEnd
         $expected = '<div class="answer">'
             . '<div class="option"><input type="radio" name="stack1__ans1" value="" id="stack1__ans1_" />'
-            . '<label for="stack1__ans1_">(No answer given)</label></div>'
+            . '<label for="stack1__ans1_">(Clear my choice)</label></div>'
             . '<div class="option"><br /></div><div class="option">'
             . '<input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />'
             . '<label for="stack1__ans1_1"><code>1+x</code></label></div>'
@@ -154,7 +154,7 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
         // @codingStandardsIgnoreStart
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
-                'id="stack1__ans1_" /><label for="stack1__ans1_">(No answer given)</label></div><div class="option">' .
+                'id="stack1__ans1_" /><label for="stack1__ans1_">(Clear my choice)</label></div><div class="option">' .
                 '<br /></div><div class="option">' .
                 '<input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />' .
                 '<label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
@@ -169,7 +169,7 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
     public function test_render_not_answered() {
         $el = $this->make_radio();
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
-                'id="stack1__ans1_" /><label for="stack1__ans1_">(No answer given)</label></div><div class="option">' .
+                'id="stack1__ans1_" /><label for="stack1__ans1_">(Clear my choice)</label></div><div class="option">' .
                 '<br /></div><div class="option">' .
                 '<input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />' .
                 '<label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
@@ -188,7 +188,7 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
     public function test_render_default() {
         $el = $this->make_radio();
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
-                'id="stack1__ans1_" /><label for="stack1__ans1_">(No answer given)</label></div>' .
+                'id="stack1__ans1_" /><label for="stack1__ans1_">(Clear my choice)</label></div>' .
                 '<div class="option"><br /></div><div class="option">' .
                 '<input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />' .
                 '<label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
@@ -210,7 +210,7 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         $el = $this->make_radio(array('options' => 'casstring'));
         $el->adapt_to_model_answer($this->make_ta());
         $expected = '<div class="answer">'
-            . '<div class="option"><input type="radio" name="stack1__ans1" value="" id="stack1__ans1_" /><label for="stack1__ans1_">(No answer given)</label></div>'
+            . '<div class="option"><input type="radio" name="stack1__ans1" value="" id="stack1__ans1_" /><label for="stack1__ans1_">(Clear my choice)</label></div>'
             . '<div class="option"><br /></div><div class="option"><input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />'
             . '<label for="stack1__ans1_1"><code>x+1</code></label></div>'
             . '<div class="option"><input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" /><label for="stack1__ans1_2"><code>x+2</code></label></div>'
@@ -226,7 +226,7 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
     public function test_render_latex() {
         $el = $this->make_radio(array('options' => 'LaTeX'));
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
-                'id="stack1__ans1_" /><label for="stack1__ans1_">(No answer given)</label></div>' .
+                'id="stack1__ans1_" /><label for="stack1__ans1_">(Clear my choice)</label></div>' .
                 '<div class="option"><br /></div><div class="option">' .
                 '<input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />' .
                 '<label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
@@ -247,7 +247,7 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
     public function test_render_latexdisplay() {
         $el = $this->make_radio(array('options' => 'LaTeXdisplay'));
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
-                'id="stack1__ans1_" /><label for="stack1__ans1_">(No answer given)</label></div><div class="option">' .
+                'id="stack1__ans1_" /><label for="stack1__ans1_">(Clear my choice)</label></div><div class="option">' .
                 '<br /></div><div class="option">' .
                 '<input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />' .
                 '<label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
@@ -268,7 +268,7 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
     public function test_render_latexdisplaystyle() {
         $el = $this->make_radio(array('options' => 'LaTeXdisplaystyle'));
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
-                'id="stack1__ans1_" /><label for="stack1__ans1_">(No answer given)</label></div>' .
+                'id="stack1__ans1_" /><label for="stack1__ans1_">(Clear my choice)</label></div>' .
                 '<div class="option"><br /></div><div class="option">' .
                 '<input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />' .
                 '<label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
@@ -334,7 +334,7 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         $el->adapt_to_model_answer('[[1+2,true],[2*x,false]]');
         // @codingStandardsIgnoreStart
         $expected = '<div class="answer"><div class="option"><input type="radio" name="stack1__ans1" value="" ' .
-                'id="stack1__ans1_" /><label for="stack1__ans1_">(No answer given)</label></div><div class="option">' .
+                'id="stack1__ans1_" /><label for="stack1__ans1_">(Clear my choice)</label></div><div class="option">' .
                 '<br /></div><div class="option"><input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />' .
                 '<label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(1+2\)</span></span></label></div><div class="option">' .

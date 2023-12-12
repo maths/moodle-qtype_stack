@@ -56,11 +56,11 @@ Test cases can include a meaningful description of up to 255 characters.  This f
 
 ## Test case construction and Maxima evaluation
 
-Test cases are always written assuming `simp:false` regardless of the option set elsewhere.  If you want to construct a simplified test case then wrap this in `ev(... , simp)` to simplify the expression generating the test case.  This behaviour is required to enable construction of unsimplified test cases.
+Test cases are always written assuming `simp:false` regardless of the option set elsewhere.  If you want to construct a simplified test case then wrap this in `ev(... , simp)` to simplify the expression generating the test case.  This behaviour is required to enable construction of un-simplified test cases.
 
 Test cases are always written using the period `.` as the decimal separator.  This corresponds to strict Maxima syntax, which teachers should always use.
 
-You can (and should) constuct test cases based on invalid expressions.  If the raw testcase expression cannot be sent to the CAS, e.g. a missing bracket, then this invalidity will be tested.
+You can (and should) construct test cases based on invalid expressions.  If the raw testcase expression cannot be sent to the CAS, e.g. a missing bracket, then this invalidity will be tested.
 
 While test case construction uses `simp:false` Maxima must "evaluate" the expression prior to the result being used by an input as a test case.  This will replace variables by their values.  E.g. the typical case is to define a variable such as `ta` as the teacher's answer in the question variables field and use this throughout the question.  This answer will either be simplified, or not, when the question variables are evaluated.  To construct a test case using the teacher's answer use `ta` as the test case input.
 
@@ -94,10 +94,13 @@ For the checkbox type you will need the whole list.
 
     tc1:mcq_correct(ta);
 
-### Test case construction and numerical precision.
+### Test case construction and numerical precision
 
 You can construct test cases using the functions such as `dispdp` to create a test-case input with trailing zeros.  This is neeeded if the input, or answer test, is testing for a minimum number of decimal places or significant figures.
 
+### Test case construction and decimal separators
+
+The decimal separator option (e.g. `.` or `,`) is a very thin layer based on the student input.  The teacher must always use a `.` (full stop) as the decimal separator in question variables.  Consistent with this, all test-case construction must use a `.` (full stop) as the decimal separator.  This means it's hard to test the functionality of the decimal separator option (sorry), but otherwise there is genuine confusion in the internal logic about _when_ to assume a `,` is a decimal separator or a list separator.  Also, if you change this option in the question you do not need to change all your test cases.
 
 ## Testing values of variables
 

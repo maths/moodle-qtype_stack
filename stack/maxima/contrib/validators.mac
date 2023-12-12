@@ -31,3 +31,29 @@ validate_underscore(ex) := if is(sposition("_", string(ex)) = false) then ""
 /* Add in unit-test cases using STACK's s_test_case function.  At least two please! */
 s_test_case(validate_underscore(1+a1), "");
 s_test_case(validate_underscore(1+a_1), "Underscore characters are not permitted in this input.");
+
+/* The student may not use a user-defined function, or arrays, anywhere in their input. */
+validate_nofunctions(ex):= block([op1],
+  if atom(ex) then return(""),
+  op1:ev(op(ex)),
+  op1:apply(properties, [op1]),
+  if ev(emptyp(op1) or is(op1=[noun]),simp) then return("User-defined functions are not permitted in this input."),
+  apply(sconcat, map(validate_nofunctions, args(ex)))
+);
+
+s_test_case(validate_nofunctions(1+a1), "");
+s_test_case(validate_nofunctions(sin(n*x)), "");
+s_test_case(validate_nofunctions(-b#pm#sqrt(b^2-4*a*c)), "");
+s_test_case(validate_nofunctions(x(2)), "User-defined functions are not permitted in this input.");
+s_test_case(validate_nofunctions(x(t)), "User-defined functions are not permitted in this input.");
+s_test_case(validate_nofunctions(1+f(x+1)), "User-defined functions are not permitted in this input.");
+
+/* The student may only use single-character variable names in their answer. */
+/* This is intended for use when Insert Stars is turned off, but we still want to indicate to students that they may have forgotten a star */
+validate_all_one_letter_variables(ex) := if not(is(ev(lmax(map(lambda([ex2],slength(string(ex2))),listofvars(ex))),simp)>1)) then ""
+        else "Only single-character variable names are permitted in this input. Perhaps you forgot to use an asterisk (*) somewhere, or perhaps you used a Greek letter.";
+
+s_test_case(validate_all_one_letter_variables(1), "");
+s_test_case(validate_all_one_letter_variables((A*x+B)/(x^2+1) + C/x), "");
+s_test_case(validate_all_one_letter_variables((Ax+B)/(x^2+1) + C/x), "Only single-character variable names are permitted in this input. Perhaps you forgot to use an asterisk (*) somewhere, or perhaps you used a Greek letter.");
+s_test_case(validate_all_one_letter_variables((theta*x+B)/(x^2+1) + C/x), "Only single-character variable names are permitted in this input. Perhaps you forgot to use an asterisk (*) somewhere, or perhaps you used a Greek letter.");

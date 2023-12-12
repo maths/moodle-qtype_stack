@@ -18,7 +18,7 @@ In particular, the test assumes that the constant of integration is expressed in
 
 The Int test has various additional options.
 
-The question author must supply these options in the form of a list `[var, opt1, ...]`.  The first argument of this list must be the variable with respect to which integration is taking place.  
+The question author must supply these options in the form of a list `[var, opt1, ...]`.  The first argument of this list must be the variable with respect to which integration is taking place.
 
 If one of the `opt?` is exactly the token `NOCONST` then the test will condone a lack of constant of integration.  That is, if a student has missed off a constant of integration, or the answers differ by a numerical constant, then full marks will be awarded.  Weird constants (e.g. \(+c^2\)) will still be flagged up.
 
@@ -31,7 +31,7 @@ In many cases simply differentiating the teacher's answer is fine, in which case
 
 The test cannot cope with some situations.  Please contact the developers when you find some of these.  This test is already rather overloaded, so please don't expect every request to be accommodated!
 
-This test, in particular, has a lot of test cases which really document what the test does in detail.  
+This test, in particular, has a lot of test cases which really document what the test does in detail.
 
 The issue of \( \int \frac{1}{x} dx = \log(x)+c\) vs  \( \int \frac{1}{x} dx = \log(|x|)+c\) is a particular challenge. What mark would you give a student who integrated
 \[ \int \frac{1}{x} dx = \log(k\times abs(x))?\]
@@ -47,6 +47,6 @@ Now, the following are rejected as incorrect, as the studnet should have used \(
 
 Note that STACK sets the value of Maxima's `logabs:true`, which is not the default in Maxima.  This has the effect of adding the absolute value funtion when `integrate` is used.
 
-In the case of partial  fractions where there are more than one term of the form \(\log(x-a)\) then 
-we insist the student is at least consistent.  If the teacher has *any*  \(\log(|x-a|)\) then the student must use \(|...|\) in *all* of them.  If the teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the 
+In the case of partial  fractions where there are more than one term of the form \(\log(x-a)\) then
+we insist the student is at least consistent.  If the teacher has *any*  \(\log(|x-a|)\) then the student must use \(|...|\) in *all* of them.  If the teacher has no \(\log(|x-a|)\) (i.e. just things like \(\log(x-a)\)) then the
 student must have all or none. 

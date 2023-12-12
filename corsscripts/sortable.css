@@ -1,0 +1,111 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");
+@import url("../styles.css");
+
+body {
+    background-color:inherit;
+}
+
+button {
+    margin: 2px 3px;
+} 
+
+.container {
+    overflow: auto;
+}
+
+#usedList:empty { 
+    height:50px; background-color: floralwhite; border: 2px solid rgb(155, 199, 206); 
+}
+
+#usedList > li {
+    background-color:rgb(176, 221, 228); border-left: thick solid rgb(155, 199, 206);
+    float: left;
+}
+            
+#availableList > li {
+    background-color:rgb(243, 189, 88);
+    float: left;
+}
+
+#availableList:empty {
+    height:50px; background-color:lightpink; 
+} 
+
+#availableList > .sortable-chosen {
+    box-shadow:0px 0px 0px 3px rgb(226, 150, 9) inset;
+}
+
+#usedList > .sortable-chosen {
+    box-shadow:0px 0px 0px 3px rgb(155, 199, 206) inset;
+}
+
+#usedList > .header {
+    background-color: inherit; text-align: center; border-bottom: thick solid; 
+}
+
+#availableList > .header {
+    background-color: inherit; text-align: center; border-bottom: thick solid rgb(196, 131, 10);
+}
+
+.parsons-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    margin: 2px 2px;
+    font-size: 25px;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    cursor: pointer;
+    background-color: #6c757d;
+    border: 1px solid #6c757d;
+    color: #ffffff;
+    border-radius: 0.35rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Hover effect */
+.parsons-button:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+    color: #ffffff;
+}
+
+.parsons-bin {
+    width: 33%;
+    cursor: default;
+}
+
+.bin-icon {
+    margin-right: 0.75rem; 
+}
+
+.drop-zone {
+    vertical-align: middle;
+    display: inline-flex;
+    flex: 1;
+    border: 2px dashed #6c757d;
+    border-radius: 0.25rem;
+    background-color: lightgray; 
+    align-self: stretch;
+}
+
+.drop-zone > li {
+    font-size: 0.75rem;
+    background-color: lightcoral;
+    max-height: 100%;
+    max-width: 100%;
+    text-align: left;
+    flex: 1;
+    box-shadow: 0px 0px 0px 2px rgb(167, 89, 89) inset;
+}
+
+.sortable-warning {
+    float: right;
+    font-size: 0.8em;
+    margin: -0.3em -0.3em;
+}
+

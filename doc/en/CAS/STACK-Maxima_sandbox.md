@@ -6,7 +6,7 @@ The first step is to install wxMaxima on your local machine (http://maxima.sourc
 
 ### Getting the STACK libraries
 
-You will need to download the STACK files onto your local machine.  Download all the STACK files from GitHub (git clone or as a .zip).  E.g. try `https://github.com/maths/moodle-qtype_stack/archive/master.zip` 
+You will need to download the STACK files onto your local machine.  Download all the STACK files from GitHub (git clone or as a .zip).  E.g. try `https://github.com/maths/moodle-qtype_stack/archive/master.zip`
 
 The only files you need to run the sandbox are contained within the directory
 
@@ -16,17 +16,17 @@ This directory also contains the wxMaxima file `sandbox.wmx` which is the "sandb
 
     stack/maxima/stackmaxima.mac
 
-Copy `sandbox.wmx` somewhere you can find it later and edit this file to reflect the location of the above file on your local machine.  
+Copy `sandbox.wmx` somewhere you can find it later and edit this file to reflect the location of the above file on your local machine.
 
-On a Microsoft operating system, if you place the all the files (i.e. clone or unzip the download) into 
+On a Microsoft operating system, if you place the all the files (i.e. clone or unzip the download) into
 
     c:/tmp/stackroot
 
-the `sandbox.wmx` should work without further adjustment.  
+the `sandbox.wmx` should work without further adjustment.
 
 Otherwise open `sandbox.wmx` with wxMaxima and follow the further instructions it contains to setup the path for Maxima.  __Note, the backslash character `\` is a control character so you will need to edit the path to replace the `\` with `/` in wxMaxima.__ Execute the sandbox file with wxMaxima when you have updated the settings with `cell > Evaluate all cells`.  If you see something like the following you have set this up correctly (version numbers will vary).
 
-    [ STACK-Maxima started, library version 2022022300 ] 
+    [ STACK-Maxima started, library version 2022022300 ]
 
 You can test this out by using, for example, the `rand()` function.
 
@@ -80,7 +80,7 @@ STACK turns off the traditional two-dimensional display, which we can turn back 
 
     display2d:true;
 
-## Setting Maxima's Global Path (Microsoft) ###
+## Setting Maxima's Global Path (Microsoft)
 
 Setting the path in Maxima is a problem on a Microsoft platform.  Maxima does not deal well with spaces in filenames, for example.  The simplest solution is to create a directory
 
@@ -106,4 +106,4 @@ It is more important to match the version of the STACK code you downloaded from 
 
     https://stack-demo.maths.ed.ac.uk/demo/question/type/stack/doc/doc.php/
 
-shows the version of the STACK code the demo site is running.
+shows the version of the STACK code the demo site is running. 

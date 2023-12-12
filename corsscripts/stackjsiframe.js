@@ -94,6 +94,9 @@ window.addEventListener("message", (e) => {
         // 2. Set its value. But don't trigger changes.
         DISABLE_CHANGES[msg.name] = true;
         element.value = msg.value;
+        if (msg['input-readonly']) {
+            element.setAttribute('readonly', 'readonly');
+        }
         DISABLE_CHANGES[msg.name] = false;
 
         // 3. Resolve the promise so that things can move forward.
@@ -171,6 +174,10 @@ export const stack_js = {
      * 
      * You may declare that you want to also react to input events.
      * This might not be that efficient but matches the old JSXGraph binding.
+     * 
+     * From 4.4.7 readonly/disabled inputs are cloned as readonly, at this point
+     * we do not automatically disable accessing or editing them but you can base your
+     * own logic on the input having that attribute. `.hasAttribute('readonly')`.
      */
     request_access_to_input: function(inputname, inputevents) {
         const input = document.createElement('input');
@@ -318,6 +325,35 @@ export const stack_js = {
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
+
+    /** 
+     * Displays an error message on the question page.
+     * 
+     * @param {*} errmesg 
+     */
+    display_error(errmesg) {
+        // 1. Create the message.
+        const p = document.createElement('p');
+        p.appendChild(document.createTextNode(errmesg));
+
+        // 2. Do we already have an error-div?
+        const div = document.getElementById('error');
+        if (div) {
+            div.appendChild(p);
+        } else {
+            // If not
+            const div = document.createElement('div');
+            div.id = 'error';
+            div.style.color = 'red';
+            const h1 = document.createElement('h1');
+            h1.appendChild(document.createTextNode('Error'));
+            div.appendChild(h1);
+            div.appendChild(p);
+            
+            // We simply throw everything away and replace with the message.
+            document.body.replaceChildren(div);
+        }
+    }
 };
 
 export default stack_js;

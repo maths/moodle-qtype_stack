@@ -77,7 +77,8 @@ function xmldb_qtype_stack_install() {
         set_config('casdebugging', 1, 'qtype_stack');
         set_config('mathsdisplay', 'mathjax', 'qtype_stack');
 
-        if (!defined('QTYPE_STACK_TEST_CONFIG_PLATFORM') || !in_array(QTYPE_STACK_TEST_CONFIG_PLATFORM, ['server', 'none'])) {
+        if (!defined('QTYPE_STACK_TEST_CONFIG_PLATFORM')
+                    || !in_array(QTYPE_STACK_TEST_CONFIG_PLATFORM, ['server', 'server-proxy', 'none'])) {
             list($ok, $message) = stack_cas_configuration::create_auto_maxima_image();
             if (!$ok) {
                 throw new coding_exception('maxima_opt_auto creation failed.', $message);

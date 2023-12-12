@@ -159,7 +159,7 @@ class stack_matrix_input extends stack_input {
             // @codingStandardsIgnoreEnd
             $rows = $this->modinput_tokenizer(substr($t, 7, -1));
             for ($i = 0; $i < count($rows); $i++) {
-                $row = $this->modinput_tokenizer(substr($rows[$i], 1, -1));
+                $row = $this->modinput_tokenizer(substr(trim($rows[$i]), 1, -1));
                 $tc[$i] = $row;
             }
         }

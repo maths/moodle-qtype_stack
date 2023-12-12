@@ -10,9 +10,9 @@ This list is in approximate order of the size of the equivalence classes from mo
 
 | Test                                              | Description (see below for more details)
 | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| CasEqual                                          | Are the [parse trees](../Trees.md) of the two expressions equal?  
-| [EqualComAss](Rule_based.md)                      | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division? 
-| [EqualComAssRules](Rule_based.md)                 | Are they equal up to commutativity, associativity and with optional rules such as \(0\times x \rightarrow 0\)? 
+| CasEqual                                          | Are the [parse trees](../Trees.md) of the two expressions equal?
+| [EqualComAss](Rule_based.md)                      | Are they equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division?
+| [EqualComAssRules](Rule_based.md)                 | Are they equal up to commutativity, associativity and with optional rules such as \(0\times x \rightarrow 0\)?
 | AlgEquivNouns                                     | Are they _algebraically equivalent_, preserving noun forms of operators, e.g. `diff`?
 | AlgEquiv                                          | Are they _algebraically equivalent_?
 | SubstEquiv                                        | Can we find a substitution of the variables of \(ex_2\) into \(ex_1\) which renders \(ex_1\) algebraically equivalent to \(ex_2\)?
@@ -36,9 +36,11 @@ This test will work with a variety of [types of object](../../CAS/Maxima.md#Type
 
 Note: exactly what it does depends on what objects are given to it.  In particular the pseudo code above only applies to expressions.  We cannot subtract one list or set from another, so we have to use other tests.
 
-For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment. 
+For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment.
 
 Currently we do check multiplicity of roots, so that \( (x-2)^2=0\) and \( x=2\) are not considered to be equivalent.  Similarly \(a^3b^3=0\) is not \(a=0 \mbox{ or } b=0\).  This is a long-standing issue and we would need a separate test to ignore multiplicity of roots.
+
+Inequalities are turned into sets of real numbers they represent.  When this is done it is indicated by the answer note `ATInequality_solver.`  If you want `a>1` to be _not_ the same as `x>1` then you need to test in a more syntactic way, not using algebraic equivalence.
 
 Currently, \(\{-\frac{\sqrt{2}}{\sqrt{3}}\}\) and \(\{-\frac{2}{\sqrt{6}}\}\) are considered to be different.  If you want these to be considered the same, you need to write them in a canonical form.   Instead of passing in just the sets, use the answer test to compare the following.
 
@@ -79,7 +81,7 @@ The CAS returns the result of the simple Maxima command
 
 There is no explicit simplification here (unlike AlgEquiv).
 This test always assumes [simplification](../../CAS/Simplification.md) is off, i.e. `simp:false`, regardless of any question settings.  If this is too strict, use `ev(ex,simp)` in the arguments to simplify them explicitly first.
-When simplification is off this test effectively tests whether the parse trees are identical. 
+When simplification is off this test effectively tests whether the parse trees are identical.
 
 Please note, the behaviour of this test relies on the internal representation of expressions by Maxima, rather than an explicit mathematical property such as "equivalence".  Explicit properties should be tested in preference to using this test!
 

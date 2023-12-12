@@ -636,7 +636,7 @@ abstract class stack_input {
      * @return stack_input_state represents the current state of the input.
      */
     public function validate_student_response($response, $options, $teacheranswer, stack_cas_security $basesecurity,
-            $ajaxinput = false, $castextprocessor = null, $questionvariables = null) {
+            $ajaxinput = false, $castextprocessor = null, $questionvariables = null, $lang = null) {
         if (!is_a($options, 'stack_options')) {
             throw new stack_exception('stack_input: validate_student_response: options not of class stack_options');
         }
@@ -703,7 +703,13 @@ abstract class stack_input {
         }
         $lvarsdisp   = '';
         $note        = '';
-        $sessionvars = $this->contextsession;
+        $sessionvars = [];
+        // We might need languages in bespoke validation functions defined by the user.
+        if ($lang !== null) {
+            $sessionvars[] = new stack_secure_loader('%_STACK_LANG:' .
+                stack_utils::php_string_to_maxima_string($lang), 'language setting');
+        }
+        $sessionvars = array_merge($sessionvars, $this->contextsession);
 
         // Clone answer so we can get the displayed form without the set validation context function, which simplifies.
         $answerd = clone $answer;

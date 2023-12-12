@@ -199,6 +199,12 @@ removeonce(ex, l) := block(
   append([first(l)], removeonce(ex,rest(l)))
 )$
 
+/* All the elements of l1, which do not occur in l2.  Removes all occurances from l1, not one at a time. */
+listdifference(l1, l2) := block(
+  if emptyp(l1) or emptyp(l2) then return(l1),
+  listdifference(sublist(l1, lambda([ex], not(ev(is(ex=first(l2)), simp)))), rest(l2))
+);
+
 /* Remove any common elements from [l1,l2], with duplication. */
 list_cancel(ex) := block([l1, l2, l3],
   l1:first(ex),
@@ -947,6 +953,7 @@ algebraic_equivalence(SA, SB) :=
        ex:first(args(ex)),
     if (safe_op(ex)="*" or safe_op(ex)="^") then
        if not(any_listp(algebraic_equivalence_zero, args(ex))) then return(false),
+    keepfloat:false,
     ex:errcatch(ratsimp(ex)),
     if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),
     ex:ex[1],
@@ -973,7 +980,8 @@ algebraic_equivalence(SA, SB) :=
 
 /* This test establishes if two expressions appear NOT to be equivalent.
    It does so by evaluating the expressions numerically.        */
-numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_quiet,listdummyvars],
+numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_quiet,listdummyvars,trigexpand],
+  trigexpand:false,
   stack_mtell_quiet:true,
   listdummyvars:false,
   /* We take the *union* of the two lists of variables, this way we
@@ -1019,7 +1027,7 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
   if first(sz) > 0.0001 then true else false
 )$
 
-/* Are there any user-defined function? */
+/* Are there any user-defined functions? */
 recurse_userfunctionp(ex):= block([op1],
   if atom(ex) then return(false),
   op1:ev(op(ex)),

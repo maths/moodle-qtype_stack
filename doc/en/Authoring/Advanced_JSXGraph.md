@@ -1,12 +1,12 @@
 # Advanced JSXGraph: `stack_jxg.custom_bind`
 
-As stated in the general [JSXGraph-block docs](JSXGraph.md#manual_binding) binding together 
+As stated in the general [JSXGraph-block docs](JSXGraph.md#manual_binding) binding together
 STACK inputs and the state of the graph consists of three important things:
 
  1. We need to turn the state we wish to store into a string when it needs to be stored.
  2. We need to be able to restore the state from a string when need be, typically on page
     load or during two-way binding style usage.
- 3. We need to know when those things need to happen, i.e. what interractions with the graph
+ 3. We need to know when those things need to happen, i.e. what interactions with the graph
     trigger the first point and when to trigger the second.
 
 As this is almost always the same for all bindings the `stack_jxg` library provides a general
@@ -38,7 +38,7 @@ There are things that may not be obvious, here are some that are worth noting:
     that is enough to restore it, but the serialisation could still contain various angles
     or other helpful details in addition to those points so that you do not need to calculate
     them in Maxima.
- 2. The countter point to that is that you should never trust anything coming from
+ 2. The counter point to that is that you should never trust anything coming from
     the browser and nothing grading related should be calculated in the browser. However,
     it is pretty rare to see a student modifying the serialised state stored in the input
     so that it would contain wrong grading details, so do what feels natural. What is likely
@@ -76,7 +76,7 @@ The graph will not be directed and we will sort the edge listing for ease of use
 1-based indexing in the edge listing, and do some padding to keep our JavaScript side indexing of
 points 1-based as well.
 
-For user interface we will use a logic where dragging nodes into a particular area will 
+For user interface we will use a logic where dragging nodes into a particular area will
 connect/disconnect them from other nodes within that area. There will also be an area from which
 one can drag new nodes out of or into which one can drop extra nodes for destruction.
 
@@ -286,7 +286,7 @@ const deserialiser = (value) => {
 	board.update();
 };
 
-/* Then lets add a magical point for creating new nodes. If one drags it outside 
+/* Then lets add a magical point for creating new nodes. If one drags it outside
    the circle it will create a new node at that place before returning back. */
 const magicPoint = board.create('point', [source.center.X(), source.center.Y()], {name: 'Place me to create a new node.', size: 0.2, sizeUnit: 'user'});
 magicPoint.on('up', () => {
@@ -324,7 +324,7 @@ At 1. the serialiser is rather simple, if yours is not consider whether the way 
 state is clear enough. Typically, well constructed state is easy to serialise.
 
 At 2. the key thing to note is that when we create new elements that need to be bound we need
-to register them, unregistering is not possible and one should probably not care about that, as
+to register them, un-registering is not possible and one should probably not care about that, as
 extra registered items, while taking room and time during evaluation of logic are not that
 common and will be dropped during page refresh. Typically, users do not do so many actions that
 the lag would be noticeable.

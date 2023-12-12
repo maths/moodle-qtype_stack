@@ -88,9 +88,9 @@ For an individual question, the teacher can set the variable
 
 in any of the usual places, e.g. in the question variables.
 
-To set the display of an individual matrix, `m` say, in CASText you can use
+To set the display of an individual matrix, `m` say, in castext you can use
 
-    {@(lmxchar:"|", m)@} 
+    {@(lmxchar:"|", m)@}
 
 Since `lmxchar` is a global setting in Maxima, you will have to set it back when you next display a matrix.  Not ideal, but there we are.
 
@@ -144,7 +144,7 @@ and a student types in `a*x+b*y` then the tex output will be \(a\cdot \mathbf{\v
 
 ### Vector cross product ###
 
-The wedge product operator is denoted by the tilde `~`.  This is the `itensor` package.  This package is not normally loaded by STACK, and in any case the package takes lists and not matrices.  For convenience, the following function has been added which requires `3*1` matrices.  
+The wedge product operator is denoted by the tilde `~`.  This is the `itensor` package.  This package is not normally loaded by STACK, and in any case the package takes lists and not matrices.  For convenience, the following function has been added which requires `3*1` matrices.
 
     crossproduct(a,b);
 

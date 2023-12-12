@@ -17,16 +17,16 @@ The syntax to enter a derivative in Maxima is `diff(y,x,n)`.  Teachers need to u
 Students' answers always have noun forms added. If a student types in `diff(y,x)` then this is protected by a special function `noundiff(y,x)` (etc), and ends up being sent to answer test as `'diff(y,x,1)`. If a student types in (literally) `diff(y,x)+1 = 0` this will end up being sent to answer test as `'diff(y,x,1)+1 = 0`.
 
 The answer test `AlgEquiv` evaluates all nouns.   This has a (perhaps) unexpected side-effect that `noundiff(y,x)` will be equivalent to `0`, and `noundiff(y(x),x)` is not.  For this reason we have an alternative [answer test](../Authoring/Answer_Tests/index.md) `AlgEquivNouns` which does not evaluate all the nouns.
-The `ATEqualComAss` also evaluates its arguments but does not "simplify" them.  So, counter-intuatively perhaps, we currently do have `ATEqualComAss(diff(x^2,x), 2*x);` as true.
+The `ATEqualComAss` also evaluates its arguments but does not "simplify" them.  So, counter-intuitively perhaps, we currently do have `ATEqualComAss(diff(x^2,x), 2*x);` as true.
 
-Students might expect to enter expressions like \( y' \), \( \dot{y} \) or \( y_x \) (especially if you are using `derivabbrev:true`, see below).   The use by Maxima of the apostrophe which affects evaluation also has a side-effect that we can't accept `y'` as valid student input.  Input `y_x` is an atom.  Individual questions could interpet this as `'diff(y,x)` but there is no systematic mechanism for intepreting subscripts as derivatives.  Input `dy/dx` is the division of one atom `dy` by another `dx` and so will commute with other multiplication and division in the expression as normal.  There is no way to protect input `dy/dx` as \( \frac{\mathrm{d}y}{\mathrm{d}x}\).  The only input which is interpreted by STACK as a derivative is Maxima's `diff` function, and students must type this as input.
+Students might expect to enter expressions like \( y' \), \( \dot{y} \) or \( y_x \) (especially if you are using `derivabbrev:true`, see below).   The use by Maxima of the apostrophe which affects evaluation also has a side-effect that we can't accept `y'` as valid student input.  Input `y_x` is an atom.  Individual questions could interpret this as `'diff(y,x)` but there is no systematic mechanism for interpreting subscripts as derivatives.  Input `dy/dx` is the division of one atom `dy` by another `dx` and so will commute with other multiplication and division in the expression as normal.  There is no way to protect input `dy/dx` as \( \frac{\mathrm{d}y}{\mathrm{d}x}\).  The only input which is interpreted by STACK as a derivative is Maxima's `diff` function, and students must type this as input.
 
-The exprssion `diff(y(x),x)` is not the same as `diff(y,x)`.  In Maxima `diff(y(x),x)` is not evaluated further.  Getting students to type `diff(y(x),x)` and not `diff(y,x)` will be a challange.  Hence, if you want to condone the difference, it is probably best to evaluate the student's answer in the feedback variables as follows to ensure all occurances of `y` become `y(x)`.
+The expression `diff(y(x),x)` is not the same as `diff(y,x)`.  In Maxima `diff(y(x),x)` is not evaluated further.  Getting students to type `diff(y(x),x)` and not `diff(y,x)` will be a challenge.  Hence, if you want to condone the difference, it is probably best to evaluate the student's answer in the feedback variables as follows to ensure all occurrences of `y` become `y(x)`.
 
     ans1:'diff(y(x),x)+1 = 0;
     ansyx:subst(y,y(x),ans1);
 
-Trying to substitute `y(x)` for `y` will throw an error.  Don't use the following, as if the student has used `y(x)` then it will become `y(x)(x)`! 
+Trying to substitute `y(x)` for `y` will throw an error.  Don't use the following, as if the student has used `y(x)` then it will become `y(x)(x)`!
 
     ans1:'diff(y,x)+1 = 0;
     ansyx:ev(ans1,y=y(x));
@@ -39,7 +39,7 @@ Maxima has two notations to display ODEs.
 
 If `derivabbrev:false` then`'diff(y,x)` is displayed in STACK as \( \frac{\mathrm{d}y}{\mathrm{d}x}\).   Note this differs from Maxima's normal notation of \( \frac{\mathrm{d}}{\mathrm{d}x}y\).
 
-If `derivabbrev:true` then `'diff(y,x)` is displayed in STACK and Maxima as \( y_x \).  
+If `derivabbrev:true` then `'diff(y,x)` is displayed in STACK and Maxima as \( y_x \).
 
 * Extra brackets are sometimes produced around the differential.
 * You must have `simp:true` otherwise the display routines will not work.
@@ -178,12 +178,12 @@ However, it is unusual to want to specify the name of a constant.  A student may
 Sometimes students use the \(\pm\) operator, e.g. instead of typing in \( Ae^{\lambda t} \) they type in \( \pm Ae^{\lambda_1 t} \) as `+-A*e^(lambda*t)`.  The \(\pm\) has a somewhat ambiguous status in mathematics, but it is likely that many people will want to condone its use here.
 
 Internally, the \(\pm\) operator is represented with an infix (or prefix) operation `#pm#`, which is part of STACK but not core Maxima.  Instead of `a+-b` teachers must type `a#pm#b`.  Students' answers get translated into this format.
-Mostly when dealing with expressions you need to remove the \(\pm\) operator.  To remove the \(\pm\) operator STACK provides the function `pm_replace(ex)` which performs the re-write rules 
+Mostly when dealing with expressions you need to remove the \(\pm\) operator.  To remove the \(\pm\) operator STACK provides the function `pm_replace(ex)` which performs the re-write rules
 \[ a\pm b \rightarrow (a+b) \vee (a-b) \]
 \[ \pm a \rightarrow a \vee -a \]
 (actually using STACK's `nounor` operator to prevent evaluation).
 
-If you simply want to implement the re-write rule \( a\pm b \rightarrow a+b, \) i.e. ignore the \(\pm\) operator, then you can use `subst( "+","#pm#", ex)`.  For example, this substitution can be done in the feebdack variables on a student's answer.  If you would like to test code offline with `#pm#` then you will need to make use of the [Maxima sandbox](../CAS/STACK-Maxima_sandbox.md).
+If you simply want to implement the re-write rule \( a\pm b \rightarrow a+b, \) i.e. ignore the \(\pm\) operator, then you can use `subst( "+","#pm#", ex)`.  For example, this substitution can be done in the feedback variables on a student's answer.  If you would like to test code offline with `#pm#` then you will need to make use of the [Maxima sandbox](../CAS/STACK-Maxima_sandbox.md).
 
 ## Second order linear differential equations with constant coefficients ##
 
@@ -366,4 +366,4 @@ Further examples are
 
 ## See also
 
-[Maxima reference topics](index.md#reference)
+[Maxima reference topics](index.md#reference) 

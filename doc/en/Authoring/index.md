@@ -49,7 +49,7 @@ The authoring documentation also covers topics on:
 
 #### [Mathematics topics](../Topics/index.md)
 
-* [Proof](../Topics/Proof.md)
+* [Proof](../Proof/index.md)
 * [Curve sketching](../Topics/Curve_sketching.md).
 
 #### Other

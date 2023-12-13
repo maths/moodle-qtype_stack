@@ -326,3 +326,66 @@ Finally, we finish the question by adding the appropriate answer box inside a hi
     <div hidden="">[[input:ans1]] [[validation:ans1]]</div>
 
 The student's input, `ans1`, is now exactly a Maxima list of ones and zeros, and to mark the students answer we could check that `apply("+",ans1)` is exactly equal to 2.
+
+## A catalogue of plots
+
+The following CASText gives representative examples of the height, width and aspect ratio options supported by STACK's jsxgraph block  Cut and paste it into the CASchat script.
+
+````
+Default options
+[[jsxgraph]]
+  /* boundingbox:[left, top, right, bottom] */
+  var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-3, 1, 3, -1], axis: true, showCopyright: false});
+  var f = board.jc.snippet('sin(x^2)', true, 'x', true);
+  board.create('functiongraph', [f,-3,3]);
+[[/jsxgraph]]
+
+Absolute units
+[[jsxgraph height='100px' width='200px']]
+  /* boundingbox:[left, top, right, bottom] */
+  var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-3, 1, 3, -1], axis: true, showCopyright: false});
+  var f = board.jc.snippet('sin(x^2)', true, 'x', true);
+  board.create('functiongraph', [f,-3,3]);
+[[/jsxgraph]]
+
+Relative units: 50% width, default height
+[[jsxgraph width='50%']]
+  /* boundingbox:[left, top, right, bottom] */
+  var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-3, 1, 3, -1], axis: true, showCopyright: false});
+  var f = board.jc.snippet('sin(x^2)', true, 'x', true);
+  board.create('functiongraph', [f,-3,3]);
+[[/jsxgraph]]
+
+Relative units: 50% width, 50% height (use vh for relative height: todo why?!)
+[[jsxgraph width='50%' height='50vh']]
+  /* boundingbox:[left, top, right, bottom] */
+  var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-3, 1, 3, -1], axis: true, showCopyright: false});
+  var f = board.jc.snippet('sin(x^2)', true, 'x', true);
+  board.create('functiongraph', [f,-3,3]);
+[[/jsxgraph]]
+
+Aspect ratio, and absolute width
+[[jsxgraph width='300px' aspect-ratio='1']]
+  /* boundingbox:[left, top, right, bottom] */
+  var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-3, 1, 3, -1], axis: true, showCopyright: false});
+  var f = board.jc.snippet('sin(x^2)', true, 'x', true);
+  board.create('functiongraph', [f,-3,3]);
+[[/jsxgraph]]
+
+Aspect ratio of 3, and absolute width
+[[jsxgraph width='300px' aspect-ratio='3']]
+  /* boundingbox:[left, top, right, bottom] */
+  var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-3, 1, 3, -1], axis: true, showCopyright: false});
+  var f = board.jc.snippet('sin(x^2)', true, 'x', true);
+  board.create('functiongraph', [f,-3,3]);
+[[/jsxgraph]]
+
+Aspect ratio of 3, and relative width
+[[jsxgraph width='50%' aspect-ratio='3']]
+  /* boundingbox:[left, top, right, bottom] */
+  var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-3, 1, 3, -1], axis: true, showCopyright: false});
+  var f = board.jc.snippet('sin(x^2)', true, 'x', true);
+  board.create('functiongraph', [f,-3,3]);
+[[/jsxgraph]]
+````
+

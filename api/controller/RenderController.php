@@ -104,7 +104,14 @@ class RenderController {
                 }
             }
 
+            $tavalue = $question->get_ta_for_input($name);
+            $fieldname = 'stackapi_input_' . $name;
+            // TODO - Should be able to set this.
+            $state = $question->get_input_state($name, []);
+            $render = $input->render($state, $fieldname, false, [$tavalue]);
             $inputs[$name] = $apiinput;
+
+            $inputs[$name]->render = $render;
         }
 
         // Necessary, as php will otherwise encode this as an empty array, instead of an empty object.

@@ -58,7 +58,7 @@ class ValidationController {
             throw new \stack_exception('invalid input name');
         }
 
-        $validationresponse->Validation =
+        $validationresponse->validation =
             $question->inputs[$data["inputName"]]->render_validation(
                 $question->get_input_state(
                     $data["inputName"],

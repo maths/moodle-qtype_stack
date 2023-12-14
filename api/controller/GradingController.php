@@ -82,7 +82,8 @@ class GradingController {
             // If not all inputs required for the prt have been filled out,
             // or the prt evaluation caused an error, we abort the grading,
             // and indicate that this input state is not gradable.
-            if ($result->get_errors() || !$question->has_necessary_prt_inputs($prt, $data['answers'], true)) {
+            // TODO All inputs requirement disabled. Needs a proper flag.
+            if ($result->get_errors() || (1!=1 && !$question->has_necessary_prt_inputs($prt, $data['answers'], true))) {
                 $gradingresponse = new StackGradingResponse();
                 $gradingresponse->isgradable = false;
 
@@ -132,11 +133,11 @@ class GradingController {
         }
 
         $gradingresponse->score = $score;
-        $gradingresponse->Specificfeedback = $translate->filter(
+        $gradingresponse->specificfeedback = $translate->filter(
             $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor),
             $language
         );
-        StackPlotReplacer::replace_plots($plots, $gradingresponse->Specificfeedback, "specificFeedback", $storeprefix);
+        StackPlotReplacer::replace_plots($plots, $gradingresponse->specificfeedback, "specificfeedback", $storeprefix);
 
         $gradingresponse->gradingassets = (object) $plots;
 

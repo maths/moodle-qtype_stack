@@ -41,7 +41,6 @@ $errormiddleware = $app->addErrorMiddleware(false, true, true);
 $errorhandler = $errormiddleware->getDefaultErrorHandler();
 $errorhandler->forceContentType("application/json");
 $errorhandler->registerErrorRenderer('application/json', ErrorRenderer::class);
-
 $app->post('/render', RenderController::class);
 $app->post('/grade', GradingController::class);
 $app->post('/validate', ValidationController::class);

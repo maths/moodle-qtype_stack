@@ -1,0 +1,287 @@
+<html>
+  <head>
+      <meta charset="utf-8"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/codemirror.min.css" />
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/addon/lint/lint.min.css" />
+      <style>
+        .CodeMirror { border: 1px solid #ddd;}
+        .CodeMirror {
+          width: 49%;
+          float: left;
+          height: 500px;
+        }
+        .feedback {
+          color: #7d5a29;
+          background-color: #fcf2d4;
+          border-radius: 4px;
+          border: 1px solid #7d5a2933;
+        }
+      </style>
+      <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [['$', '$'], ['\\[','\\]'], ['\\(','\\)']],
+            displayMath: [['$$', '$$']],
+            processEscapes: true,
+            skipTags: ["script","noscript","style","textarea","pre","code","button"]
+          },
+          showMathMenu: false
+        })
+      </script>
+      <script
+        type="text/javascript"
+        src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-AMS_HTML"
+      >
+      </script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.10.0/js-yaml.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/codemirror.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/addon/lint/lint.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/addon/lint/yaml-lint.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/mode/yaml/yaml.js"></script>
+    </head>
+  <body>
+    <script>
+
+      var timeOutHandler = new Object();
+
+      function collectData() {
+
+        var res = {
+          questionDefinition: yamlEditor.getDoc().getValue(),
+          answers: collectAnswer(),
+          seed: 1896856589
+        }
+        return res;
+      }
+
+      function processNodes(res, nodes) {
+        for (var i = 0; i < nodes.length; i++) {
+          var element = nodes[i];
+          if (element.name.indexOf('stackapi_input') === 0 && element.name.indexOf('_val') === -1) {
+            if (element.type === 'checkbox' || element.type === 'radio') {
+              if (element.checked) {
+                res[element.name] = element.value
+              }
+            } else {
+              res[element.name.slice(15)] = element.value
+            }
+          }
+        }
+        return res;
+      }
+
+      function collectAnswer() {
+        var inputs = document.getElementsByTagName('input')
+        var textareas = document.getElementsByTagName('textarea')
+        var selects = document.getElementsByTagName('select')
+        var res = {};
+        res = processNodes(res, inputs);
+        res = processNodes(res, textareas);
+        res = processNodes(res, selects);
+        return res;
+      }
+
+      function send() {
+        var http = new XMLHttpRequest();
+        var url = "http://localhost:3080/render";
+        http.open("POST", url, true);
+
+        http.setRequestHeader('Content-Type', 'application/json')
+        http.onreadystatechange = function() {
+            if(http.readyState == 4) {
+              try {
+                var json = JSON.parse(http.responseText);
+                if (json.error) {
+                  document.getElementById('output').innerText = http.responseText;
+                  return
+                }
+                let question = json.questionrender;
+                const inputs = json.questioninputs;
+                for (const [name, input] of Object.entries(inputs)) {
+                  question = question.replace(`[[input:${name}]]`, input.render);
+                  question = question.replace(`[[validation:${name}]]`, `<div name='stackapi_val_${name}'></div>`);
+                }
+
+                const feedbackTags = question.match(/\[\[feedback:.*\]\]/g);
+                if (feedbackTags) {
+                  for (const tag of feedbackTags) {
+                    question = question.replace(tag, `<div name='stackapi_fb_${tag.slice(11, -2)}'></div>`);
+                  }
+                }
+                for (const [name, file] of Object.entries(json.questionassets)) {
+                    question = question.replace(name, `plots/${file}`);
+                    json.questionsamplesolutiontext = json.questionsamplesolutiontext.replace(name, `plots/${file}`);
+                }
+                if (feedbackTags) {
+                  for (const tag of feedbackTags) {
+                    question = question.replace(tag, `<div name='stackapi_fb_${tag.slice(11, -2)}'></div>`);
+                  }
+                }
+
+                document.getElementById('output').innerHTML = question;
+
+                for (const inputName of Object.keys(inputs)) {
+                  document.getElementsByName(`stackapi_input_${inputName}`)[0].oninput = (event) => {
+                    currentTimeout = timeOutHandler[event.target];
+                    if (currentTimeout) {
+                        window.clearTimeout(currentTimeout);
+                    }
+                    timeOutHandler[event.target] = window.setTimeout(validate.bind(null, event.target), 1500);
+                  };
+                }
+                const generalFeedbackElement = document.getElementById('generalfeedback');
+                if (json.questionsamplesolutiontext) {
+                  generalFeedbackElement.innerHTML= json.questionsamplesolutiontext;
+                  generalFeedbackElement.classList.add('feedback');
+                } else {
+                  generalFeedbackElement.classList.remove('feedback');
+                }
+                MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+              }
+              catch(e) {
+                document.getElementById('output').innerText = http.responseText;
+              }
+
+            }
+        }
+        http.send(JSON.stringify(collectData()))
+      }
+
+      function validate(element) {var http = new XMLHttpRequest();
+        var url = "http://localhost:3080/validate";
+        http.open("POST", url, true);
+        const answerName = element.name.slice(15);
+        http.setRequestHeader('Content-Type', 'application/json')
+        http.onreadystatechange = function() {
+            if(http.readyState == 4) {
+              try {
+                var json = JSON.parse(http.responseText);
+                if (json.error) {
+                  document.getElementById('output').innerText = http.responseText;
+                  return
+                }
+                const validationHTML = json.validation;
+                const element = document.getElementsByName(`stackapi_val_${answerName}`)[0];
+                element.innerHTML = validationHTML;
+                if (validationHTML) {
+                  element.classList.add('feedback');
+                } else {
+                  element.classList.remove('feedback');
+                }
+                MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+              }
+              catch(e) {
+                document.getElementById('output').innerText = http.responseText;
+              }
+            }
+        }
+
+        const data = collectData();
+        data.inputName = answerName;
+        http.send(JSON.stringify(data));
+      }
+
+      function answer() {
+        var http = new XMLHttpRequest();
+        var url = "http://localhost:3080/grade";
+        http.open("POST", url, true);
+
+        if (!document.getElementById('output').innerText) {
+          return;
+        }
+
+        http.setRequestHeader('Content-Type', 'application/json')
+        http.onreadystatechange = function() {
+            if(http.readyState == 4) {
+              try {
+                var json = JSON.parse(http.responseText);
+                if (json.error) {
+                  document.getElementById('output').innerText = http.responseText;
+                  return
+                }
+                const feedback = json.prts;
+                if (!feedback) {
+                  return;
+                }
+                for (const [name, fb] of Object.entries(feedback)) {
+                  for (const [name, file] of Object.entries(json.gradingassets)) {
+                      fb = fb.replace(name, `plots/${file}`);
+                  }
+                  const element = document.getElementsByName(`stackapi_fb_${name}`)[0];
+                  element.innerHTML = fb;
+                  if (fb) {
+                    element.classList.add('feedback');
+                  } else {
+                    element.classList.remove('feedback');
+                  }
+                }
+                document.getElementById('score').innerText = json.score;
+                const specificFeedbackElement = document.getElementById('specificfeedback');
+                if (json.specificfeedback) {
+                  for (const [name, file] of Object.entries(json.gradingassets)) {
+                    json.specificfeedback = json.specificfeedback.replace(name, `plots/${file}`);
+                  }
+                  specificFeedbackElement.innerHTML= json.specificfeedback;
+                  specificFeedbackElement.classList.add('feedback');
+                } else {
+                  specificFeedbackElement.classList.remove('feedback');
+                }
+                MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+              }
+              catch(e) {
+                document.getElementById('output').innerText = http.responseText;
+              }
+            }
+        }
+        http.send(JSON.stringify(collectData()))
+      }
+
+      function saveState(key, value) {
+        if (typeof(Storage) !== "undefined") {
+          localStorage.setItem(key, value)
+        }
+      }
+
+      function loadState(key) {
+        if (typeof(Storage) !== "undefined") {
+          return localStorage.getItem(key) || ''
+        }
+        return ''
+      }
+
+    </script>
+    <div>
+    XML<br/>
+    <textarea id='xml' cols="100" rows="50"></textarea><br/>
+    </div>
+    <div>
+    <input type="checkbox" id="feedback"/>Feedback |
+    <input type="checkbox" id="hasScore"/>Score |
+    <input type="button" onclick="send()" value="Display Question"/>
+    <input type="button" onclick="answer()" value="Submit Answers"/><br/>
+    </div>
+    <h1>QuestionText:</h1>
+    <div id="output"></div>
+    <div id="specificfeedback"></div>
+    <h1>General feedback:</h1>
+    <div id="generalfeedback"></div>
+    <h1>Format correct response:</h1>
+    <div id="formatcorrectresponse"></div>
+    <h1>Score: <span id="score"></span></h1>
+
+  </body>
+  <script>
+        var yamlEditor = CodeMirror.fromTextArea(document.getElementById("xml"),
+          {
+            lineNumbers: true,
+            mode: "xml",
+            gutters: ["CodeMirror-lint-markers"],
+            lint: true
+          });
+          yamlEditor.getDoc().on('change', function (cm) {
+            saveState('xml', cm.getValue())
+          })
+          yamlEditor.getDoc().setValue(loadState('xml'));
+          yamlEditor.setSize('100%', '50%');
+        </script>
+</html>

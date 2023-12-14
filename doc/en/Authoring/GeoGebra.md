@@ -44,7 +44,7 @@ The "set", "watch" and "remember" tags to the `[[geogebra]]` question block link
 
 To be able to make things consistent and easy for question authors, the following name conventions _must_ be followed:
 
-1. Names of variables must be equal in both STACK and GeoGebra.  However, no explicit checking is sone.
+1. Names of variables must be equal in both STACK and GeoGebra.  However, no explicit checking is done.
 2. Value-names must start with lower case letters.
 3. Values must be `int` or `float` STACK variables.
 4. Angles are used like values, and so must be named lowercase letters in Latin-Alphabet, (not Greek unicode letters!) and values must be in radians.  (If you want to show a Greek letter to the student, then have a parallel internal variable which is used by STACK.  E.g. call the angle \(\alpha\) visibly in GGB, but have a hidden GGB variable \(a\) which you can watch.)

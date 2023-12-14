@@ -294,7 +294,7 @@ It is possible to update existing objects, or indeed to create new objects insid
      [[/geogebra]]
      [[input:ans1]] [[validation:ans1]]
 
-Please note that the STACK and GeoGebra syntax do not match perfectly.  For example, `g:%pi*x^3` will throw an error in GeoGebra because `%pi` in Maxima does not match `pi` in GeoGebra.  (Functionality to match sytax may be supported in the future but matching maxima syntax to GeoGebra syntax is a lot of work.)
+Please note that the STACK and GeoGebra syntax do not match perfectly.  For example, `g:%pi*x^3` will throw an error in GeoGebra because `%pi` in Maxima does not match `pi` in GeoGebra.  (Functionality to match syntax may be supported in the future but matching maxima syntax to GeoGebra syntax is a lot of work.)
 ### Future plans
 
 1. GeoGebra boolean types should come through to STACK as just return true/false (not 0,1).

@@ -90,7 +90,8 @@ The following keys can be contained inside the input configuration options. The 
 The `POST /grade` route is used to score a given input for a question. The route expects a json document in the post body, which must contain the following fields:
 
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
-- `answers`. A map from string to string, containing the answers.
+- `answers`: A map from string to string, containing the answers.
+- `allowBlanks`: Boolean. If true, grading will be performed even if a valid answer has not been provided for all inputs. (Defaults to false.)
 
 For input rendered as single fields, one entry inside the `answers` map, with the input name as key is expected. More complex input types use multiple entries, with the input name as a prefix, e.g. matrix inputs.
 
@@ -102,7 +103,7 @@ The grading route returns the following fields:
 - a map from the PRT names to strings `prts`, containing the rendered PRT feedback
 - a string map `gradingassets`, containing a list of assets used in the grading response, see [Plots/Assets](#Plots/Assets) 
 
-Grading of a question is only performed if a valid answer has been provided for all inputs, which in most cases implies a nonempty answer. This decision was made to enforce a manual grading, in case the student entered invalid or incomplete answers in the context of Dynexite.
+Grading of a question is only performed if a valid answer has been provided for all inputs, which in most cases implies a nonempty answer. This decision was made to enforce a manual grading, in case the student entered invalid or incomplete answers in the context of Dynexite. (This behaviour can be overridden with `allowBlanks`.)
 
 ### Validate route
 The `POST /validate` is used to get validation feedback for a single input of a question. The route expects a json document in the post body containing the following fields:

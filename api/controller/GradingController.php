@@ -82,8 +82,7 @@ class GradingController {
             // If not all inputs required for the prt have been filled out,
             // or the prt evaluation caused an error, we abort the grading,
             // and indicate that this input state is not gradable.
-            // TODO All inputs requirement disabled. Needs a proper flag.
-            if ($result->get_errors() || (1!=1 && !$question->has_necessary_prt_inputs($prt, $data['answers'], true))) {
+            if ($result->get_errors() || (!$data['allowBlanks'] && !$question->has_necessary_prt_inputs($prt, $data['answers'], true))) {
                 $gradingresponse = new StackGradingResponse();
                 $gradingresponse->isgradable = false;
 

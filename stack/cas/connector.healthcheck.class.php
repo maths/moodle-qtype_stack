@@ -167,6 +167,8 @@ class stack_cas_healthcheck {
                 stack_string('healthcheckconnectintro'), get_string('healthchecksamplecasunicode', 'qtype_stack'));
             $this->output_cas_text('healthcheckplots',
                 stack_string('healthcheckplotsintro'), get_string('healthchecksampleplots', 'qtype_stack'));
+            $this->output_cas_text('healthcheckjsxgraph',
+                stack_string('healthcheckjsxgraphintro'), get_string('healthcheckjsxgraphsample', 'qtype_stack'), true);
         }
 
         // If we have a linux machine, and we are testing the raw connection then we should
@@ -255,8 +257,10 @@ class stack_cas_healthcheck {
 
     /*
      * Try and evaluate the raw castext and build a result entry.
+     *
+     * $hideraw is for those cases where we do not wish to show the raw CASText.
      */
-    private function output_cas_text($title, $intro, $castext) {
+    private function output_cas_text($title, $intro, $castext, $hideraw=false) {
         $ct = castext2_evaluatable::make_from_source($castext, 'healthcheck');
         $session = new stack_cas_session2([$ct]);
         $session->instantiate();
@@ -265,7 +269,11 @@ class stack_cas_healthcheck {
         $test['tag'] = $title;
         $test['result'] = null;
         $test['summary'] = null;
-        $test['details'] = html_writer::tag('p', $intro) . html_writer::tag('pre', s($castext));
+        if ($hideraw) {
+            $test['details'] = html_writer::tag('p', $intro);
+        } else {
+            $test['details'] = html_writer::tag('p', $intro) . html_writer::tag('pre', s($castext));
+        }
 
         if ($session->get_errors()) {
             $this->ishealthy = false;

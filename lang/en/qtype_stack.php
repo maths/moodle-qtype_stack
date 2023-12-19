@@ -698,6 +698,16 @@ $string['healthcheckparsonssample'] = '
 };
 [[/parsons]]'
 ;
+$string['healthcheckgeogebra'] = 'GeoGebra block';
+$string['healthcheckgeogebraintro'] = 'There should be a GeoGebra plot and input below. Interacting with the plot should affect the input and vice versa.';
+$string['healthcheckgeogebrasample'] = '<div class="formulation" style="width:36vw;margin:auto;">
+[[geogebra input-ref-fakeinput1="stateRef"]]
+params["material_id"]="seehz3km";
+params["appletOnLoad"]=function(){stack_geogebra.bind_point(stateRef, applet.getAppletObject(), "A");}
+[[/geogebra]]
+<br/><p>A=<input id="_fakeinput1" value="[5, 3]" size="40"/> </p>
+</div>'
+;
 $string['healthchecksstackmaximaversion'] = 'Maxima version';
 $string['healthchecksstackmaximaversionfixoptimised'] = 'Please <a href="{$a->url}">rebuild your optimised Maxima executable</a>.';
 $string['healthchecksstackmaximaversionfixserver'] = 'Please rebuild the Maxima code on your MaximaPool server.';

@@ -171,6 +171,8 @@ class stack_cas_healthcheck {
                 stack_string('healthcheckjsxgraphintro'), get_string('healthcheckjsxgraphsample', 'qtype_stack'), true);
             $this->output_cas_text('healthcheckparsons',
                 stack_string('healthcheckparsonsintro'), get_string('healthcheckparsonssample', 'qtype_stack'), true);
+            $this->output_cas_text('healthcheckgeogebra',
+                stack_string('healthcheckgeogebraintro'), get_string('healthcheckgeogebrasample', 'qtype_stack'), true);
         }
 
         // If we have a linux machine, and we are testing the raw connection then we should

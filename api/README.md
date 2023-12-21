@@ -55,6 +55,7 @@ The `POST /render` route is used to render a given question. Is expects a json d
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
 - `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If  
   no seed is provided, the first deployed variant is used.
+- `renderInputs`: Boolean. Response will include HTML renders of the inputs if true.
 
 The response is again a json document, with the following fields:
 

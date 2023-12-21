@@ -70,6 +70,7 @@
           answers: collectAnswer(),
           seed: document.getElementById('seed').value,
           allowBlanks : true,
+          renderInputs : true,
         }
         return res;
       }
@@ -143,6 +144,7 @@
                 for (const [name, file] of Object.entries(json.questionassets)) {
                     question = question.replace(name, `plots/${file}`);
                     json.questionsamplesolutiontext = json.questionsamplesolutiontext.replace(name, `plots/${file}`);
+                    correctAnswers = correctAnswers.replace(name, `plots/${file}`);
                 }
                 if (feedbackTags) {
                   for (const tag of feedbackTags) {
@@ -253,6 +255,7 @@
                 document.getElementById('stackapi_score').style.display = 'block';
                 const specificFeedbackElement = document.getElementById('specificfeedback');
                 if (json.specificfeedback) {
+                  // TODO Specific feedback could include feedback tags!
                   for (const [name, file] of Object.entries(json.gradingassets)) {
                     json.specificfeedback = json.specificfeedback.replace(name, `plots/${file}`);
                   }

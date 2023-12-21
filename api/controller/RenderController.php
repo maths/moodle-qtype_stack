@@ -104,11 +104,15 @@ class RenderController {
                 }
             }
 
-            $tavalue = $question->get_ta_for_input($name);
-            $fieldname = 'stackapi_input_' . $name;
-            $state = $question->get_input_state($name, []);
-            $render = $input->render($state, $fieldname, false, [$tavalue]);
             $inputs[$name] = $apiinput;
+
+            if ($data['renderInputs']) {
+                $tavalue = $question->get_ta_for_input($name);
+                $fieldname = 'stackapi_input_' . $name;
+                $state = $question->get_input_state($name, []);
+                $render = $input->render($state, $fieldname, false, [$tavalue]);
+                StackPlotReplacer::replace_plots($plots, $render, "answer-".$name, $storeprefix);
+            }
 
             $inputs[$name]->render = $render;
         }

@@ -66,7 +66,7 @@ By default points are free to manipulate in the applet, unless you add `__fixed`
 Notes
 
 1. No checking is done that the object in STACK matches one in GeoGebra.  If it does not exist it will be created by GeoGebra.
-2. Currently setting points and values are the only supported objects.  Users can set objects, e.g. you could define `g:x^3` and set this in an appletm 
+2. Currently setting points and values are the only supported objects.  Users can set objects, e.g. you could define `g:x^3` and set this in an applet. 
 
 
 3. Angles cannot be set directly, set points instead!

@@ -126,7 +126,7 @@ Recall that since the object in `watch="A"` is written in upper case it must be 
 
 Then complete the question as follows.
 
-1. The question expects an in input `A`.  In this input, make the model answer `ta1`.  This is a list, and has a different name from the watched point..
+1. The question expects an input `A`.  In this input, make the model answer `ta1`.  This is a list, and has a different name from the watched point..
 2. Make sure you set "forbid floats" option in the input to be false, if you want to!
 3. Complete the default potential response tree `prt1` as `ATAlgEquiv(ntupleify(A), ntupleify(ta1))`
 

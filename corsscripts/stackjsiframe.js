@@ -30,6 +30,11 @@ let INPUT_PROMISES = {};
  */
 let FETCH_PROMISES = {};
 
+/* Map of external button listeners. By id.
+ * For use with `stack_js.register_external_button_listener`
+ */
+let BUTTON_CALLBACKS = {};
+
 /* A promise that will resolve when we first hear from the VLE side.
  * It is important to not send anything before we are absolutely certain that
  * the other end is ready. Although the way this has been built should
@@ -119,6 +124,13 @@ window.addEventListener("message", (e) => {
         DISABLE_CHANGES[msg.name] = false;
 
         break;
+    case 'button-click':
+        if (msg.name in BUTTON_CALLBACKS) {
+            BUTTON_CALLBACKS[msg.name].forEach((callbackfunction) => {
+                callbackfunction(msg.name);
+            });
+        }
+        break;
     case 'xfer-content':
         if (msg.target in FETCH_PROMISES) {
             FETCH_PROMISES[msg.target](msg.content);
@@ -178,6 +190,10 @@ export const stack_js = {
      * From 4.4.7 readonly/disabled inputs are cloned as readonly, at this point
      * we do not automatically disable accessing or editing them but you can base your
      * own logic on the input having that attribute. `.hasAttribute('readonly')`.
+     * 
+     * Note that this does not work with buttons (except radio-buttons), if you need
+     * to react to button presses happening at the VLE side use
+     * `register_external_button_listener`.
      */
     request_access_to_input: function(inputname, inputevents) {
         const input = document.createElement('input');
@@ -228,6 +244,35 @@ export const stack_js = {
                 }
             }, 5000);
         });
+    },
+
+    /**
+     * Attaches a click event listener to a button on the VLE side.
+     * 
+     * There is no way to press the button from inside of the sandbox,
+     * and the normal restrictions related to placement on the VLE side
+     * do apply.
+     * 
+     * The callback function will be given exactly one argument and that
+     * is the buttonid that triggered the callback.
+     * 
+     * Note that we do not currently actually enforce that the target is
+     * a button we only attach a click listener to it. However, you should
+     * not rely on this working with anything else.
+     */
+    register_external_button_listener: function(buttonid, callbackfunction) {
+        if (!(buttonid in BUTTON_CALLBACKS)) {
+            BUTTON_CALLBACKS[buttonid] = [];
+        }
+        BUTTON_CALLBACKS[buttonid].push(callbackfunction);
+
+        const msg = {
+            version: 'STACK-JS:1.2.0',
+            type: 'register-button-listener',
+            target: buttonid,
+            src: FRAME_ID
+        };
+        CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
 
     /**

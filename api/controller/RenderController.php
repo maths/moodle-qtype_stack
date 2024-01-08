@@ -108,7 +108,7 @@ class RenderController {
 
             if ($data['renderInputs']) {
                 $tavalue = $question->get_ta_for_input($name);
-                $fieldname = 'stackapi_input_' . $name;
+                $fieldname = $data['renderInputs'] . $name;
                 $state = $question->get_input_state($name, []);
                 $render = $input->render($state, $fieldname, false, [$tavalue]);
                 StackPlotReplacer::replace_plots($plots, $render, "answer-".$name, $storeprefix);

@@ -68,7 +68,7 @@
         var res = {
           questionDefinition: yamlEditor.getDoc().getValue(),
           answers: collectAnswer(),
-          seed: document.getElementById('seed').value,
+          seed: parseInt(document.getElementById('seed').value),
           allowBlanks : true,
           renderInputs : true,
         }
@@ -81,7 +81,7 @@
           if (element.name.indexOf('stackapi_input') === 0 && element.name.indexOf('_val') === -1) {
             if (element.type === 'checkbox' || element.type === 'radio') {
               if (element.checked) {
-                res[element.name] = element.value
+                res[element.name.slice(15)] = element.value
               }
             } else {
               res[element.name.slice(15)] = element.value
@@ -235,9 +235,27 @@
                   document.getElementById('output').innerText = http.responseText;
                   return
                 }
+                document.getElementById('score').innerText = json.score;
+                document.getElementById('stackapi_score').style.display = 'block';
                 const feedback = json.prts;
                 if (!feedback) {
                   return;
+                }
+                const specificFeedbackElement = document.getElementById('specificfeedback');
+                if (json.specificfeedback) {
+                  for (const [name, file] of Object.entries(json.gradingassets)) {
+                    json.specificfeedback = json.specificfeedback.replace(name, `plots/${file}`);
+                  }
+                  const feedbackTags = json.specificfeedback.match(/\[\[feedback:.*\]\]/g);
+                  if (feedbackTags) {
+                    for (const tag of feedbackTags) {
+                      json.specificfeedback = json.specificfeedback.replace(tag, `<div name='stackapi_fb_${tag.slice(11, -2)}'></div>`);
+                    }
+                  }
+                  specificFeedbackElement.innerHTML= json.specificfeedback;
+                  specificFeedbackElement.classList.add('feedback');
+                } else {
+                  specificFeedbackElement.classList.remove('feedback');
                 }
                 for (const [name, fb] of Object.entries(feedback)) {
                   for (const [name, file] of Object.entries(json.gradingassets)) {
@@ -251,19 +269,7 @@
                     element.classList.remove('feedback');
                   }
                 }
-                document.getElementById('score').innerText = json.score;
-                document.getElementById('stackapi_score').style.display = 'block';
-                const specificFeedbackElement = document.getElementById('specificfeedback');
-                if (json.specificfeedback) {
-                  // TODO Specific feedback could include feedback tags!
-                  for (const [name, file] of Object.entries(json.gradingassets)) {
-                    json.specificfeedback = json.specificfeedback.replace(name, `plots/${file}`);
-                  }
-                  specificFeedbackElement.innerHTML= json.specificfeedback;
-                  specificFeedbackElement.classList.add('feedback');
-                } else {
-                  specificFeedbackElement.classList.remove('feedback');
-                }
+
                 MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
               }
               catch(e) {
@@ -311,6 +317,7 @@
           <h2>QuestionText:</h2>
           <div id="output"></div>
           <div id="specificfeedback"></div>
+          <br>
           <input type="button" onclick="answer()" class="btn btn-primary" value="Submit Answers"/>
         </div>
         <div id="stackapi_generalfeedback" class="col-lg-8" style="display: none">

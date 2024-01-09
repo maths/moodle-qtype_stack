@@ -55,7 +55,7 @@ The `POST /render` route is used to render a given question. Is expects a json d
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
 - `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If  
   no seed is provided, the first deployed variant is used.
-- `renderInputs`: Boolean. Response will include HTML renders of the inputs if true.
+- `renderInputs`: String. Response will include HTML renders of the inputs if value other than ''. The input divs will have the value added as a prefix to their name attribute.
 
 The response is again a json document, with the following fields:
 
@@ -91,6 +91,8 @@ The following keys can be contained inside the input configuration options. The 
 The `POST /grade` route is used to score a given input for a question. The route expects a json document in the post body, which must contain the following fields:
 
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
+- `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If  
+  no seed is provided, the first deployed variant is used.
 - `answers`: A map from string to string, containing the answers.
 - `allowBlanks`: Boolean. If true, grading will be performed even if a valid answer has not been provided for all inputs. (Defaults to false.)
 

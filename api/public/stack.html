@@ -23,6 +23,7 @@
         border-radius: 4px;
         border: 1px solid darkgrey;
         padding: 5px;
+        display: inline-block;
       }
       .correct-answer {
         background-color: white;
@@ -130,9 +131,11 @@
                 question = question.replace(`[[validation:${name}]]`, `<span name='${validationPrefix + name}'></span>`);
                 if (input.samplesolutionrender) {
                   // Display render of answer and matching user input to produce the answer.
-                  correctAnswers += `<p>A correct answer is: ${input.samplesolutionrender}, which can be typed as follows: `;
-                  for (const solution of Object.values(input.samplesolution)) {
-                    correctAnswers += `<span class='correct-answer'>${solution}</span>`;
+                  correctAnswers += `<p>A correct answer is: \\[{${input.samplesolutionrender}}\\], which can be typed as follows: `;
+                  for (const [name, solution] of Object.entries(input.samplesolution)) {
+                    if (name.indexOf('_val') === -1) {
+                      correctAnswers += `<span class='correct-answer'>${solution}</span>`;
+                    }
                   }
                   correctAnswers += '.</p>';
                 } else {
@@ -158,13 +161,16 @@
               // Setup a validation call on inputs. Timeout length is reset if the input is updated
               // before the validation call is made.
               for (const inputName of Object.keys(inputs)) {
-                document.getElementsByName(`${inputPrefix + inputName}`)[0].oninput = (event) => {
-                  const currentTimeout = timeOutHandler[event.target.id];
-                  if (currentTimeout) {
-                    window.clearTimeout(currentTimeout);
-                  }
-                  timeOutHandler[event.target.id] = window.setTimeout(validate.bind(null, event.target), 1000);
-                };
+                const inputElements = document.querySelectorAll(`[name^=${inputPrefix + inputName}]`);
+                for (const inputElement of Object.values(inputElements)) {
+                  inputElement.oninput = (event) => {
+                    const currentTimeout = timeOutHandler[event.target.id];
+                    if (currentTimeout) {
+                      window.clearTimeout(currentTimeout);
+                    }
+                    timeOutHandler[event.target.id] = window.setTimeout(validate.bind(null, event.target), 1000);
+                  };
+                }
               }
               let sampleText = json.questionsamplesolutiontext;
               if (sampleText) {
@@ -176,9 +182,11 @@
                 document.getElementById('stackapi_generalfeedback').style.display = 'none';
               }
               document.getElementById('stackapi_score').style.display = 'none';
-              document.getElementById('specificfeedback').innerHTML = '';
+              const innerFeedback = document.getElementById('specificfeedback');
+              innerFeedback.innerHTML = '';
+              innerFeedback.classList.remove('feedback');
               document.getElementById('formatcorrectresponse').innerHTML = correctAnswers;
-              MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+              MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }
             catch(e) {
               document.getElementById('output').innerText = http.responseText;
@@ -193,7 +201,8 @@
         const http = new XMLHttpRequest();
         const url = "http://localhost:3080/validate";
         http.open("POST", url, true);
-        const answerName = element.name.slice(15);
+        // Remove API prefix and subanswer id.
+        const answerName = element.name.slice(15).split('_', 1)[0];
         http.setRequestHeader('Content-Type', 'application/json');
         http.onreadystatechange = function() {
           if(http.readyState == 4) {
@@ -211,7 +220,7 @@
               } else {
                 element.classList.remove('validation');
               }
-              MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+              MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }
             catch(e) {
               document.getElementById('output').innerText = http.responseText;
@@ -272,7 +281,7 @@
                 }
               }
 
-              MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+              MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }
             catch(e) {
               document.getElementById('output').innerText = http.responseText;

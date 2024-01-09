@@ -450,7 +450,7 @@ class cassession2_test extends qtype_stack_testcase {
 
         $s1 = [];
         $cs = array('texput(multsgnonlyfornumberssym, "\\\\cdot")',
-            'a:9*x', 'b:5*7*x', 'c:3*5^2', 'd:3*x^2');
+            'a:9*x', 'b:5*7*x', 'c:3*5^2', 'd:3*x^2', 'z:3*(5/2)');
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
         }
@@ -465,7 +465,8 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('5\cdot 7\, x', $s1[2]->get_display());
         $this->assertEquals('3\, 5^2', $s1[3]->get_display());
         $this->assertEquals('3\, x^2', $s1[4]->get_display());
-
+        $this->assertEquals('3\, x^2', $s1[4]->get_display());
+        $this->assertEquals('3\, \left(\frac{5}{2}\right)', $s1[5]->get_display());
     }
 
     public function test_function_power_display() {

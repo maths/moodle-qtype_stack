@@ -272,12 +272,15 @@
                 for (const [name, file] of Object.entries(json.gradingassets)) {
                   fb = fb.replace(name, `plots/${file}`);
                 }
-                const element = document.getElementsByName(`${feedbackPrefix + name}`)[0];
-                element.innerHTML = fb;
-                if (fb) {
-                  element.classList.add('feedback');
-                } else {
-                  element.classList.remove('feedback');
+                const elements = document.getElementsByName(`${feedbackPrefix + name}`);
+                if (elements.length > 0) {
+                  const element = elements[0];
+                  element.innerHTML = fb;
+                  if (fb) {
+                    element.classList.add('feedback');
+                  } else {
+                    element.classList.remove('feedback');
+                  }
                 }
               }
 

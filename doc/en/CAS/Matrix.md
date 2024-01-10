@@ -98,7 +98,7 @@ Note, STACK only displays matrices with matching parentheses.  If you want somet
 \[ f(x) = \left\{ \begin{array}{cc} 1, & x<0 \\ 0, & x\geq 0 \end{array}\right.\]
 then you will have to display the matrix without parentheses and sort out the mismatching parentheses in the CASText at the level of display.
 
-For example, if we have the question variable `f:matrix([4*x+4, x<1],[-x^2-4*x-8, x>=1];` and the castext `\[ f(x) := \left\{ {@(lmxchar:"", f)@} \right. \]` the STACK generates
+For example, if we have the question variable `f:matrix([4*x+4, x<1],[-x^2-4*x-8, x>=1];` and the castext `\[ f(x) := \left\{ {@(lmxchar:"", f)@} \right. \]` STACK generates
 \[ f(x) := \left\{ {\begin{array}{cc} 4\cdot x+4 & x < 1 \\ -x^2-4\cdot x-8 & x\geq 1 \end{array}} \right. \]
 Notice the use of LaTeX `\left\{` to automatically size the parentheses and `\right.` to represent a matching, but invisible closing parentesis.
 

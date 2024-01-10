@@ -28,7 +28,7 @@ if (strpos('..', $scriptname) !== false
     die("No such script here.");
 }
 
-if (file_exists('../../corsscripts/' . $scriptname)) {
+if (file_exists('../../corsscripts/' . $scriptname) || $scriptname === 'styles.css') {
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         header('HTTP/1.0 204 OK');
         header('Access-Control-Allow-Origin: *');
@@ -46,7 +46,11 @@ if (file_exists('../../corsscripts/' . $scriptname)) {
         header('Cache-Control: public, max-age=31104000, immutable');
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Headers: *');
-        echo(file_get_contents('../../corsscripts/' . $scriptname));
+        if ($scriptname === 'styles.css') {
+            echo(file_get_contents('../../' . $scriptname));
+        } else {
+            echo(file_get_contents('../../corsscripts/' . $scriptname));
+        }
     }
 } else {
     // Give the same error to stop people from trying to figure out

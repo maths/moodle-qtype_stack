@@ -74,7 +74,6 @@
           questionDefinition: yamlEditor.getDoc().getValue(),
           answers: collectAnswer(),
           seed: parseInt(document.getElementById('seed').value),
-          allowBlanks : true,
           renderInputs : inputPrefix,
         };
         return res;
@@ -130,7 +129,7 @@
               for (const [name, input] of Object.entries(inputs)) {
                 question = question.replace(`[[input:${name}]]`, input.render);
                 question = question.replace(`[[validation:${name}]]`, `<span name='${validationPrefix + name}'></span>`);
-                if (input.samplesolutionrender) {
+                if (input.samplesolutionrender && name !== 'remember') {
                   // Display render of answer and matching user input to produce the answer.
                   correctAnswers += `<p>A correct answer is: \\[{${input.samplesolutionrender}}\\], which can be typed as follows: `;
                   for (const [name, solution] of Object.entries(input.samplesolution)) {
@@ -139,10 +138,12 @@
                     }
                   }
                   correctAnswers += '.</p>';
-                } else {
+                } else if (name !== 'remember') {
                   // For dropdowns, radio buttons, etc, only the correct option is displayed.
                   for (const solution of Object.values(input.samplesolution)) {
-                    correctAnswers += `<p class='correct-answer'>${input.configuration.options[solution]}</p>`;
+                    if (input.configuration.options) {
+                      correctAnswers += `<p class='correct-answer'>${input.configuration.options[solution]}</p>`;
+                    }
                   }
                 }
               }
@@ -183,6 +184,7 @@
                 document.getElementById('stackapi_generalfeedback').style.display = 'none';
               }
               document.getElementById('stackapi_score').style.display = 'none';
+              document.getElementById('stackapi_validity').innerText = '';
               const innerFeedback = document.getElementById('specificfeedback');
               innerFeedback.innerHTML = '';
               innerFeedback.classList.remove('feedback');
@@ -256,6 +258,10 @@
                 document.getElementById('output').innerText = http.responseText;
                 return;
               }
+              if (!json.isgradable) {
+                document.getElementById('stackapi_validity').innerText = ' Please enter valid answers for all parts of the question.';
+                return;
+              }
               document.getElementById('score').innerText = json.score;
               document.getElementById('stackapi_score').style.display = 'block';
               const feedback = json.prts;
@@ -266,7 +272,7 @@
                   json.specificfeedback = json.specificfeedback.replace(name, `plots/${file}`);
                 }
                 json.specificfeedback = replaceFeedbackTags(json.specificfeedback);
-                specificFeedbackElement.innerHTML= json.specificfeedback;
+                specificFeedbackElement.innerHTML = json.specificfeedback;
                 specificFeedbackElement.classList.add('feedback');
               } else {
                 specificFeedbackElement.classList.remove('feedback');
@@ -295,6 +301,17 @@
             }
           }
         };
+        // Clear previous answers and score.
+        const specificFeedbackElement = document.getElementById('specificfeedback');
+        specificFeedbackElement.innerHTML = "";
+        specificFeedbackElement.classList.remove('feedback');
+        const inputElements = document.querySelectorAll(`[name^=${feedbackPrefix}]`);
+        for (const inputElement of Object.values(inputElements)) {
+          inputElement.innerHTML = "";
+          inputElement.classList.remove('feedback');
+        }
+        document.getElementById('stackapi_score').style.display = 'none';
+        document.getElementById('stackapi_validity').innerText = '';
         http.send(JSON.stringify(collectData()));
       }
 
@@ -352,7 +369,7 @@
           <div id="output" class="formulation"></div>
           <div id="specificfeedback"></div>
           <br>
-          <input type="button" onclick="answer()" class="btn btn-primary" value="Submit Answers"/>
+          <input type="button" onclick="answer()" class="btn btn-primary" value="Submit Answers"/><span id="stackapi_validity" style="color:darkred"></span>
         </div>
         <div id="stackapi_generalfeedback" class="col-lg-8" style="display: none">
           <h2>General feedback:</h2>

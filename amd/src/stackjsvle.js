@@ -271,7 +271,7 @@ define([
         let input = null;
 
         let response = {
-            version: 'STACK-JS:1.1.0'
+            version: 'STACK-JS:1.2.0'
         };
 
         switch (msg.type) {
@@ -472,6 +472,37 @@ define([
                     IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(response), '*');
                 }
             }
+
+            break;
+        case 'register-button-listener':
+            // 1. Find the element.
+            element = vle_get_element(msg.target);
+
+            if (element === null) {
+                // Requested something that is not available.
+                const ret = {
+                    version: 'STACK-JS:1.2.0',
+                    type: 'error',
+                    msg: 'Failed to find element: "' + msg.target + '"',
+                    tgt: msg.src
+                };
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(ret), '*');
+                return;
+            }
+
+            // 2. Add a listener, no need to do anything more
+            // complicated than this.
+            element.addEventListener('click', (event) => {
+                let resp = {
+                    version: 'STACK-JS:1.2.0',
+                    type: 'button-click',
+                    name: msg.target,
+                    tgt: msg.src
+                };
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(resp), '*');
+                // These listeners will stop the submissions of buttons which might be a problem.
+                event.preventDefault();
+            });
 
             break;
         case 'toggle-visibility':

@@ -42,10 +42,6 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
     ];
 
     public function compile($format, $options):  ? MP_Node {
-        //API: Block usage of jsxgraph with corresponding error message
-        if(defined('STACK_API')) {
-            throw new stack_exception("Usage of jsxgraph is currently not supported.");
-        }
         $r = new MP_List([new MP_String('iframe')]);
 
         // We need to transfer the parameters forward.

@@ -58,6 +58,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/addon/lint/lint.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/addon/lint/yaml-lint.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.31.0/mode/yaml/yaml.js"></script>
+    <script src="stackjsvle.js"></script>
   </head>
   <body>
     <script>
@@ -186,6 +187,9 @@
               innerFeedback.innerHTML = '';
               innerFeedback.classList.remove('feedback');
               document.getElementById('formatcorrectresponse').innerHTML = correctAnswers;
+              for (const iframe of json.iframes) {
+                create_iframe(...iframe);
+              }
               MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }
             catch(e) {
@@ -345,7 +349,7 @@
         </div>
         <div id="stackapi_qtext" class="col-lg-8" style="display: none">
           <h2>QuestionText:</h2>
-          <div id="output"></div>
+          <div id="output" class="formulation"></div>
           <div id="specificfeedback"></div>
           <br>
           <input type="button" onclick="answer()" class="btn btn-primary" value="Submit Answers"/>

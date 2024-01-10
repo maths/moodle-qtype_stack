@@ -181,8 +181,12 @@ function stack_determine_moodle_version() {
  * modifies headers or a direct link.
  */
 function stack_cors_link(string $filename): string {
-    return (new moodle_url(
-            '/question/type/stack/corsscripts/cors.php', ['name' => $filename]))->out(false);
+    if(defined('STACK_API')) {
+        return '/cors.php?name=' . $filename;
+    } else {
+        return (new moodle_url(
+                '/question/type/stack/corsscripts/cors.php', ['name' => $filename]))->out(false);
+    }
 }
 
 /*

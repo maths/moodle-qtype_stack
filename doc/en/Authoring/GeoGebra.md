@@ -66,7 +66,7 @@ By default points are free to manipulate in the applet, unless you add `__fixed`
 Notes
 
 1. No checking is done that the object in STACK matches one in GeoGebra.  If it does not exist it will be created by GeoGebra.
-2. Currently setting points and values are the only supported objects.  Users can set objects, e.g. you could define `g:x^3` and set this in an appletm 
+2. Currently setting points and values are the only supported objects.  Users can set objects, e.g. you could define `g:x^3` and set this in an applet. 
 
 
 3. Angles cannot be set directly, set points instead!
@@ -126,7 +126,7 @@ Recall that since the object in `watch="A"` is written in upper case it must be 
 
 Then complete the question as follows.
 
-1. The question expects an in input `A`.  In this input, make the model answer `ta1`.  This is a list, and has a different name from the watched point..
+1. The question expects an input `A`.  In this input, make the model answer `ta1`.  This is a list, and has a different name from the watched point..
 2. Make sure you set "forbid floats" option in the input to be false, if you want to!
 3. Complete the default potential response tree `prt1` as `ATAlgEquiv(ntupleify(A), ntupleify(ta1))`
 

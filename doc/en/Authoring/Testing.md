@@ -50,7 +50,7 @@ In this way, the teacher can record, within the question itself, how they expect
 
 On the question testing page is a "Send to CAS" button.  Pressing this sends the question variables and general feedback to a special page which enables more efficient authoring of the feedback in the context of the values of the variables.  You still need to copy this by hand into the question edit form when you are satisfied.
 
-A Moodle administrator can run all of the questions tests within a particular course, or across the whole site by following the links on the STACK admin page.  It is useful do to this after upgrading the STACK code on the server to identify any test cases which have changed.
+A Moodle administrator can run all of the questions tests within a particular course, or across the whole site by following the links on the STACK admin page.  It is useful to do this after upgrading the STACK code on the server to identify any test cases which have changed.
 
 Test cases can include a meaningful description of up to 255 characters.  This field is a simple string, and is not castext.
 

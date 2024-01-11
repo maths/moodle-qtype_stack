@@ -56,6 +56,7 @@ The `POST /render` route is used to render a given question. Is expects a json d
 - `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If  
   no seed is provided, the first deployed variant is used.
 - `renderInputs`: String. Response will include HTML renders of the inputs if value other than ''. The input divs will have the value added as a prefix to their name attribute.
+- `readOnly`: boolean. Determines whether rendered inputs are read only.
 
 The response is again a json document, with the following fields:
 

@@ -110,7 +110,7 @@ class RenderController {
                 $tavalue = $question->get_ta_for_input($name);
                 $fieldname = $data['renderInputs'] . $name;
                 $state = $question->get_input_state($name, []);
-                $render = $input->render($state, $fieldname, false, [$tavalue]);
+                $render = $input->render($state, $fieldname, $data['readOnly'], [$tavalue]);
                 StackPlotReplacer::replace_plots($plots, $render, "answer-".$name, $storeprefix);
             }
 

@@ -907,10 +907,27 @@ class qtype_stack extends question_type {
         $DB->set_field('qtype_stack_qtest_expected', 'prtname', $to,
                 array('questionid' => $questionid, 'prtname' => $from));
 
+        // The PRT name in node answer notes if defaults are being used.
+        $select = 'questionid="' . $questionid . '" AND prtname="' . $from . '"';
+        $trueanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'trueanswernote', $select);
+        $falseanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'falseanswernote', $select);
+        foreach($trueanswernotes as $nodekey => $trueanswernote) {
+            $DB->set_field('qtype_stack_prt_nodes', 'trueanswernote', $to . substr($trueanswernote, 4), 
+                array('questionid' => $questionid, 
+                      'prtname' => $from, 
+                      'trueanswernote' => $from . '-' . (intval($nodekey) + 1) . '-T'));
+        }
+        foreach($falseanswernotes as $nodekey => $falseanswernote) {
+            $DB->set_field('qtype_stack_prt_nodes', 'falseanswernote', $to . substr($falseanswernote, 4), 
+                array('questionid' => $questionid, 
+                      'prtname' => $from, 
+                      'falseanswernote' => $from . '-' . (intval($nodekey) + 1) . '-F'));
+        }
+
         // The PRT name in its nodes.
         $DB->set_field('qtype_stack_prt_nodes', 'prtname', $to,
                 array('questionid' => $questionid, 'prtname' => $from));
-
+        
         // The PRT itself.
         $DB->set_field('qtype_stack_prts', 'name', $to,
                 array('questionid' => $questionid, 'name' => $from));

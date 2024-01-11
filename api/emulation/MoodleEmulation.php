@@ -41,6 +41,7 @@ class moodle_exception extends Exception {
 }
 
 class question_graded_automatically_with_countback {
+    public $defaultmark = 1;
 }
 
 interface question_automatically_gradable_with_multiple_parts {

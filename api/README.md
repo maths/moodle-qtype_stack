@@ -101,9 +101,11 @@ The grading route returns the following fields:
 
 - a boolean field `isgradable`, indicating if the question could be graded. Possibly false e.g. because of missing inputs
 - a float field `score` containing the obtained score
+- a map from the PRT names to floats `splitscore`, containing the marks for each part. `spliscore.total` contains the default total mark for the question.
 - a string field `specificfeedback` containing the rendered specific feedback text
 - a map from the PRT names to strings `prts`, containing the rendered PRT feedback
-- a string map `gradingassets`, containing a list of assets used in the grading response, see [Plots/Assets](#Plots/Assets) 
+- a string map `gradingassets`, containing a list of assets used in the grading response, see [Plots/Assets](#Plots/Assets)
+- a string field `responsesummary` containing the a summary of response. (See [Reporting](../doc/en/Authoring/Reporting.md).)
 
 ### Validate route
 The `POST /validate` is used to get validation feedback for a single input of a question. The route expects a json document in the post body containing the following fields:

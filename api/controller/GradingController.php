@@ -127,11 +127,15 @@ class GradingController {
 
         $score = 0;
         $weights = $question->get_parts_and_weights();
+        $splitscore = ["total" => $question->defaultmark];
         foreach ($weights as $prt => $weight) {
-            $score += $weights[$prt] * $scores[$prt];
+            $prtscore = $weights[$prt] * $scores[$prt];
+            $score += $prtscore;
+            $splitscore[$prt] = $prtscore;
         }
 
         $gradingresponse->score = $score;
+        $gradingresponse->splitscore = $splitscore;
         $gradingresponse->specificfeedback = $translate->filter(
             $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor),
             $language
@@ -140,6 +144,7 @@ class GradingController {
 
         $gradingresponse->gradingassets = (object) $plots;
 
+        $gradingresponse->responsesummary = $question->summarise_response($data['answers']);
         $response->getBody()->write(json_encode($gradingresponse));
         return $response->withHeader('Content-Type', 'application/json');
     }

@@ -937,6 +937,20 @@ class qtype_stack extends question_type {
         global $DB;
         $transaction = $DB->start_delegated_transaction();
 
+        // True answer note if default answer note is used.
+        $DB->set_field('qtype_stack_prt_nodes', 'trueanswernote', $prtname . '-' . (intval($to) + 1) . '-T', 
+                array('questionid' => $questionid, 
+                      'prtname' => $prtname, 
+                      'nodename' => $from, 
+                      'trueanswernote' => $prtname . '-' . (intval($from) + 1) . '-T'));
+
+        // False answer note if default answer note is used.
+        $DB->set_field('qtype_stack_prt_nodes', 'falseanswernote', $prtname . '-' . (intval($to) + 1) . '-F', 
+                array('questionid' => $questionid, 
+                      'prtname' => $prtname, 
+                      'nodename' => $from, 
+                      'falseanswernote' => $prtname . '-' . (intval($from) + 1) . '-F'));
+
         // The PRT node itself.
         $DB->set_field('qtype_stack_prt_nodes', 'nodename', $to,
                 array('questionid' => $questionid, 'prtname' => $prtname, 'nodename' => $from));
@@ -948,7 +962,7 @@ class qtype_stack extends question_type {
         // False next node links.
         $DB->set_field('qtype_stack_prt_nodes', 'falsenextnode', $to,
                 array('questionid' => $questionid, 'prtname' => $prtname, 'falsenextnode' => $from));
-
+        
         // PRT first node link.
         $DB->set_field('qtype_stack_prts', 'firstnodename', $to,
                 array('questionid' => $questionid, 'name' => $prtname, 'firstnodename' => $from));

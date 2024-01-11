@@ -125,17 +125,16 @@ class GradingController {
             StackPlotReplacer::replace_plots($plots, $gradingresponse->prts[$index], "prt-".$index, $storeprefix);
         }
 
-        $score = 0;
         $weights = $question->get_parts_and_weights();
-        $splitscore = ["total" => $question->defaultmark];
+        $scores['total'] = 0;
         foreach ($weights as $prt => $weight) {
             $prtscore = $weights[$prt] * $scores[$prt];
-            $score += $prtscore;
-            $splitscore[$prt] = $prtscore;
+            $scores['total'] += $prtscore;
         }
+        $weights['total'] = $question->defaultmark;
 
-        $gradingresponse->score = $score;
-        $gradingresponse->splitscore = $splitscore;
+        $gradingresponse->score = $scores;
+        $gradingresponse->scoreweights = $weights;
         $gradingresponse->specificfeedback = $translate->filter(
             $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor),
             $language

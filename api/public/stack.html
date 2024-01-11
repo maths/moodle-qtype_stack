@@ -133,7 +133,8 @@
                 question = question.replace(`[[validation:${name}]]`, `<span name='${validationPrefix + name}'></span>`);
                 if (input.samplesolutionrender && name !== 'remember') {
                   // Display render of answer and matching user input to produce the answer.
-                  correctAnswers += `<p>A correct answer is: \\[{${input.samplesolutionrender}}\\], which can be typed as follows: `;
+                  correctAnswers += `<p>A correct answer is: \\[{${input.samplesolutionrender}}\\],
+                    which can be typed as follows: `;
                   for (const [name, solution] of Object.entries(input.samplesolution)) {
                     if (name.indexOf('_val') === -1) {
                       correctAnswers += `<span class='correct-answer'>${solution}</span>`;
@@ -261,10 +262,12 @@
                 return;
               }
               if (!json.isgradable) {
-                document.getElementById('stackapi_validity').innerText = ' Please enter valid answers for all parts of the question.';
+                document.getElementById('stackapi_validity').innerText
+                  = ' Please enter valid answers for all parts of the question.';
                 return;
               }
-              document.getElementById('score').innerText = (json.score * json.splitscore.total).toFixed(2) + ' out of ' + json.splitscore.total;
+              document.getElementById('score').innerText
+                = (json.score.total * json.scoreweights.total).toFixed(2) + ' out of ' + json.scoreweights.total;
               document.getElementById('stackapi_score').style.display = 'block';
               document.getElementById('response_summary').innerText = json.responsesummary;
               document.getElementById('stackapi_summary').style.display = 'block';
@@ -289,8 +292,10 @@
                 const elements = document.getElementsByName(`${feedbackPrefix + name}`);
                 if (elements.length > 0) {
                   const element = elements[0];
-                  if (json.splitscore[name] !== undefined) {
-                    fb = fb + `<div>Marks for this submission: ${(json.splitscore[name] * json.splitscore.total).toFixed(2)}/${json.splitscore.total}.</div>`;
+                  if (json.score[name] !== undefined) {
+                    fb = fb + `<div>Marks for this submission:
+                      ${(json.score[name] * json.scoreweights[name] * json.scoreweights.total).toFixed(2)}
+                        / ${(json.scoreweights[name] * json.scoreweights.total).toFixed(2)}.</div>`;
                   }
                   element.innerHTML = fb;
                   if (fb) {
@@ -379,7 +384,8 @@
           <div id="output" class="formulation"></div>
           <div id="specificfeedback"></div>
           <br>
-          <input type="button" onclick="answer()" class="btn btn-primary" value="Submit Answers"/><span id="stackapi_validity" style="color:darkred"></span>
+          <input type="button" onclick="answer()" class="btn btn-primary" value="Submit Answers"/>
+          <span id="stackapi_validity" style="color:darkred"></span>
         </div>
         <div id="stackapi_generalfeedback" class="col-lg-8" style="display: none">
           <h2>General feedback:</h2>

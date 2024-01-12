@@ -912,13 +912,13 @@ class qtype_stack extends question_type {
         $trueanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'trueanswernote', $select);
         $falseanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'falseanswernote', $select);
         foreach($trueanswernotes as $nodekey => $trueanswernote) {
-            $DB->set_field('qtype_stack_prt_nodes', 'trueanswernote', $to . substr($trueanswernote, 4), 
+            $DB->set_field('qtype_stack_prt_nodes', 'trueanswernote', $to . substr($trueanswernote, strlen($from)), 
                 array('questionid' => $questionid, 
                       'prtname' => $from, 
                       'trueanswernote' => $from . '-' . (intval($nodekey) + 1) . '-T'));
         }
         foreach($falseanswernotes as $nodekey => $falseanswernote) {
-            $DB->set_field('qtype_stack_prt_nodes', 'falseanswernote', $to . substr($falseanswernote, 4), 
+            $DB->set_field('qtype_stack_prt_nodes', 'falseanswernote', $to . substr($falseanswernote, strlen($from)), 
                 array('questionid' => $questionid, 
                       'prtname' => $from, 
                       'falseanswernote' => $from . '-' . (intval($nodekey) + 1) . '-F'));

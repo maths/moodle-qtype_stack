@@ -67,6 +67,7 @@ class ValidationController {
                 $data["inputName"]
             );
 
+        $validationresponse->iframes = \iframe_holder::$iframes;
         $response->getBody()->write(json_encode($validationresponse));
         return $response->withHeader('Content-Type', 'application/json');
     }

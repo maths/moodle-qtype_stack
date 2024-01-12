@@ -145,6 +145,7 @@ class GradingController {
         $gradingresponse->gradingassets = (object) $plots;
 
         $gradingresponse->responsesummary = $question->summarise_response($data['answers']);
+        $gradingresponse->iframes = \iframe_holder::$iframes;
         $response->getBody()->write(json_encode($gradingresponse));
         return $response->withHeader('Content-Type', 'application/json');
     }

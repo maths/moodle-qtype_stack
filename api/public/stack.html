@@ -124,6 +124,7 @@
                 document.getElementById('output').innerText = http.responseText;
                 return;
               }
+              renameIframeHolders();
               let question = json.questionrender;
               const inputs = json.questioninputs;
               let correctAnswers = '';
@@ -192,9 +193,7 @@
               innerFeedback.innerHTML = '';
               innerFeedback.classList.remove('feedback');
               document.getElementById('formatcorrectresponse').innerHTML = correctAnswers;
-              for (const iframe of json.iframes) {
-                create_iframe(...iframe);
-              }
+              createIframes(json.iframes);
               MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }
             catch(e) {
@@ -221,6 +220,7 @@
                 document.getElementById('output').innerText = http.responseText;
                 return;
               }
+              renameIframeHolders();
               const validationHTML = json.validation;
               const element = document.getElementsByName(`${validationPrefix + answerName}`)[0];
               element.innerHTML = validationHTML;
@@ -229,6 +229,7 @@
               } else {
                 element.classList.remove('validation');
               }
+              createIframes(json.iframes);
               MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }
             catch(e) {
@@ -266,6 +267,7 @@
                   = ' Please enter valid answers for all parts of the question.';
                 return;
               }
+              renameIframeHolders();
               document.getElementById('score').innerText
                 = (json.score * json.scoreweights.total).toFixed(2) + ' out of ' + json.scoreweights.total;
               document.getElementById('stackapi_score').style.display = 'block';
@@ -305,7 +307,7 @@
                   }
                 }
               }
-
+              createIframes(json.iframes);
               MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
             }
             catch(e) {
@@ -342,6 +344,20 @@
           return localStorage.getItem(key) || '';
         }
         return '';
+      }
+
+      function renameIframeHolders() {
+        // Each call to STACK restarts numbering of iframe holders so we need to rename
+        // any old ones to make sure new iframes end up in the correct place.
+        for (const iframe of document.querySelectorAll(`[id^=stack-iframe-holder]:not([id$=old]`)) {
+          iframe.id = iframe.id + '_old';
+        }
+      }
+
+      function createIframes (iframes) {
+        for (const iframe of iframes) {
+          create_iframe(...iframe);
+        }
       }
 
       // Replace feedback tags in some text with an approproately named HTML div.

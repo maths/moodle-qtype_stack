@@ -66,6 +66,7 @@ The response is again a json document, with the following fields:
 - a map field `questioninputs` mapping an input name to its configuration
 - an int field `questionseed` indicating the seed used for this response
 - an int array `questionvariants` containing all variant seeds of the question
+- an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra
 
 The input configuration consists of the following fields:
 
@@ -108,6 +109,8 @@ The grading route returns the following fields:
 - a map from the PRT names to strings `prts`, containing the rendered PRT feedback
 - a string map `gradingassets`, containing a list of assets used in the grading response, see [Plots/Assets](#Plots/Assets)
 - a string field `responsesummary` containing the a summary of response. (See [Reporting](../doc/en/Authoring/Reporting.md).)
+- an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra
+
 
 ### Validate route
 The `POST /validate` is used to get validation feedback for a single input of a question. The route expects a json document in the post body containing the following fields:
@@ -116,7 +119,7 @@ The `POST /validate` is used to get validation feedback for a single input of a 
 - `inputName`: The name of the input to be validated.
 - `answers`. A map from string to string, containing the answers.
 
-The validation route returns a single string field `Validation` with the corresponding rendered output.
+The validation route returns a string field `Validation` with the corresponding rendered output and an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra.
 
 ### Rendered CASText format
 The API returns rendered CASText as parts of its responses in multiple places. The CASText is output as a single string in an intermediate format, which cannot be directly fed to browsers for display, and requires further processing. Applications using the API have to handle the following cases:

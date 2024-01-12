@@ -62,6 +62,10 @@
     <script src="stackjsvle.js"></script>
   </head>
   <body>
+
+    <?php
+      echo 'Some PHP';
+    ?>
     <script>
 
       const timeOutHandler = new Object();
@@ -373,6 +377,36 @@
         return result;
       }
 
+      function getQuestionFile(questionURL) {
+        if (questionURL) {
+          fetch(questionURL)
+            .then(result => result.text())
+            .then((result) => {
+              const parser = new DOMParser();
+              const xmlDoc = parser.parseFromString(result, "text/xml");
+              const selectQuestion = document.createElement("select");
+              selectQuestion.setAttribute("onchange", "setQuestion(this.value)");
+              selectQuestion.id = "stackapi_question_select";
+              const holder = document.getElementById("stackapi_question_select_holder");
+              holder.innerHTML = "";
+              holder.appendChild(selectQuestion);
+              for (const question of xmlDoc.getElementsByTagName("question")) {
+                const option = document.createElement("option");
+                option.value = question.outerHTML;
+                option.text = question.getElementsByTagName("name")[0].getElementsByTagName("text")[0].innerHTML;
+
+                selectQuestion.appendChild(option);
+              }
+              const firstquestion = xmlDoc.getElementsByTagName("question")[0].outerHTML;
+              setQuestion(firstquestion);
+            });
+        }
+      }
+
+      function setQuestion(question) {
+        yamlEditor.getDoc().setValue('<quiz>\n' + question + '\n</quiz>');
+      }
+
     </script>
 
     <div class="container-fluid">
@@ -388,8 +422,21 @@
             </span>
           </a>
         </div>
+        <select id="file_selector" placeholder="Select question" onchange="getQuestionFile(this.value)">
+          <option value="" selected>Please select a question file</option>
+        <?php
+          $filenames = scandir('../../samplequestions');
+          var_dump($files);
+          foreach ($filenames as $filename) {
+            if (strtolower(pathinfo($filename, PATHINFO_EXTENSION)) == 'xml') {
+              echo'<option value="cors.php?name=' . $filename . '&question=true">' . $filename . '</option>';
+            }
+          }
+        ?>
+        </select>
+        <div id="stackapi_question_select_holder"></div>
         <h2>Question XML</h2>
-        <textarea id='xml' cols="100" rows="10"></textarea>
+        <textarea id="xml" cols="100" rows="10"></textarea>
         <h2>Seed: <input id="seed" type="number"></h2>
         <div>
           <input type="button" onclick="send()" class="btn btn-primary" value="Display Question"/>

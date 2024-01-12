@@ -21,6 +21,7 @@
 // @codingStandardsIgnoreStart
 
 $scriptname = urldecode($_GET['name']);
+$is_question = urldecode($_GET['question']);
 
 if (strpos('..', $scriptname) !== false
     || strpos('/', $scriptname) !== false
@@ -28,7 +29,8 @@ if (strpos('..', $scriptname) !== false
     die("No such script here.");
 }
 
-if (file_exists('../../corsscripts/' . $scriptname) || $scriptname === 'styles.css') {
+if (file_exists('../../corsscripts/' . $scriptname) || $scriptname === 'styles.css'
+    || ($is_question && file_exists('../../samplequestions/' . $scriptname))) {
     if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
         header('HTTP/1.0 204 OK');
         header('Access-Control-Allow-Origin: *');
@@ -42,12 +44,16 @@ if (file_exists('../../corsscripts/' . $scriptname) || $scriptname === 'styles.c
             header('Content-Type: text/javascript;charset=UTF-8');
         } else if (strrpos($scriptname, '.css') === strlen($scriptname) - 4) {
             header('Content-Type: text/css;charset=UTF-8');
+        } else if (strrpos($scriptname, '.xml') === strlen($scriptname) - 4) {
+            header('Content-Type: text/xml;charset=UTF-8');
         }
         header('Cache-Control: public, max-age=31104000, immutable');
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Headers: *');
         if ($scriptname === 'styles.css') {
             echo(file_get_contents('../../' . $scriptname));
+        } else if ($is_question) {
+            echo(file_get_contents('../../samplequestions/' . $scriptname));
         } else {
             echo(file_get_contents('../../corsscripts/' . $scriptname));
         }

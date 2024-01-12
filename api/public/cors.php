@@ -21,7 +21,11 @@
 // @codingStandardsIgnoreStart
 
 $scriptname = urldecode($_GET['name']);
-$is_question = urldecode($_GET['question']);
+if (isset($_GET['question'])) {
+    $is_question = urldecode($_GET['question']) == 'true' ? true : false;
+} else {
+    $is_question = false;
+}
 
 if (strpos('..', $scriptname) !== false
     || strpos('/', $scriptname) !== false

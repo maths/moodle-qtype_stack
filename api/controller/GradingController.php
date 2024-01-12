@@ -133,7 +133,8 @@ class GradingController {
         }
         $weights['total'] = $question->defaultmark;
 
-        $gradingresponse->score = $scores;
+        $gradingresponse->score = $scores['total'];
+        $gradingresponse->scores = $scores;
         $gradingresponse->scoreweights = $weights;
         $gradingresponse->specificfeedback = $translate->filter(
             $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor),

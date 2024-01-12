@@ -101,7 +101,8 @@ For input rendered as single fields, one entry inside the `answers` map, with th
 The grading route returns the following fields:
 
 - a boolean field `isgradable`, indicating if the question could be graded. Possibly false e.g. because of missing inputs
-- a map from the PRT names to floats `score`, containing the marks for each part. `score['total']` contains the total score for the question.
+- a float field `score` containing the obtained score. (Also contained in scores but kept here for backward compatibility.)
+- a map from the PRT names to floats `scores`, containing the marks for each part. `score['total']` contains the total score for the question.
 - a map from the PRT names to floats `scoreweights`, containing the weighting for each part. `scoreweights['total']` contains the default total mark for the question. The mark for a question part is its `score[prt] * scoreweights[prt] * scoreweights['total']`.
 - a string field `specificfeedback` containing the rendered specific feedback text
 - a map from the PRT names to strings `prts`, containing the rendered PRT feedback

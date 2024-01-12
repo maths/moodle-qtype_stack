@@ -267,7 +267,7 @@
                 return;
               }
               document.getElementById('score').innerText
-                = (json.score.total * json.scoreweights.total).toFixed(2) + ' out of ' + json.scoreweights.total;
+                = (json.score * json.scoreweights.total).toFixed(2) + ' out of ' + json.scoreweights.total;
               document.getElementById('stackapi_score').style.display = 'block';
               document.getElementById('response_summary').innerText = json.responsesummary;
               document.getElementById('stackapi_summary').style.display = 'block';
@@ -292,9 +292,9 @@
                 const elements = document.getElementsByName(`${feedbackPrefix + name}`);
                 if (elements.length > 0) {
                   const element = elements[0];
-                  if (json.score[name] !== undefined) {
+                  if (json.scores[name] !== undefined) {
                     fb = fb + `<div>Marks for this submission:
-                      ${(json.score[name] * json.scoreweights[name] * json.scoreweights.total).toFixed(2)}
+                      ${(json.scores[name] * json.scoreweights[name] * json.scoreweights.total).toFixed(2)}
                         / ${(json.scoreweights[name] * json.scoreweights.total).toFixed(2)}.</div>`;
                   }
                   element.innerHTML = fb;

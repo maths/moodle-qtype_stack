@@ -62,10 +62,6 @@
     <script src="stackjsvle.js"></script>
   </head>
   <body>
-
-    <?php
-      echo 'Some PHP';
-    ?>
     <script>
 
       const timeOutHandler = new Object();

@@ -26,6 +26,7 @@ require_login();
 use api\controller\GradingController;
 use api\controller\RenderController;
 use api\controller\ValidationController;
+use api\controller\DownloadController;
 use api\util\ErrorRenderer;
 use Slim\Factory\AppFactory;
 
@@ -44,5 +45,6 @@ $errorhandler->registerErrorRenderer('application/json', ErrorRenderer::class);
 $app->post('/render', RenderController::class);
 $app->post('/grade', GradingController::class);
 $app->post('/validate', ValidationController::class);
+$app->post('/download', DownloadController::class);
 
 $app->run();

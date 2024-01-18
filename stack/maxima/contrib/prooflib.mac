@@ -41,6 +41,7 @@ tap:proof_display(proof_ans, proof_steps);
 /*                                                                */
 /* proof()       - general, unspecified proof                     */
 /* proof_c()     - general proof, with commutative arguments      */
+/* proof_opt()   - proof_opt()                                    */
 /*                                                                */
 /* proof_iff()   - if any only if                                 */
 /* proof_cases() - proof by exhaustive cases, the first element   */
@@ -53,7 +54,7 @@ tap:proof_display(proof_ans, proof_steps);
 /* Please update Proof/Proof_CAS_library.md with new types.       */
 
 /* Note, "proof" is assumed to come first in this list, as we use "rest" below for other types. */
-proof_types:[proof, proof_c, proof_iff, proof_cases, proof_ind];
+proof_types:[proof, proof_c, proof_opt, proof_iff, proof_cases, proof_ind];
 
 proofp(ex) := block(
   if atom(ex) then true,
@@ -62,10 +63,14 @@ proofp(ex) := block(
 );
 
 s_test_case(proofp(proof(1,2,3)), true);
+s_test_case(proofp(proof_iff(1,2)), true);
 s_test_case(proofp(sin(x)), false);
 
 proof_validatep(ex) := block(
   if atom(ex) then return(true),
+  if op(ex) = proof_opt then
+      if not(is(length(args(ex)) = 1)) then return(false)
+                                       else return(all_listp(proof_validatep, args(ex))),
   if op(ex) = proof_iff then
       if not(is(length(args(ex)) = 2)) then return(false)
                                        else return(all_listp(proof_validatep, args(ex))),
@@ -80,12 +85,15 @@ proof_validatep(ex) := block(
 s_test_case(proof_validatep(proof(1,2,3)), true);
 s_test_case(proof_validatep(proof(1,2,proof(4,5,6))), true);
 s_test_case(proof_validatep(proof(1,2,proof_iff(4,5))), true);
+/* proof_opt must have exactly one sub-proof. */
+s_test_case(proof_validatep(proof(1,2,proof_opt(4,5))), false);
 /* proof_iff must have exactly two sub-proofs. */
 s_test_case(proof_validatep(proof(1,2,proof_iff(4))), false);
 s_test_case(proof_validatep(proof(1,2,proof_iff(4,5,6))), false);
 /* proof_ind must have exactly four sub-proofs. */
 s_test_case(proof_validatep(proof_ind(1,proof(2,3),proof(4,5),6)), true);
 s_test_case(proof_validatep(proof_ind(1,proof(2,3),proof(4,5))), false);
+s_test_case(proof_validatep(proof(1,proof_opt(2),proof_iff(4,5))), true);
 
 /* Is this a type of proof which can reorder its arguments? */
 proof_commutep(ex):=block(
@@ -102,12 +110,14 @@ s_test_case(proof_flatten(proof_iff(proof(A,B),proof(C))), proof(A,B,C));
 s_test_case(proof_flatten(proof_c(proof(A,proof(B,C)),proof(D))), proof(A,B,C,D));
 
 /*
- * Create a normalised proof tree. 
+ * Create a normalised proof tree.
  * To establish equivalence of proof trees we compare the normalised form.
  * This basically sorts and "simplifies" its arguments.
+ * We also remove the proof_opt tag.
 */
 proof_normal(ex) := block(
   if atom(ex) then return(ex),
+  if op(ex) = proof_opt then return(first(args(ex))),
   /* Only sort arguments to types of proof which commute. */
   if proof_commutep(ex) then return(apply(op(ex), sort(map(proof_normal, args(ex))))),
   /* Some proof types have subsets of arguments which commute. */
@@ -120,6 +130,7 @@ s_test_case(proof_normal(proof_c(B,A,D,C)), proof_c(A,B,C,D));
 s_test_case(proof_normal(proof_iff(B,A)), proof_iff(A,B));
 s_test_case(proof_normal(proof_ind(D,C,B,A)), proof_ind(D,B,C,A));
 s_test_case(proof_normal(proof_cases(D,C,B,A)), proof_cases(D,A,B,C));
+s_test_case(proof_normal(proof_iff(proof_c(proof_opt(C),A), B)), proof_iff(proof_c(A,C),B));
 
 /******************************************************************/
 /*                                                                */
@@ -132,12 +143,14 @@ s_test_case(proof_normal(proof_cases(D,C,B,A)), proof_cases(D,A,B,C));
 */
 proof_alternatives(ex):=block([p1,p2],
     p2:proof_one_alternatives(ex),
-    do (p1:p2, p2:proof_one_distrib(p1), if is(p1=p2) then return(proof_ensure_list(p2)))
+    do (p1:p2, p2:proof_one_distrib(p1), if is(p1=p2) then return(map(proof_remove_nullproof, proof_ensure_list(p2))))
 );
 
 proof_one_alternatives(pr) := block(
   if atom(pr) then return(pr),
   if proof_commutep(pr) then return(apply(pf_one, map(lambda([ex], apply(op(pr), map(proof_one_alternatives, ex))), listify(permutations(args(pr)))))),
+  /* In a proof by exhaustive cases the first element is fixed. */
+  if op(pr)=proof_opt then return(pf_one(first(pr), nullproof)),
   /* In a proof by exhaustive cases the first element is fixed. */
   if op(pr)=proof_cases then return(apply(pf_one, map(lambda([ex], apply(op(pr), append([first(args(pr))], map(proof_one_alternatives, ex)))), listify(permutations(rest(args(pr))))))),
   /* In a proof by induction cases the first element and last elents are fixed. */
@@ -165,14 +178,20 @@ proof_one_distrib(ex):= block([_a,_i,_l],
    apply(pf_one, map(lambda([ex2], block([_aa], _aa:copy(args(ex)), _aa[_i]:_a[ex2], return(apply(op(ex),_aa)))), _l))
 );
 
-proof_ensure_list(ex):= if listp(ex) then return(ex) else return([ex]);
+proof_ensure_list(ex):= if listp(ex) then ex else [ex];
+
+proof_remove_nullproof(ex):= block(
+   if atom(ex) then return(ex),
+   if freeof(nullproof, ex) then return(ex),
+   apply(op(ex), map(proof_remove_nullproof, sublist(args(ex), lambda([ex2], not(is(ex2=nullproof)))))) 
+);
 
 s_test_case(proof_alternatives(proof(A,B,C,D)), [proof(A,B,C,D)]);
 s_test_case(proof_alternatives(proof_c(A,B)), [proof_c(A,B),proof_c(B,A)]);
 s_test_case(proof_alternatives(proof_iff(A,B)), [proof_iff(A,B),proof_iff(B,A)]);
 s_test_case(proof_alternatives(proof_ind(A,B,C,D)), [proof_ind(A,B,C,D),proof_ind(A,C,B,D)]);
 s_test_case(proof_alternatives(proof_cases(A,B,C)), [proof_cases(A,B,C),proof_cases(A,C,B)]);
-
+s_test_case(proof_alternatives(proof_iff(proof(proof_opt(A), B),C)), [proof_iff(proof(A,B),C),proof_iff(proof(B),C),proof_iff(C,proof(A,B)),proof_iff(C,proof(B))]);
 
 /******************************************************************/
 /*                                                                */
@@ -234,6 +253,8 @@ proof_getstep(k, pf) := block([keylist],
 proof_disp_replacesteps(ex, proof_steps) := block(
    if integerp(ex) or stringp(ex) then return(proof_getstep(ex, proof_steps)),
    if atom(ex) then return(sconcat("Error: the following atom does not index a step: ", string(ex))),
+   /* Flatten any optional steps now. */
+   if is(op(ex)=proof_opt) then return(proof_disp_replacesteps(first(args(ex)), proof_steps)),
    apply(op(ex), map(lambda([ex2], proof_disp_replacesteps(ex2, proof_steps)), args(ex)))
 );
 
@@ -299,6 +320,8 @@ proof_line_html(pfs) := block([st],
 proof_disp_replacesteps_html(ex, proof_steps) := block(
    if integerp(ex) or stringp(ex) then return(proof_getstep_html(ex, proof_steps)),
    if atom(ex) then return(sconcat("Error: the following atom does not index a step: ", string(ex))),
+   /* Flatten any optional steps now. */
+   if is(op(ex)=proof_opt) then return(proof_disp_replacesteps(first(args(ex)), proof_steps)),
    apply(op(ex), map(lambda([ex2], proof_disp_replacesteps_html(ex2, proof_steps)), args(ex)))
 );
 

@@ -2,6 +2,10 @@
 
 STACK provides libraries to represent and manage lines of a text-based proof in a tree structure.  This page is reference documentation for these CAS libraries.  For examples of how to use these see the topics page on using [Parson's problems](../Topics/Parsons.md).
 
+To use these functions you have to [load an optional library](../Authoring/Inclusions.md) into each question.
+
+E.g. `stack_include_contrib("prooflib.mac")` will include the library published in the master branch on github, which will be at or just ahead of an official release.
+
 ## Proof construction functions, and their manipulation
 
 Proofs are represented as "proof construction functions" with arguments.  For example, an if and only if proof would be represented as `proof_iff(A,B)`, where both `A` and `B` are sub-proofs. Proof construction functions don't typically modify their arguments, but some proof construction functions have simplification properties.  For example `proof_iff(A,B)` is normally equivalent to `proof_iff(B,A)`.
@@ -10,6 +14,7 @@ STACK supports the following types of proof construction functions.  The followi
 
 * `proof()`: general, unspecified proof.
 * `proof_c()`: general proof, with commutative arguments.  Typically each argument will be another proof block type.
+* `proof_opt()`: steps in a proof which are optional.  It assumes a single step.  Wrap each optional step individually.
 
 The following represent particular types of proof.
 

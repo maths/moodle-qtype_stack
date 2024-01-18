@@ -908,9 +908,11 @@ class qtype_stack extends question_type {
                 array('questionid' => $questionid, 'prtname' => $from));
 
         // The PRT name in node answer notes if defaults are being used.
-        $select = 'questionid="' . $questionid . '" AND prtname="' . $from . '"';
-        $trueanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'trueanswernote', $select);
-        $falseanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'falseanswernote', $select);
+        $select = 'questionid = ? AND prtname = ?';
+        $select_params[] = $questionid;
+        $select_params[] = $from;
+        $trueanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'trueanswernote', $select, $select_params);
+        $falseanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'falseanswernote', $select, $select_params);
         foreach($trueanswernotes as $nodekey => $trueanswernote) {
             $DB->set_field('qtype_stack_prt_nodes', 'trueanswernote', $to . substr($trueanswernote, strlen($from)), 
                 array('questionid' => $questionid, 

@@ -203,6 +203,7 @@ class StackQuestionLoader {
             $data->autosimplify = isset($prtdata->autosimplify) ? self::parseboolean($prtdata->autosimplify) : true;
             $data->feedbackstyle = isset($prtdata->feedbackstyle) ? (int) $prtdata->feedbackstyle : 1;
             $data->value = isset($prtdata->value) ? (float) $prtdata->value : 1.0;
+            $data->firstnodename = null;
 
             $data->feedbackvariables = (string) $prtdata->feedbackvariables->text;
 

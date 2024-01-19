@@ -21,6 +21,7 @@
 
 namespace api\controller;
 
+use api\util\StackIframeHolder;
 use api\dtos\StackValidationResponse;
 use api\util\StackQuestionLoader;
 use api\util\StackSeedHelper;
@@ -67,7 +68,7 @@ class ValidationController {
                 $data["inputName"]
             );
 
-        $validationresponse->iframes = \iframe_holder::$iframes;
+        $validationresponse->iframes = StackIframeHolder::$iframes;
         $response->getBody()->write(json_encode($validationresponse));
         return $response->withHeader('Content-Type', 'application/json');
     }

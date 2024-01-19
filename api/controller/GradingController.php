@@ -22,6 +22,7 @@
 namespace api\controller;
 
 use api\dtos\StackGradingResponse;
+use api\util\StackIframeHolder;
 use api\util\StackPlotReplacer;
 use api\util\StackQuestionLoader;
 use api\util\StackSeedHelper;
@@ -145,7 +146,7 @@ class GradingController {
         $gradingresponse->gradingassets = (object) $plots;
 
         $gradingresponse->responsesummary = $question->summarise_response($data['answers']);
-        $gradingresponse->iframes = \iframe_holder::$iframes;
+        $gradingresponse->iframes = StackIframeHolder::$iframes;
         $response->getBody()->write(json_encode($gradingresponse));
         return $response->withHeader('Content-Type', 'application/json');
     }

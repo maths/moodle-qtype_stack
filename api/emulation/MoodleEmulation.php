@@ -51,18 +51,6 @@ function clean_param($in, $param) {
     return $in;
 }
 
-class iframe_holder {
-    public static $iframes = [];
-
-    public static function add_iframe($args) {
-        for ($i = 0; $i < 5; $i++) {
-            $args[$i] = json_decode($args[$i]);
-        }
-        array_push(self::$iframes, $args);
-    }
-
-}
-
 function get_config($component, $parameter = null) {
     global $CFG;
     if ($parameter === null) {

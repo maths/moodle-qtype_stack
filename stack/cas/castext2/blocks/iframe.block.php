@@ -1,4 +1,5 @@
 <?php
+use api\util\StackIframeHolder;
 // This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
@@ -187,7 +188,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
         // As the content is large we cannot simply use the js_amd_call.
         if(defined('STACK_API')) {
-            iframe_holder::add_iframe($args);
+            StackIframeHolder::add_iframe($args);
         } else {
             $PAGE->requires->js_amd_inline(
                 'require(["qtype_stack/stackjsvle"], '

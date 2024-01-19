@@ -21,6 +21,13 @@
 
 namespace api\controller;
 
+require_once(__DIR__ . '/../util/StackIframeHolder.php');
+require_once(__DIR__ . '/../dtos/StackRenderResponse.php');
+require_once(__DIR__ . '/../util/StackPlotReplacer.php');
+require_once(__DIR__ . '/../util/StackQuestionLoader.php');
+require_once(__DIR__ . '/../util/StackSeedHelper.php');
+
+use api\util\StackIframeHolder;
 use api\dtos\StackRenderInput;
 use api\dtos\StackRenderResponse;
 use api\util\StackPlotReplacer;
@@ -39,7 +46,9 @@ class RenderController {
         $data = $request->getParsedBody();
 
         // Load Functions emulating Moodle.
-        require_once(__DIR__ . '/../emulation/MoodleEmulation.php');
+        if (!defined('STACK_API')) {
+            require_once(__DIR__ . '/../emulation/MoodleEmulation.php');
+        }
 
         $question = StackQuestionLoader::loadxml($data["questionDefinition"]);
 
@@ -124,7 +133,7 @@ class RenderController {
 
         $renderresponse->questionseed = $question->seed;
         $renderresponse->questionvariants = $question->deployedseeds;
-        $renderresponse->iframes = \iframe_holder::$iframes;
+        $renderresponse->iframes = StackIframeHolder::$iframes;
 
         $response->getBody()->write(json_encode($renderresponse));
         return $response->withHeader('Content-Type', 'application/json');

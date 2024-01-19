@@ -23,8 +23,6 @@
  * Simulating Moodle global configuration variables.
  */
 
-// Remove this line in your copy.
-defined('MOODLE_INTERNAL') || die();
 $CFG = new stdClass;
 $PAGE = new stdClass;
 

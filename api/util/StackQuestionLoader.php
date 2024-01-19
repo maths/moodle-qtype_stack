@@ -224,6 +224,7 @@ class StackQuestionLoader {
                 $newnode->truenextnode = isset($node->truenextnode) ? (string) $node->truenextnode : '-1';
                 $newnode->trueanswernote = (string) $node->trueanswernote;
                 $newnode->truefeedback = (string) $node->truefeedback->text;
+                $newnode->truefeedbackformat = (string) $node->truefeedback->attributes()['format'];
 
                 $newnode->falsescoremode = isset($node->falsescoremode) ? (string) $node->falsescoremode : 'equals';
                 $newnode->falsescore = isset($node->falsescore) ? (float) $node->falsescore : 0.0;
@@ -231,6 +232,7 @@ class StackQuestionLoader {
                 $newnode->falsenextnode = isset($node->falsenextnode) ? (string) $node->falsenextnode : '-1';
                 $newnode->falseanswernote = (string) $node->falseanswernote;
                 $newnode->falsefeedback = (string) $node->falsefeedback->text;
+                $newnode->falsefeedbackformat = (string) $node->falsefeedback->attributes()['format'];
 
                 $data->nodes[(int) $node->name] = $newnode;
             }

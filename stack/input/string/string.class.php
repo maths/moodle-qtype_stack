@@ -180,4 +180,8 @@ class stack_string_input extends stack_algebraic_input {
         }
         return $ex;
     }
+
+    public function getApiSolutionRender($tadisplay) {
+        return stack_utils::maxima_string_strip_mbox($tadisplay);
+    }
 }

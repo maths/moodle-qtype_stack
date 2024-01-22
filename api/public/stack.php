@@ -134,7 +134,7 @@
                 question = question.replace(`[[validation:${name}]]`, `<span name='${validationPrefix + name}'></span>`);
                 if (input.samplesolutionrender && name !== 'remember') {
                   // Display render of answer and matching user input to produce the answer.
-                  correctAnswers += `<p>A correct answer is: \\[{${input.samplesolutionrender}}\\],
+                  correctAnswers += `<p>A correct answer is: ${input.samplesolutionrender},
                     which can be typed as follows: `;
                   for (const [name, solution] of Object.entries(input.samplesolution)) {
                     if (name.indexOf('_val') === -1) {

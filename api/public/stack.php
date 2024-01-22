@@ -63,7 +63,6 @@
   </head>
   <body>
     <script>
-
       const timeOutHandler = new Object();
       const inputPrefix = 'stackapi_input_';
       const feedbackPrefix = 'stackapi_fb_';
@@ -421,6 +420,7 @@
         <select id="file_selector" placeholder="Select question" onchange="getQuestionFile(this.value)">
           <option value="" selected>Please select a question file</option>
         <?php
+          require_once('../config.php');
           $filenames = scandir('../../samplequestions');
           var_dump($files);
           foreach ($filenames as $filename) {

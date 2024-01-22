@@ -24,8 +24,6 @@
  * to reduce the amount of modifications neccessary to run stack standalone
  */
 
-define('STACK_API', true);
-
 define('MOODLE_INTERNAL', true);
 define('PARAM_RAW', 'raw');
 define('PARAM_PLUGIN', true);

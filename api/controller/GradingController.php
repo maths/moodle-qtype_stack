@@ -21,6 +21,12 @@
 
 namespace api\controller;
 
+require_once(__DIR__ . '/../util/StackIframeHolder.php');
+require_once(__DIR__ . '/../dtos/StackGradingResponse.php');
+require_once(__DIR__ . '/../util/StackPlotReplacer.php');
+require_once(__DIR__ . '/../util/StackQuestionLoader.php');
+require_once(__DIR__ . '/../util/StackSeedHelper.php');
+
 use api\dtos\StackGradingResponse;
 use api\util\StackIframeHolder;
 use api\util\StackPlotReplacer;
@@ -37,9 +43,6 @@ class GradingController {
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TODO: Validate.
         $data = $request->getParsedBody();
-
-        // Load Functions emulating Moodle.
-        require_once(__DIR__ . '/../emulation/MoodleEmulation.php');
 
         $question = StackQuestionLoader::loadxml($data["questionDefinition"]);
 

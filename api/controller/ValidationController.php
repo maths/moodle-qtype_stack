@@ -21,6 +21,11 @@
 
 namespace api\controller;
 
+require_once(__DIR__ . '/../util/StackIframeHolder.php');
+require_once(__DIR__ . '/../dtos/StackValidationResponse.php');
+require_once(__DIR__ . '/../util/StackQuestionLoader.php');
+require_once(__DIR__ . '/../util/StackSeedHelper.php');
+
 use api\util\StackIframeHolder;
 use api\dtos\StackValidationResponse;
 use api\util\StackQuestionLoader;
@@ -36,9 +41,6 @@ class ValidationController {
     public function __invoke(Request $request, Response $response, array $args): Response {
         // TODO: Validate.
         $data = $request->getParsedBody();
-
-        // Load Functions emulating Moodle.
-        require_once(__DIR__ . '/../emulation/MoodleEmulation.php');
 
         $question = StackQuestionLoader::loadxml($data["questionDefinition"]);
 

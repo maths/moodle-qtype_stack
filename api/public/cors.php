@@ -19,7 +19,7 @@
 
 // We cannot have moodle internal in this script.
 // @codingStandardsIgnoreStart
-
+require_once('../config.php');
 $scriptname = urldecode($_GET['name']);
 if (isset($_GET['question'])) {
     $is_question = urldecode($_GET['question']) == 'true' ? true : false;

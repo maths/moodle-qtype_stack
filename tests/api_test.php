@@ -25,14 +25,18 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/apifixtures.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
+require_once(__DIR__ . '../../api/controller/GradingController.php');
 require_once(__DIR__ . '../../api/controller/RenderController.php');
+require_once(__DIR__ . '../../api/controller/ValidationController.php');
 
+
+use api\controller\GradingController;
 use api\controller\RenderController;
+use api\controller\ValidationController;
 use stack_api_test_data;
 use Psr\Http\Message\ResponseInterface as ResponseInt;
 use Psr\Http\Message\ServerRequestInterface as RequestInt;
 use qtype_stack_testcase;
-
 
 /**
  * Class to fake the response output object and store the actual JSON
@@ -66,7 +70,6 @@ class api_test extends qtype_stack_testcase {
      */
     public function setUp(): void {
         parent::setUp();
-        define('STACK_API', true);
         $this->requestdata = [];
         $this->requestdata['seed'] = '';
         $this->requestdata['readOnly'] = false;
@@ -124,5 +127,23 @@ class api_test extends qtype_stack_testcase {
         $rc->__invoke($this->request, $this->response, []);
         $this->assertMatchesRegularExpression('/^<p>Calculate/', $this->result->output->questionrender);
         $this->assertEquals(86, $this->result->output->questionseed);
+    }
+
+    public function test_validation() {
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
+        $this->requestdata['answers'] = (array) json_decode(stack_api_test_data::get_answer_string('matrices'));
+        $this->requestdata['inputName'] = 'ans1';
+        $vc = new ValidationController();
+        $vc->__invoke($this->request, $this->response, []);
+        $this->assertMatchesRegularExpression('/\\\[ \\left\[\\begin\{array\}\{cc\} 1 & 2 \\\\ 3 & 4 \\end{array}\\right\] \\\]/s', $this->result->output->validation);
+    }
+
+    public function test_grade() {
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
+        $this->requestdata['answers'] = (array) json_decode(stack_api_test_data::get_answer_string('matrices'));
+        $this->requestdata['inputName'] = 'ans1';
+        $gc = new GradingController();
+        $gc->__invoke($this->request, $this->response, []);
+        $this->assertEquals(1, $this->result->output->score);
     }
 }

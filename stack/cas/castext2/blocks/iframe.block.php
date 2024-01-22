@@ -78,7 +78,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
     }
 
     public function postprocess(array $params, castext2_processor $processor): string {
-        global $PAGE;
+        global $CFG, $PAGE;
 
         if (count($params) < 3) {
             // Nothing at all.
@@ -169,7 +169,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         $code .= '</head><body style="margin:0px;">' . $content . '</body></html>';
 
         // Ensure plots get their full URL at this point.
-        if(defined('STACK_API')) {
+        if(isset($CFG->stackapi) && $CFG->stackapi) {
             $code = str_replace('!ploturl!',
             '/plots/', $code);
         } else {
@@ -187,7 +187,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         ];
 
         // As the content is large we cannot simply use the js_amd_call.
-        if(defined('STACK_API')) {
+        if(isset($CFG->stackapi) && $CFG->stackapi) {
             StackIframeHolder::add_iframe($args);
         } else {
             $PAGE->requires->js_amd_inline(

@@ -181,7 +181,8 @@ function stack_determine_moodle_version() {
  * modifies headers or a direct link.
  */
 function stack_cors_link(string $filename): string {
-    if(defined('STACK_API')) {
+    global $CFG;
+    if(isset($CFG->stackapi) && $CFG->stackapi) {
         return '/cors.php?name=' . $filename;
     } else {
         return (new moodle_url(

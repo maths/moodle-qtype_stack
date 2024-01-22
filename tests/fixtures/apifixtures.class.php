@@ -102,6 +102,7 @@ class stack_api_test_data {
                     <name>prt1</name>
                     <value>1.0000000</value>
                     <autosimplify>1</autosimplify>
+                    <feedbackstyle>1</feedbackstyle>
                     <feedbackvariables>
                         <text/>
                     </feedbackvariables>
@@ -237,7 +238,15 @@ class stack_api_test_data {
             </quiz>'
     ];
 
+    protected static array $correctanswers = [
+        'matrices' => '{"ans1_sub_0_0": "35", "ans1_sub_0_1": "30", "ans1_sub_1_0": "28", "ans1_sub_1_1": "24"}'
+    ];
+
     public static function get_question_string(string $name): string {
         return self::$questiondata[$name];
+    }
+
+    public static function get_answer_string(string $name): string {
+        return self::$correctanswers[$name];
     }
 }

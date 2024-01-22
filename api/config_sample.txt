@@ -26,6 +26,8 @@
 $CFG = new stdClass;
 $PAGE = new stdClass;
 
+$CFG->stackapi = true;
+
 // This is the directory into which you put the scripts.
 $CFG->wwwroot = "/var/www/html";
 // The base url of the installation.

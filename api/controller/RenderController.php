@@ -45,11 +45,6 @@ class RenderController {
         // TODO: Validate.
         $data = $request->getParsedBody();
 
-        // Load Functions emulating Moodle.
-        if (!defined('STACK_API')) {
-            require_once(__DIR__ . '/../emulation/MoodleEmulation.php');
-        }
-
         $question = StackQuestionLoader::loadxml($data["questionDefinition"]);
 
         StackSeedHelper::initialize_seed($question, $data["seed"]);

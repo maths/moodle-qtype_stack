@@ -16,7 +16,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-if (!defined('STACK_API')) {
+if (!isset($CFG->stackapi)) {
     require_once($CFG->libdir . '/filterlib.php');
     require_once($CFG->dirroot . '/filter/tex/filter.php');
 }

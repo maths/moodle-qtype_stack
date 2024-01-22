@@ -135,7 +135,7 @@ class api_test extends qtype_stack_testcase {
         $this->requestdata['inputName'] = 'ans1';
         $vc = new ValidationController();
         $vc->__invoke($this->request, $this->response, []);
-        $this->assertMatchesRegularExpression('/\\\[ \\left\[\\begin\{array\}\{cc\} 1 & 2 \\\\ 3 & 4 \\end{array}\\right\] \\\]/s', $this->result->output->validation);
+        $this->assertMatchesRegularExpression('/\\\[ \\\left\[\\begin\{array\}\{cc\} 1 & 2 \\\\ 3 & 4 \\end{array}\\right\] \\\]/s', $this->result->output->validation);
     }
 
     public function test_grade() {

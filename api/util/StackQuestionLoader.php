@@ -31,6 +31,7 @@ require_once(__DIR__ . '/../../question.php');
 class StackQuestionLoader {
     public static function loadxml($xml) {
         // TODO: Consider defaults.
+        global $CFG;
         try {
             $xmldata = new SimpleXMLElement($xml);
         } catch (\Exception $e) {
@@ -102,41 +103,45 @@ class StackQuestionLoader {
         $question->options = new \stack_options();
         $question->options->set_option(
             'multiplicationsign',
-            isset($xmldata->question->multiplicationsign) ? (string) $xmldata->question->multiplicationsign : 'dot'
+            isset($xmldata->question->multiplicationsign) ? (string) $xmldata->question->multiplicationsign : $CFG->multiplicationsign
         );
         $question->options->set_option(
             'complexno',
-            isset($xmldata->question->complexno) ? (string) $xmldata->question->complexno : 'i'
+            isset($xmldata->question->complexno) ? (string) $xmldata->question->complexno : $CFG->complexno
         );
         $question->options->set_option(
             'inversetrig',
-            isset($xmldata->question->inversetrig) ? (string) $xmldata->question->inversetrig : 'cos-1'
+            isset($xmldata->question->inversetrig) ? (string) $xmldata->question->inversetrig : $CFG->inversetrig
         );
         $question->options->set_option(
             'logicsymbol',
-            isset($xmldata->question->logicsymbol) ? (string) $xmldata->question->logicsymbol : 'lang'
+            isset($xmldata->question->logicsymbol) ? (string) $xmldata->question->logicsymbol : $CFG->logicsymbol
         );
         $question->options->set_option(
             'matrixparens',
-            isset($xmldata->question->matrixparens) ? (string) $xmldata->question->matrixparens : '['
+            isset($xmldata->question->matrixparens) ? (string) $xmldata->question->matrixparens : $CFG->matrixparens
         );
         $question->options->set_option(
             'sqrtsign',
-            isset($xmldata->question->sqrtsign) ? self::parseboolean($xmldata->question->sqrtsign) : true
+            isset($xmldata->question->sqrtsign) ? self::parseboolean($xmldata->question->sqrtsign) : $CFG->sqrtsign
         );
         $question->options->set_option(
             'simplify',
             isset($xmldata->question->questionsimplify) ?
-                self::parseboolean($xmldata->question->questionsimplify) : true
+                self::parseboolean($xmldata->question->questionsimplify) : $CFG->questionsimplify
         );
         $question->options->set_option(
             'assumepos',
             isset($xmldata->question->assumepositive) ?
-                self::parseboolean($xmldata->question->assumepositive) : false
+                self::parseboolean($xmldata->question->assumepositive) : $CFG->assumepositive
         );
         $question->options->set_option(
             'assumereal',
-            isset($xmldata->question->assumereal) ? self::parseboolean($xmldata->question->assumereal) : false
+            isset($xmldata->question->assumereal) ? self::parseboolean($xmldata->question->assumereal) : $CFG->assumereal
+        );
+        $question->options->set_option(
+            'decimals',
+            isset($xmldata->question->decimals) ? (string) $xmldata->question->decimals : $CFG->decimals
         );
 
         $inputmap = [];

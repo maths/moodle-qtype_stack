@@ -66,14 +66,14 @@ $CFG->plotcommand = "gnuplot";
 $CFG->ajaxvalidation = 0;
 $CFG->replacedollars = false;
 
-$CFG->questionsimplify = true;
-$CFG->assumepositive = false;
-$CFG->assumereal = false;
+$CFG->questionsimplify = 1;
+$CFG->assumepositive = 0;
+$CFG->assumereal = 0;
 $CFG->prtcorrect = '';
 $CFG->prtpartiallycorrect = '';
 $CFG->prtincorrect = '';
 $CFG->multiplicationsign = 'dot';
-$CFG->sqrtsign = true;
+$CFG->sqrtsign = 1;
 $CFG->complexno = 'i';
 $CFG->logicsymbol = 'lang';
 $CFG->inversetrig = 'cos-1';
@@ -81,7 +81,7 @@ $CFG->matrixparens = "[";
 $CFG->decimals = ".";
 
 $CFG->inputtype = 'algebraic';
-$CFG->inputboxsize = 15;
+$CFG->inputboxsize = 30;
 $CFG->inputstrictsyntax = 1;
 $CFG->inputinsertstars = 0;
 $CFG->inputforbidwords = '';

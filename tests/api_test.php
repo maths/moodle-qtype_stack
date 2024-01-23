@@ -27,12 +27,14 @@ require_once(__DIR__ . '/fixtures/apifixtures.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '../../api/controller/GradingController.php');
 require_once(__DIR__ . '../../api/controller/RenderController.php');
+require_once(__DIR__ . '../../api/util/StackQuestionLoader.php');
 require_once(__DIR__ . '../../api/controller/ValidationController.php');
 
 
 use api\controller\GradingController;
 use api\controller\RenderController;
 use api\controller\ValidationController;
+use api\util\StackQuestionLoader;
 use stack_api_test_data;
 use Psr\Http\Message\ResponseInterface as ResponseInt;
 use Psr\Http\Message\ServerRequestInterface as RequestInt;
@@ -69,7 +71,32 @@ class api_test extends qtype_stack_testcase {
      * @return void
      */
     public function setUp(): void {
+        global $CFG;
         parent::setUp();
+        // $CFG gets reset on every test.
+        $CFG->questionsimplify = 1;
+        $CFG->assumepositive = 0;
+        $CFG->assumereal = 0;
+        $CFG->prtcorrect = '';
+        $CFG->prtpartiallycorrect = '';
+        $CFG->prtincorrect = '';
+        $CFG->multiplicationsign = 'dot';
+        $CFG->sqrtsign = 1;
+        $CFG->complexno = 'i';
+        $CFG->logicsymbol = 'lang';
+        $CFG->inversetrig = 'cos-1';
+        $CFG->matrixparens = "[";
+        $CFG->decimals = ".";
+        $CFG->inputtype = 'algebraic';
+        $CFG->inputboxsize = 30;
+        $CFG->inputstrictsyntax = 1;
+        $CFG->inputinsertstars = 0;
+        $CFG->inputforbidwords = '';
+        $CFG->inputforbidfloat = 0;
+        $CFG->inputrequirelowestterms = 1;
+        $CFG->inputcheckanswertype = 1;
+        $CFG->inputmustverify = 1;
+        $CFG->inputshowvalidation = 1;
         $this->requestdata = [];
         $this->requestdata['seed'] = '';
         $this->requestdata['readOnly'] = false;
@@ -112,13 +139,13 @@ class api_test extends qtype_stack_testcase {
         // The controllers call getBody() on the response object but then call write() on the result.
         // We return a MockBody object with a write method which updates the test's result property
         // so we can actually perform some asserts.
-        $this->response->expects($this->exactly(1))->method('getBody')->will($this->returnCallback(
+        $this->response->expects($this->any())->method('getBody')->will($this->returnCallback(
             function() {
                 return $this->result;
             })
         );
 
-        $this->response->expects($this->exactly(1))->method('withHeader')->willReturn($this->response);
+        $this->response->expects($this->any())->method('withHeader')->willReturn($this->response);
     }
 
     public function test_render() {
@@ -145,5 +172,12 @@ class api_test extends qtype_stack_testcase {
         $gc = new GradingController();
         $gc->__invoke($this->request, $this->response, []);
         $this->assertEquals(1, $this->result->output->score);
+    }
+
+    public function test_question_loader() {
+        $xml = stack_api_test_data::get_question_string('matrices');
+        $ql = new StackQuestionLoader();
+        $question = $ql->loadXML($xml);
+        $this->assertEquals('test_3_matrix', $question->name);
     }
 }

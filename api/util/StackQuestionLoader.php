@@ -123,21 +123,21 @@ class StackQuestionLoader {
         );
         $question->options->set_option(
             'sqrtsign',
-            isset($xmldata->question->sqrtsign) ? self::parseboolean($xmldata->question->sqrtsign) : $CFG->sqrtsign
+            isset($xmldata->question->sqrtsign) ? self::parseboolean($xmldata->question->sqrtsign) : (bool) $CFG->sqrtsign
         );
         $question->options->set_option(
             'simplify',
             isset($xmldata->question->questionsimplify) ?
-                self::parseboolean($xmldata->question->questionsimplify) : $CFG->questionsimplify
+                self::parseboolean($xmldata->question->questionsimplify) : (bool) $CFG->questionsimplify
         );
         $question->options->set_option(
             'assumepos',
             isset($xmldata->question->assumepositive) ?
-                self::parseboolean($xmldata->question->assumepositive) : $CFG->assumepositive
+                self::parseboolean($xmldata->question->assumepositive) : (bool) $CFG->assumepositive
         );
         $question->options->set_option(
             'assumereal',
-            isset($xmldata->question->assumereal) ? self::parseboolean($xmldata->question->assumereal) : $CFG->assumereal
+            isset($xmldata->question->assumereal) ? self::parseboolean($xmldata->question->assumereal) : (bool) $CFG->assumereal
         );
         $question->options->set_option(
             'decimals',
@@ -152,23 +152,23 @@ class StackQuestionLoader {
         $requiredparams = \stack_input_factory::get_parameters_used();
         foreach ($inputmap as $name => $inputdata) {
             $allparameters = [
-                'boxWidth'        => isset($inputdata->boxsize) ? (int) $inputdata->boxsize : 30,
+                'boxWidth'        => isset($inputdata->boxsize) ? (int) $inputdata->boxsize : $CFG->inputboxsize,
                 'strictSyntax'    => isset($inputdata->strictsyntax) ?
-                    self::parseboolean($inputdata->strictsyntax) : true,
-                'insertStars'     => isset($inputdata->insertstars) ? (int) $inputdata->insertstars : 1,
+                    self::parseboolean($inputdata->strictsyntax) : (bool) $CFG->inputstrictsyntax,
+                'insertStars'     => isset($inputdata->insertstars) ? (int) $inputdata->insertstars : $CFG->inputinsertstars,
                 'syntaxHint'      => isset($inputdata->syntaxhint) ? (string) $inputdata->syntaxhint : '',
                 'syntaxAttribute' => isset($inputdata->syntaxattribute) ? (int) $inputdata->syntaxattribute : 0,
                 'forbidWords'     => isset($inputdata->forbidwords) ? (string) $inputdata->forbidwords : '',
                 'allowWords'      => isset($inputdata->allowwords) ? (string) $inputdata->allowwords : '',
                 'forbidFloats'    => isset($inputdata->forbidfloat) ?
-                    self::parseboolean($inputdata->forbidfloat) : true,
+                    self::parseboolean($inputdata->forbidfloat) : (bool) $CFG->inputforbidfloat,
                 'lowestTerms'     => isset($inputdata->requirelowestterms) ?
-                    self::parseboolean($inputdata->requirelowestterms) : false,
+                    self::parseboolean($inputdata->requirelowestterms) : (bool) $CFG->inputrequirelowestterms,
                 'sameType'        => isset($inputdata->checkanswertype) ?
-                    self::parseboolean($inputdata->checkanswertype) : false,
+                    self::parseboolean($inputdata->checkanswertype) : (bool) $CFG->inputcheckanswertype,
                 'mustVerify'      => isset($inputdata->mustverify) ?
-                    self::parseboolean($inputdata->mustverify) : true,
-                'showValidation'  => isset($inputdata->showvalidation) ? (int) $inputdata->showvalidation : 1,
+                    self::parseboolean($inputdata->mustverify) : (bool) $CFG->inputmustverify,
+                'showValidation'  => isset($inputdata->showvalidation) ? (int) $inputdata->showvalidation : $CFG->inputshowvalidation,
                 'options'         => isset($inputdata->options) ? (string) $inputdata->options : '',
             ];
             $parameters = [];

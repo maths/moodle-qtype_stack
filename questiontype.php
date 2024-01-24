@@ -911,19 +911,22 @@ class qtype_stack extends question_type {
         $select = 'questionid = ? AND prtname = ?';
         $select_params[] = $questionid;
         $select_params[] = $from;
+        $currentnodenames = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'nodename', $select, $select_params);
         $trueanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'trueanswernote', $select, $select_params);
         $falseanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'falseanswernote', $select, $select_params);
-        foreach($trueanswernotes as $nodekey => $trueanswernote) {
-            $DB->set_field('qtype_stack_prt_nodes', 'trueanswernote', $to . substr($trueanswernote, strlen($from)), 
+        foreach(array_combine($currentnodenames, $trueanswernotes) as $nodename => $trueanswernote) {
+            // TODO : nodekey isn't right, this is just always indexes 0, 1, 2, 3, but if the answer notes have been renamed, these are no longer the defaults
+            $DB->set_field('qtype_stack_prt_nodes', 'trueanswernote', $to . '-' . (intval($nodename) + 1) . '-T', 
                 array('questionid' => $questionid, 
                       'prtname' => $from, 
-                      'trueanswernote' => $from . '-' . (intval($nodekey) + 1) . '-T'));
+                      'trueanswernote' => $from . '-' . (intval($nodename) + 1) . '-T'));
+            // TODO : update test data for answer notes as well
         }
-        foreach($falseanswernotes as $nodekey => $falseanswernote) {
-            $DB->set_field('qtype_stack_prt_nodes', 'falseanswernote', $to . substr($falseanswernote, strlen($from)), 
+        foreach(array_combine($currentnodenames, $falseanswernotes) as $nodename => $falseanswernote) {
+            $DB->set_field('qtype_stack_prt_nodes', 'falseanswernote', $to . '-' . (intval($nodename) + 1) . '-F', 
                 array('questionid' => $questionid, 
                       'prtname' => $from, 
-                      'falseanswernote' => $from . '-' . (intval($nodekey) + 1) . '-F'));
+                      'falseanswernote' => $from . '-' . (intval($nodename) + 1) . '-F'));
         }
 
         // The PRT name in its nodes.

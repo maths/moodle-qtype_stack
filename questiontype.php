@@ -903,31 +903,43 @@ class qtype_stack extends question_type {
         $DB->set_field('qtype_stack_options', 'specificfeedback', $specificfeedback,
                 array('questionid' => $questionid));
 
-        // PRT names in question test data.
-        $DB->set_field('qtype_stack_qtest_expected', 'prtname', $to,
-                array('questionid' => $questionid, 'prtname' => $from));
-
-        // The PRT name in node answer notes if defaults are being used.
+        // The PRT name in node answer notes if defaults are being used. 
+        // To do this we need to extract all nodes corresponding to the old PRT name along with their notes.
+        // This must come before the PRT name is updated in test, node and PRT data.
         $select = 'questionid = ? AND prtname = ?';
         $select_params[] = $questionid;
         $select_params[] = $from;
         $currentnodenames = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'nodename', $select, $select_params);
         $trueanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'trueanswernote', $select, $select_params);
         $falseanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'falseanswernote', $select, $select_params);
+        // Then loop through {nodename: trueanswernote} to update true answer notes.
         foreach(array_combine($currentnodenames, $trueanswernotes) as $nodename => $trueanswernote) {
-            // TODO : nodekey isn't right, this is just always indexes 0, 1, 2, 3, but if the answer notes have been renamed, these are no longer the defaults
+            // Rename the note in the node if default used.
             $DB->set_field('qtype_stack_prt_nodes', 'trueanswernote', $to . '-' . (intval($nodename) + 1) . '-T', 
                 array('questionid' => $questionid, 
                       'prtname' => $from, 
                       'trueanswernote' => $from . '-' . (intval($nodename) + 1) . '-T'));
-            // TODO : update test data for answer notes as well
+            // Rename the note in any tests containing the note if default is used.
+            $DB->set_field('qtype_stack_qtest_expected', 'expectedanswernote', $to . '-' . (intval($nodename) + 1) . '-T',
+                array('questionid' => $questionid, 
+                    'prtname' => $from, 
+                    'expectedanswernote' => $from . '-' . (intval($nodename) + 1) . '-T'));
         }
+        // Do the same for false answer notes.
         foreach(array_combine($currentnodenames, $falseanswernotes) as $nodename => $falseanswernote) {
             $DB->set_field('qtype_stack_prt_nodes', 'falseanswernote', $to . '-' . (intval($nodename) + 1) . '-F', 
                 array('questionid' => $questionid, 
                       'prtname' => $from, 
                       'falseanswernote' => $from . '-' . (intval($nodename) + 1) . '-F'));
+            $DB->set_field('qtype_stack_qtest_expected', 'expectedanswernote', $to . '-' . (intval($nodename) + 1) . '-F',
+                array('questionid' => $questionid, 
+                    'prtname' => $from, 
+                    'expectedanswernote' => $from . '-' . (intval($nodename) + 1) . '-F'));
         }
+
+        // PRT names in question test data.
+        $DB->set_field('qtype_stack_qtest_expected', 'prtname', $to,
+                array('questionid' => $questionid, 'prtname' => $from));
 
         // The PRT name in its nodes.
         $DB->set_field('qtype_stack_prt_nodes', 'prtname', $to,
@@ -973,12 +985,17 @@ class qtype_stack extends question_type {
                       'nodename' => $from, 
                       'falseanswernote' => $prtname . '-' . (intval($from) + 1) . '-F'));
 
-        // Answer notes in question test data if default is used.
+        // True answer notes in question test data if default is used.
         $DB->set_field('qtype_stack_qtest_expected', 'expectedanswernote', $prtname . '-' . (intval($to) + 1) . '-T',
-        array('questionid' => $questionid, 'prtname' => $prtname, 'expectedanswernote' => $prtname . '-' . (intval($from) + 1) . '-T'));
+                array('questionid' => $questionid, 
+                      'prtname' => $prtname, 
+                      'expectedanswernote' => $prtname . '-' . (intval($from) + 1) . '-T'));
 
+        // False answer notes in question test data if default is used.
         $DB->set_field('qtype_stack_qtest_expected', 'expectedanswernote', $prtname . '-' . (intval($to) + 1) . '-F',
-        array('questionid' => $questionid, 'prtname' => $prtname, 'expectedanswernote' => $prtname . '-' . (intval($from) + 1) . '-F'));
+                array('questionid' => $questionid, 
+                      'prtname' => $prtname, 
+                      'expectedanswernote' => $prtname . '-' . (intval($from) + 1) . '-F'));
 
         // The PRT node itself.
         $DB->set_field('qtype_stack_prt_nodes', 'nodename', $to,

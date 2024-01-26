@@ -19,6 +19,8 @@
 // @copyright  2023 University of Edinburgh
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 require_once('../config.php');
+require_once(__DIR__ . '../../emulation/MoodleEmulation.php');
+// Required to pass Moodle code check. Uses emulation stub.
 require_login();
 ?>
 <html>

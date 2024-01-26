@@ -79,7 +79,7 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
     }
 
     public function postprocess(array $params, castext2_processor $processor): string {
-        if(defined('STACK_API')) {
+        if(get_config('qtype_stack', 'stackapi')) {
             return "javascript:download('{$params[1]}', {$params[2]});";
         } else {
         // Note different systems serve out through different logic.

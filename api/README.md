@@ -14,7 +14,7 @@ The image requires maxima to be available via http. The URL can be configured vi
 version: "3.9"
 services:
   maxima:
-    image: mathinstitut/goemaxima:2023010400-latest
+    image: mathinstitut/goemaxima:2023121100-latest
     tmpfs:
       - "/tmp"
     restart: unless-stopped
@@ -108,7 +108,7 @@ The grading route returns the following fields:
 - a string field `specificfeedback` containing the rendered specific feedback text
 - a map from the PRT names to strings `prts`, containing the rendered PRT feedback
 - a string map `gradingassets`, containing a list of assets used in the grading response, see [Plots/Assets](#Plots/Assets)
-- a string field `responsesummary` containing the a summary of response. (See [Reporting](../doc/en/Authoring/Reporting.md).)
+- a string field `responsesummary` containing a summary of response. (See [Reporting](../doc/en/Authoring/Reporting.md).)
 - an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra
 
 

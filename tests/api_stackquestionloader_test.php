@@ -25,149 +25,19 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/apifixtures.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
-require_once(__DIR__ . '../../api/controller/GradingController.php');
-require_once(__DIR__ . '../../api/controller/RenderController.php');
 require_once(__DIR__ . '../../api/util/StackQuestionLoader.php');
-require_once(__DIR__ . '../../api/controller/ValidationController.php');
 
-
-use api\controller\GradingController;
-use api\controller\RenderController;
-use api\controller\ValidationController;
 use api\util\StackQuestionLoader;
 use stack_api_test_data;
-use Psr\Http\Message\ResponseInterface as ResponseInt;
-use Psr\Http\Message\ServerRequestInterface as RequestInt;
 use qtype_stack_testcase;
-
-/**
- * Class to fake the response output object and store the actual JSON
- */
-class MockBody {
-    public object $output;
-    public function write() {
-        $this->output = json_decode(func_get_args()[0]);
-        return $this->output;
-    }
-}
 
 /**
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class api_test extends qtype_stack_testcase {
-    /** @var object used to store output */
-    public object $result;
-    /** @var array the api call data */
-    public array $requestdata;
-    /** @var object request object mock */
-    public object $request;
-    /** @var object response object mock */
-    public object $response;
+class api_stackquestionloader_test extends qtype_stack_testcase {
 
-    /**
-     * Setup tests by mocking response and request.
-     *
-     * @return void
-     */
-    public function setUp(): void {
-        parent::setUp();
-        $this->requestdata = [];
-        $this->requestdata['seed'] = '';
-        $this->requestdata['readOnly'] = false;
-        $this->requestdata['renderInputs'] = true;
-
-        // Need to mock request and response for the controllers but Moodle only
-        // has the interfaces, not the classes themselves. We have to get an array
-        // of method names to mock them all or the interface will complain that
-        // it hasn't been implemented.
-        $reflection = new \ReflectionClass(RequestInt::class);
-        $methods = [];
-        foreach($reflection->getMethods() as $method) {
-            $methods[] = $method->name;
-        }
-        $this->request = $this->getMockBuilder(RequestInt::class)
-            ->setMockClassName('Request')
-            ->setMethods($methods)
-            ->getMock();
-        // Need to use callback so data can be altered in each test.
-        $this->request->method("getParsedBody")->will($this->returnCallback(
-            function() {
-                return $this->requestdata;
-            })
-        );
-
-
-        $reflection = new \ReflectionClass(ResponseInt::class);
-        $methods = [];
-        foreach($reflection->getMethods() as $method) {
-            $methods[] = $method->name;
-        }
-
-        $this->response = $this->getMockBuilder(ResponseInt::class)
-            ->setMockClassName('Response')
-            ->setMethods($methods)
-            ->getMock();
-
-        $this->result = new MockBody();
-
-        // The controllers call getBody() on the response object but then call write() on the result.
-        // We return a MockBody object with a write method which updates the test's result property
-        // so we can actually perform some asserts.
-        $this->response->expects($this->any())->method('getBody')->will($this->returnCallback(
-            function() {
-                return $this->result;
-            })
-        );
-
-        $this->response->expects($this->any())->method('withHeader')->willReturn($this->response);
-    }
-
-    public function test_render() {
-        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
-        $rc = new RenderController();
-        $rc->__invoke($this->request, $this->response, []);
-        $this->assertMatchesRegularExpression('/^<p>Calculate/', $this->result->output->questionrender);
-        $this->assertEquals(86, $this->result->output->questionseed);
-        $this->assertEquals('matrix([35,30],[28,24])', $this->result->output->questioninputs->ans1->samplesolution->_val);
-        $this->assertMatchesRegularExpression('/^<div class="matrixsquarebrackets"><table class="matrixtable"/', $this->result->output->questioninputs->ans1->render);
-        $this->assertMatchesRegularExpression('/^<p>To multiply matrices/', $this->result->output->questionsamplesolutiontext);
-        $this->assertEquals(0, count((array)$this->result->output->questionassets));
-        $this->assertContains(86, $this->result->output->questionvariants);
-        $this->assertContains(219862533, $this->result->output->questionvariants);
-        $this->assertContains(1167893775, $this->result->output->questionvariants);
-        $this->assertEquals(3, count($this->result->output->questionvariants));
-        $this->assertEquals(0, count($this->result->output->iframes));
-    }
-
-    public function xtest_render_specified_seed() {
-        $this->requestdata['seed'] = 219862533;
-        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
-        $rc = new RenderController();
-        $rc->__invoke($this->request, $this->response, []);
-        $this->assertMatchesRegularExpression('/^<p>Calculate/', $this->result->output->questionrender);
-        $this->assertEquals(219862533, $this->result->output->questionseed);
-    }
-
-    public function xtest_validation() {
-        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
-        $this->requestdata['answers'] = (array) json_decode(stack_api_test_data::get_answer_string('matrices'));
-        $this->requestdata['inputName'] = 'ans1';
-        $vc = new ValidationController();
-        $vc->__invoke($this->request, $this->response, []);
-        $this->assertMatchesRegularExpression('/\\\[ \\\left\[\\begin\{array\}\{cc\} 1 & 2 \\\\ 3 & 4 \\end{array}\\right\] \\\]/s', $this->result->output->validation);
-    }
-
-    public function xtest_grade() {
-        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
-        $this->requestdata['answers'] = (array) json_decode(stack_api_test_data::get_answer_string('matrices'));
-        $this->requestdata['inputName'] = 'ans1';
-        $gc = new GradingController();
-        $gc->__invoke($this->request, $this->response, []);
-        $this->assertEquals(1, $this->result->output->score);
-    }
-
-    public function xtest_question_loader() {
+    public function test_question_loader() {
         $xml = stack_api_test_data::get_question_string('matrices');
         $ql = new StackQuestionLoader();
         $question = $ql->loadXML($xml);
@@ -192,7 +62,7 @@ class api_test extends qtype_stack_testcase {
         $this->assertEquals(3, count($question->deployedseeds));
     }
 
-    public function xtest_question_loader_use_defaults() {
+    public function test_question_loader_use_defaults() {
         global $CFG;
         $xml = stack_api_test_data::get_question_string('usedefaults');
         $ql = new StackQuestionLoader();
@@ -217,7 +87,7 @@ class api_test extends qtype_stack_testcase {
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
     }
 
-    public function xtest_question_loader_do_not_use_defaults() {
+    public function test_question_loader_do_not_use_defaults() {
         global $CFG;
         $xml = stack_api_test_data::get_question_string('optionset');
         $ql = new StackQuestionLoader();

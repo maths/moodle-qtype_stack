@@ -102,27 +102,33 @@ class StackQuestionLoader {
         $question->options = new \stack_options();
         $question->options->set_option(
             'multiplicationsign',
-            isset($xmldata->question->multiplicationsign) ? (string) $xmldata->question->multiplicationsign : get_config('qtype_stack', 'multiplicationsign')
+            isset($xmldata->question->multiplicationsign) ?
+                (string) $xmldata->question->multiplicationsign : get_config('qtype_stack', 'multiplicationsign')
         );
         $question->options->set_option(
             'complexno',
-            isset($xmldata->question->complexno) ? (string) $xmldata->question->complexno : get_config('qtype_stack', 'complexno')
+            isset($xmldata->question->complexno) ?
+                (string) $xmldata->question->complexno : get_config('qtype_stack', 'complexno')
         );
         $question->options->set_option(
             'inversetrig',
-            isset($xmldata->question->inversetrig) ? (string) $xmldata->question->inversetrig : get_config('qtype_stack', 'inversetrig')
+            isset($xmldata->question->inversetrig) ?
+                (string) $xmldata->question->inversetrig : get_config('qtype_stack', 'inversetrig')
         );
         $question->options->set_option(
             'logicsymbol',
-            isset($xmldata->question->logicsymbol) ? (string) $xmldata->question->logicsymbol : get_config('qtype_stack', 'logicsymbol')
+            isset($xmldata->question->logicsymbol) ?
+                (string) $xmldata->question->logicsymbol : get_config('qtype_stack', 'logicsymbol')
         );
         $question->options->set_option(
             'matrixparens',
-            isset($xmldata->question->matrixparens) ? (string) $xmldata->question->matrixparens : get_config('qtype_stack', 'matrixparens')
+            isset($xmldata->question->matrixparens) ?
+                (string) $xmldata->question->matrixparens : get_config('qtype_stack', 'matrixparens')
         );
         $question->options->set_option(
             'sqrtsign',
-            isset($xmldata->question->sqrtsign) ? self::parseboolean($xmldata->question->sqrtsign) : (bool) get_config('qtype_stack', 'sqrtsign')
+            isset($xmldata->question->sqrtsign) ?
+                self::parseboolean($xmldata->question->sqrtsign) : (bool) get_config('qtype_stack', 'sqrtsign')
         );
         $question->options->set_option(
             'simplify',
@@ -136,7 +142,8 @@ class StackQuestionLoader {
         );
         $question->options->set_option(
             'assumereal',
-            isset($xmldata->question->assumereal) ? self::parseboolean($xmldata->question->assumereal) : (bool) get_config('qtype_stack', 'assumereal')
+            isset($xmldata->question->assumereal) ?
+                self::parseboolean($xmldata->question->assumereal) : (bool) get_config('qtype_stack', 'assumereal')
         );
         $question->options->set_option(
             'decimals',
@@ -151,21 +158,26 @@ class StackQuestionLoader {
         $requiredparams = \stack_input_factory::get_parameters_used();
         foreach ($inputmap as $name => $inputdata) {
             $allparameters = [
-                'boxWidth'        => isset($inputdata->boxsize) ? (int) $inputdata->boxsize : get_config('qtype_stack', 'inputboxsize'),
-                'insertStars'     => isset($inputdata->insertstars) ? (int) $inputdata->insertstars : get_config('qtype_stack', 'inputinsertstars'),
+                'boxWidth'        => isset($inputdata->boxsize) ?
+                    (int) $inputdata->boxsize : get_config('qtype_stack', 'inputboxsize'),
+                'insertStars'     => isset($inputdata->insertstars) ?
+                    (int) $inputdata->insertstars : get_config('qtype_stack', 'inputinsertstars'),
                 'syntaxHint'      => isset($inputdata->syntaxhint) ? (string) $inputdata->syntaxhint : '',
                 'syntaxAttribute' => isset($inputdata->syntaxattribute) ? (int) $inputdata->syntaxattribute : 0,
-                'forbidWords'     => isset($inputdata->forbidwords) ? (string) $inputdata->forbidwords : get_config('qtype_stack', 'inputforbidwords'),
+                'forbidWords'     => isset($inputdata->forbidwords) ?
+                    (string) $inputdata->forbidwords : get_config('qtype_stack', 'inputforbidwords'),
                 'allowWords'      => isset($inputdata->allowwords) ? (string) $inputdata->allowwords : '',
                 'forbidFloats'    => isset($inputdata->forbidfloat) ?
                     self::parseboolean($inputdata->forbidfloat) : (bool) get_config('qtype_stack', 'inputforbidfloat'),
                 'lowestTerms'     => isset($inputdata->requirelowestterms) ?
-                    self::parseboolean($inputdata->requirelowestterms) : (bool) get_config('qtype_stack', 'inputrequirelowestterms'),
+                    self::parseboolean($inputdata->requirelowestterms) :
+                    (bool) get_config('qtype_stack', 'inputrequirelowestterms'),
                 'sameType'        => isset($inputdata->checkanswertype) ?
                     self::parseboolean($inputdata->checkanswertype) : (bool) get_config('qtype_stack', 'inputcheckanswertype'),
                 'mustVerify'      => isset($inputdata->mustverify) ?
                     self::parseboolean($inputdata->mustverify) : (bool) get_config('qtype_stack', 'inputmustverify'),
-                'showValidation'  => isset($inputdata->showvalidation) ? (int) $inputdata->showvalidation : get_config('qtype_stack', 'inputshowvalidation'),
+                'showValidation'  => isset($inputdata->showvalidation) ?
+                    (int) $inputdata->showvalidation : get_config('qtype_stack', 'inputshowvalidation'),
                 'options'         => isset($inputdata->options) ? (string) $inputdata->options : '',
             ];
             $parameters = [];

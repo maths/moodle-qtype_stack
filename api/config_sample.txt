@@ -82,7 +82,6 @@ $CFG->decimals = ".";
 
 $CFG->inputtype = 'algebraic';
 $CFG->inputboxsize = 30;
-$CFG->inputstrictsyntax = 1;
 $CFG->inputinsertstars = 0;
 $CFG->inputforbidwords = '';
 $CFG->inputforbidfloat = 0;

@@ -114,7 +114,7 @@ class stack_api_test_data {
                         <testoptions/>
                         <quiet>1</quiet>
                         <truescoremode>=</truescoremode>
-                        <truescore>1.0000000</truescore>
+                        <truescore>10.0000000</truescore>
                         <truepenalty/>
                         <truenextnode>-1</truenextnode>
                         <trueanswernote>1-0-T </trueanswernote>
@@ -235,6 +235,295 @@ class stack_api_test_data {
                     </expected>
                     </qtest>
                 </question>
+            </quiz>',
+        'usedefaults' =>
+           '<quiz>
+           <question type="stack">
+               <name>
+                 <text>test_1_integration</text>
+               </name>
+               <questiontext format="html">
+                 <text><![CDATA[<p>Find \[ \int {@p@} d{@v@}\] [[input:ans1]] [[validation:ans1]]</p>]]></text>
+               </questiontext>
+               <generalfeedback format="html">
+                 <text><![CDATA[<p>We can either do this question by inspection (i.e. spot the answer) or in a more formal manner by using the substitution \[ u = ({@v@}-{@a@}).\] Then, since \(\frac{d}{d{@v@}}u=1\) we have \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]</p>]]></text>
+               </generalfeedback>
+               <defaultgrade>1.0000000</defaultgrade>
+               <penalty>0.1000000</penalty>
+               <hidden>0</hidden>
+               <stackversion>
+                 <text/>
+               </stackversion>
+               <questionvariables>
+                 <text>n:rand(5)+3;
+           a:rand(5)+3;
+           v:rand([x,t]);
+           p:(v-a)^n;
+           ta:(v-a)^(n+1)/(n+1);</text>
+               </questionvariables>
+               <specificfeedback format="html">
+                 <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+               </specificfeedback>
+               <questionnote>
+                 <text>\(\int {@p@} d{@v@} = {@ta@}\)</text>
+               </questionnote>
+               <prtcorrect format="html">
+                 <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+               </prtcorrect>
+               <prtpartiallycorrect format="html">
+                 <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+               </prtpartiallycorrect>
+               <prtincorrect format="html">
+                 <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+               </prtincorrect>
+               <variantsselectionseed/>
+               <input>
+                 <name>ans1</name>
+                 <type>algebraic</type>
+                 <tans>ta+c</tans>
+                 <options/>
+               </input>
+               <prt>
+                 <name>prt1</name>
+                 <value>1.0000000</value>
+                 <autosimplify>1</autosimplify>
+                 <feedbackvariables>
+                   <text/>
+                 </feedbackvariables>
+                 <node>
+                   <name>0</name>
+                   <answertest>Int</answertest>
+                   <sans>ans1</sans>
+                   <tans>ta</tans>
+                   <testoptions>v</testoptions>
+                   <quiet>0</quiet>
+                   <truescoremode>=</truescoremode>
+                   <truescore>1.0000000</truescore>
+                   <truepenalty/>
+                   <truenextnode>-1</truenextnode>
+                   <trueanswernote>1-0-T </trueanswernote>
+                   <truefeedback format="html">
+                     <text/>
+                   </truefeedback>
+                   <falsescoremode>=</falsescoremode>
+                   <falsescore>0.0000000</falsescore>
+                   <falsepenalty/>
+                   <falsenextnode>-1</falsenextnode>
+                   <falseanswernote>1-0-F </falseanswernote>
+                   <falsefeedback format="html">
+                     <text/>
+                   </falsefeedback>
+                 </node>
+               </prt>
+               <deployedseed>1</deployedseed>
+               <deployedseed>1001758021</deployedseed>
+               <qtest>
+                 <testcase>1</testcase>
+                 <testinput>
+                   <name>ans1</name>
+                   <value>ta+c</value>
+                 </testinput>
+                 <expected>
+                   <name>prt1</name>
+                   <expectedscore>1.0000000</expectedscore>
+                   <expectedpenalty>0.0000000</expectedpenalty>
+                   <expectedanswernote>1-0-T</expectedanswernote>
+                 </expected>
+               </qtest>
+               <qtest>
+                 <testcase>2</testcase>
+                 <testinput>
+                   <name>ans1</name>
+                   <value>ta</value>
+                 </testinput>
+                 <expected>
+                   <name>prt1</name>
+                   <expectedscore>0.0000000</expectedscore>
+                   <expectedpenalty>0.1000000</expectedpenalty>
+                   <expectedanswernote>1-0-F</expectedanswernote>
+                 </expected>
+               </qtest>
+               <qtest>
+                 <testcase>3</testcase>
+                 <testinput>
+                   <name>ans1</name>
+                   <value>n*(v-a)^(n-1)</value>
+                 </testinput>
+                 <expected>
+                   <name>prt1</name>
+                   <expectedscore>0.0000000</expectedscore>
+                   <expectedpenalty>0.1000000</expectedpenalty>
+                   <expectedanswernote>1-0-F</expectedanswernote>
+                 </expected>
+               </qtest>
+               <qtest>
+                 <testcase>4</testcase>
+                 <testinput>
+                   <name>ans1</name>
+                   <value>(v-a)^(n+1)</value>
+                 </testinput>
+                 <expected>
+                   <name>prt1</name>
+                   <expectedscore>0.0000000</expectedscore>
+                   <expectedpenalty>0.1000000</expectedpenalty>
+                   <expectedanswernote>1-0-F</expectedanswernote>
+                 </expected>
+               </qtest>
+             </question>
+           </quiz>',
+        'optionset' =>
+            '<quiz>
+            <question type="stack">
+                <name>
+                <text>test_1_integration</text>
+                </name>
+                <questiontext format="html">
+                <text><![CDATA[<p>Find \[ \int {@p@} d{@v@}\] [[input:ans1]] [[validation:ans1]]</p>]]></text>
+                </questiontext>
+                <generalfeedback format="html">
+                <text><![CDATA[<p>We can either do this question by inspection (i.e. spot the answer) or in a more formal manner by using the substitution \[ u = ({@v@}-{@a@}).\] Then, since \(\frac{d}{d{@v@}}u=1\) we have \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]</p>]]></text>
+                </generalfeedback>
+                <defaultgrade>1.0000000</defaultgrade>
+                <penalty>0.1000000</penalty>
+                <hidden>0</hidden>
+                <stackversion>
+                <text/>
+                </stackversion>
+                <questionvariables>
+                <text>n:rand(5)+3;
+            a:rand(5)+3;
+            v:rand([x,t]);
+            p:(v-a)^n;
+            ta:(v-a)^(n+1)/(n+1);</text>
+                </questionvariables>
+                <specificfeedback format="html">
+                <text><![CDATA[<p>[[feedback:prt1]]</p>]]></text>
+                </specificfeedback>
+                <questionnote>
+                <text>\(\int {@p@} d{@v@} = {@ta@}\)</text>
+                </questionnote>
+                <prtcorrect format="html">
+                <text><![CDATA[<p><span class="correct">Correct answer, well done.</span></p>]]></text>
+                </prtcorrect>
+                <prtpartiallycorrect format="html">
+                <text><![CDATA[<p><span class="partially">Your answer is partially correct.</span></p>]]></text>
+                </prtpartiallycorrect>
+                <prtincorrect format="html">
+                <text><![CDATA[<p><span class="incorrect">Incorrect answer.</span></p>]]></text>
+                </prtincorrect>
+                <questionsimplify>0</questionsimplify>
+                <assumepositive>1</assumepositive>
+                <assumereal>1</assumereal>
+                <decimals>,</decimals>
+                <multiplicationsign>cross</multiplicationsign>
+                <sqrtsign>0</sqrtsign>
+                <complexno>j</complexno>
+                <inversetrig>acos</inversetrig>
+                <logicsymbol>symbol</logicsymbol>
+                <matrixparens>(</matrixparens>
+                <variantsselectionseed/>
+                <input>
+                <name>ans1</name>
+                <type>algebraic</type>
+                <tans>ta+c</tans>
+                <boxsize>30</boxsize>
+                <strictsyntax>1</strictsyntax>
+                <insertstars>1</insertstars>
+                <forbidwords>test</forbidwords>
+                <forbidfloat>0</forbidfloat>
+                <requirelowestterms>1</requirelowestterms>
+                <checkanswertype>1</checkanswertype>
+                <mustverify>0</mustverify>
+                <showvalidation>0</showvalidation>
+                <options/>
+                </input>
+                <prt>
+                <name>prt1</name>
+                <value>1.0000000</value>
+                <autosimplify>1</autosimplify>
+                <feedbackvariables>
+                    <text/>
+                </feedbackvariables>
+                <node>
+                    <name>0</name>
+                    <answertest>Int</answertest>
+                    <sans>ans1</sans>
+                    <tans>ta</tans>
+                    <testoptions>v</testoptions>
+                    <quiet>0</quiet>
+                    <truescoremode>=</truescoremode>
+                    <truescore>1.0000000</truescore>
+                    <truepenalty/>
+                    <truenextnode>-1</truenextnode>
+                    <trueanswernote>1-0-T </trueanswernote>
+                    <truefeedback format="html">
+                    <text/>
+                    </truefeedback>
+                    <falsescoremode>=</falsescoremode>
+                    <falsescore>0.0000000</falsescore>
+                    <falsepenalty/>
+                    <falsenextnode>-1</falsenextnode>
+                    <falseanswernote>1-0-F </falseanswernote>
+                    <falsefeedback format="html">
+                    <text/>
+                    </falsefeedback>
+                </node>
+                </prt>
+                <deployedseed>1</deployedseed>
+                <deployedseed>1001758021</deployedseed>
+                <qtest>
+                <testcase>1</testcase>
+                <testinput>
+                    <name>ans1</name>
+                    <value>ta+c</value>
+                </testinput>
+                <expected>
+                    <name>prt1</name>
+                    <expectedscore>1.0000000</expectedscore>
+                    <expectedpenalty>0.0000000</expectedpenalty>
+                    <expectedanswernote>1-0-T</expectedanswernote>
+                </expected>
+                </qtest>
+                <qtest>
+                <testcase>2</testcase>
+                <testinput>
+                    <name>ans1</name>
+                    <value>ta</value>
+                </testinput>
+                <expected>
+                    <name>prt1</name>
+                    <expectedscore>0.0000000</expectedscore>
+                    <expectedpenalty>0.1000000</expectedpenalty>
+                    <expectedanswernote>1-0-F</expectedanswernote>
+                </expected>
+                </qtest>
+                <qtest>
+                <testcase>3</testcase>
+                <testinput>
+                    <name>ans1</name>
+                    <value>n*(v-a)^(n-1)</value>
+                </testinput>
+                <expected>
+                    <name>prt1</name>
+                    <expectedscore>0.0000000</expectedscore>
+                    <expectedpenalty>0.1000000</expectedpenalty>
+                    <expectedanswernote>1-0-F</expectedanswernote>
+                </expected>
+                </qtest>
+                <qtest>
+                <testcase>4</testcase>
+                <testinput>
+                    <name>ans1</name>
+                    <value>(v-a)^(n+1)</value>
+                </testinput>
+                <expected>
+                    <name>prt1</name>
+                    <expectedscore>0.0000000</expectedscore>
+                    <expectedpenalty>0.1000000</expectedpenalty>
+                    <expectedanswernote>1-0-F</expectedanswernote>
+                </expected>
+                </qtest>
+            </question>
             </quiz>'
     ];
 

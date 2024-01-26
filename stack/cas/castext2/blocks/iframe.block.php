@@ -1,5 +1,4 @@
 <?php
-use api\util\StackIframeHolder;
 // This file is part of Stack - http://stack.maths.ed.ac.uk/
 //
 // Stack is free software: you can redistribute it and/or modify
@@ -19,6 +18,8 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../utils.class.php');
+
+use api\util\StackIframeHolder;
 
 /**
  * A block for providing means for creating IFRAMES.

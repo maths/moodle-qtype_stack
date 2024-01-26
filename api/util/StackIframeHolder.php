@@ -14,7 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the various deploy/undeploy actions from questiontestrun.php.
+// Class to hold an array of iframes created during an API call
+//
+// Iframes are defined by an array of arguments suitable for
+// sending to stackjsvle.js->create_iframe().
+//
+// Honestly this is acting like a global variable. It minimises changes to
+// to the iframe block to accomodate the API.
 //
 // @copyright  2023 RWTH Aachen
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.

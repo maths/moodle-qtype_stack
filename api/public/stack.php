@@ -355,6 +355,34 @@ require_login();
         http.send(JSON.stringify(collectData()));
       }
 
+      function download(filename, fileid) {
+        const http = new XMLHttpRequest();
+        const url = "http://localhost:3080/download";
+        http.open("POST", url, true);
+        http.setRequestHeader('Content-Type', 'application/json');
+
+        http.onreadystatechange = function() {
+          if(http.readyState == 4) {
+            try {
+              const blob = new Blob([http.responseText], {type: 'application/octet-binary', endings: 'native'});
+              const linkElements = document.querySelectorAll(`a[href^=javascript]`);
+
+              const link = linkElements[0];
+              link.setAttribute('href', URL.createObjectURL(blob));
+              link.setAttribute('download', filename);
+              link.click();
+            }
+            catch(e) {
+              document.getElementById('output').innerText = http.responseText;
+            }
+          }
+        };
+        const data = collectData();
+        data.filename = filename;
+        data.fileid = fileid;
+        http.send(JSON.stringify(data));
+      }
+
       // Save contents of question editor locally.
       function saveState(key, value) {
         if (typeof(Storage) !== "undefined") {

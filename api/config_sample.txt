@@ -90,8 +90,8 @@ $CFG->inputcheckanswertype = 1;
 $CFG->inputmustverify = 1;
 $CFG->inputshowvalidation = 1;
 
-$CFG->stackmaximaversion = "2023010400";
-$CFG->version = "2023010400";
+$CFG->stackmaximaversion = "2023121100";
+$CFG->version = "2023121100";
 
 // Do not change this setting.
 $CFG->mathsdisplay = 'api';

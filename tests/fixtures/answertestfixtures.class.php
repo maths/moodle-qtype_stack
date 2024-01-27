@@ -395,13 +395,13 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'x <= inf', 'oc(minf,inf)', 0, 'ATAlgEquiv_SA_not_realset.', ''),
         array('AlgEquiv', '', 'minf <= x', 'oo(minf,inf)', 0, 'ATAlgEquiv_SA_not_realset.', ''),
         // So for now.
-        array('AlgEquiv', '', 'single_variable_solver_real(minf <= x)',
+        array('AlgEquiv', '', 'stack_single_variable_solver(minf <= x)',
             'co(minf,inf)', 1, 'ATRealSet_true.', ''),
-        array('AlgEquiv', '', 'single_variable_solver_real(-inf <= x)',
+        array('AlgEquiv', '', 'stack_single_variable_solver(-inf <= x)',
             'co(minf,inf)', 1, 'ATRealSet_true.', ''),
-        array('AlgEquiv', '', 'single_variable_solver_real(x <= inf)',
+        array('AlgEquiv', '', 'stack_single_variable_solver(x <= inf)',
             'oc(minf,inf)', 1, 'ATRealSet_true.', ''),
-        array('AlgEquiv', '', 'single_variable_solver_real(minf <= x)',
+        array('AlgEquiv', '', 'stack_single_variable_solver(minf <= x)',
             'oo(minf,inf)', 0, 'ATRealSet_false.', ''),
 
         array('AlgEquiv', '', 'a=b/%i', '%i*a=b', 1, 'ATEquation_num_i', 'Complex numbers'),

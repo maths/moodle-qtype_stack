@@ -162,10 +162,9 @@ inintervalp(p, A) := block ([Ans, Args, x, y, Atemp, cc:cc(0,1), oo:oo(0,1), co:
             (
             Atemp:listify(A),
             n:length(Atemp),
-            while i<(n+1) do
-                (
+            while i<(n+1) do (
                 if p=Atemp[i] then Ans:true,
-                i:i+1 )
+                i:ev(i+1,simp))
             )
         elseif not( op(A)="[" ) then
             (
@@ -189,17 +188,15 @@ inintervalp(p, A) := block ([Ans, Args, x, y, Atemp, cc:cc(0,1), oo:oo(0,1), co:
                 if (p>x and p<=y) then Ans:true
                 )
             )
-        elseif op(A)="[" then
-            (
+        elseif op(A)="[" then (
             n:length(A),
-            while j<n+1 do
-                (
+            while j<n+1 do (
                 Atemp:A[j],
-                Ans:inintervalp(p,Atemp),
-                if Ans=false then j:j+1 else j:n+1
+                Ans:inintervalp(p, Atemp),
+                if Ans=false then j:ev(j+1, simp) else j:ev(n+1, simp)
                 )
             )
-        else error("intervals: the interval, ",A,", is not of a recognised form"),
+        else error("intervals: the interval, ", A, ", is not of a recognised form."),
         Ans
 )$
 
@@ -309,7 +306,7 @@ interval_simple_union(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2
                         if op(B)=co then B:cc(x1,y1),
                         if op(B)=oo then B:oc(x1,y1)
                     ),
-                    i:i+1
+                    i:ev(i+1, simp)
                 ),
                 if length(setAns)>0 then (setAns:setify(setAns), Ans: [B,setAns] ) else Ans:B
                 )
@@ -330,7 +327,7 @@ interval_simple_union(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2
                         if op(A)=co then A:cc(x1,y1),
                         if op(A)=oo then A:oc(x1,y1)
                     ),
-                    i:i+1
+                    i:ev(i+1, simp)
                 ),
                 if length(setAns)>0 then (setAns:setify(setAns), Ans: [A,setAns] ) else Ans:A
             ),
@@ -382,7 +379,7 @@ interval_simple_union(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2
                     ),
                 if (x2<y1 and y2=y1) then (
                     if (op(B)=oc or op(B)=cc) then
-                        Ans:interval_simple_union( A , {y2} )
+                        Ans:interval_simple_union( A , {y2})
                     else
                         Ans:A
                     ),
@@ -394,15 +391,15 @@ interval_simple_union(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2
                     else (
                         if (op(A)=cc or op(A)=co) then (
                             if (op(B)=oc or op(B)=cc) then
-                                Ans:cc(x1,y2)
+                                Ans:cc(x1, y2)
                             elseif (op(B)=oo or op(B)=co) then
-                                Ans:co(x1,y2)
+                                Ans:co(x1, y2)
                             )
                         elseif (op(A)=oc or op(A)=oo) then (
                             if (op(B)=oc or op(B)=cc) then
-                                Ans:oc(x1,y2)
+                                Ans:oc(x1, y2)
                             elseif (op(B)=oo or op(B)=co) then
-                                Ans:oo(x1,y2)
+                                Ans:oo(x1, y2)
                             )
                         )
                     )
@@ -413,7 +410,8 @@ interval_simple_union(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2
 
 
 /* Finds the intersection of two "simple" real sets. */
-interval_simple_intersect(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2, Aset, swap:false, lopen:false, ropen:false, setAns:[], cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), i:1, n],
+interval_simple_intersect(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, Args2, Aset,
+            swap:false, lopen:false, ropen:false, setAns:[], cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), i:1, n],
         cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
 
         if not(realsetp(X)) then error("interval_simple_intersect expects its first argument to be a real set."),
@@ -432,7 +430,7 @@ interval_simple_intersect(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, A
             n:length(Aset),
             while i<(n+1) do (
                 if inintervalp(Aset[i],B) then setAns:cons(Aset[i],setAns),
-                i:i+1
+                i:ev(i+1, simp)
             ),
             if length(setAns)>0 then (
                 setAns:setify(setAns),
@@ -483,14 +481,14 @@ interval_simple_intersect(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, A
         if (x2<y1 and y2>y1) then (
             if (op(A)=cc or op(A)=oc) then (
                 if (op(B)=cc or op(B)=co) then
-                    Ans:cc(x2,y1)
+                    Ans:cc(x2, y1)
                 elseif (op(B)=oo or op(B)=oc) then
-                    Ans:oc(x2,y1)
+                    Ans:oc(x2, y1)
             ) elseif (op(A)=co or op(A)=oo) then (
                 if (op(B)=co or op(B)=cc) then
-                    Ans:co(x2,y1)
+                    Ans:co(x2, y1)
                 elseif (op(B)=oo or op(B)=oc) then (
-                    Ans:oo(x2,y1)
+                    Ans:oo(x2, y1)
                 )
             )
         ),
@@ -499,10 +497,10 @@ interval_simple_intersect(X,Y) := block([A:X, B:Y, Ans, x1, x2, y1, y2, Args1, A
         if (x2<y1 and y2=y1) then (
             if (op(B)=oc or op(B)=oo) then lopen:true,
             if (op(B)=oo or op(B)=co or op(A)=oo or op(A)=co) then ropen:true,
-            if (lopen and ropen) then Ans:oo(x2,y1),
-            if (lopen and not ropen) then Ans:oc(x2,y1),
-            if (not lopen and ropen) then Ans:co(x2,y1),
-            if (not lopen and not ropen) then Ans:cc(x2,y1)
+            if (lopen and ropen) then Ans:oo(x2, y1),
+            if (lopen and not ropen) then Ans:oc(x2, y1),
+            if (not lopen and ropen) then Ans:co(x2, y1),
+            if (not lopen and not ropen) then Ans:cc(x2, y1)
         ),
         if x2=y1 then (
             if ((op(A)=cc or op(A)=oc) and (op(B)=co or op(B)=cc)) then
@@ -533,9 +531,10 @@ interval_containsp(ex, EX) := block(
 )$
 
 /* Top level intersection function which takes real sets, such as %unions. */
-interval_intersect(X,Y) := block([A, B, Ans:[], temp, m, n, i:1, j:1],
-    A:X,
-    B:Y,
+interval_intersect(A, B) := block([Ans:[], temp, m, n, i:1, j:1, simp],
+    simp:true,
+    A:ev(A,simp),
+    B:ev(B,simp),
 
     if safe_op(A)="%intersection" then A:interval_intersect_list(args(A)),
     if safe_op(B)="%intersection" then B:interval_intersect_list(args(B)),
@@ -547,8 +546,8 @@ interval_intersect(X,Y) := block([A, B, Ans:[], temp, m, n, i:1, j:1],
     if is(A={}) then return({}),
     if is(B={}) then return({}),
 
-    if op(A)=%union then A:args(A),
-    if op(B)=%union then B:args(B),
+    if safe_op(A)="%union" then A:args(A),
+    if safe_op(B)="%union" then B:args(B),
     if not(listp(A)) and not(listp(B)) then return(interval_simple_intersect(A,B)),
 
     /* Ensure we have lists to deal with, by making them lists of one element if needed. */
@@ -568,10 +567,10 @@ interval_intersect(X,Y) := block([A, B, Ans:[], temp, m, n, i:1, j:1],
                 if not atom(temp) then (
                 Ans:append(Ans, [temp])
                     ),
-                j:j+1
+                j:ev(j+1, simp)
             ),
             j:1,
-            i:i+1
+            i:ev(i+1, simp)
         )
     ),
     if listp(Ans) then (
@@ -582,8 +581,7 @@ interval_intersect(X,Y) := block([A, B, Ans:[], temp, m, n, i:1, j:1],
 )$
 
 /* Given a *list* of intervals, returns the intersection of all of them. */
-interval_intersect_list(X) :=
-    block ( [A:X, Ans, n, i, simp],
+interval_intersect_list(X) := block ([A:X, Ans, n, i, simp],
         simp:true,
         if X=[] then return({}),
         n:length(A),
@@ -593,7 +591,7 @@ interval_intersect_list(X) :=
         while i<n+1 do
             (
             Ans:interval_intersect(Ans, A[i]),
-            i:i+1
+            i:ev(i+1, simp)
             ),
         Ans
         );
@@ -625,16 +623,15 @@ interval_sort(X) := block([A:X, Ans:[], x, n, i],
 /* Given a union of disjoint intervals,
    checks whether any intervals are connected, and if so, joins them up and returns the ammended union. */
 interval_connect(X) := block([Ans, n, x, y, i:1],
-    if not(op(X)=%union or listp(X)) then error("interval_connect requires a %union or list of intervals"),
+    if not(safe_op(X)="%union" or listp(X)) then error("interval_connect requires a %union or list of intervals."),
     Ans:args(X),
     n:length(Ans),
-    while i<n do
-        (
+    while i<n do (
         i:ev(i,simp),
         if last( Ans[i] ) >= first( Ans[ev(i+1, simp)] ) then
             (
             x:interval_simple_union( Ans[i], Ans[ev(i+1, simp)] ),
-            if ( not op(x) = "[" ) then
+            if (not op(x) = "[" ) then
                 (
                 Ans:delete( Ans[ev(i+1, simp)], Ans, 1 ),
                 Ans:delete( Ans[i], Ans, 1 ),
@@ -643,7 +640,7 @@ interval_connect(X) := block([Ans, n, x, y, i:1],
                 n:ev(n-1, simp)
                 )
             ),
-        i:i+1
+        i:ev(i+1, simp)
         ),
     if length(Ans) = 1 then return(Ans[1]),
     Ans:apply(%union, Ans),
@@ -652,12 +649,13 @@ interval_connect(X) := block([Ans, n, x, y, i:1],
 
 /* Given a union of disjoint sets, returns the "canonical form" of this union: */
 interval_tidy(X) := block([A, Ans:[], n, setpart:{}, x, y, i:1],
+    X:ev(X, simp),
     if X=all then return(all),
     if atom(X) then return(Ans:phi),
-    if listp(X) then X:apply(%union, X),
-    X:ev(X, %intersection=interval_intersect_nary),
+    if listp(X) then X:ev(apply(%union, X), simp),
+    X:ev(X, %intersection=interval_intersect_nary, simp),
 
-    if not(op(X)=%union or listp(X)) then (
+    if not(safe_op(X)="%union" or listp(X)) then (
         Ans:X
     ) else (
         A:args(X),
@@ -665,13 +663,14 @@ interval_tidy(X) := block([A, Ans:[], n, setpart:{}, x, y, i:1],
         n:length(A),
         while i<ev(n+1, simp) do (
             i:ev(i,simp),
+            /* Combine all sets into one set, i.e. setpart. */
             if safe_setp(A[i]) then (
-                setpart:union(setpart, A[i] ),
-                A:delete( A[i], A, 1 ),
+                setpart:union(setpart, A[i]),
+                A:delete(A[i], A, 1),
                 i:ev(i-1, simp),
                 n:ev(n-1, simp)
             ) else if trivialintervalp(A[i]) then (
-                A:delete( A[i], A, 1 ),
+                A:delete(A[i], A, 1),
                 i:ev(i-1, simp),
                 n:ev(n-1, simp)
                 ),
@@ -680,7 +679,7 @@ interval_tidy(X) := block([A, Ans:[], n, setpart:{}, x, y, i:1],
             A:interval_sort(A),
             if is(length(A)>1) then
                 A:interval_connect(A),
-            if length(setpart)>0 then A:append( args(A), [setpart] ),
+            if length(setpart)>0 then A:append(args(A), [setpart]),
             if is(A=[]) then
                 A:{}
             elseif is(length(A)=1) then
@@ -701,6 +700,7 @@ interval_complement_order_points(X):=
 
             while i<n+1 do
                 (
+                i:ev(i,simp),
                 if length(setpart)>0 then
                     (
                     if length(A)=0 then
@@ -722,7 +722,7 @@ interval_complement_order_points(X):=
                             )
                         )
                     ),
-                i:i+1
+                i:ev(i+1, simp)
                 )
             )
         else Ans:A,
@@ -730,7 +730,7 @@ interval_complement_order_points(X):=
 )$
 
 /* Return the set complement of a real set. */
-interval_complement(X):= block([A:X, Ans:[], x, y, cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), n, i:1],
+interval_complement(A):= block([Ans:[], cc:cc(0,1), oo:oo(0,1), co:co(0,1), oc:oc(0,1), n, i:1],
     cc:op(cc), oo:op(oo), co:op(co), oc:op(oc),
 
     if atom(A) then return(oo(-inf,inf)),
@@ -775,16 +775,17 @@ interval_complement(X):= block([A:X, Ans:[], x, y, cc:cc(0,1), oo:oo(0,1), co:co
 
 /* Take a set of real numbers, and return the %union of intervals not containing these numbers. */
 interval_set_complement(X):= block([A:X, Ans:[], temp, n, i:1],
+    if is(X=none) then return(all),
     if not(setp(X)) then error("interval_set_complement requires a set."),
     A:listify(A),
     n:length(A),
     temp:oo(-inf, A[1]),
     Ans:[temp],
     while i<n do (
-        temp:oo( A[i], A[i+1] ),
+        temp:oo( A[i], A[ev(i+1,simp)] ),
         temp:[temp],
         Ans:append(Ans, temp),
-        i:i+1
+        i:ev(i+1, simp)
         ),
     temp:oo(A[n], inf),
     temp:[temp],
@@ -792,10 +793,10 @@ interval_set_complement(X):= block([A:X, Ans:[], temp, n, i:1],
     apply(%union, Ans)
 )$
 
-
-
-/* Turns a single variable system over the reals into a set of real numbers, together with insoluable bits (if any). */
-single_variable_solver_real(ex) := block([v, rs1, rs2],
+/* Turns a single variable system over the reals into a set of real numbers,
+   together with insoluable bits (if any).
+*/
+stack_single_variable_solver(ex) := block([v, rs1, rs2],
     if is(ex=false) then return(none),
     if is(ex=true) then return(all),
     if atom(ex) then return(ex),
@@ -825,9 +826,9 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
     */
 
     if assume_pos then
-        ex:block([assume_pos:false], ev(single_variable_solver_real_rec(ex %and (v>=0), v), simp))
+        ex:block([assume_pos:false], ev(stack_single_variable_solver_rec(ex %and (v>=0), v), simp))
     else
-        ex:ev(single_variable_solver_real_rec(ex, v), simp),
+        ex:ev(stack_single_variable_solver_rec(ex, v), simp),
 
     if ((safe_op(ex)="[" or safe_op(ex)="%union") and is(length(args(ex))=1)) then ex:first(ex),
 
@@ -855,21 +856,21 @@ single_variable_solver_real(ex) := block([v, rs1, rs2],
     return(ex)
 )$
 
-single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
+stack_single_variable_solver_rec(ex, v) := block([r0, r1, r2],
     if atom(ex) then return(ex),
     if intervalp(ex) then return(ex),
     /* Equations should look real. */
     if not(freeof(%i,ex)) then return(ex),
 
     if equationp(ex) then ex:subst("%or", "nounor", pm_replace(ex)),
-    if equationp(ex) then return(ev(equation_to_intervals(ex, v), simp)),
+    if equationp(ex) then return(ev(stack_single_variable_solver_equation(ex, v), simp)),
     if linear_inequalityp(ex) then return(ev(linear_inequality_to_interval(ex), simp)),
 
     /* Possible recursion from here. */
     if inequalityp(ex) then ex:ev(inequality_factor_solve(ex), simp),
 
     if safe_op(ex)="%or" or safe_op(ex)="%and" then block(
-        r0:maplist(lambda([ex2], single_variable_solver_real_rec(ex2, v)), args(ex)),
+        r0:maplist(lambda([ex2], stack_single_variable_solver_rec(ex2, v)), args(ex)),
         r1:ev(sublist(r0, realset_soft_p), simp),
         r2:ev(sublist(r0, lambda([ex2], not(realset_soft_p(ex2)))), simp)
         ),
@@ -879,7 +880,8 @@ single_variable_solver_real_rec(ex, v) := block([r0, r1, r2],
     return(ex)
 )$
 
-equation_to_intervals(ex, v) := block([sol0, sol1, sol2],
+/* Solve over the reals only.  */
+stack_single_variable_solver_equation(ex, v) := block([sol0, sol1, sol2],
     sol0:radcan(solve(ex, v)),
     if sol0=[] then return({}),
     if logic_edgep(sol0) then return(sol0),
@@ -887,18 +889,20 @@ equation_to_intervals(ex, v) := block([sol0, sol1, sol2],
     sol1:sublist(sol0, lambda([ex2], is(lhs(ex2)=v) and freeof(v, rhs(ex2)))),
     sol2:sublist(sol0, lambda([ex2], not(is(lhs(ex2)=v) and freeof(v, rhs(ex2))))),
     sol1:maplist(rhs,sol1),
+    if emptyp(sol1) then
+        return({}),
     sol1:flatten(setify(sol1)),
     if is(length(sol2)=1) then
         sol2:first(sol2)
     else
         sol2:apply("%or", sol2),
-    if emptyp(sol1) then
-        return(sol2),
     return(sol1 %or sol2)
 )$
 
 /* Calculate the natural domain of a single-variable term.  */
-natural_domain(ex) := block([v, ex2],
+natural_domain(ex) := block([v, ex2, simp],
+    /* This function requires internal simplification. */
+    simp:true,
     if atom(ex) then return(all),
     v:listofvars(ex),
     if is(v=[]) then return(all),
@@ -916,6 +920,7 @@ natural_domain(ex) := block([v, ex2],
 )$
 
 /* Calculate the natural domain of a single-variable term.  */
+/* Calculate the natural domain of a single-variable term.  */
 natural_domain_rec(ex) := block([v, ex2],
     if atom(ex) then return(all),
     v:listofvars(ex),
@@ -924,13 +929,12 @@ natural_domain_rec(ex) := block([v, ex2],
     v:first(v),
 
     if safe_op(ex)="sqrt" then
-        return(single_variable_solver_real(first(args(ex))>=0)),
+        return(stack_single_variable_solver(first(args(ex))>=0)),
     if safe_op(ex)="ln" or safe_op(ex)="log" or safe_op(ex)="lg" then
-        return(single_variable_solver_real(first(args(ex))>0)),
+        return(stack_single_variable_solver(first(args(ex))>0)),
     if safe_op(ex)="/" then
-        ex2:[natural_domain_rec(first(args(ex))), single_variable_solver_real((second(args(ex))>0) %or (second(args(ex))<0))]
-    else
-        ex2:map(natural_domain_rec, args(ex)),
+        return(natural_domain_div(ex)),
+    ex2:map(natural_domain_rec, args(ex)),
     /* We have to strip of the realset bit before intersecting. */
     ex2:map(lambda([ex3], if is(safe_op(ex3)="realset") then second(ex3) else ex3), ex2),
     /* Only return a define value if we really have one. */
@@ -938,5 +942,22 @@ natural_domain_rec(ex) := block([v, ex2],
         ex2:unknown
     else
         ex2:interval_intersect_list(ex2),
-    ex2
+    ev(ex2, simp)
+)$
+
+/* Calculate the natural domain of a quotient.  */
+natural_domain_div(ex) := block([dom0,dom1,dom2,dom3],
+  if not(safe_op(ex)) = "/" then error("natural_domain_div expects its operator to be a division"),
+  dom1:natural_domain(first(ex)),
+  if safe_op(dom1) = "realset" then dom1:second(dom1),
+  dom2:natural_domain(second(ex)),
+  if safe_op(dom2) = "realset" then dom2:second(dom2),
+  /* Solve for singularities. */
+  dom3:stack_single_variable_solver(second(ex)=0),
+  if safe_op(dom3) = "realset" then dom3:second(dom3),
+  /* If we can't solve denom=0 then we assume we have no zeros. */
+  if not(realsetp(dom3)) then dom3:none,
+  dom3:interval_set_complement(dom3),  
+  dom0:apply(%intersection,[dom1,dom2,dom3]),
+  ev(interval_tidy(dom0), simp)
 )$

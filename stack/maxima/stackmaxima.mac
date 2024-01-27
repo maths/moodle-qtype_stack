@@ -1493,7 +1493,7 @@ ATInequality(SA, SB) := block([RawMark, FeedBack, AnswerNote, SA1, SB1, samex],
     SB:logical_normal(SB),
     if debug then print("ATInequality(", SA, ", ", SB, ")"),
     if SA = SB then RawMark:true
-    else if single_variable_solver_real(SA)=single_variable_solver_real(SB) then block(
+    else if stack_single_variable_solver(SA)=stack_single_variable_solver(SB) then block(
         RawMark:true,
         AnswerNote:StackAddNote("", "ATInequality_solver")
     ),
@@ -1990,8 +1990,8 @@ ATLogic(SA, SB) := block([SAL, SBL, res],
     if (debug) then print("ATLogic: [", string(SA), " | ", string(SB), "]"),
     if SA = SB then
         return([true, true, StackAddNote("", "ATLogic_True"), ""]),
-    SAP:ev(single_variable_solver_real(SA), simp),
-    SBP:ev(single_variable_solver_real(SB), simp),
+    SAP:ev(stack_single_variable_solver(SA), simp),
+    SBP:ev(stack_single_variable_solver(SB), simp),
     if (debug) then print("ATLogic_to_poly_solver: [", string(SAP), " | ", string(SBP), "]"),
     if SAP=SBP then
         return([true, true, StackAddNote("", "ATLogic_Solver_True"), ""]),

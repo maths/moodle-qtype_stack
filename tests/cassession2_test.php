@@ -1830,6 +1830,7 @@ class cassession2_test extends qtype_stack_testcase {
         $cases[] = array('1+1/x^2+1/(x-1)+3/(x-2)', 'realset(x,%union(oo(0,1),oo(1,2),oo(2,inf),oo(-inf,0)))',
                 '{x \not\in {\left \{0 , 1 , 2 \right \}}}');
         $cases[] = array('log(x)', 'realset(x,oo(0,inf))', '{x \in {\left( 0,\, \infty \right)}}');
+        $cases[] = array('1/sqrt(x-1)+1/sqrt(3-x)', 'realset(x,oo(1,3))', '{x \in {\left( 1,\, 3\right)}}');
 
         foreach ($cases as $i => $case) {
             $s = 'd'.$i.':natural_domain('.$case[0].')';

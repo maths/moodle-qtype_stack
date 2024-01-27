@@ -2288,7 +2288,7 @@ stack_eval_arg_solver(ex) := block([ex2, ex3, errc],
       ex:logic_to_poly(ex),
 
       if ev(is(equal(length(listofvars(ex)), 1)), simp) then
-          return(ev(single_variable_solver_real(ex), simp)),
+          return(ev(stack_single_variable_solver(ex), simp)),
 
       if safe_op(ex) = "%or" or safe_op(ex) = "nounor" or safe_op(ex) = "or" then
           return(ev(logical_normal(apply("%or", maplist(stack_eval_arg_solver, ex))), simp)),

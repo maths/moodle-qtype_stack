@@ -360,12 +360,18 @@ require_login();
         const url = "http://localhost:3080/download";
         http.open("POST", url, true);
         http.setRequestHeader('Content-Type', 'application/json');
-
+        // Something funky going on with closures and callbacks. This seems
+        // to be the easiest way to pass through the file details.
+        http.filename = filename;
+        http.fileid = fileid;
         http.onreadystatechange = function() {
           if(http.readyState == 4) {
             try {
+              // Only download the file once. Replace call to download controller with link
+              // to downloaded file.
               const blob = new Blob([http.responseText], {type: 'application/octet-binary', endings: 'native'});
-              const linkElements = document.querySelectorAll(`a[href^=javascript]`);
+              const selector = CSS.escape(`javascript\:download\(\'${http.filename}\'\, ${http.fileid}\)`)
+              const linkElements = document.querySelectorAll(`a[href^=${selector}]`);
 
               const link = linkElements[0];
               link.setAttribute('href', URL.createObjectURL(blob));

@@ -2799,7 +2799,7 @@ k^2+4*k-12)}</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>single_variable_solver_real(mi
+  <td class="cell c2"><pre>stack_single_variable_solver(mi
 nf &lt;= x)</pre></td>
   <td class="cell c3"><pre>co(minf,inf)</pre></td>
   <td class="cell c4"></td>
@@ -2809,7 +2809,7 @@ nf &lt;= x)</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>single_variable_solver_real(-i
+  <td class="cell c2"><pre>stack_single_variable_solver(-i
 nf &lt;= x)</pre></td>
   <td class="cell c3"><pre>co(minf,inf)</pre></td>
   <td class="cell c4"></td>
@@ -2819,7 +2819,7 @@ nf &lt;= x)</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>single_variable_solver_real(x 
+  <td class="cell c2"><pre>stack_single_variable_solver(x 
 &lt;= inf)</pre></td>
   <td class="cell c3"><pre>oc(minf,inf)</pre></td>
   <td class="cell c4"></td>
@@ -2829,7 +2829,7 @@ nf &lt;= x)</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>single_variable_solver_real(mi
+  <td class="cell c2"><pre>stack_single_variable_solver(mi
 nf &lt;= x)</pre></td>
   <td class="cell c3"><pre>oo(minf,inf)</pre></td>
   <td class="cell c4"></td>

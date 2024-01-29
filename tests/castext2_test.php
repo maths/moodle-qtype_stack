@@ -492,11 +492,33 @@ class castext2_test extends qtype_stack_testcase {
      *  1. Comments out itself and contents.
      *  2. Even if contents are invalid or incomplete.
      *
-     * @covers \qtype_stack\stack_cas_castext2_comment
+     * @covers \qtype_stack\stack_cas_castext2_todo
      */
     public function test_blocks_todo() {
         $input = '1[[ todo]] [[ foreach bar="foo"]] {#y@} [[/todo]]2';
         $output = '1<!--- stack_todo --->2';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_hint
+     */
+    public function test_blocks_hint() {
+        $input = "1[[hint title=\"Show solution\"]][[if test='is(1>0)']]Solution[[/if]][[/hint]]2";
+        $output = '1<details class="stack-hint"><summary class="btn btn-secondary" >Show solution</summary>' .
+                  '<div class="stack-hint-content">Solution</div></details>2';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_hint
+     */
+    public function test_blocks_hint_hint() {
+        $input = "[[hint title=\"Show solution\"]][[hint title=\"Go on....\"]]Solution[[/hint]][[/hint]]";
+        $output = '<details class="stack-hint"><summary class="btn btn-secondary" >Show solution</summary>' .
+                  '<div class="stack-hint-content">' .
+                  '<details class="stack-hint"><summary class="btn btn-secondary" >Go on....</summary>' .
+                  '<div class="stack-hint-content">Solution</div></details></div></details>';
         $this->assertEquals($output, $this->evaluate($input));
     }
 

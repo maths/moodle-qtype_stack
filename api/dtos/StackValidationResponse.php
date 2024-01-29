@@ -24,4 +24,6 @@ namespace api\dtos;
 class StackValidationResponse {
     /** @var string */
     public $validation;
+    /** @var array */
+    public $iframes;
 }

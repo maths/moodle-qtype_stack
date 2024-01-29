@@ -25,11 +25,13 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/apifixtures.class.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
+require_once(__DIR__ . '../../api/controller/DownloadController.php');
 require_once(__DIR__ . '../../api/controller/GradingController.php');
 require_once(__DIR__ . '../../api/controller/RenderController.php');
 require_once(__DIR__ . '../../api/controller/ValidationController.php');
 
 
+use api\controller\DownloadController;
 use api\controller\GradingController;
 use api\controller\RenderController;
 use api\controller\ValidationController;
@@ -69,7 +71,7 @@ class api_controller_test extends qtype_stack_testcase {
      *
      * @return void
      */
-    public function setUp(): void {
+    public function setUp():void {
         parent::setUp();
         set_config('stackapi', true, 'qtype_stack');
         StackIframeHolder::$iframes = [];
@@ -124,6 +126,15 @@ class api_controller_test extends qtype_stack_testcase {
         $this->response->expects($this->any())->method('withHeader')->willReturn($this->response);
     }
 
+    public function tearDown():void {
+        \stack_cas_castext2_iframe::register_counter('///IFRAME_COUNT///');
+    }
+
+    public static function tearDownAfterClass():void {
+        // Should not really be necessary.
+        set_config('stackapi', false, 'qtype_stack');
+    }
+
     public function test_render() {
         $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('matrices');
         $rc = new RenderController();
@@ -166,6 +177,13 @@ class api_controller_test extends qtype_stack_testcase {
         $rc = new RenderController();
         $rc->__invoke($this->request, $this->response, []);
         $this->assertEquals(1, count($this->result->output->iframes));
+    }
+
+    public function test_render_download() {
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('download');
+        $rc = new RenderController();
+        $rc->__invoke($this->request, $this->response, []);
+        $this->assertMatchesRegularExpression('/javascript\:download\(\'data.csv\'\, 1\)/s', $this->result->output->questionrender);
     }
 
     public function test_validation() {
@@ -215,6 +233,21 @@ class api_controller_test extends qtype_stack_testcase {
         $this->assertEqualsWithDelta(0.1, $this->result->output->scoreweights->prt3, 0.0001);
         $this->assertEqualsWithDelta(0.1, $this->result->output->scoreweights->prt4, 0.0001);
         $this->assertEquals(10, $this->result->output->scoreweights->total);
+    }
+
+    public function test_download() {
+        $this->requestdata['questionDefinition'] = stack_api_test_data::get_question_string('download');
+        $this->requestdata['filename'] = 'data.csv';
+        $this->requestdata['fileid'] = 1;
+
+        $dc = $this->getMockBuilder(DownloadController::class)
+        ->setMockClassName('DownloadController')
+        ->setMethods(['set_headers'])
+        ->getMock();
+
+        $dc->expects($this->any())->method('set_headers')->willReturn(true);
+        $dc->__invoke($this->request, $this->response, []);
+        $this->expectOutputRegex('/^A,B,C\n0.37,5.04,2.72/s');
     }
 
 }

@@ -20,12 +20,15 @@
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 namespace api\controller;
+defined('MOODLE_INTERNAL') || die();
+
+require_once(__DIR__ . '/../../stack/cas/castext2/castext2_evaluatable.class.php');
+require_once(__DIR__ . '/../../stack/cas/castext2/castext2_static_replacer.class.php');
 
 use api\util\StackQuestionLoader;
 use api\util\StackSeedHelper;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Stream;
 
 class DownloadController {
     /**
@@ -37,9 +40,6 @@ class DownloadController {
         $data = $request->getParsedBody();
         $name = $data['filename'];
         $tdid = $data['fileid'];
-
-        // Load Functions emulating Moodle.
-        require_once(__DIR__ . '/../emulation/MoodleEmulation.php');
 
         $question = StackQuestionLoader::loadxml($data["questionDefinition"]);
 
@@ -64,8 +64,6 @@ class DownloadController {
             die();
         }
 
-        require_once('../../stack/cas/castext2/castext2_evaluatable.class.php');
-        require_once('../../stack/cas/castext2/castext2_static_replacer.class.php');
         $ct = \castext2_evaluatable::make_from_compiled($question->compiledcache['castext-td-' .
             $tdid], $name, new \castext2_static_replacer($question->get_cached('static-castext-strings')));
 
@@ -86,8 +84,18 @@ class DownloadController {
         // Render it.
         $ses->instantiate();
         $content = $ct->get_rendered();
+        $this->set_headers($name);
+        echo($content);
+        return $response;
+    }
 
-        // Now pick some sensible headers.
+    /**
+     * Separate out setting of headers for mocking as part of unit tests.
+     *
+     * @param string $name
+     * @return void
+     */
+    public function set_headers($name) {
         header('HTTP/1.0 200 OK');
         header("Content-Disposition: attachment; filename=\"$name\"");
         if (strripos($name, '.csv') === strlen($name) - 4) {
@@ -95,9 +103,6 @@ class DownloadController {
         } else {
             header('Content-Type: text/plain;charset=UTF-8');
         }
-        echo($content);
-        return $response;
     }
-
 
 }

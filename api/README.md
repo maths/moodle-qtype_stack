@@ -113,13 +113,24 @@ The grading route returns the following fields:
 
 
 ### Validate route
-The `POST /validate` is used to get validation feedback for a single input of a question. The route expects a json document in the post body containing the following fields:
+The `POST /validate` route is used to get validation feedback for a single input of a question. The route expects a json document in the post body containing the following fields:
 
 - `questionDefinition`: The Moodle-XML-Export of a single STACK question.
 - `inputName`: The name of the input to be validated.
 - `answers`. A map from string to string, containing the answers.
 
 The validation route returns a string field `Validation` with the corresponding rendered output and an array of arrays `iframes` of arguments to create iframes to hold JS panels e.g. JSXGraph, GeoGebra.
+
+### Download route
+The `POST /download` route is used to download files created by questions.
+
+- `questionDefinition`: The Moodle-XML-Export of a single STACK question.
+- `seed`: Seed to choose a question variant. Must be contained in the list of deployed variants. If  
+  no seed is provided, the first deployed variant is used.
+- `filename` - as specified in the question definition and included in the question render.
+- `fileid` - as specified by the question render.
+
+The requested file is returned.
 
 ### Rendered CASText format
 The API returns rendered CASText as parts of its responses in multiple places. The CASText is output as a single string in an intermediate format, which cannot be directly fed to browsers for display, and requires further processing. Applications using the API have to handle the following cases:
@@ -176,7 +187,7 @@ For the grading route, the controller iterates over the PRTs of the questions, a
 
 
 ### Moodle Emulation
-To allow the stack-moodle-plugin to work standalone, some classes and functions which are normally part of moodle itself have been emulated. All source-code written for this purpose is contained in the `emulation` directory. The central entrypoint to load the emulation layer is the file `MoodleEmulation.php`, which is loaded via `require_once` at the beginning of each controller class. The following individual pieces have been emulated:
+To allow the stack-moodle-plugin to work standalone, some classes and functions which are normally part of moodle itself have been emulated. All source-code written for this purpose is contained in the `emulation` directory. The central entrypoint to load the emulation layer is the file `MoodleEmulation.php`, which is loaded via `require_once` on the index page. The following individual pieces have been emulated:
 
 - The files questionlib.php and weblib.php have been created as stubs.
 - Some constants defined inside of moodle have been copied.
@@ -184,6 +195,9 @@ To allow the stack-moodle-plugin to work standalone, some classes and functions 
 - Some functions related to localization.
 - The plugin settings
 - The moodle_exception class
+
+### Basic frontend
+A basic frontend is provided at `http://localhost:3080/stack.php`. This should allow you to load the STACK sample questions and try them out. This requires API specific versions of `cors.php` and `stackjsvle.js` (to access files and create iframes) which are in the public folder. 
 
 ### Modifications of existing STACK code
 The implementation of the standalone api required some modifications to existing STACK code, which could cause issues with future upstream patches. All performed modifications are documented in this section.
@@ -207,5 +221,7 @@ To be accessible directly, the following property/method visibilities have been 
 - Some new language keys have been added.
 - Some imports inside the `question.php` and `mathsoutputfilterbase.class.php` files have been wrapped inside an if statement, to only be performed in non api contexts.
 - A new `get_ta_render_for_input` function has been added to the `qtype_stack_question` class.
-- The compile function of the JSXGraph Block has been modified to always throw an exception.
-- A new  `mathsoutputapi.class.php` file has been added.
+- A new `pluginfiles` property has been added to the `qtype_stack_question` class.
+- `iframe.block.php` handles plot URLs and iframe creation conditional on context (i.e API vs not API).
+- `textdownload.block.php` sets the document link href conditionally on context.
+- A new `mathsoutputapi.class.php` file has been added.

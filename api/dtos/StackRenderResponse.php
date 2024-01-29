@@ -34,6 +34,8 @@ class StackRenderResponse {
     public $questionseed;
     /** @var int[]  */
     public $questionvariants;
+    /** @var array */
+    public $iframes;
 }
 
 class StackRenderInput {
@@ -44,4 +46,6 @@ class StackRenderInput {
     public $samplesolutionrender;
     /** @var array */
     public $configuration;
+    /** @var string */
+    public $render;
 }

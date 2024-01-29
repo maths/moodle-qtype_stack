@@ -26,9 +26,18 @@ class StackGradingResponse {
     public $isgradable;
     /** @var float */
     public $score;
+    /** @var array */
+    public $scores;
+    /** @var array */
+    public $scoreweights;
     /** @var string */
     public $specificfeedback;
     /** @var array */
     public $prts;
     public $gradingassets;
+     /** @var string */
+     public $responsesummary;
+    /** @var array */
+    public $iframes;
+
 }

@@ -238,6 +238,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public $compiledcache = [];
 
     /**
+     * @var array included files - used in API only.
+     */
+    public $pluginfiles = [];
+
+    /**
      * Make sure the cache is valid for the current response. If not, clear it.
      *
      * @param array $response the response.

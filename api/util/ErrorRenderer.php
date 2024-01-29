@@ -28,7 +28,7 @@ class ErrorRenderer implements ErrorRendererInterface {
         $message = $exception instanceof \stack_exception ? $exception->getMessage() :
                                             "An Error occured while processing the question";
         return json_encode([
-            'message' => $exception->getMessage(),
+            'message' => $message,
         ]);
     }
 

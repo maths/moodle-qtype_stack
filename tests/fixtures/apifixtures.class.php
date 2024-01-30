@@ -1257,7 +1257,7 @@ class stack_api_test_data {
               <text>[[feedback:prt1]]</text>
             </specificfeedback>
             <questionnote>
-              <text>{@dispsf(taA,4)@}</text>
+              <text></text>
             </questionnote>
             <questionsimplify>1</questionsimplify>
             <assumepositive>0</assumepositive>
@@ -1282,7 +1282,7 @@ class stack_api_test_data {
             <input>
               <name>ans1</name>
               <type>numerical</type>
-              <tans>dispsf(taA,4)</tans>
+              <tans>taA</tans>
               <boxsize>15</boxsize>
               <strictsyntax>1</strictsyntax>
               <insertstars>0</insertstars>

@@ -1521,14 +1521,14 @@ abstract class stack_input {
      * Returns the definition of this input as it should appear in an API response
      * @return array
      */
-    public abstract function renderApiData($tavalue);
+    public abstract function render_api_data($tavalue);
 
     /**
      * Returns the solution in the format used by the api
      * @param $tavalue
      * @return array
      */
-    public function getApiSolution($tavalue) {
+    public function get_api_solution($tavalue) {
         return ['' => $tavalue];
     }
 
@@ -1537,7 +1537,7 @@ abstract class stack_input {
      * @param $tadisplay
      * @return mixed
      */
-    public function getApiSolutionRender($tadisplay) {
+    public function get_api_solution_render($tadisplay) {
         return $tadisplay;
     }
 }

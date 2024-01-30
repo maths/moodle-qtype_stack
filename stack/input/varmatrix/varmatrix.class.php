@@ -117,7 +117,7 @@ class stack_varmatrix_input extends stack_input {
         return html_writer::tag('div', $xhtml, array('class' => $matrixbrackets));
     }
 
-    public function renderApiData($tavalue) {
+    public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
@@ -402,9 +402,9 @@ class stack_varmatrix_input extends stack_input {
         return $valid;
     }
 
-    public function getApiSolution($tavalue)
-    {
-        //We clear the name, and then restore its original value, to not include the prefix in the api solution
+    public function get_api_solution($tavalue) {
+        // We clear the name, and then restore its original value,
+        // to not include the prefix in the api solution.
         $name = $this->name;
         $this->name = '';
         $sol = $this->maxima_to_response_array($tavalue);

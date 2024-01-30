@@ -69,7 +69,7 @@ class stack_string_input extends stack_algebraic_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
-    public function renderApiData($tavalue) {
+    public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
@@ -181,7 +181,7 @@ class stack_string_input extends stack_algebraic_input {
         return $ex;
     }
 
-    public function getApiSolutionRender($tadisplay) {
+    public function get_api_solution_render($tadisplay) {
         return stack_utils::maxima_string_strip_mbox($tadisplay);
     }
 }

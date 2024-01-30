@@ -39,7 +39,7 @@ The application can also be installed manually, although this variant has only u
 
 - Copy the content of this repository to your target server. Only the `./api/public` directory should be publicly accessible. 
 - Install the required dependencies by performing `composer install` inside the `./api/` directory. 
-- Adopt the content of the `./api/config.php` file to your needs.
+- Copy `./api/config_sample.txt_` into a file `./api/config.php` and adapt to your needs.
 - Access the api via the `index.php` file.
 
 ## Usage instructions
@@ -205,11 +205,11 @@ The implementation of the standalone api required some modifications to existing
 #### Input types
 To allow the API to return appropriate data describing input configuration, the abstract `stack_input` class has been extended with the following methods:
 
-- `getApiSolution($tavalue)`: Returns the model answer of the input in the same format in which it would be input by the user
-- `getApiSolutionRender($tadisplay)`: Returns a rendered version of the model answer of this input.
-- `renderApiData($tavalue)`: Returns an array of configuration options which should be exposed via the API.
+- `get_api_solution($tavalue)`: Returns the model answer of the input in the same format in which it would be input by the user
+- `get_api_solution_render($tadisplay)`: Returns a rendered version of the model answer of this input.
+- `render_api_data($tavalue)`: Returns an array of configuration options which should be exposed via the API.
 
-The `getApiSolution` and `getApiSolutionRender` functions have sensible default implementations, which are only overwritten for more complex input types. The `renderApiData` function on the other hand is abstract, and needs to be implemented by each concrete input type individually.
+The `get_api_solution` and `get_api_solution_render` functions have sensible default implementations, which are only overwritten for more complex input types. The `render_api_data` function on the other hand is abstract, and needs to be implemented by each concrete input type individually.
 
 #### Escalated visibilities
 To be accessible directly, the following property/method visibilities have been promoted to public:

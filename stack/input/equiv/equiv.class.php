@@ -121,7 +121,7 @@ class stack_equiv_input extends stack_input {
         return $output;
     }
 
-    public function renderApiData($tavalue) {
+    public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
@@ -534,7 +534,7 @@ class stack_equiv_input extends stack_input {
         return array($this->name => $in);
     }
 
-    public function getApiSolution($tavalue) {
+    public function get_api_solution($tavalue) {
         return ['' => $this->maxima_to_raw_input($tavalue)];
     }
 }

@@ -62,7 +62,7 @@ class stack_boolean_input extends stack_input {
                 $value, '', $attributes);
     }
 
-    public function renderApiData($tavalue) {
+    public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }

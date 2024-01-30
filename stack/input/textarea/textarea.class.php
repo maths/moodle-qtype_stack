@@ -79,7 +79,7 @@ class stack_textarea_input extends stack_input {
         return html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
     }
 
-    public function renderApiData($tavalue) {
+    public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
@@ -324,7 +324,7 @@ class stack_textarea_input extends stack_input {
         return stack_string('teacheranswershow', array('value' => $value, 'display' => $display));
     }
 
-    public function getApiSolution($tavalue)
+    public function get_api_solution($tavalue)
     {
         $values = stack_utils::list_to_array($tavalue, false);
         foreach ($values as $key => $val) {

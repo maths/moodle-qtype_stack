@@ -170,7 +170,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         $code .= '</head><body style="margin:0px;">' . $content . '</body></html>';
 
         // Ensure plots get their full URL at this point.
-        if(get_config('qtype_stack', 'stackapi')) {
+        if (get_config('qtype_stack', 'stackapi')) {
             $code = str_replace('!ploturl!',
             '/plots/', $code);
         } else {
@@ -188,7 +188,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         ];
 
         // As the content is large we cannot simply use the js_amd_call.
-        if(get_config('qtype_stack', 'stackapi')) {
+        if (get_config('qtype_stack', 'stackapi')) {
             StackIframeHolder::add_iframe($args);
         } else {
             $PAGE->requires->js_amd_inline(

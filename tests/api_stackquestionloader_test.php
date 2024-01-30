@@ -78,11 +78,15 @@ class api_stackquestionloader_test extends qtype_stack_testcase {
         $this->assertEquals($question->options->get_option('matrixparens'), get_config('qtype_stack', 'matrixparens'));
         $this->assertEquals($question->options->get_option('simplify'), get_config('qtype_stack', 'questionsimplify'));
         $this->assertEquals($question->inputs['ans1']->get_parameter('mustVerify'), get_config('qtype_stack', 'inputmustverify'));
-        $this->assertEquals($question->inputs['ans1']->get_parameter('showValidation'), get_config('qtype_stack', 'inputshowvalidation'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('showValidation'),
+                get_config('qtype_stack', 'inputshowvalidation'));
         $this->assertEquals($question->inputs['ans1']->get_parameter('insertStars'), get_config('qtype_stack', 'inputinsertstars'));
-        $this->assertEquals($question->inputs['ans1']->get_parameter('forbidFloats'), get_config('qtype_stack', 'inputforbidfloat'));
-        $this->assertEquals($question->inputs['ans1']->get_parameter('lowestTerms'), get_config('qtype_stack', 'inputrequirelowestterms'));
-        $this->assertEquals($question->inputs['ans1']->get_parameter('sameType'), get_config('qtype_stack', 'inputcheckanswertype'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('forbidFloats'),
+                get_config('qtype_stack', 'inputforbidfloat'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('lowestTerms'),
+                get_config('qtype_stack', 'inputrequirelowestterms'));
+        $this->assertEquals($question->inputs['ans1']->get_parameter('sameType'),
+                get_config('qtype_stack', 'inputcheckanswertype'));
         $this->assertEquals($question->inputs['ans1']->get_parameter('forbidWords'), get_config('qtype_stack', 'inputforbidwords'));
         $this->assertEquals($question->inputs['ans1']->get_parameter('boxWidth'), get_config('qtype_stack', 'inputboxsize'));
     }

@@ -465,7 +465,7 @@ class stack_dropdown_input extends stack_input {
         return $result;
     }
 
-    public function renderApiData($tavalue) {
+    public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
@@ -623,10 +623,10 @@ class stack_dropdown_input extends stack_input {
         return false;
     }
 
-    public function getApiSolution($tavalue) {
+    public function get_api_solution($tavalue) {
         $solution = "";
         foreach ($this->ddlvalues as $key => $value) {
-            if($value['correct']) {
+            if ($value['correct']) {
                 $solution = strval($key);
             }
         }
@@ -636,7 +636,7 @@ class stack_dropdown_input extends stack_input {
     /**
      * We return an empty value to ensure the rendering result is stable, even if the content included plots
      */
-    public function getApiSolutionRender($tadisplay) {
+    public function get_api_solution_render($tadisplay) {
         return '';
     }
 }

@@ -86,7 +86,7 @@ class api_controller_test extends qtype_stack_testcase {
         // it hasn't been implemented.
         $reflection = new \ReflectionClass(RequestInt::class);
         $methods = [];
-        foreach($reflection->getMethods() as $method) {
+        foreach ($reflection->getMethods() as $method) {
             $methods[] = $method->name;
         }
         $this->request = $this->getMockBuilder(RequestInt::class)
@@ -100,10 +100,9 @@ class api_controller_test extends qtype_stack_testcase {
             })
         );
 
-
         $reflection = new \ReflectionClass(ResponseInt::class);
         $methods = [];
-        foreach($reflection->getMethods() as $method) {
+        foreach ($reflection->getMethods() as $method) {
             $methods[] = $method->name;
         }
 
@@ -142,7 +141,8 @@ class api_controller_test extends qtype_stack_testcase {
         $this->assertMatchesRegularExpression('/^<p>Calculate/', $this->result->output->questionrender);
         $this->assertEquals(86, $this->result->output->questionseed);
         $this->assertEquals('matrix([35,30],[28,24])', $this->result->output->questioninputs->ans1->samplesolution->_val);
-        $this->assertMatchesRegularExpression('/^<div class="matrixsquarebrackets"><table class="matrixtable"/', $this->result->output->questioninputs->ans1->render);
+        $this->assertMatchesRegularExpression('/^<div class="matrixsquarebrackets"><table class="matrixtable"/',
+                $this->result->output->questioninputs->ans1->render);
         $this->assertMatchesRegularExpression('/^<p>To multiply matrices/', $this->result->output->questionsamplesolutiontext);
         $this->assertEquals(0, count((array)$this->result->output->questionassets));
         $this->assertContains(86, $this->result->output->questionvariants);
@@ -192,7 +192,8 @@ class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['inputName'] = 'ans1';
         $vc = new ValidationController();
         $vc->__invoke($this->request, $this->response, []);
-        $this->assertMatchesRegularExpression('/\\\[ \\\left\[\\begin\{array\}\{cc\} 1 & 2 \\\\ 3 & 4 \\end{array}\\right\] \\\]/s', $this->result->output->validation);
+        $this->assertMatchesRegularExpression('/\\\[ \\\left\[\\begin\{array\}\{cc\} 1 & 2 \\\\ 3 & 4 \\end{array}\\right\] \\\]/s',
+                $this->result->output->validation);
         $this->assertEquals(0, count($this->result->output->iframes));
     }
 
@@ -241,9 +242,9 @@ class api_controller_test extends qtype_stack_testcase {
         $this->requestdata['fileid'] = 1;
 
         $dc = $this->getMockBuilder(DownloadController::class)
-        ->setMockClassName('DownloadController')
-        ->setMethods(['set_headers'])
-        ->getMock();
+            ->setMockClassName('DownloadController')
+            ->setMethods(['set_headers'])
+            ->getMock();
 
         $dc->expects($this->any())->method('set_headers')->willReturn(true);
         $dc->__invoke($this->request, $this->response, []);

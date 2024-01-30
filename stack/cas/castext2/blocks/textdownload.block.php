@@ -79,10 +79,10 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
     }
 
     public function postprocess(array $params, castext2_processor $processor): string {
-        if(get_config('qtype_stack', 'stackapi')) {
+        if (get_config('qtype_stack', 'stackapi')) {
             return "javascript:download('{$params[1]}', {$params[2]});";
         } else {
-        // Note different systems serve out through different logic.
+            // Note different systems serve out through different logic.
             if (count($params) > 3 && $params[3] === 'stateful') {
                 return (new moodle_url(
                     '/question/type/stateful/textdownload.php', ['qaid' => $processor->qa->get_database_id(),

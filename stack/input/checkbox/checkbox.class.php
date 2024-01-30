@@ -96,7 +96,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         return $result;
     }
 
-    public function renderApiData($tavalue) {
+    public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
@@ -210,10 +210,10 @@ class stack_checkbox_input extends stack_dropdown_input {
         return $allblank;
     }
 
-    public function getApiSolution($tavalue) {
+    public function get_api_solution($tavalue) {
         $solution = [];
         foreach ($this->ddlvalues as $key => $value) {
-            if($value['correct']) {
+            if ($value['correct']) {
                 $solution['_' . $key] = strval($key);
             }
         }

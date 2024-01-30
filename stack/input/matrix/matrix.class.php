@@ -312,7 +312,7 @@ class stack_matrix_input extends stack_input {
         return $xhtml;
     }
 
-    public function renderApiData($tavalue) {
+    public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
@@ -577,7 +577,7 @@ class stack_matrix_input extends stack_input {
     /**
      * Function added for API support
      */
-    public function getApiSolution($ta)
+    public function get_api_solution($ta)
     {
         // We dont want to include the inputname in the solution, therefore we clear the name,
         // and set it back later after saving the solution

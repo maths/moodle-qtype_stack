@@ -30,7 +30,7 @@ require_once(__DIR__ . '/stack/cas/castext2/castext2_evaluatable.class.php');
 require_once(__DIR__ . '/stack/cas/cassecurity.class.php');
 
 global $CFG;
-if(!isset($CFG->stackapi)) {
+if (!isset($CFG->stackapi)) {
     require_once($CFG->dirroot . '/question/behaviour/adaptivemultipart/behaviour.php');
     require_once(__DIR__ . '/questiontype.php');
 }

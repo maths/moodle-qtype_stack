@@ -444,14 +444,17 @@ require_login();
               const holder = document.getElementById("stackapi_question_select_holder");
               holder.innerHTML = "";
               holder.appendChild(selectQuestion);
+              let firstquestion = null
               for (const question of xmlDoc.getElementsByTagName("question")) {
-                const option = document.createElement("option");
-                option.value = question.outerHTML;
-                option.text = question.getElementsByTagName("name")[0].getElementsByTagName("text")[0].innerHTML;
+                if (question.getElementsByTagName("name").length > 0) {
+                  firstquestion = (firstquestion) ? firstquestion : question.outerHTML;
+                  const option = document.createElement("option");
+                  option.value = question.outerHTML;
+                  option.text = question.getElementsByTagName("name")[0].getElementsByTagName("text")[0].innerHTML;
 
-                selectQuestion.appendChild(option);
+                  selectQuestion.appendChild(option);
+                }
               }
-              const firstquestion = xmlDoc.getElementsByTagName("question")[0].outerHTML;
               setQuestion(firstquestion);
             });
         }
@@ -463,7 +466,7 @@ require_login();
 
     </script>
 
-    <div class="container-fluid">
+    <div class="container-fluid que stack">
       <div class="vstack gap-3 ms-3 col-lg-8">
         <div>
           <a href="https://stack-assessment.org/" class="nav-link">
@@ -476,11 +479,10 @@ require_login();
             </span>
           </a>
         </div>
-        <select id="file_selector" placeholder="Select question" onchange="getQuestionFile(this.value)">
+        <select id="file_selector" placeholder="Select question" autocomplete="off" onchange="getQuestionFile(this.value)">
           <option value="" selected>Please select a question file</option>
         <?php
         $filenames = scandir('../../samplequestions');
-        var_dump($files);
         foreach ($filenames as $filename) {
             if (strtolower(pathinfo($filename, PATHINFO_EXTENSION)) == 'xml') {
                 echo'<option value="cors.php?name=' . $filename . '&question=true">' . $filename . '</option>';

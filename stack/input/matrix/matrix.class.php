@@ -591,4 +591,7 @@ class stack_matrix_input extends stack_input {
         return $solution;
     }
 
+    public function get_api_solution_render($tadisplay) {
+        return "\\[{$tadisplay}\\]";
+    }
 }

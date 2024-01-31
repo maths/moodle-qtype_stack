@@ -446,7 +446,7 @@ require_login();
               holder.appendChild(selectQuestion);
               let firstquestion = null
               for (const question of xmlDoc.getElementsByTagName("question")) {
-                if (question.getElementsByTagName("name").length > 0) {
+                if (question.getAttribute('type').toLowerCase() === 'stack') {
                   firstquestion = (firstquestion) ? firstquestion : question.outerHTML;
                   const option = document.createElement("option");
                   option.value = question.outerHTML;

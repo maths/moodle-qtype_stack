@@ -80,4 +80,28 @@ class behat_qtype_stack extends behat_base {
         $formscontext = behat_context_helper::get('behat_forms');
         $formscontext->i_set_the_field_with_xpath_to($this->input_xpath($name), $value);
     }
+
+    /**
+     * Drag a JSX element on top of another one.
+     *
+     * @param string $elementnameinput1 name of input holding JSXelement id.
+     * @param string $elementnameinput2 name of input holding JSXelement id.
+     *
+     * @When /^I drag JSXelement "(?P<element1>[^"]*)" to JSXelement "(?P<element2>[^"]*)"$/
+     *
+     */
+    public function i_drag_jsx_element($elementnameinput1, $elementnameinput2) {
+        $js = <<<EOF
+            return (function() {
+                let element1Id = document.querySelectorAll('[id$="_$elementnameinput1"]')[0].value;
+                let element2Id = document.querySelectorAll('[id$="_$elementnameinput2"]')[0].value;
+                return [element1Id, element2Id];
+            })();
+        EOF;
+        $ids = $this->evaluate_script($js);
+        $generalcontext = behat_context_helper::get('behat_general');
+        $generalcontext->switch_to_iframe('stack-iframe-1');
+        $generalcontext->i_drag_and_i_drop_it_in("#jxgbox_{$ids[0]}",
+                'css_element', "#jxgbox_{$ids[1]}", 'css_element');
+    }
 }

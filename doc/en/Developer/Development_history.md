@@ -2,6 +2,11 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.5.0-hf2
+
+Fix critical bug in Javascript.
+Released January 2024.
+
 ## Version 4.5.0
 
 Released December 2023.

@@ -304,7 +304,7 @@ proof_getstep_html(k, pf) := block([keylist],
 );
 
 /*
-  Wrap lines in html divs, and add narrative if it exists. 
+  Wrap lines in html <div> tags, and add narrative if it exists. 
   pfs is a line from the proof_steps array.
 */
 proof_line_html(pfs) := block([st],
@@ -380,9 +380,9 @@ proof_damerau_levenstein(s, t) := block([m, n, XY, XYaction, i, j, d, temp, L, l
         XYaction[2][1]:makelist(dl_delete(s[k]),k,1,i),
         for j:1 thru n do(
             c:if is(s[i]=t[j]) then 0 else 1,
-            L:[XY[2][j]+1,     /* Insertion */
-                XY[1][j+1]+1,  /* Deletion  */
-                XY[1][j]+c],   /* Substion  */
+            L:[XY[2][j]+1,     /* Insertion    */
+                XY[1][j+1]+1,  /* Deletion     */
+                XY[1][j]+c],   /* Substitution */
             /* Add in the swap rule. */
             /* The swapping costs nothing, but the cost comes from the subsequent dl_subs, which we filter out. */
             if is(i<m and j<n) and not(is(s[i]=s[i+1]))

@@ -1,8 +1,8 @@
 @qtype @qtype_stack @_file_upload @javascript
-Feature: Test importing STACK questions from Moodle XML files.
-  In order reuse questions
-  As an teacher
-  I need to be able to import them.
+Feature: Test input of correct answers on various inputs.
+  As a teacher
+  In order to check different STACK inputs will work for students
+  I need to preview them
 
   Background:
     Given I set up STACK using the PHPUnit configuration
@@ -21,7 +21,6 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I press "id_submitbutton"
     And I press "Continue"
 
-
   Scenario: Test algebraic input
 
     When I am on the "Algebraic input" "core_question > preview" page logged in as teacher
@@ -35,12 +34,3 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I wait until "This answer is invalid." "text" does not exist
     And I press "Check"
     And I wait until "Correct answer, well done" "text" exists
-
-
-
-
-
-
-
-
-

@@ -1,8 +1,8 @@
 @qtype @qtype_stack @_file_upload @javascript
-Feature: Test importing STACK questions from Moodle XML files.
-  In order reuse questions
-  As an teacher
-  I need to be able to import them.
+Feature: Test running JSX Graph question.
+  As a teacher
+  In order to check my JSX STACK questions will work for students
+  I need to preview them
 
   Background:
     Given I set up STACK using the PHPUnit configuration
@@ -21,7 +21,6 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I press "id_submitbutton"
     And I press "Continue"
 
-
   Scenario: Test JSX input
 
     When I am on the "JSX behat test" "core_question > preview" page logged in as teacher
@@ -33,13 +32,3 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I switch to the main frame
     And I press "Check"
     And I wait until "Correct answer, well done" "text" exists
-    And I pause
-
-
-
-
-
-
-
-
-

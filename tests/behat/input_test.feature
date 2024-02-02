@@ -26,7 +26,7 @@ Feature: Test input of correct answers on various inputs.
     When I am on the "Algebraic input" "core_question > preview" page logged in as teacher
     And I set the following fields to these values:
       | How questions behave | Adaptive          |
-    And I press "Start again with these options"
+    And I press "id_saverestart"
     And I set the input "ans1" to "===" in the STACK question
     And I wait until "Your last answer was interpreted as follows" "text" exists
     Then I should see "This answer is invalid."

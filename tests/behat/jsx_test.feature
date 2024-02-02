@@ -26,7 +26,7 @@ Feature: Test running JSX Graph question.
     When I am on the "JSX behat test" "core_question > preview" page logged in as teacher
     And I set the following fields to these values:
       | How questions behave | Adaptive          |
-    And I press "Start again with these options"
+    And I press "id_saverestart"
     And I set the input "ans2" to "[0,0]" in the STACK question
     And I drag JSXelement "element1" to JSXelement "element2"
     And I switch to the main frame

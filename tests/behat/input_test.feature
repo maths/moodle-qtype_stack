@@ -36,15 +36,19 @@ Feature: Test input of correct answers on various inputs.
     # Check not compact
     And I wait until "Your last answer was interpreted as follows" "text" exists
     And I should see "This answer is invalid."
+    And I set the input "ans1" to "a*c" in the STACK question
+    And I wait until "This answer is invalid." "text" does not exist
+    And I press "Check"
+    And I wait until "Incorrect answer" "text" exists
+    And I set the input "ans1" to "===" in the STACK question
+    And I wait until "This answer is invalid." "text" exists
     And I set the input "ans1" to "a*b" in the STACK question
     And I wait until "This answer is invalid." "text" does not exist
-    # Check not compact
-    And I should see "Your last answer was interpreted as follows"
     And I press "Check"
+    # Check not compact
     And I wait until "Correct answer, well done" "text" exists
     # Confirm inverse of empty answer check
     And  ".stackprtfeedback-prt1" "css_element" should exist
-
 
   Scenario: Test algebraic input right align
 
@@ -53,9 +57,11 @@ Feature: Test input of correct answers on various inputs.
     And I set the following fields to these values:
       | How questions behave | Adaptive          |
     And I press "id_saverestart"
-    And I set the input "ans1" to "===" in the STACK question
+    And I set the input "ans1" to "cos(x^2)" in the STACK question
     And I wait until "Your last answer was interpreted as follows" "text" exists
-    And I should see "This answer is invalid."
+    And I press "Check"
+    And I set the input "ans1" to "===" in the STACK question
+    And I wait until "This answer is invalid." "text" exists
     And I set the input "ans1" to "sin(x^2)" in the STACK question
     And I wait until "This answer is invalid." "text" does not exist
     And I press "Check"
@@ -115,9 +121,12 @@ Feature: Test input of correct answers on various inputs.
     And I set the following fields to these values:
       | How questions behave | Adaptive          |
     And I press "id_saverestart"
-    And I set the input "ans1" to "===" in the STACK question
+    And I set the input "ans1" to "makelist(k^2,k,1,18)" in the STACK question
     And I wait until "Your last answer was interpreted as follows" "text" exists
-    And I should see "This answer is invalid."
+    And I press "Check"
+    And I wait until "Incorrect answer" "text" exists
+    And I set the input "ans1" to "===" in the STACK question
+    And I wait until "This answer is invalid." "text" exists
     And I set the input "ans1" to "makelist(k^2,k,1,8)" in the STACK question
     And I wait until "This answer is invalid." "text" does not exist
     And I press "Check"
@@ -276,3 +285,90 @@ Feature: Test input of correct answers on various inputs.
     And I wait until "This answer is invalid." "text" does not exist
     And I press "Check"
     And I wait until "Correct answer, well done" "text" exists
+
+  Scenario: Varmatrix
+
+    When I am on the "Matrix (varmatrix)" "core_question > preview" page logged in as teacher
+    And I set the following fields to these values:
+      | How questions behave | Adaptive          |
+    And I press "id_saverestart"
+    And I set the STACK input "ans1" to multiline:
+    """
+    1 0 0 0
+    0 1 0 ===
+    """
+    And I wait until "This answer is invalid" "text" exists
+    And I set the STACK input "ans2" to multiline:
+    """
+    1 0
+    0 0
+    0 1
+    0 3
+    """
+    And I set the STACK input "ans1" to multiline:
+    """
+    1 0 0 0
+    0 1 0 0
+    """
+    And I wait until "This answer is invalid" "text" does not exist
+    And I press "Check"
+    And I wait until "Incorrect answer" "text" exists
+    And I set the STACK input "ans1" to multiline:
+    """
+    1 0 0 0
+    0 1 0 ===
+    """
+    And I wait until "This answer is invalid" "text" exists
+    And I set the STACK input "ans2" to multiline:
+    """
+    1 0
+    0 1
+    0 0
+    0 0
+    """
+    And I set the STACK input "ans1" to multiline:
+    """
+    1 0 0 0
+    0 1 0 0
+    """
+    And I wait until "This answer is invalid" "text" does not exist
+    And I press "Check"
+    And I wait until "Correct answer, well done" "text" exists
+
+  Scenario: Validation of multiple Matrices
+
+    When I am on the "Matrix-multi" "core_question > preview" page logged in as teacher
+    And I set the following fields to these values:
+      | How questions behave | Adaptive          |
+    And I press "id_saverestart"
+    And I set the input "ans1_sub_0_0" to "*" in the STACK question
+    And I set the input "ans2_sub_0_1" to "+" in the STACK question
+    And I wait until "'+' is an invalid final character" "text" exists
+    And I wait until "'*' is an invalid final character" "text" exists
+    # Making absolutely sure both appear at the same time while avoiding race condition.
+    And I should see "'+' is an invalid final character"
+    And I set the input "ans1_sub_0_1" to "2" in the STACK question
+    And I set the input "ans1_sub_1_0" to "3" in the STACK question
+    And I set the input "ans1_sub_1_1" to "4" in the STACK question
+    And I set the input "ans2_sub_0_0" to "a" in the STACK question
+    And I set the input "ans2_sub_0_1" to "b" in the STACK question
+    And I set the input "ans2_sub_1_0" to "c" in the STACK question
+    And I set the input "ans2_sub_1_1" to "d" in the STACK question
+    And I set the input "ans1_sub_0_0" to "0" in the STACK question
+    And I wait until "This answer is invalid." "text" does not exist
+    And I press "Check"
+    And I wait until "Correct answer, well done" "text" exists
+
+  Scenario: Notes
+
+    When I am on the "Notes" "core_question > preview" page logged in as teacher
+    And I set the following fields to these values:
+      | How questions behave | Adaptive          |
+    And I press "id_saverestart"
+    And I set the input "ans1" to "'@!!!!====" in the STACK question
+    And I wait until "(This input is not assessed automatically by STACK.)" "text" exists
+    Then I should not see "This answer is invalid."
+    And I press "Check"
+    And I wait "2" seconds
+    And I should not see "Correct answer, well done"
+    And I should not see "Incorrect answer"

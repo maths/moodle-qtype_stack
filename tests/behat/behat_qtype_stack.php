@@ -84,6 +84,19 @@ class behat_qtype_stack extends behat_base {
     }
 
     /**
+     * Set a multiline response for a given input.
+     *
+     * @param string $name name of the input
+     * @param PyStringNode $value
+     *
+     * @Given /^I set the STACK input "(?P<name>[^"]*)" to multiline:$/
+     */
+    public function i_set_multiline($name, $value) {
+        $formscontext = behat_context_helper::get('behat_forms');
+        $formscontext->i_set_the_field_with_xpath_to($this->input_xpath($name), (string)$value);
+    }
+
+    /**
      * Drag a JSX element on top of another one.
      *
      * @param string $elementnameinput1 name of input holding JSXelement id.

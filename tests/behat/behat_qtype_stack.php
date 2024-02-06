@@ -28,6 +28,7 @@
 require_once(__DIR__ . '/../../../../../lib/behat/behat_base.php');
 
 use Moodle\BehatExtension\Exception\SkippedException;
+use PHPUnit\Framework\Assert;
 
 /**
  * Steps definitions related with the question bank management.
@@ -65,7 +66,8 @@ class behat_qtype_stack extends behat_base {
      */
     protected function input_xpath($name) {
         return "//div[starts-with(@class, 'que stack')]" .
-                "//*[(self::select and contains(@id, '_{$name}') or (self::input and contains(@id, '_{$name}')))]";
+                "//*[(self::select and contains(@id, '_{$name}') or (self::input and contains(@id, '_{$name}'))" .
+                " or (self::textarea and contains(@id, '_{$name}')))]";
     }
 
     /**
@@ -104,4 +106,26 @@ class behat_qtype_stack extends behat_base {
         $generalcontext->i_drag_and_i_drop_it_in("#jxgbox_{$ids[0]}",
                 'css_element', "#jxgbox_{$ids[1]}", 'css_element');
     }
+
+    /**
+     * Check all images exist. Will require page reset afterwards.
+     *
+     * @param string $number Number of images
+     * @param string $img_class Class of ancestor element of images to check
+     * @Given /^I check "(?P<number>[^"]*)" "(?P<img_class>[^"]*)" images are loadable in the STACK question$/
+     */
+    public function i_check_images_are_loadable($number, $img_class) {
+        $classselector = ($img_class) ? '.' . $img_class . ' ' : '';
+        $imageelements = $this->getSession()->getPage()->findAll('css' , $classselector . 'img');
+        $urls = [];
+        foreach ($imageelements as $image){
+            $imgUrl = $image->getAttribute('src');
+            array_push($urls, $imgUrl);
+        }
+        foreach ($urls as $url) {
+            $this->execute('behat_general::i_visit', [$url]);
+        }
+        Assert::assertEquals(true, count($urls) === (int) $number);
+    }
+
 }

@@ -60,6 +60,7 @@ Feature: Test input of correct answers on various inputs.
     And I set the input "ans1" to "cos(x^2)" in the STACK question
     And I wait until "Your last answer was interpreted as follows" "text" exists
     And I press "Check"
+    And I wait until "Incorrect answer" "text" exists
     And I set the input "ans1" to "===" in the STACK question
     And I wait until "This answer is invalid." "text" exists
     And I set the input "ans1" to "sin(x^2)" in the STACK question
@@ -346,7 +347,7 @@ Feature: Test input of correct answers on various inputs.
     And I wait until "'+' is an invalid final character" "text" exists
     And I wait until "'*' is an invalid final character" "text" exists
     # Making absolutely sure both appear at the same time while avoiding race condition.
-    And I should see "'+' is an invalid final character"
+    Then I should see "'+' is an invalid final character"
     And I set the input "ans1_sub_0_1" to "2" in the STACK question
     And I set the input "ans1_sub_1_0" to "3" in the STACK question
     And I set the input "ans1_sub_1_1" to "4" in the STACK question
@@ -372,3 +373,168 @@ Feature: Test input of correct answers on various inputs.
     And I wait "2" seconds
     And I should not see "Correct answer, well done"
     And I should not see "Incorrect answer"
+
+  Scenario: Numerical input - minimum significant figures
+
+    When I am on the "Numerical input (min sf)" "core_question > preview" page logged in as teacher
+    And I set the following fields to these values:
+      | How questions behave | Adaptive          |
+    And I press "id_saverestart"
+    And I set the input "ans1" to "3.1" in the STACK question
+    And I wait until "This answer is invalid." "text" exists
+    And I set the input "ans1" to "3.18" in the STACK question
+    And I wait until "This answer is invalid." "text" does not exist
+    And I press "Check"
+    Then I should see "Incorrect answer."
+    And I set the input "ans1" to "===" in the STACK question
+    And I wait until "This answer is invalid." "text" exists
+    And I set the input "ans1" to "3.14" in the STACK question
+    And I wait until "This answer is invalid." "text" does not exist
+    And I press "Check"
+    And I wait until "Correct answer, well done" "text" exists
+
+  Scenario: Radio buttons
+
+    When I am on the "Radio" "core_question > preview" page logged in as teacher
+    And I set the following fields to these values:
+      | How questions behave | Adaptive          |
+    And I press "id_saverestart"
+    And I click on "[id$='ans1_3']" "css_element"
+    And I wait until "Your last answer was interpreted as follows" "text" exists
+    And I press "Check"
+    And I wait until "Incorrect answer" "text" exists
+    And I click on "[id$='ans1_']" "css_element"
+    And I wait until "Your last answer was interpreted as follows" "text" does not exist
+    And I press "Check"
+    And I wait "2" seconds
+    Then I should not see "Correct answer, well done"
+    And I should not see "Incorrect answer"
+    And I click on "[id$='ans1_1']" "css_element"
+    And I wait until "Your last answer was interpreted as follows" "text" exists
+    And I press "Check"
+    And I wait until "Correct answer, well done" "text" exists
+
+  Scenario: Radio buttons - compact
+
+    When I am on the "Radio (compact)" "core_question > preview" page logged in as teacher
+    And I set the following fields to these values:
+      | How questions behave | Adaptive          |
+    And I press "id_saverestart"
+    And I click on "[id$='ans1_3']" "css_element"
+    # Cannot enter an invalid answer to force some text to appear
+    # so we're just going to have to wait.
+    And I wait "2" seconds
+    Then I should not see "Your last answer was interpreted as follows"
+    And I press "Check"
+    And I wait until "Incorrect answer" "text" exists
+    And I click on "[id$='ans1_1']" "css_element"
+    And I wait "2" seconds
+    And I press "Check"
+    And I wait until "Correct answer, well done" "text" exists
+
+  Scenario: Single character
+
+    When I am on the "Single char" "core_question > preview" page logged in as teacher
+    And I set the following fields to these values:
+      | How questions behave | Adaptive          |
+    And I press "id_saverestart"
+    And I set the input "ans1" to "y" in the STACK question
+    And I wait until "Your last answer was interpreted as follows" "text" exists
+    And I press "Check"
+    And I set the input "ans1" to "=" in the STACK question
+    And I wait until "This answer is invalid." "text" exists
+    # Check answer gets truncated
+    And I set the input "ans1" to "xyghgh" in the STACK question
+    And I wait until "This answer is invalid." "text" does not exist
+    And I press "Check"
+    And I wait until "Correct answer, well done" "text" exists
+
+  Scenario: Textarea test
+
+    When I am on the "Textarea test" "core_question > preview" page logged in as teacher
+    And I set the following fields to these values:
+      | How questions behave | Adaptive          |
+    And I press "id_saverestart"
+    And I set the input "ans1" to "cos(x^2)" in the STACK question
+    And I wait until "Your last answer was interpreted as follows" "text" exists
+    And I press "Check"
+    And I wait until "Incorrect answer" "text" exists
+    And I set the input "ans1" to "===" in the STACK question
+    And I wait until "This answer is invalid." "text" exists
+    And I set the STACK input "ans1" to multiline:
+    """
+    x = 1+-a
+    x = -2 or x = 2
+    """
+    And I wait until "This answer is invalid." "text" does not exist
+    And I press "Check"
+    And I wait until "Correct answer, well done" "text" exists
+
+  Scenario: Textarea test - compact
+
+    When I am on the "Textarea test (compact)" "core_question > preview" page logged in as teacher
+    And I set the following fields to these values:
+      | How questions behave | Adaptive          |
+    And I press "id_saverestart"
+    And I set the input "ans1" to "cos(x^2)" in the STACK question
+    And I wait "2" seconds
+    Then I should not see "Your last answer was interpreted as follows"
+    And I press "Check"
+    And I wait until "Incorrect answer" "text" exists
+    And I set the input "ans1" to "===" in the STACK question
+    And I wait until "This answer is invalid." "text" exists
+    And I set the STACK input "ans1" to multiline:
+    """
+    x=1
+    x=2
+    """
+    And I wait until "This answer is invalid." "text" does not exist
+    And I press "Check"
+    And I wait until "Correct answer, well done" "text" exists
+
+  Scenario: True/false
+
+    When I am on the "True/false" "core_question > preview" page logged in as teacher
+    And I set the following fields to these values:
+      | How questions behave |  Adaptive |
+    And I press "id_saverestart"
+    And I click on "select[id$='ans1']" "css_element"
+    And "select[id$='ans1'] option:nth-child(2)" "css_element" should be visible
+    And I click on "select[id$='ans1'] option:nth-child(2)" "css_element"
+    # Need to press check so behat closes dropdown but doesn't submit.
+    And I press "Check"
+    And I wait until "Your last answer was interpreted as follows" "text" exists
+    And I press "Check"
+    And I wait until "Your answer is partially correct." "text" exists
+    And I click on "select[id$='ans1']" "css_element"
+    Then "select[id$='ans1'] option:last-child" "css_element" should be visible
+    And I click on "select[id$='ans1'] option:last-child" "css_element"
+    And I press "Check"
+    And I wait until "Your last answer was interpreted as follows" "text" does not exist
+    And I click on "select[id$='ans1']" "css_element"
+    And "select[id$='ans1'] option:nth-child(1)" "css_element" should be visible
+    And I click on "select[id$='ans1'] option:nth-child(1)" "css_element"
+    And I press "Check"
+    And I wait until "Your last answer was interpreted as follows" "text" exists
+    And I press "Check"
+    And I wait until "Your last answer was interpreted as follows" "text" exists
+
+  Scenario: Units
+
+    When I am on the "Units" "core_question > preview" page logged in as teacher
+    And I set the following fields to these values:
+      | How questions behave | Adaptive          |
+    And I press "id_saverestart"
+    And I set the input "ans1" to "9.81" in the STACK question
+    And I wait until "This answer is invalid. Your answer must have units" "text" exists
+    And I set the input "ans1" to "9.81*N" in the STACK question
+    And I wait until "This answer is invalid." "text" does not exist
+    And I press "Check"
+    Then I should see "Incorrect answer."
+    And I should see "Your units are incompatible with those used by the teacher."
+    And I set the input "ans1" to "===" in the STACK question
+    And I wait until "This answer is invalid." "text" exists
+    And I set the input "ans1" to "(9.81*m)/s^2" in the STACK question
+    And I wait until "This answer is invalid." "text" does not exist
+    And I press "Check"
+    And I wait until "Correct answer, well done" "text" exists

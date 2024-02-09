@@ -266,6 +266,8 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'ev(radcan({-sqrt(2)/sqrt(3)}),simp)', 'ev(radcan({-2/sqrt(6)}),simp)', 1, '', ''),
         array('AlgEquiv', '', 'ev(radcan(ratsimp({(-sqrt(10)/2)-2,sqrt(10)/2-2},algebraic:true)),simp)',
             'ev(radcan(ratsimp({(-sqrt(5)/sqrt(2))-2,sqrt(5)/sqrt(2)-2},algebraic:true)),simp)', 1, '', ''),
+        array('AlgEquiv', '', '(a^b)^c', 'a^(b*c)', 0, '', ''),
+        array('AlgEquiv', '', 'ev(radcan((a^b)^c),radexpand:all,simp)', 'a^(b*c)', 1, '', ''),
         array('AlgEquiv', '', '(n+1)^((n+2)/(n+1))/(n+2)', '1/(n+2)*((n+1)^(1/(n+1)))^(n+2)', 0, '', ''),
         array('AlgEquiv', '', 'ev(radcan((n+1)^((n+2)/(n+1))/(n+2)),radexpand:all,simp)',
             'ev(radcan(1/(n+2)*((n+1)^(1/(n+1)))^(n+2)),radexpand:all,simp)', 1, '', ''),

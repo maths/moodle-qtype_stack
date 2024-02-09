@@ -235,11 +235,15 @@ zip_with(zf, a, b) := block(
    check, e.g. that X^2=1 is x^2=1, without using subst_equiv.
 
    Note that exdowncase(X-x)=0, of course!
+   And exdowncase(1/(R-r)) could create a division by zero.
 */
-exdowncase(ex) := block([lv],
+exdowncase(ex) := block([lv, ex2],
   lv:listofvars(ex),
   lv:map(lambda([v], v=parse_string(sdowncase(string(v)))),lv),
-  return(subst(lv,ex)))$
+  ex2:errcatch(subst(lv,ex)),
+  if emptyp(ex2) then return(ex),
+  return(first(ex2))
+)$
 
 /* Maxima does not have its own degree command! */
 /* See notes on hipow.                          */

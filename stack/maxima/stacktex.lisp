@@ -295,6 +295,16 @@
                              (tex x (list "^{")(cons "}" r) 'mparen 'mparen)))))))
     (append l r)))
 
+;; Added by CJS, 15-2-24.  Display an aligned environmant.
+(defprop $aligned tex-aligned tex)
+
+(defun tex-aligned(x l r) ;;matrix looks like ((mmatrix)((mlist) a b) ...)
+  (append l `("\\begin{aligned}")
+      (mapcan #'(lambda(y)
+              (tex-list (cdr y) nil (list "\\cr ") "&"))
+          (cdr x))
+      '("\\end{aligned}") r))
+
 ;; Added by CJS, 10-9-16.  Display an argument.
 (defprop $argument tex-argument tex)
 

@@ -274,6 +274,11 @@ ntuplep(ex):= if safe_op(ex)="ntuple" then true else false$
 /* An ellipsis */
 texput(dotdotdot, "\\ldots")$
 
+/* Control TeX parens for display only. */
+/* E.g. {@lrparens(".", x^2+3, "\\}")@} */
+tex_lrparens(ex):=sconcat("\\left", first(args(ex)), tex1(second(args(ex))), "\\right", third(args(ex)));
+texput(lrparens, tex_lrparens);
+
 /* ********************************** */
 /* Type predicates                    */
 /* ********************************** */

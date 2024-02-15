@@ -122,6 +122,7 @@ if (!is_null($seed)) {
 
 $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
+question_engine::save_questions_usage_by_activity($quba);
 
 // Prepare the display options.
 $options = question_display_options();
@@ -600,3 +601,4 @@ if ($question->stackversion == null) {
 
 // Finish output.
 echo $OUTPUT->footer();
+question_engine::delete_questions_usage_by_activity($quba->get_id());

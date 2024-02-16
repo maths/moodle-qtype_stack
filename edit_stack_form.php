@@ -500,13 +500,13 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('mustverify'));
         $mform->setDefault($inputname . 'mustverify', $this->stackconfig->inputmustverify);
         $mform->addHelpButton($inputname . 'mustverify', 'mustverify', 'qtype_stack');
-        $mform->hideIf($inputname . 'mustverify', $inputname . 'type', 'in', ['notes']);
+        $mform->hideIf($inputname . 'mustverify', $inputname . 'type', 'in', []);
 
         $mform->addElement('select', $inputname . 'showvalidation',
                 stack_string('showvalidation'), stack_options::get_showvalidation_options());
         $mform->setDefault($inputname . 'showvalidation', $this->stackconfig->inputshowvalidation);
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
-        $mform->hideIf($inputname . 'showvalidation', $inputname . 'type', 'in', ['notes']);
+        $mform->hideIf($inputname . 'showvalidation', $inputname . 'type', 'in', []);
 
         $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), array('size' => 20));
         $mform->setType($inputname . 'options', PARAM_RAW);

@@ -601,4 +601,3 @@ if ($question->stackversion == null) {
 
 // Finish output.
 echo $OUTPUT->footer();
-question_engine::delete_questions_usage_by_activity($quba->get_id());

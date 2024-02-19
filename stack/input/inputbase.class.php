@@ -891,6 +891,8 @@ abstract class stack_input {
             $filterstoapply[] = '101_no_floats';
         }
 
+        $filterstoapply[] = '150_replace_unicode_letters';
+
         if (get_class($this) === 'stack_units_input' || get_class($this) === 'stack_numerical_input') {
             $filterstoapply[] = '210_x_used_as_multiplication';
         }

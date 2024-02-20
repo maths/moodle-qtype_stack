@@ -2006,6 +2006,26 @@ class castext_test extends qtype_stack_testcase {
      * @covers \qtype_stack\stack_cas_castext2_latex
      * @covers \qtype_stack\stack_cas_keyval
      */
+    public function test_tex_aligned() {
+        $vars = '';
+        $at1 = new stack_cas_keyval($vars, null, 123);
+        $this->assertTrue($at1->get_valid());
+
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source(
+            '{@lrparens(".", aligned([x^2+2,stackeq(3)],[x^3,stackeq(4)]), "\\\\}")@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals('\({\left.\begin{aligned}x^2+2&=3\cr x^3&=4\cr \end{aligned}\right\}}\)',
+            $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
     public function test_display_tree() {
         $options = new stack_options();
         $options->set_option('simplify', false);

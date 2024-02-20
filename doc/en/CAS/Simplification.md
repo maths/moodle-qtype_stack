@@ -14,6 +14,8 @@ If you are teaching rules of indices to students for the first time this might c
 
 Note the Maxima function `rootscontract` which converts products of roots into roots of products.
 
+Note that Maxima resists the transformation \( (a^b)^c \rightarrow a^{bc} \), which is not always correct.  Instead, and when you know this will be correct, use `radcan` with `radexpand:all`.  For example, `ev(radcan((a^b)^c),radexpand:all,simp)`.
+
 ## Ordering terms
 
 Maxima chooses an order in which to write terms in an expression. By default, this will use reverse lexicographical order for simple sums, so that we have \(b+a\) instead of \(a+b\).

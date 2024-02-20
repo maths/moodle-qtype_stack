@@ -496,7 +496,7 @@ class input_equiv_test extends qtype_stack_testcase {
         $this->assertEquals('[sqrt(3*x+4) = 2+sqrt(x+2),3*x+4 = 4+4*sqrt(x+2)+(x+2),x-1 = 2*sqrt(x+2),'.
                     'x^2-2*x+1 = 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x = 7 nounor x = -1]', $state->contentsmodified);
         $this->assertEquals('\[ \begin{array}{lll} &\sqrt{3\,x+4}=2+\sqrt{x+2}&'.
-            '{\color{blue}{{x \in {\left[ -\frac{4}{3},\, \infty \right)}}}}\cr \color{red}{\Rightarrow}&3\,x+4=4+4\,'.
+            '{\color{blue}{{x \in {\left[ -\frac{4}{3},\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}&3\,x+4=4+4\,'.
             '\sqrt{x+2}+\left(x+2\right)&{\color{blue}{{x \in {\left[ -2,\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}'.
             '&x-1=2\,\sqrt{x+2}&{\color{blue}{{x \in {\left[ -2,\, \infty \right)}}}}\cr \color{red}{\Rightarrow}'.
             '&x^2-2\,x+1=4\,x+8& \cr \color{green}{\Leftrightarrow}&x^2-6\,x-7=0& \cr \color{green}{\Leftrightarrow}'.

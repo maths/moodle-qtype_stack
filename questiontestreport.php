@@ -130,7 +130,7 @@ foreach ($result as $qattempt) {
     if (!array_key_exists($qattempt->variant, $summary)) {
         $summary[$qattempt->variant] = array();
     }
-    $rsummary = trim($qattempt->responsesummary);
+    $rsummary = trim($qattempt->responsesummary ?? '');
     if ($rsummary !== '') {
         if (array_key_exists($rsummary, $summary[$qattempt->variant])) {
             $summary[$qattempt->variant][$rsummary] += 1;

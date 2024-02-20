@@ -83,8 +83,8 @@ foreach (glob("../stack/maxima/*.mac") as $filename) {
 
     if (strpos($filename, 'intervals.mac') !== false) {
         // Some parser breaking cases.
-        $contents = str_replace('single_variable_solver_real_rec(ex %and (v>=0), v)',
-                'single_variable_solver_real_rec(ex and (v>=0), v)', $contents);
+        $contents = str_replace('stack_single_variable_solver_rec(ex %and (v>=0), v)',
+                'stack_single_variable_solver_rec(ex and (v>=0), v)', $contents);
         $contents = str_replace('ex:realsetmake(v, rs1) %or apply("%or", rs2)',
                 'ex:realsetmake(v, rs1) or apply("%or", rs2)', $contents);
         $contents = str_replace('return(sol1 %or sol2)', 'return(sol1 or sol2)', $contents);

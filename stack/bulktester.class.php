@@ -53,18 +53,6 @@ class stack_bulk_tester {
     public function get_num_stack_questions_by_context() {
         global $DB;
 
-        // Earlier than Moodle 4.0.
-        if (stack_determine_moodle_version() < 400) {
-            return $DB->get_records_sql_menu("
-                SELECT ctx.id, COUNT(q.id) AS numstackquestions
-                  FROM {context} ctx
-                  JOIN {question_categories} qc ON qc.contextid = ctx.id
-                  JOIN {question} q ON q.category = qc.id
-                WHERE q.qtype = 'stack'
-                GROUP BY ctx.id, ctx.path
-                ORDER BY ctx.path");
-        }
-
         return $DB->get_records_sql_menu("
             SELECT ctx.id, COUNT(q.id) AS numstackquestions
             FROM {context} ctx
@@ -92,12 +80,6 @@ class stack_bulk_tester {
      */
     public function stack_questions_in_category($categoryid) {
         global $DB;
-
-        // Earlier than Moodle 4.0.
-        if (stack_determine_moodle_version() < 400) {
-            return $DB->get_records_menu('question',
-                ['category' => $categoryid, 'qtype' => 'stack'], 'name', 'id, name');
-        }
 
         // See question/engine/bank.php around line 500, but this does not return the last version.
         $qcparams['readystatus'] = \core_question\local\bank\question_version_status::QUESTION_STATUS_READY;
@@ -128,19 +110,6 @@ class stack_bulk_tester {
      */
     public function get_categories_for_context($contextid) {
         global $DB;
-
-        // Earlier than Moodle 4.0.
-        if (stack_determine_moodle_version() < 400) {
-            return $DB->get_records_sql("
-                SELECT qc.id, qc.parent, qc.name as name,
-                       (SELECT count(1)
-                        FROM {question} q
-                        WHERE qc.id = q.category and q.qtype='stack') AS count
-                FROM {question_categories} qc
-                WHERE qc.contextid = :contextid
-                ORDER BY qc.name",
-                array('contextid' => $contextid));
-        }
 
         return $DB->get_records_sql("
                 SELECT qc.id, qc.parent, qc.name as name,
@@ -189,18 +158,6 @@ class stack_bulk_tester {
      */
     public function get_stack_questions_by_context() {
         global $DB;
-
-        // Earlier than Moodle 4.0.
-        if (stack_determine_moodle_version() < 400) {
-            return $DB->get_records_sql_menu("
-                SELECT ctx.id, COUNT(q.id) AS numstackquestions
-                  FROM {context} ctx
-                  JOIN {question_categories} qc ON qc.contextid = ctx.id
-                  JOIN {question} q ON q.category = qc.id
-                WHERE q.qtype = 'stack'
-                GROUP BY ctx.id, ctx.path
-                ORDER BY ctx.path");
-        }
 
         return $DB->get_records_sql_menu("
                 SELECT ctx.id, COUNT(q.id) AS numstackquestions

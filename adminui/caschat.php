@@ -49,7 +49,7 @@ if (!$questionid) {
     $urlparams = array();
 } else {
     // Load the necessary data.
-    if ($qubaid) {
+    if ($qubaid !== '') {
         // ISS-1110 If question usage by activity has been supplied, load the question
         // from that so we can load correct responses later.
         $quba = question_engine::load_questions_usage_by_activity(optional_param('qubaid', '', PARAM_RAW));
@@ -75,7 +75,7 @@ $debuginfo = '';
 $errs = '';
 $varerrs = array();
 
-if ($qubaid !== '' && optional_param('initialise', '', PARAM_RAW) === 'yes') {
+if ($qubaid !== '' && optional_param('initialise', '', PARAM_RAW)) {
     // ISS-1110 Handle calls from questiontestrun.php.
     if ($question->options->get_option('simplify')) {
         $simp = 'on';

@@ -139,7 +139,7 @@ $chatparams = $urlparams;
 // ISS-1110 Rather than send parts of the question, save the quba and
 // supply the qubaid and slot so the details can be loaded on the caschat page.
 // This avoids a long URI causing an Apache error.
-$chatparams['initialise'] = 'yes';
+$chatparams['initialise'] = true;
 $chatparams['qubaid'] = $quba->get_id();
 $chatparams['slot'] = $slot;
 $chatlink = new moodle_url('/question/type/stack/adminui/caschat.php', $chatparams);

@@ -357,6 +357,7 @@ class stack_abstract_graph {
      * @return array node name => stack_abstract_graph_node the list of all nodes.
      */
     public function get_nodes() {
+        uasort($this->nodes, fn($a, $b) => $a->name > $b->name);
         return $this->nodes;
     }
 

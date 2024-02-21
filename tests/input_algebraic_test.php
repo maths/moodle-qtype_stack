@@ -1838,4 +1838,20 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('"Lots of stuff:!$%^&*?@;"', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{Lots of stuff:!\$\%^\&*?@;} \]', $state->contentsdisplayed);
     }
+
+    public function test_validate_student_response_single_var_chars_unicode_superscript() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '');
+        $el->set_parameter('insertStars', 2);
+        $state = $el->validate_student_response(['sans1' => 'x²'], $options, 'x^2',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        // The rest needs to be updated once we know what the expected result is.
+        $this->assertEquals('forbiddenChar', $state->note);
+        $this->assertEquals('CAS commands may not contain the following characters: ².',
+            $state->errors);
+        $this->assertEquals('', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">x²</span>', $state->contentsdisplayed);
+        $this->assertEquals('', $state->lvars);
+    }
 }

@@ -102,8 +102,8 @@ class qtype_stack_tidy_question_form extends moodleform {
                 $right = $summary->falsenextnode + 1;
             }
             $graph->add_node($nodekey + 1, $summary->description, $left, $right,
-                    $summary->truescoremode . round($summary->truescore, 2),
-                    $summary->falsescoremode . round($summary->falsescore, 2));
+                    $summary->truescoremode . stack_utils::fix_trailing_zeros($summary->truescore),
+                    $summary->falsescoremode . stack_utils::fix_trailing_zeros($summary->falsescore));
         }
         $graph->layout();
         return $graph;

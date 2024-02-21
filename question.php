@@ -641,7 +641,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         $this->questiondescriptioninstantiated = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qd'),
-            '/gf', new castext2_static_replacer($this->get_cached('static-castext-strings')));
+            '/qd', new castext2_static_replacer($this->get_cached('static-castext-strings')));
         // Might not require any evaluation anyway.
         if (!$this->questiondescriptioninstantiated->requires_evaluation()) {
             return $this->questiondescriptioninstantiated;

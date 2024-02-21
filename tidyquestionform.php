@@ -70,7 +70,9 @@ class qtype_stack_tidy_question_form extends moodleform {
             $mform->addElement('static', $prtname . 'graph', '',
                     stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg'));
 
-            foreach ($prt->get_nodes_summary() as $nodekey => $notused) {
+            $nodes = $prt->get_nodes_summary();
+            uasort($nodes, fn($a, $b) => $a->nodename - $b->nodename);
+            foreach ($nodes as $nodekey => $notused) {
                 $mform->addElement('text', 'nodename_' . $prtname . '_' . $nodekey,
                         stack_string('newnameforx', $nodekey + 1), array('size' => 20));
                 $mform->setDefault('nodename_' . $prtname . '_' . $nodekey, $newnames[$nodekey + 1]);

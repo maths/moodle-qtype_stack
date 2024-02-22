@@ -7,7 +7,7 @@ STACKを初めて利用する際は、[問題作成クイックスタートガ�
 * [問題作成クイック・スタート・ガイド 3](Authoring_quick_start_3.md): フィードバックを改善する
 * [問題作成クイック・スタート・ガイド 4](Authoring_quick_start_4.md): ランダム化
 * [問題作成クイック・スタート・ガイド 5](Authoring_quick_start_5.md): 問題のテスト
-* [問題作成クイック・スタート・ガイド 6](Authoring_quick_start_6.md): 複数回答問題
+* [問題作成クイック・スタート・ガイド 6](Authoring_quick_start_6.md): 複数解答欄問題
 * [問題作成クイック・スタート・ガイド 7](Authoring_quick_start_7.md): 数式簡略の無効化
 * [問題作成クイック・スタート・ガイド 8](Authoring_quick_start_8.md): 問題のインポートと小テスト
 

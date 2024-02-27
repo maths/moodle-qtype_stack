@@ -1,6 +1,6 @@
 # 問題作成クイック・スタート・ガイド 3：フィードバックを改善する
 
-[1 - 基本的な問題](Authoring_quick_start_1.md) | [2 - 問題変数](Authoring_quick_start_2.md) | 3 - Feedback | [4 - ランダム化](Authoring_quick_start_4.md) | [5 - 問題のテスト](Authoring_quick_start_5.md) | [6 - 複数解答欄問題](Authoring_quick_start_6.md) | [7 - 数式簡略の無効化](Authoring_quick_start_7.md) | [8 - 問題のインポートと小テスト](Authoring_quick_start_8.md)
+[1 - 基本的な問題](Authoring_quick_start_1.md) | [2 - 問題変数](Authoring_quick_start_2.md) | 3 - フィードバックを改善する | [4 - ランダム化](Authoring_quick_start_4.md) | [5 - 問題のテスト](Authoring_quick_start_5.md) | [6 - 複数解答欄問題](Authoring_quick_start_6.md) | [7 - 数式簡略の無効化](Authoring_quick_start_7.md) | [8 - 問題のインポートと小テスト](Authoring_quick_start_8.md)
 
 
 
@@ -59,4 +59,4 @@ STACKは,学生が使用した可能性のある積分定数を削除するstrip
 
 これでSTACKで特定のフィードバックを作成できるはずです。
 
-##### 問題作成クイック・スタート・ガイドの次のパートはランダム化についてです。
+##### 問題作成クイック・スタート・ガイドの次のパートは[ランダム化](Authoring_quick_start_4.md)についてです。

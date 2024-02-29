@@ -218,19 +218,17 @@ stackjson_stringify(obj) := block([tmp,r,l],
  if is(obj=und) then r:"null"
  else if is(obj=false) then r:"false"
  else if is(obj=true) then r:"true"
- else if stringp(obj) then (
+ else if stringp(obj) then block([char_list],
   char_list: map(stackjson_protect_escapes, charlist(obj)),
   buffer_size: 64,
   r: "\"",
-  l : ceiling(length(char_list)/buffer_size),
-  for i:1 thru l do 
-  (
+  l : ev(ceiling(length(char_list)/buffer_size), simp),
+  for i:1 thru l do (
     buffer: [],
     j: 1,
-    while (j <= buffer_size and not emptyp(char_list)) do
-    (
+    while (ev(j <= buffer_size and not emptyp(char_list), simp)) do (
       push(pop(char_list), buffer),
-      j: j + 1
+      j: ev(j+1, simp)
     ),
     r: sconcat(r, apply(sconcat, reverse(buffer)))
   ),

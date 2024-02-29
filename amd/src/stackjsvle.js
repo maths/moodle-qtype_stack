@@ -113,6 +113,10 @@ define([
             if (possible !== null) {
                 return possible;
             }
+            possible = iter.querySelector('textarea[id$="_' + name + '"]');
+            if (possible !== null) {
+                return possible;
+            }
             // Radios have interesting ids, but the name makes sense
             possible = iter.querySelector('input[id$="_' + name + '_1"][type=radio]');
             if (possible !== null) {
@@ -125,6 +129,10 @@ define([
         }
         // If none found within the question itself, search everywhere.
         let possible = document.querySelector('.formulation input[id$="_' + name + '"]');
+        if (possible !== null) {
+            return possible;
+        }
+        possible = document.querySelector('.formulation textarea[id$="_' + name + '"]');
         if (possible !== null) {
             return possible;
         }
@@ -298,6 +306,10 @@ define([
             if (input.nodeName.toLowerCase() === 'select') {
                 response.value = input.value;
                 response['input-type'] = 'select';
+                response['input-readonly'] = input.hasAttribute('disabled');
+            } else if (input.nodeName.toLowerCase() === 'textarea') {
+                response.value = input.value;
+                response['input-type'] = 'textarea';
                 response['input-readonly'] = input.hasAttribute('disabled');
             } else if (input.type === 'checkbox') {
                 response.value = input.checked;

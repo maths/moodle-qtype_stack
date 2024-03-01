@@ -33,20 +33,21 @@ s_test_case(validate_underscore(1+a1), "");
 s_test_case(validate_underscore(1+a_1), "Underscore characters are not permitted in this input.");
 
 /* The student may not use a user-defined function, or arrays, anywhere in their input. */
-validate_nofunctions(ex):= block([op1],
+validate_nofunctions(ex):= block([op1,opp],
   if atom(ex) then return(""),
   op1:ev(op(ex)),
-  op1:apply(properties, [op1]),
-  if ev(emptyp(op1) or is(op1=[noun]),simp) then return("User-defined functions are not permitted in this input."),
+  opp:apply(properties, [op1]),
+  if ev(emptyp(opp) or is(opp=[noun]),simp) then return(sconcat("User-defined functions are not permitted in this input. In your answer ", stack_disp(op1, "i"), " appears to be used as a function. ")),
   apply(sconcat, map(validate_nofunctions, args(ex)))
 );
 
 s_test_case(validate_nofunctions(1+a1), "");
 s_test_case(validate_nofunctions(sin(n*x)), "");
 s_test_case(validate_nofunctions(-b#pm#sqrt(b^2-4*a*c)), "");
-s_test_case(validate_nofunctions(x(2)), "User-defined functions are not permitted in this input.");
-s_test_case(validate_nofunctions(x(t)), "User-defined functions are not permitted in this input.");
-s_test_case(validate_nofunctions(1+f(x+1)), "User-defined functions are not permitted in this input.");
+s_test_case(validate_nofunctions(x(2)), "User-defined functions are not permitted in this input. In your answer \\(x\\) appears to be used as a function. ");
+s_test_case(validate_nofunctions(3*x(t)^2), "User-defined functions are not permitted in this input. In your answer \\(x\\) appears to be used as a function. ");
+s_test_case(validate_nofunctions(1+f(x+1)), "User-defined functions are not permitted in this input. In your answer \\(f\\) appears to be used as a function. ");
+s_test_case(validate_nofunctions(x(2)*y(3)), "User-defined functions are not permitted in this input. In your answer \\(x\\) appears to be used as a function. User-defined functions are not permitted in this input. In your answer \\(y\\) appears to be used as a function. ");
 
 /* The student may only use single-character variable names in their answer. */
 /* This is intended for use when Insert Stars is turned off, but we still want to indicate to students that they may have forgotten a star */

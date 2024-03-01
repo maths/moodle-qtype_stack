@@ -71,6 +71,18 @@ When you regularly find yourself testing for particular properties, and copying 
 
 You can [post your suggestion on the project's GitHub site](https://github.com/maths/moodle-qtype_stack/issues) or [submit code directly as a pull request](https://github.com/maths/moodle-qtype_stack/pulls).
 
+## Improving validation feedback messages.
+
+It is possible to include the student's answer, or part of the answer, in the validation feedback. This needs more work, of course.
+
+The validator must return a string.  One way to include the studnet's answer in the message is to use `sconcat`, e.g. as follows
+
+    sconcat("User-defined functions are not permitted in this input. In your answer ", stack_disp(op1, "i"), " appears to be used as a function. ")
+
+Another option is to use the `castext` function.  Note, that the castext function has to be used only at the top level.  An example is given in the next section on language support.  You cannot currently return the result of multiple `castext` calls in a concatinated string.
+
+An example of how to construct such a validator is `validate_nofunctions` in the contributed validators.
+
 ## Localisation and language support
 
 To localise your validation messages use the castext `lang` block. For example

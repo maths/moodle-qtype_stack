@@ -3527,9 +3527,10 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->name = 'validator';
         // We need to check that local variable names within the block are not invalid for student's input.
+        // We need to chack mathematics within the castext is correctly displayed.
         $q->questionvariables = 'ta:phi^2-1;myvalidityidea(ex):=block(if ev(subsetp(setify(listofvars(ex)),' .
             'setify(listofvars(ta))), simp) then return(""),castext("[[lang code=\'fi\']]Vastauksesi sisältää ' .
-            'vääriä muuttujia.[[/lang]][[lang code=\'en,other\']]Your answer contains the wrong variables.[[/lang]]"));';
+            'vääriä muuttujia.[[/lang]][[lang code=\'en,other\']]Your answer {@ex@} contains the wrong variables.[[/lang]]"));';
         // This question is also used to test the lang blocks at the top level.
         $q->questiontext = "[[lang code='en,other']] What is {@ta@}? [[/lang]]<br>" .
                            "[[lang code='de']] Was ist {@ta@}? [[/lang]]<br>" .

@@ -4172,7 +4172,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-            new question_pattern_expectation('/Your answer contains the wrong variables/'),
+            new question_pattern_expectation('/Your answer <span class="nolink">/'),
+            new question_pattern_expectation('/{x\^2-1}/'),
+            new question_pattern_expectation('/contains the wrong variables/'),
             new question_no_pattern_expectation('/Vastauksesi sisältää/')
             );
 
@@ -4252,7 +4254,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-            new question_pattern_expectation('/Your answer contains the wrong variables/'),
+            new question_pattern_expectation('/Your answer <span class="nolink">/'),
+            new question_pattern_expectation('/{x\^2-1}/'),
+            new question_pattern_expectation('/contains the wrong variables/'),
             new question_no_pattern_expectation('/Vastauksesi sisältää/')
             );
 

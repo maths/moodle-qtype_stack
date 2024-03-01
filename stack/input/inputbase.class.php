@@ -1328,6 +1328,8 @@ abstract class stack_input {
             $feedbackerr .= $state->errors;
         }
         if ($feedbackerr != '') {
+            // Bespoke validation messages might contain maths, which needs to be processed.
+            $feedbackerr = stack_ouput_castext($feedbackerr);
             $feedback .= html_writer::tag('div', $feedbackerr, array('class' => 'alert alert-danger stackinputerror'));
         }
 

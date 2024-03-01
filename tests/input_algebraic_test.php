@@ -1296,10 +1296,11 @@ class input_algebraic_test extends qtype_stack_testcase {
               '<p>Your last answer was interpreted as follows: ' .
               '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left( 1,\, 2\right] \]</span></span>' .
               '</p><input type="hidden" name="sans1_val" value="oc(1,2,3)" />' .
+              '<div class="alert alert-danger stackinputerror">' .
               '<span class="filter_mathjaxloader_equation">' .
-              '<div class="alert alert-danger stackinputerror">This answer is invalid. Interval construction must have ' .
+              'This answer is invalid. Interval construction must have ' .
               'exactly two arguments, so this must be an error: <span class="filter_mathjaxloader_equation">' .
-              '<span class="nolink">\(\mbox{oc(1,2,3)}\)</span></span>.</span></div></div>';
+              '<span class="nolink"><span class="nolink">\(\mbox{oc(1,2,3)}\)</span></span></span>.</span></div></div>';
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
 
         $state = $el->validate_student_response(array('sans1' => 'oc(3,2)'), $options, '%union({3,4,5})',

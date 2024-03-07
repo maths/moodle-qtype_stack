@@ -1,105 +1,111 @@
-# Authoring quick start 8: setting up a quiz
+# 問題作成クイック・スタート・ガイド 8: 問題のインポートと小テスト
 
-[1 - First question](Authoring_quick_start_1.md) | [2 - Question variables](Authoring_quick_start_2.md) | [3 - Feedback](Authoring_quick_start_3.md) | [4 - Randomisation](Authoring_quick_start_4.md) | [5 - Question tests](Authoring_quick_start_5.md) | [6 - Multipart questions](Authoring_quick_start_6.md) | [7 - Simplification](Authoring_quick_start_7.md) | 8 - Quizzes
+[1 - 基本的な問題](Authoring_quick_start_1.md) | [2 - 問題変数](Authoring_quick_start_2.md) | [3 - フィードバックを改善する](Authoring_quick_start_3.md) | [4 - ランダム化](Authoring_quick_start_4.md) | [5 - 問題のテスト](Authoring_quick_start_5.md) | [6 - 複数解答欄問題](Authoring_quick_start_6.md) | [7 - 数式簡略の無効化](Authoring_quick_start_7.md) | 8 - 問題のインポートと小テスト
 
-This part of the authoring quick start guide deals with setting up a Moodle quiz. The following video explains the process:
+問題作成クイック・スタート・ガイドのこのパートでは,問題のインポートと小テストについて扱います。次のビデオでそのやり方を説明します：
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/P3bDdNVC6g0" frameborder="0" allowfullscreen></iframe>
-### Introduction
 
-Once you have authored questions, you will want to include these in a quiz.  Alternatively, you might like to set up a quiz using the sample questions.  
+### はじめに
 
-The purpose of this document is to provide a guide, from a beginner's point of view, to some of the steps that need to be taken when setting up mathematics questions in a Moodle quiz, using the computer aided assessment package STACK. Note, this guide risks duplicating the Moodle quiz documentation, which should also be consulted.
+問題を作成したら,小テストに組み込みたくなるでしょう。サンプル問題を使用して小テストを作成することもできます。
 
-*These have been edited from notes created by Dr Maureen McIver, Department of Mathematical Sciences, Loughborough University, UK, July 2016.*
+このドキュメントは,初心者がSTACKを使用して,Moodleの小テストで数学の問題の作成する方法について説明します。このガイドはMoodle小テストのドキュメントと一部重複します。
 
-### Finding questions
+これらはDr Maureen McIver, Department of Mathematical Sciences, Loughborough University, UK, July 2016が作成したメモを編集したものです。
 
-You need to start by identifying questions for the quiz and the easiest way to do this is to start with a question that is already written and modify it to meet your needs.  
+### 問題の選択
 
-If you have been following the quick start guide so far, you should also know how to write your own question from scratch.
+小テストに使う問題を選ぶことから始めましょう。すでに作られている問題を編集して,合うように修正することが一番簡単な方法です。
 
-### Importing questions from an existing server
+これまでの問題作成クイックスタートガイドに従って,ゼロから独自の問題を作っても良いでしょう。
 
-Let us look at how you import questions from an existing server into your server.
+### 既存のサーバから問題をインポートする
 
-First, you must export the existing questions:
+既存のサーバから問題をインポートする。
 
-1. log into the module on the Moodle server from which you wish to export questions, and click on `Question bank` in the Administration block. Then click on `Export`,  
-2. Click on `Moodle XML format`, then choose the category you want to export.  Moodle only lets you export individual categories. 
-3. Click on `Export questions to file`. This will download a file with the all the questions that category.
+まず,既存の問題をエクスポートする必要があります：
 
-To import these questions into your course:
+1. 問題をエクスポートしたいMoodleサーバのモジュールにログインし,管理ブロックの`問題バンク`をクリックしてください。次に`エクスポート`をクリックしてください。
+2. `Moodle XMLフォーマット`をクリックし,エクスポートしたいカテゴリを選択します。Moodleでは個々のカテゴリのみエクスポートすることができます。
+3. `問題をファイルにエクスポートする`をクリックしてください。これにより,そのカテゴリのすべての問題を含むファイルがダウンロードされます。
 
-1. Log into your module on the Moodle server and click on `Question bank` in the Administration block,
-2. Click on `Import`,
-3. Click on `Moodle XML format` then drag and drop the `?.xml` file from your Downloads folder on your desktop, and click `Import` and then `Continue`. A copy of the questions should then appear in the question bank for your module and you can modify them as you want.
+これらの問題をあなたのサーバにインポートします：
 
-### Constructing a Moodle quiz
+1. Moodleサーバであなたのモジュールにログインし,管理ブロックの問題バンクをクリックします。
+2. `インポート`をクリックしてください。
+3. `Moodle XMLフォーマット`をクリックし,あなたのデスクトップにあるダウンロードフォルダから?.xmlファイルをドラッグ＆ドロップし,`インポート`および`続行`をクリックします。問題のコピーがあなたのモジュールの問題集に表示され,自由に問題を変更することができます。
 
-Once you have constructed a question bank (either by importing them or writing them yourselves) you can put them into a Moodle quiz. 
+### Moodle小テストを作成する
 
-Included within the STACK sample materials is a "Syntax quiz", and it is recommended that you put a copy of this on your own page. This lets students can practice the syntax of how to enter answers into a STACK quiz before they try a specific quiz for your module, and also checks that they can read the mathematics on their machine.
+あなたが問題集を作成した場合 (問題集をインポートする,または自分で作成する),それらをMoodleクイズに追加することができます。
 
-### Question behaviours
+STACKサンプル教材には「構文クイズ」が含まれていますので,このコピーをあなたのページに設置することがおすすめです。これにより,学生があなたのモジュールの特定の小テストを試す前に,STACKクイズに答えを入力する構文を練習することができます。
 
-Question behaviours dictate how many attempts students are given and how penalties are distributed. There are a number of question behaviours available for a Moodle quiz. The most important are:
+### 問題の動作
 
-**Immediate feedback**, which only lets students have one try at each question, but gives feedback either immediately after answering a question, or only when all questions are answered and submitted. This is useful for standard formative/summative quizzes.
+問題の動作は学生に与える受験回数および減点の分配方法を決定します。Moodle小テストでは多くの問題の動作を利用することができます。最も重要なものは次のとおりです。
 
-**Deferred feedback**, which only lets students have one try at each question, and does not give feedback until after some given date. This is useful for examinations and coursework quizzes where you don't want students to share worked solutions. 
+**即時フィードバック**
+学生に各問題を1回だけ受験させますが,問題に解答した直後,またはすべての問題が解答され,提出された場合のみフィードバックを与えます。これは標準的な小テストに便利です。
 
-**Interactive with multiple tries**, which lets students have a finite amount of tries to solve the question, with a hint being displayed after each. It deducts a penalty mark for each incorrect attempt. This is useful for formative quizzes where you want to give hints. Note that the amount of attempts is set as one more than the amount of  `Hints` given in each question. `Hints` are found under the  `Options` section when editing a question.  
+**遅延フィードバック**
+学生に各問題を1回だけ受験させ,与えられた日付が過ぎるまでフィードバックを与えない。これは学生に解答を共有させたくない試験やコースワーク小テストに便利です。
 
-**Adaptive**, which lets the student have as many tries as they want, but deducts a penalty from the total score of the question for each time the student got the answer wrong. This is useful for testing questions and for informal practice quizzes.
+**複数回の受験が可能なインタラクティブ問題**
+学生に問題を解く有限回の受験をさせることができ,それぞれの受験の後にヒントが表示されます。不正解の場合,ペナルティマークが減点されます。これはヒントを与えたい形成的小テストに便利です。受験回数は各問題に表示されるヒント回数より1回多く設定されていることに注意してください。ヒントは問題を編集する際,オプションセクションに表示されます。
 
-### Setting up the quiz
+**アダプティブ**
+学生に好きなだけ受験させることができますが,学生が答えを間違えるたびに問題の合計得点から減点します。これはテスト問題や非公式の練習小テストに便利です。
 
-1. Go to the Moodle page and click `Turn editing on`.  
-2. Go to the block where you want to put the quiz or add an additional block and click `Add an activity or resource`, click `Quiz` and then `Add`.  
-3. Give the quiz a name and put any description you want in the Description box.  LaTeX can be used here if you want.  
-4. Click on `Timing` and fix the opening and closing times.  
-5. Click on `Grade` and fix the `Attempts allowed`.  E.g. you could use `Unlimited` for a practice quiz and `1` for a coursework quiz.  
-6. Click on  `Question behaviour` and choose your desired question behaviour, as discussed above.
-7. Under `Review options`, you can choose what students are allowed to see during or after the quiz. This includes options such as whether their answer is correct, their mark and feedback. We recommend turning off `Right answer` for both practice and coursework quizzes, and allowing `General feedback` (worked solution) to be on for a practice quiz, but off for coursework quizzes.
-8. Finish by clicking `Save and return to course`.  
+### 小テストの設定
 
-You can toggle whether students can see the quiz/topic by clicking `Edit` and `Show`.
+1. Moodleページに移動し,`編集を有効にする`をクリックします。
+2. あなたが小テストを設置または追加したいブロックに移動し,`活動またはリソースを追加する`をクリックして,`小テスト`,`追加`の順にクリックします。
+3. クイズに名前を付け,説明ボックスに好きな説明を入力してください。必要であれば,ここでLaTeXを使用することもできます。 
+4. `タイミング`をクリックし,開閉時間を設定してください。  
+5. `評点`をクリックし,受験可能回数を設定してください。例えば,練習問題には無制限,コースワークの小テストには1回を使用することができます。
+6. `問題の動作`をクリックし,上述したように希望する問題の動作を選択してください。
+7. レビューオプションでは小テスト中または終了後に学生に閲覧を許可する項目を選択することができます。これには彼らの答えが正しいかどうか,評点およびフィードバックなどのオプションを含みます。練習問題とコースワーク小テストの両方で`正解`をオフにし,練習問題では`一般的なフィードバック`をオンにし,コースワーク小テストではオフにすることをお勧めします。
+8. `保存`をクリックして終了し,コースに戻ります。 
 
-Note, the Moodle question bank will automatically create a category for the quiz.  It is sometimes sensible to put all the questions used in the quiz into this category, but note that you will only see the category if you have previously navigated to the quiz.
+`編集`および`表示する`をクリックすることで,学生に小テスト/トピックを表示するかどうか切り替えることができます。
 
-### Adding questions
+注意: Moodleの問題集では自動的に小テストのカテゴリを作成します。小テストで使用されるすべての問題をこのカテゴリに分類することが良い場合もありますが,あなたが以前に小テストに移動した場合のみ,カテゴリが表示されることに注意してください。
 
-Click on the quiz, and then `Edit quiz`.  
 
-2. Click `Add`  then click `from question bank`, select a category then one or more of the STACK questions you have created.
-3. Click `Add selected questions to the quiz` then click `Save` and return to the main module page.  
+### 問題を追加する
 
-To preview the quiz, click on it, then click `Preview quiz now`.
+1. クイズをクリックし,クイズを編集します。
 
-### Extra time
+2. `追加`をクリックし,`問題バンクから`をクリックして,カテゴリを選択し,作成したスタック問題を1つまたは複数選択します。
+3. `選択した問題を小テストに追加する`をクリックし,`保存`をクリックしてメインモジュールページに戻ります。
 
-If you have students who need extra time you need to set up `Groups` with these students in. Here is an example for a group of students who need 25% extra time.  
+小テストをプレビューするには,小テストをクリックし,`今すぐ小テストをプレビュー`をクリックしてください。
 
-1. Under `Course Adminstration`, click on `Users`, then `Groups`, then `Create group`.  
-2. Give the group a name, e.g. "25% extra time".  You can put more details of who the group is for in the `Group description` box.  Click `Save changes`. 
-3. `Add/remove users`, then click on the ID for a particular student for this group and click `Add` to put them in the group.  Repeat for each student who needs to be in this group.  
-4. Go back and click on the Moodle quiz. In the `Quiz Adminstration`, click on `Group overrides`, then click `Add group override`, choose the relevant group, set the appropriate `Time limit` for the quiz for that group and click `Save`. 
+### 追加時間
 
-### Viewing results
+追加時間が必要な学生がいる場合,その学生を含むグループを設定する必要があります。以下は25%の追加時間が必要な学生のグループの例です。
 
-To see the students' results in for a particular quiz, go the the quiz, then under `Quiz adminstration` click on `Results`,  then `Grades`. This will let you see all attempts, with the overall grade and the grade for each question. You can choose to download the results in Excel here as well.
+1. `コース管理`で`ユーザ`,`グループ`,`グループの作成`の順にクリックします。
+2. グループ名を「25%追加グループ」などとしてください。グループの説明欄に,誰のためのグループなのか詳細を記入することができます。`変更を保存`をクリックします。
+3. `ユーザーを追加/削除し,このグループの特定の生徒のIDをクリックし,追加をクリックしてグループに入れます。このグループに入れる必要のある学生全員に対してこの操作繰り返します。
+4. 戻って`Moodle小テスト`をクリックしてください。小テスト管理で`グループオーバーライド`をクリックし,`グループオーバーライドを追加する`をクリックして,関連するグループを選択し,そのグループの小テストに適切な制限時間を設定し,保存をクリックしてください。
 
-# Next steps
+### 結果を見る
 
-You should now be able to work with quizzes in Moodle.
+特定の小テストの結果を見るには,小テストを表示し,`小テスト管理`で`結果`,`評点`をクリックしてください。これですべての受験,総合評点および各問題の評点を見ることができます。結果をエクセルでダウンロードすることもできます。
 
-This concludes the authoring quick start guide. The STACK documentation is comprehensive, and there are many things you might want to look at next. For example, you can
+# 次のステップ
 
-- learn about more [input types](/Authoring/Inputs.md),
-- learn about more [answer tests](/Authoring/Answer_Tests/index.md),
-- add [plots](../Plots/Plots.md) to your [CASText](/Authoring/CASText.md) fields,
-- add support for [multiple languages](/Authoring/Languages.md),
-- learn about using [equivalence reasoning](/Authoring/Equivalence_reasoning.md),
-- read about [Curve sketching](/Topics/Curve_sketching.md).
-- look at more information on [Maxima](../CAS/index.md), particularly the Maxima documentation if you are not very familiar with Maxima's syntax and function names. A graphical Maxima interface like [wxMaxima](http://andrejv.github.com/wxmaxima/) can also be very helpful for finding the appropriate Maxima commands easily.
+これでMoodleで小テストを操作できるようになりました。
+
+以上で問題作成クイック・スタート・ガイドを終了します。STACKドキュメントは包括的で,参照できることがたくさんあります。例えば,以下の例が挙げられます。
+
+- [より多くの入力タイプについて学ぶ](/Authoring/Inputs.md),
+- [より多くの解答テストについて学ぶ](/Authoring/Answer_Tests/index.md),
+- [CASTextフィールド](/Authoring/CASText.md)に[プロット](../Plots/Plots.md)  を追加する
+- [複数言語のサポートを追加する](/Authoring/Languages.md),
+- [等価推論の使用について学ぶ](/Authoring/Equivalence_reasoning.md),
+- [曲線スケッチについて読む](/Topics/Curve_sketching.md).
+- Maxima の構文や関数名にあまり詳しくない場合は,Maxima のドキュメントを参照してください。[Maxima](../CAS/index.md)wxMaxima のようなグラフィカルな Maxima インターフェースも,適切な Maxima コマンドを簡単に見つけるのに非常に役立ちます。[wxMaxima](http://andrejv.github.com/wxmaxima/)

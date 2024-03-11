@@ -6,7 +6,7 @@ Options affect the behaviour of each question.
 
 See the entry on [simplification](../CAS/Simplification.md).  Default is `true`.
 
-### Assume Positive  ### {#Assume_Positive}
+### Assume Positive {#Assume_Positive} ###
 
 This option sets the value of [Maxima](../CAS/Maxima.md)'s
 
@@ -32,7 +32,7 @@ then the extra digits will automatically be added. The exact range affected is t
 any penalty \(\ge 0.33\) and \(\le 0.34\) is changed to \(0.3333333\), and
 any penalty \(\ge 0.66\) and \(\le 0.67\) is changed to \(0.6666667\).
 
-## Output  ##
+## Output ##
 
 The following options affect how mathematics is displayed.
 

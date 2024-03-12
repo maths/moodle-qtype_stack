@@ -46,14 +46,15 @@ $string['version']           = 'Version';
 $string['stack:usediagnostictools'] = 'Use the STACK tools';
 
 // Versions of STACK.
-$string['stackversionedited']   = 'This question was authored with STACK version {$a}.';
-$string['stackversionnow']      = 'The current version of STACK is {$a}.';
-$string['stackversionnone']     = 'This question has not been edited since question variant numbering was introduced in STACK 4.2.  Please review your question carefully.';
-$string['stackversionerror']    = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
-$string['stackversionerroralt'] = 'An alternative is {$a}.';
-$string['stackversionmulerror'] = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
-$string['stackversionregexp']   = 'The RegExp answer test is not supported after STACK version 4.3.  Please use the new SRegExp instead.';
-$string['stackfileuseerror']    = 'One or more files (e.g. images) are associated internally with the {$a}, but none appear to be used in the current text itself.';
+$string['stackversionedited']     = 'This question was authored with STACK version {$a}.';
+$string['stackversionnow']        = 'The current version of STACK is {$a}.';
+$string['stackversionnone']       = 'This question has not been edited since question variant numbering was introduced in STACK 4.2.  Please review your question carefully.';
+$string['stackversionerror']      = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
+$string['stackversionerroralt']   = 'An alternative is {$a}.';
+$string['stackversionmulerror']   = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
+$string['stackversionregexp']     = 'The RegExp answer test is not supported after STACK version 4.3.  Please use the new SRegExp instead.';
+$string['stackfileuseerror']      = 'One or more files (e.g. images) are associated internally with the {$a}, but none appear to be used in the current text itself.';
+$string['stackversioncomment']    = 'This question appears to use /*...*/ style comments in the {$a->qfield}, which are no longer supported.';
 
 // Strings used on the editing form.
 $string['generalerrors']     = 'There are errors in your question.  Please check carefully below.';

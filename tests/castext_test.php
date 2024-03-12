@@ -375,8 +375,12 @@ class castext_test extends qtype_stack_testcase {
         $a1 = array('a:2');
 
         $cases = array(
+                array('{#a#} [[ define a="1" /]][[comment]] Ignore comment. [[/comment]]{#a#}', $a1, true, "2 1"),
                 array('{#a#} [[ define a="1" /]][[ comment ]] Ignore comment. [[/ comment]]{#a#}', $a1, true, "2 1"),
                 array('{#a#} [[ define a="a^2" /]][[ comment ]]Ignore[[/ comment]]{#a#}', $a1, true, "2 4"),
+                // Older version of STACK used to allow /*..*/ comments in castext, but we no loner support this. Sorry.
+                array('{#a#} [[ define a="a^2" /]]/* Not ignored */ {#a#}', $a1, true,
+                    "2 /* Not ignored */ 4"),
         );
 
         foreach ($cases as $case) {

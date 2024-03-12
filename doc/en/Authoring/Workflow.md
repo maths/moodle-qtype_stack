@@ -80,5 +80,5 @@ The question description, and descriptions within PRT nodes, can be used to desc
 
 You can use the `[[todo]]...[[/todo]]` question block to indicate unfinished questions.  Authors with the capability to use the "STACK diagnostic tools" can create a list of questions containing this block, making it easy for them to locate questions needing attention.
 
-You can use the `[[escape]]...[[/escape]]` and `[[comment]]...[[comment]]` blocks to remove broken content which is preventing a question from being saved.  Maxima code can be removed with code comments: `/* .... */`.
+You can use the `[[escape]]...[[/escape]]` and `[[comment]]...[[/comment]]` blocks to remove broken content which is preventing a question from being saved.  Maxima code can be removed with code comments: `/* .... */`, but these comments cannot be used in castext.
 

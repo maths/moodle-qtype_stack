@@ -1463,8 +1463,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function validate_against_stackversion($context) {
         $errors = array();
-        $qfields = array('questiontext', 'questionvariables', 'questionnote', 'questiondescription',
+        $castextfields = array('questiontext', 'questionnote', 'questiondescription',
             'specificfeedback', 'generalfeedback');
+        $qfields = array_merge($castextfields, array('questionvariables'));
 
         $stackversion = (int) $this->stackversion;
 
@@ -1518,6 +1519,22 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     if ($opt === 'mul') {
                         $errors[] = stack_string('stackversionmulerror');
                     }
+                }
+            }
+        }
+
+        // Check for /*...*/ comments in castext in older questions.
+        if ($stackversion < $checkpat['ver']) {
+            $pat = '~/\*.*?\*/~s';
+            foreach ($castextfields as $field) {
+                if (preg_match($pat, $this->$field)) {
+                    $errors[] = stack_string('stackversioncomment', array('qfield' => stack_string($field)));
+                }
+            }
+            // Look inside the PRT feedback variables.  Should probably check the feedback as well.
+            foreach ($this->prts as $name => $prt) {
+                if (preg_match($pat, $prt->get_feedback_test())) {
+                    $errors[] = stack_string('stackversioncomment', array('qfield' => $name));
                 }
             }
         }

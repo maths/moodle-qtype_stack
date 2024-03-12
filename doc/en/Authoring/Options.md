@@ -2,7 +2,7 @@
 
 Options affect the behaviour of each question.
 
-### Question Level Simplify  ###
+### Question Level Simplify ###
 
 See the entry on [simplification](../CAS/Simplification.md).  Default is `true`.
 
@@ -20,7 +20,7 @@ asksign queries, such as may arise from integrate or other computations
 
 Default is False
 
-### Question Penalty ### {#Question_penalty}
+### Question Penalty (#Question_penalty) ###
 
 This is the percentage of the marks deducted from each different and valid attempt which is not
 completely correct, when the penalty mark modification scheme is in use.
@@ -36,7 +36,7 @@ any penalty \(\ge 0.66\) and \(\le 0.67\) is changed to \(0.6666667\).
 
 The following options affect how mathematics is displayed.
 
-### Decimal separator ### {#decimals}
+### Decimal separator {#decimals} ###
 
 Choose the symbol for the decimal separator used by student input.  There are currently two choices.
 
@@ -47,7 +47,7 @@ The design of this option is discussed further in the [developer docs](../Develo
 
 Teachers must always use strict Maxima syntax, which requires `.`, including in test case construction.
 
-### Multiplication Sign ### {#multiplication}
+### Multiplication Sign {#multiplication} ###
 
 * (none), e.g. \(x(x+1)\)
 * Dot, e.g. \(x\cdot(x+1)\)

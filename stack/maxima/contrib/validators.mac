@@ -64,7 +64,7 @@ s_test_case(validate_all_one_letter_variables((theta*x+B)/(x^2+1) + C/x), "Only 
 /* This does not work well with "Check type of response" turned on, and provides slightly awkward feedback when students take a union of multiple intervals with incorrect syntax. */
 validate_interval_syntax(ex):= block(
   if ev(listp(ex),simp) then return(sconcat("To give a closed interval, use <code>cc(",first(args(ex)),",",second(args(ex)),")</code>, not <code>[",first(args(ex)),",",second(args(ex)),"]</code>. "))
-  else if ev(ntuplep(ex),simp) then return(sconcat("To give an open interval, use <code>oo(",first(args(ex)),",",second(args(ex)),")</code>, not <code>[",first(args(ex)),",",second(args(ex)),"]</code>. "))
+  else if ev(ntuplep(ex),simp) then return(sconcat("To give an open interval, use <code>oo(",first(args(ex)),",",second(args(ex)),")</code>, not <code>(",first(args(ex)),",",second(args(ex)),")</code>. "))
   else if is(safe_op(ex)="%union") then apply(sconcat, map(validate_interval_syntax, args(ex)))
   else return("")
 );
@@ -73,6 +73,6 @@ s_test_case(validate_interval_syntax(cc(1,2)), "");
 s_test_case(validate_interval_syntax(oo(1,2)), "");
 s_test_case(validate_interval_syntax(%union(cc(1,2),oo(2,3))), "");
 s_test_case(validate_interval_syntax([1,2]), "To give a closed interval, use <code>cc(1,2)</code>, not <code>[1,2]</code>. ");
-s_test_case(validate_interval_syntax(ntuple(1,2)), "To give an open interval, use <code>oo(1,2)</code>, not <code>[1,2]</code>. ");
-s_test_case(validate_interval_syntax(%union([1,2],ntuple(2,3))), "To give a closed interval, use <code>cc(1,2)</code>, not <code>[1,2]</code>. To give an open interval, use <code>oo(1,2)</code>, not <code>[1,2]</code>. ");
+s_test_case(validate_interval_syntax(ntuple(1,2)), "To give an open interval, use <code>oo(1,2)</code>, not <code>(1,2)</code>. ");
+s_test_case(validate_interval_syntax(%union([1,2],ntuple(2,3))), "To give a closed interval, use <code>cc(1,2)</code>, not <code>[1,2]</code>. To give an open interval, use <code>oo(1,2)</code>, not <code>(1,2)</code>. ");
 s_test_case(validate_interval_syntax(%union([1,2],%union(oo(1,2),[2,3]))), "To give a closed interval, use <code>cc(1,2)</code>, not <code>[1,2]</code>. To give a closed interval, use <code>cc(2,3)</code>, not <code>[2,3]</code>. ");

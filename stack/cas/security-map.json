@@ -7299,7 +7299,8 @@
   },
   "stack_reset_vars": {
       "function": "?",
-      "blockexternal": "true"
+      "blockexternal": "true",
+      "contextvariable": "true"
   },
   "stack_validate": {
       "function": "s"

@@ -120,7 +120,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->stackversion = '2019072900';
         $q->name = 'test-0';
-        $q->questionvariables = 'a:1+1;';
+        $q->questionvariables = "stack_reset_vars(true);\na:1+1;";
         $q->questiontext = 'What is {@a@}? [[input:ans1]]
                            [[validation:ans1]]';
         $q->questiondescription = 'This is a great and wonderful question!';

@@ -304,3 +304,10 @@ function stack_fetch_included_content(string $url) {
     $cache[$translated] = false;
     return false;
 }
+
+/**
+ * Fetches the current VLE UI language. Might not be the one that the question uses.
+ */
+function stack_get_system_language(): string {
+    return current_language();
+}

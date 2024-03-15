@@ -383,7 +383,9 @@ class stack_cas_keyval {
                 }
                 if (stack_cas_security::get_feature($op, 'blockexternal') !== null) {
                     $bestatements[] = $statement;
-                } else if (stack_cas_security::get_feature($op, 'contextvariable') !== null) {
+                }
+                // Note that stack_reet_vars needs to be both blockexternal and a contextvariable.
+                if (stack_cas_security::get_feature($op, 'contextvariable') !== null) {
                     $contextvariables[] = $statement;
                 } else {
                     $statements[] = $statement;

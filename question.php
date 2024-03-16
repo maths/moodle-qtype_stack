@@ -537,10 +537,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if ($this->tas[$name]->is_correctly_evaluated()) {
                 $teacheranswer = $this->tas[$name]->get_value();
             }
-            $input->adapt_to_model_answer($teacheranswer);
             if ($this->get_cached('contextvariables-qv') !== null) {
                 $input->add_contextsession(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
             }
+            $input->adapt_to_model_answer($teacheranswer);
         }
     }
 

@@ -503,8 +503,33 @@ class stack_dropdown_input extends stack_input {
      * The dropdown type needs to intercept this to filter the correct answers.
      * @param unknown_type $in
      */
-    public function get_correct_response($in) {
-        $this->adapt_to_model_answer($in);
+    public function get_correct_response($value) {
+        // TODO: refactor this ast creation away.
+        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
+        $cs->set_nounify(0);
+        $val = '';
+        
+        $decimal = '.';
+        $listsep = ',';
+        if ($this->options->get_option('decimals') === ',') {
+            $decimal = ',';
+            $listsep = ';';
+        }
+        $params = array('checkinggroup' => true,
+            'qmchar' => false,
+            'pmchar' => 1,
+            'nosemicolon' => true,
+            'keyless' => true,
+            'dealias' => false, // This is needed to stop pi->%pi etc.
+            'nounify' => 1, // We need to add nouns for checkboxes, e.g. %union.
+            'nontuples' => false,
+            'decimal' => $decimal,
+            'listsep' => $listsep
+        );
+        if ($cs->get_valid()) {
+            $value = $cs->ast_to_string(null, $params);
+        }
+        $this->adapt_to_model_answer($value);
         return $this->maxima_to_response_array($this->teacheranswervalue);
     }
 

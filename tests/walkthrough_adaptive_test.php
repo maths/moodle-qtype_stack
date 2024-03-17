@@ -3563,6 +3563,29 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 );
     }
 
+    public function test_checkbox_union() {
+
+        $q = \test_question_maker::make_question('stack', 'checkbox_union');
+
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/are is the domain/'),
+            new question_pattern_expectation('/cup/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+    }
+
     public function test_test0_do_not_show_penalties() {
 
         // Create the stack question 'test0'.

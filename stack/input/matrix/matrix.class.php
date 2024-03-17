@@ -31,7 +31,8 @@ class stack_matrix_input extends stack_input {
         'simp' => false,
         'consolidatesubscripts' => false,
         'checkvars' => 0,
-        'validator' => false
+        'validator' => false,
+        'feedback' => false,
     );
 
     public function adapt_to_model_answer($teacheranswer) {

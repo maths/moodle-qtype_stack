@@ -361,7 +361,7 @@ abstract class stack_input {
                     }
                     break;
 
-                case 'validator':
+                case 'validator' || 'feedback':
                     // Perform simple checking of function names: not fully general.
                     $good = true;
                     if ($arg === false) {
@@ -1065,7 +1065,8 @@ abstract class stack_input {
                     '', new stack_cas_security(), array());;
         }
 
-        if (array_key_exists('validator', $this->extraoptions) && $this->extraoptions['validator']) {
+        if ((array_key_exists('validator', $this->extraoptions) && $this->extraoptions['validator']) ||
+            (array_key_exists('feedback', $this->extraoptions) && $this->extraoptions['feedback'])) {
             if ($questionvariables) {
                 if ($questionvariables['preamble-qv'] !== null) {
                     $additionalvars['preamble-qv'] = new stack_secure_loader($questionvariables['preamble-qv'], 'preamble');
@@ -1078,8 +1079,14 @@ abstract class stack_input {
                     $additionalvars['statement-qv'] = new stack_secure_loader($questionvariables['statement-qv'], 'statement');
                 }
             }
-            $additionalvars['validator'] = stack_ast_container::make_from_teacher_source(
-                $this->extraoptions['validator'].'('.$this->name.')', '', new stack_cas_security(), array());
+            if ($this->extraoptions['validator']) {
+                $additionalvars['validator'] = stack_ast_container::make_from_teacher_source(
+                    $this->extraoptions['validator'].'('.$this->name.')', '', new stack_cas_security(), array());
+            }
+            if ($this->extraoptions['feedback']) {
+                $additionalvars['feedback'] = stack_ast_container::make_from_teacher_source(
+                    $this->extraoptions['feedback'].'('.$this->name.')', '', new stack_cas_security(), array());
+            }
         }
 
         return $additionalvars;
@@ -1233,6 +1240,29 @@ abstract class stack_input {
                 $errors[] = stack_string('inputvalidatorerrcouldnot');
             }
             $rnerr = $additionalvars['validator']->get_errors();
+            if (trim($rnerr) != '') {
+                $valid = false;
+                $errors[] = stack_string('inputvalidatorerrors', array('err' => $rnerr));
+            }
+        }
+
+        if ($valid && array_key_exists('feedback', $additionalvars)) {
+            $rn = $additionalvars['feedback'];
+            if ($rn->is_correctly_evaluated()) {
+                $rn = $rn->get_ast_clone();
+                $rn = $rn->statement;
+                if ($rn instanceof MP_Boolean && $rn->value == true) {
+                    $valid = true;
+                } else {
+                    if ($rn instanceof MP_String || $rn instanceof MP_List) {
+                        $display .= castext2_parser_utils::postprocess_mp_parsed($rn, $castextprocessor);
+                    }
+                }
+            } else {
+                $valid = false;
+                $errors[] = stack_string('inputvalidatorerrcouldnot');
+            }
+            $rnerr = $additionalvars['feedback']->get_errors();
             if (trim($rnerr) != '') {
                 $valid = false;
                 $errors[] = stack_string('inputvalidatorerrors', array('err' => $rnerr));

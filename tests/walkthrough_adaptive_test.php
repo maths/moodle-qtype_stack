@@ -4421,4 +4421,138 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
             new question_pattern_expectation('/oikea/')
         );
     }
+
+    public function test_input_feedback() {
+
+        $q = test_question_maker::make_question('stack', 'feedback');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('ans', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Find all the complex solutions of the equation/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process an invalidate request.
+        $ia = '1+i';
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('ans', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: 1+i [invalid]; ans: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Your answer should be a set, but is not./'),
+            new question_pattern_expectation('/Remember to enter sets!/'),
+            );
+
+        // Process a validate request.
+        $ia = '{4}';
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('ans', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: {4} [valid]; ans: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Remember to enter sets!/'),
+            );
+
+        // Process a score request.
+        $ia = '{4}';
+        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(0.3);
+        $this->check_prt_score('ans', 0.3, 0.1);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: {4} [score]; ans: # = 0.3 | ATSets_missingentries. | ans-0-F | ans-1-T';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Remember to enter sets!/'),
+            new question_pattern_expectation('/There are more answers that just the single real number./'),
+            );
+
+        // Process incorrect answer..
+        $ia = '{4,4*((-(sqrt(3)*%i)/2)-1/2),4*((sqrt(3)*%i)/2-1/2)}';
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(0.3);
+        $this->check_prt_score('ans', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: {4,4*((-(sqrt(3)*%i)/2)-1/2),4*((sqrt(3)*%i)/2-1/2)} [valid]; ans: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Remember to enter sets!/'),
+            );
+
+        // Process a score request.
+        $ia = '{4,4*((-(sqrt(3)*%i)/2)-1/2),4*((sqrt(3)*%i)/2-1/2)}';
+        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1));
+        $expected = 'Seed: 1; ans1: {4,4*((-(sqrt(3)*%i)/2)-1/2),4*((sqrt(3)*%i)/2-1/2)} [score]; ans: # = 0 | ' .
+            'ATSets_wrongentries. ATSets_missingentries. | ans-0-F | ATSet_wrongsz. | ans-1-F | ATSet_wrongsz. | ans-2-F';
+        $this->check_response_summary($expected);
+
+        $this->check_current_mark(0.3);
+        $this->check_prt_score('ans', 0, 0.1);
+        $this->render();
+
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/The following are missing from your set./'),
+            new question_pattern_expectation('/Remember to enter sets!/'),
+            );
+
+        // Jump to a score request.
+        $ia = '{4,4*i,-4*i,-4}';
+        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1));
+        $expected = 'Seed: 1; ans1: {4,4*i,-4*i,-4} [score]; ans: # = 1 | ans-0-T';
+        $this->check_response_summary($expected);
+
+        $this->check_current_mark(0.8);
+        $this->check_prt_score('ans', 1, 00);
+        $this->render();
+
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_no_pattern_expectation('/The following are missing from your set./'),
+            new question_pattern_expectation('/Remember to enter sets!/'),
+            );
+    }
 }

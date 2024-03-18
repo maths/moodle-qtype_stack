@@ -8,6 +8,7 @@ past development history is documented on [Development history](Development_hist
 This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 
 1. Alter list of acceptible expressions.  Unicode super/subscripts now are invalid.  Use 150_replace filter in students' input.
+2. Add in the extra input option `feedback` to run in parallel with validators to give opportunities for bespoke messages.
 
 TODO:
 

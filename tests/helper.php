@@ -59,6 +59,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'unitsoptions',       // This question has units inputs, and a numerical test with the accuracy in a variable.
             'equiv_quad',         // This question uses equivalence reasoning to solve a quadratic equation.
             'checkbox_all_empty', // Creates a checkbox input with none checked as the correct answer: edge case.
+            'checkbox_union',     // Creates a checkbox input with %union functions: noun edge case.
             'addrow',             // This question has addrows, in an older version.
             'mul',                // This question has mul in the options which is no longer permitted.
             'contextvars',        // This question makes use of the context variables.
@@ -68,7 +69,8 @@ class qtype_stack_test_helper extends question_test_helper {
             'multilang',          // Check for mismatching languages.
             'lang_blocks',        // Check for mismatching languages using STACK's [[lang...]] block mechanism.
             'block_locals',       // Make sure local variables within a block are still permitted student input.
-            'validator'           // Test teacher-defined input validators and language.
+            'validator',          // Test teacher-defined input validators and language.
+            'feedback',           // Test teacher-defined input feedback and complex numbers.
         );
     }
 
@@ -120,7 +122,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->stackversion = '2019072900';
         $q->name = 'test-0';
-        $q->questionvariables = 'a:1+1;';
+        $q->questionvariables = "stack_reset_vars(true);\na:1+1;";
         $q->questiontext = 'What is {@a@}? [[input:ans1]]
                            [[validation:ans1]]';
         $q->questiondescription = 'This is a great and wonderful question!';
@@ -924,9 +926,9 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->stackversion = '2019072900';
         $q->name = 'test-8';
-        $q->questionvariables = "n : rand(2)+3; " .
-                                "p : rand(3)+2; " .
-                                "ta : setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n))";
+        $q->questionvariables = "n : 3; " .
+                                "p : 4; " .
+                                "ta : setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n));";
         $q->questiontext = '<p>Find all the complex solutions of the equation \[ z^{@n@}={@p^n@}.\]
                             Enter your answer as a set of numbers.
                             [[input:ans1]]</p>
@@ -2811,6 +2813,66 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * @return qtype_stack_question a checkbox question using %union, which was problematic
+     */
+    public static function make_stack_question_checkbox_union() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-checkbox-union';
+        $q->questionvariables = 'ta:[[%union(oo(-inf,0),oo(0,inf)),true],[%union({1},{2}),false],' .
+            '[union({1},{4}),false],[A,false,%union({1},{3})]];';
+        $q->questiontext = 'Which of these are is the domain? [[input:ans1]]
+                           [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.3; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'checkbox', 'ans1', 'ta', null, null);
+
+        $q->options->set_option('simplify', false);
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '[]';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
      * @return qtype_stack_question a question which tests checking for addrow in an older question.
      */
     public static function make_stack_question_addrow() {
@@ -3587,5 +3649,125 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
+    }
+
+    /**
+     * @return qtype_stack_question.
+     */
+    public static function make_stack_question_feedback() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'feedback';
+        // We need to check that local variable names within the block are not invalid for student's input.
+        // We need to chack mathematics within the castext is correctly displayed.
+        $q->questionvariables = 'feedback_fn(ex) := "Remember to enter sets!"' .
+            "n : rand(2)+3; " .
+            "p : rand(3)+2; " .
+            "ta : setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n))" .
+            "sc2:0.3";
+        $q->questiontext = '<p>Find all the complex solutions of the equation \[ z^{@n@}={@p^n@}.\]
+                            Enter your answer as a set of numbers.
+                            [[input:ans1]]</p>
+                            [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:ans]]';
+        $q->questionnote = '{@ta@}';
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'ta', null,
+            array('boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}', 
+                'options' => 'feedback:feedback_fn')
+            );
+
+            $feedbackvars = 'a1 : listify(ans1);' .
+                'a1 : maplist(lambda([x],x^n-p^n),a1);' .
+                'a1 : setify(a1)';
+
+            $prt = new stdClass;
+            $prt->name              = 'ans';
+            $prt->id                = 0;
+            $prt->value             = 1;
+            $prt->feedbackstyle     = 1;
+            $prt->feedbackvariables = $feedbackvars;
+            $prt->firstnodename     = '0';
+            $prt->nodes             = [];
+            $prt->autosimplify      = true;
+            $newnode = new stdClass;
+            $newnode->id                  = '0';
+            $newnode->nodename            = '0';
+            $newnode->description         = '';
+            $newnode->sans                = 'ans1';
+            $newnode->tans                = 'ta';
+            $newnode->answertest          = 'Sets';
+            $newnode->testoptions         = '';
+            $newnode->quiet               = false;
+            $newnode->falsescore          = '0';
+            $newnode->falsescoremode      = '=';
+            $newnode->falsepenalty        = $q->penalty;
+            $newnode->falsefeedback       = '';
+            $newnode->falsefeedbackformat = '1';
+            $newnode->falseanswernote     = 'ans-0-F';
+            $newnode->falsenextnode       = '1';
+            $newnode->truescore           = '1';
+            $newnode->truescoremode       = '=';
+            $newnode->truepenalty         = $q->penalty;
+            $newnode->truefeedback        = '';
+            $newnode->truefeedbackformat  = '1';
+            $newnode->trueanswernote      = 'ans-0-T';
+            $newnode->truenextnode        = '-1';
+            $prt->nodes[] = $newnode;
+            $newnode = new stdClass;
+            $newnode->id                  = '1';
+            $newnode->nodename            = '1';
+            $newnode->description         = '';
+            $newnode->sans                = 'ans1';
+            $newnode->tans                = '{p}';
+            $newnode->answertest          = 'AlgEquiv';
+            $newnode->testoptions         = '';
+            $newnode->quiet               = false;
+            $newnode->falsescore          = '0';
+            $newnode->falsescoremode      = '=';
+            $newnode->falsepenalty        = $q->penalty;
+            $newnode->falsefeedback       = '';
+            $newnode->falsefeedbackformat = '1';
+            $newnode->falseanswernote     = 'ans-1-F';
+            $newnode->falsenextnode       = '2';
+            $newnode->truescore           = 'sc2';
+            $newnode->truescoremode       = '=';
+            $newnode->truepenalty         = $q->penalty;
+            $newnode->truefeedback        = '<p>There are more answers that just the single real number.
+                 Please consider complex solutions to this problem!</p>';
+            $newnode->truefeedbackformat  = '1';
+            $newnode->trueanswernote      = 'ans-1-T';
+            $newnode->truenextnode        = '-1';
+            $prt->nodes[] = $newnode;
+            $newnode = new stdClass;
+            $newnode->id                  = '2';
+            $newnode->nodename            = '2';
+            $newnode->description         = '';
+            $newnode->sans                = 'a1';
+            $newnode->tans                = '{0}';
+            $newnode->answertest          = 'AlgEquiv';
+            $newnode->testoptions         = '';
+            $newnode->quiet               = true;
+            $newnode->falsescore          = '0';
+            $newnode->falsescoremode      = '=';
+            $newnode->falsepenalty        = $q->penalty;
+            $newnode->falsefeedback       = '';
+            $newnode->falsefeedbackformat = '1';
+            $newnode->falseanswernote     = 'ans-2-F';
+            $newnode->falsenextnode       = '-1';
+            $newnode->truescore           = 'sc2';
+            $newnode->truescoremode       = '=';
+            $newnode->truepenalty         = $q->penalty;
+            $newnode->truefeedback        =
+            'All your answers satisfy the equation. But, you have missed some of the solutions.';
+            $newnode->truefeedbackformat  = '1';
+            $newnode->trueanswernote      = 'ans-2-T';
+            $newnode->truenextnode        = '-1';
+            $prt->nodes[] = $newnode;
+            $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+            return $q;
     }
 }

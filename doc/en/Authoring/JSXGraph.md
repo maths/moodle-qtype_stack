@@ -433,7 +433,7 @@ Aspect ratio of 3 and relative height
 
 In some situations, it can be quite useful to change the graph state based on the feedback that students get displayed after submitting the task.
 
-With STACK-JS, JSXGraph is contained inside an IFRAME and thus can not directly access DOM elements from the STACK question. So if you want to check weather some feedback is present in the STACK question, you have use the function  `stack_js.get_content(id)` from the stack_js namespace. The functions from this namespace can be called in the Javascript code inside the JSXGraph block just like the binding functions from the `stack_jxg` namespace.
+With STACK-JS, JSXGraph is contained inside an IFRAME and thus can not directly access DOM elements from the STACK question. So if you want to check whether some feedback is present in the STACK question, you have to use the function  `stack_js.get_content(id)` from the stack_js namespace. The functions from this namespace can be called in the JavaScript code inside the JSXGraph block just like the binding functions from the `stack_jxg` namespace.
 
 The following steps should be taken to react to feedback inside of the JSXGraph applet:
 

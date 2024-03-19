@@ -1,0 +1,74 @@
+<model:model xmlns:model="local:model">
+$identify("org/mathdox/formulaeditor/modules/keywords.js");
+
+$require("org/mathdox/formulaeditor/semantics/Keyword.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/KeywordList.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/KeywordList.js");
+$require("org/mathdox/parsing/ParserGenerator.js");
+
+$main(function(){
+
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var cd;
+  var name;
+  var symbol;
+  var newvars = [];
+  var regex = /^[A-Za-z]*$/;
+
+  var hasOnlyLetters = function(s) {
+    return regex.test(s);
+  };
+
+  <model:groupmember>
+  /**
+   * Define the <model:cd/>.<model:name/> keyword.
+   */
+  cd = "<model:cd/>";
+  name = "<model:name/>";
+  symbol = { 
+    onscreen: "<model:onscreen/>", 
+    openmath : null, // use default with model:cd and model:name
+    mathml : "<model:mathml/>"
+  };
+  
+  org.mathdox.formulaeditor.parsing.expression.KeywordList["<model:keyword/>"] = new semantics.Keyword(cd, name, symbol, "<model:type/>", <model:argcount/>);
+
+  if ( "<model:keyword/>" !== "<model:onscreen/>" ) {
+    org.mathdox.formulaeditor.parsing.expression.KeywordList["<model:onscreen/>"] = new semantics.Keyword(cd, name, symbol, "<model:type/>", <model:argcount/>);
+  }
+
+  org.mathdox.formulaeditor.parsing.openmath.KeywordList["<model:cd/>__<model:name/>"] = new semantics.Keyword(cd, name, symbol, "<model:type/>", <model:argcount/>);
+
+  if ( ! hasOnlyLetters("<model:onscreen/>") ) {
+    newvars.push( "<model:onscreen/>" );
+  }
+  </model:groupmember>
+  var pG = new org.mathdox.parsing.ParserGenerator();
+  if(newvars.length &gt; 0) {
+    var args = [];
+    for (var i=0;i &lt; newvars.length; i++) {
+      args.push(pG.literal(newvars[i]));
+    }
+    org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+      function(context) { return {
+        variable : function() {
+          var parent = arguments.callee.parent;
+          pG.alternation(
+            pG.transform(
+              pG.alternation.apply(this, args),
+              function(result) {
+                var result_joined = result.join("");
+
+                // this should be in the keywordlist
+                return org.mathdox.formulaeditor.parsing.expression.KeywordList[result_joined];
+              }
+            ),
+            parent.variable).apply(this, arguments);
+        }
+      };
+    });
+  }
+});
+</model:model>
+

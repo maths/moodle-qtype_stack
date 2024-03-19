@@ -1,0 +1,100 @@
+<model:model xmlns:model="local:model">
+$main(function(){
+
+  /**
+   * Define a semantic tree node that represents the <model:name/>
+   * function.
+   */
+  org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/> =
+    $extend(org.mathdox.formulaeditor.semantics.MultaryOperation, {
+
+      symbol : {
+
+        onscreen : ["<model:name/>(", ")"],
+	openmath : "&lt;OMS cd='<model:cd/>' name='<model:name/>'/&gt;"
+
+      },
+
+      precedence : 0
+
+    })
+
+  /**
+   * Extend the OpenMathParser object with parsing code for
+   * <model:cd/>.<model:name/>.
+   */
+  org.mathdox.formulaeditor.parsing.openmath.OpenMathParser =
+    $extend(org.mathdox.formulaeditor.parsing.openmath.OpenMathParser, {
+
+      /**
+       * Returns a <model:name capitalize="true"/> object based on the OpenMath node.
+       */
+      handle<model:cd capitalize='true'/><model:name capitalize="true"/> : function(node) {
+
+        // parse the children of the OMA
+        var children = node.childNodes;
+        var operands = new Array(children.getLength()-1);
+        for (var i=1; i&lt;children.length; i++) {
+          operands[i-1] = this.handle(children.item(i))
+        }
+
+        // construct a <model:name capitalize="true"/> object
+        var result = new org.mathdox.formulaeditor.semantics.<model:name capitalize="true"/>();
+        result.initialize.apply(result, operands);
+        return result;
+
+      }
+
+    })
+
+  /**
+   * Add the parsing code for <model:name/> operations.
+   */
+  with( org.mathdox.formulaeditor.semantics          ) {
+  with( org.mathdox.formulaeditor.parsing.expression ) {
+  with( new org.mathdox.parsing.ParserGenerator()    ) {
+
+    org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+      function(context) { return {
+
+        // expression160 = <model:name/> | super.expression160
+        expression160 : function() {
+          var parent = arguments.callee.parent;
+          alternation(
+            rule("<model:name/>"),
+            parent.expression160
+          ).apply(this, arguments);
+        },
+
+        // <model:name/> = "<model:name/>(" expression ("," expression)* ")"
+        <model:name/> :
+          transform(
+            concatenation(
+              literal("<model:name/>("),
+              rule("expression"),
+              repetition(
+                concatenation(
+                  literal(","),
+                  rule("expression")
+                )
+              ),
+              literal(")")
+            ),
+            function(result) {
+              var array = new Array();
+              for (var i=1; i+1&lt;result.length; i=i+2) {
+                array.push(result[i]);
+              }
+              var <model:name/> = new <model:name capitalize="true"/>();
+              <model:name/>.initialize.apply(<model:name/>, array);
+              return <model:name/>;
+            }
+          )
+        };
+      })
+
+  }}}
+
+
+});
+</model:model>

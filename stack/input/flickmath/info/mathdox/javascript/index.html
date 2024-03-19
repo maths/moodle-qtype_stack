@@ -1,0 +1,212 @@
+<html>
+
+  <head>
+    <title>org/mathdox/javascript/core.js documentation</title>
+  </head>
+
+  <body>
+    <div style='background-color:#FFF; width:50em; font-family:sans-serif;'>
+
+      <h3>org/mathdox/javascript/core.js documentation</h3>
+      <p>
+        Defines the core javascript functions that allow you to import
+        javascript files, create packages and extend objects.
+      </p>
+
+      <h4>$require and $main</h4>
+      <p>
+        The $require and $main functions allow you to specify that certain
+        javascript files need to be loaded before a main section of code is
+        executed.
+      </p>
+      <p>
+        Example of $require and $main usage:
+        <pre>
+        $require("foo.js");
+        $require("bar.js");
+
+        $main(function(){
+
+          // here you can be sure that both foo.js and bar.js are loaded
+
+        });
+        </pre>
+      </p>
+      <p>
+        When the javascript file that you want to load (for instance, the
+        baz.js from the example below) doesn't contain a call to $main, then the
+        system can not detect whether or not this file has been loaded properly.
+        In this case, you need to specify a second argument to the $require
+        function. This second argument is a function that should return true
+        whenever the file has loaded. Typically, such a function would test for
+        the presence of a variable that is set by the javascript file.
+      </p>
+      <p>
+        Example of $require with two arguments:
+        <pre>
+        $require("foo.js");
+        $require("bar.js");
+        $require("baz.js", function() { return VariableSetByBaz != null; });
+
+        $main(function(){
+
+          // here you can be sure that foo.js, bar.js and baz.js are loaded
+
+        });
+        </pre>
+      </p>
+
+      <h4>$package</h4>
+      <p>
+        Although javascript doesn't have a package system, it is customary to
+        use objects to simulate packages. To facilitate this, the $package
+        function allows you to quickly reference and create package objects.
+      </p>
+      <p>
+        Example of $package usage:
+        <pre>
+        $package("com.foo");
+
+        // now the com.foo package object is guaranteed to exist, so we can
+        // create objects in it
+        com.foo.SomeObject = {
+
+          // attributes and methods go here
+
+        }
+        </pre>
+      </p>
+      <p>
+        The $package function will only create a new package object when it
+        doesn't already exist, so it is safe to call it more than once. Because
+        the $package function also returns the package object it is possible to
+        shorten the example above to the following:
+      </p>
+      <p>
+        Shorter example:
+        <pre>
+        $package("com.foo").SomeObject = {
+
+          // attributes and methods go here
+
+        }
+        </pre>
+      </p>
+
+      <h4>$extend</h4>
+      <p>
+        In javascript constructor functions can be used to simulate classes. The
+        $extend function is meant to facilitate the creation of such
+        class constructors.
+      </p>
+      <p>
+        Example of $extend usage:
+        <pre>
+        var ChildClass = $extend(ParentClass, {
+
+          // methods and attributes of the child class go here
+
+        });
+        </pre>
+      </p>
+      <p>
+        The first argument of the $extend function is the class that you wish
+        to extend (the parent class), and the second argument is an object
+        containing the added methods and attributes of the new class (the child
+        class).
+      </p>
+      <p>
+        The $extend function can also be used to create a new class that doesn't
+        need to inherit something from a parent class. In that case you can use
+        the Object class as a parent.
+      </p>
+      <p>
+        Example of creating a class without a parent class:
+        <pre>
+        var SomeClass = $extend(Object, {
+
+          // methods and attributes of the child class go here
+
+        });
+        </pre>
+      </p>
+      <p>
+        The first argument of the $extend function doesn't have to be a class
+        constructor; it can also be a regular object.
+      </p>
+      <p>
+        Example of creating a class with a parent object:
+        <pre>
+        var NewMathClass = $extend(Math, {
+
+          /**
+           * Override the log method of the Math object so that it will take a
+           * base argument.
+           */
+          log : function(a, base) {
+
+            // check whether a base argument has been specified
+            if (base != null) {
+
+              // use the parent object's log method to calculate the log
+              // with a base argument
+              return (
+                arguments.callee.parent.log(a) /
+                arguments.callee.parent.log(base)
+              );
+
+            }
+            else {
+
+              // forward the function call to the parent object
+              return arguments.callee.parent.log(a);
+
+            }
+
+          }
+
+        });
+
+        // use the new math class to calculate the 2 log of 64 :
+        var newMath = new NewMathClass();
+        alert( newMath.log(64,2) );
+        </pre>
+      </p>
+      <p>
+        As you can see in the example above, you can still use overridden
+        methods through the arguments.callee.parent object.
+      </p>
+
+      <h4>$baseurl</h4>
+      <p>
+        The $baseurl object is a string that contains the url from which the
+        org/mathdox/javascript/core.js file was loaded. This can be used for
+        instance to load images or other files that are closely related to the
+        javascript source files.
+      </p>
+      <p>
+        Example of $baseurl usage:
+        <pre>
+        &lt;script
+          type='text/javascript'
+          src='http://foo.com/bar/org/mathdox/javascript/core.js'
+        >&lt;/script>
+
+        &lt;script type='text/javascript'>
+
+          // shows the string 'http://foo.com/bar/baz/quux.png'
+          alert( $baseurl + "baz/quux.png" );
+
+        &lt;/script>
+        </pre>
+      </p>
+
+      <h4>source code</h4>
+      <p>
+        <a href='core.js'>view the source code</a>
+      </p>
+
+    </div>
+  </body>
+
+</html>

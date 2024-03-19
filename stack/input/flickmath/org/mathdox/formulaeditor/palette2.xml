@@ -1,0 +1,55 @@
+<OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'>
+  <OMA>
+    <OMS cd='editor1' name='palette'/>
+    <OMA>
+      <OMS cd='editor1' name='palette_row'/>
+      <OMS cd='arith1' name='plus'/>
+      <OMS cd='arith1' name='minus'/>
+      <OMS cd='arith1' name='times'/>
+      <OMS cd='logic1' name='and'/>
+      <OMS cd='logic1' name='or'/>
+    </OMA>
+    <OMA>
+      <OMS cd='editor1' name='palette_row'/>
+      <OMS cd='relation1' name='lt'/>
+      <OMS cd='relation1' name='leq'/>
+      <OMS cd='relation1' name='eq'/>
+      <OMS cd='relation1' name='geq'/>
+      <OMS cd='relation1' name='gt'/>
+    </OMA>
+    <OMA>
+      <OMS cd='editor1' name='palette_row'/>
+      <OMS cd='nums1' name='pi'/>
+      <OMS cd='nums1' name='e'/>
+      <OMS cd='nums1' name='i'/>
+      <OMS cd='nums1' name='infinity'/>
+      <OMS cd='editor1' name='palette_whitespace'/>
+    </OMA>
+    <OMA>
+      <OMS cd='editor1' name='palette_row'/>
+      <OMA>
+        <OMS cd='arith1' name='divide'/>
+        <OMS cd='editor1' name='input_box'/>
+        <OMS cd='editor1' name='input_box'/>
+      </OMA>
+      <OMA>
+        <OMS cd='arith1' name='power'/>
+        <OMS cd='editor1' name='input_box'/>
+        <OMS cd='editor1' name='input_box'/>
+      </OMA>
+      <OMA>
+        <OMS cd='arith1' name='abs'/>
+        <OMS cd='editor1' name='input_box'/>
+      </OMA>
+      <OMA>
+        <OMS cd='integer1' name='factorial'/>
+        <OMS cd='editor1' name='input_box'/>
+      </OMA>
+      <OMA>
+        <OMS cd='arith1' name='power'/>
+        <OMS cd='nums1' name='e'/>
+        <OMS cd='editor1' name='input_box'/>
+      </OMA>
+    </OMA>
+  </OMA>
+</OMOBJ>

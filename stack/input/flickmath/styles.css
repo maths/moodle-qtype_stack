@@ -1,0 +1,249 @@
+#flickmath{
+  display: none;
+}
+#flick-div{
+    overflow:visible;
+    padding:0px;
+    margin: 0;
+    border:1px solid #d1d4db;
+    z-index: 2147483647;
+    width: 100%;
+    padding-top:0px;
+    position: fixed;
+    left:0;
+    bottom: 0;
+    background-color: #fff;
+}
+#flick-preview{
+    float:left;
+    height:54px;
+    width:-webkit-calc(60% - 1px);
+    text-align: center;
+    vertical-align: middle;
+    line-height: 54px;
+}
+.flick-arrow{
+    text-align:center;
+    float:left;
+    border:1px solid #d1d4db;
+    border-collapse:collapse;
+    height:54px;
+    width:-webkit-calc(25% - 2px);
+    background-color:#bdbfc0;
+    line-height:54px;
+}
+
+.flick-list{
+    list-style:none;
+    position:relative;
+    padding:0;
+    float:left;
+    margin:0;
+    background-color: #FFFFFF;
+}
+.flick-list li:nth-child(5n+1){
+    clear:left;
+}
+.flick-list li{
+    border:1px solid #d1d4db;
+    border-collapse:collapse;
+    font-size:20px;
+    width:74px;
+    height:54px;
+    text-align:center;
+    line-height:54px; 
+    margin-top:-1px;
+    margin-left: -1px;
+}
+.flick-changekeyboard{
+    background-color: #bdbfc0;
+}
+.flick-menu{
+    background-color: #bdbfc0;
+}
+.flick-active{
+    background-color: #fff;
+}
+.flick-left,.flick-top,.flick-right,.flick-bottom,.flick-right2{
+    display: none;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:1;
+    background-color: #eee;
+    border-radius: 8px 8px 8px 8px;
+}
+.flick-median{
+    z-index: 999;
+}
+.flick-list .flick-left{
+    top:0;
+    left:-75px;
+    border-radius: 8px 0px 0px 8px;
+    box-shadow: -5px 0 5px #CCC;
+    -moz-box-shadow: -5px 0 5px #CCC;
+    -webkit-box-shadow: -5px 0 5px #CCC;
+}
+.flick-list .flick-top{
+    top:-55px;
+    left:0;
+    border-radius: 8px 8px 0px 0px;
+    box-shadow: 0 -5px 5px #CCC;
+    -moz-box-shadow: 0 -5px 5px #CCC;
+    -webkit-box-shadow: 0 -5px 5px #CCC;
+}
+.flick-list .flick-right{
+    top:0px;
+    left:75px;
+    border-radius: 0px 8px 8px 0px;
+    box-shadow: 5px 0 5px #CCC;
+    -moz-box-shadow: 5px 0 5px #CCC;
+    -webkit-box-shadow: 5px 0 5px #CCC;
+}
+.flick-list .flick-bottom{
+    top:55px;
+    left:0;
+    border-radius: 0px 0px 8px 8px;
+    box-shadow: 0 5px 5px #CCC;
+    -moz-box-shadow: 0 5px 5px #CCC;
+    -webkit-box-shadow: 0 5px 5px #CCC;
+}
+.flick-list .flick-right2{
+  top:0px;
+  left:150px;
+  border-radius: 0px 8px 8px 0px;
+  box-shadow: 5px 0 5px #CCC;
+  -moz-box-shadow: 5px 0 5px #CCC;
+  -webkit-box-shadow: 5px 0 5px #CCC;
+}
+
+/*Full-Keyboard CSS*/
+
+.fullkeyboardDiv {
+  padding:0;
+  margin: 0;
+  border:1px solid #d1d4db;
+  z-index: 100;
+  width: 100%;
+  padding-top:0px;
+  position: fixed;
+  left:0;
+  bottom: 0;
+  background-color: #eee;
+  display: none;
+}
+.full-keyboard-line {
+  font-family:  Verdana, Sans-Serif;
+  margin: 1.5vw 0 0 1vw;
+  padding: 0;
+  list-style: none;
+  font-size:calc(90% + 1vw);
+  
+}
+.full-keyboard-line li {
+  float: left;
+  margin: 0 1.58vw 1.5vw 0;
+  width: -webkit-calc(9% - 1.5vw);
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-bottom: 1px solid #999;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+.fullkeyboardDiv .arrows li {
+  float: left;
+  margin: 0 1.5vw 2vw 0;
+  width: -webkit-calc(25% - 1.5vw);
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  background: #fff;
+  border-bottom: 1px solid #999;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+.flickmath-fullkeyboard-letter{
+  background: #fff;
+}
+.flickmath-fullkeyboard-symbol{
+  background: #fff;
+}
+.flickmath-fullkeyboard-functionkey{
+  background-color: #cbd0d3;
+}
+.fullkeyboardDiv .large{
+  font-size:calc(120% + 1vw);
+}
+.fullkeyboardDiv .middle{
+  font-size:calc(65% + 1vw);
+}
+.fullkeyboardDiv .small{
+  font-size:calc(45% + 1vw);
+}
+.fullkeyboardDiv .thirdline{
+  margin-left: -webkit-calc(10% + 3px);
+}
+.fullkeyboardDiv .fourthline{
+  margin-left: -webkit-calc(10% + 3px);
+}
+.fullkeyboardDiv .firstkey{
+  clear: left;
+}
+.full-keyboard-line li:hover {
+  position: relative;
+  top: 1px;
+  left: 1px;
+  border-color: #e5e5e5;
+  cursor: pointer;
+}
+/*
+* Touching key style
+* 動的にクラス追加して使っているのでなるべく下に
+*/
+.flick-ontouch{
+  background-color:#006699;
+  color:white;
+}
+/*吹き出しCSS*/
+.balloon{
+  position:absolute;
+  z-index:9999;
+  display:none;
+  line-height:1.2;
+}
+#balloon_body {
+  position:relative;
+  top:-15px;
+  padding:3vw 1vw 3vw 1vw;
+  background:#cbd0d3;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  -ms-border-radius:3px;
+  border-radius:3px;
+  /*
+  -webkit-box-shadow:0 2px 4px rgba(0, 0, 0, .4);
+  -moz-box-shadow:0 2px 4px rgba(0, 0, 0, .4);
+  -ms-box-shadow:0 2px 4px rgba(0, 0, 0, .4);
+  box-shadow:0 2px 4px rgba(0, 0, 0, .4);
+  */
+}
+
+#balloon_arrow {
+  content:"";
+  position:absolute;
+  bottom:-2px;
+  left:10px;
+  display:block;
+  width:0;
+  height:0;
+  margin-left:-15px;
+  border-width:5px 5px 0 5px;
+  border-style:solid;
+  border-color:#cbd0d3 transparent transparent transparent;
+  z-index: 99999;
+}
+
+.balloon-item{
+  padding:2.5vw;
+}

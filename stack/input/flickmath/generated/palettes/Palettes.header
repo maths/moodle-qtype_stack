@@ -1,0 +1,10 @@
+$package("org.mathdox.formulaeditor");
+
+$identify("org/mathdox/formulaeditor/Palettes.js");
+
+$main(function(){
+  org.mathdox.formulaeditor.Palettes = {
+    /**
+     * The palettestring
+     */
+    defaultPalette: ""+

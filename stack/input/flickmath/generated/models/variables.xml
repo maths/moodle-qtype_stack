@@ -1,0 +1,69 @@
+<model:model xmlns:model="local:model">
+$identify("org/mathdox/formulaeditor/modules/variables.js");
+
+$require("org/mathdox/formulaeditor/semantics/Variable.js");
+$require("org/mathdox/formulaeditor/parsing/expression/ExpressionContextParser.js");
+$require("org/mathdox/formulaeditor/parsing/expression/VariableList.js");
+$require("org/mathdox/formulaeditor/parsing/openmath/VariableList.js");
+$require("org/mathdox/parsing/ParserGenerator.js");
+
+$main(function(){
+
+  var semantics = org.mathdox.formulaeditor.semantics;
+  var name;
+  var symbol;
+  var newvars = [];
+  var regex = /^[A-Za-z]*$/;
+
+  var hasOnlyLetters = function(s) {
+    return regex.test(s);
+  };
+
+  <model:groupmember>
+  /**
+   * Define the <model:name/> variable.
+   */
+  name = "<model:name/>";
+  symbol = { 
+    onscreen: "<model:onscreen/>", 
+    mathml : "<model:mathml/>"
+  };
+  
+  org.mathdox.formulaeditor.parsing.expression.VariableList["<model:name/>"] = new semantics.Variable(name, symbol);
+
+  org.mathdox.formulaeditor.parsing.expression.VariableList["<model:onscreen/>"] = new semantics.Variable(name, symbol);
+
+  org.mathdox.formulaeditor.parsing.openmath.VariableList["<model:name/>"] = new semantics.Variable(name, symbol);
+
+  if ( ! hasOnlyLetters("<model:onscreen/>") ) {
+    newvars.push( "<model:onscreen/>" );
+  }
+  </model:groupmember>
+  var pG = new org.mathdox.parsing.ParserGenerator();
+  if(newvars.length &gt; 0) {
+    var args = [];
+    for (var i=0;i &lt; newvars.length; i++) {
+      args.push(pG.literal(newvars[i]));
+    }
+    org.mathdox.formulaeditor.parsing.expression.ExpressionContextParser.addFunction( 
+      function(context) { return {
+        variable : function() {
+          var parent = arguments.callee.parent;
+          pG.alternation(
+            pG.transform(
+              pG.alternation.apply(this, args),
+              function(result) {
+                var result_joined = result.join("");
+
+                // this should be in the keywordlist
+                return org.mathdox.formulaeditor.parsing.expression.VariableList[result_joined];
+              }
+            ),
+            parent.variable).apply(this, arguments);
+        }
+      };
+    });
+  }
+});
+</model:model>
+

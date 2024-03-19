@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width"> 
+        <title>フリックキーボード</title>
+        <script src="scripts/jquery.min.js"></script>
+        <script type="text/javascript"
+          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+        </script>
+        <style>
+            #flick-div{
+                overflow: hidden;
+                padding:50px;
+                border:1px solid #d1d4db;
+            }
+            .flick-list{
+                list-style:none;
+                position:relative;
+                padding:0;
+                float:left;
+                margin:0;
+            }
+            .flick-list:nth-child(3n+1){
+                clear:left;
+            }
+            .flick-list li{
+                border:1px solid #d1d4db;
+                border-collapse:collapse;
+                font-size:25px;
+                width:50px;
+                height:50px;
+                text-align:center;
+                line-height:50px; 
+                margin-top:-1px;
+                margin-left: -1px;
+            }
+            .flick-list li:hover{
+                background-color:blue;
+                color:white;
+            }
+            .flick-left,.flick-top,.flick-right,.flick-bottom{
+                display: none;
+                position:absolute;
+                top:0;
+                left:0;
+                z-index:1;
+                background-color: #eee;
+            }
+            .flick-list .flick-left{
+                top:0;
+                left:-51px;
+            }
+            .flick-list .flick-top{
+                top:-51px;
+                left:0;
+            }
+            .flick-list .flick-right{
+                top:0px;
+                left:51px;
+            }
+            .flick-list .flick-bottom{
+                top:51px;
+                left:0;
+            }
+        </style>
+    </head>
+    <input type="text" id="flickInput">
+    <div id="flick-div">
+        <ul class="flick-list">
+            <li class="flick-median">\(1\)</li>
+            <li class="flick-left">1x</li>
+            <li class="flick-top">\(1^□\)</li>
+            <li class="flick-right">1y</li>
+            <li class="flick-bottom">/1</li>
+        </ul>
+        <ul class="flick-list">
+            <li class="flick-median">2</li>
+            <li class="flick-left">き</li>
+            <li class="flick-top">く</li>
+            <li class="flick-right">け</li>
+            <li class="flick-bottom">こ</li>
+        </ul>
+        <ul class="flick-list">
+            <li class="flick-median">3</li>
+            <li class="flick-left">し</li>
+            <li class="flick-top">す</li>
+            <li class="flick-right">せ</li>
+            <li class="flick-bottom">そ</li>
+        </ul>
+        <ul class="flick-list">
+            <li class="flick-median">4</li>
+            <li class="flick-left">5</li>
+            <li class="flick-top">つ</li>
+            <li class="flick-right">て</li>
+            <li class="flick-bottom">と</li>
+        </ul>
+        <ul class="flick-list">
+            <li class="flick-median">6</li>
+            <li class="flick-left">に</li>
+            <li class="flick-top">ぬ</li>
+            <li class="flick-right">ね</li>
+            <li class="flick-bottom">の</li>
+        </ul>
+        <ul class="flick-list">
+            <li class="flick-median">は</li>
+            <li class="flick-left">ひ</li>
+            <li class="flick-top">ふ</li>
+            <li class="flick-right">へ</li>
+            <li class="flick-bottom">ほ</li>
+        </ul>
+        <ul class="flick-list">
+            <li class="flick-median">ま</li>
+            <li class="flick-left">み</li>
+            <li class="flick-top">む</li>
+            <li class="flick-right">め</li>
+            <li class="flick-bottom">も</li>
+        </ul>
+        <ul class="flick-list">
+            <li class="flick-median">や</li>
+            <li class="flick-top">ゆ</li>
+            <li class="flick-bottom">よ</li>
+        </ul>
+        <ul class="flick-list">
+            <li class="flick-median">ら</li>
+            <li class="flick-left">り</li>
+            <li class="flick-top">る</li>
+            <li class="flick-right">れ</li>
+            <li class="flick-bottom">ろ</li>
+        </ul>
+        <ul class="flick-list">
+            <li class="flick-median"></li>
+            <li class="flick-left">゛</li>
+            <li class="flick-right">゜</li>
+        </ul>
+        <ul class="flick-list">
+            <li class="flick-median">わ</li>
+            <li class="flick-left">を</li>
+            <li class="flick-right">ん</li>
+        </ul>
+        <ul class="flick-list">
+            <li class="flick-median">、</li>
+            <li class="flick-left">。</li>
+            <li class="flick-top">？</li>
+            <li class="flick-right">！</li>
+        </ul>
+    </div>
+    <script>
+        var isTouch = ((typeof window.ontouchstart) !== 'undefined');
+        var touchStart = isTouch ? 'touchstart' : 'mousedown';
+        var touchEnd = isTouch ? 'touchend' : 'mouseup';
+
+        $('.flick-median').on(touchStart, function(e){
+            e.preventDefault();
+            
+            console.log("touchStart");
+            
+            $(this).nextAll().show();
+        });
+        $('.flick-list li').on(touchEnd, function(e){
+            e.preventDefault();
+            var thisX, thisY;
+            thisX = e.clientX || e.originalEvent.changedTouches[0].clientX;
+            thisY = e.clientY || e.originalEvent.changedTouches[0].clientY;
+            console.log(e);
+            
+            console.log("touchEnd");
+            console.log(this);
+            //var inputVal =$('#flickInput').val() + $(this).html();
+            var $select = $(document.elementFromPoint(thisX,thisY));
+            if( $select.is( $(this).parent().children() ) ){
+                var inputVal =$('#flickInput').val() + $select.html();
+                $('#flickInput').val(inputVal)
+            }
+            $(this).parent().children(':not(.flick-median)').hide();
+        });
+    </script>
+</html>

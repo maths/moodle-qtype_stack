@@ -1,0 +1,251 @@
+<OMOBJ version='2.0' xmlns='http://www.openmath.org/OpenMath'>
+  <OMA>
+    <OMS cd='editor1' name='palette'/>
+    <OMA>
+      <OMS cd='editor1' name='palette_tab'/>
+      <OMA>
+        <OMS cd='editor1' name='palette_row'/>
+        <OMS cd='arith1' name='plus'/>
+        <OMS cd='arith1' name='minus'/>
+        <OMS cd='arith1' name='times'/>
+        <OMS cd='logic1' name='and'/>
+        <OMS cd='logic1' name='or'/>
+        <OMA>
+          <OMS cd='transc1' name='cos'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='arith1' name='root'/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMI>2</OMI>
+        </OMA>
+        <OMA>
+          <OMS cd="calculus1" name="int"/>
+          <OMBIND>
+            <OMS cd="fns1" name="lambda"/>
+            <OMBVAR>
+              <OMV name="x"/>
+            </OMBVAR>
+            <OMS cd='editor1' name='input_box'/>
+          </OMBIND>
+        </OMA>
+        <OMA>
+          <OMS cd="calculus1" name="defint"/>
+          <OMA>
+            <OMS cd="interval1" name="interval"/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+          </OMA>
+          <OMBIND>
+            <OMS cd="fns1" name="lambda"/>
+            <OMBVAR>
+              <OMV name="x"/>
+            </OMBVAR>
+            <OMS cd='editor1' name='input_box'/>
+          </OMBIND>
+        </OMA>
+        <OMS cd='editor1' name='palette_whitespace'/>
+        <OMA>
+          <OMS cd='interval1' name='interval_cc'/>
+  	  <OMS cd='editor1' name='input_box'/>
+  	  <OMS cd='editor1' name='input_box'/>
+        </OMA>
+      </OMA>
+      <OMA>
+        <OMS cd='editor1' name='palette_row'/>
+        <OMS cd='relation1' name='lt'/>
+        <OMS cd='relation1' name='leq'/>
+        <OMS cd='relation1' name='eq'/>
+        <OMS cd='relation1' name='geq'/>
+        <OMS cd='relation1' name='gt'/>
+        <OMA>
+          <OMS cd='transc1' name='sin'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='arith1' name='root'/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd="arith1" name="product"/>
+          <OMA>
+            <OMS cd="interval1" name="integer_interval"/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+          </OMA>
+          <OMBIND>
+            <OMS cd="fns1" name="lambda"/>
+            <OMBVAR>
+              <OMV name="n"/>
+            </OMBVAR>
+            <OMS cd='editor1' name='input_box'/>
+          </OMBIND>
+        </OMA>
+        <OMA>
+          <OMS cd="arith1" name="sum"/>
+            <OMA>
+              <OMS cd="interval1" name="integer_interval"/>
+              <OMS cd='editor1' name='input_box'/>
+              <OMS cd='editor1' name='input_box'/>
+            </OMA>
+          <OMBIND>
+            <OMS cd="fns1" name="lambda"/>
+            <OMBVAR>
+              <OMV name="n"/>
+            </OMBVAR>
+            <OMS cd='editor1' name='input_box'/>
+          </OMBIND>
+        </OMA>
+        <OMA>
+          <OMS cd='linalg1' name='determinant'/>
+  	  <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='interval1' name='interval_co'/>
+  	  <OMS cd='editor1' name='input_box'/>
+  	  <OMS cd='editor1' name='input_box'/>
+        </OMA>
+      </OMA>
+      <OMA>
+        <OMS cd='editor1' name='palette_row'/>
+        <OMS cd='nums1' name='pi'/>
+        <OMS cd='nums1' name='e'/>
+        <OMS cd='nums1' name='i'/>
+        <OMS cd='nums1' name='infinity'/>
+        <OMS cd='editor1' name='palette_whitespace'/>
+        <OMA>
+          <OMS cd='transc1' name='tan'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='list1' name='list'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='linalg2' name='vector'/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='linalg2' name='matrix'/>
+          <OMA>
+            <OMS cd='linalg2' name='matrixrow'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+          </OMA>
+          <OMA>
+            <OMS cd='linalg2' name='matrixrow'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+          </OMA>
+        </OMA>
+        <OMA>
+          <OMS cd='linalg2' name='matrix'/>
+          <OMA>
+            <OMS cd='linalg2' name='matrixrow'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+          </OMA>
+          <OMA>
+            <OMS cd='linalg2' name='matrixrow'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+          </OMA>
+        </OMA>
+        <OMA>
+          <OMS cd='interval1' name='interval_oc'/>
+  	  <OMS cd='editor1' name='input_box'/>
+  	  <OMS cd='editor1' name='input_box'/>
+        </OMA>
+      </OMA>
+      <OMA>
+        <OMS cd='editor1' name='palette_row'/>
+        <OMA>
+          <OMS cd='arith1' name='divide'/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='arith1' name='power'/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='arith1' name='abs'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='integer1' name='factorial'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='arith1' name='power'/>
+          <OMS cd='nums1' name='e'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='transc1' name='ln'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='transc1' name='log'/>
+          <OMI>10</OMI>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='linalg2' name='vector'/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='editor1' name='input_box'/>
+          <OMS cd='editor1' name='input_box'/>
+        </OMA>
+        <OMA>
+          <OMS cd='linalg2' name='matrix'/>
+          <OMA>
+            <OMS cd='linalg2' name='matrixrow'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+          </OMA>
+          <OMA>
+            <OMS cd='linalg2' name='matrixrow'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+          </OMA>
+          <OMA>
+            <OMS cd='linalg2' name='matrixrow'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+          </OMA>
+        </OMA>
+        <OMA>
+          <OMS cd='linalg2' name='matrix'/>
+          <OMA>
+            <OMS cd='linalg2' name='matrixrow'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+          </OMA>
+          <OMA>
+            <OMS cd='linalg2' name='matrixrow'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+          </OMA>
+          <OMA>
+            <OMS cd='linalg2' name='matrixrow'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+            <OMS cd='editor1' name='input_box'/>
+          </OMA>
+        </OMA>
+        <OMA>
+          <OMS cd='interval1' name='interval_oo'/>
+  	  <OMS cd='editor1' name='input_box'/>
+  	  <OMS cd='editor1' name='input_box'/>
+        </OMA>
+      </OMA>
+    </OMA>
+  </OMA>
+</OMOBJ>

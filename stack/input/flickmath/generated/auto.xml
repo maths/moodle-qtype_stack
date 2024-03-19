@@ -1,0 +1,1058 @@
+<model:list xmlns:model="local:model">
+  <!-- arith1.minus -->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/arith1/minus.js"
+  >
+    <model:associative>false</model:associative>
+    <model:cd>arith1</model:cd>
+    <model:name>minus</model:name>
+    <model:precedence>120</model:precedence>
+    <model:precedence2>130</model:precedence2>
+    <model:symbol_enter>-</model:symbol_enter>
+    <model:symbol_mathml>-</model:symbol_mathml>
+    <model:symbol_screen>-</model:symbol_screen>
+  </model:instance>
+  <!-- arith1.plus -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/arith1/plus.js"
+  >
+    <model:cd>arith1</model:cd>
+    <model:name>plus</model:name>
+    <model:allow_invisible>true</model:allow_invisible>
+    <model:precedence>120</model:precedence>
+    <model:precedence2>130</model:precedence2>
+    <model:symbol_enter>+</model:symbol_enter>
+    <model:symbol_mathml>+</model:symbol_mathml>
+    <!-- U+2064 invisible plus -->
+    <model:symbol_mathml_invisible>&#x2064;</model:symbol_mathml_invisible>
+    <model:symbol_screen>+</model:symbol_screen>
+  </model:instance>
+  <!-- integer1.factorial -->
+  <model:instance model="models/unary.xml"
+    target="org/mathdox/formulaeditor/modules/integer1/factorial.js"
+  >
+    <model:cd>integer1</model:cd>
+    <model:name>factorial</model:name>
+    <model:precedence>140</model:precedence>
+    <model:precedence2>150</model:precedence2>
+    <model:symbol_enter_pre></model:symbol_enter_pre>
+    <model:symbol_enter_post>!</model:symbol_enter_post>
+    <model:symbol_mathml_pre></model:symbol_mathml_pre>
+    <model:symbol_mathml_post>!</model:symbol_mathml_post>
+    <model:symbol_screen_pre></model:symbol_screen_pre>
+    <model:symbol_screen_post>!</model:symbol_screen_post>
+  </model:instance>
+  <!-- interval1.interval_cc -->
+  <model:instance model="models/interval.xml"
+    target="org/mathdox/formulaeditor/modules/interval1/interval_cc.js"
+  >
+    <model:oo>cc</model:oo>
+    <model:leftOpen>false</model:leftOpen>
+    <model:rightOpen>false</model:rightOpen>
+  </model:instance>
+  <!-- interval1.interval_co -->
+  <model:instance model="models/interval.xml"
+    target="org/mathdox/formulaeditor/modules/interval1/interval_co.js"
+  >
+    <model:oo>co</model:oo>
+    <model:leftOpen>false</model:leftOpen>
+    <model:rightOpen>true</model:rightOpen>
+  </model:instance>
+  <!-- interval1.interval_oc -->
+  <model:instance model="models/interval.xml"
+    target="org/mathdox/formulaeditor/modules/interval1/interval_oc.js"
+  >
+    <model:oo>oc</model:oo>
+    <model:leftOpen>true</model:leftOpen>
+    <model:rightOpen>false</model:rightOpen>
+  </model:instance>
+  <!-- interval1.interval_oo -->
+  <model:instance model="models/interval.xml"
+    target="org/mathdox/formulaeditor/modules/interval1/interval_oo.js"
+  >
+    <model:oo>oo</model:oo>
+    <model:leftOpen>true</model:leftOpen>
+    <model:rightOpen>true</model:rightOpen>
+  </model:instance>
+  <!-- logic1.and -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/logic1/and.js"
+  >
+    <model:cd>logic1</model:cd>
+    <model:name>and</model:name>
+    <model:precedence>100</model:precedence>
+    <model:precedence2>110</model:precedence2>
+    <model:symbol_enter>&amp;&amp;</model:symbol_enter>
+    <!-- U+2227 logical and -->
+    <model:symbol_mathml>&#x2227;</model:symbol_mathml>
+    <!-- U+2227 logical and -->
+    <model:symbol_screen>&#x2227;</model:symbol_screen>
+  </model:instance>
+  <!-- logic1.equivalent -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/logic1/equivalent.js"
+  >
+    <model:cd>logic1</model:cd>
+    <model:name>equivalent</model:name>
+    <model:precedence>70</model:precedence>
+    <model:precedence2>80</model:precedence2>
+    <model:symbol_enter>&lt;=&gt;</model:symbol_enter>
+    <!-- U+21D4 left right double arrow -->
+    <model:symbol_mathml>&#x21D4;</model:symbol_mathml>
+    <!-- U+21D4 logical and -->
+    <model:symbol_screen>&#x21D4;</model:symbol_screen>
+  </model:instance>
+  <!-- logic1.implies -->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/logic1/implies.js"
+  >
+    <model:associative>true</model:associative>
+    <model:cd>logic1</model:cd>
+    <model:name>implies</model:name>
+    <model:precedence>80</model:precedence>
+    <model:precedence2>90</model:precedence2>
+    <model:symbol_enter>=&gt;</model:symbol_enter>
+    <!-- U+21D2 rightwards double arrow -->
+    <model:symbol_mathml>&#x21D2;</model:symbol_mathml>
+    <!-- U+21D2 rightwards double arrow -->
+    <model:symbol_screen>&#x21D2;</model:symbol_screen>
+  </model:instance>
+  <!-- logic1.not -->
+  <model:instance model="models/unary.xml"
+    target="org/mathdox/formulaeditor/modules/logic1/not.js"
+  >
+    <model:cd>logic1</model:cd>
+    <model:name>not</model:name>
+    <model:precedence>140</model:precedence>
+    <model:precedence2>150</model:precedence2>
+    <model:symbol_enter_pre>!</model:symbol_enter_pre>
+    <model:symbol_enter_post></model:symbol_enter_post>
+    <!-- U+00AC not sign -->
+    <model:symbol_mathml_pre>&#x00AC;</model:symbol_mathml_pre>
+    <model:symbol_mathml_post></model:symbol_mathml_post>
+    <!-- U+00AC not sign -->
+    <model:symbol_screen_pre>&#x00AC;</model:symbol_screen_pre>
+    <model:symbol_screen_post></model:symbol_screen_post>
+  </model:instance>
+  <!-- logic1.or -->
+  <model:instance model="models/infix.xml"
+    target="org/mathdox/formulaeditor/modules/logic1/or.js"
+  >
+    <model:cd>logic1</model:cd>
+    <model:name>or</model:name>
+    <model:precedence>90</model:precedence>
+    <model:precedence2>100</model:precedence2>
+    <model:symbol_enter>||</model:symbol_enter>
+    <!-- U+2228 logical or -->
+    <model:symbol_mathml>&#x2228;</model:symbol_mathml>
+    <!-- U+2228 logical or -->
+    <model:symbol_screen>&#x2228;</model:symbol_screen>
+  </model:instance>
+  <!-- permutation1.left_compose -->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/permutation1/left_compose.js"
+  >
+    <model:associative>true</model:associative>
+    <model:cd>permutation1</model:cd>
+    <model:name>left_compose</model:name>
+    <model:precedence>130</model:precedence>
+    <model:precedence2>140</model:precedence2>
+    <!-- U+2218 ring operator -->
+    <model:symbol_enter>&#x2218;</model:symbol_enter>
+    <!-- U+2218 ring operator -->
+    <model:symbol_mathml>&#x2218;</model:symbol_mathml>
+    <!-- U+2218 ring operator-->
+    <model:symbol_screen>&#x2218;</model:symbol_screen>
+  </model:instance>
+  <!-- relation1.approx -->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/approx.js"
+  >
+    <model:associative>true</model:associative>
+    <model:cd>relation1</model:cd>
+    <model:name>approx</model:name>
+    <model:precedence>110</model:precedence>
+    <model:precedence2>120</model:precedence2>
+    <model:symbol_enter>~~</model:symbol_enter>
+    <!-- U+2248 almost equal to -->
+    <model:symbol_mathml>&#x2248;</model:symbol_mathml>
+    <!-- U+2248 almost equal to -->
+    <model:symbol_screen>&#x2248;</model:symbol_screen>
+  </model:instance>
+  <!-- relation1.eq see relation2.eqs -->
+  <!-- relation1.geq -->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/geq.js"
+  >
+    <model:associative>true</model:associative>
+    <model:cd>relation1</model:cd>
+    <model:name>geq</model:name>
+    <model:precedence>110</model:precedence>
+    <model:precedence2>120</model:precedence2>
+    <model:symbol_enter>&gt;=</model:symbol_enter>
+    <!-- U+2265 greater than or equal to -->
+    <model:symbol_mathml>&#x2265;</model:symbol_mathml>
+    <!-- U+2265 greater than or equal to -->
+    <model:symbol_screen>&#x2265;</model:symbol_screen>
+  </model:instance>
+  <!-- relation1.gt -->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/gt.js"
+  >
+    <model:associative>true</model:associative>
+    <model:cd>relation1</model:cd>
+    <model:name>gt</model:name>
+    <model:precedence>110</model:precedence>
+    <model:precedence2>120</model:precedence2>
+    <model:symbol_enter>&gt;</model:symbol_enter>
+    <model:symbol_mathml>&amp;gt;</model:symbol_mathml>
+    <model:symbol_screen>&gt;</model:symbol_screen>
+  </model:instance>
+  <!-- relation1.leq -->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/leq.js"
+  >
+    <model:associative>true</model:associative>
+    <model:cd>relation1</model:cd>
+    <model:name>leq</model:name>
+    <model:precedence>110</model:precedence>
+    <model:precedence2>120</model:precedence2>
+    <model:symbol_enter>&lt;=</model:symbol_enter>
+    <!-- U+2264 less than or equal to -->
+    <model:symbol_mathml>&#x2264;</model:symbol_mathml>
+    <!-- U+2264 less than or equal to -->
+    <model:symbol_screen>&#x2264;</model:symbol_screen>
+  </model:instance>
+  <!-- relation1.lt -->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/lt.js"
+  >
+    <model:associative>true</model:associative>
+    <model:cd>relation1</model:cd>
+    <model:name>lt</model:name>
+    <model:precedence>110</model:precedence>
+    <model:precedence2>120</model:precedence2>
+    <model:symbol_enter>&lt;</model:symbol_enter>
+    <model:symbol_mathml>&amp;lt;</model:symbol_mathml>
+    <model:symbol_screen>&lt;</model:symbol_screen>
+  </model:instance>
+  <!-- relation1.neq -->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/neq.js"
+  >
+    <model:associative>true</model:associative>
+    <model:cd>relation1</model:cd>
+    <model:name>neq</model:name>
+    <model:precedence>110</model:precedence>
+    <model:precedence2>120</model:precedence2>
+    <model:symbol_enter>&lt;&gt;</model:symbol_enter>
+    <!-- U+2260 not equal to -->
+    <model:symbol_mathml>&#x2260;</model:symbol_mathml>
+    <!-- U+2260 not equal to -->
+    <model:symbol_screen>&#x2260;</model:symbol_screen>
+  </model:instance>
+  <!-- relation2.eqs and relation1.eq -->
+  <model:instance model="models/infix-different.xml"
+    target="org/mathdox/formulaeditor/modules/relation1/eq.js"
+  >
+    <model:binary_cd>relation1</model:binary_cd>
+    <model:binary_name>eq</model:binary_name>
+    <model:nary_cd>relation2</model:nary_cd>
+    <model:nary_name>eqs</model:nary_name>
+    <model:precedence>110</model:precedence>
+    <model:precedence2>120</model:precedence2>
+    <model:symbol_enter>=</model:symbol_enter>
+    <model:symbol_mathml>=</model:symbol_mathml>
+    <model:symbol_screen>=</model:symbol_screen>
+  </model:instance>
+  <!-- set1.in -->
+  <model:instance model="models/infix-once.xml"
+    target="org/mathdox/formulaeditor/modules/set1/in.js"
+  >
+    <model:associative>true</model:associative>
+    <model:cd>set1</model:cd>
+    <model:name>in</model:name>
+    <model:precedence>110</model:precedence>
+    <model:precedence2>120</model:precedence2>
+    <model:symbol_enter>&#x2208;</model:symbol_enter>
+    <!-- U+2208 element of -->
+    <model:symbol_mathml>&#x2208;</model:symbol_mathml>
+    <!-- U+2208 element of -->
+    <model:symbol_screen>&#x2208;</model:symbol_screen>
+  </model:instance>
+
+  <!--
+    Keywords
+  -->
+  <model:group model="models/keywords.xml" 
+    target="org/mathdox/formulaeditor/modules/keywords.js"
+  >
+    <!-- arith1.gcd -->
+    <model:instance>
+      <model:argcount>null</model:argcount>
+      <model:cd>arith1</model:cd>
+      <model:keyword>gcd</model:keyword>
+      <model:mathml>&lt;mi&gt;gcd&lt;/mi&gt;</model:mathml>
+      <model:name>gcd</model:name>
+      <model:onscreen>gcd</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- arith1.lcm -->
+    <model:instance>
+      <model:argcount>null</model:argcount>
+      <model:cd>arith1</model:cd>
+      <model:keyword>lcm</model:keyword>
+      <model:mathml>&lt;mi&gt;lcm&lt;/mi&gt;</model:mathml>
+      <model:name>lcm</model:name>
+      <model:onscreen>lcm</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- editor1.input_box -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>editor1</model:cd>
+      <!--  U+25A1 white square -->
+      <model:keyword>□</model:keyword>
+      <!--  U+25A1 white square -->
+      <model:mathml>&lt;mi&gt;□&lt;/mi&gt;</model:mathml>
+      <model:name>input_box</model:name>
+      <!--  U+25A1 white square -->
+      <model:onscreen>□</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- editor1.palette_whitespace -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>editor1</model:cd>
+      <model:keyword></model:keyword>
+      <model:mathml></model:mathml>
+      <model:name>palette_whitespace</model:name>
+      <model:onscreen> </model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- linalg1.determinant -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>linalg1</model:cd>
+      <model:keyword>det</model:keyword>
+      <model:mathml>&lt;mi&gt;det&lt;/mi&gt;</model:mathml>
+      <model:name>determinant</model:name>
+      <model:onscreen>det</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- logic1.false -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>logic1</model:cd>
+      <model:keyword>false</model:keyword>
+      <model:mathml>&lt;mi&gt;false&lt;/mi&gt;</model:mathml>
+      <model:name>false</model:name>
+      <model:onscreen>false</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- logic1.true -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>logic1</model:cd>
+      <model:keyword>true</model:keyword>
+      <model:mathml>&lt;mi&gt;true&lt;/mi&gt;</model:mathml>
+      <model:name>true</model:name>
+      <model:onscreen>true</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- nums1.e -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>nums1</model:cd>
+      <model:keyword>e</model:keyword>
+      <model:mathml>&lt;mi&gt;e&lt;/mi&gt;</model:mathml>
+      <model:name>e</model:name>
+      <model:onscreen>e</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- nums1.i -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>nums1</model:cd>
+      <model:keyword>i</model:keyword>
+      <model:mathml>&lt;mi&gt;i&lt;/mi&gt;</model:mathml>
+      <model:name>i</model:name>
+      <model:onscreen>i</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- nums1.infinity -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>nums1</model:cd>
+      <model:keyword>infinity</model:keyword>
+      <!-- U+221E infinity -->
+      <model:mathml>&lt;mi&gt;&#x221E;&lt;/mi&gt;</model:mathml>
+      <model:name>infinity</model:name>
+      <!-- U+221E infinity -->
+      <model:onscreen>&#x221E;</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- nums1.pi -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>nums1</model:cd>
+      <model:keyword>pi</model:keyword>
+      <!-- U+03C0 greek small letter pi -->
+      <model:mathml>&lt;mi&gt;&#x03c0;&lt;/mi&gt;</model:mathml>
+      <model:name>pi</model:name>
+      <!-- U+03C0 greek small letter pi -->
+      <model:onscreen>&#x03c0;</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- permutation1.sign -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>permutation1</model:cd>
+      <model:keyword>sgn</model:keyword>
+      <model:mathml>&lt;mi&gt;sgn&lt;/mi&gt;</model:mathml>
+      <model:name>sign</model:name>
+      <model:onscreen>sgn</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- plangeo7.triangle -->
+    <model:instance>
+      <model:argcount>3</model:argcount>
+      <model:cd>plangeo7</model:cd>
+      <model:keyword>triangle</model:keyword>
+      <model:mathml>&lt;mo&gt;&#x25B3;&lt;/mo&gt;</model:mathml>
+      <model:name>triangle</model:name>
+      <model:onscreen>&#x25B3;</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- setname1.C -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>setname1</model:cd>
+      <model:keyword>CC</model:keyword>
+      <!-- U+2102 double-struck capital c -->
+      <model:mathml>&lt;mi&gt;&#x2102;&lt;/mi&gt;</model:mathml>
+      <model:name>C</model:name>
+      <!-- U+2102 double-struck capital c -->
+      <model:onscreen>&#x2102;</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- setname1.N -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>setname1</model:cd>
+      <model:keyword>NN</model:keyword>
+      <!-- U+2115 double-struck capital n -->
+      <model:mathml>&lt;mi&gt;&#x2115;&lt;/mi&gt;</model:mathml>
+      <model:name>N</model:name>
+      <!-- U+2115 double-struck capital n -->
+      <model:onscreen>&#x2115;</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- setname1.P -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>setname1</model:cd>
+      <model:keyword>PP</model:keyword>
+      <!-- U+2119 double-struck capital p -->
+      <model:mathml>&lt;mi&gt;&#x2119;&lt;/mi&gt;</model:mathml>
+      <model:name>P</model:name>
+      <!-- U+2119 double-struck capital p -->
+      <model:onscreen>&#x2119;</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- setname1.Q -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>setname1</model:cd>
+      <model:keyword>QQ</model:keyword>
+      <!-- U+211A double-struck capital q -->
+      <model:mathml>&lt;mi&gt;&#x211A;&lt;/mi&gt;</model:mathml>
+      <model:name>Q</model:name>
+      <!-- U+211A double-struck capital q -->
+      <model:onscreen>&#x211A;</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- setname1.R -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>setname1</model:cd>
+      <model:keyword>RR</model:keyword>
+      <!-- U+211D double-struck capital r -->
+      <model:mathml>&lt;mi&gt;&#x211D;&lt;/mi&gt;</model:mathml>
+      <model:name>R</model:name>
+      <!-- U+211D double-struck capital r -->
+      <model:onscreen>&#x211D;</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- setname1.Z -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>setname1</model:cd>
+      <model:keyword>ZZ</model:keyword>
+      <!-- U+2124 double-struck capital z -->
+      <model:mathml>&lt;mi&gt;&#x2124;&lt;/mi&gt;</model:mathml>
+      <model:name>Z</model:name>
+      <!-- U+2124 double-struck capital z -->
+      <model:onscreen>&#x2124;</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- set1.emptyset -->
+    <model:instance>
+      <model:argcount>0</model:argcount>
+      <model:cd>set1</model:cd>
+      <model:keyword>emptyset</model:keyword>
+      <!-- U+2205 empty set -->
+      <model:mathml>&lt;mi&gt;&#x2205;&lt;/mi&gt;</model:mathml>
+      <model:name>emptyset</model:name>
+      <!-- U+2205 empty set -->
+      <model:onscreen>&#x2205;</model:onscreen>
+      <model:type>constant</model:type>
+    </model:instance>
+    <!-- transc1.arccos -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>arccos</model:keyword>
+      <model:mathml>&lt;mi&gt;arccos&lt;/mi&gt;</model:mathml>
+      <model:name>arccos</model:name>
+      <model:onscreen>arccos</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.arccosh -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>arccosh</model:keyword>
+      <model:mathml>&lt;mi&gt;arccosh&lt;/mi&gt;</model:mathml>
+      <model:name>arccosh</model:name>
+      <model:onscreen>arccosh</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.arccot -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>arccot</model:keyword>
+      <model:mathml>&lt;mi&gt;arccot&lt;/mi&gt;</model:mathml>
+      <model:name>arccot</model:name>
+      <model:onscreen>arccot</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.arccoth -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>arccoth</model:keyword>
+      <model:mathml>&lt;mi&gt;arccoth&lt;/mi&gt;</model:mathml>
+      <model:name>arccoth</model:name>
+      <model:onscreen>arccoth</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.arccsc -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>arccsc</model:keyword>
+      <model:mathml>&lt;mi&gt;arccsc&lt;/mi&gt;</model:mathml>
+      <model:name>arccsc</model:name>
+      <model:onscreen>arccsc</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.arccsch -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>arccsch</model:keyword>
+      <model:mathml>&lt;mi&gt;arccsch&lt;/mi&gt;</model:mathml>
+      <model:name>arccsch</model:name>
+      <model:onscreen>arccsch</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.arcsec -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>arcsec</model:keyword>
+      <model:mathml>&lt;mi&gt;arcsec&lt;/mi&gt;</model:mathml>
+      <model:name>arcsec</model:name>
+      <model:onscreen>arcsec</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.arcsech -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>arcsech</model:keyword>
+      <model:mathml>&lt;mi&gt;arcsech&lt;/mi&gt;</model:mathml>
+      <model:name>arcsech</model:name>
+      <model:onscreen>arcsech</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.arcsin -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>arcsin</model:keyword>
+      <model:mathml>&lt;mi&gt;arcsin&lt;/mi&gt;</model:mathml>
+      <model:name>arcsin</model:name>
+      <model:onscreen>arcsin</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.arcsinh -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>arcsinh</model:keyword>
+      <model:mathml>&lt;mi&gt;arcsinh&lt;/mi&gt;</model:mathml>
+      <model:name>arcsinh</model:name>
+      <model:onscreen>arcsinh</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.arctan -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>arctan</model:keyword>
+      <model:mathml>&lt;mi&gt;arctan&lt;/mi&gt;</model:mathml>
+      <model:name>arctan</model:name>
+      <model:onscreen>arctan</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.arctanh -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>arctanh</model:keyword>
+      <model:mathml>&lt;mi&gt;arctanh&lt;/mi&gt;</model:mathml>
+      <model:name>arctanh</model:name>
+      <model:onscreen>arctanh</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.cos -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>cos</model:keyword>
+      <model:mathml>&lt;mi&gt;cos&lt;/mi&gt;</model:mathml>
+      <model:name>cos</model:name>
+      <model:onscreen>cos</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.cosh -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>cosh</model:keyword>
+      <model:mathml>&lt;mi&gt;cosh&lt;/mi&gt;</model:mathml>
+      <model:name>cosh</model:name>
+      <model:onscreen>cosh</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.cot -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>cot</model:keyword>
+      <model:mathml>&lt;mi&gt;cot&lt;/mi&gt;</model:mathml>
+      <model:name>cot</model:name>
+      <model:onscreen>cot</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.coth -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>coth</model:keyword>
+      <model:mathml>&lt;mi&gt;coth&lt;/mi&gt;</model:mathml>
+      <model:name>coth</model:name>
+      <model:onscreen>coth</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.csc -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>csc</model:keyword>
+      <model:mathml>&lt;mi&gt;csc&lt;/mi&gt;</model:mathml>
+      <model:name>csc</model:name>
+      <model:onscreen>csc</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.csch -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>csch</model:keyword>
+      <model:mathml>&lt;mi&gt;csch&lt;/mi&gt;</model:mathml>
+      <model:name>csch</model:name>
+      <model:onscreen>csch</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.exp -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>exp</model:keyword>
+      <model:mathml>&lt;mi&gt;exp&lt;/mi&gt;</model:mathml>
+      <model:name>exp</model:name>
+      <model:onscreen>exp</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.ln -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>ln</model:keyword>
+      <model:mathml>&lt;mi&gt;ln&lt;/mi&gt;</model:mathml>
+      <model:name>ln</model:name>
+      <model:onscreen>ln</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.log -->
+    <model:instance>
+      <model:argcount>2</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>log</model:keyword>
+      <model:mathml>&lt;mi&gt;log&lt;/mi&gt;</model:mathml>
+      <model:name>log</model:name>
+      <model:onscreen>log</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.sec -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>sec</model:keyword>
+      <model:mathml>&lt;mi&gt;sec&lt;/mi&gt;</model:mathml>
+      <model:name>sec</model:name>
+      <model:onscreen>sec</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.sech -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>sech</model:keyword>
+      <model:mathml>&lt;mi&gt;sech&lt;/mi&gt;</model:mathml>
+      <model:name>sech</model:name>
+      <model:onscreen>sech</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.sin -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>sin</model:keyword>
+      <model:mathml>&lt;mi&gt;sin&lt;/mi&gt;</model:mathml>
+      <model:name>sin</model:name>
+      <model:onscreen>sin</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.sinh -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>sinh</model:keyword>
+      <model:mathml>&lt;mi&gt;sinh&lt;/mi&gt;</model:mathml>
+      <model:name>sinh</model:name>
+      <model:onscreen>sinh</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.tan -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>tan</model:keyword>
+      <model:mathml>&lt;mi&gt;tan&lt;/mi&gt;</model:mathml>
+      <model:name>tan</model:name>
+      <model:onscreen>tan</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+    <!-- transc1.tanh -->
+    <model:instance>
+      <model:argcount>1</model:argcount>
+      <model:cd>transc1</model:cd>
+      <model:keyword>tanh</model:keyword>
+      <model:mathml>&lt;mi&gt;tanh&lt;/mi&gt;</model:mathml>
+      <model:name>tanh</model:name>
+      <model:onscreen>tanh</model:onscreen>
+      <model:type>function</model:type>
+    </model:instance>
+  </model:group>
+  <model:group model="models/variables.xml" 
+    target="org/mathdox/formulaeditor/modules/variables.js"
+  >
+    <!-- Greek small letter alpha -->
+    <model:instance>
+      <!-- U+03B1 Greek small letter alpha -->
+      <model:mathml>&lt;mi&gt;&#x03B1;&lt;/mi&gt;</model:mathml>
+      <model:name>alpha</model:name>
+      <!--  U+03B1 Greek small letter alpha -->
+      <model:onscreen>&#x03B1;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter beta -->
+    <model:instance>
+      <!--  U+03B2 Greek small letter beta -->
+      <model:mathml>&lt;mi&gt;&#x03B2;&lt;/mi&gt;</model:mathml>
+      <model:name>beta</model:name>
+      <!--  U+03B2 Greek small letter beta -->
+      <model:onscreen>&#x03B2;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter gamma -->
+    <model:instance>
+      <!--  U+03B3 Greek small letter gamma -->
+      <model:mathml>&lt;mi&gt;&#x03B3;&lt;/mi&gt;</model:mathml>
+      <model:name>gamma</model:name>
+      <!--  U+03B3 Greek small letter gamma -->
+      <model:onscreen>&#x03B3;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter delta -->
+    <model:instance>
+      <!--  U+03B4 Greek small letter delta -->
+      <model:mathml>&lt;mi&gt;&#x03B4;&lt;/mi&gt;</model:mathml>
+      <model:name>delta</model:name>
+      <!--  U+03B4 Greek small letter delta -->
+      <model:onscreen>&#x03B4;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter epsilon -->
+    <model:instance>
+      <!--  U+03F5 Greek lunate epsilon symbol -->
+      <model:mathml>&lt;mi&gt;&#x03F5;&lt;/mi&gt;</model:mathml>
+      <model:name>epsilon</model:name>
+      <!--  U+03F5 Greek lunate epsilon symbol -->
+      <model:onscreen>&#x03F5;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter epsilon : varepsilon-->
+    <model:instance>
+      <!--  U+03C6 Greek small letter epsilon -->
+      <model:mathml>&lt;mi&gt;&#x03C6;&lt;/mi&gt;</model:mathml>
+      <model:name>varepsilon</model:name>
+      <!--  U+03C6 Greek small letter epsilon -->
+      <model:onscreen>&#x03C6;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter zeta -->
+    <model:instance>
+      <!--  U+03B6 Greek small letter zeta -->
+      <model:mathml>&lt;mi&gt;&#x03B6;&lt;/mi&gt;</model:mathml>
+      <model:name>zeta</model:name>
+      <!--  U+03B6 Greek small letter zeta -->
+      <model:onscreen>&#x03B6;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter eta -->
+    <model:instance>
+      <!--  U+03B7 Greek small letter eta -->
+      <model:mathml>&lt;mi&gt;&#x03B7;&lt;/mi&gt;</model:mathml>
+      <model:name>eta</model:name>
+      <!--  U+03B7 Greek small letter eta -->
+      <model:onscreen>&#x03B7;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter theta -->
+    <model:instance>
+      <!--  U+03B8 Greek small letter theta -->
+      <model:mathml>&lt;mi&gt;&#x03B8;&lt;/mi&gt;</model:mathml>
+      <model:name>theta</model:name>
+      <!--  U+03B8 Greek small letter theta -->
+      <model:onscreen>&#x03B8;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter theta: vartheta -->
+    <model:instance>
+      <!--  U+03D1 Greek theta symbol -->
+      <model:mathml>&lt;mi&gt;&#x03D1;&lt;/mi&gt;</model:mathml>
+      <model:name>vartheta</model:name>
+      <!--  U+03D1 Greek theta symbol -->
+      <model:onscreen>&#x03D1;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter kappa -->
+    <model:instance>
+      <!--  U+03BA Greek small letter kappa -->
+      <model:mathml>&lt;mi&gt;&#x03BA;&lt;/mi&gt;</model:mathml>
+      <model:name>kappa</model:name>
+      <!--  U+03BA Greek small letter kappa -->
+      <model:onscreen>&#x03BA;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter mu -->
+    <model:instance>
+      <!--  U+03BC Greek small letter mu -->
+      <model:mathml>&lt;mi&gt;&#x03BC;&lt;/mi&gt;</model:mathml>
+      <model:name>mu</model:name>
+      <!--  U+03BC Greek small letter mu -->
+      <model:onscreen>&#x03BC;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter nu -->
+    <model:instance>
+      <!--  U+03BD Greek small letter nu -->
+      <model:mathml>&lt;mi&gt;&#x03BD;&lt;/mi&gt;</model:mathml>
+      <model:name>nu</model:name>
+      <!--  U+03BD Greek small letter nu -->
+      <model:onscreen>&#x03BD;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter xi -->
+    <model:instance>
+      <!--  U+03BE Greek small letter xi -->
+      <model:mathml>&lt;mi&gt;&#x03BE;&lt;/mi&gt;</model:mathml>
+      <model:name>xi</model:name>
+      <!--  U+03BE Greek small letter xi -->
+      <model:onscreen>&#x03BE;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter pi: varpi -->
+    <model:instance>
+      <!--  U+03D6 Greek pi symbol -->
+      <model:mathml>&lt;mi&gt;&#x03D6;&lt;/mi&gt;</model:mathml>
+      <model:name>varpi</model:name>
+      <!--  U+03D6 Greek pi symbol -->
+      <model:onscreen>&#x03D6;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter rho -->
+    <model:instance>
+      <!--  U+03C1 Greek small letter rho -->
+      <model:mathml>&lt;mi&gt;&#x03C1;&lt;/mi&gt;</model:mathml>
+      <model:name>rho</model:name>
+      <!--  U+03C1 Greek small letter rho -->
+      <model:onscreen>&#x03C1;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter rho: varrho -->
+    <model:instance>
+      <!--  U+03F1 Greek rho symbol -->
+      <model:mathml>&lt;mi&gt;&#x03F1;&lt;/mi&gt;</model:mathml>
+      <model:name>varrho</model:name>
+      <!--  U+03F1 Greek rho symbol -->
+      <model:onscreen>&#x03F1;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter sigma -->
+    <model:instance>
+      <!--  U+03C3 Greek small letter sigma -->
+      <model:mathml>&lt;mi&gt;&#x03C3;&lt;/mi&gt;</model:mathml>
+      <model:name>sigma</model:name>
+      <!--  U+03C3 Greek small letter sigma -->
+      <model:onscreen>&#x03C3;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter sigma: varsigma -->
+    <model:instance>
+      <!--  U+03C2 Greek small letter final sigma -->
+      <model:mathml>&lt;mi&gt;&#x03C2;&lt;/mi&gt;</model:mathml>
+      <model:name>varsigma</model:name>
+      <!--  U+03C2 Greek small letter final sigma -->
+      <model:onscreen>&#x03C2;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter tau -->
+    <model:instance>
+      <!--  U+03C4 Greek small letter tau -->
+      <model:mathml>&lt;mi&gt;&#x03C4;&lt;/mi&gt;</model:mathml>
+      <model:name>tau</model:name>
+      <!--  U+03C4 Greek small letter tau -->
+      <model:onscreen>&#x03C4;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter upsilon -->
+    <model:instance>
+      <!--  U+03C5 Greek small letter upsilon -->
+      <model:mathml>&lt;mi&gt;&#x03C5;&lt;/mi&gt;</model:mathml>
+      <model:name>upsilon</model:name>
+      <!--  U+03C5 Greek small letter upsilon -->
+      <model:onscreen>&#x03C5;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter phi -->
+    <model:instance>
+      <!--  U+03D5 Greek phi symbol -->
+      <model:mathml>&lt;mi&gt;&#x03D5;&lt;/mi&gt;</model:mathml>
+      <model:name>phi</model:name>
+      <!--  U+03D5 Greek phi symbol -->
+      <model:onscreen>&#x03D5;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter phi: varphi -->
+    <model:instance>
+      <!--  U+03C6 Greek small letter phi -->
+      <model:mathml>&lt;mi&gt;&#x03C6;&lt;/mi&gt;</model:mathml>
+      <model:name>varphi</model:name>
+      <!--  U+03C6 Greek small letter phi -->
+      <model:onscreen>&#x03C6;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter chi -->
+    <model:instance>
+      <!--  U+03C7 Greek small letter chi -->
+      <model:mathml>&lt;mi&gt;&#x03C7;&lt;/mi&gt;</model:mathml>
+      <model:name>chi</model:name>
+      <!--  U+03C7 Greek small letter chi -->
+      <model:onscreen>&#x03C7;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter psi -->
+    <model:instance>
+      <!--  U+03C8 Greek small letter psi -->
+      <model:mathml>&lt;mi&gt;&#x03C8;&lt;/mi&gt;</model:mathml>
+      <model:name>psi</model:name>
+      <!--  U+03C8 Greek small letter psi -->
+      <model:onscreen>&#x03C8;</model:onscreen>
+    </model:instance>
+    <!-- Greek small letter omega -->
+    <model:instance>
+      <!--  U+03C9 Greek small letter omega -->
+      <model:mathml>&lt;mi&gt;&#x03C9;&lt;/mi&gt;</model:mathml>
+      <model:name>omega</model:name>
+      <!--  U+03C9 Greek small letter omega -->
+      <model:onscreen>&#x03C9;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter gamma -->
+    <model:instance>
+      <!-- U+0393 Greek capital letter gamma -->
+      <model:mathml>&lt;mi&gt;&#x0393;&lt;/mi&gt;</model:mathml>
+      <model:name>Gamma</model:name>
+      <!-- U+0393 Greek capital letter gamma -->
+      <model:onscreen>&#x0393;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter delta -->
+    <model:instance>
+      <!-- U+0394 Greek capital letter delta -->
+      <model:mathml>&lt;mi&gt;&#x0394;&lt;/mi&gt;</model:mathml>
+      <model:name>Delta</model:name>
+      <!-- U+0394 Greek capital letter gamma -->
+      <model:onscreen>&#x0394;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter theta -->
+    <model:instance>
+      <!-- U+0398 Greek capital letter theta -->
+      <model:mathml>&lt;mi&gt;&#x0398;&lt;/mi&gt;</model:mathml>
+      <model:name>Theta</model:name>
+      <!-- U+0398 Greek capital letter theta -->
+      <model:onscreen>&#x0398;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter lamda -->
+    <model:instance>
+      <!-- U+039B Greek capital letter lamda -->
+      <model:mathml>&lt;mi&gt;&#x039B;&lt;/mi&gt;</model:mathml>
+      <model:name>Lamda</model:name>
+      <!-- U+039B Greek capital letter lamda -->
+      <model:onscreen>&#x039B;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter xi -->
+    <model:instance>
+      <!-- U+039E Greek capital letter xi -->
+      <model:mathml>&lt;mi&gt;&#x039E;&lt;/mi&gt;</model:mathml>
+      <model:name>Xi</model:name>
+      <!-- U+039E Greek capital letter xi -->
+      <model:onscreen>&#x039E;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter phi -->
+    <model:instance>
+      <!-- U+03A6 Greek capital letter phi -->
+      <model:mathml>&lt;mi&gt;&#x03A6;&lt;/mi&gt;</model:mathml>
+      <model:name>Phi</model:name>
+      <!-- U+03A6 Greek capital letter phi -->
+      <model:onscreen>&#x03A6;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter psi -->
+    <model:instance>
+      <!-- U+03A8 Greek capital letter psi -->
+      <model:mathml>&lt;mi&gt;&#x03A8;&lt;/mi&gt;</model:mathml>
+      <model:name>Psi</model:name>
+      <!-- U+03A8 Greek capital letter psi -->
+      <model:onscreen>&#x03A8;</model:onscreen>
+    </model:instance>
+    <!-- Greek capital letter omega -->
+    <model:instance>
+      <!-- U+03A9 Greek capital letter omega -->
+      <model:mathml>&lt;mi&gt;&#x03A9;&lt;/mi&gt;</model:mathml>
+      <model:name>Omega</model:name>
+      <!-- U+03A9 Greek capital letter omega -->
+      <model:onscreen>&#x03A9;</model:onscreen>
+    </model:instance>
+   </model:group>
+</model:list>

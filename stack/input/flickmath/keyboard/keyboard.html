@@ -1,0 +1,647 @@
+<div id="flickmath">
+    <div id="flick-div">
+        <div class="flick-arrow" id="flick-arrow-left">
+            <svg width="1024" height="1024" viewBox="0 0 1024 1024" style="position:relative;top:20px;margin-left: calc(50% - 1em)">
+                <g transform="scale(0.01953125 0.01953125)">
+                    <path d="M255.13 768l0.051-165.274 758.579 0.051v-181.914h-758.63l0.051-164.864-244.941 256z"></path>
+                </g>
+            </svg>
+        </div>
+        <div class="flick-arrow" id="flick-arrow-up">
+            <svg width="1024" height="1024" viewBox="0 0 1024 1024" style="position:relative;top:20px;margin-left: calc(50% - 1em)">
+                <g transform="scale(0.01953125 0.01953125)">
+                    <path d="M768 255.13h-165.274l0.051 758.63h-181.914v-758.63h-164.864l256-244.89z"></path>
+                </g>
+            </svg>
+        </div>
+        <div class="flick-arrow" id="flick-arrow-down">
+            <svg width="1024" height="1024" viewBox="0 0 1024 1024" style="position:relative;top:20px;margin-left: calc(50% - 1em)">
+                <g transform="scale(0.01953125 0.01953125)">
+                    <path d="M768 768.922l-165.274-0.051 0.051-758.63h-181.914v758.682l-164.864-0.051 256 244.89z"></path>
+                </g>
+            </svg>
+        </div>
+        <div class="flick-arrow" id="flick-arrow-right">
+            <svg width="1024" height="1024" viewBox="0 0 1024 1024" style="position:relative;top:20px;margin-left: calc(50% - 1em)">
+                <g transform="scale(0.01953125 0.01953125)">
+                    <path d="M768.922 768l-0.051-165.274-758.63 0.051v-181.914h758.682l-0.051-164.864 244.89 256z"></path>
+                </g>
+            </svg>
+        </div>
+        <div id="123-keyboard" style="display:none;">
+            <ul class="flick-list flick-changekeyboard">
+                <li class="flick-median flick-active">123</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="1">\(1\)</li>
+                <li class="flick-left" id="1*x">\(1x\)</li>
+                <li class="flick-top" id="1^">\(1^□\)</li>
+                <li class="flick-right" id="1*y">\(1y\)</li>
+                <li class="flick-bottom" id="^1">\(□^1\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="2">\(2\)</li>
+                <li class="flick-left" id="2*x">\(2x\)</li>
+                <li class="flick-top" id="2^">\(2^□\)</li>
+                <li class="flick-right" id="2*y">\(2y\)</li>
+                <li class="flick-bottom" id="^2">\(□^2\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="3">\(3\)</li>
+                <li class="flick-left" id="3*x">\(3x\)</li>
+                <li class="flick-top" id="3^">\(3^□\)</li>
+                <li class="flick-right" id="3*y">\(3y\)</li>
+                <li class="flick-bottom" id="^3">\(□^3\)</li>
+            </ul>
+            <ul class="flick-list flick-menu">
+                <li class="flick-median backspace" id="backspace1" formula="backspace">
+                    <svg width="1024" height="1024" viewBox="0 0 1024 1024" style="position:relative;top:20px;left: calc(50% - 0.5em)">
+                        <g transform="scale(0.01953125 0.01953125)">
+                            <path d="M921.6 153.6h-489.165c-22.528 0-54.835 12.134-71.782 26.982l-347.955 304.435c-16.947 14.848-16.947 39.117 0 53.965l347.955 304.486c16.947 14.797 49.254 26.931 71.782 26.931h489.165c56.371 0 102.4-46.080 102.4-102.4v-512c0-56.32-46.029-102.4-102.4-102.4zM777.779 716.8l-130.918-130.918-130.816 130.918-73.933-73.882 130.867-130.918-130.867-130.867 73.933-73.933 130.867 130.867 130.867-130.867 73.882 73.933-130.816 130.867 130.867 130.867-73.933 73.933z"></path>
+                        </g>keyboard
+                    </svg>
+                </li>
+            </ul>
+            <ul class="flick-list flick-changekeyboard">
+                <li class="flick-median" id="xykeyboardButton">\(xy\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="4">\(4\)</li>
+                <li class="flick-left" id="4*x">\(4x\)</li>
+                <li class="flick-top" id="4^">\(4^□\)</li>
+                <li class="flick-right" id="4*y">\(4y\)</li>
+                <li class="flick-bottom" id="^4">\(□^4\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="5">\(5\)</li>
+                <li class="flick-left" id="5*x">\(5x\)</li>
+                <li class="flick-top" id="5^">\(5^□\)</li>
+                <li class="flick-right" id="5*y">\(5y\)</li>
+                <li class="flick-bottom" id="^5">\(□^5\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="6">\(6\)</li>
+                <li class="flick-left" id="6*x">\(6x\)</li>
+                <li class="flick-top" id="6^">\(6^□\)</li>
+                <li class="flick-right" id="6*y">\(6y\)</li>
+                <li class="flick-bottom" id="^6">\(□^6\)</li>
+            </ul>
+            <ul class="flick-list flick-menu">
+                <li class="flick-median" id="+">+/-</li>
+                <li class="flick-top" id="+">\(+\)</li>
+                <li class="flick-bottom" id="-">\(-\)</li>
+            </ul>
+
+            <ul class="flick-list flick-function flick-menu">
+                <li class="flick-median">\(fx\)</li>
+                <li class="flick-right" style="top:-220px;box-shadow:none;border-radius: 8px 0px 0px 0px;" id="fnc-i">\(i\)</li>
+                <li class="flick-right" style="top:-165px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-infty">\(\infty\)</li>
+                <li class="flick-right" style="top:-110px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-e">\(e\)</li>
+                <li class="flick-right" style="top:-55px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-log">\(\log\)</li>
+                <li class="flick-right" style="box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-ln">\(\ln\)</li>
+                <li class="flick-right2" style="top:-220px;box-shadow:none;border-radius: 0px 8px 0px 0px;" id="fnc-pi">\(\pi\)</li>
+                <li class="flick-right2" style="top:-165px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-sin">\(\sin\)</li>
+                <li class="flick-right2" style="top:-110px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-cos">\(\cos\)</li>
+                <li class="flick-right2" style="top:-55px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-tan">\(\tan\)</li>
+                <li class="flick-right2" style="box-shadow:none;border-radius: 0px 0px 8px 0px;" id="fnc-sqrt">\(\sqrt{}\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="7">\(7\)</li>
+                <li class="flick-left" id="7*x">\(7x\)</li>
+                <li class="flick-top" id="7^">\(7^□\)</li>
+                <li class="flick-right" id="7*y">\(7y\)</li>
+                <li class="flick-bottom" id="^7">\(□^7\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="8">\(8\)</li>
+                <li class="flick-left" id="8*x">\(8x\)</li>
+                <li class="flick-top" id="8^">\(8^□\)</li>
+                <li class="flick-right" id="8*y">\(8y\)</li>
+                <li class="flick-bottom" id="^8">\(□^8\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="9">\(9\)</li>
+                <li class="flick-left" id="9*x">\(9x\)</li>
+                <li class="flick-top" id="9^">\(9^□\)</li>
+                <li class="flick-right" id="9*y">\(9y\)</li>
+                <li class="flick-bottom" id="^9">\(□^9\)</li>
+            </ul>
+            <ul class="flick-list flick-menu">
+                <li class="flick-median" id="*">×/÷</li>
+                <li class="flick-left" id="^">\(□^□\)</li>
+                <li class="flick-top" id="*">\(\cdot\)</li>
+                <li class="flick-bottom" id="/">\(\frac{□}{□}\)</li>
+            </ul>
+
+            <ul class="flick-list flick-changekeyboard">
+                <li class="flick-median changetofullkeyboard">
+                    <svg width="1024" height="1024" viewBox="0 0 1024 1024" style="position:relative;top:20px;margin-left: calc(50% - 0.5em)">
+                        <g transform="scale(0.01953125 0.01953125)">
+                            <path d="M952.32 204.8h-880.64c-39.424 0-71.68 32.256-71.68 71.68v471.091c0 39.373 32.256 71.629 71.68 71.629h880.64c39.475 0 71.68-32.256 71.68-71.629v-471.091c0-39.424-32.256-71.68-71.68-71.68zM563.2 307.2h102.4v102.4h-102.4v-102.4zM716.8 460.8v102.4h-102.4v-102.4h102.4zM409.6 307.2h102.4v102.4h-102.4v-102.4zM563.2 460.8v102.4h-102.4v-102.4h102.4zM256 307.2h102.4v102.4h-102.4v-102.4zM409.6 460.8v102.4h-102.4v-102.4h102.4zM102.4 307.2h102.4v102.4h-102.4v-102.4zM256 460.8v102.4h-102.4v-102.4h102.4zM204.8 716.8h-102.4v-102.4h102.4v102.4zM768 716.8h-512v-102.4h512v102.4zM921.6 716.8h-102.4v-102.4h102.4v102.4zM768 563.2v-102.4h102.4v102.4h-102.4zM921.6 409.6h-204.8v-102.4h204.8v102.4z"></path>
+                        </g>
+                    </svg>
+                </li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="()">\((　)\)</li>
+                <li class="flick-left" id="(">\( ( \)</li>
+                <li class="flick-right" id=")">\( ) \)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="0">\(0\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="=">\(=\)</li>
+                <li class="flick-left" id="[">\( [ \)</li>
+                <li class="flick-right" id="]">\( ] \)</li>
+            </ul>
+            <ul class="flick-list flick-menu">
+                <li class="flick-median" id="flick-submit">
+                    <svg width="1024" height="1024" viewBox="0 0 1024 1024" style="position:relative;top:20px;margin-left: calc(50% - 0.5em)">
+                        <g transform="scale(0.01953125 0.01953125)">
+                            <path d="M819.098 665.6h-414.771v153.6l-245.76-225.28 245.76-225.229v153.6h373.76v-317.491h143.411v358.4c0 56.525-45.824 102.4-102.4 102.4z"></path>
+                        </g>
+                    </svg>
+                </li>
+            </ul>
+        </div>
+        <div id="xy-keyboard">
+            <ul class="flick-list flick-changekeyboard">
+                <li class="flick-median" id="123keyboardButton">123</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="a">\(a\)</li>
+                <li class="flick-left" id="*a">\(\cdot a\)</li>
+                <li class="flick-top" id="a^">\(a^□\)</li>
+                <li class="flick-right" id="sqrt{a}">\(\sqrt{a}\)</li>
+                <li class="flick-bottom" id="^a">\(□^a\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="b">\(b\)</li>
+                <li class="flick-left" id="*b">\(\cdot b\)</li>
+                <li class="flick-top" id="b^">\(b^□\)</li>
+                <li class="flick-right" id="sqrt{b}">\(\sqrt{b}\)</li>
+                <li class="flick-bottom" id="^b">\(□^b\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="c">\(c\)</li>
+                <li class="flick-left" id="*c">\(\cdot c\)</li>
+                <li class="flick-top" id="c^">\(c^□\)</li>
+                <li class="flick-right" id="sqrt{c}">\(\sqrt{c}\)</li>
+                <li class="flick-bottom" id="^c">\(□^c\)</li>
+            </ul>
+            <ul class="flick-list flick-menu">
+                <li class="flick-median" id="backspace2" formula="backspace">
+                    <svg width="1024" height="1024" viewBox="0 0 1024 1024" style="position:relative;top:20px;margin-left: calc(50% - 0.5em)">
+                        <g transform="scale(0.01953125 0.01953125)">
+                            <path d="M921.6 153.6h-489.165c-22.528 0-54.835 12.134-71.782 26.982l-347.955 304.435c-16.947 14.848-16.947 39.117 0 53.965l347.955 304.486c16.947 14.797 49.254 26.931 71.782 26.931h489.165c56.371 0 102.4-46.080 102.4-102.4v-512c0-56.32-46.029-102.4-102.4-102.4zM777.779 716.8l-130.918-130.918-130.816 130.918-73.933-73.882 130.867-130.918-130.867-130.867 73.933-73.933 130.867 130.867 130.867-130.867 73.882 73.933-130.816 130.867 130.867 130.867-73.933 73.933z"></path>
+                        </g>
+                    </svg>
+                </li>
+            </ul>
+            <ul class="flick-list flick-changekeyboard">
+                <li class="flick-median flick-active">\(xy\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="x">\(x\)</li>
+                <li class="flick-left" id="*x">\(\cdot x\)</li>
+                <li class="flick-top" id="x^">\(x^□\)</li>
+                <li class="flick-right" id="sqrt{x}">\(\sqrt{x}\)</li>
+                <li class="flick-bottom" id="^x">\(□^x\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="y">\(y\)</li>
+                <li class="flick-left" id="*y">\(\cdot y\)</li>
+                <li class="flick-top" id="y^">\(y^□\)</li>
+                <li class="flick-right" id="sqrt{y}">\(\sqrt{y}\)</li>
+                <li class="flick-bottom" id="^y">\(□^y\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="z">\(z\)</li>
+                <li class="flick-left" id="*z">\(\cdot z\)</li>
+                <li class="flick-top" id="z^">\(z^□\)</li>
+                <li class="flick-right" id="sqrt{z}">\(\sqrt{z}\)</li>
+                <li class="flick-bottom" id="^z">\(□^z\)</li>
+            </ul>
+            <ul class="flick-list flick-menu">
+                <li class="flick-median" id="+">+/-</li>
+                <li class="flick-top" id="+">\(+\)</li>
+                <li class="flick-bottom" id="-">\(-\)</li>
+            </ul>
+
+            <ul class="flick-list flick-function flick-menu">
+                <li class="flick-median">\(fx\)</li>
+                <li class="flick-right" style="top:-220px;box-shadow:none;border-radius: 8px 0px 0px 0px;" id="fnc-i">\(i\)</li>
+                <li class="flick-right" style="top:-165px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-infty">\(\infty\)</li>
+                <li class="flick-right" style="top:-110px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-e">\(e\)</li>
+                <li class="flick-right" style="top:-55px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-log">\(\log\)</li>
+                <li class="flick-right" style="box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-ln">\(\ln\)</li>
+                <li class="flick-right2" style="top:-220px;box-shadow:none;border-radius: 0px 8px 0px 0px;" id="fnc-pi">\(\pi\)</li>
+                <li class="flick-right2" style="top:-165px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-sin">\(\sin\)</li>
+                <li class="flick-right2" style="top:-110px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-cos">\(\cos\)</li>
+                <li class="flick-right2" style="top:-55px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-tan">\(\tan\)</li>
+                <li class="flick-right2" style="box-shadow:none;border-radius: 0px 0px 8px 0px;" id="fnc-sqrt">\(\sqrt{}\)</li>
+            </ul>
+            <ul class="flick-list flick-greek ">
+                <li class="flick-median" id="mu">\(\mu\)</li>
+                <li class="flick-left" id="nu">\(\nu\)</li>
+                <li class="flick-top" id="lambda">\(\lambda\)</li>
+                <li class="flick-right" id="kappa">\(\kappa\)</li>
+                <li class="flick-bottom" id="tau">\(\tau\)</li>
+            </ul>
+            <ul class="flick-list flick-greek ">
+                <li class="flick-median" id="alpha">\(\alpha\)</li>
+                <li class="flick-left" id="beta">\(\beta\)</li>
+                <li class="flick-top" id="delta">\(\delta\)</li>
+                <li class="flick-right" id="gamma">\(\gamma\)</li>
+                <li class="flick-bottom" id="epsilon">\(\epsilon\)</li>
+            </ul>
+            <ul class="flick-list flick-greek ">
+                <li class="flick-median" id="theta">\(\theta\)</li>
+                <li class="flick-left" id="eta">\(\eta\)</li>
+                <li class="flick-top" id="zeta">\(\zeta\)</li>
+                <li class="flick-right" id="xi">\(\xi\)</li>
+                <li class="flick-bottom" id="psi">\(\psi\)</li>
+            </ul>
+            <ul class="flick-list flick-menu">
+                <li class="flick-median" id="*">×/÷</li>
+                <li class="flick-left" id="^">\(□^□\)</li>
+                <li class="flick-top" id="*">\(\cdot\)</li>
+                <li class="flick-bottom" id="/">\(\frac{□}{□}\)</li>
+            </ul>
+            <ul class="flick-list flick-changekeyboard">
+                <li class="flick-median changetofullkeyboard">
+                    <svg width="1024" height="1024" viewBox="0 0 1024 1024" style="position:relative;top:20px;margin-left: calc(50% - 0.5em)">
+                        <g transform="scale(0.01953125 0.01953125)">
+                            <path d="M952.32 204.8h-880.64c-39.424 0-71.68 32.256-71.68 71.68v471.091c0 39.373 32.256 71.629 71.68 71.629h880.64c39.475 0 71.68-32.256 71.68-71.629v-471.091c0-39.424-32.256-71.68-71.68-71.68zM563.2 307.2h102.4v102.4h-102.4v-102.4zM716.8 460.8v102.4h-102.4v-102.4h102.4zM409.6 307.2h102.4v102.4h-102.4v-102.4zM563.2 460.8v102.4h-102.4v-102.4h102.4zM256 307.2h102.4v102.4h-102.4v-102.4zM409.6 460.8v102.4h-102.4v-102.4h102.4zM102.4 307.2h102.4v102.4h-102.4v-102.4zM256 460.8v102.4h-102.4v-102.4h102.4zM204.8 716.8h-102.4v-102.4h102.4v102.4zM768 716.8h-512v-102.4h512v102.4zM921.6 716.8h-102.4v-102.4h102.4v102.4zM768 563.2v-102.4h102.4v102.4h-102.4zM921.6 409.6h-204.8v-102.4h204.8v102.4z"></path>
+                        </g>
+                    </svg>
+                </li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="()">\((　)\)</li>
+                <li class="flick-left" id="(">\( ( \)</li>
+                <li class="flick-right" id=")">\( ) \)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="changeUp">\( ABC\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="=">\(=\)</li>
+                <li class="flick-left" id="[">\( [ \)</li>
+                <li class="flick-right" id="]">\( ] \)</li>
+            </ul>
+            <ul class="flick-list flick-menu">
+                <li class="flick-median" id="flick-submit">
+                    <svg width="1024" height="1024" viewBox="0 0 1024 1024" style="position:relative;top:20px;margin-left: calc(50% - 0.5em)">
+                        <g transform="scale(0.01953125 0.01953125)">
+                            <path d="M819.098 665.6h-414.771v153.6l-245.76-225.28 245.76-225.229v153.6h373.76v-317.491h143.411v358.4c0 56.525-45.824 102.4-102.4 102.4z"></path>
+                        </g>
+                    </svg>
+                </li>
+            </ul>
+        </div>
+
+        <div id="ABC-keyboard" style="display:none">
+            <ul class="flick-list flick-changekeyboard">
+                <li class="flick-median" id="123keyboardButton2">123</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="A">\(A\)</li>
+                <li class="flick-left" id="*A">\(\cdot A\)</li>
+                <li class="flick-top" id="A^">\(A^□\)</li>
+                <li class="flick-right" id="sqrt{A}">\(\sqrt{A}\)</li>
+                <li class="flick-bottom" id="^A">\(□^A\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="B">\(B\)</li>
+                <li class="flick-left" id="*B">\(\cdot B\)</li>
+                <li class="flick-top" id="B^">\(B^□\)</li>
+                <li class="flick-right" id="sqrt{B}">\(\sqrt{B}\)</li>
+                <li class="flick-bottom" id="^B">\(□^B\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="C">\(C\)</li>
+                <li class="flick-left" id="*C">\(\cdot C\)</li>
+                <li class="flick-top" id="C^">\(C^□\)</li>
+                <li class="flick-right" id="sqrt{C}">\(\sqrt{C}\)</li>
+                <li class="flick-bottom" id="^" C>\(□^C\)</li>
+            </ul>
+            <ul class="flick-list flick-menu">
+                <li class="flick-median" id="backspace3" formula="backspace">
+                    <svg width="1024" height="1024" viewBox="0 0 1024 1024" style="position:relative;top:20px;margin-left: calc(50% - 0.5em)">
+                        <g transform="scale(0.01953125 0.01953125)">
+                            <path d="M921.6 153.6h-489.165c-22.528 0-54.835 12.134-71.782 26.982l-347.955 304.435c-16.947 14.848-16.947 39.117 0 53.965l347.955 304.486c16.947 14.797 49.254 26.931 71.782 26.931h489.165c56.371 0 102.4-46.080 102.4-102.4v-512c0-56.32-46.029-102.4-102.4-102.4zM777.779 716.8l-130.918-130.918-130.816 130.918-73.933-73.882 130.867-130.918-130.867-130.867 73.933-73.933 130.867 130.867 130.867-130.867 73.882 73.933-130.816 130.867 130.867 130.867-73.933 73.933z"></path>
+                        </g>
+                    </svg>
+                </li>
+            </ul>
+            <ul class="flick-list flick-changekeyboard">
+                <li class="flick-median flick-active">\(xy\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="X">\(X\)</li>
+                <li class="flick-left" id="*X">\(\cdot x\)</li>
+                <li class="flick-top" id="X^">\(x^□\)</li>
+                <li class="flick-right" id="sqrt{X}">\(\sqrt{X}\)</li>
+                <li class="flick-bottom" id="^X">\(□^X\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="Y">\(Y\)</li>
+                <li class="flick-left" id="*Y">\(\cdot Y\)</li>
+                <li class="flick-top" id="Y^">\(Y^□\)</li>
+                <li class="flick-right" id="sqrt{Y}">\(\sqrt{Y}\)</li>
+                <li class="flick-bottom" id="^Y">\(□^Y\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="Z">\(Z\)</li>
+                <li class="flick-left" id="*Z">\(\cdot Z\)</li>
+                <li class="flick-top" id="Z^">\(Z^□\)</li>
+                <li class="flick-right" id="sqrt{Z}">\(\sqrt{Z}\)</li>
+                <li class="flick-bottom" id="^Z">\(□^Z\)</li>
+            </ul>
+            <ul class="flick-list flick-menu">
+                <li class="flick-median" id="+">+/-</li>
+                <li class="flick-top" id="+">\(+\)</li>
+                <li class="flick-bottom" id="-">\(-\)</li>
+            </ul>
+
+            <ul class="flick-list flick-function flick-menu">
+                <li class="flick-median">\(fx\)</li>
+                <li class="flick-right" style="top:-220px;box-shadow:none;border-radius: 8px 0px 0px 0px;" id="fnc-i">\(i\)</li>
+                <li class="flick-right" style="top:-165px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-infty">\(\infty\)</li>
+                <li class="flick-right" style="top:-110px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-e">\(e\)</li>
+                <li class="flick-right" style="top:-55px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-log">\(\log\)</li>
+                <li class="flick-right" style="box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-ln">\(\ln\)</li>
+                <li class="flick-right2" style="top:-220px;box-shadow:none;border-radius: 0px 8px 0px 0px;" id="fnc-pi">\(\pi\)</li>
+                <li class="flick-right2" style="top:-165px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-sin">\(\sin\)</li>
+                <li class="flick-right2" style="top:-110px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-cos">\(\cos\)</li>
+                <li class="flick-right2" style="top:-55px;box-shadow:none;border-radius: 0px 0px 0px 0px;" id="fnc-tan">\(\tan\)</li>
+                <li class="flick-right2" style="box-shadow:none;border-radius: 0px 0px 8px 0px;" id="fnc-sqrt">\(\sqrt{}\)</li>
+            </ul>
+            <ul class="flick-list flick-greek">
+                <li class="flick-median " id="M">\(M\)</li>
+                <li class="flick-left" id="N">\(N\)</li>
+                <li class="flick-top" id="Lambda">\(\Lambda\)</li>
+                <li class="flick-right" id="K">\(K\)</li>
+                <li class="flick-bottom" id="T">\(T\)</li>
+            </ul>
+            <ul class="flick-list flick-greek">
+                <li class="flick-median" id="A">\(A\)</li>
+                <li class="flick-left" id="B">\(B\)</li>
+                <li class="flick-top" id="Delta">\(\Delta\)</li>
+                <li class="flick-right" id="Gamma">\(\Gamma\)</li>
+                <li class="flick-bottom" id="E">\(E\)</li>
+            </ul>
+            <ul class="flick-list flick-greek">
+                <li class="flick-median" id="Theta">\(\Theta\)</li>
+                <li class="flick-left" id="H">\(H\)</li>
+                <li class="flick-top" id="Z">\(Z\)</li>
+                <li class="flick-right" id="Xi">\(\Xi\)</li>
+                <li class="flick-bottom" id="Psi">\(\Psi\)</li>
+            </ul>
+            <ul class="flick-list flick-menu">
+                <li class="flick-median" id="*">×/÷</li>
+                <li class="flick-left" id="^">\(□^□\)</li>
+                <li class="flick-top" id="*">\(\cdot\)</li>
+                <li class="flick-bottom" id="/">\(\frac{□}{□}\)</li>
+            </ul>
+
+            <ul class="flick-list flick-changekeyboard">
+                <li class="flick-median changetofullkeyboard">
+                    <svg width="1024" height="1024" viewBox="0 0 1024 1024" style="position:relative;top:20px;margin-left: calc(50% - 0.5em)">
+                        <g transform="scale(0.01953125 0.01953125)">
+                            <path d="M952.32 204.8h-880.64c-39.424 0-71.68 32.256-71.68 71.68v471.091c0 39.373 32.256 71.629 71.68 71.629h880.64c39.475 0 71.68-32.256 71.68-71.629v-471.091c0-39.424-32.256-71.68-71.68-71.68zM563.2 307.2h102.4v102.4h-102.4v-102.4zM716.8 460.8v102.4h-102.4v-102.4h102.4zM409.6 307.2h102.4v102.4h-102.4v-102.4zM563.2 460.8v102.4h-102.4v-102.4h102.4zM256 307.2h102.4v102.4h-102.4v-102.4zM409.6 460.8v102.4h-102.4v-102.4h102.4zM102.4 307.2h102.4v102.4h-102.4v-102.4zM256 460.8v102.4h-102.4v-102.4h102.4zM204.8 716.8h-102.4v-102.4h102.4v102.4zM768 716.8h-512v-102.4h512v102.4zM921.6 716.8h-102.4v-102.4h102.4v102.4zM768 563.2v-102.4h102.4v102.4h-102.4zM921.6 409.6h-204.8v-102.4h204.8v102.4z"></path>
+                        </g>
+                    </svg>
+                </li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="()">\((　)\)</li>
+                <li class="flick-left" id="(">\( ( \)</li>
+                <li class="flick-right" id=")">\( ) \)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="changeLow">\( abc\)</li>
+            </ul>
+            <ul class="flick-list">
+                <li class="flick-median" id="=">\(=\)</li>
+                <li class="flick-left" id="[">\( [ \)</li>
+                <li class="flick-right" id="]">\( ] \)</li>
+            </ul>
+            <ul class="flick-list flick-menu">
+                <li class="flick-median" id="flick-submit">
+                    <svg width="1024" height="1024" viewBox="0 0 1024 1024" style="position:relative;top:20px;margin-left: calc(50% - 0.5em)">
+                        <g transform="scale(0.01953125 0.01953125)">
+                            <path d="M819.098 665.6h-414.771v153.6l-245.76-225.28 245.76-225.229v153.6h373.76v-317.491h143.411v358.4c0 56.525-45.824 102.4-102.4 102.4z"></path>
+                        </g>
+                    </svg>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="fullkeyboardDiv" id="flickmath-fullkeyboard" style="display:none">
+        <ul class="full-keyboard-line arrows">
+            <li class="flickmath-fullkeyboard-symbol" id="flick-arrow-left"><span class="flickmath-iconarrow-long-left"></span></li>
+            <li class="flickmath-fullkeyboard-symbol" id="flick-arrow-up"><span class="flickmath-iconarrow-long-up"></span></li>
+            <li class="flickmath-fullkeyboard-symbol" id="flick-arrow-down"><span class="flickmath-iconarrow-long-down"></span></li>
+            <li class="flickmath-fullkeyboard-symbol" id="flick-arrow-right"><span class="flickmath-iconarrow-long-right"></span></li>
+        </ul>
+        <ul class="full-keyboard-line">
+            <li class="flickmath-fullkeyboard-letter firstkey">1</li>
+            <li class="flickmath-fullkeyboard-letter">2</li>
+            <li class="flickmath-fullkeyboard-letter">3</li>
+            <li class="flickmath-fullkeyboard-letter">4</li>
+            <li class="flickmath-fullkeyboard-letter">5</li>
+            <li class="flickmath-fullkeyboard-letter">6</li>
+            <li class="flickmath-fullkeyboard-letter">7</li>
+            <li class="flickmath-fullkeyboard-letter">8</li>
+            <li class="flickmath-fullkeyboard-letter">9</li>
+            <li class="flickmath-fullkeyboard-letter">0</li>
+            <li class="flickmath-fullkeyboard-symbol flickmath-fullkeyboard-functionkey flickmath-fullkeyboard-backspace" id="backspace4" formula="backspace"><span class="flickmath-iconbackspace"></span></li>
+        </ul>
+        <ul class="full-keyboard-line">
+            <li class="flickmath-fullkeyboard-letter firstkey">q</li>
+            <li class="flickmath-fullkeyboard-letter">w</li>
+            <li class="flickmath-fullkeyboard-letter">e</li>
+            <li class="flickmath-fullkeyboard-letter">r</li>
+            <li class="flickmath-fullkeyboard-letter">t</li>
+            <li class="flickmath-fullkeyboard-letter">y</li>
+            <li class="flickmath-fullkeyboard-letter">u</li>
+            <li class="flickmath-fullkeyboard-letter">i</li>
+            <li class="flickmath-fullkeyboard-letter">o</li>
+            <li class="flickmath-fullkeyboard-letter">p</li>
+            <li class="flickmath-fullkeyboard-letter flickmath-fullkeyboard-functionkey">=</li>
+        </ul>
+        <ul class="full-keyboard-line">
+            <li class="flickmath-fullkeyboard-functionkey firstkey middle functionselector">\(fx\)</li>
+            <li class="flickmath-fullkeyboard-letter">a</li>
+            <li class="flickmath-fullkeyboard-letter">s</li>
+            <li class="flickmath-fullkeyboard-letter">d</li>
+            <li class="flickmath-fullkeyboard-letter">f</li>
+            <li class="flickmath-fullkeyboard-letter">g</li>
+            <li class="flickmath-fullkeyboard-letter">h</li>
+            <li class="flickmath-fullkeyboard-letter">j</li>
+            <li class="flickmath-fullkeyboard-letter">k</li>
+            <li class="flickmath-fullkeyboard-letter">l</li>
+            <li class="flickmath-fullkeyboard-functionkey small plusminus">+/-</li>
+        </ul>
+        <ul class="full-keyboard-line">
+            <li class="flickmath-fullkeyboard-functionkey firstkey flick-changekeyboard changetoflick"><span class="flickmath-icongrid"></span></li>
+            <li class="flickmath-fullkeyboard-functionkey small" id="toCapital">ABC</li>
+            <li class="flickmath-fullkeyboard-letter">z</li>
+            <li class="flickmath-fullkeyboard-letter">x</li>
+            <li class="flickmath-fullkeyboard-letter">c</li>
+            <li class="flickmath-fullkeyboard-letter">v</li>
+            <li class="flickmath-fullkeyboard-letter">b</li>
+            <li class="flickmath-fullkeyboard-letter">n</li>
+            <li class="flickmath-fullkeyboard-letter">m</li>
+            <li class="flickmath-fullkeyboard-symbol flickmath-fullkeyboard-functionkey brackets">( )</li>
+            <li class="flickmath-fullkeyboard-symbol flickmath-fullkeyboard-functionkey small timediv">×/÷</li>
+        </ul>
+    </div>
+
+    <div class="fullkeyboardDiv" id="flickmath-fullkeyboard-capital" style="display:none">
+        <ul class="full-keyboard-line arrows">
+            <li class="flickmath-fullkeyboard-symbol" id="flick-arrow-left"><span class="flickmath-iconarrow-long-left"></span></li>
+            <li class="flickmath-fullkeyboard-symbol" id="flick-arrow-up"><span class="flickmath-iconarrow-long-up"></span></li>
+            <li class="flickmath-fullkeyboard-symbol" id="flick-arrow-down"><span class="flickmath-iconarrow-long-down"></span></li>
+            <li class="flickmath-fullkeyboard-symbol" id="flick-arrow-right"><span class="flickmath-iconarrow-long-right"></span></li>
+        </ul>
+        <ul class="full-keyboard-line">
+            <li class="flickmath-fullkeyboard-letter firstkey">1</li>
+            <li class="flickmath-fullkeyboard-letter">2</li>
+            <li class="flickmath-fullkeyboard-letter">3</li>
+            <li class="flickmath-fullkeyboard-letter">4</li>
+            <li class="flickmath-fullkeyboard-letter">5</li>
+            <li class="flickmath-fullkeyboard-letter">6</li>
+            <li class="flickmath-fullkeyboard-letter">7</li>
+            <li class="flickmath-fullkeyboard-letter">8</li>
+            <li class="flickmath-fullkeyboard-letter">9</li>
+            <li class="flickmath-fullkeyboard-letter">0</li>
+            <li class="flickmath-fullkeyboard-symbol flickmath-fullkeyboard-functionkey flickmath-fullkeyboard-backspace" id="backspace4" formula="backspace"><span class="flickmath-iconbackspace"></span></li>
+        </ul>
+        <ul class="full-keyboard-line">
+            <li class="flickmath-fullkeyboard-letter firstkey">Q</li>
+            <li class="flickmath-fullkeyboard-letter">W</li>
+            <li class="flickmath-fullkeyboard-letter">E</li>
+            <li class="flickmath-fullkeyboard-letter">R</li>
+            <li class="flickmath-fullkeyboard-letter">T</li>
+            <li class="flickmath-fullkeyboard-letter">Y</li>
+            <li class="flickmath-fullkeyboard-letter">U</li>
+            <li class="flickmath-fullkeyboard-letter">I</li>
+            <li class="flickmath-fullkeyboard-letter">O</li>
+            <li class="flickmath-fullkeyboard-letter">P</li>
+            <li class="flickmath-fullkeyboard-letter flickmath-fullkeyboard-functionkey">=</li>
+        </ul>
+        <ul class="full-keyboard-line">
+            <li class="flickmath-fullkeyboard-functionkey firstkey middle functionselector">\(fx\)</li>
+            <li class="flickmath-fullkeyboard-letter">A</li>
+            <li class="flickmath-fullkeyboard-letter">S</li>
+            <li class="flickmath-fullkeyboard-letter">D</li>
+            <li class="flickmath-fullkeyboard-letter">F</li>
+            <li class="flickmath-fullkeyboard-letter">G</li>
+            <li class="flickmath-fullkeyboard-letter">H</li>
+            <li class="flickmath-fullkeyboard-letter">J</li>
+            <li class="flickmath-fullkeyboard-letter">K</li>
+            <li class="flickmath-fullkeyboard-letter">L</li>
+            <li class="flickmath-fullkeyboard-functionkey small plusminus">+/-</li>
+        </ul>
+        <ul class="full-keyboard-line">
+            <li class="flickmath-fullkeyboard-functionkey firstkey flick-changekeyboard changetoflick"><span class="flickmath-icongrid"></span></li>
+            <li class="flickmath-fullkeyboard-functionkey small" id="toSmallGreek">\( \alpha\beta\gamma \)</li>
+            <li class="flickmath-fullkeyboard-letter">Z</li>
+            <li class="flickmath-fullkeyboard-letter">X</li>
+            <li class="flickmath-fullkeyboard-letter">C</li>
+            <li class="flickmath-fullkeyboard-letter">V</li>
+            <li class="flickmath-fullkeyboard-letter">B</li>
+            <li class="flickmath-fullkeyboard-letter">N</li>
+            <li class="flickmath-fullkeyboard-letter">M</li>
+            <li class="flickmath-fullkeyboard-symbol flickmath-fullkeyboard-functionkey brackets">( )</li>
+            <li class="flickmath-fullkeyboard-symbol flickmath-fullkeyboard-functionkey small timediv">×/÷</li>
+        </ul>
+    </div>
+
+    <div class="fullkeyboardDiv" id="flickmath-fullkeyboard-small-greek" style="display:none">
+        <ul class="full-keyboard-line arrows">
+            <li class="flickmath-fullkeyboard-symbol" id="flick-arrow-left"><span class="flickmath-iconarrow-long-left"></span></li>
+            <li class="flickmath-fullkeyboard-symbol" id="flick-arrow-up"><span class="flickmath-iconarrow-long-up"></span></li>
+            <li class="flickmath-fullkeyboard-symbol" id="flick-arrow-down"><span class="flickmath-iconarrow-long-down"></span></li>
+            <li class="flickmath-fullkeyboard-symbol" id="flick-arrow-right"><span class="flickmath-iconarrow-long-right"></span></li>
+        </ul>
+        <ul class="full-keyboard-line">
+            <li class="flickmath-fullkeyboard-letter firstkey" formula="1">1</li>
+            <li class="flickmath-fullkeyboard-letter" formula="2">2</li>
+            <li class="flickmath-fullkeyboard-letter" formula="3">3</li>
+            <li class="flickmath-fullkeyboard-letter" formula="4">4</li>
+            <li class="flickmath-fullkeyboard-letter" formula="5">5</li>
+            <li class="flickmath-fullkeyboard-letter" formula="6">6</li>
+            <li class="flickmath-fullkeyboard-letter" formula="7">7</li>
+            <li class="flickmath-fullkeyboard-letter" formula="8">8</li>
+            <li class="flickmath-fullkeyboard-letter" formula="9">9</li>
+            <li class="flickmath-fullkeyboard-letter" formula="0">0</li>
+            <li class="flickmath-fullkeyboard-symbol flickmath-fullkeyboard-functionkey flickmath-fullkeyboard-backspace large" id="backspace4" formula="backspace"><span class="flickmath-iconbackspace"></span></li>
+        </ul>
+        <ul class="full-keyboard-line">
+            <li class="flickmath-fullkeyboard-letter firstkey" formula="Phi">\(\Phi\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="Omega">\(\Omega\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="epsilon">\(\varepsilon\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="rho">\(\rho\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="tau">\(\tau\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="upsilon">\(\upsilon\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="theta">\(\theta\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="iota">\(\iota\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="o">\(o\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="pi">\(\pi\)</li>
+            <li class="flickmath-fullkeyboard-letter flickmath-fullkeyboard-functionkey" formula="=">=</li>
+        </ul>
+        <ul class="full-keyboard-line">
+            <li class="flickmath-fullkeyboard-functionkey firstkey middle functionselector">\(fx\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="alpha">\(\alpha\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="sigma">\(\sigma\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="delta">\(\delta\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="phi">\(\varphi\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="gamma">\(\gamma\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="eta">\(\eta\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="xi">\(\xi\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="kappa">\(\kappa\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="lambda">\(\lambda\)</li>
+            <li class="flickmath-fullkeyboard-functionkey small plusminus">+/-</li>
+        </ul>
+        <ul class="full-keyboard-line">
+            <li class="flickmath-fullkeyboard-functionkey firstkey flick-changekeyboard changetoflick"><span class="flickmath-icongrid"></span></li>
+            <li class="flickmath-fullkeyboard-functionkey small" id="toSmallAlphabet">abc</li>
+            <li class="flickmath-fullkeyboard-letter" formula="zeta">\(\zeta\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="chi">\(\chi\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="psi">\(\psi\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="omega">\(\omega\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="beta">\(\beta\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="nu">\(\nu\)</li>
+            <li class="flickmath-fullkeyboard-letter" formula="mu">\(\mu\)</li>
+            <li class="flickmath-fullkeyboard-symbol flickmath-fullkeyboard-functionkey middle brackets">( )</li>
+            <li class="flickmath-fullkeyboard-symbol flickmath-fullkeyboard-functionkey small timediv">×/÷</li>
+        </ul>
+    </div>
+</div>
+<script>
+    var metaelement = document.createElement('meta');
+    metaelement.name = "viewport";
+    metaelement.content = "width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no";
+    var addHead = document.getElementsByTagName("head").item(0);
+    addHead.appendChild(metaelement);
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({ showMathMenu: false });
+</script>
+<script>
+    $(window).on('load resize', function() {
+        var w100 = $(window).width();
+        var w20 = w100 / 5 - 1;
+        $(".flick-list li").css("width", w20);
+        $(".flick-list .flick-left").css("left", -w20);
+        $(".flick-list .flick-right").css("left", w20);
+        $(".flick-list .flick-right2").css("left", w20 * 2);
+    });
+
+</script>

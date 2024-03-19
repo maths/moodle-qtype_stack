@@ -1,0 +1,51 @@
+@font-face {
+    font-family: 'flickmath-icon';
+    src:    url('../fonts/flickmath-icon.eot?fd6ony');
+    src:    url('../fonts/flickmath-icon.eot?fd6ony#iefix') format('embedded-opentype'),
+        url('../fonts/flickmath-icon.ttf?fd6ony') format('truetype'),
+        url('../fonts/flickmath-icon.woff?fd6ony') format('woff'),
+        url('../fonts/flickmath-icon.svg?fd6ony#flickmath-icon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="flickmath-icon"], [class*=" flickmath-icon"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'flickmath-icon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.flickmath-iconlevel-down:before {
+    content: "\e900";
+}
+.flickmath-iconarrow-long-down:before {
+    content: "\e901";
+}
+.flickmath-iconarrow-long-left:before {
+    content: "\e902";
+}
+.flickmath-iconarrow-long-right:before {
+    content: "\e903";
+}
+.flickmath-iconarrow-long-up:before {
+    content: "\e904";
+}
+.flickmath-iconbackspace:before {
+    content: "\e905";
+}
+.flickmath-icongrid:before {
+    content: "\e906";
+}
+.flickmath-iconkeyboard:before {
+    content: "\e955";
+}
+

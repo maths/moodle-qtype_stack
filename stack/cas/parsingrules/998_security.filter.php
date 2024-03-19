@@ -475,9 +475,8 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 continue;
             }
 
-            // TODO: Did I understand the split by underscores right?
-            // Could we do that split on the PHP side to ensure security
-            // covering any possible construction of function calls?
+            // Split by underscores on the PHP side to ensure security
+            // covering any possible construction of function calls.
             $keys = array($name => true);
             // If the whole thing is allowed no need to split it down.
             if ($this->source === 's' && !$identifierrules->is_allowed_to_read($this->source, $name)) {

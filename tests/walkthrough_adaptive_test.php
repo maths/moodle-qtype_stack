@@ -344,6 +344,47 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
     }
 
+    public function test_test0_validate_subscripts_questionvars() {
+
+        // Create the stack question 'test0'.
+        $q = \test_question_maker::make_question('stack', 'test0');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process an invalidate request.
+        // This is invalid because the subscript "a" is also a question variable.
+        $this->process_submission(array('ans1' => 'x_a', '-submit' => 1));
+
+        $this->check_current_state(question_state::$invalid);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: x_a [invalid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', 'x_a');
+        // From the existance of e and i we can infer the e^(pi*i) has not been simplified to -1.
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
     public function test_test1_validate_then_submit_right_first_time() {
 
         // Create the stack question 'test1'.

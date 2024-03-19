@@ -368,7 +368,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
             );
 
         // Process an invalidate request.
+
         // This is invalid because the subscript "a" is also a question variable.
+        // This is implemented in the 998_security.filter.php on line 485.
+        // Or search for the language tag "stackCas_forbiddenVariable".
         $this->process_submission(array('ans1' => 'x_a', '-submit' => 1));
 
         $this->check_current_state(question_state::$invalid);

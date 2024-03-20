@@ -64,6 +64,7 @@ require_once(__DIR__ . '/801_singleton_numeric.filter.php');
 require_once(__DIR__ . '/802_singleton_units.filter.php');
 require_once(__DIR__ . '/901_remove_comments.filter.php');
 require_once(__DIR__ . '/910_inert_float_for_display.filter.php');
+require_once(__DIR__ . '/912_inert_string_for_display.filter.php');
 require_once(__DIR__ . '/990_no_fixing_spaces.filter.php');
 require_once(__DIR__ . '/991_no_fixing_stars.filter.php');
 require_once(__DIR__ . '/995_ev_modification.filter.php');
@@ -175,6 +176,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_901_remove_comments();
             case '910_inert_float_for_display':
                 return new stack_ast_filter_910_inert_float_for_display();
+            case '912_inert_string_for_display':
+                return new stack_ast_filter_912_inert_string_for_display();
             case '990_no_fixing_spaces':
                 return new stack_ast_filter_990_no_fixing_spaces();
             case '991_no_fixing_stars':
@@ -228,6 +231,7 @@ class stack_parsing_rule_factory {
                            '610_castext_static_string_extractor',
                            '801_singleton_numeric', '802_singleton_units', '901_remove_comments',
                            '910_inert_float_for_display',
+                           '912_inert_string_for_display',
                            '990_no_fixing_spaces', '991_no_fixing_stars',
                            '995_ev_modification', '996_call_modification',
                            '997_string_security',

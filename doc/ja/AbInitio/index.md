@@ -13,4 +13,4 @@ STACKを初めて利用する際は、[問題作成クイックスタートガ�
 
 ## 関連記事
 
-* [問題作成](/Authoring/index.md)
+* [問題作成](../../en/Authoring/index.md)

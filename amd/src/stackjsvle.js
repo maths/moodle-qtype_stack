@@ -171,7 +171,8 @@ define([
 
     /**
      * Does HTML-string cleaning, i.e., removes any script payload. Returns
-     * a DOM version of the given input string.
+     * a DOM version of the given input string. The DOM version returned is
+     * an element of some sort containing the contents, possibly a `body`.
      *
      * This is used when receiving replacement content for a div.
      *
@@ -557,8 +558,11 @@ define([
             }
 
             // 2. Secure content.
-            // 3. Switch the content.
-            element.replaceChildren(vle_html_sanitize(msg.content));
+            // 3. Switch the content. Note the contents coming from `vle_html_sanitize`
+            // are wrapped in an element possibly `<body>` and will need to be unwrapped.
+            // We can simply use innerHTML here to also disconnect the content from
+            // whatever it was before being sanitized.
+            element.innerHTML = vle_html_sanitize(msg.content).innerHTML;
             // If we tune something we should let the VLE know about it.
             vle_update_dom(element);
 

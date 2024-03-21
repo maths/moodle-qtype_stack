@@ -56,14 +56,14 @@ A new feature in 4.4 is the ability to include content from an URL. The include 
 
 ## QUID (question unique identifier) block ##
 
-When scripting things one often needs to give elements identifiers and those identifiers tend to be hard-coded. This may prove to be problematic when code gets copied from question to question and one ends up with multiple questions using the same identifier on the same page. To avoid this issue we have the `[[quid id="..."/]]` which will prepend a question usage level unique prefix to identifier it has been given and outputs the result, thus allowing one to safely write content like this:
+When scripting things one often needs to give elements identifiers and those identifiers tend to be hard-coded. This may prove to be problematic when code gets copied from question to question and one ends up with multiple questions using the same identifier on the same page. To avoid this issue we have the `[[quid id="..."/]]` block, which will prepend a question usage level unique prefix to the identifier it has been given and outputs the result, thus allowing one to safely write content like this:
 
     <div id="[[quid id='target'/]]">...</div>
     [[javascript]]
         stack_js.switch_content("[[quid id='target'/]]", "new content");
     [[/javascript]]
 
-You may think you will always remember to change your identifiers for all questions, but why worry about that when you can use this and keep the identifiers visible to you sensible at the same time.
+You may think you will always remember to change your identifiers for all questions, but why worry about that when you can use this and keep the identifiers visible to you sensible, at the same time you eliminate the whole issue. Do note that if you write overly sensible identifier and include code from others that do that, you may still see collisions inside your own question, so maybe add your own prefixes as well... Don't just call something "target" and expect that there would not be other "targets" in play.
 
 ## Template block ##
 

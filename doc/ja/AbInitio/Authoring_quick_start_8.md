@@ -102,10 +102,10 @@
 
 以上で問題作成クイック・スタート・ガイドを終了します。STACKドキュメントは包括的で,参照できることがたくさんあります。例えば,以下の例が挙げられます。
 
-- [より多くの入力タイプについて学ぶ](/Authoring/Inputs.md),
-- [より多くの解答テストについて学ぶ](/Authoring/Answer_Tests/index.md),
-- [CASTextフィールド](/Authoring/CASText.md)に[プロット](../Plots/Plots.md)  を追加する
-- [複数言語のサポートを追加する](/Authoring/Languages.md),
-- [等価推論の使用について学ぶ](/Authoring/Equivalence_reasoning.md),
-- [曲線スケッチについて読む](/Topics/Curve_sketching.md).
+- [より多くの入力タイプについて学ぶ](../../en/Authoring/Inputs.md),
+- [より多くの解答テストについて学ぶ](../../en/Authoring/Answer_Tests/index.md),
+- [CASTextフィールド](../../en/Authoring/CASText.md)に[プロット](../../en/Plots/Plots.md)  を追加する
+- [複数言語のサポートを追加する](../../en/Authoring/Languages.md),
+- [等価推論の使用について学ぶ](../../en/Authoring/Equivalence_reasoning.md),
+- [曲線スケッチについて読む](../../en/Topics/Curve_sketching.md).
 - Maxima の構文や関数名にあまり詳しくない場合は,Maxima のドキュメントを参照してください。[wxMaxima](http://andrejv.github.com/wxmaxima/) のようなグラフィカルな Maxima インターフェースも,適切な Maxima コマンドを簡単に見つけるのに非常に役立ちます。

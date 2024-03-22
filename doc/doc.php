@@ -103,13 +103,12 @@ if ('Site_map' == $lastseg) {
         $meta = stack_docs_page_metadata('Site_map.md');
 } else {
     if ('' == $lastseg) {
-        $file = $docsroot . $uri . 'index.md';
-        $fileen = $docsrooten . $uri . 'index.md';
+        $file = $docsroot . $uri . '/index.md';
+        $fileen = $docsrooten . $uri . '/index.md';
     } else {
         $file = $docsroot . $uri;
         $fileen = $docsrooten . $uri;
     }
-
     if (file_exists($file)) {
         $body = stack_docs_page($links, $file);
         $meta = stack_docs_page_metadata($uri);

@@ -56,6 +56,10 @@ const pinger = setInterval(() => {
     }
 }, 10);
 
+/* A promise for checking if we have a submit button.
+ */
+let _receive_submit_button = null;
+let SUBMIT_BUTTON = null;
 
 window.addEventListener("message", (e) => {
     // NOTE! We do not check the source or origin of the message in
@@ -141,6 +145,9 @@ window.addEventListener("message", (e) => {
     case 'ping':
         clearInterval(pinger);
         do_connect(true);
+        break;
+    case 'submit-button-info':
+        _receive_submit_button(msg.value);
         break;
     case 'error':
     default:
@@ -409,6 +416,62 @@ export const stack_js = {
             // We simply throw everything away and replace with the message.
             document.body.replaceChildren(div);
         }
+    },
+
+    /**
+     * Answers to the question whether the question containing this sandbox IFRAME
+     * has a submit button (type="submit" and name/id="...submit"). The existence
+     * of such a button depends on the active question behaviour.
+     * 
+     * If you are planning to use the other functions targetting that button do
+     * first confirm that the button exists, otherwise those will generate annoying
+     * errors.
+     * 
+     * Returns a promise that will resolve to null if no such button exists or to
+     * a string value telling the value of that button as it was during the first
+     * call to this function.
+     * 
+     * Note that we will consider buttons with the "hidden"-attribute as non existent.
+     * For example "Deferred feedback" has such a button.
+     */
+    has_submit_button: function() {
+        if (SUBMIT_BUTTON !== null) {
+            return SUBMIT_BUTTON;
+        }
+        SUBMIT_BUTTON = new Promise((resolve, reject) => {_receive_submit_button = resolve});
+        const msg = {
+            version: 'STACK-JS:1.3.0',
+            type: 'query-submit-button',
+            src: FRAME_ID
+        };
+        CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
+        return SUBMIT_BUTTON;
+    },
+
+    /**
+     * Disables/enables the question specific submit-button. 
+     */
+    enable_submit_button: function(enabled) {
+        const msg = {
+            version: 'STACK-JS:1.3.0',
+            type: 'enable-submit-button',
+            src: FRAME_ID,
+            enabled: enabled
+        };
+        CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
+    },
+
+    /**
+     * Changes the value of the question specific submit-button. 
+     */
+    relabel_submit_button: function(name) {
+        const msg = {
+            version: 'STACK-JS:1.3.0',
+            type: 'relabel-submit-button',
+            src: FRAME_ID,
+            name: name
+        };
+        CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     }
 };
 

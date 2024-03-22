@@ -154,6 +154,32 @@ define([
     }
 
     /**
+     * Returns the input element or null for a question level submit button.
+     * Basically, the "Check" button that behaviours like adaptive-mode in Moodle have.
+     * Not all questions have such buttons, and the behaviour will affect that.
+     *
+     * Will only return the button of the question containing that iframe.
+     *
+     * @param {String} srciframe the identifier of the iframe wanting it
+     */
+    function vle_get_submit_button(srciframe) {
+        let initialcandidate = document.getElementById(srciframe);
+        let iter = initialcandidate;
+        while (iter && !iter.classList.contains('formulation')) {
+            iter = iter.parentElement;
+        }
+        if (iter && iter.classList.contains('formulation')) {
+            // iter now represents the borders of the question containing
+            // this IFRAME.
+            // In Moodle inputs that are behaviour variables use `-` as a separator
+            // for the name and usage id.
+            let possible = iter.querySelector('input[id$="-submit"][type=submit]');
+            return possible;
+        }
+        return null;
+    }
+
+    /**
      * Triggers any VLE specific scripting related to updates of the given
      * input element.
      *
@@ -622,6 +648,48 @@ define([
 
             IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
             return;
+        case 'query-submit-button':
+            response.type = 'submit-button-info';
+            response.tgt = msg.src;
+            input = vle_get_submit_button(msg.src);
+            if (input === null || input.hasAttribute('hidden')) {
+                response['value'] = null;
+            } else {
+                response['value'] = input.value;
+            }
+            IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            return;
+        case 'enable-submit-button':
+            input = vle_get_submit_button(msg.src);
+            if (input !== null) {
+                if (msg.enabled) {
+                    input.removeAttribute('disabled');
+                } else {
+                    input.disabled = true;
+                }
+            } else {
+                // We generate this error just to push people to properly check if
+                // the button even exists before trying to tune it.
+                response.type = 'error';
+                response.msg = 'Could not find matching submit button for this question.';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            }
+            return;
+        case 'relabel-submit-button':
+            input = vle_get_submit_button(msg.src);
+            if (input !== null) {
+                input.value = msg.name;
+            } else {
+                // We generate this error just to push people to properly check if
+                // the button even exists before trying to tune it.
+                response.type = 'error';
+                response.msg = 'Could not find matching submit button for this question.';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            }
+            return;
+        case 'submit-button-info':
         case 'initial-input':
         case 'error':
             // These message types are for the other end.

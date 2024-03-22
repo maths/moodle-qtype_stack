@@ -16,8 +16,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir . '/filterlib.php');
-require_once($CFG->dirroot . '/filter/tex/filter.php');
+if (!isset($CFG->stackapi)) {
+    require_once($CFG->libdir . '/filterlib.php');
+    require_once($CFG->dirroot . '/filter/tex/filter.php');
+}
 
 /**
  * Base class for STACK maths output methods that use a Moodle text filter to do the work.

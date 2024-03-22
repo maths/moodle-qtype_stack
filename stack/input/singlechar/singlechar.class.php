@@ -54,6 +54,18 @@ class stack_singlechar_input extends stack_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'singlechar';
+
+        return $data;
+    }
+
     protected function extra_validation($contents) {
         if (strlen($contents[0]) > 1) {
             return stack_string('singlechargotmorethanone');

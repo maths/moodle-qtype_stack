@@ -69,6 +69,21 @@ class stack_string_input extends stack_algebraic_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'string';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['syntaxHint'] = $this->parameters['syntaxHint'];
+        $data['syntaxHintType'] = $this->parameters['syntaxAttribute'] == '1' ? 'placeholder' : 'value';
+
+        return $data;
+    }
+
     /**
      * Transforms the student's response input into an array.
      * Most return the same as went in.
@@ -164,5 +179,9 @@ class stack_string_input extends stack_algebraic_input {
             $ex = '"'.$ex.'"';
         }
         return $ex;
+    }
+
+    public function get_api_solution_render($tadisplay) {
+        return stack_utils::maxima_string_strip_mbox($tadisplay);
     }
 }

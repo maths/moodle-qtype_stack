@@ -194,8 +194,14 @@ export const stack_js = {
      * Note that this does not work with buttons (except radio-buttons), if you need
      * to react to button presses happening at the VLE side use
      * `register_external_button_listener`.
+     * 
+     * From STACK-JS: 1.3.0 you can define a boolean third parameter to control whether
+     * you want to only search for inputs within the same question as this iframe (true)
+     * or allow fallback to searching from all the questions on the page if not present
+     * in this question (false). By default this is false as that was the original
+     * behaviour.
      */
-    request_access_to_input: function(inputname, inputevents) {
+    request_access_to_input: function(inputname, inputevents, limittoquestion) {
         const input = document.createElement('input');
         input.type = 'hidden';
         input.id = inputname;
@@ -220,14 +226,19 @@ export const stack_js = {
         // Send the connection request.
         CONNECTED.then((whatever) => {
             const msg ={
-                version: 'STACK-JS:1.0.0',
+                version: 'STACK-JS:1.3.0',
                 type: 'register-input-listener',
                 name: inputname,
+                'limit-to-question': false,
                 src: FRAME_ID
             };
             if (inputevents === true) {
                 msg['track-input'] = true;
             }
+            if (limittoquestion !== undefined) {
+                msg['limit-to-question'] = limittoquestion;
+            }
+
             window.parent.postMessage(JSON.stringify(msg), '*');
         });
 

@@ -97,10 +97,15 @@ define([
      *
      * @param {String} name the name of the input we want
      * @param {String} srciframe the identifier of the iframe wanting it
+     * @param {boolean} outside do we expand the search beyound the src question?
      */
-    function vle_get_input_element(name, srciframe) {
+    function vle_get_input_element(name, srciframe, outside) {
         /* In the case of Moodle we are happy as long as the element is inside
            something with the `formulation`-class. */
+        if (outside === undefined) {
+            // Old default was to search beyoudn the question.
+            outside = true;
+        }
         let initialcandidate = document.getElementById(srciframe);
         let iter = initialcandidate;
         while (iter && !iter.classList.contains('formulation')) {
@@ -126,6 +131,9 @@ define([
             if (possible !== null) {
                 return possible;
             }
+        }
+        if (!outside) {
+            return null;
         }
         // If none found within the question itself, search everywhere.
         let possible = document.querySelector('.formulation input[id$="_' + name + '"]');
@@ -280,13 +288,13 @@ define([
         let input = null;
 
         let response = {
-            version: 'STACK-JS:1.2.0'
+            version: 'STACK-JS:1.3.0'
         };
 
         switch (msg.type) {
         case 'register-input-listener':
             // 1. Find the input.
-            input = vle_get_input_element(msg.name, msg.src);
+            input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
 
             if (input === null) {
                 // Requested something that is not available.

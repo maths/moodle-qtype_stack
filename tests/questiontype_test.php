@@ -200,7 +200,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <specificfeedback format="html">
       <text>[[feedback:firsttree]]</text>
     </specificfeedback>
-    <questionnote>
+    <questionnote format="html">
       <text></text>
     </questionnote>
     <questiondescription format="html">

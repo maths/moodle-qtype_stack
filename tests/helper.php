@@ -110,6 +110,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options = new stack_options();
         $q->questionnote = '';
+        $q->questionnoteformat = FORMAT_HTML;
 
         return $q;
     }
@@ -1959,6 +1960,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->specificfeedback          = '[[feedback:firsttree]]';
         $qdata->options->specificfeedbackformat    = FORMAT_HTML;
         $qdata->options->questionnote              = '';
+        $qdata->options->questionnoteformat        = FORMAT_HTML;
         $qdata->options->questiondescription       = 'This is a rather wonderful question!';
         $qdata->options->questiondescriptionformat = FORMAT_HTML;
         $qdata->options->questionsimplify          = 1;
@@ -2090,6 +2092,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->questiondescription       = '';
         $qdata->options->questiondescriptionformat = FORMAT_HTML;
         $qdata->options->questionnote              = '';
+        $qdata->options->questionnoteformat        = FORMAT_HTML;
         $qdata->options->questionsimplify          = 1;
         $qdata->options->assumepositive            = 0;
         $qdata->options->assumereal                = 0;
@@ -2427,7 +2430,10 @@ class qtype_stack_test_helper extends question_test_helper {
                 'text' => '',
                 'format' => '1',
                 'itemid' => 250226104);
-        $formform->questionnote = '';
+        $formform->questionnote = array(
+                'text' => '',
+                'format' => '1',
+                'itemid' => 12346789);
         $formform->questiondescription = array(
                 'text' => '',
                 'format' => '1',
@@ -3675,7 +3681,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
             'algebraic', 'ans1', 'ta', null,
-            array('boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}', 
+            array('boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}',
                 'options' => 'feedback:feedback_fn')
             );
 

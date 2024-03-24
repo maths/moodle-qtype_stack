@@ -1,0 +1,337 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2024 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Linear algebra functions for STACK                         */
+/*                                                              */
+/*  V0.1 March 2024                                             */
+/*                                                              */
+/****************************************************************/
+
+/*******************************************************************************/
+/* Provides convenience functions for column and row vectors for student input */
+/*******************************************************************************/
+texput(c,
+  lambda([ex], block(
+    ns: args(ex),
+    str: ["\\begin{bmatrix} "],
+    for ii: 1 thru length(ns) do (str: append(str, [ev(ns[ii],simp), " \\\\ "])),
+    str[length(str)]: " \\end{bmatrix}",
+    simplode(str)
+  ))
+);
+
+texput(r,
+  lambda([ex], block(
+    ns: args(ex),
+    str: ["\\begin{bmatrix} "],
+    for ii: 1 thru length(ns) do (str: append(str, [ev(ns[ii],simp), " & "])),
+    str[length(str)]: " \\end{bmatrix}",
+    simplode(str)
+  ))
+);
+
+/* Manually convert student answers to the appropriate vector form. Needs simp false. */
+vec_convert(sa):= ev(sa,
+                     c = lambda([[ex]],transpose(matrix(ex))),
+                     r = lambda([[ex]],matrix(ex))
+                    );
+
+s_test_case(vec_convert(c(1,2)+r(1,2)),matrix([1],[2])+matrix([1,2]));
+s_test_case(vec_convert(2*c(1,2)-4*r(1,2,3)),2*matrix([1],[2])-4*matrix([1,2,3]));
+
+/* Automatically converts answers like c(1,2,3) to matrix([1],[2],[3]) etc. May make the above function obsolete. */
+/* TODO which approach to take: vec_convert or defining c and r as functions? */
+c([ex]):= transpose(matrix(ex));
+r([ex]):= matrix(ex);
+
+s_test_case(c(1,2,3),matrix([1],[2],[3]));
+s_test_case(c(1,2),matrix([1],[2]));
+s_test_case(r(1,2,3),matrix([1,2,3]));
+s_test_case(r(1,2),matrix([1,2]));
+
+/*********************************************************************************/
+/* Take the upper triangular part of a matrix, leaving the remaining entries = 0 */
+/*********************************************************************************/
+
+triu(M):= block([Mupp,imax,jmax,ii,jj],
+  Mupp: copymatrix(M),
+  [imax, jmax]: ev(matrix_size(M),simp),
+  for ii: 2 thru imax do block(
+    ii: ev(ii,simp),
+    for jj: 1 thru ev(min(ii-1, jmax),simp) do block(
+      jj: ev(jj,simp),
+      Mupp[ii,jj]: 0
+    )
+  ),
+  return(Mupp)
+);
+
+s_test_case(triu(matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,2,3],[0,5,6],[0,0,9]));
+s_test_case(triu(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])),matrix([1,2,3],[0,5,6],[0,0,9],[0,0,0]));
+s_test_case(triu(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])),matrix([1,2,3,4],[0,5,6,7],[0,0,9,10]));
+
+/*********************************************************************************/
+/* Take the lower triangular part of a matrix, leaving the remaining entries = 0 */
+/*********************************************************************************/
+
+tril(M):= transpose(triu(transpose(M)));
+
+s_test_case(tril(matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,0,0],[4,5,0],[7,8,9]));
+s_test_case(tril(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])),matrix([1,0,0],[4,5,0],[7,8,9],[10,11,12]));
+s_test_case(tril(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])),matrix([1,0,0,0],[4,5,0,0],[7,8,9,0]));
+
+/*********************************************************************************/
+/* Takes the diagonal of a matrix, leaving the remaining entries = 0             */
+/*********************************************************************************/
+
+get_diag(M):= tril(triu(M));
+
+s_test_case(get_diag(matrix([1,2,3],[4,5,6],[7,8,9])),matrix([1,0,0],[0,5,0],[0,0,9]));
+s_test_case(get_diag(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])),matrix([1,0,0],[0,5,0],[0,0,9],[0,0,0]));
+s_test_case(get_diag(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])),matrix([1,0,0,0],[0,5,0,0],[0,0,9,0]));
+
+/*********************************************************************************/
+/* Predicate functions about the shape of a matrix                               */
+/*********************************************************************************/
+
+/* Is the matrix upper triangular? */
+triup(M):= is(M = triu(M)); 
+
+/* Is the matrix lower triangular? */
+trilp(M):= is(M = tril(M));
+
+/* Is the matrix diagonal? */
+diagp(M):= triup(M) and trilp(M);
+
+s_test_case(triup(ident(5)),true);
+s_test_case(trilp(ident(5)),true);
+s_test_case(diagp(ident(5)),true);
+s_test_case(triup(zeromatrix(5,4)),true);
+s_test_case(trilp(zeromatrix(5,4)),true);
+s_test_case(diagp(zeromatrix(5,4)),true);
+
+s_test_case(triup(matrix([1,2,3],[4,5,6],[7,8,9])),false);
+s_test_case(triup(matrix([1,2,3],[0,5,6],[0,0,9])),true);
+s_test_case(triup(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])),false);
+s_test_case(triup(matrix([1,2,3],[0,5,6],[0,0,9],[0,0,0])),true);
+s_test_case(triup(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])),false);
+s_test_case(triup(matrix([1,2,3,4],[0,5,6,7],[0,0,9,10])),true);
+
+s_test_case(trilp(matrix([1,2,3],[4,5,6],[7,8,9])),false);
+s_test_case(trilp(matrix([1,0,0],[4,5,0],[7,8,9])),true);
+s_test_case(trilp(matrix([1,2,3],[4,5,6],[7,8,9],[10,11,12])),false);
+s_test_case(trilp(matrix([1,0,0],[4,5,0],[7,8,9],[10,11,12])),true);
+s_test_case(trilp(matrix([1,2,3,4],[4,5,6,7],[7,8,9,10])),false);
+s_test_case(trilp(matrix([1,0,0,0],[4,5,0,0],[7,8,9,0])),true);
+
+s_test_case((simp:false,diagp(matrix([1,0],[1-1,1]))),false);
+
+/* Is the matrix in row echelon form (not reduced)? */
+
+REFp(M,[normalise_pivots]):= block([isREF,pivot_row,m,n,jj,ii],
+  if emptyp(normalise_pivots) then normalise_pivots: false else normalise_pivots: first(normalise_pivots),
+  isREF: true,
+  pivot_row: 0,
+  [m, n]: matrix_size(M),
+  for jj: 1 thru n do block(
+    jj: ev(jj,simp),
+    if is(pivot_row < m) then block(
+      if is(M[ev(pivot_row+1,simp),jj] # 0) then block(
+        pivot_row: ev(pivot_row + 1,simp),
+        if normalise_pivots and is(M[ev(pivot_row,simp),jj] # 1) then isREF: false
+      ),
+      for ii: ev(pivot_row+1,simp) thru m do block(
+        ii: ev(ii,simp),
+        if is(M[ii,jj] # 0) then isREF: false
+      )
+    )
+  ),
+  return(isREF)
+);
+
+s_test_case(REFp(ident(4)),true);
+s_test_case(REFp(ev(2*ident(4),simp)),true);
+s_test_case(REFp(ev(2*ident(4),simp),true),false);
+s_test_case(REFp(matrix([2,1,1],[0,0,3],[0,0,0],[0,0,0])),true);
+s_test_case(REFp(matrix([2,1,1],[0,0,3],[0,0,0],[0,0,0]),true),false);
+s_test_case(REFp(matrix([2,1,1],[0,0,3],[0,0,0],[0,0,0]),false),true);
+s_test_case(REFp(matrix([2,1,1],[0,0,0],[0,0,3],[0,0,0])),false);
+s_test_case(REFp(matrix([1,1,1,1,1,1],[0,1,1,1,1,1],[0,0,0,1,1,1],[0,0,0,0,0,1])),true);
+s_test_case(REFp(matrix([1,1,1,1,1,1],[0,1,1,1,1,1],[0,0,0,1,1,1],[0,0,0,0,0,1]),true),true);
+s_test_case(REFp(matrix([1,1,1,1,1,1],[0,1,1,1,1,1],[0,0,1,0,1,1],[0,0,0,0,0,1])),true);
+s_test_case(REFp(matrix([1,2,3],[0,5,6])),true);
+s_test_case(REFp(matrix([1,2,3],[4,5,6])),false);
+s_test_case(REFp(matrix([1,2,3],[0,5,6],[0,8,9])),false);
+
+/*********************************************************************************/
+/* Returns the diagonal of a matrix as a list                                    */
+/*********************************************************************************/
+
+diag_entries(M):= ev(makelist(M[ii,ii],ii,1,lmin(matrix_size(M))),simp);
+
+s_test_case(diag_entries(ident(3)),[1,1,1]);
+s_test_case(diag_entries(matrix([1,0,0],[0,2,0],[0,0,3],[0,0,0])),[1,2,3]);
+s_test_case(diag_entries(matrix([3,0,0,0],[0,2,0,0],[0,0,1,0])),[3,2,1]);
+
+/*********************************************************************************/
+/* Returns a diagonal matrix of size m by n with given diagonal                  */
+/*********************************************************************************/
+
+diagmatrix_like(d, m, n):= block([M,ii],
+  M: zeromatrix(m, n),
+  for ii: 1 thru ev(min(m, n, length(d)),simp) do block(
+    ii: ev(ii,simp),
+    M[ii,ii]: d[ii]
+  ),
+  return(M)
+);
+
+s_test_case(diagmatrix_like([1,1,1],3,3),ident(3));
+s_test_case(diagmatrix_like([1,2,3],3,4),matrix([1,0,0,0],[0,2,0,0],[0,0,3,0]));
+s_test_case(diagmatrix_like([1,2,3],4,3),matrix([1,0,0],[0,2,0],[0,0,3],[0,0,0]));
+s_test_case(diagmatrix_like([1,2,3],4,4),matrix([1,0,0,0],[0,2,0,0],[0,0,3,0],[0,0,0,0]));
+s_test_case(diagmatrix_like([1,2,3],2,3),matrix([1,0,0],[0,2,0]));
+s_test_case(diagmatrix_like([1,2,3],3,2),matrix([1,0],[0,2],[0,0]));
+
+/*********************************************************************************/
+/* Predicate function to test whether a set of vectors is linearly independent   */
+/*********************************************************************************/
+/* If given a matrix, it checks whether it has full column rank */
+/* If given a list of atoms, it treats it as a single vector and returns true */
+/* If given a list, set, ntuple or span of lists and/or matrices, it converts 
+   the matrices to lists, checks that all lists are the same length, and checks
+   whether the matrix with these vectors as rows has full row rank */
+   
+lin_indp(M):= block(
+  if matrixp(M) then return(is(rank(M) = ev(second(matrix_size(M)),simp)))
+  else if setp(M) then M: listify(M)
+  else if ntuplep(M) or safe_op(M)="span" then M: args(M),
+  if every(atom,M) then return(true),
+  M: map(lambda([ex], if matrixp(ex) then list_matrix_entries(ex) else ex),M),
+  if every(lambda([ex],length(ex)=length(first(M))),M) then return(is(rank(apply(matrix,M)) = ev(first(matrix_size(apply(matrix,M))),simp))),
+  return(false)
+);
+
+s_test_case(lin_indp(matrix([1,2],[4,5],[7,8])),true);
+s_test_case(lin_indp(matrix([1,2,3],[4,5,6],[7,8,9])),false);
+s_test_case(lin_indp(matrix([1,2,3],[4,5,6])),false);
+s_test_case(lin_indp([[1,2],[4,5],[7,8]]),false);
+s_test_case(lin_indp([[1,4,7],[2,5,8]]),true);
+s_test_case(lin_indp({[1,2],[4,5],[7,8]}),false);
+s_test_case(lin_indp({[1,4,7],[2,5,8]}),true);
+s_test_case(lin_indp(ntuple([1,2],[4,5],[7,8])),false);
+s_test_case(lin_indp(ntuple([1,4,7],[2,5,8])),true);
+s_test_case(lin_indp(span([1,2],[4,5],[7,8])),false);
+s_test_case(lin_indp(span([1,4,7],[2,5,8])),true);
+s_test_case(lin_indp([transpose([1,4,7]),[2,5,8]]),true);
+s_test_case(lin_indp({transpose([1,4,7]),matrix([2,5,8])}),true);
+
+/*********************************************************************************/
+/* Maps the significantfigures function over a matrix                            */
+/*********************************************************************************/
+/* Should this be core functionality? Surely when given a matrix the base sigfigsfun
+   or significantfigures function could do this by mapping itself over the arguments
+   and re-constructing the matrix. */
+
+sf_map(ex,n):= block([rows],
+  if matrixp(ex) then block(
+    return(apply(matrix,map(lambda([ex2],significantfigures(ex2,n)),args(ex))))
+  ) else if listp(ex) or ev(numberp(ex),simp) then return(significantfigures(ex,n))
+  else return(ex)
+);
+
+s_test_case(sf_map(1/3,2),0.33);
+s_test_case(sf_map(1/3,3),0.333);
+s_test_case(sf_map(12345,2),12000);
+s_test_case(sf_map(12345,3),12300);
+s_test_case(sf_map(1.5,1),2);
+s_test_case(sf_map(2.5,1),3);
+
+s_test_case(sf_map([1/3,12345],2),[0.33,12000]);
+s_test_case(sf_map(matrix([1/3,12345]),2),matrix([0.33,12000]));
+s_test_case(sf_map(matrix([1/3],[12345]),2),matrix([0.33],[12000]));
+s_test_case(sf_map(matrix([1/3,12345],[1/4,5/4]),2),matrix([0.33,12000],[0.25,1.3]));
+s_test_case(sf_map({1/3,1/4},1),{1/3,1/4});
+
+/*********************************************************************************/
+/* Returns the 2-norm of a matrix and 2-condition number of an invertible matrix */
+/*********************************************************************************/
+/* I don't know if this has a good use case in a CAS like Maxima.
+   I would happily remove this if this feels out of place, as I don't 
+   anticipate using this in my course regularly. */
+
+mat_norm2(M):= block([svs],
+  if matrixp(M) then block(
+    svs: ev(float(map(lambda([ex],sqrt(cabs(ex))),first(eigenvalues(transpose(M).M)))),simp),
+    return(ev(lmax(svs),simp))
+  ) else return(und)
+);
+
+s_test_case(mat_norm2(ident(2)),1.0);
+s_test_case(mat_norm2(matrix([sqrt(3),2],[0,sqrt(3)])),3.0);
+s_test_case(mat_norm2(matrix([1,2],[2,-2])),3.0);
+s_test_case(mat_norm2(matrix([2,2],[1,0],[0,1])),3.0);
+s_test_case(mat_norm2(matrix([1,1],[1,1])),2.0);
+s_test_case(mat_norm2(1),und);
+
+mat_cond2(M):= block([svs,cond2],
+  cond2: und,
+  if matrixp(M) then block(
+    if ev(is(first(matrix_size(M))=second(matrix_size(M))),simp) then block(
+      if ev(is(determinant(M)#0),simp) then block(
+        svs: ev(float(map(lambda([ex],sqrt(cabs(ex))),first(eigenvalues(transpose(M).M)))),simp),
+        cond2: ev(lmax(svs)/lmin(svs),simp)
+      )
+    )
+  ),
+  return(cond2)
+);
+
+s_test_case(mat_cond2(ident(2)),1.0);
+s_test_case(mat_cond2(matrix([sqrt(3),2],[0,sqrt(3)])),3.0);
+s_test_case(mat_cond2(matrix([1,2],[2,-2])),1.5);
+s_test_case(mat_cond2(1),und);
+s_test_case(mat_cond2(matrix([1,1],[1,0],[0,1])),und);
+s_test_case(mat_cond2(matrix([1,2],[1,2])),und);
+
+/*********************************************************************************/
+/* Is a matrix row or column equivalent to another?                              */
+/*********************************************************************************/
+/* Note: some behaviour may be unexpected when variables appear in either matrix,
+   as row/column equivalence is unclear in instances where division by an unknown occurs */
+
+row_equiv(ex,ta):= block(
+  if matrixp(ex) and matrixp(ta) then (
+    return(is(ev(rref(ex),simp) = ev(rref(ta),simp)))
+  )
+);
+
+col_equiv(ex,ta):= row_equiv(transpose(ex),transpose(ta));
+
+s_test_case(row_equiv(matrix([1,2,3],[4,5,6],[7,8,9]),matrix([1,0,-1],[0,1,2],[0,0,0])),true);
+s_test_case(row_equiv(matrix([1,2,3],[4,5,6],[7,8,9]),matrix([1,0,-1],[0,1,2])),false);
+s_test_case(row_equiv(matrix([1,2,3],[4,5,6],[7,8,9]),matrix([1,2,3],[0,-3,-6],[0,-6,-12])),true);
+s_test_case(row_equiv(matrix([1,2,3],[4,5,6],[7,8,9]),ident(3)),false);
+s_test_case(row_equiv(matrix([1,2,3],[4,5,6],[7,8,10]),ident(3)),true);
+s_test_case(row_equiv(matrix([1,2,3],[4,5,6],[7,8,9]),matrix([1,3,2],[4,6,5],[7,9,8])),false);
+s_test_case(row_equiv(matrix([1,2,3],[4,5,6]),matrix([1,0,-1],[0,1,2])),true);
+s_test_case(row_equiv(matrix([1,2],[2,3],[1,1]),matrix([1,0],[0,1],[0,0])),true);
+s_test_case(row_equiv(matrix([1,2,3],[4,5,6]),matrix([1,0,0],[0,1,0])),false);
+s_test_case(row_equiv(matrix([1,2],[2,3],[1,1]),matrix([1,0],[0,0],[0,0])),false);
+
+s_test_case(col_equiv(matrix([1,2,3],[4,5,6],[7,8,9]),ident(3)),false);
+s_test_case(col_equiv(matrix([1,2,3],[4,5,6],[7,8,10]),ident(3)),true);
+s_test_case(col_equiv(matrix([1,3,5],[1,1,0],[1,1,2],[1,3,3]),matrix([1/2,1/2,1/2],[1/2,-1/2,-1/2],[1/2,-1/2,1/2],[1/2,1/2,-1/2])),true);

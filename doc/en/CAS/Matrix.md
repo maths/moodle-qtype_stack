@@ -158,15 +158,20 @@ Students do find typing in matrices very tedious.  Some teachers have asked for 
 
 for column vectors and
 
-    v(1,2,3,4)
+    r(1,2,3,4)
 
 For row vectors.  This is not a core part of STACK currently, but in individual questions you can convert such notation easily into mainstream Maxima using code such as the following.
 
     ta1:c(1,2,3);
     ta2:v(1,2,3);
-    vec_convert(sa) := if op(sa)=c then transpose(matrix(args(sa))) elseif op(sa)=v then matrix(args(sa));
+    vec_convert(sa) := if op(sa)=c then transpose(matrix(args(sa))) elseif op(sa)=r then matrix(args(sa));
     vec_convert(ta1);
     vec_convert(ta2);
 
 Once converted into Matrices, the student's answer will be evaluated by PRTs as matrices.   Of course, this will not be reflected in the valuation.  If there is sufficient demand for this contact the developers.
 
+## Extra functionality in contrib ##
+
+In the [contrib folder](https://github.com/maths/moodle-qtype_stack/tree/master/stack/maxima/contrib) there are some user-contributed libraries of functions. Of particular note to linear algebra are the [linearalgebra.mac](https://github.com/maths/moodle-qtype_stack/tree/master/stack/maxima/contrib/linearalgebra.mac) and [vectorcalculus.mac](https://github.com/maths/moodle-qtype_stack/tree/master/stack/maxima/contrib/vectorcalculus.mac) files. To include these in a question, include the line, for example, `stack_include_contrib("linearalgebra.mac");` in your question variables. Note that permission to include external files may be limited by your admin. 
+
+For example, the above notation with `c(1,2,3)` and `r(1,2,3,4)` is formalised in the `linearalgebra.mac` file, complete with appropriate formatting in the student answer validation. 

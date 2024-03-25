@@ -433,7 +433,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
 
         $expectedq->questionvariables     = '';
         $expectedq->specificfeedback      = array('text' => '[[feedback:firsttree]]', 'format' => FORMAT_HTML, 'files' => array());
-        $expectedq->questionnote          = '';
+        $expectedq->questionnote          = array('text' => '', 'format' => FORMAT_HTML, 'files' => array());
         $expectedq->questionsimplify      = 1;
         $expectedq->assumepositive        = 0;
         $expectedq->assumereal            = 0;

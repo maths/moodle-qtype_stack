@@ -256,7 +256,10 @@ class qtype_stack_test_helper extends question_test_helper {
                                \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]',
             'format' => '1',
             'itemid' => 0);
-        $formform->questionnote = '{@p@}, {@ta@}.';
+        $formform->questionnote = array(
+                'text' => '{@p@}, {@ta@}.',
+                'format' => '1',
+                'itemid' => 0);
         $formform->questiondescription = array(
             'text' => 'This is a basic test question.',
             'format' => '1',

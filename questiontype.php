@@ -1729,7 +1729,7 @@ class qtype_stack extends question_type {
         }
 
         $errors['questionnote'] += $this->validation_check_no_placeholders(
-                stack_string('questionnote'), $fromform['questionnote']);
+                stack_string('questionnote'), $fromform['questionnote']['text']);
 
         // Question description.
         $errors['questiondescription'] = array();

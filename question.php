@@ -60,6 +60,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public $questionnote;
 
+    /** @var int one of the FORMAT_... constants */
+    public $questionnoteformat;
+
     /**
      * @var string STACK specific: allow a question to carry some description/discussion.
      */

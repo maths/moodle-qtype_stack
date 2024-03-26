@@ -97,10 +97,15 @@ define([
      *
      * @param {String} name the name of the input we want
      * @param {String} srciframe the identifier of the iframe wanting it
+     * @param {boolean} outside do we expand the search beyound the src question?
      */
-    function vle_get_input_element(name, srciframe) {
+    function vle_get_input_element(name, srciframe, outside) {
         /* In the case of Moodle we are happy as long as the element is inside
            something with the `formulation`-class. */
+        if (outside === undefined) {
+            // Old default was to search beyoudn the question.
+            outside = true;
+        }
         let initialcandidate = document.getElementById(srciframe);
         let iter = initialcandidate;
         while (iter && !iter.classList.contains('formulation')) {
@@ -110,6 +115,10 @@ define([
             // iter now represents the borders of the question containing
             // this IFRAME.
             let possible = iter.querySelector('input[id$="_' + name + '"]');
+            if (possible !== null) {
+                return possible;
+            }
+            possible = iter.querySelector('textarea[id$="_' + name + '"]');
             if (possible !== null) {
                 return possible;
             }
@@ -123,8 +132,15 @@ define([
                 return possible;
             }
         }
+        if (!outside) {
+            return null;
+        }
         // If none found within the question itself, search everywhere.
         let possible = document.querySelector('.formulation input[id$="_' + name + '"]');
+        if (possible !== null) {
+            return possible;
+        }
+        possible = document.querySelector('.formulation textarea[id$="_' + name + '"]');
         if (possible !== null) {
             return possible;
         }
@@ -135,6 +151,32 @@ define([
         }
         possible = document.querySelector('.formulation select[id$="_' + name + '"]');
         return possible;
+    }
+
+    /**
+     * Returns the input element or null for a question level submit button.
+     * Basically, the "Check" button that behaviours like adaptive-mode in Moodle have.
+     * Not all questions have such buttons, and the behaviour will affect that.
+     *
+     * Will only return the button of the question containing that iframe.
+     *
+     * @param {String} srciframe the identifier of the iframe wanting it
+     */
+    function vle_get_submit_button(srciframe) {
+        let initialcandidate = document.getElementById(srciframe);
+        let iter = initialcandidate;
+        while (iter && !iter.classList.contains('formulation')) {
+            iter = iter.parentElement;
+        }
+        if (iter && iter.classList.contains('formulation')) {
+            // iter now represents the borders of the question containing
+            // this IFRAME.
+            // In Moodle inputs that are behaviour variables use `-` as a separator
+            // for the name and usage id.
+            let possible = iter.querySelector('input[id$="-submit"][type=submit]');
+            return possible;
+        }
+        return null;
     }
 
     /**
@@ -163,7 +205,8 @@ define([
 
     /**
      * Does HTML-string cleaning, i.e., removes any script payload. Returns
-     * a DOM version of the given input string.
+     * a DOM version of the given input string. The DOM version returned is
+     * an element of some sort containing the contents, possibly a `body`.
      *
      * This is used when receiving replacement content for a div.
      *
@@ -271,13 +314,13 @@ define([
         let input = null;
 
         let response = {
-            version: 'STACK-JS:1.1.0'
+            version: 'STACK-JS:1.3.0'
         };
 
         switch (msg.type) {
         case 'register-input-listener':
             // 1. Find the input.
-            input = vle_get_input_element(msg.name, msg.src);
+            input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
 
             if (input === null) {
                 // Requested something that is not available.
@@ -298,6 +341,10 @@ define([
             if (input.nodeName.toLowerCase() === 'select') {
                 response.value = input.value;
                 response['input-type'] = 'select';
+                response['input-readonly'] = input.hasAttribute('disabled');
+            } else if (input.nodeName.toLowerCase() === 'textarea') {
+                response.value = input.value;
+                response['input-type'] = 'textarea';
                 response['input-readonly'] = input.hasAttribute('disabled');
             } else if (input.type === 'checkbox') {
                 response.value = input.checked;
@@ -474,6 +521,37 @@ define([
             }
 
             break;
+        case 'register-button-listener':
+            // 1. Find the element.
+            element = vle_get_element(msg.target);
+
+            if (element === null) {
+                // Requested something that is not available.
+                const ret = {
+                    version: 'STACK-JS:1.2.0',
+                    type: 'error',
+                    msg: 'Failed to find element: "' + msg.target + '"',
+                    tgt: msg.src
+                };
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(ret), '*');
+                return;
+            }
+
+            // 2. Add a listener, no need to do anything more
+            // complicated than this.
+            element.addEventListener('click', (event) => {
+                let resp = {
+                    version: 'STACK-JS:1.2.0',
+                    type: 'button-click',
+                    name: msg.target,
+                    tgt: msg.src
+                };
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(resp), '*');
+                // These listeners will stop the submissions of buttons which might be a problem.
+                event.preventDefault();
+            });
+
+            break;
         case 'toggle-visibility':
             // 1. Find the element.
             element = vle_get_element(msg.target);
@@ -514,8 +592,11 @@ define([
             }
 
             // 2. Secure content.
-            // 3. Switch the content.
-            element.replaceChildren(vle_html_sanitize(msg.content));
+            // 3. Switch the content. Note the contents coming from `vle_html_sanitize`
+            // are wrapped in an element possibly `<body>` and will need to be unwrapped.
+            // We can simply use innerHTML here to also disconnect the content from
+            // whatever it was before being sanitized.
+            element.innerHTML = vle_html_sanitize(msg.content).innerHTML;
             // If we tune something we should let the VLE know about it.
             vle_update_dom(element);
 
@@ -567,6 +648,48 @@ define([
 
             IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
             return;
+        case 'query-submit-button':
+            response.type = 'submit-button-info';
+            response.tgt = msg.src;
+            input = vle_get_submit_button(msg.src);
+            if (input === null || input.hasAttribute('hidden')) {
+                response['value'] = null;
+            } else {
+                response['value'] = input.value;
+            }
+            IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            return;
+        case 'enable-submit-button':
+            input = vle_get_submit_button(msg.src);
+            if (input !== null) {
+                if (msg.enabled) {
+                    input.removeAttribute('disabled');
+                } else {
+                    input.disabled = true;
+                }
+            } else {
+                // We generate this error just to push people to properly check if
+                // the button even exists before trying to tune it.
+                response.type = 'error';
+                response.msg = 'Could not find matching submit button for this question.';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            }
+            return;
+        case 'relabel-submit-button':
+            input = vle_get_submit_button(msg.src);
+            if (input !== null) {
+                input.value = msg.name;
+            } else {
+                // We generate this error just to push people to properly check if
+                // the button even exists before trying to tune it.
+                response.type = 'error';
+                response.msg = 'Could not find matching submit button for this question.';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            }
+            return;
+        case 'submit-button-info':
         case 'initial-input':
         case 'error':
             // These message types are for the other end.

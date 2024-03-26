@@ -31,6 +31,8 @@ For example
 
 At least one of the choices must be considered `correct`.  However, the `true` and `false` values are only used to construct the "teacher's correct answer".   You must still use a [potential response tree](Potential_response_trees.md) to assess the student's answer as normal.
 
+Note the `value` expression must be constructed with noun functions where a noun alternative exists.  E.g. use `%union()` (the noun form) not `union()`.  STACK has to match up what the student selects, and this is an expression they might well type into an algebraic input.  In this situation functions in students' expressions are turned to noun forms.  Hence the teacher must also use noun forms in setting up the MCQ input options.
+
 STACK provides some helper functions
 
 1. `mcq_correct(ta)` takes the "model answer" list and returns a list of values for which `correct` is true.

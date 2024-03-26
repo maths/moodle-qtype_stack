@@ -538,7 +538,7 @@ class qtype_stack_renderer extends qtype_renderer {
         return $qa->get_question()->format_text(stack_maths::process_display_castext(
             $question->get_questiondescription_castext()->get_rendered($question->castextprocessor), $this),
             FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
-            $qa, 'question', 'questiondescription', $question->id);
+            $qa, 'qtype_stack', 'questiondescription', $question->id);
     }
 
     /**

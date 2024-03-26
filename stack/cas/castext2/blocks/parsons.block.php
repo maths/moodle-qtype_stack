@@ -186,6 +186,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $r->items[] = $c;
             }
         }
+        $r->items[] = new MP_String(";\n");
 
         // Parse steps and Sortable options separately if they exist. Invalid JSON will be identified by preprocess_steps function.
         $code = 'var headers = {used: {header: "' . stack_string('stackBlock_parsons_used_header') . '"},

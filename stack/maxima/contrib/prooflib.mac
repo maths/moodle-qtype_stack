@@ -46,6 +46,8 @@ tap:proof_display(proof_ans, proof_steps);
 /* proof_iff()   - if any only if                                 */
 /* proof_cases() - proof by exhaustive cases, the first element   */
 /*                 is assumed to justify the cases.               */
+/* proof_goal()  - proof by establishing a goal, the last element */
+/*                 is assumed to justify by the previous cases.   */
 /* proof_ind()   - proof by induction                             */
 /*                                                                */
 /******************************************************************/
@@ -54,7 +56,7 @@ tap:proof_display(proof_ans, proof_steps);
 /* Please update Proof/Proof_CAS_library.md with new types.       */
 
 /* Note, "proof" is assumed to come first in this list, as we use "rest" below for other types. */
-proof_types:[proof, proof_c, proof_opt, proof_iff, proof_cases, proof_ind];
+proof_types:[proof, proof_c, proof_opt, proof_iff, proof_cases, proof_goal, proof_ind];
 
 proofp(ex) := block(
   if atom(ex) then true,
@@ -122,6 +124,7 @@ proof_normal(ex) := block(
   if proof_commutep(ex) then return(apply(op(ex), sort(map(proof_normal, args(ex))))),
   /* Some proof types have subsets of arguments which commute. */
   if op(ex) = proof_cases then return(apply(proof_cases, append([first(args(ex))], sort(map(proof_normal, rest(args(ex))))))),
+  if op(ex) = proof_goal then return(apply(proof_goal, append(sort(map(proof_normal, reverse(rest(reverse(args(ex)))))), [first(reverse(args(ex)))]))),
   if op(ex) = proof_ind then return(apply(proof_ind,append([first(args(ex))], sort([proof_normal(second(args(ex))), proof_normal(third(args(ex)))]), [fourth(args(ex))]))),
   return(apply(op(ex), map(proof_normal, args(ex))))
 );
@@ -130,6 +133,7 @@ s_test_case(proof_normal(proof_c(B,A,D,C)), proof_c(A,B,C,D));
 s_test_case(proof_normal(proof_iff(B,A)), proof_iff(A,B));
 s_test_case(proof_normal(proof_ind(D,C,B,A)), proof_ind(D,B,C,A));
 s_test_case(proof_normal(proof_cases(D,C,B,A)), proof_cases(D,A,B,C));
+s_test_case(proof_normal(proof_goal(D,C,B,A)), proof_goal(B,C,D,A));
 s_test_case(proof_normal(proof_iff(proof_c(proof_opt(C),A), B)), proof_iff(proof_c(A,C),B));
 
 /******************************************************************/
@@ -153,6 +157,9 @@ proof_one_alternatives(pr) := block(
   if op(pr)=proof_opt then return(pf_one(first(pr), nullproof)),
   /* In a proof by exhaustive cases the first element is fixed. */
   if op(pr)=proof_cases then return(apply(pf_one, map(lambda([ex], apply(op(pr), append([first(args(pr))], map(proof_one_alternatives, ex)))), listify(permutations(rest(args(pr))))))),
+  /* In a proof establishing a goal the last element is fixed. */
+  if op(pr)=proof_goal then return(apply(pf_one, map(lambda([ex], apply(op(pr), append(map(proof_one_alternatives, ex), [first(reverse(args(pr)))]))), 
+                        listify(permutations(rest(reverse(args(pr)))))))),
   /* In a proof by induction cases the first element and last elents are fixed. */
   if op(pr) = proof_ind then return(apply(pf_one, map(lambda([ex], apply(op(pr), append([first(args(pr))],
       map(proof_one_alternatives, ex), [fourth(args(pr))]))), listify(permutations([second(args(pr)), third(args(pr))]))))),
@@ -191,6 +198,7 @@ s_test_case(proof_alternatives(proof_c(A,B)), [proof_c(A,B),proof_c(B,A)]);
 s_test_case(proof_alternatives(proof_iff(A,B)), [proof_iff(A,B),proof_iff(B,A)]);
 s_test_case(proof_alternatives(proof_ind(A,B,C,D)), [proof_ind(A,B,C,D),proof_ind(A,C,B,D)]);
 s_test_case(proof_alternatives(proof_cases(A,B,C)), [proof_cases(A,B,C),proof_cases(A,C,B)]);
+s_test_case(proof_alternatives(proof_goal(A,B,C)), [proof_goal(A,B,C),proof_goal(B,A,C)]);
 s_test_case(proof_alternatives(proof_iff(proof(proof_opt(A), B),C)), [proof_iff(proof(A,B),C),proof_iff(proof(B),C),proof_iff(C,proof(A,B)),proof_iff(C,proof(B))]);
 
 /******************************************************************/
@@ -304,7 +312,7 @@ proof_getstep_html(k, pf) := block([keylist],
 );
 
 /*
-  Wrap lines in html divs, and add narrative if it exists. 
+  Wrap lines in html <div> tags, and add narrative if it exists. 
   pfs is a line from the proof_steps array.
 */
 proof_line_html(pfs) := block([st],
@@ -380,9 +388,9 @@ proof_damerau_levenstein(s, t) := block([m, n, XY, XYaction, i, j, d, temp, L, l
         XYaction[2][1]:makelist(dl_delete(s[k]),k,1,i),
         for j:1 thru n do(
             c:if is(s[i]=t[j]) then 0 else 1,
-            L:[XY[2][j]+1,     /* Insertion */
-                XY[1][j+1]+1,  /* Deletion  */
-                XY[1][j]+c],   /* Substion  */
+            L:[XY[2][j]+1,     /* Insertion    */
+                XY[1][j+1]+1,  /* Deletion     */
+                XY[1][j]+c],   /* Substitution */
             /* Add in the swap rule. */
             /* The swapping costs nothing, but the cost comes from the subsequent dl_subs, which we filter out. */
             if is(i<m and j<n) and not(is(s[i]=s[i+1]))

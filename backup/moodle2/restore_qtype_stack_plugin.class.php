@@ -300,15 +300,15 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
                 if ($node->truenextnode == -1) {
                     $left = null;
                 } else {
-                    $left = $node->truenextnode + 1;
+                    $left = (int) $node->truenextnode + 1;
                 }
                 if ($node->falsenextnode == -1) {
                     $right = null;
                 } else {
-                    $right = $node->falsenextnode + 1;
+                    $right = (int) $node->falsenextnode + 1;
                 }
 
-                $graph->add_node($node->nodename + 1, $node->description, $left, $right);
+                $graph->add_node((int) $node->nodename + 1, $node->description, $left, $right);
             }
             try {
                 $graph->layout();

@@ -537,10 +537,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if ($this->tas[$name]->is_correctly_evaluated()) {
                 $teacheranswer = $this->tas[$name]->get_value();
             }
-            $input->adapt_to_model_answer($teacheranswer);
             if ($this->get_cached('contextvariables-qv') !== null) {
                 $input->add_contextsession(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
             }
+            $input->adapt_to_model_answer($teacheranswer);
         }
     }
 
@@ -641,7 +641,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         $this->questiondescriptioninstantiated = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qd'),
-            '/gf', new castext2_static_replacer($this->get_cached('static-castext-strings')));
+            '/qd', new castext2_static_replacer($this->get_cached('static-castext-strings')));
         // Might not require any evaluation anyway.
         if (!$this->questiondescriptioninstantiated->requires_evaluation()) {
             return $this->questiondescriptioninstantiated;
@@ -1463,8 +1463,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function validate_against_stackversion($context) {
         $errors = array();
-        $qfields = array('questiontext', 'questionvariables', 'questionnote', 'questiondescription',
+        $castextfields = array('questiontext', 'questionnote', 'questiondescription',
             'specificfeedback', 'generalfeedback');
+        $qfields = array_merge($castextfields, array('questionvariables'));
 
         $stackversion = (int) $this->stackversion;
 
@@ -1518,6 +1519,22 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     if ($opt === 'mul') {
                         $errors[] = stack_string('stackversionmulerror');
                     }
+                }
+            }
+        }
+
+        // Check for /*...*/ comments in castext in older questions.
+        if ($stackversion < $checkpat['ver']) {
+            $pat = '~/\*.*?\*/~s';
+            foreach ($castextfields as $field) {
+                if (preg_match($pat, $this->$field)) {
+                    $errors[] = stack_string('stackversioncomment', array('qfield' => stack_string($field)));
+                }
+            }
+            // Look inside the PRT feedback variables.  Should probably check the feedback as well.
+            foreach ($this->prts as $name => $prt) {
+                if (preg_match($pat, $prt->get_feedback_test())) {
+                    $errors[] = stack_string('stackversioncomment', array('qfield' => $name));
                 }
             }
         }

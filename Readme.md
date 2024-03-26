@@ -1,8 +1,8 @@
-# STACK 4.5.0
+# STACK 4.6.0
 
 STACK is an assessment system for mathematics, science and related disciplines.  STACK is a question type for the Moodle learning management system, and also the ILIAS learning management system.
 
-The mains STACK project website is [https://stack-assessment.org/](https://stack-assessment.org/).
+The main STACK project website is [https://stack-assessment.org/](https://stack-assessment.org/).
 
 STACK was created by [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh, and includes the work of many [other contributors](https://github.com/maths/moodle-qtype_stack/blob/master/doc/en/About/Credits.md). 
 STACK is based on continuing research and use at the University of Edinburgh, the Open University, Aalto, Loughborough University, the University of Birmingham and others.

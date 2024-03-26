@@ -3216,6 +3216,17 @@
   "heawood_graph": {
       "function": "?"
   },
+  "help": {
+      "constant": "s",
+      "aliasvariable": "%stackhelp"
+  },
+  "%stackhelp": {
+      "constant": "s",
+      "correctvariable": "help",
+      "aliasvariables": [
+          "help"
+      ]
+  },
   "hermite": {
       "function": "f"
   },

@@ -1831,7 +1831,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('forbiddenCharDecimal', $state->note);
     }
 
-    public function test_validate__string() {
+    public function test_validate_string() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '"A random string"');
         $state = $el->validate_student_response(array('sans1' => '"Lots of stuff:!$%^&*?@;"'),
@@ -1855,5 +1855,15 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->contentsmodified);
         $this->assertEquals('<span class="stacksyntaxexample">x²</span>', $state->contentsdisplayed);
         $this->assertEquals('', $state->lvars);
+    }
+
+    public function test_validate_help() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x^2');
+        $state = $el->validate_student_response(array('sans1' => 'help'),
+            $options, 'x^2', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('%stackhelp', $state->contentsmodified);
+        $this->assertEquals('\[ \,{\mbox{ help }}\, \]', $state->contentsdisplayed);
     }
 }

@@ -85,6 +85,13 @@ class stack_ast_container_silent implements cas_evaluatable {
     protected $nounify = null;
 
     /**
+     * Used to decide if this is used to show "correct answer" as something the student
+     * types in.
+     * @var boolean
+     */
+    protected $correctvariable = false;
+
+    /**
      * Some AST-containers have keys but are still to be used like they had
      * none. This is somewhat more complex behaviour connected to the new
      * cassession only returning the values of last statements with a given
@@ -265,6 +272,10 @@ class stack_ast_container_silent implements cas_evaluatable {
         $this->nounify = $key;
     }
 
+    public function set_correctvariable(bool $key=false) {
+        $this->correctvariable = $key;
+    }
+
     // Functions required by cas_evaluatable.
     public function get_valid(): bool {
         if ($this->valid === null) {
@@ -339,7 +350,8 @@ class stack_ast_container_silent implements cas_evaluatable {
                 'nounify' => $nounify,
                 'nontuples' => $nontuples,
                 'decimal' => $decimal,
-                'listsep' => $listsep
+                'listsep' => $listsep,
+                'correctvariable' => $this->correctvariable,
                 );
         return $this->ast_to_string($this->ast, $params);
     }

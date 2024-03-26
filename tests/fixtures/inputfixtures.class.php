@@ -62,6 +62,8 @@ class stack_inputvalidation_test_data {
         array('12 3.7', 'php_false', '', '', '', 'spaces', ""),
         array('12.5 3', 'php_false', '', '', '', 'spaces', ""),
 
+        array('help', 'php_true', '%stackhelp', 'cas_true', '\,{\mbox{ help }}\,', '', "",),
+
         array('1x', 'php_true', '1*x', 'cas_true', '1\cdot x', 'missing_stars', ""),
         array('x1', 'php_true', 'x*1', 'cas_true', 'x\cdot 1', 'missing_stars', ""),
         array('1', 'php_true', '1', 'cas_true', '1', '', "Numbers"),

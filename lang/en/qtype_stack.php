@@ -399,6 +399,7 @@ $string['singlechargotmorethanone'] = 'You can only enter a single character her
 
 $string['true'] = 'True';
 $string['false'] = 'False';
+$string['stack_help'] = 'help';
 $string['notanswered'] = '(Clear my choice)';
 $string['ddl_runtime'] = 'The input has generated the following runtime error which prevents you from answering. Please contact your teacher.';
 $string['ddl_empty'] = 'No choices were provided for this drop-down.';

@@ -34,6 +34,7 @@ Notes:
 8. The student still cannot use any of the variable names defined in the question variables.
 9. Validators only operate on a single input, and there is no mechanism to validate a combination of inputs at once.
 10. The recommended style for naming validator functions is to begin the name with `validate_` or `feedback_`.
+11. STACK has a special constant `%stackhelp`.  If a student types in `help` (or their local language equivalent) then the input system converts this atom to the constant `%stackhelp`.  A bespoke validator could look for this atom in the list of variables and provide some immediate feedback, either with the "validator" or "feedback" functionality.
 
 A single validator function can be re-used on multiple inputs within a single question. If you regularly copy validator functions from question to question please consider contributing this as a function to the core of STACK (see below for details). We expect to collect and support regularly used validators in future.
 

@@ -831,6 +831,16 @@ class MP_Identifier extends MP_Atom {
             }
         }
 
+        if ($params !== null && isset($params['correctvariable'])) {
+            $feat = null;
+            if ($params['correctvariable'] === true) {
+                $feat = stack_cas_security::get_feature($op, 'correctvariable');
+            }
+            if ($feat !== null) {
+                $op = $feat;
+            }
+        }
+
         if ($params !== null && isset($params['pretty'])) {
             if (is_integer($params['pretty'])) {
                 $indent = str_pad($indent, $params['pretty']);

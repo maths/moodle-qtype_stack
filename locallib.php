@@ -76,6 +76,7 @@ function get_stack_maxima_latex_replacements() {
     if (!isset($replacements[$lang])) {
         $replacements[$lang] = [
                 'QMCHAR' => '?',
+                '!HELP!' => stack_string('stack_help'),
                 '!LEFTSQ!' => '\left[',
                 '!LEFTR!' => '\left(',
                 '!RIGHTSQ!' => '\right]',

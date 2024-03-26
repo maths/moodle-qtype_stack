@@ -887,6 +887,8 @@ abstract class stack_input {
 
         $filterstoapply = array();
 
+        $filterstoapply[] = '040_help_rename';
+
         if ($this->get_parameter('forbidFloats', false)) {
             $filterstoapply[] = '101_no_floats';
         }
@@ -1444,7 +1446,8 @@ abstract class stack_input {
             $decimal = ',';
             $listsep = ';';
         }
-        $params = array('checkinggroup' => true,
+        $params = array('correctvariable' => true,
+            'checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
             'nosemicolon' => true,

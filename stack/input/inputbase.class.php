@@ -887,8 +887,6 @@ abstract class stack_input {
 
         $filterstoapply = array();
 
-        $filterstoapply[] = '040_help_rename';
-
         if ($this->get_parameter('forbidFloats', false)) {
             $filterstoapply[] = '101_no_floats';
         }

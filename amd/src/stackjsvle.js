@@ -6,7 +6,7 @@
  * one needs to map this script to do the following:
  *
  *  1. Ensure that searches for target elements/inputs are limited to questions
- *     and do not return any elements outside them.
+ *     or their feedback and do not return any elements outside them.
  *
  *  2. Map any identifiers needed to identify inputs by name.
  *
@@ -23,8 +23,8 @@
  *  1. Each relevant IFRAME has an `id`-attribute that will be told to this
  *     script.
  *
- *  2. Each such IFRAME exists within the question itself, so that one can
- *     traverse up the DOM tree from that IFRAME to find the border of
+ *  2. Each such IFRAME exists within the question content itself, so that
+ *     one can traverse up the DOM tree from that IFRAME to find the border of
  *     the question.
  *
  * @module     qtype_stack/stackjsvle
@@ -61,7 +61,7 @@ define([
 
     /**
      * Returns an element with a given id, if an only if that element exists
-     * inside a portion of DOM that represents a question.
+     * inside a portion of DOM that represents a question or its feedback.
      *
      * If not found or exists outside the restricted area then returns `null`.
      *
@@ -72,10 +72,12 @@ define([
            something with the `formulation`-class. */
         let candidate = document.getElementById(id);
         let iter = candidate;
-        while (iter && !iter.classList.contains('formulation')) {
+        while (iter && !iter.classList.contains('formulation') &&
+               !iter.classList.contains('outcome')) {
             iter = iter.parentElement;
         }
-        if (iter && iter.classList.contains('formulation')) {
+        if (iter && (iter.classList.contains('formulation') ||
+            iter.classList.contains('outcome'))) {
             return candidate;
         }
 
@@ -84,7 +86,7 @@ define([
 
     /**
      * Returns an input element with a given name, if and only if that element
-     * exists inside a portion of DOM that represents a question.
+     * exists inside a portion of DOM that represents a question or its feedback.
      *
      * Note that, the input element may have a name that multiple questions
      * use and to pick the preferred element one needs to pick the one
@@ -108,10 +110,12 @@ define([
         }
         let initialcandidate = document.getElementById(srciframe);
         let iter = initialcandidate;
-        while (iter && !iter.classList.contains('formulation')) {
+        while (iter && !iter.classList.contains('formulation') &&
+               !iter.classList.contains('outcome')) {
             iter = iter.parentElement;
         }
-        if (iter && iter.classList.contains('formulation')) {
+        if (iter && (iter.classList.contains('formulation') ||
+            iter.classList.contains('outcome'))) {
             // iter now represents the borders of the question containing
             // this IFRAME.
             let possible = iter.querySelector('input[id$="_' + name + '"]');
@@ -150,6 +154,25 @@ define([
             return possible;
         }
         possible = document.querySelector('.formulation select[id$="_' + name + '"]');
+        if (possible !== null) {
+            return possible;
+        }
+
+        // Also search from within the feedback and other "outcome".
+        possible = document.querySelector('.outcome input[id$="_' + name + '"]');
+        if (possible !== null) {
+            return possible;
+        }
+        possible = document.querySelector('.outcome textarea[id$="_' + name + '"]');
+        if (possible !== null) {
+            return possible;
+        }
+        // Radios have interesting ids, but the name makes sense
+        possible = document.querySelector('.outcome input[id$="_' + name + '_1"][type=radio]');
+        if (possible !== null) {
+            return possible;
+        }
+        possible = document.querySelector('.outcome select[id$="_' + name + '"]');
         return possible;
     }
 
@@ -165,6 +188,7 @@ define([
     function vle_get_submit_button(srciframe) {
         let initialcandidate = document.getElementById(srciframe);
         let iter = initialcandidate;
+        // Note the submit button is most definitely not within "outcome".
         while (iter && !iter.classList.contains('formulation')) {
             iter = iter.parentElement;
         }
@@ -519,7 +543,6 @@ define([
                     IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(response), '*');
                 }
             }
-
             break;
         case 'register-button-listener':
             // 1. Find the element.

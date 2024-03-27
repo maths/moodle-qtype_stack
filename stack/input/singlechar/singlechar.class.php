@@ -26,7 +26,8 @@ class stack_singlechar_input extends stack_input {
         'hideanswer' => false,
         'allowempty' => false,
         'nounits' => true,
-        'validator' => false
+        'validator' => false,
+        'feedback' => false,
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

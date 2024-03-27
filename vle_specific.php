@@ -146,6 +146,7 @@ function stack_castext_file_filter(string $castext, array $identifiers): string 
                 $block .= ' filearea="' . $identifiers['field'] . '"';
                 $block .= ' itemid="' . $identifiers['questionid'] . '"';
                 break;
+            case 'questiondescription':
             case 'specificfeedback':
             case 'prtcorrect': // These three are not in actual use.
             case 'prtpartiallycorrect':
@@ -302,4 +303,11 @@ function stack_fetch_included_content(string $url) {
     }
     $cache[$translated] = false;
     return false;
+}
+
+/**
+ * Fetches the current VLE UI language. Might not be the one that the question uses.
+ */
+function stack_get_system_language(): string {
+    return current_language();
 }

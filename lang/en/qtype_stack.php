@@ -46,14 +46,15 @@ $string['version']           = 'Version';
 $string['stack:usediagnostictools'] = 'Use the STACK tools';
 
 // Versions of STACK.
-$string['stackversionedited']   = 'This question was authored with STACK version {$a}.';
-$string['stackversionnow']      = 'The current version of STACK is {$a}.';
-$string['stackversionnone']     = 'This question has not been edited since question variant numbering was introduced in STACK 4.2.  Please review your question carefully.';
-$string['stackversionerror']    = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
-$string['stackversionerroralt'] = 'An alternative is {$a}.';
-$string['stackversionmulerror'] = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
-$string['stackversionregexp']   = 'The RegExp answer test is not supported after STACK version 4.3.  Please use the new SRegExp instead.';
-$string['stackfileuseerror']    = 'One or more files (e.g. images) are associated internally with the {$a}, but none appear to be used in the current text itself.';
+$string['stackversionedited']     = 'This question was authored with STACK version {$a}.';
+$string['stackversionnow']        = 'The current version of STACK is {$a}.';
+$string['stackversionnone']       = 'This question has not been edited since question variant numbering was introduced in STACK 4.2.  Please review your question carefully.';
+$string['stackversionerror']      = 'This question uses {$a->pat} in the {$a->qfield}, which changed in STACK version {$a->ver} and is no longer supported.';
+$string['stackversionerroralt']   = 'An alternative is {$a}.';
+$string['stackversionmulerror']   = 'This question has an input which uses the "mul" option, which is not suppored after STACK version 4.2.  Please edit this question.';
+$string['stackversionregexp']     = 'The RegExp answer test is not supported after STACK version 4.3.  Please use the new SRegExp instead.';
+$string['stackfileuseerror']      = 'One or more files (e.g. images) are associated internally with the {$a}, but none appear to be used in the current text itself.';
+$string['stackversioncomment']    = 'This question appears to use /*...*/ style comments in the {$a->qfield}, which are no longer supported.';
 
 // Strings used on the editing form.
 $string['generalerrors']     = 'There are errors in your question.  Please check carefully below.';
@@ -644,36 +645,36 @@ $string['healthcheckjsxgraph'] = 'JSXGraph binding and MathJax';
 $string['healthcheckjsxgraphintro'] = 'There should be a graph and an input below. Interacting with the graph should affect the input and vice versa. If not, then there are issues with JavaScript libraries or execution. The graph should also have a MathJax-rendered LaTeX formula visible. If not, then you might be blocking access to certain things and may need to tune firewalls, proxys, etc.; if you are running a closed install, try adjusting the remote addresses in <code>vle_specific.php</code>. The graph (if functioning) is based on <a href="https://jsxgraph.org/share/example/differential-equations">this example</a>.';
 $string['healthcheckjsxgraphsample'] = '<div class="formulation" style="width:36vw;margin:auto;">
 [[jsxgraph input-ref-fakeinput1="input" width="35vw" aspect-ratio="1"]]
-JXG.Options.text.useMathJax = true; JXG.Options.point.snapToGrid = true; 
-JXG.Options.point.snapSizeX = 0.002; JXG.Options.point.snapSizeY = 0.002; 
-const board = JXG.JSXGraph.initBoard(BOARDID, {axis:true, boundingbox:[-11,11,11,-11]}); 
-board.create("text",[-10,6,"\\\\[y\' = (2-t)y+c\\\\]"], {fontSize:24}); 
-var N = board.create("slider", [[-7, 9.5], [7, 9.5], [-15, 10, 15]], {name:"N"}); 
-var slider = board.create("slider", [[-7, 8], [7, 8], [-15, 0, 15]], {name:"c", snapWidth:0.002}); 
-var P = board.create("point", [0, 1], {name:"(\\\\(t_0, y_0\\\\))"}); 
-var snip = board.jc.snippet("(2-t)*y + c", true, "t, y"); 
-var f = (t,y) => [snip(t,y[0])]; 
+JXG.Options.text.useMathJax = true; JXG.Options.point.snapToGrid = true;
+JXG.Options.point.snapSizeX = 0.002; JXG.Options.point.snapSizeY = 0.002;
+const board = JXG.JSXGraph.initBoard(BOARDID, {axis:true, boundingbox:[-11,11,11,-11]});
+board.create("text",[-10,6,"\\\\[y\' = (2-t)y+c\\\\]"], {fontSize:24});
+var N = board.create("slider", [[-7, 9.5], [7, 9.5], [-15, 10, 15]], {name:"N"});
+var slider = board.create("slider", [[-7, 8], [7, 8], [-15, 0, 15]], {name:"c", snapWidth:0.002});
+var P = board.create("point", [0, 1], {name:"(\\\\(t_0, y_0\\\\))"});
+var snip = board.jc.snippet("(2-t)*y + c", true, "t, y");
+var f = (t,y) => [snip(t,y[0])];
 var ode = () => JXG.Math.Numerics.rungeKutta("heun", [P.Y()], [P.X(), P.X()+N.Value()], 200, f);
-var g = board.create("curve", [[0],[0]], {strokeColor:"red", strokeWidth:2}); 
+var g = board.create("curve", [[0],[0]], {strokeColor:"red", strokeWidth:2});
 g.updateDataArray = function() {
-	var data = ode(); 
-	var i,h = N.Value() / 200; 
-	this.dataX = []; 
-	this.dataY = []; 
-	for (i = 0; i < data.length; i++) { 
-		this.dataX[i] = P.X() + i * h; 
-		this.dataY[i] = data[i][0];
-	}
-}; 
-var ser = () => JSON.stringify([P.X(),P.Y(),slider.Value()]); 
+    var data = ode();
+    var i,h = N.Value() / 200;
+    this.dataX = [];
+    this.dataY = [];
+    for (i = 0; i < data.length; i++) {
+        this.dataX[i] = P.X() + i * h;
+        this.dataY[i] = data[i][0];
+    }
+};
+var ser = () => JSON.stringify([P.X(),P.Y(),slider.Value()]);
 var deser = (val) => {
-	var data = JSON.parse(val); 
-	slider.setValue(data[2]); 
-	slider.update(); 
-	P.setPosition(JXG.COORDS_BY_USER,[data[0],data[1]]); 
-	P.update(), 
-	board.update();
-}; 
+    var data = JSON.parse(val);
+    slider.setValue(data[2]);
+    slider.update();
+    P.setPosition(JXG.COORDS_BY_USER,[data[0],data[1]]);
+    P.update(),
+    board.update();
+};
 stack_jxg.custom_bind(input, ser, deser, [P,slider]);
 [[/jsxgraph]]
 <br/><p>[t_0,y_0,c]=<input id="_fakeinput1" value="[0,1,0]" size="40"/> </p>
@@ -697,8 +698,7 @@ $string['healthcheckparsonssample'] = '<div class="formulation">
     "conc":      "Therefore the list of prime numbers is not finite."
 };
 [[/parsons]]
-<br/><p>input=<input id="_fakeparsonsinput" style="width:70vw;margin:auto"/></p></div>'
-;
+<br/><p>input=<input id="_fakeparsonsinput" style="width:70vw;margin:auto"/></p></div>';
 $string['healthcheckgeogebra'] = 'GeoGebra block';
 $string['healthcheckgeogebraintro'] = 'There should be a GeoGebra plot and input below. Interacting with the plot should affect the input.';
 $string['healthcheckgeogebrasample'] = '<div class="formulation" style="width:36vw;margin:auto;">
@@ -711,8 +711,7 @@ params["appletOnLoad"]=function(){stack_geogebra.bind_point(stateRefA, applet.ge
 <br/><p>A=<input id="_fakeinputA" value="[5, 3]" size="40"/></p>
 <br/><p>B=<input id="_fakeinputB" value="[1, 1]" size="40"/></p>
 <br/><p>C=<input id="_fakeinputC" value="[4, 1]" size="40"/></p>
-</div>'
-;
+</div>';
 $string['healthchecksstackmaximaversion'] = 'Maxima version';
 $string['healthchecksstackmaximaversionfixoptimised'] = 'Please <a href="{$a->url}">rebuild your optimised Maxima executable</a>.';
 $string['healthchecksstackmaximaversionfixserver'] = 'Please rebuild the Maxima code on your MaximaPool server.';

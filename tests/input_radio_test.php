@@ -419,4 +419,43 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         // But, I'll ask the Maxima people to fix it and see when this unit test "breaks" to correct behaviour!
         $this->assertEquals('\[ \mbox{{} \]', $state->contentsdisplayed);
     }
+
+    public function test_union() {
+        $options = new stack_options();
+        $ta = '[[%union(oo(-inf,0),oo(0,inf)),true],[%union({1},{2}),false],[union({1},{4}),false],' .
+            '[A,false,%union({1},{3})]]';
+        $el = stack_input_factory::make('radio', 'ans1', $ta, null, array());
+        $el->adapt_to_model_answer($ta);
+
+        $expected = '<div class="answer"><div class="option">' .
+            '<input type="radio" name="stack1__ans1" value="" id="stack1__ans1_" checked="checked" />' .
+            '<label for="stack1__ans1_">(Clear my choice)</label></div><div class="option"><br /></div>' .
+            '<div class="option"><input type="radio" name="stack1__ans1" value="1" id="stack1__ans1_1" />' .
+            '<label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation"><span class="nolink">' .
+            '\(\left( -\infty ,\, 0\right) \cup \left( 0,\, \infty \right)\)</span></span></label></div>' .
+            '<div class="option"><input type="radio" name="stack1__ans1" value="2" id="stack1__ans1_2" />' .
+            '<label for="stack1__ans1_2"><span class="filter_mathjaxloader_equation">' .
+            '<span class="nolink">\(\left \{1 \right \} \cup \left \{2 \right \}\)</span></span></label>' .
+            '</div><div class="option"><input type="radio" name="stack1__ans1" value="3" id="stack1__ans1_3" />' .
+            '<label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation">' .
+            '<span class="nolink">\(\left \{1 , 4 \right \}\)</span></span></label></div><div class="option">' .
+            '<input type="radio" name="stack1__ans1" value="4" id="stack1__ans1_4" /><label for="stack1__ans1_4">' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">' .
+            '\(\left \{1 \right \} \cup \left \{3 \right \}\)</span></span></label></div></div>';
+        $this->assert_same_select_html($expected, $el->render(new stack_input_state(
+            stack_input::BLANK, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1' => ''), $options, '1', new stack_cas_security());
+        $this->assertEquals(stack_input::BLANK, $state->status);
+        $this->assertEquals(array(), $state->contents);
+        $this->assertEquals('', $state->contentsmodified);
+        $correctresponse = array('ans1' => 1);
+        $this->assertEquals($correctresponse, $el->get_correct_response($ta));
+
+        $el->adapt_to_model_answer($ta);
+        $correctresponse = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
+            '<span class="nolink">\(\left( -\infty ,\, 0\right) \cup \left( 0,\, \infty \right)\)</span>' .
+            '</span></li></ul>';
+        $this->assertEquals($correctresponse,
+            $el->get_teacher_answer_display(null, null));
+    }
 }

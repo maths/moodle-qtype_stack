@@ -1050,6 +1050,11 @@ class stack_answertest_test_data {
         array('CasEqual', '', 'complex_exponentialp(3+%i)', 'false', 1, 'ATCASEqual_true.', ''),
         array('CasEqual', '', 'complex_exponentialp(%e^(%i)/4)', 'true', 1, 'ATCASEqual_true.', ''),
         array('CasEqual', '', 'complex_exponentialp(3*exp(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''),
+        array('CasEqual', '', 'complex_exponentialp(3*exp(-%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''),
+        array('CasEqual', '', 'complex_exponentialp(-3*exp(%i*%pi/6))', 'true', 1, 'ATCASEqual_true.', ''),
+        array('CasEqual', '', 'complex_exponentialp(-(3*exp(%i*%pi/6)))', 'true', 1, 'ATCASEqual_true.', ''),
+        // The below test case is 0 because this is a general expression with variables.
+        array('CasEqual', '', 'complex_exponentialp(-(r*exp(i*atan(bb/aa))))', 'true', 0, 'ATCASEqual_false.', ''),
         // The below test is 0 because with simp:false, -1 is ((mminus) 1) so not an integer.
         array('CasEqual', '', 'integerp(-1)', 'true', 0, 'ATCASEqual_false.', ''),
         array('CasEqual', '', 'integerp(ev(-1,simp))', 'true', 1, 'ATCASEqual_true.', ''),

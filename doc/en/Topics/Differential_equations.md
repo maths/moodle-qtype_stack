@@ -67,6 +67,17 @@ Further examples and documentation are given in the [Maxima manual](http://maxim
 
 Note that by default STACK changes the value of Maxima's `logabs` variable.  This changes the way \(1/x\) is integrated.  If you want the default behaviour of Maxima you will need to restore `logabs:false` in the question variables.
 
+### Laplace Transforms ###
+
+Constant coefficient ODEs can also be manipulated in STACK using Laplace Transforms. An example of a second-order constant coefficient differential equation is given below with initial conditions set and the result of the Laplace Transform is stored.
+
+    ode: 5*'diff(x(t),t,2)-4*'diff(x(t),t)+7*x(t)=0;
+    sol: solve(laplace(ode,t,s), 'laplace(x(t), t, s));
+    sol: rhs(sol[1]);
+    sol: subst([x(0)=-1,diff(x(t), t)=0],sol);
+
+The `laplace` command will Laplace Transform the ode (more information in maxima docs [here](https://maxima.sourceforge.io/docs/manual/maxima_104.html#index-laplace)), but it will still be in terms of the Laplace Transform of `x(t)`, which is symbolic. The `solve` command then solves the algebraic equation for this symbolic Laplace Transformed function, and on the right-hand side of the equals sign, the desired answer is obtained using the `rhs` command. Lastly, the initial conditions need to be specified for `x(t)`. The Laplace Transform symbolically specifies values for `x(0)` and `x'(0)` and these can be replaced with the `subst` command as shown above.
+
 ## Randomly generating ODE problems ##
 
 When randomly generating questions we could easily generate an ODE which cannot be solved in closed form, so that in particular using ode2 may be problematic.

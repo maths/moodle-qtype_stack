@@ -864,11 +864,11 @@ class stack_potentialresponse_tree_lite {
             } else {
                 $right = $node->falsenextnode + 1;
             }
-            $llabel = $node->truescoremode . round($node->truescore, 2);
+            $llabel = $node->truescoremode . stack_utils::fix_trailing_zeros($node->truescore);
             if ($labels && array_key_exists($node->trueanswernote, $labels)) {
                 $llabel = $labels[$node->trueanswernote];
             }
-            $rlabel = $node->falsescoremode . round($node->falsescore, 2);
+            $rlabel = $node->falsescoremode . stack_utils::fix_trailing_zeros($node->falsescore);
             if ($labels && array_key_exists($node->falseanswernote, $labels)) {
                 $rlabel = $labels[$node->falseanswernote];
             }

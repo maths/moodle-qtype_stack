@@ -93,12 +93,11 @@ class qtype_stack extends question_type {
      * @param object $fromform the data from the form.
      */
     protected function fix_dollars_in_form_data($fromform) {
-        $questionfields = array('questiontext', 'generalfeedback', 'specificfeedback',
+        $questionfields = array('questiontext', 'generalfeedback', 'specificfeedback', 'questionnote',
                 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect', 'questiondescription');
         foreach ($questionfields as $field) {
             $fromform->{$field}['text'] = stack_maths::replace_dollars($fromform->{$field}['text']);
         }
-        $fromform->questionnote = stack_maths::replace_dollars($fromform->questionnote);
 
         $prtnames = array_keys($this->get_prt_names_from_question($fromform->questiontext['text'],
                 $fromform->specificfeedback['text']));
@@ -143,7 +142,9 @@ class qtype_stack extends question_type {
         $options->specificfeedback          = $this->import_or_save_files($fromform->specificfeedback,
                     $context, 'qtype_stack', 'specificfeedback', $fromform->id);
         $options->specificfeedbackformat    = $fromform->specificfeedback['format'];
-        $options->questionnote              = $fromform->questionnote;
+        $options->questionnote              = $this->import_or_save_files($fromform->questionnote,
+                    $context, 'qtype_stack', 'questionnote', $fromform->id);
+        $options->questionnoteformat        = $fromform->questionnote['format'];
         $options->questiondescription       = $this->import_or_save_files($fromform->questiondescription,
             $context, 'qtype_stack', 'questiondescription', $fromform->id);
         $options->questiondescriptionformat = $fromform->questiondescription['format'];
@@ -450,6 +451,7 @@ class qtype_stack extends question_type {
         $question->stackversion              = $questiondata->options->stackversion;
         $question->questionvariables         = $questiondata->options->questionvariables;
         $question->questionnote              = $questiondata->options->questionnote;
+        $question->questionnoteformat        = $questiondata->options->questionnoteformat;
         $question->questiondescription       = $questiondata->options->questiondescription;
         $question->questiondescriptionformat = $questiondata->options->questiondescriptionformat;
         $question->specificfeedback          = $questiondata->options->specificfeedback;
@@ -652,6 +654,8 @@ class qtype_stack extends question_type {
         $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
                                             'qtype_stack', 'specificfeedback',    $questionid);
         $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
+                                            'qtype_stack', 'questionnote',        $questionid);
+        $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
                                             'qtype_stack', 'questiondescription', $questionid);
         $fs->move_area_files_to_new_context($oldcontextid, $newcontextid,
                                             'qtype_stack', 'prtcorrect',          $questionid);
@@ -677,6 +681,7 @@ class qtype_stack extends question_type {
         $this->delete_files_in_hints($questionid, $contextid);
 
         $fs->delete_area_files($contextid, 'qtype_stack', 'specificfeedback',    $questionid);
+        $fs->delete_area_files($contextid, 'qtype_stack', 'questionnote', $questionid);
         $fs->delete_area_files($contextid, 'qtype_stack', 'questiondescription', $questionid);
         $fs->delete_area_files($contextid, 'qtype_stack', 'prtcorrect',          $questionid);
         $fs->delete_area_files($contextid, 'qtype_stack', 'prtpartiallycorrect', $questionid);
@@ -1208,9 +1213,8 @@ class qtype_stack extends question_type {
         $output .= "    </questionvariables>\n";
         $output .= $this->export_xml_text($format, 'specificfeedback', $options->specificfeedback,
                         $options->specificfeedbackformat, $contextid, 'specificfeedback', $questiondata->id);
-        $output .= "    <questionnote>\n";
-        $output .= "      " . $format->writetext($options->questionnote, 0);
-        $output .= "    </questionnote>\n";
+        $output .= $this->export_xml_text($format, 'questionnote', $options->questionnote,
+                        $options->questionnoteformat, $contextid, 'questionnote', $questiondata->id);
         $output .= $this->export_xml_text($format, 'questiondescription', $options->questiondescription,
                         $options->questiondescriptionformat, $contextid, 'questiondescription', $questiondata->id);
         $output .= "    <questionsimplify>{$options->questionsimplify}</questionsimplify>\n";
@@ -1339,7 +1343,11 @@ class qtype_stack extends question_type {
             $fformat = $fromform->specificfeedbackformat;
         }
         $fromform->specificfeedback      = $this->import_xml_text($xml, 'specificfeedback', $format, $fformat);
-        $fromform->questionnote          = $format->getpath($xml, array('#', 'questionnote', 0, '#', 'text', 0, '#'), '', true);
+        $fformat = $fromform->questiontextformat;
+        if (isset($fromform->questionnoteformat)) {
+            $fformat = $fromform->questionnoteformat;
+        }
+        $fromform->questionnote          = $this->import_xml_text($xml, 'questionnote', $format, $fformat);
         $fformat = $fromform->questiontextformat;
         if (isset($fromform->questiondescriptionformat)) {
             $fformat = $fromform->questiondescriptionformat;
@@ -1705,7 +1713,7 @@ class qtype_stack extends question_type {
 
         // Question note.
         $errors['questionnote'] = array();
-        if ('' == $fromform['questionnote']) {
+        if ('' == $fromform['questionnote']['text']) {
             $foundrandom = false;
             foreach (stack_cas_security::get_all_with_feature('random') as $rndid) {
                 if (!(false === strpos($fromform['questionvariables'], $rndid))) {
@@ -1717,12 +1725,11 @@ class qtype_stack extends question_type {
                 $errors['questionnote'][] = stack_string('questionnotempty');
             }
         } else {
-            // Note, the 'questionnote' does not have an editor field and hence no 'text' sub-clause.
-            $errors = $this->validate_cas_text($errors, $fromform['questionnote'], 'questionnote', $fixingdollars);
+            $errors = $this->validate_cas_text($errors, $fromform['questionnote']['text'], 'questionnote', $fixingdollars);
         }
 
         $errors['questionnote'] += $this->validation_check_no_placeholders(
-                stack_string('questionnote'), $fromform['questionnote']);
+                stack_string('questionnote'), $fromform['questionnote']['text']);
 
         // Question description.
         $errors['questiondescription'] = array();
@@ -1977,11 +1984,10 @@ class qtype_stack extends question_type {
         }
 
         // Instantiate all text fields and look for errors.
-        $castextfields = array('questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription');
+        $castextfields = array('questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription', 'questionnote');
         foreach ($castextfields as $field) {
             $errors = $this->validate_cas_text($errors, $fromform[$field]['text'], $field, $fixingdollars, clone $session);
         }
-        $errors = $this->validate_cas_text($errors, $fromform['questionnote'], 'questionnote', $fixingdollars, clone $session);
 
         // Make a list of all inputs, instantiate it and then look for errors.
         $inputs = array_keys($this->get_input_names_from_question_text($fromform['questiontext']['text']));

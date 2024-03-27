@@ -565,10 +565,8 @@ echo "\n";
 
 // Display the question note.
 echo $OUTPUT->heading(stack_string('questionnote'), 3);
-echo "\n";
-echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()),
-    array('class' => 'questionnote'));
-echo "\n";
+echo html_writer::tag('div', html_writer::tag('div', stack_ouput_castext($question->get_question_summary()),
+    array('class' => 'questionnote')), array('class' => 'que'));
 
 // Display the general feedback, aka "Worked solution".
 echo $OUTPUT->heading(stack_string('generalfeedback'), 3);

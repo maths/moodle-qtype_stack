@@ -147,6 +147,7 @@ function stack_castext_file_filter(string $castext, array $identifiers): string 
                 $block .= ' itemid="' . $identifiers['questionid'] . '"';
                 break;
             case 'questiondescription':
+            case 'questionnote':
             case 'specificfeedback':
             case 'prtcorrect': // These three are not in actual use.
             case 'prtpartiallycorrect':

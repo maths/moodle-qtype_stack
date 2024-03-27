@@ -1,4 +1,4 @@
-g## Tidy Tool
+# Tidy Tool
 
 STACK potential response trees, and other parts of questions, can easily get messy. You may have one long question and delete some inputs, or duplicate a question and use it as a template but have to heavily edit it. Another example is to add nodes in an existing PRT and place these nodes between existing nodes. The numbering won't be in order and it will make it harder to follow the PRT logic.
 

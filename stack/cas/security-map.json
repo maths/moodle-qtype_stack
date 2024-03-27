@@ -138,7 +138,7 @@
       "variable": "f"
   },
   "%union": {
-      "function": "t",
+      "function": "s",
       "nounfunctionfor": "union"
   },
   "%unitexpand": {
@@ -7299,7 +7299,8 @@
   },
   "stack_reset_vars": {
       "function": "?",
-      "blockexternal": "true"
+      "blockexternal": "true",
+      "contextvariable": "true"
   },
   "stack_validate": {
       "function": "s"

@@ -187,9 +187,9 @@ You should check the sample questions about JSXGraph binding for examples of the
 
 Starting from version 4.3 there are three functions for dealing with pairs of points. Basically, if you want to represent vectors, lines or circles or anything that can be defined with just two points. `stack_jxg.bind_point_dual(inputRef, point1, point2)` will store the positions of the points into a single input as a list of lists, `stack_jxg.bind_point_relative(inputRef, point1, point2)` will also generate a list but in it the second point is represented relative to the first, and finally `stack_jxg.bind_point_direction(inputRef, point1, point2)` will provide the first point as coordinates and the second point as an angle and distance from the first.
 
-Starting from 4.4 there is only one new bind function `stack_jxg.bind_list_of(inputRef, list)` which takes a list of points and/or sliders and stores it into a single input. It only works if he size or order of the list does not change during page loads, however the list can change its shape for variants of the question. The primary use target for this are the vertices of polygons, but one can probably come up with something else as well, it does work as a quick and dirty way of storing the whole graph state if the graph can be defined just by points and sliders.
+Starting from 4.4 there is only one new bind function `stack_jxg.bind_list_of(inputRef, list)` which takes a list of points and/or sliders and stores it into a single input. It only works if the size or order of the list does not change during page loads, however the list can change its shape for variants of the question. The primary use target for this are the vertices of polygons, but one can probably come up with something else as well, it does work as a quick and dirty way of storing the whole graph state if the graph can be defined just by points and sliders.
 
-There are also two new functions realted to dealing with groups of objects and matching inputs. For situations where the answer consists of multiple elements and it is possible that not all get moved one can use `stack_jxg.define_group(list)` which takes a list of points and/or sliders and makes it so that touching any one of them will trigger them all to be considered as touched and thus generates inputs. There is also `stack_jxg.starts_moved(object)` which takes a point or a slider and marks it as touched from the start, this may be of use if the graph is an optional part and the actual grading depends of other parts or if one wants to use PRT feedback as a way for describing the status of the graph and needs the objects to be transferred onto the CAS side without interaction from the student.
+There are also two new functions related to dealing with groups of objects and matching inputs. For situations where the answer consists of multiple elements and it is possible that not all get moved one can use `stack_jxg.define_group(list)` which takes a list of points and/or sliders and makes it so that touching any one of them will trigger them all to be considered as touched and thus generates inputs. There is also `stack_jxg.starts_moved(object)` which takes a point or a slider and marks it as touched from the start, this may be of use if the graph is an optional part and the actual grading depends of other parts or if one wants to use PRT feedback as a way for describing the status of the graph and needs the objects to be transferred onto the CAS side without interaction from the student.
 
 ## Convenience tools for generating lists of values.
 
@@ -429,3 +429,42 @@ Aspect ratio of 3 and relative height
 [[/jsxgraph]]
 ````
 
+## Reacting to feedback from the STACK question in JSXGraph
+
+In some situations, it can be quite useful to change the graph state based on the feedback that students get displayed after submitting the task.
+
+With STACK-JS, JSXGraph is contained inside an IFRAME and thus can not directly access DOM elements from the STACK question. So if you want to check whether some feedback is present in the STACK question, you have to use the function  `stack_js.get_content(id)` from the stack_js namespace. The functions from this namespace can be called in the JavaScript code inside the JSXGraph block just like the binding functions from the `stack_jxg` namespace.
+
+The following steps should be taken to react to feedback inside of the JSXGraph applet:
+
+1. Include an empty span with a unique identifier inside the feedback of a PRT node, so that JSXGraph can look for that element
+2. Call the function `stack_js.get_content(id)` with the id of the span you placed inside your feedback in the JSXGraph code. As this function is async and returns a promise for the content, make sure to write your code for changing the graph state inside a chained `.then()`.
+
+A common use case for this could be that you want to make a point fixed so that the user can not drag it anymore after he submitted the question and received a certain feedback. A minimal example for this would then look like this:
+
+In one of your PRTs, you place an empty span with an id like for example `feedback-1`
+
+
+    [[jsxgraph]]
+
+    // A sample board
+    var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-5, 5, 5, -5], axis: true, showCopyright: false});
+    
+    // Create a point for demo purpose
+    var a = board.create('point',[1,2],{name:'a'});
+    
+    // Here we check if there is a certain feedback span present in the STACK question  
+    stack_js.get_content('feedback-1').then((content) => {
+
+    if (content !== null) {
+    // As the content is not null this means the span is present so feedback is displayed and we can react to it here
+    a.setAttribute({ fixed: true, highlight: false});
+    }
+
+    });
+
+    [[/jsxgraph]]
+
+The function `stack_js.get_content(id)` looks for an element in the DOM of the parent document and returns a promise that will resolve to the content of that element. If the content is not `null`, that means it found the element somewhere in the question. As this operation is async, you will always have to use a callback using `.then()`.
+
+If you want to know more about STACK-JS and the functions provided for interacting with the STACK question content (change inputs, switch content, toggle the visibility of content), then you can have a look at [STACK-JS](../developer/STACK-JS.md).

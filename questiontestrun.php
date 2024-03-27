@@ -122,6 +122,7 @@ if (!is_null($seed)) {
 
 $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
+question_engine::save_questions_usage_by_activity($quba);
 
 // Prepare the display options.
 $options = question_display_options();
@@ -133,26 +134,14 @@ if ($qversion !== null) {
     echo html_writer::tag('p', stack_string('version') . ' ' . $qversion);
 }
 
-// Add a link to the cas chat to facilitate editing the general feedback.
-if ($question->options->get_option('simplify')) {
-    $simp = 'on';
-} else {
-    $simp = '';
-}
-
-$questionvarsinputs = '';
-foreach ($question->get_correct_response() as $key => $val) {
-    if (substr($key, -4, 4) !== '_val') {
-        $questionvarsinputs .= "\n{$key}:{$val};";
-    }
-}
-
 // We've chosen not to send a specific seed since it is helpful to test the general feedback in a random context.
 $chatparams = $urlparams;
-$chatparams['maximavars'] = $question->questionvariables;
-$chatparams['inputs'] = $questionvarsinputs;
-$chatparams['simp'] = $simp;
-$chatparams['cas'] = $question->generalfeedback;
+// ISS-1110 Rather than send parts of the question, save the quba and
+// supply the qubaid and slot so the details can be loaded on the caschat page.
+// This avoids a long URI causing an Apache error.
+$chatparams['initialise'] = true;
+$chatparams['qubaid'] = $quba->get_id();
+$chatparams['slot'] = $slot;
 $chatlink = new moodle_url('/question/type/stack/adminui/caschat.php', $chatparams);
 
 $links = array();
@@ -576,10 +565,8 @@ echo "\n";
 
 // Display the question note.
 echo $OUTPUT->heading(stack_string('questionnote'), 3);
-echo "\n";
-echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()),
-    array('class' => 'questionnote'));
-echo "\n";
+echo html_writer::tag('div', html_writer::tag('div', stack_ouput_castext($question->get_question_summary()),
+    array('class' => 'questionnote')), array('class' => 'que'));
 
 // Display the general feedback, aka "Worked solution".
 echo $OUTPUT->heading(stack_string('generalfeedback'), 3);

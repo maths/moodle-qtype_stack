@@ -246,12 +246,12 @@ class qtype_stack_edit_form extends question_edit_form {
 
         // Originally this was the textarea, to keep the form shorter, but teaching colleagues to use STACK this
         // inconsistency with which fields are castext was confusing people.
-        // Revert to textarea until we fix issue #995, #996.
-        // In any case this is more complex, as we need to use $fromform['questionnote']['text'], and
+        // We need to use $fromform['questionnote']['text'], and
         // we need to use the text when we update the DB.
-        $mform->addElement('textarea', 'questionnote',
-                stack_string('questionnote'), array('rows' => 2, 'cols' => 80));
+        $mform->addElement('editor', 'questionnote',
+                stack_string('questionnote'), array('rows' => 2), $this->editoroptions);
         $mform->addHelpButton('questionnote', 'questionnote', 'qtype_stack');
+        $mform->getElement('questionnote')->setValue(array('text' => ''));
 
         $qdec = $mform->createElement('editor', 'questiondescription',
             stack_string('questiondescription', 'question'), array('rows' => 10), $this->editoroptions);
@@ -500,13 +500,13 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('mustverify'));
         $mform->setDefault($inputname . 'mustverify', $this->stackconfig->inputmustverify);
         $mform->addHelpButton($inputname . 'mustverify', 'mustverify', 'qtype_stack');
-        $mform->hideIf($inputname . 'mustverify', $inputname . 'type', 'in', ['notes']);
+        $mform->hideIf($inputname . 'mustverify', $inputname . 'type', 'in', []);
 
         $mform->addElement('select', $inputname . 'showvalidation',
                 stack_string('showvalidation'), stack_options::get_showvalidation_options());
         $mform->setDefault($inputname . 'showvalidation', $this->stackconfig->inputshowvalidation);
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
-        $mform->hideIf($inputname . 'showvalidation', $inputname . 'type', 'in', ['notes']);
+        $mform->hideIf($inputname . 'showvalidation', $inputname . 'type', 'in', []);
 
         $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), array('size' => 20));
         $mform->setType($inputname . 'options', PARAM_RAW);
@@ -698,7 +698,8 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $question->questionvariables     = $opt->questionvariables;
         $question->variantsselectionseed = $opt->variantsselectionseed;
-        $question->questionnote          = $opt->questionnote;
+        $question->questionnote          = $this->prepare_text_field('questionnote',
+                                            $opt->questionnote, $opt->questionnoteformat, $question->id);
         $question->questiondescription   = $this->prepare_text_field('questiondescription',
                                             $opt->questiondescription, $opt->questiondescriptionformat, $question->id);
         $question->specificfeedback      = $this->prepare_text_field('specificfeedback',

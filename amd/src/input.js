@@ -36,7 +36,7 @@
  */
 define([
     'core/ajax',
-    'core/event'
+    'core_filters/events'
 ], function(
     Ajax,
     CustomEvents

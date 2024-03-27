@@ -39,6 +39,8 @@ require_login();
 
 // Get the parameters from the URL.
 $questionid = optional_param('questionid', null, PARAM_INT);
+$qubaid = optional_param('qubaid', '', PARAM_RAW);
+$slot = optional_param('slot', '', PARAM_RAW);
 
 if (!$questionid) {
     $context = context_system::instance();
@@ -47,8 +49,15 @@ if (!$questionid) {
     $urlparams = array();
 } else {
     // Load the necessary data.
+    if ($qubaid !== '') {
+        // ISS-1110 If question usage by activity has been supplied, load the question
+        // from that so we can load correct responses later.
+        $quba = question_engine::load_questions_usage_by_activity(optional_param('qubaid', '', PARAM_RAW));
+        $question = $quba->get_question($slot);
+    } else {
+        $question = question_bank::load_question($questionid);
+    }
     $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
-    $question = question_bank::load_question($questionid);
 
     // Process any other URL parameters, and do require_login.
     list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
@@ -66,10 +75,29 @@ $debuginfo = '';
 $errs = '';
 $varerrs = array();
 
-$vars   = optional_param('maximavars', '', PARAM_RAW);
-$inps   = optional_param('inputs', '', PARAM_RAW);
-$string = optional_param('cas', '', PARAM_RAW);
-$simp   = optional_param('simp', '', PARAM_RAW);
+if ($qubaid !== '' && optional_param('initialise', '', PARAM_RAW)) {
+    // ISS-1110 Handle calls from questiontestrun.php.
+    if ($question->options->get_option('simplify')) {
+        $simp = 'on';
+    } else {
+        $simp = '';
+    }
+    $questionvarsinputs = '';
+    foreach ($question->get_correct_response() as $key => $val) {
+        if (substr($key, -4, 4) !== '_val') {
+            $questionvarsinputs .= "\n{$key}:{$val};";
+        }
+    }
+
+    $vars = $question->questionvariables;
+    $inps   = $questionvarsinputs;
+    $string = $question->generalfeedback;
+} else {
+    $vars   = optional_param('maximavars', '', PARAM_RAW);
+    $inps   = optional_param('inputs', '', PARAM_RAW);
+    $string = optional_param('cas', '', PARAM_RAW);
+    $simp   = optional_param('simp', '', PARAM_RAW);
+}
 $savedb = false;
 $savedmsg = '';
 if (trim(optional_param('action', '', PARAM_RAW)) == trim(stack_string('savechat'))) {

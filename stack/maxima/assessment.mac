@@ -235,11 +235,15 @@ zip_with(zf, a, b) := block(
    check, e.g. that X^2=1 is x^2=1, without using subst_equiv.
 
    Note that exdowncase(X-x)=0, of course!
+   And exdowncase(1/(R-r)) could create a division by zero.
 */
-exdowncase(ex) := block([lv],
+exdowncase(ex) := block([lv, ex2],
   lv:listofvars(ex),
   lv:map(lambda([v], v=parse_string(sdowncase(string(v)))),lv),
-  return(subst(lv,ex)))$
+  ex2:errcatch(subst(lv,ex)),
+  if emptyp(ex2) then return(ex),
+  return(first(ex2))
+)$
 
 /* Maxima does not have its own degree command! */
 /* See notes on hipow.                          */
@@ -269,6 +273,11 @@ ntuplep(ex):= if safe_op(ex)="ntuple" then true else false$
 
 /* An ellipsis */
 texput(dotdotdot, "\\ldots")$
+
+/* Control TeX parens for display only. */
+/* E.g. {@lrparens(".", x^2+3, "\\}")@} */
+tex_lrparens(ex):=sconcat("\\left", first(args(ex)), tex1(second(args(ex))), "\\right", third(args(ex)));
+texput(lrparens, tex_lrparens);
 
 /* ********************************** */
 /* Type predicates                    */
@@ -464,6 +473,7 @@ complex_exponentialp(ex):=block([ex2],
     /* Edge case of a real number! */
     if ev(real_numberp(ex), simp) then return(true),
     ex2:ex,
+    if safe_op(ex)="-" then return(complex_exponentialp(first(args(ex)))),
     if safe_op(ex)="*" then
         if not(is(real_numberp(first(args(ex))))) then
             return(false)

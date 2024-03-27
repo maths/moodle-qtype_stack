@@ -69,6 +69,8 @@ class stack_ast_filter_180_char_based_superscripts implements stack_cas_astfilte
                 if (count($segments) > 1) {
                     // Parts between which we have insert stars.
                     // E.g. x²x²x²x -> x^2*x^2*x^2*x.
+                    // Note, the above is not used in students' input because we now forbid unicode superscript.
+                    // And, we use 150_replace filter.
                     $parts = [];
                     while (count($segments) > 1) {
                         $base = new MP_Identifier(array_shift($segments));

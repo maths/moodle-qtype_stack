@@ -13,4 +13,4 @@ Those new to STACK will probably prefer to begin with the [authoring quick start
 
 ## See also
 
-* [Authoring](/Authoring/index.md)
+* [Authoring](../Authoring/index.md)

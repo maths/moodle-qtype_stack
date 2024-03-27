@@ -105,12 +105,7 @@ class maxima_corrective_parser {
 
         // Check for invalid chars at this point as they may prove to be difficult to
         // handle latter, also strings are safe already.
-        $superscript = json_decode(file_get_contents(__DIR__ . '/unicode/superscript-stack.json'), true);
-        $subscript = json_decode(file_get_contents(__DIR__ . '/unicode/subscript-stack.json'), true);
-
         $allowedcharsregex = '~[^' . preg_quote(
-            implode('', array_keys($superscript)) .
-            implode('', array_keys($subscript)) .
             // @codingStandardsIgnoreStart
             // We do really want a backtick here.
             '0123456789,./\%#&{}[]()$@!"\'?`^~*_+qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM:;=><|: -', '~'

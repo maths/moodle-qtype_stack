@@ -319,4 +319,32 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $correctresponse = array('ans1' => 2);
         $this->assertEquals($correctresponse, $el->get_correct_response($ta));
     }
+
+    public function test_union() {
+        $options = new stack_options();
+        $ta = '[[%union(oo(-inf,0),oo(0,inf)),true],[%union({1},{2}),false],[union({1},{4}),false],' .
+            '[A,false,%union({1},{3})]]';
+        $el = stack_input_factory::make('dropdown', 'ans1', $ta, null, array());
+        $el->adapt_to_model_answer($ta);
+
+        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">' .
+            '<option selected="selected" value="">(Clear my choice)</option>' .
+            '<option value="1"><code>union(oo(-inf,0),oo(0,inf))</code></option>' .
+            '<option value="2"><code>union({1},{2})</code></option>'.
+            '<option value="3"><code>union({1},{4})</code></option>' .
+            '<option value="4"><code>union({1},{3})</code></option></select>';
+        $this->assert_same_select_html($expected, $el->render(new stack_input_state(
+            stack_input::BLANK, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1' => ''), $options, '1', new stack_cas_security());
+        $this->assertEquals(stack_input::BLANK, $state->status);
+        $this->assertEquals(array(), $state->contents);
+        $this->assertEquals('', $state->contentsmodified);
+        $correctresponse = array('ans1' => 1);
+        $this->assertEquals($correctresponse, $el->get_correct_response($ta));
+
+        $el->adapt_to_model_answer($ta);
+        $correctresponse = 'A correct answer is: <code>union(oo(-inf,0),oo(0,inf))</code>';
+        $this->assertEquals($correctresponse,
+            $el->get_teacher_answer_display(null, null));
+    }
 }

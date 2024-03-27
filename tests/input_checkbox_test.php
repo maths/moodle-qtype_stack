@@ -453,4 +453,41 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '\(\left( -\infty ,\, a\right]\)</span></span>\)</li></ul>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
+
+    public function test_union() {
+        $options = new stack_options();
+        $ta = '[[%union(oo(-inf,0),oo(0,inf)),true],[%union({1},{2}),false],' .
+            '[union({1},{4}),false],[A,true,%union({1},oo(2,3))]]';
+        $el = stack_input_factory::make('checkbox', 'ans1', $ta, null, array('options' => ''));
+
+        $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" ' .
+            'id="stack1__ans1_1" /><label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
+            '<span class="nolink">\(\left( -\infty ,\, 0\right) \cup \left( 0,\, \infty \right)\)</span></span>' .
+            '</label></div><div class="option"><input type="checkbox" name="stack1__ans1_2" value="2" ' .
+            'id="stack1__ans1_2" checked="checked" /><label for="stack1__ans1_2">'.
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(\left \{1 \right \} ' .
+            '\cup \left \{2 \right \}\)</span></span></label></div><div class="option">' .
+            '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" />' .
+            '<label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation"><span class="nolink">' .
+            '\(\left \{1 , 4 \right \}\)</span></span></label></div><div class="option">' .
+            '<input type="checkbox" name="stack1__ans1_4" value="4" id="stack1__ans1_4" />' .
+            '<label for="stack1__ans1_4"><span class="filter_mathjaxloader_equation"><span class="nolink">' .
+            '\(\left \{1 \right \} \cup \left( 2,\, 3\right)\)</span></span></label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+            stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, array()));
+        $state = $el->validate_student_response(array('ans1_2' => '2', 'ans1_3' => '3'),
+            $options, $ta, new stack_cas_security());
+
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('2', '3'), $state->contents);
+        $this->assertEquals('[%union({1},{2}),%union({1},{4})]', $state->contentsmodified);
+
+        $this->assertEquals($ta, $el->get_teacher_answer());
+        $el->adapt_to_model_answer($ta);
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation"><span class="nolink">' .
+            '\(\left( -\infty ,\, 0\right) \cup \left( 0,\, \infty \right)\)</span></span></li><li>' .
+            '<span class="filter_mathjaxloader_equation"><span class="nolink">\(\left \{1 \right \} \cup ' .
+            '\left( 2,\, 3\right)\)</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
+    }
 }

@@ -357,6 +357,8 @@ class stack_abstract_graph {
      * @return array node name => stack_abstract_graph_node the list of all nodes.
      */
     public function get_nodes() {
+        // ISS-1041 Fix issue with nodes being retrieved with names sorted as strings.
+        uasort($this->nodes, fn($a, $b) => $a->name - $b->name);
         return $this->nodes;
     }
 

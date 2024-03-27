@@ -62,7 +62,7 @@ The authoring documentation also covers topics on:
 
 If you cannot find documentation on the topic you are looking for, it may be located in the [CAS](../CAS/index.md) section of the documentation. This includes documentation on working with Maxima in a question, and so covers topics like
 
-* [Inequalities](/CAS/Inequalities.md),
-* [Randomisation](/CAS/Random.md),
-* [Plotting graphs../Plots/Plots.md),
-* [Simplification](/CAS/Simplification.md).
+* [Inequalities](../CAS/Inequalities.md),
+* [Randomisation](../CAS/Random.md),
+* [Plotting graphs](../Plots/Plots.md),
+* [Simplification](../CAS/Simplification.md).

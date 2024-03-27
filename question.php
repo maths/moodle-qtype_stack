@@ -60,6 +60,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public $questionnote;
 
+    /** @var int one of the FORMAT_... constants */
+    public $questionnoteformat;
+
     /**
      * @var string STACK specific: allow a question to carry some description/discussion.
      */
@@ -537,10 +540,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if ($this->tas[$name]->is_correctly_evaluated()) {
                 $teacheranswer = $this->tas[$name]->get_value();
             }
-            $input->adapt_to_model_answer($teacheranswer);
             if ($this->get_cached('contextvariables-qv') !== null) {
                 $input->add_contextsession(new stack_secure_loader($this->get_cached('contextvariables-qv'), '/qv'));
             }
+            $input->adapt_to_model_answer($teacheranswer);
         }
     }
 
@@ -641,7 +644,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         $this->questiondescriptioninstantiated = castext2_evaluatable::make_from_compiled($this->get_cached('castext-qd'),
-            '/gf', new castext2_static_replacer($this->get_cached('static-castext-strings')));
+            '/qd', new castext2_static_replacer($this->get_cached('static-castext-strings')));
         // Might not require any evaluation anyway.
         if (!$this->questiondescriptioninstantiated->requires_evaluation()) {
             return $this->questiondescriptioninstantiated;
@@ -695,9 +698,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function get_question_summary() {
+        $processor = new castext2_qa_processor(new stack_outofcontext_process());
         if ($this->questionnoteinstantiated !== null &&
-            '' !== $this->questionnoteinstantiated->get_rendered()) {
-            return $this->questionnoteinstantiated->get_rendered();
+            '' !== $this->questionnoteinstantiated->get_rendered($processor)) {
+            return $this->questionnoteinstantiated->get_rendered($processor);
         }
         return stack_string('questionnote_missing');
     }
@@ -1463,8 +1467,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function validate_against_stackversion($context) {
         $errors = array();
-        $qfields = array('questiontext', 'questionvariables', 'questionnote', 'questiondescription',
+        $castextfields = array('questiontext', 'questionnote', 'questiondescription',
             'specificfeedback', 'generalfeedback');
+        $qfields = array_merge($castextfields, array('questionvariables'));
 
         $stackversion = (int) $this->stackversion;
 
@@ -1518,6 +1523,22 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     if ($opt === 'mul') {
                         $errors[] = stack_string('stackversionmulerror');
                     }
+                }
+            }
+        }
+
+        // Check for /*...*/ comments in castext in older questions.
+        if ($stackversion < $checkpat['ver']) {
+            $pat = '~/\*.*?\*/~s';
+            foreach ($castextfields as $field) {
+                if (preg_match($pat, $this->$field)) {
+                    $errors[] = stack_string('stackversioncomment', array('qfield' => stack_string($field)));
+                }
+            }
+            // Look inside the PRT feedback variables.  Should probably check the feedback as well.
+            foreach ($this->prts as $name => $prt) {
+                if (preg_match($pat, $prt->get_feedback_test())) {
+                    $errors[] = stack_string('stackversioncomment', array('qfield' => $name));
                 }
             }
         }
@@ -1728,7 +1749,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     $this->questionvariables, $this->inputs, $this->prts,
                     $this->options, $this->questiontext,
                     $this->questiontextformat,
-                    $this->questionnote,
+                    $this->questionnote, $this->questionnoteformat,
                     $this->generalfeedback, $this->generalfeedbackformat,
                     $this->specificfeedback, $this->specificfeedbackformat,
                     $this->questiondescription, $this->questiondescriptionformat,
@@ -1810,7 +1831,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public static function compile($id, $questionvariables, $inputs, $prts, $options,
         $questiontext, $questiontextformat,
-        $questionnote,
+        $questionnote, $questionnoteformat,
         $generalfeedback, $generalfeedbackformat,
         $specificfeedback, $specificfeedbackformat,
         $questiondescription, $questiondescriptionformat,
@@ -1953,6 +1974,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             'questionid' => $id,
             'field' => 'questiondescription'
         ]);
+        $questionnote = stack_castext_file_filter($questionnote, [
+            'questionid' => $id,
+            'field' => 'questionnote'
+        ]);
         $prtcorrect = stack_castext_file_filter($prtcorrect, [
             'questionid' => $id,
             'field' => 'prtcorrect'
@@ -2001,7 +2026,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
 
         $ct = castext2_evaluatable::make_from_source($questionnote, '/qn');
-        if (!$ct->get_valid(FORMAT_HTML, $ctoptions, $sec)) {
+        if (!$ct->get_valid($questionnoteformat, $ctoptions, $sec)) {
             throw new stack_exception('Error(s) in question-note: ' . implode('; ', $ct->get_errors(false)));
         } else {
             $cc['castext-qn'] = $ct->get_evaluationform();

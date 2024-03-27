@@ -68,7 +68,7 @@ We are testing that if we multiply by \(-nn+1\) instead of dividing, we should b
 
 You will see that not all deployed versions pass all tests, and if you click on a variant that failed a test, you will see why! Essentially, when \(nn=2\), \(-nn+1=-1\) multiplication and division are equivalent. Essentially, these random variants are "easier" than the others. This illustrates another key use of question tests - ensuring that all variants are the same difficulty and test the knowledge they are supposed to. In light of this, you may want to change `nn` again to ` 3+rand(4)` . Now all variants should pass all question tests.
 
-Quality control is essential, and more information is given in the page on [testing](/Authoring/Testing.md).
+Quality control is essential, and more information is given in the page on [testing](../Authoring/Testing.md).
 
 ## Aside: forbidden words
 

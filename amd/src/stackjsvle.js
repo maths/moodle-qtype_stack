@@ -131,6 +131,12 @@ define([
             if (possible !== null) {
                 return possible;
             }
+            // Same for checkboxes, ntoe that non STACK checkbox can be targetted by
+            // just the id using the topmost case here.
+            possible = iter.querySelector('input[id$="_' + name + '_1"][type=checkbox]');
+            if (possible !== null) {
+                return possible;
+            }
             possible = iter.querySelector('select[id$="_' + name + '"]');
             if (possible !== null) {
                 return possible;
@@ -153,12 +159,18 @@ define([
         if (possible !== null) {
             return possible;
         }
+        possible = document.querySelector('.formulation input[id$="_' + name + '_1"][type=checkbox]');
+        if (possible !== null) {
+            return possible;
+        }
         possible = document.querySelector('.formulation select[id$="_' + name + '"]');
         if (possible !== null) {
             return possible;
         }
 
         // Also search from within the feedback and other "outcome".
+        // Note that we do not search for STACK sourced checkboxes from the feedback,
+        // they do not exist there so simply finding them with the id is enough.
         possible = document.querySelector('.outcome input[id$="_' + name + '"]');
         if (possible !== null) {
             return possible;
@@ -167,14 +179,30 @@ define([
         if (possible !== null) {
             return possible;
         }
-        // Radios have interesting ids, but the name makes sense
-        possible = document.querySelector('.outcome input[id$="_' + name + '_1"][type=radio]');
-        if (possible !== null) {
-            return possible;
-        }
         possible = document.querySelector('.outcome select[id$="_' + name + '"]');
         return possible;
     }
+
+    /**
+     * Returns a list of input elements targetting the same thing.
+     *
+     * Note that STACK checkboxes have interesting naming for this.
+     * And we assume we are getting the ones that `vle_get_input_element` would return.
+     *
+     * @param {element} input element of type=radio or type=checkbox
+     */
+    function vle_get_others_of_same_input_group(input) {
+        if (input.type === 'radio') {
+            return document.querySelectorAll('.formulation input[name=' + CSS.escape(input.name) + ']');
+        }
+        // Is it a Moodle input or a fake? If Moodle then assume STACK and its pattern.
+        if (input.name.startsWith('q') && input.name.indexOf(':') > -1 && input.name.endsWith('_1')) {
+            return document.querySelectorAll('.formulation input[name^=' +
+                CSS.escape(input.name.substring(0, input.name.length - 1)) + ']');
+        }
+        return document.querySelectorAll('.formulation input[name=' + CSS.escape(input.name) + ']');
+    }
+
 
     /**
      * Returns the input element or null for a question level submit button.
@@ -216,6 +244,10 @@ define([
         // Also there are those that listen to input events.
         const i = new Event('input');
         inputelement.dispatchEvent(i);
+        if (inputelement.type === 'radio' || inputelement.type === 'checkbox') {
+            const k = new Event('click');
+            inputelement.dispatchEvent(k);
+        }
     }
 
     /**
@@ -543,6 +575,51 @@ define([
                     IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(response), '*');
                 }
             }
+            break;
+        case 'clear-input':
+            // 1. Find the input.
+            input = vle_get_input_element(msg.name, msg.src);
+
+            if (input.nodeName.toLowerCase() === 'select') {
+                if (input.selectedIndex !== -1) {
+                    input.selectedIndex = -1;
+                    vle_update_input(input);
+                }
+                for(var i = 0; i < input.options.length; i++) {
+                    if (input.options[i].hasAttribute('selected')) {
+                        input.options[i].removeAttribute('selected');
+                        vle_update_input(input);
+                    }
+                    if (input.options[i].value === '') {
+                        // If we have the clear input option select that.
+                        input.options[i].selected = true;
+                        vle_update_input(input);
+                    }
+                }
+            } else if (input.nodeName.toLowerCase() === 'textarea') {
+                if (input.value !== '') {
+                    input.value = '';
+                    vle_update_input(input);
+                }
+            } else if (input.type === 'checkbox') {
+                for (let inp of vle_get_others_of_same_input_group(input)) {
+                    inp.checked = false;
+                    vle_update_input(inp);
+                }
+            } else if (input.type === 'radio') {
+                for (let inp of vle_get_others_of_same_input_group(input)) {
+                    // If we have the clear value option select that.
+                    inp.checked = inp.value === '';
+                    vle_update_input(inp);
+                }
+            } else {
+                if (input.value !== '') {
+                    input.value = '';
+                    vle_update_input(input);
+                }
+            }
+
+            vle_update_input(input);
             break;
         case 'register-button-listener':
             // 1. Find the element.

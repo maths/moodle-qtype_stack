@@ -472,6 +472,22 @@ export const stack_js = {
             name: name
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
+    },
+
+    /**
+     * Clears an input. MCQ or otherwise. Unselects, unchecks or sets to ''.
+     * Do note that this does not require you to register the input in advance.
+     * 
+     * Note that we do not yet support matrices.
+     */
+    clear_input: function(name) {
+        const msg = {
+            version: 'STACK-JS:1.3.0',
+            type: 'clear-input',
+            src: FRAME_ID,
+            name: name
+        };
+        CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     }
 };
 

@@ -91,7 +91,6 @@ Feature: Create, preview, test, tidy and edit STACK questions
       | New name for 'prt1' | prt |
       | New name for '1'    | 2   |
     And I press "Rename parts of the question"
-    And I follow "STACK question dashboard"
     Then I should see "All tests passed!"
     When I follow "Preview"
 

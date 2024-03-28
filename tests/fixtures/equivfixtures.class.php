@@ -955,6 +955,14 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']      = "Rational expressions.";
+        $newarg['narrative']  = '';
+        $newarg['casstring']  = "[1/(a-b)-1/(b-a),stackeq(1/(a-b)+1/(b-a))]";
+        $newarg['debuglist']  = "(EMPTYCHAR,QMCHAR)";
+        $newarg['outcome']    = false;
+        $samplearguments[]    = $newarg;
+
+        $newarg = array();
         $newarg['section'] = 'Equate coefficients';
         $samplearguments[] = $newarg;
 
@@ -1297,16 +1305,6 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "Solving a quadratic inequality";
-        $newarg['narrative'] = 'Solving quadratic inequalities using reasoning by equivalence.';
-        $newarg['casstring'] = "[2*x^2+x>=6, 2*x^2+x-6>=0, (2*x-3)*(x+2)>= 0,".
-                "((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0), ".
-                "(x>=3/2 and x>=-2) or (x<=3/2 and x<=-2), x>=3/2 or x <=-2]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
-        $newarg['outcome']   = true;
-        $samplearguments[]   = $newarg;
-
-        $newarg = array();
-        $newarg['title']     = "Solving a quadratic inequality";
         $newarg['narrative'] = 'Failing to solving quadratic inequalities';
         $newarg['casstring'] = "[2*x^2+x>=6, 2*x^2+x-6>=0, (2*x-3)*(x+2)>= 0,".
                 "((2*x-3)>=0 and (x+2)>=0) or ((2*x-3)<=0 and (x+2)<=0), ".
@@ -1388,8 +1386,6 @@ class stack_equiv_test_data {
         $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
-
-        /* ....................................... */
 
         $newarg = array();
         $newarg['section'] = 'Induction steps';

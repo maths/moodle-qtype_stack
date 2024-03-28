@@ -96,7 +96,7 @@ function report($d) {
                             // The array $found[0] will have the full a tags, found[1] contains their href properties.
                             // Step two, visit these links and check for 404s.
                             foreach ($found[1] as $i => $link) {
-                                if (!contains($link, 'mailto:') && !contains(html_entity_decode($link), 'mailto:')
+                                if (!contains($link, 'mailto:') && !contains(html_entity_decode($link, ENT_COMPAT), 'mailto:')
                                     && !contains($link, 'maintenance.php') && (mb_strpos($link, 'http') !== 0)) {
                                     // Who knew '&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#58;' = 'mailto:'?
                                     // Don't check mailto:, this file (ARGH!)

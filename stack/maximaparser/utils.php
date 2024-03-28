@@ -1340,8 +1340,7 @@ class maxima_parser_utils {
             if (($node instanceof MP_List && (!($node->parentnode instanceof MP_Indexing)
                     || $node->parentnode->target === $node)) || $node instanceof MP_Set) {
                 // This aims to cut down rands and matrices present in the AST.
-                // Note that while stack_expression_list is a thing we do not create
-                // them here.
+                // Note that while stack_expression_list is a thing, we do not create them here.
                 $types = $node->type_count();
                 if (!isset($types['MP_Identifier']) && !isset($types['MP_String']) && !isset($types['MP_FunctionCall'])
                         && !(isset($types['ops']) && isset($types['ops'][':']))) {

@@ -672,7 +672,7 @@ class castext_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
-    public function test_plot_small() {
+    public function test_plot_small_margin() {
 
         $a2 = array('p:sin(x)');
         $s2 = array();
@@ -681,7 +681,8 @@ class castext_test extends qtype_stack_testcase {
         }
         $cs2 = new stack_cas_session2($s2, null, 0);
 
-        $at1 = castext2_evaluatable::make_from_source('A small plot: {@plot(p, [x,-2,3], [size,200,100])@}', 'test-case');
+        $at1 = castext2_evaluatable::make_from_source('A small plot: {@plot(p, [x,-2,3], [size,200,100], [margin, 1])@}',
+            'test-case');
         $this->assertTrue($at1->get_valid());
         $cs2->add_statement($at1);
         $cs2->instantiate();
@@ -1317,6 +1318,33 @@ class castext_test extends qtype_stack_testcase {
     /**
      * @covers \qtype_stack\stack_cas_castext2_latex
      */
+    public function test_numerical_display_commas() {
+        $st = 'The number {@3.1415@} is written with commas. ';
+        $st .= 'Sets {@{1.2, 4, 5, 3.123}@} and lists {@[1.2, 4, 5, 3.123]@}';
+
+        $a2 = array('stackfltsep:","');
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+        }
+        $cs2 = new stack_cas_session2($s2, null, 0);
+
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals(
+            'The number \({3{,}1415}\) is written with commas. ' .
+            'Sets \({\left \{1{,}2 ; 3{,}123 ; 4 ; 5 \right \}}\) ' .
+            'and lists \({\left[ 1{,}2 ; 4 ; 5 ; 3{,}123 \right]}\)',
+            $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
     public function test_inline_fractions() {
         $s = '{@(stack_disp_fractions("i"), 1/x)@} {@(stack_disp_fractions("d"), 1/x)@} {@(stack_disp_fractions("i"), 1/x)@}';
 
@@ -1565,6 +1593,18 @@ class castext_test extends qtype_stack_testcase {
               'stack_jxg.bind_point(stateRef, p);' .
               'stateInput.style.display = \'none\';' .
               '[[/jsxgraph]]';
+
+        $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
+        $this->assertTrue($at2->get_valid());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_geogebra
+     */
+    public function test_stack_geogebra_statestore() {
+        // Eigenen test schreibenXXX.
+        $st = '[[geogebra input-ref-stateStore="stateRef"]]' .
+              '[[/geogebra]]';
 
         $at2 = castext2_evaluatable::make_from_source($st, 'test-case');
         $this->assertTrue($at2->get_valid());
@@ -1978,10 +2018,10 @@ class castext_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $cs2->add_statement($at2);
         $cs2->instantiate();
-        $this->assertEquals("\({x=a\,{\mbox{ or }}\, b}\): <ul class='tree'><li><span class='op'>\(\,{\mbox{ or }}\, \)" .
+        $this->assertEquals("\({x=a\,{\mbox{ or }}\, b}\): <ul class='algebratree'><li><span class='op'>\(\,{\mbox{ or }}\, \)" .
             "</span><ul><li><code>=</code><ul><li><span class='atom'>\(x\)</span></li><li><span class='atom'>\(a\)</span>" .
             "</li></ul></li><li><span class='atom'>\(b\)</span></li></ul></li></ul> <br/> " .
-            "\({x=\left(a\,{\mbox{ or }}\, b\\right)}\): <ul class='tree'><li><code>=</code><ul><li><span class='atom'>" .
+            "\({x=\left(a\,{\mbox{ or }}\, b\\right)}\): <ul class='algebratree'><li><code>=</code><ul><li><span class='atom'>" .
             "\(x\)</span></li><li><span class='op'>\(\,{\mbox{ or }}\, \)</span><ul><li><span class='atom'>\(a\)</span>" .
             "</li><li><span class='atom'>\(b\)</span></li></ul></li></ul></li></ul>", $at2->get_rendered());
 
@@ -1995,7 +2035,7 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at2);
         $cs2->instantiate();
         $this->assertEquals("\({1+\left(\\frac{\mathrm{d}^2}{\mathrm{d} x^2} \sin \left( x\cdot y \\right)\\right)}\): " .
-            "<ul class='tree'><li><code>+</code><ul><li><span class='atom'>\(1\)</span></li><li><span class='op'>" .
+            "<ul class='algebratree'><li><code>+</code><ul><li><span class='atom'>\(1\)</span></li><li><span class='op'>" .
             "\(\\frac{\mathrm{d}^2 }{\mathrm{d} x^2} \)</span><ul><li><code>sin</code><ul><li><code>*</code><ul><li>" .
             "<span class='atom'>\(x\)</span></li><li><span class='atom'>\(y\)</span></li></ul></li></ul></li></ul></li>" .
             "</ul></li></ul>", $at2->get_rendered());
@@ -2004,7 +2044,7 @@ class castext_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $cs2->add_statement($at2);
         $cs2->instantiate();
-        $this->assertEquals("<ul class='tree'><li><span class='op'>\({ \pm }\)</span><ul><li><span class='atom'>\(a\)" .
+        $this->assertEquals("<ul class='algebratree'><li><span class='op'>\({ \pm }\)</span><ul><li><span class='atom'>\(a\)" .
             "</span></li><li><span class='op'>\(\Gamma\)</span><ul><li><span class='atom'>\(x\)</span></li></ul></li>" .
             "</ul></li></ul>", $at2->get_rendered());
 
@@ -2012,14 +2052,14 @@ class castext_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $cs2->add_statement($at2);
         $cs2->instantiate();
-        $this->assertEquals("<ul class='tree'><li><span class='op'>\(\sqrt{}\)</span><ul><li>" .
+        $this->assertEquals("<ul class='algebratree'><li><span class='op'>\(\sqrt{}\)</span><ul><li>" .
             "<span class='atom'>\(x\)</span></li></ul></li></ul>", $at2->get_rendered());
 
         $at2 = castext2_evaluatable::make_from_source("{@disptree('limit(1/(x+1),x,0))@}", 'test-case');
         $this->assertTrue($at2->get_valid());
         $cs2->add_statement($at2);
         $cs2->instantiate();
-        $this->assertEquals("<ul class='tree'><li><span class='op'>\(\lim_{x\\rightarrow{0}} \cdots \)</span><ul>" .
+        $this->assertEquals("<ul class='algebratree'><li><span class='op'>\(\lim_{x\\rightarrow{0}} \cdots \)</span><ul>" .
             "<li><code>/</code><ul><li><span class='atom'>\(1\)</span></li><li><code>+</code><ul>" .
             "<li><span class='atom'>\(x\)</span></li><li><span class='atom'>\(1\)</span></li></ul></li></ul>" .
             "</li></ul></li></ul>", $at2->get_rendered());
@@ -2028,7 +2068,7 @@ class castext_test extends qtype_stack_testcase {
         $this->assertTrue($at2->get_valid());
         $cs2->add_statement($at2);
         $cs2->instantiate();
-        $this->assertEquals("<ul class='tree'><li><code>*</code><ul><li><span class='atom'>\(2\)</span></li>" .
+        $this->assertEquals("<ul class='algebratree'><li><code>*</code><ul><li><span class='atom'>\(2\)</span></li>" .
             "<li><span class='atom'>\(\left[\begin{array}{cc} a & b \\\\ c & d \\end{array}\\right]\)</span></li>" .
             "</ul></li></ul>", $at2->get_rendered());
     }
@@ -2052,8 +2092,31 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at2);
         $cs2->instantiate();
 
-        $this->assertEquals("<ul class='tree'><li><span class='op'>\(\diamond\)</span><ul><li>" .
+        $this->assertEquals("<ul class='algebratree'><li><span class='op'>\(\diamond\)</span><ul><li>" .
             "<span class='atom'>\(a\)</span></li><li><span class='atom'>\(b\)</span></li></ul></li></ul>",
+            $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_display_tree_strings() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $vars = 't1:("text \\\\(x^2\\\\)" nounand "text 30");';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@disptree(t1)@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals("<ul class='algebratree'><li><span class='op'>\(\,{\mbox{ and }}\, \)</span><ul>" .
+            "<li><span class='atom'>text \(x^2\)</span></li><li><span class='atom'>text 30</span></li></ul></li></ul>",
             $at2->get_rendered());
     }
 
@@ -2158,6 +2221,31 @@ class castext_test extends qtype_stack_testcase {
         $cs2->add_statement($at2);
         $cs2->instantiate();
         $this->assertEquals("Hello world", $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\castext2_evaluatable::make_from_source
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_stack_pick_seed() {
+        $a2 = array();
+        $s2 = array();
+        foreach ($a2 as $s) {
+            $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+            $this->assertTrue($cs->get_valid());
+            $s2[] = $cs;
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+        $cs2 = new stack_cas_session2($s2, $options, 123456);
+
+        $textinput = "{@stack_seed@}";
+        $at1 = castext2_evaluatable::make_from_source($textinput, 'test-case');
+        $this->assertTrue($at1->get_valid());
+        $cs2->add_statement($at1);
+        $cs2->instantiate();
+
+        $this->assertEquals('\({123456}\)', $at1->get_rendered());
     }
 
     /**

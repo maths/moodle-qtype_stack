@@ -14,6 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
+// This file defines question_display_options which the next class extends.
+require_once(__DIR__.'/../../../lib/questionlib.php');
+require_once('questiondisplayoptions.php');
 
 /**
  * A collection of things that are a bit VLE specific and have been
@@ -185,7 +190,14 @@ function stack_cors_link(string $filename): string {
  */
 function stack_get_mathjax_url(): string {
     // TODO: figure out how to support VLE local with CORS.
-    return 'https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    return 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+}
+
+/*
+ * Gets the url for MathJax 3.
+ */
+function stack_get_mathjax3_url() {
+    return 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
 }
 
 /*
@@ -216,7 +228,7 @@ function question_display_options() {
  *  2. Supports inclusion from http(s)://, contrib(l):// and template(l)://
  *     URLs.
  *  3. contrib:// is special shorthand for fetching a file from a particular
- *     GitHub side folder. If the "l" suffix is there then the file will be read 
+ *     GitHub side folder. If the "l" suffix is there then the file will be read
  *     from a matching local folder, if fetching from GitHub fails we do not
  *     automatically fall-back to the local version.
  *  4. template:// is similalr but has a different folder.

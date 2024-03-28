@@ -23,15 +23,6 @@
  */
 class stack_varmatrix_input extends stack_input {
 
-    private static $tostringparams = array('inputform' => true,
-        'qmchar' => true,
-        'pmchar' => 0,
-        'nosemicolon' => true,
-        'dealias' => false, // This is needed to stop pi->%pi etc.
-        'nounify' => true,
-        'varmatrix' => true
-    );
-
     protected $extraoptions = array(
         'hideanswer' => false,
         'allowempty' => false,
@@ -41,6 +32,21 @@ class stack_varmatrix_input extends stack_input {
         'checkvars' => 0,
         'validator' => false
     );
+
+    protected function is_blank_response($contents) {
+        if ($contents == array('EMPTYANSWER')) {
+            return true;
+        }
+        $allblank = true;
+        foreach ($contents as $row) {
+            foreach ($row as $val) {
+                if (!('' == trim($val) || '?' == $val || 'null' == $val)) {
+                    $allblank = false;
+                }
+            }
+        }
+        return $allblank;
+    }
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
@@ -70,10 +76,7 @@ class stack_varmatrix_input extends stack_input {
         } else {
             $current = array();
             foreach ($state->contents as $row) {
-                $cs = stack_ast_container::make_from_teacher_source($row);
-                if ($cs->get_valid()) {
-                    $current[] = $cs->ast_to_string(null, self::$tostringparams);
-                }
+                $current[] = implode(" ", $row);
             }
             $current = implode("\n", $current);
         }
@@ -97,11 +100,12 @@ class stack_varmatrix_input extends stack_input {
         }
 
         // Read matrix bracket style from options.
-        $matrixbrackets = 'matrixroundbrackets';
+        // The default brackets for matrices are square in options.
+        $matrixbrackets = 'matrixsquarebrackets';
         if ($this->options) {
             $matrixparens = $this->options->get_option('matrixparens');
-            if ($matrixparens == '[') {
-                $matrixbrackets = 'matrixsquarebrackets';
+            if ($matrixparens == '(') {
+                $matrixbrackets = 'matrixroundbrackets';
             } else if ($matrixparens == '|') {
                 $matrixbrackets = 'matrixbarbrackets';
             } else if ($matrixparens == '') {
@@ -109,7 +113,7 @@ class stack_varmatrix_input extends stack_input {
             }
         }
 
-        $xhtml = html_writer::tag('textarea', htmlspecialchars($current), $attributes);
+        $xhtml = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
         return html_writer::tag('div', $xhtml, array('class' => $matrixbrackets));
     }
 
@@ -124,7 +128,7 @@ class stack_varmatrix_input extends stack_input {
      * Most return the same as went in.
      *
      * @param array|string $in
-     * @return string
+     * @return array
      */
     protected function response_to_contents($response) {
         $contents = array();
@@ -148,10 +152,11 @@ class stack_varmatrix_input extends stack_input {
 
         foreach ($contents as $key => $row) {
             // Pad out short rows.
+            $padrow = array();
             for ($i = 0; $i < ($maxlen - count($row)); $i++) {
-                $row[] = '?';
+                $padrow[] = '?';
             }
-            $contents[$key] = '[' . implode(',', $row) . ']';
+            $contents[$key] = array_merge($row, $padrow);
         }
         if ($contents == array() && $this->get_extra_option('allowempty')) {
             $contents = array('EMPTYANSWER');
@@ -183,7 +188,77 @@ class stack_varmatrix_input extends stack_input {
      * @return string
      */
     public function contents_to_maxima($contents) {
-        return 'matrix('.implode(',', $contents).')';
+        if ($contents == array('EMPTYANSWER')) {
+            return 'matrix(EMPTYCHAR)';
+        }
+        $matrix = array();
+        foreach ($contents as $row) {
+            $matrix[] = '['.implode(',', $row).']';
+        }
+        return 'matrix('.implode(',', $matrix).')';
+    }
+
+    /**
+     * @param array $contents the content array of the student's input.
+     * @return array of the validity, errors strings and modified contents.
+     */
+    protected function validate_contents($contents, $basesecurity, $localoptions) {
+
+        $errors = array();
+        $notes = array();
+        $valid = true;
+        list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
+
+        // Now validate the input as CAS code.
+        $modifiedcontents = array();
+        if ($contents == array('EMPTYANSWER')) {
+            $modifiedcontents = $contents;
+        } else {
+            foreach ($contents as $row) {
+                $modifiedrow = array();
+                foreach ($row as $val) {
+                    $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
+                        array(), 'Root', $localoptions->get_option('decimals'));
+                    if ($answer->get_valid()) {
+                        $modifiedrow[] = $answer->get_inputform();
+                    } else {
+                        $modifiedrow[] = 'EMPTYCHAR';
+                    }
+                    $valid = $valid && $answer->get_valid();
+                    $errors[] = $answer->get_errors();
+                    $note = $answer->get_answernote(true);
+                    if ($note) {
+                        foreach ($note as $n) {
+                            $notes[$n] = true;
+                        }
+                    }
+                }
+                $modifiedcontents[] = $modifiedrow;
+            }
+        }
+
+        // Construct one final "answer" as a single maxima object.
+        // In the case of matrices (where $caslines are empty) create the object directly here.
+        // As this will create a matrix we need to check that 'matrix' is not a forbidden word.
+        // Should it be a forbidden word it gets still applied to the cells.
+        if (isset(stack_cas_security::list_to_map($this->get_parameter('forbidWords', ''))['matrix'])) {
+            $modifiedforbid = str_replace('\,', 'COMMA_TAG', $this->get_parameter('forbidWords', ''));
+            $modifiedforbid = explode(',', $modifiedforbid);
+            array_map('trim', $modifiedforbid);
+            unset($modifiedforbid[array_search('matrix', $modifiedforbid)]);
+            $modifiedforbid = implode(',', $modifiedforbid);
+            $modifiedforbid = str_replace('COMMA_TAG', '\,', $modifiedforbid);
+            $secrules->set_forbiddenwords($modifiedforbid);
+            // Cumbersome, and cannot deal with matrix being within an alias...
+            // But first iteration and so on.
+        }
+        $value = $this->contents_to_maxima($modifiedcontents);
+        // Sanitised above.
+        $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
+        $answer->get_valid();
+
+        $caslines = array();
+        return array($valid, $errors, $notes, $answer, $caslines);
     }
 
     /**
@@ -193,8 +268,54 @@ class stack_varmatrix_input extends stack_input {
      * @return string
      */
     private function maxima_to_raw_input($in) {
+        $decimal = '.';
+        $listsep = ',';
+        if ($this->options->get_option('decimals') === ',') {
+            $decimal = ',';
+            $listsep = ';';
+        }
+        $tostringparams = array('inputform' => true,
+            'qmchar' => true,
+            'pmchar' => 0,
+            'nosemicolon' => true,
+            'dealias' => false, // This is needed to stop pi->%pi etc.
+            'nounify' => true,
+            'nontuples' => false,
+            'varmatrix' => true,
+            'decimal' => $decimal,
+            'listsep' => $listsep
+        );
         $cs = stack_ast_container::make_from_teacher_source($in);
-        return $cs->ast_to_string(null, self::$tostringparams);
+        return $cs->ast_to_string(null, $tostringparams);
+    }
+
+    public function get_correct_response($value) {
+
+        if (trim($value) == 'EMPTYANSWER' || $value === null) {
+            $value = '';
+        }
+        // TODO: refactor this ast creation away.
+        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
+        $cs->set_nounify(0);
+
+        // Hard-wire to strict Maxima syntax.
+        $decimal = '.';
+        $listsep = ',';
+        $params = array('checkinggroup' => true,
+            'qmchar' => false,
+            'pmchar' => 1,
+            'nosemicolon' => true,
+            'keyless' => true,
+            'dealias' => false, // This is needed to stop pi->%pi etc.
+            'nounify' => 0,
+            'nontuples' => false,
+            'decimal' => $decimal,
+            'listsep' => $listsep
+        );
+        if ($cs->get_valid()) {
+            $value = $cs->ast_to_string(null, $params);
+        }
+        return  $this->maxima_to_response_array($value);
     }
 
     protected function ajax_to_response_array($in) {

@@ -37,6 +37,10 @@ class stack_inputvalidation_test_data {
     const ANSNOTES      = 5;
     const NOTES         = 6;
 
+    const BRITISH       = 1;
+    const CONTINENTIAL  = 2;
+
+
     protected static $rawdata = array(
 
         array('123', 'php_true', '123', 'cas_true', '123', '', ""),
@@ -92,10 +96,9 @@ class stack_inputvalidation_test_data {
         array('true', 'php_true', 'true', 'cas_true', '\mathbf{True}', '', "Booleans"),
         array('false', 'php_true', 'false', 'cas_true', '\mathbf{False}', '', ""),
         array('"1+1"', 'php_true', '"1+1"', 'cas_true', '\mbox{1+1}', '',
-        "Strings - generally discouraged in STACK.  Note, this is a string within a mathematical expression, not literally 1+1."),
+        "Strings - generally discouraged.  Note, this is a string within a mathematical expression, not literally 1+1."),
         array('"Hello world"', 'php_true', '"Hello world"', 'cas_true', '\mbox{Hello world}', '', ''),
-        // In the continuous integration, this works with GCL but not with SBCL.
-        // array("\"We \u{1F497} STACK!\"", 'php_true', "\"We \u{1F497} STACK!\"", 'cas_true', "\mbox{We \u{1F497} STACK!}", '', ''),
+        // In the continuous integration, "\"We \u{1F497} STACK!\" works with GCL but not with SBCL.
         array('x', 'php_true', 'x', 'cas_true', 'x', '', "Names for variables etc."),
         array('a1', 'php_true', 'a*1', 'cas_true', 'a\cdot 1', 'missing_stars', ""),
         array('a12', 'php_true', 'a*12', 'cas_true', 'a\cdot 12', 'missing_stars', ""),
@@ -294,6 +297,7 @@ class stack_inputvalidation_test_data {
         array('psi', 'php_true', 'psi', 'cas_true', '\psi', '', "The derivative of \(\log (\gamma (x))\) of order \(n+1\)."),
         array('omega', 'php_true', 'omega', 'cas_true', '\omega', '', ""),
         array('p=?*s', 'php_true', 'p = ?*s', 'cas_true', 'p=\color{red}{?}\cdot s', '', "Question marks"),
+        array('"WA?@AAA@AA"', 'php_true', '"WA?@AAA@AA"', 'cas_true', '\mbox{WA?@AAA@AA}', '', ""),
         array('(x+2)3', 'php_true', '(x+2)*3', 'cas_true', '\left(x+2\right)\cdot 3', 'missing_stars', "Implicit multiplication"),
         array('(x+2)y', 'php_true', '(x+2)*y', 'cas_true', '\left(x+2\right)\cdot y', 'missing_stars', ""),
         array('3(x+1)', 'php_true', '3*(x+1)', 'cas_true', '3\cdot \left(x+1\right)', 'missing_stars', ""),
@@ -567,12 +571,81 @@ class stack_inputvalidation_test_data {
             '\left(\pi+1\right)\, 2\, \mathrm{m}\mathrm{m}', '', ""),
     );
 
+    protected static $rawdatadecimals = array(
+        array(0 => '123',
+              '.' => array(null, 'php_true', '123', 'cas_true', '123', '', ""),
+              ',' => array(null, 'php_true', '123', 'cas_true', '123', '', "")
+             ),
+        array(0 => '1.23',
+            '.' => array(null, 'php_true', '1.23', 'cas_true', '1.23', '', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', "")
+        ),
+        array(0 => '-1.27',
+            '.' => array(null, 'php_true', '-1.27', 'cas_true', '-1.27', '', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', "")
+        ),
+        array(0 => '2.78e-3',
+            '.' => array(null, 'php_true', '2.78e-3', 'cas_true', '2.78e-3', '', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', "")
+        ),
+        array(0 => '1,23',
+            '.' => array(null, 'php_false', '', '', '', 'unencapsulated_comma', ""),
+            ',' => array(null, 'php_true', '1.23', 'cas_true', '1.23', '', "")
+        ),
+        array(0 => '-1,29',
+            '.' => array(null, 'php_false', '', '', '', 'unencapsulated_comma', ""),
+            ',' => array(null, 'php_true', '-1.29', 'cas_true', '-1.29', '', "")
+        ),
+        array(0 => '2,79e-5',
+            '.' => array(null, 'php_false', '', '', '', 'unencapsulated_comma', ""),
+            ',' => array(null, 'php_true', '2.79e-5', 'cas_true', '2.79e-5', '', "")
+        ),
+        // For students' input the character ; is forbidden, but not in this test.
+        array(0 => '1;23',
+            '.' => array(null, 'php_true', '1', 'cas_true', '1', '', ""),
+            ',' => array(null, 'php_false', '1', '', '', 'unencapsulated_comma', "")
+        ),
+        // With strict interpretation both the following are invalid.
+        array(0 => '1.2+2,3*x',
+            '.' => array(null, 'php_false', '', '', '', 'unencapsulated_comma', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', "")
+        ),
+        array(0 => '{1,23}',
+            '.' => array(null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', ""),
+            ',' => array(null, 'php_true', '{1.23}', 'cas_true', '\left \{1.23 \right \}', '', "")
+        ),
+        array(0 => '{1.23}',
+            '.' => array(null, 'php_true', '{1.23}', 'cas_true', '\left \{1.23 \right \}', '', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', "")
+        ),
+        array(0 => '{1;23}',
+            '.' => array(null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""),
+            ',' => array(null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', "")
+        ),
+        array(0 => '{1.2,3}',
+            '.' => array(null, 'php_true', '{1.2,3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', "")
+        ),
+        array(0 => '{1,2;3}',
+            '.' => array(null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""),
+            ',' => array(null, 'php_true', '{1.2,3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""),
+        ),
+        array(0 => '{1,2;3;4.1}',
+            '.' => array(null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""),
+        )
+    );
+
     public static function get_raw_test_data() {
         return self::$rawdata;
     }
 
     public static function get_raw_test_data_units() {
         return self::$rawdataunits;
+    }
+
+    public static function get_raw_test_data_decimals() {
+        return self::$rawdatadecimals;
     }
 
     public static function test_from_raw($data, $validationmethod) {
@@ -586,6 +659,32 @@ class stack_inputvalidation_test_data {
         $test->notes            = $data[self::NOTES];
         $test->ansnotes         = $data[self::ANSNOTES];
         $test->validationmethod = $validationmethod;
+        $test->decimals         = '.';
+
+        $test->passed           = null;
+        $test->errors           = null;
+        $test->caserrors        = null;
+        $test->casdisplay       = null;
+        $test->casvalue         = null;
+        $test->casnotes         = null;
+        return $test;
+    }
+
+    public static function test_decimals_from_raw($data, $decimals) {
+
+        $test = new stdClass();
+        $test->rawstring        = $data[self::RAWSTRING];
+        $test->phpvalid         = $data[$decimals][self::PHPVALID];
+        $test->phpcasstring     = $data[$decimals][self::PHPCASSTRING];
+        $test->casvalid         = $data[$decimals][self::CASVALID];
+        $test->display          = $data[$decimals][self::DISPLAY];
+        $test->notes            = $data[$decimals][self::NOTES];
+        $test->ansnotes         = $data[$decimals][self::ANSNOTES];
+        $test->validationmethod = 'typeless';
+        $test->decimals         = '.';
+        if ($decimals === self::CONTINENTIAL) {
+            $test->decimals         = ',';
+        }
 
         $test->passed           = null;
         $test->errors           = null;
@@ -637,8 +736,9 @@ class stack_inputvalidation_test_data {
         // We want to apply this as our "insert stars" but not spaces...
         $filterstoapply[] = '990_no_fixing_spaces';
 
-        $cs = stack_ast_container::make_from_student_source($test->rawstring, '', new stack_cas_security(), $filterstoapply);
-        $cs->set_cas_validation_context('ans1', true, '', $test->validationmethod, false, 0);
+        $cs = stack_ast_container::make_from_student_source($test->rawstring, '', new stack_cas_security(),
+            $filterstoapply, array(), 'Root', $test->decimals);
+        $cs->set_cas_validation_context('ans1', true, '', $test->validationmethod, false, 0, '.');
 
         $phpvalid     = $cs->get_valid();
         $phpcasstring = $cs->get_inputform();

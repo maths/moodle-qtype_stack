@@ -76,7 +76,7 @@ class stack_textarea_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
-        return html_writer::tag('textarea', htmlspecialchars($current), $attributes);
+        return html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
@@ -301,7 +301,7 @@ class stack_textarea_input extends stack_input {
             if (trim($val) !== '' ) {
                 $cs = stack_ast_container::make_from_teacher_source($val);
                 $cs->get_valid();
-                $val = '<code>'.$cs->get_inputform(true, 0, true).'</code>';
+                $val = '<code>'.$cs->get_inputform(true, 0, true, $this->options->get_option('decimals')).'</code>';
             }
             $values[$key] = $val;
         }

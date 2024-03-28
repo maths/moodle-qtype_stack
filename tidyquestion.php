@@ -23,7 +23,6 @@
  */
 
 require_once(__DIR__.'/../../../config.php');
-
 require_once($CFG->libdir . '/questionlib.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/tidyquestionform.php');
@@ -52,6 +51,7 @@ $PAGE->set_pagelayout('admin');
 require_login();
 
 // The URL back to the preview page.
+// TODO, when we drop support for Moodle 3, this link needs to go back to the dashboard, not the preview.
 if (stack_determine_moodle_version() < 400) {
     $returnurl = question_preview_url($questionid, null, null, null, null, $context);
 } else {
@@ -78,10 +78,7 @@ $quba->process_action($slot, $response);
 $question->setup_fake_feedback_and_input_validation();
 
 // Prepare the display options.
-$options = new question_display_options();
-$options->readonly = true;
-$options->flags = question_display_options::HIDDEN;
-$options->suppressruntestslink = true;
+$options = question_display_options();
 
 // Create the form for renaming bits of the question.
 $form = new qtype_stack_tidy_question_form($PAGE->url, $question);

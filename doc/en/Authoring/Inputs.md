@@ -1,6 +1,6 @@
 # Inputs
 
-Inputs are the points at which the student interacts with the question.  
+Inputs are the points at which the student interacts with the question.
 The default (and prototype) is an HTML input box into which a student is expected to type an algebraic expression.
 
 * Only the [question text](CASText.md#question_text) may have inputs.
@@ -76,6 +76,8 @@ We cannot use the `EMPTYANSWER` tag for the teacher's answer with the matrix inp
 
     ta:transpose(matrix([null,null,null]));
 
+The shape of the parentheses surrounding the brackets is taken from the question level options, except matrix inputs cannont display curly brackets `{`.  (If you can create CSS to do this, please contact the developers!)
+
 #### Text area ####
 
 This input allows the user to type in multiple lines, where each line must be a valid algebraic expression.  STACK passes the result to [Maxima](../CAS/Maxima.md) as a list. Note, the teacher's answer and any syntax hint must be a list, of valid Maxima exprssions!  If you just pass in an expression strange behaviour may result.
@@ -117,11 +119,15 @@ This input type can be used for
 1. surveys;
 2. answers which are not automatically marked, contributing to [semi-automatic marking](../Moodle/Semi-automatic_Marking.md).
 
-The notes input has a special extra option `manualgraded`, and the default option value is `manualgraded:false`.  If you specify `manualgraded:true` then the _whole STACK quesion_ will require manual grading!
+The notes input has a special extra option `manualgraded`, and the default option value is `manualgraded:false`.  If you specify `manualgraded:true` then the _whole STACK question_ will require manual grading!
 
 #### Single Character ####
 
 A single letter can be entered.  This is useful for creating multiple-choice questions, but is not used regularly.
+
+#### GeoGebra File ####
+
+A single GeoGebra File can be entered. This is useful for creating GeoGebra tasks.
 
 ## Options ##
 
@@ -141,7 +147,7 @@ There are six options.
 * Insert `*`s for implied multiplication.  If any patterns are identified as needing `*`s then they will automatically be inserted into the expression quietly.
 * Insert `*`s assuming single character variable names.  In many situations we know that a student will only have single character variable names.  Identify variables in the student's answer made up of more than one character then replace these with the product of the letters.
   * Note, the student's formula is interpreted and variables identified, so \(\sin(ax)\) will not end up as `s*i*n*(a*x)` but as `sin(a*x)`.
-  * Note, in interpreting the student's formula we build an internal tree in order to identify variable names and function names.  Hence \(xe^x\) is interpreted as \( (xe)^x \).  We then identify the variable name `xe` and replace this as `x*e`.  Hence, using this option we have `xe^x` is interpreted as `(x*e)^x` NOT as `x*e^x` which you might expect.  
+  * Note, in interpreting the student's formula we build an internal tree in order to identify variable names and function names.  Hence \(xe^x\) is interpreted as \( (xe)^x \).  We then identify the variable name `xe` and replace this as `x*e`.  Hence, using this option we have `xe^x` is interpreted as `(x*e)^x` NOT as `x*e^x` which you might expect.
 
 There are also additional options to insert multiplication signs for spaces.
 
@@ -151,7 +157,7 @@ There are also additional options to insert multiplication signs for spaces.
 
 If a space is taken for multiplication what should we do with \(\sin\ x\)?  Currently this is transformed to \(\sin \times x\) and then rejected as invalid as you can't multiply the function name by its argument.  Use these latter options with caution: in the long run students are likely to need to use a strict syntax with machines, and letting them use spaces now might be a disservice.
 
-It is often very important to have some on-screen representation of multiplication, e.g. as a dot, so the student can see at the validation that `xe^x` is interpreted 
+It is often very important to have some on-screen representation of multiplication, e.g. as a dot, so the student can see at the validation that `xe^x` is interpreted
 
 1. as \( (x\cdot e)^x\) if we assume single character variable names, and
 2. as \( xe^x\) if we just "Insert `*`s for implied multiplication".  The absence of the dot here is key.
@@ -228,15 +234,15 @@ Another useful way of avoiding this problem is to put a LaTeX string such as \(y
 
 ### Student must verify ### {#Student_must_verify}
 
-Specifies whether the student's input is presented back to them before scoring as part of a two-step validation process.  
-Typically the student's mathematical expression is displayed in traditional form.  
+Specifies whether the student's input is presented back to them before scoring as part of a two-step validation process.
+Typically the student's mathematical expression is displayed in traditional form.
 This is useful for complex algebraic expressions but not needed for constrained input like `yes`/`no`.
 
-Experience strongly supports the use of this two-step verification process.  
-Errors will always be displayed and expressions with errors rejected as invalid. 
+Experience strongly supports the use of this two-step verification process.
+Errors will always be displayed and expressions with errors rejected as invalid.
 Potential response trees will not execute with invalid input.
 
-The next option controls how the validation feedback is displayed. 
+The next option controls how the validation feedback is displayed.
 Note, it is not possible to require a two-step validation but not show some validation feedback.
 
 ### Show validation ### {#Show_validation}
@@ -250,9 +256,9 @@ Setting this option displays any feedback from this input, including echoing bac
 
 The "compact" version removes most of the styling.  This is needed when the answer is part of a table.
 
-### Extra option: hideanswer ###
+### Extra option: hideanswer ### {#extra_option_hideanswer}
 
-Users are increasingly using inputs to store _state_, which makes no sense for a user to see.  For example, when using [JSXGraph](JSXGraph.md) users transfer the configuration of the diagram into an input via JavaScript.  In many situations, it makes no sense for the student to see anything about this input.  The validation can be switched off with the regular "show validation" option, the input box itself can be hidden with JavaScript/CSS.  Putting `hideanswer` in the extra options stops displaying the "teacher's answer", e.g. at the end of the process.
+Users are increasingly using inputs to store _state_, which makes no sense for a user to see.  For example, when using [JSXGraph](JSXGraph.md) or [GeoGebra](GeoGebra.md) users transfer the configuration of the diagram into an input via JavaScript.  In many situations, it makes no sense for the student to see anything about this input.  The validation can be switched off with the regular "show validation" option, the input box itself can be hidden with JavaScript/CSS.  Putting `hideanswer` in the extra options stops displaying the "teacher's answer", e.g. at the end of the process.
 
 All input types should support this extra option.
 
@@ -270,7 +276,7 @@ Our experience strongly suggests this option should only be used for edge cases,
 
 If you use this option when students navigate away from a page the system will "validate" the inputs, and hence any empty boxes will be considered an active empty choice by the student and will be assessed.  If you use this option there is no way to distinguish between an active empty answer choice, and a student who deletes their answer.  (The same problem occurs with radio buttons....)
 
-There are (unfortunately) some edge cases where it is useful to permit the execution of a PRT without all the inputs containing significant content.  
+There are (unfortunately) some edge cases where it is useful to permit the execution of a PRT without all the inputs containing significant content.
 
 Assume you have three inputs `ans1`, `ans2`, `ans3` contributing to a PRT, all of which have the `allowempty` option set because you don't want to tell the student which might be empty.  Assume the correct answer has at least one entry non-empty.  Then, make the first node of the PRT check
 
@@ -282,7 +288,7 @@ If a teacher has three inputs `ans1`, `ans2`, `ans3`, then they can define a set
 
     sa:setdifference({ans1,ans2,ans3},{EMPTYANSWER})
 
-The variable `sa` will be a set containing the non-empty answers (if any).  
+The variable `sa` will be a set containing the non-empty answers (if any).
 
 The teacher can use the `EMPTYANSWER` tag as a "correct answer".
 
@@ -324,7 +330,7 @@ More information on subscripts is given in the atoms and subscripts section of t
 
 As of STACK 4.4.0, there is an option to check, or allow comparison between, variables which occur in the student's answer and the teacher's answer.
 
-This option takes the form of `checkvars:n`, where `n` is an integer. Ommiting this option is equivalent to setting `n=0`.
+This option takes the form of `checkvars:n`, where `n` is an integer. Omitting this option is equivalent to setting `n=0`.
 
 The binary bits are used to set this options.
 
@@ -337,7 +343,7 @@ The numerical argument provides potential for future-proofing features (e.g. cas
 
 ### Extra option: validator ###
 
-This allows an input to add additional bespoke validation, based on a function defined by the question author.  For example, you can define a function which checks if the student's answer is a _list of exactly three floating point numbers_.  See the [validator documetation](../CAS/Validator.md) for more details.
+This allows an input to add additional bespoke validation, based on a function defined by the question author.  For example, you can define a function which checks if the student's answer is a _list of exactly three floating point numbers_.  See the [validator documentation](../CAS/Validator.md) for more details.
 
 Writing bespoke validators is an advanced feature, but offers two significant benefits.
 
@@ -354,10 +360,10 @@ It is often sensible to use a prefix just in front of the form box.  For example
 
     \(f(x)=\) [[input:ans1]].
 
-This avoids all kinds of problems with students also trying to enter the prefix themselves.  
+This avoids all kinds of problems with students also trying to enter the prefix themselves.
 You could also specify units afterwards, but you might also want the student to type these in!
 
-In Maxima the input `(a,b,c)` is a programmatic block element (see Maxima's manual for `block`). 
+In Maxima the input `(a,b,c)` is a programmatic block element (see Maxima's manual for `block`).
 Hence we cannot use this directly for the input of coordinates.  Instead, have the students type in an unnamed function like
 
     P(x,y)
@@ -374,40 +380,40 @@ This table lists all options, and which inputs use/respect them.  The `.` means 
 
 Options           | Alg | Num | Units | Matrix | Check | Radio | Drop | T/F | TextArea | Equiv | String | Notes
 ------------------|-----|-----|-------|--------|-------|-------|------|-----|----------|-------|--------|------
-Box size          |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y  
-Strict Syn        |  Y  | (1) |  (1)  |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
-Insert stars      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
-Syntax hint       |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y  
-Hint att          |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y  
-Forbidden words   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
-Allowed words     |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
-Forbid float      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
-Lowest terms      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .  
-Check type        |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-Must verify       |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  Y  |    Y     |   Y   |   Y    |   .  
-Show validation   |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  Y  |    Y     |   Y   |   Y    |   .  
-**Extra options:**|     |     |       |        |       |       |      |     |          |       |        |      
-`rationalize`   |  Y  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`floatnum`      |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`intnum`        |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`rationalnum`   |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`consolidatesubscripts` |  Y  |  .  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`negpow`        |  .  |  .  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`simp`            |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   .   |   .    |   .  
-`align`        |  Y  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .  
-`nounits`      |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  .  |    .     |   Y   |   .    |   .  
-`checkvars`    |  Y  |  .  |  .    |   Y    |   .   |   .   |   .  |  .  |    .     |   Y   |   .    |   .  
-`validator`    |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .  
+Box size          |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y
+Strict Syn        |  Y  | (1) |  (1)  |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .
+Insert stars      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .
+Syntax hint       |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y
+Hint att          |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   Y    |   Y
+Forbidden words   |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .
+Allowed words     |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .
+Forbid float      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .
+Lowest terms      |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   Y   |   .    |   .
+Check type        |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .
+Must verify       |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  Y  |    Y     |   Y   |   Y    |   .
+Show validation   |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  Y  |    Y     |   Y   |   Y    |   .
+**Extra options:**|     |     |       |        |       |       |      |     |          |       |        |
+`rationalize`   |  Y  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .
+min/max sf/dp     |  .  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .
+`floatnum`      |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .
+`intnum`        |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .
+`rationalnum`   |  .  |  Y  |  .    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .
+`consolidatesubscripts` |  Y  |  .  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .
+`negpow`        |  .  |  .  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .
+`simp`            |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    Y     |   .   |   .    |   .
+`align`        |  Y  |  Y  |  Y    |   .    |   .   |   .   |   .  |  .  |    .     |   .   |   .    |   .
+`nounits`      |  Y  |  Y  |  Y    |   Y    |   Y   |   Y   |   Y  |  .  |    .     |   Y   |   .    |   .
+`checkvars`    |  Y  |  .  |  .    |   Y    |   .   |   .   |   .  |  .  |    .     |   Y   |   .    |   .
+`validator`    |  Y  |  Y  |  Y    |   Y    |   .   |   .   |   .  |  .  |    .     |   .   |   Y    |   .
 
 For documentation about the various options not documented on this page look at the pages for the specific inputs in which each option is used.
 
 Notes:
 
-1. The numerical and units input type ignore the strict syntax option and always assume strict syntax is "true".  
+1. The numerical and units input type ignore the strict syntax option and always assume strict syntax is "true".
 Otherwise patterns for scientific numbers such as `2.23e4` will have multiplication characters inserted.
 
 ## Other input types ##
 
-Adding new inputs, or options for existing inputs, is a job for the developers.  
+Adding new inputs, or options for existing inputs, is a job for the developers.
 The only essential requirement is that the result is a valid CAS expression, which includes of course a string data type, or a list.

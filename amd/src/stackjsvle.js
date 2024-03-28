@@ -31,8 +31,12 @@
  * @copyright  2023 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
-    "use strict";
+define([
+    'core/event'
+], function(
+    CustomEvents
+) {
+    'use strict';
     // Note the VLE specific include of logic.
 
     /* All the IFRAMES have unique identifiers that they give in their
@@ -79,7 +83,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
     }
 
     /**
-     * Returns an input element with a given name, if an only if that element
+     * Returns an input element with a given name, if and only if that element
      * exists inside a portion of DOM that represents a question.
      *
      * Note that, the input element may have a name that multiple questions
@@ -178,7 +182,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
         // TODO: look into replacing this with DOMPurify or some such.
 
         let parser = new DOMParser();
-        let doc = parser.parseFromString(src);
+        let doc = parser.parseFromString(src, "text/html");
 
         // First remove all <script> tags. Also <style> as we do not want
         // to include too much style.
@@ -267,7 +271,7 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
         let input = null;
 
         let response = {
-            version: 'STACK-JS:1.0.0'
+            version: 'STACK-JS:1.1.0'
         };
 
         switch (msg.type) {
@@ -294,14 +298,18 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             if (input.nodeName.toLowerCase() === 'select') {
                 response.value = input.value;
                 response['input-type'] = 'select';
+                response['input-readonly'] = input.hasAttribute('disabled');
             } else if (input.type === 'checkbox') {
                 response.value = input.checked;
                 response['input-type'] = 'checkbox';
+                response['input-readonly'] = input.hasAttribute('disabled');
             } else {
                 response.value = input.value;
                 response['input-type'] = input.type;
+                response['input-readonly'] = input.hasAttribute('readonly');
             }
             if (input.type === 'radio') {
+                response['input-readonly'] = input.hasAttribute('disabled');
                 response.value = '';
                 for (let inp of document.querySelectorAll('input[type=radio][name=' + CSS.escape(input.name) + ']')) {
                     if (inp.checked) {
@@ -498,13 +506,10 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
 
             if (element === null) {
                 // Requested something that is not available.
-                const ret = {
-                    version: 'STACK-JS:1.0.0',
-                    type: 'error',
-                    msg: 'Failed to find element: "' + msg.target + '"',
-                    tgt: msg.src
-                };
-                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(ret), '*');
+                response.type = 'error';
+                response.msg = 'Failed to find element: "' + msg.target + '"';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
                 return;
             }
 
@@ -514,6 +519,29 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             // If we tune something we should let the VLE know about it.
             vle_update_dom(element);
 
+            break;
+        case 'get-content':
+            // 1. Find the element.
+            element = vle_get_element(msg.target);
+            // 2. Build the message.
+            response.type = 'xfer-content';
+            response.tgt = msg.src;
+            response.target = msg.target;
+            response.content = null;
+            if (element !== null) {
+                // TODO: Should we sanitise the content? Probably not as using
+                // this to interrogate neighbouring questions only allows
+                // messing with the other questions and not anything outside
+                // them. If we do not sanitise it we allow some interesting
+                // question-analytics tooling, and if we do we really don't
+                // gain anything sensible.
+                // Matti's opinnion is to not sanitise at this point as
+                // interraction between questions is not inherently evil
+                // and could be of use even at the level of reading code from
+                // from other questions.
+                response.content = element.innerHTML;
+            }
+            IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
             break;
         case 'resize-frame':
             // 1. Find the frames wrapper div.
@@ -578,8 +606,12 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
            @param {String} title a descriptive name for the iframe.
            @param {bool} scrolling whether we have overflow:scroll or
                   overflow:hidden.
+           @param {bool} evil allows certain special cases to act without
+                  sandboxing, this is a feature that will be removed so do
+                  not rely on it only use it to test STACK-JS before you get your
+                  thing to run in a sandbox.
          */
-        create_iframe(iframeid, content, targetdivid, title, scrolling) {
+        create_iframe(iframeid, content, targetdivid, title, scrolling, evil) {
             const frm = document.createElement('iframe');
             frm.id = iframeid;
             frm.style.width = '100%';
@@ -598,11 +630,20 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             // document building in JS has been seen.
             // UNDER NO CIRCUMSTANCES DO WE ALLOW-SAME-ORIGIN!
             // That would defeat the whole point of this.
-            frm.sandbox = 'allow-scripts allow-downloads';
+            if (!evil) {
+                frm.sandbox = 'allow-scripts allow-downloads';
+            }
 
             // As the SOP is intentionally broken we need to allow
             // scripts from everywhere.
-            frm.csp = "script-src: 'unsafe-inline' 'self' '*';";
+
+            // NOTE: this bit commented out as long as the csp-attribute
+            // is not supported by more browsers.
+            // frm.csp = "script-src: 'unsafe-inline' 'self' '*';";
+            // frm.csp = "script-src: 'unsafe-inline' 'self' '*';img-src: '*';";
+
+            // Plug the content into the frame.
+            frm.srcdoc = content;
 
             // The target DIV will have its children removed.
             // This allows that div to contain some sort of loading
@@ -610,10 +651,6 @@ define("qtype_stack/stackjsvle", ["core/event"], function(CustomEvents) {
             // Naturally the frame will then start to load itself.
             document.getElementById(targetdivid).replaceChildren(frm);
             IFRAMES[iframeid] = frm;
-
-            // Move the content over.
-            const src = new Blob([content], {type: 'text/html; charset=utf-8'});
-            frm.src = URL.createObjectURL(src);
         }
 
     };

@@ -49,6 +49,7 @@ taC: mean(map(third,data));
     <prtincorrect format="html">
       <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
     </prtincorrect>
+    <decimals>.</decimals>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>

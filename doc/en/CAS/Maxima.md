@@ -5,7 +5,7 @@ A computer algebra system (CAS) is software that allows the manipulation of math
   * using a [predicate function](Predicate_functions.md) to find if a single expression has a property.  For example, are any of the numbers floating points?
   * comparing two expressions using an answer test to compare two expressions.  For example, is the student's expression equivalent to the teacher's?
 
- [randomly generating](Random.md) structured mathematical objects which become parts of a question and [plotting graphs](Plots.md) of functions.
+Maxima is also used for [randomly generating](Random.md) structured mathematical objects which become parts of a question and [plotting graphs](../Plots/index.md) of functions.
 
 To write more than very simple STACK questions you will need to use some Maxima commands. This documentation does not provide a detailed tutorial on Maxima. A very good introduction is given in [Minimal Maxima](http://maxima.sourceforge.net/docs/tutorial/en/minimal-maxima.pdf), which this document assumes you have read.
 
@@ -43,7 +43,7 @@ The absolute value function in Maxima is entered as `abs()`.  STACK also permits
 
 STACK also redefined a small number of functions
 
-* The plot command `plot2d` is not used in STACK questions.  Use `plot` instead, which is documented [here](Plots.md).  This ensures your image files are available on the server.
+* The plot command `plot2d` is not used in STACK questions.  Use `plot` instead, which is documented [here](../Plots/Plots.md).  This ensures your image files are available on the server.
 * The random number command `random` is not used in STACK questions.  Use the command `rand` instead, which is documented [here](Random.md).  This ensures pseudorandom numbers are generated and a student gets the same version each time they login.
 
 ## Parts of Maxima expressions {#Parts_of_Maxima_expressions}
@@ -125,7 +125,7 @@ You can use Maxima's looping structures within Question variables. For example
     n : 1;
     for a:-3 thru 26 step 7 do n:n+a;
 
-The result will be \(n=56\). It is also possible to define functions within the question variables for use within a question. 
+The result will be \(n=56\). It is also possible to define functions within the question variables for use within a question.
 
     f(x) := x^2;
     n : f(4);
@@ -138,7 +138,7 @@ STACK loads the contributed Maxima package `log10`.  This defines logarithms to 
 2. `lg` is an alias for \(\log_{10}\), which are logarithms to base \(10\).
     It is not possible to redefine the command `log` to be to the base \(10\).
 
-## Sets, lists, sequences, n-tuples ##
+## Sets, lists, sequences, n-tuples {#sets-lists-sequences-n-tuples}
 
 It is very useful to be able to display expressions such as comma separated lists, and n-tuples
 \[ 1,2,3,4,\cdots \]
@@ -152,7 +152,12 @@ STACK provides an inert function `sequence`.  All this does is display its argum
 * `sequencep` is a predicate to decide if the expression is a sequence.
 * The atom `dotdotdot` is displayed using the tex `\ldots` which looks like \(\ldots\).  This atom cannot be entered by students.
 
-STACK provides an inert function `ntuple`.  All this does is display its arguments with round brackets. For example `ntuple(1,2,3,4)` is displayed \((1,2,3,4)\).  `ntupleify` and `ntuplep` construct and test for ntuples. In strict Maxima syntax `(a,b,c)` is equivalent to `block(a,b,c)`.  If students type in `(a,b,c)` using a STACK input it is filtered to `ntuple(a,b,c)`. Teachers must use the `ntuple` function explicitly to construct question variables, teacher's answers, test cases and so on. The `ntuple` is useful for students to type in coordinates.
+STACK provides an inert function `ntuple`.  All this does is display its arguments with round brackets. For example `ntuple(1,2,3,4)` is displayed \((1,2,3,4)\).
+
+* `ntupleify` creates an n-tuple from the arguments of the expression.  This turns lists, sets etc. into an n-tuple.
+* `ntuplep` is a predicate to decide if the expression is an ntuples.
+
+In strict Maxima syntax `(a,b,c)` is equivalent to `block(a,b,c)`.  If students type in `(a,b,c)` using a STACK input it is filtered to `ntuple(a,b,c)`. Teachers must use the `ntuple` function explicitly to construct question variables, teacher's answers, test cases and so on. The `ntuple` is useful for students to type in coordinates.
 
 If you want to use these functions, then you can create question variables as follows
 
@@ -174,7 +179,7 @@ Currently, students can enter expressions with "implied ntuples" E.g
 
 * Student input of `(1,2,3)` is interpreted as `ntuple(1,2,3)`.
 * Student input of `{(1,2,3),(4,5,6)}` is interpreted as `{ntuple(1,2,3),ntuple(4,5,6)}`.
-* Since no operations are defined on ntuples, students cannot currenlty enter things like `(1,2,3)+s*(1,0,0)`.  There is nothing to stop a teacher defining the expression tree `ntuple(1,2,3)+s*ntuple(1,0,0)`, but the operations `+` and `*` are not defined for ntuples and so nothing will happen!  If you want a student to enter the equation of a line/plane they should probably use the matrix syntax for vectors.  (This may change in the future).
+* Since no operations are defined on ntuples, students cannot currently enter things like `(1,2,3)+s*(1,0,0)`.  There is nothing to stop a teacher defining the expression tree `ntuple(1,2,3)+s*ntuple(1,0,0)`, but the operations `+` and `*` are not defined for ntuples and so nothing will happen!  If you want a student to enter the equation of a line/plane they should probably use the matrix syntax for vectors.  (This may change in the future).
 
 Matrices have options to control the display of the braces.  Matrices are displayed without commas.
 

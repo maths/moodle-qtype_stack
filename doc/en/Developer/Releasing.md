@@ -35,11 +35,13 @@ Check
 
 * Run PHP [unit tests](Unit_tests.md).
 * Run code checker.
+* If needed re-build the minified Javascript (e.g. `npx grunt --root=question/type/stack`).
 
 Version numbers
 
  * version.php
  * stackmaxima.mac
+ * Run `php cli/getversionstring.php` and add output to `doc/en/Installation/STACK_versions.md`.
  * `MATURITY_STABLE`?
  * Check both the Moodle versions, and the required number. (https://moodledev.io/general/releases)
 

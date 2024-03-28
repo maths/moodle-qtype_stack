@@ -5,7 +5,7 @@ It is sometime very useful to display the tree structure of an algebraic express
 For example, the HTML code for the tree of \(1+2x^3\) is given below.
 
 ```
-<ul class='tree'>
+<ul class='algebratree'>
   <li><code>+</code>
   <ul>
     <li><span class='atom'>\(1\)</span></li>
@@ -27,7 +27,7 @@ This is displayed as follows.
 
 <p>
 <figure>
-<ul class='tree'>
+<ul class='algebratree'>
   <li><code>+</code>
   <ul>
     <li><span class='atom'>\(1\)</span></li>
@@ -47,7 +47,7 @@ This is displayed as follows.
 </figure>
 </p>
 
-The tree is displayed in pure HTML using unordered lists `<ul>` and styled with CSS via the `<ul class='tree'>`.  Therefore, such trees could be written in HTML by hand.
+The tree is displayed in pure HTML using unordered lists `<ul>` and styled with CSS via the `<ul class='algebratree'>`.  Therefore, such trees could be written in HTML by hand.
 
 STACK provides a function `disptree` to generate the above tree diagram from a Maxima expression.  For example, use `{@disptree(1+2+pi*x^3)@}` in castext.  This function generates a string representing the tree of that expression, and is not an inert function.
 
@@ -55,7 +55,7 @@ STACK provides a function `treestop` to stop traversing the tree, and use the La
 
 <p>
 <figure>
-<ul class='tree'>
+<ul class='algebratree'>
   <li><code>=</code>
   <ul>
     <li><code>/</code>
@@ -91,7 +91,7 @@ with the following castext: `{@p1@}: {@disptree(p1)@}  <br/> {@p2@}: {@disptree(
 
 ## Styles
 
-In order to correctly display list items within the `<ul class='tree'>` list, additional styling is needed.  All list items must be styled with one of the following tags.  The Maxima code ensures that operator nodes are styled slightly differently from atoms/terminal nodes. Some operators, such as integrals and sums, have special style rules applied.
+In order to correctly display list items within the `<ul class='algebratree'>` list, additional styling is needed.  All list items must be styled with one of the following tags.  The Maxima code ensures that operator nodes are styled slightly differently from atoms/terminal nodes. Some operators, such as integrals and sums, have special style rules applied.
 
 1. `<code>` is used to display operators as html code.
 1. `<span class='op'>` is used to display operators as LaTeX.

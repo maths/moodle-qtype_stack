@@ -6,7 +6,6 @@ This document contains suggestions for effective question authoring workflow, es
 
 The first task is to create a minimal working question.  At the outset
 
-
 1. add minimal [question variables](Variables.md) to prevent repetition of information in the "Model answer" field of the inputs, and PRT nodes;
 2. use question variables for key information in the question, especially if you intend to create [random variants](../CAS/Random.md) later;
 3. add minimal feedback in the PRTs.

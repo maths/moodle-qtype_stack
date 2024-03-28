@@ -158,7 +158,10 @@ load("validator.mac");
 load("noun_simp.mac");
 load("inequalities.mac");
 load("intervals.mac");
+load("geometry.mac");
+load("proof.mac");
 load("stackunits.mac");
+load("stacktex.lisp");
 load("stackstrings.mac");
 load("fboundp.mac");
 
@@ -223,14 +226,16 @@ texput(multsgnonlyfornumberssym, "\\times")$
 multsgnonlyfornumbers(e) := block([arglist, resstr, a, lastisnum, isnum, multsgn, str],
     arglist: args(e),
     a: pop(arglist),
-    resstr: if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
-        else sconcat("\\left(", tex1(a), "\\right)"),
+    resstr: if (safe_op(a) = "-" or (real_numberp(a) and is(a<0))) then sconcat("\\left(", tex1(a), "\\right)")
+                else if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
+                else sconcat("\\left(", tex1(a), "\\right)"),
     lastisnum: numberp(a),
     for a in arglist do (
         isnum: numberp(a),
         multsgn: if (lastisnum and isnum) then tex1(multsgnonlyfornumberssym) else "\\,",
-        str: if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
-            else sconcat("\\left(", tex1(a), "\\right)"),
+        str: if (safe_op(a) = "-" or (real_numberp(a) and is(a<0))) then sconcat("\\left(", tex1(a), "\\right)")
+                else if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
+                else sconcat("\\left(", tex1(a), "\\right)"),
         resstr: sconcat(resstr, multsgn, " ", str),
         lastisnum: isnum
     ),
@@ -747,14 +752,26 @@ stack_disp_strip_dollars(ex) := block(
 /* Display of numbers. Thanks to Robert Dodier. */
 stackintfmt: "~d";
 stackfltfmt: "~a";
-?texnumformat(x) := if ev(floatnump(x),simp) then
-    ev(printf(false, stackfltfmt, x), simp) else if ev(integerp(x),simp) then (
+stackfltsep: ".";
+texput_decimal(ex):= stackfltsep:ex$
+
+?texnumformat(x) := block([tx],
+    if ev(floatnump(x), simp) then block(
+        tx:ev(printf(false, stackfltfmt, x), simp)
+    ) else if ev(integerp(x),simp) then (
         if (is(stackintfmt="~r") or is(stackintfmt="~:r")) then
-            sconcat("\\mbox{",ev(printf(false, stackintfmt, x), simp),"}")
+            tx:sconcat("\\mbox{",ev(printf(false, stackintfmt, x), simp),"}")
         else
-            ev(printf(false, stackintfmt, x), simp)
+            tx:ev(printf(false, stackintfmt, x), simp)
     ) else
-    string(x);
+    tx:string(x),
+    /* We need this separation because validation displays trailing zeros and this is controlled by stackfltfmt. */
+    if is(stackfltsep = ",") then (
+        tx:ssubst("\\ ", ",", tx),
+        tx:ssubst("{,}", ".", tx)
+    ),
+    tx
+)$
 /* Some systems are throwing an error here, which is spurious. */
 errcatch(compile(?texnumformat));
 
@@ -966,7 +983,7 @@ set_plot_option([gnuplot_default_term_command, ""]);
 plot(ex, [ra]) :=  /*stack_web_plot*/
     block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr,
         filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug,
-        plotgrid2d, size, psize, plot_size, plot_tags, stack_mtell_quiet, plotpid],
+        plotgrid2d, size, psize, plot_size, plot_tags, stack_mtell_quiet, plotpid, margin],
     stack_mtell_quiet:true,
     plotdebug: false,
     /* Check for grid2d  in the plotoptions. */
@@ -981,7 +998,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if not(freeof(lg, ex)) then
         ex:ev(ex, lg=logbasesimp),
     lvs: listofvars(%_ce_rem(ex)),
-    lvs: sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric))),
+    lvs: sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric or ex = minus or ex = plus))),
     if length(lvs)>1 then
        error("Plot error: Can't create a plot with more than one variable, whereas you have: \\(",string(lvs),"\\)"),
     /*********************/
@@ -1011,7 +1028,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /**********************************************************/
     /* Remove from option list ral any non-permitted options. */
     kill(y),
-    permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics, adapt_depth],
+    permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics, adapt_depth, margin],
     /* In the case the list of variables is empty we need to add in "x" so the constant functions can be plotted. */
     if not(emptyp(lvs)) then permitted_options:append([first(lvs)], permitted_options)
     else  permitted_options:append([x], permitted_options),
@@ -1043,13 +1060,22 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
         ) else block(
             ral: append(ral, [[legend, false]])
         ),
-    /* Add in the command for the grid. */
-    if plotgrid2d and MAXIMA_VERSION_NUM>34 then
-        ral: append(ral, [grid2d]),
     if not(PLOT_TERMINAL="svg") then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, psize, "
 set output ", afn),
     /* Gnuplot only allows alpha-numeric characters in the plot name, so not even spaces!  This is a problem with the string function. */
     if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, psize, " ", PLOT_TERM_OPT),
+    /* Reduce margins around plots: this can be added in again with CSS if required, but can't be clipped later. */
+    if member(margin, maplist(first, ral)) then block([lv],
+            /* If we have [legend, true] then we should use the default legend */
+            lv: first(sublist(ral, lambda([ex], listp(ex) and (first(ex)=margin)))),
+            ral:delete(lv, ral),
+            if not(numberp(second(lv))) then error("Plot error: margin must be a number, found: ", second(lv)),
+            lv:second(lv),
+            if PLOT_TERMINAL="svg" then preamble:concat(preamble, ascii(10), "set lmargin ", string(lv), ascii(10), "set rmargin ", string(lv), ascii(10), "set tmargin ", string(lv), ascii(10), "set bmargin ", string(lv))
+        ),
+    /* Add in the command for the grid. */
+    if plotgrid2d and MAXIMA_VERSION_NUM>34 then
+        ral: append(ral, [grid2d]),
     if plotdebug then print(preamble),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
     if PLOT_TERMINAL="svg" then
@@ -1159,6 +1185,9 @@ ATAlgEquivNouns(SA,SB) := block([simp:true, ret, newret, SAN, SBN],
 ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, AnswerNote, ret],
     Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
     keepfloat:true,
+    /* Reduce the number of different operators, where possible. */
+    if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
+    if ev(is(count_op(SB,STACKpmOPT)=1), simp) then SB:pm_replace(SB),
     /* Are we dealing with strings? */
     if stringp(SB) then
       if stringp(SA)#true then
@@ -3005,7 +3034,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
            (rawmk:false, fb:StackAddFeedback("", "ATInt_generic", stack_disp(SBdisp, "d"), stack_disp(var, "i"), stack_disp(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
     /* Has the student used log(x) vs log(abs(x)) in their answer? */
     if not(SAUsedLogAbs) and SBUsedLogAbs then
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
+            (rawmk:false, fb:StackAddFeedback(fb, "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
     /* Has the student been inconsistent in using log(x) vs log(abs(x)) in their answer? */
     if not(SAConsistentLogs) then
             (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs_inconsistent"), ansnote:StackAddNote(ansnote, "ATInt_logabs_inconsistent")),
@@ -3246,12 +3275,14 @@ table_difference(T1, T2) := table_zip_with(lambda([ex1,ex2], if ex1=ex2 then ex1
 /*  Trees                                                 */
 /*                                                        */
 /* ****************************************************** */
-disptree(e) := sconcat("<ul class='tree'><li>", tree_rec(e), "</li></ul>");
+disptree(e) := sconcat("<ul class='algebratree'><li>", tree_rec(e), "</li></ul>");
 
 /* A list of functions which should use the TeX representation.  (Defined as a list to be user-editable) */
 
 tree_texlist:{"#pm#", "%union", "%intersection"};
 tree_rec(e) := block([treelist],
+  /* We don't need to wrap strings in LaTeX and unwrap them later in this display function! */
+  if stringp(e) then return(sconcat("<span class='atom'>", e ,"</span>")),
   if atom(e) then return(sconcat("<span class='atom'>", stack_disp(e, "i") ,"</span>")),
   if is(safe_op(e)="treestop") then return(sconcat("<span class='atom'>", stack_disp(first(e), "i") ,"</span>")),
   if is(safe_op(e)="matrix") then return(sconcat("<span class='atom'>", stack_disp(e, "i") ,"</span>")),
@@ -3300,4 +3331,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2023102700$
+stackmaximaversion:2024012900$

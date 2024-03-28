@@ -18,6 +18,11 @@
         "description":"Information on contributers and users of the STACK project."
         },
         {
+        "file":"License.md",
+        "title":"STACK license information",
+        "description":"Information on the STACK project license."
+        },
+        {
         "file":"Publications.md",
         "title":"Publications about STACK",
         "description":"STACK has been the subject of research, including published books and articles."
@@ -379,11 +384,6 @@
         "description":"Information about creating feedback for students in the STACK online assessment system."
         },
         {
-        "file":"Fixing_broken_questions.md",
-        "title":"I have a misbehaving STACK question in a live Moodle quiz.  What should I do?",
-        "description":"Advice on dealing with errors in STACK questions during a live quiz."
-        },
-        {
         "file":"Error_trapping.md",
         "title":"Runtime errors and error trapping in STACK questions",
         "description":"How STACK deals with runtime errors and how to trap errors and create guard clauses."
@@ -409,6 +409,21 @@
         "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
         },
         {
+        "file":"GeoGebra.md",
+        "title":"Using GeoGebra blocks in STACK questions - STACK Documentation",
+        "description":"Reference documentation for GeoGebra blocks."
+        },
+        {
+        "file":"HELM.md",
+        "title":"HELM materials in STACK",
+        "description":"Providing versions of the HELM project materials as moodle quizzes, with materials in STACK format."
+        },
+        {
+        "file":"ImportExport.md",
+        "title":"Importing and Exporting - STACK Documentation",
+        "description":"Information on importing and exporting questions in STACK."
+        },
+        {
         "file":"Inclusions.md",
         "title":"Including external content in questions",
         "description":"Advice on including external content in questions."
@@ -422,6 +437,11 @@
         "file":"JSXGraph.md",
         "title":"JSXGraph - STACK Documentation",
         "description":"JSXGraph is a useful tool for creating graphs in your STACK questions."
+        },
+        {
+        "file":"Advanced_JSXGraph.md",
+        "title":"JSXGraph advanced usage - STACK Documentation",
+        "description":"Advanced features of JSXGraph in STACK questions."
         },
         {
         "file":"Variables.md",
@@ -447,6 +467,11 @@
         "file":"Options.md",
         "title":"Options - STACK Documentation",
         "description":"Documentation for the Option section in a STACK question."
+        },
+        {
+        "file":"Parsons.md",
+        "title":"Parson's problems blocks- STACK Documentation",
+        "description":"Reference documentation for the Parson's question block."
         },
         {
         "file":"Potential_response_trees.md",
@@ -513,9 +538,19 @@
         "description":"Information on testing a STACK question."
         },
         {
+        "file":"Tidy_Tool.md",
+        "title":"Tidy Tool - STACK Documentation",
+        "description":"How to tidy up PRT node names with STACK's tidy tool."
+        },
+        {
         "file":"Trees.md",
         "title":"Trees - STACK Documentation",
         "description":"Functions for displaying the tree representation of a mathematical expression."
+        },
+        {
+        "file":"Workflow.md",
+        "title":"Workflow - STACK Documentation",
+        "description":"Suggestions for effective question authoring workflow, especially when working collaboratively."
         },
         {
         "file":"Numerical_input.md",
@@ -557,6 +592,11 @@
         "description":"Information on displaying greek letters in STACK."
         },
         {
+        "file":"Geometry.md",
+        "title":"Geometry related function - STACK Documentation",
+        "description":"Information on geometry related functions in STACK, particulary related to the GeoGebra input type."
+        },
+        {
         "file":"Inequalities.md",
         "title":"Inequalities - STACK Documentation",
         "description":"Information on displaying inequalities, as well as functions that support inequalities."
@@ -582,11 +622,6 @@
         "description":"Information on authoring questions involving permutation as a product of disjoint cycles."
         },
         {
-        "file":"Plots.md",
-        "title":"Plots - STACK Documentation",
-        "description":"Information on plotting graphs in STACK."
-        },
-        {
         "file":"Predicate_functions.md",
         "title":"Predicate Functions - STACK Documentation",
         "description":"Predicate functions are those that return Boolean values true or false. These are often useful when authoring STACK questions."
@@ -595,6 +630,11 @@
         "file":"Random.md",
         "title":"Random Objects - STACK Documentation",
         "description":"Information on using different functions in STACK to generate random values."
+        },
+        {
+        "file":"Systematic_deployment.md",
+        "title":"Systematic deployment - STACK Documentation",
+        "description":"Information on how to systematically deploy all variants of a question."
         },
         {
         "file":"Real_Intervals.md",
@@ -639,11 +679,49 @@
       ]
       },
       {
+      "Plots":[
+        {
+        "file":"index.md",
+        "title":"Plots - STACK Documentation",
+        "description":"Information on plotting graphs in STACK."
+        },
+        {
+        "file":"Plots.md",
+        "title":"Embedding Maxima-generated plots via the plot() command",
+        "description":"Embedding Maxima generated plots via the plot() command"
+        }
+      ]
+      },
+      {
+      "Proof":[
+        {
+        "file":"index.md",
+        "title":"Proof - STACK Documentation",
+        "description":"General discussion of assessment of proof with STACK."
+        },
+        {
+        "file":"Proof_assessment.md",
+        "title":"CAS libraries for assessing Parsons problems and proofs",
+        "description":"Reference documentation on the libraries in STACK for assessment of proofs as Parsons problems."
+        },
+        {
+        "file":"Proof_CAS_library.md",
+        "title":"CAS libraries for representing text-based proofs",
+        "description":"Reference documentation on the libraries in STACK for representing text-based proofs."
+        },
+        {
+        "file":"Proof_styles.md",
+        "title":"CSS Styles for displaying proof",
+        "description":"Reference documentation on the CSS styles in STACK for representing text-based proofs."
+        }
+      ]
+      },
+      {
       "Installation":[
         {
         "file":"index.md",
         "title":"Installation Instructions - STACK Documentation",
-        "description":"*Information on installing STACK on your server."
+        "description":"Information on installing STACK on your server."
         },
         {
         "file":"LTI.md",
@@ -671,9 +749,48 @@
         "description":"Maxima is a slow interpreted language.  This file details several ways to reduce time needed by Maxima."
         },
         {
+        "file":"Release_notes_4_4_x.md",
+        "title":"Release notes for STACK versions prior to 4.4.0 to 4.4.0 onwards",
+        "description":"Common problems with migrating questions to STACK 4.4.0 and later."
+        },
+        {
+        "file":"STACK_versions.md",
+        "title":"STACK versions",
+        "description":"Records a mapping between the Moodle plugin version number and STACK release."
+        },
+        {
         "file":"Testing_installation.md",
         "title":"Testing Installation - STACK Documentation",
         "description":"It is important to confirm that STACK has been installed correctly. This page provides instructions for confirming this."
+        }
+      ]
+      },
+      {
+      "Maintaining":[
+        {
+        "file":"index.md",
+        "title":"Maintaining questions and question banks - STACK Documentation",
+        "description":"Information on maintaining questions and question banks for the longer term."
+        },
+        {
+        "file":"Fixing_broken_questions.md",
+        "title":"I have a misbehaving STACK question in a live Moodle quiz.  What should I do?",
+        "description":"Advice on dealing with errors in STACK questions during a live quiz."
+        },
+        {
+        "file":"Local_Usage.md",
+        "title":" Local Usage - STACK Documentation",
+        "description":"Records direct database queries useful in Moodle to deal with establishing local use of STACK questions."
+        },
+        {
+        "file":"Running_question_tests_other_site.md",
+        "title":"Running Question Tests for Questions on Other Sites - STACK Documentation",
+        "description":"Before upgrading to a new version of STACK, you may want to check if the new version will change any of your existing questions."
+        },
+        {
+        "file":"UpgradeDefaults.md",
+        "title":"Upgrading Question Details - STACK Documentation",
+        "description":"Information on upgrading question defaults. This may be necessary if you have recently upgraded from an old version of STACK."
         }
       ]
       },
@@ -735,11 +852,6 @@
         "description":"A list of languages STACK is translated to, as well as information on translating the STACK project."
         },
         {
-        "file":"Local_Usage.md",
-        "title":" Local Usage - STACK Documentation",
-        "description":"Records direct database queries useful in Moodle to deal with establishing local use of STACK questions."
-        },
-        {
         "file":"Maxima_packages.md",
         "title":"Adding Support for Maxima Packages - STACK Documentation",
         "description":"Maxima has a very wide range of optional packages. Read about options for adding more Maxima packages to your installation of STACK."
@@ -765,19 +877,9 @@
         "description":"Notes documenting the process for releasing a new version of STACK."
         },
         {
-        "file":"Release_notes_4_4_x.md",
-        "title":"Release notes for STACK version 4.4.0 onwards",
-        "description":"Common problems with migrating questions to STACK 4.4.0 and later."
-        },
-        {
         "file":"Releasing_ILIAS.md",
         "title":"Releasing STACK for ILIAS - STACK Documentation",
         "description":"Notes documenting the process for releasing a new version of STACK for ILIAS."
-        },
-        {
-        "file":"Running_question_tests_other_site.md",
-        "title":"Running Question Tests for Questions on Other Sites - STACK Documentation",
-        "description":"Before upgrading to a new version of STACK, you may want to check if the new version will change any of your existing questions."
         },
         {
         "file":"Security_map.md",
@@ -795,6 +897,11 @@
         "description":"Discussion of future plans for dealing with syntax of answers and STACK."
         },
         {
+        "file":"Syntax_numbers.md",
+        "title":"Discussion of support for using comma as the decimal separator",
+        "description":"Discussion of support for using comma as the decimal separator."
+        },
+        {
         "file":"Unit_tests.md",
         "title":"Unit Tests - STACK Documentation",
         "description":"Information on the three types of unit tests supported by STACK; PHP Unit tests, Maxima unit tests and tests scripts exposed to the question author."
@@ -803,11 +910,6 @@
         "file":"Updating_JSXGraph.md",
         "title":"Updating JSXGraph - STACK Documentation",
         "description":"How to obtain, edit and minify the JSXGraph javascript."
-        },
-        {
-        "file":"UpgradeDefaults.md",
-        "title":"Upgrading Question Details - STACK Documentation",
-        "description":"Information on upgrading question defaults. This may be necessary if you have recently upgraded from an old version of STACK."
         },
         {
         "file":"Website.md",
@@ -931,6 +1033,11 @@
         "description":"Information on representing, displaying and manipulating graphs, as in graph theory rather than graph sketching."
         },
         {
+        "file":"GeoGebra.md",
+        "title":"Using GeoGebra blocks in STACK questions - STACK Documentation",
+        "description":"How to write a minimal question useing GeoGebra as a STACK input type."
+        },
+        {
         "file":"Levenshtein_distance.md",
         "title":"Levenshtein distance and strings",
         "description":"Levenshtein distance is a metric on strings which can be used to assess short (typically single word) text strings."
@@ -939,6 +1046,11 @@
         "file":"Linear_algebra.md",
         "title":"Linear Algebra - STACK Documentation",
         "description":"Information on working with linear algebra in a STACK question."
+        },
+        {
+        "file":"Parsons.md",
+        "title":"Parson's problems - STACK Documentation",
+        "description":"Documentation for writing Parson's problems in a STACK question."
         },
         {
         "file":"Proof.md",

@@ -94,6 +94,9 @@ class castext2_static_replacer {
                     $node->parentnode->items[0]->value === 'demoodle' ||
                     ($node->parentnode->items[0]->value === 'jsxgraph' &&
                             array_search($node, $node->parentnode->items) > 1)
+                    ||
+                    ($node->parentnode->items[0]->value === 'geogebra' &&
+                            array_search($node, $node->parentnode->items) > 1)
                     )) {
                     // Do we already have this string value?
                     $key = array_search($node->value, $map);

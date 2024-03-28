@@ -26,7 +26,7 @@ Solution: Don't forbid input of brackets!
 
 ### Issue: when selecting function names from a list.
 
-When using something like 
+When using something like
 
     func:rand([sin,cos,exp,ln]);
     is(equal(func,ln));
@@ -35,7 +35,7 @@ now returns unknown. Used to return true/false.
 
 Solution: First generate a random integer. Set `func` based on that, and test the value of the integer. (Not as neat!)
 
-### Issue: MathJax 
+### Issue: MathJax
 
 Mathjax no longer likes   `\begin{pmatrix}{@xx@}\\{@yy@}\end{pmatrix}` in castext.
 

@@ -120,6 +120,51 @@ class input_matrix_test extends qtype_stack_testcase {
                         'ans1', false, null));
     }
 
+    public function test_render_syntax_hint_spaces() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
+        $el->set_parameter('syntaxHint', 'matrix([a,b], [?,d])');
+        $el->adapt_to_model_answer('matrix([1,0],[0,1])');
+        $this->assertEquals('<div class="matrixsquarebrackets"><table class="matrixtable" id="ans1_container" ' .
+            'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody><tr>' .
+            '<td style="padding-top: 0.5em">&nbsp;</td>' .
+            '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="a" size="5" ' .
+            'autocapitalize="none" spellcheck="false"></td>' .
+            '<td><input type="text" id="ans1_sub_0_1" name="ans1_sub_0_1" value="b" size="5" ' .
+            'autocapitalize="none" spellcheck="false"></td>' .
+            '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
+            '<td><input type="text" id="ans1_sub_1_0" name="ans1_sub_1_0" value="?" size="5" ' .
+            'autocapitalize="none" spellcheck="false"></td>' .
+            '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="d" size="5" ' .
+            'autocapitalize="none" spellcheck="false"></td>' .
+            '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
+            $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                'ans1', false, null));
+    }
+
+    public function test_render_syntax_hint_round() {
+        $options = new stack_options();
+        $options->set_option('matrixparens', '(');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
+        $el->set_parameter('syntaxHint', 'matrix([a,b],[?,d])');
+        $el->adapt_to_model_answer('matrix([1,0],[0,1])');
+        $this->assertEquals('<div class="matrixroundbrackets"><table class="matrixtable" id="ans1_container" ' .
+            'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody><tr>' .
+            '<td style="padding-top: 0.5em">&nbsp;</td>' .
+            '<td><input type="text" id="ans1_sub_0_0" name="ans1_sub_0_0" value="a" size="5" ' .
+            'autocapitalize="none" spellcheck="false"></td>' .
+            '<td><input type="text" id="ans1_sub_0_1" name="ans1_sub_0_1" value="b" size="5" ' .
+            'autocapitalize="none" spellcheck="false"></td>' .
+            '<td style="padding-top: 0.5em">&nbsp;</td></tr><tr><td>&nbsp;</td>' .
+            '<td><input type="text" id="ans1_sub_1_0" name="ans1_sub_1_0" value="?" size="5" ' .
+            'autocapitalize="none" spellcheck="false"></td>' .
+            '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="d" size="5" ' .
+            'autocapitalize="none" spellcheck="false"></td>' .
+            '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
+            $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                'ans1', false, null));
+    }
+
     public function test_render_syntax_hint_placeholder() {
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
@@ -192,6 +237,29 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('\[ \left[\begin{array}{ccc} 1 & 2 & 3 \\\\ 4 & a & a+b \end{array}\right] \]',
                 $state->contentsdisplayed);
         $this->assertEquals('\( \left[ a , b \right]\) ', $state->lvars);
+    }
+
+    public function test_validate_student_response_decimals() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
+        $el->set_parameter('forbidFloats', false);
+        // Teacher's answer must be in strict syntax.
+        $el->adapt_to_model_answer('matrix([3.14,2.71],[4,5])');
+        $inputvals = array(
+            'ans1_sub_0_0' => '3,14',
+            'ans1_sub_0_1' => '2,71',
+            'ans1_sub_1_0' => '4',
+            'ans1_sub_1_1' => '5',
+        );
+        $state = $el->validate_student_response($inputvals, $options, 'matrix([3.14,2.71],[4,5])', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        // Contents are as typed by the student.
+        $this->assertEquals(array(array('3,14', '2,71'), array('4', '5')), $state->contents);
+        // Modified contents must be strict Maxima syntax.
+        $this->assertEquals('matrix([3.14,2.71],[4,5])', $state->contentsmodified);
+        $this->assertEquals('\[ \left[\begin{array}{cc} 3{,}14 & 2{,}71 \\\\ 4 & 5 \end{array}\right] \]',
+            $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_valid_round() {
@@ -276,7 +344,7 @@ class input_matrix_test extends qtype_stack_testcase {
         );
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('', $state->note);
+        $this->assertEquals('qm_error', $state->note);
         $this->assertEquals('matrix([1,2,3],[QMCHAR,5,6])', $state->contentsmodified);
         $this->assertEquals('\[ \left[\begin{array}{ccc} 1 & 2 & 3 \\\\ \color{red}{?} & 5 & 6 \end{array}\right] \]',
                 $state->contentsdisplayed);
@@ -457,7 +525,7 @@ class input_matrix_test extends qtype_stack_testcase {
         $state = $el->validate_student_response($inputvals, $options,
                 'matrix([null,null],[null,null])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals('', $state->note);
+        $this->assertEquals('qm_error', $state->note);
         $this->assertEquals('matrix([1,2],[x,QMCHAR])', $state->contentsmodified);
         $this->assertEquals('\[ \left[\begin{array}{cc} 1 & 2 \\\\ x & \color{red}{?} \end{array}\right] \]',
                 $state->contentsdisplayed);
@@ -487,4 +555,5 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ a_{1} , a_{2} , {\it abc}_{123} , {\it abc}_{45} \right]\) ',
             $state->lvars);
     }
+
 }

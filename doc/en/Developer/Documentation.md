@@ -7,7 +7,6 @@ for people wishing to write, edit and translate the documentation.
 ## Markdown language
 
 * The [markdown](http://daringfireball.net/projects/markdown/) project external site.
-* [A cheat sheet](http://scottboms.com/-/downloads/documentation/markdown_cheatsheet.pdf) is available for quick reference.
 
 **Warning:** markdown uses whitespace and formatting to give meaning.  The number of spaces at the beginning and the ends of lines convey specific meaning in markdown.  An example is the way code blocks are included, which is useful for including fragments of Maxima code.
 

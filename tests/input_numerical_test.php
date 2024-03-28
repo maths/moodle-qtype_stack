@@ -203,10 +203,10 @@ class input_numerical_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('numerical', 'sans1', '1/2');
         $el->set_parameter('options', 'rationalnum');
         $state = $el->validate_student_response(array('sans1' => "-37"), $options, '3.14', new stack_cas_security());
-        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('-37', $state->contentsmodified);
         $this->assertEquals('\[ -37 \]', $state->contentsdisplayed);
-        $this->assertEquals('', $state->errors);
+        $this->assertEquals('This input expects a fraction or rational number.', $state->errors);
     }
 
     public function test_validate_student_response_with_rationalnum_invalid() {
@@ -220,6 +220,28 @@ class input_numerical_test extends qtype_stack_testcase {
         $this->assertEquals('Illegal spaces found in expression '.
                 '<span class="stacksyntaxexample">1<span class="stacksyntaxexamplehighlight">_</span>3/7</span>.' .
                 ' This input expects a number.', $state->errors);
+    }
+
+    public function test_validate_student_response_with_rationalnum_invalid_float() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1/2');
+        $el->set_parameter('options', 'rationalnum');
+        $state = $el->validate_student_response(array('sans1' => "1.1"), $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('1.1', $state->contentsmodified);
+        $this->assertEquals('\[ 1.1 \]', $state->contentsdisplayed);
+        $this->assertEquals('This input expects a fraction or rational number.', $state->errors);
+    }
+
+    public function test_validate_student_response_with_rationalnum_invalid_pi() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1/2');
+        $el->set_parameter('options', 'rationalnum');
+        $state = $el->validate_student_response(array('sans1' => "pi"), $options, '3.14', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('%pi', $state->contentsmodified);
+        $this->assertEquals('\[ \pi \]', $state->contentsdisplayed);
+        $this->assertEquals('This input expects a fraction or rational number.', $state->errors);
     }
 
     public function test_validate_student_response_without_rationalized() {

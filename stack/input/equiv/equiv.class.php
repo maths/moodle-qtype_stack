@@ -116,7 +116,7 @@ class stack_equiv_input extends stack_input {
             $attributes['readonly'] = 'readonly';
         }
 
-        $output = html_writer::tag('textarea', htmlspecialchars($current), $attributes);
+        $output = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
 
         return $output;
     }
@@ -243,7 +243,7 @@ class stack_equiv_input extends stack_input {
 
         foreach ($contents as $index => $val) {
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                    array(), 'Equivline');
+                    array(), 'Equivline', $this->options->get_option('decimals'));
 
             // Is the student permitted to include comments in their answer?
             if (!$this->extraoptions['comments'] && $answer->is_string()) {
@@ -449,7 +449,7 @@ class stack_equiv_input extends stack_input {
             if (trim($val) !== '' ) {
                 $cs = stack_ast_container::make_from_teacher_source($val);
                 $cs->get_valid();
-                $val = '<code>'.$cs->get_inputform(true, 0, true).'</code>';
+                $val = '<code>'.$cs->get_inputform(true, 0, true, $this->options->get_option('decimals')).'</code>';
             }
             $values[$key] = $val;
         }

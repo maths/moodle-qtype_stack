@@ -2,6 +2,29 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.5.0-hf2
+
+Fix critical bug in Javascript.
+Released January 2024.
+
+## Version 4.5.0
+
+Released December 2023.
+
+Please note, this is the _last_ version of STACK which will support Moodle 3.x.
+
+1. Re-factor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
+2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TODO: possible option to change shape at the input level?)
+3. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
+4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
+5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
+6. Confirm support for PHP 8.2, (fixes issue #986).
+7. Add in a [GeoGebra block](../Authoring/GeoGebra.md), and see [GeoGebra authoring](../Topics/GeoGebra.md).  Thanks to Tim Lutz for contributing this code as part of the AuthOMath project.
+8. Add in an option `margin` to control margins around STACK-generated plots.
+9. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).  (First version, but still more to do including syntax hints, and locking after the quiz is closed.)
+
+There are also numerous minor improvements and bug fixes.
+
 ## Version 4.4.6
 
 Released October 2023.
@@ -30,6 +53,8 @@ This is a bug-fix release.
 
 Released May 2023.
 
+__Action required__ Check that all your materials using `[[jsxgraph]]` continue to work with this version.  See the section on identifying questions using particular blocks in the [Maintaining questions](../Maintaining/index.md) section.
+
 1. Rename testing page as "STACK question dashboard" and make it much easier to add a test case based on the teacher's answer.
 2. Better cleaning of unicode from students' input strings.
 3. Add link to the dependency checker to the plugin page.
@@ -41,9 +66,10 @@ Major re-working of Javascript in STACK.  Specifically
 
 1. STACK-JS a VLE agnostic JavaScript system that moves all script execution into sandbox iframes and restricts the things those scripts can do outside that sandbox. Basically, replaces the `[[jsxgraph]]`-block and provides ways for doing other scripting.
 2. Initial implementation of the `[[reveal]]`-block (#570) using the STACK-JS system.
-3. Various related blocks like `[[iframe]]`, `[[javascript]]`, `[[style]`, `[[script]]`, and `[[cors]]`
+3. Various related blocks like `[[iframe]]`, `[[javascript]]`, `[[style]]`, `[[script]]`, and `[[cors]]`
 4. This version does not yet forbide all JavaScript outside STACK-JS, but do prepare future updates to do so and start migrating existing scripts into STACK-JS.
 
+These changes are significant and we strongly recommned you test all affected questions.
 
 ## Version 4.4.2
 
@@ -67,13 +93,13 @@ This is mainly a bug fix version.  Version 4.4.0 has a number of major re-writes
 
 Released July 2022.
 
-Major rewrite of the PRT and CASText systems, focus on performance and limitations of the previous systems.  This release has changed/tightened up some question authoring causing some problems with existing questions.  For this reason we have written dedicated [release notes](Release_notes_4_4_x.md) for v4.4.0.
+Major rewrite of the PRT and CASText systems, focus on performance and limitations of the previous systems.  This release has changed/tightened up some question authoring causing some problems with existing questions.  For this reason we have written dedicated [release notes](../Installation/Release_notes_4_4_x.md) for v4.4.0.
 
 1. Release documentation under CC-BY-SA.
 2. Caching validation.
 3. Compiled PRTs, which are now true `if`-statements in the CAS and issue #150 is now handled.
 4. The marks and penalty fields in the PRTs can be numbers, or other variables defined elsewhere in the question.
-5  Change behaviour of UnitsAbsolute in response to discussion of issue #448.
+5. Change behaviour of UnitsAbsolute in response to discussion of issue #448.
 6. CASText2 is the new [CASText-system](../Authoring/Question_blocks/index.md) and it supports mixed formats and provides new blocks for declaring formats.
 7. Markdown is now a supportted format and value injections into it will get correctly escaped. Use triple slashes for math-mode...
 8. There are now means of [including external](../Authoring/Inclusions.md) code and CASText fragments from an URL.
@@ -215,7 +241,7 @@ New features in v4.3:
 * Add in input option 'nounits'.
 * Add in input option 'compact' to input "Show the validation" parameter.
 * Add in a [basic question use report](../Authoring/Reporting.md) page, linked from the question testing page.
-* Add in house styles to help typeset [proof](../Topics/Proof.md).
+* Add in house styles to help typeset [proof](../Proof/Proof_styles.md).
 * Add cache to help reduce parsing overhead.
 
 
@@ -468,7 +494,7 @@ Changes since 3.0:
 
 * Fix instant validation for text-area inputs.
 * With "Check the type of the response" set to "Yes", if an expression is given and an equation is entered, the error generated is: "Your answer is an equation, but the expression to which it is being compared is not. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." This might confuse students. They don't know what " the expression to which it is being compared" is! Perhaps this warning could be reworded something like: "You have entered an equation, but an equation is not expected here. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." We should have more messages for each type of failed situation....
-* Alt tags in images generated by plots has changed.  The default value now includes a string representation of the function plotted.  See [plots](../CAS/Plots.md#alttext) for more details.
+* Alt tags in images generated by plots has changed.  The default value now includes a string representation of the function plotted.  See [plots](../Plots/Plots.md#alttext) for more details.
 * Assorted other accessibility fixes.
 * Standard PRT feedback options are now processed as CAS text.
 * There was a bug where clearing the CAS cache broke images in the question text. Now fixed.

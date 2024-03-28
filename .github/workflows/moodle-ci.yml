@@ -32,9 +32,7 @@ jobs:
       matrix: # I don't know why, but mariadb is much slower, so mostly use pgsql.
         # We use a mix of SBCL and GCL, but mostly prefer SBCL as it is faster.
         include:
-          # There is a known problem with PHP 8.2.
-          # Remove testing PHP 8.2 for now as this failure in CI will obscure other problems.
-          - php: '8.1'
+          - php: '8.2'
             moodle-branch: 'master'
             database: 'pgsql'
             maxima: 'SBCL'

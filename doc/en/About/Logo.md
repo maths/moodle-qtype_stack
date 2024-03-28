@@ -8,7 +8,7 @@ The answer is that there is no limit to how far it can lean!  A physical model i
 
 ![A model of the STACK logo](../../content/logoJB.jpg)
 
-Model made by Dr John Bryant.
+This model was made by Dr John Bryant.
 
 ## The mathematics of this problem
 

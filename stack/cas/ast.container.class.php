@@ -73,15 +73,10 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
     }
 
     public function add_errors($err) {
-        if ('' == trim($err)) {
-            return false;
-        } else {
+        if ('' !== trim($err)) {
             // Force validation first so that all the errors are in the same form.
             $this->get_valid();
             $this->errors[] = new $this->errclass($err, $this->get_source_context());
-            // Old behaviour was to return the combined errors, but apparently it was not used in master?
-            // TODO: maybe remove the whole return?
-            return $this->get_errors();
         }
     }
 
@@ -216,6 +211,9 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
          * (3) we want ? characters, and no semicolons.
          * (4) we want +- and not #pm#.
          * (5) ntuples have to be stripped off.
+         *
+         * Note we do not construct test cases using the decimal comma.
+         * The only place a comma is accepted is when a student really types it!
          */
 
         $dispval = $this->displayvalue;

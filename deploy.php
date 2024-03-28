@@ -80,13 +80,18 @@ if (!is_null($undeploy) && $question->deployedseeds) {
 
 // Process undeployall if applicable.
 $deployfromlist = optional_param('deployfromlist', null, PARAM_INT);
-if (!is_null($deployfromlist)) {
+$deploysystematic = optional_param('deploysystematic', null, PARAM_INT);
+if (!is_null($deployfromlist) || !is_null($deploysystematic)) {
 
     // Check data integrity.
     $dataproblem = false;
 
-    $deploytxt = optional_param('deployfromlist', null, PARAM_TEXT);
-    $baseseeds = explode("\n", trim($deploytxt));
+    if (!is_null($deployfromlist)) {
+        $deploytxt = optional_param('deployfromlist', null, PARAM_TEXT);
+        $baseseeds = explode("\n", trim($deploytxt));
+    } else {
+        $baseseeds = range(1, $deploysystematic);
+    }
     $newseeds = array();
     foreach ($baseseeds as $newseed) {
         // Now also explode over commas.

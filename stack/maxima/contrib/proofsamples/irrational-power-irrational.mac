@@ -1,0 +1,17 @@
+/****************************************************************/
+thm:"An irrational power of an irrational number can be rational.";
+
+
+/****************************************************************/
+proof_steps: [
+    ["gadget",     "Consider \\(a=\\sqrt{2}^{\\sqrt{2}}\\)."],
+    ["cases",      "Note there are exactly two cases: \\(a\\) is either rational or irrational."],
+    ["rat-hyp",    "Assume \\(a=\\sqrt{2}^{\\sqrt{2}}\\) is rational."],
+    ["conc",       "Then, we have an example where an irrational power of an irrational number can be rational."],
+    ["irrat-hyp",  "Assume \\(a=\\sqrt{2}^{\\sqrt{2}}\\) is irrational."],
+    ["irrat-1",    "Consider \\(\\left(\\sqrt{2}^{\\sqrt{2}}\\right)^{\\sqrt{2}}\\)."],
+    ["irrat-2",    "\\(\\left(\\sqrt{2}^{\\sqrt{2}}\\right)^{\\sqrt{2}}= \\sqrt{2}^{\\sqrt{2}\\times \\sqrt{2}} = \\sqrt{2}^2 = 2\\)."]
+];
+
+/* This is how the teacher defines their answer, as nested proofs. */
+proof_ans:proof_cases(proof("gadget","cases"),proof("rat-hyp","conc"),proof("irrat-hyp","irrat-1","irrat-2","conc"));

@@ -14,10 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 // Holds the results of one {@link stack_question_test).
 //
 // @copyright 2012 The Open University.
 // @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+
+require_once('utils.class.php');
 
 class stack_question_test_result {
     /**
@@ -122,6 +126,14 @@ class stack_question_test_result {
     }
 
     /**
+     * Ensure we round scores and penalties consistently.
+     * @param float $score
+     */
+    private function round_prt_scores($score) {
+        return round(stack_utils::fix_to_continued_fraction($score + 0, 4), 3);
+    }
+
+    /**
      * @return array input name => object with fields ->mark, ->expectedmark,
      *      ->penalty, ->expectedpenalty, ->answernote, ->expectedanswernote,
      *      ->feedback and ->testoutcome.
@@ -135,20 +147,26 @@ class stack_question_test_result {
             $state = new stdClass();
             $state->expectedscore = $expectedresult->score;
             if (!is_null($state->expectedscore)) {
-                // Single PRTs only work to three decimal places, so we only expect that level.
-                $state->expectedscore = round($state->expectedscore + 0, 3);
+                $state->expectedscore = $this->round_prt_scores($state->expectedscore + 0);
             }
             $state->expectedpenalty = $expectedresult->penalty;
             if (!is_null($state->expectedpenalty)) {
-                // Single PRTs only work to three decimal places, so we only expect that level.
-                $state->expectedpenalty = round($state->expectedpenalty + 0, 3);
+                $state->expectedpenalty = $this->round_prt_scores($state->expectedpenalty + 0);
             }
             $state->expectedanswernote = reset($expectedanswernote);
 
             if (array_key_exists($prtname, $this->actualresults)) {
                 $actualresult = $this->actualresults[$prtname];
-                $state->score = $actualresult->get_score();
-                $state->penalty = $actualresult->get_penalty();
+                $actualscore = $actualresult->get_score();
+                if (!is_null($actualscore)) {
+                    $actualscore = $this->round_prt_scores($actualscore + 0);
+                }
+                $state->score = $actualscore;
+                $actualpenalty = $actualresult->get_penalty();
+                if (!is_null($actualpenalty)) {
+                    $actualpenalty = $this->round_prt_scores($actualpenalty + 0);
+                }
+                $state->penalty = $actualpenalty;
                 $state->answernote = implode(' | ', $actualresult->get_answernotes());
                 $state->trace = implode("\n", $actualresult->get_trace());
                 $state->feedback = $actualresult->get_feedback();

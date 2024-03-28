@@ -235,9 +235,9 @@ class input_equiv_test extends qtype_stack_testcase {
 
         // The test below does not use the LaTeX of the teacher's answer.
         // The test just confirms nounor in $val get converted to something the student should type in.
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
-                '<span class="nolink">\( ### \)</span></span>, which can be typed in as follows: <br/>' .
-                '<code>x^2-5*x+6 = 0</code><br/><code>x = 2 or x = 3</code>',
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( ### \)</span></span>, which can be typed as <br/>' .
+                '<code>x^2-5*x+6 = 0</code><br/><code>x = 2 or x = 3</code>, would be correct.',
                 $el->get_teacher_answer_display($val, '###'));
     }
 
@@ -774,9 +774,9 @@ class input_equiv_test extends qtype_stack_testcase {
 
         // The test below does not use the LaTeX of the teacher's answer.
         // The test just confirms #pm# in $val get converted to something the student should type in.
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
-                '<span class="nolink">\( ### \)</span></span>, which can be typed in as follows: <br/>' .
-                '<code>(x-a)^2 = 4</code><br/><code>x-a = +-2</code><br/><code>x = a+-2</code>',
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">' .
+                '<span class="nolink">\( ### \)</span></span>, which can be typed as <br/>' .
+                '<code>(x-a)^2 = 4</code><br/><code>x-a = +-2</code><br/><code>x = a+-2</code>, would be correct.',
                 $el->get_teacher_answer_display($val, '###'));
 
         $el->set_parameter('options', 'hideanswer');

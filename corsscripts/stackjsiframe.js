@@ -25,6 +25,11 @@ let DISABLE_CHANGES = {};
  */
 let INPUT_PROMISES = {};
 
+/* Map of the promises for currently executing `get_content` actions.
+ * Basically from the element-id to the resolve function.
+ */
+let FETCH_PROMISES = {};
+
 /* A promise that will resolve when we first hear from the VLE side.
  * It is important to not send anything before we are absolutely certain that
  * the other end is ready. Although the way this has been built should
@@ -89,6 +94,9 @@ window.addEventListener("message", (e) => {
         // 2. Set its value. But don't trigger changes.
         DISABLE_CHANGES[msg.name] = true;
         element.value = msg.value;
+        if (msg['input-readonly']) {
+            element.setAttribute('readonly', 'readonly');
+        }
         DISABLE_CHANGES[msg.name] = false;
 
         // 3. Resolve the promise so that things can move forward.
@@ -111,7 +119,13 @@ window.addEventListener("message", (e) => {
         DISABLE_CHANGES[msg.name] = false;
 
         break;
-
+    case 'xfer-content':
+        if (msg.target in FETCH_PROMISES) {
+            FETCH_PROMISES[msg.target](msg.content);
+            // Next request will create a new fetch.
+            delete FETCH_PROMISES[msg.target];
+        }
+        break;
     case 'ping':
         clearInterval(pinger);
         do_connect(true);
@@ -160,6 +174,10 @@ export const stack_js = {
      * 
      * You may declare that you want to also react to input events.
      * This might not be that efficient but matches the old JSXGraph binding.
+     * 
+     * From 4.4.7 readonly/disabled inputs are cloned as readonly, at this point
+     * we do not automatically disable accessing or editing them but you can base your
+     * own logic on the input having that attribute. `.hasAttribute('readonly')`.
      */
     request_access_to_input: function(inputname, inputevents) {
         const input = document.createElement('input');
@@ -234,10 +252,12 @@ export const stack_js = {
      * such element found an error will eventtualy get displayed.
      * 
      * Obviously, won't allow scripts to be passed onto the VLE side.
+     * 
+     * Note did not work in the original release. Requires 4737dc5 to work.
      */
     switch_content: function(elementid, newcontent) {
         const msg = {
-            version: 'STACK-JS:1.0.0',
+            version: 'STACK-JS:1.0.1',
             type: 'change-content',
             target: elementid,
             content: newcontent,
@@ -245,6 +265,49 @@ export const stack_js = {
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
+
+    /**
+     * Asks for the contents of an element on the VLE side. Resolves to `null`
+     * if no element found or if the element is outside the safe area. If found
+     * returns the `innerHTML` of the element.
+     * 
+     * Do not merge this with `switch_content` to build a data transfer route,
+     * use inputs as then you can track events to react to changes. There is one
+     * case where inputs may be overly complicated and that is when PRTs return
+     * logic to set input values, in that case that logic may execute in
+     * arbitrary order in relation to the logic that might need those values and
+     * reading a "static" value directly from the document may be better, if it
+     * just a single read action during initialisation and dynamic binding are
+     * irrelevant.
+     * 
+     * This is meant for transferring results from PRTs or shared static data.
+     * 
+     * Added in STACK-JS 1.1.0.
+     */
+    get_content: function(elementid) {
+        if (elementid in FETCH_PROMISES) {
+            // If we are already fetching that.
+            return FETCH_PROMISES[elementid];
+        }
+
+        const msg = {
+            version: 'STACK-JS:1.1.0',
+            type: 'get-content',
+            target: elementid,
+            src: FRAME_ID
+        };
+        CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
+
+        return new Promise((resolve, reject) => {
+            FETCH_PROMISES[elementid] = resolve;
+            setTimeout(() => {
+                if (elementid in FETCH_PROMISES) {
+                    reject('No response to content fetch of "' + elementid + '" in 5s.');
+                }
+            }, 5000);
+        });
+    },
+
 
     /**
      * Asks for the containing IFRAME to be resized.
@@ -262,6 +325,35 @@ export const stack_js = {
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
+
+    /** 
+     * Displays an error message on the question page.
+     * 
+     * @param {*} errmesg 
+     */
+    display_error(errmesg) {
+        // 1. Create the message.
+        const p = document.createElement('p');
+        p.appendChild(document.createTextNode(errmesg));
+
+        // 2. Do we already have an error-div?
+        const div = document.getElementById('error');
+        if (div) {
+            div.appendChild(p);
+        } else {
+            // If not
+            const div = document.createElement('div');
+            div.id = 'error';
+            div.style.color = 'red';
+            const h1 = document.createElement('h1');
+            h1.appendChild(document.createTextNode('Error'));
+            div.appendChild(h1);
+            div.appendChild(p);
+            
+            // We simply throw everything away and replace with the message.
+            document.body.replaceChildren(div);
+        }
+    }
 };
 
 export default stack_js;

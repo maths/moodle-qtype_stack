@@ -26,7 +26,7 @@ The reveal block can be used in conjunction with [MCQ](../Multiple_choice_questi
 Use the following question text.
 
     [[input:ans1]] [[validation:ans1]]
-    [[reveal input="ans1" value="5"]] [[input:ans2]] [[validation:ans2]] [[/reveal]] 
+    [[reveal input="ans1" value="5"]] [[input:ans2]] [[validation:ans2]] [[/reveal]]
 
 1. Create input `ans1` as a radio input, with teacher's answer `ta1`.  Don't require or show validation.
 2. Create input `ans2` as an algebraic input, with teacher's answer `ta2`.  Use the extra option `allowempty`.
@@ -44,7 +44,7 @@ Text shown when the button is pressed.
 [[/hint]]
 ```
 
-Notes 
+Notes
 
 1. hint blocks can be nested.
 2. the content of the hint is styled within a `stack-hint-content` div tag.
@@ -62,7 +62,7 @@ STACK supports inclusion of dynamic graphs using JSXGraph: [http://jsxgraph.uni-
 
 ## JSString block ##
 
-A new feature in 4.4 is the `[[jsstring]]` which makes it simpler to produce JavaScript string values out of CASText content. This may be useful for example when generating labels in JSXGraph. The block takes its content and evaluates it as normal CASText and then excapes it as JavaScript string literal.
+A new feature in 4.4 is the `[[jsstring]]` which makes it simpler to produce JavaScript string values out of CASText content. This may be useful for example when generating labels in JSXGraph. The block takes its content and evaluates it as normal CASText and then escapes it as JavaScript string literal.
 
 ```
 var label = [[jsstring]]{@f(x)=sqrt(x)@}[[/jsstring]];
@@ -70,5 +70,12 @@ var label = [[jsstring]]{@f(x)=sqrt(x)@}[[/jsstring]];
 var label = "\\({f\\left(x\\right)=\\sqrt{x}}\\)";
 ```
 
-Note, this block is _not_ designed to output Maxima expressins in JS format. For example, this block will not convert `x^2` into `x**2`.
+Note, this block is _not_ designed to output Maxima expressions in JS format. For example, this block will not convert `x^2` into `x**2`.
 
+## GeoGebra block ##
+
+STACK supports inclusion of dynamic graphics using GeoGebra: [https://geogebra.org](https://geogebra.org) both as static visuals and as a STACK input.  This block is documented fully on the [GeoGebra page](../GeoGebra.md).
+
+## Parsons block ##
+
+The [Parsons block](../Parsons.md) allows users (e.g. students) to assemble pre-written text into a correct order.  This block can be linked with an input to create a Parsons problem.

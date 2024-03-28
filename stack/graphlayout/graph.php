@@ -67,6 +67,8 @@ class stack_abstract_graph {
      */
     protected $stack = array();
 
+    protected $clumps = null;
+
     /**
      * Add a node to the graph.
      *

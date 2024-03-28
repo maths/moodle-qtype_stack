@@ -9,7 +9,7 @@ The use of this distance automatically includes an element of spell checking, wh
 
 In STACK `levenshtein(s, t)` takes strings `s`, `t` to compare and returns an integer, the Levensthein distance between `s` and `t`.  This is basically the number of single-character edits.  For example `levenshtein("Add", "And")` gives 1, since one letter needs to be changed. `levenshtein("Add", "and")` gives 2, since two leters need to be changed.  Adding or removing letters are each a single edit, so that `levenshtein("Subtract", "Subtraction");` gives 3.
 
-Rather than using this "distance" a tolerance is defined by the normalised "Levenshtein similarity" between 0 (totally different) and 1 (identical).  The Maxima code for this function is simple enough to list here explicitly. 
+Rather than using this "distance" a tolerance is defined by the normalised "Levenshtein similarity" between 0 (totally different) and 1 (identical).  The Maxima code for this function is simple enough to list here explicitly.
 
      levenshtein_plv(s, t) := 1.0-levenshtein(s, t)/max(slength(s), slength(t));
 
@@ -33,24 +33,24 @@ Notes on using the answer test in STACK.
 1. The first argument to the test (the "student's answer") must be a string.
 2. The second argument to the test (the "teacher's answer") must be a list in the form `[allow, deny]` where both `allow` and `deny` are themselves lists of strings.  The `allow` list must be non-empty, but the `deny` list could be empty.
 3. The option must be used.  Either give the numerical tolerance as a number, or a list of options.  The numerical tolerance must be the first element of the options list.
-4. By default the test is case-insensitive.  If you include the atom `CASE` in the list of options then the matching is case sensitive, potentially increasing the Levenshtein distance between strings.  E.g. use answer test option `[0.9, CASE]` for a case-senstive test with a tolerance of 0.9.
-5. By default this test consolidates whitespace, e.g. replaces tab and newline characters with a single space, trims whitespace from each end and separates with at most one space character.  If you include the atom `WHITESPACE` in the list of options then whitesapace is not consolidated.
+4. By default the test is case-insensitive.  If you include the atom `CASE` in the list of options then the matching is case sensitive, potentially increasing the Levenshtein distance between strings.  E.g. use answer test option `[0.9, CASE]` for a case-sensitive test with a tolerance of 0.9.
+5. By default this test consolidates whitespace, e.g. replaces tab and newline characters with a single space, trims whitespace from each end and separates with at most one space character.  If you include the atom `WHITESPACE` in the list of options then whitespace is not consolidated.
 
 The current answer test provides feedback indicating which of the allow strings was most similar.  The test does not provide feedback indicating which of the deny strings was most similar, but if you can find a use-case which needs deny based feedback please contact the developers and we will add an option.
 
-The answernote records the most similar allow string, the most similar deny string and the corresoding tolerance values.  It is likley that a teacher will need to examine students' answers in the fist use cycle and fine tune the `allow`, `deny` and tolerance values (perhaps with a regrade) to reach an acceptable level of test reliability: the use of the tolerance means this test is not as objective as some other STACK assessments.
+The answernote records the most similar allow string, the most similar deny string and the corresponding tolerance values.  It is likely that a teacher will need to examine students' answers in the fist use cycle and fine tune the `allow`, `deny` and tolerance values (perhaps with a regrade) to reach an acceptable level of test reliability: the use of the tolerance means this test is not as objective as some other STACK assessments.
 
 It is likely this test will benefit from a wide range of text pre-processing options prior to the test being executed, e.g. using functions from Maxima's stringproc library.  For example
 
 * remove (ignore) accents and diacritical marks
 
-At this point we do not propose to add these as options to the test itself as the pre-processing can be done in the feedback variables as required.  However, pre-processing does affect the feedback given by the test and so test options might be very useful.  If you create such processing functions and have compelling use-cases we would appreciate an opportinity to document, and support them as core functionality: please contact the developers.
+At this point we do not propose to add these as options to the test itself as the pre-processing can be done in the feedback variables as required.  However, pre-processing does affect the feedback given by the test and so test options might be very useful.  If you create such processing functions and have compelling use-cases we would appreciate an opportunity to document, and support them as core functionality: please contact the developers.
 
 ## Advice on processing strings in this context.
 
 1. To trim whitespace and full stops from each end of a string, you can define `sans1:strim(" .",ans1);` in the feedback variables.
-2. STACK provides a function `sremove_chars(rem, st)` which removes all occurances of each _character_ in the string `rem` from the string `st`.  For example to remove all selected punctuation characters use `sremove_chars(".,!?", ans1)`.
-3. STACK provides a function `ssquish` which changes tabs and newlines to spaces; trips whitespace at the ends; and replaces multiple whitespaces with a single whitespace.
+2. STACK provides a function `sremove_chars(rem, st)` which removes all occurrences of each _character_ in the string `rem` from the string `st`.  For example to remove all selected punctuation characters use `sremove_chars(".,!?", ans1)`.
+3. STACK provides a function `ssquish` which changes tabs and newlines to spaces; trips whitespace at the ends; and replaces multiple whitespace characters with a single whitespace.
 
 ## Writing a STACK question
 
@@ -76,7 +76,7 @@ Then:
 
 With this set of allow strings we have `ans1:"complete square"` gives the following answer note from the potential response tree
 
-    ATLevenshtein_far: [[0.78947,"Complete the square"],[0.4,"Square"]]. 
+    ATLevenshtein_far: [[0.78947,"Complete the square"],[0.4,"Square"]].
 
 The note `ATLevenshtein_far` means the closest string was in the allow list, but it was too far away.  The rest of the note means that the closest string found in `allow1` was "Complete the square" with similarity 0.78947. The closest string found in `deny1` was "Square" with similarity 0.4.  If you want to accept "complete square" as a correct answer you have two choices: (i) add it to `allow1`, or (ii) reduce the required similarity below 0.789.
 

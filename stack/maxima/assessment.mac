@@ -199,6 +199,12 @@ removeonce(ex, l) := block(
   append([first(l)], removeonce(ex,rest(l)))
 )$
 
+/* All the elements of l1, which do not occur in l2.  Removes all occurances from l1, not one at a time. */
+listdifference(l1, l2) := block(
+  if emptyp(l1) or emptyp(l2) then return(l1),
+  listdifference(sublist(l1, lambda([ex], not(ev(is(ex=first(l2)), simp)))), rest(l2))
+);
+
 /* Remove any common elements from [l1,l2], with duplication. */
 list_cancel(ex) := block([l1, l2, l3],
   l1:first(ex),
@@ -669,11 +675,16 @@ remove_disp(ex) := ev(ex, disp_parens=lambda([ex2], ex2), disp_select=lambda([ex
 /* Note, displaydp does not do any rounding, it is only display.  Use significantfigures.   */
 /* To print out *values* with trailing decimal places use this function.                    */
 
-displaydptex(ex):=block([ss, n, dp],
+displaydptex(ex):=block([ss, n, dp, tx],
   [n, dp]:args(ex),
   ss:sconcat("~,", string(dp), "f"),
   if is(equal(dp,0)) then ss:"~d",
-  ev(printf(false, ss, ev(float(n))), simp)
+  tx:ev(printf(false, ss, ev(float(n))), simp),
+  if is(stackfltsep = ",") then (
+    tx:ssubst("\\ ", ",", tx),
+    tx:ssubst("{,}", ".", tx)
+  ),
+  tx
 );
 texput(displaydp, displaydptex);
 
@@ -693,7 +704,7 @@ make_displaydpvalue(ex):= block([n,d],
 remove_displaydp(ex):= block(
     if atom(ex) then return(ex),
     if arrayp(ex) then return(arraymake(op(ex), maplist(make_displaydpvalue, args(ex)))),
-    if not(is(safe_op(ex)="displaydp")) then return(apply(op(ex), maplist(make_displaydpvalue, args(ex)))),
+    if not(is(safe_op(ex)="displaydp")) then return(apply(op(ex), maplist(remove_displaydp, args(ex)))),
     return(first(args(ex)))
 );
 
@@ -797,11 +808,16 @@ scientific_notation([a]) := block([oldsimp, x, ex, ex2, ex3, exn],
 )$
 
 /* displysci is an inert internal function of three arguments. */
-displayscitex(ex):=block([ss, n, dp],
+displayscitex(ex):=block([ss, n, dp, tx],
   [n, dp, expo]:args(ex),
   ss:sconcat("~,", string(dp), "f \\times 10^{~a}"),
   if is(equal(dp, 0)) then ss:"~d \\times 10^{~a}",
-  ev(printf(false, ss, ev(float(n)), expo), simp)
+  tx:ev(printf(false, ss, ev(float(n)), expo), simp),
+  if is(stackfltsep = ",") then (
+    tx:ssubst("\\ ", ",", tx),
+    tx:ssubst("{,}", ".", tx)
+  ),
+  tx
 )$
 texput(displaysci, displayscitex)$
 
@@ -937,6 +953,7 @@ algebraic_equivalence(SA, SB) :=
        ex:first(args(ex)),
     if (safe_op(ex)="*" or safe_op(ex)="^") then
        if not(any_listp(algebraic_equivalence_zero, args(ex))) then return(false),
+    keepfloat:false,
     ex:errcatch(ratsimp(ex)),
     if ex=[] then error("algebraic_equivalence: evaluating the difference of two expressions threw an error."),
     ex:ex[1],
@@ -963,7 +980,8 @@ algebraic_equivalence(SA, SB) :=
 
 /* This test establishes if two expressions appear NOT to be equivalent.
    It does so by evaluating the expressions numerically.        */
-numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_quiet,listdummyvars],
+numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_quiet,listdummyvars,trigexpand],
+  trigexpand:false,
   stack_mtell_quiet:true,
   listdummyvars:false,
   /* We take the *union* of the two lists of variables, this way we
@@ -981,6 +999,8 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
   if is(pval = []) then (print("STACK: ignore previous error. (2)"), return(false)),
   /* User functions without a function rule cannot be evaluated numerically */
   if recurse_userfunctionp(first(pval)) then return(false),
+  /* If we have no variables, and not a number, then bail here. */
+  if is(emptyp(lv)) and not(numberp(first(pval))) then return(false),
   pval:errcatch(ev(is(abs(first(pval)) > 1/10000), simp)),
   if is(pval = []) then (print("STACK: ignore previous error. (3)"), return(false)),
   if first(pval) then return(true),
@@ -1007,7 +1027,7 @@ numerical_not_alg_equiv(p1, p2):= block([pvars, pval, lv, sz, pnum, stack_mtell_
   if first(sz) > 0.0001 then true else false
 )$
 
-/* Are there any user-defined function? */
+/* Are there any user-defined functions? */
 recurse_userfunctionp(ex):= block([op1],
   if atom(ex) then return(false),
   op1:ev(op(ex)),
@@ -2201,9 +2221,12 @@ stack_eval_arg(ex) := block([eqoutcome, eqoutsymb, eqoutnote, res, id, truthargu
               FBB:errcatch(ev(log(SB),simp)),
               if is(FBB = []) then (print("STACK: ignore previous error. (EQUIVLOG)")),
               if not(emptyp(FBB)) then block(
-                  ATres:ev(ATAlgEquiv(SA, first(FBB)), simp),
+                  /* Errcatch to avoid log(0) errors.... */
+                  ATres:errcatch(ev(ATAlgEquiv(SA, first(FBB)), simp)),
+                  if is(ATres = []) then (print("STACK: ignore previous error. (EQUIVLOG)")),
                   if (debug) then print(ATres),
-                  if second(ATres) then block(
+                  if not(emptyp(ATres)) and second(first(ATres)) then block(
+                      ATres:first(ATres),
                       malrulecont:false,
                       eqoutcome[ev(id, simp)]:true,
                       eqoutsymb[ev(id, simp)]:EQUIVLOG,

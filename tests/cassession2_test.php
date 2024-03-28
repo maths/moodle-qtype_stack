@@ -41,6 +41,27 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
  */
 class cassession2_test extends qtype_stack_testcase {
 
+    public function test_stackmaximaversion() {
+        // This test ensures that we are not running against different
+        // version number of the STACK-Maxima scripts. For example,
+        // old image in a server setup or a cache layer somewhere.
+
+        $scriptversion = file_get_contents(__DIR__ . '/../stack/maxima/stackmaxima.mac');
+        $scriptversion = explode('stackmaximaversion:', $scriptversion);
+        $scriptversion = $scriptversion[count($scriptversion) - 1];
+        $scriptversion = explode('$', $scriptversion)[0];
+
+        $cs = stack_ast_container::make_from_teacher_source('stackmaximaversion', 'version-check');
+
+        $session = new stack_cas_session2([$cs]);
+
+        $session->get_valid();
+        $session->instantiate();
+
+        $this->assertEquals($scriptversion, $cs->get_value(),
+            'To fix this: Check STACK-Maxima script versions, purge caches and/or regenerate images.');
+    }
+
     public function test_internal_config() {
         // This test checks if the version number returned by Maxima matches our internal config.
         $cs = array('m:MAXIMA_VERSION_NUM');
@@ -2734,24 +2755,27 @@ class cassession2_test extends qtype_stack_testcase {
         $this->assertEquals('s_assert: STACK expected \' b \' but was given \' a \'.', $session->get_errors());
     }
 
-    public function test_stackmaximaversion() {
-        // This test ensures that we are not running against different
-        // version number of the STACK-Maxima scripts. For example,
-        // old image in a server setup or a cache layer somewhere.
+    public function test_float_overflow() {
 
-        $scriptversion = file_get_contents(__DIR__ . '/../stack/maxima/stackmaxima.mac');
-        $scriptversion = explode('stackmaximaversion:', $scriptversion);
-        $scriptversion = $scriptversion[count($scriptversion) - 1];
-        $scriptversion = explode('$', $scriptversion)[0];
+        $cases = [];
+        $cases[] = array('f1:1e300*10^21;', 'inf', 'Floating point overflow.');
+        $cases[] = array('f2:3^2', '9', '');
 
-        $cs = stack_ast_container::make_from_teacher_source('stackmaximaversion', 'version-check');
+        $s1 = array();
+        foreach ($cases as $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), array());
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $session = new stack_cas_session2($s1, $options, 0);
+        $this->assertTrue($session->get_valid());
 
-        $session = new stack_cas_session2([$cs]);
-
-        $session->get_valid();
         $session->instantiate();
-
-        $this->assertEquals($scriptversion, $cs->get_value(),
-            'To fix this: Check STACK-Maxima script versions, purge caches and/or regenerate images.');
+        $this->assertTrue($session->is_instantiated());
+        $this->assertEquals('Floating point overflow.', $session->get_errors());
+        foreach ($cases as $k => $case) {
+            $this->assertEquals($case[1], $s1[$k]->get_value());
+            $this->assertEquals($case[2], $s1[$k]->get_errors());
+        }
     }
 }

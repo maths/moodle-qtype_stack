@@ -63,6 +63,11 @@ stack_reset(not_used) := block(
   MAXIMA_VERSION_NUM: float(MAXIMA_VERSION[2]+(if is(length(MAXIMA_VERSION)>2)
     then (if is(MAXIMA_VERSION[3]<10) then MAXIMA_VERSION[3]/10 else 0) else 0)),
 
+  LISP_VERSION:if is (ssearch ("SBCL", build_info()@lisp_name) # false) then "SBCL"
+          else if is (ssearch ("GCL", build_info()@lisp_name) # false) then "GCL"
+          else if is (ssearch ("ECL", build_info()@lisp_name) # false) then "ECL"
+         else "UNKNOWN",
+
   OPT_OUTPUT: "LaTeX",
   PLOT_TAGS: true,
 
@@ -648,12 +653,22 @@ _APPEND_FEEDBACK(feedback) := if ev(stackmap_has_key(%FEEDBACK, %stmt), simp)
 /* Reset any feedback. */
 _RESET_FEEDBACK() := %FEEDBACK:stackmap_unset(%FEEDBACK,%stmt)$
 
-/* General error catching wrapper */
+/* General error catching wrapper. */
+/* General error catching wrapper. */
 _EC(errcatched, reference) := if errcatched = []
- then
-  (_APPEND_ERR([errormsgtostring()], reference), false)
- else
-  true$
+  then
+    (_APPEND_ERR([errormsgtostring()], reference), false)
+  else if stack_lisp_float_infp(string(first(errcatched)))
+  then
+    (_APPEND_ERR(["Floating point overflow."], reference), false)
+  else
+    true$
+
+/* Code inspired by Maxima source test/rtest_float_inf.mac */
+/* It's annoyning that LISP returns maxima atoms starting with a #, which breaks our parser. */
+stack_lisp_float_infp(ex) := (is(LISP_VERSION = "GCL")  and is(ex = "#<inf>"))
+                          or (is(LISP_VERSION = "SBCL") and is(ex = "#.SB-EXT:DOUBLE-FLOAT-POSITIVE-INFINITY"))
+                          or (is(LISP_VERSION = "ECL")  and is(ex = "#.ext::double-float-positive-infinity"))$
 
 /* Shorthand for allowing even more to fit into the buffer. */
 /* Note that stackmap_set is not very performance optimised and
@@ -665,6 +680,7 @@ _EC(errcatched, reference) := if errcatched = []
    a list then that append would do bad things. */
 _CS2v(_k,_v) := block([%_tmp],
  %_tmp:[[_k, string(_v)]],
+ if (listp(%_tmp) and stack_lisp_float_infp(second(first(%_tmp)))) then %_tmp:[[first(first(%_tmp)), "inf"]],
  if listp(%_tmp) then _VALUES:append(_VALUES,%_tmp),
  0)$
 _CS2l(_k,_v) := block([%_tmp],

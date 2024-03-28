@@ -64,6 +64,8 @@ Then Maxima returns `0.18` for `v0`, (as expected) but `v0-v1` equals \(5.551115
 
 As another example, try `100.4-80.0;` in a desktop Maxima session.
 
+Maxima's floating point routines are taken from LISP.  Note, that this is a finite state machine, and as such there are practial limitations on the support for very large and very small numbers.  E.g. `1E300*10^21` will cause a float overflow error in Maxima.  This is most likely to be issues for science (e.g. physics).
+
 ## Maxima and floats with trailing zeros ##
 
 For its internal representation, Maxima always truncates trailing zeros from a floating point number.  For example, the Maxima expression `0.01000` will be converted internally to `0.01`.  Actually this is a byproduct of the process of converting a decimal input to an internal binary float, and back again.  Similarly, when a number is a "float" data type, Maxima always prints at least one decimal digit to indicate the number is a float.  For example, the floating point representation of the number ten is \(10.0\).  This does _not_ indicate significant figures, rather it indicates data type.  In situations where the number of significant figures is crucial this is problematic.

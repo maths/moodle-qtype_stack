@@ -83,7 +83,7 @@ class stack_ans_test_controller {
         'EqualComAssRules'     => array(true, true, false, false),
         'CasEqual'             => array(false, false, false, false),
         'SameType'             => array(false, false, true, false),
-        'SubstEquiv'           => array(false, true, true, false),
+        'SubstEquiv'           => array('optional', true, true, false),
         'SysEquiv'             => array(false, false, true, false),
         'Sets'                 => array(false, false, false, false),
         'Expanded'             => array(false, false, true, false),
@@ -289,6 +289,22 @@ class stack_ans_test_controller {
     public static function required_atoptions($atest) {
         $op = self::$pops[$atest];
         return $op[0];
+    }
+
+    /**
+     * Returns a list of the answer tests who do not require test options
+     *
+     * @return array
+     * @access public
+     */
+    public static function get_ans_tests_without_options() {
+        $anstests = array();
+        foreach (self::$pops as $key => $value) {
+            if ($value[0] === false) {
+                $anstests[] = $key;
+            }
+        }
+        return $anstests;
     }
 
     /**

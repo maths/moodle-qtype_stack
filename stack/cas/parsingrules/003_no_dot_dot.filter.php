@@ -84,8 +84,7 @@ class stack_ast_filter_003_no_dot_dot implements stack_cas_astfilter {
                         $node->position['invalid'] = true;
                         // No need to warn about this if we are already invalid due to whatever reason.
                         $answernotes[] = 'MatrixMultWithFloat';
-                        $errors[] = 'Due to syntactical reasons matrix multiplication "." with scalar floats is ' .
-                                'forbidden, use normal multiplication "*" instead for the same result. ' . $node->toString();
+                        $errors[] = stack_string('stackCas_baddotdot') . $node->toString();
                     }
                 }
             }

@@ -35,6 +35,8 @@ class stack_equiv_input extends stack_input {
      * @var array
      */
     protected $extraoptions = array(
+        'hideanswer' => false,
+        'allowempty' => false,
         'nounits' => false,
         // Does a student see the equivalence signs at validation time?
         'hideequiv' => false,
@@ -62,6 +64,7 @@ class stack_equiv_input extends stack_input {
             return $this->render_error($this->errors);
         }
 
+        $placeholder = false;
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
             $cs = stack_ast_container::make_from_teacher_source($current);
@@ -79,8 +82,12 @@ class stack_equiv_input extends stack_input {
                 }
             }
             // Remove % characters, e.g. %pi should be printed just as "pi".
-            $current = str_replace('%', '', $current);
             $rows = explode("\n", $current);
+            $current = str_replace('%', '', $current);
+            if ($this->parameters['syntaxAttribute'] == '1') {
+                $placeholder = $current;
+                $current = '';
+            }
         } else {
             $current = implode("\n", $state->contents);
             $rows = $state->contents;
@@ -101,12 +108,15 @@ class stack_equiv_input extends stack_input {
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
         );
+        if ($placeholder) {
+            $attributes['placeholder'] = $placeholder;
+        }
 
         if ($readonly) {
             $attributes['readonly'] = 'readonly';
         }
 
-        $output = html_writer::tag('textarea', htmlspecialchars($current), $attributes);
+        $output = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
 
         return $output;
     }
@@ -128,6 +138,9 @@ class stack_equiv_input extends stack_input {
         $contents = array();
         if (array_key_exists($this->name, $response)) {
             $sans = $response[$this->name];
+            if (trim($sans) == '' && $this->get_extra_option('allowempty')) {
+                return array('EMPTYANSWER');
+            }
             $rowsin = explode("\n", $sans);
             $rowsout = array();
             foreach ($rowsin as $key => $row) {
@@ -153,8 +166,9 @@ class stack_equiv_input extends stack_input {
             'nontuples' => false
         );
         foreach ($caslines as $line) {
-            if ($line->get_valid()) {
-                $vals[] = $line->ast_to_string(null, $params);
+            $str = $line->ast_to_string(null, $params);
+            if ($line->get_valid() || $str === 'EMPTYANSWER') {
+                $vals[] = $str;
             } else {
                 // This is an empty place holder for an invalid expression.
                 $vals[] = 'EMPTYCHAR';
@@ -229,7 +243,7 @@ class stack_equiv_input extends stack_input {
 
         foreach ($contents as $index => $val) {
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                    array(), 'Equivline');
+                    array(), 'Equivline', $this->options->get_option('decimals'));
 
             // Is the student permitted to include comments in their answer?
             if (!$this->extraoptions['comments'] && $answer->is_string()) {
@@ -266,7 +280,7 @@ class stack_equiv_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor) {
 
         if ($this->extraoptions['firstline']) {
             $foundfirstline = false;
@@ -390,17 +404,18 @@ class stack_equiv_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return array(
-            'mustVerify'     => true,
-            'showValidation' => 1,
-            'boxWidth'       => 25,
-            'insertStars'    => 0,
-            'syntaxHint'     => '',
-            'forbidWords'    => '',
-            'allowWords'     => '',
-            'forbidFloats'   => true,
-            'lowestTerms'    => true,
-            'sameType'       => false,
-            'options'        => ''
+            'mustVerify'       => true,
+            'showValidation'   => 1,
+            'boxWidth'         => 25,
+            'insertStars'      => 0,
+            'syntaxHint'       => '',
+            'syntaxAttribute'  => 0,
+            'forbidWords'      => '',
+            'allowWords'       => '',
+            'forbidFloats'     => true,
+            'lowestTerms'      => true,
+            'sameType'         => false,
+            'options'          => ''
             );
     }
 
@@ -426,12 +441,15 @@ class stack_equiv_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        if ($this->get_extra_option('hideanswer')) {
+            return '';
+        }
         $values = stack_utils::list_to_array($value, false);
         foreach ($values as $key => $val) {
             if (trim($val) !== '' ) {
                 $cs = stack_ast_container::make_from_teacher_source($val);
                 $cs->get_valid();
-                $val = '<code>'.$cs->get_inputform(true, 0, true).'</code>';
+                $val = '<code>'.$cs->get_inputform(true, 0, true, $this->options->get_option('decimals')).'</code>';
             }
             $values[$key] = $val;
         }
@@ -451,6 +469,9 @@ class stack_equiv_input extends stack_input {
     public function render_validation(stack_input_state $state, $fieldname) {
 
         if (self::BLANK == $state->status) {
+            return '';
+        }
+        if ($this->get_extra_option('allowempty') && $this->is_blank_response($state->contents)) {
             return '';
         }
 

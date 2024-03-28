@@ -39,6 +39,10 @@
       "function": "f",
       "globalyforbiddenvariable": true
   },
+  "%_ce_expedite": {
+      "function": "f",
+      "globalyforbiddenvariable": true
+  },
   "%ERR": {
       "variable": "f"
   },
@@ -134,7 +138,7 @@
       "variable": "f"
   },
   "%union": {
-      "function": "t",
+      "function": "s",
       "nounfunctionfor": "union"
   },
   "%unitexpand": {
@@ -3242,6 +3246,10 @@
   "horner": {
       "function": "s"
   },
+  "hstep": {
+      "function": "s",
+      "built-in": true
+  },
   "hypergeometric": {
       "function": "s"
   },
@@ -4400,6 +4408,9 @@
       "built-in": true
   },
   "mapprint": {
+      "variable": "?"
+  },
+  "margin": {
       "variable": "?"
   },
   "mat_cond": {
@@ -5602,6 +5613,10 @@
       "evfun": "s",
       "function": "s"
   },
+  "polarform_simp": {
+      "evfun": "s",
+      "function": "s"
+  },
   "polartorect": {
       "function": "s"
   },
@@ -6091,15 +6106,15 @@
       "built-in": true
   },
   "random_subset": {
-      "function": "f",
+      "function": "t",
       "random": true
   },
   "random_subset_n": {
-      "function": "f",
+      "function": "t",
       "random": true
   },
   "random_ne_subset": {
-      "function": "f",
+      "function": "t",
       "random": true
   },
   "random_bernoulli": {
@@ -6730,6 +6745,9 @@
       "globalyforbiddenvariable": true,
       "variable": "f"
   },
+  "s_assert": {
+      "function": "t"
+  },
   "save": {
       "function": "f",
       "globalyforbiddenfunction": true
@@ -7281,7 +7299,8 @@
   },
   "stack_reset_vars": {
       "function": "?",
-      "blockexternal": "true"
+      "blockexternal": "true",
+      "contextvariable": "true"
   },
   "stack_validate": {
       "function": "s"
@@ -7302,6 +7321,9 @@
   },
   "stackunits_make": {
       "function": "s"
+  },
+  "stack_seed": {
+      "constant": "t"
   },
   "stack_unit_si_declare": {
       "function": "s",
@@ -7727,6 +7749,10 @@
       "contextvariable": "true",
       "built-in": true
   },
+  "texput_decimal": {
+      "function": "t",
+      "contextvariable": "true"
+  },
   "texsub": {
       "function": "s",
       "built-in": true
@@ -8036,7 +8062,8 @@
       "built-in": true
   },
   "unit_step": {
-      "function": "f"
+      "function": "s",
+      "built-in": true
   },
   "unit_vectors": {
       "variable": "f"

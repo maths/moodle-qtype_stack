@@ -9,6 +9,8 @@ Maxima allows single inequalities, such as \(x-1>y\), and also support for inequ
 You can test if two inequalities are the same using the algebraic equivalence test, see the comments on this below.  
 
 Chained inequalities, for example \(1\leq x \leq2\mbox{,}\) are not permitted.  They must be joined by logical connectives, e.g. "\(x>1\) and \(x<7\)". 
+As `and` and `or` are converted to `nounand` and `nounor` in student answers, you may need to use these forms in the teacher's answer as well.
+For more information, see [Propositional Logic](../Topics/Propositional_Logic.md).
 
 From version 3.6, support for inequalities in Maxima (particularly single variable real inequalities) was substantially improved.
 

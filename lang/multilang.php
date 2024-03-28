@@ -139,7 +139,7 @@ class stack_multilang {
         $mylang = $this->lang;
         $parentlang = 'en';
 
-        // If nto lang is defined like in some tests assume lang to be $parentlang.
+        // If no lang is defined like in some tests assume lang to be $parentlang.
         if ($mylang === null) {
             $mylang = $parentlang;
         }

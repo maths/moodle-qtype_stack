@@ -72,7 +72,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,true],[2+y,false]]', null, array());
         // @codingStandardsIgnoreEnd
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
-                .'<option value="">(No answer given)</option><option value="1"><code>1+x</code></option>'
+                .'<option value="">(Clear my choice)</option><option value="1"><code>1+x</code></option>'
                 .'<option selected="selected" value="2"><code>2+y</code></option></select>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
@@ -127,7 +127,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $el->adapt_to_model_answer('[[1,true],[2,false,1]]');
         // @codingStandardsIgnoreEnd
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
-                . '<option value="">(No answer given)</option><option value="1"><code>1</code></option>'
+                . '<option value="">(Clear my choice)</option><option value="1"><code>1</code></option>'
                 . '<option selected="selected" value="2"><code>1</code></option></select>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
@@ -153,7 +153,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $el = $this->make_dropdown();
         $el->adapt_to_model_answer($this->make_ta());
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
-                .'<option value="">(No answer given)</option>'
+                .'<option value="">(Clear my choice)</option>'
                 .'<option value="1"><code>x+1</code></option><option value="2"><code>x+2</code></option>'
                 .'<option selected="selected" value="3"><code>sin(pi*n)</code></option></select>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
@@ -173,7 +173,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
     public function test_render_latex() {
         $el = $this->make_dropdown(array('options' => 'LaTeX'));
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
-                .'<option value="">(No answer given)</option><option value="1">\(x+1\)</option>'
+                .'<option value="">(Clear my choice)</option><option value="1">\(x+1\)</option>'
                 .'<option value="2">\(x+2\)</option>'
                 .'<option selected="selected" value="3">\(\sin \left( \pi\cdot n \right)\)</option></select>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
@@ -183,7 +183,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
     public function test_render_latexdisplay() {
         $el = $this->make_dropdown(array('options' => 'LaTeXdisplay'));
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
-                .'<option value="">(No answer given)</option><option value="1">\[x+1\]</option>'
+                .'<option value="">(Clear my choice)</option><option value="1">\[x+1\]</option>'
                 .'<option value="2">\[x+2\]</option>'
                 .'<option selected="selected" value="3">\[\sin \left( \pi\cdot n \right)\]</option></select>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
@@ -232,7 +232,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,false],[2+x^2,false],[{},true,"None of these"]]', null, array());
         $el->adapt_to_model_answer('[[1+x,true],[2+x^2,false],[{},false,"None of these"]]');
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">'
-                . '<option value="">(No answer given)</option><option value="1"><code>1+x</code></option>'
+                . '<option value="">(Clear my choice)</option><option value="1"><code>1+x</code></option>'
                 . '<option selected="selected" value="2"><code>2+x^2</code></option>'
                 . '<option value="3">None of these</option></select>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
@@ -271,6 +271,16 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
                 $el->get_teacher_answer_display(null, null));
     }
 
+    public function test_teacher_answer_display_hideanswer() {
+        $el = stack_input_factory::make('dropdown', 'ans1', '[[1+x,false],[2+x^2,false],[{},true,"None of these"]]', null, array());
+        $el->adapt_to_model_answer('[[1+x,false],[2+x^2,false],[{},true,"None of these"]]');
+        $el->set_parameter('options', 'hideanswer');
+
+        $correctresponse = '';
+        $this->assertEquals($correctresponse,
+            $el->get_teacher_answer_display(null, null));
+    }
+
     public function test_teacher_answer_html_entities() {
         $options = new stack_options();
         $ta = '[[A,false,"n/a"],[B,true,"&ge;"],[C,false,"&le;"],[D,false,"="],[E,false,"?"]]';
@@ -278,7 +288,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $el->adapt_to_model_answer($ta);
 
         $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">' .
-                '<option value="">(No answer given)</option><option selected="selected" value="1">n/a</option>' .
+                '<option value="">(Clear my choice)</option><option selected="selected" value="1">n/a</option>' .
                 '<option value="2">&ge;</option><option value="3">&le;</option><option value="4">=</option>' .
                 '<option value="5">?</option></select>';
         $this->assert_same_select_html($expected, $el->render(new stack_input_state(
@@ -308,5 +318,33 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals('', $state->contentsmodified);
         $correctresponse = array('ans1' => 2);
         $this->assertEquals($correctresponse, $el->get_correct_response($ta));
+    }
+
+    public function test_union() {
+        $options = new stack_options();
+        $ta = '[[%union(oo(-inf,0),oo(0,inf)),true],[%union({1},{2}),false],[union({1},{4}),false],' .
+            '[A,false,%union({1},{3})]]';
+        $el = stack_input_factory::make('dropdown', 'ans1', $ta, null, array());
+        $el->adapt_to_model_answer($ta);
+
+        $expected = '<select id="menustack1__ans1" class="select menustack1__ans1" name="stack1__ans1">' .
+            '<option selected="selected" value="">(Clear my choice)</option>' .
+            '<option value="1"><code>union(oo(-inf,0),oo(0,inf))</code></option>' .
+            '<option value="2"><code>union({1},{2})</code></option>'.
+            '<option value="3"><code>union({1},{4})</code></option>' .
+            '<option value="4"><code>union({1},{3})</code></option></select>';
+        $this->assert_same_select_html($expected, $el->render(new stack_input_state(
+            stack_input::BLANK, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
+        $state = $el->validate_student_response(array('ans1' => ''), $options, '1', new stack_cas_security());
+        $this->assertEquals(stack_input::BLANK, $state->status);
+        $this->assertEquals(array(), $state->contents);
+        $this->assertEquals('', $state->contentsmodified);
+        $correctresponse = array('ans1' => 1);
+        $this->assertEquals($correctresponse, $el->get_correct_response($ta));
+
+        $el->adapt_to_model_answer($ta);
+        $correctresponse = 'A correct answer is: <code>union(oo(-inf,0),oo(0,inf))</code>';
+        $this->assertEquals($correctresponse,
+            $el->get_teacher_answer_display(null, null));
     }
 }

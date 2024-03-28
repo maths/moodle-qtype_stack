@@ -65,12 +65,14 @@ class qtype_stack_tidy_question_form extends moodleform {
             $mform->addElement('header', 'prtnodesheader' . $prtname,
                     stack_string('prtnodesheading', $prtname));
 
-            $graph = $graph = $this->get_prt_graph($prt);
+            $graph = $this->get_prt_graph($prt);
             $newnames = $graph->get_suggested_node_names();
             $mform->addElement('static', $prtname . 'graph', '',
                     stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg'));
 
-            foreach ($prt->get_nodes_summary() as $nodekey => $notused) {
+            $nodes = $prt->get_nodes_summary();
+            uasort($nodes, fn($a, $b) => $a->nodename - $b->nodename);
+            foreach ($nodes as $nodekey => $notused) {
                 $mform->addElement('text', 'nodename_' . $prtname . '_' . $nodekey,
                         stack_string('newnameforx', $nodekey + 1), array('size' => 20));
                 $mform->setDefault('nodename_' . $prtname . '_' . $nodekey, $newnames[$nodekey + 1]);
@@ -83,7 +85,7 @@ class qtype_stack_tidy_question_form extends moodleform {
     }
 
     /**
-     * Get a stack_abstract_graph represemtatopm of a PRT.
+     * Get a stack_abstract_graph representation of a PRT.
      * @return stack_abstract_graph.
      */
     protected function get_prt_graph($prt) {
@@ -99,9 +101,9 @@ class qtype_stack_tidy_question_form extends moodleform {
             } else {
                 $right = $summary->falsenextnode + 1;
             }
-            $graph->add_node($nodekey + 1, $left, $right,
-                    $summary->truescoremode . round($summary->truescore, 2),
-                    $summary->falsescoremode . round($summary->falsescore, 2));
+            $graph->add_node($nodekey + 1, $summary->description, $left, $right,
+                    $summary->truescoremode . stack_utils::fix_trailing_zeros($summary->truescore),
+                    $summary->falsescoremode . stack_utils::fix_trailing_zeros($summary->falsescore));
         }
         $graph->layout();
         return $graph;

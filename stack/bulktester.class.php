@@ -314,7 +314,8 @@ class stack_bulk_tester {
 
                 // At this point we have no question context and so we can't possibly correctly evaluate URLs.
                 $question->castextprocessor = new castext2_qa_processor(new stack_outofcontext_process());
-                $upgradeerrors = $question->validate_against_stackversion();
+                $upgradeerrors = $question->validate_against_stackversion($context);
+
                 if ($upgradeerrors != '') {
                     if ($outputmode == 'web') {
                         echo $OUTPUT->heading($questionnamelink, 4);
@@ -495,7 +496,6 @@ class stack_bulk_tester {
         $options = new question_display_options();
         $options->readonly = true;
         $options->flags = question_display_options::HIDDEN;
-        $options->suppressruntestslink = true;
         $question->castextprocessor = new castext2_qa_processor($quba->get_question_attempt($slot));
 
         // Create the question text, question note and worked solutions.
@@ -517,7 +517,8 @@ class stack_bulk_tester {
 
         if (!empty($question->runtimeerrors)) {
             $ok = false;
-            $s = stack_string('stackInstall_testsuite_errors') . implode(' ', array_keys($question->runtimeerrors));
+            $s = stack_string('stackInstall_testsuite_errors') . ' ' .
+                implode(' ', array_keys($question->runtimeerrors));
             if ($outputmode == 'web') {
                 $s = html_writer::tag('br', $s);
             }
@@ -577,7 +578,6 @@ class stack_bulk_tester {
         $options = new question_display_options();
         $options->readonly = true;
         $options->flags = question_display_options::HIDDEN;
-        $options->suppressruntestslink = true;
 
         // Create the question text, question note and worked solutions.
         // This involves instantiation, which seeds the CAS cache in the cases when we have no tests.

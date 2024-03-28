@@ -51,6 +51,11 @@ class docslib_test extends qtype_stack_testcase {
                         'Mathjax</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Maxima.md">Maxima</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Migration.md">Migration</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Optimising_Maxima.md">' .
+                        'Optimising Maxima</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Release_notes_4_4_x.md">' .
+                        'Release notes 4 4 x</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/STACK_versions.md">STACK versions</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Testing_installation.md">' .
                         'Testing installation</a></li></ul>'),
                 stack_docs_index($CFG->dirroot . '/question/type/stack/doc/en/Installation',

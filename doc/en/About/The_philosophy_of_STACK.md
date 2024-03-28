@@ -1,10 +1,6 @@
 # Philosophy of STACK
 
-This page will describe the main design philosophy of STACK.
-
-## Motivation
-
-Computer Aided Assessment (CAA) has many advantages over traditional hand-marking. One of the key advantages is that, when done correctly, it can effectively assess and give feedback to a large number of students. This frees up marking time and resources that would normally have to be spent by several tutors. Additionally, it can be frustrating for students when their tutors are not consistent in how they mark.
+One of the key advantages over traditional hand-marking is that, when done correctly, online assessment can effectively assess and give feedback to a large number of students. This frees up marking time and resources that would normally have to be spent by several tutors. Additionally, it can be frustrating for students when their tutors are not consistent in how they mark.
 
 The traditional form of CAA is *teacher-provided answer questions*. In these questions, a student makes a selection from, or interacts with, potential answers which the teacher has selected. Examples include multiple choice questions and multiple response questions. These types of questions have a number of limitations, including:
 
@@ -25,7 +21,7 @@ Teachers should take responsibility for their assessments. When assessing studen
 
 * _Focusing on mathematical properties, such as equivalence, is a unique design feature of STACK._
 
-Teachers can then pick suitable [answer tests](../Authoring/Answer_tests.md) in a [potential response tree](../Authoring/Potential_response_trees.md) and give marks and feedback accordingly.  STACK does not require teachers to learn a coding language and assess students' answers by writing code such as :
+Teachers can then pick suitable [answer tests](../Authoring/Answer_Tests/index.md) in a [potential response tree](../Authoring/Potential_response_trees.md) and give marks and feedback accordingly.  STACK does not require teachers to learn a coding language and assess students' answers by writing code such as :
 
 ```
 If
@@ -60,9 +56,9 @@ STACK is designed to cover the needs of a large variety of users across mathemat
 * Questions can be [randomised](../CAS/Random.md) to ensure different students see different variants of a question.
 * There are many different kinds of [inputs](../Authoring/Inputs.md). These are, for example, where the student enters a mathematical expression, or makes a true/false selection.
 * Partial credit is possible when an expression only satisfies some of the required properties.
-* [Plots](../CAS/Plots.md) can be dynamically generated and included within any part of the question, including feedback in the form of a plot of the student's expression.
+* [Plots](../Plots/Plots.md) can be dynamically generated and included within any part of the question, including feedback in the form of a plot of the student's expression.
 * Students can work line by line [reasoning by equivalence](../CAS/Equivalence_reasoning.md) until they have a final answer in the correct form. 
-* STACK supports working with [significant figures](../Authoring/Answer_tests_numerical.md) and [scientific units](../Authoring/Units.md).
+* STACK supports working with [significant figures](../Authoring/Answer_Tests/Numerical.md) and [scientific units](../Topics/Units.md).
 
 #### STACK is open source
 

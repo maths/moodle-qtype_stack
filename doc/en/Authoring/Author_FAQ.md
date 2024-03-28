@@ -6,13 +6,11 @@ If you navigate to the front page of the STACK documentation _on your server_ th
 
 The version number is given in the form used by all Moodle plugins, e.g. `2022052300` which is basically a release date of the plugin you are using.
 
-## How can I improve the documentation? ##
-
-Please either edit the docs on github, or send us a pull request. Your contributions are very welcome.
-
 ## How can I report a bug or make a suggestion? ##
 
-Contributions are very welcome.  Please see the [community](../About/Community.md) page for more specific details.
+General community discussion takes place on [https://stack-assessment.zulipchat.com/](https://stack-assessment.zulipchat.com/)
+
+The source code, and development discussion, is on [github](http://github.com/maths/moodle-qtype_stack/issues), with an additional [ILIAS](https://github.com/ilifau/assStackQuestion/) site.
 
 ## Can I write questions in multiple languages?
 
@@ -72,7 +70,7 @@ Simplify is often taken implicitly to mean "the shortest equivalent expression",
 
 To avoid these problems, STACK expects teachers to specify the properties they want.  For example, if you want the factored form you should test for this, not describe it as "simplified".
 
-In STACK a very useful test is equivalence up to [associativity and commutativity](Answer_tests.md#EqualComAss) of the basic arithmetic operations of addition and multiplication.  This is often what teachers need in this case.
+In STACK a very useful test is equivalence up to [associativity and commutativity](Answer_Tests/index.md#EqualComAss) of the basic arithmetic operations of addition and multiplication.  This is often what teachers need in this case.
 
 ## Why doesn't Maxima give `int(1/x,x)=log(abs(x))`?
 
@@ -84,7 +82,7 @@ Because \( \int \frac{1}{x}dx = \log(|x|) \) is OK on either the negative or pos
     (%i200) integrate(1/x,x), logabs : true;
     (%o200) log(abs(x))
 
-Furthermore, the [integration answer test](Answer_tests.md#Int) will allow teachers to accept either `log(x)` or `log(abs(x))` (or both) from a student.
+Furthermore, the [integration answer test](Answer_Tests/index.md#Int) will allow teachers to accept either `log(x)` or `log(abs(x))` (or both) from a student.
 
 ## Why don't I get anything back from the CAS?
 
@@ -100,10 +98,6 @@ Then, you should get error reporting.  As an example navigate to
 
     Site administration -> Plugins -> Question types -> STACK -> Healthcheck
 
-There you can see an example of an expression sent to Maxima.  Namely:
-
-    cab:block([ RANDOM_SEED, OPT_NoFloats, sqrtdispflag, simp, assume_pos, caschat0, caschat1], stack_randseed(0), make_multsgn(dot), make_complexJ(i), OPT_NoFloats:true, sqrtdispflag:true, simp:true, assume_pos:false, print("[STACKSTART Locals= [ ") , print("0=[ error= ["), cte("caschat0",errcatch(caschat0:plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3]))) , print("1=[ error= ["), cte("caschat1",errcatch(caschat1:plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3]))) , print("] ]") , return(true) );
-
-Expressions such as this can be copied into the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md) and evaluated.  The errors returned here might help track down the problem.
+There you can see an example of an expression sent to Maxima.  Expressions such as this can be copied into the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md) and evaluated.  The errors returned here might help track down the problem.
 
 The issue is normally that you have tried to create a _syntactically invalid_ maxima command.  For example `[a,,b]` will crash Maxima.  Since we have not created a full parser, all syntax errors like this are not yet trapped.

@@ -24,6 +24,7 @@
 require_once(__DIR__.'/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/vle_specific.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/questiontestform.php');
 require_once(__DIR__ . '/stack/questiontest.php');
@@ -38,6 +39,8 @@ $confirmthistestcase = optional_param('confirmthistestcase', null, PARAM_INT);
 // Load the necessary data.
 $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
+// We hard-wire decimals to be a full stop when testing questions.
+$question->options->set_option('decimals', '.');
 if ($testcase || $confirmthistestcase) {
     $qtest = question_bank::get_qtype('stack')->load_question_test($questionid, $testcase);
 }
@@ -70,7 +73,6 @@ if (!is_null($seed)) {
 $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
 
-
 // Initialise $PAGE.
 $backurl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
 if (!is_null($testcase)) {
@@ -91,6 +93,7 @@ $mform = new qtype_stack_question_test_form($PAGE->url,
 // Send current data to the form.
 if ($testcase) {
     $currentdata = new stdClass();
+    $currentdata->description = $qtest->description;
 
     foreach ($qtest->inputs as $name => $value) {
         $currentdata->{$name} = $value;
@@ -122,8 +125,7 @@ if ($mform->is_cancelled()) {
     foreach ($qtest->inputs as $name => $value) {
         $inputs[$name] = $value;
     }
-    $qtest = new stack_question_test($inputs);
-
+    $qtest = new stack_question_test($qtest->description, $inputs);
     $response = stack_question_test::compute_response($question, $inputs);
 
     foreach ($question->prts as $prtname => $prt) {
@@ -142,7 +144,7 @@ if ($mform->is_cancelled()) {
     foreach ($question->inputs as $inputname => $notused) {
         $inputs[$inputname] = $data->$inputname;
     }
-    $qtest = new stack_question_test($inputs);
+    $qtest = new stack_question_test($data->description, $inputs);
 
     foreach ($question->prts as $prtname => $notused) {
         $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
@@ -154,10 +156,7 @@ if ($mform->is_cancelled()) {
 }
 
 // Prepare the display options.
-$options = new question_display_options();
-$options->readonly = true;
-$options->flags = question_display_options::HIDDEN;
-$options->suppressruntestslink = true;
+$options = question_display_options();
 
 // Display the page.
 echo $OUTPUT->header();

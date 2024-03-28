@@ -103,9 +103,7 @@ class prt_evaluatable implements cas_raw_value_extractor {
         return $this->evaluated !== null;
     }
 
-    // Some spaghetti. TODO: eliminate.
     public function override_feedback(string $feedback) {
-        $this->_feedback = 'spaghetti';
         $this->renderedfeedback = $feedback;
     }
 
@@ -121,8 +119,18 @@ class prt_evaluatable implements cas_raw_value_extractor {
             return;
         }
         $this->path      = $value[0];
-        $this->score     = stack_utils::fix_to_continued_fraction($value[1], 4);
-        $this->penalty   = stack_utils::fix_to_continued_fraction($value[2], 4);
+        $this->score = 0;
+        if (is_numeric($value[1])) {
+            $this->score   = stack_utils::fix_to_continued_fraction($value[1], 4);
+        } else {
+            $this->errors[] = new stack_cas_error(stack_string('prtruntimescore'), '');
+        }
+        $this->penalty = 0;
+        if (is_numeric($value[2])) {
+            $this->penalty  = stack_utils::fix_to_continued_fraction($value[2], 4);
+        } else {
+            $this->errors[] = new stack_cas_error(stack_string('prtruntimepenalty'), '');
+        }
         $this->feedback  = $value[3];
         $this->notes     = $value[4];
     }

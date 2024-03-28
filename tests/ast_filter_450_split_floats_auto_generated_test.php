@@ -52,6 +52,11 @@ class ast_filter_450_split_floats_auto_generated_test extends qtype_stack_ast_te
                       array('missing_stars'),
                       true, false);
 
+        $this->expect('1E23*10^45',
+                      '1*E*23*10^45',
+                      array('missing_stars'),
+                      true, false);
+
         $this->expect('3e-2',
                       '3*e-2',
                       array('missing_stars'),
@@ -85,6 +90,11 @@ class ast_filter_450_split_floats_auto_generated_test extends qtype_stack_ast_te
 
         $this->expect('1E3',
                       '1*E*3',
+                      array('missing_stars'),
+                      true, false);
+
+        $this->expect('1E23*10^45',
+                      '1*E*23*10^45',
                       array('missing_stars'),
                       true, false);
 
@@ -1811,6 +1821,11 @@ class ast_filter_450_split_floats_auto_generated_test extends qtype_stack_ast_te
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array(),
                       true, false);
 
@@ -3552,6 +3567,11 @@ class ast_filter_450_split_floats_auto_generated_test extends qtype_stack_ast_te
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array(),
                       true, false);
 

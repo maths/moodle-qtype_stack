@@ -3,15 +3,15 @@
 There are many ways for, the multilang-filter that comes with Moodle is often preferred as it is available. But people do seem to prefer multilang2 when dealign with richer content that needs to work with scripting and other syntax. As dealing with the localisation can also affect the way STACK does some special things we have added yet another way as a built-in alternative for those cases where the language needs to be passed into places that traditional Moodle-filters do not see.
 
 
-# By using the built-in block
+## Using the built-in castext block in STACK
 
-In STACK 4.4 we added a STACK way of doing this that makes it simpler to mix languages in the logic and for example MCQ-labels. Previously the multilang2 filter has been able to do MCQ-labels but the future does not look bright for that.
+In STACK 4.4 we made it simpler to mix languages in the CAS logic, for example MCQ-labels.
 
-The new logic will mimic the multilang2 filter in the sense that it includes similar special language-code `other` which will be used if no matching language can be found. However, it does act like multilang if `other` is not present and selects the first defined language. Like multilang2 we also support defining multiple language codes as comma separated lists. The order of languages is defined by the order they appear in the question-text. 
+The logic includes a special language-code `other` which will be used if no matching language can be found. We also support defining multiple language codes as comma separated lists. The order of languages is defined by the order they appear in the question-text. 
 
 The block is used like this:
 
-    [[lang code='fi']]...Text in Finnish...[[/lang]]
+    [[lang code='fi']]...Teksti suomeksi...[[/lang]]
     [[lang code="en,other"]]...Text in English...[[/lang]]
 
 It is also usable in inline CASText2:
@@ -24,13 +24,26 @@ so if the VLE uses `en_us` and it is found in the question at any place then tha
 If you are dealing with localisation in JSXGraph or MCQ-label style situations you might want to
 use the new `lang`-blocks, but do note that while they do not require any additional filters to be installed they still require that the system has language-packs and the users have the ability to select the language.
 
-# By using the Moodle filter multilang
+## Translating text in pictures
+
+The STACK built-in castext block will translate tags embedded into inline SVG images in documents.  Here is a very basic SVG example with language blocks embedded.
+
+    <svg height="210" width="500">
+      <title>[[lang code='en,other']]Circles and triangles[[/lang]][[lang code='no']]Sirkler og trekanter[[/lang]]</title>
+      <polygon points="200,10 350,90 160,210" style="fill:white;stroke:black;stroke-width:2" />
+      <circle cx="239" cy="94" r="55" stroke="red" stroke-width="1" fill="white" />
+      <text x="200" y="80" fill="red">[[lang code='en,other']]Circumference[[/lang]][[lang code='no']]Omkrets[[/lang]]</text>
+    </svg>
+
+Remember to add alternative text as the title or description for the inline SVG using the `<title>` and `<desc>` tags.  The title or description can also be translated.
+
+## Using the Moodle filter multilang
 
 STACK questions can be easily localized for different languages using the multi-language content filter. [http://docs.moodle.org/en/Multi-language_content_filter](http://docs.moodle.org/en/Multi-language_content_filter).  That is to say, a single question can exist in multiple languages and the user can choose the language they use.
 
 This page deals with translating text within individual questions. It does not deal with translating the Moodle and STACK interface. See the page on [Language packs and translating STACK](../Developer/Language_packs.md).
 
-## Installation
+### Installation of the Moodle multilang filter
 
 1. Your site administrator must enable the [Moodle multi-language content filter](http://docs.moodle.org/en/Multi-language_content_filter).
 2. The multi-language content filter must be applied before the MathJax filter, otherwise strange results will occur.

@@ -1,8 +1,8 @@
 # Compiling Maxima from source.
 
-You are strongly advised to read the installation instructions for the various components you need!
-
 As of 21st Dec 2015 the following has been used to compile Maxima from source.
+
+If you compile Maxima from source you _must_ include unicode support. This is essential even if you only use Maxima in English.  Students' answers, and teacher's content, increasingly uses unicode which inevitably passes through Maxima.
 
 ### You will need the following, and GNU autotools 
 

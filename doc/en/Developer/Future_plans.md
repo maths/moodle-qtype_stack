@@ -1,10 +1,8 @@
 # Future plans
 
-How to report bugs and make suggestions is described on the [community](../About/Community.md) page.
-
 Note, where the feature is listed as "(done)" means we have prototype code in the testing phase.
 
-## Features to add for STACK 4.5 or later ##
+## Features to add later ##
 
 ### Units inputs ###
 
@@ -36,6 +34,7 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
 
 ### Other ideas ###
 
+* How can we _easily_ allow teachers to set/override this option for imported materials?
 * Document ways of using JSXGraph  `http://jsxgraph.org` for better support of graphics.
 * Better options for automatically generated plots.  (Aalto use of tikzpicture?)  (Draw package?)
 * 3D Graphics.  Can we use: https://threejs.org/
@@ -71,7 +70,6 @@ Note, where the feature is listed as "(done)" means we have prototype code in th
   * WIRIS
 * Possible Maxima packages:
   * Better support for rational expressions, in particular really firm up the PartFrac and SingleFrac functions with better support.
-* Auto deploy.  E.g. if the first variable in the question variables is a single a:rand(n), then loop a=0..(n-1).
 * When validating the editing form, also evaluate the Maxima code in the PRTs, using the teacher's model answers.
 
 
@@ -146,7 +144,7 @@ Basic reports now work.
 * DONE: Compile some more detailed release notes for new version containing common issues with questions.
 * MathJax sometimes stops rendering -- this is usually an issue with the html in the question text or something being added to the editor, but sometimes this is an intermittent issue, but this is probably not directly a STACK issue.
 * Accessing Moodle via an LTI connection sometimes prompts students on Macs and old PCs to login with a password (which they don't have) when they click on a quiz. This isn't a direct STACK issue, but it would be a good idea to raise this on Moodle support forums.
-* May want to improve the question tests page -- make sure most useful features are highlighted. For example, make it more clear when a specific variant is being considered, and when all variants are being looked at. After an individual variant is undeployed, it still shows test information for this seed on the page, requiring a few extra clicks to switch to a different seed (though that makes it easier to restore that seed if you accidently undeploy it).
+* DONE:  Improve the question tests page (now "STACK question dashboard") -- make sure most useful features are highlighted. For example, make it more clear when a specific variant is being considered, and when all variants are being looked at. After an individual variant is undeployed, it still shows test information for this seed on the page, requiring a few extra clicks to switch to a different seed (though that makes it easier to restore that seed if you accidently undeploy it).
 * Forcing editor choice to prevent errors caused by editors which add in html tags (make sure it is clear to users why we do this).
 * Consider prioritising the STACK API? Documentation on this definately needs to be improved. Volunteers are probably needed to help out on this.
 * We should probably have a discussion for which individual questions are best to promote STACK.

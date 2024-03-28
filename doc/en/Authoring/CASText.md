@@ -29,7 +29,6 @@ Here is an example
     \[ \frac{\mathrm{d}}{\mathrm{d}x} \sin \left( \frac{1}{x^2+1} \right) = {@diff(sin(1/(1+x^2)),x)@} \]
     You can input this as <code>{#diff(sin(1/(1+x^2)),x)#}</code>
 
-
 ## Variables ##   {#Variables}
 
 CASText may depend on variables previously defined in the [question variables](Variables.md#Question_variables) field.
@@ -43,7 +42,7 @@ To control whether or not the CAS expressions are simplified, see the details ab
 
 The question text what the student actually sees.  This was called "question text" in previous versions.
 
-It is a slightly modified form of CAS text.  To allow a student to answer a question you must include an [inputs](Inputs.md) in the question text. For example, students need a box into which their answer will be put.
+It is a slightly modified form of CAStext.  To allow a student to answer a question you must include an [inputs](Inputs.md) in the question text. For example, students need a box into which their answer will be put.
 
 To place an [input](Inputs.md) into the question enclose the name of the [Maxima](../CAS/Maxima.md) variable to which the student's answer is assigned between inside the following tag.  If the student's answer is going to be assigned to the variable `ans1` then use the tag `[[input:ans1]]`.  You will also be required to place a corresponding tag to indicate the position of any validation feedback (whether or not this is shown to the student): `[[validation:ans1]]`.  You can use any legitimate variable name.
 
@@ -51,7 +50,7 @@ To place an [input](Inputs.md) into the question enclose the name of the [Maxima
 * When the student answers, this variable name is available to each [potential response trees](Potential_response_trees.md).
 * Inputs are created and deleted by adding appropriate tags to the question text.  Therefore, beware if you delete the tags as this will also delete the input from the question.
 
-To place another potential response tree in the question just choose a sensible name and add in a tag `[[feedback:prt1]]`.  
+To place another potential response tree in the question just choose a sensible name and add in a tag `[[feedback:prt1]]`.
 
 * These tags are replaced by appropriate feedback as necessary.  Note, if you add the feedback to the question text this will always be shown by the STACK question, regardless of the quiz settings.  You may prefer to place the tags in the "specific feedback" block of the editing form.  Availability of the specific feedback is controlled by the Moodle quiz settings.  There is some compromise here between the ability to position the feedback tags anywhere in the question text (e.g. next to a particular input) and control over when it is shown.  This is most difficult in questions with many parts.  For a single part question we recommend you use the specific feedback block.
 * Tags can be moved anywhere within the question text.
@@ -64,69 +63,29 @@ To place another potential response tree in the question just choose a sensible 
 General feedback (called "worked solution" in previous versions) is shown to the student after they have attempted the question. Unlike feedback, which depends on the response the student gave, the same general feedback text is shown to all students.
 
 The general feedback may depend on any question variables, but may _not_ depend on any of the inputs.
-While this design decision is restrictive, it is a deliberate separation of feedback
-which should be done via potential response trees, from a model solution to this
-problem which can be written before a question is deployed.
+While this design decision is restrictive, it is a deliberate separation of feedback which should be done via potential response trees, from a model solution to this problem which can be written before a question is deployed.
 
 ## CASText and currency {#currency}
 
 It is common to want to use the dollar sign for currency.  However, this conflicts with the use of the dollar sign for delimiters for mathematics.  For this reason we discourage the use of dollars to delimit mathematics in STACK.
 
-* If you are using dollars for currency then you must protect them with a backslash, i.e. `\$`, otherwise the CASText validation will fail.
+If you are using dollars for currency then you must protect them with a backslash, i.e. `\$`, otherwise the CASText validation will fail.
 
 ## Facts ##
 
-STACK has an in-built formula sheet.  This used to be called a "hints" system, but the word hint is used elsewhere in Moodle so this is now called "facts".  Parts of this can be added to CASText  using the [fact sheet](Fact_sheets.md)
+STACK has an in-built formula sheet.  This used to be called a "hints" system, but the word hint is used elsewhere in Moodle so this is now called "facts".  Parts of this can be added to CASText using the [fact sheet](Fact_sheets.md)
 
-## Most useful HTML ##
+## Reference materials ##
 
-HTML Paragraphs (don't forget the end tag!)
+HTML and LaTeX are needed for authoring STACK questions, and some basic reference materials is give elsewhere.
 
-    <p>This is a paragraph</p>
-    <p>This is another paragraph</p>
-
-HTML Line Breaks
-
-Use the `<br />` tag if you want a line break (a new line) without starting a new paragraph:
-
-    <p>This is<br />a para<br />graph with line breaks</p>
-
-Some formatting
-
-    <em>This is emphasis</em>
-    
-    <b>This text is bold</b>
-    
-    <big>This text is big</big>
-    
-    <i>This text is italic</i>
-    
-    <code>This is computer output</code>
-    
-    This is <sub>subscript</sub> and <sup>superscript</sup>
-
-## Useful LaTeX ##
-
-LaTeX notation can specify inline or display mode for maths by delimiting with `\(` or `\[` respectively.  Here are some simple examples:
-
-* `x^2` gives \(x^2\)
-* `x_n` gives \(x_n\)
-* `x^{2x}` gives \(x^{2x}\)
-* `\alpha\beta` gives \(\alpha\beta\)
-* `\sin(3\pi x)` gives \(\sin(3\pi x)\)
-* `\frac{1}{1-n^2}` gives \(\frac{1}{1-n^2}\) when inline.  In display mode it gives:
-
-\[ \frac{1}{1-n^2} \]
-
-* `\int_a^b x^2\ dx` gives \(\int_a^b x^2\ dx\) when inline.  In display mode it gives:
-
-\[ \int_a^b x^2\ dx \]
-
-There is a specific page for [actuarial notation](Actuarial.md).
+* Some basic [HTML](../Reference/HTML.md) examples.
+* Some basic [LaTeX](../Reference/Latex.md) examples.
+* There is a specific page for [actuarial notation](../Reference/Actuarial.md).
 
 ## CASText generating functions ##
 
-If a CASText area is to include several copies of repeatative content, for instance several versions of some text (or a SVG graphic) containing 
+If a CASText area is to include several copies of repetitive content, for instance several versions of some text (or a SVG graphic) containing
 different parameters, it is possible to define a CASText generating function within the Question variables using the STACK function `castext`.
 
 For example, within the [Question variables](Variables.md) section, define
@@ -140,6 +99,7 @@ This can then be used several times within any CASText area:
     {@explanation(c,d)@}
 
 #### Notes ####
+
 * The argument of castext must be a single atomic string, not a reference to one but a static string value.
 * Since Maxima does not require new lines to be escaped, new lines can be started within the `castext` string argument.
 * Care needs to be taken with any quotation marks within the castext argument. For HTML attributes within such text, use `'...'` .
@@ -151,4 +111,3 @@ The [Google charts](http://code.google.com/apis/chart/) API can be used to creat
 
 ![](http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:100,100,0,50&chdl=A|B)
 
-Details are given in the section on [plots](../CAS/Plots.md#google).

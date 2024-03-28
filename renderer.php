@@ -206,6 +206,10 @@ class qtype_stack_renderer extends qtype_renderer {
             $question->castextprocessor = new castext2_qa_processor($qa);
         }
 
+        if ($question->specificfeedbackinstantiated === null) {
+            // Invalid question, otherwise this would be here.
+            return '';
+        }
         $feedbacktext = $question->specificfeedbackinstantiated->get_rendered($question->castextprocessor);
         if (!$feedbacktext) {
             return '';
@@ -518,6 +522,23 @@ class qtype_stack_renderer extends qtype_renderer {
                 $question->get_generalfeedback_castext()->get_rendered($question->castextprocessor), $this),
                 FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
                 $qa, 'question', 'generalfeedback', $question->id);
+    }
+
+    public function question_description(question_attempt $qa) {
+        $question = $qa->get_question();
+        if (empty($question->questiondescription)) {
+            return '';
+        }
+
+        // If called out of order.
+        if ($question->castextprocessor === null) {
+            $question->castextprocessor = new castext2_qa_processor($qa);
+        }
+
+        return $qa->get_question()->format_text(stack_maths::process_display_castext(
+            $question->get_questiondescription_castext()->get_rendered($question->castextprocessor), $this),
+            FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
+            $qa, 'qtype_stack', 'questiondescription', $question->id);
     }
 
     /**

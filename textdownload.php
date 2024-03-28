@@ -59,7 +59,17 @@ $qa = $dm->load_question_attempt($qaid);
 $question = $qa->get_question();
 $question->apply_attempt_state($qa->get_step(0));
 
-if (!stack_user_can_view_question($question)) {
+// We have a slight problem accessing the user connected to that attempt and
+// therefore this will only work with `quiz` type activities for now.
+$params = [$qa->get_usage_id(), 'mod_quiz'];
+$tmp = $DB->get_record_sql('SELECT qas.userid FROM {quiz_attempts} qas, {question_usages} qu ' .
+    'WHERE qu.id = ? AND qu.component = ? AND qu.id = qas.uniqueid;', $params, IGNORE_MISSING);
+$usageuser = -1;
+if ($tmp !== false) {
+    $usageuser = $tmp->userid;
+}
+
+if (!(stack_user_can_view_question($question) || $USER->id === $usageuser)) {
     header('HTTP/1.0 403 Forbidden');
     header('Content-Type: text/plain;charset=UTF-8');
     echo 'This question is not accessible for the active user';
@@ -69,7 +79,7 @@ if (!stack_user_can_view_question($question)) {
 \core\session\manager::write_close();
 
 // Make sure that the cache is good, as this is one of those places where
-// the identifier for the cached item comes from outside we cannot
+// the identifier for the cached item comes from outside and we cannot
 // cannot directly ask for it as that would allow people to force the cache
 // to be regenerated.
 
@@ -97,7 +107,7 @@ $ses->add_statement($ct);
 if (!$ses->get_valid()) {
     header('HTTP/1.0 500 Internal Server Error');
     header('Content-Type: text/plain;charset=UTF-8');
-    echo 'Unknown issue related to the generation of this data';
+    echo 'Unknown issue related to the generation of this data.';
     die();
 }
 

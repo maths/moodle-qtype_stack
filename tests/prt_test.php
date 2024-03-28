@@ -147,6 +147,7 @@ class prt_test extends qtype_stack_testcase {
         $session->add_statement($prtev);
         $session->instantiate();
 
+        $this->assertEquals(array(), $prtev->get_errors(''));
         $this->assertEquals(1, $prtev->get_score());
         $expected = 'Yeah!';
         $this->assertEquals($expected, $prtev->get_feedback());
@@ -284,12 +285,97 @@ class prt_test extends qtype_stack_testcase {
         $session->add_statement($prtev);
         $session->instantiate();
 
+        $this->assertEquals(array(), $prtev->get_errors(''));
         $this->assertEquals(0.7, $prtev->get_score());
         $expected = 'Wait for it... Yeah good!';
         $this->assertEquals($expected, $prtev->get_feedback());
         $this->assertEquals(array('1-0-0', '1-1-1'), $prtev->get_answernotes());
         $expected = array('sa1:1/(2-ans1);', '/* ------------------- */', 'ATAlgEquiv(sa1,1);',
             'ATAlgEquiv(1/(1+ans1),1/3);', '/* ------------------- */', 'prt_multiprt(ans1);');
+        $this->assertEquals($expected, $prtev->get_trace());
+    }
+
+    public function test_runtime_score_error() {
+
+        $newprt = new stdClass;
+        $newprt->name = 'testprt';
+        $newprt->id = '0';
+        $newprt->value = 5;
+        $newprt->feedbackstyle = 1;
+        $newprt->feedbackvariables = null;
+        $newprt->firstnodename = '0';
+        $newprt->nodes = [];
+        $newprt->autosimplify = true;
+
+        $node = $this->create_default_node();
+        $node->id              = '0';
+        $node->sans            = 'sans';
+        $node->tans            = '(x+1)^3/3+c';
+        $node->answertest      = 'Int';
+        $node->testoptions     = 'x';
+        // Add in an un-evaluated variable name.
+        $node->truescore       = 'score1';
+        $node->truefeedback    = 'Yeah!';
+        $node->trueanswernote  = '1-0-1';
+        $node->falsefeedback   = 'Boo!';
+        $node->falseanswernote = '1-0-0';
+        $newprt->nodes[] = $node;
+
+        $prt = new stack_potentialresponse_tree_lite($newprt, 5);
+
+        $this->assertFalse($prt->is_formative());
+        $this->assertEquals(array('Int' => true), $prt->get_answertests());
+        $expected = array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0');
+        $this->assertEquals($expected, $prt->get_all_answer_notes());
+
+        // For $inputs we only need the names of the inputs, not the full inputs.
+        $inputs = array('sans' => true);
+        $boundvars = array();
+        $defaultpenalty = 0.1;
+        $security = new stack_cas_security();
+        $pathprefix = '/p/' . '0';
+        $sig = $prt->compile($inputs, $boundvars, $defaultpenalty, $security, $pathprefix, null);
+
+        // A correct answer should generate a runtime error.
+        $inputs = array('sans' => '(x+1)^3/3+c');
+
+        $session = new stack_cas_session2([], new stack_options(), 123);
+        // Add preamble from PRTs as well.
+        if ($sig['be'] != '') {
+            $session->add_statement(new stack_secure_loader($sig['be'], 'preamble PRT: ' . $prt->get_name()));
+        }
+        if ($sig['cv'] != '') {
+            $session->add_statement(new stack_secure_loader($sig['cv'], 'contextvariables PRT: ' . $prt->get_name()));
+        }
+        // The prt definition itself.
+        $session->add_statement(new stack_secure_loader($sig['def'], 'definition PRT: ' . $prt->get_name()));
+        // Suppress simplification of raw inputs.
+        $session->add_statement(new stack_secure_loader('simp:false', 'input-simplification'));
+        $is = '_INPUT_STRING:["stack_map"';
+        foreach ($inputs as $key => $value) {
+            $session->add_statement(new stack_secure_loader($key . ':' . $value, 'input ' . $key));
+            $is .= ',[' . stack_utils::php_string_to_maxima_string($key) . ',';
+            if (strpos($value, 'ev(') === 0) { // Unpack the value if we have simp...
+                $is .= stack_utils::php_string_to_maxima_string(mb_substr($value, 3, -6)) . ']';
+            } else {
+                $is .= stack_utils::php_string_to_maxima_string($value) . ']';
+            }
+        }
+        $is .= ']';
+        $session->add_statement(new stack_secure_loader($is, 'input-strings'));
+        $prtev = new prt_evaluatable($sig['sig'], 1, new castext2_static_replacer([]), $prt->get_trace());
+        $session->add_statement(new stack_secure_loader('simp:false', 'prt-simplification'));
+        $session->add_statement($prtev);
+        $session->instantiate();
+
+        $this->assertEquals(0, $prtev->get_score());
+        $expected = array('The score was not fully evaluated to a numerical value (check variable names).');
+        $this->assertEquals($expected, $prtev->get_errors());
+        $expected = 'Yeah!';
+        $this->assertEquals($expected, $prtev->get_feedback());
+        $this->assertEquals(array('ATInt_true.', '1-0-1'), $prtev->get_answernotes());
+        $expected = array('ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
+            'prt_testprt(sans);');
         $this->assertEquals($expected, $prtev->get_trace());
     }
 }

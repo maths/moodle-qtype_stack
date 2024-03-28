@@ -12,7 +12,7 @@ As arguments, the `%union` command can take both simple intervals and sets of di
 
     %union(oo(-inf,0),{1},oo(2,3));
 
-Similarly, STACK provides `%intersection` to represent an intersection of intervals (which the package `to_poly_solve` does not have). 
+Similarly, STACK provides `%intersection` to represent an intersection of intervals (which the package `to_poly_solve` does not have).
 
 Predicate functions
 
@@ -54,7 +54,7 @@ is displayed as \(x \not\in\{0\}\).
 
 Students must simply type `union` (not `%union`) etc.
 
-Validation of students' answer has a very loose sense of "type".  When we are checking the "type" of answer, if the teacher's answer is a "set" then the student's answer should also be a "set" (see `setp`).  If the teacher's answer is acually a set in the context where an interval should be considered valid, then the teacher's answer should be the inert function `%union`, e.g. `%union({1,2,3})`, to bump the type of the teacher's answer away from set and into `realset`.
+Validation of students' answer has a very loose sense of "type".  When we are checking the "type" of answer, if the teacher's answer is a "set" then the student's answer should also be a "set" (see `setp`).  If the teacher's answer is actually a set in the context where an interval should be considered valid, then the teacher's answer should be the inert function `%union`, e.g. `%union({1,2,3})`, to bump the type of the teacher's answer away from set and into `realset`.
 
 Validation does some simple checks, so that mal-formed intervals such as `oo(1)` and `oo(4,3)` are rejected as invalid.
 

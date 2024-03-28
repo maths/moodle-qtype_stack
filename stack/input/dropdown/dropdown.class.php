@@ -67,12 +67,23 @@ class stack_dropdown_input extends stack_input {
      */
     protected $teacheranswerdisplay = '';
 
-    protected function internal_contruct() {
+    protected function internal_construct() {
         $options = $this->get_parameter('options');
-        if (trim($options) != '') {
+        if ($options != null && trim($options) != '') {
             $options = explode(',', $options);
             foreach ($options as $option) {
                 $option = strtolower(trim($option));
+
+                list($opt, $arg) = stack_utils::parse_option($option);
+                if (array_key_exists($opt, $this->extraoptions)) {
+                    if ($arg === '') {
+                        // Extra options with no argument set a Boolean flag.
+                        $this->extraoptions[$opt] = true;
+                    } else {
+                        $this->extraoptions[$opt] = $arg;
+                    }
+                    break;
+                }
 
                 switch($option) {
                     // Does a student see LaTeX or cassting values?
@@ -254,7 +265,6 @@ class stack_dropdown_input extends stack_input {
          * of the correct responses.  So, we create $this->teacheranswervalue to be a Maxima
          * list of the values of those things the teacher said are correct.
          */
-
         if ($this->ddltype == 'checkbox') {
             $this->teacheranswervalue = '['.implode(',', $correctanswer).']';
             $this->teacheranswerdisplay = '<code>'.'['.implode(',', $correctanswerdisplay).']'.'</code>';
@@ -493,8 +503,33 @@ class stack_dropdown_input extends stack_input {
      * The dropdown type needs to intercept this to filter the correct answers.
      * @param unknown_type $in
      */
-    public function get_correct_response($in) {
-        $this->adapt_to_model_answer($in);
+    public function get_correct_response($value) {
+        // TODO: refactor this ast creation away.
+        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
+        $cs->set_nounify(0);
+        $val = '';
+        
+        $decimal = '.';
+        $listsep = ',';
+        if ($this->options->get_option('decimals') === ',') {
+            $decimal = ',';
+            $listsep = ';';
+        }
+        $params = array('checkinggroup' => true,
+            'qmchar' => false,
+            'pmchar' => 1,
+            'nosemicolon' => true,
+            'keyless' => true,
+            'dealias' => false, // This is needed to stop pi->%pi etc.
+            'nounify' => 1, // We need to add nouns for checkboxes, e.g. %union.
+            'nontuples' => false,
+            'decimal' => $decimal,
+            'listsep' => $listsep
+        );
+        if ($cs->get_valid()) {
+            $value = $cs->ast_to_string(null, $params);
+        }
+        $this->adapt_to_model_answer($value);
         return $this->maxima_to_response_array($this->teacheranswervalue);
     }
 
@@ -529,6 +564,9 @@ class stack_dropdown_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        if ($this->get_extra_option('hideanswer')) {
+            return '';
+        }
         // Can we really ignore the $value and $display inputs here and rely on the internal state?
         return stack_string('teacheranswershow_mcq', array('display' => $this->teacheranswerdisplay));
     }

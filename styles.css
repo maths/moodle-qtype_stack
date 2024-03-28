@@ -1,3 +1,16 @@
+/* Style for hint question block */
+details.stack-hint {
+    padding: 2px;
+    display: block;
+    border: 1px solid #ccc;
+    background-color: #f2f2f2;
+    width: fit-content;
+}
+
+div.stack-hint-content {
+    padding: 10px;
+}
+
 /* Styles used when questions are being attempted. */
 .que.stack .stackruntimeerrror {
     color: #c02200;
@@ -29,6 +42,7 @@
 .que.stack .stackinputfeedback.compact {
     margin: 3px 3px 3px;
     display: inline-block;
+    vertical-align: top;
     background-color: white;
     border: 1px solid #ccc;
     padding: 0.3em;
@@ -81,6 +95,7 @@ textarea[name=maximavars] {
 .que.stack input[type=text] {
     max-width: 100%;
 }
+.que.stack .geogebra-right,
 .que.stack .numerical-right,
 .que.stack .algebraic-right,
 .que.stack .algebraic-units-right {
@@ -93,6 +108,7 @@ textarea[name=maximavars] {
     margin: 0.2em -0.2em 0.5em;
     padding: 0.2em 0.5em 0.2em 0.2em;
     display: inline-block;
+    vertical-align: top;
 }
 .que.stack .formulation .stackprtfeedback .correct,
 .que.stack .formulation .stackprtfeedback .partiallycorrect,
@@ -1101,33 +1117,33 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /* It's supposed to look like a tree diagram. */
-.tree,
-.tree ul,
-.tree li {
+.algebratree,
+.algebratree ul,
+.algebratree li {
     list-style: none;
     margin: 0;
     padding: 0;
     position: relative;
 }
 
-.tree {
+.algebratree {
     margin: 0 0 1em;
     text-align: center;
 }
-.tree,
-.tree ul {
+.algebratree,
+.algebratree ul {
     display: table;
 }
-.tree ul {
+.algebratree ul {
     width: 100%;
 }
-.tree li {
+.algebratree li {
     display: table-cell;
     padding: .5em 0;
     vertical-align: top;
 }
 /* _________ */
-.tree li:before {
+.algebratree li:before {
     outline: solid 1px #666;
     content: "";
     left: 0;
@@ -1135,16 +1151,16 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     right: 0;
     top: 0;
 }
-.tree li:first-child:before {
+.algebratree li:first-child:before {
     left: 50%;
 }
-.tree li:last-child:before {
+.algebratree li:last-child:before {
     right: 50%;
 }
-.tree span.atom,
-.tree span.op,
-.tree span.cell,
-.tree code {
+.algebratree span.atom,
+.algebratree span.op,
+.algebratree span.cell,
+.algebratree code {
     border: solid .1em #666;
     border-radius: .2em;
     display: inline-block;
@@ -1153,47 +1169,47 @@ USE OR OTHER DEALINGS IN THE SOFTWARE.
     position: relative;
 }
 /* If the tree represents DOM structure. */
-.tree span.atom {
+.algebratree span.atom {
     border-radius: .5em;
     color: DarkRed;
     background-color: LightCyan;
 }
-.tree code,
-.tree span.op {
+.algebratree code,
+.algebratree span.op {
     border-radius: .2em;
     color: Red;
     background-color: LemonChiffon;
 }
 /* | */
-.tree ul:before,
-.tree span.atom:before,
-.tree span.op:before,
-.tree span.cell:before,
-.tree code:before {
+.algebratree ul:before,
+.algebratree span.atom:before,
+.algebratree span.op:before,
+.algebratree span.cell:before,
+.algebratree code:before {
     outline: solid 1px #666;
     content: "";
     height: .5em;
     left: 50%;
     position: absolute;
 }
-.tree ul:before {
+.algebratree ul:before {
     top: -.5em;
 }
-.tree span.atom:before,
-.tree span.op:before,
-.tree span.cell:before,
-.tree code:before {
+.algebratree span.atom:before,
+.algebratree span.op:before,
+.algebratree span.cell:before,
+.algebratree code:before {
     top: -.55em;
 }
 /* The root node doesn't connect upwards. */
-.tree > li {
+.algebratree > li {
     margin-top: 0;
 }
-.tree > li:before,
-.tree > li:after,
-.tree > li > span.atom:before,
-.tree > li > span.op:before,
-.tree > li > span.cell:before,
-.tree > li > code:before {
+.algebratree > li:before,
+.algebratree > li:after,
+.algebratree > li > span.atom:before,
+.algebratree > li > span.op:before,
+.algebratree > li > span.cell:before,
+.algebratree > li > code:before {
     outline: none;
 }

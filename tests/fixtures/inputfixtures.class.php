@@ -37,10 +37,19 @@ class stack_inputvalidation_test_data {
     const ANSNOTES      = 5;
     const NOTES         = 6;
 
+    const BRITISH       = 1;
+    const CONTINENTIAL  = 2;
+
+
     protected static $rawdata = array(
 
         array('123', 'php_true', '123', 'cas_true', '123', '', ""),
         array('x', 'php_true', 'x', 'cas_true', 'x', '', ""),
+        // We map \ud835\udc00 to \u1D400 by hand because PHP!
+        array("\u{1D400}", 'php_true', 'A', 'cas_true', 'A', '', ""),
+        array("\u{1D435}", 'php_true', 'B', 'cas_true', 'B', '', ""),
+        array("\u{03c0}\u{00d7}r^2", 'php_true', 'pi*r^2', 'cas_true', '\pi\cdot r^2', '', ""),
+        array("\u{1F497}", 'php_false', '', '', '', 'forbiddenChar', ""),
         array('xy', 'php_true', 'xy', 'cas_true', '{\it xy}', '', "This is a single variable name, not a product."),
         array('x+1', 'php_true', 'x+1', 'cas_true', 'x+1', '', ""),
         array('x+ 1', 'php_true', 'x+1', 'cas_true', 'x+1', '', ""),
@@ -71,6 +80,7 @@ class stack_inputvalidation_test_data {
         array('j', 'php_true', 'j', 'cas_true', 'j', '',
             "Can define \(j^2=-1\) as an option, or a vector unit.  By default a variable, so italic."),
         array('inf', 'php_true', 'inf', 'cas_true', '\infty', '', ""),
+        array("\u{221e}", 'php_true', 'inf', 'cas_true', '\infty', '', ""),
 
         // Different version of Maxima (LISP?) use 1E3 or 1e3.
         array('1E+3', 'php_true', '1E+3', 'cas_true', '1.0E+3', '', "Scientific notation"),
@@ -87,10 +97,10 @@ class stack_inputvalidation_test_data {
         array('true', 'php_true', 'true', 'cas_true', '\mathbf{True}', '', "Booleans"),
         array('false', 'php_true', 'false', 'cas_true', '\mathbf{False}', '', ""),
         array('"1+1"', 'php_true', '"1+1"', 'cas_true', '\mbox{1+1}', '',
-        "Strings - generally discouraged in STACK.  Note, this is a string within a mathematical expression, not literally 1+1."),
+        "Strings - generally discouraged.  Note, this is a string within a mathematical expression, not literally 1+1."),
         array('"Hello world"', 'php_true', '"Hello world"', 'cas_true', '\mbox{Hello world}', '', ''),
+        // In the continuous integration, "\"We \u{1F497} STACK!\" works with GCL but not with SBCL.
         array('x', 'php_true', 'x', 'cas_true', 'x', '', "Names for variables etc."),
-
         array('a1', 'php_true', 'a*1', 'cas_true', 'a\cdot 1', 'missing_stars', ""),
         array('a12', 'php_true', 'a*12', 'cas_true', 'a\cdot 12', 'missing_stars', ""),
         array('ab123', 'php_true', 'ab*123', 'cas_true', '{\it ab}\cdot 123', 'missing_stars', ""),
@@ -124,6 +134,9 @@ class stack_inputvalidation_test_data {
         array('[[1,2],[3,4]]', 'php_true', '[[1,2],[3,4]]', 'cas_true',
                 '\left[ \left[ 1 , 2 \right] , \left[ 3 , 4 \right] \right]', '', ""),
         array('{}', 'php_true', '{}', 'cas_true', '\left \{ \right \}', '', "Sets"),
+        array("\u{2205}", 'php_true', '{}', 'cas_true', '\left \{ \right \}', '', ""),
+        array("\u{29b0}", 'php_true', '{}', 'cas_true', '\left \{ \right \}', '', ""),
+        array("{\u{2205}}", 'php_true', '{{}}', 'cas_true', '\left \{\left \{ \right \} \right \}', '', ""),
         array('{1}', 'php_true', '{1}', 'cas_true', '\left \{1 \right \}', '', ""),
         array('{1,2,3.4}', 'php_true', '{1,2,3.4}', 'cas_true', '\left \{1 , 2 , 3.4 \right \}', '', ""),
         array('{x, y, z }', 'php_true', '{x,y,z}', 'cas_true', '\left \{x , y , z \right \}', '', ""),
@@ -171,6 +184,7 @@ class stack_inputvalidation_test_data {
             "Operations: there are options on how this is displayed, either as \(x\cdot y\), \(x\\times y\), or as \(x\, y\)."),
         array('x + y', 'php_true', 'x+y', 'cas_true', 'x+y', '', ""),
         array('x - y', 'php_true', 'x-y', 'cas_true', 'x-y', '', ""),
+        array("x \u{2052} y", 'php_true', 'x-y', 'cas_true', 'x-y', '', ""),
         array('x / y', 'php_true', 'x/y', 'cas_true', '\frac{x}{y}', '', ""),
         array('x ^ y', 'php_true', 'x^y', 'cas_true', 'x^{y}', '', ""),
         array('x < y', 'php_true', 'x < y', 'cas_true', 'x < y', '', ""),
@@ -185,9 +199,11 @@ class stack_inputvalidation_test_data {
         array('x <= y', 'php_true', 'x <= y', 'cas_true', 'x\leq y', '',
         "Inequalities in various forms."),
         array('x >= y', 'php_true', 'x >= y', 'cas_true', 'x\geq y', '', ""),
+        array("x \u{2265} y", 'php_true', 'x >= y', 'cas_true', 'x\geq y', '', ""),
         array('x => y', 'php_false', 'x=>y', '', '', 'backward_inequalities', ""),
         array('x => and x<1', 'php_false', 'x => and x<1', '', '', 'backward_inequalities', ""),
         array('x<1 and x>1', 'php_true', 'x < 1 and x > 1', 'cas_true', 'x < 1\,{\mbox{ and }}\, x > 1', '', ""),
+        array("A<1 \u{22c1} B>1", 'php_false', 'A < 1 or B > 1', 'cas_true', '', 'forbiddenChar', ""),
         array('x>1 or (x<1 and t<sin(x))', 'php_true', 'x > 1 or (x < 1 and t < sin(x))', 'cas_true',
                 'x > 1\,{\mbox{ or }}\, x < 1\,{\mbox{ and }}\, t < \sin \left( x \right)', '', ""),
         array('x>1 and (x<1 or t<sin(x))', 'php_true', 'x > 1 and (x < 1 or t < sin(x))', 'cas_true',
@@ -219,6 +235,8 @@ class stack_inputvalidation_test_data {
         array('x+(y^z)', 'php_true', 'x+(y^z)', 'cas_true', 'x+y^{z}', '', ""),
         array('x-(y+z)', 'php_true', 'x-(y+z)', 'cas_true', 'x-\left(y+z\right)', '', ""),
         array('(x-y)+z', 'php_true', '(x-y)+z', 'cas_true', 'x-y+z', '', ""),
+        array('3*(x-2)^2+1', 'php_true', '3*(x-2)^2+1', 'cas_true', '3\cdot {\left(x-2\right)}^2+1', '', ""),
+        array("3*\u{FF08}x-2\u{FF09}^2+1", 'php_true', '3*(x-2)^2+1', 'cas_true', '3\cdot {\left(x-2\right)}^2+1', '', ""),
         array('x^(-(y+z))', 'php_true', 'x^(-(y+z))', 'cas_true', 'x^ {- \left(y+z\right) }', '', ""),
         array('x^(-y)', 'php_true', 'x^(-y)', 'cas_true', 'x^ {- y }', '', ""),
         array('x^-y', 'php_true', 'x^-y', 'cas_true', 'x^ {- y }', '', ""),
@@ -280,6 +298,7 @@ class stack_inputvalidation_test_data {
         array('psi', 'php_true', 'psi', 'cas_true', '\psi', '', "The derivative of \(\log (\gamma (x))\) of order \(n+1\)."),
         array('omega', 'php_true', 'omega', 'cas_true', '\omega', '', ""),
         array('p=?*s', 'php_true', 'p = ?*s', 'cas_true', 'p=\color{red}{?}\cdot s', '', "Question marks"),
+        array('"WA?@AAA@AA"', 'php_true', '"WA?@AAA@AA"', 'cas_true', '\mbox{WA?@AAA@AA}', '', ""),
         array('(x+2)3', 'php_true', '(x+2)*3', 'cas_true', '\left(x+2\right)\cdot 3', 'missing_stars', "Implicit multiplication"),
         array('(x+2)y', 'php_true', '(x+2)*y', 'cas_true', '\left(x+2\right)\cdot y', 'missing_stars', ""),
         array('3(x+1)', 'php_true', '3*(x+1)', 'cas_true', '3\cdot \left(x+1\right)', 'missing_stars', ""),
@@ -326,6 +345,7 @@ class stack_inputvalidation_test_data {
         array('-pi', 'php_true', '-pi', 'cas_true', '-\pi', '', ""),
         array('-i', 'php_true', '-i', 'cas_true', '-\mathrm{i}', '', ""),
         array('-x', 'php_true', '-x', 'cas_true', '-x', '', ""),
+        array("\u{2212}x", 'php_true', '-x', 'cas_true', '-x', '', ""),
         array('-x[3]', 'php_true', '-x[3]', 'cas_true', '-x_{3}', '', ""),
         array('(-1)', 'php_true', '(-1)', 'cas_true', '-1', '', ""),
         array('[-1,-2]', 'php_true', '[-1,-2]', 'cas_true', '\left[ -1 , -2 \right]', '', ""),
@@ -353,8 +373,6 @@ class stack_inputvalidation_test_data {
         array('root(x)', 'php_true', 'root(x)', 'cas_true', '\sqrt{x}', '', ''),
         array('root(x,3)', 'php_true', 'root(x,3)', 'cas_true', 'x^{\frac{1}{3}}', '', ''),
         array('root(2,-3)', 'php_true', 'root(2,-3)', 'cas_true', '2^{\frac{1}{-3}}', '', ''),
-        array('conjugate(x)', 'php_true', 'conjugate(x)', 'cas_true', 'x^\star', '', ''),
-        array('conjugate(x)^2', 'php_true', 'conjugate(x)^2', 'cas_true', '{x^\star}^2', '', ''),
         // Parser rules in 4.3, identify cases where known functions (cf) are prefixed with single letter variables.
         array('bsin(t)', 'php_true', 'b*sin(t)', 'cas_true', 'b\cdot \sin \left( t \right)', 'missing_stars', ""),
         // So we have added gcf as a function so it is not g*cf...
@@ -383,6 +401,8 @@ class stack_inputvalidation_test_data {
         array('(x/y)/z', 'php_true', '(x/y)/z', 'cas_true', '\frac{\frac{x}{y}}{z}', '', ""),
         array('x/(y/z)', 'php_true', 'x/(y/z)', 'cas_true', '\frac{x}{\frac{y}{z}}', '', ""),
         array('x^y', 'php_true', 'x^y', 'cas_true', 'x^{y}', '', "Operations and functions with special TeX"),
+        array("x\u{00b2}", 'php_false', '', 'cas_false', '', 'forbiddenChar', ""),
+        array("x\u{00b2}*x\u{00b2}", 'php_false', '', 'cas_false', '', 'forbiddenChar', ""),
         array('x^(y+z)', 'php_true', 'x^(y+z)', 'cas_true', 'x^{y+z}', '', ""),
         array('x^(y/z)', 'php_true', 'x^(y/z)', 'cas_true', 'x^{\frac{y}{z}}', '', ""),
         array('x^f(x)', 'php_true', 'x^f(x)', 'cas_true', 'x^{f\left(x\right)}', '', ""),
@@ -391,6 +411,13 @@ class stack_inputvalidation_test_data {
         array('x*2^y', 'php_true', 'x*2^y', 'cas_true', 'x\cdot 2^{y}', '', ""),
         array('2^y*x', 'php_true', '2^y*x', 'cas_true', '2^{y}\cdot x', '', ""),
         array('2*pi', 'php_true', '2*pi', 'cas_true', '2\cdot \pi', '', ""),
+        // Example of unicode letter replacement.
+        array("\u{213c}", 'php_true', 'pi', 'cas_true', '\pi', '', ""),
+        array("2*\u{213c}", 'php_true', '2*pi', 'cas_true', '2\cdot \pi', '', ""),
+        array("2*\u{213c}*n", 'php_true', '2*pi*n', 'cas_true', '2\cdot \pi\cdot n', '', ""),
+        array("2\u{213c}", 'php_true', '2*pi', 'cas_true', '2\cdot \pi', 'missing_stars', ""),
+        // We've chosen to replace the unicode pi with the litteral pi to create the variable name "pin" here.
+        array("2\u{213c}n", 'php_false', '2*pin', 'cas_true', '', 'missing_stars | forbiddenVariable', ""),
         array('2*e', 'php_true', '2*e', 'cas_true', '2\cdot e', '', ""),
         array('e*2', 'php_true', 'e*2', 'cas_true', 'e\cdot 2', '', ""),
         array('pi*2', 'php_true', 'pi*2', 'cas_true', '\pi\cdot 2', '', ""),
@@ -457,6 +484,7 @@ class stack_inputvalidation_test_data {
         array('arsinh(x)', 'php_true', 'asinh(x)', 'cas_true', '{\rm sinh}^{-1}\left( x \right)', 'triginv', ""),
         array('sin^-1(x)', 'php_false', 'sin^-1(x)', 'cas_false', '', 'missing_stars | trigexp', ""),
         array('cos^2(x)', 'php_false', 'cos^2(x)', 'cas_false', '', 'missing_stars | trigexp', ""),
+        array("sin\u{00b2}(x)", 'php_false', 'sin^2(x)', 'cas_false', '', 'forbiddenChar', ""),
         array('sin*2*x', 'php_false', 'sin*2*x', 'cas_false', '', 'forbiddenVariable', ""),
         array('sin[2*x]', 'php_false', 'sin[2*x]', 'cas_false', '', 'trigparens', ""),
         array('cosh(x)', 'php_true', 'cosh(x)', 'cas_true', '\cosh \left( x \right)', '', ""),
@@ -472,6 +500,7 @@ class stack_inputvalidation_test_data {
         array('a^-b', 'php_true', 'a^-b', 'cas_true', 'a^ {- b }', '', ""),
         array('e^x', 'php_true', 'e^x', 'cas_true', 'e^{x}', '', ""),
         array('%e^x', 'php_true', '%e^x', 'cas_true', 'e^{x}', '', ""),
+        array("\u{212F}^x", 'php_true', 'e^x', 'cas_true', 'e^{x}', '', ""),
         array('exp(x)', 'php_true', 'exp(x)', 'cas_true', '\exp \left( x \right)', '', ""),
         array('log(x)', 'php_true', 'log(x)', 'cas_true', '\ln \left( x \right)', '', "Natural logarithm."),
         array('ln(x)', 'php_true', 'ln(x)', 'cas_true', '\ln \left( x \right)', '', "Natural logarithm, STACK alias."),
@@ -544,12 +573,81 @@ class stack_inputvalidation_test_data {
             '\left(\pi+1\right)\, 2\, \mathrm{m}\mathrm{m}', '', ""),
     );
 
+    protected static $rawdatadecimals = array(
+        array(0 => '123',
+              '.' => array(null, 'php_true', '123', 'cas_true', '123', '', ""),
+              ',' => array(null, 'php_true', '123', 'cas_true', '123', '', "")
+             ),
+        array(0 => '1.23',
+            '.' => array(null, 'php_true', '1.23', 'cas_true', '1.23', '', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', "")
+        ),
+        array(0 => '-1.27',
+            '.' => array(null, 'php_true', '-1.27', 'cas_true', '-1.27', '', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', "")
+        ),
+        array(0 => '2.78e-3',
+            '.' => array(null, 'php_true', '2.78e-3', 'cas_true', '2.78e-3', '', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', "")
+        ),
+        array(0 => '1,23',
+            '.' => array(null, 'php_false', '', '', '', 'unencapsulated_comma', ""),
+            ',' => array(null, 'php_true', '1.23', 'cas_true', '1.23', '', "")
+        ),
+        array(0 => '-1,29',
+            '.' => array(null, 'php_false', '', '', '', 'unencapsulated_comma', ""),
+            ',' => array(null, 'php_true', '-1.29', 'cas_true', '-1.29', '', "")
+        ),
+        array(0 => '2,79e-5',
+            '.' => array(null, 'php_false', '', '', '', 'unencapsulated_comma', ""),
+            ',' => array(null, 'php_true', '2.79e-5', 'cas_true', '2.79e-5', '', "")
+        ),
+        // For students' input the character ; is forbidden, but not in this test.
+        array(0 => '1;23',
+            '.' => array(null, 'php_true', '1', 'cas_true', '1', '', ""),
+            ',' => array(null, 'php_false', '1', '', '', 'unencapsulated_comma', "")
+        ),
+        // With strict interpretation both the following are invalid.
+        array(0 => '1.2+2,3*x',
+            '.' => array(null, 'php_false', '', '', '', 'unencapsulated_comma', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', "")
+        ),
+        array(0 => '{1,23}',
+            '.' => array(null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', ""),
+            ',' => array(null, 'php_true', '{1.23}', 'cas_true', '\left \{1.23 \right \}', '', "")
+        ),
+        array(0 => '{1.23}',
+            '.' => array(null, 'php_true', '{1.23}', 'cas_true', '\left \{1.23 \right \}', '', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', "")
+        ),
+        array(0 => '{1;23}',
+            '.' => array(null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""),
+            ',' => array(null, 'php_true', '{1,23}', 'cas_true', '\left \{1 , 23 \right \}', '', "")
+        ),
+        array(0 => '{1.2,3}',
+            '.' => array(null, 'php_true', '{1.2,3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', "")
+        ),
+        array(0 => '{1,2;3}',
+            '.' => array(null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""),
+            ',' => array(null, 'php_true', '{1.2,3}', 'cas_true', '\left \{1.2 , 3 \right \}', '', ""),
+        ),
+        array(0 => '{1,2;3;4.1}',
+            '.' => array(null, 'php_false', '', '', '', 'forbiddenChar_parserError', ""),
+            ',' => array(null, 'php_false', '', '', '', 'forbiddenCharDecimal', ""),
+        )
+    );
+
     public static function get_raw_test_data() {
         return self::$rawdata;
     }
 
     public static function get_raw_test_data_units() {
         return self::$rawdataunits;
+    }
+
+    public static function get_raw_test_data_decimals() {
+        return self::$rawdatadecimals;
     }
 
     public static function test_from_raw($data, $validationmethod) {
@@ -563,6 +661,32 @@ class stack_inputvalidation_test_data {
         $test->notes            = $data[self::NOTES];
         $test->ansnotes         = $data[self::ANSNOTES];
         $test->validationmethod = $validationmethod;
+        $test->decimals         = '.';
+
+        $test->passed           = null;
+        $test->errors           = null;
+        $test->caserrors        = null;
+        $test->casdisplay       = null;
+        $test->casvalue         = null;
+        $test->casnotes         = null;
+        return $test;
+    }
+
+    public static function test_decimals_from_raw($data, $decimals) {
+
+        $test = new stdClass();
+        $test->rawstring        = $data[self::RAWSTRING];
+        $test->phpvalid         = $data[$decimals][self::PHPVALID];
+        $test->phpcasstring     = $data[$decimals][self::PHPCASSTRING];
+        $test->casvalid         = $data[$decimals][self::CASVALID];
+        $test->display          = $data[$decimals][self::DISPLAY];
+        $test->notes            = $data[$decimals][self::NOTES];
+        $test->ansnotes         = $data[$decimals][self::ANSNOTES];
+        $test->validationmethod = 'typeless';
+        $test->decimals         = '.';
+        if ($decimals === self::CONTINENTIAL) {
+            $test->decimals         = ',';
+        }
 
         $test->passed           = null;
         $test->errors           = null;
@@ -601,6 +725,8 @@ class stack_inputvalidation_test_data {
 
         // The common insert stars rules, that will be forced
         // and if you do not allow inserttion of stars then it is invalid.
+        $filterstoapply[] = '180_char_based_superscripts';
+
         $filterstoapply[] = '402_split_prefix_from_common_function_name';
         $filterstoapply[] = '404_split_at_number_letter_number_boundary';
         $filterstoapply[] = '406_split_implied_variable_names';
@@ -612,8 +738,9 @@ class stack_inputvalidation_test_data {
         // We want to apply this as our "insert stars" but not spaces...
         $filterstoapply[] = '990_no_fixing_spaces';
 
-        $cs = stack_ast_container::make_from_student_source($test->rawstring, '', new stack_cas_security(), $filterstoapply);
-        $cs->set_cas_validation_context('ans1', true, '', $test->validationmethod, false, 0);
+        $cs = stack_ast_container::make_from_student_source($test->rawstring, '', new stack_cas_security(),
+            $filterstoapply, array(), 'Root', $test->decimals);
+        $cs->set_cas_validation_context('ans1', true, '', $test->validationmethod, false, 0, '.');
 
         $phpvalid     = $cs->get_valid();
         $phpcasstring = $cs->get_inputform();

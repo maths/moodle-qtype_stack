@@ -57,8 +57,7 @@ class input_string_test extends qtype_stack_testcase {
                 .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="maxima-string" value="0" />',
                 $el->render(new stack_input_state(stack_input::VALID, array('0'), '', '', '', '', ''),
                         'stack1__ans1', false, null));
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation"><span class="nolink">' .
-                '\( \\mbox{Hello world} \)</span></span>, which can be typed in as follows: <code>Hello world</code>',
+        $this->assertEquals('The answer Hello world would be correct.',
                 $el->get_teacher_answer_display('"Hello world"', '\\mbox{Hello world}'));
     }
 
@@ -71,9 +70,7 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"Hello world"', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{Hello world} \]', $state->contentsdisplayed);
-        $this->assertEquals('A correct answer is <span class="filter_mathjaxloader_equation">' .
-                '<span class="nolink">\[ \[ \mbox{Hello world} \]</span></span> \), ' .
-                'which can be typed in as follows: <code>Hello world</code>',
+        $this->assertEquals('The answer Hello world would be correct.',
                 $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
     }
 
@@ -111,6 +108,18 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"I said \"Hello world\" to fred"', $state->contentsmodified);
         $this->assertEquals('\[ \mbox{I said "Hello world" to fred} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_qm_within_string() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('string', 'sans1', '"A random string"');
+        $el->set_parameter('sameType', true);
+        // Note here the student has used ?, $ etc. within a string.
+        $state = $el->validate_student_response(array('sans1' => 'Lots of stuff:!$%^&*?@;'),
+            $options, '"A random string"', new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('"Lots of stuff:!$%^&*?@;"', $state->contentsmodified);
+        $this->assertEquals('\[ \mbox{Lots of stuff:!\$\%^\&*?@;} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_string_broken_string() {

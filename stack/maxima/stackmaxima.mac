@@ -154,10 +154,14 @@ load("utils.mac");
 load("errortostring.lisp");
 
 load("assessment.mac");
+load("validator.mac");
 load("noun_simp.mac");
 load("inequalities.mac");
 load("intervals.mac");
+load("geometry.mac");
+load("proof.mac");
 load("stackunits.mac");
+load("stacktex.lisp");
 load("stackstrings.mac");
 load("fboundp.mac");
 
@@ -222,14 +226,16 @@ texput(multsgnonlyfornumberssym, "\\times")$
 multsgnonlyfornumbers(e) := block([arglist, resstr, a, lastisnum, isnum, multsgn, str],
     arglist: args(e),
     a: pop(arglist),
-    resstr: if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
-        else sconcat("\\left(", tex1(a), "\\right)"),
+    resstr: if ev(is(safe_op(a) = "-" or (real_numberp(a) and is(a<0)))=true, simp) then sconcat("\\left(", tex1(a), "\\right)")
+                else if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
+                else sconcat("\\left(", tex1(a), "\\right)"),
     lastisnum: numberp(a),
     for a in arglist do (
         isnum: numberp(a),
-        multsgn: if (lastisnum and isnum) then tex1(multsgnonlyfornumberssym) else "\\,",
-        str: if (atom(a) or is(length(args(a))=1) or safe_op(a) = "^") then tex1(a)
-            else sconcat("\\left(", tex1(a), "\\right)"),
+        multsgn: if ev(is(lastisnum and isnum)=true, simp) then tex1(multsgnonlyfornumberssym) else "\\,",
+        str: if ev(is(safe_op(a) = "-" or (real_numberp(a) and is(a<0)))=true, simp) then sconcat("\\left(", tex1(a), "\\right)")
+                else if ev(is(atom(a) or is(length(args(a))=1) or safe_op(a) = "^")=true, simp) then tex1(a)
+                else sconcat("\\left(", tex1(a), "\\right)"),
         resstr: sconcat(resstr, multsgn, " ", str),
         lastisnum: isnum
     ),
@@ -349,6 +355,17 @@ stack_disp_fractions(ex) := block(
 /* This is needed to tweak the display of noun derivatives. */
 nary("blankmult", 0, 0);
 texput("blankmult", " ", nary);
+
+/* ****************************************************** */
+/* Unit testing of questions                              */
+/* ****************************************************** */
+/* This function allows a teacher to add unit tests to    */
+/* individual questions. At the end of the question       */
+/* variables, or in the feedback variables, particular    */
+/* values can throw runtime errors.                       */
+/* ****************************************************** */
+s_assert(ex1, ex2):= if is(ex1=ex2) then true else
+    error("s_assert: STACK expected '", string(ex2), "' but was given '", string(ex1), "'.");
 
 /* ****************************************************** */
 /* Random numbers                                         */
@@ -735,14 +752,26 @@ stack_disp_strip_dollars(ex) := block(
 /* Display of numbers. Thanks to Robert Dodier. */
 stackintfmt: "~d";
 stackfltfmt: "~a";
-?texnumformat(x) := if ev(floatnump(x),simp) then
-    ev(printf(false, stackfltfmt, x), simp) else if ev(integerp(x),simp) then (
+stackfltsep: ".";
+texput_decimal(ex):= stackfltsep:ex$
+
+?texnumformat(x) := block([tx],
+    if ev(floatnump(x), simp) then block(
+        tx:ev(printf(false, stackfltfmt, x), simp)
+    ) else if ev(integerp(x),simp) then (
         if (is(stackintfmt="~r") or is(stackintfmt="~:r")) then
-            sconcat("\\mbox{",ev(printf(false, stackintfmt, x), simp),"}")
+            tx:sconcat("\\mbox{",ev(printf(false, stackintfmt, x), simp),"}")
         else
-            ev(printf(false, stackintfmt, x), simp)
+            tx:ev(printf(false, stackintfmt, x), simp)
     ) else
-    string(x);
+    tx:string(x),
+    /* We need this separation because validation displays trailing zeros and this is controlled by stackfltfmt. */
+    if is(stackfltsep = ",") then (
+        tx:ssubst("\\ ", ",", tx),
+        tx:ssubst("{,}", ".", tx)
+    ),
+    tx
+)$
 /* Some systems are throwing an error here, which is spurious. */
 errcatch(compile(?texnumformat));
 
@@ -941,164 +970,6 @@ StackBasicReturn(validity, result, note) := [validity, result, StackAddNote("", 
 /* note the extra closing ] here.  The corresponding opening [ is generated in PHP. */
 /* This is about the most ugly API ever, but there we go.....                       */
 
-/* ******************************************* */
-/* Validate an expression                      */
-/* ******************************************* */
-
-/* List of variables, without some specific tokens in. */
-stack_validate_listofvars(_exunlikelyatom) := block([lvars],
-    lvars:ev(setify(listofvars(_exunlikelyatom)), simp),
-    lvars:ev(setdifference(lvars,{null, QMCHAR, EMPTYANSWER}), simp),
-    lvars:ev(sort(listify(lvars)), simp)
-)$
-
-stack_validate_checkvars(sexpr, texpr, chkopt) := block([%_sansvar,%_tansvar,%_extras,%_errstr],
-    if is(chkopt = 0) then return(""),
-    %_sansvar:setify(stack_validate_listofvars(sexpr)),
-    %_tansvar:setify(stack_validate_listofvars(texpr)),
-    %_extras: setdifference(%_sansvar, %_tansvar),
-    %_missing:setdifference(%_tansvar, %_sansvar),
-    %_errstr: "",
-    if ev(length(%_extras) > 0 and mod(chkopt, 2) = 1,simp) then
-      %_errstr:StackAddFeedback(%_errstr, "ValidateVarsSpurious" , stack_disp_comma_separate(listify(%_extras))),
-    if ev(length(%_missing) > 0 and (mod(chkopt, 4)-mod(chkopt, 2)) = 2, simp) then
-      %_errstr:StackAddFeedback(%_errstr, "ValidateVarsMissing" , stack_disp_comma_separate(listify(%_missing))),
-    /* A non-empty string means invalid. */
-    return(%_errstr)
-)$
-
-stack_validate(expr, LowestTerms, TAns, fltfmt, chkopt) := block([simp:false, exs, SameType, fvs, fvs1, fvs2, chkvars],
-  /* If we have a float format, then use it. */
-  if not(is(fltfmt=false)) then
-    stackfltfmt:fltfmt,
-  /* Try to simply the expression to catch CAS errors */
-  exs: errcatch(ev(expr, simp)),
-  if exs = [] then (
-    _APPEND_ERR([errormsgtostring()], "stack_validate"),
-    return(false)
-  ),
-  if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
-  expr: first(expr),
-  /* Check if the student's answer is the same type as the Teacher's. */
-  SameType:ATSameTypefun(expr, TAns),
-  if ev(is(SameType[2]=false),simp) then print(SameType[4])
-    else (_RESET_NOTES(),_RESET_FEEDBACK()),
-  /* Check variables in the answer. */
-  chkvars:stack_validate_checkvars(expr, TAns, chkopt),
-  if ev(not(is(chkvars="")), simp) then print(chkvars),
-  /* Check for malformed real sets. */
-  if realset_surface_p(expr) then block([ret],
-    ret:interval_validate_realset(expr),
-    if not(is(ret="")) then print(ret)
-  ),
-  /* Check to see if a variable is also a function name. */
-  fvs1: setify(listofvars(expr)),
-  fvs2: get_ops(expr),
-  fvs: ev(intersection(fvs1, fvs2), simp),
-  if ev(not(is(fvs={})), simp) then
-    print(StackAddFeedback("", "Variable_function", stack_disp(fvs, "i"))),
-  /* Checks fractions are in lowest terms. */
-  if LowestTerms and all_lowest_termsex(expr)=false then
-    print(StackAddFeedback("", "Lowest_Terms")),
-  /* Check for x=1 or 2.  */
-  exs:stack_validate_missing_assignment(expr),
-  if first(exs) then
-    print(StackAddFeedback("", "Bad_assignment", stack_disp(second(exs), "i"))),
-  /* Now display the result. */
-  simp: false,
-  expr: detexcolor(expr),
-  return(expr)
-)$
-
-/* Validate an expression without type checking. Floats and mathematical errors only. */
-stack_validate_typeless(expr, LowestTerms, TAns, fltfmt, chkopt, Equiv) := block([simp:false, exs, fvs, fvs1, fvs2],
-  /* If we have a float format, then use it. */
-  if not(is(fltfmt=false)) then
-    stackfltfmt:fltfmt,
-  /* Try to simply the expression to catch CAS errors */
-  exs: errcatch(ev(expr, simp)),
-  if exs = [] then (
-    _APPEND_ERR([errormsgtostring()], "stack_validate_typeless"),
-    return(false)
-  ),
-  if length(expr)#1 then print(StackAddFeedback("", "CommaError", string(expr), string(setify(expr)))),
-  expr: first(expr),
-  /* Check variables in the answer. */
-  chkvars:stack_validate_checkvars(expr, TAns, chkopt),
-  if ev(not(is(chkvars="")), simp) then print(chkvars),
-  /* Check for malformed real sets. */
-  if realset_surface_p(expr) then block([ret],
-    ret:interval_validate_realset(expr),
-    if not(is(ret="")) then print(ret)
-  ),
-  /* Check to see if a variable is also a function name. */
-  fvs1: setify(listofvars(expr)),
-  fvs2: get_ops(expr),
-  fvs: ev(intersection(fvs1, fvs2), simp),
-  if ev(not(is(fvs={})), simp) then
-    print(StackAddFeedback("", "Variable_function", stack_disp(fvs, "i"))),
-  /* Check for floats, and if there are any then throw an error */
-  /* Checks fractions are in lowest terms */
-  if LowestTerms and all_lowest_termsex(expr) = false then
-    print(StackAddFeedback("", "Lowest_Terms")),
-  /* Check for x=1 or 2.  */
-  exs: stack_validate_missing_assignment(expr),
-  if first(exs) then
-    print(StackAddFeedback("", "Bad_assignment", stack_disp(second(exs), "i"))),
-  /* Additional tests which restrict the equivalence input type. */
-  if Equiv and op_usedp(expr, set) then print(StackAddFeedback("", "Equiv_Illegal_set")),
-  if Equiv and op_usedp(expr, "{") then print(StackAddFeedback("", "Equiv_Illegal_set")),
-  if Equiv and op_usedp(expr, "[") then print(StackAddFeedback("", "Equiv_Illegal_list")),
-  if Equiv and op_usedp(expr, matrix) then print(StackAddFeedback("", "Equiv_Illegal_matrix")),
-  /* Now display the result. */
-  simp: false,
-  return(expr)
-)$
-
-/* This function replaces all variables starting with a % sign with elements from var */
-stack_strip_percent(ex,var) := block([lv1, lv2, subcount, indx,exs],
-    subcount:0,
-    lv2:[],
-    lv1:listofvars(ex),
-    if [] = lv then return(ex),
-    for indx:1 thru length(lv1) do (
-        if cequal(charat(string(lv1[indx]), 1),"%") then block(
-            subcount:subcount+1,
-            lv2:append(lv2, [lv1[indx] = var[subcount]])
-        )
-    ),
-    if not(emptyp(lv2)) then exs:subst(lv2, ex) else exs:ex,
-    return(exs)
-)$
-
-/* Create a list of numbered variables. */
-stack_var_makelist(ex, n1) := block(
-    if not(atom(ex)) then error("stack_var_makelist: first argument must be an atom"),
-    if not(integerp(n1)) or not(ev(is(n1>=0), simp)) then error("stack_var_makelist: second argument must be a non-negative integer"),
-    return(ev(makelist(vconcat(ex,k), k, 0, n1), simp))
-)$
-
-/* Spot the very specific pattern x=1 nounor 2 instead of x=1 nounor x=2. */
-/* Returns a list: [pattern found, changed expression]. */
-stack_validate_missing_assignment(ex) := block([ret, ex2, v, exop],
-    if not(safe_op(ex)="nounor" or safe_op(ex)="nounand")
-        then return([false, ex]),
-    if length(listofvars(ex))#1
-        then return([false, ex]),
-    ex2: args(ex),
-    exop: op(ex),
-    /* Do we have any equations which look like assignments? */
-    if not(any_listp(lambda([ex], equationp(ex) and atom(lhs(ex)) and not(simp_numberp(lhs(ex)))),ex2))
-        then return([false, ex]),
-    /* Do any of them look bad, that just a number on its own? */
-    if all_listp(lambda([ex], not(is(listofvars(ex)=[]))), ex2)
-        then return([false, ex]),
-    v: first(listofvars(ex)),
-    ex: maplist(lambda([ex], if (equationp(ex) and atom(lhs(ex)) and not(simp_numberp(lhs(ex)))) then ex else v=ex), ex2),
-    ex: apply(exop, ex),
-    return([true, ex])
-)$
-
 /* *************************************/
 /* Output graphics,                    */
 /* *************************************/
@@ -1112,7 +983,7 @@ set_plot_option([gnuplot_default_term_command, ""]);
 plot(ex, [ra]) :=  /*stack_web_plot*/
     block([simp:true, tfn, tfnp1, tfnp2, tfnp3, afn, ufn, lvs, preamble, sysp, sysr,
         filename, tn, alt, altc, alttext, ral, ralforbid, pltargs, plotfunmake, plotdebug,
-        plotgrid2d, size, psize, plot_size, plot_tags, stack_mtell_quiet, plotpid],
+        plotgrid2d, size, psize, plot_size, plot_tags, stack_mtell_quiet, plotpid, margin],
     stack_mtell_quiet:true,
     plotdebug: false,
     /* Check for grid2d  in the plotoptions. */
@@ -1127,7 +998,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     if not(freeof(lg, ex)) then
         ex:ev(ex, lg=logbasesimp),
     lvs: listofvars(%_ce_rem(ex)),
-    lvs: sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric))),
+    lvs: sublist(lvs, lambda([ex], not(ex = discrete or ex = parametric or ex = minus or ex = plus))),
     if length(lvs)>1 then
        error("Plot error: Can't create a plot with more than one variable, whereas you have: \\(",string(lvs),"\\)"),
     /*********************/
@@ -1157,7 +1028,7 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
     /**********************************************************/
     /* Remove from option list ral any non-permitted options. */
     kill(y),
-    permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics, adapt_depth],
+    permitted_options: [y, xlabel, ylabel, label, legend, color, style, point_type, nticks, logx, logy, axes, box, plot_realpart, yx_ratio, xtics, ytics, ztics, adapt_depth, margin],
     /* In the case the list of variables is empty we need to add in "x" so the constant functions can be plotted. */
     if not(emptyp(lvs)) then permitted_options:append([first(lvs)], permitted_options)
     else  permitted_options:append([x], permitted_options),
@@ -1189,13 +1060,22 @@ plot(ex, [ra]) :=  /*stack_web_plot*/
         ) else block(
             ral: append(ral, [[legend, false]])
         ),
-    /* Add in the command for the grid. */
-    if plotgrid2d and MAXIMA_VERSION_NUM>34 then
-        ral: append(ral, [grid2d]),
     if not(PLOT_TERMINAL="svg") then preamble:concat(preamble, "set terminal ", PLOT_TERMINAL, "  ", PLOT_TERM_OPT, psize, "
 set output ", afn),
     /* Gnuplot only allows alpha-numeric characters in the plot name, so not even spaces!  This is a problem with the string function. */
     if PLOT_TERMINAL="svg" then preamble:concat("set terminal ", PLOT_TERMINAL, psize, " ", PLOT_TERM_OPT),
+    /* Reduce margins around plots: this can be added in again with CSS if required, but can't be clipped later. */
+    if member(margin, maplist(first, ral)) then block([lv],
+            /* If we have [legend, true] then we should use the default legend */
+            lv: first(sublist(ral, lambda([ex], listp(ex) and (first(ex)=margin)))),
+            ral:delete(lv, ral),
+            if not(numberp(second(lv))) then error("Plot error: margin must be a number, found: ", second(lv)),
+            lv:second(lv),
+            if PLOT_TERMINAL="svg" then preamble:concat(preamble, ascii(10), "set lmargin ", string(lv), ascii(10), "set rmargin ", string(lv), ascii(10), "set tmargin ", string(lv), ascii(10), "set bmargin ", string(lv))
+        ),
+    /* Add in the command for the grid. */
+    if plotgrid2d and MAXIMA_VERSION_NUM>34 then
+        ral: append(ral, [grid2d]),
     if plotdebug then print(preamble),
     if PLOT_TERMINAL="svg" then set_plot_option([svg_file, afn]),
     if PLOT_TERMINAL="svg" then
@@ -1220,6 +1100,7 @@ set output ", afn),
     set_plot_option([gnuplot_out_file, tfnp1]),
     if plotdebug then print(plot_options),
     /* Create and execute the actual plot commands. */
+    ex:%_ce_expedite(ex),
     pltargs: append([ex], ral),
     if plotdebug then print(pltargs),
     plotfunmake: funmake(plot2d, pltargs),
@@ -1304,6 +1185,9 @@ ATAlgEquivNouns(SA,SB) := block([simp:true, ret, newret, SAN, SBN],
 ATAlgEquivfun(SA, SB) :=  block([SApoly, SBpoly, keepfloat, RawMark, FeedBack, AnswerNote, ret],
     Validity:true, RawMark:false, FeedBack:"", AnswerNote:"",
     keepfloat:true,
+    /* Reduce the number of different operators, where possible. */
+    if ev(is(count_op(SA,STACKpmOPT)=1), simp) then SA:pm_replace(SA),
+    if ev(is(count_op(SB,STACKpmOPT)=1), simp) then SB:pm_replace(SB),
     /* Are we dealing with strings? */
     if stringp(SB) then
       if stringp(SA)#true then
@@ -1609,7 +1493,7 @@ ATInequality(SA, SB) := block([RawMark, FeedBack, AnswerNote, SA1, SB1, samex],
     SB:logical_normal(SB),
     if debug then print("ATInequality(", SA, ", ", SB, ")"),
     if SA = SB then RawMark:true
-    else if single_variable_solver_real(SA)=single_variable_solver_real(SB) then block(
+    else if stack_single_variable_solver(SA)=stack_single_variable_solver(SB) then block(
         RawMark:true,
         AnswerNote:StackAddNote("", "ATInequality_solver")
     ),
@@ -1796,7 +1680,7 @@ ATSRegExp(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patma
 /* Don't break existing questions. */
 ATRegExp(SA, SB) := ATString(SA, SB);
 
-ATString(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmatched],
+ATString(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Turn on simplification and error catch. */
     if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
@@ -1814,7 +1698,7 @@ ATString(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmat
     return([true, false, AnswerNote, FeedBack])
 )$
 
-ATStringSloppy(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp, patmatched],
+ATStringSloppy(SA, SB) := block([RawMark, FeedBack, AnswerNote, SAsimp, SBsimp],
     RawMark:true, FeedBack:"", AnswerNote:"",
     /* Turn on simplification and error catch. */
     if (is(_EC(errcatch(SAsimp:ev(SA, simp, nouns)), "") = false)) then
@@ -2106,8 +1990,8 @@ ATLogic(SA, SB) := block([SAL, SBL, res],
     if (debug) then print("ATLogic: [", string(SA), " | ", string(SB), "]"),
     if SA = SB then
         return([true, true, StackAddNote("", "ATLogic_True"), ""]),
-    SAP:ev(single_variable_solver_real(SA), simp),
-    SBP:ev(single_variable_solver_real(SB), simp),
+    SAP:ev(stack_single_variable_solver(SA), simp),
+    SBP:ev(stack_single_variable_solver(SB), simp),
     if (debug) then print("ATLogic_to_poly_solver: [", string(SAP), " | ", string(SBP), "]"),
     if SAP=SBP then
         return([true, true, StackAddNote("", "ATLogic_Solver_True"), ""]),
@@ -3150,7 +3034,7 @@ Intfun(SA, SB, SBdisp, constint, acceptformal, var) := block([val,rawmk,ansnote,
            (rawmk:false, fb:StackAddFeedback("", "ATInt_generic", stack_disp(SBdisp, "d"), stack_disp(var, "i"), stack_disp(SAd, "d")), ansnote:StackAddNote("", "ATInt_generic")),
     /* Has the student used log(x) vs log(abs(x)) in their answer? */
     if not(SAUsedLogAbs) and SBUsedLogAbs then
-            (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
+            (rawmk:false, fb:StackAddFeedback(fb, "ATInt_logabs"), ansnote:StackAddNote(ansnote, "ATInt_logabs")),
     /* Has the student been inconsistent in using log(x) vs log(abs(x)) in their answer? */
     if not(SAConsistentLogs) then
             (rawmk:false, fb:StackAddFeedback("", "ATInt_logabs_inconsistent"), ansnote:StackAddNote(ansnote, "ATInt_logabs_inconsistent")),
@@ -3391,12 +3275,14 @@ table_difference(T1, T2) := table_zip_with(lambda([ex1,ex2], if ex1=ex2 then ex1
 /*  Trees                                                 */
 /*                                                        */
 /* ****************************************************** */
-disptree(e) := sconcat("<ul class='tree'><li>", tree_rec(e), "</li></ul>");
+disptree(e) := sconcat("<ul class='algebratree'><li>", tree_rec(e), "</li></ul>");
 
 /* A list of functions which should use the TeX representation.  (Defined as a list to be user-editable) */
 
 tree_texlist:{"#pm#", "%union", "%intersection"};
 tree_rec(e) := block([treelist],
+  /* We don't need to wrap strings in LaTeX and unwrap them later in this display function! */
+  if stringp(e) then return(sconcat("<span class='atom'>", e ,"</span>")),
   if atom(e) then return(sconcat("<span class='atom'>", stack_disp(e, "i") ,"</span>")),
   if is(safe_op(e)="treestop") then return(sconcat("<span class='atom'>", stack_disp(first(e), "i") ,"</span>")),
   if is(safe_op(e)="matrix") then return(sconcat("<span class='atom'>", stack_disp(e, "i") ,"</span>")),
@@ -3445,4 +3331,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2023010401$
+stackmaximaversion:2024032401$

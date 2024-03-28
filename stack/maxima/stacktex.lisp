@@ -295,6 +295,16 @@
                              (tex x (list "^{")(cons "}" r) 'mparen 'mparen)))))))
     (append l r)))
 
+;; Added by CJS, 15-2-24.  Display an aligned environmant.
+(defprop $aligned tex-aligned tex)
+
+(defun tex-aligned(x l r) ;;matrix looks like ((mmatrix)((mlist) a b) ...)
+  (append l `("\\begin{aligned}")
+      (mapcan #'(lambda(y)
+              (tex-list (cdr y) nil (list "\\cr ") "&"))
+          (cdr x))
+      '("\\end{aligned}") r))
+
 ;; Added by CJS, 10-9-16.  Display an argument.
 (defprop $argument tex-argument tex)
 
@@ -451,6 +461,27 @@
              l nil))))))
 
 ;; *************************************************************************************************
+;; Added 4 May 2023.
+;; Print all brackets with simp:false;
+
+;; This is WIP for printing brackets in (a+b)+c.  Creates lots of other problems with unary minus.
+;; (defun tex (x l r lop rop)
+;;   ;; x is the expression of interest; l is the list of strings to its
+;;   ;; left, r to its right. lop and rop are the operators on the left
+;;   ;; and right of x in the tree, and will determine if parens must
+;;   ;; be inserted
+;;   (setq x (nformat x))
+;;   (cond ((atom x) (tex-atom x l r))
+;;       ((or (<= (tex-lbp (caar x)) (tex-rbp lop)) (>= (tex-lbp rop) (tex-rbp
+;;           (caar x))))
+;;       (tex-paren x l r))
+;;       ;; special check needed because macsyma notates arrays peculiarly
+;;       ((member 'array (cdar x) :test #'eq) (tex-array x l r))
+;;       ;; dispatch for object-oriented tex-ifiying
+;;       ((get (caar x) 'tex) (funcall (get (caar x) 'tex) x l r))
+;;       (t (tex-function x l r nil))))
+
+;; *************************************************************************************************
 ;; Added 27 June 2020.
 ;; Localise some Maxmia-generated strings
 
@@ -471,3 +502,29 @@
 (defmfun $get_texword (x) (or (get x 'texword) (get (get x 'reversealias) 'texword)))
 
 (defmfun $get_texsym (x) (car (or (get x 'texsym) (get x 'strsym) (get x 'dissym) (stripdollar x))))
+
+;; *************************************************************************************************
+;; Added 20 Feb 2022.
+;; 
+;; Change the list separation on tex output when commas are used for decimal separators.
+;;
+;; Code below makes the list separator a normal "texput" concern. 
+;; E.g. in maxima: texput(stacklistsep, " ; ");
+;; (defprop $stacklistsep " , " texword)
+;;
+;;(defun tex-matchfix (x l r)
+;;  (setq l (append l (car (texsym (caar x))))
+;;    ;; car of texsym of a matchfix operator is the lead op
+;;    r (append (list (nth 1 (texsym (caar x)))) r)
+;;    ;; cdr is the trailing op
+;;    x (tex-list (cdr x) nil r (or (nth 2 (texsym (caar x))) (get '$stacklistsep 'texword))))
+;;  (append l x))
+
+(defun tex-matchfix (x l r)
+  (setq l (append l (car (texsym (caar x))))
+    ;; car of texsym of a matchfix operator is the lead op
+    r (append (list (nth 1 (texsym (caar x)))) r)
+    ;; cdr is the trailing op
+    x (tex-list (cdr x) nil r (or (nth 2 (texsym (caar x))) (if (string= $stackfltsep '",") '" ; " '" , "))))
+  (append l x))
+

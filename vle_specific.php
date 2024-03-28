@@ -14,6 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
+// This file defines question_display_options which the next class extends.
+require_once(__DIR__.'/../../../lib/questionlib.php');
+require_once('questiondisplayoptions.php');
 
 /**
  * A collection of things that are a bit VLE specific and have been
@@ -141,6 +146,8 @@ function stack_castext_file_filter(string $castext, array $identifiers): string 
                 $block .= ' filearea="' . $identifiers['field'] . '"';
                 $block .= ' itemid="' . $identifiers['questionid'] . '"';
                 break;
+            case 'questiondescription':
+            case 'questionnote':
             case 'specificfeedback':
             case 'prtcorrect': // These three are not in actual use.
             case 'prtpartiallycorrect':
@@ -168,4 +175,140 @@ function stack_castext_file_filter(string $castext, array $identifiers): string 
 function stack_determine_moodle_version() {
     $v = get_config('moodle');
     return($v->branch);
+}
+
+/*
+ * This function returns fully defined URL for a file present in
+ * the `corsscripts` directory. Either mapped through logic that
+ * modifies headers or a direct link.
+ */
+function stack_cors_link(string $filename): string {
+    return (new moodle_url(
+            '/question/type/stack/corsscripts/cors.php', ['name' => $filename]))->out(false);
+}
+
+/*
+ * Gets the URL used for MathJax, might be VLE local.
+ */
+function stack_get_mathjax_url(): string {
+    // TODO: figure out how to support VLE local with CORS.
+    return 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+}
+
+/*
+ * Gets the url for MathJax 3.
+ */
+function stack_get_mathjax3_url() {
+    return 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+}
+
+/*
+ * Give the VLE a chance to clear any question cache.
+ */
+function stack_clear_vle_question_cache(int $questionid) {
+    question_bank::notify_question_edited($questionid);
+}
+
+/*
+ * This is needed to put links to the STACK question dashboard into the question.
+ */
+function question_display_options() {
+    $options = new qtype_stack_question_display_options();
+    $options->readonly = true;
+    $options->flags = question_display_options::HIDDEN;
+    $options->suppressruntestslink = true;
+    return $options;
+}
+
+/*
+ * This uses whatever methods the VLE wants to use to fetch included urls
+ * for the inclusion methods and can do caching at the request level.
+ *
+ * The requirements are as follows:
+ *  1. Must not cache, over multiple requests, the inclusion must use
+ *     remote version at the time of inclusion.
+ *  2. Supports inclusion from http(s)://, contrib(l):// and template(l)://
+ *     URLs.
+ *  3. contrib:// is special shorthand for fetching a file from a particular
+ *     GitHub side folder. If the "l" suffix is there then the file will be read
+ *     from a matching local folder, if fetching from GitHub fails we do not
+ *     automatically fall-back to the local version.
+ *  4. template:// is similalr but has a different folder.
+ *
+ *  contrib:// is for CAS side stuff and template:// is for CASText side stuff.
+ *
+ *  Returns the string content of the URL/file. If failign return false.
+ */
+function stack_fetch_included_content(string $url) {
+    static $cache = [];
+    $lc = trim(strtolower($url));
+    $good = false;
+    $islocalfile = false;
+    // Not actually passing the $error out now, it is here for documentation
+    // and possible future use.
+    $error = 'Not a fetchable URL type.';
+    $translated = $url;
+    if (strpos($url, '://') === false) {
+        $good = false;
+        return false;
+    }
+    $path = explode('://', $url, 2)[1];
+    if (strpos($lc, 'http://') === 0 || strpos($lc, 'https://') === 0) {
+        $good = true;
+    } else {
+        if (strpos($path, '..') !== false || strpos($path, '/') === 0 || strpos($path, '~') === 0) {
+            $error = 'Traversing the directory tree is forbidden.';
+            $good = false;
+            return false;
+        }
+    }
+
+    if (strpos($lc, 'contrib://') === 0 || strpos($lc, 'contribl://') === 0) {
+        $good = true;
+        if (strpos($lc, 'contrib://') === 0) {
+            $translated = 'https://raw.githubusercontent.com/maths/moodle-qtype_stack/' .
+                                    'master/stack/maxima/contrib/' . $path;
+        } else {
+            $islocalfile = true;
+            $translated = __DIR__ . '/stack/maxima/contrib/' . $path;
+        }
+    } else if (strpos($lc, 'template://') === 0 || strpos($lc, 'templatel://') === 0) {
+        $good = true;
+        if (strpos($lc, 'template://') === 0) {
+            $translated = 'https://raw.githubusercontent.com/maths/moodle-qtype_stack/' .
+                                    'master/stack/cas/castext2/template/' . $path;
+        } else {
+            $islocalfile = true;
+            $translated = __DIR__ . '/stack/cas/castext2/template/' . $path;
+        }
+    }
+
+    if ($good) {
+        if (!isset($cache[$translated])) {
+            // Feel free to apply any proxying here if you want.
+            // Just remember that $islocalfile might be true and you might do
+            // something else then.
+            if ($islocalfile) {
+                $cache[$translated] = file_get_contents($translated);
+            } else {
+                $translated = clean_param($translated, PARAM_URL);
+                $headers = get_headers($translated);
+                if (strpos($headers[0], '404') === false) {
+                    $cache[$translated] = download_file_content($translated);
+                } else {
+                    $cache[$translated] = false;
+                }
+            }
+        }
+        return $cache[$translated];
+    }
+    $cache[$translated] = false;
+    return false;
+}
+
+/**
+ * Fetches the current VLE UI language. Might not be the one that the question uses.
+ */
+function stack_get_system_language(): string {
+    return current_language();
 }

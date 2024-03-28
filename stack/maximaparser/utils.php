@@ -24,6 +24,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/autogen/parser.mbstring.php');
 // Also needs stack_string().
 require_once(__DIR__ . '/../../locallib.php');
+require_once(__DIR__ . '/../../vle_specific.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/MP_classes.php');
 
@@ -247,8 +248,6 @@ class maxima_parser_utils {
     // Generates errors if inclusions within inclusions or inclusions in unexpected places.
     // Returns either the AST or some form of an exception.
     public static function parse_and_insert_missing_semicolons_with_includes($str) {
-        static $remotes = [];
-
         $root = self::parse_and_insert_missing_semicolons($str);
         if ($root instanceof MP_Root) {
             if (isset($root->position['fixedsemicolons'])) {
@@ -259,9 +258,9 @@ class maxima_parser_utils {
             // Ok now seek for the inclusions if any are there.
             $includecount = 0;
             $errors = [];
-            $include = function($node) use (&$includecount, &$errors, &$remotes) {
+            $include = function($node) use (&$includecount, &$errors) {
                 if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom &&
-                    $node->name->value === 'stack_include') {
+                    ($node->name->value === 'stack_include' || $node->name->value === 'stack_include_contrib')) {
                     // Now the first requirement for this is that this must be a top level item
                     // in this statement, this statement may not have flags or anythign else.
                     if ($node->parentnode instanceof MP_Statement) {
@@ -271,17 +270,16 @@ class maxima_parser_utils {
                                 $includecount = $includecount + 1;
                                 $srccode = '1';
                                 // Various repeated validation steps may lead to multiple fetches for a single
-                                // request, lets not do those, lets save some bandwith for those that share
+                                // request, let's not do those, let's save some bandwith for those that share
                                 // such stuff.
-                                if (isset($remotes[$node->arguments[0]->value])) {
-                                    $srccode = $remotes[$node->arguments[0]->value];
-                                } else {
-                                    $srccode = file_get_contents($node->arguments[0]->value);
-                                    $remotes[$node->arguments[0]->value] = $srccode;
+                                $remoteurl = $node->arguments[0]->value;
+                                if ($node->name->value === 'stack_include_contrib') {
+                                    $remoteurl = 'contrib://' . $remoteurl;
                                 }
+                                $srccode = stack_fetch_included_content($remoteurl);
                                 if ($srccode === false) {
                                     // Do not give the address in the output.
-                                    $errors[] = 'stack_include, could not retrieve: #' . $includecount;
+                                    $errors[] = 'stack_include or stack_include_contrib, could not retrieve: ' . $remoteurl;
                                     $node->name->value = 'failed_stack_include';
                                     $node->position['invalid'] = true;
                                     return true;
@@ -1342,8 +1340,7 @@ class maxima_parser_utils {
             if (($node instanceof MP_List && (!($node->parentnode instanceof MP_Indexing)
                     || $node->parentnode->target === $node)) || $node instanceof MP_Set) {
                 // This aims to cut down rands and matrices present in the AST.
-                // Note that while stack_expression_list is a thing we do not create
-                // them here.
+                // Note that while stack_expression_list is a thing, we do not create them here.
                 $types = $node->type_count();
                 if (!isset($types['MP_Identifier']) && !isset($types['MP_String']) && !isset($types['MP_FunctionCall'])
                         && !(isset($types['ops']) && isset($types['ops'][':']))) {

@@ -147,19 +147,19 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $seed = 1;
 
         $testcases = array();
-        $qtest = new stack_question_test(array('ans1' => 'x^3'));
+        $qtest = new stack_question_test('', array('ans1' => 'x^3'));
         $qtest->add_expected_result('odd', new stack_potentialresponse_tree_state(
                 1, true, 1, 0, '', array('odd-1-T')));
         $testcases[] = $qtest;
 
-        $qtest = new stack_question_test(array('ans1' => 'x^2'));
+        $qtest = new stack_question_test('', array('ans1' => 'x^2'));
         $qtest->add_expected_result('odd', new stack_potentialresponse_tree_state(
                 1, true, 0, 0.4, '', array('odd-1-F')));
         $testcases[] = $qtest;
 
         // This unit test runs a question test, with an input name as
         // the expected answer, which should work.
-        $qtest = new stack_question_test(array('ans2' => 'ans2'));
+        $qtest = new stack_question_test('', array('ans2' => 'ans2'));
         $qtest->add_expected_result('even', new stack_potentialresponse_tree_state(
                 1, true, 1, 0, '', array('even-1-T')));
 
@@ -200,9 +200,12 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <specificfeedback format="html">
       <text>[[feedback:firsttree]]</text>
     </specificfeedback>
-    <questionnote>
+    <questionnote format="html">
       <text></text>
     </questionnote>
+    <questiondescription format="html">
+      <text>This is a rather wonderful question!</text>
+    </questiondescription>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>
     <assumereal>0</assumereal>
@@ -215,6 +218,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <prtincorrect format="html">
       <text><![CDATA[<p>Incorrect answer.</p>]]></text>
     </prtincorrect>
+    <decimals>.</decimals>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
@@ -250,6 +254,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
       </feedbackvariables>
       <node>
         <name>0</name>
+        <description></description>
         <answertest>EqualComAss</answertest>
         <sans>ans1</sans>
         <tans>2</tans>
@@ -276,6 +281,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <deployedseed>12345</deployedseed>
     <qtest>
       <testcase>1</testcase>
+      <description>Basic test of question</description>
       <testinput>
         <name>ans1</name>
         <value>2</value>
@@ -319,7 +325,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <specificfeedback format="html">
       <text>[[feedback:firsttree]]</text>
     </specificfeedback>
-    <questionnote>
+    <questionnote format="html">
       <text></text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
@@ -334,6 +340,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
     <prtincorrect format="html">
       <text><![CDATA[<p>Incorrect answer.</p>]]></text>
     </prtincorrect>
+    <decimals>.</decimals>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
@@ -426,7 +433,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
 
         $expectedq->questionvariables     = '';
         $expectedq->specificfeedback      = array('text' => '[[feedback:firsttree]]', 'format' => FORMAT_HTML, 'files' => array());
-        $expectedq->questionnote          = '';
+        $expectedq->questionnote          = array('text' => '', 'format' => FORMAT_HTML, 'files' => array());
         $expectedq->questionsimplify      = 1;
         $expectedq->assumepositive        = 0;
         $expectedq->assumereal            = 0;
@@ -436,6 +443,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
                                                     'format' => FORMAT_HTML, 'files' => array());;
         $expectedq->prtincorrect          = array('text' => '<p>Incorrect answer.</p>',
                                                     'format' => FORMAT_HTML, 'files' => array());;
+        $expectedq->decimals              = '.';
         $expectedq->multiplicationsign    = 'dot';
         $expectedq->sqrtsign              = 1;
         $expectedq->complexno             = 'i';
@@ -484,7 +492,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
 
         $expectedq->deployedseeds = array('12345');
 
-        $qtest = new stack_question_test(array('ans1' => '2'), 1);
+        $qtest = new stack_question_test('', array('ans1' => '2'), 1);
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
                         1, true, 1, 0, '', array('firsttree-1-T')));
         $expectedq->testcases[1] = $qtest;

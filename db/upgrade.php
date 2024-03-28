@@ -795,6 +795,8 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('stackversion', XMLDB_TYPE_TEXT, null, null, null, null, null, 'questionid');
 
+        $table->add_field('feedbackvariables', XMLDB_TYPE_TEXT, 'small', null, XMLDB_NOTNULL, null, null);
+
         // Conditionally launch add field stackversion.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
@@ -863,7 +865,43 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2021010100, 'qtype', 'stack');
     }
 
-    if ($oldversion < 2022042700) {
+    if ($oldversion < 2023042200) {
+
+        // Define field description to be added to qtype_stack_prt_nodes.
+        $table = new xmldb_table('qtype_stack_prt_nodes');
+        $field = new xmldb_field('description', XMLDB_TYPE_CHAR, '255', null, null, null, '', 'nodename');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Define question description field to be added to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('questiondescription', XMLDB_TYPE_TEXT, 'medium', null, null, null, null, 'questionnote');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $field = new xmldb_field('questiondescriptionformat', XMLDB_TYPE_INTEGER,
+            '2', null, XMLDB_NOTNULL, null, '0', 'questiondescription');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2023042200, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2023042800) {
+        // Define field description to be added to qtype_stack_qtests.
+        $table = new xmldb_table('qtype_stack_qtests');
+        $field = new xmldb_field('description', XMLDB_TYPE_CHAR, '255', null, null, null, '', 'testcase');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2023042800, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2023092400) {
         // Changing type of field truescore on table qtype_stack_prt_nodes to char.
         $table = new xmldb_table('qtype_stack_prt_nodes');
         $field = new xmldb_field('truescore', XMLDB_TYPE_CHAR, '255', null, XMLDB_NOTNULL, null, '1', 'truescoremode');
@@ -893,7 +931,34 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         $dbman->change_field_type($table, $field);
 
         // Stack savepoint reached.
-        upgrade_plugin_savepoint(true, 2022042700, 'qtype', 'stack');
+        upgrade_plugin_savepoint(true, 2023092400, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2023111600) {
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('decimals', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, '.');
+
+        // Conditionally launch add field variantsselectionseed.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // STACK savepoint reached.
+        upgrade_plugin_savepoint(true, 2023111600, 'qtype', 'stack');
+    }
+
+    if ($oldversion < 2024032401) {
+
+        // Define question note format field to be added to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('questionnoteformat', XMLDB_TYPE_INTEGER,
+            '2', null, XMLDB_NOTNULL, null, '0', 'questionnote');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2024032401, 'qtype', 'stack');
     }
 
     // Add new upgrade blocks just above here.
@@ -917,7 +982,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
     // If appropriate, clear the CAS cache and re-generate the image.
     if ($latestversion != $currentlyusedversion) {
         stack_cas_connection_db_cache::clear_cache($DB);
-        if (get_config('qtype_stack', 'platform') !== 'server') {
+        if (!in_array(get_config('qtype_stack', 'platform'), ['server', 'server-proxy'])) {
             $pbar = new progress_bar('healthautomaxopt', 500, true);
             list($ok, $message) = stack_cas_configuration::create_auto_maxima_image();
             $pbar->update(500, 500, get_string('healthautomaxopt', 'qtype_stack', array()));

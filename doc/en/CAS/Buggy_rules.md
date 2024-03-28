@@ -1,9 +1,6 @@
 # Buggy rules
 
-In order to establish that the student has done something
-particular but wrong, it is useful for us to be able to apply
-wrong or buggy rules to expressions.  A typical example would
-be to expand out powers in the wrong way, e.g.
+In order to establish that the student has done something particular but wrong, it is useful for us to be able to apply wrong or buggy rules to expressions.  A typical example would be to expand out powers in the wrong way, e.g.
 
 \[(x+y)^2=x^2+y^2.\]
 
@@ -26,7 +23,6 @@ The mediant of two fractions
 Note that both `denom` and `num` work on non-rational expressions, assuming the expression to be "over one" by implication.  Hence `mediant` will also assume the denominator is also one in such cases.
 
 This is not always a buggy rule. It is used, for example, in connection with Farey sequences, but it is included here as in assessment this function is useful for checking a common mistake when adding fractions.
-
 
 There is scope for further examples of such rules.
 

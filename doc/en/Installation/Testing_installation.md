@@ -4,7 +4,7 @@ It is important to confirm that STACK has been installed correctly, and that it 
 
 ## STACK configuration page
 
-STACK provides a number of options.  To set these you must login as the Moodle site Administrator.  Navigate to 
+STACK provides a number of options.  To set these you must login as the Moodle site Administrator.  Navigate to
 
     Site administration -> Plugins -> Question Types -> STACK
 
@@ -12,11 +12,12 @@ STACK provides a number of options.  To set these you must login as the Moodle s
 
 To confirm if the PHP scripts are connecting to Maxima navigate to the _STACK configuration page_ (see above).  Choose the link to the "healthcheck script".
 
-The healthcheck script checks the following. 
+The healthcheck script checks the following.
 
 * Check LaTeX is being converted correctly?  Check [MathJax](Mathjax.md) or another LaTeX converter.
-* Can PHP call external applications?  No, then change PHP settings. 
+* Can PHP call external applications?  No, then change PHP settings.
 * Can PHP call Maxima? No, then see below.
+* Does Maxima support unicode?  Distributed versions of Maxima do (as of July 2023) but if you compile Maxima from source then you must include unicode support.
 * Graph plotting. Are auto-generated plots being created correctly?  There should be two different graphs.  If not, check the gnuplot settings, and directory permissions.
 
 The CAS-debug option in the STACK settings will provide a very verbose output which is indispensable at this stage.  Turn this off for production servers, as it is wasteful of storage, particularly when caching results.
@@ -38,39 +39,45 @@ If you wish to subvert this process you will need to alter the source code of ST
 
 # Caching CAS output
 
-By default, the interactions with the CAS are cached.  You can connect freshly to the CAS each time, which is useful for  debugging, and this option is available on the STACK configuration page.  To clear the cache, click the button on the bottom of the healthcheck script. 
+By default, the interactions with the CAS are cached.  You can connect freshly to the CAS each time, which is useful for  debugging, and this option is available on the STACK configuration page.  To clear the cache, click the button on the healthcheck script.
 
-## Optimizing Maxima 
+## Optimizing Maxima
 
-Maxima is the rate-determining step in performance to STACK. Once you have the STACK question type working with a direct connection to the CAS, then you should consider optimizing the  performance of Maxima.  See the page dedicated to [optimizing Maxima](../CAS/Optimising_Maxima.md) 
+Maxima is the rate-determining step in performance to STACK. Once you have the STACK question type working with a direct connection to the CAS, then you should consider optimizing the  performance of Maxima.  See the page dedicated to [optimizing Maxima](Optimising_Maxima.md)
 
 ## CAS Chat
 
-At any stage you can evaluate a fragment of CASText by using the CASChat script.  There is a link from the STACK configuration page. 
+At any stage you can evaluate a fragment of CASText by using the CASChat script.  There is a link from the STACK configuration page.
 
 ## Testing your questions when you upgrade
 
+We have a whole section of the documentation dedicated to [maintaining questions](../Maintaining/index.md) for the longer term.
+
+Please check the [release notes](../Developer/Development_history.md) carefully.
+
 Whenever you upgrade to a new version of the STACK plugin, it is a really good idea to run all
 of the [question tests](../Authoring/Testing.md) to be sure that the behaviour of STACK has not
-changed in a way that breaks any of your questions. To do this, go to 
+changed in a way that breaks any of your questions. To do this, go to
 
-    Site administration -> Plugins -> Question types -> STACK 
+    Site administration -> Plugins -> Question types -> STACK
 
 and follow the "run the question tests in bulk script" link.
 
 It is even possible, with a bit of hacking, to [execute the question tests from
-one Moodle site on a different Moodle site](../Developer/Running_question_tests_other_site.md).
+one Moodle site on a different Moodle site](../Maintaining/Running_question_tests_other_site.md).
 For example you may be evaluating the latest release of STACK on a test server, and you would
 like to know if the upgrade will break any of your existing questions.
 (And you don't want to do a lot of exporting and importing.)
 
-# Troubleshooting an upgrade
+# Troubleshooting an install/upgrade
 
 When you upgrade, the STACK plugin will try to automatically recreate the optimised Maxima image.  Occasionally this will not work and you will need to troubleshoot why.
 
 ### 1. GOAL: maxima works on the server
 
-Check Maxima is installed and working.  E.g. type `maxima` on the command line, and try a non-trivial calculation such as `diff(sin(x^2),x);` to confirm Maxima is working.  Use `quit();` to exit.
+Check Maxima is installed and working.  E.g. type `maxima` on the command line, and try a non-trivial calculation such as `diff(sin(x^2),x);` to confirm Maxima is working.
+
+Use `quit();` to exit.
 
 ### 2. GOAL: STACK works!
 
@@ -86,15 +93,15 @@ To set these you must login as the Moodle site Administrator.  Take note of your
     qtype_stack | castimeout = 100
     qtype_stack | maximacommand =
     qtype_stack | maximacommandopt =
-    qtype_stack | maximalibraries = 
+    qtype_stack | maximalibraries =
 
 Note that the `maximacommand`, `maximacommandopt` and `maximalibraries` should be empty boxes.
 
-The `castimeout` of 100s is excessive. However, the very first time Maxima is called on a server it internally compiles a lot of LISP sourcecode.  This can take a surprisingly long time!
+The `castimeout` of 100s is excessive. However, the very first time Maxima is called on a server it internally compiles a lot of LISP source code.  This can take a surprisingly long time!
 
-### 3. GOAL: Reduce timeout and check Maxima libraies.
+### 3. GOAL: Reduce timeout and check Maxima libraries.
 
-Now we need to back away gently from the above raw confuration, back towards the defaults/production settings.
+Now we need to back away gently from the above raw configuration, back towards the defaults/production settings.
 
     qtype_stack | castimeout = 10
     qtype_stack | maximalibraries = stats, distrib, descriptive, simplex
@@ -107,7 +114,7 @@ If you want to choose a specific version of Maxima now is the time to do so by s
 
     qtype_stack | maximaversion
 
-from the dropdown.  Part of the healthcheck script will tell you which version you have on your server or use `maxima --list-avail` on the command line.  If your version does not appear on the dropdown (and it won't if you compiled Maxima from source) then set `maximacommand` to be the command you need to type.  E.g. if you use `maxima --use-version=5.42.1` on the command line then 
+from the dropdown.  Part of the healthcheck script will tell you which version you have on your server or use `maxima --list-avail` on the command line.  If your version does not appear on the dropdown (and it won't if you compiled Maxima from source) then set `maximacommand` to be the command you need to type.  E.g. if you use `maxima --use-version=5.42.1` on the command line then
 
     qtype_stack | maximacommand = maxima --use-version=5.42.1
 
@@ -129,7 +136,7 @@ If you get the following error `loadfile: failed to load /usr/share/maxima/5.32.
 
 ### 6. Goal: create optimised image.
 
-Now press the "Create Maxima Image" button at the bottom of the healthcheck script page to create the optimised image, and read the output of the refreshed healthcheck page.  Note, this page updates some of your settings in the plugin page. In particular, it changes `qtype_stack | platform` to optimised and fills in the value of `qtype_stack | maximacommandopt`.
+Now press the "Create Maxima Image" button on the healthcheck script page to create the optimised image, and read the output of the refreshed healthcheck page.  Note, this page updates some of your settings in the plugin page. In particular, it changes `qtype_stack | platform` to optimised and fills in the value of `qtype_stack | maximacommandopt`.
 
 __Reload the plugin page (but don't save over the top).__
 
@@ -155,4 +162,4 @@ The very last step is to use the CAS cache.
 
     qtype_stack | casresultscache = Cache in the database
 
-This should be a working server, using the optimised image.  Please consider using the Maxima Pool for production sites, putting Maxima onto another server competely.
+This should be a working server, using the optimised image.  Please consider using the Maxima Pool for production sites, putting Maxima onto another server completely. 

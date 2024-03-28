@@ -474,6 +474,11 @@ class ast_filter_005_i_is_never_a_function_auto_generated_test extends qtype_sta
                       array(),
                       true, false);
 
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
+                      array(),
+                      true, false);
+
         $this->expect('9.81x10^2*m/s',
                       '9.81*x10^2*m/s',
                       array(),
@@ -1796,6 +1801,11 @@ class ast_filter_005_i_is_never_a_function_auto_generated_test extends qtype_sta
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array(),
                       true, false);
 
@@ -2230,6 +2240,11 @@ class ast_filter_005_i_is_never_a_function_auto_generated_test extends qtype_sta
                       array(),
                       true, false);
 
+        $this->expect('1E23*10^45',
+                      '1E23*10^45',
+                      array(),
+                      true, false);
+
         $this->expect('9.81x10^2*m/s',
                       '9.81*x10^2*m/s',
                       array(),
@@ -3552,6 +3567,11 @@ class ast_filter_005_i_is_never_a_function_auto_generated_test extends qtype_sta
 
         $this->expect('1.2*m**2',
                       '1.2*m**2',
+                      array(),
+                      true, false);
+
+        $this->expect('1.2*mˆ2',
+                      '1.2*m^2',
                       array(),
                       true, false);
 

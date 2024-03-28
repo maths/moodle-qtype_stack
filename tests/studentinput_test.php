@@ -62,4 +62,28 @@ class studentinput_test extends qtype_stack_testcase {
         $this->assertEquals($result->ansnotes, $result->casnotes);
         $this->assertTrue($result->passed);
     }
+
+    /**
+     * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_decimals
+     */
+    public function test_studentinput_decimals_british() {
+        $test = stack_inputvalidation_test_data::test_decimals_from_raw(func_get_args(), 1);
+        $result = stack_inputvalidation_test_data::run_test($test);
+
+        $this->assert_equals_ignore_spaces_and_e($result->display, $result->casdisplay);
+        $this->assertEquals($result->ansnotes, $result->casnotes);
+        $this->assertTrue($result->passed);
+    }
+
+    /**
+     * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_decimals
+     */
+    public function test_studentinput_decimals_continental() {
+        $test = stack_inputvalidation_test_data::test_decimals_from_raw(func_get_args(), 2);
+        $result = stack_inputvalidation_test_data::run_test($test);
+
+        $this->assert_equals_ignore_spaces_and_e($result->display, $result->casdisplay);
+        $this->assertEquals($result->ansnotes, $result->casnotes);
+        $this->assertTrue($result->passed);
+    }
 }

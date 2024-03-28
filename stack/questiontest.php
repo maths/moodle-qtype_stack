@@ -25,6 +25,11 @@ require_once(__DIR__ . '/questiontestresult.php');
 
 class stack_question_test {
     /**
+     * @var string Give each testcase a meaningful description.
+     */
+    public $description;
+
+    /**
      * @var int|null test-case number, if this is a real test stored in the database, else null.
      */
     public $testcase;
@@ -44,7 +49,8 @@ class stack_question_test {
      * @param array $inputs input name => value to enter.
      * @param int $testcase test-case number, if this is a real test stored in the database.
      */
-    public function __construct($inputs, $testcase = null) {
+    public function __construct($description, $inputs, $testcase = null) {
+        $this->description = $description;
         $this->inputs = $inputs;
         $this->testcase = $testcase;
     }
@@ -75,6 +81,12 @@ class stack_question_test {
         // Create a completely clean version of the question usage we will use.
         // Evaluated state is stored in question variables etc.
         $question = question_bank::load_question($questionid);
+        // Hard-wire testing to use the decimal point.
+        // Teachers must use strict Maxima syntax, including in test case construction.
+        // I appreciate teachers will, reasonably, want to test the input mechanism.
+        // The added internal complexity here is serious.
+        // This complexity includes things like matrix input types which need a valid Maxima expression as the value of the input.
+        $question->options->set_option('decimals', '.');
         if (!is_null($seed)) {
             $question->seed = (int) $seed;
         }

@@ -5,6 +5,7 @@ More details of our development history are given in the [development track](../
 * [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh. STACK is the brainchild of Chris Sangwin.
 * [Tim Hunt](http://tjhunt.blogspot.co.uk/) and [Tim Lowe](mailto:tim.lowe@open.ac.uk) of the Open University.
 * Matti Harjula of Aalto University, Finland.
+* [Tim Lutz](https://tim-lutz.de/) of the University of Edinburgh and the University of Education Heidelberg.
 
 Previous developers have included
 
@@ -30,7 +31,7 @@ STACK is released in many languages, using Moodle's ATOS language system.
   * FI: Finnish, by Matti Pauna
   * SV: Swedish, by Mikael Kurula
   * DA: Danish, by Malthe Sporring
-  * ES: Spanish, by Victor Hugo Huerta 
+  * ES: Spanish, by Victor Hugo Huerta
   * JA: Japanese, by Yasuyuki Nakamura and Takahiro Nakahara  
 
 German documentation was added in Jan 2019 by Eva Mix and Mario Josupeit of University of Cologne, Germany.
@@ -54,3 +55,48 @@ This project received a lot of moral support from the ILIAS association and its 
 - Universität Erlangen-Nürnberg
 - Universität zu Köln
 
+# User list
+
+The following institutions made use of previous versions of STACK.  If you are actively using STACK and would like to be listed below then please contact the developers.
+
+School of Mathematics, The University of Edinburgh
+: The home of STACK. Contact [Chris Sangwin](mailto:c.j.sangwin@ed.ac.uk).
+
+School of Mathematics and Statistics, The Open University,
+: Contact [Tim Hunt](mailto:t.j.hunt@open.ac.uk) and [Tim Lowe](mailto:tim.lowe@open.ac.uk)
+
+School of Science, Aalto University, Helsinki, Finland
+: Contact Matti Harjula and [Antti Rasila](http://math.tkk.fi/en/research/matta/)
+
+Department of Mathematics Education, Loughborough University
+: Contact [Ian Jones](mailto:I.Jones@lboro.ac.uk)
+
+School of Informatics and Sciences, Nagoya University, Japan
+: Contact [Yasuyuki Nakamura](mailto:nakamura@nagoya-u.jp)
+
+Ja STACK Community
+: Contact [Ja STACK.org](http://ja-stack.org/)
+
+Polytechnic Institute of Leiria, Leiria, Portugal
+: Contact [Rui Paiva](mailto:rui.paiva@estg.ipleiria.pt)
+
+School of Computing, Information and Mathematical Sciences, The University of the South Pacific
+: Contact [Dhiraj Bhartu](mailto:dhiraj.bhartu@usp.ac.fj)
+
+Gymnasium Himmelsthür, Hildesheim, Deutschland
+: Contact [Frank Schütte](mailto:fschuett@gymnasium-himmelsthuer.de)
+
+Universidad Michoacana de San Nicolas de Hidalgo
+: Contact [Victor Hugo Huerta](mailto:v2hugo@gmail.com)
+
+e-MAIO project, Coimbra Institute of Engineering, Portugal
+: Contact [e_MAIO@isec.pt](mailto:e_MAIO@isec.pt)
+
+Maseno University, Kenya
+: Contact [Michael Oyengo](mailto:obiero@live.de)
+
+IDEMS International
+: Contact [Santiago Borio](mailto:smborio@idems.international)
+
+ETH Zürich, Switzerland
+: Contact [Meike Akveld](mailto:meike.akveld@math.ethz.ch), [George Ionita](mailto:georgeionut.ionita@math.ethz.ch), [Andreas Steiger](mailto:andreas.steiger@math.ethz.ch)

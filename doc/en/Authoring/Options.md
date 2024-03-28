@@ -2,11 +2,11 @@
 
 Options affect the behaviour of each question.
 
-### Question Level Simplify  ###
+### Question Level Simplify ###
 
 See the entry on [simplification](../CAS/Simplification.md).  Default is `true`.
 
-### Assume Positive  ### {#Assume_Positive}
+### Assume Positive {#Assume_Positive} ###
 
 This option sets the value of [Maxima](../CAS/Maxima.md)'s
 
@@ -20,7 +20,7 @@ asksign queries, such as may arise from integrate or other computations
 
 Default is False
 
-### Question Penalty ### {#Question_penalty}
+### Question Penalty {#Question_penalty} ###
 
 This is the percentage of the marks deducted from each different and valid attempt which is not
 completely correct, when the penalty mark modification scheme is in use.
@@ -32,11 +32,22 @@ then the extra digits will automatically be added. The exact range affected is t
 any penalty \(\ge 0.33\) and \(\le 0.34\) is changed to \(0.3333333\), and
 any penalty \(\ge 0.66\) and \(\le 0.67\) is changed to \(0.6666667\).
 
-## Output  ##
+## Output ##
 
 The following options affect how mathematics is displayed.
 
-### Multiplication Sign ### {#multiplication}
+### Decimal separator {#decimals} ###
+
+Choose the symbol for the decimal separator used by student input.  There are currently two choices.
+
+* `.`, the British decimal point.
+* `,`, the comma, as used in much of Europe.
+
+The design of this option is discussed further in the [developer docs](../Developer/Syntax_numbers.md).
+
+Teachers must always use strict Maxima syntax, which requires `.`, including in test case construction.
+
+### Multiplication Sign {#multiplication} ###
 
 * (none), e.g. \(x(x+1)\)
 * Dot, e.g. \(x\cdot(x+1)\)
@@ -63,11 +74,11 @@ There is a special atom which controls the multiplication symbol.  If you would 
 
 in the question variables.
 
-### Logic symbols ### {#logicsymbol}
+### Logic symbols {#logicsymbol} ###
 
 How logical symbols should be displayed. The values are language, e.g. \(A \mbox{ and } B\) or symbol, e.g. \(A\land B\).
 
-### Surd for Square Root ### {#surd}
+### Surd for Square Root {#surd} ###
 
 This option sets the value of [Maxima](../CAS/Maxima.md)'s
 
@@ -95,7 +106,7 @@ Do you really want to continue using \(\sqrt{}\) in your teaching?  In his *Elem
 
 A lot of elementary mathematics involves converting from one form to another and back again.  Sometimes these forms have important differences of use, e.g. factored form or completed square form for a quadratic.  However, sometimes these equivalent forms are more customary than because it *"manifestly corresponds with the nature of the thing"* in question.  I digress...
 
-### sqrt(-1) {#sqrt_minus_one}
+### sqrt(-1) {#sqrt_minus_one} ###
 
 In Maxima `%i` is the complex unit satisfying `%i^2=-1`.  However, students would
 like to type `i` and physicists and engineers `j`.
@@ -114,11 +125,11 @@ and affects the way they are displayed.
 
 Note the use of both Roman and italic symbols in this table.
 
-### Matrix parentheses
+### Matrix parentheses ###
 
 See the entry on [matrices](../CAS/Matrix.md#matrixparens).
 
-### Inline and displayed fractions.
+### Inline and displayed fractions. ###
 
 The display of fractions can take two forms: inline \( 1/x \) and displayed \( \frac{1}{x} \).
 

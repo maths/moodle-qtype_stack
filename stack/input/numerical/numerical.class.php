@@ -29,6 +29,7 @@ class stack_numerical_input extends stack_input {
      */
     protected $extraoptions = array(
         'hideanswer' => false,
+        'allowempty' => false,
         'nounits' => false,
         'simp' => false,
         // Forbid variables.  Always true for numerical inputs.
@@ -46,8 +47,8 @@ class stack_numerical_input extends stack_input {
         // Require min/max number of significant figures?
         'minsf' => false,
         'maxsf' => false,
-        'allowempty' => false,
-        'align' => 'left'
+        'align' => 'left',
+        'validator' => false
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -143,6 +144,9 @@ class stack_numerical_input extends stack_input {
         if (trim($value) == 'EMPTYANSWER') {
             return stack_string('teacheranswerempty');
         }
+        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
+        $cs->set_nounify(0);
+        $value = $cs->get_inputform(true, 0, true, $this->options->get_option('decimals'));
         return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
     }
 }

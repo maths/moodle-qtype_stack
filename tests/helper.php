@@ -59,6 +59,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'unitsoptions',       // This question has units inputs, and a numerical test with the accuracy in a variable.
             'equiv_quad',         // This question uses equivalence reasoning to solve a quadratic equation.
             'checkbox_all_empty', // Creates a checkbox input with none checked as the correct answer: edge case.
+            'checkbox_union',     // Creates a checkbox input with %union functions: noun edge case.
             'addrow',             // This question has addrows, in an older version.
             'mul',                // This question has mul in the options which is no longer permitted.
             'contextvars',        // This question makes use of the context variables.
@@ -66,7 +67,10 @@ class qtype_stack_test_helper extends question_test_helper {
             'sregexp',            // Uses the SRegExp answer test, and string input.
             'feedbackstyle',      // Test the various feedbackstyle options.
             'multilang',          // Check for mismatching languages.
-            'block_locals'        // Make sure local variables within a block are still permitted student input.
+            'lang_blocks',        // Check for mismatching languages using STACK's [[lang...]] block mechanism.
+            'block_locals',       // Make sure local variables within a block are still permitted student input.
+            'validator',          // Test teacher-defined input validators and language.
+            'feedback',           // Test teacher-defined input feedback and complex numbers.
         );
     }
 
@@ -87,6 +91,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionvariables = '';
         $q->specificfeedback = '';
         $q->specificfeedbackformat = FORMAT_HTML;
+        $q->questiondescription = '';
+        $q->questiondescriptionformat = FORMAT_HTML;
         $q->penalty = 0.1; // The default.
 
         $q->prtcorrect = self::DEFAULT_CORRECT_FEEDBACK;;
@@ -104,6 +110,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->options = new stack_options();
         $q->questionnote = '';
+        $q->questionnoteformat = FORMAT_HTML;
 
         return $q;
     }
@@ -116,9 +123,10 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->stackversion = '2019072900';
         $q->name = 'test-0';
-        $q->questionvariables = 'a:1+1;';
+        $q->questionvariables = "stack_reset_vars(true);\na:1+1;";
         $q->questiontext = 'What is {@a@}? [[input:ans1]]
                            [[validation:ans1]]';
+        $q->questiondescription = 'This is a great and wonderful question!';
 
         $q->specificfeedback = '[[feedback:firsttree]]';
         $q->penalty = 0.3; // Non-zero and not the default.
@@ -126,7 +134,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '2', null, array('boxWidth' => 5));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -141,6 +149,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '2';
         $newnode->answertest          = 'EqualComAss';
@@ -247,8 +256,14 @@ class qtype_stack_test_helper extends question_test_helper {
                                \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]',
             'format' => '1',
             'itemid' => 0);
-        $formform->questionnote = '{@p@}, {@ta@}.';
-
+        $formform->questionnote = array(
+                'text' => '{@p@}, {@ta@}.',
+                'format' => '1',
+                'itemid' => 0);
+        $formform->questiondescription = array(
+            'text' => 'This is a basic test question.',
+            'format' => '1',
+            'itemid' => 0);
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'ta+c';
         $formform->ans1boxsize = 20;
@@ -270,6 +285,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->PotResTree_1feedbackstyle     = 1;
         $formform->PotResTree_1feedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
         $formform->PotResTree_1answertest = array(0 => 'Int');
+        $formform->PotResTree_1description = array(0 => 'Anti-derivative test');
         $formform->PotResTree_1sans = array(0 => 'ans1+0');
         $formform->PotResTree_1tans = array(0 => 'ta');
         $formform->PotResTree_1testoptions = array(0 => 'x');
@@ -293,6 +309,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->prtcorrect = array('text' => 'Correct answer, well done!', 'format' => '1', 'itemid' => 0);
         $formform->prtpartiallycorrect = array('text' => 'Your answer is partially correct!', 'format' => '1', 'itemid' => 0);
         $formform->prtincorrect = array('text' => 'Incorrect answer :-(', 'format' => '1', 'itemid' => 0);
+        $formform->decimals = '.';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -398,6 +415,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'sa';
         $newnode->tans                = '0';
         $newnode->answertest          = 'AlgEquiv';
@@ -434,6 +452,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'sa';
         $newnode->tans                = '0';
         $newnode->answertest          = 'AlgEquiv';
@@ -470,6 +489,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'sa1';
         $newnode->tans                = '0';
         $newnode->answertest          = 'AlgEquiv';
@@ -493,6 +513,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
+        $newnode->description         = 'Descript of node 1';
         $newnode->sans                = 'sa2';
         $newnode->tans                = '0';
         $newnode->answertest          = 'AlgEquiv';
@@ -529,6 +550,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans4';
         $newnode->tans                = 'true';
         $newnode->answertest          = 'AlgEquiv';
@@ -614,6 +636,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'sa';
         $newnode->tans                = '0';
         $newnode->answertest          = 'AlgEquiv';
@@ -650,6 +673,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'sa';
         $newnode->tans                = '0';
         $newnode->answertest          = 'AlgEquiv';
@@ -686,6 +710,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'sa1';
         $newnode->tans                = '0';
         $newnode->answertest          = 'AlgEquiv';
@@ -709,6 +734,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
+        $newnode->description         = '';
         $newnode->sans                = 'sa2';
         $newnode->tans                = '0';
         $newnode->answertest          = 'AlgEquiv';
@@ -745,6 +771,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans4';
         $newnode->tans                = 'true';
         $newnode->answertest          = 'AlgEquiv';
@@ -810,6 +837,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'x^2';
         $newnode->answertest          = 'AlgEquiv';
@@ -854,7 +882,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make('boolean', 'ans1', 'ta');
 
-        $q->options->questionsimplify = 1;
+        $q->options->set_option('simplify', true);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -868,6 +896,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta';
         $newnode->answertest          = 'AlgEquiv';
@@ -901,9 +930,9 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->stackversion = '2019072900';
         $q->name = 'test-8';
-        $q->questionvariables = "n : rand(2)+3; " .
-                                "p : rand(3)+2; " .
-                                "ta : setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n))";
+        $q->questionvariables = "n : 3; " .
+                                "p : 4; " .
+                                "ta : setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n));";
         $q->questiontext = '<p>Find all the complex solutions of the equation \[ z^{@n@}={@p^n@}.\]
                             Enter your answer as a set of numbers.
                             [[input:ans1]]</p>
@@ -932,6 +961,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta';
         $newnode->answertest          = 'AlgEquiv';
@@ -955,6 +985,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '{p}';
         $newnode->answertest          = 'AlgEquiv';
@@ -979,6 +1010,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '2';
         $newnode->nodename            = '2';
+        $newnode->description         = '';
         $newnode->sans                = 'a1';
         $newnode->tans                = '{0}';
         $newnode->answertest          = 'AlgEquiv';
@@ -1068,6 +1100,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = '[ans1,ans2]';
         $newnode->tans                = '[ta1,ta2]';
         $newnode->answertest          = 'Int';
@@ -1125,6 +1158,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = '1/ans1';
         $newnode->tans                = '2';
         $newnode->answertest          = 'AlgEquiv';
@@ -1168,7 +1202,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '3.14', null, array('boxWidth' => 5, 'forbidFloats' => false));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1182,6 +1216,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '3.14';
         $newnode->answertest          = 'NumSigFigs';
@@ -1225,7 +1260,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'numerical', 'ans1', '0.040', null, array('boxWidth' => 5, 'forbidFloats' => false));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1239,6 +1274,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '0.040';
         $newnode->answertest          = 'NumSigFigs';
@@ -1299,6 +1335,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'sa';
         $newnode->tans                = '3.14';
         $newnode->answertest          = 'NumDecPlaces';
@@ -1342,7 +1379,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'units', 'ans1', '9.81*m/s^2', null, array('boxWidth' => 5, 'forbidFloats' => false));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1357,6 +1394,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '9.81*m/s^2';
         $newnode->answertest          = 'Units';
@@ -1401,7 +1439,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'units', 'ans1', '9.81*m/s^2', null, array('boxWidth' => 5, 'forbidFloats' => false));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1416,6 +1454,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '9.81*m/s^2';
         $newnode->answertest          = 'Units';
@@ -1460,7 +1499,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'equiv', 'ans1', 'ta', null, array('boxWidth' => 20, 'forbidFloats' => false));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1475,6 +1514,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta';
         $newnode->answertest          = 'Equiv';
@@ -1532,6 +1572,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'mod(ans1,2)';
         $newnode->tans                = '0';
         $newnode->answertest          = 'AlgEquiv';
@@ -1566,6 +1607,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'mod(ans1,3)';
         $newnode->tans                = '0';
         $newnode->answertest          = 'AlgEquiv';
@@ -1649,7 +1691,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                     'algebraic', 'ans1', '2', null, array('boxWidth' => 5, 'insertStars' => 2));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1663,6 +1705,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1+0';
         $newnode->tans                = 'sin(x*y)';
         $newnode->answertest          = 'AlgEquiv';
@@ -1718,6 +1761,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'all_listp(equationp,ans1)';
         $newnode->tans                = 'true';
         $newnode->answertest          = 'AlgEquiv';
@@ -1741,6 +1785,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
+        $newnode->description         = '';
         $newnode->sans                = 'solve(ans1,listofvars(ans1))';
         $newnode->tans                = '[]';
         $newnode->answertest          = 'AlgEquiv';
@@ -1764,6 +1809,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '2';
         $newnode->nodename            = '2';
+        $newnode->description         = '';
         $newnode->sans                = 'length(solve(ans1,listofvars(ans1)))';
         $newnode->tans                = '1';
         $newnode->answertest          = 'AlgEquiv';
@@ -1817,6 +1863,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta';
         $newnode->answertest          = 'AlgEquiv';
@@ -1869,6 +1916,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta';
         $newnode->answertest          = 'AlgEquiv';
@@ -1915,6 +1963,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->specificfeedback          = '[[feedback:firsttree]]';
         $qdata->options->specificfeedbackformat    = FORMAT_HTML;
         $qdata->options->questionnote              = '';
+        $qdata->options->questionnoteformat        = FORMAT_HTML;
+        $qdata->options->questiondescription       = 'This is a rather wonderful question!';
+        $qdata->options->questiondescriptionformat = FORMAT_HTML;
         $qdata->options->questionsimplify          = 1;
         $qdata->options->assumepositive            = 0;
         $qdata->options->assumereal                = 0;
@@ -1924,6 +1975,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->prtpartiallycorrectformat = FORMAT_HTML;
         $qdata->options->prtincorrect              = self::DEFAULT_INCORRECT_FEEDBACK;
         $qdata->options->prtincorrectformat        = FORMAT_HTML;
+        $qdata->options->decimals                  = '.';
         $qdata->options->multiplicationsign        = 'dot';
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
@@ -1970,6 +2022,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->questionid          = 0;
         $node->prtname             = 'firsttree';
         $node->nodename            = '0';
+        $node->description         = '';
         $node->answertest          = 'EqualComAss';
         $node->sans                = 'ans1';
         $node->tans                = '2';
@@ -1994,7 +2047,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $qdata->deployedseeds = array('12345');
 
-        $qtest = new stack_question_test(array('ans1' => '2'));
+        $qtest = new stack_question_test('Basic test of question', array('ans1' => '2'));
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
                 1, true, 1, 0, '', array('firsttree-1-T')));
         $qdata->testcases[1] = $qtest;
@@ -2039,7 +2092,10 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->questionvariables         = '';
         $qdata->options->specificfeedback          = '';
         $qdata->options->specificfeedbackformat    = FORMAT_HTML;
+        $qdata->options->questiondescription       = '';
+        $qdata->options->questiondescriptionformat = FORMAT_HTML;
         $qdata->options->questionnote              = '';
+        $qdata->options->questionnoteformat        = FORMAT_HTML;
         $qdata->options->questionsimplify          = 1;
         $qdata->options->assumepositive            = 0;
         $qdata->options->assumereal                = 0;
@@ -2050,6 +2106,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->prtpartiallycorrectformat = FORMAT_HTML;
         $qdata->options->prtincorrect              = self::DEFAULT_INCORRECT_FEEDBACK;
         $qdata->options->prtincorrectformat        = FORMAT_HTML;
+        $qdata->options->decimals                  = '.';
         $qdata->options->multiplicationsign        = 'dot';
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
@@ -2145,7 +2202,6 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $prt = new stdClass();
         $prt->name              = 'odd';
-        $prt->id                = 0;
         $prt->id                = '0';
         $prt->questionid        = '0';
         $prt->value             = 1;
@@ -2159,6 +2215,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->questionid          = 0;
         $node->prtname             = 'odd';
         $node->nodename            = '0';
+        $node->description         = 'Check for oddness';
         $node->answertest          = 'AlgEquiv';
         $node->sans                = 'sa';
         $node->tans                = '0';
@@ -2197,6 +2254,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->questionid          = 0;
         $node->prtname             = 'even';
         $node->nodename            = '0';
+        $node->description         = 'Check for evenness';
         $node->answertest          = 'AlgEquiv';
         $node->sans                = 'sa';
         $node->tans                = '0';
@@ -2235,6 +2293,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->questionid          = 0;
         $node->prtname             = 'oddeven';
         $node->nodename            = '0';
+        $node->description         = 'Check for odd again';
         $node->answertest          = 'AlgEquiv';
         $node->sans                = 'sa1';
         $node->tans                = '0';
@@ -2261,6 +2320,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->questionid          = 0;
         $node->prtname             = 'oddeven';
         $node->nodename            = '1';
+        $node->description         = 'Check for even again';
         $node->answertest          = 'AlgEquiv';
         $node->sans                = 'sa2';
         $node->tans                = '0';
@@ -2299,6 +2359,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $node->questionid          = 0;
         $node->prtname             = 'unique';
         $node->nodename            = '0';
+        $node->description         = 'Check unique';
         $node->answertest          = 'AlgEquiv';
         $node->sans                = 'ans4';
         $node->tans                = 'true';
@@ -2372,8 +2433,14 @@ class qtype_stack_test_helper extends question_test_helper {
                 'text' => '',
                 'format' => '1',
                 'itemid' => 250226104);
-        $formform->questionnote = '';
-
+        $formform->questionnote = array(
+                'text' => '',
+                'format' => '1',
+                'itemid' => 12346789);
+        $formform->questiondescription = array(
+                'text' => '',
+                'format' => '1',
+                'itemid' => 25022610);
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'x^3';
         $formform->ans1boxsize = 15;
@@ -2439,6 +2506,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->ans4options = '';
 
         $formform->oddvalue = 1;
+        $formform->odddescription = array(
+            0 => '');
         $formform->oddautosimplify = '1';
         $formform->oddfeedbackstyle     = 1;
         $formform->oddfeedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
@@ -2486,6 +2555,8 @@ class qtype_stack_test_helper extends question_test_helper {
                 ));
 
         $formform->evenvalue = 1;
+        $formform->evendescription = array(
+            0 => '');
         $formform->evenautosimplify = '1';
         $formform->evenfeedbackstyle     = 1;
         $formform->evenfeedbackvariables = 'sa:subst(x=-x,ans2)-ans2';
@@ -2533,6 +2604,8 @@ class qtype_stack_test_helper extends question_test_helper {
                 ));
 
         $formform->oddevenvalue = 1;
+        $formform->oddevendescription = array(
+            0 => '', 1 => '');
         $formform->oddevenautosimplify = '1';
         $formform->oddevenfeedbackstyle     = 1;
         $formform->oddevenfeedbackvariables = 'sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)';
@@ -2601,6 +2674,8 @@ class qtype_stack_test_helper extends question_test_helper {
                         'itemid' => 212217540));
 
         $formform->uniquevalue = 1;
+        $formform->uniquedescription = array(
+            0 => '');
         $formform->uniqueautosimplify = '1';
         $formform->uniquefeedbackstyle     = 1;
         $formform->uniquefeedbackvariables = '';
@@ -2661,6 +2736,7 @@ class qtype_stack_test_helper extends question_test_helper {
                 'text' => 'Incorrect answer :-(',
                 'format' => '1',
                 'itemid' => 56111684);
+        $formform->decimals = '.';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -2703,7 +2779,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'checkbox', 'ans1', '[[x^2+1<0,false],[A,false,"Generalizations are false"],[clcr(a,b), false]]', null, null);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -2718,6 +2794,67 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '[]';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a checkbox question using %union, which was problematic
+     */
+    public static function make_stack_question_checkbox_union() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-checkbox-union';
+        $q->questionvariables = 'ta:[[%union(oo(-inf,0),oo(0,inf)),true],[%union({1},{2}),false],' .
+            '[union({1},{4}),false],[A,false,%union({1},{3})]];';
+        $q->questiontext = 'Which of these are is the domain? [[input:ans1]]
+                           [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.3; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'checkbox', 'ans1', 'ta', null, null);
+
+        $q->options->set_option('simplify', false);
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '[]';
         $newnode->answertest          = 'AlgEquiv';
@@ -2763,7 +2900,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', '2', null, array('boxWidth' => 5));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -2779,6 +2916,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '2';
         $newnode->answertest          = 'EqualComAss';
@@ -2822,7 +2960,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'units', 'ans1', 'stackunits(9.81,m*s^-2)', null, array('boxWidth' => 5, 'options' => 'mul'));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -2837,6 +2975,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '2';
         $newnode->answertest          = 'UnitsStrict';
@@ -2881,7 +3020,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'string', 'ans1', 'ta1', null, array('boxWidth' => 25));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -2896,6 +3035,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta1';
         $newnode->answertest          = 'String';
@@ -2919,6 +3059,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta1';
         $newnode->answertest          = 'StringSloppy';
@@ -2964,7 +3105,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'string', 'ans1', 'ta', null, array('boxWidth' => 25));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -2979,6 +3120,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'tregex';
         $newnode->answertest          = 'SRegExp';
@@ -3029,7 +3171,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans2'] = stack_input_factory::make(
                 'algebraic', 'ans2', 'sin(x)', null, array('boxWidth' => 10, 'showValidation' => 3));
 
-        $q->options->questionsimplify = 1;
+        $q->options->set_option('simplify', true);
 
         $prt = new stdClass;
         $prt->name              = 'prt1';
@@ -3045,6 +3187,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'sa';
         $newnode->tans                = '0';
         $newnode->answertest          = 'AlgEquiv';
@@ -3081,6 +3224,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'sa';
         $newnode->tans                = '0';
         $newnode->answertest          = 'AlgEquiv';
@@ -3117,6 +3261,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'all_listp(polynomialpsimp,[ans1,ans2])';
         $newnode->tans                = 'true';
         $newnode->answertest          = 'AlgEquiv';
@@ -3160,7 +3305,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', 'blob', null, array('boxWidth' => 5, 'allowWords' => 'blob'));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', true);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -3175,6 +3320,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = '6*(x-2)^(2*k)';
         $newnode->answertest          = 'AlgEquiv';
@@ -3198,6 +3344,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
+        $newnode->description         = 'Description of node 1';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'a^(x*y)';
         $newnode->answertest          = 'AlgEquiv';
@@ -3250,7 +3397,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'matrix', 'ans1', 'ta', new stack_options(),
             array('boxWidth' => 5, 'allowWords' => 'blob'));
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -3265,6 +3412,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'ta';
         $newnode->answertest          = 'AlgEquiv';
@@ -3288,6 +3436,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '1';
         $newnode->nodename            = '1';
+        $newnode->description         = 'Description of node 1';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'mat1.mat2';
         $newnode->answertest          = 'AlgEquiv';
@@ -3306,6 +3455,72 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode->truefeedback        = '';
         $newnode->truefeedbackformat  = '1';
         $newnode->trueanswernote      = 'firsttree-2-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a question which tests language blocks.
+     */
+    public static function make_stack_question_lang_blocks() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2020112300';
+        $q->name = 'langblocks';
+        $q->questionvariables = "pt:5;ta2:(x-pt)^2";
+
+        $q->questiontext = '[[lang code="en,other"]] Give an example of a function \(f(x)\) with a stationary point ' .
+            'at \(x={@pt@}\).[[/lang]][[lang code="da"]] Giv et eksempel på en funktion \(f(x)\) med et stationært ' .
+            'punkt ved \(x={@pt@}\). [[/lang]] [[input:ans1]][[validation:ans1]][[feedback:prt1]]';
+
+        $q->specificfeedback = '';
+        $q->penalty = 0.35; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'ta2', new stack_options(),
+            array('boxWidth' => 5, 'allowWords' => ''));
+
+        $q->options->set_option('simplify', true);
+
+        $prt = new stdClass;
+        $prt->name              = 'prt1';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'subst(x=pt,diff(ans1,x))';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '[[lang code="en,other"]]At a stationary point, \\(f\'(x)\\) ' .
+                'should be zero. However, in your answer, \\(f\'({@pt@})={@subst(x=pt,diff(ans1,x))@}\\).[[/lang]]' .
+                '[[lang code="da"]]Ved et stationært punkt skal \\(f\'(x)\\) være nul. Men i dit svar er ' .
+                '\\(f\'({@pt@})={@subst(x=pt,diff(ans2,x))@}\\).[[/lang]]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt1-1-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt1-1-T';
         $newnode->truenextnode        = '-1';
         $prt->nodes[] = $newnode;
 
@@ -3348,6 +3563,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $newnode = new stdClass;
         $newnode->id                  = '0';
         $newnode->nodename            = '0';
+        $newnode->description         = '';
         $newnode->sans                = 'ans1';
         $newnode->tans                = 'cans1';
         $newnode->answertest          = 'AlgEquiv';
@@ -3372,5 +3588,195 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
         return $q;
+    }
+
+    /**
+     * @return qtype_stack_question.
+     */
+    public static function make_stack_question_validator() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'validator';
+        // We need to check that local variable names within the block are not invalid for student's input.
+        // We need to chack mathematics within the castext is correctly displayed.
+        $q->questionvariables = 'ta:phi^2-1;myvalidityidea(ex):=block(if ev(subsetp(setify(listofvars(ex)),' .
+            'setify(listofvars(ta))), simp) then return(""),castext("[[lang code=\'fi\']]Vastauksesi sisältää ' .
+            'vääriä muuttujia.[[/lang]][[lang code=\'en,other\']]Your answer {@ex@} contains the wrong variables.[[/lang]]"));';
+        // This question is also used to test the lang blocks at the top level.
+        $q->questiontext = "[[lang code='en,other']] What is {@ta@}? [[/lang]]<br>" .
+                           "[[lang code='de']] Was ist {@ta@}? [[/lang]]<br>" .
+                           "[[lang code='fi']] Mikä on {@ta@}? [[/lang]]<br>" .
+                           "[[input:ans1]] [[validation:ans1]]";
+        $q->generalfeedback = '';
+        $q->questionnote = '';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.25; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'ta', null,
+            array('boxWidth' => 20, 'forbidWords' => '', 'allowWords' => '',
+                  'options' => 'validator:myvalidityidea'));
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = "[[lang code='en,other']] wrong [[/lang]]<br> [[lang code='de']] falsch [[/lang]]" .
+            "<br> [[lang code='fi']] väärä [[/lang]]";
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = "[[lang code='en,other']] true answer [[/lang]]<br> [[lang code='de']] richtig [[/lang]]" .
+            "<br> [[lang code='fi']] oikea [[/lang]]";
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question.
+     */
+    public static function make_stack_question_feedback() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'feedback';
+        // We need to check that local variable names within the block are not invalid for student's input.
+        // We need to chack mathematics within the castext is correctly displayed.
+        $q->questionvariables = 'feedback_fn(ex) := "Remember to enter sets!"' .
+            "n : rand(2)+3; " .
+            "p : rand(3)+2; " .
+            "ta : setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n))" .
+            "sc2:0.3";
+        $q->questiontext = '<p>Find all the complex solutions of the equation \[ z^{@n@}={@p^n@}.\]
+                            Enter your answer as a set of numbers.
+                            [[input:ans1]]</p>
+                            [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:ans]]';
+        $q->questionnote = '{@ta@}';
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'ta', null,
+            array('boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}',
+                'options' => 'feedback:feedback_fn')
+            );
+
+            $feedbackvars = 'a1 : listify(ans1);' .
+                'a1 : maplist(lambda([x],x^n-p^n),a1);' .
+                'a1 : setify(a1)';
+
+            $prt = new stdClass;
+            $prt->name              = 'ans';
+            $prt->id                = 0;
+            $prt->value             = 1;
+            $prt->feedbackstyle     = 1;
+            $prt->feedbackvariables = $feedbackvars;
+            $prt->firstnodename     = '0';
+            $prt->nodes             = [];
+            $prt->autosimplify      = true;
+            $newnode = new stdClass;
+            $newnode->id                  = '0';
+            $newnode->nodename            = '0';
+            $newnode->description         = '';
+            $newnode->sans                = 'ans1';
+            $newnode->tans                = 'ta';
+            $newnode->answertest          = 'Sets';
+            $newnode->testoptions         = '';
+            $newnode->quiet               = false;
+            $newnode->falsescore          = '0';
+            $newnode->falsescoremode      = '=';
+            $newnode->falsepenalty        = $q->penalty;
+            $newnode->falsefeedback       = '';
+            $newnode->falsefeedbackformat = '1';
+            $newnode->falseanswernote     = 'ans-0-F';
+            $newnode->falsenextnode       = '1';
+            $newnode->truescore           = '1';
+            $newnode->truescoremode       = '=';
+            $newnode->truepenalty         = $q->penalty;
+            $newnode->truefeedback        = '';
+            $newnode->truefeedbackformat  = '1';
+            $newnode->trueanswernote      = 'ans-0-T';
+            $newnode->truenextnode        = '-1';
+            $prt->nodes[] = $newnode;
+            $newnode = new stdClass;
+            $newnode->id                  = '1';
+            $newnode->nodename            = '1';
+            $newnode->description         = '';
+            $newnode->sans                = 'ans1';
+            $newnode->tans                = '{p}';
+            $newnode->answertest          = 'AlgEquiv';
+            $newnode->testoptions         = '';
+            $newnode->quiet               = false;
+            $newnode->falsescore          = '0';
+            $newnode->falsescoremode      = '=';
+            $newnode->falsepenalty        = $q->penalty;
+            $newnode->falsefeedback       = '';
+            $newnode->falsefeedbackformat = '1';
+            $newnode->falseanswernote     = 'ans-1-F';
+            $newnode->falsenextnode       = '2';
+            $newnode->truescore           = 'sc2';
+            $newnode->truescoremode       = '=';
+            $newnode->truepenalty         = $q->penalty;
+            $newnode->truefeedback        = '<p>There are more answers that just the single real number.
+                 Please consider complex solutions to this problem!</p>';
+            $newnode->truefeedbackformat  = '1';
+            $newnode->trueanswernote      = 'ans-1-T';
+            $newnode->truenextnode        = '-1';
+            $prt->nodes[] = $newnode;
+            $newnode = new stdClass;
+            $newnode->id                  = '2';
+            $newnode->nodename            = '2';
+            $newnode->description         = '';
+            $newnode->sans                = 'a1';
+            $newnode->tans                = '{0}';
+            $newnode->answertest          = 'AlgEquiv';
+            $newnode->testoptions         = '';
+            $newnode->quiet               = true;
+            $newnode->falsescore          = '0';
+            $newnode->falsescoremode      = '=';
+            $newnode->falsepenalty        = $q->penalty;
+            $newnode->falsefeedback       = '';
+            $newnode->falsefeedbackformat = '1';
+            $newnode->falseanswernote     = 'ans-2-F';
+            $newnode->falsenextnode       = '-1';
+            $newnode->truescore           = 'sc2';
+            $newnode->truescoremode       = '=';
+            $newnode->truepenalty         = $q->penalty;
+            $newnode->truefeedback        =
+            'All your answers satisfy the equation. But, you have missed some of the solutions.';
+            $newnode->truefeedbackformat  = '1';
+            $newnode->trueanswernote      = 'ans-2-T';
+            $newnode->truenextnode        = '-1';
+            $prt->nodes[] = $newnode;
+            $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+            return $q;
     }
 }

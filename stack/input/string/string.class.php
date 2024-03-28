@@ -29,7 +29,8 @@ class stack_string_input extends stack_algebraic_input {
 
     protected $extraoptions = array(
         'hideanswer' => false,
-        'allowempty' => false
+        'allowempty' => false,
+        'validator' => false
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -99,8 +100,8 @@ class stack_string_input extends stack_algebraic_input {
             return '';
         }
 
-        $value = stack_utils::maxima_string_to_php_string($value);
-        return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
+        $display = stack_utils::maxima_string_strip_mbox($display);
+        return stack_string('teacheranswershow_disp', array('display' => $display));
     }
 
     /**

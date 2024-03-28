@@ -22,4 +22,4 @@ If you wish to import STACK 2 questions into STACK 3 you will need to install th
         git clone https://github.com/maths/moodle-qformat_stack.git question/format/stack
 2. Login to Moodle as the admin user and click on Notifications in the Site Administration panel.
 
-There have been a number of changes between STACK 2 and STACK 3.  This feature has not been tested since STACK 4.0.  If you need to use this please contact the developers.  Also, see the [notes on the importer](../Authoring/ImportExport.md) before using it.
+There have been a number of changes between STACK 2 and STACK 3.  This feature has not been tested since STACK 4.0.  If you need to use this please contact the developers.  Also, see the [notes on the importer](../Moodle/Import_Export.md) before using it.

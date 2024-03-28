@@ -113,7 +113,7 @@ class ast_container_test extends qtype_stack_testcase {
             array('%o1', true, true),
             // Literal unicode character (pi) instead of name.
             array(json_decode('"\u03C0"'), true, true),
-            array(json_decode('"\u2205"'), false, false),
+            array(json_decode('"\u2205"'), true, true),
             // Non-matching brackets.
             array('(x+1', false, false),
             array('(y^2+1))', false, false),
@@ -167,12 +167,14 @@ class ast_container_test extends qtype_stack_testcase {
     }
 
     public function test_validation_unicode() {
+        // Note the error with the * in this expression.
         $casstring = stack_ast_container::make_from_student_source(json_decode('"\u212F"').'*^x', '', new stack_cas_security());
         $casstring->get_valid();
-        $this->assertEquals(stack_string('stackCas_forbiddenChar', array('char' => json_decode('"\u212F"'))) . ' ' .
-                stack_string('stackCas_useinsteadChar', array('bad' => json_decode('"\u212F"'), 'char' => 'e')),
+        $this->assertEquals('Expected "#pm#", "%not ", "\'", "\'\'", "(", "+", "+-", "-", "? ", "?", "?? ", "[", "do", ' .
+            '"for", "from", "if", "in", "next", "not ", "not", "nounnot ", "nounnot", "step", "thru", "unless", ' .
+            '"while", "{", "|", boolean, float, identifier, integer, string or whitespace but "^" found.',
             $casstring->get_errors());
-        $this->assertEquals('unicodeChar', $casstring->get_answernote());
+        $this->assertEquals('ParseError', $casstring->get_answernote());
     }
 
     public function test_validation_error() {
@@ -1024,5 +1026,22 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertTrue($t3['out-of-ev-write'], "c");
         $this->assertEquals($t3['last-seen'], false);
 
+    }
+
+    public function test_teacher_answer_decimals() {
+        // This tests the functions which generate "The teacher's answer is".
+        $s = '{4.4,4}';
+        $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
+        $at1->set_nounify(0);
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('', $at1->get_errors());
+        $this->assertEquals($at1->get_inputform(true, 0, true, ','), '{4,4;4}');
+
+        $s = '[4.4,4]';
+        $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
+        $at1->set_nounify(0);
+        $this->assertTrue($at1->get_valid());
+        $this->assertEquals('', $at1->get_errors());
+        $this->assertEquals($at1->get_inputform(true, 0, true, ','), '[4,4;4]');
     }
 }

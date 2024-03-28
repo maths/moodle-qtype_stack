@@ -49,14 +49,12 @@ $title = 'Dependency checker';
 $PAGE->set_title($title);
 
 // Figure out the number of questions that can be explored.
+// In Moodle 4+ hidden questions occur when they are included in a quiz, but then are deleted from the question bank.
+// In this case the database sets the field `status` to `'hidden'` within the question versions database.
 $query = 'SELECT count(*) as notcompiled FROM {question} q, ' .
-    '{qtype_stack_options} o WHERE q.id = o.questionid AND o.compiledcache = ?;';
-// TODO: figure out about hidden questions in Moodle 4+.
-// This needs to be added to all versions below in which I've omitted this clause.
-if (stack_determine_moodle_version() < 400) {
-    $query = 'SELECT count(*) as notcompiled FROM {question} q, ' .
-        '{qtype_stack_options} o WHERE q.id = o.questionid AND q.hidden = 0 AND o.compiledcache = ?;';
-}
+    '{qtype_stack_options} o, {question_versions} v WHERE q.id = o.questionid AND q.id = v.id ' . '
+    AND NOT v.status = "hidden" AND o.compiledcache = ?;';
+
 $notcompiled = $DB->get_recordset_sql($query, ['{}']);
 
 $nnotcompiled = 0;
@@ -67,11 +65,8 @@ foreach ($notcompiled as $item) {
 $notcompiled->close();
 
 $query = 'SELECT count(*) as compiled FROM {question} q, ' .
-    '{qtype_stack_options} o WHERE q.id = o.questionid AND NOT o.compiledcache = ?;';
-if (stack_determine_moodle_version() < 400) {
-    $query = 'SELECT count(*) as compiled FROM {question} q, {qtype_stack_options} ' .
-        'o WHERE q.id = o.questionid AND q.hidden = 0 AND NOT o.compiledcache = ?;';
-}
+    '{qtype_stack_options} o, {question_versions} v WHERE q.id = o.questionid AND q.id = v.id ' . '
+    AND NOT v.status = "hidden" AND o.compiledcache = ?;';
 
 $compiled = $DB->get_recordset_sql($query, ['{}']);
 

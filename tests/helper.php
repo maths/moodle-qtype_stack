@@ -71,6 +71,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'block_locals',       // Make sure local variables within a block are still permitted student input.
             'validator',          // Test teacher-defined input validators and language.
             'feedback',           // Test teacher-defined input feedback and complex numbers.
+            'algebraic_input',
         );
     }
 
@@ -3778,5 +3779,142 @@ class qtype_stack_test_helper extends question_test_helper {
             $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
             return $q;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for an algebraic input question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_algebraic_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Algebraic input';
+        $formform->questionvariables = 'ta:a*b';
+        $formform->questiontext = [
+        'text' => '
+
+        Type in {@ta@}.
+
+        [[input:ans1]] [[validation:ans1]]
+
+        (Note, this assumes single variable variable names)
+        ',
+        'format' => '1',
+        'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+        'text' => '',
+        'format' => '1',
+        'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+        'text' => '[[feedback:prt1]]',
+        'format' => '1',
+        'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+        'text' => 'There are various options for typing in multiplication within STACK.',
+        'format' => '1',
+        'itemid' => 0,
+        ];
+        $formform->questionnote = [
+        'text' => '',
+        'format' => '0',
+        'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'algebraic';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1type = 'algebraic';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '2';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = 'solve';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '1';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+        'text' => ' Correct answer, well done.',
+        'format' => '1',
+        'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+        'text' => ' Your answer is partially correct.',
+        'format' => '1',
+        'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+        'text' => ' Incorrect answer.',
+        'format' => '1',
+        'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+        ['text' => '',
+        'format' => '1'],
+        ['text' => '',
+        'format' => '1'],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'ta';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+        'text' => '',
+        'format' => '1',
+        'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+        'text' => '',
+        'format' => '1',
+        'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for a question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_() {
+
     }
 }

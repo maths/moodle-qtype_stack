@@ -15,12 +15,38 @@ Feature: Test input of correct answers on various inputs.
     And the following "course enrolments" exist:
       | user    | course | role           |
       | teacher | C1     | editingteacher |
-    And I am on the "Course 1" "core_question > course question import" page logged in as "teacher"
-    And I set the field "id_format_xml" to "1"
-    And I upload "question/type/stack/samplequestions/input-sample-questions.xml" file to "Import" filemanager
-    And I press "id_submitbutton"
-    And I press "Continue"
+    And the following "question categories" exist:
+      | contextlevel | reference | name           |
+      | Course       | C1        | Test questions |
+    And the following "questions" exist:
+      | questioncategory | qtype | name                                     | template               |
+      | Test questions   | stack | Algebraic input                          | algebraic_input        |
+      | Test questions   | stack | Algebraic input (align to the right)     | algebraic_input_right  |
+      | Test questions   | stack | Algebraic input (answer box sizes test)  | algebraic_input_size   |
+      | Test questions   | stack | Algebraic input (compact)                | algebraic_input_compact|
+      | Test questions   | stack | Algebraic input (empty answer permitted) | algebraic_input_empty  |
+      | Test questions   | stack | Algebraic input (with simplification)    | algebraic_input_simpl  |
+      | Test questions   | stack | Checkbox                                 | checkbox_input         |
+      | Test questions   | stack | Checkbox (no body LaTeX)                 | checkbox_input_no_latex|
+      | Test questions   | stack | Checkbox (plots in options)              | checkbox_input_plots   |
+      | Test questions   | stack | Checkbox (Show teacher's answer)         | checkbox_show_tans     |
+      | Test questions   | stack | Dropdown (shuffle)                       | dropdown_input         |
+      | Test questions   | stack | Equiv input test (compact)               | equiv_input_compact    |
+      | Test questions   | stack | Equiv input test (let, or +-)            | equiv_input            |
+      | Test questions   | stack | Matrix                                   | matrix_input           |
+      | Test questions   | stack | Matrix (varmatrix)                       | varmatrix_input        |
+      | Test questions   | stack | Matrix-multi                             | matrix_multi_input     |
+      | Test questions   | stack | Notes                                    | notes_input            |
+      | Test questions   | stack | Numerical input (min sf)                 | numerical_input        |
+      | Test questions   | stack | Radio                                    | radio_input            |
+      | Test questions   | stack | Radio (compact)                          | radio_input_compact    |
+      | Test questions   | stack | Single char                              | single_char_input      |
+      | Test questions   | stack | Textarea test                            | textarea_input         |
+      | Test questions   | stack | Textarea test (compact)                  | textarea_input_compact |
+      | Test questions   | stack | True/false                               | trye_false_input       |
+      | Test questions   | stack | Units                                    | units_input            |
 
+  @current
   Scenario: Test algebraic input
 
     When I am on the "Algebraic input" "core_question > preview" page logged in as teacher

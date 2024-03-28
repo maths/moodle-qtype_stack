@@ -43,10 +43,9 @@ Feature: Test input of correct answers on various inputs.
       | Test questions   | stack | Single char                              | single_char_input      |
       | Test questions   | stack | Textarea test                            | textarea_input         |
       | Test questions   | stack | Textarea test (compact)                  | textarea_input_compact |
-      | Test questions   | stack | True/false                               | trye_false_input       |
+      | Test questions   | stack | True/false                               | true_false_input       |
       | Test questions   | stack | Units                                    | units_input            |
 
-  @current
   Scenario: Test algebraic input
 
     When I am on the "Algebraic input" "core_question > preview" page logged in as teacher

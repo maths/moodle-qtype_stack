@@ -109,7 +109,7 @@ and then attempt to save a question you are editing:
         \$formform->prt{$i}feedbackvariables = '" . $fromform->{"prt" . $i . "feedbackvariables"} . "';<br>
         \$formform->prt{$i}autosimplify      = '" . $fromform->{"prt" . $i . "autosimplify"} . "';<br>";
 
-        for ($k=0; $k < count($fromform->{"prt" . $i . "value"}); $k++) {
+        for ($k=0; $k < count($fromform->{"prt" . $i . "answertest"}); $k++) {
             echo "
                 \$formform->prt{$i}description[{$k}]         = '" . $fromform->{"prt" . $i . "description"}[$k] . "';<br>
                 \$formform->prt{$i}sans[{$k}]                = '" . $fromform->{"prt" . $i . "sans"}[$k] . "';<br>

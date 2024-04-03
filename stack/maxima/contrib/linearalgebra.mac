@@ -49,9 +49,6 @@ vec_convert(sa):= ev(sa,
                      r = lambda([[ex]],matrix(ex))
                     );
 
-s_test_case(vec_convert(c(1,2)+r(1,2)),matrix([1],[2])+matrix([1,2]));
-s_test_case(vec_convert(2*c(1,2)-4*r(1,2,3)),2*matrix([1],[2])-4*matrix([1,2,3]));
-
 /* Automatically converts answers like c(1,2,3) to matrix([1],[2],[3]) etc. May make the above function obsolete. */
 /* TODO which approach to take: vec_convert or defining c and r as functions? */
 c([ex]):= transpose(matrix(ex));

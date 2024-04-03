@@ -13,12 +13,11 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 TODO:
 
 1. Change 'core/event' to 'core_filters/events' in input.js and stackjsvle.js.
-2. Strip out parallel DB support in reporting etc.  Search for `stack_determine_moodle_version()`
-3. Bring the API into the core of STACK for longer term support, and better support for ILIAS.
-4. Major code tidy: Moodle code style now requires (i) short forms of arrays, i.e. `[]` not `array()`, and (ii) commas at the end of all list items.
-5. Fix markdown problems. See issue #420.
-6. Error messages: use caserror.class more fully to use user information to target error messages.
-7. Remove all "cte" code from Maxima - mostly install.
+2. Bring the API into the core of STACK for longer term support, and better support for ILIAS.
+3. Major code tidy: Moodle code style now requires (i) short forms of arrays, i.e. `[]` not `array()`, and (ii) commas at the end of all list items.
+4. Fix markdown problems. See issue #420.
+5. Error messages: use caserror.class more fully to use user information to target error messages.
+6. Remove all "cte" code from Maxima - mostly install.
 
 ## Parson's block development track
 

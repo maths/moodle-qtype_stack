@@ -640,6 +640,14 @@ class stack_equiv_test_data {
         $samplearguments[] = $newarg;
 
         $newarg = array();
+        $newarg['title']     = "Solving quadratic equations 10";
+        $newarg['narrative'] = 'The temptation is to cancel (x-4) immediately, which would be a division by zero perhaps.';
+        $newarg['casstring'] = "[(x-4)*(x-7)=-3*(x-4),x-7=-3,x=4]";
+        $newarg['debuglist'] = "(EMPTYCHAR,SAMEROOTS,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
         $newarg['title']     = "Completing the square";
         $newarg['narrative'] = 'A direct method for completing the square.';
         $newarg['casstring'] = "[x^2+2*a*x = 0, x*(x+2*a)=0, (x+a-a)*(x+a+a)=0, (x+a)^2-a^2=0]";

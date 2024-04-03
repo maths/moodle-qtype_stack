@@ -223,14 +223,16 @@ stackjson_stringify(obj) := block([tmp,r,l],
   buffer_size: 64,
   r: "\"",
   l : ev(ceiling(length(char_list)/buffer_size), simp),
-  for i:1 thru l do (
+  i : 1,
+  while (ev(i <= l, simp)) do (
     buffer: [],
     j: 1,
     while (ev(j <= buffer_size and not emptyp(char_list), simp)) do (
       push(pop(char_list), buffer),
       j: ev(j+1, simp)
     ),
-    r: sconcat(r, apply(sconcat, reverse(buffer)))
+    r: sconcat(r, apply(sconcat, reverse(buffer))),
+    i: ev(i + 1, simp)
   ),
   r: sconcat(r, "\"")
  ) else if is_stackmap(obj) then (

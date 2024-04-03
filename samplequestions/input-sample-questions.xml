@@ -1812,6 +1812,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
       </node>
     </prt>
     <deployedseed>473610050</deployedseed>
+    <deployedseed>808241651</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -2096,6 +2097,7 @@ ta:append(ta,[tao]);]]></text>
       </node>
     </prt>
     <deployedseed>1859965311</deployedseed>
+    <deployedseed>526091359</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>

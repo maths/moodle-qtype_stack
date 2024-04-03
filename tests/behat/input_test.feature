@@ -45,6 +45,11 @@ Feature: Test input of correct answers on various inputs.
       | Test questions   | stack | Textarea test (compact)                  | textarea_input_compact |
       | Test questions   | stack | True/false                               | true_false_input       |
       | Test questions   | stack | Units                                    | units_input            |
+      And the following "qtype_stack > Deployed variants" exist:
+      | question                    | seed       |
+      | Checkbox (no body LaTeX)    | 972840190  |
+      | Checkbox (plots in options) | 473610050  |
+      | Dropdown (shuffle)          | 1859965311 |
 
   Scenario: Test algebraic input
 

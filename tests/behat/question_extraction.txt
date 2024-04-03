@@ -13,27 +13,37 @@ and then attempt to save a question you are editing:
     \$formform->name = '{$fromform->name}';<br>
     \$formform->questionvariables = '{$fromform->questionvariables}';<br>
     \$formform->questiontext = [<br>
-        'text' => '{$fromform->questiontext['text']}',<br>
+        'text' => '";
+    echo htmlentities($fromform->questiontext['text']);
+    echo "',<br>
         'format' => '{$fromform->questiontext['format']}',<br>
         'itemid' => 0,<br>
     ];<br>
     \$formform->questiondescription = [<br>
-        'text' => '{$fromform->questiondescription['text']}',<br>
+        'text' => '";
+    echo htmlentities($fromform->questiondescription['text']);
+    echo "',<br>
         'format' => '{$fromform->questiondescription['format']}',<br>
         'itemid' => 0,<br>
     ];<br>
     \$formform->specificfeedback =  [<br>
-        'text' => '{$fromform->specificfeedback['text']}',<br>
+        'text' => '";
+    echo htmlentities($fromform->specificfeedback['text']);
+    echo "',<br>
         'format' => '{$fromform->specificfeedback['format']}',<br>
         'itemid' => 0,<br>
     ];<br>
     \$formform->generalfeedback =  [<br>
-        'text' => '{$fromform->generalfeedback['text']}',<br>
+        'text' => '";
+    echo htmlentities($fromform->generalfeedback['text']);
+    echo "',<br>
         'format' => '{$fromform->generalfeedback['format']}',<br>
         'itemid' => 0,<br>
     ];<br>
     \$formform->questionnote =  [<br>
-        'text' => '{$fromform->questionnote['text']}',<br>
+        'text' => '";
+    echo htmlentities($fromform->questionnote['text']);
+    echo "',<br>
         'format' => '{$fromform->questionnote['format']}',<br>
         'itemid' => 0,<br>
     ];<br>
@@ -41,9 +51,9 @@ and then attempt to save a question you are editing:
     \$formform->variantsselectionseed = '';<br>
     \$formform->defaultmark = '{$fromform->defaultmark}';<br>";
 
-    for ($i=1; $i <= 10; $i++) {
+    for ($i=1; $i <= 30; $i++) {
         if (!isset($fromform->{"ans" . $i . "type"})) {
-            break;
+            continue;
         }
         echo "
         \$formform->ans{$i}type = '" . $fromform->{"ans" . $i . "type"} . "';<br>
@@ -70,17 +80,23 @@ and then attempt to save a question you are editing:
     \$formform->assumepositive = '{$fromform->decimassumepositiveals}';<br>
     \$formform->assumereal = '{$fromform->assumereal}';<br>
     \$formform->prtcorrect = [<br>
-        'text' => '{$fromform->prtcorrect['text']}',<br>
+        'text' => '";
+    echo htmlentities($fromform->prtcorrect['text']);
+    echo "',<br>
         'format' => '{$fromform->prtcorrect['format']}',<br>
         'itemid' => 0,<br>
     ];<br>
     \$formform->prtpartiallycorrect = [<br>
-        'text' => '{$fromform->prtpartiallycorrect['text']}',<br>
+        'text' => '";
+    echo htmlentities($fromform->prtpartiallycorrect['text']);
+    echo "',<br>
         'format' => '{$fromform->prtpartiallycorrect['format']}',<br>
         'itemid' => 0,<br>
     ];<br>
     \$formform->prtincorrect = [<br>
-        'text' => '{$fromform->prtincorrect['text']}',<br>
+        'text' => '";
+    echo htmlentities($fromform->prtincorrect['text']);
+    echo "',<br>
         'format' => '{$fromform->prtincorrect['format']}',<br>
         'itemid' => 0,<br>
     ];<br>
@@ -95,13 +111,15 @@ and then attempt to save a question you are editing:
     \$formform->numhints = {$fromform->numhints};<br>
     \$formform->hint = [<br>";
     foreach ($fromform->hint as $hint) {
-        echo "['text' => '{$hint['text']}',<br>
+        echo "['text' => '";
+        echo htmlentities($fromform->hint['text']);
+        echo "',<br>
         'format' => '{$hint['format']}'],<br>";
     }
     echo "];<br>";
-    for ($i=1; $i <= 10; $i++) {
+    for ($i=1; $i <= 30; $i++) {
         if (!isset($fromform->{"prt" . $i . "value"})) {
-            break;
+            continue;
         }
         echo "
         \$formform->prt{$i}value             = " . $fromform->{"prt" . $i . "value"} . ";<br>
@@ -121,7 +139,9 @@ and then attempt to save a question you are editing:
                 \$formform->prt{$i}falsescoremode[{$k}]      = '" . $fromform->{"prt" . $i . "falsescoremode"}[$k] . "';<br>
                 \$formform->prt{$i}falsepenalty[{$k}]        = '" . $fromform->{"prt" . $i . "falsepenalty"}[$k] . "';<br>
                 \$formform->prt{$i}falsefeedback[{$k}]       = [<br>
-                    'text' => '" . $fromform->{"prt" . $i . "falsefeedback"}[$k]['text'] . "',<br>
+                    'text' => '";
+                echo htmlentities($fromform->{"prt" . $i . "falsefeedback"}[$k]['text']);
+                echo "',<br>
                     'format' => '" . $fromform->{"prt" . $i . "falsefeedback"}[$k]['format'] . "',<br>
                     'itemid' => 0,<br>
                 ];<br>
@@ -131,7 +151,9 @@ and then attempt to save a question you are editing:
                 \$formform->prt{$i}truescoremode[{$k}]       = '" . $fromform->{"prt" . $i . "truescoremode"}[$k] . "';<br>
                 \$formform->prt{$i}truepenalty[{$k}]         = '" . $fromform->{"prt" . $i . "truepenalty"}[$k] . "';<br>
                 \$formform->prt{$i}truefeedback[{$k}]        = [<br>
-                    'text' => '" . $fromform->{"prt" . $i . "truefeedback"}[$k]['text'] . "',<br>
+                    'text' => '";
+                echo htmlentities($fromform->{"prt" . $i . "truefeedback"}[$k]['text']);
+                echo "',<br>
                     'format' => '" . $fromform->{"prt" . $i . "truefeedback"}[$k]['format'] . "',<br>
                     'itemid' => 0,<br>
                 ];<br>

@@ -31,7 +31,8 @@ class stack_algebraic_input extends stack_input {
         'align' => 'left',
         'consolidatesubscripts' => false,
         'checkvars' => 0,
-        'validator' => false
+        'validator' => false,
+        'feedback' => false,
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {

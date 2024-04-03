@@ -947,6 +947,20 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2023111600, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2024032401) {
+
+        // Define question note format field to be added to qtype_stack_options.
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('questionnoteformat', XMLDB_TYPE_INTEGER,
+            '2', null, XMLDB_NOTNULL, null, '0', 'questionnote');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Stack savepoint reached.
+        upgrade_plugin_savepoint(true, 2024032401, 'qtype', 'stack');
+    }
+
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version

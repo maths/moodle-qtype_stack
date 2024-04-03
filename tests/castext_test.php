@@ -375,8 +375,12 @@ class castext_test extends qtype_stack_testcase {
         $a1 = array('a:2');
 
         $cases = array(
+                array('{#a#} [[ define a="1" /]][[comment]] Ignore comment. [[/comment]]{#a#}', $a1, true, "2 1"),
                 array('{#a#} [[ define a="1" /]][[ comment ]] Ignore comment. [[/ comment]]{#a#}', $a1, true, "2 1"),
                 array('{#a#} [[ define a="a^2" /]][[ comment ]]Ignore[[/ comment]]{#a#}', $a1, true, "2 4"),
+                // Older version of STACK used to allow /*..*/ comments in castext, but we no loner support this. Sorry.
+                array('{#a#} [[ define a="a^2" /]]/* Not ignored */ {#a#}', $a1, true,
+                    "2 /* Not ignored */ 4"),
         );
 
         foreach ($cases as $case) {
@@ -2115,6 +2119,27 @@ class castext_test extends qtype_stack_testcase {
         $this->assertEquals("<ul class='algebratree'><li><span class='op'>\(\diamond\)</span><ul><li>" .
             "<span class='atom'>\(a\)</span></li><li><span class='atom'>\(b\)</span></li></ul></li></ul>",
             $at2->get_rendered());
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_cas_keyval
+     */
+    public function test_display_constants_texput() {
+        $options = new stack_options();
+        $options->set_option('simplify', false);
+
+        $vars = 'texput(%e, "H");';
+        $at1 = new stack_cas_keyval($vars, $options, 123);
+        $this->assertTrue($at1->get_valid());
+
+        $cs2 = $at1->get_session();
+        $at2 = castext2_evaluatable::make_from_source('{@e^2@}', 'test-case');
+        $this->assertTrue($at2->get_valid());
+        $cs2->add_statement($at2);
+        $cs2->instantiate();
+
+        $this->assertEquals("\({H^2}\)", $at2->get_rendered());
     }
 
     /**

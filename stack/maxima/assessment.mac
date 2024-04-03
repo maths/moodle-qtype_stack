@@ -473,6 +473,7 @@ complex_exponentialp(ex):=block([ex2],
     /* Edge case of a real number! */
     if ev(real_numberp(ex), simp) then return(true),
     ex2:ex,
+    if safe_op(ex)="-" then return(complex_exponentialp(first(args(ex)))),
     if safe_op(ex)="*" then
         if not(is(real_numberp(first(args(ex))))) then
             return(false)

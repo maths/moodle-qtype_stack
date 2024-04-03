@@ -38,7 +38,7 @@ This question creates two random matrices and asks students to multiply them tog
 
 Given a complex number \(z=ae^{ib}\) determine \(|z^{n}|\) and \(\arg(z^{n})\).  Where \(a\), \(b\) and \(n\) are randomly generated numbers.
 
-See the [authoring quick start 7](/AbInitio/Authoring_quick_start_7.md).
+See the [authoring quick start 7](../AbInitio/Authoring_quick_start_7.md).
 
 ### `test_5_cubic-spline` ###
 

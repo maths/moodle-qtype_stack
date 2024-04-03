@@ -20,6 +20,7 @@ The following represent particular types of proof.
 
 * `proof_iff()`.  This proof must have two arguments.  These arguments are assumed to commute.
 * `proof_cases()`. In proof by exhaustive cases, the first element is fixed, and it typically used to describe/justify the cases.  E.g. "\(n\) is either odd or even".  The remaining cases commute, and typically each argument will be another proof block type.
+* `proof_goal()`. This proof seeks to establish the goal.  The last element is fixed, and it typically used to describe/justify the goal.  E.g. "\(f\) is continuously differentiable".  The remaining cases commute, and typically each argument will be another proof block type.
 * `proof_ind()`.  A proof by induction must have four arguments.  The 1st and 4th are fixed position (defining the statement and conclusion), whereas the 2nd and 3rd commute (for the base case, and induction step).
 
 It is relatively easy to add in new functions to represent a particular type of proof.

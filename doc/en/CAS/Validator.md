@@ -1,6 +1,8 @@
-# Bespoke validators
+# Bespoke validators and feedback
 
-This extra option `validator` to a particular [input](../Authoring/Inputs.md) allows additional bespoke validation, based on a function defined by the question author.  For example, you could require that the student's answer is a _list of exactly three equations_.
+The extra option `validator` to a particular [input](../Authoring/Inputs.md) allows additional bespoke validation, based on a function defined by the question author.  For example, you could require that the student's answer is a _list of exactly three equations_.
+
+The extra option `feedback` to a particular [input](../Authoring/Inputs.md) allows additional bespoke feedback, based on a function defined by the question author.
 
 Please check [existing, supported, validation options](../Authoring/Inputs.md#options) before defining your own!
 
@@ -17,17 +19,21 @@ To use this feature put the following in the input extra options.
 
     validator:validate_listlength
 
+Similarly, to just add a feedback message use the following in the input extra options.
+
+    feedback:my_bespoke_feedback
+
 Notes:
 
-1. The validator must be a pure function of a single variable. There must be no reference to the input name within the validator function definition, indeed you cannot reference an input in the question variables.
-2. If the function returns a non-empty string, then the student's answer will be considered invalid, and the string displayed to the student as a validation error message as part of the input validation.
-3. If the function returns an empty string or `true` then the student's input is considered to be valid.  The use of an empty string here for valid is designed to encourage teachers to write meaningful error messages to students!
+1. The validator/feedback must be a pure function of a single variable. There must be no reference to the input name within the validator function definition, indeed you cannot reference an input in the question variables.
+2. If the validator function returns a non-empty string, then the student's answer will be considered invalid, and the string displayed to the student as a validation error message as part of the input validation.  Any string returned by the feedback function is displayed to the student, and validity is not changed.
+3. If the validator function returns an empty string or `true` then the student's input is considered to be valid.  The use of an empty string here for valid is designed to encourage teachers to write meaningful error messages to students!
 4. The function can reference other question variables, e.g. the teacher's answer.
 5. The function is always executed with `simp:false` regardless of the question settings.
 6. The function is called after the built-in validation checks, and only if the expression is already valid otherwise.  So, you cannot replace basic validation (by design).  This means you will/should have an expression which Maxima can evaluate if it gets as far as your validator function.  E.g. no missing `*` or mismatched brackets.
 8. The student still cannot use any of the variable names defined in the question variables.
 9. Validators only operate on a single input, and there is no mechanism to validate a combination of inputs at once.
-10. The recommended style for naming validator functions is to begin the name with `validate_`.
+10. The recommended style for naming validator functions is to begin the name with `validate_` or `feedback_`.
 
 A single validator function can be re-used on multiple inputs within a single question. If you regularly copy validator functions from question to question please consider contributing this as a function to the core of STACK (see below for details). We expect to collect and support regularly used validators in future.
 
@@ -70,6 +76,18 @@ The Maxima code is stored in the sourcecode in `stack/maxima/validator.mac`, e.g
 When you regularly find yourself testing for particular properties, and copying code between questions, please consider contributing functions to the STACK core for longer term support.
 
 You can [post your suggestion on the project's GitHub site](https://github.com/maths/moodle-qtype_stack/issues) or [submit code directly as a pull request](https://github.com/maths/moodle-qtype_stack/pulls).
+
+## Improving validation feedback messages.
+
+It is possible to include the student's answer, or part of the answer, in the validation feedback. This needs more work, of course.
+
+The validator must return a string.  One way to include the studnet's answer in the message is to use `sconcat`, e.g. as follows
+
+    sconcat("User-defined functions are not permitted in this input. In your answer ", stack_disp(op1, "i"), " appears to be used as a function. ")
+
+Another option is to use the `castext` function.  Note, that the castext function has to be used only at the top level.  An example is given in the next section on language support.  You cannot currently return the result of multiple `castext` calls in a concatinated string.
+
+An example of how to construct such a validator is `validate_nofunctions` in the contributed validators.
 
 ## Localisation and language support
 

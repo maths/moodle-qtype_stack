@@ -16,7 +16,7 @@
 /****************************************************************/
 /*  Linear algebra functions for STACK                         */
 /*                                                              */
-/*  V0.2 March 2024                                             */
+/*  V0.2.1 April 2024                                             */
 /*                                                              */
 /****************************************************************/
 
@@ -43,21 +43,19 @@ texput(r,
   ))
 );
 
-/* Manually convert student answers to the appropriate vector form. Needs simp false. */
-vec_convert(sa):= ev(sa,
-                     c = lambda([[ex]],transpose(matrix(ex))),
-                     r = lambda([[ex]],matrix(ex))
-                    );
+/* Manually convert student answers to the appropriate vector form. */
+/* If vectors do not conform then the original expression is returned. */
+vec_convert(ex):= block(
+  ex2: errcatch(ev(ex,c = lambda([[ex]],transpose(matrix(ex))),r = lambda([[ex]],matrix(ex)))),
+  if emptyp(ex2) then return(ex) else return(first(ex2))
+);
 
-/* Automatically converts answers like c(1,2,3) to matrix([1],[2],[3]) etc. May make the above function obsolete. */
-/* TODO which approach to take: vec_convert or defining c and r as functions? */
-c([ex]):= transpose(matrix(ex));
-r([ex]):= matrix(ex);
+/* A predicate to determine whether an expression has been converted to matrix form. */
+vec_convertedp(ex):= block(
+  ex_ops: get_ops(ex),
+  if member(c,ex_ops) or member(r,ex_ops) then return(false) else return(true)
+);
 
-s_test_case(c(1,2,3),matrix([1],[2],[3]));
-s_test_case(c(1,2),matrix([1],[2]));
-s_test_case(r(1,2,3),matrix([1,2,3]));
-s_test_case(r(1,2),matrix([1,2]));
 
 /*********************************************************************************/
 /* Take the upper triangular part of a matrix, leaving the remaining entries = 0 */

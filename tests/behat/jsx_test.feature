@@ -20,7 +20,7 @@ Feature: Test running JSX Graph question.
       | Course       | C1        | Test questions |
     And the following "questions" exist:
       | questioncategory | qtype | name                                     | template               |
-      | Test questions   | stack | JSX behat test                           | JSX_graph_input        |
+      | Test questions   | stack | JSX behat test                           | jsx_graph_input        |
 
   Scenario: Test JSX input
 

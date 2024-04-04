@@ -98,7 +98,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'textarea_input_compact',
             'true_false_input',
             'units_input',
-            'JSX_graph_input',
+            'jsx_graph_input',
         );
     }
 
@@ -3819,7 +3819,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->name = 'Algebraic input';
         $formform->questionvariables = 'ta:a*b';
         $formform->questiontext = [
-        'text' => '<p>Type in {@ta@}.</p><p>[[input:ans1]] [[validation:ans1]]</p> <p>(Note, this assumes single variable variable names)</p>',
+        'text' => '<p>Type in {@ta@}.</p><p>[[input:ans1]] [[validation:ans1]]</p>
+                <p>(Note, this assumes single variable variable names)</p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -3870,7 +3871,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -3938,7 +3940,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->name = 'Algebraic input (align to the right)';
         $formform->questionvariables = 'ta:sin(x^2)';
         $formform->questiontext = [
-        'text' => '<p>Type in {@ta@}.<br></p><p>[[input:ans1]] [[validation:ans1]]</p> <p>(Note, this assumes single variable variable names)</p>',
+        'text' => '<p>Type in {@ta@}.<br></p><p>[[input:ans1]] [[validation:ans1]]</p>
+                <p>(Note, this assumes single variable variable names)</p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -3989,7 +3992,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4057,7 +4061,13 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->name = 'Algebraic input (answer box sizes test)';
         $formform->questionvariables = '';
         $formform->questiontext = [
-        'text' => '<p>This question just tests answer boxes of multiple sizes, and styles of input.</p> <p>Standard: [[input:ans1]] [[validation:ans1]]</p> <p>No variable list: [[input:ans2]] [[validation:ans2]]</p> <p>Compact [[input:ans3]] [[validation:ans3]] (all following are compact)</p> <p>[[input:ans4]] [[validation:ans4]]</p> <p>[[input:ans5]] [[validation:ans5]]</p> <p>[[input:ans7]] [[validation:ans7]]</p> <p>[[input:ans10]] [[validation:ans10]]</p> <p>[[input:ans15]] [[validation:ans15]]</p> <p>[[input:ans20]] [[validation:ans20]]</p>',
+        'text' => '<p>This question just tests answer boxes of multiple sizes, and styles of input.</p>
+                <p>Standard: [[input:ans1]] [[validation:ans1]]</p> <p>No variable list: [[input:ans2]]
+                [[validation:ans2]]</p> <p>Compact [[input:ans3]] [[validation:ans3]]
+                (all following are compact)</p> <p>[[input:ans4]] [[validation:ans4]]</p>
+                <p>[[input:ans5]] [[validation:ans5]]</p> <p>[[input:ans7]] [[validation:ans7]]</p>
+                <p>[[input:ans10]] [[validation:ans10]]</p> <p>[[input:ans15]] [[validation:ans15]]</p>
+                <p>[[input:ans20]] [[validation:ans20]]</p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4244,7 +4254,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4312,7 +4323,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->name = 'Algebraic input (compact)';
         $formform->questionvariables = 'ta:n*(n+1)/2';
         $formform->questiontext = [
-        'text' => '<p>What is \(\sum_{k=1}^n k = \) [[validation:ans1]] [[input:ans1]] [[feedback:prt1]]</p> <p>(Note, this input has compact validation and PRT.)</p>',
+        'text' => '<p>What is \(\sum_{k=1}^n k = \) [[validation:ans1]] [[input:ans1]]
+                [[feedback:prt1]]</p> <p>(Note, this input has compact validation and PRT.)</p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4363,7 +4375,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4431,7 +4444,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->name = 'Algebraic input (empty answer permitted)';
         $formform->questionvariables = '';
         $formform->questiontext = [
-        'text' => '<p>Type in \(\sin(x)\), \(\cos(x)\) and leave one input blank.</p> <p>[[input:ans1]] [[validation:ans1]]</p> <p>[[input:ans2]] [[validation:ans2]]</p> <p>[[input:ans3]] [[validation:ans3]]</p>',
+        'text' => '<p>Type in \(\sin(x)\), \(\cos(x)\) and leave one input blank.</p>
+                <p>[[input:ans1]] [[validation:ans1]]</p> <p>[[input:ans2]] [[validation:ans2]]</p>
+                <p>[[input:ans3]] [[validation:ans3]]</p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4516,7 +4531,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4584,7 +4600,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->name = 'Algebraic input (with simplification)';
         $formform->questionvariables = 'ta:makelist(k^2,k,1,8)';
         $formform->questiontext = [
-        'text' => '<p>Type in {@ta@}</p> <p>[[input:ans1]] [[validation:ans1]]</p> <p>Hint: use <code>makelist(k^2,k,1,8)</code></p>',
+        'text' => '<p>Type in {@ta@}</p> <p>[[input:ans1]] [[validation:ans1]]</p>
+                <p>Hint: use <code>makelist(k^2,k,1,8)</code></p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4635,7 +4652,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4701,7 +4719,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform = new stdClass();
         $formform->stackversion = '2024032401';
         $formform->name = 'Checkbox';
-        $formform->questionvariables = '/* Create a list of potential answers. */ p:sin(2*x); ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]]; /* The actual correct answer. */ tac:diff(p,x) /* Add in a "None of these" to the end of the list. The Maxima value is the atom null. */ tao:[null, false, "None of these"]; ta:append(ta,[tao]);';
+        $formform->questionvariables = '/* Create a list of potential answers. */ p:sin(2*x);
+                ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+                /* The actual correct answer. */ tac:diff(p,x) /* Add in a "None of these" to the end
+                of the list. The Maxima value is the atom null. */
+                tao:[null, false, "None of these"]; ta:append(ta,[tao]);';
         $formform->questiontext = [
         'text' => '<p>Differentiate {@p@} with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
         'format' => '1',
@@ -4754,7 +4776,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4820,9 +4843,12 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform = new stdClass();
         $formform->stackversion = '2024032401';
         $formform->name = 'Checkbox (no body LaTeX)';
-        $formform->questionvariables = '/* Create a list of potential answers. */ p:sin(2*x); ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]]; /* The actual correct answer. */ tac:diff(p,x) tao:[null, true, "Something random"]; ta:append(ta,[tao]);';
+        $formform->questionvariables = '/* Create a list of potential answers.
+                */ p:sin(2*x); ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+                /* The actual correct answer. */ tac:diff(p,x) tao:[null, true, "Something random"]; ta:append(ta,[tao]);';
         $formform->questiontext = [
-        'text' => '<p>This question has no LaTeX in the body, to test display of LaTeX only appearing in the input.</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
+        'text' => '<p>This question has no LaTeX in the body, to test display of LaTeX only appearing in the input.</p>
+                <p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4873,7 +4899,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4939,9 +4966,27 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform = new stdClass();
         $formform->stackversion = '2024032401';
         $formform->name = 'Checkbox (plots in options)';
-        $formform->questionvariables = 'cfn1:x^3; cfn2:atan(x); cfn3:(1/2)^x; cfn4:-x^5; wfn1:x^2-1; wfn2:(x-1)*x*(x+1); wfn3:1/x^2; wfn4:cos(x); xmax:3; ymax:3; cplot1:plot(cfn1,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]); cplot2:plot(cfn2,[x,-xmax,xmax],[y,-%pi/2,%pi/2],[box, false],[yx_ratio, 1],[axes, solid]); cplot3:plot(cfn3,[x,-xmax,xmax],[y,0,ymax],[box, false],[yx_ratio, 1],[axes, solid]); cplot4:plot(cfn4,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]); wplot1:plot(wfn1,[x,-xmax,xmax],[y,-1,ymax],[box, false],[yx_ratio, 1],[axes, solid]); wplot2:plot(wfn2,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]); wplot3:plot(wfn3,[x,-xmax,xmax],[y,0,ymax],[box, false],[yx_ratio, 1],[axes, solid]); wplot4:plot(wfn4,[x,-xmax,xmax],[y,-1,1],[box, false],[yx_ratio, 1],[axes, solid]); corbase:[cplot1,cplot2,cplot3,cplot4]; wrongbase:[wplot1,wplot2,wplot3,wplot4]; /* code lifted and adapted from multiselqnalpha */ sel_cor: maplist(lambda([ex], [ex, true]), rand_selection(corbase, 2)); sel_incorr: maplist(lambda([ex], [ex, false]), rand_selection(wrongbase, 2)); opts: random_permutation(append(sel_cor,sel_incorr)); talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(opts)), simp); ta1:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("", ex1, " ", ex2[1])]), talab, opts); version: map(first, opts); corr1:mcq_correct(ta1); incorr1:mcq_incorrect(ta1);';
+        $formform->questionvariables = 'cfn1:x^3; cfn2:atan(x); cfn3:(1/2)^x; cfn4:-x^5; wfn1:x^2-1; wfn2:(x-1)*x*(x+1);
+                wfn3:1/x^2; wfn4:cos(x); xmax:3;
+                ymax:3; cplot1:plot(cfn1,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+                cplot2:plot(cfn2,[x,-xmax,xmax],[y,-%pi/2,%pi/2],[box, false],[yx_ratio, 1],[axes, solid]);
+                cplot3:plot(cfn3,[x,-xmax,xmax],[y,0,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+                cplot4:plot(cfn4,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+                wplot1:plot(wfn1,[x,-xmax,xmax],[y,-1,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+                wplot2:plot(wfn2,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+                wplot3:plot(wfn3,[x,-xmax,xmax],[y,0,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+                wplot4:plot(wfn4,[x,-xmax,xmax],[y,-1,1],[box, false],[yx_ratio, 1],[axes, solid]);
+                corbase:[cplot1,cplot2,cplot3,cplot4]; wrongbase:[wplot1,wplot2,wplot3,wplot4];
+                /* code lifted and adapted from multiselqnalpha */
+                sel_cor: maplist(lambda([ex], [ex, true]), rand_selection(corbase, 2));
+                sel_incorr: maplist(lambda([ex], [ex, false]), rand_selection(wrongbase, 2));
+                opts: random_permutation(append(sel_cor,sel_incorr));
+                talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(opts)), simp);
+                ta1:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("", ex1, " ", ex2[1])]), talab, opts);
+                version: map(first, opts); corr1:mcq_correct(ta1); incorr1:mcq_incorrect(ta1);';
         $formform->questiontext = [
-        'text' => '<p class="noindent">Which of the following functions are invertible?<br></p> [[input:ans1]] [[validation:ans1]] <p>(This question is to test auto-generated images appear in MCQ options.)</p>',
+        'text' => '<p class="noindent">Which of the following functions are invertible?<br></p> [[input:ans1]] [[validation:ans1]]
+                <p>(This question is to test auto-generated images appear in MCQ options.)</p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4956,7 +5001,9 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->generalfeedback = [
-        'text' => '<p>A function is invertible if and only if it takes each value in its range precisely once.&nbsp; The functions that are not invertible here are not invertible because they take some values more than once.<br></p>',
+        'text' => '<p>A function is invertible if and only if it takes each value in its range precisely once.&nbsp;
+                The functions that are not invertible here are not invertible
+                because they take some values more than once.<br></p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -4992,7 +5039,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -5066,7 +5114,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truescoremode[1] = '+';
         $formform->prt1truepenalty[1] = '';
         $formform->prt1truefeedback[1] = [
-        'text' => '<p>You have correctly identified one of the correct answers, but missed \({@setdifference(setify(corr1),setify(ans1))@}\).<br></p>',
+        'text' => '<p>You have correctly identified one of the correct answers, but missed
+                \({@setdifference(setify(corr1),setify(ans1))@}\).<br></p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -5092,7 +5141,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->prt1truescoremode[2] = '+';
         $formform->prt1truepenalty[2] = '';
         $formform->prt1truefeedback[2] = [
-        'text' => '<p><br></p><p>{@setify(ans1)@}<br></p><p>{@(intersection(setify(incorr),setify(ans1)))@}<br></p><p>{@cardinality(intersection(setify(incorr),setify(ans1)))@}</p>',
+        'text' => '<p><br></p><p>{@setify(ans1)@}<br></p><p>{@(intersection(setify(incorr),setify(ans1)))@}
+                <br></p><p>{@cardinality(intersection(setify(incorr),setify(ans1)))@}</p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -5110,9 +5160,14 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform = new stdClass();
         $formform->stackversion = '2024032401';
         $formform->name = "Checkbox (Show teacher's answer)";
-        $formform->questionvariables = 'ta1:[A, true, "Integration by parts"]; ta2:[B, true, "Integration by substitution"]; ta3:[C, true, "Apply a trig formula to remove product"]; ta4:[D, true, "Remove trig with complex exponentials, then integrate"]; ta0:[X, false, "None of the other options"]; ta:[ta1,ta2,ta3,ta4,ta0];';
+        $formform->questionvariables = 'ta1:[A, true, "Integration by parts"]; ta2:[B, true, "Integration by substitution"];
+                ta3:[C, true, "Apply a trig formula to remove product"];
+                ta4:[D, true, "Remove trig with complex exponentials, then integrate"];
+                ta0:[X, false, "None of the other options"]; ta:[ta1,ta2,ta3,ta4,ta0];';
         $formform->questiontext = [
-        'text' => '<p>Which method would you use to find \(\int\sin(x)\cos(x)\mathrm{d} x\)?</p> <p>[[input:ans1]][[validation:ans1]]</p> <p>(The purpose of this question is to test the "teacher\'s answer" display is the string shown, not the value returned to Maxima).</p>',
+        'text' => '<p>Which method would you use to find \(\int\sin(x)\cos(x)\mathrm{d} x\)?</p>
+                <p>[[input:ans1]][[validation:ans1]]</p> <p>(The purpose of this question is to test the "teacher\'s answer"
+                display is the string shown, not the value returned to Maxima).</p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -5163,7 +5218,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -5229,7 +5285,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform = new stdClass();
         $formform->stackversion = '2024032401';
         $formform->name = 'Dropdown (shuffle)';
-        $formform->questionvariables = '/* Create a list of potential answers. */ p:sin(2*x); ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]]; /* The actual correct answer. */ tac:diff(p,x) /* Randomly shuffle the list "ta". */ ta:random_permutation(ta); /* Add in a "None of these" to the end of the list. The Maxima value is the atom null. */ tao:[null, false, "None of these"]; ta:append(ta,[tao]);';
+        $formform->questionvariables = '/* Create a list of potential answers. */ p:sin(2*x);
+                ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+                /* The actual correct answer. */ tac:diff(p,x) /* Randomly shuffle the list "ta". */
+                ta:random_permutation(ta); /* Add in a "None of these" to the end of the list.
+                The Maxima value is the atom null. */ tao:[null, false, "None of these"]; ta:append(ta,[tao]);';
         $formform->questiontext = [
         'text' => '<p>Differentiate {@p@} with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
         'format' => '1',
@@ -5282,7 +5342,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -5401,7 +5462,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -5467,9 +5529,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform = new stdClass();
         $formform->stackversion = '2024032401';
         $formform->name = 'Equiv input test (let, or +-)';
-        $formform->questionvariables = 'tal:[(x-a)^2=4,x-a= #pm#2,x=a#pm#2,x=a+2 nounor x=a-2,stacklet(a,1),x=3 nounor x=-1]; p:first(tal);';
+        $formform->questionvariables = 'tal:[(x-a)^2=4,x-a= #pm#2,x=a#pm#2,x=a+2 nounor x=a-2,stacklet(a,1),x=3 nounor x=-1];
+                p:first(tal);';
         $formform->questiontext = [
-        'text' => '<p>Solve {@p@} and let \(a=1\).</p> <p>[[input:ans1]] [[validation:ans1]]</p> <p>(This tests "let", "or" and "+-".)</p>',
+        'text' => '<p>Solve {@p@} and let \(a=1\).</p> <p>[[input:ans1]] [[validation:ans1]]</p>
+                <p>(This tests "let", "or" and "+-".)</p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -5520,7 +5584,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -5665,7 +5730,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -5731,9 +5797,12 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform = new stdClass();
         $formform->stackversion = '2024032401';
         $formform->name = 'Matrix (varmatrix)';
-        $formform->questionvariables = 'M1:matrix([1,0],[0,1]); TA1:matrix([1, 0, 0, 0],[0,1,0,0]); TA2:matrix([1,0],[0,1],[0,0],[0,0]);';
+        $formform->questionvariables = 'M1:matrix([1,0],[0,1]); TA1:matrix([1, 0, 0, 0],[0,1,0,0]);
+                TA2:matrix([1,0],[0,1],[0,0],[0,0]);';
         $formform->questiontext = [
-        'text' => '<p>Find two non-square matrices which solve the following equation.</p> <p>[[input:ans1]] \(\times\) [[input:ans2]] = {@M1@}</p> <p> [[validation:ans1]] \(\times\) [[validation:ans2]] \( = ? \) </p>',
+        'text' => '<p>Find two non-square matrices which solve the following equation.</p>
+                <p>[[input:ans1]] \(\times\) [[input:ans2]] = {@M1@}</p>
+                <p> [[validation:ans1]] \(\times\) [[validation:ans2]] \( = ? \) </p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -5801,7 +5870,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -5947,7 +6017,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->name = 'Matrix-multi';
         $formform->questionvariables = 'M1:matrix([1,2],[3,4]); M2:matrix([a,b],[c,d]);';
         $formform->questiontext = [
-        'text' => '<p>Don\'t type in the same matrix twice! Well, this question is to help confirm instant validation works with more than one matrix in a given question.</p> <p>[[input:ans1]] \(\neq \) [[input:ans2]] </p> <p>[[validation:ans1]] [[validation:ans2]]</p>',
+        'text' => '<p>Don\'t type in the same matrix twice! Well, this question is to help confirm instant
+                validation works with more than one matrix in a given question.</p> <p>[[input:ans1]] \(\neq \)
+                [[input:ans2]] </p> <p>[[validation:ans1]] [[validation:ans2]]</p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -6015,7 +6087,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -6134,7 +6207,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -6253,7 +6327,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -6319,7 +6394,10 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform = new stdClass();
         $formform->stackversion = '2024032401';
         $formform->name = 'Radio';
-        $formform->questionvariables = '/* Create a list of potential answers. */ p:sin(2*x); ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]]; /* The actual correct answer. */ tac:diff(p,x) /* Add in a "None of these" to the end of the list. The Maxima value is the atom null. */ tao:[null, false, "None of these"]; ta:append(ta,[tao]);';
+        $formform->questionvariables = '/* Create a list of potential answers. */ p:sin(2*x);
+                ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+                /* The actual correct answer. */ tac:diff(p,x) /* Add in a "None of these" to the end of the list.
+                The Maxima value is the atom null. */ tao:[null, false, "None of these"]; ta:append(ta,[tao]);';
         $formform->questiontext = [
         'text' => '<p>Differentiate {@p@} with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
         'format' => '1',
@@ -6372,7 +6450,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -6438,7 +6517,10 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform = new stdClass();
         $formform->stackversion = '2024032401';
         $formform->name = 'Radio (compact)';
-        $formform->questionvariables = '/* Create a list of potential answers. */ p:sin(2*x); ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]]; /* The actual correct answer. */ tac:diff(p,x) /* Add in a "None of these" to the end of the list. The Maxima value is the atom null. */ tao:[null, false, "None of these"]; ta:append(ta,[tao]);';
+        $formform->questionvariables = '/* Create a list of potential answers. */ p:sin(2*x);
+                ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+                /* The actual correct answer. */ tac:diff(p,x) /* Add in a "None of these" to the end of the list.
+                The Maxima value is the atom null. */ tao:[null, false, "None of these"]; ta:append(ta,[tao]);';
         $formform->questiontext = [
         'text' => '<p>Differentiate {@p@} with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
         'format' => '1',
@@ -6491,7 +6573,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -6610,7 +6693,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -6678,7 +6762,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->name = 'String input';
         $formform->questionvariables = '';
         $formform->questiontext = [
-        'text' => 'This input is sent to the CAS: <p>[[input:ans1]] [[validation:ans1]]</p> This input is not, perhaps it is used to store JSXGraph state? or GeoGebra state? <p>[[input:ans2]] [[validation:ans2]]</p>',
+        'text' => 'This input is sent to the CAS: <p>[[input:ans1]] [[validation:ans1]]</p>
+                This input is not, perhaps it is used to store JSXGraph state? or GeoGebra state?
+                <p>[[input:ans2]] [[validation:ans2]]</p>',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -6746,7 +6832,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -6865,7 +6952,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -6984,7 +7072,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -7103,7 +7192,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -7222,7 +7312,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];
@@ -7284,13 +7375,24 @@ class qtype_stack_test_helper extends question_test_helper {
      *
      * @return stdClass the data that would be returned by $form->get_data();
      */
-    public static function get_stack_question_form_data_JSX_graph_input() {
+    public static function get_stack_question_form_data_jsx_graph_input() {
         $formform = new stdClass();
         $formform->stackversion = '2024032401';
         $formform->name = 'JSX behat test';
         $formform->questionvariables = '';
         $formform->questiontext = [
-        'text' => "<table> <tbody><tr> <td>Element1 location: [[input:ans1]] [[validation:ans1]]<br> Element 2 location: [[input:ans2]] [[validation:ans2]]<br> Element1 id: [[input:element1]]<br>[[validation:element1]]<br> Element2 id: [[input:element2]]<br>[[validation:element2]]<br></td> <td> [[jsxgraph width='400px' height='400px' input-ref-ans1='ans1Ref' input-ref-ans2='ans2Ref' input-ref-element1='element1Ref' input-ref-element2='element2Ref']] var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true}); var p2 = board.create('point', [-2, -2], {size: 8}); var p = board.create('point', [4, 3]); var element1Ref = document.getElementById(element1Ref); element1Ref.value = p.id; element1Ref.dispatchEvent(new Event('change')); stack_jxg.bind_point(ans1Ref, p); var element2Ref = document.getElementById(element2Ref); element2Ref.value = p2.id; element2Ref.dispatchEvent(new Event('change')); stack_jxg.bind_point(ans2Ref, p2); board.update(); [[/jsxgraph]] </td> </tr> </tbody></table>",
+        'text' => "<table> <tbody><tr> <td>Element1 location: [[input:ans1]] [[validation:ans1]]<br>
+                Element 2 location: [[input:ans2]] [[validation:ans2]]<br> Element1 id: [[input:element1]]<br>
+                [[validation:element1]]<br> Element2 id: [[input:element2]]<br>[[validation:element2]]<br></td>
+                <td> [[jsxgraph width='400px' height='400px' input-ref-ans1='ans1Ref' input-ref-ans2='ans2Ref'
+                input-ref-element1='element1Ref' input-ref-element2='element2Ref']]
+                var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});
+                var p2 = board.create('point', [-2, -2], {size: 8}); var p = board.create('point', [4, 3]);
+                var element1Ref = document.getElementById(element1Ref); element1Ref.value = p.id;
+                element1Ref.dispatchEvent(new Event('change')); stack_jxg.bind_point(ans1Ref, p);
+                var element2Ref = document.getElementById(element2Ref); element2Ref.value = p2.id;
+                element2Ref.dispatchEvent(new Event('change')); stack_jxg.bind_point(ans2Ref, p2);
+                board.update(); [[/jsxgraph]] </td> </tr> </tbody></table>",
         'format' => '1',
         'itemid' => 0,
         ];
@@ -7392,7 +7494,8 @@ class qtype_stack_test_helper extends question_test_helper {
         'itemid' => 0,
         ];
         $formform->prtpartiallycorrect = [
-        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.',
+        'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
         'format' => '1',
         'itemid' => 0,
         ];

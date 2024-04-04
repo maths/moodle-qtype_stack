@@ -41,6 +41,7 @@ Feature: Test input of correct answers on various inputs.
       | Test questions   | stack | Radio                                    | radio_input            |
       | Test questions   | stack | Radio (compact)                          | radio_input_compact    |
       | Test questions   | stack | Single char                              | single_char_input      |
+      | Test questions   | stack | String input                             | string_input           |
       | Test questions   | stack | Textarea test                            | textarea_input         |
       | Test questions   | stack | Textarea test (compact)                  | textarea_input_compact |
       | Test questions   | stack | True/false                               | true_false_input       |
@@ -476,6 +477,23 @@ Feature: Test input of correct answers on various inputs.
     # Check answer gets truncated
     And I set the input "ans1" to "xyghgh" in the STACK question
     And I wait until "This answer is invalid." "text" does not exist
+    And I press "Check"
+    And I wait until "Correct answer, well done" "text" exists
+
+  Scenario: String input
+
+    When I am on the "String input" "core_question > preview" page logged in as teacher
+    And I set the following fields to these values:
+      | How questions behave | Adaptive          |
+    And I press "id_saverestart"
+    And I set the input "ans1" to "=" in the STACK question
+    And I wait until "Your last answer was interpreted as follows" "text" exists
+    And I set the input "ans2" to "Anything at all" in the STACK question
+    And I set the input "ans1" to "" in the STACK question
+    And I wait "2" seconds
+    Then I should not see "Your last answer was interpreted as follows"
+    And I set the input "ans1" to "Hello world" in the STACK question
+    And I wait until "Your last answer was interpreted as follows" "text" exists
     And I press "Check"
     And I wait until "Correct answer, well done" "text" exists
 

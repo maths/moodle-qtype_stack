@@ -124,16 +124,16 @@ class behat_qtype_stack extends behat_base {
      * Check all images exist. Will require page reset afterwards.
      *
      * @param string $number Number of images
-     * @param string $img_class Class of ancestor element of images to check
-     * @Given /^I check "(?P<number>[^"]*)" "(?P<img_class>[^"]*)" images are loadable in the STACK question$/
+     * @param string $imgclass Class of ancestor element of images to check
+     * @Given /^I check "(?P<number>[^"]*)" "(?P<imgclass>[^"]*)" images are loadable in the STACK question$/
      */
-    public function i_check_images_are_loadable($number, $img_class) {
-        $classselector = ($img_class) ? '.' . $img_class . ' ' : '';
+    public function i_check_images_are_loadable($number, $imgclass) {
+        $classselector = ($imgclass) ? '.' . $imgclass . ' ' : '';
         $imageelements = $this->getSession()->getPage()->findAll('css' , $classselector . 'img');
         $urls = [];
-        foreach ($imageelements as $image){
-            $imgUrl = $image->getAttribute('src');
-            array_push($urls, $imgUrl);
+        foreach ($imageelements as $image) {
+            $imgurl = $image->getAttribute('src');
+            array_push($urls, $imgurl);
         }
         foreach ($urls as $url) {
             $this->execute('behat_general::i_visit', [$url]);

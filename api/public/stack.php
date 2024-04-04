@@ -436,28 +436,42 @@ require_login();
           fetch(questionURL)
             .then(result => result.text())
             .then((result) => {
-              const parser = new DOMParser();
-              const xmlDoc = parser.parseFromString(result, "text/xml");
-              const selectQuestion = document.createElement("select");
-              selectQuestion.setAttribute("onchange", "setQuestion(this.value)");
-              selectQuestion.id = "stackapi_question_select";
-              const holder = document.getElementById("stackapi_question_select_holder");
-              holder.innerHTML = "";
-              holder.appendChild(selectQuestion);
-              let firstquestion = null
-              for (const question of xmlDoc.getElementsByTagName("question")) {
-                if (question.getAttribute('type').toLowerCase() === 'stack') {
-                  firstquestion = (firstquestion) ? firstquestion : question.outerHTML;
-                  const option = document.createElement("option");
-                  option.value = question.outerHTML;
-                  option.text = question.getElementsByTagName("name")[0].getElementsByTagName("text")[0].innerHTML;
-
-                  selectQuestion.appendChild(option);
-                }
-              }
-              setQuestion(firstquestion);
+              createQuestionList(result);
             });
         }
+      }
+
+      function getLocalQuestionFile(filepath) {
+        if (filepath) {
+          var reader = new FileReader();
+          reader.readAsText(filepath, "UTF-8");
+          reader.onload = function (evt) {
+            createQuestionList(evt.target.result);
+          }
+        }
+      }
+
+      function createQuestionList(fileContents) {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(fileContents, "text/xml");
+        const selectQuestion = document.createElement("select");
+        selectQuestion.setAttribute("onchange", "setQuestion(this.value)");
+        selectQuestion.id = "stackapi_question_select";
+        const holder = document.getElementById("stackapi_question_select_holder");
+        holder.innerHTML = "Select a question: ";
+        holder.appendChild(selectQuestion);
+        let firstquestion = null
+        for (const question of xmlDoc.getElementsByTagName("question")) {
+          if (question.getAttribute('type').toLowerCase() === 'stack') {
+            firstquestion = (firstquestion) ? firstquestion : question.outerHTML;
+            const option = document.createElement("option");
+            option.value = question.outerHTML;
+            option.text = question.getElementsByTagName("name")[0].getElementsByTagName("text")[0].innerHTML;
+
+            selectQuestion.appendChild(option);
+          }
+        }
+        setQuestion(firstquestion);
       }
 
       function setQuestion(question) {
@@ -479,6 +493,7 @@ require_login();
             </span>
           </a>
         </div>
+        Choose a STACK sample file:
         <select id="file_selector" placeholder="Select question" autocomplete="off" onchange="getQuestionFile(this.value)">
           <option value="" selected>Please select a question file</option>
         <?php
@@ -490,6 +505,8 @@ require_login();
         }
         ?>
         </select>
+        Or select a file of your own:
+        <input type="file" id="local-file" name="local-file" accept=".xml" onchange="getLocalQuestionFile(this.files[0])"/>
         <div id="stackapi_question_select_holder"></div>
         <h2>Question XML</h2>
         <textarea id="xml" cols="100" rows="10"></textarea>

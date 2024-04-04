@@ -43,6 +43,8 @@ texput(r,
   ))
 );
 
+declare([c,r],nonscalar);
+
 /* Manually convert student answers to the appropriate vector form. */
 /* If vectors do not conform then the original expression is returned. */
 vec_convert(ex):= block(

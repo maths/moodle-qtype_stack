@@ -16,7 +16,7 @@
 /****************************************************************/
 /*  Linear algebra functions for STACK                         */
 /*                                                              */
-/*  V0.2.1 April 2024                                             */
+/*  V0.2.2 April 2024                                             */
 /*                                                              */
 /****************************************************************/
 
@@ -27,7 +27,7 @@ texput(c,
   lambda([ex], block(
     ns: args(ex),
     str: ["\\begin{bmatrix} "],
-    for ii: 1 thru length(ns) do (str: append(str, [ev(ns[ii],simp), " \\\\ "])),
+    for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " \\\\ "])),
     str[length(str)]: " \\end{bmatrix}",
     simplode(str)
   ))
@@ -37,7 +37,7 @@ texput(r,
   lambda([ex], block(
     ns: args(ex),
     str: ["\\begin{bmatrix} "],
-    for ii: 1 thru length(ns) do (str: append(str, [ev(ns[ii],simp), " & "])),
+    for ii: 1 thru length(ns) do (str: append(str, [ev(tex1(ns[ii]),simp), " & "])),
     str[length(str)]: " \\end{bmatrix}",
     simplode(str)
   ))

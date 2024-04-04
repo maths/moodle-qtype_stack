@@ -3848,8 +3848,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'ta';
-        $formform->ans1type = 'algebraic';
-        $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '2';
@@ -3969,8 +3967,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'ta';
-        $formform->ans1type = 'algebraic';
-        $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '2';
@@ -4088,8 +4084,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->penalty = 0.1;
         $formform->variantsselectionseed = '';
         $formform->defaultmark = '1';
-        $formform->ans1type = 'algebraic';
-        $formform->ans1modelans = 'a';
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'a';
         $formform->ans1boxsize = '1';
@@ -4347,8 +4341,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'ta';
-        $formform->ans1type = 'algebraic';
-        $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '2';
@@ -4466,8 +4458,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->penalty = 0.1;
         $formform->variantsselectionseed = '';
         $formform->defaultmark = '1';
-        $formform->ans1type = 'algebraic';
-        $formform->ans1modelans = 'sin(x)';
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'sin(x)';
         $formform->ans1boxsize = '15';
@@ -4623,8 +4613,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'ta';
-        $formform->ans1type = 'algebraic';
-        $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '0';
@@ -4742,8 +4730,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->penalty = 0.1;
         $formform->variantsselectionseed = '';
         $formform->defaultmark = '1';
-        $formform->ans1type = 'checkbox';
-        $formform->ans1modelans = 'ta';
         $formform->ans1type = 'checkbox';
         $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
@@ -4865,8 +4851,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'checkbox';
         $formform->ans1modelans = 'ta';
-        $formform->ans1type = 'checkbox';
-        $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '0';
@@ -4984,8 +4968,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->penalty = 0.1;
         $formform->variantsselectionseed = '';
         $formform->defaultmark = '1';
-        $formform->ans1type = 'checkbox';
-        $formform->ans1modelans = 'ta1';
         $formform->ans1type = 'checkbox';
         $formform->ans1modelans = 'ta1';
         $formform->ans1boxsize = '15';
@@ -5159,8 +5141,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'checkbox';
         $formform->ans1modelans = 'ta';
-        $formform->ans1type = 'checkbox';
-        $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '0';
@@ -5278,8 +5258,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->penalty = 0.1;
         $formform->variantsselectionseed = '';
         $formform->defaultmark = '1';
-        $formform->ans1type = 'dropdown';
-        $formform->ans1modelans = 'ta';
         $formform->ans1type = 'dropdown';
         $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
@@ -5401,8 +5379,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'equiv';
         $formform->ans1modelans = 'ta';
-        $formform->ans1type = 'equiv';
-        $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '5';
@@ -5520,8 +5496,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->penalty = 0.1;
         $formform->variantsselectionseed = '';
         $formform->defaultmark = '1';
-        $formform->ans1type = 'equiv';
-        $formform->ans1modelans = 'tal';
         $formform->ans1type = 'equiv';
         $formform->ans1modelans = 'tal';
         $formform->ans1boxsize = '15';
@@ -5669,8 +5643,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'matrix';
         $formform->ans1modelans = 'M';
-        $formform->ans1type = 'matrix';
-        $formform->ans1modelans = 'M';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '0';
@@ -5788,8 +5760,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->penalty = 0.1;
         $formform->variantsselectionseed = '';
         $formform->defaultmark = '1';
-        $formform->ans1type = 'varmatrix';
-        $formform->ans1modelans = 'TA1';
         $formform->ans1type = 'varmatrix';
         $formform->ans1modelans = 'TA1';
         $formform->ans1boxsize = '3';
@@ -6006,8 +5976,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'matrix';
         $formform->ans1modelans = 'M1';
-        $formform->ans1type = 'matrix';
-        $formform->ans1modelans = 'M1';
         $formform->ans1boxsize = '3';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '0';
@@ -6144,8 +6112,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'notes';
         $formform->ans1modelans = 'true';
-        $formform->ans1type = 'notes';
-        $formform->ans1modelans = 'true';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '0';
@@ -6263,8 +6229,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->penalty = 0.1;
         $formform->variantsselectionseed = '';
         $formform->defaultmark = '1';
-        $formform->ans1type = 'numerical';
-        $formform->ans1modelans = 'significantfigures(pi,5)';
         $formform->ans1type = 'numerical';
         $formform->ans1modelans = 'significantfigures(pi,5)';
         $formform->ans1boxsize = '15';
@@ -6386,8 +6350,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'radio';
         $formform->ans1modelans = 'ta';
-        $formform->ans1type = 'radio';
-        $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '0';
@@ -6505,8 +6467,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->penalty = 0.1;
         $formform->variantsselectionseed = '';
         $formform->defaultmark = '1';
-        $formform->ans1type = 'radio';
-        $formform->ans1modelans = 'ta';
         $formform->ans1type = 'radio';
         $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
@@ -6628,8 +6588,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'singlechar';
         $formform->ans1modelans = 'x';
-        $formform->ans1type = 'singlechar';
-        $formform->ans1modelans = 'x';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '0';
@@ -6747,8 +6705,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->penalty = 0.1;
         $formform->variantsselectionseed = '';
         $formform->defaultmark = '1';
-        $formform->ans1type = 'string';
-        $formform->ans1modelans = '"Hello world"';
         $formform->ans1type = 'string';
         $formform->ans1modelans = '"Hello world"';
         $formform->ans1boxsize = '25';
@@ -6887,8 +6843,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'textarea';
         $formform->ans1modelans = 'ta';
-        $formform->ans1type = 'textarea';
-        $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '1';
@@ -7006,8 +6960,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->penalty = 0.1;
         $formform->variantsselectionseed = '';
         $formform->defaultmark = '1';
-        $formform->ans1type = 'textarea';
-        $formform->ans1modelans = 'ta';
         $formform->ans1type = 'textarea';
         $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
@@ -7129,8 +7081,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'boolean';
         $formform->ans1modelans = 'false';
-        $formform->ans1type = 'boolean';
-        $formform->ans1modelans = 'false';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '0';
@@ -7248,8 +7198,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->penalty = 0.1;
         $formform->variantsselectionseed = '';
         $formform->defaultmark = '1';
-        $formform->ans1type = 'units';
-        $formform->ans1modelans = 'ta';
         $formform->ans1type = 'units';
         $formform->ans1modelans = 'ta';
         $formform->ans1boxsize = '15';
@@ -7371,8 +7319,6 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->defaultmark = '1';
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = '[0,0]';
-        $formform->ans1type = 'algebraic';
-        $formform->ans1modelans = '[0,0]';
         $formform->ans1boxsize = '15';
         $formform->ans1strictsyntax = '';
         $formform->ans1insertstars = '0';
@@ -7404,9 +7350,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->ans2showvalidation = '0';
         $formform->ans2options = '';
         $formform->element1type = 'string';
-        $formform->element1modelans = '';
+        $formform->element1modelans = '""';
         $formform->element1type = 'string';
-        $formform->element1modelans = '';
+        $formform->element1modelans = '""';
         $formform->element1boxsize = '10';
         $formform->element1strictsyntax = '';
         $formform->element1insertstars = '0';
@@ -7416,14 +7362,14 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->element1allowwords = '';
         $formform->element1forbidfloat = '0';
         $formform->element1requirelowestterms = '0';
-        $formform->element1checkanswertype = '';
+        $formform->element1checkanswertype = '0';
         $formform->element1mustverify = '0';
         $formform->element1showvalidation = '0';
         $formform->element1options = 'hideanswer';
         $formform->element2type = 'string';
-        $formform->element2modelans = '';
+        $formform->element2modelans = '""';
         $formform->element2type = 'string';
-        $formform->element2modelans = '';
+        $formform->element2modelans = '""';
         $formform->element2boxsize = '10';
         $formform->element2strictsyntax = '';
         $formform->element2insertstars = '0';
@@ -7433,7 +7379,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->element2allowwords = '';
         $formform->element2forbidfloat = '0';
         $formform->element2requirelowestterms = '0';
-        $formform->element2checkanswertype = '';
+        $formform->element2checkanswertype = '0';
         $formform->element2mustverify = '0';
         $formform->element2showvalidation = '0';
         $formform->element2options = 'hideanswer';

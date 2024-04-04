@@ -15,11 +15,12 @@ Feature: Test running JSX Graph question.
     And the following "course enrolments" exist:
       | user    | course | role           |
       | teacher | C1     | editingteacher |
-    And I am on the "Course 1" "core_question > course question import" page logged in as "teacher"
-    And I set the field "id_format_xml" to "1"
-    And I upload "question/type/stack/samplequestions/JSXGraph-behat.xml" file to "Import" filemanager
-    And I press "id_submitbutton"
-    And I press "Continue"
+    And the following "question categories" exist:
+      | contextlevel | reference | name           |
+      | Course       | C1        | Test questions |
+    And the following "questions" exist:
+      | questioncategory | qtype | name                                     | template               |
+      | Test questions   | stack | JSX behat test                           | JSX_graph_input        |
 
   Scenario: Test JSX input
 

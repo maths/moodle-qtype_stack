@@ -1151,15 +1151,13 @@ class qtype_stack extends question_type {
         foreach ($q->prts as $index => $prt) {
             foreach ($prt->get_nodes_summary() as $nodeid => $choices) {
                 // STACK allows variables in scores, which may not be evaluated.
-                if (is_numeric($choices->falsescore) && is_numeric($choices->truescore)) {
-                    $parts[$index . '-' . $nodeid] = array(
-                        $choices->falseanswernote => new question_possible_response(
-                                $choices->falseanswernote, $choices->falsescore * $prt->get_value()),
-                        $choices->trueanswernote => new question_possible_response(
-                                $choices->trueanswernote, $choices->truescore * $prt->get_value()),
-                        null              => question_possible_response::no_response(),
-                    );
-                }
+                $parts[$index . '-' . $nodeid] = array(
+                    $choices->falseanswernote => new question_possible_response(
+                            $choices->falseanswernote, (float) $choices->falsescore * $prt->get_value()),
+                    $choices->trueanswernote => new question_possible_response(
+                            $choices->trueanswernote, (float) $choices->truescore * $prt->get_value()),
+                    null              => question_possible_response::no_response(),
+                );
             }
         }
 

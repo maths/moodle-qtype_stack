@@ -119,6 +119,20 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $this->assertEquals($expected, $this->qtype->get_possible_responses($qdata));
     }
 
+    public function test_get_possible_responses_test4() {
+      $qdata = test_question_maker::get_question_data('stack', 'variable_grade');
+
+      $expected = array(
+          'firsttree-0' => array(
+              'firsttree-1-F' => new question_possible_response('firsttree-1-F', 0),
+              'firsttree-1-T' => new question_possible_response('firsttree-1-T', 0.0),
+              null          => question_possible_response::no_response(),
+          ),
+      );
+
+      $this->assertEquals($expected, $this->qtype->get_possible_responses($qdata));
+  }
+
     public function test_initialise_question_instance() {
         $qdata = test_question_maker::get_question_data('stack', 'test3');
         $q = $this->qtype->make_question($qdata);

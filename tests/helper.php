@@ -50,6 +50,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'numdpsfeedbackvars',   // Two numerical inputs, one PRT, uses ATNumDPs and feedback variables (illustrates problem).
             '1input2prts',  // Contrived example with one input, 2 prts, all feedback in the specific feedback area.
             'information',  // Neither inputs nor PRTs.
+            'variable_grade', // Variables in grade.
             'survey',       // Inputs, but no PRTs.
             'single_char_vars',   // Tests the insertion of * symbols between letter names.
             'runtime_prt_err',    // This generates an error in the PRT at runtime.  With and without guard clause.
@@ -1650,6 +1651,119 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->length = 0;
 
         return $q;
+    }
+
+    /**
+     * @return qtype_stack_question with variable grades
+     */
+    public static function get_stack_question_data_variable_grade() {
+        question_bank::load_question_definition_classes('stack');
+        $qdata = new stdClass();
+        test_question_maker::initialise_question_data($qdata);
+
+        $qdata->qtype = 'stack';
+        $qdata->name = 'test-0';
+        $qdata->questiontext = 'What is $1+1$? [[input:ans1]]
+                                [[validation:ans1]]';
+        $qdata->generalfeedback = '';
+
+        $qdata->options = new stdClass();
+        $qdata->options->id                        = 0;
+        $qdata->options->stackversion              = get_config('qtype_stack', 'version');
+        $qdata->options->questionvariables         = '';
+        $qdata->options->specificfeedback          = '[[feedback:firsttree]]';
+        $qdata->options->specificfeedbackformat    = FORMAT_HTML;
+        $qdata->options->questionnote              = '';
+        $qdata->options->questionnoteformat        = FORMAT_HTML;
+        $qdata->options->questiondescription       = 'This is a rather wonderful question!';
+        $qdata->options->questiondescriptionformat = FORMAT_HTML;
+        $qdata->options->questionsimplify          = 1;
+        $qdata->options->assumepositive            = 0;
+        $qdata->options->assumereal                = 0;
+        $qdata->options->prtcorrect                = self::DEFAULT_CORRECT_FEEDBACK;
+        $qdata->options->prtcorrectformat          = FORMAT_HTML;
+        $qdata->options->prtpartiallycorrect       = self::DEFAULT_PARTIALLYCORRECT_FEEDBACK;
+        $qdata->options->prtpartiallycorrectformat = FORMAT_HTML;
+        $qdata->options->prtincorrect              = self::DEFAULT_INCORRECT_FEEDBACK;
+        $qdata->options->prtincorrectformat        = FORMAT_HTML;
+        $qdata->options->decimals                  = '.';
+        $qdata->options->multiplicationsign        = 'dot';
+        $qdata->options->sqrtsign                  = 1;
+        $qdata->options->complexno                 = 'i';
+        $qdata->options->inversetrig               = 'cos-1';
+        $qdata->options->logicsymbol               = 'lang';
+        $qdata->options->matrixparens              = '[';
+        $qdata->options->variantsselectionseed     = '';
+        $qdata->options->compiledcache             = null;
+
+        $input = new stdClass();
+        $input->name               = 'ans1';
+        $input->id                 = 0;
+        $input->questionid         = 0;
+        $input->type               = 'algebraic';
+        $input->tans               = '2';
+        $input->boxsize            = 5;
+        $input->strictsyntax       = 1;
+        $input->insertstars        = 0;
+        $input->syntaxhint         = '';
+        $input->syntaxattribute    = 0;
+        $input->forbidwords        = '';
+        $input->allowwords         = '';
+        $input->forbidfloat        = 1;
+        $input->requirelowestterms = 0;
+        $input->checkanswertype    = 0;
+        $input->mustverify         = 1;
+        $input->showvalidation     = 1;
+        $input->options            = '';
+        $qdata->inputs['ans1'] = $input;
+
+        $prt = new stdClass();
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->id                = '0';
+        $prt->questionid        = '0';
+        $prt->value             = 1;
+        $prt->autosimplify      = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'grade: 1 nograde: 0';
+        $prt->firstnodename     = '0';
+
+        $node = new stdClass();
+        $node->id                  = 0;
+        $node->questionid          = 0;
+        $node->prtname             = 'firsttree';
+        $node->nodename            = '0';
+        $node->description         = '';
+        $node->answertest          = 'EqualComAss';
+        $node->sans                = 'ans1';
+        $node->tans                = '2';
+        $node->testoptions         = '';
+        $node->quiet               = 0;
+        $node->truescoremode       = '=';
+        $node->truescore           = 'grade';
+        $node->truepenalty         = 0;
+        $node->truenextnode        = -1;
+        $node->trueanswernote      = 'firsttree-1-T';
+        $node->truefeedback        = '';
+        $node->truefeedbackformat  = FORMAT_HTML;
+        $node->falsescoremode      = '=';
+        $node->falsescore          = 'nograde';
+        $node->falsepenalty        = 0;
+        $node->falsenextnode       = -1;
+        $node->falseanswernote     = 'firsttree-1-F';
+        $node->falsefeedback       = '';
+        $node->falsefeedbackformat = FORMAT_HTML;
+        $prt->nodes['0'] = $node;
+        $qdata->prts['firsttree'] = $prt;
+
+        $qdata->deployedseeds = array('12345');
+
+        $qtest = new stack_question_test('Basic test of question', array('ans1' => '2'));
+        $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
+                1, true, 1, 0, '', array('firsttree-1-T')));
+        $qdata->testcases[1] = $qtest;
+
+        return $qdata;
     }
 
     /**

@@ -38,7 +38,6 @@ Feature: Test importing STACK questions from Moodle XML files.
     # step we avoid behat doing the reset until we are off that page.
     And I log out
 
-
   @javascript @_file_upload
   Scenario: import an old STACK question from a Moodle XML file
     When I am on the "Course 1" "core_question > course question import" page logged in as "teacher"

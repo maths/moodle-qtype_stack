@@ -140,6 +140,23 @@ class stack_equiv_test_data {
 
         $newarg = array();
         $newarg['title']     = "";
+        $newarg['narrative'] = 'Lots of false equations chained.';
+        $newarg['casstring'] = "[3=0,2=sqrt(-5),2=0,2=sqrt(5),2=0,2=sqrt(-5),3=0]";
+        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
+        $newarg['narrative'] = 'Lots of false equations chained (real).';
+        $newarg['casstring'] = "[3=0,2=sqrt(-5),2=0,2=sqrt(5),2=0,2=sqrt(-5),3=0]";
+        $newarg['debuglist'] = "(ASSUMEREALVARS,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['outcome']   = true;
+        $newarg['assumereal'] = true;
+        $samplearguments[] = $newarg;
+
+        $newarg = array();
+        $newarg['title']     = "";
         $newarg['narrative'] = 'Change of variables.';
         $newarg['casstring'] = "[x=1,X=1]";
         $newarg['debuglist'] = "(EMPTYCHAR,QMCHAR)";
@@ -525,7 +542,7 @@ class stack_equiv_test_data {
         $newarg['title']     = "Vacuous linear equation (2)";
         $newarg['narrative'] = 'This equation is satisfied by no value of x.';
         $newarg['casstring'] = "[2*(x-3) = 5*x-3*(x+1),2*x-6=2*x-3,0=3,{}]";
-        $newarg['debuglist'] = "(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR,EQUIVCHAR)";
+        $newarg['debuglist'] = "(EMPTYCHAR,SAMEROOTS,EQUIVCHAR,EQUIVCHAR)";
         $newarg['outcome']   = true;
         $samplearguments[] = $newarg;
 

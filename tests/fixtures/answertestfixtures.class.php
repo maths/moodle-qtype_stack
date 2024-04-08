@@ -367,6 +367,7 @@ class stack_answertest_test_data {
         array('AlgEquiv', '', 'none', 'all', 0, 'ATEquation_zero_fail', ''),
         array('AlgEquiv', '', 'all', 'none', 0, 'ATEquation_empty_fail', ''),
         array('AlgEquiv', '', '2=3', '1=4', 1, 'ATEquation_empty', ''),
+        array('AlgEquiv', '', '2=3', '2=4', 1, 'ATEquation_empty', ''),
         array('AlgEquiv', '', 'none', '1=2', 1, 'ATEquation_empty', ''),
         array('AlgEquiv', '', 'false', '1=2', 1, 'ATEquation_empty', ''),
         array('AlgEquiv', '', 'none', 'none', 1, 'ATEquation_empty', ''),

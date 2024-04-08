@@ -376,7 +376,7 @@ dispproof([ex]) := block([ex1],
   Returns the process of getting from s to t.
   Original author Achim Eichhorn Achim.Eichhorn(at)hs-esslingen.de modified by Chris Sangwin to track process.
 */
-proof_damerau_levenstein(s, t) := block([m, n, XY, XYaction, i, j, d, temp, L, lm, li, dl_tags, simp],
+proof_damerau_levenstein(s, t) := block([c, m, n, XY, XYaction, i, j, d, temp, L, lm, li, dl_tags, simp],
     simp:true,
     if(s=t) then return([0,[]]), /* Equal strings result in 0, nothing to do. */
     m:length(s),

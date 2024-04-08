@@ -65,6 +65,8 @@ To overcome these problems STACK has a command
 
 This always returns a string.  For an atom this is empty, i.e. `""`.  It also sorts out some unary minus problems.
 
+We also have a function `get_safe_ops(ex)` which returns a set of "`safe_op`s" in the expression.  Atoms are ignored.
+
 ### `get_ops(ex)` - all operators
 
 This function returns a set of all operators in an expression.  Useful if you want to find if multiplication is used anywhere in an expression.

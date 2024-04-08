@@ -2990,6 +2990,10 @@
   "get_plot_option": {
       "function": "f"
   },
+  "get_safe_ops": {
+      "function": "?",
+      "built-in": true
+  },
   "get_tex_environment": {
       "function": "f"
   },

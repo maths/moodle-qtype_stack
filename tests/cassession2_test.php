@@ -2318,6 +2318,7 @@ class cassession2_test extends qtype_stack_testcase {
         $t1[] = array('l0:safe_op(2/3)', '"/"');
         $t1[] = array('l1:[1,-2,2/3,-4/3, 4/16, 9/3]', '[1,-2,2/3,(-4)/3,4/16,9/3]');
         $t1[] = array('l2:map(rational_numberp, l1);', '[false,false,true,true,true,true]');
+        $t1[] = array('l3:get_safe_ops(a+b/c)', '{"+","/"}');
 
         foreach ($t1 as $i => $case) {
             $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), array());
@@ -2337,6 +2338,7 @@ class cassession2_test extends qtype_stack_testcase {
         $t1[] = array('l0:safe_op(2/3)', '"/"');
         $t1[] = array('l1:[1,-2,2/3,-4/3, 4/16, 9/3]', '[1,-2,2/3,-(4/3),1/4,3]');
         $t1[] = array('l2:map(rational_numberp, l1);', '[false,false,true,true,true,false]');
+        $t1[] = array('l3:get_safe_ops(a+b/c)', '{"+","/"}');
 
         foreach ($t1 as $i => $case) {
             $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), array());

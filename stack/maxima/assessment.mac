@@ -890,6 +890,23 @@ recursemod(ex, n) := block(
 )$
 
 /* ********************************** */
+/* Binomial functions                 */
+/* ********************************** */
+
+binomial_remove(_a, _b):=block(
+  if listp(_b) then return(_a!/(apply("*", map("!",ev(sort(_b),simp))))),
+  _a!/(_b!*(_a-_b)!)
+)$
+
+binomialtex(ex) := block([al],
+  al:args(ex),
+  if is(listp(second(al))) then al[2]:apply(sequence,al[2]),
+  al:maplist(tex1, al),
+  sconcat("{{", al[1], "}\\choose{", al[2], "}}")
+  );
+texput(binomial, binomialtex);
+
+/* ********************************** */
 /* Equivalence                        */
 /* ********************************** */
 
@@ -929,9 +946,9 @@ algebraic_equivalence(SA, SB) :=
     /* Remove scientific units and displaydp from expressions. */
     SA:ev(SA, stackunits="*"),
     SB:ev(SB, stackunits="*"),
-    /* Remove binomial function from expressions. */
-    SA:subst(binomial=lambda([a,b],a!/(b!*(a-b)!)), SA),
-    SB:subst(binomial=lambda([a,b],a!/(b!*(a-b)!)), SB),
+    /* Remove binomial function from expressions in simple cases. */
+    SA:subst(binomial=binomial_remove, SA),
+    SB:subst(binomial=binomial_remove, SB),
     SA:remove_numerical_inert(SA),
     SB:remove_numerical_inert(SB),
     /* Remove logarithms to other bases from expressions. */

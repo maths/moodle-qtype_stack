@@ -458,6 +458,8 @@ class stack_inputvalidation_test_data {
         array('mod(x,y)', 'php_true', 'mod(x,y)', 'cas_true', 'x \rm{mod} y', '', ""),
         array('binomial(n,m)', 'php_true', 'binomial(n,m)', 'cas_true', '{{n}\choose{m}}', '', ""),
         array('binomial(8,4)', 'php_true', 'binomial(8,4)', 'cas_true', '{{8}\choose{4}}', '', ""),
+        array('binomial(n,[a,b,c])', 'php_true', 'binomial(n,[a,b,c])', 'cas_true', '{{n}\choose{a, b, c}}', '', ""),
+        array('binomial(n,[a])', 'php_true', 'binomial(n,[a])', 'cas_true', '{{n}\choose{a}}', '', ""),
         array('perm(x,y)', 'php_false', '', '', '', 'forbiddenFunction', ""),
         array('comb(x,y)', 'php_false', '', '', '', 'forbiddenFunction', ""),
         array('switch(x,a,y,b,c)', 'php_false', '', '', '', 'forbiddenFunction', ""),

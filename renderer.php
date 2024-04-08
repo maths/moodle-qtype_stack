@@ -141,6 +141,14 @@ class qtype_stack_renderer extends qtype_renderer {
                     array('class' => 'validationerror'));
         }
 
+        // ISS1053 - Output current language
+        // to be returned by validaion request and also stored in
+        // question step data on submission.
+        $fieldname = $qa->get_qt_field_name('step_lang');
+        $currentlang = current_language();
+        $result .= html_writer::empty_tag('input', array('type' => 'hidden',
+                    'name' => $fieldname, 'value' => $currentlang));
+
         return $result;
     }
 

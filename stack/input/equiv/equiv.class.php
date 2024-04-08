@@ -464,10 +464,13 @@ class stack_equiv_input extends stack_input {
      *
      * @param stack_input_state $state represents the results of the validation.
      * @param string $fieldname the field name to use in the HTML for this input.
+     * @param string $lang language of the question.
      * @return string HTML for the validation results for this input.
      */
-    public function render_validation(stack_input_state $state, $fieldname) {
-
+    public function render_validation(stack_input_state $state, $fieldname, $lang) {
+        if ($lang) {
+            $prevlang = force_current_language($lang);
+        }
         if (self::BLANK == $state->status) {
             return '';
         }
@@ -494,6 +497,9 @@ class stack_equiv_input extends stack_input {
             $feedback .= $this->tag_listofvariables($state->lvars);
         }
 
+        if ($lang) {
+            force_current_language($prevlang);
+        }
         return $feedback;
     }
 

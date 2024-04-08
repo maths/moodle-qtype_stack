@@ -1315,9 +1315,13 @@ abstract class stack_input {
      * Generate the HTML that gives the results of validating the student's input.
      * @param stack_input_state $state represents the results of the validation.
      * @param string $fieldname the field name to use in the HTML for this input.
+     * @param string $lang language of the question.
      * @return string HTML for the validation results for this input.
      */
-    public function render_validation(stack_input_state $state, $fieldname) {
+    public function render_validation(stack_input_state $state, $fieldname, $lang) {
+        if ($lang) {
+            $prevlang = force_current_language($lang);
+        }
         if (self::BLANK == $state->status) {
             return '';
         }
@@ -1365,6 +1369,9 @@ abstract class stack_input {
 
         if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' || $state->lvars === '[]')) {
             $feedback .= $this->tag_listofvariables($state->lvars);
+        }
+        if ($lang) {
+            force_current_language($prevlang);
         }
         return $feedback;
     }
@@ -1485,7 +1492,7 @@ abstract class stack_input {
     public function replace_validation_tags($state, $fieldname, $questiontext) {
 
         $name = $this->name;
-        $feedback = $this->render_validation($state, $fieldname);
+        $feedback = $this->render_validation($state, $fieldname, null);
 
         $class = "stackinputfeedback standard";
         $divspan = 'div';

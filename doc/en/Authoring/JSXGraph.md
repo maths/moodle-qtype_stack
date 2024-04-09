@@ -111,6 +111,8 @@ The simplest solution for storing state is to add a `string` type input field to
  5. That input field should not be connected to any PRTs.
  6. You can use the syntax hint feature to pass in a default value but only if that is not parametric (currently the syntax hint is not CASText: see the todo list).
 
+It is possible to store state in other input types, but this input will therefore be subject to validation.  E.g. you could use an algebraic input to store a number but you probably then need to allow floats.
+
 You can use that input field to store the state of the graph as a string, for example as a JSON-encoded structure. For example, assuming the name of the String input is named `stateStore`, we can store the position of a point as follows:
 
 

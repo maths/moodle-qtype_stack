@@ -185,7 +185,7 @@ class stack_question_test {
                     $val = 'testresponse_' . $name . ':ev(' . $value .',simp)';
                 }
                 $cs = stack_ast_container::make_from_teacher_source($val , '', new stack_cas_security());
-                if ($cs->get_valid()) {
+                if ($cs->get_valid() && substr($value, 0, 4) != 'RAW:') {
                     $vars[] = $cs;
                 }
             }
@@ -196,7 +196,7 @@ class stack_question_test {
         }
 
         $response = array();
-        foreach ($inputs as $name => $notused) {
+        foreach ($inputs as $name => $value) {
             $var = $cascontext->get_by_key('testresponse_' . $name, true);
             $computedinput = '';
             if ($var !== null && $var->is_correctly_evaluated()) {
@@ -210,6 +210,10 @@ class stack_question_test {
             } else {
                 // 4.3. means the logic_nouns_sort is done through parse trees.
                 $computedinput = $cascontext->get_by_key('testresponse_' . $name)->get_dispvalue();
+            }
+            // Use any "rar" test case value.
+            if (substr($value, 0, 4) === 'RAW:') {
+                $computedinput = substr($value, 4);
             }
             if (array_key_exists($name, $question->inputs)) {
                 // Remove things like apostrophies in test case inputs so we don't create an invalid student input.

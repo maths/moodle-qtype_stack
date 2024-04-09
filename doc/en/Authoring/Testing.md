@@ -47,7 +47,10 @@ In this way, the teacher can record, within the question itself, how they expect
     3. Some "invalid" responses, especially if these are syntactically-valid expressions.  E.g. If the answer is an equation such as \(y=2x+1\), then \(2x+1\) might be invalid if you have chosen the input option "check types".  Adding a test case is useful to confirm this potential problem is caught by the question.  Leave the fields empty and the answer note `NULL` to indicate this.
     4. Add a totally incorrect answer.
 9. If you leave the penalty field blank it will assume you mean the default penalty for the question.
-10. If you start your test case with the tag `RAW:` then you can test for invalid input.  The remainder of your input will be used.  E.g. if your test case is `RAW:2 x` then your input test case will be `2 x`.  Note, this feature does _not_ evaluate the expression further, and values of question variables will not be used.  There is, realistically, no way to evaluate values of variables within an invalid expression.  This feature can still be used to test input settings, such as insert stars, is working leading to a "score" state rather than an invalid state.
+
+If you start your test case with the tag `RAW:` (case sensitive) then the remainder of your input will be used as a raw string.  E.g. if your test case is `RAW:2 x` then your input test case will be `2 x`.  Note, this feature does _not_ evaluate the expression further, and values of question variables will not be used.
+
+If you start your test case with the tag `CT:` (case sensitive) then the remainder of your input will be evaluated as a castext string.  E.g. if your test case is  `CT:{#a#}{#v#}` then the castext `{#a#}{#v#}` will be evaluated, and the values of variables `a` and `v` placed next to each other to create an input string. This feature can be used to test input settings, such as insert stars, is working leading to a "score" state rather than an invalid state.
 
 On the question testing page is a "Send to CAS" button.  Pressing this sends the question variables and general feedback to a special page which enables more efficient authoring of the feedback in the context of the values of the variables.  You still need to copy this by hand into the question edit form when you are satisfied.
 

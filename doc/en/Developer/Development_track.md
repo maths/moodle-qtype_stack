@@ -17,7 +17,7 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 2. Add in the extra input option `feedback` to run in parallel with validators to give opportunities for bespoke messages.
 3. Load the `functs` Maxima package, i.e. `load("functs");` to give access to some useful functions.
 4. Fix display and simplification of binomial coefficients (issue #931).
-5. Add in the `RAW:...` option for test case construction to enable tests of invalid input (e.g. missing stars).
+5. Add in the `CT:...` and `RAW:...` options for test case construction to enable tests of invalid input (e.g. missing stars).
 
 TODO:
 

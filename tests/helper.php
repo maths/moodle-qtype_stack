@@ -3713,7 +3713,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->name = 'validator';
         // We need to check that local variable names within the block are not invalid for student's input.
         // We need to chack mathematics within the castext is correctly displayed.
-        $q->questionvariables = 'ta:phi^2-1;myvalidityidea(ex):=block(if ev(subsetp(setify(listofvars(ex)),' .
+        $q->questionvariables = 'texput(foo,lambda([e],[a,b]:args(e), sconcat("\\\\frac{", tex1(a), "}{", tex1(b), "}")));' .
+            'ta:phi^2-1;myvalidityidea(ex):=block(if ev(subsetp(setify(listofvars(ex)),' .
             'setify(listofvars(ta))), simp) then return(""),castext("[[lang code=\'fi\']]Vastauksesi sisältää ' .
             'vääriä muuttujia.[[/lang]][[lang code=\'en,other\']]Your answer {@ex@} contains the wrong variables.[[/lang]]"));';
         // This question is also used to test the lang blocks at the top level.
@@ -3729,7 +3730,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
             'algebraic', 'ans1', 'ta', null,
-            array('boxWidth' => 20, 'forbidWords' => '', 'allowWords' => '',
+            array('boxWidth' => 20, 'forbidWords' => '', 'allowWords' => 'foo',
                   'options' => 'validator:myvalidityidea'));
 
         $prt = new stdClass;

@@ -52,4 +52,3 @@ Feature: Test validation language is correct.
     And I wait until "Tu respuesta fue interpretado como" "text" does not exist
     And I set the input "ans1" to "a*b" in the STACK question
     And I wait until "Tu respuesta fue interpretado como" "text" exists
-    

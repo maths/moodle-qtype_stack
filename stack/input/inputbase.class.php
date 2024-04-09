@@ -1492,7 +1492,7 @@ abstract class stack_input {
     public function replace_validation_tags($state, $fieldname, $questiontext) {
 
         $name = $this->name;
-        // ISS1053 Set language override to null as we should be in the question render here. It's only
+        // ISS879 Set language override to null as we should be in the question render here. It's only
         // when we're calling the validation via the webservice that we may need to override.
         $feedback = $this->render_validation($state, $fieldname, null);
 

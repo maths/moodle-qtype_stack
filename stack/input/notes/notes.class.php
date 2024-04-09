@@ -172,7 +172,7 @@ class stack_notes_input extends stack_input {
      * @return string HTML for the validation results for this input.
      */
     public function render_validation(stack_input_state $state, $fieldname, $lang) {
-        if ($lang) {
+        if ($lang !== null && $lang !== '') {
             $prevlang = force_current_language($lang);
         }
         if (self::BLANK == $state->status) {
@@ -191,7 +191,7 @@ class stack_notes_input extends stack_input {
             $render .= html_writer::tag('p', $contents[0]);
         }
         $render .= html_writer::tag('p', stack_string('studentValidation_notes'), array('class' => 'stackinputnotice'));
-        if ($lang) {
+        if ($lang !== null && $lang !== '') {
             force_current_language($prevlang);
         }
         return format_text(stack_maths::process_display_castext($render));

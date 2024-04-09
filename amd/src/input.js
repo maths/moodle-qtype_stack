@@ -432,7 +432,7 @@ define([
     function initInputs(questionDivId, prefix, qaid, inputs) {
         var questionDiv = document.getElementById(questionDivId);
         var language = null;
-        var langInput = document.getElementsByName(prefix + '_step_lang');
+        var langInput = document.getElementsByName(prefix + 'step_lang');
         if (langInput.length > 0 && langInput[0].value) {
             language = langInput[0].value;
         }

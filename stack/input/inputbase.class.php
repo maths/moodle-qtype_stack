@@ -1319,7 +1319,7 @@ abstract class stack_input {
      * @return string HTML for the validation results for this input.
      */
     public function render_validation(stack_input_state $state, $fieldname, $lang) {
-        if ($lang) {
+        if ($lang !== null && $lang !== '') {
             $prevlang = force_current_language($lang);
         }
         if (self::BLANK == $state->status) {
@@ -1370,7 +1370,7 @@ abstract class stack_input {
         if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' || $state->lvars === '[]')) {
             $feedback .= $this->tag_listofvariables($state->lvars);
         }
-        if ($lang) {
+        if ($lang !== null && $lang !== '') {
             force_current_language($prevlang);
         }
         return $feedback;
@@ -1492,6 +1492,8 @@ abstract class stack_input {
     public function replace_validation_tags($state, $fieldname, $questiontext) {
 
         $name = $this->name;
+        // ISS1053 Set language override to null as we should be in the question render here. It's only
+        // when we're calling the validation via the webservice that we may need to override.
         $feedback = $this->render_validation($state, $fieldname, null);
 
         $class = "stackinputfeedback standard";

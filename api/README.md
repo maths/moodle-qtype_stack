@@ -8,6 +8,8 @@ This folder contains a standalone REST-API for integration of STACK into externa
 
 The STACK API has been designed to be deployed using Docker. Pre-made images are publicly available via a gitlab registry under the identifier `registry.git.rwth-aachen.de/medien-public/moodle-stack`. The used Dockerfile is available [here](docker/Dockerfile).
 
+E.g. see `https://hub.docker.com/r/mathinstitut/goemaxima` for images.
+
 > :warning: **NOTE**: The pre-built images rely on a recent version of the apache2 webserver, which requires a linux kernel version of 3.17 or newer on the Docker host.
 
 The image requires maxima to be available via http. The URL can be configured via the environment variable `MAXIMA_URL` and defaults to `http://maxima:8080/maxima`. An example docker-compose file deploying both stack and maxima in the goemaxima variant is provided below:
@@ -193,7 +195,7 @@ To ease the development process, the Dockerfile contained in the repository cont
     docker compose -f docker-compose.dev.yml build
     docker compose -f docker-compose.dev.yml up
 
-The required development image will automatically be build. After the stack started, you will be able to access the service via http://localhost:3080. Any performed code changes will be visible live. The development build also contains the xdebug extension, which is configured to connect to `host.docker.internal` as a debugger, which will resolve to the locale machines ip address when using docker desktop. Please note that the performance of the development setup will be significantly worse than in production.
+The required development image will automatically be build. After the stack started, you will be able to access the service via http://localhost:3080. Any performed changes in the PHP code will be visible live. Note, that Maxima is provided by a geomaxima docker image, and this image will _not_ reflect local changes.  The development build also contains the xdebug extension, which is configured to connect to `host.docker.internal` as a debugger, which will resolve to the locale machines ip address when using docker desktop. Please note that the performance of the development setup will be significantly worse than in production.
 
 ### High level overview
 

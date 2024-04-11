@@ -84,4 +84,4 @@ Then check updated information on the form.
 1. Update Geomaxima
 2. Update version numbers in `api/config_samples.txt`
 3. Update Geomaxima docker image versions in `api/docker/docker-compose.dev.yml` and  `api/docker/docker-compose.yml`
-
+   E.g. see `https://hub.docker.com/r/mathinstitut/goemaxima` for latest versions.

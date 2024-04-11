@@ -57,11 +57,7 @@ if ($context->contextlevel == CONTEXT_MODULE) {
 }
 
 // Load the necessary data.
-if (stack_determine_moodle_version() < 400) {
-    $categories = question_category_options(array($context));
-} else {
-    $categories = qbank_managecategories\helper::question_category_options(array($context));
-}
+$categories = qbank_managecategories\helper::question_category_options(array($context));
 $categories = reset($categories);
 
 $bulktester = new stack_bulk_tester();

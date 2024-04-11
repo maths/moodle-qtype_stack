@@ -140,7 +140,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             return stack_string('healthunabletolistavail');
         }
         $this->command = 'maxima --list-avail';
-        $rawresult = $this->call_maxima('');
+        $rawresult = $this->call_maxima('maxima --list-avail');
         return $rawresult;
     }
 

@@ -301,6 +301,93 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
     }
 
+    public function test_test0_validate_reset_vars() {
+
+        // Create the stack question 'test0'.
+        $q = \test_question_maker::make_question('stack', 'test0');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process a validate request.
+        $this->process_submission(array('ans1' => 'simplify(e^(pi*i))', '-submit' => 1));
+
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: simplify(e^(pi*i)) [valid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', 'simplify(e^(pi*i))');
+        // From the existance of e and i we can infer the e^(pi*i) has not been simplified to -1.
+        $expectedvarlist = get_string('studentValidation_listofvariables',
+            'qtype_stack', '\( \left[ e , i \right]\)');
+        $this->assert_content_with_maths_contains($expectedvarlist, $this->currentoutput);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
+    public function test_test0_validate_subscripts_questionvars() {
+
+        // Create the stack question 'test0'.
+        $q = \test_question_maker::make_question('stack', 'test0');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process an invalidate request.
+
+        // This is invalid because the subscript "a" is also a question variable.
+        // This is implemented in the 998_security.filter.php on line 485.
+        // Or search for the language tag "stackCas_forbiddenVariable".
+        $this->process_submission(array('ans1' => 'x_a', '-submit' => 1));
+
+        $this->check_current_state(question_state::$invalid);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: x_a [invalid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', 'x_a');
+        // From the existance of e and i we can infer the e^(pi*i) has not been simplified to -1.
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+    }
+
     public function test_test1_validate_then_submit_right_first_time() {
 
         // Create the stack question 'test1'.
@@ -3520,6 +3607,29 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 );
     }
 
+    public function test_checkbox_union() {
+
+        $q = \test_question_maker::make_question('stack', 'checkbox_union');
+
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->assertEquals('adaptivemultipart',
+            $this->quba->get_question_attempt($this->slot)->get_behaviour_name());
+        $this->render();
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/are is the domain/'),
+            new question_pattern_expectation('/cup/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+    }
+
     public function test_test0_do_not_show_penalties() {
 
         // Create the stack question 'test0'.
@@ -4172,7 +4282,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-            new question_pattern_expectation('/Your answer contains the wrong variables/'),
+            new question_pattern_expectation('/Your answer <span class="nolink">/'),
+            new question_pattern_expectation('/{x\^2-1}/'),
+            new question_pattern_expectation('/contains the wrong variables/'),
             new question_no_pattern_expectation('/Vastauksesi sisältää/')
             );
 
@@ -4252,7 +4364,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
-            new question_pattern_expectation('/Your answer contains the wrong variables/'),
+            new question_pattern_expectation('/Your answer <span class="nolink">/'),
+            new question_pattern_expectation('/{x\^2-1}/'),
+            new question_pattern_expectation('/contains the wrong variables/'),
             new question_no_pattern_expectation('/Vastauksesi sisältää/')
             );
 
@@ -4373,5 +4487,184 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
             new question_no_pattern_expectation('/richtig/'),
             new question_pattern_expectation('/oikea/')
         );
+    }
+
+    public function test_input_feedback() {
+
+        $q = test_question_maker::make_question('stack', 'feedback');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('ans', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Find all the complex solutions of the equation/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process an invalidate request.
+        $ia = '1+i';
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('ans', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: 1+i [invalid]; ans: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Your answer should be a set, but is not./'),
+            new question_pattern_expectation('/Remember to enter sets!/'),
+            );
+
+        // Process a validate request.
+        $ia = '{4}';
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('ans', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: {4} [valid]; ans: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Remember to enter sets!/'),
+            );
+
+        // Process a score request.
+        $ia = '{4}';
+        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(0.3);
+        $this->check_prt_score('ans', 0.3, 0.1);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: {4} [score]; ans: # = 0.3 | ATSets_missingentries. | ans-0-F | ans-1-T';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Remember to enter sets!/'),
+            new question_pattern_expectation('/There are more answers that just the single real number./'),
+            );
+
+        // Process incorrect answer..
+        $ia = '{4,4*((-(sqrt(3)*%i)/2)-1/2),4*((sqrt(3)*%i)/2-1/2)}';
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(0.3);
+        $this->check_prt_score('ans', null, null);
+        $this->render();
+
+        $expected = 'Seed: 1; ans1: {4,4*((-(sqrt(3)*%i)/2)-1/2),4*((sqrt(3)*%i)/2-1/2)} [valid]; ans: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/Remember to enter sets!/'),
+            );
+
+        // Process a score request.
+        $ia = '{4,4*((-(sqrt(3)*%i)/2)-1/2),4*((sqrt(3)*%i)/2-1/2)}';
+        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1));
+        $expected = 'Seed: 1; ans1: {4,4*((-(sqrt(3)*%i)/2)-1/2),4*((sqrt(3)*%i)/2-1/2)} [score]; ans: # = 0 | ' .
+            'ATSets_wrongentries. ATSets_missingentries. | ans-0-F | ATSet_wrongsz. | ans-1-F | ATSet_wrongsz. | ans-2-F';
+        $this->check_response_summary($expected);
+
+        $this->check_current_mark(0.3);
+        $this->check_prt_score('ans', 0, 0.1);
+        $this->render();
+
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/The following are missing from your set./'),
+            new question_pattern_expectation('/Remember to enter sets!/'),
+            );
+
+        // Jump to a score request.
+        $ia = '{4,4*i,-4*i,-4}';
+        $this->process_submission(array('ans1' => $ia, 'ans1_val' => $ia, '-submit' => 1));
+        $expected = 'Seed: 1; ans1: {4,4*i,-4*i,-4} [score]; ans: # = 1 | ans-0-T';
+        $this->check_response_summary($expected);
+
+        $this->check_current_mark(0.8);
+        $this->check_prt_score('ans', 1, 00);
+        $this->render();
+
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_no_pattern_expectation('/The following are missing from your set./'),
+            new question_pattern_expectation('/Remember to enter sets!/'),
+            );
+    }
+
+    public function test_input_validator_texput() {
+
+        $this->resetAfterTest();
+        set_config('lang', 'en');
+
+        $q = test_question_maker::make_question('stack', 'validator');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ans1');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/What is/'),
+            new question_no_pattern_expectation('/Was ist/'),
+            new question_no_pattern_expectation('/Mikä on/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+
+        // Process a validate request.
+        $ia = 'foo(x,y)';
+        $this->process_submission(array('ans1' => $ia, '-submit' => 1));
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+
+        // This is invalid because it has the wrong variables!
+        $expected = 'Seed: 1; ans1: foo(x,y) [invalid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ans1', $ia);
+        $this->check_output_contains_input_validation('ans1');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        // This vaidation output is the result of a texput command with a lambda function.
+        $this->assert_content_with_maths_contains('\\frac{x}{y}', $this->currentoutput);
     }
 }

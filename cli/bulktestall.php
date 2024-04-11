@@ -81,11 +81,7 @@ if ($options['id']) {
     foreach ($contexts as $contextid => $numstackquestions) {
         $testcontext = context::instance_by_id($contextid);
 
-        if (stack_determine_moodle_version() < 400) {
-            $categories = question_category_options(array($context));
-        } else {
-            $categories = qbank_managecategories\helper::question_category_options(array($context));
-        }
+        $categories = qbank_managecategories\helper::question_category_options(array($context));
         $categories = reset($categories);
         foreach ($categories as $key => $category) {
             list($categoryid) = explode(',', $key);

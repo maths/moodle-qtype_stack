@@ -2,7 +2,9 @@
 
 This is documentation for the numerical [input type](Inputs.md).
 
-This input type _requires_ the student to type in a number of some kind.  Any expression with a variable will be rejected as invalid.
+This input type _requires_ the student to type in a number of some kind.
+
+* Any expression with a variable will be rejected as invalid.
 
 While variable names are forbidden, by default function names are not forbidden.  `sin(pi/2)` represents a number.  If you actually want the student to type in `1` you need to forbid `sin` in the normal way using the forbidden words.
 

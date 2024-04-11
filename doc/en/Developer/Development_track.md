@@ -5,19 +5,25 @@ past development history is documented on [Development history](Development_hist
 
 ## Version 4.6.0
 
-STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
-
 This version will require moodle 4.0+. Moodle 3.x is no longer supported.
+
+1. Alter list of acceptible expressions.  Unicode super/subscripts now are invalid.  Use 150_replace filter in students' input.
+2. Add in the extra input option `feedback` to run in parallel with validators to give opportunities for bespoke messages.
+3. Load the `functs` Maxima package, i.e. `load("functs");` to give access to some useful functions.
+4. Fix display and simplification of binomial coefficients (issue #931).
+5. Add in the `CT:...` and `RAW:...` options for test case construction to enable tests of invalid input (e.g. missing stars).
+6. STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
 
 TODO:
 
+1. Fix issue #1160: Allow configuring the MathJax URL.
+
 1. Change 'core/event' to 'core_filters/events' in input.js and stackjsvle.js.
-2. Strip out parallel DB support in reporting etc.  Search for `stack_determine_moodle_version()`
-3. Bring the API into the core of STACK for longer term support, and better support for ILIAS.
-4. Major code tidy: Moodle code style now requires (i) short forms of arrays, i.e. `[]` not `array()`, and (ii) commas at the end of all list items.
-5. Fix markdown problems. See issue #420.
-6. Error messages: use caserror.class more fully to use user information to target error messages.
-7. Remove all "cte" code from Maxima - mostly install.
+2. Bring the API into the core of STACK for longer term support, and better support for ILIAS.
+3. Major code tidy: Moodle code style now requires (i) short forms of arrays, i.e. `[]` not `array()`, and (ii) commas at the end of all list items.
+4. Fix markdown problems. See issue #420.
+5. Error messages: use caserror.class more fully to use user information to target error messages.
+6. Remove all "cte" code from Maxima - mostly install.
 
 ## Parson's block development track
 

@@ -1,6 +1,6 @@
 # Potential response trees
 
-The potential response tree is the algorithm which establishes the mathematical properties of the student's answer and assigns outcomes. For examples of how to use this, see the entry on [improving feedback](/AbInitio/Authoring_quick_start_3.md) in the quick start guide.
+The potential response tree is the algorithm which establishes the mathematical properties of the student's answer and assigns outcomes. For examples of how to use this, see the entry on [improving feedback](../AbInitio/Authoring_quick_start_3.md) in the quick start guide.
 
 ## When is the tree used? ##
 

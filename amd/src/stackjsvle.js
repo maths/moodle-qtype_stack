@@ -6,7 +6,7 @@
  * one needs to map this script to do the following:
  *
  *  1. Ensure that searches for target elements/inputs are limited to questions
- *     and do not return any elements outside them.
+ *     or their feedback and do not return any elements outside them.
  *
  *  2. Map any identifiers needed to identify inputs by name.
  *
@@ -23,8 +23,8 @@
  *  1. Each relevant IFRAME has an `id`-attribute that will be told to this
  *     script.
  *
- *  2. Each such IFRAME exists within the question itself, so that one can
- *     traverse up the DOM tree from that IFRAME to find the border of
+ *  2. Each such IFRAME exists within the question content itself, so that
+ *     one can traverse up the DOM tree from that IFRAME to find the border of
  *     the question.
  *
  * @module     qtype_stack/stackjsvle
@@ -32,7 +32,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define([
-    'core/event'
+    'core_filters/events'
 ], function(
     CustomEvents
 ) {
@@ -61,7 +61,7 @@ define([
 
     /**
      * Returns an element with a given id, if an only if that element exists
-     * inside a portion of DOM that represents a question.
+     * inside a portion of DOM that represents a question or its feedback.
      *
      * If not found or exists outside the restricted area then returns `null`.
      *
@@ -72,10 +72,12 @@ define([
            something with the `formulation`-class. */
         let candidate = document.getElementById(id);
         let iter = candidate;
-        while (iter && !iter.classList.contains('formulation')) {
+        while (iter && !iter.classList.contains('formulation') &&
+               !iter.classList.contains('outcome')) {
             iter = iter.parentElement;
         }
-        if (iter && iter.classList.contains('formulation')) {
+        if (iter && (iter.classList.contains('formulation') ||
+            iter.classList.contains('outcome'))) {
             return candidate;
         }
 
@@ -84,7 +86,7 @@ define([
 
     /**
      * Returns an input element with a given name, if and only if that element
-     * exists inside a portion of DOM that represents a question.
+     * exists inside a portion of DOM that represents a question or its feedback.
      *
      * Note that, the input element may have a name that multiple questions
      * use and to pick the preferred element one needs to pick the one
@@ -97,19 +99,30 @@ define([
      *
      * @param {String} name the name of the input we want
      * @param {String} srciframe the identifier of the iframe wanting it
+     * @param {boolean} outside do we expand the search beyound the src question?
      */
-    function vle_get_input_element(name, srciframe) {
+    function vle_get_input_element(name, srciframe, outside) {
         /* In the case of Moodle we are happy as long as the element is inside
            something with the `formulation`-class. */
+        if (outside === undefined) {
+            // Old default was to search beyoudn the question.
+            outside = true;
+        }
         let initialcandidate = document.getElementById(srciframe);
         let iter = initialcandidate;
-        while (iter && !iter.classList.contains('formulation')) {
+        while (iter && !iter.classList.contains('formulation') &&
+               !iter.classList.contains('outcome')) {
             iter = iter.parentElement;
         }
-        if (iter && iter.classList.contains('formulation')) {
+        if (iter && (iter.classList.contains('formulation') ||
+            iter.classList.contains('outcome'))) {
             // iter now represents the borders of the question containing
             // this IFRAME.
             let possible = iter.querySelector('input[id$="_' + name + '"]');
+            if (possible !== null) {
+                return possible;
+            }
+            possible = iter.querySelector('textarea[id$="_' + name + '"]');
             if (possible !== null) {
                 return possible;
             }
@@ -118,13 +131,26 @@ define([
             if (possible !== null) {
                 return possible;
             }
+            // Same for checkboxes, ntoe that non STACK checkbox can be targetted by
+            // just the id using the topmost case here.
+            possible = iter.querySelector('input[id$="_' + name + '_1"][type=checkbox]');
+            if (possible !== null) {
+                return possible;
+            }
             possible = iter.querySelector('select[id$="_' + name + '"]');
             if (possible !== null) {
                 return possible;
             }
         }
+        if (!outside) {
+            return null;
+        }
         // If none found within the question itself, search everywhere.
         let possible = document.querySelector('.formulation input[id$="_' + name + '"]');
+        if (possible !== null) {
+            return possible;
+        }
+        possible = document.querySelector('.formulation textarea[id$="_' + name + '"]');
         if (possible !== null) {
             return possible;
         }
@@ -133,8 +159,76 @@ define([
         if (possible !== null) {
             return possible;
         }
+        possible = document.querySelector('.formulation input[id$="_' + name + '_1"][type=checkbox]');
+        if (possible !== null) {
+            return possible;
+        }
         possible = document.querySelector('.formulation select[id$="_' + name + '"]');
+        if (possible !== null) {
+            return possible;
+        }
+
+        // Also search from within the feedback and other "outcome".
+        // Note that we do not search for STACK sourced checkboxes from the feedback,
+        // they do not exist there so simply finding them with the id is enough.
+        possible = document.querySelector('.outcome input[id$="_' + name + '"]');
+        if (possible !== null) {
+            return possible;
+        }
+        possible = document.querySelector('.outcome textarea[id$="_' + name + '"]');
+        if (possible !== null) {
+            return possible;
+        }
+        possible = document.querySelector('.outcome select[id$="_' + name + '"]');
         return possible;
+    }
+
+    /**
+     * Returns a list of input elements targetting the same thing.
+     *
+     * Note that STACK checkboxes have interesting naming for this.
+     * And we assume we are getting the ones that `vle_get_input_element` would return.
+     *
+     * @param {element} input element of type=radio or type=checkbox
+     */
+    function vle_get_others_of_same_input_group(input) {
+        if (input.type === 'radio') {
+            return document.querySelectorAll('.formulation input[name=' + CSS.escape(input.name) + ']');
+        }
+        // Is it a Moodle input or a fake? If Moodle then assume STACK and its pattern.
+        if (input.name.startsWith('q') && input.name.indexOf(':') > -1 && input.name.endsWith('_1')) {
+            return document.querySelectorAll('.formulation input[name^=' +
+                CSS.escape(input.name.substring(0, input.name.length - 1)) + ']');
+        }
+        return document.querySelectorAll('.formulation input[name=' + CSS.escape(input.name) + ']');
+    }
+
+
+    /**
+     * Returns the input element or null for a question level submit button.
+     * Basically, the "Check" button that behaviours like adaptive-mode in Moodle have.
+     * Not all questions have such buttons, and the behaviour will affect that.
+     *
+     * Will only return the button of the question containing that iframe.
+     *
+     * @param {String} srciframe the identifier of the iframe wanting it
+     */
+    function vle_get_submit_button(srciframe) {
+        let initialcandidate = document.getElementById(srciframe);
+        let iter = initialcandidate;
+        // Note the submit button is most definitely not within "outcome".
+        while (iter && !iter.classList.contains('formulation')) {
+            iter = iter.parentElement;
+        }
+        if (iter && iter.classList.contains('formulation')) {
+            // iter now represents the borders of the question containing
+            // this IFRAME.
+            // In Moodle inputs that are behaviour variables use `-` as a separator
+            // for the name and usage id.
+            let possible = iter.querySelector('input[id$="-submit"][type=submit]');
+            return possible;
+        }
+        return null;
     }
 
     /**
@@ -150,6 +244,10 @@ define([
         // Also there are those that listen to input events.
         const i = new Event('input');
         inputelement.dispatchEvent(i);
+        if (inputelement.type === 'radio' || inputelement.type === 'checkbox') {
+            const k = new Event('click');
+            inputelement.dispatchEvent(k);
+        }
     }
 
     /**
@@ -163,7 +261,8 @@ define([
 
     /**
      * Does HTML-string cleaning, i.e., removes any script payload. Returns
-     * a DOM version of the given input string.
+     * a DOM version of the given input string. The DOM version returned is
+     * an element of some sort containing the contents, possibly a `body`.
      *
      * This is used when receiving replacement content for a div.
      *
@@ -271,13 +370,13 @@ define([
         let input = null;
 
         let response = {
-            version: 'STACK-JS:1.2.0'
+            version: 'STACK-JS:1.3.0'
         };
 
         switch (msg.type) {
         case 'register-input-listener':
             // 1. Find the input.
-            input = vle_get_input_element(msg.name, msg.src);
+            input = vle_get_input_element(msg.name, msg.src, !msg['limit-to-question']);
 
             if (input === null) {
                 // Requested something that is not available.
@@ -298,6 +397,10 @@ define([
             if (input.nodeName.toLowerCase() === 'select') {
                 response.value = input.value;
                 response['input-type'] = 'select';
+                response['input-readonly'] = input.hasAttribute('disabled');
+            } else if (input.nodeName.toLowerCase() === 'textarea') {
+                response.value = input.value;
+                response['input-type'] = 'textarea';
                 response['input-readonly'] = input.hasAttribute('disabled');
             } else if (input.type === 'checkbox') {
                 response.value = input.checked;
@@ -472,7 +575,51 @@ define([
                     IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(response), '*');
                 }
             }
+            break;
+        case 'clear-input':
+            // 1. Find the input.
+            input = vle_get_input_element(msg.name, msg.src);
 
+            if (input.nodeName.toLowerCase() === 'select') {
+                if (input.selectedIndex !== -1) {
+                    input.selectedIndex = -1;
+                    vle_update_input(input);
+                }
+                for(var i = 0; i < input.options.length; i++) {
+                    if (input.options[i].hasAttribute('selected')) {
+                        input.options[i].removeAttribute('selected');
+                        vle_update_input(input);
+                    }
+                    if (input.options[i].value === '') {
+                        // If we have the clear input option select that.
+                        input.options[i].selected = true;
+                        vle_update_input(input);
+                    }
+                }
+            } else if (input.nodeName.toLowerCase() === 'textarea') {
+                if (input.value !== '') {
+                    input.value = '';
+                    vle_update_input(input);
+                }
+            } else if (input.type === 'checkbox') {
+                for (let inp of vle_get_others_of_same_input_group(input)) {
+                    inp.checked = false;
+                    vle_update_input(inp);
+                }
+            } else if (input.type === 'radio') {
+                for (let inp of vle_get_others_of_same_input_group(input)) {
+                    // If we have the clear value option select that.
+                    inp.checked = inp.value === '';
+                    vle_update_input(inp);
+                }
+            } else {
+                if (input.value !== '') {
+                    input.value = '';
+                    vle_update_input(input);
+                }
+            }
+
+            vle_update_input(input);
             break;
         case 'register-button-listener':
             // 1. Find the element.
@@ -545,8 +692,11 @@ define([
             }
 
             // 2. Secure content.
-            // 3. Switch the content.
-            element.replaceChildren(vle_html_sanitize(msg.content));
+            // 3. Switch the content. Note the contents coming from `vle_html_sanitize`
+            // are wrapped in an element possibly `<body>` and will need to be unwrapped.
+            // We can simply use innerHTML here to also disconnect the content from
+            // whatever it was before being sanitized.
+            element.innerHTML = vle_html_sanitize(msg.content).innerHTML;
             // If we tune something we should let the VLE know about it.
             vle_update_dom(element);
 
@@ -598,6 +748,48 @@ define([
 
             IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
             return;
+        case 'query-submit-button':
+            response.type = 'submit-button-info';
+            response.tgt = msg.src;
+            input = vle_get_submit_button(msg.src);
+            if (input === null || input.hasAttribute('hidden')) {
+                response['value'] = null;
+            } else {
+                response['value'] = input.value;
+            }
+            IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            return;
+        case 'enable-submit-button':
+            input = vle_get_submit_button(msg.src);
+            if (input !== null) {
+                if (msg.enabled) {
+                    input.removeAttribute('disabled');
+                } else {
+                    input.disabled = true;
+                }
+            } else {
+                // We generate this error just to push people to properly check if
+                // the button even exists before trying to tune it.
+                response.type = 'error';
+                response.msg = 'Could not find matching submit button for this question.';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            }
+            return;
+        case 'relabel-submit-button':
+            input = vle_get_submit_button(msg.src);
+            if (input !== null) {
+                input.value = msg.name;
+            } else {
+                // We generate this error just to push people to properly check if
+                // the button even exists before trying to tune it.
+                response.type = 'error';
+                response.msg = 'Could not find matching submit button for this question.';
+                response.tgt = msg.src;
+                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
+            }
+            return;
+        case 'submit-button-info':
         case 'initial-input':
         case 'error':
             // These message types are for the other end.

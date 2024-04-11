@@ -66,7 +66,7 @@ Major re-working of Javascript in STACK.  Specifically
 
 1. STACK-JS a VLE agnostic JavaScript system that moves all script execution into sandbox iframes and restricts the things those scripts can do outside that sandbox. Basically, replaces the `[[jsxgraph]]`-block and provides ways for doing other scripting.
 2. Initial implementation of the `[[reveal]]`-block (#570) using the STACK-JS system.
-3. Various related blocks like `[[iframe]]`, `[[javascript]]`, `[[style]`, `[[script]]`, and `[[cors]]`
+3. Various related blocks like `[[iframe]]`, `[[javascript]]`, `[[style]]`, `[[script]]`, and `[[cors]]`
 4. This version does not yet forbide all JavaScript outside STACK-JS, but do prepare future updates to do so and start migrating existing scripts into STACK-JS.
 
 These changes are significant and we strongly recommned you test all affected questions.

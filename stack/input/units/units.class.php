@@ -40,7 +40,8 @@ class stack_units_input extends stack_input {
         'maxsf' => false,
         'align' => 'left',
         'consolidatesubscripts' => false,
-        'validator' => false
+        'validator' => false,
+        'feedback' => false,
     );
 
 

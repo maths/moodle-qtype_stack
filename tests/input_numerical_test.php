@@ -754,4 +754,18 @@ class input_numerical_test extends qtype_stack_testcase {
         $this->assertEquals('\[ 124 \]', $state->contentsdisplayed);
         $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \mbox{[SOME MORE JSON]} \]"));
     }
+
+    public function test_validate_student_response_boolean() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'sans1', '1729');
+        $state = $el->validate_student_response(array('sans1' => "true"), $options, '1729', new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assert_equals_ignore_spaces_and_e('true', $state->contentsmodified);
+        $this->assertEquals('\[ \mathbf{True} \]', $state->contentsdisplayed);
+        $this->assertEquals('SA_not_expression', $state->note);
+        // TODO: we probably want a more specific message for numerical inputs.
+        // We could achieve this with another stack_validate_numerical function in Maxima.
+        $this->assertEquals('Your answer should be an expression, not an equation, inequality, list, set or matrix.',
+            $state->errors);
+    }
 }

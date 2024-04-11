@@ -341,7 +341,7 @@ So, to check both set `checkvars:3`.
 
 The numerical argument provides potential for future-proofing features (e.g. case sensitivity).
 
-### Extra option: validator ###
+### Extra option: validator/feedback ###
 
 This allows an input to add additional bespoke validation, based on a function defined by the question author.  For example, you can define a function which checks if the student's answer is a _list of exactly three floating point numbers_.  See the [validator documentation](../CAS/Validator.md) for more details.
 
@@ -349,6 +349,7 @@ Writing bespoke validators is an advanced feature, but offers two significant be
 
 1. Students are less likely to be penalised on a technicality, especially in high-stakes situations;
 2. Potential response tree authoring becomes much easier and more reliable because the validation acts as a "guard clause" only allowing correctly structured information through to the PRT.  This means type-checking need not be done in the PRT before assessment.
+3. The extra option `validator` is designed to allow you to choose extra expressions to be invalid.  The extra option `feedback` will simply print an additional message to students in the validation feedback.
 
 ## Extra options ##
 

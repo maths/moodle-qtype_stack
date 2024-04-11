@@ -28,7 +28,7 @@ $PAGE = new stdClass;
 
 $CFG->stackapi = true;
 
-// This is the directory into which you put the scripts.
+// This is the directory into which you put the PHP scripts (no trailing slash).
 $CFG->wwwroot = "/var/www/html";
 // The base url of the installation.
 // The server path of the installation.
@@ -90,8 +90,8 @@ $CFG->inputcheckanswertype = 1;
 $CFG->inputmustverify = 1;
 $CFG->inputshowvalidation = 1;
 
-$CFG->stackmaximaversion = "2023121100";
-$CFG->version = "2023121100";
+$CFG->stackmaximaversion = "2024012900";
+$CFG->version = "2024012900";
 
 // Do not change this setting.
 $CFG->mathsdisplay = 'api';

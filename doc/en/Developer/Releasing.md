@@ -79,3 +79,9 @@ Then check updated information on the form.
 
 (don't add "master" to branch info)
 
+## 4. Releasing a new verion of the API to take advantage of the new release
+
+1. Update Geomaxima
+2. Update version numbers in `api/config_samples.txt`
+3. Update Geomaxima docker image versions in `api/docker/docker-compose.dev.yml` and  `api/docker/docker-compose.yml`
+

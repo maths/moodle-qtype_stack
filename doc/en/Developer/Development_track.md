@@ -5,6 +5,8 @@ past development history is documented on [Development history](Development_hist
 
 ## Version 4.6.0
 
+STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
+
 This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 
 TODO:

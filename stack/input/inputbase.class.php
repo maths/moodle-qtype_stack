@@ -678,7 +678,8 @@ abstract class stack_input {
         // This method actually validates any CAS strings etc.
         // Modified contents is already an array of things which become individually validated CAS statements.
         // At this sage, $valid records the PHP validation or other non-CAS issues.
-        list($valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines) = $this->validate_contents($contents, $secrules, $localoptions);
+        list($valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines)
+            = $this->validate_contents($contents, $secrules, $localoptions);
 
         // Match up lines from the teacher's answer to lines in the student's answer.
         // Send as much of the string to the CAS as possible.
@@ -713,7 +714,6 @@ abstract class stack_input {
 
         // Clone answer so we can get the displayed form without the set validation context function, which simplifies.
         $answerd = clone $answer;
-
 
         // Validate each line separately, where required and when there is something from the teacher to match up to.
         foreach ($caslines as $index => $cs) {
@@ -757,6 +757,12 @@ abstract class stack_input {
             $answer->set_cas_validation_context($this->name, $this->get_parameter('lowestTerms', false),
                     $teacheranswer, $validationmethod,
                     $this->get_extra_option('simp', false),  $this->get_extra_option('checkvars', 0));
+            // Units inputs change the display in very significant ways.
+            if ('units' == $validationmethod || 'unitsnegpow' == $validationmethod) {
+                $inertdisplayform->set_cas_validation_context($this->name, $this->get_parameter('lowestTerms', false),
+                    $teacheranswer, $validationmethod,
+                    $this->get_extra_option('simp', false),  $this->get_extra_option('checkvars', 0));
+            }
             // Evaluate both the answer, and the validation context separately.
             // This allows us to display 1/0 type errors without actually evaluating them.
             $sessionvars[] = $answer;
@@ -985,7 +991,7 @@ abstract class stack_input {
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
         // Separate rules for inert display logic, which wraps floats with certain functions.
         $secrulesd = clone $secrules;
-        $secrulesd->set_allowedwords('dispdp,displaysci');
+        $secrulesd->add_allowedwords('dispdp,displaysci');
 
         foreach ($contents as $index => $val) {
             if ($val === null) {
@@ -1127,7 +1133,8 @@ abstract class stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors,
+                $castextprocessor, $inertdisplayform, $ilines) {
 
         $display = stack_maxima_format_casstring(htmlentities($this->contents_to_maxima($this->rawcontents)));
         if ($answer->is_correctly_evaluated()) {

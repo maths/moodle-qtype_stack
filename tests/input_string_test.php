@@ -83,7 +83,7 @@ class input_string_test extends qtype_stack_testcase {
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"\"Hello world\""', $state->contentsmodified);
-        $this->assertEquals('\[ \mbox{"Hello world"} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mbox{＂Hello world＂} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_string_singlequotes_input() {
@@ -95,7 +95,7 @@ class input_string_test extends qtype_stack_testcase {
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"\'Hello world\'"', $state->contentsmodified);
-        $this->assertEquals('\[ \mbox{\'Hello world\'} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mbox{＇Hello world＇} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_string_within_string() {
@@ -107,7 +107,7 @@ class input_string_test extends qtype_stack_testcase {
                 $options, '"A random string"', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"I said \"Hello world\" to fred"', $state->contentsmodified);
-        $this->assertEquals('\[ \mbox{I said "Hello world" to fred} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mbox{I said ＂Hello world＂ to fred} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_qm_within_string() {
@@ -130,7 +130,7 @@ class input_string_test extends qtype_stack_testcase {
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"\"."', $state->contentsmodified);
-        $this->assertEquals('\[ \mbox{".} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mbox{＂.} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_string_whitespace() {
@@ -175,7 +175,7 @@ class input_string_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         // Note here the student has used string quotes which are respected.
         $this->assertEquals('"\"\""', $state->contentsmodified);
-        $this->assertEquals('\[ \mbox{""} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mbox{＂＂} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_string_string_allowempty() {
@@ -196,7 +196,7 @@ class input_string_test extends qtype_stack_testcase {
 
         $sa = '"<div onclick=\'dosuchandsuch\'></div>"';
         $cm = '"\"&lt;&#8203;div on&#0;click&#0;&#61;\'dosuchandsuch\'>&lt;&#8203;/div&gt;\""';
-        $cd = '\[ \mbox{"\&lt;\&#8203;div on\&#0;click\&#0;\&#61;\'dosuchandsuch\'>\&lt;\&#8203;/div\&gt;"} \]';
+        $cd = '\[ \mbox{＂＜div on\&#0;click\&#0;\&#61;＇dosuchandsuch＇＞＜/div＞＂} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
             new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);
@@ -207,7 +207,7 @@ class input_string_test extends qtype_stack_testcase {
 
         $sa = '"<div onmousemove     =\'dosuchandsuch\'></div>"';
         $cm = '"\"&lt;&#8203;div on&#0;mousemove     &#0;&#61;\'dosuchandsuch\'>&lt;&#8203;/div&gt;\""';
-        $cd = '\[ \mbox{"\&lt;\&#8203;div on\&#0;mousemove \&#0;\&#61;\'dosuchandsuch\'>\&lt;\&#8203;/div\&gt;"} \]';
+        $cd = '\[ \mbox{＂＜div on\&#0;mousemove \&#0;\&#61;＇dosuchandsuch＇＞＜/div＞＂} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
             new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);

@@ -10,6 +10,9 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 1. Alter list of acceptible expressions.  Unicode super/subscripts now are invalid.  Use 150_replace filter in students' input.
 2. Add in the extra input option `feedback` to run in parallel with validators to give opportunities for bespoke messages.
 
+
+Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).
+
 TODO:
 
 1. Change 'core/event' to 'core_filters/events' in input.js and stackjsvle.js.

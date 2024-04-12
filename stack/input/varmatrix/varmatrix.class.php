@@ -210,7 +210,7 @@ class stack_varmatrix_input extends stack_input {
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
         // Separate rules for inert display logic, which wraps floats with certain functions.
         $secrulesd = clone $secrules;
-        $secrulesd->set_allowedwords('dispdp,displaysci');
+        $secrulesd->add_allowedwords('dispdp,displaysci');
 
         // Now validate the input as CAS code.
         $modifiedcontents = array();

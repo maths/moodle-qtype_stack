@@ -89,12 +89,15 @@ class input_notes_test extends qtype_stack_testcase {
                 'hDrk?autoplay=1&amp;loop=1;controls=0"<https://www.youtube.com/embed/IB3d1UthDrk?autoplay' .
                 '=1&amp;loop=1;controls=0> allow="accelerometer; autoplay; encrypted-media; gyroscope; ' .
                 'picture-in-picture" allowfullscreen="" width="0" height="0" frameborder="0"></iframe>}$$';
-        $ta = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive">' .
-                '<span class="filter_mathjaxloader_' .
-                'equation"><div class="text_to_html"><p><span class="nolink">$$ \unicode{ allow="accelerometer; ' .
-                'autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" width="0" height="0' .
-                '" frameborder="0"&gt;}$$</span></p><p class="stackinputnotice">(This input is not assessed autom' .
-                'atically by STACK.)</p></div></span></div>';
+        $ta = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive"><span class="fi' .
+              'lter_mathjaxloader_equation"><div class="text_to_html"><p><span class="nolink">$$ \unicode{&l' .
+              't;script&gt;eval(atob("ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhUTUwgPSAiQS' .
+              'IucmVwZWF0KDY2Nik"))&lt;/script&gt;&lt;iframe src="https://www.youtube.com/embed/IB3d1UthDrk?' .
+              'autoplay=1&amp;amp;loop=1;controls=0"&lt;https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1' .
+              '&amp;amp;loop=1;controls=0&gt; allow="accelerometer; autoplay; encrypted-media; gyroscope; pi' .
+              'cture-in-picture" allowfullscreen="" width="0" height="0" frameborder="0"&gt;&lt;/iframe&gt;}' .
+              '$$</span></p><p class="stackinputnotice">(This input is not assessed automatically by STACK.)' .
+              '</p></div></span></div>';
         // We don't require intervals to have real numbers in them.
         $state = $el->validate_student_response(array('sans1' => $sa), $options, '%union({3,4,5})',
                 new stack_cas_security(false, '', '', array('ta')));

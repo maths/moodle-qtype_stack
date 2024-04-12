@@ -555,5 +555,4 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ a_{1} , a_{2} , {\it abc}_{123} , {\it abc}_{45} \right]\) ',
             $state->lvars);
     }
-
 }

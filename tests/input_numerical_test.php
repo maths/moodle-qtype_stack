@@ -81,7 +81,7 @@ class input_numerical_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('numerical', 'sans1', '3.14');
         $state = $el->validate_student_response(array('sans1' => '2.34e6'), $options, '3.14', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
-        $this->assertEquals('\[ 2.34E+6 \]', strtoupper($state->contentsdisplayed));
+        $this->assertEquals('\[ 2.34 \times 10^{6} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
 
@@ -128,7 +128,7 @@ class input_numerical_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => "314e-5"), $options, '3.14', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assert_equals_ignore_spaces_and_e('314e-5', $state->contentsmodified);
-        $this->assertEquals('\[ 3.14E-3 \]', strtoupper($state->contentsdisplayed));
+        $this->assertEquals('\[ 314 \times 10^{-5} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
 

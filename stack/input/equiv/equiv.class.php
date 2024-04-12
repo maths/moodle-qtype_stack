@@ -243,7 +243,7 @@ class stack_equiv_input extends stack_input {
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
         // Separate rules for inert display logic, which wraps floats with certain functions.
         $secrulesd = clone $secrules;
-        $secrulesd->set_allowedwords('dispdp,displaysci');
+        $secrulesd->add_allowedwords('dispdp,displaysci');
 
         foreach ($contents as $index => $val) {
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
@@ -269,7 +269,7 @@ class stack_equiv_input extends stack_input {
 
             // Construct inert version of that.
             $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd, array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
-                array(), 'Root', $this->options->get_option('decimals'));
+                array(), 'Equivline', $this->options->get_option('decimals'));
             $inertdisplayform->get_valid();
             $ilines[] = $inertdisplayform;
         }

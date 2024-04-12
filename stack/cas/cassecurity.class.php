@@ -153,6 +153,16 @@ class stack_cas_security {
         $this->allowedwordsasmap = null;
     }
 
+    public function add_allowedwords(string $allowedwords) {
+        // We now add things like "dispdp" to existing allowedwords.
+        if ($this->allowedwords === '') {
+            $this->allowedwords = $allowedwords;
+        } else {
+            $this->allowedwords .= ',' . $allowedwords;
+        }
+        $this->allowedwordsasmap = null;
+    }
+
     public function set_forbiddenwords(string $forbiddenwords) {
         $this->forbiddenwords = $forbiddenwords;
         $this->forbiddenwordsasmap = null;

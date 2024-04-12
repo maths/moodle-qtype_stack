@@ -164,7 +164,7 @@ class cassession2_test extends qtype_stack_testcase {
 
     public function test_feedback() {
         $simpoff = stack_ast_container::make_from_teacher_source('simp:false', 'test_answernote()', new stack_cas_security());
-        $validation = stack_ast_container::make_from_teacher_source('stack_validate_typeless([2/4], true, 1/2, "~a", 0, true)',
+        $validation = stack_ast_container::make_from_teacher_source('stack_validate_typeless([2/4], true, 1/2, 0, true)',
                 'test_answernote()', new stack_cas_security());
 
         $session = new stack_cas_session2([$simpoff, $validation]);

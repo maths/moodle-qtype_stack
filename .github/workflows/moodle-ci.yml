@@ -57,6 +57,9 @@ jobs:
     steps:
       - name: Install Maxima (${{ matrix.maxima }})
         run: |
+          sudo locale-gen en_AU.UTF-8
+	  echo "LANG=en_AU.UTF-8" >> $GITHUB_ENV
+
           maxima="${{ (matrix.maxima == 'SBCL' && 'sbcl') || 'gcl' }}"
           wget http://mirrors.kernel.org/ubuntu/pool/main/r/readline/libreadline7_7.0-3_amd64.deb \
                https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.42.2-Linux/maxima-common_5.42.2-1_all.deb \

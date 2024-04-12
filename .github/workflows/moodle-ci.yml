@@ -64,6 +64,7 @@ jobs:
           sudo apt-get install libtinfo5
           sudo dpkg -i libreadline7_7.0-3_amd64.deb maxima-common_5.42.2-1_all.deb maxima-${maxima}_5.42.2-1_amd64.deb
 
+          echo "adjust_external_format();" | maxima
           echo "diff(x^2,x);" | maxima
           echo "build_info();" | maxima
 

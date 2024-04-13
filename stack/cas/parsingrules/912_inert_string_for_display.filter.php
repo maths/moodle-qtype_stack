@@ -22,7 +22,7 @@ require_once(__DIR__ . '/../../utils.class.php');
  * AST filter that rewrites Strings so that they are safe to display through
  * LaTeX rendering.
  * 
- * Note That Maxima turns "strings" to \mbox{ strings } and MathJax etc will 
+ * Note That Maxima turns "strings" to \text{ strings } and MathJax etc will 
  * do something with that as will the HTML rendering of the browser and we want
  * both to keep the input as it was.
  * 
@@ -34,10 +34,10 @@ class stack_ast_filter_912_inert_string_for_display implements stack_cas_astfilt
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $strings = function($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_String) {
-                $node->value = str_ireplace("'", mb_chr(65287), $node->value);
-                $node->value = str_ireplace('"', mb_chr(65282), $node->value);
-                $node->value = str_ireplace('>', mb_chr(65310), $node->value);
-                $node->value = str_ireplace('<', mb_chr(65308), $node->value);
+                $node->value = str_ireplace("'", '&apos;', $node->value);
+                $node->value = str_ireplace('"', '&quot;', $node->value);
+                $node->value = str_ireplace('>', '&gt;', $node->value);
+                $node->value = str_ireplace('<', '&lt;', $node->value);
             }
             return true;
         };

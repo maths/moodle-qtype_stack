@@ -1652,7 +1652,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{5-x > 0\,{\mbox{ and }}\, x-1 > 0 \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{5-x > 0\,{\text{ and }}\, x-1 > 0 \right \}\]</span></span></td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Equivalence for elements of sets is different from expressions: see docs.</td></td>
@@ -4473,7 +4473,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{{\rm not}\left( A \right)\,{\mbox{ or }}\, B \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{{\rm not}\left( A \right)\,{\text{ or }}\, B \right \}\]</span></span></td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
@@ -4486,7 +4486,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{A\,{\mbox{ implies }}\, B \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{A\,{\text{ implies }}\, B \right \}\]</span></span></td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Differential equations</td></td>

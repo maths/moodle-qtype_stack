@@ -878,7 +878,8 @@ abstract class stack_input {
             $simp = true;
         }
 
-        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp, $simp);
+        $state = new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp, $simp);
+        return $state;
     }
 
     /* Allow different input types to change the CAS method used.

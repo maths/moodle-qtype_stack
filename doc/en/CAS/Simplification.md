@@ -249,7 +249,7 @@ There are two tests you probably want to apply to the student's answer.
 2. That the expression is "expanded": use `ATExpanded`.
 
 You probably then want to make sure a student has "gathered" like terms.  In particular you'd like to make sure a student has either
-\[ 2\sqrt{5}-3 \mbox{ or } \sqrt{20}-3\]
+\[ 2\sqrt{5}-3 \text{ or } \sqrt{20}-3\]
 but not \[ 5+4\sqrt{2}-2\sqrt{2}+6.\]
 This causes a problem because `ATComAss` thinks that \[ 2\sqrt{5}-3 \neq \sqrt{20}-3.\]
 So you can't use `ATComAss` here, and guarantee that all random variants will work by testing that we really have \(5+4\sqrt{2}\) for example.

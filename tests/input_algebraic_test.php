@@ -277,11 +277,11 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('1 < x nounand x < 7', $state->contentsmodified);
-        $this->assertEquals('\[ 1 < x\,{\mbox{ and }}\, x < 7 \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 1 < x\,{\text{ and }}\, x < 7 \]', $state->contentsdisplayed);
         $this->assertEquals('The answer <span class="filter_mathjaxloader_equation">'
-            . '<span class="nolink">\( 1<x \,{\mbox{and}}\,x<8 \)</span></span>, which can be typed as '
+            . '<span class="nolink">\( 1<x \,{\text{and}}\,x<8 \)</span></span>, which can be typed as '
             . '<code>1 < x and x < 8</code>, would be correct.',
-            $el->get_teacher_answer_display('1<x nounand x<8', '1<x \,{\mbox{and}}\,x<8'));
+            $el->get_teacher_answer_display('1<x nounand x<8', '1<x \,{\text{and}}\,x<8'));
     }
 
     public function test_validate_student_response_algebraic_10() {
@@ -294,7 +294,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('nounnot false xor nounnot(false)', $state->contentsmodified);
-        $this->assertEquals('\[ {\rm not}\left( \mathbf{False} \right)\,{\mbox{ xor }}\, ' .
+        $this->assertEquals('\[ {\rm not}\left( \mathbf{False} \right)\,{\text{ xor }}\, ' .
                 '{\rm not}\left( \mathbf{False} \right) \]', $state->contentsdisplayed);
     }
 
@@ -890,7 +890,7 @@ class input_algebraic_test extends qtype_stack_testcase {
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('x = 1 nounor x = 1', $state->contentsmodified);
-        $this->assertEquals('\[ x=1\,{\mbox{ or }}\, x=1 \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ x=1\,{\text{ or }}\, x=1 \]', $state->contentsdisplayed);
     }
 
     public function test_validate_units() {
@@ -911,7 +911,18 @@ class input_algebraic_test extends qtype_stack_testcase {
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"Hello world"', $state->contentsmodified);
-        $this->assertEquals('\[ \mbox{Hello world} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \text{Hello world} \]', $state->contentsdisplayed);
+    }
+
+    public function test_validate_string_same_type_lt() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '"A random string"');
+        $el->set_parameter('sameType', true);
+        $state = $el->validate_student_response(array('sans1' => '"Hello < world"'), $options, '"A random string"',
+                new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('"Hello < world"', $state->contentsmodified);
+        $this->assertEquals('\[ \text{Hello &lt; world} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_string_same_type_invalid1() {
@@ -921,7 +932,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $state = $el->validate_student_response(array('sans1' => '"Hello world"'), $options, 'x^2', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('"Hello world"', $state->contentsmodified);
-        $this->assertEquals('\[ \mbox{Hello world} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \text{Hello world} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_string_same_type_invalid2() {
@@ -1285,7 +1296,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals($state->status, stack_input::INVALID);
         $this->assertEquals('', $state->note);
         $this->assertEquals('Interval construction must have exactly two arguments, so this must be an error: ' .
-                '<span class="filter_mathjaxloader_equation"><span class="nolink">\(\mbox{oc(1,2,3)}\)</span></span>.',
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">\(\text{oc(1,2,3)}\)</span></span>.',
                 $state->errors);
         $this->assertEquals($state->contentsmodified, 'oc(1,2,3)');
         // Note, the tex function only prints out two of the arguments!
@@ -1300,7 +1311,7 @@ class input_algebraic_test extends qtype_stack_testcase {
               '<span class="filter_mathjaxloader_equation">' .
               'This answer is invalid. Interval construction must have ' .
               'exactly two arguments, so this must be an error: <span class="filter_mathjaxloader_equation">' .
-              '<span class="nolink"><span class="nolink">\(\mbox{oc(1,2,3)}\)</span></span></span>.</span></div></div>';
+              '<span class="nolink"><span class="nolink">\(\text{oc(1,2,3)}\)</span></span></span>.</span></div></div>';
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
 
         $state = $el->validate_student_response(array('sans1' => 'oc(3,2)'), $options, '%union({3,4,5})',
@@ -1432,10 +1443,11 @@ class input_algebraic_test extends qtype_stack_testcase {
               'bm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframe src&#0;&#61;\"' .
               'https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1\" allow=\"autoplay\" allowfullscreen=\"\"' .
               ' width=\"0\" height=\"0\" frameborder=\"0\">&lt;&#8203;/iframe&gt;}"';
-        $ua = '\[ 1+\mbox{unicode{＜script＞eval(atob(＂ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm' .
-              '5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik＂))＜/script＞＜iframe src\&#0;\&#61;＂https://www.youtube.com' .
-              '/embed/IB3d1UthDrk?autoplay=1＂ allow=＂autoplay＂ allowfullscreen=＂＂ width=＂0＂ height=＂0＂ f' .
-              'rameborder=＂0＂＞＜/iframe＞}} \]';
+        $ua = '\[ 1+\text{unicode{&lt;script&gt;eval(atob(&quot;ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAi' .
+              'KVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik&quot;))&lt;/script&gt;&lt;iframe src&#0;&#61;&quo' .
+              't;https://www.youtube.com/embed/IB3d1UthDrk?autoplay=1&quot; allow=&quot;autoplay&quot; allow' .
+              'fullscreen=&quot;&quot; width=&quot;0&quot; height=&quot;0&quot; frameborder=&quot;0&quot;&gt' .
+              ';&lt;/iframe&gt;}} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, '1+x^2',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);
@@ -1457,10 +1469,10 @@ class input_algebraic_test extends qtype_stack_testcase {
                 'm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframesrc&#0;&#61;\"https://w' .
                 'ww.youtube.com/embed/IB3d1UthDrk&quest;autoplay=1\"allow=\"autoplay\" allowfullscreen=\"\" w' .
                 'idth=\"0\" height=\"0\" frameborder=\"0\">&lt;&#8203;/iframe&gt;}"';
-        $ua = '\[ 1+\mbox{unicode{＜script＞eval(atob(＂ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lc' .
-              'khUTUwgPSAiQSIucmVwZWF0KDY2Nik＂))＜/script＞＜iframesrc\&#0;\&#61;＂https://www.youtube.com/embed' .
-              '/IB3d1UthDrk\&quest;autoplay=1＂allow=＂autoplay＂ allowfullscreen=＂＂ width=＂0＂ height=＂0＂ fra' .
-              'meborder=＂0＂＞＜/iframe＞}} \]';
+        $ua = '\[ 1+\text{unicode{&lt;script&gt;eval(atob(&quot;ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVsw' .
+              'XS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik&quot;))&lt;/script&gt;&lt;iframesrc&#0;&#61;&quot;https://ww' .
+              'w.youtube.com/embed/IB3d1UthDrk&quest;autoplay=1&quot;allow=&quot;autoplay&quot; allowfullscreen=&qu' .
+              'ot;&quot; width=&quot;0&quot; height=&quot;0&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;}} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, '1+x^2',
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);
@@ -1477,10 +1489,10 @@ class input_algebraic_test extends qtype_stack_testcase {
             'm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik\"))&lt;&#8203;/script&gt;&lt;&#8203;iframe src&#0;&#61;\"https://w' .
             'ww.youtube.com/embed/IB3d1UthDrk&quest;autoplay=1\"allow=\"autoplay\" allowfullscreen=\"\" w' .
             'idth=\"0\" height=\"0\" frameborder=\"0\">&lt;&#8203;/iframe&gt;}"';
-        $ua = '\[ 1+\mbox{unicode{＜script＞eval(atob(＂ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lck' .
-              'hUTUwgPSAiQSIucmVwZWF0KDY2Nik＂))＜/script＞＜iframe src\&#0;\&#61;＂https://www.youtube.com/embed/I' .
-              'B3d1UthDrk\&quest;autoplay=1＂allow=＂autoplay＂ allowfullscreen=＂＂ width=＂0＂ height=＂0＂ frameb' .
-              'order=＂0＂＞＜/iframe＞}} \]';
+        $ua = '\[ 1+\text{unicode{&lt;script&gt;eval(atob(&quot;ZG9jdW1lbnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS' .
+              '5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik&quot;))&lt;/script&gt;&lt;iframe src&#0;&#61;&quot;https://ww' .
+              'w.youtube.com/embed/IB3d1UthDrk&quest;autoplay=1&quot;allow=&quot;autoplay&quot; allowfullscreen=&q' .
+              'uot;&quot; width=&quot;0&quot; height=&quot;0&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;}} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, '1+x^2',
             new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);
@@ -1497,7 +1509,7 @@ class input_algebraic_test extends qtype_stack_testcase {
 
         $sa = '"<script>RandomPresumablyBadStuff</script>"';
         $cm = '"&lt;&#8203;script>RandomPresumablyBadStuff&lt;&#8203;/script&gt;"';
-        $cd = '\[ \mbox{＜script＞RandomPresumablyBadStuff＜/script＞} \]';
+        $cd = '\[ \text{&lt;script&gt;RandomPresumablyBadStuff&lt;/script&gt;} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
                 new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);
@@ -1508,7 +1520,7 @@ class input_algebraic_test extends qtype_stack_testcase {
 
         $sa = '"<div>WhoKnowsWhatButStudentsDontNeedHTMLInStrings</div>"';
         $cm = '"&lt;&#8203;div>WhoKnowsWhatButStudentsDontNeedHTMLInStrings&lt;&#8203;/div&gt;"';
-        $cd = '\[ \mbox{＜div＞WhoKnowsWhatButStudentsDontNeedHTMLInStrings＜/div＞} \]';
+        $cd = '\[ \text{&lt;div&gt;WhoKnowsWhatButStudentsDontNeedHTMLInStrings&lt;/div&gt;} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
             new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);
@@ -1519,7 +1531,7 @@ class input_algebraic_test extends qtype_stack_testcase {
 
         $sa = '"<!-->MostlyToPreventAnnoyingInput<-->"';
         $cm = '"&lt;!--&gt;MostlyToPreventAnnoyingInput<--&gt;"';
-        $cd = '\[ \mbox{＜!--＞MostlyToPreventAnnoyingInput＜--＞} \]';
+        $cd = '\[ \text{&lt;!--&gt;MostlyToPreventAnnoyingInput&lt;--&gt;} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
             new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);
@@ -1530,7 +1542,7 @@ class input_algebraic_test extends qtype_stack_testcase {
 
         $sa = '"<div onclick=\'dosuchandsuch\'></div>"';
         $cm = '"&lt;&#8203;div on&#0;click&#0;&#61;\'dosuchandsuch\'>&lt;&#8203;/div&gt;"';
-        $cd = '\[ \mbox{＜div on\&#0;click\&#0;\&#61;＇dosuchandsuch＇＞＜/div＞} \]';
+        $cd = '\[ \text{&lt;div on&#0;click&#0;&#61;&apos;dosuchandsuch&apos;&gt;&lt;/div&gt;} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
             new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);
@@ -1541,7 +1553,7 @@ class input_algebraic_test extends qtype_stack_testcase {
 
         $sa = '"<div onmousemove     =\'dosuchandsuch\'></div>"';
         $cm = '"&lt;&#8203;div on&#0;mousemove     &#0;&#61;\'dosuchandsuch\'>&lt;&#8203;/div&gt;"';
-        $cd = '\[ \mbox{＜div on\&#0;mousemove \&#0;\&#61;＇dosuchandsuch＇＞＜/div＞} \]';
+        $cd = '\[ \text{&lt;div on&#0;mousemove &#0;&#61;&apos;dosuchandsuch&apos;&gt;&lt;/div&gt;} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
             new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);
@@ -1552,7 +1564,7 @@ class input_algebraic_test extends qtype_stack_testcase {
 
         $sa = '"<img src=\'picture\' />"';
         $cm = '"<img src&#0;&#61;\'picture\' /&gt;"';
-        $cd = '\[ \mbox{＜img src\&#0;\&#61;＇picture＇ /＞} \]';
+        $cd = '\[ \text{&lt;img src&#0;&#61;&apos;picture&apos; /&gt;} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
             new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);
@@ -1563,7 +1575,7 @@ class input_algebraic_test extends qtype_stack_testcase {
 
         $sa = '"<a href=\'link\' />I do not think so.</a>"';
         $cm = '"<a href&#0;&#61;\'link\' /&gt;I do not think so.&lt;/a>"';
-        $cd = '\[ \mbox{＜a href\&#0;\&#61;＇link＇ /＞I do not think so.＜/a＞} \]';
+        $cd = '\[ \text{&lt;a href&#0;&#61;&apos;link&apos; /&gt;I do not think so.&lt;/a&gt;} \]';
         $state = $el->validate_student_response(array('sans1' => $sa), $options, $ta,
             new stack_cas_security(false, '', '', array('ta')));
         $this->assertEquals($state->status, stack_input::VALID);
@@ -1582,7 +1594,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^3]', $state->contentsmodified);
         $this->assertEquals('\[ \left[ x^3 \right] \]', $state->contentsdisplayed);
-        $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \mbox{[SOME MORE JSON]} \]"));
+        $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \text{[SOME MORE JSON]} \]"));
     }
 
     public function test_validate_student_response_ntuple() {
@@ -1854,7 +1866,7 @@ class input_algebraic_test extends qtype_stack_testcase {
             $options, '"A random string"', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('"Lots of stuff:!$%^&*?@;"', $state->contentsmodified);
-        $this->assertEquals('\[ \mbox{Lots of stuff:!\$\%^\&*?@;} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \text{Lots of stuff:!\$\%^&*?@;} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_single_var_chars_unicode_superscript() {

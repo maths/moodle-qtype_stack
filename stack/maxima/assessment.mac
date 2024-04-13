@@ -1692,14 +1692,14 @@ texput(CHECKMARK, "\\color{green}{\\checkmark}");
 texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
 texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");
 texput(PLUSC, "\\color{red}{\\cdots +c\\quad ?}");
-texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
+texput(EQUIVZERO, "\\color{red}{0\\quad\\text{(?)}}");
 /* Here we add tags.  These are for localisation.  Dealt with on the PHP side in cassession -> instantiate. */
-texput(SAMEROOTS, "\\color{green}{\\mbox{!SAMEROOTS!}}");
-texput(ANDOR, "\\color{red}{\\mbox{!ANDOR!}}");
-texput(MISSINGVAR, "\\color{red}{\\mbox{!MISSINGVAR!}}");
-texput(ASSUMEPOSVARS, "\\color{blue}{\\mbox{!ASSUMEPOSVARS!}}");
+texput(SAMEROOTS, "\\color{green}{\\text{!SAMEROOTS!}}");
+texput(ANDOR, "\\color{red}{\\text{!ANDOR!}}");
+texput(MISSINGVAR, "\\color{red}{\\text{!MISSINGVAR!}}");
+texput(ASSUMEPOSVARS, "\\color{blue}{\\text{!ASSUMEPOSVARS!}}");
 texput(ASSUMEREALVARS, "\\color{blue}{(\\mathbb{R})}");
-texput(ASSUMEPOSREALVARS, "\\color{blue}{\\mbox{!ASSUMEPOSREALVARS!}}");
+texput(ASSUMEPOSREALVARS, "\\color{blue}{\\text{!ASSUMEPOSREALVARS!}}");
 /* For now we suppress this. */
 texput(unknown, " ");
 
@@ -1739,7 +1739,7 @@ remove_stackeq(ex) := if is(safe_op(ex)="stackeq") then first(args(ex)) else ex$
 
 /* stacklet is an inert "let" operator, e.g. let x=1. */
 stacklettex(ex):=block(
-  sconcat("\\mbox{!LET! }", tex1(first(args(ex))), " = ", tex1(second(args(ex))))
+  sconcat("\\text{!LET! }", tex1(first(args(ex))), " = ", tex1(second(args(ex))))
 );
 texput(stacklet, stacklettex);
 

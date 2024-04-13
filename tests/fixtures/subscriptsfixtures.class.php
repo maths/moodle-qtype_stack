@@ -97,8 +97,8 @@ class stack_subscripts_test_data {
         array('theta[a]', 'theta[a]', '!', '\theta_{a}', '!'),
         array('theta[n,m]', 'theta[n,m]', '!', '\theta_{n,m}', '!'),
         // Changes in v4.3.
-        array('a_1x', 'a_1x', '!', '{a}_{\mbox{1x}}', '!'),
-        array('F_1x', 'F_1x', '!', '{F}_{\mbox{1x}}', '!'),
+        array('a_1x', 'a_1x', '!', '{a}_{\text{1x}}', '!'),
+        array('F_1x', 'F_1x', '!', '{F}_{\text{1x}}', '!'),
     );
 
     protected static $rawdatalegacy = array(
@@ -159,8 +159,8 @@ class stack_subscripts_test_data {
         array('theta[a]', 'theta[a]', '!', '\theta_{a}', '!'),
         array('theta[n,m]', 'theta[n,m]', '!', '\theta_{n,m}', '!'),
         // Changes in v4.3.
-        array('a_1x', 'a_1x', '!', '{a}_{\mbox{1x}}', '!'),
-        array('F_1x', 'F_1x', '!', '{F}_{\mbox{1x}}', '!'),
+        array('a_1x', 'a_1x', '!', '{a}_{\text{1x}}', '!'),
+        array('F_1x', 'F_1x', '!', '{F}_{\text{1x}}', '!'),
         );
 
     public static function get_raw_test_data() {

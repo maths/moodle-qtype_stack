@@ -803,7 +803,7 @@ class stack_utils {
         if (substr($converted, 0, 2) == '\(' || substr($converted, 0, 2) == '\[') {
             $converted = substr($converted, 2, -2);
         }
-        if (substr(trim($converted), 0, 6) == '\mbox{') {
+        if (substr(trim($converted), 0, 6) == '\text{') {
             return substr(trim($converted), 6, -1);
         }
         return $string;

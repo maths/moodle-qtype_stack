@@ -602,10 +602,10 @@ class cassession2_test extends qtype_stack_testcase {
 
         $at1 = new stack_cas_session2($s1, $options, 0);
         $at1->instantiate();
-        $this->assertEquals('A\,{\mbox{ and }}\, B', $s1[0]->get_display());
-        $this->assertEquals('A\,{\mbox{ and }}\, B', $s1[1]->get_display());
-        $this->assertEquals('A\,{\mbox{ and }}\, \left(B\,{\mbox{ or }}\, C\right)', $s1[2]->get_display());
-        $this->assertEquals('A\,{\mbox{ and }}\, \left(B\,{\mbox{ or }}\, C\right)', $s1[3]->get_display());
+        $this->assertEquals('A\,{\text{ and }}\, B', $s1[0]->get_display());
+        $this->assertEquals('A\,{\text{ and }}\, B', $s1[1]->get_display());
+        $this->assertEquals('A\,{\text{ and }}\, \left(B\,{\text{ or }}\, C\right)', $s1[2]->get_display());
+        $this->assertEquals('A\,{\text{ and }}\, \left(B\,{\text{ or }}\, C\right)', $s1[3]->get_display());
     }
 
     public function test_logicsymbol_option_symbol() {
@@ -1890,7 +1890,7 @@ class cassession2_test extends qtype_stack_testcase {
         // Cases should be in the form array('input', 'value', 'display').
         $cases = array();
         // Note in this case we do output Maxima's "%pi", not just pi.
-        $cases[] = array('[a,b,sin(pi/7)]', '"a, b, sin(%pi/7)"', '\\mbox{a, b, sin(\\%pi/7)}');
+        $cases[] = array('[a,b,sin(pi/7)]', '"a, b, sin(%pi/7)"', '\\text{a, b, sin(\\%pi/7)}');
 
         foreach ($cases as $i => $case) {
             $s = 'd'.$i.':stack_disp_comma_separate('.$case[0].')';
@@ -1939,8 +1939,8 @@ class cassession2_test extends qtype_stack_testcase {
         $cases[] = array('73', '73', '73');
         $cases[] = array('(stackintfmt:"~2r",n0)', '73', '1001001');
         $cases[] = array('(stackintfmt:"~7r",n0)', '73', '133');
-        $cases[] = array('(stackintfmt:"~r",n0)', '73', '\mbox{seventy-three}');
-        $cases[] = array('(stackintfmt:"~:r",n0)', '73', '\mbox{seventy-third}');
+        $cases[] = array('(stackintfmt:"~r",n0)', '73', '\text{seventy-three}');
+        $cases[] = array('(stackintfmt:"~:r",n0)', '73', '\text{seventy-third}');
         $cases[] = array('(stackintfmt:"~@R",n0)', '73', 'LXXIII');
 
         foreach ($cases as $i => $case) {
@@ -2000,7 +2000,7 @@ class cassession2_test extends qtype_stack_testcase {
 
         $tests = array(
             array('x=dispdp(0.5,3)', 'x=0.500', 'x = 0.500', 'x = displaydp(0.5,3)'),
-            array('x=1 nounor x=3.75E3', 'x=1\,{\mbox{ or }}\, x=3750.0',
+            array('x=1 nounor x=3.75E3', 'x=1\,{\text{ or }}\, x=3750.0',
                     'x = 1 or x = 3750.0', 'x = 1 nounor x = 3750.0'),
             array('[x^2-1,stackeq((x-1)*(x+1))]', '\left[ x^2-1 , =\left(x-1\right)\cdot \left(x+1\right) \right]',
                     '[x^2-1,=(x-1)*(x+1)]', '[x^2-1,stackeq((x-1)*(x+1))]'),

@@ -1046,8 +1046,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questiontext = '<p>Let $f(x)$ be a real function defined on the interval $[-1,1]$ by the following formula.</p>
                             \[
                             f(x) = \left\{ \begin{array}{ll}
-                            {@p@} & \mbox{if }x<0, \\
-                            a_1 e^{a_2\ x} & \mbox{if }x\geq 0.
+                            {@p@} & \text{if }x<0, \\
+                            a_1 e^{a_2\ x} & \text{if }x\geq 0.
                             \end{array}
                             \right.
                             \]
@@ -1069,8 +1069,8 @@ class qtype_stack_test_helper extends question_test_helper {
                                 <p>Hence the full answer is
                                 \[
                                 f(x) = \left\{ \begin{array}{ll}
-                                {@p@} & \mbox{if }x<0, \\
-                                {@ta1@} e^{{@ta2@} x} & \mbox{if }x\geq 0.
+                                {@p@} & \text{if }x<0, \\
+                                {@ta1@} e^{{@ta2@} x} & \text{if }x\geq 0.
                                 \end{array}
                                 \right.
                                 \]</p>

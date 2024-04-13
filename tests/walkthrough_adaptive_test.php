@@ -3443,7 +3443,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
         $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\\cdot x+2=0& \\cr '.
                 '\\color{green}{\\Leftrightarrow}&\\left(x-2\\right)\\cdot \\left(x-1\\right)=0& \\cr '.
-                '\\color{green}{\\Leftrightarrow}&x=1\\,{\\mbox{ or }}\\, x=2& \\cr \\end{array} \\]';
+                '\\color{green}{\\Leftrightarrow}&x=1\\,{\\text{ or }}\\, x=2& \\cr \\end{array} \\]';
         $this->assert_content_with_maths_contains($expectedvalidation, $this->currentoutput);
 
         // @codingStandardsIgnoreStart
@@ -3462,7 +3462,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
         $expectedvalidation = '\\[ \\begin{array}{lll} &x^2-3\\cdot x+2=0& \\cr '.
                 '\\color{green}{\\Leftrightarrow}&\\left(x-2\\right)\\cdot \\left(x-1\\right)=0& \\cr '.
-                '\\color{green}{\\Leftrightarrow}&x=1\\,{\\mbox{ or }}\\, x=2& \\cr \\end{array} \\]';
+                '\\color{green}{\\Leftrightarrow}&x=1\\,{\\text{ or }}\\, x=2& \\cr \\end{array} \\]';
         $this->assert_content_with_maths_contains($expectedvalidation, $this->currentoutput);
     }
 

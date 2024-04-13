@@ -38,7 +38,7 @@ Note: exactly what it does depends on what objects are given to it.  In particul
 
 For sets, the CAS tries to write the expression in a canonical form.  It then compares the string representations these forms to remove duplicate elements and compare sets.  This is subtly different from trying to simplify the difference of two expressions to zero.  For example, imagine we have \(\{(x-a)^{6000}\}\) and \(\{(a-x)^{6000}\}\).  One canonical form is to expand out both sides.  While this work in principal, in practice this is much too slow for assessment.
 
-Currently we do check multiplicity of roots, so that \( (x-2)^2=0\) and \( x=2\) are not considered to be equivalent.  Similarly \(a^3b^3=0\) is not \(a=0 \mbox{ or } b=0\).  This is a long-standing issue and we would need a separate test to ignore multiplicity of roots.
+Currently we do check multiplicity of roots, so that \( (x-2)^2=0\) and \( x=2\) are not considered to be equivalent.  Similarly \(a^3b^3=0\) is not \(a=0 \text{ or } b=0\).  This is a long-standing issue and we would need a separate test to ignore multiplicity of roots.
 
 Inequalities are turned into sets of real numbers they represent.  When this is done it is indicated by the answer note `ATInequality_solver.`  If you want `a>1` to be _not_ the same as `x>1` then you need to test in a more syntactic way, not using algebraic equivalence.
 
@@ -60,7 +60,7 @@ We recommend you do _not_ use algebraic equivalence testing for floating point n
 ### EqualComAss ###
 
 A particularly useful test is to establish that two expressions are equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division.  For example, under this test
-\( x+y = y+x \mbox{ but } x+x \neq 2x\).
+\( x+y = y+x \text{ but } x+x \neq 2x\).
 Please see the [separate documentation](Rule_based.md).
 
 ### AlgEquivNouns ###

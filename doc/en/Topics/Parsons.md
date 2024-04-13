@@ -15,7 +15,7 @@ Parson’s problems enable students to focus on the structure and meaning, by pr
 Traditionally Parson’s problems require the student to create an ordered list. For mathematical proofs, we believe it is more natural to ask students to create a _tree_. Parson's problems in mathematics, especially proofs, do not always have a unique answer which is considered correct.
 Hence, there are challenges in deciding what a correct answer is in particular cases, and how to develop authoring tools to robustly create problems with reliable marking algorithms.
 For example, in a proof of
-\[ A\mbox{ if and only if } B\]
+\[ A\text{ if and only if } B\]
 We might expect/require two conscious and separate blocks
 
 1.  Assume \(A\), \(\cdots\), hence \(B\).

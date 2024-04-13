@@ -6,7 +6,7 @@ Rules-based answer tests are a special kind of mathematical [answer test](index.
 
 The `EqualComAss` test establishes that two expressions are equal up to commutativity and associativity of addition and multiplication, together with their inverses minus and division.
 
-For example \[a+b=b+a\mbox{,}\] but \[x+x\neq 2x\mbox{.}\] This is very useful in elementary algebra, where we want the form of the answer exactly. This test seeks to establish whether two expressions are the same when the basic operations of arithmetic addition/multiplication and Boolean and/or are assumed to be nouns but are commutative and associative.  Hence, \(2x+y=y+2x\) but \(x+x+y\neq 2x+y\).  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.
+For example \[a+b=b+a\text{,}\] but \[x+x\neq 2x\text{.}\] This is very useful in elementary algebra, where we want the form of the answer exactly. This test seeks to establish whether two expressions are the same when the basic operations of arithmetic addition/multiplication and Boolean and/or are assumed to be nouns but are commutative and associative.  Hence, \(2x+y=y+2x\) but \(x+x+y\neq 2x+y\).  The unary minus commutes with multiplication in a way natural to establishing the required form of equivalence.
 
 This is a particularly useful test for checking that an answer is written in a particular form, e.g. "simplified".
 

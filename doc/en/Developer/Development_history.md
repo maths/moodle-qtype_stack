@@ -276,7 +276,7 @@ Note: the behaviour of the Maxima `addrow` function has changed.  Use the bulk t
 * Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
 * Add in a version number to STACK questions.
 * Update reasoning by equivalence.  This includes the following.
-  1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \mbox{ and } b=s \mbox{ and } c=t\). See `poly_equate_coeffs` in assessment.mac
+  1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \text{ and } b=s \text{ and } c=t\). See `poly_equate_coeffs` in assessment.mac
   2. Solving simple simultaneous equations.  (Interface)
   3. Include simple calculus operations (but constant of integration needs some further thought.)
 * Refactor internal question validation away from Moodle editing, and into the question type.  Add in a "warning" system.

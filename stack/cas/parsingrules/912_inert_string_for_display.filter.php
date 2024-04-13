@@ -34,6 +34,7 @@ class stack_ast_filter_912_inert_string_for_display implements stack_cas_astfilt
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $strings = function($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_String) {
+                // Were not using htmlspecialchars because the &-?&amp; subsitution messes everything up.
                 $node->value = str_ireplace("'", '&apos;', $node->value);
                 $node->value = str_ireplace('"', '&quot;', $node->value);
                 $node->value = str_ireplace('>', '&gt;', $node->value);

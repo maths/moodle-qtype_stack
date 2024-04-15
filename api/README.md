@@ -31,7 +31,7 @@ services:
       GOEMAXIMA_QUEUE_LEN: 32
     read_only: true
   stack:
-    image: registry.git.rwth-aachen.de/medien-public/moodle-stack
+    image: URL to be confirmed
     restart: unless-stopped
     ports:
       - '3080:80'
@@ -196,6 +196,22 @@ To ease the development process, the Dockerfile contained in the repository cont
     docker compose -f docker-compose.dev.yml up
 
 The required development image will automatically be build. After the stack started, you will be able to access the service via http://localhost:3080. Any performed changes in the PHP code will be visible live. Note, that Maxima is provided by a geomaxima docker image, and this image will _not_ reflect local changes.  The development build also contains the xdebug extension, which is configured to connect to `host.docker.internal` as a debugger, which will resolve to the locale machines ip address when using docker desktop. Please note that the performance of the development setup will be significantly worse than in production.
+
+### Docker production setup
+
+A production image of the API can be built using `docker-compose.stack.prod.yml`. This then needs renamed, tagged and pushed to a suitable repository on Docker hub.
+
+    docker compose -f docker-compose.stack.prod.yml build
+    docker tag docker-stack your-repo/imagename:tag
+    docker push your-repo/imagename:tag
+
+At this point a user should just need a working Docker setup and an up-to-date `docker-compose.yml` file that points to the goemaxima and stack-api images:
+
+    docker compose -f docker-compose.yml up
+
+This will download the goemaxima and stack-api images and run the containers in an enclosing container. Obviously, config will be the same as for whoever built the stack-api Docker image.
+
+Version numbers will need to match the latest STACK release in `docker-compose.dev.yml`, `docker-compose.yml`, `config_sample.txt` and `config.php`.
 
 ### High level overview
 

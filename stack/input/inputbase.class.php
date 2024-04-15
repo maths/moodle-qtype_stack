@@ -187,6 +187,8 @@ abstract class stack_input {
                     if ($arg === '') {
                         // Extra options with no argument set a Boolean flag.
                         $this->extraoptions[$option] = true;
+                    } else if ($arg === 'off' && in_array($option, ['monospace'])) {
+                        $this->extraoptions[$option] = false;
                     } else {
                         $this->extraoptions[$option] = $arg;
                     }
@@ -352,6 +354,12 @@ abstract class stack_input {
                 case 'align':
                     if ($arg !== 'left' && $arg !== 'right') {
                         $this->errors[] = stack_string('inputopterr', array('opt' => $option, 'val' => $arg));
+                    }
+                    break;
+
+                case 'monospace':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
                     }
                     break;
 

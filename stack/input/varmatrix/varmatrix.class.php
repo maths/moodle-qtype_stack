@@ -30,7 +30,8 @@ class stack_varmatrix_input extends stack_input {
         'rationalized' => false,
         'consolidatesubscripts' => false,
         'checkvars' => 0,
-        'validator' => false
+        'validator' => false,
+        'monospace' => false,
     );
 
     protected function is_blank_response($contents) {
@@ -66,6 +67,10 @@ class stack_varmatrix_input extends stack_input {
             'size'           => $this->parameters['boxWidth'] * 1.1,
             'style'          => 'width: '.$size.'em',
         );
+
+        if ($this->extraoptions['monospace']) {
+            $attributes['class'] .= ' input-monospace';
+        }
 
         if ($this->is_blank_response($state->contents)) {
             $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);

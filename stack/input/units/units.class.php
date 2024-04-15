@@ -42,6 +42,7 @@ class stack_units_input extends stack_input {
         'consolidatesubscripts' => false,
         'validator' => false,
         'feedback' => false,
+        'monospace' => false,
     );
 
 
@@ -64,6 +65,9 @@ class stack_units_input extends stack_input {
         );
         if ($this->extraoptions['align'] === 'right') {
             $attributes['class'] = 'algebraic-units-right';
+        }
+        if ($this->extraoptions['monospace']) {
+            $attributes['class'] .= ' input-monospace';
         }
 
         if ($state->contents == 'EMPTYANSWER') {

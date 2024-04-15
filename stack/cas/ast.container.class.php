@@ -97,12 +97,6 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
             $starredanswer = 'ev(' . $starredanswer . ',simp)';
         }
 
-        $fltfmt = '"~a"';
-        if ($this->ast !== null) {
-            $fltfmt = $this->get_decimal_digits();
-            $fltfmt = $fltfmt['fltfmt'];
-        }
-
         $tans = $this->validationcontext['tans'];
         if ($tans === null || $tans === '') {
             // If we are here someone has forgotten something.
@@ -112,24 +106,24 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
 
         $checkvars = $this->validationcontext['checkvars'];
 
-        $vcmd = 'stack_validate(['.$starredanswer.'], '.$lowestterms.','.$tans.','.$fltfmt.','.$checkvars.')';
+        $vcmd = 'stack_validate(['.$starredanswer.'], '.$lowestterms.','.$tans.','.$checkvars.')';
         if ($validationmethod == 'typeless') {
             $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.','.$tans.','.
-                $fltfmt.','.$checkvars.', false)';
+                $checkvars.', false)';
         }
         if ($validationmethod == 'equiv') {
             $vcmd = 'stack_validate_typeless(['.$starredanswer.'], '.$lowestterms.','.$tans.','.
-                $fltfmt.','.$checkvars.', true)';
+                $checkvars.', true)';
         }
         if ($validationmethod == 'units') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
             $vcmd = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], ' .
-                    $lowestterms.', '.$tans.', "inline", '.$fltfmt.'))';
+                    $lowestterms.', '.$tans.', "inline"))';
         }
         if ($validationmethod == 'unitsnegpow') {
             // Note, we don't pass in forbidfloats as this option is ignored by the units validation.
             $vcmd = '(make_multsgn("blank"),stack_validate_units(['.$starredanswer.'], ' .
-                    $lowestterms.', '.$tans.', "negpow", '.$fltfmt.'))';
+                    $lowestterms.', '.$tans.', "negpow"))';
         }
         return $this->validationcontext['vname'] . ':' . $vcmd;
     }

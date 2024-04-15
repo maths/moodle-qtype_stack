@@ -386,7 +386,6 @@ class stack_cas_session2 {
         $asts = array();
         $latex = array();
         $display = array();
-
         if (!isset($results['timeout']) || $results['timeout'] === true) {
             if (array_key_exists('timeoutdebug', $results)) {
                 $this->timeoutdebug = $results['timeoutdebug'];

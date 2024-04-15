@@ -299,7 +299,7 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
         $this->assertEquals('matrix([x,2.7],[sqrt(2),3.14])', $state->contentsmodified);
-        $this->assertEquals('\[ \left[\begin{array}{cc} x & 2.7 \\\\ \sqrt{2} & 3.1 \end{array}\right] \]',
+        $this->assertEquals('\[ \left[\begin{array}{cc} x & 2.7 \\\\ \sqrt{2} & 3.14 \end{array}\right] \]',
             $state->contentsdisplayed);
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }
@@ -316,7 +316,7 @@ class input_varmatrix_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
         $this->assertEquals('matrix([x,2.7],[sqrt(2),3.14])', $state->contentsmodified);
-        $this->assertEquals('\[ \left[\begin{array}{cc} x & 2{,}7 \\\\ \sqrt{2} & 3{,}1 \end{array}\right] \]',
+        $this->assertEquals('\[ \left[\begin{array}{cc} x & 2{,}7 \\\\ \sqrt{2} & 3{,}14 \end{array}\right] \]',
             $state->contentsdisplayed);
         $this->assertEquals('\( \left[ x \right]\) ', $state->lvars);
     }

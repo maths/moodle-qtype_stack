@@ -57,7 +57,7 @@ First we have `p1` is  \( \left(\left(1\right)^2 + \left(1\right)^2\right)^{{{1}
 
 Notice the difference between `p2`: \(\sqrt{2}\,e^{{{i\,\pi}\over{4}}}\), and `p3`: \(\sqrt{2}\,\left({{i}\over{\sqrt{2}}}+{{1}\over{\sqrt{2}}}\right)\) (which of course is not even \(1+i\) either!).
 
-The problem is that in this case `ev( ... , simp)` is not _idempotent_, (i.e. \( \mbox{simplify}(\mbox{simplify}(ex)) \neq \mbox{simplify}(ex) \) in all cases) and the PHP-maxima connection inevitably passes an expression to and from Maxima multiple times.  If `simp:true` then we get multiple simplifications, in this example back to `p3`.
+The problem is that in this case `ev( ... , simp)` is not _idempotent_, (i.e. \( \text{simplify}(\text{simplify}(ex)) \neq \text{simplify}(ex) \) in all cases) and the PHP-maxima connection inevitably passes an expression to and from Maxima multiple times.  If `simp:true` then we get multiple simplifications, in this example back to `p3`.
 
 Instead, use `polarform_simp` to rewrite the expression in polar form, and do some basic simplification of \(r\) and \(\theta\).
 

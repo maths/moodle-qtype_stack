@@ -81,7 +81,7 @@ To be specific
 1. Let \( (s_i,p_i) \) for \(i=1,\cdots n\) be the list of scores and penalties for a particular potential response tree, for each different valid attempt.
 2. The score for attempt \(k\) is defined to be
 
-\[ \mbox{Question value} \times \max\left\{ s_i-\sum_{j=1}^i p_j,\ i=1,\cdots k \right\}.\]
+\[ \text{Question value} \times \max\left\{ s_i-\sum_{j=1}^i p_j,\ i=1,\cdots k \right\}.\]
 
 Notice that this is purely a function of a list of (score, penalty) pairs.
 

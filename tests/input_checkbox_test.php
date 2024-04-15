@@ -326,13 +326,13 @@ class input_checkbox_test extends qtype_stack_testcase {
         $el->adapt_to_model_answer('[[x=1 nounor x=2,true],[x=1 nounand x=2,false],[x=1 nounor x=3,false]]');
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" ' .
                 'id="stack1__ans1_1" /><label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
-                '<span class="nolink">\(x=1\,{\mbox{ or }}\, x=2\)</span></span></label></div><div class="option">' .
+                '<span class="nolink">\(x=1\,{\text{ or }}\, x=2\)</span></span></label></div><div class="option">' .
                 '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label for="stack1__ans1_2">' .
-                '<span class="filter_mathjaxloader_equation"><span class="nolink">\(x=1\,{\mbox{ and }}\, x=2\)' .
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">\(x=1\,{\text{ and }}\, x=2\)' .
                 '</span></span></label></div><div class="option">' .
                 '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />' .
                 '<label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation"><span class="nolink">' .
-                '\(x=1\,{\mbox{ or }}\, x=3\)</span></span></label></div></div>';
+                '\(x=1\,{\text{ or }}\, x=3\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
         $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', new stack_cas_security());
@@ -356,7 +356,7 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<span class="nolink">\(1+1\)</span></span></label></div><div class="option">' .
                 '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" />' .
                 '<label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation">' .
-                '<span class="nolink">\(x=3\,{\mbox{ or }}\, x=1\)</span></span></label></div></div>';
+                '<span class="nolink">\(x=3\,{\text{ or }}\, x=1\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
         $state = $el->validate_student_response(array('ans1_1' => '2'), $options, '2', new stack_cas_security());

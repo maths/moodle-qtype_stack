@@ -678,7 +678,8 @@ abstract class stack_input {
         // This method actually validates any CAS strings etc.
         // Modified contents is already an array of things which become individually validated CAS statements.
         // At this sage, $valid records the PHP validation or other non-CAS issues.
-        list($valid, $errors, $notes, $answer, $caslines) = $this->validate_contents($contents, $secrules, $localoptions);
+        list($valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines)
+            = $this->validate_contents($contents, $secrules, $localoptions);
 
         // Match up lines from the teacher's answer to lines in the student's answer.
         // Send as much of the string to the CAS as possible.
@@ -738,8 +739,16 @@ abstract class stack_input {
                         $ta, $ivalidationmethod,
                         $this->get_extra_option('simp', false),  $this->get_extra_option('checkvars', 0));
                 $sessionvars[] = $cs;
+
+                // The inert caslines also need to be sent over for LaTeX rendering.
+                if ($ilines[$index] !== $cs) {
+                    // The basic assumption is that these are valid as long as the original non inert one is.
+                    // There are some inputs that will have no inert things and will use the same ones.
+                    $sessionvars[] = $ilines[$index];
+                }
             }
         }
+
         // Equiv type checking is done in caslines.
         if ($validationmethod == 'equiv') {
             $validationmethod = 'typeless';
@@ -748,10 +757,19 @@ abstract class stack_input {
             $answer->set_cas_validation_context($this->name, $this->get_parameter('lowestTerms', false),
                     $teacheranswer, $validationmethod,
                     $this->get_extra_option('simp', false),  $this->get_extra_option('checkvars', 0));
+            // Units inputs change the display in very significant ways.
+            if ('units' == $validationmethod || 'unitsnegpow' == $validationmethod) {
+                $inertdisplayform->set_cas_validation_context($this->name, $this->get_parameter('lowestTerms', false),
+                    $teacheranswer, $validationmethod,
+                    $this->get_extra_option('simp', false),  $this->get_extra_option('checkvars', 0));
+            }
             // Evaluate both the answer, and the validation context separately.
             // This allows us to display 1/0 type errors without actually evaluating them.
             $sessionvars[] = $answer;
             $sessionvars[] = $answerd;
+            if ($answer !== $inertdisplayform) {
+                $sessionvars[] = $inertdisplayform;
+            }
         }
 
         // Generate an expression from which we extract the list of variables in the student's answer.
@@ -801,10 +819,10 @@ abstract class stack_input {
         if ('units' == $validationmethod || 'unitsnegpow' == $validationmethod) {
             // The units type changes the display, so we really need the validation method display here.
             list($valid, $errors, $display) = $this->validation_display($answer, $lvars, $caslines, $additionalvars,
-                $valid, $errors, $castextprocessor);
+                $valid, $errors, $castextprocessor, $inertdisplayform, $ilines);
         } else {
             list($valid, $errors, $display) = $this->validation_display($answerd, $lvars, $caslines, $additionalvars,
-                $valid, $errors, $castextprocessor);
+                $valid, $errors, $castextprocessor, $inertdisplayform, $ilines);
         }
 
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
@@ -860,7 +878,8 @@ abstract class stack_input {
             $simp = true;
         }
 
-        return new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp, $simp);
+        $state = new stack_input_state($status, $contents, $interpretedanswer, $display, $errors, $note, $lvarsdisp, $simp);
+        return $state;
     }
 
     /* Allow different input types to change the CAS method used.
@@ -959,7 +978,7 @@ abstract class stack_input {
      * @param array $contents the content array of the student's input.
      * @param stack_cas_security $basesecurity declares the variables which must not
      *                                         appear in the student's input.
-     * @return array of the validity, errors strings, modified contents and caslines.
+     * @return array of the validity, errors strings, modified contents, caslines and inertdisplayform.
      */
     protected function validate_contents($contents, $basesecurity, $localoptions) {
 
@@ -968,8 +987,12 @@ abstract class stack_input {
         $caslines = array();
         $errors = array();
         $notes = array();
+        $ilines = array();
 
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
+        // Separate rules for inert display logic, which wraps floats with certain functions.
+        $secrulesd = clone $secrules;
+        $secrulesd->add_allowedwords('dispdp,displaysci');
 
         foreach ($contents as $index => $val) {
             if ($val === null) {
@@ -988,12 +1011,22 @@ abstract class stack_input {
                     $notes[$n] = true;
                 }
             }
+
+            // Construct inert version of that.
+            $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd, array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+                array(), 'Root', $this->options->get_option('decimals'));
+            $inertdisplayform->get_valid();
+            $ilines[] = $inertdisplayform;
+
         }
 
         // Construct one final "answer" as a single maxima object.
         $answer = $this->caslines_to_answer($caslines, $basesecurity);
 
-        return array($valid, $errors, $notes, $answer, $caslines);
+        // Same for the inert version.
+        $inertdisplayform = $this->caslines_to_answer($ilines, $basesecurity);
+
+        return array($valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines);
     }
 
     /**
@@ -1101,13 +1134,14 @@ abstract class stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors,
+                $castextprocessor, $inertdisplayform, $ilines) {
 
-        $display = stack_maxima_format_casstring($this->contents_to_maxima($this->rawcontents));
+        $display = stack_maxima_format_casstring(htmlentities($this->contents_to_maxima($this->rawcontents)));
         if ($answer->is_correctly_evaluated()) {
-            $display = '\[ ' . $answer->get_display() . ' \]';
+            $display = '\[ ' . $inertdisplayform->get_display() . ' \]';
             if ($this->get_parameter('showValidation', 1) == 3) {
-                $display = '\( ' . $answer->get_display() . ' \)';
+                $display = '\( ' . $inertdisplayform->get_display() . ' \)';
             }
         } else {
             $valid = false;
@@ -1329,13 +1363,8 @@ abstract class stack_input {
         }
         $feedback  = '';
 
-        // TODO: refactor this ast creation away.
         $val = $state->contentsdisplayed;
-        $cs = stack_ast_container::make_from_teacher_source($state->contentsdisplayed,
-                '', new stack_cas_security(), array());
-        if ($cs->get_valid()) {
-            $val = $cs->get_inputform();
-        }
+
         if (trim($val) !== '<span class="stacksyntaxexample"></span>') {
             // Compact validation.
             if ($this->get_parameter('showValidation', 1) == 3) {

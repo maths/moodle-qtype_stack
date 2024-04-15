@@ -399,7 +399,8 @@ class stack_dropdown_input extends stack_input {
             }
         }
 
-        return array($valid, $errors, $notes, $answer, $caslines);
+        // As all inputs here are teacher sourced we can reuse the original ones for the inert ones.
+        return array($valid, $errors, $notes, $answer, $caslines, $answer, $caslines);
     }
 
     /**

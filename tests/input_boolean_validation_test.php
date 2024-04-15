@@ -110,6 +110,6 @@ class input_boolean_validation_test extends qtype_stack_testcase {
                 new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('true', $state->contentsmodified);
-        $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \mbox{[SOME MORE JSON]} \]"));
+        $this->assertEquals('', $el->get_teacher_answer_display("[SOME JSON]", "\[ \text{[SOME MORE JSON]} \]"));
     }
 }

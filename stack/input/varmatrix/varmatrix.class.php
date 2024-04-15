@@ -208,6 +208,9 @@ class stack_varmatrix_input extends stack_input {
         $notes = array();
         $valid = true;
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
+        // Separate rules for inert display logic, which wraps floats with certain functions.
+        $secrulesd = clone $secrules;
+        $secrulesd->add_allowedwords('dispdp,displaysci');
 
         // Now validate the input as CAS code.
         $modifiedcontents = array();
@@ -257,8 +260,12 @@ class stack_varmatrix_input extends stack_input {
         $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
+        $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd, array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+            array(), 'Root', $this->options->get_option('decimals'));
+        $inertform->get_valid();
+
         $caslines = array();
-        return array($valid, $errors, $notes, $answer, $caslines);
+        return array($valid, $errors, $notes, $answer, $caslines, $inertform, $caslines);
     }
 
     /**

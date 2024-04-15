@@ -188,7 +188,7 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_only_units", $state->note);
         $this->assertEquals('m/s^2', $state->contentsmodified);
-        $this->assertEquals('\[ \, {\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ {\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_only_units_negpow_1() {
@@ -201,7 +201,7 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_only_units", $state->note);
         $this->assertEquals('m/s^2', $state->contentsmodified);
-        $this->assertEquals('\[ \, \mathrm{m}\, \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mathrm{m}\, \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_only_units_2() {
@@ -213,7 +213,7 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_only_units", $state->note);
         $this->assertEquals('m', $state->contentsmodified);
-        $this->assertEquals('\[ \, \mathrm{m} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \mathrm{m} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_missing_units() {
@@ -225,7 +225,7 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_no_units", $state->note);
         $this->assertEquals('9.81', $state->contentsmodified);
-        $this->assertEquals('\[ 9.81\, \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 9.81 \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_missing_units_2() {
@@ -237,7 +237,7 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_no_units", $state->note);
         $this->assertEquals('%pi*sin(2)', $state->contentsmodified);
-        $this->assertEquals('\[ \pi\, \sin \left( 2 \right)\, \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \pi\, \sin \left( 2 \right) \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_bad_units() {
@@ -249,7 +249,7 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_bad_units", $state->note);
         $this->assertEquals('9.81+m/s^2', $state->contentsmodified);
-        $this->assertEquals('\[ 9.81+{\mathrm{m}}/{\mathrm{s}^2}\, \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 9.81+{\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_bad_spaces() {
@@ -268,7 +268,6 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '5*10^2*kg');
         $el->set_parameter('insertStars', 3);
-        // In prior versions the string replace added extra *s to give 5***10^2, which was silly.
         $state = $el->validate_student_response(array('sans1' => '5 * 10^2 kg'), $options, '5*10^2*kg',
                 new stack_cas_security(true, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
@@ -285,7 +284,7 @@ class input_units_test extends qtype_stack_testcase {
                 new stack_cas_security(true, '', '', array('tans')));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('1', $state->contentsmodified);
-        $this->assertEquals('\[ 1\, \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 1 \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_calculation() {
@@ -296,7 +295,7 @@ class input_units_test extends qtype_stack_testcase {
             new stack_cas_security(true, '', '', array('tans')));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('9.4*m-53*cm', $state->contentsmodified);
-        $this->assertEquals('\[ 9.4\, \mathrm{m}-53\, \mathrm{c}\mathrm{m}\, \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 9.4\, \mathrm{m}-53\, \mathrm{c}\mathrm{m} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_student_powers_ten() {
@@ -469,7 +468,7 @@ class input_units_test extends qtype_stack_testcase {
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('9.81+m/s^2', $state->contentsmodified);
-        $this->assertEquals('\[ 9.81+{\mathrm{m}}/{\mathrm{s}^2}\, \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ 9.81+{\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
     }
 
     public function test_validate_student_response_rational_number_1() {
@@ -809,7 +808,7 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assert_equals_ignore_spaces_and_e('3.88e-4*1/s', $state->contentsmodified);
         // This is a special display rule to highlight the multiplication with 1/unit.
-        $this->assert_equals_ignore_spaces_and_e('\[ 3.88e-4\times {1}/{\mathrm{s}} \]',
+        $this->assert_equals_ignore_spaces_and_e('\[ 3.88 \times 10^{-4}\times {1}/{\mathrm{s}} \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('\( \left[ \mathrm{s} \right]\) ', $state->lvars);
     }
@@ -823,7 +822,7 @@ class input_units_test extends qtype_stack_testcase {
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assert_equals_ignore_spaces_and_e('3.88e-4*1/s', $state->contentsmodified);
-        $this->assert_equals_ignore_spaces_and_e('\[ 3.88e-4\, \mathrm{s}^ {- 1 } \]',
+        $this->assert_equals_ignore_spaces_and_e('\[ 3.88 \times 10^{-4}\, \mathrm{s}^ {- 1 } \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
         $this->assertEquals('\( \left[ \mathrm{s} \right]\) ', $state->lvars);
     }
@@ -837,11 +836,11 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assert_equals_ignore_spaces_and_e('3.88e-4*1/(M*s)', $state->contentsmodified);
         if ($this->adapt_to_new_maxima('5.34.2')) {
-            $this->assert_equals_ignore_spaces_and_e('\[ 3.88e-4\times {1}/{\left(\mathrm{M}\, \mathrm{s}\right)} \]',
+            $this->assert_equals_ignore_spaces_and_e('\[ 3.88 \times 10^{-4}\times {1}/{\left(\mathrm{M}\, \mathrm{s}\right)} \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
             $this->assertEquals('\( \left[ \mathrm{M} , \mathrm{s} \right]\) ', $state->lvars);
         } else {
-            $this->assert_equals_ignore_spaces_and_e('\[ 3.88e-4\times {1}/{\left(\mathrm{s}\, \mathrm{M}\right)} \]',
+            $this->assert_equals_ignore_spaces_and_e('\[ 3.88 \times 10^{-4}\times {1}/{\left(\mathrm{s}\, \mathrm{M}\right)} \]',
                 qtype_stack_testcase::prepare_actual_maths($state->contentsdisplayed));
             $this->assertEquals('\( \left[ \mathrm{s} , \mathrm{M} \right]\) ', $state->lvars);
         }
@@ -1166,20 +1165,23 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '570.37298*ohm');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('forbidFloats', false);
-        $state = $el->validate_student_response(array('sans1' => '(72.0*%i-570.37298)*ohm'), $options, '570.37298*ohm',
+        $state = $el->validate_student_response(array('sans1' => '(72.00*%i-570.37298)*ohm'), $options, '570.37298*ohm',
             new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
-        $this->assertEquals('(72.0*%i-570.37298)*ohm', $state->contentsmodified);
-        $this->assertEquals('\[ \left( 72.0\, \mathrm{i}-570.37298\right)\, \Omega \]', $state->contentsdisplayed);
+        $this->assertEquals('(72.00*%i-570.37298)*ohm', $state->contentsmodified);
+        $this->assertEquals('\[ \left( 72.00\, \mathrm{i}-570.37298\right)\, \Omega \]',
+            $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
 
-        $state = $el->validate_student_response(array('sans1' => '(72.0-%i*570.37298)*ohm'), $options, '570.37298*ohm',
+        $state = $el->validate_student_response(array('sans1' => '(72.00-%i*570.37298)*ohm'), $options, '570.37298*ohm',
             new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
-        $this->assertEquals('(72.0-%i*570.37298)*ohm', $state->contentsmodified);
-        $this->assertEquals('\[ \left( 72.0-570.37298\, \mathrm{i}\right)\, \Omega \]', $state->contentsdisplayed);
+        $this->assertEquals('(72.00-%i*570.37298)*ohm', $state->contentsmodified);
+        // TODO: remove the extra brackets around the i in this example.
+        $this->assertEquals('\[ \left( 72.00+\left(-\mathrm{i}\right)\, 570.37298\right)\, \Omega \]',
+            $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
     }
 }

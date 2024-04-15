@@ -238,8 +238,12 @@ class stack_equiv_input extends stack_input {
         $notes = array();
         $valid = true;
         $caslines = array();
+        $ilines = array();
 
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
+        // Separate rules for inert display logic, which wraps floats with certain functions.
+        $secrulesd = clone $secrules;
+        $secrulesd->add_allowedwords('dispdp,displaysci');
 
         foreach ($contents as $index => $val) {
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
@@ -262,13 +266,22 @@ class stack_equiv_input extends stack_input {
             $caslines[] = $answer;
             $valid = $valid && $answer->get_valid();
             $errors[] = $answer->get_errors();
+
+            // Construct inert version of that.
+            $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd, array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+                array(), 'Equivline', $this->options->get_option('decimals'));
+            $inertdisplayform->get_valid();
+            $ilines[] = $inertdisplayform;
         }
 
         // Construct one final "answer" as a single maxima object.
         $answer = $this->caslines_to_answer($caslines, $basesecurity);
         $answer->get_valid();
 
-        return array($valid, $errors, $notes, $answer, $caslines);
+        // Same for the inert version.
+        $inertdisplayform = $this->caslines_to_answer($ilines, $basesecurity);
+
+        return array($valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines);
     }
 
     /**
@@ -280,7 +293,7 @@ class stack_equiv_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
 
         if ($this->extraoptions['firstline']) {
             $foundfirstline = false;
@@ -304,7 +317,7 @@ class stack_equiv_input extends stack_input {
             $row = array();
             $fb = $cs->get_feedback();
             if ($cs->is_correctly_evaluated() && $fb == '') {
-                $row[] = '\(\displaystyle ' . $cs->get_display() . ' \)';
+                $row[] = '\(\displaystyle ' . $ilines[$index]->get_display() . ' \)';
                 if ($errors[$index]) {
                     $errorfree = false;
                     $row[] = stack_maxima_translate($errors[$index]);

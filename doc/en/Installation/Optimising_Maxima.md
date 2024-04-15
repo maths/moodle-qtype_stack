@@ -183,7 +183,7 @@ Running the PHP testing suites we have the following data, where all times are i
 
 The optimised version saves a considerable amount of time. However, it isn't entirely clear why the answer tests with a mature cache using the default Linux connection takes over 25 seconds and for optimized Linux takes over 5 seconds.  This seems anomalous.
 
-SBCL is considerably slower than GCL on the non-optimised and uncached setting. Other settings see SBCL and GCL on a par, with the exception of optimised and cached setting, where again SBCL is slower than GCL.
+SBCL is considerably slower than GCL on the non-optimised and uncached setting. Other settings see SBCL and GCL on a par, with the exception of optimised and cached setting for answer tests, where again SBCL is slower than GCL.
 
 ### 2012
 

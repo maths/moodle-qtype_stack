@@ -1,7 +1,7 @@
-version: "3.9"
+version: "4.0"
 services:
   maxima:
-    image: mathinstitut/goemaxima:2023121100-latest
+    image: mathinstitut/goemaxima:2024012900-latest
     tmpfs:
       - "/tmp"
     restart: unless-stopped
@@ -14,7 +14,8 @@ services:
       GOEMAXIMA_QUEUE_LEN: 32
     read_only: true
   stack:
-    image: registry.git.rwth-aachen.de/medien-public/moodle-stack
+    # Location of published STACK API image goes here.
+    image: 
     restart: unless-stopped
     ports:
       - '3080:80'

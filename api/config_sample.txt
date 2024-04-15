@@ -29,6 +29,7 @@ $PAGE = new stdClass;
 $CFG->stackapi = true;
 
 // This is the directory into which you put the PHP scripts (no trailing slash).
+// (If using Docker, this will be the location of the STACK code in the image.)
 $CFG->wwwroot = "/var/www/html";
 // The base url of the installation.
 // The server path of the installation.
@@ -41,7 +42,7 @@ $CFG->dataurl = "http://localhost/";
 
 $CFG->maximacommand = 'maxima';
 $CFG->maximaversion = '5.44.0';
-// Once you have compiled maxima you will need to change this.
+// If you have compiled maxima yourself you will need to change this.
 $CFG->platform            = 'server';
 $CFG->maximacommandopt    = 'timeout --kill-after=10s 10s ' . $CFG->dataroot . '/stack/maxima_opt_auto';
 $CFG->maximacommandserver = getenv('MAXIMA_URL') ?: 'http://maxima:8080/maxima';
@@ -90,6 +91,7 @@ $CFG->inputcheckanswertype = 1;
 $CFG->inputmustverify = 1;
 $CFG->inputshowvalidation = 1;
 
+// These should match the version of goemaxima in docker-compose.
 $CFG->stackmaximaversion = "2024012900";
 $CFG->version = "2024012900";
 

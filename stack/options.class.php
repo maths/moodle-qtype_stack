@@ -25,99 +25,99 @@ class stack_options {
 
     private $options;
 
-    public function __construct($settings = array()) {
+    public function __construct($settings = []) {
 
         // OptionType can be: boolean, string, html, list.
-        $this->options  = array( // Array of public class settings for this class.
-            'display'   => array(
+        $this->options  = [ // Array of public class settings for this class.
+            'display'   => [
                 'type'       => 'list',
                 'value'      => 'LaTeX',
                 'strict'     => true,
-                'values'     => array('LaTeX', 'String'),
+                'values'     => ['LaTeX', 'String'],
                 'caskey'     => 'OPT_OUTPUT',
                 'castype'    => 'string',
-             ),
-            'decimals'       => array(
+             ],
+            'decimals'       => [
                 'type'       => 'list',
                 'value'      => '.',
                 'strict'     => true,
-                'values'     => array('.', ','),
+                'values'     => ['.', ','],
                 'caskey'     => 'texput_decimal',
                 'castype'    => 'fun',
-            ),
-            'multiplicationsign'   => array(
+            ],
+            'multiplicationsign'   => [
                 'type'       => 'list',
                 'value'      => 'dot',
                 'strict'     => true,
-                'values'     => array('dot', 'cross', 'onum', 'none'),
+                'values'     => ['dot', 'cross', 'onum', 'none'],
                 'caskey'     => 'make_multsgn',
                 'castype'    => 'fun',
-            ),
-            'complexno'   => array(
+            ],
+            'complexno'   => [
                 'type'       => 'list',
                 'value'      => 'i',
                 'strict'     => true,
-                'values'     => array('i', 'j', 'symi', 'symj'),
+                'values'     => ['i', 'j', 'symi', 'symj'],
                 'caskey'     => 'make_complexJ',
                 'castype'    => 'fun',
-            ),
-            'inversetrig'   => array(
+            ],
+            'inversetrig'   => [
                 'type'       => 'list',
                 'value'      => 'cos-1',
                 'strict'     => true,
-                'values'     => array('cos-1', 'acos', 'arccos', 'arccos-arcosh'),
+                'values'     => ['cos-1', 'acos', 'arccos', 'arccos-arcosh'],
                 'caskey'     => 'make_arccos',
                 'castype'    => 'fun',
-            ),
-            'logicsymbol'   => array(
+            ],
+            'logicsymbol'   => [
                 'type'       => 'list',
                 'value'      => 'lang',
                 'strict'     => true,
-                'values'     => array('lang', 'symbol'),
+                'values'     => ['lang', 'symbol'],
                 'caskey'     => 'make_logic',
                 'castype'    => 'fun',
-            ),
-            'sqrtsign'   => array(
+            ],
+            'sqrtsign'   => [
                 'type'       => 'boolean',
                 'value'      => true,
                 'strict'     => true,
-                'values'     => array(),
+                'values'     => [],
                 'caskey'     => 'sqrtdispflag',
                 'castype'    => 'ex',
-            ),
-            'simplify'   => array(
+            ],
+            'simplify'   => [
                 'type'       => 'boolean',
                 'value'      => true,
                 'strict'     => true,
-                'values'     => array(),
+                'values'     => [],
                 'caskey'     => 'simp',
                 'castype'    => 'ex',
-            ),
-            'assumepos'   => array(
+            ],
+            'assumepos'   => [
                 'type'       => 'boolean',
                 'value'      => false,
                 'strict'     => true,
-                'values'     => array(),
+                'values'     => [],
                 'caskey'     => 'assume_pos',
                 'castype'    => 'ex',
-            ),
-            'assumereal'   => array(
+            ],
+            'assumereal'   => [
                 'type'       => 'boolean',
                 'value'      => false,
                 'strict'     => true,
-                'values'     => array(),
+                'values'     => [],
                 'caskey'     => 'assume_real',
                 'castype'    => 'ex',
-            ),
-            'matrixparens'   => array(
+            ],
+            'matrixparens'   => [
                 'type'       => 'list',
                 'value'      => '[',
                 'strict'     => true,
-                'values'     => array('[', '(', '', '{', '|'),
+                'values'     => ['[', '(', '', '{', '|'],
                 'caskey'     => 'lmxchar',
                 'castype'    => 'exs',
-            ),
-        );
+            ],
+        ];
 
         if (!is_array($settings)) {
             throw new stack_exception('stack_options: $settings must be an array.');
@@ -216,7 +216,7 @@ class stack_options {
                 }
             }
         }
-        $ret = array('names' => $names, 'commands' => $commands);
+        $ret = ['names' => $names, 'commands' => $commands];
         return $ret;
     }
 
@@ -224,114 +224,114 @@ class stack_options {
      * @return array of choices for a no/yes select menu.
      */
     public static function get_yes_no_options() {
-        return array(
+        return [
             '0' => get_string('no'),
             '1' => get_string('yes'),
-        );
+        ];
     }
 
     /**
      * @return array of choices for the insert stars select menu.
      */
     public static function get_insert_star_options() {
-        return array(
+        return [
             '0' => get_string('insertstarsno', 'qtype_stack'),
             '1' => get_string('insertstarsyes', 'qtype_stack'),
             '2' => get_string('insertstarsassumesinglechar', 'qtype_stack'),
             '3' => get_string('insertspaces', 'qtype_stack'),
             '4' => get_string('insertstarsspaces', 'qtype_stack'),
             '5' => get_string('insertstarsspacessinglechar', 'qtype_stack')
-        );
+        ];
     }
 
     /**
      * @return array of choices for the input syntax hint display attribute.
      */
     public static function get_syntax_attribute_options() {
-        return array(
+        return [
                 '0' => get_string('syntaxattributevalue', 'qtype_stack'),
                 '1' => get_string('syntaxattributeplaceholder', 'qtype_stack'),
-        );
+        ];
     }
 
     /**
      * @return array of choices for the decimal sign select menu.
      */
     public static function get_decimals_sign_options() {
-        return array(
+        return [
             '.'    => '.',
             ','    => ',',
-        );
+        ];
     }
 
     /**
      * @return array of choices for the multiplication sign select menu.
      */
     public static function get_multiplication_sign_options() {
-        return array(
+        return [
             'dot'   => get_string('multdot', 'qtype_stack'),
             'cross' => get_string('multcross', 'qtype_stack'),
             'onum'  => get_string('multonlynumbers', 'qtype_stack'),
             'none'  => get_string('none'),
-        );
+        ];
     }
 
     /**
      * @return array of choices for the complex number select menu.
      */
     public static function get_complex_no_options() {
-        return array(
+        return [
             'i'    => 'i',
             'j'    => 'j',
             'symi' => 'symi',
             'symj' => 'symj',
-        );
+        ];
     }
 
     /**
      * @return array of choices for the inverse trig select menu.
      */
     public static function get_inverse_trig_options() {
-        return array(
+        return [
             'cos-1'         => "cos\xe2\x81\xbb\xc2\xb9(x)",
             'acos'          => 'acos(x)',
             'arccos'        => 'arccos(x)',
             'arccos-arcosh' => 'arccos(x)/arcosh(x)'
-        );
+        ];
     }
 
     /**
      * @return array of choices for the inverse trig select menu.
      */
     public static function get_logic_options() {
-        return array(
+        return [
             'lang'   => get_string('logicsymbollang', 'qtype_stack'),
             'symbol' => get_string('logicsymbolsymbol', 'qtype_stack'),
-        );
+        ];
     }
 
     /**
      * @return array of choices for the matrix prenthesis select menu.
      */
     public static function get_matrix_parens_options() {
-        return array(
+        return [
             '[' => '[',
             '(' => '(',
             ''  => '',
             '{' => '{',
             '|' => '|',
-        );
+        ];
     }
 
     /**
      * @return array of choices for the show validation select menu.
      */
     public static function get_showvalidation_options() {
-        return array(
+        return [
             '0' => get_string('showvalidationno', 'qtype_stack'),
             '1' => get_string('showvalidationyes', 'qtype_stack'),
             '2' => get_string('showvalidationyesnovars', 'qtype_stack'),
             '3' => get_string('showvalidationcompact', 'qtype_stack'),
-        );
+        ];
     }
 }

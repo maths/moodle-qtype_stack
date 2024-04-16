@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../cas/connector.class.php');
 require_once(__DIR__ . '/../cas/ast.container.class.php');
 
 class stack_ans_test_controller {
-    protected static $types = array(
+    protected static $types = [
               'AlgEquiv'             => 'stackOptions_AnsTest_values_AlgEquiv',
               'AlgEquivNouns'        => 'stackOptions_AnsTest_values_AlgEquivNouns',
               'EqualComAss'          => 'stackOptions_AnsTest_values_EqualComAss',
@@ -67,7 +67,7 @@ class stack_ans_test_controller {
               'StringSloppy'         => 'stackOptions_AnsTest_values_StringSloppy',
               'Levenshtein'          => 'stackOptions_AnsTest_values_Levenshtein',
               'SRegExp'              => 'stackOptions_AnsTest_values_SRegExp',
-    );
+    ];
 
     /*
      * Does this test require options [0] and are these evaluated by the CAS [1] ?
@@ -76,46 +76,46 @@ class stack_ans_test_controller {
      *
      * Note, the options are currently always simplified in the node class.
      */
-    protected static $pops = array(
-        'AlgEquiv'             => array(false, false, true, false),
-        'AlgEquivNouns'        => array(false, false, false, false),
-        'EqualComAss'          => array(false, false, false, false),
-        'EqualComAssRules'     => array(true, true, false, false),
-        'CasEqual'             => array(false, false, false, false),
-        'SameType'             => array(false, false, true, false),
-        'SubstEquiv'           => array('optional', true, true, false),
-        'SysEquiv'             => array(false, false, true, false),
-        'Sets'                 => array(false, false, false, false),
-        'Expanded'             => array(false, false, true, false),
-        'FacForm'              => array(true, true, false, false),
-        'SingleFrac'           => array(false, false, false, false),
-        'PartFrac'             => array(true, true, true, false),
-        'CompSquare'           => array(true, true, true, false),
-        'PropLogic'            => array(false, false, true, false),
-        'Equiv'                => array('optional', true, false, false),
-        'EquivFirst'           => array('optional', true, false, false),
-        'GT'                   => array(false, false, true, false),
-        'GTE'                  => array(false, false, true, false),
-        'SigFigsStrict'        => array(true, true, true, true),
-        'NumAbsolute'          => array(true, true, true, false),
-        'NumRelative'          => array(true, true, true, false),
-        'NumSigFigs'           => array(true, true, false, true),
-        'NumDecPlaces'         => array(true, true, false, true),
-        'NumDecPlacesWrong'    => array(true, true, false, false),
-        'Units'                => array(true, true, false, true),
-        'UnitsStrict'          => array(true, true, false, true),
-        'UnitsAbsolute'        => array(true, true, false, false),
-        'UnitsStrictAbsolute'  => array(true, true, false, false),
-        'UnitsRelative'        => array(true, true, false, false),
-        'UnitsStrictRelative'  => array(true, true, false, false),
-        'LowestTerms'          => array(false, false, false, false),
-        'Diff'                 => array(true, true, false, false),
-        'Int'                  => array(true, true, false, false),
-        'String'               => array(false, false, false, false),
-        'StringSloppy'         => array(false, false, false, false),
-        'Levenshtein'          => array(true, true, true, false),
-        'SRegExp'              => array(false, false, true, false),
-    );
+    protected static $pops = [
+        'AlgEquiv'             => [false, false, true, false],
+        'AlgEquivNouns'        => [false, false, false, false],
+        'EqualComAss'          => [false, false, false, false],
+        'EqualComAssRules'     => [true, true, false, false],
+        'CasEqual'             => [false, false, false, false],
+        'SameType'             => [false, false, true, false],
+        'SubstEquiv'           => ['optional', true, true, false],
+        'SysEquiv'             => [false, false, true, false],
+        'Sets'                 => [false, false, false, false],
+        'Expanded'             => [false, false, true, false],
+        'FacForm'              => [true, true, false, false],
+        'SingleFrac'           => [false, false, false, false],
+        'PartFrac'             => [true, true, true, false],
+        'CompSquare'           => [true, true, true, false],
+        'PropLogic'            => [false, false, true, false],
+        'Equiv'                => ['optional', true, false, false],
+        'EquivFirst'           => ['optional', true, false, false],
+        'GT'                   => [false, false, true, false],
+        'GTE'                  => [false, false, true, false],
+        'SigFigsStrict'        => [true, true, true, true],
+        'NumAbsolute'          => [true, true, true, false],
+        'NumRelative'          => [true, true, true, false],
+        'NumSigFigs'           => [true, true, false, true],
+        'NumDecPlaces'         => [true, true, false, true],
+        'NumDecPlacesWrong'    => [true, true, false, false],
+        'Units'                => [true, true, false, true],
+        'UnitsStrict'          => [true, true, false, true],
+        'UnitsAbsolute'        => [true, true, false, false],
+        'UnitsStrictAbsolute'  => [true, true, false, false],
+        'UnitsRelative'        => [true, true, false, false],
+        'UnitsStrictRelative'  => [true, true, false, false],
+        'LowestTerms'          => [false, false, false, false],
+        'Diff'                 => [true, true, false, false],
+        'Int'                  => [true, true, false, false],
+        'String'               => [false, false, false, false],
+        'StringSloppy'         => [false, false, false, false],
+        'Levenshtein'          => [true, true, true, false],
+        'SRegExp'              => [false, false, true, false],
+    ];
 
     /**
      * The answertest object that the functions call.
@@ -135,7 +135,7 @@ class stack_ans_test_controller {
      * @access public
      */
     public function __construct(string $anstest, stack_ast_container $sans, stack_ast_container $tans, $casoption = null,
-            $options = null, $contextsession = array()) {
+            $options = null, $contextsession = []) {
 
         switch($anstest) {
             case 'AlgEquiv':
@@ -298,7 +298,7 @@ class stack_ans_test_controller {
      * @access public
      */
     public static function get_ans_tests_without_options() {
-        $anstests = array();
+        $anstests = [];
         foreach (self::$pops as $key => $value) {
             if ($value[0] === false) {
                 $anstests[] = $key;

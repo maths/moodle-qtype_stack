@@ -62,7 +62,7 @@ $renderer = $PAGE->get_renderer('qtype_stack');
 echo $OUTPUT->heading($question->name, 2);
 
 // Link back to question tests.
-$out = html_writer::link($testquestionlink, stack_string('runquestiontests'), array('target' => '_blank'));
+$out = html_writer::link($testquestionlink, stack_string('runquestiontests'), ['target' => '_blank']);
 
 // If question has no random variants.
 if (empty($question->deployedseeds)) {
@@ -78,17 +78,17 @@ echo html_writer::tag('p', $out . ' ' .
 
 // Display a representation of the question, variables and PRTs for easy reference.
 echo $OUTPUT->heading(stack_string('questiontext'), 3);
-echo html_writer::tag('pre', $question->questiontext, array('class' => 'questiontext'));
+echo html_writer::tag('pre', $question->questiontext, ['class' => 'questiontext']);
 
 $vars = $question->questionvariables;
 if ($vars != '') {
     $vars = trim($vars) . "\n\n";
 }
-$inputdisplay = array($vars);
+$inputdisplay = [$vars];
 foreach ($question->inputs as $inputname => $input) {
     $vars .= $inputname . ':' . $input->get_teacher_answer() . ";\n";
 }
-$maxima = html_writer::start_tag('div', array('class' => 'questionvariables'));
+$maxima = html_writer::start_tag('div', ['class' => 'questionvariables']);
 $maxima .= html_writer::tag('pre', s(trim($vars)));
 $maxima .= html_writer::end_tag('div');
 echo $maxima;
@@ -125,10 +125,10 @@ $query .= " AND qa.questionid IN (
 global $DB;
 
 $result = $DB->get_records_sql($query, $params);
-$summary = array();
+$summary = [];
 foreach ($result as $qattempt) {
     if (!array_key_exists($qattempt->variant, $summary)) {
-        $summary[$qattempt->variant] = array();
+        $summary[$qattempt->variant] = [];
     }
     $rsummary = trim($qattempt->responsesummary ?? '');
     if ($rsummary !== '') {
@@ -146,8 +146,8 @@ foreach ($summary as $vkey => $variant) {
 }
 
 // Match up variants to answer notes.
-$questionnotes = array();
-$questionseeds = array();
+$questionnotes = [];
+$questionseeds = [];
 foreach (array_keys($summary) as $variant) {
     $questionnotes[$variant] = $variant;
 
@@ -162,24 +162,24 @@ foreach (array_keys($summary) as $variant) {
 // Create blank arrays in which to store data.
 $qinputs = array_flip(array_keys($question->inputs));
 foreach ($qinputs as $key => $val) {
-    $qinputs[$key] = array('score' => array(), 'valid' => array(), 'invalid' => array(), 'other' => array());
+    $qinputs[$key] = ['score' => [], 'valid' => [], 'invalid' => [], 'other' => []];
 }
 
-$inputreport = array();
+$inputreport = [];
 // The inputreportsummary is used to store inputs, regardless of variant.
 // Multi-part questions may have inputs which are not subject to randomisation.
 $inputreportsummary = $qinputs;
-$inputtotals = array();
+$inputtotals = [];
 
 $qprts = array_flip(array_keys($question->prts));
 foreach ($qprts as $key => $notused) {
-    $qprts[$key] = array();
+    $qprts[$key] = [];
 }
-$prtreport = array();
-$prtreportinputs = array();
+$prtreport = [];
+$prtreportinputs = [];
 
 // Create a summary of the data without different variants.
-$prtreportsummary = array();
+$prtreportsummary = [];
 
 foreach ($summary as $variant => $vdata) {
     $inputreport[$variant] = $qinputs;
@@ -187,7 +187,7 @@ foreach ($summary as $variant => $vdata) {
     $prtreportinputs[$variant] = $qprts;
 
     foreach ($vdata as $attemptsummary => $num) {
-        $inputvals = array();
+        $inputvals = [];
         $rawdat = explode(';', $attemptsummary);
         foreach ($rawdat as $data) {
             $data = trim($data);
@@ -246,10 +246,10 @@ foreach ($summary as $variant => $vdata) {
                         }
                     } else {
                         $prtreport[$variant][$prt][$datas] = $num;
-                        $prtreportinputs[$variant][$prt][$datas] = array($inputsummary => (int) $num);
+                        $prtreportinputs[$variant][$prt][$datas] = [$inputsummary => (int) $num];
                     }
                     if (!array_key_exists($prt, $prtreportsummary)) {
-                        $prtreportsummary[$prt] = array();
+                        $prtreportsummary[$prt] = [];
                     }
                     if (array_key_exists($datas, $prtreportsummary[$prt])) {
                         $prtreportsummary[$prt][$datas] += (int) $num;
@@ -286,12 +286,12 @@ foreach ($prtreport as $variant => $vdata) {
     }
 }
 
-$notesummary = array();
+$notesummary = [];
 foreach ($prtreportsummary as $prt => $tdata) {
     ksort($tdata);
     $prtreportsummary[$prt] = $tdata;
     if (!array_key_exists($prt, $notesummary)) {
-        $notesummary[$prt] = array();
+        $notesummary[$prt] = [];
     }
     foreach ($tdata as $rawnote => $num) {
         $notes = explode('|', $rawnote);
@@ -319,7 +319,7 @@ foreach ($notesummary as $prt => $tdata) {
 // Frequency of answer notes, for each PRT, split by |, regardless of which variant was used.
 echo html_writer::tag('h3', stack_string('basicreportnotes'));
 
-$sumout = array();
+$sumout = [];
 foreach ($prtreportsummary as $prt => $data) {
     $sumouti = '';
     $tot = 0;
@@ -327,7 +327,7 @@ foreach ($prtreportsummary as $prt => $data) {
     foreach ($data as $key => $val) {
         $tot += $val;
     }
-    if ($data !== array()) {
+    if ($data !== []) {
         foreach ($data as $dat => $num) {
             $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
                 str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
@@ -342,7 +342,7 @@ foreach ($prtreportsummary as $prt => $data) {
 // Produce a text-based summary of a PRT.
 foreach ($question->prts as $prtname => $prt) {
     // Here we render each PRT as a separate single-row table.
-    $tablerow = array($prtname);
+    $tablerow = [$prtname];
 
     $graph = $prt->get_prt_graph();
     $tablerow[] = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
@@ -350,7 +350,7 @@ foreach ($question->prts as $prtname => $prt) {
 
     $maxima = html_writer::tag('summary', $prtname) . html_writer::tag('pre', s($prt->get_maxima_representation()));
     $maxima = html_writer::tag('details', $maxima);
-    $tablerow[] = html_writer::tag('div', $maxima, array('class' => 'questionvariables'));
+    $tablerow[] = html_writer::tag('div', $maxima, ['class' => 'questionvariables']);
 
     // Render the html as a single table.
     $html = '';
@@ -366,11 +366,11 @@ foreach ($question->prts as $prtname => $prt) {
     }
 }
 
-$sumout = array();
-$prtlabels = array();
+$sumout = [];
+$prtlabels = [];
 foreach ($notesummary as $prt => $data) {
     $sumouti = '';
-    if ($data !== array()) {
+    if ($data !== []) {
         foreach ($data as $dat => $num) {
             // Use the old $tot, to give meaningful percentages of which individual notes occur overall.
             $prtlabels[$prt][$dat] = $num;
@@ -387,17 +387,17 @@ if (trim(implode($sumout)) !== '') {
     echo html_writer::tag('h3', stack_string('basicreportnotessplit'));
 }
 
-$tablerows = array();
+$tablerows = [];
 foreach ($question->prts as $prtname => $prt) {
     if (array_key_exists($prtname, $prtlabels)) {
-        $tablerow = array($prtname);
+        $tablerow = [$prtname];
 
         $graph = $prt->get_prt_graph();
         $tablerow[] = stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg');
         $tablerow[] = stack_prt_graph_text_renderer::render($graph);
 
         $maxima = html_writer::tag('pre', s($sumout[$prtname]));
-        $tablerow[] = html_writer::tag('div', $maxima, array('class' => 'questionvariables'));
+        $tablerow[] = html_writer::tag('div', $maxima, ['class' => 'questionvariables']);
 
         $tablerows[] = $tablerow;
     }
@@ -414,7 +414,7 @@ foreach ($tablerows as $tablerow) {
 echo html_writer::tag('table', $html);
 
 // Raw inputs and PRT answer notes by variant.
-if (array_keys($summary) !== array()) {
+if (array_keys($summary) !== []) {
     echo html_writer::tag('h3', stack_string('basicreportvariants'));
 }
 foreach (array_keys($summary) as $variant) {
@@ -425,7 +425,7 @@ foreach (array_keys($summary) as $variant) {
         foreach ($idata as $dat => $num) {
             $tot += $num;
         }
-        if ($idata !== array()) {
+        if ($idata !== []) {
             $sumout .= '## ' . $prt . ' ('. $tot . ")\n";
             $pad = max($idata);
         }
@@ -460,7 +460,7 @@ foreach (array_keys($summary) as $variant) {
             }
         }
         foreach ($idata as $key => $data) {
-            if ($data !== array()) {
+            if ($data !== []) {
                 $sumouti .= '### ' . $key . "\n";
                 $pad = max($data);
                 foreach ($data as $dat => $num) {
@@ -492,7 +492,7 @@ foreach ($inputreportsummary as $input => $idata) {
         }
     }
     foreach ($idata as $key => $data) {
-        if ($data !== array()) {
+        if ($data !== []) {
             $sumouti .= '### ' . $key . "\n";
             $pad = max($data);
             foreach ($data as $dat => $num) {
@@ -516,7 +516,7 @@ if (trim($sumout) !== '') {
 echo html_writer::tag('h3', stack_string('basicreportraw'));
 $sumout = '';
 foreach ($summary as $variant => $vdata) {
-    if ($vdata !== array()) {
+    if ($vdata !== []) {
         $tot = 0;
         foreach ($vdata as $dat => $num) {
             $tot += $num;

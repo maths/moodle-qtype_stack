@@ -52,7 +52,7 @@ class stack_cas_castext2_define extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        $r = array();
+        $r = [];
         foreach ($this->params as $param) {
             $r[] = stack_ast_container_silent::make_from_teacher_source($param['key'] . ':' .
                 $param['value'], 'ct2:define', new stack_cas_security());

@@ -493,7 +493,7 @@ class castext2_parser_utils {
     // use when you need to have pretty printed position data.
     public static function position_remap(CTP_Node $ast, string $code, array $limits = null) {
         if ($limits === null) {
-            $limits = array();
+            $limits = [];
             foreach (explode("\n", $code) as $line) {
                 $limits[] = strlen($line) + 1;
             }

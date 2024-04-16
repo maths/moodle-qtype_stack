@@ -140,7 +140,7 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        $r = array();
+        $r = [];
         foreach ($this->params as $key => $value) {
             $r[] = stack_ast_container_silent::make_from_teacher_source($key . ':' . $value, 'ct2:foreach',
                 new stack_cas_security());

@@ -72,7 +72,7 @@ class stack_multilang {
         $this->lang = $lang;
 
         if ($mode === 1) {
-            $result = preg_replace_callback($this->search, array($this, 'filter_multilang_impl'), $text);
+            $result = preg_replace_callback($this->search, [$this, 'filter_multilang_impl'], $text);
 
             if (is_null($result)) {
                 return $text; // Error during regex processing: too many nested spans?
@@ -149,7 +149,7 @@ class stack_multilang {
             return $langblock[0];
         }
 
-        $langlist = array();
+        $langlist = [];
         foreach ($rawlanglist[1] as $index => $lang) {
             $lang = str_replace('-', '_', strtolower($lang)); // Normalize languages.
             $langlist[$lang] = $rawlanglist[2][$index];

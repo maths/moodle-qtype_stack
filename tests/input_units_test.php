@@ -45,7 +45,7 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'ans1', 'x^2');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" style="width: 13.6em" '
                 .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="" />',
-                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
 
@@ -54,7 +54,7 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'ans1', '0');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" style="width: 13.6em" '
                 .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="0" />',
-                $el->render(new stack_input_state(stack_input::INVALID, array('0'), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::INVALID, ['0'], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
 
@@ -62,7 +62,7 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'test', 'm/s');
         $this->assertEquals('<input type="text" name="stack1__test" id="stack1__test" size="16.5" style="width: 13.6em" '
                 .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="m/s" />',
-                $el->render(new stack_input_state(stack_input::VALID, array('m/s'), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::VALID, ['m/s'], '', '', '', '', ''),
                         'stack1__test', false, null));
     }
 
@@ -72,7 +72,7 @@ class input_units_test extends qtype_stack_testcase {
                 '<input type="text" name="stack1__input" id="stack1__input" size="16.5" style="width: 13.6em" '
                 .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="9.81*m/s^2" '
                 .'readonly="readonly" />',
-                $el->render(new stack_input_state(stack_input::VALID, array('9.81*m/s^2'), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::VALID, ['9.81*m/s^2'], '', '', '', '', ''),
                         'stack1__input', true, null));
     }
 
@@ -81,7 +81,7 @@ class input_units_test extends qtype_stack_testcase {
         $el->set_parameter('boxWidth', 30);
         $this->assertEquals('<input type="text" name="stack1__input" id="stack1__input" size="33" style="width: 27.1em" '
                 .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="-9.81*m/s^2" />',
-                $el->render(new stack_input_state(stack_input::VALID, array('-9.81*m/s^2'), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::VALID, ['-9.81*m/s^2'], '', '', '', '', ''),
                         'stack1__input', false, null));
     }
 
@@ -90,7 +90,7 @@ class input_units_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxHint', '?*m/s^2');
         $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" size="16.5" style="width: 13.6em" '
                 .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="?*m/s^2" />',
-                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'stack1__sans1', false, null));
     }
 
@@ -100,14 +100,14 @@ class input_units_test extends qtype_stack_testcase {
         $el->set_parameter('syntaxAttribute', 1);
         $this->assertEquals('<input type="text" name="stack1__sans1" id="stack1__sans1" size="16.5" style="width: 13.6em" '
                 .'autocapitalize="none" spellcheck="false" class="algebraic-units" placeholder="Remove me" />',
-                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'stack1__sans1', false, null));
     }
 
     public function test_validate_student_response_1() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
-        $state = $el->validate_student_response(array('sans1' => '9.81*m/s^2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '9.81*m/s^2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
     }
@@ -115,7 +115,7 @@ class input_units_test extends qtype_stack_testcase {
     public function test_validate_student_response_2() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
-        $state = $el->validate_student_response(array('sans1' => '9.81m/s^2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '9.81m/s^2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars', $state->note);
@@ -125,7 +125,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9.81m/s^2', 'sans1_val' => '9.81m/s^2'),
+        $state = $el->validate_student_response(['sans1' => '9.81m/s^2', 'sans1_val' => '9.81m/s^2'],
                 $options, '9.81*m/s^2', new stack_cas_security(true));
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
@@ -134,8 +134,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9.81m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('ta')));
+        $state = $el->validate_student_response(['sans1' => '9.81m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['ta']));
         $this->assertEquals(stack_input::VALID, $state->status);
     }
 
@@ -143,8 +143,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9.81*m/s^2+tans'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.81*m/s^2+tans'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('forbiddenVariable', $state->note);
     }
@@ -153,8 +153,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9.81*m/s^2*sillyname(x)'),
-                $options, '9.81*m/s^2', new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.81*m/s^2*sillyname(x)'],
+                $options, '9.81*m/s^2', new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('forbiddenFunction', $state->note);
     }
@@ -163,8 +163,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => '9.81m/s^2+tans'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.81m/s^2+tans'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars | forbiddenVariable', $state->note);
     }
@@ -173,8 +173,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => '9.81*m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.81*m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
     }
@@ -183,8 +183,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => 'm/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => 'm/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_only_units", $state->note);
         $this->assertEquals('m/s^2', $state->contentsmodified);
@@ -196,8 +196,8 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 0);
         $el->set_parameter('options', 'negpow');
-        $state = $el->validate_student_response(array('sans1' => 'm/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => 'm/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_only_units", $state->note);
         $this->assertEquals('m/s^2', $state->contentsmodified);
@@ -208,8 +208,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => 'm'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => 'm'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_only_units", $state->note);
         $this->assertEquals('m', $state->contentsmodified);
@@ -220,8 +220,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => '9.81'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.81'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_no_units", $state->note);
         $this->assertEquals('9.81', $state->contentsmodified);
@@ -232,8 +232,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => 'pi*sin(2)'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => 'pi*sin(2)'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_no_units", $state->note);
         $this->assertEquals('%pi*sin(2)', $state->contentsmodified);
@@ -244,8 +244,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => '9.81+m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.81+m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_bad_units", $state->note);
         $this->assertEquals('9.81+m/s^2', $state->contentsmodified);
@@ -256,8 +256,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => '9.81 m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.81 m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("spaces", $state->note);
         $this->assertEquals('9.81*m/s^2', $state->contentsmodified);
@@ -268,8 +268,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '5*10^2*kg');
         $el->set_parameter('insertStars', 3);
-        $state = $el->validate_student_response(array('sans1' => '5 * 10^2 kg'), $options, '5*10^2*kg',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '5 * 10^2 kg'], $options, '5*10^2*kg',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals("spaces", $state->note);
         $this->assertEquals('5*10^2*kg', $state->contentsmodified);
@@ -280,8 +280,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => '1'), $options, '9.81',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '1'], $options, '9.81',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('1', $state->contentsmodified);
         $this->assertEquals('\[ 1 \]', $state->contentsdisplayed);
@@ -291,8 +291,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => '9.4*m-53*cm'), $options, '9.81*m',
-            new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.4*m-53*cm'], $options, '9.81*m',
+            new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('9.4*m-53*cm', $state->contentsmodified);
         $this->assertEquals('\[ 9.4\, \mathrm{m}-53\, \mathrm{c}\mathrm{m} \]', $state->contentsdisplayed);
@@ -302,8 +302,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 5);
-        $state = $el->validate_student_response(array('sans1' => '9*10^2m^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9*10^2m^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('missing_stars', $state->note);
         $this->assertEquals('9*10^2*m^2', $state->contentsmodified);
@@ -314,8 +314,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => '9.8100*m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.8100*m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.8100*m/s^2', $state->contentsmodified);
         $this->assertEquals('', $state->note);
@@ -326,8 +326,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9.8100m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.8100m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.8100*m/s^2', $state->contentsmodified);
         $this->assertEquals('missing_stars', $state->note);
@@ -338,8 +338,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m*s^2');
         $el->set_parameter('insertStars', 2);
-        $state = $el->validate_student_response(array('sans1' => '9.8100ms^2'), $options, '9.81*m*s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.8100ms^2'], $options, '9.81*m*s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.8100*ms^2', $state->contentsmodified);
         $this->assertEquals('missing_stars', $state->note);
@@ -350,8 +350,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => '-9.8100*m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '-9.8100*m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('-9.8100*m/s^2', $state->contentsmodified);
         $this->assertEquals('', $state->note);
@@ -362,8 +362,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => '9.81'), $options, '9.81',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.81'], $options, '9.81',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
         // This is ok, so we have no note.
         $this->assertEquals('', $state->note);
@@ -373,8 +373,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => '9.81*m/s'), $options, '9.81',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.81*m/s'], $options, '9.81',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_excess_units", $state->note);
         $this->assertEquals('9.81*m/s', $state->contentsmodified);
@@ -386,8 +386,8 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '9.81');
         $el->set_parameter('insertStars', 0);
         $el->set_parameter('options', 'negpow');
-        $state = $el->validate_student_response(array('sans1' => '9.81*m/s'), $options, '9.81',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.81*m/s'], $options, '9.81',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("Units_SA_excess_units", $state->note);
         $this->assertEquals('9.81*m/s', $state->contentsmodified);
@@ -398,8 +398,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9.81s'), $options, '9.81',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.81s'], $options, '9.81',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("missing_stars | Units_SA_excess_units", $state->note);
         $this->assertEquals('9.81*s', $state->contentsmodified);
@@ -410,8 +410,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9.81m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('ta')));
+        $state = $el->validate_student_response(['sans1' => '9.81m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['ta']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.81*m/s^2', $state->contentsmodified);
         $this->assertEquals('\[ 9.81\, {\mathrm{m}}/{\mathrm{s}^2} \]', $state->contentsdisplayed);
@@ -422,8 +422,8 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('options', 'negpow');
-        $state = $el->validate_student_response(array('sans1' => '9.81m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('ta')));
+        $state = $el->validate_student_response(['sans1' => '9.81m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['ta']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.81*m/s^2', $state->contentsmodified);
         $this->assertEquals('\[ 9.81\, \mathrm{m}\, \mathrm{s}^ {- 2 } \]', $state->contentsdisplayed);
@@ -433,8 +433,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '7.81*m*s');
         $el->set_parameter('insertStars', 2);
-        $state = $el->validate_student_response(array('sans1' => '7.81ms'), $options, '7.81*m*s',
-                new stack_cas_security(true, '', '', array('ta')));
+        $state = $el->validate_student_response(['sans1' => '7.81ms'], $options, '7.81*m*s',
+                new stack_cas_security(true, '', '', ['ta']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('7.81*ms', $state->contentsmodified);
         $this->assertEquals('\[ 7.81\, \mathrm{m}\mathrm{s} \]', $state->contentsdisplayed);
@@ -444,8 +444,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 0);
-        $state = $el->validate_student_response(array('sans1' => '9.81m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('ta')));
+        $state = $el->validate_student_response(['sans1' => '9.81m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['ta']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars', $state->note);
     }
@@ -454,8 +454,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('sameType', true);
-        $state = $el->validate_student_response(array('sans1' => 'y=9.81*m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => 'y=9.81*m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals("SA_not_expression", $state->note);
     }
@@ -464,7 +464,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9.81+m/s^2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '9.81+m/s^2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('9.81+m/s^2', $state->contentsmodified);
@@ -475,7 +475,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '1/3*m/s^2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '1/3*m/s^2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('1/3*m/s^2', $state->contentsmodified);
@@ -487,7 +487,7 @@ class input_units_test extends qtype_stack_testcase {
         $options->set_option('simplify', false);
         $el = stack_input_factory::make('units', 'sans1', 'stackunits(-330,N)');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '-330*N'), $options, 'stackunits(-330,N)',
+        $state = $el->validate_student_response(['sans1' => '-330*N'], $options, 'stackunits(-330,N)',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('-330*N', $state->contentsmodified);
@@ -500,7 +500,7 @@ class input_units_test extends qtype_stack_testcase {
         $options->set_option('simplify', false);
         $el = stack_input_factory::make('units', 'sans1', 'stackunits(-9.81,m*s^-2)');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '-9.81m/s^2'), $options, 'stackunits(-9.81,m*s^-2)',
+        $state = $el->validate_student_response(['sans1' => '-9.81m/s^2'], $options, 'stackunits(-9.81,m*s^-2)',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('-9.81*m/s^2', $state->contentsmodified);
@@ -513,7 +513,7 @@ class input_units_test extends qtype_stack_testcase {
         $options->set_option('simplify', false);
         $el = stack_input_factory::make('units', 'sans1', 'stackunits(-9.81,m*s^-2)');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '(-9.81)m/s^2'), $options, 'stackunits(-9.81,m*s^-2)',
+        $state = $el->validate_student_response(['sans1' => '(-9.81)m/s^2'], $options, 'stackunits(-9.81,m*s^-2)',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('(-9.81)*m/s^2', $state->contentsmodified);
@@ -526,7 +526,7 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('options', 'negpow');
-        $state = $el->validate_student_response(array('sans1' => '1/3*m/s^2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '1/3*m/s^2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('1/3*m/s^2', $state->contentsmodified);
@@ -537,7 +537,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '2/6*m/s^2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '2/6*m/s^2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Lowest_Terms', $state->note);
@@ -550,7 +550,7 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('options', 'negpow');
-        $state = $el->validate_student_response(array('sans1' => '2/6*m/s^2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '2/6*m/s^2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Lowest_Terms', $state->note);
@@ -562,7 +562,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9.81m/s^2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '9.81m/s^2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.81*m/s^2', $state->contentsmodified);
@@ -573,7 +573,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => 'm/2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => 'm/2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('m/2', $state->contentsmodified);
@@ -584,7 +584,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m*s^-2');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9.81*m*s^-2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '9.81*m*s^-2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.81*m*s^-2', $state->contentsmodified);
@@ -595,7 +595,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '1.3410*10^4*m*Hz');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '1.3410*10^4*m*Hz'), $options, '1.3410*10^4*m*Hz',
+        $state = $el->validate_student_response(['sans1' => '1.3410*10^4*m*Hz'], $options, '1.3410*10^4*m*Hz',
             new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('1.3410*10^4*m*Hz', $state->contentsmodified);
@@ -607,7 +607,7 @@ class input_units_test extends qtype_stack_testcase {
         $options->set_option('decimals', ',');
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2', $options);
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9.81m/s^2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '9.81m/s^2'], $options, '9.81*m/s^2',
             new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('', $state->contentsmodified);
@@ -623,7 +623,7 @@ class input_units_test extends qtype_stack_testcase {
         $options->set_option('decimals', ',');
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2', $options);
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9,81m/s^2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '9,81m/s^2'], $options, '9.81*m/s^2',
             new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.81*m/s^2', $state->contentsmodified);
@@ -639,7 +639,7 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '9.81*m*s^-2');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('options', 'negpow');
-        $state = $el->validate_student_response(array('sans1' => '9.81*m*s^-2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '9.81*m*s^-2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('9.81*m*s^-2', $state->contentsmodified);
@@ -650,7 +650,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '7.2*l');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '7.2*l'), $options, '7.2*l', new stack_cas_security(true));
+        $state = $el->validate_student_response(['sans1' => '7.2*l'], $options, '7.2*l', new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('7.2*l', $state->contentsmodified);
         $this->assertEquals('\[ 7.2\, \mathrm{l} \]', $state->contentsdisplayed);
@@ -660,7 +660,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '7.2*Hz');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '7.2*Hz'), $options, '7.2*Hz', new stack_cas_security(true));
+        $state = $el->validate_student_response(['sans1' => '7.2*Hz'], $options, '7.2*Hz', new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('7.2*Hz', $state->contentsmodified);
         $this->assertEquals('\[ 7.2\, \mathrm{Hz} \]', $state->contentsdisplayed);
@@ -670,7 +670,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '7.2*Hz');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '7.2*hz'), $options, '7.2*Hz', new stack_cas_security(true));
+        $state = $el->validate_student_response(['sans1' => '7.2*hz'], $options, '7.2*Hz', new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
     }
 
@@ -679,7 +679,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '7.2*l');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '7.2*L'), $options, '7.2*l', new stack_cas_security(true));
+        $state = $el->validate_student_response(['sans1' => '7.2*L'], $options, '7.2*l', new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('7.2*L', $state->contentsmodified);
         $this->assertEquals('\[ 7.2\, \mathrm{L} \]', $state->contentsdisplayed);
@@ -689,7 +689,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '7.2*uohm');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '7.2*uohm'), $options, '7.2*uohm', new stack_cas_security(true));
+        $state = $el->validate_student_response(['sans1' => '7.2*uohm'], $options, '7.2*uohm', new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('7.2*uohm', $state->contentsmodified);
         $this->assertEquals('\[ 7.2\, \mu \Omega \]', $state->contentsdisplayed);
@@ -701,7 +701,7 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('options', 'negpow');
-        $state = $el->validate_student_response(array('sans1' => '?*m/s^2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '?*m/s^2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('QMCHAR*m/s^2', $state->contentsmodified);
@@ -712,13 +712,13 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '0*s');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '0*s'), $options, '0*s', new stack_cas_security(true));
+        $state = $el->validate_student_response(['sans1' => '0*s'], $options, '0*s', new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('0*s', $state->contentsmodified);
         $this->assertEquals('\[ 0\, \mathrm{s} \]', $state->contentsdisplayed);
         $this->assertEquals('\( \left[ \mathrm{s} \right]\) ', $state->lvars);
 
-        $state = $el->validate_student_response(array('sans1' => '-0*s'), $options, '0*s', new stack_cas_security(true));
+        $state = $el->validate_student_response(['sans1' => '-0*s'], $options, '0*s', new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('-0*s', $state->contentsmodified);
         $this->assertEquals('\[ 0\, \mathrm{s} \]', $state->contentsdisplayed);
@@ -729,7 +729,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '1*s');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '1*s'), $options, '1*s', new stack_cas_security(true));
+        $state = $el->validate_student_response(['sans1' => '1*s'], $options, '1*s', new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('1*s', $state->contentsmodified);
         $this->assertEquals('\[ 1\, \mathrm{s} \]', $state->contentsdisplayed);
@@ -740,7 +740,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '1.41*m');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => 'sqrt(2)*m', 'sans1_val' => 'sqrt(2)*m'),
+        $state = $el->validate_student_response(['sans1' => 'sqrt(2)*m', 'sans1_val' => 'sqrt(2)*m'],
                 $options, '1.41*m', new stack_cas_security(true));
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
@@ -749,7 +749,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '3.2*m/s');
         $el->set_parameter('options', 'mul');
-        $state = $el->validate_student_response(array('sans1' => '3.2*m/s', 'sans1_val' => '3.2*m/s'),
+        $state = $el->validate_student_response(['sans1' => '3.2*m/s', 'sans1_val' => '3.2*m/s'],
                 $options, '3.2*m/s', new stack_cas_security(true));
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('3.2*m/s', $state->contentsmodified);
@@ -760,8 +760,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*mHz');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9.81*mhz'),
-                $options, '9.81*mHz', new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.81*mhz'],
+                $options, '9.81*mHz', new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('unknownUnitsCase', $state->note);
         $this->assertEquals('9.81*mhz', $state->contentsmodified);
@@ -773,7 +773,7 @@ class input_units_test extends qtype_stack_testcase {
     public function test_student_response_units_hz() {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9');
-        $state = $el->validate_student_response(array('sans1' => '9*hz'), $options, '9', new stack_cas_security(true));
+        $state = $el->validate_student_response(['sans1' => '9*hz'], $options, '9', new stack_cas_security(true));
         // In the algebraic input this would be VALID as the hz/Hz test is only done for units.
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('9*hz', $state->contentsmodified);
@@ -788,8 +788,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '5*hr');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '5*hr'),
-                $options, '5*hr', new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '5*hr'],
+                $options, '5*hr', new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('unitssynonym', $state->note);
         $this->assertEquals('5*hr', $state->contentsmodified);
@@ -803,7 +803,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '3.88e-4*1/s');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/s'), $options, '3.88e-4*1/s',
+        $state = $el->validate_student_response(['sans1' => '3.88e-4*1/s'], $options, '3.88e-4*1/s',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assert_equals_ignore_spaces_and_e('3.88e-4*1/s', $state->contentsmodified);
@@ -818,7 +818,7 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '3.88e-4*1/s');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('options', 'negpow');
-        $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/s'), $options, '3.88e-4*1/s',
+        $state = $el->validate_student_response(['sans1' => '3.88e-4*1/s'], $options, '3.88e-4*1/s',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assert_equals_ignore_spaces_and_e('3.88e-4*1/s', $state->contentsmodified);
@@ -831,7 +831,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '3.88e-4*1/s');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '3.88e-4*1/(M*s)'), $options, '3.88e-4*1/s',
+        $state = $el->validate_student_response(['sans1' => '3.88e-4*1/(M*s)'], $options, '3.88e-4*1/s',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assert_equals_ignore_spaces_and_e('3.88e-4*1/(M*s)', $state->contentsmodified);
@@ -850,7 +850,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '9.81+-0.01m/s^2'), $options, '9.81*m/s^2',
+        $state = $el->validate_student_response(['sans1' => '9.81+-0.01m/s^2'], $options, '9.81*m/s^2',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars | Units_SA_errorbounds_invalid', $state->note);
@@ -864,8 +864,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('options', 'minsf:3, maxsf:3');
-        $state = $el->validate_student_response(array('sans1' => '9.81*m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.81*m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
     }
@@ -874,8 +874,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('options', 'minsf:3, maxsf:3');
-        $state = $el->validate_student_response(array('sans1' => '9.8*m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.8*m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('You must supply exactly <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 3 \)</span></span> significant figures.', $state->errors);
@@ -885,8 +885,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '9.81*m/s^2');
         $el->set_parameter('options', 'minsf:3, maxsf:3');
-        $state = $el->validate_student_response(array('sans1' => '9.816*m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '9.816*m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('You must supply exactly <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( 3 \)</span></span> significant figures.', $state->errors);
@@ -896,8 +896,8 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '10000*m/s^2');
         $el->set_parameter('options', 'minsf:3, maxsf:3');
-        $state = $el->validate_student_response(array('sans1' => '1000*m/s^2'), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => '1000*m/s^2'], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
     }
@@ -908,10 +908,10 @@ class input_units_test extends qtype_stack_testcase {
         $el->set_parameter('options', 'allowempty');
         $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" style="width: 13.6em" '
                 .'autocapitalize="none" spellcheck="false" class="algebraic-units" value="" />',
-                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
-        $state = $el->validate_student_response(array('sans1' => ''), $options, '9.81*m/s^2',
-                new stack_cas_security(true, '', '', array('tans')));
+        $state = $el->validate_student_response(['sans1' => ''], $options, '9.81*m/s^2',
+                new stack_cas_security(true, '', '', ['tans']));
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('EMPTYANSWER', $state->contentsmodified);
@@ -924,7 +924,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '3.14*mol');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '3.14*mol'), $options, '3.14*mol',
+        $state = $el->validate_student_response(['sans1' => '3.14*mol'], $options, '3.14*mol',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
@@ -936,7 +936,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '3.14*mol');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '3.14*moles'), $options, '3.14*mol',
+        $state = $el->validate_student_response(['sans1' => '3.14*moles'], $options, '3.14*mol',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('unitssynonym', $state->note);
@@ -950,7 +950,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '3.14*mol');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '3.14*Moles'), $options, '3.14*mol',
+        $state = $el->validate_student_response(['sans1' => '3.14*Moles'], $options, '3.14*mol',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('unitssynonym', $state->note);
@@ -964,7 +964,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '7*mmHg');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '7*mmHg'), $options, '7*mmHg',
+        $state = $el->validate_student_response(['sans1' => '7*mmHg'], $options, '7*mmHg',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
@@ -977,7 +977,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '7*mmHg');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '7*mmhg'), $options, '7*mmHg',
+        $state = $el->validate_student_response(['sans1' => '7*mmhg'], $options, '7*mmHg',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('unknownUnitsCase', $state->note);
@@ -991,7 +991,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '520*amu');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '520*amu'), $options, '520*amu',
+        $state = $el->validate_student_response(['sans1' => '520*amu'], $options, '520*amu',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
@@ -1004,7 +1004,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '520*mamu');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '520*mamu'), $options, '520*mamu',
+        $state = $el->validate_student_response(['sans1' => '520*mamu'], $options, '520*mamu',
                 new stack_cas_security(true));
         // If we do not toggle units then mamu if forbiddenly long.
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -1019,7 +1019,7 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '(1+1/sqrt(2)+3)*N
                 ');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '(1+1/sqrt(2)+3)*N'), $options, '(1+1/sqrt(2)+3)*N',
+        $state = $el->validate_student_response(['sans1' => '(1+1/sqrt(2)+3)*N'], $options, '(1+1/sqrt(2)+3)*N',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
@@ -1033,7 +1033,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '23.2*10^2*m');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => '523.2x10^2m'), $options, '23.2*10^2*m',
+        $state = $el->validate_student_response(['sans1' => '523.2x10^2m'], $options, '23.2*10^2*m',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars | Illegal_x10', $state->note);
@@ -1044,7 +1044,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '23.2*10^2*m');
         $el->set_parameter('insertStars', 5);
-        $state = $el->validate_student_response(array('sans1' => '9.34x10^3.4'), $options, '23.2*10^2*m',
+        $state = $el->validate_student_response(['sans1' => '9.34x10^3.4'], $options, '23.2*10^2*m',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars | Illegal_x10 | Units_SA_bad_units', $state->note);
@@ -1057,7 +1057,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '23.2*10^2*m');
         $el->set_parameter('insertStars', 5);
-        $state = $el->validate_student_response(array('sans1' => '523.2 x 10^2 N*m'), $options, '23.2*10^2*m',
+        $state = $el->validate_student_response(['sans1' => '523.2 x 10^2 N*m'], $options, '23.2*10^2*m',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('spaces | Illegal_x10', $state->note);
@@ -1068,7 +1068,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '23.2*10^2*m');
         $el->set_parameter('insertStars', 5);
-        $state = $el->validate_student_response(array('sans1' => '523.2 x 10^2m/s'), $options, '23.2*10^2*m',
+        $state = $el->validate_student_response(['sans1' => '523.2 x 10^2m/s'], $options, '23.2*10^2*m',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars | spaces | Illegal_x10', $state->note);
@@ -1079,7 +1079,7 @@ class input_units_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('units', 'sans1', '23.2*10^2*m');
         $el->set_parameter('insertStars', 5);
-        $state = $el->validate_student_response(array('sans1' => '9.81 x 10^3/s'), $options, '23.2*10^2*m',
+        $state = $el->validate_student_response(['sans1' => '9.81 x 10^3/s'], $options, '23.2*10^2*m',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('spaces | Illegal_x10', $state->note);
@@ -1093,7 +1093,7 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '520*Btu');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('forbidFloats', false);
-        $state = $el->validate_student_response(array('sans1' => '520*Btu'), $options, '520*Btu',
+        $state = $el->validate_student_response(['sans1' => '520*Btu'], $options, '520*Btu',
                 new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
@@ -1107,7 +1107,7 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '1*cm');
         $el->set_parameter('forbidFloats', false);
 
-        $state = $el->validate_student_response(array('sans1' => '1*cm'), $options, '1*cm',
+        $state = $el->validate_student_response(['sans1' => '1*cm'], $options, '1*cm',
             new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
@@ -1115,7 +1115,7 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals('\[ 1\, \mathrm{c}\mathrm{m} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
 
-        $state = $el->validate_student_response(array('sans1' => '-1*cm'), $options, '1*cm',
+        $state = $el->validate_student_response(['sans1' => '-1*cm'], $options, '1*cm',
             new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
@@ -1123,7 +1123,7 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals('\[ -1\, \mathrm{c}\mathrm{m} \]', $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
 
-        $state = $el->validate_student_response(array('sans1' => '-(1*cm)'), $options, '1*cm',
+        $state = $el->validate_student_response(['sans1' => '-(1*cm)'], $options, '1*cm',
             new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
@@ -1132,7 +1132,7 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
 
         $el->set_parameter('insertStars', 5);
-        $state = $el->validate_student_response(array('sans1' => '-1cm'), $options, '1*cm',
+        $state = $el->validate_student_response(['sans1' => '-1cm'], $options, '1*cm',
             new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('missing_stars', $state->note);
@@ -1146,7 +1146,7 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '0.0*MPa');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('forbidFloats', false);
-        $state = $el->validate_student_response(array('sans1' => '0.0*MPa'), $options, '0.0*MPa',
+        $state = $el->validate_student_response(['sans1' => '0.0*MPa'], $options, '0.0*MPa',
             new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
@@ -1165,7 +1165,7 @@ class input_units_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('units', 'sans1', '570.37298*ohm');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('forbidFloats', false);
-        $state = $el->validate_student_response(array('sans1' => '(72.00*%i-570.37298)*ohm'), $options, '570.37298*ohm',
+        $state = $el->validate_student_response(['sans1' => '(72.00*%i-570.37298)*ohm'], $options, '570.37298*ohm',
             new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
@@ -1174,7 +1174,7 @@ class input_units_test extends qtype_stack_testcase {
             $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);
 
-        $state = $el->validate_student_response(array('sans1' => '(72.00-%i*570.37298)*ohm'), $options, '570.37298*ohm',
+        $state = $el->validate_student_response(['sans1' => '(72.00-%i*570.37298)*ohm'], $options, '570.37298*ohm',
             new stack_cas_security(true));
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);

@@ -61,7 +61,7 @@ class stack_abstract_graph_svg_renderer {
      * @var array of SVG fragments. We build up the output as an array of bits,
      * and then join them together at the end.
      */
-    public $svg = array();
+    public $svg = [];
 
     /**
      * Output a graph as SVG.
@@ -75,9 +75,9 @@ class stack_abstract_graph_svg_renderer {
         $height = ceil((0.3 + $g->max_depth()) * self::SCALE);
 
         $output = '';
-        $output .= html_writer::start_tag('svg', array('id' => $id, 'class' => 'stack_abstract_graph',
+        $output .= html_writer::start_tag('svg', ['id' => $id, 'class' => 'stack_abstract_graph',
                 'width' => $width . 'px', 'height' => $height . 'px', 'version' => '1.1',
-                'xmlns' => 'http://www.w3.org/2000/svg'));
+                'xmlns' => 'http://www.w3.org/2000/svg']);
         $output .= $renderer->to_svg();
         $output .= html_writer::end_tag('svg');
         return $output;
@@ -159,11 +159,11 @@ class stack_abstract_graph_svg_renderer {
             $labelx = $px + self::LABEL_POS * $initialdirection / 2 * self::NODE_RADIUS;
         }
 
-        $this->svg[] = html_writer::empty_tag('path', array('d' => $path, 'class' => $class));
+        $this->svg[] = html_writer::empty_tag('path', ['d' => $path, 'class' => $class]);
         if ($label) {
-            $this->svg[] = html_writer::tag('text', s($label), array(
+            $this->svg[] = html_writer::tag('text', s($label), [
                     'x' => $labelx, 'y' => $py + self::LABEL_POS * self::NODE_RADIUS,
-                    'class' => 'edgelabel ' . $class));
+                    'class' => 'edgelabel ' . $class]);
         }
     }
 
@@ -187,23 +187,23 @@ class stack_abstract_graph_svg_renderer {
         $cy = $py + self::STUB_LENGTH * self::NODE_RADIUS;
         $labelx = $px + self::LABEL_POS * $initialdirection / 2 * self::NODE_RADIUS;
 
-        $this->svg[] = html_writer::empty_tag('path', array('d' => "M $px $py L $cx $cy", 'class' => $class));
+        $this->svg[] = html_writer::empty_tag('path', ['d' => "M $px $py L $cx $cy", 'class' => $class]);
 
         if ($this->g->is_broken_edge($parent, $direction)) {
             $cross = 'M ' . ($cx - self::CROSS_SIZE) . ' ' . ($cy - self::CROSS_SIZE) .
                     ' L ' . ($cx + self::CROSS_SIZE) . ' ' . ($cy + self::CROSS_SIZE) .
                     ' M ' . ($cx - self::CROSS_SIZE) . ' ' . ($cy + self::CROSS_SIZE) .
                     ' L ' . ($cx + self::CROSS_SIZE) . ' ' . ($cy - self::CROSS_SIZE);
-            $this->svg[] = html_writer::empty_tag('path', array('d' => $cross, 'class' => 'cross ' . $class));
+            $this->svg[] = html_writer::empty_tag('path', ['d' => $cross, 'class' => 'cross ' . $class]);
         } else {
-            $this->svg[] = html_writer::empty_tag('circle', array('r' => self::END_RADIUS,
-                    'cx' => $cx, 'cy' => $cy, 'class' => $class));
+            $this->svg[] = html_writer::empty_tag('circle', ['r' => self::END_RADIUS,
+                    'cx' => $cx, 'cy' => $cy, 'class' => $class]);
         }
 
         if ($label) {
-            $this->svg[] = html_writer::tag('text', s($label), array(
+            $this->svg[] = html_writer::tag('text', s($label), [
                     'x' => $labelx, 'y' => $py + self::LABEL_POS * self::NODE_RADIUS,
-                    'class' => 'edgelabel ' . $class));
+                    'class' => 'edgelabel ' . $class]);
         }
     }
 
@@ -214,12 +214,12 @@ class stack_abstract_graph_svg_renderer {
     protected function node(stack_abstract_graph_node $node) {
         list($x, $y) = $this->position($node);
         if ($node->url) {
-            $this->svg[] = html_writer::start_tag('a', array('xlink:href' => $node->url));
+            $this->svg[] = html_writer::start_tag('a', ['xlink:href' => $node->url]);
         }
-        $this->svg[] = html_writer::empty_tag('circle', array('r' => self::NODE_RADIUS,
-                'cx' => $x, 'cy' => $y, 'class' => 'node'));
-        $this->svg[] = html_writer::tag('text', s($node->name), array('x' => $x, 'y' => $y,
-                'class' => 'nodelabel'));
+        $this->svg[] = html_writer::empty_tag('circle', ['r' => self::NODE_RADIUS,
+                'cx' => $x, 'cy' => $y, 'class' => 'node']);
+        $this->svg[] = html_writer::tag('text', s($node->name), ['x' => $x, 'y' => $y,
+                'class' => 'nodelabel']);
         if ($node->url) {
             $this->svg[] = html_writer::end_tag('a');
         }
@@ -231,6 +231,6 @@ class stack_abstract_graph_svg_renderer {
      * @return array of two floats, the x and y coordinate of the node in pixels.
      */
     protected function position(stack_abstract_graph_node $node) {
-        return array($this->dx + $node->x / 2 * self::SCALE, ($node->depth - 0.5) * self::SCALE);
+        return [$this->dx + $node->x / 2 * self::SCALE, ($node->depth - 0.5) * self::SCALE];
     }
 }

@@ -56,7 +56,7 @@ echo $OUTPUT->heading(stack_string('replacedollarsindex'));
 
 // Find in which contexts the user can edit questions.
 $questionsbycontext = $bulktester->get_num_stack_questions_by_context();
-$availablequestionsbycontext = array();
+$availablequestionsbycontext = [];
 foreach ($questionsbycontext as $contextid => $numquestions) {
     $context = context::instance_by_id($contextid);
     if (has_capability('moodle/question:editall', $context)) {
@@ -69,9 +69,9 @@ foreach ($questionsbycontext as $contextid => $numquestions) {
                 $name = $course->get_context_name(true, true) . ': ' . $name;
             }
         }
-        $availablequestionsbycontext[$name] = array(
+        $availablequestionsbycontext[$name] = [
             'contextid' => $contextid,
-            'numquestions' => $numquestions);
+            'numquestions' => $numquestions];
     }
 }
 
@@ -86,24 +86,24 @@ if (count($availablequestionsbycontext) == 0) {
         $contextid = $info['contextid'];
         $numquestions = $info['numquestions'];
 
-        $testallurl = new moodle_url('/question/type/stack/adminui/bulktest.php', array('contextid' => $contextid));
+        $testallurl = new moodle_url('/question/type/stack/adminui/bulktest.php', ['contextid' => $contextid]);
         $testalllink = html_writer::link($testallurl,
-            get_string('bulktestallincontext', 'qtype_stack'), array('title' => get_string('testalltitle', 'qtype_stack')));
+            get_string('bulktestallincontext', 'qtype_stack'), ['title' => get_string('testalltitle', 'qtype_stack')]);
         $litext = $name . ' (' . $numquestions . ') ' . $testalllink;
 
         echo html_writer::start_tag('details');
         echo html_writer::tag('summary', $litext);
 
         $categories = $bulktester->get_categories_for_context($contextid);
-        echo html_writer::start_tag('ul', array('class' => 'expandable'));
+        echo html_writer::start_tag('ul', ['class' => 'expandable']);
         foreach ($categories as $cat) {
             if ($cat->count > 0) {
                 $url = new moodle_url('/question/type/stack/adminui/bulktest.php',
-                    array('contextid' => $contextid, 'categoryid' => $cat->id));
+                    ['contextid' => $contextid, 'categoryid' => $cat->id]);
                 $linktext = $cat->name . ' (' . $cat->count . ')';
                 $link = html_writer::link($url, $linktext);
                 echo html_writer::tag('li', $link,
-                    array('title' => get_string('testallincategory', 'qtype_stack')));
+                    ['title' => get_string('testallincategory', 'qtype_stack')]);
             }
         }
         echo html_writer::end_tag('ul');

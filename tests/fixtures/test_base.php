@@ -256,10 +256,10 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
     }
 
     protected function get_tag_matcher($tag, $attributes) {
-        return array(
+        return [
             'tag' => $tag,
             'attributes' => $attributes,
-        );
+        ];
     }
 
     protected function check_prt_score($index, $score, $penalty, $finalsubmit = false) {
@@ -321,10 +321,10 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
     }
 
     protected function check_output_contains_text_input($name, $value = null, $enabled = true) {
-        $attributes = array(
+        $attributes = [
             'type' => 'text',
             'name' => $this->quba->get_field_prefix($this->slot) . $name,
-        );
+        ];
         if (!is_null($value)) {
             $attributes['value'] = $value;
         }
@@ -345,9 +345,9 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
     }
 
     protected function check_output_contains_textarea_input($name, $content = null, $enabled = true) {
-        $attributes = array(
+        $attributes = [
                 'name' => $this->quba->get_field_prefix($this->slot) . $name,
-        );
+        ];
         if (!$enabled) {
             $attributes['readonly'] = 'readonly';
         }
@@ -408,7 +408,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         if ($name) {
             $class .= ' stackprtfeedback-' . $name;
         }
-        $this->assertTag(array('tag' => 'div', 'attributes' => array('class' => $class)), $this->currentoutput,
+        $this->assertTag(['tag' => 'div', 'attributes' => ['class' => $class]], $this->currentoutput,
                 'PRT feedback for ' . $name . ' not found in ' . $this->currentoutput);
     }
 
@@ -417,7 +417,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
         if ($name) {
             $class .= ' stackprtfeedback-' . $name;
         }
-        $this->assertNotTag(array('tag' => 'div', 'attributes' => array('class' => $class)), $this->currentoutput,
+        $this->assertNotTag(['tag' => 'div', 'attributes' => ['class' => $class]], $this->currentoutput,
                 'PRT feedback for ' . $name . ' should not be present in ' . $this->currentoutput);
     }
 

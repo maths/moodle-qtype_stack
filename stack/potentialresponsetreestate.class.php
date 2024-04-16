@@ -37,17 +37,17 @@ class stack_potentialresponse_tree_state {
     /**
      * @var array of stack_prt_feedback_element.
      */
-    public $_feedback = array();
+    public $_feedback = [];
 
     /**
      * @var array of answernote strings for the teacher.
      */
-    public $_answernotes = array();
+    public $_answernotes = [];
 
     /**
      * @var array of detailed tracing for the teacher.
      */
-    public $_trace = array();
+    public $_trace = [];
 
     /**
      * @var boolean Is this attempt valid?
@@ -102,7 +102,7 @@ class stack_potentialresponse_tree_state {
      * @param array $debuginfo debug info.
      */
     public function __construct($weight, $valid = true, $score = null, $penalty = null,
-            $errors = '', $answernotes = array(), $feedback = array(), $debuginfo = null, $fverrors = null) {
+            $errors = '', $answernotes = [], $feedback = [], $debuginfo = null, $fverrors = null) {
         $this->_weight      = $weight;
         $this->_valid       = $valid;
         $this->_score       = $score;
@@ -216,7 +216,7 @@ class stack_potentialresponse_tree_state {
         // However, many (most?) of the variables will exist, and we can generate decent partial castext.
         // We prune out any invalid variables at this stage.
         $sessionvars = $this->cascontext->get_session();
-        $cleanvars = array();
+        $cleanvars = [];
         foreach ($sessionvars as $var) {
             if ($var->get_valid()) {
                 $cleanvars[] = $var;

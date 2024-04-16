@@ -67,6 +67,6 @@ class stack_cas_castext2_debug extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        return array();
+        return [];
     }
 }

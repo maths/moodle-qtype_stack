@@ -39,7 +39,7 @@ require_login();
 $context = context_system::instance();
 require_capability('qtype/stack:usediagnostictools', $context);
 
-$urlparams = array();
+$urlparams = [];
 
 $context = context_system::instance();
 $PAGE->set_context($context);

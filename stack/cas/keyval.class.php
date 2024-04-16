@@ -60,8 +60,8 @@ class stack_cas_keyval {
 
     public function __construct($raw, $options = null, $seed=null, $ctx='') {
         $this->raw          = $raw;
-        $this->statements   = array();
-        $this->errors       = array();
+        $this->statements   = [];
+        $this->errors       = [];
         $this->options      = $options;
         $this->seed         = $seed;
         $this->context      = $ctx;
@@ -137,7 +137,7 @@ class stack_cas_keyval {
             return false;
         }
 
-        $vallist = array();
+        $vallist = [];
         // Mark inputs as specific type.
         if (is_array($inputs)) {
             foreach ($inputs as $name) {
@@ -150,7 +150,7 @@ class stack_cas_keyval {
         $this->security->set_context($vallist);
 
         $this->valid   = true;
-        $this->statements   = array();
+        $this->statements   = [];
         foreach ($ast->items as $item) {
             // Include might have brought in some comments. Even after we removed them from the source.
             if ($item instanceof MP_Statement) {
@@ -257,12 +257,12 @@ class stack_cas_keyval {
         return new stack_cas_session2($this->statements, $this->options, $this->seed);
     }
 
-    public function get_variable_usage(array $updatearray = array()): array {
+    public function get_variable_usage(array $updatearray = []): array {
         if (!array_key_exists('read', $updatearray)) {
-            $updatearray['read'] = array();
+            $updatearray['read'] = [];
         }
         if (!array_key_exists('write', $updatearray)) {
-            $updatearray['write'] = array();
+            $updatearray['write'] = [];
         }
         foreach ($this->statements as $statement) {
             $updatearray = $statement->get_variable_usage($updatearray);

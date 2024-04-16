@@ -24,10 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$definitions = array(
-    'parsercache' => array(
+$definitions = [
+    'parsercache' => [
         'mode' => cache_store::MODE_APPLICATION,
         // STACK does its own static acceleration.
         'staticacceleration' => false,
-    )
-);
+    ]
+];

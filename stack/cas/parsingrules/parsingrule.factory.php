@@ -80,7 +80,7 @@ require_once(__DIR__ . '/999_strict.filter.php');
  */
 class stack_parsing_rule_factory {
 
-    private static $singletons = array();
+    private static $singletons = [];
 
     private static function build_from_name(string $name): stack_cas_astfilter {
         // Might as well do the require once here, but better limit to
@@ -198,7 +198,7 @@ class stack_parsing_rule_factory {
     public static function get_by_common_name(string $name): stack_cas_astfilter {
         if (empty(self::$singletons)) {
             // If the static set has not been initialised do so.
-            foreach (array('001_fix_call_of_a_group_or_function', '002_log_candy',
+            foreach (['001_fix_call_of_a_group_or_function', '002_log_candy',
                            '003_no_dot_dot', '005_i_is_never_a_function',
                            '022_trig_replace_synonyms',
                            '025_no_trig_power',
@@ -235,7 +235,7 @@ class stack_parsing_rule_factory {
                            '990_no_fixing_spaces', '991_no_fixing_stars',
                            '995_ev_modification', '996_call_modification',
                            '997_string_security',
-                           '998_security', '999_strict') as $name) {
+                           '998_security', '999_strict'] as $name) {
                 self::$singletons[$name] = self::build_from_name($name);
             }
         }
@@ -243,7 +243,7 @@ class stack_parsing_rule_factory {
     }
 
     public static function get_filter_pipeline(array $activefilters, array $settings, bool $includecore=true): stack_cas_astfilter {
-        $tobeincluded = array();
+        $tobeincluded = [];
         if ($includecore === true) {
             if (empty(self::$singletons)) {
                 // If not generated generate the list.

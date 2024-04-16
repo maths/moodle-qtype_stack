@@ -39,7 +39,7 @@ class stack_answertest_general_cas extends stack_anstest {
      * @param  string $casoption
      */
     public function __construct(stack_ast_container $sans, stack_ast_container $tans, string $atname,
-            $atoption = null, $options = null, $contextsession = array()) {
+            $atoption = null, $options = null, $contextsession = []) {
         parent::__construct($sans, $tans, $options, $atoption, $contextsession);
 
         $this->casfunction       = 'AT'. $atname;
@@ -56,8 +56,8 @@ class stack_answertest_general_cas extends stack_anstest {
     public function do_test() {
 
         if ('' == trim($this->sanskey->ast_to_string())) {
-            $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptySA")));
+            $this->aterror      = stack_string('TEST_FAILED', ['errors' => stack_string("AT_EmptySA")]);
+            $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string("AT_EmptySA")]);
             $this->atansnote    = $this->casfunction.'TEST_FAILED-Empty SA.';
             $this->atmark       = 0;
             $this->atvalid      = false;
@@ -65,8 +65,8 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         if ('' == trim($this->tanskey->ast_to_string())) {
-            $this->aterror      = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_EmptyTA")));
+            $this->aterror      = stack_string('TEST_FAILED', ['errors' => stack_string("AT_EmptyTA")]);
+            $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string("AT_EmptyTA")]);
             $this->atansnote    = $this->casfunction.'TEST_FAILED-Empty TA.';
             $this->atmark       = 0;
             $this->atvalid      = false;
@@ -76,7 +76,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if (stack_ans_test_controller::process_atoptions($this->atname)) {
             if (null == $this->atoption) {
                 $this->aterror      = 'TEST_FAILED';
-                $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_MissingOptions")));
+                $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string("AT_MissingOptions")]);
                 $this->atansnote    = 'STACKERROR_OPTION.';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
@@ -84,8 +84,8 @@ class stack_answertest_general_cas extends stack_anstest {
             }
             if (!$this->atoption->get_valid()) {
                 $this->aterror      = 'TEST_FAILED';
-                $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => ''));
-                $this->atfeedback  .= stack_string('AT_InvalidOptions', array('errors' => $this->atoption->get_errors()));
+                $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => '']);
+                $this->atfeedback  .= stack_string('AT_InvalidOptions', ['errors' => $this->atoption->get_errors()]);
                 $this->atansnote    = 'STACKERROR_OPTION.';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
@@ -93,7 +93,7 @@ class stack_answertest_general_cas extends stack_anstest {
             }
             if ('' == $this->atoption->ast_to_string()) {
                 $this->aterror      = 'TEST_FAILED';
-                $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => stack_string("AT_MissingOptions")));
+                $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => stack_string("AT_MissingOptions")]);
                 $this->atansnote    = 'STACKERROR_OPTION.';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
@@ -136,7 +136,7 @@ class stack_answertest_general_cas extends stack_anstest {
             }
             $result = stack_ast_container::make_from_teacher_source($command, '', new stack_cas_security());
         }
-        $svars = array_merge($this->contextsession, array($sa, $ta, $ops, $result));
+        $svars = array_merge($this->contextsession, [$sa, $ta, $ops, $result]);
         $session = new stack_cas_session2($svars, $this->options, 0);
         if ($session->get_valid()) {
             $session->instantiate();
@@ -145,7 +145,7 @@ class stack_answertest_general_cas extends stack_anstest {
 
         if ('' != $sa->get_errors() || !$sa->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $sa->get_errors()));
+            $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => $sa->get_errors()]);
             $this->atansnote    = $this->casfunction.'_STACKERROR_SAns.';
             $this->atmark       = 0;
             $this->atvalid      = false;
@@ -154,7 +154,7 @@ class stack_answertest_general_cas extends stack_anstest {
 
         if ('' != $ta->get_errors() || !$ta->get_valid()) {
             $this->aterror      = 'TEST_FAILED';
-            $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $ta->get_errors()));
+            $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => $ta->get_errors()]);
             $this->atansnote    = $this->casfunction.'_STACKERROR_TAns.';
             $this->atmark       = 0;
             $this->atvalid      = false;
@@ -164,7 +164,7 @@ class stack_answertest_general_cas extends stack_anstest {
         if (stack_ans_test_controller::process_atoptions($this->atname)) {
             if ('' != $ops->get_errors() || !$ops->get_valid()) {
                 $this->aterror      = 'TEST_FAILED';
-                $this->atfeedback   = stack_string('TEST_FAILED', array('errors' => $ops->get_errors()));
+                $this->atfeedback   = stack_string('TEST_FAILED', ['errors' => $ops->get_errors()]);
                 $this->atansnote    = $this->casfunction.'_STACKERROR_Opt.';
                 $this->atmark       = 0;
                 $this->atvalid      = false;
@@ -173,7 +173,7 @@ class stack_answertest_general_cas extends stack_anstest {
         }
 
         // Guard clause to prevent an exception below and provide error messages to end user.
-        $unpacked = array('answernote' => '', 'feedback' => '');
+        $unpacked = ['answernote' => '', 'feedback' => ''];
         if ($result->is_evaluated()) {
             $unpacked = $this->unpack_result($result->get_evaluated());
         }
@@ -184,7 +184,7 @@ class stack_answertest_general_cas extends stack_anstest {
             if ('' != trim($unpacked['feedback'])) {
                 $this->atfeedback = stack_maxima_translate($unpacked['feedback']);
             } else {
-                $this->atfeedback = stack_string('TEST_FAILED', array('errors' => $result->get_errors()));
+                $this->atfeedback = stack_string('TEST_FAILED', ['errors' => $result->get_errors()]);
             }
             // Make sure we have a non-empty answer note at least.
             if (!$this->atansnote) {
@@ -212,7 +212,7 @@ class stack_answertest_general_cas extends stack_anstest {
     }
 
     private function unpack_result(MP_Node $result): array {
-        $r = array('valid' => false, 'result' => 'unknown', 'answernote' => '', 'feedback' => '');
+        $r = ['valid' => false, 'result' => 'unknown', 'answernote' => '', 'feedback' => ''];
 
         if ($result instanceof MP_Root) {
             $result = $result->items[0];
@@ -255,8 +255,8 @@ class stack_answertest_general_cas extends stack_anstest {
     public function validate_atoptions($opt) {
         if (stack_ans_test_controller::process_atoptions($this->atname)) {
             $cs = stack_ast_container::make_from_teacher_source($opt, '', new stack_cas_security());
-            return array($cs->get_valid(), $cs->get_errors());
+            return [$cs->get_valid(), $cs->get_errors()];
         }
-        return array(true, '');
+        return [true, ''];
     }
 }

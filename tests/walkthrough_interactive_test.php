@@ -42,10 +42,10 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
     public function test_test3_partially_right_the_right() {
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
-        $q->hints = array(
+        $q->hints = [
             new question_hint(1, 'This is the first hint.', FORMAT_HTML),
             new question_hint(2, 'This is the second hint.', FORMAT_HTML),
-        );
+        ];
 
         $this->start_attempt_at_question($q, 'interactive', 4);
 
@@ -70,8 +70,8 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Save a partially correct response for validation.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
-                '-submit' => 1));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
+                '-submit' => 1]);
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
         $this->render();
@@ -94,8 +94,8 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Re-submit after validation.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
-                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x', '-submit' => 1));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
+                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x', '-submit' => 1]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
@@ -123,7 +123,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Try again.
-        $this->process_submission(array('-tryagain' => 1));
+        $this->process_submission(['-tryagain' => 1]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
@@ -147,7 +147,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Now change to a correct response.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true', '-submit' => 1));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true', '-submit' => 1]);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -171,8 +171,8 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Resubmit after validation.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
-                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-submit' => 1));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
+                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-submit' => 1]);
 
         $this->check_current_state(question_state::$gradedright);
         $this->check_current_mark(2.6);
@@ -207,10 +207,10 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
     public function test_test3_partially_right_three_times_no_validation() {
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
-        $q->hints = array(
+        $q->hints = [
             new question_hint(1, 'This is the first hint.', FORMAT_HTML),
             new question_hint(2, 'This is the second hint.', FORMAT_HTML),
-        );
+        ];
 
         // Change input options so validation is not required.
         $q->inputs['ans1']->set_parameter('mustVerify', false);
@@ -236,8 +236,8 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Submit a wrong response.
-        $this->process_submission(array('ans1' => 'x + 1', 'ans2' => 'x + 1', 'ans3' => 'x + 1',
-                'ans4' => 'false', '-submit' => 1));
+        $this->process_submission(['ans1' => 'x + 1', 'ans2' => 'x + 1', 'ans3' => 'x + 1',
+                'ans4' => 'false', '-submit' => 1]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
@@ -261,7 +261,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Try again.
-        $this->process_submission(array('-tryagain' => 1));
+        $this->process_submission(['-tryagain' => 1]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
@@ -283,8 +283,8 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Submit a partially correct response.
-        $this->process_submission(array('ans1' => 'x', 'ans2' => 'x', 'ans3' => 'x',
-                'ans4' => 'false', '-submit' => 1));
+        $this->process_submission(['ans1' => 'x', 'ans2' => 'x', 'ans3' => 'x',
+                'ans4' => 'false', '-submit' => 1]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
@@ -308,7 +308,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Try again.
-        $this->process_submission(array('-tryagain' => 1));
+        $this->process_submission(['-tryagain' => 1]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
@@ -330,8 +330,8 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Submit a partially correct response.
-        $this->process_submission(array('ans1' => 'x', 'ans2' => 'x^2', 'ans3' => 'x - 1',
-                'ans4' => 'true', '-submit' => 1));
+        $this->process_submission(['ans1' => 'x', 'ans2' => 'x^2', 'ans3' => 'x - 1',
+                'ans4' => 'true', '-submit' => 1]);
 
         $this->check_current_state(question_state::$gradedpartial);
         // @codingStandardsIgnoreStart
@@ -371,10 +371,10 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
     public function test_test3_sumbit_and_finish_before_validating() {
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
-        $q->hints = array(
+        $q->hints = [
             new question_hint(1, 'This is the first hint.', FORMAT_HTML),
             new question_hint(2, 'This is the second hint.', FORMAT_HTML),
-        );
+        ];
 
         $this->start_attempt_at_question($q, 'interactive', 4);
 
@@ -396,7 +396,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Save a partially correct response.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false'));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false']);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
@@ -463,7 +463,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Validate the response 0.
-        $this->process_submission(array('ans1' => '0', '-submit' => 1));
+        $this->process_submission(['ans1' => '0', '-submit' => 1]);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -475,7 +475,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
 
         // Now submit the response 0. Causes a divide by 0.
-        $this->process_submission(array('ans1' => '0', 'ans1_val' => '0', '-submit' => 1));
+        $this->process_submission(['ans1' => '0', 'ans1_val' => '0', '-submit' => 1]);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -487,7 +487,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
 
         // Validate the response 1/2 (correct).
-        $this->process_submission(array('ans1' => '1/2', 'ans1_val' => '0', '-submit' => 1));
+        $this->process_submission(['ans1' => '1/2', 'ans1_val' => '0', '-submit' => 1]);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -499,7 +499,7 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
 
         // Now submit the response 1/2.
-        $this->process_submission(array('ans1' => '1/2', 'ans1_val' => '1/2', '-submit' => 1));
+        $this->process_submission(['ans1' => '1/2', 'ans1_val' => '1/2', '-submit' => 1]);
 
         $this->check_current_state(question_state::$gradedright);
         $this->check_current_mark(1); // No penalties applied.
@@ -514,10 +514,10 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
     public function test_test3_submit_and_finish_incomplete() {
         // Create a stack question.
         $q = \test_question_maker::make_question('stack', 'test3');
-        $q->hints = array(
+        $q->hints = [
             new question_hint(1, 'This is the first hint.', FORMAT_HTML),
             new question_hint(2, 'This is the second hint.', FORMAT_HTML),
-        );
+        ];
 
         $this->start_attempt_at_question($q, 'interactive', 4);
 
@@ -542,8 +542,8 @@ class walkthrough_interactive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Save a response with three parts incorrect and one part not answered.
-        $this->process_submission(array('ans1' => 'x+1', 'ans1_val' => 'x+1',
-                'ans2' => 'x+1', 'ans2_val' => 'x+1', 'ans3' => 'x+1', 'ans3_val' => 'x+1', 'ans4' => ''));
+        $this->process_submission(['ans1' => 'x+1', 'ans1_val' => 'x+1',
+                'ans2' => 'x+1', 'ans2_val' => 'x+1', 'ans3' => 'x+1', 'ans3_val' => 'x+1', 'ans4' => '']);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);

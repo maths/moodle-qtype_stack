@@ -33,7 +33,7 @@ class qtype_stack_test_helper extends question_test_helper {
     const DEFAULT_INCORRECT_FEEDBACK        = '<p>Incorrect answer.</p>';
 
     public function get_test_questions() {
-        return array(
+        return [
             'test0', // One input, one PRT, not randomised. 1 + 1 = 2.
             'test1', // One input, one PRT, randomised. Integrate (v - a) ^ n, a, n small random ints.
             'test2', // Two inputs, one PRT, not randomises. Expand (x - 2)(x - 3).
@@ -100,7 +100,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'true_false_input',
             'units_input',
             'jsx_graph_input',
-        );
+        ];
     }
 
     /**
@@ -132,10 +132,10 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prtincorrectformat = FORMAT_HTML;
         $q->generalfeedback = '';
         $q->variantsselectionseed = '';
-        $q->compiledcache = array();
+        $q->compiledcache = [];
 
-        $q->inputs = array();
-        $q->prts = array();
+        $q->inputs = [];
+        $q->prts = [];
 
         $q->options = new stack_options();
         $q->questionnote = '';
@@ -161,7 +161,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', null, array('boxWidth' => 5));
+                'algebraic', 'ans1', '2', null, ['boxWidth' => 5]);
 
         $q->options->set_option('simplify', false);
 
@@ -232,7 +232,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'ta+c', null,
-                array('boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin'));
+                ['boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin']);
 
         // By making the input to the answer test differ from ans1 in a trivial way, we use the "value" of this variable
         // and not the raw student input.  This is to make sure the student's answer is evaluated in the context of
@@ -264,35 +264,35 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->stackversion = get_config('qtype_stack', 'version');
         $formform->questionvariables = 'n : rand(5)+3; a : rand(5)+3; v : x; p : (v-a)^n; ta : (x-7)^4/4; ta1 : ta';
         $formform->variantsselectionseed = '';
-        $formform->questiontext = array(
+        $formform->questiontext = [
             'text' => 'Find
                        \[ \int {@p@} d{@v@}\]
                        [[input:ans1]]
                        [[validation:ans1]]',
             'format' => '1',
-            'itemid' => 0);
+            'itemid' => 0];
         $formform->defaultmark = 4;
-        $formform->specificfeedback = array(
+        $formform->specificfeedback = [
             'text' => '[[feedback:PotResTree_1]]',
             'format' => '1',
-            'itemid' => 0);
+            'itemid' => 0];
         $formform->penalty = 0.40000000000000002;
-        $formform->generalfeedback = array(
+        $formform->generalfeedback = [
             'text' => 'We can either do this question by inspection (i.e. spot the answer)
                                or in a more formal manner by using the substitution
                                \[ u = ({@v@}-{@a@}).\]
                                Then, since $\frac{d}{d{@v@}}u=1$ we have
                                \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]',
             'format' => '1',
-            'itemid' => 0);
-        $formform->questionnote = array(
+            'itemid' => 0];
+        $formform->questionnote = [
                 'text' => '{@p@}, {@ta@}.',
                 'format' => '1',
-                'itemid' => 0);
-        $formform->questiondescription = array(
+                'itemid' => 0];
+        $formform->questiondescription = [
             'text' => 'This is a basic test question.',
             'format' => '1',
-            'itemid' => 0);
+            'itemid' => 0];
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'ta+c';
         $formform->ans1boxsize = 20;
@@ -313,31 +313,31 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->PotResTree_1autosimplify = '1';
         $formform->PotResTree_1feedbackstyle     = 1;
         $formform->PotResTree_1feedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
-        $formform->PotResTree_1answertest = array(0 => 'Int');
-        $formform->PotResTree_1description = array(0 => 'Anti-derivative test');
-        $formform->PotResTree_1sans = array(0 => 'ans1+0');
-        $formform->PotResTree_1tans = array(0 => 'ta');
-        $formform->PotResTree_1testoptions = array(0 => 'x');
-        $formform->PotResTree_1quiet = array(0 => '0');
-        $formform->PotResTree_1truescoremode = array(0 => '=');
-        $formform->PotResTree_1truescore = array(0 => '1');
-        $formform->PotResTree_1truepenalty = array(0 => '');
-        $formform->PotResTree_1truenextnode = array(0 => '-1');
-        $formform->PotResTree_1trueanswernote = array(0 => 'PotResTree_1-1-T');
-        $formform->PotResTree_1truefeedback = array(0 => array('text' => '', 'format' => '1', 'itemid' => 0));
-        $formform->PotResTree_1falsescoremode = array(0 => '=');
-        $formform->PotResTree_1falsescore = array(0 => '0');
-        $formform->PotResTree_1falsepenalty = array(0 => '');
-        $formform->PotResTree_1falsenextnode = array(0 => '-1');
-        $formform->PotResTree_1falseanswernote = array(0 => 'PotResTree_1-1-F');
-        $formform->PotResTree_1falsefeedback = array(0 => array('text' => '', 'format' => '1', 'itemid' => 0));
+        $formform->PotResTree_1answertest = [0 => 'Int'];
+        $formform->PotResTree_1description = [0 => 'Anti-derivative test'];
+        $formform->PotResTree_1sans = [0 => 'ans1+0'];
+        $formform->PotResTree_1tans = [0 => 'ta'];
+        $formform->PotResTree_1testoptions = [0 => 'x'];
+        $formform->PotResTree_1quiet = [0 => '0'];
+        $formform->PotResTree_1truescoremode = [0 => '='];
+        $formform->PotResTree_1truescore = [0 => '1'];
+        $formform->PotResTree_1truepenalty = [0 => ''];
+        $formform->PotResTree_1truenextnode = [0 => '-1'];
+        $formform->PotResTree_1trueanswernote = [0 => 'PotResTree_1-1-T'];
+        $formform->PotResTree_1truefeedback = [0 => ['text' => '', 'format' => '1', 'itemid' => 0]];
+        $formform->PotResTree_1falsescoremode = [0 => '='];
+        $formform->PotResTree_1falsescore = [0 => '0'];
+        $formform->PotResTree_1falsepenalty = [0 => ''];
+        $formform->PotResTree_1falsenextnode = [0 => '-1'];
+        $formform->PotResTree_1falseanswernote = [0 => 'PotResTree_1-1-F'];
+        $formform->PotResTree_1falsefeedback = [0 => ['text' => '', 'format' => '1', 'itemid' => 0]];
 
         $formform->questionsimplify = '1';
         $formform->assumepositive = '0';
         $formform->assumereal = '0';
-        $formform->prtcorrect = array('text' => 'Correct answer, well done!', 'format' => '1', 'itemid' => 0);
-        $formform->prtpartiallycorrect = array('text' => 'Your answer is partially correct!', 'format' => '1', 'itemid' => 0);
-        $formform->prtincorrect = array('text' => 'Incorrect answer :-(', 'format' => '1', 'itemid' => 0);
+        $formform->prtcorrect = ['text' => 'Correct answer, well done!', 'format' => '1', 'itemid' => 0];
+        $formform->prtpartiallycorrect = ['text' => 'Your answer is partially correct!', 'format' => '1', 'itemid' => 0];
+        $formform->prtincorrect = ['text' => 'Incorrect answer :-(', 'format' => '1', 'itemid' => 0];
         $formform->decimals = '.';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
@@ -346,9 +346,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->logicsymbol = 'lang';
         $formform->matrixparens = '[';
         $formform->numhints = 2;
-        $formform->hint = array(
-            0 => array('text' => 'Hint 1<br>', 'format' => '1', 'itemid' => '0'),
-            1 => array('text' => '<p>Hint 2<br></p>', 'format' => '1', 'itemid' => '0'));
+        $formform->hint = [
+            0 => ['text' => 'Hint 1<br>', 'format' => '1', 'itemid' => '0'],
+            1 => ['text' => '<p>Hint 2<br></p>', 'format' => '1', 'itemid' => '0']];
         $formform->qtype = 'stack';
 
         return $formform;
@@ -371,9 +371,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->specificfeedback = '[[feedback:PotResTree_1]]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                    'algebraic', 'ans1', '5', null, array('boxWidth' => 3));
+                    'algebraic', 'ans1', '5', null, ['boxWidth' => 3]);
         $q->inputs['ans2'] = stack_input_factory::make(
-                    'algebraic', 'ans2', '6', null, array('boxWidth' => 3));
+                    'algebraic', 'ans2', '6', null, ['boxWidth' => 3]);
 
         $prt = json_decode('{"name":"PotResTree_1","id":"0","value":1,"feedbackstyle":1,"autosimplify":true,
             "feedbackvariables":"",
@@ -423,11 +423,11 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $options = new stack_options();
         $q->inputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x^3', $options,
-                        array('boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false));
+                        ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]);
         $q->inputs['ans2'] = stack_input_factory::make('algebraic', 'ans2', 'x^4', $options,
-                        array('boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false));
+                        ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]);
         $q->inputs['ans3'] = stack_input_factory::make('algebraic', 'ans3', '0', $options,
-                        array('boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false));
+                        ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]);
         $q->inputs['ans4'] = stack_input_factory::make('boolean', 'ans4', 'true', $options);
         $q->prts = [];
 
@@ -603,12 +603,12 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $q->hints = array(
+        $q->hints = [
             new question_hint(1, 'Hint 1', FORMAT_HTML),
             new question_hint(2, 'Hint 2', FORMAT_HTML),
-        );
+        ];
 
-        $q->deployedseeds = array();
+        $q->deployedseeds = [];
 
         return $q;
     }
@@ -640,11 +640,11 @@ class qtype_stack_test_helper extends question_test_helper {
                                   [[feedback:unique]]</p>';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'x^3', null, array('boxWidth' => 15));
+                        'algebraic', 'ans1', 'x^3', null, ['boxWidth' => 15]);
         $q->inputs['ans2'] = stack_input_factory::make(
-                        'algebraic', 'ans2', 'x^4', null, array('boxWidth' => 15));
+                        'algebraic', 'ans2', 'x^4', null, ['boxWidth' => 15]);
         $q->inputs['ans3'] = stack_input_factory::make(
-                        'algebraic', 'ans3', '0', null, array('boxWidth' => 15));
+                        'algebraic', 'ans3', '0', null, ['boxWidth' => 15]);
         $q->inputs['ans4'] = stack_input_factory::make(
                         'boolean',   'ans4', 'true');
 
@@ -824,12 +824,12 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $q->hints = array(
+        $q->hints = [
             new question_hint(1, 'Hint 1', FORMAT_HTML),
             new question_hint(2, 'Hint 2', FORMAT_HTML),
-        );
+        ];
 
-        $q->deployedseeds = array();
+        $q->deployedseeds = [];
 
         return $q;
     }
@@ -852,7 +852,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->qtype = question_bank::get_qtype('stack');
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'x^2', null, array('boxWidth' => 15));
+                        'algebraic', 'ans1', 'x^2', null, ['boxWidth' => 15]);
 
         $prt = new stdClass;
         $prt->name              = 'plots';
@@ -972,7 +972,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'ta', null,
-                        array('boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}'));
+                        ['boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}']);
 
         $feedbackvars = 'a1 : listify(ans1);' .
                         'a1 : maplist(lambda([x],x^n-p^n),a1);' .
@@ -1113,9 +1113,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '\[ a_1={@ta1@},\ a_2={@ta2@}.\]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                                    'algebraic', 'ans1', 'ta1', null, array('boxWidth' => 4));
+                                    'algebraic', 'ans1', 'ta1', null, ['boxWidth' => 4]);
         $q->inputs['ans2'] = stack_input_factory::make(
-                                    'algebraic', 'ans2', 'ta2', null, array('boxWidth' => 4));
+                                    'algebraic', 'ans2', 'ta2', null, ['boxWidth' => 4]);
 
         $prt = new stdClass;
         $prt->name              = 'prt1';
@@ -1171,7 +1171,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3333333;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '1/2', null, array('boxWidth' => 5));
+                'algebraic', 'ans1', '1/2', null, ['boxWidth' => 5]);
 
         $prt = new stdClass;
         $prt->name              = 'prt1';
@@ -1229,7 +1229,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.1;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '3.14', null, array('boxWidth' => 5, 'forbidFloats' => false));
+                'algebraic', 'ans1', '3.14', null, ['boxWidth' => 5, 'forbidFloats' => false]);
 
         $q->options->set_option('simplify', false);
 
@@ -1287,7 +1287,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'numerical', 'ans1', '0.040', null, array('boxWidth' => 5, 'forbidFloats' => false));
+                'numerical', 'ans1', '0.040', null, ['boxWidth' => 5, 'forbidFloats' => false]);
 
         $q->options->set_option('simplify', false);
 
@@ -1345,9 +1345,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'numerical', 'ans1', '0.356', null, array('boxWidth' => 5));
+            'numerical', 'ans1', '0.356', null, ['boxWidth' => 5]);
         $q->inputs['ans2'] = stack_input_factory::make(
-            'numerical', 'ans2', '3.14', null, array('boxWidth' => 5));
+            'numerical', 'ans2', '3.14', null, ['boxWidth' => 5]);
 
         $feedbackvars = new stack_cas_keyval('sa:min(ans1,ans2);', null, null);
 
@@ -1406,7 +1406,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'units', 'ans1', '9.81*m/s^2', null, array('boxWidth' => 5, 'forbidFloats' => false));
+                'units', 'ans1', '9.81*m/s^2', null, ['boxWidth' => 5, 'forbidFloats' => false]);
 
         $q->options->set_option('simplify', false);
 
@@ -1466,7 +1466,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'units', 'ans1', '9.81*m/s^2', null, array('boxWidth' => 5, 'forbidFloats' => false));
+                'units', 'ans1', '9.81*m/s^2', null, ['boxWidth' => 5, 'forbidFloats' => false]);
 
         $q->options->set_option('simplify', false);
 
@@ -1526,7 +1526,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'equiv', 'ans1', 'ta', null, array('boxWidth' => 20, 'forbidFloats' => false));
+                'equiv', 'ans1', 'ta', null, ['boxWidth' => 20, 'forbidFloats' => false]);
 
         $q->options->set_option('simplify', false);
 
@@ -1587,7 +1587,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', '6', null, array('boxWidth' => 15));
+                        'algebraic', 'ans1', '6', null, ['boxWidth' => 15]);
 
         $prt = new stdClass;
         $prt->name              = 'prt1';
@@ -1784,11 +1784,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes['0'] = $node;
         $qdata->prts['firsttree'] = $prt;
 
-        $qdata->deployedseeds = array('12345');
+        $qdata->deployedseeds = ['12345'];
 
-        $qtest = new stack_question_test('Basic test of question', array('ans1' => '2'));
+        $qtest = new stack_question_test('Basic test of question', ['ans1' => '2']);
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
-                1, true, 1, 0, '', array('firsttree-1-T')));
+                1, true, 1, 0, '', ['firsttree-1-T']));
         $qdata->testcases[1] = $qtest;
 
         return $qdata;
@@ -1810,7 +1810,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->defaultmark = 0;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', null, array('boxWidth' => 15, 'sameType' => false));
+                'algebraic', 'ans1', '2', null, ['boxWidth' => 15, 'sameType' => false]);
 
         return $q;
     }
@@ -1831,7 +1831,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                    'algebraic', 'ans1', '2', null, array('boxWidth' => 5, 'insertStars' => 2));
+                    'algebraic', 'ans1', '2', null, ['boxWidth' => 5, 'insertStars' => 2]);
 
         $q->options->set_option('simplify', false);
 
@@ -1886,7 +1886,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '[x+y=1,x-y=1]', null, array('boxWidth' => 25));
+                'algebraic', 'ans1', '[x+y=1,x-y=1]', null, ['boxWidth' => 25]);
 
         // This will generate a runtime error in the feedback variables.
         $feedbackvars = new stack_cas_keyval('');
@@ -1991,7 +1991,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'ta', null, array('boxWidth' => 25));
+                'algebraic', 'ans1', 'ta', null, ['boxWidth' => 25]);
 
         $prt = new stdClass;
         $prt->name              = 'Result';
@@ -2044,7 +2044,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'ta', null, array('boxWidth' => 25));
+                'algebraic', 'ans1', 'ta', null, ['boxWidth' => 25]);
 
         $prt = new stdClass;
         $prt->name              = 'Result';
@@ -2187,11 +2187,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes['0'] = $node;
         $qdata->prts['firsttree'] = $prt;
 
-        $qdata->deployedseeds = array('12345');
+        $qdata->deployedseeds = ['12345'];
 
-        $qtest = new stack_question_test('Basic test of question', array('ans1' => '2'));
+        $qtest = new stack_question_test('Basic test of question', ['ans1' => '2']);
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
-                1, true, 1, 0, '', array('firsttree-1-T')));
+                1, true, 1, 0, '', ['firsttree-1-T']));
         $qdata->testcases[1] = $qtest;
 
         return $qdata;
@@ -2524,13 +2524,13 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes['0'] = $node;
         $qdata->prts['unique'] = $prt;
 
-        $qdata->deployedseeds = array();
-        $qdata->testcases = array();
+        $qdata->deployedseeds = [];
+        $qdata->testcases = [];
 
-        $qdata->hints = array(
+        $qdata->hints = [
             1 => new question_hint(1, 'Hint 1', FORMAT_HTML),
             2 => new question_hint(2, 'Hint 2', FORMAT_HTML),
-        );
+        ];
 
         return $qdata;
     }
@@ -2545,7 +2545,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->stackversion = get_config('qtype_stack', 'version');
         $formform->questionvariables = '';
         $formform->variantsselectionseed = '';
-        $formform->questiontext = array(
+        $formform->questiontext = [
                 'text' => '<p>1. Give an example of an odd function by typing
                                  an expression which represents it.
                                  $f_1(x)=$ [[input:ans1]].
@@ -2564,25 +2564,25 @@ class qtype_stack_test_helper extends question_test_helper {
                                  [[validation:ans4]]
                                  [[feedback:unique]]</p>',
                 'format' => '1',
-                'itemid' => 815759888);
+                'itemid' => 815759888];
         $formform->defaultmark = 4;
-        $formform->specificfeedback = array(
+        $formform->specificfeedback = [
                 'text' => '',
                 'format' => '1',
-                'itemid' => 137873291);
+                'itemid' => 137873291];
         $formform->penalty = 0.40000000000000002;
-        $formform->generalfeedback = array(
+        $formform->generalfeedback = [
                 'text' => '',
                 'format' => '1',
-                'itemid' => 250226104);
-        $formform->questionnote = array(
+                'itemid' => 250226104];
+        $formform->questionnote = [
                 'text' => '',
                 'format' => '1',
-                'itemid' => 12346789);
-        $formform->questiondescription = array(
+                'itemid' => 12346789];
+        $formform->questiondescription = [
                 'text' => '',
                 'format' => '1',
-                'itemid' => 25022610);
+                'itemid' => 25022610];
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'x^3';
         $formform->ans1boxsize = 15;
@@ -2648,236 +2648,236 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->ans4options = '';
 
         $formform->oddvalue = 1;
-        $formform->odddescription = array(
-            0 => '');
+        $formform->odddescription = [
+            0 => ''];
         $formform->oddautosimplify = '1';
         $formform->oddfeedbackstyle     = 1;
         $formform->oddfeedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
-        $formform->oddanswertest = array(
-                0 => 'AlgEquiv');
-        $formform->oddsans = array(
-                0 => 'sa');
-        $formform->oddtans = array(
-                0 => '0');
-        $formform->oddtestoptions = array(
-                0 => '');
-        $formform->oddquiet = array(
-                0 => '0');
-        $formform->oddtruescoremode = array(
-                0 => '=');
-        $formform->oddtruescore = array(
-                0 => '1');
-        $formform->oddtruepenalty = array(
-                0 => '');
-        $formform->oddtruenextnode = array(
-                0 => '-1');
-        $formform->oddtrueanswernote = array(
-                0 => 'odd-1-T');
-        $formform->oddtruefeedback = array(
-                0 => array(
+        $formform->oddanswertest = [
+                0 => 'AlgEquiv'];
+        $formform->oddsans = [
+                0 => 'sa'];
+        $formform->oddtans = [
+                0 => '0'];
+        $formform->oddtestoptions = [
+                0 => ''];
+        $formform->oddquiet = [
+                0 => '0'];
+        $formform->oddtruescoremode = [
+                0 => '='];
+        $formform->oddtruescore = [
+                0 => '1'];
+        $formform->oddtruepenalty = [
+                0 => ''];
+        $formform->oddtruenextnode = [
+                0 => '-1'];
+        $formform->oddtrueanswernote = [
+                0 => 'odd-1-T'];
+        $formform->oddtruefeedback = [
+                0 => [
                         'text' => '',
                         'format' => '1',
                         'itemid' => 251659256,
-                ));
-        $formform->oddfalsescoremode = array(
-                0 => '=');
-        $formform->oddfalsescore = array(
-                0 => '0');
-        $formform->oddfalsepenalty = array(
-                0 => '');
-        $formform->oddfalsenextnode = array(
-                0 => '-1');
-        $formform->oddfalseanswernote = array(
-                0 => 'odd-1-F');
-        $formform->oddfalsefeedback = array(
-                0 => array(
+                ]];
+        $formform->oddfalsescoremode = [
+                0 => '='];
+        $formform->oddfalsescore = [
+                0 => '0'];
+        $formform->oddfalsepenalty = [
+                0 => ''];
+        $formform->oddfalsenextnode = [
+                0 => '-1'];
+        $formform->oddfalseanswernote = [
+                0 => 'odd-1-F'];
+        $formform->oddfalsefeedback = [
+                0 => [
                         'text' => 'Your answer is not an odd function. Look, \\[ f(x)+f(-x)={@sa@} \\neq 0.\\]<br>',
                         'format' => '1',
                         'itemid' => 352216298,
-                ));
+                ]];
 
         $formform->evenvalue = 1;
-        $formform->evendescription = array(
-            0 => '');
+        $formform->evendescription = [
+            0 => ''];
         $formform->evenautosimplify = '1';
         $formform->evenfeedbackstyle     = 1;
         $formform->evenfeedbackvariables = 'sa:subst(x=-x,ans2)-ans2';
-        $formform->evenanswertest = array(
-                0 => 'AlgEquiv');
-        $formform->evensans = array(
-                0 => 'sa');
-        $formform->eventans = array(
-                0 => '0');
-        $formform->eventestoptions = array(
-                0 => '');
-        $formform->evenquiet = array(
-                0 => '0');
-        $formform->eventruescoremode = array(
-                0 => '=');
-        $formform->eventruescore = array(
-                0 => '1');
-        $formform->eventruepenalty = array(
-                0 => '');
-        $formform->eventruenextnode = array(
-                0 => '-1');
-        $formform->eventrueanswernote = array(
-                0 => 'even-1-T');
-        $formform->eventruefeedback = array(
-                0 => array(
+        $formform->evenanswertest = [
+                0 => 'AlgEquiv'];
+        $formform->evensans = [
+                0 => 'sa'];
+        $formform->eventans = [
+                0 => '0'];
+        $formform->eventestoptions = [
+                0 => ''];
+        $formform->evenquiet = [
+                0 => '0'];
+        $formform->eventruescoremode = [
+                0 => '='];
+        $formform->eventruescore = [
+                0 => '1'];
+        $formform->eventruepenalty = [
+                0 => ''];
+        $formform->eventruenextnode = [
+                0 => '-1'];
+        $formform->eventrueanswernote = [
+                0 => 'even-1-T'];
+        $formform->eventruefeedback = [
+                0 => [
                         'text' => '',
                         'format' => '1',
                         'itemid' => 374097881,
-                ));
-        $formform->evenfalsescoremode = array(
-                0 => '=');
-        $formform->evenfalsescore = array(
-                0 => '0');
-        $formform->evenfalsepenalty = array(
-                0 => '');
-        $formform->evenfalsenextnode = array(
-                0 => '-1');
-        $formform->evenfalseanswernote = array(
-                0 => 'even-1-F');
-        $formform->evenfalsefeedback = array(
-                0 => array(
+                ]];
+        $formform->evenfalsescoremode = [
+                0 => '='];
+        $formform->evenfalsescore = [
+                0 => '0'];
+        $formform->evenfalsepenalty = [
+                0 => ''];
+        $formform->evenfalsenextnode = [
+                0 => '-1'];
+        $formform->evenfalseanswernote = [
+                0 => 'even-1-F'];
+        $formform->evenfalsefeedback = [
+                0 => [
                         'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)={@sa@} \\neq 0.\\]<br></p>',
                         'format' => '1',
                         'itemid' => 880424514,
-                ));
+                ]];
 
         $formform->oddevenvalue = 1;
-        $formform->oddevendescription = array(
-            0 => '', 1 => '');
+        $formform->oddevendescription = [
+            0 => '', 1 => ''];
         $formform->oddevenautosimplify = '1';
         $formform->oddevenfeedbackstyle     = 1;
         $formform->oddevenfeedbackvariables = 'sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)';
-        $formform->oddevenanswertest = array(
+        $formform->oddevenanswertest = [
                 0 => 'AlgEquiv',
-                1 => 'AlgEquiv');
-        $formform->oddevensans = array(
+                1 => 'AlgEquiv'];
+        $formform->oddevensans = [
                 0 => 'sa1',
-                1 => 'sa2');
-        $formform->oddeventans = array(
+                1 => 'sa2'];
+        $formform->oddeventans = [
                 0 => '0',
-                1 => '0');
-        $formform->oddeventestoptions = array(
+                1 => '0'];
+        $formform->oddeventestoptions = [
                 0 => '',
-                1 => '');
-        $formform->oddevenquiet = array(
+                1 => ''];
+        $formform->oddevenquiet = [
                 0 => '0',
-                1 => '0');
-        $formform->oddeventruescoremode = array(
+                1 => '0'];
+        $formform->oddeventruescoremode = [
                 0 => '=',
-                1 => '+');
-        $formform->oddeventruescore = array(
+                1 => '+'];
+        $formform->oddeventruescore = [
                 0 => '0.5',
-                1 => '0.5');
-        $formform->oddeventruepenalty = array(
+                1 => '0.5'];
+        $formform->oddeventruepenalty = [
                 0 => '',
-                1 => '');
-        $formform->oddeventruenextnode = array(
+                1 => ''];
+        $formform->oddeventruenextnode = [
                 0 => '1',
-                1 => '-1');
-        $formform->oddeventrueanswernote = array(
+                1 => '-1'];
+        $formform->oddeventrueanswernote = [
                 0 => 'oddeven-1-T',
-                1 => 'oddeven-2-T');
-        $formform->oddeventruefeedback = array(
-                0 => array(
+                1 => 'oddeven-2-T'];
+        $formform->oddeventruefeedback = [
+                0 => [
                         'text' => '',
                         'format' => '1',
-                        'itemid' => 90882068),
-                1 => array(
+                        'itemid' => 90882068],
+                1 => [
                         'text' => '',
                         'format' => '1',
-                        'itemid' => 201325868));
-        $formform->oddevenfalsescoremode = array(
+                        'itemid' => 201325868]];
+        $formform->oddevenfalsescoremode = [
                 0 => '=',
-                1 => '+');
-        $formform->oddevenfalsescore = array(
+                1 => '+'];
+        $formform->oddevenfalsescore = [
                 0 => '0',
-                1 => '0');
-        $formform->oddevenfalsepenalty = array(
+                1 => '0'];
+        $formform->oddevenfalsepenalty = [
                 0 => '',
-                1 => '');
-        $formform->oddevenfalsenextnode = array(
+                1 => ''];
+        $formform->oddevenfalsenextnode = [
                 0 => '1',
-                1 => '-1');
-        $formform->oddevenfalseanswernote = array(
+                1 => '-1'];
+        $formform->oddevenfalseanswernote = [
                 0 => 'oddeven-1-F',
-                1 => 'oddeven-2-F');
-        $formform->oddevenfalsefeedback = array(
-                0 => array(
+                1 => 'oddeven-2-F'];
+        $formform->oddevenfalsefeedback = [
+                0 => [
                         'text' => '<p>Your answer is not an odd function. Look, \\[ f(x)+f(-x)={@sa1@} \\neq 0.\\]<br></p>',
                         'format' => '1',
-                        'itemid' => 387904086),
-                1 => array(
+                        'itemid' => 387904086],
+                1 => [
                         'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)={@sa2@} \\neq 0.\\]<br></p>',
                         'format' => '1',
-                        'itemid' => 212217540));
+                        'itemid' => 212217540]];
 
         $formform->uniquevalue = 1;
-        $formform->uniquedescription = array(
-            0 => '');
+        $formform->uniquedescription = [
+            0 => ''];
         $formform->uniqueautosimplify = '1';
         $formform->uniquefeedbackstyle     = 1;
         $formform->uniquefeedbackvariables = '';
-        $formform->uniqueanswertest = array(
-                0 => 'AlgEquiv');
-        $formform->uniquesans = array(
-                0 => 'ans4');
-        $formform->uniquetans = array(
-                0 => 'true');
-        $formform->uniquetestoptions = array(
-                0 => '');
-        $formform->uniquequiet = array(
-                0 => '0');
-        $formform->uniquetruescoremode = array(
-                0 => '=');
-        $formform->uniquetruescore = array(
-                0 => '1');
-        $formform->uniquetruepenalty = array(
-                0 => '');
-        $formform->uniquetruenextnode = array(
-                0 => '-1');
-        $formform->uniquetrueanswernote = array(
-                0 => 'unique-1-T');
-        $formform->uniquetruefeedback = array(
-                0 => array(
+        $formform->uniqueanswertest = [
+                0 => 'AlgEquiv'];
+        $formform->uniquesans = [
+                0 => 'ans4'];
+        $formform->uniquetans = [
+                0 => 'true'];
+        $formform->uniquetestoptions = [
+                0 => ''];
+        $formform->uniquequiet = [
+                0 => '0'];
+        $formform->uniquetruescoremode = [
+                0 => '='];
+        $formform->uniquetruescore = [
+                0 => '1'];
+        $formform->uniquetruepenalty = [
+                0 => ''];
+        $formform->uniquetruenextnode = [
+                0 => '-1'];
+        $formform->uniquetrueanswernote = [
+                0 => 'unique-1-T'];
+        $formform->uniquetruefeedback = [
+                0 => [
                         'text' => '',
                         'format' => '1',
-                        'itemid' => 692993996));
-        $formform->uniquefalsescoremode = array(
-                0 => '=');
-        $formform->uniquefalsescore = array(
-                0 => '0');
-        $formform->uniquefalsepenalty = array(
-                0 => '');
-        $formform->uniquefalsenextnode = array(
-                0 => '-1');
-        $formform->uniquefalseanswernote = array(
-                0 => 'unique-1-F');
-        $formform->uniquefalsefeedback = array(
-                0 => array(
+                        'itemid' => 692993996]];
+        $formform->uniquefalsescoremode = [
+                0 => '='];
+        $formform->uniquefalsescore = [
+                0 => '0'];
+        $formform->uniquefalsepenalty = [
+                0 => ''];
+        $formform->uniquefalsenextnode = [
+                0 => '-1'];
+        $formform->uniquefalseanswernote = [
+                0 => 'unique-1-F'];
+        $formform->uniquefalsefeedback = [
+                0 => [
                         'text' => '',
                         'format' => '1',
                         'itemid' => 55631697,
-                ));
+                ]];
 
         $formform->questionsimplify = '1';
         $formform->assumepositive = '0';
         $formform->assumereal = '0';
-        $formform->prtcorrect = array(
+        $formform->prtcorrect = [
                 'text' => 'Correct answer, well done!',
                 'format' => '1',
-                'itemid' => 847867102);
-        $formform->prtpartiallycorrect = array(
+                'itemid' => 847867102];
+        $formform->prtpartiallycorrect = [
                 'text' => 'Your answer is partially correct!',
                 'format' => '1',
-                'itemid' => 698828552);
-        $formform->prtincorrect = array(
+                'itemid' => 698828552];
+        $formform->prtincorrect = [
                 'text' => 'Incorrect answer :-(',
                 'format' => '1',
-                'itemid' => 56111684);
+                'itemid' => 56111684];
         $formform->decimals = '.';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
@@ -2886,15 +2886,15 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->logicsymbol = 'lang';
         $formform->matrixparens = '[';
         $formform->numhints = 2;
-        $formform->hint = array(
-                0 => array(
+        $formform->hint = [
+                0 => [
                         'text' => 'Hint 1<br>',
                         'format' => '1',
-                        'itemid' => '83894244'),
-                1 => array(
+                        'itemid' => '83894244'],
+                1 => [
                         'text' => '<p>Hint 2<br></p>',
                         'format' => '1',
-                        'itemid' => '34635511'));
+                        'itemid' => '34635511']];
         $formform->qtype = 'stack';
 
         return $formform;
@@ -3040,7 +3040,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', null, array('boxWidth' => 5));
+                'algebraic', 'ans1', '2', null, ['boxWidth' => 5]);
 
         $q->options->set_option('simplify', false);
 
@@ -3100,7 +3100,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.5; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'units', 'ans1', 'stackunits(9.81,m*s^-2)', null, array('boxWidth' => 5, 'options' => 'mul'));
+                'units', 'ans1', 'stackunits(9.81,m*s^-2)', null, ['boxWidth' => 5, 'options' => 'mul']);
 
         $q->options->set_option('simplify', false);
 
@@ -3160,7 +3160,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'string', 'ans1', 'ta1', null, array('boxWidth' => 25));
+                'string', 'ans1', 'ta1', null, ['boxWidth' => 25]);
 
         $q->options->set_option('simplify', false);
 
@@ -3245,7 +3245,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'string', 'ans1', 'ta', null, array('boxWidth' => 25));
+                'string', 'ans1', 'ta', null, ['boxWidth' => 25]);
 
         $q->options->set_option('simplify', false);
 
@@ -3309,9 +3309,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'x^3', null, array('boxWidth' => 10, 'showValidation' => 3));
+                'algebraic', 'ans1', 'x^3', null, ['boxWidth' => 10, 'showValidation' => 3]);
         $q->inputs['ans2'] = stack_input_factory::make(
-                'algebraic', 'ans2', 'sin(x)', null, array('boxWidth' => 10, 'showValidation' => 3));
+                'algebraic', 'ans2', 'sin(x)', null, ['boxWidth' => 10, 'showValidation' => 3]);
 
         $q->options->set_option('simplify', true);
 
@@ -3445,7 +3445,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.35; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'blob', null, array('boxWidth' => 5, 'allowWords' => 'blob'));
+                'algebraic', 'ans1', 'blob', null, ['boxWidth' => 5, 'allowWords' => 'blob']);
 
         $q->options->set_option('simplify', true);
 
@@ -3537,7 +3537,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
             'matrix', 'ans1', 'ta', new stack_options(),
-            array('boxWidth' => 5, 'allowWords' => 'blob'));
+            ['boxWidth' => 5, 'allowWords' => 'blob']);
 
         $q->options->set_option('simplify', false);
 
@@ -3624,7 +3624,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
             'algebraic', 'ans1', 'ta2', new stack_options(),
-            array('boxWidth' => 5, 'allowWords' => ''));
+            ['boxWidth' => 5, 'allowWords' => '']);
 
         $q->options->set_option('simplify', true);
 
@@ -3690,7 +3690,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', 'p^2+p+1', null,
-                array('boxWidth' => 20, 'forbidWords' => '', 'allowWords' => ''));
+                ['boxWidth' => 20, 'forbidWords' => '', 'allowWords' => '']);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -3758,8 +3758,8 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
             'algebraic', 'ans1', 'ta', null,
-            array('boxWidth' => 20, 'forbidWords' => '', 'allowWords' => 'foo',
-                  'options' => 'validator:myvalidityidea'));
+            ['boxWidth' => 20, 'forbidWords' => '', 'allowWords' => 'foo',
+                  'options' => 'validator:myvalidityidea']);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -3827,8 +3827,8 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
             'algebraic', 'ans1', 'ta', null,
-            array('boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}',
-                'options' => 'feedback:feedback_fn')
+            ['boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}',
+                'options' => 'feedback:feedback_fn']
             );
 
             $feedbackvars = 'a1 : listify(ans1);' .

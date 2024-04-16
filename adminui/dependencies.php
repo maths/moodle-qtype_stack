@@ -40,7 +40,7 @@ require_login();
 $context = context_system::instance();
 require_capability('qtype/stack:usediagnostictools', $context);
 
-$urlparams = array();
+$urlparams = [];
 
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -87,25 +87,25 @@ echo  'Currently there are ' . $ncompiled . ' compiled questions and ' . $nnotco
     ' questions that have not been succesfully compiled.</p>';
 
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('includes' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['includes' => 1, 'sesskey' => sesskey()]),
     'Find "includes"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('jsxgraphs' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['jsxgraphs' => 1, 'sesskey' => sesskey()]),
     'Find "jsxgraphs"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('geogebras' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['geogebras' => 1, 'sesskey' => sesskey()]),
     'Find "geogebra"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('script' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['script' => 1, 'sesskey' => sesskey()]),
     'Find "<script"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('PLUGINFILE' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['PLUGINFILE' => 1, 'sesskey' => sesskey()]),
     'Find "@@PLUGINFILE@@"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('langs' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['langs' => 1, 'sesskey' => sesskey()]),
     'Find "langs"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('todo' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['todo' => 1, 'sesskey' => sesskey()]),
     'Find "todo"');
 
 if (data_submitted() && optional_param('includes', false, PARAM_BOOL)) {

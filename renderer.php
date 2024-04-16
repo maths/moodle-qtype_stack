@@ -53,7 +53,7 @@ class qtype_stack_renderer extends qtype_renderer {
         $questiontext = $question->questiontextinstantiated->get_rendered($question->castextprocessor);
 
         // Replace inputs.
-        $inputstovaldiate = array();
+        $inputstovaldiate = [];
 
         // Get the list of placeholders before format_text.
         $originalinputplaceholders = array_unique(stack_utils::extract_placeholders($questiontext, 'input'));
@@ -106,14 +106,14 @@ class qtype_stack_renderer extends qtype_renderer {
             if ($options->feedback) {
                 $feedback = $this->prt_feedback($index, $response, $qa, $options, $prt->get_feedbackstyle());
 
-            } else if (in_array($qa->get_behaviour_name(), array('interactivecountback', 'adaptivemulipart'))) {
+            } else if (in_array($qa->get_behaviour_name(), ['interactivecountback', 'adaptivemulipart'])) {
                 // The behaviour name test here is a hack. The trouble is that interactive
                 // behaviour or adaptivemulipart does not show feedback if the input
                 // is invalid, but we want to show the CAS errors from the PRT.
                 $result = $question->get_prt_result($index, $response, $qa->get_state()->is_finished());
                 $errors = implode(' ', $result->get_errors());
                 $feedback = html_writer::nonempty_tag('span', $errors,
-                        array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
+                        ['class' => 'stackprtfeedback stackprtfeedback-' . $name]);
             }
             $questiontext = str_replace("[[feedback:{$index}]]", $feedback, $questiontext);
         }
@@ -138,7 +138,7 @@ class qtype_stack_renderer extends qtype_renderer {
         if ($qa->get_state() == question_state::$invalid) {
             $result .= html_writer::nonempty_tag('span',
                     $question->get_validation_error($response),
-                    array('class' => 'validationerror'));
+                    ['class' => 'validationerror']);
         }
 
         return $result;
@@ -158,7 +158,7 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
-        $urlparams = array('questionid' => $question->id);
+        $urlparams = ['questionid' => $question->id];
         $urlparams['seed'] = $question->seed;
 
         // Quite honestly fellow developers I'm getting fed up of fixing live questions written by colleagues!
@@ -166,7 +166,7 @@ class qtype_stack_renderer extends qtype_renderer {
         // Make these problems more obvious to authors, who don't yet understand what tests/variants are for.
         // Alert a teacher to questions without tests or deployed variants.
         $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
-        $links = array();
+        $links = [];
         if (($question->has_random_variants() && count($question->deployedseeds) == 0) ||
             count($testscases) == 0) {
             $links[] = html_writer::link(
@@ -178,7 +178,7 @@ class qtype_stack_renderer extends qtype_renderer {
                     stack_string('runquestiontests'));
         }
 
-        return html_writer::tag('div', implode(' | ', $links), array('class' => 'questiontestslink'));
+        return html_writer::tag('div', implode(' | ', $links), ['class' => 'questiontestslink']);
     }
 
     public function feedback(question_attempt $qa, question_display_options $options) {
@@ -225,10 +225,10 @@ class qtype_stack_renderer extends qtype_renderer {
         foreach ($question->prts as $name => $prt) {
             $feedback = '';
             $result = $question->get_prt_result($name, $response, $qa->get_state()->is_finished());
-            if ($result->get_errors() != array()) {
+            if ($result->get_errors() != []) {
                 $errors = implode(' ', $result->get_errors());
                 $feedback = html_writer::nonempty_tag('span', $errors,
-                        array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
+                        ['class' => 'stackprtfeedback stackprtfeedback-' . $name]);
             }
             $allempty = $allempty && !$feedback;
             $feedbacktext = str_replace("[[feedback:{$name}]]", $feedback, $feedbacktext);
@@ -359,14 +359,14 @@ class qtype_stack_renderer extends qtype_renderer {
         $err = '';
         if ($result->get_errors()) {
             $err = stack_string('prtruntimeerror',
-                array('prt' => $name, 'error' => implode(' ', $result->get_errors())));
+                ['prt' => $name, 'error' => implode(' ', $result->get_errors())]);
         }
 
         $feedback = $result->get_feedback(new castext2_qa_processor($qa));
         // The feedback does not come as bits anymore the whole thing is concatenated in CAS
         // and CASText converts any formats to HTML already, pluginfiles as well.
         $feedback = format_text(stack_maths::process_display_castext($feedback, $this),
-            FORMAT_HTML, array('noclean' => true, 'para' => false));
+            FORMAT_HTML, ['noclean' => true, 'para' => false]);
 
         $gradingdetails = '';
         if ($result->get_valid() && $qa->get_behaviour_name() == 'adaptivemultipart'
@@ -401,7 +401,7 @@ class qtype_stack_renderer extends qtype_renderer {
                 echo "i is not equal to 0, 1 or 2";
         }
 
-        return html_writer::nonempty_tag($tag, $fb, array('class' => 'stackprtfeedback stackprtfeedback-' . $name));
+        return html_writer::nonempty_tag($tag, $fb, ['class' => 'stackprtfeedback stackprtfeedback-' . $name]);
     }
 
     /**
@@ -428,7 +428,7 @@ class qtype_stack_renderer extends qtype_renderer {
         // Compact and symbolic only.
         if ($feedbackstyle === 2 || $feedbackstyle === 3) {
             $s = get_string('symbolicprt' . $class . 'feedback', 'qtype_stack');
-            return html_writer::tag('span', $s, array('class' => $class));
+            return html_writer::tag('span', $s, ['class' => $class]);
         }
 
         // If called out of order.
@@ -441,7 +441,7 @@ class qtype_stack_renderer extends qtype_renderer {
             return html_writer::tag('div', $question->format_text(
                     stack_maths::process_display_castext($question->$field->get_rendered($question->castextprocessor), $this),
                     FORMAT_HTML, // All CASText2 processed content has already been formatted to HTML.
-                    $qa, 'qtype_stack', $field, $question->id), array('class' => $class));
+                    $qa, 'qtype_stack', $field, $question->id), ['class' => $class]);
         }
         return '';
     }
@@ -476,7 +476,7 @@ class qtype_stack_renderer extends qtype_renderer {
             return '';
         }
 
-        $result = new prt_evaluatable('', $fraction, new castext2_static_replacer([]), array());
+        $result = new prt_evaluatable('', $fraction, new castext2_static_replacer([]), []);
         // This is overall, so we fix the PRT feedbackstyle style = 1 to get the default type of feedback.
         return $this->standard_prt_feedback($qa, $qa->get_question(), $result, 1);
     }
@@ -499,7 +499,7 @@ class qtype_stack_renderer extends qtype_renderer {
             );
 
         return html_writer::nonempty_tag('div',
-            $question->format_hint($newhint, $qa), array('class' => 'hint'));
+            $question->format_hint($newhint, $qa), ['class' => 'hint']);
     }
 
     public function correct_response(question_attempt $qa) {
@@ -548,6 +548,6 @@ class qtype_stack_renderer extends qtype_renderer {
      */
     public function fact_sheet($name, $fact) {
         $name = html_writer::tag('h5', $name);
-        return html_writer::tag('div', $name.$fact, array('class' => 'factsheet'));
+        return html_writer::tag('div', $name.$fact, ['class' => 'factsheet']);
     }
 }

@@ -65,7 +65,7 @@ $filename = question_default_export_filename($COURSE, $questiondata) .
         $qformat->export_file_extension();
 $qformat->setContexts($contexts->having_one_edit_tab_cap('export'));
 $qformat->setCourse($COURSE);
-$qformat->setQuestions(array($questiondata));
+$qformat->setQuestions([$questiondata]);
 $qformat->setCattofile(false);
 $qformat->setContexttofile(false);
 

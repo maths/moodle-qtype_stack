@@ -44,7 +44,7 @@ class stack_cas_castext2_quid extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        return array();
+        return [];
     }
 
     public function validate(&$errors=[], $options=[]): bool {

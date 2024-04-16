@@ -80,7 +80,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Save a partially correct response. No certainty, so low will be assumed.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false'));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false']);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -149,7 +149,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Save a correct response, high certainty.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true', '-certainty' => 3));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true', '-certainty' => 3]);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -171,8 +171,8 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Save a confirmation this is valid.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
-                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-certainty' => 3));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
+                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-certainty' => 3]);
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
@@ -241,7 +241,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Save a partially correct response.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => '(x +', 'ans3' => '', 'ans4' => 'true'));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => '(x +', 'ans3' => '', 'ans4' => 'true']);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -310,7 +310,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Try to save a blank response. This should not even create a new step..
-        $this->process_submission(array('ans1' => '', 'ans2' => '', 'ans3' => '', 'ans4' => ''));
+        $this->process_submission(['ans1' => '', 'ans2' => '', 'ans3' => '', 'ans4' => '']);
 
         $this->assertEquals(1, $this->quba->get_question_attempt($this->slot)->get_num_steps());
 
@@ -401,14 +401,14 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans1',
-                        array('' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'), null, true),
+                        ['' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'], null, true),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
 
         // Save a correct response, medium certainty.
-        $this->process_submission(array('ans1' => '2', '-certainty' => 2));
+        $this->process_submission(['ans1' => '2', '-certainty' => 2]);
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
@@ -418,7 +418,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans1',
-                        array('' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'), '2', true),
+                        ['' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'], '2', true),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
@@ -434,7 +434,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans1',
-                        array('' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'), '2', false),
+                        ['' => stack_string('notanswered'), '1' => '1+x', '2' => '2+x'], '2', false),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );

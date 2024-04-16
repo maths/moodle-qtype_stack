@@ -24,7 +24,7 @@ class stack_matrix_input extends stack_input {
     protected $width;
     protected $height;
 
-    protected $extraoptions = array(
+    protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
         'nounits' => false,
@@ -33,14 +33,14 @@ class stack_matrix_input extends stack_input {
         'checkvars' => 0,
         'validator' => false,
         'feedback' => false,
-    );
+    ];
 
     public function adapt_to_model_answer($teacheranswer) {
 
         // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
         $cs = stack_ast_container::make_from_teacher_source('matrix_size(' . $teacheranswer . ')');
         $cs->get_valid();
-        $at1 = new stack_cas_session2(array($cs), null, 0);
+        $at1 = new stack_cas_session2([$cs], null, 0);
         $at1->instantiate();
 
         if ('' != $at1->get_errors()) {
@@ -54,7 +54,7 @@ class stack_matrix_input extends stack_input {
     }
 
     public function get_expected_data() {
-        $expected = array();
+        $expected = [];
 
         // All the matrix elements.
         for ($i = 0; $i < $this->height; $i++) {
@@ -102,9 +102,9 @@ class stack_matrix_input extends stack_input {
         // This must be spotted and a blank attempt returned.
         $allblank = true;
 
-        $matrix = array();
+        $matrix = [];
         for ($i = 0; $i < $this->height; $i++) {
-            $row = array();
+            $row = [];
             for ($j = 0; $j < $this->width; $j++) {
                 $element = '';
                 if (array_key_exists($this->name . '_sub_' . $i . '_' . $j, $response)) {
@@ -122,9 +122,9 @@ class stack_matrix_input extends stack_input {
 
         // We need to build a special definitely blank matrix of the correct shape.
         if ($allblank && $this->get_extra_option('allowempty')) {
-            $matrix = array();
+            $matrix = [];
             for ($i = 0; $i < $this->height; $i++) {
-                $row = array();
+                $row = [];
                 for ($j = 0; $j < $this->width; $j++) {
                     $row[] = 'null';
                 }
@@ -135,7 +135,7 @@ class stack_matrix_input extends stack_input {
     }
 
     public function contents_to_maxima($contents) {
-        $matrix = array();
+        $matrix = [];
         foreach ($contents as $row) {
             $matrix[] = '['.implode(',', $row).']';
         }
@@ -180,8 +180,8 @@ class stack_matrix_input extends stack_input {
      */
     protected function validate_contents($contents, $basesecurity, $localoptions) {
 
-        $errors = array();
-        $notes = array();
+        $errors = [];
+        $notes = [];
         $valid = true;
 
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
@@ -190,13 +190,13 @@ class stack_matrix_input extends stack_input {
         $secrulesd->add_allowedwords('dispdp,displaysci');
 
         // Now validate the input as CAS code.
-        $modifiedcontents = array();
+        $modifiedcontents = [];
         foreach ($contents as $row) {
-            $modifiedrow = array();
-            $inertrow = array();
+            $modifiedrow = [];
+            $inertrow = [];
             foreach ($row as $val) {
                 $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                    array(), 'Root', $this->options->get_option('decimals'));
+                    [], 'Root', $this->options->get_option('decimals'));
                 if ($answer->get_valid()) {
                     $modifiedrow[] = $answer->get_inputform();
                 } else {
@@ -236,11 +236,11 @@ class stack_matrix_input extends stack_input {
         // We don't use the decimals option below, because we've already used it above.
         $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd,
             array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
-            array(), 'Root', '.');
+            [], 'Root', '.');
         $inertform->get_valid();
 
-        $caslines = array();
-        return array($valid, $errors, $notes, $answer, $caslines, $inertform, $caslines);
+        $caslines = [];
+        return [$valid, $errors, $notes, $answer, $caslines, $inertform, $caslines];
     }
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -365,7 +365,7 @@ class stack_matrix_input extends stack_input {
      * @return string
      */
     public function maxima_to_response_array($in) {
-        $response = array();
+        $response = [];
         $tc = $this->maxima_to_array($in);
 
         for ($i = 0; $i < $this->height; $i++) {
@@ -386,7 +386,7 @@ class stack_matrix_input extends stack_input {
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-        $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
+        $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
         $mform->setType($this->name, PARAM_RAW);
     }
@@ -396,7 +396,7 @@ class stack_matrix_input extends stack_input {
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
-        return array(
+        return [
             'mustVerify'         => true,
             'showValidation'     => 1,
             'boxWidth'           => 5,
@@ -409,7 +409,7 @@ class stack_matrix_input extends stack_input {
             'lowestTerms'        => true,
             'sameType'           => true,
             'options'            => ''
-        );
+        ];
     }
 
     /**
@@ -432,13 +432,13 @@ class stack_matrix_input extends stack_input {
             $value = '';
         }
         // TODO: refactor this ast creation away.
-        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
+        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), []);
         $cs->set_nounify(0);
 
         // Hard-wire to strict Maxima syntax.
         $decimal = '.';
         $listsep = ',';
-        $params = array('checkinggroup' => true,
+        $params = ['checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
             'nosemicolon' => true,
@@ -448,7 +448,7 @@ class stack_matrix_input extends stack_input {
             'nontuples' => false,
             'decimal' => $decimal,
             'listsep' => $listsep
-        );
+        ];
         if ($cs->get_valid()) {
             $value = $cs->ast_to_string(null, $params);
         }
@@ -461,7 +461,7 @@ class stack_matrix_input extends stack_input {
             $decimal = ',';
             $listsep = ';';
         }
-        $params = array('checkinggroup' => true,
+        $params = ['checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
             'nosemicolon' => true,
@@ -471,9 +471,9 @@ class stack_matrix_input extends stack_input {
             'nontuples' => false,
             'decimal' => $decimal,
             'listsep' => $listsep
-        );
+        ];
         foreach ($response as $ckey => $cell) {
-            $cs = stack_ast_container::make_from_teacher_source($cell, '', new stack_cas_security(), array());
+            $cs = stack_ast_container::make_from_teacher_source($cell, '', new stack_cas_security(), []);
             $cs->set_nounify(0);
             if ($cs->get_valid()) {
                 $response[$ckey] = $cs->ast_to_string(null, $params);
@@ -535,7 +535,7 @@ class stack_matrix_input extends stack_input {
         $parenthesiscount = 0;
         $bracketcount = 0;
 
-        $out = array ();
+        $out =  [];
 
         $current = '';
         for ($i = 0; $i < strlen($in); $i++) {

@@ -87,7 +87,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
     }
 
     private function __construct() {
-        $this->errors = array();
+        $this->errors = [];
     }
 
     // Format and options here are for the optional compilation.
@@ -271,7 +271,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
                     $this->evaluated = $this->statics->replace($this->evaluated);
                 }
             } else {
-                $value = array();
+                $value = [];
                 if ($this->value !== null) {
                     $value = castext2_parser_utils::string_to_list($this->value, true);
                 } else {

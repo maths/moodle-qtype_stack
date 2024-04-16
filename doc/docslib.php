@@ -39,14 +39,14 @@ require_once(__DIR__ . '/../stack/mathsoutput/fact_sheets.class.php');
  */
 function stack_docs_index($dir, $relpath = '') {
     // Write a list describing the directory structure, recursive, discriminates for .md files.
-    $exclude = array('index.md', 'Site_map.md');
-    $details = array('AbInitio', 'Results', 'Developer', 'Reference', 'Installation');
+    $exclude = ['index.md', 'Site_map.md'];
+    $details = ['AbInitio', 'Results', 'Developer', 'Reference', 'Installation'];
 
     if (!is_dir($dir)) {
         return '';
     }
 
-    $items = array();
+    $items = [];
     foreach (glob($dir . '/*') as $filepath) {
         $filename = basename($filepath);
 
@@ -86,7 +86,7 @@ function stack_docs_index($dir, $relpath = '') {
  * @return string the corresponding title.
  */
 function stack_docs_title_from_filename($filename) {
-    return str_replace(array('_', '.md'), array(' ', ''), $filename);
+    return str_replace(['_', '.md'], [' ', ''], $filename);
 }
 
 /**
@@ -150,7 +150,7 @@ function stack_docs_render_markdown($page, $preprocess = true) {
         // Don't process the auto-generated answer test output.
         $page = stack_maths::pre_process_docs_page($page);
     }
-    $page = format_text($page, FORMAT_MARKDOWN, array('filter' => false));
+    $page = format_text($page, FORMAT_MARKDOWN, ['filter' => false]);
     $page = stack_maths::post_process_docs_page($page);
     return $page;
 }
@@ -163,7 +163,7 @@ function stack_docs_page_metadata($uri) {
 
     $metafile = file_get_contents("meta_en.json");
     $meta = json_decode($metafile, true);
-    if ($meta == array()) {
+    if ($meta == []) {
         throw new stack_exception('STACK docs: the metadata json file is broken!');
     }
     // TODO: langauges.
@@ -172,7 +172,7 @@ function stack_docs_page_metadata($uri) {
     // Sort out what we are looking for.
     $file = explode('/', substr(trim($uri), 0));
     $endfile = 'index.md';
-    $pathtofile = array();
+    $pathtofile = [];
     foreach ($file as $f) {
         $f = trim($f);
         if ($f !== '') {
@@ -193,7 +193,7 @@ function stack_docs_page_metadata($uri) {
         }
     }
 
-    $metadata = array();
+    $metadata = [];
     foreach ($meta as $dat) {
         if (array_key_exists('file', $dat) && trim($dat['file']) == $endfile) {
             $metadata = $dat;

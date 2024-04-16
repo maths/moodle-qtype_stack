@@ -35,12 +35,12 @@ class stack_cas_configuration {
      *
      * When adding a library update the language string settingmaximalibraries_desc.
      **/
-    public static $maximalibraries = array(
+    public static $maximalibraries = [
         'stats' => 'is(op(test_mean([1,2,3]))=inference_result)',
         'distrib' => 'not(is(op(pdf_normal(1,3,1))=pdf_normal))',
         'descriptive' => 'atom(mean([1,2,3.2]))',
         'simplex' => 'floatnump(epsilon_lp)'
-    );
+    ];
 
     protected $settings;
 
@@ -70,7 +70,7 @@ class stack_cas_configuration {
 
         $this->vnum = (float) substr($this->settings->maximaversion, 2);
 
-        $this->blocksettings = array();
+        $this->blocksettings = [];
         $this->blocksettings['MAXIMA_PLATFORM'] = $this->settings->platform;
         $this->blocksettings['maxima_tempdir'] = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/tmp/');
         $this->blocksettings['IMAGE_DIR']     = stack_utils::convert_slash_paths($CFG->dataroot . '/stack/plots/');
@@ -125,7 +125,7 @@ class stack_cas_configuration {
         // This does its best to find your version of Gnuplot...
         $maximalocation = $this->maxima_win_location();
 
-        $plotcommands = array();
+        $plotcommands = [];
         $plotcommands[] = $maximalocation. 'gnuplot/wgnuplot.exe';
         $plotcommands[] = $maximalocation. 'bin/wgnuplot.exe';
         $plotcommands[] = $maximalocation. 'gnuplot/bin/wgnuplot.exe';
@@ -154,7 +154,7 @@ class stack_cas_configuration {
             return '';
         }
 
-        $locations = array();
+        $locations = [];
         $locations[] = 'C:/maxima-' . $this->settings->maximaversion . '/';
         $locations[] = 'C:/maxima-' . $this->settings->maximaversion . 'a/';
         $locations[] = 'C:/Maxima-' . $this->settings->maximaversion . '/';
@@ -349,7 +349,7 @@ END;
 
         $valid = true;
         // Hold test cases for libraries to test.
-        $livetestcases = array();
+        $livetestcases = [];
         $message = '';
         $permittedlibraries = array_keys(self::$maximalibraries);
         $maximalib = $this->settings->maximalibraries;
@@ -368,7 +368,7 @@ END;
                 }
             }
         }
-        return(array($valid, $message, $livetestcases));
+        return([$valid, $message, $livetestcases]);
     }
 
     /**
@@ -387,10 +387,10 @@ END;
             // Do not try to generate the optimised image on MS platforms.
         if ($config->platform == 'win') {
             $errmsg = "Microsoft Windows version cannot be automatically optimised";
-            return array(false, $errmsg);
+            return [false, $errmsg];
         } else if ($config->platform != 'linux' && $config->platform != 'linux-optimised') {
             $errmsg = "$config->platform version cannot be automatically optimised";
-            return array(false, $errmsg);
+            return [false, $errmsg];
         }
 
         // Revert to the plain Linux platform.  This will genuinely call the CAS, and
@@ -442,7 +442,7 @@ END;
 
                 // Now we need to check this actually works.
                 $cs = stack_ast_container::make_from_teacher_source('a:1+1', '', new stack_cas_security());
-                $ts = new stack_cas_session2(array($cs));
+                $ts = new stack_cas_session2([$cs]);
                 $ts->instantiate();
                 if ($cs->get_value() != '2') {
                     $errors = $ts->get_errors();
@@ -460,9 +460,9 @@ END;
             stack_utils::get_config()->platform = $oldplatform;
             self::get_instance()->settings->platform = $oldplatform;
             self::create_maximalocal();
-            return array(false, $errmsg);
+            return [false, $errmsg];
         } else {
-            return array(true, $rawcommand);
+            return [true, $rawcommand];
         }
     }
 }

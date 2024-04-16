@@ -45,8 +45,8 @@ class parser_rule_801_test extends qtype_stack_testcase {
             'power' => $power,
             'convert' => $convert
         ]);
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $ast = $filter->filter($ast, $errs, $note, $security);

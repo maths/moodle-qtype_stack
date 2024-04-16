@@ -55,7 +55,7 @@ echo html_writer::tag('p', "This is a temporary page to run subscript examples. 
         "These will eventually become part of the unit tests only.");
 
 // Set up the results table.
-$columns = array(
+$columns = [
     'outcome'       => 'Test passed?',
     'expression'    => 'Expression',
     'rawinput'      => 'Raw input',
@@ -66,7 +66,7 @@ $columns = array(
     'display'       => 'Display',
     'errors'        => 'Errors',
     'notes'         => 'Notes'
-);
+];
 
 $table = new flexible_table('stack_answertests');
 $table->define_columns(array_keys($columns));
@@ -76,7 +76,7 @@ $table->define_baseurl($PAGE->url);
 $table->setup();
 
 $testdata = stack_subscripts_test_data::get_raw_test_data();
-$notes = array();
+$notes = [];
 $ni = 1;
 foreach ($testdata as $data) {
     $test = stack_subscripts_test_data::test_from_raw($data);
@@ -116,7 +116,7 @@ foreach ($testdata as $data) {
         }
     }
 
-    $row = array(
+    $row = [
         'outcome'       => $outcome,
         'expression'    => format_text('\('.$test->tex.'\)'),
         'rawinput'      => '<pre>'.$test->rawinput.'</pre>',
@@ -127,7 +127,7 @@ foreach ($testdata as $data) {
         'display'       => format_text('\('.$test->display.'\)'),
         'errors'        => $test->errors,
         'notes'         => $note,
-    );
+    ];
 
     $table->add_data_keyed($row, $class);
 

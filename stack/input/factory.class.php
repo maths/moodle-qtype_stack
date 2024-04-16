@@ -81,13 +81,13 @@ class stack_input_factory {
      * @return array of available type names.
      */
     public static function get_available_types() {
-        $ignored = array('CVS', '_vti_cnf', 'tests', 'yui', 'phpunit');
+        $ignored = ['CVS', '_vti_cnf', 'tests', 'yui', 'phpunit'];
         static $types = null;
         if ($types !== null) {
             return $types;
         }
 
-        $types = array();
+        $types = [];
         foreach (new DirectoryIterator(__DIR__) as $item) {
             // Skip . and .. and non-dirs.
             if ($item->isDot() || !$item->isDir()) {
@@ -131,7 +131,7 @@ class stack_input_factory {
      */
     public static function get_available_type_choices() {
         $types = self::get_available_types();
-        $choices = array();
+        $choices = [];
         foreach ($types as $type => $notused) {
             $choices[$type] = stack_string('inputtype' . $type);
         }
@@ -146,7 +146,7 @@ class stack_input_factory {
      */
     public static function get_parameters_used() {
 
-        $used = array();
+        $used = [];
         foreach (self::get_parameters_defaults() as $type => $defaults) {
             $used[$type] = array_keys($defaults);
             $used[$type][] = 'inputType';
@@ -160,7 +160,7 @@ class stack_input_factory {
      * @return array $typename => array of names of options used.
      */
     public static function get_parameters_fromform_mapping($type) {
-        $parametermapping = array(
+        $parametermapping = [
             'sameType'           => 'checkanswertype',
             'mustVerify'         => 'mustverify',
             'showValidation'     => 'showvalidation',
@@ -173,10 +173,10 @@ class stack_input_factory {
             'allowWords'         => 'allowwords',
             'forbidFloats'       => 'forbidfloat',
             'lowestTerms'        => 'requirelowestterms',
-            'options'            => 'options');
+            'options'            => 'options'];
 
         $used = self::get_parameters_defaults();
-        $mapping = array();
+        $mapping = [];
         foreach ($used[$type] as $param => $defaults) {
                 $mapping[$param] = $parametermapping[$param];
         }
@@ -192,7 +192,7 @@ class stack_input_factory {
         if (!is_null(self::$parametersdefaults)) {
             return self::$parametersdefaults;
         }
-        self::$parametersdefaults = array();
+        self::$parametersdefaults = [];
         foreach (self::get_available_types() as $type => $class) {
             self::$parametersdefaults[$type] = $class::get_parameters_defaults();
         }
@@ -203,8 +203,8 @@ class stack_input_factory {
      * Convert a raw value as received from a fromform value into a correct datatype.
      */
     public static function convert_parameter_fromform($key, $value) {
-        $booleanparamaters = array('strictSyntax' => true, 'mustVerify' => true, 'sameType' => true,
-            'forbidFloats' => true, 'lowestTerms' => true);
+        $booleanparamaters = ['strictSyntax' => true, 'mustVerify' => true, 'sameType' => true,
+            'forbidFloats' => true, 'lowestTerms' => true];
         if (array_key_exists($key, $booleanparamaters)) {
             $value = (bool) $value;
         }

@@ -59,7 +59,7 @@ $context = context_system::instance();
 
 
 // We process every single question, even those that wait for cron to clean up things.
-$questions = $DB->get_records('question', array('qtype' => 'stack'), 'id', 'id');
+$questions = $DB->get_records('question', ['qtype' => 'stack'], 'id', 'id');
 
 cli_heading('Processing ' . count($questions) . ' questions');
 
@@ -68,16 +68,16 @@ $c = 1;
 function cat_to_course($catid) {
     global $DB;
     // Why are the contexts so hard, where are the utility functions to map them...
-    static $map = array();
+    static $map = [];
     if (isset($map[$catid])) {
         return $map[$catid];
     }
-    $cat = $DB->get_record('question_categories', array('id' => $catid), 'contextid, parent');
+    $cat = $DB->get_record('question_categories', ['id' => $catid], 'contextid, parent');
     if ($cat->contextid == 0) {
         return cat_to_course($cat->parent);
     }
 
-    $context = $DB->get_record('context', array('id' => $cat->contextid), '*');
+    $context = $DB->get_record('context', ['id' => $cat->contextid], '*');
     if ($context->contextlevel == 50) {
         $map[$catid] = $context->instanceid;
         return $context->instanceid;
@@ -100,7 +100,7 @@ function cat_to_course($catid) {
         if ($path === '') {
             break;
         }
-        $context = $DB->get_record('context', array('path' => $path), '*');
+        $context = $DB->get_record('context', ['path' => $path], '*');
     }
     if ($context->contextlevel == 50) {
         $map[$catid] = $context->instanceid;
@@ -116,10 +116,10 @@ foreach ($questions as $id) {
     }
     $c++;
     $questiondata = question_bank::load_question_data($id->id);
-    $urlparams = array('qperpage' => 1000,
+    $urlparams = ['qperpage' => 1000,
         'category' => $questiondata->category,
         'lastchanged' => $id->id,
-        'courseid' => cat_to_course($questiondata->category));
+        'courseid' => cat_to_course($questiondata->category)];
     if (property_exists($questiondata, 'hidden') && $questiondata->hidden) {
         $urlparams['showhidden'] = 1;
     }
@@ -200,7 +200,7 @@ foreach ($questions as $id) {
         }
     } catch (Exception $eload) {
         // We do not have the context-id...
-        $cat = $DB->get_record('question_categories', array('id' => $questiondata->category), 'contextid');
+        $cat = $DB->get_record('question_categories', ['id' => $questiondata->category], 'contextid');
         $urlparams['category'] .= ',' . $cat->contextid;
         $questionbanklink = (new moodle_url('/question/edit.php', $urlparams))->out(false);
 

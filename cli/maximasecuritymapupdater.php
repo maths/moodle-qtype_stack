@@ -23,8 +23,8 @@ require_once($CFG->libdir . '/clilib.php');
 // @copyright  2018 Aalto University.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-list($options, $unrecognized) = cli_get_params(array('help' => false),
-    array('h' => 'help'));
+list($options, $unrecognized) = cli_get_params(['help' => false],
+    ['h' => 'help']);
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
     cli_error(get_string('cliunknowoption', 'admin', $unrecognized));
@@ -47,45 +47,45 @@ if (is_readable('../stack/cas/security-map.json')) {
 if ($olddata !== false) {
     $olddata = json_decode($olddata, true);
 } else {
-    $olddata = array();
+    $olddata = [];
 }
 
 
 // Type aliases, not all of these come from the base-identifier-map.
 // Some are added to the security-map by hand.
-$aliases = array(
+$aliases = [
     // Note that values are arrays, some might have multiple targets but not now.
 
     // Functions are things that are called.
-    'Functions' => array('function'),
-    'Function' => array('function'),
-    'System function' => array('function'),
-    'Scene constructor' => array('function'),
+    'Functions' => ['function'],
+    'Function' => ['function'],
+    'System function' => ['function'],
+    'Scene constructor' => ['function'],
 
     // Keywords are things that should not appear as targets of writing,
     // they should not appear as identifiers at all.
-    'Special operator' => array('keyword'),
-    'Keyword' => array('keyword'),
+    'Special operator' => ['keyword'],
+    'Keyword' => ['keyword'],
 
     // Operators are just that and should not be used as variable names.
-    'Operator' => array('operator'),
-    'Input terminator' => array('operator'), // Note that ; and $ are basically operators.
+    'Operator' => ['operator'],
+    'Input terminator' => ['operator'], // Note that ; and $ are basically operators.
 
     // Properties should not be used as variable names.
-    'Property' => array('property'),
-    'Declaration' => array('property'),
+    'Property' => ['property'],
+    'Declaration' => ['property'],
 
     // Constants should not be written to.
-    'Constant' => array('constant'),
+    'Constant' => ['constant'],
 
     // Variables are essenttially options. But might be much more.
     // One may need to map some of these as 'constant' to allow student input
     // without allowing definition e.g. in the case of '%c'.
-    'Global variable' => array('variable'),
-    'Variable' => array('variable'),
-    'System variable' => array('variable'), // These are mostly forbidden.
-    'Optional variable' => array('variable'),
-    'Option variable' => array('variable'),
+    'Global variable' => ['variable'],
+    'Variable' => ['variable'],
+    'System variable' => ['variable'], // These are mostly forbidden.
+    'Optional variable' => ['variable'],
+    'Option variable' => ['variable'],
 
     // Some types are ignored as they have no meaning.
     'Function_partitions' => null, // Existed in 5.35.1 documentation.
@@ -100,7 +100,7 @@ $aliases = array(
     'Plot option' => null,
     'draw_graph option' => null,
     '_comment' => null // For our own comments.
-);
+];
 
 foreach ($identifierdata as $identifier => $types) {
     foreach ($types as $type => $blaah) {
@@ -108,7 +108,7 @@ foreach ($identifierdata as $identifier => $types) {
             if ($aliases[$type] !== null) {
                 foreach ($aliases[$type] as $t) {
                     if (!isset($olddata[$identifier])) {
-                        $olddata[$identifier] = array($t => '?');
+                        $olddata[$identifier] = [$t => '?'];
                     } else if (!isset($olddata[$identifier][$t])) {
                         // Only set value if not already set.
                         // The default value is '?' other options are 'f', 't'
@@ -126,12 +126,12 @@ foreach ($identifierdata as $identifier => $types) {
         }
         if (isset($olddata[$identifier])) {
             if (isset($olddata[$identifier]['aliasfunction'])) {
-                $targetdata = array();
+                $targetdata = [];
                 if (isset($olddata[$olddata[$identifier]['aliasfunction']])) {
                     $targetdata = $olddata[$olddata[$identifier]['aliasfunction']];
                 }
                 if (!isset($targetdata['aliasfunctions'])) {
-                    $targetdata['aliasfunctions'] = array($identifier);
+                    $targetdata['aliasfunctions'] = [$identifier];
                 }
                 if (array_search($identifier, $targetdata['aliasfunctions']) === false) {
                     $targetdata['aliasfunctions'][] = $identifier;
@@ -139,12 +139,12 @@ foreach ($identifierdata as $identifier => $types) {
                 $olddata[$olddata[$identifier]['aliasfunction']] = $targetdata;
             }
             if (isset($olddata[$identifier]['aliasvariable'])) {
-                $targetdata = array();
+                $targetdata = [];
                 if (isset($olddata[$olddata[$identifier]['aliasvariable']])) {
                     $targetdata = $olddata[$olddata[$identifier]['aliasvariable']];
                 }
                 if (!isset($targetdata['aliasvariables'])) {
-                    $targetdata['aliasvariables'] = array($identifier);
+                    $targetdata['aliasvariables'] = [$identifier];
                 }
                 if (array_search($identifier, $targetdata['aliasvariables']) === false) {
                     $targetdata['aliasvariables'][] = $identifier;

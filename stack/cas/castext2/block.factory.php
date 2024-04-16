@@ -19,12 +19,12 @@ class castext2_block_factory {
      * Cache the block types so that we do not need to check from the
      * filesystem every time.
      */
-    private static $types = array();
+    private static $types = [];
 
     /**
      * Creates a block of a given type. Or null if non existing type.
      */
-    public static function make($type, $params=array(), $children=array(), $mathmode=false) {
+    public static function make($type, $params=[], $children=[], $mathmode=false) {
         $class = self::class_for_type($type);
         if ($class === null) {
             $class = self::class_for_type('unknown');

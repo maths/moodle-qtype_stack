@@ -48,6 +48,6 @@ class stack_cas_castext2_special_stack_translate extends stack_cas_castext2_bloc
     }
 
     public function validate_extract_attributes(): array {
-        return array();
+        return [];
     }
 }

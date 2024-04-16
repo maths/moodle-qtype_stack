@@ -100,38 +100,38 @@ class ast_container_test extends qtype_stack_testcase {
     }
 
     public function test_get_valid() {
-        $cases = array(
-            array('', false, true),
-            array('1', true, true),
-            array('a b', true, false),
-            array('%pi', true, true), // Only %pi %e, %i, %gamma, %phi.
-            array('1+%e', true, true),
-            array('e^%i*%pi', true, true),
-            array('%gamma', true, true),
-            array('%phi', true, true),
+        $cases = [
+            ['', false, true],
+            ['1', true, true],
+            ['a b', true, false],
+            ['%pi', true, true], // Only %pi %e, %i, %gamma, %phi.
+            ['1+%e', true, true],
+            ['e^%i*%pi', true, true],
+            ['%gamma', true, true],
+            ['%phi', true, true],
             // Use of % sign is a change here in STACK 4.3.
-            array('%o1', true, true),
+            ['%o1', true, true],
             // Literal unicode character (pi) instead of name.
-            array(json_decode('"\u03C0"'), true, true),
-            array(json_decode('"\u2205"'), true, true),
+            [json_decode('"\u03C0"'), true, true],
+            [json_decode('"\u2205"'), true, true],
             // Non-matching brackets.
-            array('(x+1', false, false),
-            array('(y^2+1))', false, false),
-            array('[sin(x)+1)', false, false),
-            array('([y^2+1)]', false, false),
+            ['(x+1', false, false],
+            ['(y^2+1))', false, false],
+            ['[sin(x)+1)', false, false],
+            ['([y^2+1)]', false, false],
             // Function which does not appears on the teacher's list.
-            array('setelmx(2,1,1,C)', false, true),
-            array('2*reallytotalnonsensefunction(x)', false, true),
-            array('system("rm *")', false, false), // This should never occur.
-            array('"system(rm *)"', true, true), // There is nothing wrong with this.
-            array('$', false, false),
-            array('@', false, false),
+            ['setelmx(2,1,1,C)', false, true],
+            ['2*reallytotalnonsensefunction(x)', false, true],
+            ['system("rm *")', false, false], // This should never occur.
+            ['"system(rm *)"', true, true], // There is nothing wrong with this.
+            ['$', false, false],
+            ['@', false, false],
             // Inequalities.
-            array('x>=1', true, true),
-            array('x=>1', false, false),
+            ['x>=1', true, true],
+            ['x=>1', false, false],
             // Unencapsulated commas. Also evaluation flags.
-            array('a,b', false, true),
-        );
+            ['a,b', false, true],
+        ];
 
         foreach ($cases as $case) {
             $this->get_valid($case[0], $case[1], $case[2]);
@@ -139,19 +139,19 @@ class ast_container_test extends qtype_stack_testcase {
     }
 
     public function test_get_valid_inequalities() {
-        $cases = array(
-                array('x>1 and x<4', true, true),
-                array('not (x>1)', true, true),
-                array('x<=2 or not (x>1)', true, true),
-                array('x<1 or (x>1 and t<sin(x))', true, true),
-                array('[x<1, x>3]', true, true),
-                array('pg:if x<x0 then f0 else if x<x1 then 1000 else f1', true, true),
+        $cases = [
+                ['x>1 and x<4', true, true],
+                ['not (x>1)', true, true],
+                ['x<=2 or not (x>1)', true, true],
+                ['x<1 or (x>1 and t<sin(x))', true, true],
+                ['[x<1, x>3]', true, true],
+                ['pg:if x<x0 then f0 else if x<x1 then 1000 else f1', true, true],
                 // Change for issue #324 now stops checking chained inequalities for teachers.
                 // And change again, chained inequalities are now again checked always we just have less false positives.
-                array('1<x<7', false, false),
-                array('1<a<=x^2', false, false),
-                array('{1<x<y, c>0}', false, false),
-        );
+                ['1<x<7', false, false],
+                ['1<a<=x^2', false, false],
+                ['{1<x<y, c>0}', false, false],
+        ];
 
         foreach ($cases as $case) {
             $this->get_valid($case[0], $case[1], $case[2]);
@@ -182,7 +182,7 @@ class ast_container_test extends qtype_stack_testcase {
         $casstring = stack_ast_container::make_from_student_source('A ' . json_decode('"\u222A"') . ' B', '',
                 new stack_cas_security());
         $casstring->get_valid();
-        $this->assertEquals(stack_string('stackCas_forbiddenChar', array('char' => json_decode('"\u222A"'))),
+        $this->assertEquals(stack_string('stackCas_forbiddenChar', ['char' => json_decode('"\u222A"')]),
                 $casstring->get_errors());
         $this->assertEquals('forbiddenChar', $casstring->get_answernote());
     }
@@ -272,16 +272,16 @@ class ast_container_test extends qtype_stack_testcase {
     }
 
     public function test_check_external_forbidden_words() {
-        $cases = array(
-            array('sin(ta)', 'ta', false, 'forbiddenVariable'),
-            array('sin(ta)', 'ta,a,b', false, 'forbiddenVariable'),
-            array('1+sin(ta)', 'a,b', true, ''),
-            array('sin(ta)', 'sa', true, ''),
-            array('sin(ta)', 'sin', false, 'forbiddenFunction'),
-            array('sin(a)', 'a', false, 'forbiddenVariable'),
-            array('diff(x^2,x)', '[[basic-calculus]]', false, 'forbiddenFunction'),
-            array('diff(x^2,x)', '[[BASIC-CALCULUS]]', false, 'forbiddenFunction'),
-        );
+        $cases = [
+            ['sin(ta)', 'ta', false, 'forbiddenVariable'],
+            ['sin(ta)', 'ta,a,b', false, 'forbiddenVariable'],
+            ['1+sin(ta)', 'a,b', true, ''],
+            ['sin(ta)', 'sa', true, ''],
+            ['sin(ta)', 'sin', false, 'forbiddenFunction'],
+            ['sin(a)', 'a', false, 'forbiddenVariable'],
+            ['diff(x^2,x)', '[[basic-calculus]]', false, 'forbiddenFunction'],
+            ['diff(x^2,x)', '[[BASIC-CALCULUS]]', false, 'forbiddenFunction'],
+        ];
 
         foreach ($cases as $case) {
             $secrules = new stack_cas_security();
@@ -293,18 +293,18 @@ class ast_container_test extends qtype_stack_testcase {
     }
 
     public function test_check_external_forbidden_words_literal() {
-        $cases = array(
-            array('3+5', '+', false),
-            array('sin(a)', 'a', false), // It includes single letters.
+        $cases = [
+            ['3+5', '+', false],
+            ['sin(a)', 'a', false], // It includes single letters.
             // Changed in 4.3.
-            array('sin(a)', 'i', true), // Since it is a string match, this can be inside a name.
-            array('sin(a)', 'b', true),
+            ['sin(a)', 'i', true], // Since it is a string match, this can be inside a name.
+            ['sin(a)', 'b', true],
             // The below test of escaped commas is why we ignore MP_Checking_Geoups in 998_security.filter.php.
-            array('sin(a)', 'b,\,,c', true), // Test escaped commas.
-            array('[x,y,z]', 'b,\,,c', false),
-            array('diff(x^2,x)', '[[BASIC-CALCULUS]]', false), // From lists.
-            array('solve((x-6)^4,x)', '[[BASIC-ALGEBRA]]', false), // From lists.
-        );
+            ['sin(a)', 'b,\,,c', true], // Test escaped commas.
+            ['[x,y,z]', 'b,\,,c', false],
+            ['diff(x^2,x)', '[[BASIC-CALCULUS]]', false], // From lists.
+            ['solve((x-6)^4,x)', '[[BASIC-ALGEBRA]]', false], // From lists.
+        ];
 
         foreach ($cases as $case) {
             $secrules = new stack_cas_security();
@@ -608,7 +608,7 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
 
         $secrules = new stack_cas_security();
-        $secrules->set_forbiddenkeys(array('f'));
+        $secrules->set_forbiddenkeys(['f']);
         // This next test returns true, because the check only looks for keys longer than one character.
         // The caching of get_valid is something that might need some work.
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security());
@@ -660,7 +660,7 @@ class ast_container_test extends qtype_stack_testcase {
         // Note that in the new 4.3 world we need to define a filter to note
         // the star we do not want to be inserted.
         $s = 'log_5x(3)';
-        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), array('991_no_fixing_stars'));
+        $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), ['991_no_fixing_stars']);
         $this->assertFalse($at1->get_valid());
         // There would be a star there but as it is now an invalid thing you cannot see it.
         // It is not lg(3,5*x), as it would have been in the past.
@@ -852,7 +852,7 @@ class ast_container_test extends qtype_stack_testcase {
 
         // Note that stacklet() is held as a function, and not parsed into MP_Let.
         $expected = '([FunctionCall: ([Id] stacklet)] ([Id] a),([Op: +] ([Op: *] ([Id] x), ([Id] %i)), ([Id] y)))';
-        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
 
         $this->assertEquals('(%_C(stacklet),stacklet(a,x*%i+y))', $at1->get_evaluationform());
         $this->assertEquals('stacklet(a,x*%i+y)', $at1->get_inputform());
@@ -870,7 +870,7 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
 
         $expected = '([Op: +-] ([Id] a), ([Id] b))';
-        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
 
         $this->assertEquals('a#pm#b', $at1->get_evaluationform());
         $this->assertEquals('a+-b', $at1->get_inputform(true, 0));
@@ -884,7 +884,7 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
 
         $expected = '([Op: #pm#] ([Id] a), ([Id] b))';
-        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
 
         $this->assertEquals('a#pm#b', $at1->get_evaluationform());
         $this->assertEquals('a+-b', $at1->get_inputform(true, 0));
@@ -898,7 +898,7 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
 
         $expected = '([PrefixOp: +-] ([Id] a))';
-        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
 
         $this->assertEquals('#pm#a', $at1->get_evaluationform());
         $this->assertEquals('+-a', $at1->get_inputform(true, 0));
@@ -912,7 +912,7 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
 
         $expected = '([PrefixOp: #pm#] ([Id] a))';
-        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
 
         $this->assertEquals('#pm#a', $at1->get_evaluationform());
         $this->assertEquals('+-a', $at1->get_inputform(true, 0));
@@ -926,28 +926,28 @@ class ast_container_test extends qtype_stack_testcase {
         $s = 'matrix([a,b],[c,d])';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $expected = '([FunctionCall: ([Id] matrix)] ([List] ([Id] a), ([Id] b)),([List] ([Id] c), ([Id] d)))';
-        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
         $this->assertTrue($at1->get_valid());
-        $this->assertEquals("a b\nc d", $at1->ast_to_string(null, array('inputform' => true, 'varmatrix' => true)));
+        $this->assertEquals("a b\nc d", $at1->ast_to_string(null, ['inputform' => true, 'varmatrix' => true]));
 
         $s = 'matrix([{1,2},[a,b]])';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $expected = '([FunctionCall: ([Id] matrix)] ([List] ([Set] ([Int] 1), ([Int] 2)), ([List] ([Id] a), ([Id] b))))';
-        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
         $this->assertTrue($at1->get_valid());
         $this->assertEquals("{1,2} [a,b]", $at1->ast_to_string(null,
-            array('inputform' => true, 'varmatrix' => true)));
+            ['inputform' => true, 'varmatrix' => true]));
 
         // This is a crazy example because the rows are different lengths.  So what?
         $s = 'matrix([matrix([a,b])],[a,b])';
         $at1 = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security());
         $expected = '([FunctionCall: ([Id] matrix)] ([List] ([FunctionCall: ([Id] matrix)] ' .
                 '([List] ([Id] a), ([Id] b)))),([List] ([Id] a), ([Id] b)))';
-        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
         $this->assertTrue($at1->get_valid());
         // This is to record the behaviour only.  It isn't a sensible example.
         $this->assertEquals("matrix([a,b])\na b", $at1->ast_to_string(null,
-            array('inputform' => true, 'varmatrix' => true)));
+            ['inputform' => true, 'varmatrix' => true]));
     }
 
     public function test_ntuple() {
@@ -956,43 +956,43 @@ class ast_container_test extends qtype_stack_testcase {
         $this->assertTrue($at1->get_valid());
 
         $expected = '([Group] ([Id] x),([Id] y))';
-        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
 
         $this->assertEquals('(x,y)', $at1->get_evaluationform());
         $this->assertEquals('(x,y)', $at1->get_inputform(true, 0, true));
 
-        $filterstoapply = array('504_insert_tuples_for_groups');
+        $filterstoapply = ['504_insert_tuples_for_groups'];
         $s = '(x,y)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), $filterstoapply);
         $this->assertTrue($at1->get_valid());
 
         $expected = '([FunctionCall: ([Id] ntuple)] ([Id] x),([Id] y))';
-        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
 
         $this->assertEquals('(%_C(ntuple),ntuple(x,y))', $at1->get_evaluationform());
         $this->assertEquals('ntuple(x,y)', $at1->get_inputform());
         $this->assertEquals('(x,y)', $at1->get_inputform(true, 0, true));
 
         // Nested tuples are fine (if a bit odd....).
-        $filterstoapply = array('504_insert_tuples_for_groups');
+        $filterstoapply = ['504_insert_tuples_for_groups'];
         $s = '(a,(x,y))';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), $filterstoapply);
         $this->assertTrue($at1->get_valid());
 
         $expected = '([FunctionCall: ([Id] ntuple)] ([Id] a),([FunctionCall: ([Id] ntuple)] ([Id] x),([Id] y)))';
-        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
 
         $this->assertEquals('(%_C(ntuple),ntuple(a,(%_C(ntuple),ntuple(x,y))))', $at1->get_evaluationform());
         $this->assertEquals('ntuple(a,ntuple(x,y))', $at1->get_inputform());
         $this->assertEquals('(a,(x,y))', $at1->get_inputform(true, 0, true));
 
-        $filterstoapply = array('504_insert_tuples_for_groups');
+        $filterstoapply = ['504_insert_tuples_for_groups'];
         $s = '((x,y),a)';
         $at1 = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), $filterstoapply);
         $this->assertTrue($at1->get_valid());
 
         $expected = '([FunctionCall: ([Id] ntuple)] ([FunctionCall: ([Id] ntuple)] ([Id] x),([Id] y)),([Id] a))';
-        $this->assertEquals($expected, $at1->ast_to_string(null, array('flattree' => true)));
+        $this->assertEquals($expected, $at1->ast_to_string(null, ['flattree' => true]));
 
         $this->assertEquals('(%_C(ntuple),ntuple((%_C(ntuple),ntuple(x,y)),a))', $at1->get_evaluationform());
         $this->assertEquals('ntuple(ntuple(x,y),a)', $at1->get_inputform());

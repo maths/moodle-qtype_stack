@@ -30,8 +30,8 @@ class stack_ast_filter_542_no_functions_at_all implements stack_cas_astfilter_ex
                 // Insert stars into the pattern.
                 // Probably not very sensible to end up with sin(x) -> sin*(x) but ho hum.
                 $errors[] = stack_string('stackCas_noFunction',
-                        array('forbid' => stack_maxima_format_casstring($node->name->toString()),
-                            'term' => stack_maxima_format_casstring($node->toString())));
+                        ['forbid' => stack_maxima_format_casstring($node->name->toString()),
+                            'term' => stack_maxima_format_casstring($node->toString())]);
                 $node->position['invalid'] = true;
                 return false;
             }

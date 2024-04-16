@@ -27,11 +27,11 @@ require_once(__DIR__ . '/../algebraic/algebraic.class.php');
  */
 class stack_string_input extends stack_algebraic_input {
 
-    protected $extraoptions = array(
+    protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
         'validator' => false
-    );
+    ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
@@ -40,7 +40,7 @@ class stack_string_input extends stack_algebraic_input {
         }
 
         $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
-        $attributes = array(
+        $attributes = [
             'type'  => 'text',
             'name'  => $fieldname,
             'id'    => $fieldname,
@@ -49,7 +49,7 @@ class stack_string_input extends stack_algebraic_input {
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
             'class'     => 'maxima-string',
-        );
+        ];
 
         if ($this->is_blank_response($state->contents)) {
             $field = 'value';
@@ -93,7 +93,7 @@ class stack_string_input extends stack_algebraic_input {
      */
     protected function response_to_contents($response) {
 
-        $contents = array();
+        $contents = [];
         if (array_key_exists($this->name, $response)) {
             // Don't turn an empty string into an empty string.
             if (trim($response[$this->name]) === '' && !$this->extraoptions['allowempty']) {
@@ -102,7 +102,7 @@ class stack_string_input extends stack_algebraic_input {
             // Protect any other quotes etc.
             $converted = stack_utils::php_string_to_maxima_string($response[$this->name]);
             // Finally make sure we actually have a Maxima string!
-            $contents = array($this->ensure_string($converted));
+            $contents = [$this->ensure_string($converted)];
         }
         return $contents;
     }
@@ -116,7 +116,7 @@ class stack_string_input extends stack_algebraic_input {
         }
 
         $display = stack_utils::maxima_string_strip_mbox($display);
-        return stack_string('teacheranswershow_disp', array('display' => $display));
+        return stack_string('teacheranswershow_disp', ['display' => $display]);
     }
 
     /**

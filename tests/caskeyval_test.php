@@ -51,38 +51,38 @@ class caskeyval_test extends qtype_stack_testcase {
 
     public function test_get_valid() {
 
-        $cs0 = new stack_cas_session2(array(), null, 123);
+        $cs0 = new stack_cas_session2([], null, 123);
         $cs0->instantiate();
 
-        $a1 = array('a:x^2', 'b:(x+1)^2');
-        $s1 = array();
+        $a1 = ['a:x^2', 'b:(x+1)^2'];
+        $s1 = [];
         foreach ($a1 as $s) {
-            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+            $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
         }
         $cs1 = new stack_cas_session2($s1, null, 123);
         $cs1->instantiate();
 
-        $a2 = array('a:1/0');
-        $s2 = array();
+        $a2 = ['a:1/0'];
+        $s2 = [];
         foreach ($a2 as $s) {
-            $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), array());
+            $s2[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
         }
         $cs2 = new stack_cas_session2($s2, null, 123);
         $cs2->instantiate();
 
-        $cases = array(
-                array('', true, $cs0),
-                array("a:x^2 \n b:(x+1)^2", true, $cs1),
-                array("a:x^2; b:(x+1)^2", true, $cs1),
+        $cases = [
+                ['', true, $cs0],
+                ["a:x^2 \n b:(x+1)^2", true, $cs1],
+                ["a:x^2; b:(x+1)^2", true, $cs1],
                 // In the new setup the parsing of the keyvals does not match the sessions created above.
                 // This is because of a failure to split the text into statements.
                 // This is a serious drawback when we try to identify which statement is throwing an error!
-                array("a:x^2) \n b:(x+1)^2", false, $cs0),
-                array('a:x^2); b:(x+1)^2', false, $cs0),
-                array('a:1/0', true, $cs2),
-                array('@', false, $cs0),
-                array('$', false, $cs0),
-        );
+                ["a:x^2) \n b:(x+1)^2", false, $cs0],
+                ['a:x^2); b:(x+1)^2', false, $cs0],
+                ['a:1/0', true, $cs2],
+                ['@', false, $cs0],
+                ['$', false, $cs0],
+        ];
 
         foreach ($cases as $case) {
             $this->get_valid($case[0], $case[1], $case[2]);
@@ -156,7 +156,7 @@ class caskeyval_test extends qtype_stack_testcase {
     public function test_keyval_input_capture() {
         $s = 'a:x^2; ans1:a+1; ta:a^2';
         $kv = new stack_cas_keyval($s, null, 123);
-        $this->assertFalse($kv->get_valid(array('ans1')));
+        $this->assertFalse($kv->get_valid(['ans1']));
     }
 
     public function test_remove_comment() {
@@ -165,11 +165,11 @@ class caskeyval_test extends qtype_stack_testcase {
         $at1->instantiate();
 
         $session = $at1->get_session()->get_session();
-        $expected = array('a:1', 'c:3^2');
+        $expected = ['a:1', 'c:3^2'];
         foreach ($session as $key => $statement) {
             $this->assertEquals($expected[$key], $statement->get_inputform());
         }
-        $expected = array('1', '9');
+        $expected = ['1', '9'];
         foreach ($session as $key => $statement) {
             $this->assertEquals($expected[$key], $statement->get_value());
         }
@@ -228,7 +228,7 @@ class caskeyval_test extends qtype_stack_testcase {
 
         $kv = new stack_cas_keyval($tests);
         $this->assertFalse($kv->get_valid());
-        $expected = array('The characters @, $ and \ are not allowed in CAS input.');
+        $expected = ['The characters @, $ and \ are not allowed in CAS input.'];
         $this->assertEquals($expected, $kv->get_errors());
     }
 
@@ -293,7 +293,7 @@ class caskeyval_test extends qtype_stack_testcase {
         $kv = new stack_cas_keyval($tests);
         // This changed since we check Maxima-side.
         $this->assertTrue($kv->get_valid());
-        $expected = array();
+        $expected = [];
         $this->assertEquals($expected, $kv->get_errors());
 
         $kv->instantiate();
@@ -312,8 +312,8 @@ class caskeyval_test extends qtype_stack_testcase {
         $tests = 'v:2;stack_seed:2';
         $kv = new stack_cas_keyval($tests);
         $this->assertFalse($kv->get_valid());
-        $expected = array('Redefinition of key constants is forbidden: ' .
-            '<span class="stacksyntaxexample">stack_seed</span>.');
+        $expected = ['Redefinition of key constants is forbidden: ' .
+            '<span class="stacksyntaxexample">stack_seed</span>.'];
         $this->assertEquals($expected, $kv->get_errors());
     }
 }

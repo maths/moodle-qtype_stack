@@ -39,7 +39,7 @@ class qtype_stack_question_test_form extends moodleform {
         $mform = $this->_form;
         $question = $this->_customdata['question'];
 
-        $mform->addElement('text', 'description', stack_string('description'), array('size' => 64));
+        $mform->addElement('text', 'description', stack_string('description'), ['size' => 64]);
         $mform->setType('description', PARAM_RAW);
 
         // Inputs.
@@ -63,14 +63,14 @@ class qtype_stack_question_test_form extends moodleform {
             $inputsused = array_keys($question->get_cached('required')[$prtname]);
             $inputsused = ': [' . implode(', ' , $inputsused) . ']';
 
-            $elements = array(
+            $elements = [
                 $mform->createElement('text', $prtname . 'score',
-                    stack_string('score'), array('size' => 2)),
+                    stack_string('score'), ['size' => 2]),
                 $mform->createElement('text', $prtname . 'penalty',
-                    stack_string('penalty'), array('size' => 2)),
+                    stack_string('penalty'), ['size' => 2]),
                 $mform->createElement('select', $prtname . 'answernote',
                     stack_string('answernote'), $prt->get_all_answer_notes()),
-            );
+            ];
             $mform->addGroup($elements, $prtname . 'group', $prtname . $inputsused, ' ', false);
             $mform->setType($prtname . 'score', PARAM_RAW);
             $mform->setType($prtname . 'penalty', PARAM_RAW);
@@ -95,7 +95,7 @@ class qtype_stack_question_test_form extends moodleform {
         $mform = $this->_form;
         $question = $this->_customdata['question'];
 
-        $inputs = array();
+        $inputs = [];
         foreach ($question->inputs as $inputname => $input) {
             $inputs[$inputname] = $mform->exportValue($inputname);
         }
@@ -111,10 +111,10 @@ class qtype_stack_question_test_form extends moodleform {
             if ($prtpenalty == $question->penalty) {
                 $prtpenalty = '';
             }
-            $mform->getElement($prtname . 'group')->setValue(array(
+            $mform->getElement($prtname . 'group')->setValue([
                     $prtname . 'score'      => $result->get_score(),
                     $prtname . 'penalty'    => $prtpenalty,
-                    $prtname . 'answernote' => end($answernotes)));
+                    $prtname . 'answernote' => end($answernotes)]);
         }
     }
 
@@ -123,7 +123,7 @@ class qtype_stack_question_test_form extends moodleform {
         $mform = $this->_form;
         $question = $this->_customdata['question'];
 
-        $inputs = array();
+        $inputs = [];
         foreach ($question->inputs as $inputname => $input) {
             $ta = $input->get_teacher_answer_testcase();
             $mform->getElement($inputname)->setValue($ta);

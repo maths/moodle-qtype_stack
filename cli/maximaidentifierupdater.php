@@ -24,9 +24,9 @@ require_once($CFG->libdir . '/clilib.php');
 // @copyright  2018 Aalto University.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-list($options, $unrecognized) = cli_get_params(array('help' => false, 'version' => '5.42.0',
-    'data' => '-'),
-    array('h' => 'help'));
+list($options, $unrecognized) = cli_get_params(['help' => false, 'version' => '5.42.0',
+    'data' => '-'],
+    ['h' => 'help']);
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
     cli_error(get_string('cliunknowoption', 'admin', $unrecognized));
@@ -64,7 +64,7 @@ $olddata = file_get_contents('../stack/cas/base-identifier-map.json');
 if ($olddata !== false) {
     $olddata = json_decode($olddata, true);
 } else {
-    $olddata = array();
+    $olddata = [];
 }
 
 $newversion = $options['version'];
@@ -82,11 +82,11 @@ foreach ($newdata as $line) {
                 $olddata[$identifier][$type][] = $newversion;
             }
         } else {
-            $olddata[$identifier][$type] = array($newversion);
+            $olddata[$identifier][$type] = [$newversion];
             cli_writeln("Identifier '$identifier' used in new way as '$type'.");
         }
     } else {
-        $olddata[$identifier] = array($type => array($newversion));
+        $olddata[$identifier] = [$type => [$newversion]];
         cli_writeln("New identifier '$identifier' used as '$type'.");
     }
 }

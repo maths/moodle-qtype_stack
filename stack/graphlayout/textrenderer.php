@@ -60,16 +60,16 @@ class stack_prt_graph_text_renderer {
      */
     protected function to_html() {
 
-        $table = array();
+        $table = [];
         foreach ($this->g->get_nodes() as $node) {
             $quiet = stack_string('quiet_icon_false');
             if ($node->quiet) {
                 $quiet = stack_string('quiet_icon_true');
             }
             // Put the name and description in one cell. It looks better.
-            $table[] = array($node->name . '. ' . $node->description,
+            $table[] = [$node->name . '. ' . $node->description,
                     html_writer::tag('code', s($node->casstatement)), $quiet,
-                            $node->truenote, $node->falsenote);
+                            $node->truenote, $node->falsenote];
         }
 
         $html = '';
@@ -81,7 +81,7 @@ class stack_prt_graph_text_renderer {
             $html .= html_writer::tag('tr', $row) . "\n";
         }
         // TODO: style the table with more padding.
-        $html = html_writer::start_tag('table', array('class' => 'prttexttable')) . $html .
+        $html = html_writer::start_tag('table', ['class' => 'prttexttable']) . $html .
                 html_writer::end_tag('table');
 
         return $html;

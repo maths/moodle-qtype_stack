@@ -44,46 +44,46 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
         $plugin->add_child($pluginwrapper);
 
         // Now create the necessary elements.
-        $stackoptions = new backup_nested_element('stackoptions', array('id'),
-                array('stackversion', 'questionvariables', 'specificfeedback', 'specificfeedbackformat',
+        $stackoptions = new backup_nested_element('stackoptions', ['id'],
+                ['stackversion', 'questionvariables', 'specificfeedback', 'specificfeedbackformat',
                       'questionnote', 'questionsimplify', 'assumepositive', 'assumereal',
                       'prtcorrect', 'prtcorrectformat', 'prtpartiallycorrect', 'prtpartiallycorrectformat',
                       'prtincorrect', 'prtincorrectformat', 'decimals', 'multiplicationsign', 'sqrtsign',
-                      'complexno', 'inversetrig', 'logicsymbol', 'matrixparens', 'variantsselectionseed'));
+                      'complexno', 'inversetrig', 'logicsymbol', 'matrixparens', 'variantsselectionseed']);
 
         $stackinputs = new backup_nested_element('stackinputs');
-        $stackinput = new backup_nested_element('stackinput', array('id'),
-                array('name', 'type', 'tans', 'boxsize', 'strictsyntax', 'insertstars',
+        $stackinput = new backup_nested_element('stackinput', ['id'],
+                ['name', 'type', 'tans', 'boxsize', 'strictsyntax', 'insertstars',
                        'syntaxhint', 'syntaxattribute', 'forbidwords', 'allowwords', 'forbidfloat', 'requirelowestterms',
-                       'checkanswertype', 'mustverify', 'showvalidation', 'options'));
+                       'checkanswertype', 'mustverify', 'showvalidation', 'options']);
 
         $stackprts = new backup_nested_element('stackprts');
-        $stackprt = new backup_nested_element('stackprt', array('id'),
-                array('name', 'value', 'autosimplify', 'feedbackstyle', 'feedbackvariables', 'firstnode'));
+        $stackprt = new backup_nested_element('stackprt', ['id'],
+                ['name', 'value', 'autosimplify', 'feedbackstyle', 'feedbackvariables', 'firstnode']);
 
         $stackprtnodes = new backup_nested_element('stackprtnodes');
-        $stackprtnode = new backup_nested_element('stackprtnode', array('id'),
-                array('nodename', 'answertest', 'sans', 'tans', 'testoptions', 'quiet',
+        $stackprtnode = new backup_nested_element('stackprtnode', ['id'],
+                ['nodename', 'answertest', 'sans', 'tans', 'testoptions', 'quiet',
                       'truescoremode', 'truescore', 'truepenalty', 'truenextnode',
                       'trueanswernote', 'truefeedback', 'truefeedbackformat',
                       'falsescoremode', 'falsescore', 'falsepenalty', 'falsenextnode',
-                      'falseanswernote', 'falsefeedback', 'falsefeedbackformat'));
+                      'falseanswernote', 'falsefeedback', 'falsefeedbackformat']);
 
         $stackqtests = new backup_nested_element('stackqtests');
-        $stackqtest = new backup_nested_element('stackqtest', array('id'), array('testcase', 'description', 'timemodified'));
+        $stackqtest = new backup_nested_element('stackqtest', ['id'], ['testcase', 'description', 'timemodified']);
 
         $stackqtestinputs = new backup_nested_element('stackqtestinputs');
-        $stackqtestinput = new backup_nested_element('stackqtestinput', array('id'),
-                array('inputname', 'value'));
+        $stackqtestinput = new backup_nested_element('stackqtestinput', ['id'],
+                ['inputname', 'value']);
 
         $stackqtestexpecteds = new backup_nested_element('stackqtestexpecteds');
-        $stackqtestexpected = new backup_nested_element('stackqtestexpected', array('id'),
-                array('prtname', 'expectedscore', 'expectedpenalty', 'expectedanswernote'));
+        $stackqtestexpected = new backup_nested_element('stackqtestexpected', ['id'],
+                ['prtname', 'expectedscore', 'expectedpenalty', 'expectedanswernote']);
 
         // Note, we intentionally don't backup stack_qtest_results. That is derived data.
 
         $stackdeployedseeds = new backup_nested_element('stackdeployedseeds');
-        $stackdeployedseed = new backup_nested_element('stackdeployedseed', array('id'), array('seed'));
+        $stackdeployedseed = new backup_nested_element('stackdeployedseed', ['id'], ['seed']);
 
         // Build the tree.
         $pluginwrapper->add_child($stackoptions);
@@ -107,21 +107,21 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
         $stackdeployedseeds->add_child($stackdeployedseed);
 
         // Set source to populate the data.
-        $stackoptions->set_source_table('qtype_stack_options', array('questionid' => backup::VAR_PARENTID));
-        $stackinput->set_source_table('qtype_stack_inputs', array('questionid' => backup::VAR_PARENTID));
-        $stackprt->set_source_table('qtype_stack_prts', array('questionid' => backup::VAR_PARENTID));
+        $stackoptions->set_source_table('qtype_stack_options', ['questionid' => backup::VAR_PARENTID]);
+        $stackinput->set_source_table('qtype_stack_inputs', ['questionid' => backup::VAR_PARENTID]);
+        $stackprt->set_source_table('qtype_stack_prts', ['questionid' => backup::VAR_PARENTID]);
         $stackprtnode->set_source_table('qtype_stack_prt_nodes',
-                array('questionid' => '../../../../../../../id', 'prtname' => '../../name'));
+                ['questionid' => '../../../../../../../id', 'prtname' => '../../name']);
         $stackqtest->set_source_sql(
                 'SELECT * FROM {qtype_stack_qtests} WHERE questionid = ? ORDER BY testcase',
-                array(backup::VAR_PARENTID));
+                [backup::VAR_PARENTID]);
         $stackqtestinput->set_source_table('qtype_stack_qtest_inputs',
-                array('questionid' => '../../../../../../../id', 'testcase' => '../../testcase'));
+                ['questionid' => '../../../../../../../id', 'testcase' => '../../testcase']);
         $stackqtestexpected->set_source_table('qtype_stack_qtest_expected',
-                array('questionid' => '../../../../../../../id', 'testcase' => '../../testcase'));
+                ['questionid' => '../../../../../../../id', 'testcase' => '../../testcase']);
         $stackdeployedseed->set_source_sql(
                 'SELECT * FROM {qtype_stack_deployed_seeds} WHERE questionid = ? ORDER BY id',
-                array(backup::VAR_PARENTID));
+                [backup::VAR_PARENTID]);
 
         return $plugin;
     }
@@ -133,13 +133,13 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
      * files to be processed both in backup and restore.
      */
     public static function get_qtype_fileareas() {
-        return array(
+        return [
             'specificfeedback'     => 'question_created',
             'prtcorrect'           => 'question_created',
             'prtpartiallycorrect'  => 'question_created',
             'prtincorrect'         => 'question_created',
             'prtnodetruefeedback'  => 'qtype_stack_prt_nodes',
             'prtnodefalsefeedback' => 'qtype_stack_prt_nodes',
-        );
+        ];
     }
 }

@@ -144,7 +144,7 @@ class stack_potentialresponse_tree_lite {
      * @return array Returns the answer tests used by this PRT for version changes.
      */
     public function get_answertests(): array {
-        $tests = array();
+        $tests = [];
         foreach ($this->nodes as $node) {
             $tests[$node->answertest] = true;
         }
@@ -208,7 +208,7 @@ class stack_potentialresponse_tree_lite {
      * @return array All the "sans" strings used in the nodes with test requiring a raw input.
      */
     public function get_raw_sans_used() {
-        $sans = array();
+        $sans = [];
         foreach ($this->nodes as $key => $node) {
             if (stack_ans_test_controller::required_raw($node->answertest)) {
                 $name = (string) $this->get_name() . '-' . ($key + 1);
@@ -222,7 +222,7 @@ class stack_potentialresponse_tree_lite {
      * @return array All the non-trivial strings used in the node arguments.
      */
     public function get_raw_arguments_used() {
-        $ans = array();
+        $ans = [];
         foreach ($this->nodes as $key => $node) {
             $name = (string) $this->get_name() . '-' . ($key + 1);
             if (trim($node->sans) != '') {
@@ -240,11 +240,11 @@ class stack_potentialresponse_tree_lite {
      * @return array string Of all the answer notes this tree might produce.
      */
     public function get_all_answer_notes() {
-        $nodenotes = array();
+        $nodenotes = [];
         foreach ($this->nodes as $node) {
             $nodenotes = array_merge($nodenotes, [$node->trueanswernote, $node->falseanswernote]);
         }
-        $notes = array('NULL' => 'NULL');
+        $notes = ['NULL' => 'NULL'];
         foreach ($nodenotes as $note) {
             $notes[$note] = $note;
         }
@@ -305,7 +305,7 @@ class stack_potentialresponse_tree_lite {
      * @return array Languages used in the feedback.
      */
     public function get_feedback_languages() {
-        $langs = array();
+        $langs = [];
         $ml = new stack_multilang();
         foreach ($this->nodes as $key => $node) {
             $langs[$key] = [];
@@ -323,12 +323,12 @@ class stack_potentialresponse_tree_lite {
      * @return array of choices for the show validation select menu.
      */
     public static function get_feedbackstyle_options() {
-        return array(
+        return [
             '0' => get_string('feedbackstyle0', 'qtype_stack'),
             '1' => get_string('feedbackstyle1', 'qtype_stack'),
             '2' => get_string('feedbackstyle2', 'qtype_stack'),
             '3' => get_string('feedbackstyle3', 'qtype_stack'),
-        );
+        ];
     }
 
     /**
@@ -386,7 +386,7 @@ class stack_potentialresponse_tree_lite {
         }
 
         // Start a fresh trace with each compile.
-        $this->trace = array();
+        $this->trace = [];
         if ($this->feedbackvariables != '') {
             $this->trace[] = $this->feedbackvariables;
             $this->trace[] = '/* ------------------- */';
@@ -600,7 +600,7 @@ class stack_potentialresponse_tree_lite {
          * of a maxima variable).  So, we need to protect the name from being evaluated.
          */
         $op = $node->testoptions;
-        $reps = array('assume_pos' => 'assumepos', 'assume_real' => 'assumereal');
+        $reps = ['assume_pos' => 'assumepos', 'assume_real' => 'assumereal'];
         foreach ($reps as $key => $val) {
             $op = str_replace($key, $val, $op);
         }

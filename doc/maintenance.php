@@ -44,8 +44,8 @@ function report($d) {
     $dirroot = stack_utils::convert_slash_paths($CFG->dirroot.'/question/type/stack/doc/en');
     $wwwroot = $CFG->wwwroot;
     $webdocs = $wwwroot.'/question/type/stack/doc/en';
-    $a = array();
-    $fileslinkedto = array();
+    $a = [];
+    $fileslinkedto = [];
 
     if (is_dir($d)) {
         if ($dh = opendir($d)) {
@@ -59,35 +59,35 @@ function report($d) {
                         $fsize  = filesize($fpath);
                         $reldir = str_replace($dirroot, '', $d);
 
-                        $a[] = array($fpath, 'F', 'Found file ' . "$fpath");
+                        $a[] = [$fpath, 'F', 'Found file ' . "$fpath"];
 
                         if ($fsize >= 18000) {
                             // Ignore a couple of known large files.
                             if (substr_count($fpath, "Authoring/Answer_Tests/Results") === 0 &&
                                 substr_count($fpath, "Developer/Development_history.md") === 0) {
-                                $a[] = array($fpath, 'W', "Large file ($fsize bytes)");
+                                $a[] = [$fpath, 'W', "Large file ($fsize bytes)"];
                             }
                         }
 
                         $meta = stack_docs_page_metadata($fpath);
-                        if ($meta === array()) {
-                            $a[] = array($fpath, 'W', "No metadata");
+                        if ($meta === []) {
+                            $a[] = [$fpath, 'W', "No metadata"];
                         } else {
                             if (array_key_exists('description', $meta)) {
                                 if (strlen($meta['description']) > 160) {
-                                    $a[] = array($fpath, 'W', "Metadata description is > 160 characters.");
+                                    $a[] = [$fpath, 'W', "Metadata description is > 160 characters."];
                                 }
                             } else {
-                                $a[] = array($fpath, 'W', "No metadata description");
+                                $a[] = [$fpath, 'W', "No metadata description"];
                             }
                             if (!array_key_exists('title', $meta)) {
-                                $a[] = array($fpath, 'W', "No metadata title");
+                                $a[] = [$fpath, 'W', "No metadata title"];
                             }
                         }
 
                         if ($fext != 'bak') {
                             if ($fext != 'md') {
-                                $a[] = array($fpath, 'W', "Not a markdown file ($fext)");
+                                $a[] = [$fpath, 'W', "Not a markdown file ($fext)"];
                             }
 
                             // Let's do some link checking, step one: scrape the links off the document's web page.
@@ -126,13 +126,13 @@ function report($d) {
                                     }
                                     $hs = get_headers($link);
                                     if (strpos($hs[0], '404') !== false) {
-                                        $a[] = array($fpath, 'E', 'Error 404 [' . $found[1][$i] . '] appears to be a dead link.');
+                                        $a[] = [$fpath, 'E', 'Error 404 [' . $found[1][$i] . '] appears to be a dead link.'];
                                     } else {
                                         $fileslinkedto[$found[0][$i]] = true;
                                     }
                                     if ('/' == substr($link, -1)) {
-                                        $a[] = array($fpath, 'E', 'Link [' . $found[0][$i] .
-                                                '] calls a directory.  This should have explicit <tt>index.md</tt> but does not.');
+                                        $a[] = [$fpath, 'E', 'Link [' . $found[0][$i] .
+                                                '] calls a directory.  This should have explicit <tt>index.md</tt> but does not.'];
                                     }
                                 }
                             }

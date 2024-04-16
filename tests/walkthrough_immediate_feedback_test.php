@@ -68,8 +68,8 @@ class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_b
         );
 
         // Save a partially correct response for validation.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
-                '-submit' => 1));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
+                '-submit' => 1]);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -91,8 +91,8 @@ class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_b
         );
 
         // Re-submit after validation validation.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
-                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x', '-submit' => 1));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
+                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x', '-submit' => 1]);
 
         $this->check_current_state(question_state::$gradedpartial);
         $this->check_current_mark(2.5);
@@ -139,7 +139,7 @@ class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_b
         );
 
         // Save a partially correct, partially complete response.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => ''));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => '']);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
@@ -208,7 +208,7 @@ class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_b
         );
 
         // Submit a partially correct response.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => '(x +', 'ans3' => '0', 'ans4' => 'true', '-submit' => 1));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => '(x +', 'ans3' => '0', 'ans4' => 'true', '-submit' => 1]);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -230,8 +230,8 @@ class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_b
         );
 
         // Try to submit again without editing. Shoud not be accepted.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => '(x +', 'ans3' => '0', 'ans4' => 'true',
-                                        'ans1_val' => 'x^3', 'ans3_val' => '0', '-submit' => 1));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => '(x +', 'ans3' => '0', 'ans4' => 'true',
+                                        'ans1_val' => 'x^3', 'ans3_val' => '0', '-submit' => 1]);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -253,8 +253,8 @@ class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_b
         );
 
         // Now fix the resonse and submit. Should only be validated.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
-                                        'ans1_val' => 'x^3', 'ans3_val' => '0', '-submit' => 1));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
+                                        'ans1_val' => 'x^3', 'ans3_val' => '0', '-submit' => 1]);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -276,8 +276,8 @@ class walkthrough_immediate_feedback_test extends qtype_stack_walkthrough_test_b
         );
 
         // Submit again. Should now be graded.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
-                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-submit' => 1));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
+                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-submit' => 1]);
 
         $this->check_current_state(question_state::$gradedright);
         $this->check_current_mark(4);

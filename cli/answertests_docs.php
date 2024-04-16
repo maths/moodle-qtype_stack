@@ -45,7 +45,7 @@ foreach ($availabletests as $anstest) {
     $tests = stack_answertest_test_data::get_tests_for($anstest);
 
     // Set up the results table.
-    $columns = array(
+    $columns = [
         'name'          => stack_string('answertest_ab'),
         'passed'        => stack_string('testsuitecolpassed'),
         'studentanswer' => stack_string('studentanswer'),
@@ -53,7 +53,7 @@ foreach ($availabletests as $anstest) {
         'options'       => stack_string('options_short'),
         'rawmark'       => stack_string('testsuitecolmark'),
         'answernote'    => stack_string('answernote'),
-    );
+    ];
 
     $table = new flexible_table('stack_answertests');
     $table->define_columns(array_keys($columns));
@@ -64,7 +64,7 @@ foreach ($availabletests as $anstest) {
 
     // Run the tests.
     $allpassed = true;
-    $failedtable = array();
+    $failedtable = [];
     $notests = 0;
     $start = microtime(true);
 
@@ -84,8 +84,8 @@ foreach ($availabletests as $anstest) {
             reset($columns);
             $firstcol = key($columns);
             // This is a slight cludge to get multiple columns in a row.
-            $notes = html_writer::tag('td', $test->notes, array('colspan' => '6'));
-            $table->add_data(array($notes), 'notes');
+            $notes = html_writer::tag('td', $test->notes, ['colspan' => '6']);
+            $table->add_data([$notes], 'notes');
         }
 
         set_time_limit(30);
@@ -122,7 +122,7 @@ foreach ($availabletests as $anstest) {
         if ($rawmark !== $test->expectedscore && $test->expectedscore > 0) {
             $mark = $rawmark . ' <> ' . $test->expectedscore;
         }
-        $row = array(
+        $row = [
             'name'          => $test->name,
             'passed'        => $passedcol,
             'studentanswer' => html_writer::tag('pre', $sans),
@@ -130,7 +130,7 @@ foreach ($availabletests as $anstest) {
             'options'       => $topt,
             'rawmark'       => $mark,
             'answernote'    => $ansnote,
-        );
+        ];
         if (!$passed) {
             $row['answernote'] .= html_writer::tag('pre', $trace);
             $failedtable[] = $row;
@@ -140,15 +140,15 @@ foreach ($availabletests as $anstest) {
 
         // Add errors as a separate row for better spacing.
         $row = [];
-        $row[] = html_writer::tag('td', '', array('colspan' => '2'));
-        $row[] = html_writer::tag('td', $error, array('colspan' => '4'));
+        $row[] = html_writer::tag('td', '', ['colspan' => '2']);
+        $row[] = html_writer::tag('td', $error, ['colspan' => '4']);
         if ($error != '') {
             $table->add_data($row, $class);
         }
         // Add feeback as a separate row for better spacing.
         $row = [];
-        $row[] = html_writer::tag('td', '', array('colspan' => '2'));
-        $row[] = html_writer::tag('td', $feedback, array('colspan' => '4'));
+        $row[] = html_writer::tag('td', '', ['colspan' => '2']);
+        $row[] = html_writer::tag('td', $feedback, ['colspan' => '4']);
         if ($feedback != '' && $feedback != $error) {
             $table->add_data($row, $class);
         }
@@ -168,9 +168,9 @@ foreach ($availabletests as $anstest) {
     // If we don't strip id tags the whole file will change everytime we add a test!
     // String too long for a single regular expression match.
     $lines = explode("\n", $output);
-    $pat = array('/\sid="stack_answertests_r\d+_c\d+"/',
-                 '/\sid="stack_answertests_r\d+"/');
-    $rep = array('', '');
+    $pat = ['/\sid="stack_answertests_r\d+_c\d+"/',
+                 '/\sid="stack_answertests_r\d+"/'];
+    $rep = ['', ''];
     foreach ($lines as $key => $line) {
         $lines[$key] = preg_replace($pat, $rep, $line);
     }

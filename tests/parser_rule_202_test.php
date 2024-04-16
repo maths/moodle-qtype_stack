@@ -42,8 +42,8 @@ class parser_rule_202_test extends qtype_stack_testcase {
             'min' => $min,
             'max' => $max
         ]);
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $ast = $filter->filter($ast, $errs, $note, $security);

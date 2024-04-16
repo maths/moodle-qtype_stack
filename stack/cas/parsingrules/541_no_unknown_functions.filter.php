@@ -34,8 +34,8 @@ class stack_ast_filter_541_no_unknown_functions implements stack_cas_astfilter_e
                 $hasany = true;
                 // Insert stars into the pattern.
                 $errors[] = stack_string('stackCas_unknownFunction',
-                        array('forbid' => stack_maxima_format_casstring($node->name->toString()),
-                            'term' => stack_maxima_format_casstring($node->toString())));
+                        ['forbid' => stack_maxima_format_casstring($node->name->toString()),
+                            'term' => stack_maxima_format_casstring($node->toString())]);
                 $node->position['invalid'] = true;
                 return false;
             }

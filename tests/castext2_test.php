@@ -605,9 +605,9 @@ class castext2_test extends qtype_stack_testcase {
     public function test_stackintfmt() {
         $input = '{@(stackintfmt:"~:r",a)@}, {@(stackintfmt:"~@R",a)@}';
         $preamble = array('a:1998');
-        $output = '\({\mbox{one thousand nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
+        $output = '\({\text{one thousand nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
         if ($this->adapt_to_new_maxima('5.46.0')) {
-            $output = '\({\mbox{one thousand, nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
+            $output = '\({\text{one thousand, nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
         }
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }

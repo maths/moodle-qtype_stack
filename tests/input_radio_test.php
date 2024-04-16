@@ -417,7 +417,7 @@ class input_radio_test extends qtype_stack_walkthrough_test_base {
         // The place to fix this is in Maxima: tex("{"); gives the wrong result.
         // This applys to any strings in STACK/Maxima, so this isn't the place to record this failing unit test.
         // But, I'll ask the Maxima people to fix it and see when this unit test "breaks" to correct behaviour!
-        $this->assertEquals('\[ \mbox{{} \]', $state->contentsdisplayed);
+        $this->assertEquals('\[ \text{{} \]', $state->contentsdisplayed);
     }
 
     public function test_union() {

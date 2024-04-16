@@ -29,19 +29,19 @@
 
 (defprop $nounand tex-nary tex)
 ;;(defprop $nounand ("\\land ") texsym)
-(defprop $nounand ("\\,{\\mbox{ !AND! }}\\, ") texsym)
+(defprop $nounand ("\\,{\\text{ !AND! }}\\, ") texsym)
 (defprop $nounand 65. tex-lbp)
 (defprop $nounand 65. tex-rbp)
 ;;(defprop mand ("\\land ") texsym)
-(defprop mand ("\\,{\\mbox{ !AND! }}\\, ")  texsym)
+(defprop mand ("\\,{\\text{ !AND! }}\\, ")  texsym)
 
 (defprop $nounor tex-nary tex)
 ;;(defprop $nounor ("\\lor ") texsym)
-(defprop $nounor ("\\,{\\mbox{ !OR! }}\\, ") texsym)
+(defprop $nounor ("\\,{\\text{ !OR! }}\\, ") texsym)
 (defprop $nounor 61. tex-lbp)
 (defprop $nounor 61. tex-rbp)
 ;;(defprop mor ("\\lor ") texsym)
-(defprop mor ("\\,{\\mbox{ !OR! }}\\, ")  texsym)
+(defprop mor ("\\,{\\text{ !OR! }}\\, ")  texsym)
 
 (defprop $nounnot tex-prefix tex)
 ;;(defprop $nounnot ("\\neg ") texsym)

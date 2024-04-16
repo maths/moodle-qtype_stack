@@ -208,7 +208,7 @@ class stack_textarea_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
 
         $rows = array();
         foreach ($caslines as $index => $cs) {
@@ -216,7 +216,7 @@ class stack_textarea_input extends stack_input {
             $fb = $cs->get_feedback();
             if ($cs->is_correctly_evaluated() && $fb == '') {
                 // The zero element of the array defines the display style: 0 = align center, 1 = red frame.
-                $row[] = array(0, '\(\displaystyle ' . $cs->get_display() . ' \)');
+                $row[] = array(0, '\(\displaystyle ' . $ilines[$index]->get_display() . ' \)');
                 if ($errors[$index]) {
                     $row[] = array(1, stack_maxima_translate($errors[$index]));
                 }
@@ -226,7 +226,7 @@ class stack_textarea_input extends stack_input {
                     $errors[] = $fb;
                 }
                 $valid = false;
-                $row[] = array(0, stack_maxima_format_casstring($this->rawcontents[$index]) );
+                $row[] = array(0, stack_maxima_format_casstring($this->rawcontents[$index]));
                 $row[] = array(1, trim(stack_maxima_translate($cs->get_errors()) . ' ' . $fb) );
             }
             $rows[] = $row;

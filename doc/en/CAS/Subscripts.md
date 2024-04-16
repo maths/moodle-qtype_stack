@@ -65,4 +65,4 @@ is typeset as \({a}_{b}\) i.e. `{a}_{b}` in LaTeX.  For example,
 * `texsub(A, sequence(1,2))` will display as \({{A}_{1, 2}}\),
 * with simplification off, `texsub(F,1-2)` will be displayed as \({F}_{1-2}\).
 
-Note that the process of converting `theta_07` into the intermediate `texsub` form internally results in the `texsub(theta,7)` which removes the leading zero.  This is a known issue, for which a work around is to directly use `texput(theta_07, "{{\\theta}_{07}}")` or `texsub(theta,"07")`.  The second option does not produce optimal LaTeX, since it uses TeX `mbox`, e.g. `{{\theta}_{\mbox{07}}}`.
+Note that the process of converting `theta_07` into the intermediate `texsub` form internally results in the `texsub(theta,7)` which removes the leading zero.  This is a known issue, for which a work around is to directly use `texput(theta_07, "{{\\theta}_{07}}")` or `texsub(theta,"07")`.  The second option does not produce optimal LaTeX, since it uses TeX `mbox`, e.g. `{{\theta}_{\text{07}}}`.

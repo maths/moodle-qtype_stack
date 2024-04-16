@@ -100,7 +100,7 @@ class stack_notes_input extends stack_input {
         $valid    = true;
         $answer   = stack_ast_container::make_from_student_source('', '', $basesecurity);;
 
-        return array($valid, $errors, $notes, $answer, $caslines);
+        return array($valid, $errors, $notes, $answer, $caslines, $answer, array());
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
@@ -200,7 +200,7 @@ class stack_notes_input extends stack_input {
         $contents = $state->contents;
         $render = '';
         if (array_key_exists(0, $contents)) {
-            $render .= html_writer::tag('p', $contents[0]);
+            $render .= html_writer::tag('p', htmlentities($contents[0]));
         }
         $render .= html_writer::tag('p', stack_string('studentValidation_notes'), array('class' => 'stackinputnotice'));
         return format_text(stack_maths::process_display_castext($render));

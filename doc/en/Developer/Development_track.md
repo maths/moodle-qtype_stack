@@ -13,6 +13,7 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 4. Fix display and simplification of binomial coefficients (issue #931).
 5. Add in the `CT:...` and `RAW:...` options for test case construction to enable tests of invalid input (e.g. missing stars).
 6. STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
+7. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).
 
 TODO:
 

@@ -22,23 +22,20 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 
 TODO:
 
-1. Change 'core/event' to 'core_filters/events' in input.js and stackjsvle.js.
-2. Bring the API into the core of STACK for longer term support, and better support for ILIAS.
-3. Major code tidy: Moodle code style now requires (i) short forms of arrays, i.e. `[]` not `array()`, and (ii) commas at the end of all list items.
-4. Fix markdown problems. See issue #420.
-5. Error messages: use caserror.class more fully to use user information to target error messages.
-6. Remove all "cte" code from Maxima - mostly install.
+1. Bring the API into the core of STACK for longer term support, and better support for ILIAS.
+2. Major code tidy: Moodle code style now requires (i) short forms of arrays, i.e. `[]` not `array()`, and (ii) commas at the end of all list items.
+3. Fix markdown problems. See issue #420.
+4. Error messages: use caserror.class more fully to use user information to target error messages.
+5. Remove all "cte" code from Maxima - mostly install.
 
 ## Parson's block development track
 
 Next (v 4.6.0)
 
-1. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block. E.g. input type changes html attr to readonly, sortable version disable? Note: other input types use readonly attr after submit all and finish.
+1. Grid arrangement, e.g. fill in a 2*2 grid (for matching problems).
 2. Use syntax hint to set up a non-empty starting point.
-3. Check sortable for keyboard accessibility (SM: Not built-in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4)
+3. Nested lists (flat list vs. nested/tree)
 4. CSS styling fix for automated feedback
-5. Other arrangements, e.g. fill in a 2*2 grid (for matching problems)
-   Nested lists (flat list vs. nested/tree)
 
 Later
 
@@ -53,6 +50,7 @@ Later
 9. Alternative styling/signalling for clone mode?
 10. Better support (and documentation) for bespoke grading functions.
 11. Hashing keys
+12. Check sortable for keyboard accessibility (SM: Not built-in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4)
 
 
 ## For "inputs 2"?

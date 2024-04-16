@@ -10,6 +10,7 @@ There is a large, and growing, community of STACK users in many languages.
   * ILIAS users see [https://docu.ilias.de/goto_docu_cat_4119.html](https://docu.ilias.de/goto_docu_cat_4119.html).
   * Moodle users see [the Mathematics tools](https://moodle.org/mod/forum/view.php?id=752) forum.
 * A demonstration server is available in Edinburgh:  [https://stack-demo.maths.ed.ac.uk/demo/](https://stack-demo.maths.ed.ac.uk/demo/)
+* STACK also has an [API](../Installation/API.md) to provide STACK questions as a web service.
 
 The source code, and development discussion, is on [github](http://github.com/maths/moodle-qtype_stack/issues), with an additional [ILIAS](https://github.com/ilifau/assStackQuestion/) site.
 

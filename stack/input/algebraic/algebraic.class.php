@@ -77,6 +77,22 @@ class stack_algebraic_input extends stack_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'algebraic';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['align'] = $this->extraoptions['align'] === 'right' ? 'right' : 'left';
+        $data['syntaxHint'] = $this->parameters['syntaxHint'];
+        $data['syntaxHintType'] = $this->parameters['syntaxAttribute'] == '1' ? 'placeholder' : 'value';
+
+        return $data;
+    }
+
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);

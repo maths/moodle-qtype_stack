@@ -323,6 +323,40 @@ class stack_matrix_input extends stack_input {
         return $xhtml;
     }
 
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'matrix';
+
+        $syntaxhint = $this->parameters['syntaxHint'];
+        $data['syntaxHint'] = null;
+        if (trim($syntaxhint) != '') {
+            $data['syntaxHint'] = $this->maxima_to_array($syntaxhint);
+        }
+
+        // Read matrix bracket style from options.
+        $matrixbrackets = 'matrixroundbrackets';
+        $matrixparens = $this->options->get_option('matrixparens');
+        if ($matrixparens == '[') {
+            $matrixbrackets = 'matrixsquarebrackets';
+        } else if ($matrixparens == '|') {
+            $matrixbrackets = 'matrixbarbrackets';
+        } else if ($matrixparens == '') {
+            $matrixbrackets = 'matrixnobrackets';
+        }
+
+        $data['matrixbrackets'] = $matrixbrackets;
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['width'] = $this->width;
+        $data['height'] = $this->height;
+
+        return $data;
+    }
+
     /**
      * Transforms a Maxima expression into an array of raw inputs which are part of a response.
      * Most inputs are very simple, but textarea and matrix need more here.
@@ -551,4 +585,20 @@ class stack_matrix_input extends stack_input {
         return $out;
     }
 
+    /**
+     * Function added for API support
+     */
+    public function get_api_solution($ta)
+    {
+        // We dont want to include the inputname in the solution, therefore we clear the name,
+        // and set it back later after saving the solution
+        $name = $this->name;
+        $this->name = '';
+
+        $solution = $this->maxima_to_response_array($ta);
+
+        $this->name = $name;
+
+        return $solution;
+    }
 }

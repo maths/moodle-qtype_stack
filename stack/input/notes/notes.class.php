@@ -69,6 +69,21 @@ class stack_notes_input extends stack_input {
             html_writer::tag('div', "", array('class' => 'clearfix'));
     }
 
+    public function render_api_data($tavalue)
+    {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'notes';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['syntaxHint'] = $this->parameters['syntaxHint'];
+
+        return $data;
+    }
+
     /**
      * This is the basic validation of the student's "answer".
      * This method is only called if the input is not blank.
@@ -200,4 +215,12 @@ class stack_notes_input extends stack_input {
         return $name . ': ' . $val . ' [' . $state->status . ']';
     }
 
+    public function get_api_solution($tavalue)
+    {
+        return new stdClass();
+    }
+
+    public function get_api_solution_render($tadisplay) {
+        return '';
+    }
 }

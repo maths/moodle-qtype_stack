@@ -1,0 +1,10 @@
+version: "4.0"
+services:
+  stack:
+    build:
+      context: ./../../
+      dockerfile: ./api/docker/Dockerfile
+      target: production
+    restart: unless-stopped
+    ports:
+      - '3080:80'

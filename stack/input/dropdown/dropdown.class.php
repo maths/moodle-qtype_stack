@@ -465,6 +465,19 @@ class stack_dropdown_input extends stack_input {
         return $result;
     }
 
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'dropdown';
+        $data['options'] = $this->get_choices();
+
+        return $data;
+    }
+
     /**
      * Get the input variable that this input expects to process.
      * All the variable names should start with $this->name.
@@ -633,5 +646,22 @@ class stack_dropdown_input extends stack_input {
         $this->errors[] = stack_string('ddl_unknown', $value);
 
         return false;
+    }
+
+    public function get_api_solution($tavalue) {
+        $solution = "";
+        foreach ($this->ddlvalues as $key => $value) {
+            if ($value['correct']) {
+                $solution = strval($key);
+            }
+        }
+        return array('' => $solution);
+    }
+
+    /**
+     * We return an empty value to ensure the rendering result is stable, even if the content included plots
+     */
+    public function get_api_solution_render($tadisplay) {
+        return '';
     }
 }

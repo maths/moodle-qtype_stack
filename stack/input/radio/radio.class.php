@@ -80,4 +80,17 @@ class stack_radio_input extends stack_dropdown_input {
 
         return $result;
     }
+
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'radio';
+        $data['options'] = $this->get_choices();
+
+        return $data;
+    }
 }

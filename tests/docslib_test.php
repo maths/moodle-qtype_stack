@@ -45,6 +45,7 @@ class docslib_test extends qtype_stack_testcase {
         global $CFG;
 
         $this->assertEquals(str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/API.md">API</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/LTI.md">' .
                         'LTI</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Mathjax.md">' .

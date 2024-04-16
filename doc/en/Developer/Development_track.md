@@ -5,12 +5,6 @@ past development history is documented on [Development history](Development_hist
 
 ## Version 4.6.0
 
-TODO:
-
-1. Fix issue #1160: Allow configuring the MathJax URL.
-
-## Version 4.6.0
-
 This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 
 1. Alter list of acceptible expressions.  Unicode super/subscripts now are invalid.  Use 150_replace filter in students' input.
@@ -18,9 +12,12 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 3. Load the `functs` Maxima package, i.e. `load("functs");` to give access to some useful functions.
 4. Fix display and simplification of binomial coefficients (issue #931).
 5. Add in the `CT:...` and `RAW:...` options for test case construction to enable tests of invalid input (e.g. missing stars).
-6. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).
+6. STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
+7. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).
 
 TODO:
+
+1. Fix issue #1160: Allow configuring the MathJax URL.
 
 1. Change 'core/event' to 'core_filters/events' in input.js and stackjsvle.js.
 2. Bring the API into the core of STACK for longer term support, and better support for ILIAS.

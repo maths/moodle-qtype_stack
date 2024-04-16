@@ -1579,4 +1579,28 @@ abstract class stack_input {
     public function summarise_response($name, $state, $response) {
         return $name . ': ' . $this->contents_to_maxima($state->contents) . ' [' . $state->status . ']';
     }
+
+    /**
+     * Returns the definition of this input as it should appear in an API response
+     * @return array
+     */
+    public abstract function render_api_data($tavalue);
+
+    /**
+     * Returns the solution in the format used by the api
+     * @param $tavalue
+     * @return array
+     */
+    public function get_api_solution($tavalue) {
+        return ['' => $tavalue];
+    }
+
+    /**
+     * Returns the rendering of the solution
+     * @param $tadisplay
+     * @return mixed
+     */
+    public function get_api_solution_render($tadisplay) {
+        return $tadisplay;
+    }
 }

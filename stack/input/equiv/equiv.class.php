@@ -121,6 +121,37 @@ class stack_equiv_input extends stack_input {
         return $output;
     }
 
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'equiv';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+
+        $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+        $cs = stack_ast_container::make_from_teacher_source($current);
+        // The syntax hint need not be valid, but we don't want nouns.
+        if ($cs->get_valid()) {
+            $current = $cs->get_inputform();
+        }
+        // Put the first line of the value of the teacher's answer in the input.
+        if (trim($this->parameters['syntaxHint']) == 'firstline') {
+            $values = stack_utils::list_to_array($tavalue, false);
+            if (array_key_exists(0, $values) && !is_null($values[0])) {
+                $cs = stack_ast_container::make_from_teacher_source($values[0]);
+                $cs->get_valid();
+                $current = $cs->get_inputform();
+            }
+        }
+        // Remove % characters, e.g. %pi should be printed just as "pi".
+        $data['syntaxHint'] = str_replace('%', '', $current);
+
+        return $data;
+    }
+
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
@@ -514,5 +545,9 @@ class stack_equiv_input extends stack_input {
         $in = explode('<br>', $in);
         $in = implode("\n", $in);
         return array($this->name => $in);
+    }
+
+    public function get_api_solution($tavalue) {
+        return ['' => $this->maxima_to_raw_input($tavalue)];
     }
 }

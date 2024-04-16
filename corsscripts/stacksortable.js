@@ -337,19 +337,23 @@ export const stack_sortable = class {
         this.state = this._generate_state(this.proofSteps, this.inputId);
         if (inputId !== null) {
             this.input = document.getElementById(this.inputId);
+            this.submitted = this.input.getAttribute("readonly") === "readonly"
         }
         this.availableId = availableId;
         this.available = document.getElementById(this.availableId);
         this.usedId = usedId;
         this.used = document.getElementById(this.usedId);
         this.clone = clone;
-
+        
         // TODO : additional default options?
         this.defaultOptions = {used: {animation: 50}, available: {animation: 50}};
+        // Merges user options and default, overwriting default with user options if they clash
         this.userOptions = this._set_user_options(options);
 
-        // Do not allow a user to replace ghostClass or group
-        this.options = this._set_ghostClass_and_group();
+        // Create overall options from this.userOptions by setting ghostClass and group to required options
+        // and overwriting them if they appear in userOptions. This also disables the list if they have been 
+        // submitted.
+        this.options = this._set_ghostClass_group_and_disabled_options();
     }
 
     /**
@@ -563,32 +567,73 @@ export const stack_sortable = class {
     }
 
     /**
-     * Set ghostClass and group options for both "used" and "available" lists.
+     * Set ghostClass, group and disabled-after-submission options for both "used" and "available" lists.
      *
      * This private method sets the ghostClass and group options for both "used" and "available" lists
      * and will overwrite user options for ghostClass and group if they are provided. This is required
-     * for the functionality of the Sortable lists.
+     * for the functionality of the Sortable lists. If the question has been submitted, then this also
+     * disables the Sortable lists to prevent further (visual) changes.
      *
      * @method
      * @private
      * @returns {Object} - Options containing ghostClass and group settings for both lists.
      */
-    _set_ghostClass_and_group() {
-        var group_val = {used: {name: "sortableUsed", pull: true, put: true}};
+    _set_ghostClass_group_and_disabled_options() {
+        var group_val = {
+            used: {
+                name: "sortableUsed", 
+                pull: true, 
+                put: true
+            }
+        };
+        
         group_val.available = (this.clone === "true") ?
-            {name: "sortableAvailable", pull: "clone", revertClone: true, put: false} :
-            {name: "sortableAvailable", put: true};
+            {
+                name: "sortableAvailable", 
+                pull: "clone", 
+                revertClone: true, 
+                put: false
+            } :
+            {
+                name: "sortableAvailable", 
+                put: true
+            };
+        
+        var options_to_assign = this.submitted ?
+            {
+                used : {
+                    ghostClass: "list-group-item-info", 
+                    group: group_val.used, 
+                    disabled: true
+                }, 
+                available : {
+                    ghostClass: "list-group-item-info", 
+                    group: group_val.available, 
+                    disabled: true
+                }
+            } : 
+            {
+                used : {
+                    ghostClass: "list-group-item-info", 
+                    group: group_val.used
+                }, 
+                available : {
+                    ghostClass: "list-group-item-info", 
+                    group: group_val.available
+                }
+            }
         var options = {used:
             Object.assign(
                 Object.assign({}, this.userOptions.used),
-                            {ghostClass: "list-group-item-info", group: group_val.used}
+                            options_to_assign.used
                         ),
                         available :
             Object.assign(
                 Object.assign({}, this.userOptions.available),
-                            {ghostClass: "list-group-item-info", group: group_val.available}
+                            options_to_assign.available
                         )
         };
+
         return options;
     }
 

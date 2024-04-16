@@ -334,4 +334,15 @@ class stack_options {
             '3' => get_string('showvalidationcompact', 'qtype_stack'),
         );
     }
+
+   /**
+     * @return array of choices for the monospace input select menu.
+     */
+    public static function get_monospace_options() {
+        return array(
+            '0' => get_string('inputtypenumerical', 'qtype_stack'),
+            '1' => get_string('inputtypeunits', 'qtype_stack'),
+            '2' => get_string('inputtypevarmatrix', 'qtype_stack'),
+        );
+    }
 }

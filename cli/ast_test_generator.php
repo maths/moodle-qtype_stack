@@ -232,13 +232,13 @@ ESCAPE;
             '\');' . $nl . $nl;
     } else {
         $testactiveunits .= $indent2 .
-            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl . $nl;
         $testpassiveunits .= $indent2 .
-            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl . $nl;
         $testactivenounits .= $indent2 .
-            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl . $nl;
         $testpassivenounits .= $indent2 .
-            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl . $nl;
     }
 
 
@@ -275,13 +275,13 @@ ESCAPE;
 
         $item = $indent2 . '$this->expect(' . escp($args[0]) .',' . $nl;
         $item .= $indent2 . '              ' . escp($args[1]) . ',' . $nl;
-        $item .= $indent2 . '              array(';
+        $item .= $indent2 . '              [';
         $nos = array_map('trim', $args[2]);
         $nos = array_map('escp', $nos);
         if (!empty($nos)) {
             $item .= implode(', ', $nos);
         }
-        $item .= '),' . $nl;
+        $item .= '],' . $nl;
         $item .= $indent2 . '              ' . ($args[3] === true ? 'true' : 'false') .
             ', ' . ($args[4] === true ? 'true' : 'false') . ');' . $nl;
         if ($affects) {
@@ -314,13 +314,13 @@ ESCAPE;
 
         $item = $indent2 . '$this->expect(' . escp($args[0]) .',' . $nl;
         $item .= $indent2 . '              ' . escp($args[1]) . ',' . $nl;
-        $item .= $indent2 . '              array(';
+        $item .= $indent2 . '              [';
         $nos = array_map('trim', $args[2]);
         $nos = array_map('escp', $nos);
         if (!empty($nos)) {
             $item .= implode(', ', $nos);
         }
-        $item .= '),' . $nl;
+        $item .= '],' . $nl;
         $item .= $indent2 . '              ' . ($args[3] === true ? 'true' : 'false') .
             ', ' . ($args[4] === true ? 'true' : 'false') . ');' . $nl;
         if ($affects) {

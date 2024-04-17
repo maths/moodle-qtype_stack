@@ -1413,7 +1413,7 @@ class input_algebraic_test extends qtype_stack_testcase {
                 'hDrk?autoplay=1&amp;loop=1;controls=0"<https://www.youtube.com/embed/IB3d1UthDrk?autoplay' .
                 '=1&amp;loop=1;controls=0> allow="accelerometer; autoplay; encrypted-media; gyroscope; ' .
                 'picture-in-picture" allowfullscreen="" width="0" height="0" frameborder="0"></iframe>}$$';
-        $ta =   '<span class="stacksyntaxexample">$&#8203;$ \unicode{&lt;script&gt;eval(atob(&quot;ZG9jdW1l' .
+        $ta = '<span class="stacksyntaxexample">$&#8203;$ \unicode{&lt;script&gt;eval(atob(&quot;ZG9jdW1l' .
                 'bnQuZ2V0RWxlbWVudHNCeVRhZ05hbWUoInAiKVswXS5pbm5lckhUTUwgPSAiQSIucmVwZWF0KDY2Nik&quot;))&lt' .
                 ';/script&gt;&lt;iframe src&#0;&#61;&quot;https://www.youtube.com/embed/IB3d1UthDrk?autopla' .
                 'y=1&amp;amp;loop=1;con&#0;trols&#0;&#61;0&quot;&lt;https://www.youtube.com/embed/IB3d1UthD' .

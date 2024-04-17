@@ -163,7 +163,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         $code = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $code .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' .
             ' "http://www.w3.org/TR/xhtml1/DTD/strict.dtd">' . "\n";
-        $code .= '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' . 
+        $code .= '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' .
             stack_get_system_language() . '">';
         // Include a title to help JS debugging.
         $code .= '<head><title>' . $title . '</title>';

@@ -920,7 +920,7 @@ class qtype_stack extends question_type {
         $trueanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'trueanswernote', $select, $selectparams);
         $falseanswernotes = $DB->get_fieldset_select('qtype_stack_prt_nodes', 'falseanswernote', $select, $selectparams);
         // Then loop through {nodename: trueanswernote} to update true answer notes.
-        foreach(array_combine($currentnodenames, $trueanswernotes) as $nodename => $trueanswernote) {
+        foreach (array_combine($currentnodenames, $trueanswernotes) as $nodename => $trueanswernote) {
             // Rename the note in the node if default used.
             $DB->set_field('qtype_stack_prt_nodes', 'trueanswernote', $to . '-' . (intval($nodename) + 1) . '-T',
                 [
@@ -937,7 +937,7 @@ class qtype_stack extends question_type {
                 ]);
         }
         // Do the same for false answer notes.
-        foreach(array_combine($currentnodenames, $falseanswernotes) as $nodename => $falseanswernote) {
+        foreach (array_combine($currentnodenames, $falseanswernotes) as $nodename => $falseanswernote) {
             $DB->set_field('qtype_stack_prt_nodes', 'falseanswernote', $to . '-' . (intval($nodename) + 1) . '-F',
                 [
                     'questionid' => $questionid,

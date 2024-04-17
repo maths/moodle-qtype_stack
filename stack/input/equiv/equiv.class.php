@@ -300,7 +300,8 @@ class stack_equiv_input extends stack_input {
             $errors[] = $answer->get_errors();
 
             // Construct inert version of that.
-            $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd, array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+            $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd,
+                array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
                 [], 'Equivline', $this->options->get_option('decimals'));
             $inertdisplayform->get_valid();
             $ilines[] = $inertdisplayform;
@@ -325,7 +326,8 @@ class stack_equiv_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars,
+                                            $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
 
         if ($this->extraoptions['firstline']) {
             $foundfirstline = false;

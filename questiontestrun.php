@@ -283,7 +283,7 @@ if (empty($question->deployedseeds)) {
         }
 
         $qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, $key + 1, $context);
-        
+
         $choice .= ' ' . $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview')));
 
         if ($canedit) {

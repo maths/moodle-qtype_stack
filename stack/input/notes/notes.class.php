@@ -69,8 +69,7 @@ class stack_notes_input extends stack_input {
             html_writer::tag('div', "", ['class' => 'clearfix']);
     }
 
-    public function render_api_data($tavalue)
-    {
+    public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
         }
@@ -215,8 +214,7 @@ class stack_notes_input extends stack_input {
         return $name . ': ' . $val . ' [' . $state->status . ']';
     }
 
-    public function get_api_solution($tavalue)
-    {
+    public function get_api_solution($tavalue) {
         return new stdClass();
     }
 

@@ -526,7 +526,7 @@ class stack_dropdown_input extends stack_input {
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), []);
         $cs->set_nounify(0);
         $val = '';
-        
+
         $decimal = '.';
         $listsep = ',';
         if ($this->options->get_option('decimals') === ',') {

@@ -1015,7 +1015,8 @@ abstract class stack_input {
             }
 
             // Construct inert version of that.
-            $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd, array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+            $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd,
+                array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
                 [], 'Root', $this->options->get_option('decimals'));
             $inertdisplayform->get_valid();
             $ilines[] = $inertdisplayform;

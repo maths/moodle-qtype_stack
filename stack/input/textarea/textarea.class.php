@@ -209,7 +209,8 @@ class stack_textarea_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars,
+                                          $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
 
         $rows = [];
         foreach ($caslines as $index => $cs) {
@@ -325,8 +326,7 @@ class stack_textarea_input extends stack_input {
         return stack_string('teacheranswershow', ['value' => $value, 'display' => $display]);
     }
 
-    public function get_api_solution($tavalue)
-    {
+    public function get_api_solution($tavalue) {
         $values = stack_utils::list_to_array($tavalue, false);
         foreach ($values as $key => $val) {
             if (trim($val) !== '' ) {

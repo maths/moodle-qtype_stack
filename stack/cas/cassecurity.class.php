@@ -61,7 +61,7 @@ class stack_cas_security {
             'logcontract' => true, 'logexpand' => true, 'member' => true, 'nroots' => true, 'nthroot' => true,
             'numer' => true, 'partfrac' => true, 'polarform' => true, 'polartorect' => true, 'ratexpand' => true,
             'ratsimp' => true, 'realpart' => true, 'round' => true, 'radcan' => true, 'num' => true, 'denom' => true,
-            'trigsimp' => true, 'trigreduce' => true, 'solve' => true, 'allroots' => true,
+            'solve' => true, 'allroots' => true,
             'simp' => true, 'setdifference' => true, 'sort' => true, 'subst' => true,
             'trigexpand' => true, 'trigexpandplus' => true, 'trigexpandtimes' => true, 'triginverses' => true,
             'trigrat' => true, 'trigreduce' => true, 'trigsign' => true,

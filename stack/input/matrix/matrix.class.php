@@ -537,7 +537,7 @@ class stack_matrix_input extends stack_input {
         $parenthesiscount = 0;
         $bracketcount = 0;
 
-        $out =  [];
+        $out = [];
 
         $current = '';
         for ($i = 0; $i < strlen($in); $i++) {
@@ -590,10 +590,9 @@ class stack_matrix_input extends stack_input {
     /**
      * Function added for API support
      */
-    public function get_api_solution($ta)
-    {
+    public function get_api_solution($ta) {
         // We dont want to include the inputname in the solution, therefore we clear the name,
-        // and set it back later after saving the solution
+        // and set it back later after saving the solution.
         $name = $this->name;
         $this->name = '';
 

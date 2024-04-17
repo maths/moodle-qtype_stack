@@ -264,7 +264,6 @@ if (data_submitted() && optional_param('script', false, PARAM_BOOL)) {
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
         $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                 null, null, null, null, $context);
-    
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
     }

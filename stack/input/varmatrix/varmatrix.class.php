@@ -287,7 +287,8 @@ class stack_varmatrix_input extends stack_input {
         $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
-        $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd, array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+        $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd,
+            array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
             [], 'Root', $this->options->get_option('decimals'));
         $inertform->get_valid();
 

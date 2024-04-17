@@ -5230,7 +5230,8 @@ class qtype_stack_test_helper extends question_test_helper {
                 ta1:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("", ex1, " ", ex2[1])]), talab, opts);
                 version: map(first, opts); corr1:mcq_correct(ta1); incorr1:mcq_incorrect(ta1);';
         $formform->questiontext = [
-            'text' => '<p class="noindent">Which of the following functions are invertible?<br></p> [[input:ans1]] [[validation:ans1]]
+            'text' => '<p class="noindent">Which of the following functions are invertible?<br></p>
+                [[input:ans1]] [[validation:ans1]]
                 <p>(This question is to test auto-generated images appear in MCQ options.)</p>',
             'format' => '1',
             'itemid' => 0,
@@ -6557,7 +6558,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->name = 'Numerical input (min sf)';
         $formform->questionvariables = '';
         $formform->questiontext = [
-            'text' => '<p></p><p>Type in \(\pi\) to at least \(3\) significant figures</p><p>[[input:ans1]] [[validation:ans1]]</p>',
+            'text' => '<p></p><p>Type in \(\pi\) to at least \(3\) significant
+                    figures</p><p>[[input:ans1]] [[validation:ans1]]</p>',
             'format' => '1',
             'itemid' => 0,
         ];

@@ -498,7 +498,7 @@ class stack_potentialresponse_tree_lite {
             '%PRT_PATH' => true,
             '%PRT_EXIT_NOTE' => true,
             '%_EXITS' => true,
-            'simp'
+            'simp',
         ];
         // We want to make sure that any writing inside this logic does not affect
         // the outside. However, some of the vars that could be written come from
@@ -711,7 +711,7 @@ class stack_potentialresponse_tree_lite {
                  'prtnodeid' => $node->id,
                  'prtid' => $this->id, // For completeness sake.
                  'questionid' =>
-                    $this->question !== null && property_exists($this->question, 'id') ? $this->question->id : null
+                    $this->question !== null && property_exists($this->question, 'id') ? $this->question->id : null,
                 ]);
             if (substr($body, -1) !== '(') {
                 // Depends on whether the score math was done.
@@ -806,7 +806,7 @@ class stack_potentialresponse_tree_lite {
                  'prtnodeid' => $node->id,
                  'prtid' => $this->id, // For completeness sake.
                  'questionid' => $this->question !==
-                    null && property_exists($this->question, 'id') ? $this->question->id : null
+                    null && property_exists($this->question, 'id') ? $this->question->id : null,
                 ]);
             if (substr($body, -1) !== '(') { // Depends on whether the score math was done.
                 $body .= ',';

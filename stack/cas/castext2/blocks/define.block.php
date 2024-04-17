@@ -29,9 +29,9 @@ class stack_cas_castext2_define extends stack_cas_castext2_block {
             $r->items[] = new MP_FunctionCall(new MP_Identifier('_EC'),
                 [
                     new MP_FunctionCall(new MP_Identifier('errcatch'), [
-                        new MP_Operation(':', new MP_Identifier($param['key']), $ast)
+                        new MP_Operation(':', new MP_Identifier($param['key']), $ast),
                     ]),
-                    new MP_String($epos)
+                    new MP_String($epos),
                 ]);
         }
 

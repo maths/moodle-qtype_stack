@@ -129,7 +129,7 @@ class castext2_parser_utils {
         // These are the environments considered mathmode.
         static $mathmodeenvs = ['align', 'align*', 'alignat', 'alignat*',
             'eqnarray', 'eqnarray*', 'equation', 'equation*', 'gather',
-            'gather*', 'multline', 'multline*'];
+            'gather*', 'multline', 'multline*',];
 
         // Ensure that we have the correct coding.
         $old = mb_internal_encoding();
@@ -559,7 +559,7 @@ class castext2_parser_utils {
             'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html',
             'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav', 'noframes',
             'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table',
-            'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul'
+            'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul',
         ];
 
         // Case 1.

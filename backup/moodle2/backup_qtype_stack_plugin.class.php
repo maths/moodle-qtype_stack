@@ -49,13 +49,13 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
                       'questionnote', 'questionsimplify', 'assumepositive', 'assumereal',
                       'prtcorrect', 'prtcorrectformat', 'prtpartiallycorrect', 'prtpartiallycorrectformat',
                       'prtincorrect', 'prtincorrectformat', 'decimals', 'multiplicationsign', 'sqrtsign',
-                      'complexno', 'inversetrig', 'logicsymbol', 'matrixparens', 'variantsselectionseed']);
+                      'complexno', 'inversetrig', 'logicsymbol', 'matrixparens', 'variantsselectionseed',]);
 
         $stackinputs = new backup_nested_element('stackinputs');
         $stackinput = new backup_nested_element('stackinput', ['id'],
                 ['name', 'type', 'tans', 'boxsize', 'strictsyntax', 'insertstars',
                        'syntaxhint', 'syntaxattribute', 'forbidwords', 'allowwords', 'forbidfloat', 'requirelowestterms',
-                       'checkanswertype', 'mustverify', 'showvalidation', 'options']);
+                       'checkanswertype', 'mustverify', 'showvalidation', 'options',]);
 
         $stackprts = new backup_nested_element('stackprts');
         $stackprt = new backup_nested_element('stackprt', ['id'],
@@ -67,7 +67,7 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
                       'truescoremode', 'truescore', 'truepenalty', 'truenextnode',
                       'trueanswernote', 'truefeedback', 'truefeedbackformat',
                       'falsescoremode', 'falsescore', 'falsepenalty', 'falsenextnode',
-                      'falseanswernote', 'falsefeedback', 'falsefeedbackformat']);
+                      'falseanswernote', 'falsefeedback', 'falsefeedbackformat',]);
 
         $stackqtests = new backup_nested_element('stackqtests');
         $stackqtest = new backup_nested_element('stackqtest', ['id'], ['testcase', 'description', 'timemodified']);

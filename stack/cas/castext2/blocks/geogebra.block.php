@@ -317,16 +317,16 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         $r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/x-mathjax-config'])),
-            new MP_String('MathJax.Hub.Config({messageStyle: "none"});')
+            new MP_String('MathJax.Hub.Config({messageStyle: "none"});'),
         ]);
         $r->items[] = new MP_List([
             new MP_String('script'),
-            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax])),
         ]);
         // Naturally having GeoGebra loaded is important, we load it from our CORS source.
         $r->items[] = new MP_List([
             new MP_String('script'),
-            new MP_String(json_encode(['type' => 'text/javascript', 'src' => 'cors://geogebracore.js']))
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => 'cors://geogebracore.js'])),
         ]);
 
         // Then lets start building up the contents of the body.

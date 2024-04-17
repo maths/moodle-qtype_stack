@@ -132,7 +132,7 @@ function report($d) {
                                     }
                                     if ('/' == substr($link, -1)) {
                                         $a[] = [$fpath, 'E', 'Link [' . $found[0][$i] .
-                                                '] calls a directory.  This should have explicit <tt>index.md</tt> but does not.'];
+                                                '] calls a directory.  This should have explicit <tt>index.md</tt> but does not.',];
                                     }
                                 }
                             }

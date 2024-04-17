@@ -1354,7 +1354,7 @@ class stack_api_test_data {
 
     protected static array $answers = [
         'matrices_correct' => '{"ans1_sub_0_0": "35", "ans1_sub_0_1": "30", "ans1_sub_1_0": "28", "ans1_sub_1_1": "24"}',
-        'multiple_mixed' => '{"ans1": "3", "ans2": "1", "ans3": "0", "ans4": "0"}'
+        'multiple_mixed' => '{"ans1": "3", "ans2": "1", "ans3": "0", "ans4": "0"}',
     ];
 
     public static function get_question_string(string $name): string {

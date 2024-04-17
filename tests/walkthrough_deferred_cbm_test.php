@@ -172,7 +172,7 @@ class walkthrough_deferred_cbm_test extends qtype_stack_walkthrough_test_base {
 
         // Save a confirmation this is valid.
         $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
-                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-certainty' => 3]);
+                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-certainty' => 3,]);
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);

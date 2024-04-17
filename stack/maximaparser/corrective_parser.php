@@ -45,7 +45,7 @@ class maxima_corrective_parser {
          // Well 'else if' is the exception...
          ' else if ' => '%%STACKELSEIF%%', ' if ' => '%%STACKIF%%',
          ':if ' => ':%%STACKIF%%', ' then ' => '%%STACKTHEN%%',
-         ' else ' => '%%STACKELSE%%'];
+         ' else ' => '%%STACKELSE%%',];
 
         // These will store certain errors if the parsing is impossible.
         $err1 = false;
@@ -426,7 +426,7 @@ class maxima_corrective_parser {
         } else if (ctype_alpha($foundchar) && ctype_digit($previouschar)) {
             $a = ['cmd' => stack_maxima_format_casstring(mb_substr($string, 0, $exception->grammarOffset) .
                     '[[syntaxexamplehighlight]*[syntaxexamplehighlight]]' .
-                    mb_substr($string, $exception->grammarOffset))];
+                    mb_substr($string, $exception->grammarOffset)),];
             $answernote[] = 'missing_stars';
         } else if ($foundchar === ',' || (ctype_digit($foundchar) && $previouschar === ',')) {
             if ($decimals == '.') {

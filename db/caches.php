@@ -29,5 +29,5 @@ $definitions = [
         'mode' => cache_store::MODE_APPLICATION,
         // STACK does its own static acceleration.
         'staticacceleration' => false,
-    ]
+    ],
 ];

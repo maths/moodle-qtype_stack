@@ -42,7 +42,7 @@ class external extends \external_api {
         return new \external_function_parameters([
             'qaid' => new \external_value(PARAM_INT, 'Question attempt id'),
             'name' => new \external_value(PARAM_ALPHANUMEXT, 'Input name'),
-            'input' => new \external_value(PARAM_RAW, 'Input value')
+            'input' => new \external_value(PARAM_RAW, 'Input value'),
         ]);
     }
 
@@ -55,7 +55,7 @@ class external extends \external_api {
         return new \external_single_structure([
             'input' => new \external_value(PARAM_RAW, 'Input value'),
             'status' => new \external_value(PARAM_ALPHA, 'One of stack_input::BLANK, stack_input::VALID, ...'),
-            'message' => new \external_value(PARAM_RAW, 'The answer message after validation, includes svg')
+            'message' => new \external_value(PARAM_RAW, 'The answer message after validation, includes svg'),
         ]);
     }
 
@@ -88,7 +88,7 @@ class external extends \external_api {
         return [
             'input'   => $params['input'],
             'status'  => $state->status,
-            'message' => $input->render_validation($state, $qa->get_qt_field_name($params['name']))
+            'message' => $input->render_validation($state, $qa->get_qt_field_name($params['name'])),
         ];
     }
 }

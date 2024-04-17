@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../stack/maximaparser/utils.php');
 
 // Now get cli options.
 list($options, $unrecognized) = cli_get_params(['help' => false,
-    'string' => '{@foo@}', 'ast' => false], ['h' => 'help']);
+    'string' => '{@foo@}', 'ast' => false,], ['h' => 'help']);
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
     cli_error(get_string('cliunknowoption', 'admin', $unrecognized));

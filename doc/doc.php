@@ -75,14 +75,14 @@ if ($uri == '/') {
 
 } else if ('/Site_map' == $uri) {
     $linkurls = [
-        $docsurl               => stack_string('stackDoc_home')
+        $docsurl               => stack_string('stackDoc_home'),
     ];
 
 } else {
     $linkurls = [
         $docsurl               => stack_string('stackDoc_home'),
         './'                   => stack_string('stackDoc_index'),
-        $docsurl . '/Site_map' => stack_string('stackDoc_siteMap')
+        $docsurl . '/Site_map' => stack_string('stackDoc_siteMap'),
     ];
     if (current_language() != 'en') {
         $linkurls[$docsurl . '/Site_map_en'] = stack_string('stackDoc_siteMap_en');

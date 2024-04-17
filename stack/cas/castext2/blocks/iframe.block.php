@@ -48,7 +48,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
             new MP_String('iframe'),
-            new MP_String(json_encode($this->params))
+            new MP_String(json_encode($this->params)),
         ]);
 
         $opt2 = [];
@@ -186,7 +186,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             json_encode($divid),
             json_encode($title),
             $scrolling ? 'true' : 'false',
-            isset($parameters['no sandbox']) && $parameters['no sandbox']
+            isset($parameters['no sandbox']) && $parameters['no sandbox'],
         ];
 
         // As the content is large we cannot simply use the js_amd_call.
@@ -220,7 +220,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
 
         // NOTE! List ordered by length. For the trimming logic.
         $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
-            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%'];
+            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',];
 
         $widthend   = false;
         $heightend  = false;

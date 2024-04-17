@@ -240,7 +240,7 @@ class stack_options {
             '2' => get_string('insertstarsassumesinglechar', 'qtype_stack'),
             '3' => get_string('insertspaces', 'qtype_stack'),
             '4' => get_string('insertstarsspaces', 'qtype_stack'),
-            '5' => get_string('insertstarsspacessinglechar', 'qtype_stack')
+            '5' => get_string('insertstarsspacessinglechar', 'qtype_stack'),
         ];
     }
 
@@ -296,7 +296,7 @@ class stack_options {
             'cos-1'         => "cos\xe2\x81\xbb\xc2\xb9(x)",
             'acos'          => 'acos(x)',
             'arccos'        => 'arccos(x)',
-            'arccos-arcosh' => 'arccos(x)/arcosh(x)'
+            'arccos-arcosh' => 'arccos(x)/arcosh(x)',
         ];
     }
 

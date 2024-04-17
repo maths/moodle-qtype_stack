@@ -51,9 +51,9 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
         $epos = $options['context'] . '/' . $this->position['start'] . '-' . $this->position['end'];
         $ec = new MP_FunctionCall(new MP_Identifier('_EC'), [
             new MP_FunctionCall(new MP_Identifier('errcatch'), [
-                new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast)
+                new MP_Operation(':', new MP_Identifier('_ct2_tmp'), $ast),
             ]),
-            new MP_String($epos)
+            new MP_String($epos),
         ]);
 
         if ($forcesimp) {
@@ -66,7 +66,7 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
                 new MP_Operation(':', new MP_Identifier('_ct2_tmp'), new MP_FunctionCall(new MP_Identifier('string'),
                     [new MP_Identifier('_ct2_tmp')])),
                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
-                new MP_Identifier('_ct2_tmp')
+                new MP_Identifier('_ct2_tmp'),
             ]);
         } else if ($disablesimp) {
             $r = new MP_FunctionCall(new MP_Identifier('block'), [
@@ -77,13 +77,13 @@ class stack_cas_castext2_raw extends stack_cas_castext2_block {
                 new MP_Operation(':', new MP_Identifier('_ct2_tmp'),
                     new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])),
                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('_ct2_simp')),
-                new MP_Identifier('_ct2_tmp')
+                new MP_Identifier('_ct2_tmp'),
             ]);
         } else {
             $r = new MP_FunctionCall(new MP_Identifier('block'), [
                 new MP_List([new MP_Identifier('_ct2_tmp')]),
                 $ec,
-                new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')])
+                new MP_FunctionCall(new MP_Identifier('string'), [new MP_Identifier('_ct2_tmp')]),
             ]);
         }
         return $r;

@@ -484,7 +484,7 @@ class stack_cas_session2 {
             $config = stack_utils::get_config();
             if ($usedversion !== $config->stackmaximaversion) {
                 $errors = [new $this->errclass(stack_string_error('healthchecksstackmaximaversionmismatch',
-                    ['fix' => '', 'usedversion' => $usedversion, 'expectedversion' => $config->stackmaximaversion]), '')];
+                    ['fix' => '', 'usedversion' => $usedversion, 'expectedversion' => $config->stackmaximaversion]), ''),];
                 foreach ($this->statements as $num => $statement) {
                     $statement->set_cas_status($errors, [], []);
                 }
@@ -523,7 +523,7 @@ class stack_cas_session2 {
             'keyless' => false,
             'dealias' => true, // This is needed to stop pi->%pi etc.
             'nounify' => 0,
-            'nontuples' => false
+            'nontuples' => false,
         ];
 
         foreach ($this->statements as $statement) {

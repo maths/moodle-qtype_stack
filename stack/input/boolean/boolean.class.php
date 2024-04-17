@@ -88,7 +88,7 @@ class stack_boolean_input extends stack_input {
         return [
                 'mustVerify'      => false,
                 'showValidation'  => 0,
-                'options'            => ''
+                'options'            => '',
         ];
     }
 }

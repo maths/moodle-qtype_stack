@@ -298,19 +298,19 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('prtcorrectfeedback'),
                 ['rows' => 2], $this->editoroptions);
         $mform->getElement('prtcorrect')->setValue([
-                'text' => $this->stackconfig->prtcorrect]);
+                'text' => $this->stackconfig->prtcorrect,]);
 
         $mform->addElement('editor', 'prtpartiallycorrect',
                 stack_string('prtpartiallycorrectfeedback'),
                 ['rows' => 2], $this->editoroptions);
         $mform->getElement('prtpartiallycorrect')->setValue([
-                        'text' => $this->stackconfig->prtpartiallycorrect]);
+                        'text' => $this->stackconfig->prtpartiallycorrect,]);
 
         $mform->addElement('editor', 'prtincorrect',
                 stack_string('prtincorrectfeedback'),
                 ['rows' => 2], $this->editoroptions);
         $mform->getElement('prtincorrect')->setValue([
-                        'text' => $this->stackconfig->prtincorrect]);
+                        'text' => $this->stackconfig->prtincorrect,]);
 
         $mform->addElement('select', 'decimals',
             stack_string('decimals'), stack_options::get_decimals_sign_options());
@@ -553,7 +553,7 @@ class qtype_stack_edit_form extends question_edit_form {
                 stack_string('prtwillbecomeactivewhen', html_writer::tag('b', $inputnames)));
 
         $tablerow = [stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg'),
-            stack_prt_graph_text_renderer::render($graph)];
+            stack_prt_graph_text_renderer::render($graph),];
         $html = '';
         foreach ($tablerow as $td) {
             $html .= html_writer::tag('td', $td);

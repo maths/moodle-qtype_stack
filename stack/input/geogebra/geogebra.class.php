@@ -31,7 +31,7 @@ class stack_geogebra_input extends stack_input {
         'nounits' => false,
         'align' => 'left',
         'consolidatesubscripts' => false,
-        'checkvars' => 0
+        'checkvars' => 0,
     ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -49,7 +49,7 @@ class stack_geogebra_input extends stack_input {
             'style' => 'width: '.$size.'em',
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
-            'class' => 'geogebra'
+            'class' => 'geogebra',
         ];
         if ($this->extraoptions['align'] === 'right') {
             $attributes['class'] = 'geogebra-right';
@@ -105,7 +105,7 @@ class stack_geogebra_input extends stack_input {
           'forbidFloats'       => false,
           'lowestTerms'        => true,
           'sameType'           => true,
-          'options'            => ''];
+          'options'            => '',];
     }
 
     /**

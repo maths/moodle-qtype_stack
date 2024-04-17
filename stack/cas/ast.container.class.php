@@ -220,7 +220,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         }
         $testval = self::make_from_teacher_source($dispval, '', new stack_cas_security());
         $computedinput = $testval->ast->toString(['nounify' => 0, 'inputform' => true,
-                'qmchar' => true, 'pmchar' => 0, 'nosemicolon' => true, 'nontuples' => true]);
+                'qmchar' => true, 'pmchar' => 0, 'nosemicolon' => true, 'nontuples' => true,]);
 
         return $computedinput;
     }
@@ -331,7 +331,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
             'simp-accessed' => false,
             'simp-modified' => false,
             'last-seen' => null,
-            'out-of-ev-write' => false
+            'out-of-ev-write' => false,
         ];
 
         // Ensure depth with a group.

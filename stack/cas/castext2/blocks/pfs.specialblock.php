@@ -57,7 +57,7 @@ class stack_cas_castext2_special_rewrite_pluginfile_urls extends stack_cas_caste
             new MP_String('%pfs'),
             new MP_String($this->component),
             new MP_String($this->filearea),
-            new MP_String($this->itemid)
+            new MP_String($this->itemid),
         ]);
 
         $flat = true;

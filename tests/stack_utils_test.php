@@ -191,7 +191,7 @@ class stack_utils_test extends qtype_stack_testcase {
 
     public function test_decompose_rename_operation_complex() {
         $this->assertEquals(['i' => 'j', 'h' => 'i', 'a' => 'temp1', 'e' => 'a', 'g' => 'e', 'temp1' => 'g',
-                'd' => 'temp2', 'f' => 'd', 'temp2' => 'f'], stack_utils::decompose_rename_operation(
+                'd' => 'temp2', 'f' => 'd', 'temp2' => 'f',], stack_utils::decompose_rename_operation(
                 ['a' => 'g', 'b' => 'b', 'd' => 'f', 'd' => 'f', 'e' => 'a', 'f' => 'd', 'g' => 'e', 'h' => 'i', 'i' => 'j']));
     }
 

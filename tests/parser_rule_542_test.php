@@ -63,7 +63,7 @@ class parser_rule_542_test extends qtype_stack_testcase {
 
         $filter->filter($ast, $errs, $note, $security);
         $this->assertEquals($errs, [0 => 'The use of the function <span class="stacksyntaxexample">sin</span> in the term ' .
-                '<span class="stacksyntaxexample">sin(x)</span> is not permitted in this context.']);
+                '<span class="stacksyntaxexample">sin(x)</span> is not permitted in this context.',]);
         $this->assertEquals($note, [0 => 'noFunction']);
         $this->assertEquals($result, $ast->toString());
     }
@@ -80,7 +80,7 @@ class parser_rule_542_test extends qtype_stack_testcase {
 
         $filter->filter($ast, $errs, $note, $security);
         $this->assertEquals($errs, [0 => 'The use of the function <span class="stacksyntaxexample">f</span> in the term ' .
-                '<span class="stacksyntaxexample">f(x^2)</span> is not permitted in this context.']);
+                '<span class="stacksyntaxexample">f(x^2)</span> is not permitted in this context.',]);
         $this->assertEquals($note, [0 => 'noFunction']);
         $this->assertEquals($result, $ast->toString());
     }
@@ -99,7 +99,7 @@ class parser_rule_542_test extends qtype_stack_testcase {
         $this->assertEquals($errs, [0 => 'The use of the function <span class="stacksyntaxexample">f</span> in the term ' .
                     '<span class="stacksyntaxexample">f(x^2-1)</span> is not permitted in this context.',
                 1 => 'The use of the function <span class="stacksyntaxexample">sin</span> in the term ' .
-                    '<span class="stacksyntaxexample">sin(x)</span> is not permitted in this context.']);
+                    '<span class="stacksyntaxexample">sin(x)</span> is not permitted in this context.',]);
         $this->assertEquals($note, [0 => 'noFunction']);
         $this->assertEquals($result, $ast->toString());
     }
@@ -118,7 +118,7 @@ class parser_rule_542_test extends qtype_stack_testcase {
         $this->assertEquals($errs, [0 => 'The use of the function <span class="stacksyntaxexample">x</span> in the term ' .
                     '<span class="stacksyntaxexample">x(t(3)+1)</span> is not permitted in this context.',
                 1 => 'The use of the function <span class="stacksyntaxexample">t</span> in the term ' .
-                    '<span class="stacksyntaxexample">t(3)</span> is not permitted in this context.']);
+                    '<span class="stacksyntaxexample">t(3)</span> is not permitted in this context.',]);
         $this->assertEquals($note, [0 => 'noFunction']);
         $this->assertEquals($result, $ast->toString());
     }

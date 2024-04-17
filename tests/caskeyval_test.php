@@ -313,7 +313,7 @@ class caskeyval_test extends qtype_stack_testcase {
         $kv = new stack_cas_keyval($tests);
         $this->assertFalse($kv->get_valid());
         $expected = ['Redefinition of key constants is forbidden: ' .
-            '<span class="stacksyntaxexample">stack_seed</span>.'];
+            '<span class="stacksyntaxexample">stack_seed</span>.',];
         $this->assertEquals($expected, $kv->get_errors());
     }
 }

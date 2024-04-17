@@ -229,7 +229,7 @@ class input_matrix_test extends qtype_stack_testcase {
             'ans1_sub_0_2' => '3',
             'ans1_sub_1_0' => '4',
             'ans1_sub_1_1' => 'a',
-            'ans1_sub_1_2' => 'a+b'
+            'ans1_sub_1_2' => 'a+b',
         ];
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
@@ -340,7 +340,7 @@ class input_matrix_test extends qtype_stack_testcase {
             'ans1_sub_0_2' => '3',
             'ans1_sub_1_0' => '',
             'ans1_sub_1_1' => '5',
-            'ans1_sub_1_2' => '6'
+            'ans1_sub_1_2' => '6',
         ];
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -362,7 +362,7 @@ class input_matrix_test extends qtype_stack_testcase {
             'ans1_sub_0_2' => '3',
             'ans1_sub_1_0' => '4',
             'ans1_sub_1_1' => '5',
-            'ans1_sub_1_2' => '6'
+            'ans1_sub_1_2' => '6',
         ];
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -383,7 +383,7 @@ class input_matrix_test extends qtype_stack_testcase {
             'ans1_sub_0_2' => '3',
             'ans1_sub_1_0' => '4',
             'ans1_sub_1_1' => '5',
-            'ans1_sub_1_2' => '6'
+            'ans1_sub_1_2' => '6',
         ];
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -406,7 +406,7 @@ class input_matrix_test extends qtype_stack_testcase {
             'ans1_sub_0_2' => '3',
             'ans1_sub_1_0' => '4',
             'ans1_sub_1_1' => '5',
-            'ans1_sub_1_2' => '6a'
+            'ans1_sub_1_2' => '6a',
         ];
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);

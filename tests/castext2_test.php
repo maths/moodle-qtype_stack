@@ -579,7 +579,7 @@ class castext2_test extends qtype_stack_testcase {
     public function test_texput_2() {
         $input = '{@x^2+foo(a,sqrt(b))@}';
         $preamble = ['footex(e):=block([a,b],[a,b]:args(e),sconcat(tex1(a)," \\\\rightarrow ",tex1(b)))',
-            'texput(foo, footex)'];
+            'texput(foo, footex)',];
         $output = '\({x^2+a \rightarrow \sqrt{b}}\)';
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }

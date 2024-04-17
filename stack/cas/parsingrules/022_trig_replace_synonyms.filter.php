@@ -34,7 +34,7 @@ class stack_ast_filter_022_trig_replace_synonyms implements stack_cas_astfilter 
             'arccosec' => 'acsc',
             'arsinh' => 'asinh', 'arcosh' => 'acosh',
             'artanh' => 'atanh', 'arsech' => 'asech',
-            'arcoth' => 'acoth', 'arcsch' => 'acsch'
+            'arcoth' => 'acoth', 'arcsch' => 'acsch',
         ];
 
         $process = function($node) use (&$errors, &$answernotes, $selectednames) {

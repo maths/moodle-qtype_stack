@@ -163,7 +163,7 @@ class stack_cas_casstring_units {
         'cc' => ['ccm'],
         'Hz' => ['hz'],
         'h' => ['hr', 'hours'],
-        'day' => ['days']
+        'day' => ['days'],
     ];
 
     /**
@@ -264,7 +264,7 @@ class stack_cas_casstring_units {
      */
     private static $unitsubstitutions = [
         'Torr' => 'torr',
-        'kgm/s' => 'kg*m/s'
+        'kgm/s' => 'kg*m/s',
     ];
 
     /* Make substitutions in an expression.
@@ -313,7 +313,7 @@ class stack_cas_casstring_units {
                 $answernote = 'unitssynonym';
                 $synonymerr = stack_string('stackCas_unitssynonym',
                         ['forbid' => stack_maxima_format_casstring($key),
-                                'unit' => stack_maxima_format_casstring($cache[strtolower($key)])]);
+                                'unit' => stack_maxima_format_casstring($cache[strtolower($key)]),]);
             }
         }
 
@@ -362,6 +362,6 @@ class stack_cas_casstring_units {
 
         return(stack_string('stackCas_unknownUnitsCase',
             ['forbid' => stack_maxima_format_casstring($key),
-                'unit' => stack_maxima_format_casstring('['.implode(', ', $invalid[strtolower($key)]).']')]));
+                'unit' => stack_maxima_format_casstring('['.implode(', ', $invalid[strtolower($key)]).']'),]));
     }
 }

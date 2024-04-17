@@ -46,7 +46,7 @@ class input_checkbox_test extends qtype_stack_testcase {
             '' => stack_string('notanswered'),
             '1' => 'x+1',
             '2' => 'x+2',
-            '3' => 'sin(pi*n)'
+            '3' => 'sin(pi*n)',
         ];
     }
 
@@ -55,7 +55,7 @@ class input_checkbox_test extends qtype_stack_testcase {
             '' => stack_string('notanswered'),
             '1' => 'x+1',
             '2' => 'x+2',
-            '3' => 'sin(\pi*n)'
+            '3' => 'sin(\pi*n)',
         ];
     }
 

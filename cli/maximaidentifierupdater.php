@@ -25,7 +25,7 @@ require_once($CFG->libdir . '/clilib.php');
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 list($options, $unrecognized) = cli_get_params(['help' => false, 'version' => '5.42.0',
-    'data' => '-'],
+    'data' => '-',],
     ['h' => 'help']);
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);

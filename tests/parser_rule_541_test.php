@@ -78,7 +78,7 @@ class parser_rule_541_test extends qtype_stack_testcase {
 
         $filter->filter($ast, $errs, $note, $security);
         $this->assertEquals($errs, [0 => 'Unknown function: <span class="stacksyntaxexample">f</span> ' .
-                'in the term <span class="stacksyntaxexample">f(x^2)</span>.']);
+                'in the term <span class="stacksyntaxexample">f(x^2)</span>.',]);
         $this->assertEquals($note, [0 => 'unknownFunction']);
         $this->assertEquals($ast->toString(), $result);
     }
@@ -95,7 +95,7 @@ class parser_rule_541_test extends qtype_stack_testcase {
 
         $filter->filter($ast, $errs, $note, $security);
         $this->assertEquals($errs, [0 => 'Unknown function: <span class="stacksyntaxexample">foo</span> in the term ' .
-                '<span class="stacksyntaxexample">foo(x^2-1)</span>.']);
+                '<span class="stacksyntaxexample">foo(x^2-1)</span>.',]);
         $this->assertEquals($note, [0 => 'unknownFunction']);
         $this->assertEquals($ast->toString(), $result);
     }
@@ -114,7 +114,7 @@ class parser_rule_541_test extends qtype_stack_testcase {
         $this->assertEquals($errs, [0 => 'Unknown function: <span class="stacksyntaxexample">x</span> in the term ' .
                     '<span class="stacksyntaxexample">x(t(3)+1)</span>.',
                 1 => 'Unknown function: <span class="stacksyntaxexample">t</span> in the term ' .
-                    '<span class="stacksyntaxexample">t(3)</span>.']);
+                    '<span class="stacksyntaxexample">t(3)</span>.',]);
         $this->assertEquals($note, [0 => 'unknownFunction']);
         $this->assertEquals($ast->toString(), $result);
     }

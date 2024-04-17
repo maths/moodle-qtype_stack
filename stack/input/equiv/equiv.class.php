@@ -53,7 +53,7 @@ class stack_equiv_input extends stack_input {
         // Sets the value of the stack_calculus variable, which affects how we deal with calulus in arguments.
         'calculus' => false,
         'consolidatesubscripts' => false,
-        'checkvars' => 0
+        'checkvars' => 0,
     ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -194,7 +194,7 @@ class stack_equiv_input extends stack_input {
             'keyless' => true,
             'dealias' => false, // This is needed to stop pi->%pi etc.
             'nounify' => 1,
-            'nontuples' => false
+            'nontuples' => false,
         ];
         foreach ($caslines as $line) {
             $str = $line->ast_to_string(null, $params);
@@ -459,7 +459,7 @@ class stack_equiv_input extends stack_input {
             'forbidFloats'     => true,
             'lowestTerms'      => true,
             'sameType'         => false,
-            'options'          => ''
+            'options'          => '',
             ];
     }
 
@@ -526,7 +526,7 @@ class stack_equiv_input extends stack_input {
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', ['type' => 'hidden',
-                    'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents)]);
+                    'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents),]);
         }
 
         if (self::INVALID == $state->status) {

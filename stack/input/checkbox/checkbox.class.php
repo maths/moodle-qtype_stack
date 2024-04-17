@@ -70,10 +70,10 @@ class stack_checkbox_input extends stack_dropdown_input {
                 'type' => 'checkbox',
                 'name' => $fieldname.'_'.$key,
                 'value' => $key,
-                'id' => $fieldname.'_'.$key
+                'id' => $fieldname.'_'.$key,
             ];
             $labelattributes = [
-                'for' => $fieldname.'_'.$key
+                'for' => $fieldname.'_'.$key,
             ];
             if (array_key_exists($key, $selected)) {
                 $inputattributes['checked'] = 'checked';

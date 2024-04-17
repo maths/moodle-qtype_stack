@@ -48,7 +48,7 @@ class stack_numerical_input extends stack_input {
         'minsf' => false,
         'maxsf' => false,
         'align' => 'left',
-        'validator' => false
+        'validator' => false,
     ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -133,7 +133,7 @@ class stack_numerical_input extends stack_input {
             'forbidFloats'       => false,
             'lowestTerms'        => true,
             'sameType'           => true,
-            'options'            => ''];
+            'options'            => '',];
     }
 
     /**

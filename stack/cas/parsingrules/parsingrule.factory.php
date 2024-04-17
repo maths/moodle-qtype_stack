@@ -235,7 +235,7 @@ class stack_parsing_rule_factory {
                            '990_no_fixing_spaces', '991_no_fixing_stars',
                            '995_ev_modification', '996_call_modification',
                            '997_string_security',
-                           '998_security', '999_strict'] as $name) {
+                           '998_security', '999_strict',] as $name) {
                 self::$singletons[$name] = self::build_from_name($name);
             }
         }

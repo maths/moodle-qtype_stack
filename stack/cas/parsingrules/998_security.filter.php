@@ -338,7 +338,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 // Case sensitivity issues.
                 $errors[] = trim(stack_string('stackCas_unknownFunctionCase',
                     ['forbid' => stack_maxima_format_casstring($name),
-                          'lower' => stack_maxima_format_casstring(implode(', ', $vars))]));
+                          'lower' => stack_maxima_format_casstring(implode(', ', $vars)),]));
                 if (array_search('unknownFunctionCase', $answernotes) === false) {
                     $answernotes[] = 'unknownFunctionCase';
                 }
@@ -502,7 +502,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             $errors[] = trim(stack_string('stackCas_unknownVariableCase',
                                 ['forbid' => stack_maxima_format_casstring($n),
                                 'lower' => stack_maxima_format_casstring(
-                                    implode(', ', $vars))]));
+                                    implode(', ', $vars)),]));
                             if (array_search('unknownVariableCase', $answernotes) === false) {
                                 $answernotes[] = 'unknownVariableCase';
                             }
@@ -524,7 +524,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             $errors[] = trim(stack_string('stackCas_unknownVariableCase',
                                 ['forbid' => stack_maxima_format_casstring($n),
                                 'lower' => stack_maxima_format_casstring(
-                                    implode(', ', $vars))]));
+                                    implode(', ', $vars)),]));
                             if (array_search('unknownVariableCase', $answernotes) === false) {
                                 $answernotes[] = 'unknownVariableCase';
                             }

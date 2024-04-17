@@ -79,7 +79,7 @@ abstract class stack_input {
         'allowWords',
         'forbidFloats',
         'lowestTerms',
-        'sameType'];
+        'sameType',];
 
     /**
      * From STACK 4.1 we are not going to continue to add input options as columns in the database.
@@ -90,7 +90,7 @@ abstract class stack_input {
      */
     protected $extraoptions = [
         'hideanswer' => false,
-        'allowempty' => false
+        'allowempty' => false,
     ];
 
     /**
@@ -835,7 +835,7 @@ abstract class stack_input {
                         'keyless' => true,
                         'dealias' => true, // This is needed to stop pi->%pi etc.
                         'nounify' => 1,
-                        'nontuples' => false
+                        'nontuples' => false,
         ];
         $interpretedanswer = $answerd->ast_to_string(null, $params);
         if (!(strpos($interpretedanswer, 'QMCHAR') === false)) {
@@ -1376,7 +1376,7 @@ abstract class stack_input {
 
         if ($this->requires_validation() && '' !== $state->contents) {
             $feedback .= html_writer::empty_tag('input', ['type' => 'hidden',
-                    'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents)]);
+                    'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents),]);
         }
 
         $feedbackerr = '';
@@ -1482,7 +1482,7 @@ abstract class stack_input {
             'nounify' => 0,
             'nontuples' => false,
             'decimal' => $decimal,
-            'listsep' => $listsep
+            'listsep' => $listsep,
         ];
         if ($cs->get_valid()) {
             $value = $cs->ast_to_string(null, $params);

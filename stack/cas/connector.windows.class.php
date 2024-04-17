@@ -41,7 +41,7 @@ class stack_cas_connection_windows extends stack_cas_connection_base {
         $descriptors = [
             0 => ['pipe', 'r'],
             1 => ['pipe', 'w'],
-            2 => ['file', $this->logs . "cas_errors.txt", 'a']];
+            2 => ['file', $this->logs . "cas_errors.txt", 'a'],];
 
         $cmd = '"'.$this->command.'"';
         $this->debug->log('Command line', $cmd);

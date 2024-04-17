@@ -408,7 +408,7 @@ class stack_matrix_input extends stack_input {
             'forbidFloats'       => true,
             'lowestTerms'        => true,
             'sameType'           => true,
-            'options'            => ''
+            'options'            => '',
         ];
     }
 
@@ -447,7 +447,7 @@ class stack_matrix_input extends stack_input {
             'nounify' => 0,
             'nontuples' => false,
             'decimal' => $decimal,
-            'listsep' => $listsep
+            'listsep' => $listsep,
         ];
         if ($cs->get_valid()) {
             $value = $cs->ast_to_string(null, $params);
@@ -470,7 +470,7 @@ class stack_matrix_input extends stack_input {
             'nounify' => 0,
             'nontuples' => false,
             'decimal' => $decimal,
-            'listsep' => $listsep
+            'listsep' => $listsep,
         ];
         foreach ($response as $ckey => $cell) {
             $cs = stack_ast_container::make_from_teacher_source($cell, '', new stack_cas_security(), []);

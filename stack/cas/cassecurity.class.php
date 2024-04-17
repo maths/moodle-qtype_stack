@@ -64,9 +64,9 @@ class stack_cas_security {
                     'simp' => true, 'setdifference' => true, 'sort' => true, 'subst' => true,
                     'trigexpand' => true, 'trigexpandplus' => true, 'trigexpandtimes' => true, 'triginverses' => true,
                     'trigrat' => true, 'trigreduce' => true, 'trigsign' => true,
-                    'trigsimp' => true, 'truncate' => true, 'decimalplaces' => true, 'simplify' => true],
+                    'trigsimp' => true, 'truncate' => true, 'decimalplaces' => true, 'simplify' => true,],
             '[[basic-calculus]]' => ['defint' => true, 'diff' => true, 'int' => true, 'integrate' => true,
-                    'limit' => true, 'partial' => true, 'desolve' => true, 'express' => true, 'taylor' => true],
+                    'limit' => true, 'partial' => true, 'desolve' => true, 'express' => true, 'taylor' => true,],
             '[[basic-matrix]]' => ['addmatrices' => true, 'adjoin' => true, 'augcoefmatrix' => true,
                     'blockmatrixp' => true, 'charpoly' => true,
                     'coefmatrix' => true, 'col' => true, 'columnop' => true, 'columnspace' => true, 'columnswap' => true,
@@ -75,7 +75,7 @@ class stack_cas_security {
                     'echelon' => true, 'eigenvalues' => true,
                     'eigenvectors' => true, 'eivals' => true, 'eivects' => true, 'ematrix' => true, 'invert' => true,
                     'matrix_element_add' => true, 'matrix_element_mult' => true, 'matrix_element_transpose' => true,
-                    'nullspace' => true, 'resultant' => true, 'rowop' => true, 'rowswap' => true, 'transpose' => true]
+                    'nullspace' => true, 'resultant' => true, 'rowop' => true, 'rowswap' => true, 'transpose' => true,],
     ];
 
     // TODO: remove once baselogic.class.php has been removed.

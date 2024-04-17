@@ -205,11 +205,11 @@ if (optional_param('defaulttestcase', null, PARAM_INT) && $canedit) {
 if (empty($testscases) && $canedit) {
     // Add in a default test case and give it full marks.
     echo html_writer::start_tag('form', ['method' => 'get', 'class' => 'defaulttestcase',
-        'action' => new moodle_url('/question/type/stack/questiontestrun.php', $urlparams)]);
+        'action' => new moodle_url('/question/type/stack/questiontestrun.php', $urlparams),]);
     echo html_writer::input_hidden_params(new moodle_url($PAGE->url,
         ['sesskey' => sesskey(), 'defaulttestcase' => 1]));
     echo ' ' . html_writer::empty_tag('input', ['type' => 'submit', 'class' => 'btn btn-danger',
-        'value' => stack_string('runquestiontests_autoprompt')]);
+        'value' => stack_string('runquestiontests_autoprompt'),]);
     echo html_writer::end_tag('form');
 }
 
@@ -260,7 +260,7 @@ if (empty($question->deployedseeds)) {
         stack_string('variant'),
         stack_string('questionnote'),
         ' ',
-        ' '
+        ' ',
     ];
     $notestable->attributes['class'] = 'generaltable stacktestsuite';
 
@@ -320,7 +320,7 @@ if (empty($question->deployedseeds)) {
             $choice,
             stack_ouput_castext($qn->get_question_summary()),
             $icon,
-            $bulktestresults[1]
+            $bulktestresults[1],
             ];
 
         $a['done'] += 1;
@@ -373,11 +373,11 @@ if (!$variantmatched) {
 if (!(empty($question->deployedseeds)) && $canedit) {
     // Undeploy all the variants.
     echo html_writer::start_tag('form', ['method' => 'get', 'class' => 'deploymany',
-        'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)]);
+        'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams),]);
     echo html_writer::input_hidden_params(new moodle_url($PAGE->url, ['sesskey' => sesskey(),
-        'undeployall' => 'true']));
+        'undeployall' => 'true',]));
     echo ' ' . html_writer::empty_tag('input', ['type' => 'submit', 'class' => 'btn btn-danger',
-        'value' => stack_string('deployremoveall')]);
+        'value' => stack_string('deployremoveall'),]);
     echo html_writer::end_tag('form');
 }
 
@@ -386,50 +386,50 @@ if ($question->has_random_variants()) {
     echo "\n";
     echo html_writer::start_tag('p');
     echo html_writer::start_tag('form', ['method' => 'get', 'class' => 'switchtovariant',
-            'action' => new moodle_url('/question/type/stack/questiontestrun.php')]);
+            'action' => new moodle_url('/question/type/stack/questiontestrun.php'),]);
     echo html_writer::input_hidden_params($PAGE->url, ['seed']);
 
     echo ' ' . html_writer::empty_tag('input', ['type' => 'submit', 'class' => 'btn btn-secondary',
-        'value' => stack_string('switchtovariant')]);
+        'value' => stack_string('switchtovariant'),]);
     echo ' ' . html_writer::empty_tag('input', ['type' => 'text', 'size' => 7,
-        'id' => 'seedfield', 'name' => 'seed', 'value' => mt_rand()]);
+        'id' => 'seedfield', 'name' => 'seed', 'value' => mt_rand(),]);
     echo html_writer::end_tag('form');
 
     if ($canedit) {
         // Deploy many variants.
         echo html_writer::start_tag('form', ['method' => 'get', 'class' => 'deploymany',
-                'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)]);
+                'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams),]);
         echo html_writer::input_hidden_params(new moodle_url($PAGE->url, ['sesskey' => sesskey()]), ['seed']);
         echo ' ' . html_writer::empty_tag('input', ['type' => 'submit', 'class' => 'btn btn-secondary',
-                'value' => stack_string('deploymanybtn')]);
+                'value' => stack_string('deploymanybtn'),]);
         echo ' ' . html_writer::empty_tag('input', ['type' => 'text', 'size' => 4,
-                'id' => 'deploymanyfield', 'name' => 'deploymany', 'value' => '']);
+                'id' => 'deploymanyfield', 'name' => 'deploymany', 'value' => '',]);
         echo ' ' . stack_string('deploymanynotes');
         echo html_writer::end_tag('form');
 
         // Systematic deployment of variants.
         echo html_writer::start_tag('form', ['method' => 'get', 'class' => 'deploysystematic',
-            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)]);
+            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams),]);
         echo html_writer::input_hidden_params(new moodle_url($PAGE->url, ['sesskey' => sesskey()]), ['seed']);
         echo ' ' . html_writer::empty_tag('input', ['type' => 'submit', 'class' => 'btn btn-secondary',
-            'value' => stack_string('deploysystematicbtn')]);
+            'value' => stack_string('deploysystematicbtn'),]);
         echo ' ' . html_writer::empty_tag('input', ['type' => 'text', 'size' => 3,
-            'id' => 'deploysystematicfield', 'name' => 'deploysystematic', 'value' => '']);
+            'id' => 'deploysystematicfield', 'name' => 'deploysystematic', 'value' => '',]);
         echo html_writer::end_tag('form');
 
         // Deploy many from a CS list of integer seeds.
         echo "\n" . html_writer::start_tag('form', ['method' => 'get', 'class' => 'deployfromlist',
-            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams)]);
+            'action' => new moodle_url('/question/type/stack/deploy.php', $urlparams),]);
         echo html_writer::input_hidden_params(new moodle_url($PAGE->url, ['sesskey' => sesskey()]), ['seed']);
         echo "\n" . html_writer::start_tag('table');
         echo html_writer::start_tag('tr');
         echo html_writer::start_tag('td');
         echo ' ' . html_writer::empty_tag('input', ['type' => 'submit', 'class' => 'btn btn-secondary',
-            'value' => stack_string('deployfromlistbtn')]);
+            'value' => stack_string('deployfromlistbtn'),]);
         echo html_writer::end_tag('td');
         echo html_writer::start_tag('td');
         echo ' ' . html_writer::start_tag('textarea', ['cols' => 15, 'rows' => min(count($question->deployedseeds), 5),
-            'id' => 'deployfromlist', 'name' => 'deployfromlist']);
+            'id' => 'deployfromlist', 'name' => 'deployfromlist',]);
         echo html_writer::end_tag('textarea');
         echo html_writer::end_tag('td');
         echo html_writer::start_tag('td');
@@ -445,11 +445,11 @@ if ($question->has_random_variants()) {
 
         // Run tests on all the variants.
         echo html_writer::start_tag('form', ['method' => 'get', 'class' => 'deploymany',
-            'action' => new moodle_url('/question/type/stack/questiontestrun.php', $urlparams)]);
+            'action' => new moodle_url('/question/type/stack/questiontestrun.php', $urlparams),]);
         echo html_writer::input_hidden_params(new moodle_url($PAGE->url, ['sesskey' => sesskey(),
-            'testall' => '1']));
+            'testall' => '1',]));
         echo ' ' . html_writer::empty_tag('input', ['type' => 'submit', 'class' => 'btn btn-warning',
-            'value' => stack_string('deploytestall')]);
+            'value' => stack_string('deploytestall'),]);
         echo html_writer::end_tag('form');
         echo "\n";
     }

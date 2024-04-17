@@ -37,7 +37,7 @@ class stack_ast_filter_120_no_arc implements stack_cas_astfilter {
              'arccosec' => 'acsc',
              'arsinh' => 'asinh', 'arcosh' => 'acosh',
              'artanh' => 'atanh', 'arsech' => 'asech',
-             'arcoth' => 'acoth', 'arcsch' => 'acsch'
+             'arcoth' => 'acoth', 'arcsch' => 'acsch',
         ];
 
         $process = function($node) use (&$errors, &$answernotes, $selectednames) {
@@ -48,7 +48,7 @@ class stack_ast_filter_120_no_arc implements stack_cas_astfilter {
 
                     $errors[] = stack_string('stackCas_triginv',
                         ['badinv' => stack_maxima_format_casstring($node->name->value),
-                              'goodinv' => stack_maxima_format_casstring($selectednames[$node->name->value])]);
+                              'goodinv' => stack_maxima_format_casstring($selectednames[$node->name->value]),]);
                     if (array_search('triginv', $answernotes) === false) {
                         $answernotes[] = 'triginv';
                     }

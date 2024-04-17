@@ -129,7 +129,7 @@ class qtype_stack_renderer extends qtype_renderer {
             }
             $this->page->requires->js_call_amd('qtype_stack/input', 'initInputs',
                     [$questiondivid, $qa->get_field_prefix(),
-                            $qa->get_database_id(), $inputstovaldiate]);
+                            $qa->get_database_id(), $inputstovaldiate,]);
         }
 
         $result = '';

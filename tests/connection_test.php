@@ -38,7 +38,7 @@ class connection_test extends qtype_stack_testcase {
                 .' print("] ]"), return(true));';
         $return = $connection->compute($strin);
         $expected = [ 0 => ['key' => 'p', 'value' => 'n*x^(n-1)', 'dispvalue' => 'n*x^(n-1)', 'display' => 'n\,x^{n-1}',
-                'error' => '']];
+                'error' => '',],];
         $this->assertEquals($expected, $return);
     }
 
@@ -48,7 +48,7 @@ class connection_test extends qtype_stack_testcase {
         .' print("] ]"), return(true));';
         $return = $connection->compute($strin);
         $expected = [ 0 => ['key' => 'p', 'value' => 'displaydp(1.0,3)', 'dispvalue' => '1.000',
-                'display' => '1.000', 'error' => '']];
+                'display' => '1.000', 'error' => '',],];
         $this->assertEquals($expected, $return);
     }
 
@@ -58,7 +58,7 @@ class connection_test extends qtype_stack_testcase {
         .' print("] ]"), return(true));';
         $return = $connection->compute($strin);
         $expected = [ 0 => ['key' => 'p', 'value' => 'stackunits(displaydp(30,2),kg)',
-                'dispvalue' => '30.00*kg', 'display' => '30.00\, {\it kg}', 'error' => '']];
+                'dispvalue' => '30.00*kg', 'display' => '30.00\, {\it kg}', 'error' => '',],];
         $this->assertEquals($expected, $return);
     }
 

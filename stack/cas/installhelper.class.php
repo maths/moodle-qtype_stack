@@ -39,7 +39,7 @@ class stack_cas_configuration {
         'stats' => 'is(op(test_mean([1,2,3]))=inference_result)',
         'distrib' => 'not(is(op(pdf_normal(1,3,1))=pdf_normal))',
         'descriptive' => 'atom(mean([1,2,3.2]))',
-        'simplex' => 'floatnump(epsilon_lp)'
+        'simplex' => 'floatnump(epsilon_lp)',
     ];
 
     protected $settings;

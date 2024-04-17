@@ -45,7 +45,7 @@ class maxima_parser_utils {
         $parseoptions = [
             'startRule' => $parserule,
             'letToken' => stack_string('equiv_LET'),
-            'allowPM' => $allowpm
+            'allowPM' => $allowpm,
         ];
         if ($parserule === 'Root') {
             $cachekey = ($allowpm ? '|PM|' : '|noPM|') . $parseoptions['letToken'] . '|' . $code;
@@ -1137,7 +1137,7 @@ class maxima_parser_utils {
                     // stay 'unevaluated' for now.
                     if (count($node->arguments) === 3) {
                         $r = new MP_FunctionCall(new MP_Identifier('ev'), [$node->arguments[2],
-                            new MP_Operation('=', $node->arguments[1], $node->arguments[0])]);
+                            new MP_Operation('=', $node->arguments[1], $node->arguments[0]),]);
                         $node->parentnode->replace($node, $r);
                         return false;
                     } else if (count($node->arguments) === 2) {

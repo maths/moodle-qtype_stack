@@ -33,7 +33,7 @@ class stack_textarea_input extends stack_input {
         'allowempty' => false,
         'nounits' => true,
         'simp' => false,
-        'consolidatesubscripts' => false
+        'consolidatesubscripts' => false,
     ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -135,7 +135,7 @@ class stack_textarea_input extends stack_input {
             'keyless' => true,
             'dealias' => false, // This is needed to stop pi->%pi etc.
             'nounify' => 1,
-            'nontuples' => false
+            'nontuples' => false,
         ];
         foreach ($caslines as $line) {
             $str = $line->ast_to_string(null, $params);
@@ -281,7 +281,7 @@ class stack_textarea_input extends stack_input {
             'forbidFloats'       => true,
             'lowestTerms'        => true,
             'sameType'           => true,
-            'options'            => ''
+            'options'            => '',
         ];
     }
 

@@ -270,12 +270,12 @@ class qtype_stack_test_helper extends question_test_helper {
                        [[input:ans1]]
                        [[validation:ans1]]',
             'format' => '1',
-            'itemid' => 0];
+            'itemid' => 0,];
         $formform->defaultmark = 4;
         $formform->specificfeedback = [
             'text' => '[[feedback:PotResTree_1]]',
             'format' => '1',
-            'itemid' => 0];
+            'itemid' => 0,];
         $formform->penalty = 0.40000000000000002;
         $formform->generalfeedback = [
             'text' => 'We can either do this question by inspection (i.e. spot the answer)
@@ -284,15 +284,15 @@ class qtype_stack_test_helper extends question_test_helper {
                                Then, since $\frac{d}{d{@v@}}u=1$ we have
                                \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]',
             'format' => '1',
-            'itemid' => 0];
+            'itemid' => 0,];
         $formform->questionnote = [
                 'text' => '{@p@}, {@ta@}.',
                 'format' => '1',
-                'itemid' => 0];
+                'itemid' => 0,];
         $formform->questiondescription = [
             'text' => 'This is a basic test question.',
             'format' => '1',
-            'itemid' => 0];
+            'itemid' => 0,];
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'ta+c';
         $formform->ans1boxsize = 20;
@@ -348,7 +348,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
             0 => ['text' => 'Hint 1<br>', 'format' => '1', 'itemid' => '0'],
-            1 => ['text' => '<p>Hint 2<br></p>', 'format' => '1', 'itemid' => '0']];
+            1 => ['text' => '<p>Hint 2<br></p>', 'format' => '1', 'itemid' => '0'],];
         $formform->qtype = 'stack';
 
         return $formform;
@@ -2564,25 +2564,25 @@ class qtype_stack_test_helper extends question_test_helper {
                                  [[validation:ans4]]
                                  [[feedback:unique]]</p>',
                 'format' => '1',
-                'itemid' => 815759888];
+                'itemid' => 815759888,];
         $formform->defaultmark = 4;
         $formform->specificfeedback = [
                 'text' => '',
                 'format' => '1',
-                'itemid' => 137873291];
+                'itemid' => 137873291,];
         $formform->penalty = 0.40000000000000002;
         $formform->generalfeedback = [
                 'text' => '',
                 'format' => '1',
-                'itemid' => 250226104];
+                'itemid' => 250226104,];
         $formform->questionnote = [
                 'text' => '',
                 'format' => '1',
-                'itemid' => 12346789];
+                'itemid' => 12346789,];
         $formform->questiondescription = [
                 'text' => '',
                 'format' => '1',
-                'itemid' => 25022610];
+                'itemid' => 25022610,];
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'x^3';
         $formform->ans1boxsize = 15;
@@ -2649,219 +2649,219 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $formform->oddvalue = 1;
         $formform->odddescription = [
-            0 => ''];
+            0 => '',];
         $formform->oddautosimplify = '1';
         $formform->oddfeedbackstyle     = 1;
         $formform->oddfeedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
         $formform->oddanswertest = [
-                0 => 'AlgEquiv'];
+                0 => 'AlgEquiv',];
         $formform->oddsans = [
-                0 => 'sa'];
+                0 => 'sa',];
         $formform->oddtans = [
-                0 => '0'];
+                0 => '0',];
         $formform->oddtestoptions = [
-                0 => ''];
+                0 => '',];
         $formform->oddquiet = [
-                0 => '0'];
+                0 => '0',];
         $formform->oddtruescoremode = [
-                0 => '='];
+                0 => '=',];
         $formform->oddtruescore = [
-                0 => '1'];
+                0 => '1',];
         $formform->oddtruepenalty = [
-                0 => ''];
+                0 => '',];
         $formform->oddtruenextnode = [
-                0 => '-1'];
+                0 => '-1',];
         $formform->oddtrueanswernote = [
-                0 => 'odd-1-T'];
+                0 => 'odd-1-T',];
         $formform->oddtruefeedback = [
                 0 => [
                         'text' => '',
                         'format' => '1',
                         'itemid' => 251659256,
-                ]];
+                ],];
         $formform->oddfalsescoremode = [
-                0 => '='];
+                0 => '=',];
         $formform->oddfalsescore = [
-                0 => '0'];
+                0 => '0',];
         $formform->oddfalsepenalty = [
-                0 => ''];
+                0 => '',];
         $formform->oddfalsenextnode = [
-                0 => '-1'];
+                0 => '-1',];
         $formform->oddfalseanswernote = [
-                0 => 'odd-1-F'];
+                0 => 'odd-1-F',];
         $formform->oddfalsefeedback = [
                 0 => [
                         'text' => 'Your answer is not an odd function. Look, \\[ f(x)+f(-x)={@sa@} \\neq 0.\\]<br>',
                         'format' => '1',
                         'itemid' => 352216298,
-                ]];
+                ],];
 
         $formform->evenvalue = 1;
         $formform->evendescription = [
-            0 => ''];
+            0 => '',];
         $formform->evenautosimplify = '1';
         $formform->evenfeedbackstyle     = 1;
         $formform->evenfeedbackvariables = 'sa:subst(x=-x,ans2)-ans2';
         $formform->evenanswertest = [
-                0 => 'AlgEquiv'];
+                0 => 'AlgEquiv',];
         $formform->evensans = [
-                0 => 'sa'];
+                0 => 'sa',];
         $formform->eventans = [
-                0 => '0'];
+                0 => '0',];
         $formform->eventestoptions = [
-                0 => ''];
+                0 => '',];
         $formform->evenquiet = [
-                0 => '0'];
+                0 => '0',];
         $formform->eventruescoremode = [
-                0 => '='];
+                0 => '=',];
         $formform->eventruescore = [
-                0 => '1'];
+                0 => '1',];
         $formform->eventruepenalty = [
-                0 => ''];
+                0 => '',];
         $formform->eventruenextnode = [
-                0 => '-1'];
+                0 => '-1',];
         $formform->eventrueanswernote = [
-                0 => 'even-1-T'];
+                0 => 'even-1-T',];
         $formform->eventruefeedback = [
                 0 => [
                         'text' => '',
                         'format' => '1',
                         'itemid' => 374097881,
-                ]];
+                ],];
         $formform->evenfalsescoremode = [
-                0 => '='];
+                0 => '=',];
         $formform->evenfalsescore = [
-                0 => '0'];
+                0 => '0',];
         $formform->evenfalsepenalty = [
-                0 => ''];
+                0 => '',];
         $formform->evenfalsenextnode = [
-                0 => '-1'];
+                0 => '-1',];
         $formform->evenfalseanswernote = [
-                0 => 'even-1-F'];
+                0 => 'even-1-F',];
         $formform->evenfalsefeedback = [
                 0 => [
                         'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)={@sa@} \\neq 0.\\]<br></p>',
                         'format' => '1',
                         'itemid' => 880424514,
-                ]];
+                ],];
 
         $formform->oddevenvalue = 1;
         $formform->oddevendescription = [
-            0 => '', 1 => ''];
+            0 => '', 1 => '',];
         $formform->oddevenautosimplify = '1';
         $formform->oddevenfeedbackstyle     = 1;
         $formform->oddevenfeedbackvariables = 'sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)';
         $formform->oddevenanswertest = [
                 0 => 'AlgEquiv',
-                1 => 'AlgEquiv'];
+                1 => 'AlgEquiv',];
         $formform->oddevensans = [
                 0 => 'sa1',
-                1 => 'sa2'];
+                1 => 'sa2',];
         $formform->oddeventans = [
                 0 => '0',
-                1 => '0'];
+                1 => '0',];
         $formform->oddeventestoptions = [
                 0 => '',
-                1 => ''];
+                1 => '',];
         $formform->oddevenquiet = [
                 0 => '0',
-                1 => '0'];
+                1 => '0',];
         $formform->oddeventruescoremode = [
                 0 => '=',
-                1 => '+'];
+                1 => '+',];
         $formform->oddeventruescore = [
                 0 => '0.5',
-                1 => '0.5'];
+                1 => '0.5',];
         $formform->oddeventruepenalty = [
                 0 => '',
-                1 => ''];
+                1 => '',];
         $formform->oddeventruenextnode = [
                 0 => '1',
-                1 => '-1'];
+                1 => '-1',];
         $formform->oddeventrueanswernote = [
                 0 => 'oddeven-1-T',
-                1 => 'oddeven-2-T'];
+                1 => 'oddeven-2-T',];
         $formform->oddeventruefeedback = [
                 0 => [
                         'text' => '',
                         'format' => '1',
-                        'itemid' => 90882068],
+                        'itemid' => 90882068,],
                 1 => [
                         'text' => '',
                         'format' => '1',
-                        'itemid' => 201325868]];
+                        'itemid' => 201325868,],];
         $formform->oddevenfalsescoremode = [
                 0 => '=',
-                1 => '+'];
+                1 => '+',];
         $formform->oddevenfalsescore = [
                 0 => '0',
-                1 => '0'];
+                1 => '0',];
         $formform->oddevenfalsepenalty = [
                 0 => '',
-                1 => ''];
+                1 => '',];
         $formform->oddevenfalsenextnode = [
                 0 => '1',
-                1 => '-1'];
+                1 => '-1',];
         $formform->oddevenfalseanswernote = [
                 0 => 'oddeven-1-F',
-                1 => 'oddeven-2-F'];
+                1 => 'oddeven-2-F',];
         $formform->oddevenfalsefeedback = [
                 0 => [
                         'text' => '<p>Your answer is not an odd function. Look, \\[ f(x)+f(-x)={@sa1@} \\neq 0.\\]<br></p>',
                         'format' => '1',
-                        'itemid' => 387904086],
+                        'itemid' => 387904086,],
                 1 => [
                         'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)={@sa2@} \\neq 0.\\]<br></p>',
                         'format' => '1',
-                        'itemid' => 212217540]];
+                        'itemid' => 212217540,],];
 
         $formform->uniquevalue = 1;
         $formform->uniquedescription = [
-            0 => ''];
+            0 => '',];
         $formform->uniqueautosimplify = '1';
         $formform->uniquefeedbackstyle     = 1;
         $formform->uniquefeedbackvariables = '';
         $formform->uniqueanswertest = [
-                0 => 'AlgEquiv'];
+                0 => 'AlgEquiv',];
         $formform->uniquesans = [
-                0 => 'ans4'];
+                0 => 'ans4',];
         $formform->uniquetans = [
-                0 => 'true'];
+                0 => 'true',];
         $formform->uniquetestoptions = [
-                0 => ''];
+                0 => '',];
         $formform->uniquequiet = [
-                0 => '0'];
+                0 => '0',];
         $formform->uniquetruescoremode = [
-                0 => '='];
+                0 => '=',];
         $formform->uniquetruescore = [
-                0 => '1'];
+                0 => '1',];
         $formform->uniquetruepenalty = [
-                0 => ''];
+                0 => '',];
         $formform->uniquetruenextnode = [
-                0 => '-1'];
+                0 => '-1',];
         $formform->uniquetrueanswernote = [
-                0 => 'unique-1-T'];
+                0 => 'unique-1-T',];
         $formform->uniquetruefeedback = [
                 0 => [
                         'text' => '',
                         'format' => '1',
-                        'itemid' => 692993996]];
+                        'itemid' => 692993996,],];
         $formform->uniquefalsescoremode = [
-                0 => '='];
+                0 => '=',];
         $formform->uniquefalsescore = [
-                0 => '0'];
+                0 => '0',];
         $formform->uniquefalsepenalty = [
-                0 => ''];
+                0 => '',];
         $formform->uniquefalsenextnode = [
-                0 => '-1'];
+                0 => '-1',];
         $formform->uniquefalseanswernote = [
-                0 => 'unique-1-F'];
+                0 => 'unique-1-F',];
         $formform->uniquefalsefeedback = [
                 0 => [
                         'text' => '',
                         'format' => '1',
                         'itemid' => 55631697,
-                ]];
+                ],];
 
         $formform->questionsimplify = '1';
         $formform->assumepositive = '0';
@@ -2869,15 +2869,15 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->prtcorrect = [
                 'text' => 'Correct answer, well done!',
                 'format' => '1',
-                'itemid' => 847867102];
+                'itemid' => 847867102,];
         $formform->prtpartiallycorrect = [
                 'text' => 'Your answer is partially correct!',
                 'format' => '1',
-                'itemid' => 698828552];
+                'itemid' => 698828552,];
         $formform->prtincorrect = [
                 'text' => 'Incorrect answer :-(',
                 'format' => '1',
-                'itemid' => 56111684];
+                'itemid' => 56111684,];
         $formform->decimals = '.';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
@@ -2890,11 +2890,11 @@ class qtype_stack_test_helper extends question_test_helper {
                 0 => [
                         'text' => 'Hint 1<br>',
                         'format' => '1',
-                        'itemid' => '83894244'],
+                        'itemid' => '83894244',],
                 1 => [
                         'text' => '<p>Hint 2<br></p>',
                         'format' => '1',
-                        'itemid' => '34635511']];
+                        'itemid' => '34635511',],];
         $formform->qtype = 'stack';
 
         return $formform;
@@ -3759,7 +3759,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
             'algebraic', 'ans1', 'ta', null,
             ['boxWidth' => 20, 'forbidWords' => '', 'allowWords' => 'foo',
-                  'options' => 'validator:myvalidityidea']);
+                  'options' => 'validator:myvalidityidea',]);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -3828,7 +3828,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
             'algebraic', 'ans1', 'ta', null,
             ['boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}',
-                'options' => 'feedback:feedback_fn']
+                'options' => 'feedback:feedback_fn',]
             );
 
             $feedbackvars = 'a1 : listify(ans1);' .
@@ -4007,9 +4007,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -4128,9 +4128,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -4390,9 +4390,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -4511,9 +4511,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '2';
@@ -4667,9 +4667,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -4788,9 +4788,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -4912,9 +4912,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -5035,9 +5035,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -5175,9 +5175,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -5354,9 +5354,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -5478,9 +5478,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -5598,9 +5598,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -5720,9 +5720,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -5866,9 +5866,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -6006,9 +6006,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -6223,9 +6223,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -6343,9 +6343,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -6463,9 +6463,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -6586,9 +6586,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -6709,9 +6709,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -6829,9 +6829,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -6968,9 +6968,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -7088,9 +7088,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -7208,9 +7208,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -7328,9 +7328,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -7448,9 +7448,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';
@@ -7630,9 +7630,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->numhints = 2;
         $formform->hint = [
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ['text' => '',
-        'format' => '1'],
+        'format' => '1',],
         ];
         $formform->prt1value = 1;
         $formform->prt1feedbackstyle = '1';

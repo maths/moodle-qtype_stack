@@ -30,7 +30,7 @@ class stack_varmatrix_input extends stack_input {
         'rationalized' => false,
         'consolidatesubscripts' => false,
         'checkvars' => 0,
-        'validator' => false
+        'validator' => false,
     ];
 
     protected function is_blank_response($contents) {
@@ -317,7 +317,7 @@ class stack_varmatrix_input extends stack_input {
             'nontuples' => false,
             'varmatrix' => true,
             'decimal' => $decimal,
-            'listsep' => $listsep
+            'listsep' => $listsep,
         ];
         $cs = stack_ast_container::make_from_teacher_source($in);
         return $cs->ast_to_string(null, $tostringparams);
@@ -344,7 +344,7 @@ class stack_varmatrix_input extends stack_input {
             'nounify' => 0,
             'nontuples' => false,
             'decimal' => $decimal,
-            'listsep' => $listsep
+            'listsep' => $listsep,
         ];
         if ($cs->get_valid()) {
             $value = $cs->ast_to_string(null, $params);
@@ -392,7 +392,7 @@ class stack_varmatrix_input extends stack_input {
             'lowestTerms'        => true,
             // This looks odd, but the teacher's answer is a list and the student's a matrix.
             'sameType'           => false,
-            'options'            => ''];
+            'options'            => '',];
     }
 
     /**

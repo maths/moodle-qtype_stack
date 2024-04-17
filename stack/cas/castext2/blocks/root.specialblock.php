@@ -59,15 +59,15 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
 
         $filteroptions = [
             '601_castext' => $options,
-            '610_castext_static_string_extractor' => $options];
+            '610_castext_static_string_extractor' => $options,];
         $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['601_castext',
             '602_castext_simplifier', '610_castext_static_string_extractor',
-            '680_gcl_sconcat'], $filteroptions, false);
+            '680_gcl_sconcat',], $filteroptions, false);
         // If we are within an include it is necessary to avoid static string-collection.
         if (isset($options['in include'])) {
             $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
                 '601_castext',
-                '602_castext_simplifier', '680_gcl_sconcat'],
+                '602_castext_simplifier', '680_gcl_sconcat',],
                  $filteroptions, false);
         }
 
@@ -101,8 +101,8 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
             $r = new MP_FunctionCall(new MP_Identifier('castext_simplify'), [
                 new MP_FunctionCall(new MP_Identifier('block'), [
                     new MP_FunctionCall(new MP_Identifier('local'), []),
-                    $r
-                ])
+                    $r,
+                ]),
             ]);
 
             foreach ($varref['write'] as $key => $duh) {

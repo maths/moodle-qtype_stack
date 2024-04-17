@@ -104,9 +104,9 @@ class castext_test extends qtype_stack_testcase {
                 ['{@', null, true, '{@'], // The new parser allwos use of this text fragemt everywhere.
                 ['{@(x^2@}', null, false, false],
                 ['{@1/0@}', null, true,
-                    '<h3>Rendering of text content failed.</h3><ul><li>Division by zero.</li></ul>'],
+                    '<h3>Rendering of text content failed.</h3><ul><li>Division by zero.</li></ul>',],
                 ['\(1+{@1/0@}\)', null, true,
-                    '<h3>Rendering of text content failed.</h3><ul><li>Division by zero.</li></ul>'],
+                    '<h3>Rendering of text content failed.</h3><ul><li>Division by zero.</li></ul>',],
                 ['{@x^2@}', $a2, false, null],
                 ['\(\frac{@"0.10"@}{@"0.10"@}\)', null, true, '\(\frac{0.10}{0.10}\)'],
                 // This last one looks very odd.  It records a change in v4.0 where we stop supporting dollars.
@@ -114,7 +114,7 @@ class castext_test extends qtype_stack_testcase {
                 // Generate a maxima error other than division by zero.
                 ['{@matrix([a],[b]).matrix([1,2],[3,4])@}', null, true,
                     '<h3>Rendering of text content failed.</h3><ul><li>MULTIPLYMATRICES: ' .
-                    'attempt to multiply nonconformable matrices.</li></ul>'],
+                    'attempt to multiply nonconformable matrices.</li></ul>',],
                 ];
 
         foreach ($cases as $case) {
@@ -360,7 +360,7 @@ class castext_test extends qtype_stack_testcase {
                 ['[[ foreach a="b" ]]{#a#},[[/foreach]]', $a1, true, "4,5,6,7,"],
                 ['[[ foreach I="a" K="b" ]]{#I#},{#K#},[[/foreach]]', $a1, true, "1,4,2,5,3,6,"],
                 ['[[ foreach o="[[1,2],[3,4]]" ]]{[[ foreach k="o" ]]{#k#},[[/ foreach ]]}[[/foreach]]',
-                          $a1, true, "{1,2,}{3,4,}"],
+                          $a1, true, "{1,2,}{3,4,}",],
         ];
 
         foreach ($cases as $case) {
@@ -380,7 +380,7 @@ class castext_test extends qtype_stack_testcase {
                 ['{#a#} [[ define a="a^2" /]][[ comment ]]Ignore[[/ comment]]{#a#}', $a1, true, "2 4"],
                 // Older version of STACK used to allow /*..*/ comments in castext, but we no loner support this. Sorry.
                 ['{#a#} [[ define a="a^2" /]]/* Not ignored */ {#a#}', $a1, true,
-                    "2 /* Not ignored */ 4"],
+                    "2 /* Not ignored */ 4",],
         ];
 
         foreach ($cases as $case) {
@@ -1483,7 +1483,7 @@ class castext_test extends qtype_stack_testcase {
      */
     public function test_lambda() {
         $a2 = ['sfc: lambda([x,n],significantfigures(x,n))',
-            'n:[3.1234,1]', 'm:apply(sfc,n)'];
+            'n:[3.1234,1]', 'm:apply(sfc,n)',];
         $s2 = [];
         foreach ($a2 as $s) {
             $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1620,7 +1620,7 @@ class castext_test extends qtype_stack_testcase {
      */
     public function test_stack_var_makelist() {
         $a2 = ['vars0:stack_var_makelist(k, 5)',
-            'vars1:rest(stack_var_makelist(k, 6))'];
+            'vars1:rest(stack_var_makelist(k, 6))',];
         $s2 = [];
         foreach ($a2 as $s) {
             $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1647,7 +1647,7 @@ class castext_test extends qtype_stack_testcase {
         $a2 = ['simp:false',
             'p1:1+1',
             'simp:true',
-            'p2:1+1'];
+            'p2:1+1',];
         $s2 = [];
         foreach ($a2 as $s) {
             $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1677,7 +1677,7 @@ class castext_test extends qtype_stack_testcase {
                 'simp:true',
                 'p2:1+1',
                 'simp:false',
-                'p3:1+1'];
+                'p3:1+1',];
         $s2 = [];
         foreach ($a2 as $s) {
             $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1733,7 +1733,7 @@ class castext_test extends qtype_stack_testcase {
                 'f(alfa):=block(x:ifactors(alfa), y:makelist(0,length(x)), ' .
                 'for i from 1 thru length(x) do (y[i] : first(x[i])), return(y));',
                 'g(alfa,beta):=block(x:alfa*(1-1/beta[1]), ' .
-                'for i from 2 thru length(beta) do (x:x*(1-1/beta[i])), return(x));'
+                'for i from 2 thru length(beta) do (x:x*(1-1/beta[i])), return(x));',
             ];
         $s2 = [];
         foreach ($a2 as $s) {

@@ -173,7 +173,7 @@ class stack_input_factory {
             'allowWords'         => 'allowwords',
             'forbidFloats'       => 'forbidfloat',
             'lowestTerms'        => 'requirelowestterms',
-            'options'            => 'options'];
+            'options'            => 'options',];
 
         $used = self::get_parameters_defaults();
         $mapping = [];
@@ -204,7 +204,7 @@ class stack_input_factory {
      */
     public static function convert_parameter_fromform($key, $value) {
         $booleanparamaters = ['strictSyntax' => true, 'mustVerify' => true, 'sameType' => true,
-            'forbidFloats' => true, 'lowestTerms' => true];
+            'forbidFloats' => true, 'lowestTerms' => true,];
         if (array_key_exists($key, $booleanparamaters)) {
             $value = (bool) $value;
         }
@@ -227,7 +227,7 @@ class stack_input_factory {
             // Insert stars for implied multiplication and for spaces.
             4 => stack_input::GRAMMAR_FIX_INSERT_STARS | stack_input::GRAMMAR_FIX_SPACES,
             // Insert stars assuming single-character variables, implied and for spaces.
-            5 => stack_input::GRAMMAR_FIX_INSERT_STARS | stack_input::GRAMMAR_FIX_SINGLE_CHAR | stack_input::GRAMMAR_FIX_SPACES
+            5 => stack_input::GRAMMAR_FIX_INSERT_STARS | stack_input::GRAMMAR_FIX_SINGLE_CHAR | stack_input::GRAMMAR_FIX_SPACES,
         ];
         return $map[$value];
     }

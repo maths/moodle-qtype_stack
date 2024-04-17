@@ -65,7 +65,7 @@ $columns = [
     'tex-display'   => 'CAS TeX',
     'display'       => 'Display',
     'errors'        => 'Errors',
-    'notes'         => 'Notes'
+    'notes'         => 'Notes',
 ];
 
 $table = new flexible_table('stack_answertests');

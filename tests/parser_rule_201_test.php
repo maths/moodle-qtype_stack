@@ -41,7 +41,7 @@ class parser_rule_201_test extends qtype_stack_testcase {
         $filter->set_filter_parameters([
             'min' => $min,
             'max' => $max,
-            'strict' => $strict
+            'strict' => $strict,
         ]);
         $errs = [];
         $note = [];
@@ -63,7 +63,7 @@ class parser_rule_201_test extends qtype_stack_testcase {
             'output' => $ast->toString(['nosemicolon' => true]),
             'notes' => $note,
             'errors' => $errs,
-            'valid' => !$hasinvalid
+            'valid' => !$hasinvalid,
         ];
         return $r;
     }

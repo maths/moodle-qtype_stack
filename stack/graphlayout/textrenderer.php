@@ -69,7 +69,7 @@ class stack_prt_graph_text_renderer {
             // Put the name and description in one cell. It looks better.
             $table[] = [$node->name . '. ' . $node->description,
                     html_writer::tag('code', s($node->casstatement)), $quiet,
-                            $node->truenote, $node->falsenote];
+                            $node->truenote, $node->falsenote,];
         }
 
         $html = '';

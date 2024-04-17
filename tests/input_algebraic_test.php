@@ -1695,7 +1695,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $el->validate_extra_options();
 
         $this->assertEquals(['The name of a validator function must be a valid maxima identifier ' .
-            'in the form of letters a-zA-Z optionally followed by digits.'],
+            'in the form of letters a-zA-Z optionally followed by digits.',],
             $el->get_errors());
     }
 

@@ -31,17 +31,17 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
     public static $namedversions = [
         'cdn' => [
             'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.min.css',
-            'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js'],
+            'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js',],
         'cdn-1.8.0' => [
             'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.8.0/jsxgraph.min.css',
-            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.8.0/jsxgraphcore.min.js'],
+            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.8.0/jsxgraphcore.min.js',],
         'cdn-1.5.0' => [
             'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraph.min.css',
-            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraphcore.min.js'],
+            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraphcore.min.js',],
         'local' => [
             'css' => 'cors://jsxgraph.min.css',
             'js' => 'cors://jsxgraphcore.min.js',
-        ]
+        ],
     ];
 
     public function compile($format, $options):  ? MP_Node {
@@ -98,19 +98,19 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         $r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/x-mathjax-config'])),
-            new MP_String('MathJax.Hub.Config({messageStyle: "none"});')
+            new MP_String('MathJax.Hub.Config({messageStyle: "none"});'),
         ]);
         $r->items[] = new MP_List([
             new MP_String('script'),
-            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax])),
         ]);
         $r->items[] = new MP_List([
             new MP_String('style'),
-            new MP_String(json_encode(['href' => $css]))
+            new MP_String(json_encode(['href' => $css])),
         ]);
         $r->items[] = new MP_List([
             new MP_String('script'),
-            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $js]))
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $js])),
         ]);
 
         // We need to define a size for the inner content.
@@ -221,7 +221,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
         // NOTE! List ordered by length. For the trimming logic.
         $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
-            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%'];
+            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',];
 
         $widthend   = false;
         $heightend  = false;
@@ -304,7 +304,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
                         $valids = array_merge($valids, $inputs);
                     }
                     $err[] = stack_string('stackBlock_jsxgraph_param', [
-                        'param' => implode(', ', $valids)]);
+                        'param' => implode(', ', $valids),]);
                 }
             }
         }

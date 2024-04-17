@@ -71,7 +71,7 @@ class parsons_block_test extends qtype_stack_testcase {
      */
     public function test_parsons_validate_height_unit() {
         $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
-        'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%'];
+        'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',];
         $invalidunits = ['VMIN', 'gjd', '50', 'Px', 'pct', ''];
         foreach ($validunits as $unit) {
             $raw = '[[parsons height="500' . $unit . '"]]{' .
@@ -105,7 +105,7 @@ class parsons_block_test extends qtype_stack_testcase {
      */
     public function test_parsons_validate_width_unit() {
         $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
-        'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%'];
+        'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',];
         $invalidunits = ['VMIN', 'gjd', '50', 'Px', 'pct', ''];
         foreach ($validunits as $unit) {
             $raw = '[[parsons width="500' . $unit . '"]]{' .
@@ -278,7 +278,7 @@ class parsons_block_test extends qtype_stack_testcase {
     public function test_parsons_validate_params() {
         $invalidparameters = ['bad_param', 'HEIGHT', 'Height', 'override-css'];
         $validparameters = ['width', 'height', 'aspect-ratio', 'version', 'overridecss',
-        'overridejs', 'input', 'orientation', 'clone'];
+        'overridejs', 'input', 'orientation', 'clone',];
 
         foreach ($invalidparameters as $param) {
             $raw = '[[parsons ' . $param . '="500"]]{' .

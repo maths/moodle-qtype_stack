@@ -89,7 +89,7 @@ class cassession2_test extends qtype_stack_testcase {
     public function test_instantiation_and_return_values() {
         $strings = ['1+2' => '3',
                          'sqrt(4)' => '2',
-                         'diff(x^2,x)' => '2*x'];
+                         'diff(x^2,x)' => '2*x',];
 
         $casstrings = [];
 
@@ -119,7 +119,7 @@ class cassession2_test extends qtype_stack_testcase {
         $strings = ['foo:1+2' => ['3', '3'],
                          '1+2' => ['3', '3'],
                          'bar:diff(x^2,x)' => ['2*x', '2\\cdot x'],
-                         'diff(x^2,x)' => ['2*x', '2\\cdot x']];
+                         'diff(x^2,x)' => ['2*x', '2\\cdot x'],];
         $casstrings = [];
 
         foreach ($strings as $string => $result) {
@@ -450,7 +450,7 @@ class cassession2_test extends qtype_stack_testcase {
 
         $s1 = [];
         $cs = ['texput(multsgnonlyfornumberssym, "\\\\cdot")',
-            'a:9*x', 'b:5*7*x', 'c:3*5^2', 'd:3*x^2', 'z:3*(5/2)'];
+            'a:9*x', 'b:5*7*x', 'c:3*5^2', 'd:3*x^2', 'z:3*(5/2)',];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
         }
@@ -571,7 +571,7 @@ class cassession2_test extends qtype_stack_testcase {
     public function test_acos_option_arcosh() {
 
         $cs = ['a:acos(x)', 'b:asin(x)', 'c:asinh(x)', 'd:asin(x)^3', 'e:asin(x^2+1)^30',
-            'f:asinh(x)^7', 'g:asinh(x)^70'];
+            'f:asinh(x)^7', 'g:asinh(x)^70',];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), []);
         }
@@ -786,7 +786,7 @@ class cassession2_test extends qtype_stack_testcase {
             'addto2(ex):=for a from -3 step 7 thru ex do a^2',
             'addto3(ex):=for i from 2 while ex <= 10 do s:s+i',
             'addto4(ex):=block([l],l:ex,for f in [log,rho,atan] do l:append(l,[f]),l)',
-            'l:addto4([sin,cos])'];
+            'l:addto4([sin,cos])',];
 
         foreach ($csl as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -851,7 +851,7 @@ class cassession2_test extends qtype_stack_testcase {
         // This example uses a loop to change the values of elements of C.
         // However the loop returns "done", and the values of C are changed.
         $cs = ['A:matrix([5,2],[4,3])', 'B:matrix([4,5],[6,5])',
-            'C:zeromatrix (first(matrix_size(A)), second(matrix_size(A)))'];
+            'C:zeromatrix (first(matrix_size(A)), second(matrix_size(A)))',];
         $cs[] = 'BT:transpose(B)';
         $cs[] = 'S:for a:1 thru first(matrix_size(A)) do for b:1 thru second(matrix_size(A)) do ' .
                 'C[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",A[ev(a,simp)],BT[ev(b,simp)]))';
@@ -910,7 +910,7 @@ class cassession2_test extends qtype_stack_testcase {
 
     public function test_ordergreat() {
         $cs = ['stack_reset_vars(true)', 'ordergreat(i,j,k)', 'p:matrix([-7],[2],[-3])',
-            'q:matrix([i],[j],[k])', 'v:dotproduct(p,q)'];
+            'q:matrix([i],[j],[k])', 'v:dotproduct(p,q)',];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
         }
@@ -1034,7 +1034,7 @@ class cassession2_test extends qtype_stack_testcase {
         $cs = ['greek1:[alpha,beta,delta,epsilon]',
                     'greek2:[zeta,eta,theta,iota,kappa]',
                     'greek3:[lambda,mu,nu,xi,omicron,pi,rho]',
-                    'greek4:[sigma,tau,upsilon,phi,psi,chi,omega]'];
+                    'greek4:[sigma,tau,upsilon,phi,psi,chi,omega]',];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), []);
         }
@@ -1071,7 +1071,7 @@ class cassession2_test extends qtype_stack_testcase {
                     'greek2:[Zeta,Eta,Theta,Iota,Kappa]',
                     'greek3:[Lambda,Mu,Nu,Xi,Omicron,Pi,Rho]',
                     'greek4:[Sigma,Tau,Upsilon,Phi,Chi,Psi,Omega]',
-                    'v:round(float(Pi))'];
+                    'v:round(float(Pi))',];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), []);
         }
@@ -1095,7 +1095,7 @@ class cassession2_test extends qtype_stack_testcase {
 
     public function test_taylor_cos_simp() {
         $cs = ['c1:taylor(cos(x),x,0,1)',
-                    'c3:taylor(cos(x),x,0,3)'];
+                    'c3:taylor(cos(x),x,0,3)',];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), []);
         }
@@ -1114,7 +1114,7 @@ class cassession2_test extends qtype_stack_testcase {
 
     public function test_taylor_cos_nosimp() {
         $cs = ['c1:taylor(cos(x),x,0,1)',
-                    'c3:taylor(cos(x),x,0,3)'];
+                    'c3:taylor(cos(x),x,0,3)',];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), []);
         }
@@ -1134,7 +1134,7 @@ class cassession2_test extends qtype_stack_testcase {
     public function test_lambda() {
         $cs = ['l1:lambda([ex], ex^3)',
                     'l2:[1,2,3]',
-                    'l3:maplist(l1, l2)'
+                    'l3:maplist(l1, l2)',
         ];
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), []);
@@ -1250,7 +1250,7 @@ class cassession2_test extends qtype_stack_testcase {
 
         // Now check comma output as well.
         $s1 = [stack_ast_container::make_from_teacher_source('stackfltsep:","', '',
-            new stack_cas_security(), [])];
+            new stack_cas_security(), []),];
         foreach ($tests as $key => $c) {
             $s1[] = stack_ast_container::make_from_teacher_source("p{$key}:dispdp({$c[0]},{$c[1]})",
             '', new stack_cas_security(), []);
@@ -1383,9 +1383,9 @@ class cassession2_test extends qtype_stack_testcase {
             ['significantfigures(%pi/3,3)', '1.05', ''],
             ['significantfigures(%pi/blah,3)', 'p1',
                 'sigfigsfun(x,n,d) requires a real number, or a list of real numbers, ' .
-                'as a first argument.  Received:  %pi/blah'],
+                'as a first argument.  Received:  %pi/blah',],
             ['significantfigures(%pi/3,n)', 'p2',
-                'sigfigsfun(x,n,d) requires an integer as a second argument. Received:  n'],
+                'sigfigsfun(x,n,d) requires an integer as a second argument. Received:  n',],
         ];
 
         foreach ($tests as $key => $c) {
@@ -1406,7 +1406,7 @@ class cassession2_test extends qtype_stack_testcase {
     public function test_significantfigures_list() {
         $tests = [
             ['significantfigures([0.2,0.4,0.5,0.6,0.7,0.8,1]*1.9,3)',
-                '[0.38,0.76,0.95,1.14,1.33,1.52,1.9]'],
+                '[0.38,0.76,0.95,1.14,1.33,1.52,1.9]',],
         ];
 
         foreach ($tests as $key => $c) {
@@ -1458,7 +1458,7 @@ class cassession2_test extends qtype_stack_testcase {
 
         // Now check comma output as well.
         $s1 = [stack_ast_container::make_from_teacher_source('stackfltsep:","', '',
-            new stack_cas_security(), [])];
+            new stack_cas_security(), []),];
         foreach ($tests as $key => $c) {
             $s = "p{$key}:significantfigures({$c[0]},{$c[1]})";
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1496,7 +1496,7 @@ class cassession2_test extends qtype_stack_testcase {
             ['-2.998e8', '2', '-3.00 \times 10^{8}', '-3{,}00 \times 10^{8}', '-3.00E8', 'displaysci(-3,2,8)'],
             ['6.626e-34', '2', '6.63 \times 10^{-34}', '6{,}63 \times 10^{-34}', '6.63E-34', 'displaysci(6.63,2,-34)'],
             ['-6.626e-34', '2', '-6.63 \times 10^{-34}', '-6{,}63 \times 10^{-34}', '-6.63E-34',
-                'displaysci(-6.63,2,-34)'],
+                'displaysci(-6.63,2,-34)',],
             ['6.022e23', '2', '6.02 \times 10^{23}', '6{,}02 \times 10^{23}', '6.02E23', 'displaysci(6.02,2,23)'],
             ['5.985e30', '2', '5.99 \times 10^{30}', '5{,}99 \times 10^{30}', '5.99E30', 'displaysci(5.99,2,30)'],
             ['-5.985e30', '2', '-5.99 \times 10^{30}', '-5{,}99 \times 10^{30}', '-5.99E30', 'displaysci(-5.99,2,30)'],
@@ -1509,25 +1509,25 @@ class cassession2_test extends qtype_stack_testcase {
             ['54e3', '2', '5.40 \times 10^{4}', '5{,}40 \times 10^{4}', '5.40E4', 'displaysci(5.4,2,4)'],
 
             ['0.00000000000067452', '2', '6.75 \times 10^{-13}', '6{,}75 \times 10^{-13}', '6.75E-13',
-                'displaysci(6.75,2,-13)'],
+                'displaysci(6.75,2,-13)',],
             ['-0.00000000000067452', '2', '-6.75 \times 10^{-13}', '-6{,}75 \times 10^{-13}', '-6.75E-13',
-                'displaysci(-6.75,2,-13)'],
+                'displaysci(-6.75,2,-13)',],
             ['-0.0000000000006', '2', '-6.00 \times 10^{-13}', '-6{,}00 \times 10^{-13}', '-6.00E-13',
-                'displaysci(-6,2,-13)'],
+                'displaysci(-6,2,-13)',],
             ['0.0000000000000000000005555', '2', '5.56 \times 10^{-22}', '5{,}56 \times 10^{-22}', '5.56E-22',
-                'displaysci(5.56,2,-22)'],
+                'displaysci(5.56,2,-22)',],
             ['0.00000000000000000000055', '2', '5.50 \times 10^{-22}', '5{,}50 \times 10^{-22}', '5.50E-22',
-                'displaysci(5.5,2,-22)'],
+                'displaysci(5.5,2,-22)',],
             ['-0.0000000000000000000005555', '2', '-5.56 \times 10^{-22}', '-5{,}56 \times 10^{-22}', '-5.56E-22',
-                'displaysci(-5.56,2,-22)'],
+                'displaysci(-5.56,2,-22)',],
             ['67260000000000000000000000', '2', '6.73 \times 10^{25}', '6{,}73 \times 10^{25}', '6.73E25',
-                'displaysci(6.73,2,25)'],
+                'displaysci(6.73,2,25)',],
             ['67000000000000000000000000', '2', '6.70 \times 10^{25}', '6{,}70 \times 10^{25}', '6.70E25',
-                'displaysci(6.7,2,25)'],
+                'displaysci(6.7,2,25)',],
             ['-67260000000000000000000000', '2', '-6.73 \times 10^{25}', '-6{,}73 \times 10^{25}', '-6.73E25',
-                'displaysci(-6.73,2,25)'],
+                'displaysci(-6.73,2,25)',],
             ['-67000000000000000000000000', '2', '-6.70 \times 10^{25}', '-6{,}70 \times 10^{25}', '-6.70E25',
-                'displaysci(-6.7,2,25)'],
+                'displaysci(-6.7,2,25)',],
 
             ['0.001', '2', '1.00 \times 10^{-3}', '1{,}00 \times 10^{-3}', '1.00E-3', 'displaysci(1,2,-3)'],
             ['-0.001', '2', '-1.00 \times 10^{-3}', '-1{,}00 \times 10^{-3}', '-1.00E-3', 'displaysci(-1,2,-3)'],
@@ -1538,14 +1538,14 @@ class cassession2_test extends qtype_stack_testcase {
             ['-53000', '2', '-5.30 \times 10^{4}', '-5{,}30 \times 10^{4}', '-5.30E4', 'displaysci(-5.3,2,4)'],
             ['6720000000', '3', '6.720 \times 10^{9}', '6{,}720 \times 10^{9}', '6.720E9', 'displaysci(6.72,3,9)'],
             ['6.0221409e23', '4', '6.0221 \times 10^{23}', '6{,}0221 \times 10^{23}', '6.0221E23',
-                'displaysci(6.0221,4,23)'],
+                'displaysci(6.0221,4,23)',],
             ['1.6022e-19', '4', '1.6022 \times 10^{-19}', '1{,}6022 \times 10^{-19}', '1.6022E-19',
-                'displaysci(1.6022,4,-19)'],
+                'displaysci(1.6022,4,-19)',],
             ['1.55E8', '2', '1.55 \times 10^{8}', '1{,}55 \times 10^{8}', '1.55E8', 'displaysci(1.55,2,8)'],
 
             ['-0.01', '1', '-1.0 \times 10^{-2}', '-1{,}0 \times 10^{-2}', '-1.0E-2', 'displaysci(-1,1,-2)'],
             ['-0.00000001', '3', '-1.000 \times 10^{-8}', '-1{,}000 \times 10^{-8}', '-1.000E-8',
-                'displaysci(-1,3,-8)'],
+                'displaysci(-1,3,-8)',],
             ['-0.00000001', '1', '-1.0 \times 10^{-8}', '-1{,}0 \times 10^{-8}', '-1.0E-8', 'displaysci(-1,1,-8)'],
             ['-0.00000001', '0', '-1 \times 10^{-8}', '-1 \times 10^{-8}', '-1E-8', 'displaysci(-1,0,-8)'],
             ['-1000', '2', '-1.00 \times 10^{3}', '-1{,}00 \times 10^{3}', '-1.00E3', 'displaysci(-1,2,3)'],
@@ -1560,7 +1560,7 @@ class cassession2_test extends qtype_stack_testcase {
             ['0.05555', '2', '5.56 \times 10^{-2}', '5{,}56 \times 10^{-2}', '5.56E-2', 'displaysci(5.56,2,-2)'],
 
             ['cos(23*pi/180)', '3', '9.205 \times 10^{-1}', '9{,}205 \times 10^{-1}', '9.205E-1',
-                'displaysci(9.205,3,-1)'],
+                'displaysci(9.205,3,-1)',],
             ['9000', '1', '9.0 \times 10^{3}', '9{,}0 \times 10^{3}', '9.0E3', 'displaysci(9,1,3)'],
             ['8000', '0', '8 \times 10^{3}', '8 \times 10^{3}', '8E3', 'displaysci(8,0,3)'],
             // Edge case.  Want these ones to be 1*10^3, not 10.0*10^2.
@@ -1570,13 +1570,13 @@ class cassession2_test extends qtype_stack_testcase {
             // This is displayed normally (without a \times) and always returns a *float*.
             // Notice this has different behaviour with simp:true.
             ['7000', '', '7.0\cdot 10^3', '7{,}0\cdot 10^3', '7.0*10^3', '7.0*10^3',
-                    '7000.0', '7000.0', '7000.0', '7000{,}0'],
+                    '7000.0', '7000.0', '7000.0', '7000{,}0',],
             ['1000', '', '1.0\cdot 10^3', '1{,}0\cdot 10^3', '1.0*10^3', '1.0*10^3',
-                    '1000.0', '1000.0', '1000.0', '1000{,}0'],
+                    '1000.0', '1000.0', '1000.0', '1000{,}0',],
             ['-1000', '', '-1.0\cdot 10^3', '-1{,}0\cdot 10^3', '-(1.0*10^3)', '(-1.0)*10^3',
-                    '-1000.0', '-1000.0', '-1000.0', '-1000{,}0'],
+                    '-1000.0', '-1000.0', '-1000.0', '-1000{,}0',],
             ['1e50', '', '1.0\cdot 10^{50}', '1{,}0\cdot 10^{50}', '1.0*10^50', '1.0*10^50',
-                    '1.0E+50', '1.0E+50', '1.0E+50', null],
+                    '1.0E+50', '1.0E+50', '1.0E+50', null,],
             // @codingStandardsIgnoreStart
 
             // In some versions of Maxima this comes out as -\frac{1.0}{10^8} with simp:true.
@@ -1588,11 +1588,11 @@ class cassession2_test extends qtype_stack_testcase {
 
             // @codingStandardsIgnoreEnd
             ['-0.00000001', '', '-1.0\cdot 10^ {- 8 }', '-1{,}0\cdot 10^ {- 8 }', '-(1.0*10^-8)', '(-1.0)*10^-8',
-                    '-1.0E-8', '-1.0E-8', '-1.0E-8', null],
+                    '-1.0E-8', '-1.0E-8', '-1.0E-8', null,],
             ['-0.000000001', '', '-1.0\cdot 10^ {- 9 }', '-1{,}0\cdot 10^ {- 9 }', '-(1.0*10^-9)', '(-1.0)*10^-9',
-                    '-1.0E-9', '-1.0E-9', '-1.0E-9', null],
+                    '-1.0E-9', '-1.0E-9', '-1.0E-9', null,],
             ['-0.000000000001', '', '-1.0\cdot 10^ {- 12 }', '-1{,}0\cdot 10^ {- 12 }', '-(1.0*10^-12)', '(-1.0)*10^-12',
-                    '-1.0E-12', '-1.0E-12', '-1.0E-12', null],
+                    '-1.0E-12', '-1.0E-12', '-1.0E-12', null,],
         ];
 
         $s1 = [];
@@ -1669,7 +1669,7 @@ class cassession2_test extends qtype_stack_testcase {
 
         // Now check comma output as well.
         $s2 = [stack_ast_container::make_from_teacher_source('stackfltsep:","', '',
-            new stack_cas_security(), [])];
+            new stack_cas_security(), []),];
         foreach ($tests as $key => $c) {
             $s = "p{$key}:scientific_notation({$c[0]},{$c[1]})";
             if ($c[1] == '') {
@@ -1716,7 +1716,7 @@ class cassession2_test extends qtype_stack_testcase {
             'c6:#pm#sqrt(1-x)',
             'c7:(a#pm#b)^2',
             'c8:x = #pm#b',
-            'c9:sin(x#pm#a)^2'];
+            'c9:sin(x#pm#a)^2',];
 
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), []);
@@ -1760,7 +1760,7 @@ class cassession2_test extends qtype_stack_testcase {
             'c7:#pm#sqrt(1-x)',
             'c8:(a#pm#b)^2',
             'c9:x=#pm#b',
-            'c10:sin(x#pm#a)^2'];
+            'c10:sin(x#pm#a)^2',];
 
         foreach ($cs as $s) {
             $s1[] = stack_ast_container::make_from_student_source($s, '', new stack_cas_security(), []);
@@ -1826,9 +1826,9 @@ class cassession2_test extends qtype_stack_testcase {
         $cases[] = ['1/(x^2+1)', 'all', '\mathbb{R}'];
         $cases[] = ['1/x', 'realset(x,%union(oo(0,inf),oo(-inf,0)))', '{x \not\in {\left \{0 \right \}}}'];
         $cases[] = ['1+1/x^2+1/(x-1)', 'realset(x,%union(oo(0,1),oo(1,inf),oo(-inf,0)))',
-                '{x \not\in {\left \{0 , 1 \right \}}}'];
+                '{x \not\in {\left \{0 , 1 \right \}}}',];
         $cases[] = ['1+1/x^2+1/(x-1)+3/(x-2)', 'realset(x,%union(oo(0,1),oo(1,2),oo(2,inf),oo(-inf,0)))',
-                '{x \not\in {\left \{0 , 1 , 2 \right \}}}'];
+                '{x \not\in {\left \{0 , 1 , 2 \right \}}}',];
         $cases[] = ['log(x)', 'realset(x,oo(0,inf))', '{x \in {\left( 0,\, \infty \right)}}'];
         $cases[] = ['1/sqrt(x-1)+1/sqrt(3-x)', 'realset(x,oo(1,3))', '{x \in {\left( 1,\, 3\right)}}'];
 
@@ -1853,21 +1853,21 @@ class cassession2_test extends qtype_stack_testcase {
         // Cases should be in the form array('input value', 'display').
         $cases[] = ['%union(a,b,c)', 'a \cup b \cup c'];
         $cases[] = ['%union(oo(1,2),oo(3,4),oo(4,5))',
-            '\left( 1,\, 2\right) \cup \left( 3,\, 4\right) \cup \left( 4,\, 5\right)'];
+            '\left( 1,\, 2\right) \cup \left( 3,\, 4\right) \cup \left( 4,\, 5\right)',];
         $cases[] = ['%union(a,b+1,d)', 'a \cup \left(b+1\right) \cup d'];
         $cases[] = ['%union({5,6})', '\left \{5 , 6 \right \}'];
 
         $cases[] = ['%intersection(a,b,c)', 'a \cap b \cap c'];
         $cases[] = ['%intersection(oo(1,2),oo(3,4),oo(4,5))',
-            '\left( 1,\, 2\right) \cap \left( 3,\, 4\right) \cap \left( 4,\, 5\right)'];
+            '\left( 1,\, 2\right) \cap \left( 3,\, 4\right) \cap \left( 4,\, 5\right)',];
         $cases[] = ['%intersection(a,b+1,d)', 'a \cap \left(b+1\right) \cap d'];
         $cases[] = ['%intersection({5,6})', '\left \{5 , 6 \right \}'];
 
         // Add brackets.  Even when not strictly needed.
         $cases[] = ['%union({1,2},A,B,%intersection(C,D,E))',
-            '\left \{1 , 2 \right \} \cup A \cup B \cup \left(C \cap D \cap E\right)'];
+            '\left \{1 , 2 \right \} \cup A \cup B \cup \left(C \cap D \cap E\right)',];
         $cases[] = ['%intersection({1,2},A,B,%union(C,D,E))',
-            '\left \{1 , 2 \right \} \cap A \cap B \cap \left(C \cup D \cup E\right)'];
+            '\left \{1 , 2 \right \} \cap A \cap B \cap \left(C \cup D \cup E\right)',];
 
         foreach ($cases as $i => $case) {
             $s = 'd'.$i.':'.$case[0];
@@ -1963,7 +1963,7 @@ class cassession2_test extends qtype_stack_testcase {
 
         $r1 = ['ta:[lg(25,5),stackeq(lg(5^2,5)),stackeq(2*lg(5,5)),stackeq(2*1),stackeq(2)]',
             'sa1:[lg(25,5),stackeq(lg(5^2,5)),stackeq(2)]',
-            'sa0:[lg(25,5),stackeq(2)]'
+            'sa0:[lg(25,5),stackeq(2)]',
         ];
         foreach ($r1 as $s) {
             $s1[] = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -2001,15 +2001,15 @@ class cassession2_test extends qtype_stack_testcase {
         $tests = [
             ['x=dispdp(0.5,3)', 'x=0.500', 'x = 0.500', 'x = displaydp(0.5,3)'],
             ['x=1 nounor x=3.75E3', 'x=1\,{\text{ or }}\, x=3750.0',
-                    'x = 1 or x = 3750.0', 'x = 1 nounor x = 3750.0'],
+                    'x = 1 or x = 3750.0', 'x = 1 nounor x = 3750.0',],
             ['[x^2-1,stackeq((x-1)*(x+1))]', '\left[ x^2-1 , =\left(x-1\right)\cdot \left(x+1\right) \right]',
-                    '[x^2-1,=(x-1)*(x+1)]', '[x^2-1,stackeq((x-1)*(x+1))]'],
+                    '[x^2-1,=(x-1)*(x+1)]', '[x^2-1,stackeq((x-1)*(x+1))]',],
             ['nounint(sin(pi*x),x)', '\int {\sin \left( \pi\cdot x \right)}{\;\mathrm{d}x}',
-                    'int(sin(%pi*x),x)', '\'int(sin(%pi*x),x)'],
+                    'int(sin(%pi*x),x)', '\'int(sin(%pi*x),x)',],
             // Teachers may now use 'int(...) in STACK 4.3.
             // We should probably just get rid of "nounint" in the near future.
             ['\'int(cos(x),x)', '\int {\cos \left( x \right)}{\;\mathrm{d}x}',
-                    'int(cos(x),x)', '\'int(cos(x),x)'],
+                    'int(cos(x),x)', '\'int(cos(x),x)',],
         ];
 
         foreach ($tests as $key => $c) {
@@ -2034,7 +2034,7 @@ class cassession2_test extends qtype_stack_testcase {
                   'eq1:x^2*\'diff(y,x)+3*y*x=sin(x)/x',
                   'sol1:ode2(eq1,y,x)',
                   'sol2:stack_strip_percent(y=(%c-cos(x))/x^3,k)',
-                  'sol3:stack_strip_percent(y=(%c-cos(x))/x^3,[k])'
+                  'sol3:stack_strip_percent(y=(%c-cos(x))/x^3,[k])',
                 ];
 
         foreach ($tests as $key => $c) {
@@ -2092,7 +2092,7 @@ class cassession2_test extends qtype_stack_testcase {
 
     public function test_stack_rat() {
         $tests = ['s1 : 8.5*sin(rat(2*pi*((0.37/1.86440677966E-4)-(5.8/0.22))))', 's2:1',
-                'm:MAXIMA_VERSION_NUM'];
+                'm:MAXIMA_VERSION_NUM',];
 
         foreach ($tests as $key => $c) {
             $s1[] = stack_ast_container::make_from_teacher_source($c,
@@ -2115,7 +2115,7 @@ class cassession2_test extends qtype_stack_testcase {
     public function test_stack_pmpoly() {
         $tests = ['s1:-(4*x^7)+3*x^5-2*x^3+x',
                        'p1:-a/b', 'p2:(-a)/b', 'p3:-(a/b)',
-                       'pm1:a#pm#b'
+                       'pm1:a#pm#b',
         ];
 
         foreach ($tests as $key => $c) {
@@ -2295,7 +2295,7 @@ class cassession2_test extends qtype_stack_testcase {
         $t1 = [];
         $t1[] = ['simp:false', 'false'];
         $t1[] = ['node_result:ATUnitsSigFigs(1*kg,1000*g,[1,3],"1 kg")',
-            '[true,true,"ATUnits_compatible_units kg. ",""]'];
+            '[true,true,"ATUnits_compatible_units kg. ",""]',];
 
         foreach ($t1 as $i => $case) {
             $s1[] = stack_ast_container::make_from_teacher_source($case[0], '', new stack_cas_security(), []);
@@ -2574,7 +2574,7 @@ class cassession2_test extends qtype_stack_testcase {
         $cases[] = ['disp_parens(a+b)+c', '\left( a+b \right)+c'];
         $cases[] = ['int(disp_parens(x-2),x)', '\int {\left( x-2 \right)}{\;\mathrm{d}x}'];
         $cases[] = ['disp_parens(display_complex(1+%i))*x^2+disp_parens(display_complex(1-%i))',
-        '\left( 1+\mathrm{i} \right)\cdot x^2+\left( 1-\mathrm{i} \right)'];
+        '\left( 1+\mathrm{i} \right)\cdot x^2+\left( 1-\mathrm{i} \right)',];
         $cases[] = ['disp_select(a+b)+c', '\color{red}{\underline{a+b}}+c'];
         $cases[] = ['remove_disp(disp_select(a+b)+c)', 'a+b+c'];
 
@@ -2601,9 +2601,9 @@ class cassession2_test extends qtype_stack_testcase {
         $cases[] = ['select(integerp, 3)', '\color{red}{\underline{3}}'];
         $cases[] = ['select(integerp, 0.5)', '0.5'];
         $cases[] = ['select(integerp, 1+x+0.5*x^2)',
-            '\color{red}{\underline{1}}+x+0.5\cdot x^{\color{red}{\underline{2}}}'];
+            '\color{red}{\underline{1}}+x+0.5\cdot x^{\color{red}{\underline{2}}}',];
         $cases[] = ['select(zeroMulp, (1-1)*x^2+0*x+1)',
-            '\left(1-1\right)\cdot x^2+\color{red}{\underline{0\cdot x}}+1'];
+            '\left(1-1\right)\cdot x^2+\color{red}{\underline{0\cdot x}}+1',];
 
         $s1 = [];
         foreach ($cases as $k => $case) {
@@ -2653,9 +2653,9 @@ class cassession2_test extends qtype_stack_testcase {
 
         $cases = [];
         $cases[] = ['j1:jordan(matrix([1,2,3,4],[5,6,7,8],[2,3,4,5],[6,7,8,9]))',
-            '[[10-2*sqrt(31),1],[2*sqrt(31)+10,1],[0,1,1]]'];
+            '[[10-2*sqrt(31),1],[2*sqrt(31)+10,1],[0,1,1]]',];
         $cases[] = ['j2:dispJordan(j1)',
-            'matrix([10-2*sqrt(31),0,0,0],[0,2*sqrt(31)+10,0,0],[0,0,0,0],[0,0,0,0])'];
+            'matrix([10-2*sqrt(31),0,0,0],[0,2*sqrt(31)+10,0,0],[0,0,0,0],[0,0,0,0])',];
 
         $s1 = [];
         foreach ($cases as $k => $case) {
@@ -2677,7 +2677,7 @@ class cassession2_test extends qtype_stack_testcase {
 
         $cases = [];
         $cases[] = ['cartesian_product({1, 2}, {3, 4})',
-            '{[1,3],[1,4],[2,3],[2,4]}'];
+            '{[1,3],[1,4],[2,3],[2,4]}',];
 
         $s1 = [];
         foreach ($cases as $k => $case) {
@@ -2698,7 +2698,7 @@ class cassession2_test extends qtype_stack_testcase {
     public function test_keyword_end() {
 
         $cases = ['v1: (-x^2+1)/(x^2+1)^2', 'v2: 1/(x^2+1)-(2*x^2)/(x^2+1)^2', 'end:3',
-            't1:ATAlgEquiv(v1, v2)', 'v3:end^2'];
+            't1:ATAlgEquiv(v1, v2)', 'v3:end^2',];
 
         $s1 = [];
         foreach ($cases as $case) {

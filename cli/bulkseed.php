@@ -119,7 +119,7 @@ foreach ($questions as $id) {
     $urlparams = ['qperpage' => 1000,
         'category' => $questiondata->category,
         'lastchanged' => $id->id,
-        'courseid' => cat_to_course($questiondata->category)];
+        'courseid' => cat_to_course($questiondata->category),];
     if (property_exists($questiondata, 'hidden') && $questiondata->hidden) {
         $urlparams['showhidden'] = 1;
     }

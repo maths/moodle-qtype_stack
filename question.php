@@ -1502,7 +1502,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     public function validate_against_stackversion($context) {
         $errors = [];
         $castextfields = ['questiontext', 'questionnote', 'questiondescription',
-            'specificfeedback', 'generalfeedback'];
+            'specificfeedback', 'generalfeedback',];
         $qfields = array_merge($castextfields, ['questionvariables']);
 
         $stackversion = (int) $this->stackversion;
@@ -1511,7 +1511,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $patterns = [
              ['pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'],
              ['pat' => 'texdecorate', 'ver' => 2018080600],
-             ['pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg']
+             ['pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg'],
         ];
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver']) {
@@ -1530,7 +1530,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     $kv = $prt->get_feedbackvariables_keyvals();
                     if (strstr($kv, $checkpat['pat'])) {
                         $a = ['pat' => $checkpat['pat'], 'ver' => $checkpat['ver'],
-                             'qfield' => stack_string('feedbackvariables') . ' (' . $name . ')'];
+                             'qfield' => stack_string('feedbackvariables') . ' (' . $name . ')',];
                         $err = stack_string('stackversionerror', $a);
                         if (array_key_exists('alt', $checkpat)) {
                             $err .= ' ' . stack_string('stackversionerroralt', $checkpat['alt']);
@@ -1990,15 +1990,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Do some pluginfile mapping. Note that the PRT-nodes are mapped in PRT-compiler.
         $questiontext = stack_castext_file_filter($questiontext, [
             'questionid' => $id,
-            'field' => 'questiontext'
+            'field' => 'questiontext',
         ]);
         $generalfeedback = stack_castext_file_filter($generalfeedback, [
             'questionid' => $id,
-            'field' => 'generalfeedback'
+            'field' => 'generalfeedback',
         ]);
         $specificfeedback = stack_castext_file_filter($specificfeedback, [
             'questionid' => $id,
-            'field' => 'specificfeedback'
+            'field' => 'specificfeedback',
         ]);
         // Legacy questions may have a null description before being saved/compiled.
         if ($questiondescription === null) {
@@ -2006,23 +2006,23 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         $questiondescription = stack_castext_file_filter($questiondescription, [
             'questionid' => $id,
-            'field' => 'questiondescription'
+            'field' => 'questiondescription',
         ]);
         $questionnote = stack_castext_file_filter($questionnote, [
             'questionid' => $id,
-            'field' => 'questionnote'
+            'field' => 'questionnote',
         ]);
         $prtcorrect = stack_castext_file_filter($prtcorrect, [
             'questionid' => $id,
-            'field' => 'prtcorrect'
+            'field' => 'prtcorrect',
         ]);
         $prtpartiallycorrect = stack_castext_file_filter($prtpartiallycorrect, [
             'questionid' => $id,
-            'field' => 'prtpartiallycorrect'
+            'field' => 'prtpartiallycorrect',
         ]);
         $prtincorrect = stack_castext_file_filter($prtincorrect, [
             'questionid' => $id,
-            'field' => 'prtincorrect'
+            'field' => 'prtincorrect',
         ]);
 
         // Compile the castext fragments.
@@ -2030,7 +2030,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             'bound-vars' => $forbiddenkeys,
             'prt-names' => array_flip(array_keys($prts)),
             'io-blocks-as-raw' => 'pre-input2',
-            'static string extractor' => $map
+            'static string extractor' => $map,
         ];
         $ct = castext2_evaluatable::make_from_source($questiontext, '/qt');
         if (!$ct->get_valid($questiontextformat, $ctoptions, $sec)) {

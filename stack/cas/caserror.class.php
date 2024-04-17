@@ -68,7 +68,7 @@ class stack_cas_error {
             'pc' => 'prtcorrect',
             'pp' => 'prtpartiallycorrect',
             'pi' => 'prtincorrect',
-            'td' => 'textdownload'
+            'td' => 'textdownload',
         ];
 
         // Short names for the PRT-node level items.
@@ -84,7 +84,7 @@ class stack_cas_error {
             'pf' => 'falsepenalty',
             // CASText.
             'ft' => 'truefeedback',
-            'ff' => 'falsefeedback'
+            'ff' => 'falsefeedback',
         ];
 
         $interpreted = [];

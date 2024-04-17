@@ -45,7 +45,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
             '' => stack_string('notanswered'),
             '1' => 'x+1',
             '2' => 'x+2',
-            '3' => 'sin(pi*n)'
+            '3' => 'sin(pi*n)',
         ];
     }
 
@@ -54,7 +54,7 @@ class input_dropdown_test extends qtype_stack_walkthrough_test_base {
             '' => stack_string('notanswered'),
             '1' => 'x+1',
             '2' => 'x+2',
-            '3' => 'sin(\pi*n)'
+            '3' => 'sin(\pi*n)',
         ];
     }
 

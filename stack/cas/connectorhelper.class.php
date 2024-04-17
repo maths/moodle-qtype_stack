@@ -252,7 +252,7 @@ abstract class stack_connection_helper {
             $usedversion = $result['value'];
             if (self::$config->stackmaximaversion == $usedversion) {
                 return ['healthchecksstackmaximaversionok',
-                    ['usedversion' => $usedversion], true];
+                    ['usedversion' => $usedversion], true,];
             } else {
                 break;
             }
@@ -275,7 +275,7 @@ abstract class stack_connection_helper {
 
         return ['healthchecksstackmaximaversionmismatch',
                 ['fix' => $fix, 'usedversion' => $usedversion,
-                    'expectedversion' => self::$config->stackmaximaversion], false];
+                    'expectedversion' => self::$config->stackmaximaversion,], false,];
     }
 
     /**

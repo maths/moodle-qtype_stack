@@ -36,16 +36,17 @@ class maxima_corrective_parser {
     // Returns an AST if possible.
     public static function parse(string $string, array &$errors, array &$answernote, array $parseroptions) {
         static $safespacepatterns = [
-         ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT', 'nounnot ' => 'STACKNOUNNOT',
-         ' nor ' => 'STACKNOR', ' nand ' => 'STACKNAND', ' xor ' => 'STACKXOR', ' xnor ' => 'STACKXNOR',
-         ' implies ' => 'STACKIMPLIES', ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND',
+            ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT', 'nounnot ' => 'STACKNOUNNOT',
+            ' nor ' => 'STACKNOR', ' nand ' => 'STACKNAND', ' xor ' => 'STACKXOR', ' xnor ' => 'STACKXNOR',
+            ' implies ' => 'STACKIMPLIES', ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND',
          // TODO: we really need to think about keywords and whether we allow
          // them for students in the first case. Of course none of these requires
          // spaces you can easily write 'if(foo)then(blaah)else(if(bar)then(zoo))'.
          // Well 'else if' is the exception...
-         ' else if ' => '%%STACKELSEIF%%', ' if ' => '%%STACKIF%%',
-         ':if ' => ':%%STACKIF%%', ' then ' => '%%STACKTHEN%%',
-         ' else ' => '%%STACKELSE%%',];
+            ' else if ' => '%%STACKELSEIF%%', ' if ' => '%%STACKIF%%',
+            ':if ' => ':%%STACKIF%%', ' then ' => '%%STACKTHEN%%',
+            ' else ' => '%%STACKELSE%%',
+        ];
 
         // These will store certain errors if the parsing is impossible.
         $err1 = false;
@@ -145,9 +146,9 @@ class maxima_corrective_parser {
                 }
                 $answernote[] = 'forbiddenChar';
             }
-            $errors[] = stack_string('stackCas_forbiddenChar', [ 'char' => implode(", ", array_unique($invalidchars))]);
+            $errors[] = stack_string('stackCas_forbiddenChar', ['char' => implode(", ", array_unique($invalidchars))]);
             foreach ($replaceablechars as $bad => $good) {
-                $errors[] = stack_string('stackCas_useinsteadChar', [ 'bad' => $bad, 'char' => $good]);
+                $errors[] = stack_string('stackCas_useinsteadChar', ['bad' => $bad, 'char' => $good]);
             }
             return null;
         }
@@ -156,14 +157,14 @@ class maxima_corrective_parser {
         // NOTE: These patterns take into account floats, if the logic wants to
         // kill floats it can do it later after the parsing.
         static $starpatterns = [
-                '/(\))([0-9A-Za-z])/',                                       // E.g. )a, or )3. But not underscores )_.
-                '/([^0-9A-Za-z_][0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/', // E.g. +3z(, -2ee+ not *4e-2 or /1e3.
-                '/^([\+\-]?[0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/',      // Same but start of line.
-                '/([^0-9A-Za-z_][0-9]+)(\()/',                               // Pattern such as -124().
-                '/^([\+\-]?[0-9]+)(\()/',                                    // Same but start of line.
-                '/([^0-9A-Za-z_][0-9]+[\.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/',   // Pattern such as -124.4e-3().
-                '/^([\+\-]?[0-9]+[\.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/',        // Same but start of line.
-            ];
+            '/(\))([0-9A-Za-z])/',                                       // E.g. )a, or )3. But not underscores )_.
+            '/([^0-9A-Za-z_][0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/', // E.g. +3z(, -2ee+ not *4e-2 or /1e3.
+            '/^([\+\-]?[0-9]+)([A-DF-Za-df-z_]+|[eE][^\+\-0-9]+)/',      // Same but start of line.
+            '/([^0-9A-Za-z_][0-9]+)(\()/',                               // Pattern such as -124().
+            '/^([\+\-]?[0-9]+)(\()/',                                    // Same but start of line.
+            '/([^0-9A-Za-z_][0-9]+[\.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/',   // Pattern such as -124.4e-3().
+            '/^([\+\-]?[0-9]+[\.]?[0-9]*[eE][\+\-]?[0-9]+)(\()/',        // Same but start of line.
+        ];
 
         $missingstar    = false;
         $missingstring  = '';
@@ -326,7 +327,7 @@ class maxima_corrective_parser {
                     }
                 }
             }
-            $errors[] = stack_string('stackCas_forbiddenChar', [ 'char' => implode(", ", array_unique($invalidchars))]);
+            $errors[] = stack_string('stackCas_forbiddenChar', ['char' => implode(", ", array_unique($invalidchars))]);
             $answernote[] = 'forbiddenChar_parserError';
             return;
         }
@@ -424,9 +425,11 @@ class maxima_corrective_parser {
             $answernote[] = 'spuriousop';
 
         } else if (ctype_alpha($foundchar) && ctype_digit($previouschar)) {
-            $a = ['cmd' => stack_maxima_format_casstring(mb_substr($string, 0, $exception->grammarOffset) .
+            $a = [
+                'cmd' => stack_maxima_format_casstring(mb_substr($string, 0, $exception->grammarOffset) .
                     '[[syntaxexamplehighlight]*[syntaxexamplehighlight]]' .
-                    mb_substr($string, $exception->grammarOffset)),];
+                    mb_substr($string, $exception->grammarOffset)),
+            ];
             $answernote[] = 'missing_stars';
         } else if ($foundchar === ',' || (ctype_digit($foundchar) && $previouschar === ',')) {
             if ($decimals == '.') {

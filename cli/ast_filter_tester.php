@@ -34,8 +34,10 @@ require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 
 // Now get cli options.
-list($options, $unrecognized) = cli_get_params(['help' => false,
-    'string' => '1+2x', 'ast' => false, 'only' => false,], ['h' => 'help']);
+list($options, $unrecognized) = cli_get_params([
+    'help' => false,
+    'string' => '1+2x', 'ast' => false, 'only' => false,
+], ['h' => 'help']);
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
     cli_error(get_string('cliunknowoption', 'admin', $unrecognized));
@@ -80,8 +82,10 @@ try {
 } catch (SyntaxError $e) {
     $parseable = false;
 
-    $ast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, ['startRule' => 'Root',
-                               'letToken' => stack_string('equiv_LET'),]);
+    $ast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, [
+        'startRule' => 'Root',
+        'letToken' => stack_string('equiv_LET'),
+    ]);
 }
 if ($ast === null) {
     cli_writeln('The test-string was not parseable, even with the corrective parser.');
@@ -143,8 +147,10 @@ foreach ($filters as $filtername) {
     if ($parseable) {
         $freshast = maxima_parser_utils::parse($teststring);
     } else {
-        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, ['startRule' => 'Root',
-                               'letToken' => stack_string('equiv_LET'),]);
+        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, [
+            'startRule' => 'Root',
+            'letToken' => stack_string('equiv_LET'),
+        ]);
     }
     check_filter($freshast, $filter, new stack_cas_security(false), $filtername);
 }
@@ -157,8 +163,10 @@ foreach ($filters as $filtername) {
     if ($parseable) {
         $freshast = maxima_parser_utils::parse($teststring);
     } else {
-        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, ['startRule' => 'Root',
-                               'letToken' => stack_string('equiv_LET'),]);
+        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, [
+            'startRule' => 'Root',
+            'letToken' => stack_string('equiv_LET'),
+        ]);
     }
     check_filter($freshast, $filter, new stack_cas_security(true), $filtername);
 }
@@ -169,13 +177,19 @@ if ($only === false) {
     if ($parseable) {
         $freshast = maxima_parser_utils::parse($teststring);
     } else {
-        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, ['startRule' => 'Root',
-                               'letToken' => stack_string('equiv_LET'),]);
+        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, [
+            'startRule' => 'Root',
+            'letToken' => stack_string('equiv_LET'),
+        ]);
     }
 
-    $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['995_ev_modification',
-        '996_call_modification', '998_security',], ['998_security' => ['security' => 's'],
-        '995_ev_modification' => ['flags' => false],], true);
+    $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
+        '995_ev_modification',
+        '996_call_modification', '998_security',
+    ], [
+        '998_security' => ['security' => 's'],
+        '995_ev_modification' => ['flags' => false],
+    ], true);
     check_filter($freshast, $pipeline, new stack_cas_security(false), 'core + security(s)');
 
     cli_heading('= core + security(t) + strict =');
@@ -183,12 +197,16 @@ if ($only === false) {
     if ($parseable) {
         $freshast = maxima_parser_utils::parse($teststring);
     } else {
-        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, ['startRule' => 'Root',
-                               'letToken' => stack_string('equiv_LET'),]);
+        $freshast = maxima_corrective_parser::parse($teststring, $errors, $answernotes, [
+            'startRule' => 'Root',
+            'letToken' => stack_string('equiv_LET'),
+        ]);
     }
 
-    $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['995_ev_modification', '996_call_modification',
-        '998_security', '999_strict',],
+    $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
+        '995_ev_modification', '996_call_modification',
+        '998_security', '999_strict',
+    ],
         ['998_security' => ['security' => 't'], '995_ev_modification' => ['flags' => true]], true);
     check_filter($freshast, $pipeline, new stack_cas_security(false), 'core + security(t) + strict');
 }

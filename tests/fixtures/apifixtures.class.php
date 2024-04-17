@@ -525,7 +525,7 @@ class stack_api_test_data {
                 </qtest>
             </question>
             </quiz>',
-      'multipleanswers' =>
+        'multipleanswers' =>
         '<quiz>
           <question type="stack">
             <name>
@@ -891,7 +891,7 @@ class stack_api_test_data {
             </qtest>
           </question>
         </quiz>',
-      'plots' =>
+        'plots' =>
         '<quiz>
           <question type="stack">
             <name>
@@ -1077,7 +1077,7 @@ class stack_api_test_data {
             </qtest>
           </question>
         </quiz>',
-      'iframes' =>
+        'iframes' =>
         '<quiz>
         <!-- question: 126427  -->
           <question type="stack">
@@ -1221,7 +1221,7 @@ class stack_api_test_data {
             </qtest>
           </question>
         </quiz>',
-      'download' =>
+        'download' =>
         '<quiz>
           <question type="stack">
             <name>

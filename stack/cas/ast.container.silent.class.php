@@ -100,10 +100,12 @@ class stack_ast_container_silent implements cas_evaluatable {
     /**
      * These strings might occur as errors or notes and need to be tided up.
      */
-    protected static $maximastrings = ['DivisionZero', 'CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
-                'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression',
-                'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units',
-                'Units_SA_errorbounds_invalid', 'Variable_function', 'Bad_assignment',];
+    protected static $maximastrings = [
+        'DivisionZero', 'CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
+        'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression',
+        'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units',
+        'Units_SA_errorbounds_invalid', 'Variable_function', 'Bad_assignment',
+    ];
 
     /**
      * @var string the name of the error-wrapper-class, tunable for use in
@@ -130,9 +132,10 @@ class stack_ast_container_silent implements cas_evaluatable {
 
         $errors = [];
         $answernotes = [];
-        $parseroptions = ['startRule' => $grammar,
-                               'letToken' => stack_string('equiv_LET'),
-                               'decimals' => $decimals,
+        $parseroptions = [
+            'startRule' => $grammar,
+            'letToken' => stack_string('equiv_LET'),
+            'decimals' => $decimals,
         ];
 
         // Force the security filter to use 's'.
@@ -184,8 +187,10 @@ class stack_ast_container_silent implements cas_evaluatable {
         // or not and thus affect the teachers ability to write into them.
         $errors = [];
         $answernotes = [];
-        $parseroptions = ['startRule' => 'Root',
-                               'letToken' => stack_string('equiv_LET'),];
+        $parseroptions = [
+            'startRule' => 'Root',
+            'letToken' => stack_string('equiv_LET'),
+        ];
 
         if ($securitymodel === null) {
             $securitymodel = new stack_cas_security();
@@ -208,7 +213,8 @@ class stack_ast_container_silent implements cas_evaluatable {
         // append the strict syntax check to the end.
         $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
             '995_ev_modification', '996_call_modification', '998_security',
-            '999_strict',], $filteroptions, true);
+            '999_strict',
+        ], $filteroptions, true);
 
         if ($ast !== null) {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
@@ -237,8 +243,10 @@ class stack_ast_container_silent implements cas_evaluatable {
         $answernotes = [];
         $filteroptions = ['998_security' => ['security' => 't']];
 
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['998_security',
-            '999_strict',], $filteroptions, true);
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
+            '998_security',
+            '999_strict',
+        ], $filteroptions, true);
         $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
 
         $astc = new static;
@@ -330,17 +338,18 @@ class stack_ast_container_silent implements cas_evaluatable {
             $listsep = ';';
         }
 
-        $params = ['inputform' => true,
-                'qmchar' => true,
-                'pmchar' => 0,
-                'nosemicolon' => true,
-                'keyless' => $keyless,
-                'dealias' => false, // This is needed to stop pi->%pi etc.
-                'nounify' => $nounify,
-                'nontuples' => $nontuples,
-                'decimal' => $decimal,
-                'listsep' => $listsep,
-                ];
+        $params = [
+            'inputform' => true,
+            'qmchar' => true,
+            'pmchar' => 0,
+            'nosemicolon' => true,
+            'keyless' => $keyless,
+            'dealias' => false, // This is needed to stop pi->%pi etc.
+            'nounify' => $nounify,
+            'nontuples' => $nontuples,
+            'decimal' => $decimal,
+            'listsep' => $listsep,
+        ];
         return $this->ast_to_string($this->ast, $params);
     }
 
@@ -372,9 +381,11 @@ class stack_ast_container_silent implements cas_evaluatable {
         // throw new stack_exception('stack_ast_container::ast_to_string tried to set illegal parameter ' . $key);
         // We should document available parameters: 'pretty', 'nosemicolon', 'keyless', 'qmchar'.
         // @codingStandardsIgnoreEnd
-        $params = ['nounify' => $this->nounify,
-                        'dealias' => true,
-                        'inputform' => false,];
+        $params = [
+            'nounify' => $this->nounify,
+            'dealias' => true,
+            'inputform' => false,
+        ];
         foreach ($parameters as $key => $val) {
             $params[$key] = $val;
         }

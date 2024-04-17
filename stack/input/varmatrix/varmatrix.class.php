@@ -308,7 +308,8 @@ class stack_varmatrix_input extends stack_input {
             $decimal = ',';
             $listsep = ';';
         }
-        $tostringparams = ['inputform' => true,
+        $tostringparams = [
+            'inputform' => true,
             'qmchar' => true,
             'pmchar' => 0,
             'nosemicolon' => true,
@@ -335,7 +336,8 @@ class stack_varmatrix_input extends stack_input {
         // Hard-wire to strict Maxima syntax.
         $decimal = '.';
         $listsep = ',';
-        $params = ['checkinggroup' => true,
+        $params = [
+            'checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
             'nosemicolon' => true,
@@ -392,7 +394,8 @@ class stack_varmatrix_input extends stack_input {
             'lowestTerms'        => true,
             // This looks odd, but the teacher's answer is a list and the student's a matrix.
             'sameType'           => false,
-            'options'            => '',];
+            'options'            => '',
+        ];
     }
 
     /**

@@ -298,10 +298,12 @@ class stack_cas_keyval {
 
         if (count($this->statements) == 0) {
             // If nothing return nothing, the logic outside will deal with null.
-            return ['blockexternal' => null,
-                    'statement' => null,
-                    'references' => $referenced,
-                    'contextvariables' => null,];
+            return [
+                'blockexternal' => null,
+                'statement' => null,
+                'references' => $referenced,
+                'contextvariables' => null,
+            ];
         }
 
         // Now we start from the RAW form as rebuilding the line
@@ -328,13 +330,17 @@ class stack_cas_keyval {
         // Note that we add special 600-series filters.
         $errors = [];
         $answernotes = [];
-        $filteroptions = ['998_security' => ['security' => 't'],
+        $filteroptions = [
+            '998_security' => ['security' => 't'],
             '601_castext' => ['context' => $contextname, 'errclass' => $this->errclass, 'map' => $map],
             '610_castext_static_string_extractor' => ['static string extractor' => $map],
-            '995_ev_modification' => ['flags' => true],];
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(['601_castext',
+            '995_ev_modification' => ['flags' => true],
+        ];
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
+            '601_castext',
             '602_castext_simplifier', '680_gcl_sconcat', '995_ev_modification',
-            '996_call_modification', '998_security', '999_strict',],
+            '996_call_modification', '998_security', '999_strict',
+        ],
             $filteroptions, true);
         $tostringparams = ['nosemicolon' => true, 'pmchar' => 1];
         $securitymodel = $this->security;
@@ -424,17 +430,21 @@ class stack_cas_keyval {
 
         if (count($includes) > 0) {
             // Now output them for use elsewhere.
-            return ['blockexternal' => $bestatements,
+            return [
+                'blockexternal' => $bestatements,
                 'statement' => $statements,
                 'contextvariables' => $contextvariables,
                 'references' => $referenced,
-                'includes' => array_keys($includes),];
+                'includes' => array_keys($includes),
+            ];
         }
 
         // Now output them for use elsewhere.
-        return ['blockexternal' => $bestatements,
+        return [
+            'blockexternal' => $bestatements,
             'statement' => $statements,
             'contextvariables' => $contextvariables,
-            'references' => $referenced,];
+            'references' => $referenced,
+        ];
     }
 }

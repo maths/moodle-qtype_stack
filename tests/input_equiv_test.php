@@ -489,8 +489,10 @@ class input_equiv_test extends qtype_stack_testcase {
         $ta = '[sqrt(3*x+4) = 2+sqrt(x+2), 3*x+4=4+4*sqrt(x+2)+(x+2),x-1=2*sqrt(x+2),x^2-2*x+1 '.
                 '= 4*x+8,x^2-6*x-7 = 0,(x-7)*(x+1) = 0,x=7 nounor x=-1]';
         $el = stack_input_factory::make('equiv', 'sans1', $ta);
-        $state = $el->validate_student_response(['sans1' => "sqrt(3*x+4) = 2+sqrt(x+2)\n3*x+4=4+4*sqrt(x+2)+(x+2)\n".
-            "x-1=2*sqrt(x+2)\nx^2-2*x+1 = 4*x+8\nx^2-6*x-7 = 0\n(x-7)*(x+1) = 0\nx=7 or x=-1",], $options, $ta,
+        $state = $el->validate_student_response([
+            'sans1' => "sqrt(3*x+4) = 2+sqrt(x+2)\n3*x+4=4+4*sqrt(x+2)+(x+2)\n".
+            "x-1=2*sqrt(x+2)\nx^2-2*x+1 = 4*x+8\nx^2-6*x-7 = 0\n(x-7)*(x+1) = 0\nx=7 or x=-1",
+        ], $options, $ta,
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[sqrt(3*x+4) = 2+sqrt(x+2),3*x+4 = 4+4*sqrt(x+2)+(x+2),x-1 = 2*sqrt(x+2),'.

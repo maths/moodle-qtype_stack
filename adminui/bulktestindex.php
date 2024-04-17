@@ -71,7 +71,8 @@ foreach ($questionsbycontext as $contextid => $numquestions) {
         }
         $availablequestionsbycontext[$name] = [
             'contextid' => $contextid,
-            'numquestions' => $numquestions,];
+            'numquestions' => $numquestions,
+        ];
     }
 }
 

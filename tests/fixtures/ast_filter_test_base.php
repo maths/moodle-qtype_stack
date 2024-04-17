@@ -62,8 +62,10 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
 
         // Parse it, remember that these tests only act on parseable strings.
         $ast = maxima_corrective_parser::parse($input, $parsererrors, $parsernotes,
-                                               ['startRule' => 'Root',
-                                               'letToken' => stack_string('equiv_LET'),]);
+                                               [
+                                                   'startRule' => 'Root',
+                                                   'letToken' => stack_string('equiv_LET'),
+                                               ]);
 
         $filtererrors = [];
         $filternotes = [];

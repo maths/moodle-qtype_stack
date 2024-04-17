@@ -451,12 +451,18 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $expectedq->questionsimplify      = 1;
         $expectedq->assumepositive        = 0;
         $expectedq->assumereal            = 0;
-        $expectedq->prtcorrect            = ['text' => '<p>Correct answer, well done.</p>',
-                                                    'format' => FORMAT_HTML, 'files' => [],];;
-        $expectedq->prtpartiallycorrect   = ['text' => '<p>Your answer is partially correct.</p>',
-                                                    'format' => FORMAT_HTML, 'files' => [],];;
-        $expectedq->prtincorrect          = ['text' => '<p>Incorrect answer.</p>',
-                                                    'format' => FORMAT_HTML, 'files' => [],];;
+        $expectedq->prtcorrect            = [
+            'text' => '<p>Correct answer, well done.</p>',
+            'format' => FORMAT_HTML, 'files' => [],
+        ];;
+        $expectedq->prtpartiallycorrect   = [
+            'text' => '<p>Your answer is partially correct.</p>',
+            'format' => FORMAT_HTML, 'files' => [],
+        ];;
+        $expectedq->prtincorrect          = [
+            'text' => '<p>Incorrect answer.</p>',
+            'format' => FORMAT_HTML, 'files' => [],
+        ];;
         $expectedq->decimals              = '.';
         $expectedq->multiplicationsign    = 'dot';
         $expectedq->sqrtsign              = 1;

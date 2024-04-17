@@ -438,7 +438,8 @@ class stack_matrix_input extends stack_input {
         // Hard-wire to strict Maxima syntax.
         $decimal = '.';
         $listsep = ',';
-        $params = ['checkinggroup' => true,
+        $params = [
+            'checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
             'nosemicolon' => true,
@@ -461,7 +462,8 @@ class stack_matrix_input extends stack_input {
             $decimal = ',';
             $listsep = ';';
         }
-        $params = ['checkinggroup' => true,
+        $params = [
+            'checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
             'nosemicolon' => true,

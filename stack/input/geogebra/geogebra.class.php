@@ -94,18 +94,19 @@ class stack_geogebra_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return [
-          'mustVerify'         => true,
-          'showValidation'     => 0,
-          'boxWidth'           => 15,
-          'insertStars'        => 0,
-          'syntaxHint'         => '',
-          'syntaxAttribute'    => 0,
-          'forbidWords'        => '',
-          'allowWords'         => '',
-          'forbidFloats'       => false,
-          'lowestTerms'        => true,
-          'sameType'           => true,
-          'options'            => '',];
+            'mustVerify'         => true,
+            'showValidation'     => 0,
+            'boxWidth'           => 15,
+            'insertStars'        => 0,
+            'syntaxHint'         => '',
+            'syntaxAttribute'    => 0,
+            'forbidWords'        => '',
+            'allowWords'         => '',
+            'forbidFloats'       => false,
+            'lowestTerms'        => true,
+            'sameType'           => true,
+            'options'            => '',
+        ];
     }
 
     /**

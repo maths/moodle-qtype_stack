@@ -164,8 +164,10 @@ class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_ba
         );
 
         // Save a confirmation this is valid.
-        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
-                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x', ]);
+        $this->process_submission([
+            'ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
+            'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x',
+        ]);
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);

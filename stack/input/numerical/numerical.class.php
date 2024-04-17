@@ -133,7 +133,8 @@ class stack_numerical_input extends stack_input {
             'forbidFloats'       => false,
             'lowestTerms'        => true,
             'sameType'           => true,
-            'options'            => '',];
+            'options'            => '',
+        ];
     }
 
     /**

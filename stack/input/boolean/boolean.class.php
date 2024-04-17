@@ -86,9 +86,9 @@ class stack_boolean_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return [
-                'mustVerify'      => false,
-                'showValidation'  => 0,
-                'options'            => '',
+            'mustVerify'      => false,
+            'showValidation'  => 0,
+            'options'            => '',
         ];
     }
 }

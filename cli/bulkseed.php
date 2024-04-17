@@ -116,10 +116,12 @@ foreach ($questions as $id) {
     }
     $c++;
     $questiondata = question_bank::load_question_data($id->id);
-    $urlparams = ['qperpage' => 1000,
+    $urlparams = [
+        'qperpage' => 1000,
         'category' => $questiondata->category,
         'lastchanged' => $id->id,
-        'courseid' => cat_to_course($questiondata->category),];
+        'courseid' => cat_to_course($questiondata->category),
+    ];
     if (property_exists($questiondata, 'hidden') && $questiondata->hidden) {
         $urlparams['showhidden'] = 1;
     }

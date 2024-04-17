@@ -188,12 +188,16 @@ class qtype_stack_dollar_fixer {
      */
     public function __construct($preview) {
         $this->preview = $preview;
-        $this->search = [s('<ins>\[</ins>'), s('<ins>\]</ins>'),
-                s('<ins>\(</ins>'), s('<ins>\)</ins>'),
-                s('<ins>{@</ins>'), s('<ins>@}</ins>'),];
-        $this->replace = ['<del>$$</del><ins>\[</ins>', '<del>$$</del><ins>\]</ins>',
-                '<del>$</del><ins>\(</ins>', '<del>$</del><ins>\)</ins>',
-                '<del>@</del><ins>{@</ins>', '<del>@</del><ins>@}</ins>',];
+        $this->search = [
+            s('<ins>\[</ins>'), s('<ins>\]</ins>'),
+            s('<ins>\(</ins>'), s('<ins>\)</ins>'),
+            s('<ins>{@</ins>'), s('<ins>@}</ins>'),
+        ];
+        $this->replace = [
+            '<del>$$</del><ins>\[</ins>', '<del>$$</del><ins>\]</ins>',
+            '<del>$</del><ins>\(</ins>', '<del>$</del><ins>\)</ins>',
+            '<del>@</del><ins>{@</ins>', '<del>@</del><ins>@}</ins>',
+        ];
     }
 
     /**

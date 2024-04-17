@@ -79,7 +79,8 @@ abstract class stack_input {
         'allowWords',
         'forbidFloats',
         'lowestTerms',
-        'sameType',];
+        'sameType',
+    ];
 
     /**
      * From STACK 4.1 we are not going to continue to add input options as columns in the database.
@@ -828,14 +829,15 @@ abstract class stack_input {
         // Answers may not contain the ? character.  CAS-strings may, but answers may not.
         // It is very useful for teachers to be able to add in syntax hints.
         // We make sure +- -> #pm# here so that +- can be interpreted at +(-....).
-        $params = ['inputform' => true,
-                        'qmchar' => false,
-                        'pmchar' => 1,
-                        'nosemicolon' => true,
-                        'keyless' => true,
-                        'dealias' => true, // This is needed to stop pi->%pi etc.
-                        'nounify' => 1,
-                        'nontuples' => false,
+        $params = [
+            'inputform' => true,
+            'qmchar' => false,
+            'pmchar' => 1,
+            'nosemicolon' => true,
+            'keyless' => true,
+            'dealias' => true, // This is needed to stop pi->%pi etc.
+            'nounify' => 1,
+            'nontuples' => false,
         ];
         $interpretedanswer = $answerd->ast_to_string(null, $params);
         if (!(strpos($interpretedanswer, 'QMCHAR') === false)) {
@@ -1375,8 +1377,10 @@ abstract class stack_input {
         }
 
         if ($this->requires_validation() && '' !== $state->contents) {
-            $feedback .= html_writer::empty_tag('input', ['type' => 'hidden',
-                    'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents),]);
+            $feedback .= html_writer::empty_tag('input', [
+                'type' => 'hidden',
+                'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents),
+            ]);
         }
 
         $feedbackerr = '';
@@ -1473,7 +1477,8 @@ abstract class stack_input {
             $decimal = ',';
             $listsep = ';';
         }
-        $params = ['checkinggroup' => true,
+        $params = [
+            'checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
             'nosemicolon' => true,

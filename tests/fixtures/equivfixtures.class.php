@@ -1631,8 +1631,10 @@ class stack_equiv_test_data {
 
                 // TODO: add in CAS code to support all these arguments!
                 if ('unsupported' !== $equivarg['outcome']) {
-                    $answertestfixtures[] = ['Equiv', $options, $equivarg['casstring'], '[]',
-                            $score, $equivarg['debuglist'], '',];
+                    $answertestfixtures[] = [
+                        'Equiv', $options, $equivarg['casstring'], '[]',
+                        $score, $equivarg['debuglist'], '',
+                    ];
                 }
             }
         }

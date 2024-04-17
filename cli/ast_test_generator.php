@@ -46,8 +46,10 @@ $inputs = array_unique($inputs);
 $okinputs = [];
 foreach ($inputs as $input) {
     $test = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, ['startRule' => 'Root',
-            'letToken' => stack_string('equiv_LET'),]);
+            $devnull, $devnull, [
+                'startRule' => 'Root',
+                'letToken' => stack_string('equiv_LET'),
+            ]);
     if ($test !== null) {
         $okinputs[] = $input;
     }
@@ -83,12 +85,16 @@ foreach ($filters as $key => $filter) {
     $asts['no units'][$key] = [];
     foreach ($inputs as $input) {
         $ast = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, ['startRule' => 'Root',
-            'letToken' => stack_string('equiv_LET'),]);
+            $devnull, $devnull, [
+                'startRule' => 'Root',
+                'letToken' => stack_string('equiv_LET'),
+            ]);
         $asts['units'][$key][$input] = $ast;
         $ast = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, ['startRule' => 'Root',
-            'letToken' => stack_string('equiv_LET'),]);
+            $devnull, $devnull, [
+                'startRule' => 'Root',
+                'letToken' => stack_string('equiv_LET'),
+            ]);
         $asts['no units'][$key][$input] = $ast;
         $total = $total + 2;
     }
@@ -239,8 +245,10 @@ ESCAPE;
     foreach ($inputs as $input) {
         // What does it look if nothing changes.
         $base = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, ['startRule' => 'Root',
-            'letToken' => stack_string('equiv_LET'),]);
+            $devnull, $devnull, [
+                'startRule' => 'Root',
+                'letToken' => stack_string('equiv_LET'),
+            ]);
         $basestring = $base->toString(['nosemicolon' => true]);
 
         // Check with units.

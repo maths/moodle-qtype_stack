@@ -168,8 +168,10 @@ foreach ($availabletests as $anstest) {
     // If we don't strip id tags the whole file will change everytime we add a test!
     // String too long for a single regular expression match.
     $lines = explode("\n", $output);
-    $pat = ['/\sid="stack_answertests_r\d+_c\d+"/',
-                 '/\sid="stack_answertests_r\d+"/',];
+    $pat = [
+        '/\sid="stack_answertests_r\d+_c\d+"/',
+        '/\sid="stack_answertests_r\d+"/',
+    ];
     $rep = ['', ''];
     foreach ($lines as $key => $line) {
         $lines[$key] = preg_replace($pat, $rep, $line);

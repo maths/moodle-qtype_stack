@@ -1281,8 +1281,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Submit again without editing.
-        $this->process_submission(['ans1' => 'x^2', 'ans2' => 'x^3', 'ans3' => '1+x^3', 'ans4' => 'false',
-                'ans1_val' => 'x^2', 'ans2_val' => 'x^3', 'ans3_val' => '1+x^3', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x^2', 'ans2' => 'x^3', 'ans3' => '1+x^3', 'ans4' => 'false',
+            'ans1_val' => 'x^2', 'ans2_val' => 'x^3', 'ans3_val' => '1+x^3', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
@@ -1369,8 +1371,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Submit again without editing. 1. and 3. bits should now be graded.
-        $this->process_submission(['ans1' => 'x^3', 'ans2' => '(x +', 'ans3' => '0', 'ans4' => 'true',
-                                        'ans1_val' => 'x^3', 'ans3_val' => '0', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x^3', 'ans2' => '(x +', 'ans3' => '0', 'ans4' => 'true',
+            'ans1_val' => 'x^3', 'ans3_val' => '0', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(3.0);
@@ -1399,8 +1403,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Now fix the response to 2. and submit. Previously invalid bit should only be validated, not graded yet.
-        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
-                                        'ans1_val' => 'x^3', 'ans3_val' => '0', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
+            'ans1_val' => 'x^3', 'ans3_val' => '0', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(3.0);
@@ -1429,8 +1435,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         );
 
         // Submit again. Should now all be graded (and right).
-        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
-                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
+            'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(4.0);
@@ -1562,8 +1570,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 $this->quba->get_response_summary($this->slot));
 
         // Step 2.
-        $this->process_submission(['ans1' => 'x^3', 'ans2' => '', 'ans3' => 'x', 'ans4' => '',
-            'ans1_val' => 'x^3', 'ans3_val' => 'x', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x^3', 'ans2' => '', 'ans3' => 'x', 'ans4' => '',
+            'ans1_val' => 'x^3', 'ans3_val' => 'x', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(1.5);
@@ -1591,8 +1601,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 $this->quba->get_response_summary($this->slot));
 
         // Step 3.
-        $this->process_submission(['ans1' => '(x', 'ans2' => '(x', 'ans3' => 'x+1', 'ans4' => 'false',
-            'ans1_val' => 'x^3', 'ans3_val' => 'x', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => '(x', 'ans2' => '(x', 'ans3' => 'x+1', 'ans4' => 'false',
+            'ans1_val' => 'x^3', 'ans3_val' => 'x', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(1.5);
@@ -1620,8 +1632,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 $this->quba->get_response_summary($this->slot));
 
         // Step 4.
-        $this->process_submission(['ans1' => 'x)', 'ans2' => 'x^2', 'ans3' => 'x+1', 'ans4' => '',
-            'ans3_val' => 'x+1', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x)', 'ans2' => 'x^2', 'ans3' => 'x+1', 'ans4' => '',
+            'ans3_val' => 'x+1', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(1.5);
@@ -1649,8 +1663,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 $this->quba->get_response_summary($this->slot));
 
         // Step 5.
-        $this->process_submission(['ans1' => 'x^2', 'ans2' => 'x', 'ans3' => 'x^5', 'ans4' => '',
-            'ans2_val' => 'x^2', 'ans3_val' => 'x+1', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x^2', 'ans2' => 'x', 'ans3' => 'x^5', 'ans4' => '',
+            'ans2_val' => 'x^2', 'ans3_val' => 'x+1', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(1.5);
@@ -1680,8 +1696,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 $this->quba->get_response_summary($this->slot));
 
         // Step 6.
-        $this->process_submission(['ans1' => 'x^2', 'ans2' => 'x^2', 'ans3' => 'x^5', 'ans4' => 'true',
-            'ans1_val' => 'x^2', 'ans2_val' => 'x', 'ans3_val' => 'x^5', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x^2', 'ans2' => 'x^2', 'ans3' => 'x^5', 'ans4' => 'true',
+            'ans1_val' => 'x^2', 'ans2_val' => 'x', 'ans3_val' => 'x^5', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(2.4);
@@ -1710,8 +1728,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 $this->quba->get_response_summary($this->slot));
 
         // Step 7.
-        $this->process_submission(['ans1' => 'x', 'ans2' => 'x^2', 'ans3' => 'x+3', 'ans4' => 'true',
-            'ans1_val' => 'x^2', 'ans2_val' => 'x^2', 'ans3_val' => 'x^5', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x', 'ans2' => 'x^2', 'ans3' => 'x+3', 'ans4' => 'true',
+            'ans1_val' => 'x^2', 'ans2_val' => 'x^2', 'ans3_val' => 'x^5', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(3.4);
@@ -1739,8 +1759,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 $this->quba->get_response_summary($this->slot));
 
         // Step 8.
-        $this->process_submission(['ans1' => 'x', 'ans2' => '', 'ans3' => 'x+3', 'ans4' => 'true',
-            'ans1_val' => 'x', 'ans2_val' => 'x^2', 'ans3_val' => 'x+3', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x', 'ans2' => '', 'ans3' => 'x+3', 'ans4' => 'true',
+            'ans1_val' => 'x', 'ans2_val' => 'x^2', 'ans3_val' => 'x+3', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(3.4);
@@ -1769,8 +1791,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 $this->quba->get_response_summary($this->slot));
 
         // Step 9.
-        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
-            'ans1_val' => 'x', 'ans3_val' => 'x+3', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
+            'ans1_val' => 'x', 'ans3_val' => 'x+3', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(3.4);
@@ -1799,8 +1823,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 $this->quba->get_response_summary($this->slot));
 
         // Step 10.
-        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
-            'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => '0', 'ans4' => 'true',
+            'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => '0', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(3.5);
@@ -2162,8 +2188,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
 
         // Process a submit of the answer.
-        $this->process_submission(['ans1' => '0.04', 'ans1_val' => '0.04',
-                                        'ans2' => '3.14', 'ans2_val' => '3.14', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => '0.04', 'ans1_val' => '0.04',
+            'ans2' => '3.14', 'ans2_val' => '3.14', '-submit' => 1,
+        ]);
 
         $expected = 'Seed: 1; ans1: 0.04 [score]; ans2: 3.14 [score]; prt1: # = 0 | ' .
             'ATNumDecPlaces_Wrong_DPs. ATNumDecPlaces_Not_equiv. | prt1-1-F';
@@ -2181,8 +2209,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
 
         // Process a validate request.
-        $this->process_submission(['ans1' => '7.04', 'ans1_val' => '0.04',
-                                        'ans2' => '3.14', 'ans2_val' => '3.14', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => '7.04', 'ans1_val' => '0.04',
+            'ans2' => '3.14', 'ans2_val' => '3.14', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
@@ -2198,8 +2228,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
 
         // Process a submit of the answer.
-        $this->process_submission(['ans1' => '7.04', 'ans1_val' => '7.04',
-                                        'ans2' => '3.14', 'ans2_val' => '3.14', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => '7.04', 'ans1_val' => '7.04',
+            'ans2' => '3.14', 'ans2_val' => '3.14', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
@@ -2216,8 +2248,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
 
         // Process a validate request.
-        $this->process_submission(['ans1' => '7.04', 'ans1_val' => '7.04',
-                                        'ans2' => '3.140', 'ans2_val' => '3.14', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => '7.04', 'ans1_val' => '7.04',
+            'ans2' => '3.140', 'ans2_val' => '3.14', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
@@ -2233,8 +2267,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_stray_placeholders();
 
         // Process a submit of the answer.
-        $this->process_submission(['ans1' => '7.04', 'ans1_val' => '7.04',
-                                        'ans2' => '3.140', 'ans2_val' => '3.140', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => '7.04', 'ans1_val' => '7.04',
+            'ans2' => '3.140', 'ans2_val' => '3.140', '-submit' => 1,
+        ]);
 
         // At this point the answer of 3.140 should be correct! It has 3 decimal places.
         // The tests below pass (erroneously) because of the "min" function in the feedbackvariables.
@@ -2259,7 +2295,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->assert_content_with_maths_contains($expected, $this->currentoutput);
 
         $question = $this->quba->get_question($this->slot);
-        $expected = ['<i class="icon fa fa-exclamation-circle text-danger fa-fw " ' .
+        $expected = [
+            '<i class="icon fa fa-exclamation-circle text-danger fa-fw " ' .
             'title="Some answer tests rely on the raw input from a student, and so the "SAns" ' .
             'field of the node should be the name of a question input.  Please check the following ' .
             '(prt.node) which looks like a calculated value instead: prt1-1" ' .
@@ -2267,7 +2304,8 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
             'field of the node should be the name of a question input.  Please check the following (prt.node) ' .
             'which looks like a calculated value instead: prt1-1"></i>Some answer tests rely on the raw input from ' .
             'a student, and so the "SAns" field of the node should be the name of a question input.  ' .
-            'Please check the following (prt.node) which looks like a calculated value instead: prt1-1',];
+            'Please check the following (prt.node) which looks like a calculated value instead: prt1-1',
+        ];
         $this->assertEquals($expected, $question->validate_warnings());
     }
 
@@ -3757,8 +3795,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
-        $this->process_submission(['ans1' => 'Pythagoras\' Theorem', 'ans1_val' => '"Pythagoras\' Theorem"',
-            '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'Pythagoras\' Theorem', 'ans1_val' => '"Pythagoras\' Theorem"',
+            '-submit' => 1,
+        ]);
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(0.6);
         $this->check_prt_score('firsttree', 1, 0);
@@ -3778,8 +3818,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
-        $this->process_submission(['ans1' => 'pythagoras\' theorem', 'ans1_val' => '"pythagoras\' theorem"',
-            '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'pythagoras\' theorem', 'ans1_val' => '"pythagoras\' theorem"',
+            '-submit' => 1,
+        ]);
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(0.6);
         $this->check_prt_score('firsttree', 0.75, 0.4);
@@ -3903,8 +3945,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 );
 
         // Process a submition of an incorrect answer.
-        $this->process_submission(['ans1' => 'x^2', 'ans1_val' => 'x^2',
-            'ans2' => 'x^4', 'ans2_val' => 'x^4', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x^2', 'ans1_val' => 'x^2',
+            'ans2' => 'x^4', 'ans2_val' => 'x^4', '-submit' => 1,
+        ]);
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(0);
         $this->check_prt_score('prt1', 0, 0.4);
@@ -3928,8 +3972,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
                 );
 
         // Process the correct answer (without a validation step).
-        $this->process_submission(['ans1' => 'x^3', 'ans1_val' => 'x^3',
-            'ans2' => 'sin(x)', 'ans2_val' => 'sin(x)', '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => 'x^3', 'ans1_val' => 'x^3',
+            'ans2' => 'sin(x)', 'ans2_val' => 'sin(x)', '-submit' => 1,
+        ]);
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(0.6);
@@ -4013,8 +4059,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         $this->check_output_does_not_contain_prt_feedback();
         $this->check_output_does_not_contain_stray_placeholders();
 
-        $this->process_submission(['ans1' => '6*((x-2)^2)^k', 'ans1_val' => '6*((x-2)^2)^k',
-            '-submit' => 1,]);
+        $this->process_submission([
+            'ans1' => '6*((x-2)^2)^k', 'ans1_val' => '6*((x-2)^2)^k',
+            '-submit' => 1,
+        ]);
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(0.65);
         $this->check_prt_score('firsttree', 1, 0);
@@ -4085,11 +4133,13 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
             $this->get_no_hint_visible_expectation()
             );
 
-        $expected = ['questiontext' => 'The language tags found in your question are: en, fi.',
+        $expected = [
+            'questiontext' => 'The language tags found in your question are: en, fi.',
             0 => '<i class="icon fa fa-exclamation-circle text-danger fa-fw " title="There are potential '
                 . 'language problems in your question." aria-label="There are potential language problems '
                 . 'in your question."></i>There are potential language problems in your question.',
-            1 => 'The language tag fi is missing from the following: firsttree-1-F.',];
+            1 => 'The language tag fi is missing from the following: firsttree-1-F.',
+        ];
         $warnings = $q->validate_warnings();
         $this->assertEquals($expected, $warnings);
     }

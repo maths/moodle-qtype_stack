@@ -47,7 +47,7 @@ class stack_checkbox_input extends stack_dropdown_input {
         foreach ($contents as $key) {
             $vals[] = $this->get_input_ddl_value($key);
         }
-        if ($vals == [ 0 => '']) {
+        if ($vals == [0 => '']) {
             return '';
         }
         return '['.implode(',', $vals).']';

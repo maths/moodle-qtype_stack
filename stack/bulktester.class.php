@@ -398,7 +398,8 @@ class stack_bulk_tester {
             'notests'           => $notests,
             'nogeneralfeedback' => $nogeneralfeedback,
             'nodeployedseeds'   => $nodeployedseeds,
-            'failingupgrades'   => $failingupgrade,];
+            'failingupgrades'   => $failingupgrade,
+        ];
         return [$allpassed, $failing];
     }
 

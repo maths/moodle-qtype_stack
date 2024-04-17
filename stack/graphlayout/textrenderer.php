@@ -67,9 +67,11 @@ class stack_prt_graph_text_renderer {
                 $quiet = stack_string('quiet_icon_true');
             }
             // Put the name and description in one cell. It looks better.
-            $table[] = [$node->name . '. ' . $node->description,
-                    html_writer::tag('code', s($node->casstatement)), $quiet,
-                            $node->truenote, $node->falsenote,];
+            $table[] = [
+                $node->name . '. ' . $node->description,
+                html_writer::tag('code', s($node->casstatement)), $quiet,
+                $node->truenote, $node->falsenote,
+            ];
         }
 
         $html = '';

@@ -140,17 +140,17 @@ class ast_container_test extends qtype_stack_testcase {
 
     public function test_get_valid_inequalities() {
         $cases = [
-                ['x>1 and x<4', true, true],
-                ['not (x>1)', true, true],
-                ['x<=2 or not (x>1)', true, true],
-                ['x<1 or (x>1 and t<sin(x))', true, true],
-                ['[x<1, x>3]', true, true],
-                ['pg:if x<x0 then f0 else if x<x1 then 1000 else f1', true, true],
+            ['x>1 and x<4', true, true],
+            ['not (x>1)', true, true],
+            ['x<=2 or not (x>1)', true, true],
+            ['x<1 or (x>1 and t<sin(x))', true, true],
+            ['[x<1, x>3]', true, true],
+            ['pg:if x<x0 then f0 else if x<x1 then 1000 else f1', true, true],
                 // Change for issue #324 now stops checking chained inequalities for teachers.
                 // And change again, chained inequalities are now again checked always we just have less false positives.
-                ['1<x<7', false, false],
-                ['1<a<=x^2', false, false],
-                ['{1<x<y, c>0}', false, false],
+            ['1<x<7', false, false],
+            ['1<a<=x^2', false, false],
+            ['{1<x<y, c>0}', false, false],
         ];
 
         foreach ($cases as $case) {

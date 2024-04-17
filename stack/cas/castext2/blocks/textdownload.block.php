@@ -85,14 +85,18 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
             // Note different systems serve out through different logic.
             if (count($params) > 3 && $params[3] === 'stateful') {
                 return (new moodle_url(
-                    '/question/type/stateful/textdownload.php', ['qaid' => $processor->qa->get_database_id(),
-                    'id' => $params[2], 'name' => $params[1],]))->out(false);
+                    '/question/type/stateful/textdownload.php', [
+                        'qaid' => $processor->qa->get_database_id(),
+                        'id' => $params[2], 'name' => $params[1],
+                    ]))->out(false);
             }
 
             // Simply form the URL for getting the content out.
             return (new moodle_url(
-                '/question/type/stack/textdownload.php', ['qaid' => $processor->qa->get_database_id(),
-                'id' => $params[2], 'name' => $params[1],]))->out(false);
+                '/question/type/stack/textdownload.php', [
+                    'qaid' => $processor->qa->get_database_id(),
+                    'id' => $params[2], 'name' => $params[1],
+                ]))->out(false);
         }
     }
 

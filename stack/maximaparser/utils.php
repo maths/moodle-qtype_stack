@@ -1136,8 +1136,10 @@ class maxima_parser_utils {
                     // the three argument case as we see what we do in those cases, others
                     // stay 'unevaluated' for now.
                     if (count($node->arguments) === 3) {
-                        $r = new MP_FunctionCall(new MP_Identifier('ev'), [$node->arguments[2],
-                            new MP_Operation('=', $node->arguments[1], $node->arguments[0]),]);
+                        $r = new MP_FunctionCall(new MP_Identifier('ev'), [
+                            $node->arguments[2],
+                            new MP_Operation('=', $node->arguments[1], $node->arguments[0]),
+                        ]);
                         $node->parentnode->replace($node, $r);
                         return false;
                     } else if (count($node->arguments) === 2) {

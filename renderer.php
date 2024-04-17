@@ -128,8 +128,10 @@ class qtype_stack_renderer extends qtype_renderer {
                 $questiondivid = 'q' . $qa->get_slot();
             }
             $this->page->requires->js_call_amd('qtype_stack/input', 'initInputs',
-                    [$questiondivid, $qa->get_field_prefix(),
-                            $qa->get_database_id(), $inputstovaldiate,]);
+                    [
+                        $questiondivid, $qa->get_field_prefix(),
+                        $qa->get_database_id(), $inputstovaldiate,
+                    ]);
         }
 
         $result = '';

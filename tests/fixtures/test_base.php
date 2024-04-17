@@ -346,7 +346,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
 
     protected function check_output_contains_textarea_input($name, $content = null, $enabled = true) {
         $attributes = [
-                'name' => $this->quba->get_field_prefix($this->slot) . $name,
+            'name' => $this->quba->get_field_prefix($this->slot) . $name,
         ];
         if (!$enabled) {
             $attributes['readonly'] = 'readonly';

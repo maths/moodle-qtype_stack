@@ -210,12 +210,16 @@ ksort($variablesdeclared);
 ksort($functionscalled);
 ksort($globalvariablesused);
 
-$raw = ['declared functions' => $functionsdeclared, 'declared values' => $variablesdeclared,
-    'called functions' => $functionscalled, 'global variables used in functions' => $globalvariablesused,];
+$raw = [
+    'declared functions' => $functionsdeclared, 'declared values' => $variablesdeclared,
+    'called functions' => $functionscalled, 'global variables used in functions' => $globalvariablesused,
+];
 
-$data = ['security-map' => ['undeclared functions' => [], 'undeclared variables' => []],
+$data = [
+    'security-map' => ['undeclared functions' => [], 'undeclared variables' => []],
     'declared functions not used internaly' => [], 'external functions used' => [],
-    'functions with undeclared global variables' => [], 'raw' => $raw,];
+    'functions with undeclared global variables' => [], 'raw' => $raw,
+];
 
 // Check the security-map, if the identifiers are not there maybe they should be.
 $security = false;

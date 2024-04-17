@@ -64,8 +64,10 @@ class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
                     $argument = mb_substr($node->name->value, 4);
                     // This will unfortunately lose all the information about insertted stars
                     // but that is hardly an issue.
-                    $parsed = maxima_corrective_parser::parse($argument, $errors, $answernotes, ['startRule' => 'Root',
-                               'letToken' => stack_string('equiv_LET'),]);
+                    $parsed = maxima_corrective_parser::parse($argument, $errors, $answernotes, [
+                        'startRule' => 'Root',
+                        'letToken' => stack_string('equiv_LET'),
+                    ]);
                     // Should there be something truly unexpected.
                     if ($parsed === null) {
                         $node->position['invalid'] = true;

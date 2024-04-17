@@ -71,17 +71,17 @@ class caskeyval_test extends qtype_stack_testcase {
         $cs2->instantiate();
 
         $cases = [
-                ['', true, $cs0],
-                ["a:x^2 \n b:(x+1)^2", true, $cs1],
-                ["a:x^2; b:(x+1)^2", true, $cs1],
+            ['', true, $cs0],
+            ["a:x^2 \n b:(x+1)^2", true, $cs1],
+            ["a:x^2; b:(x+1)^2", true, $cs1],
                 // In the new setup the parsing of the keyvals does not match the sessions created above.
                 // This is because of a failure to split the text into statements.
                 // This is a serious drawback when we try to identify which statement is throwing an error!
-                ["a:x^2) \n b:(x+1)^2", false, $cs0],
-                ['a:x^2); b:(x+1)^2', false, $cs0],
-                ['a:1/0', true, $cs2],
-                ['@', false, $cs0],
-                ['$', false, $cs0],
+            ["a:x^2) \n b:(x+1)^2", false, $cs0],
+            ['a:x^2); b:(x+1)^2', false, $cs0],
+            ['a:1/0', true, $cs2],
+            ['@', false, $cs0],
+            ['$', false, $cs0],
         ];
 
         foreach ($cases as $case) {
@@ -312,8 +312,10 @@ class caskeyval_test extends qtype_stack_testcase {
         $tests = 'v:2;stack_seed:2';
         $kv = new stack_cas_keyval($tests);
         $this->assertFalse($kv->get_valid());
-        $expected = ['Redefinition of key constants is forbidden: ' .
-            '<span class="stacksyntaxexample">stack_seed</span>.',];
+        $expected = [
+            'Redefinition of key constants is forbidden: ' .
+            '<span class="stacksyntaxexample">stack_seed</span>.',
+        ];
         $this->assertEquals($expected, $kv->get_errors());
     }
 }

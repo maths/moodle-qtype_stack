@@ -51,28 +51,40 @@ class stack_subscripts_test_data {
         ['a_cm', 'a_cm', '!', '{a}_{{\it cm}}', '!', 'Do we mind about Roman typeface here for units?'],
         ['texsub(a,1*x)', 'texsub(a,1*x)', 'texsub(a,x)', '{a}_{1\,x}', '{a}_{x}'],
         ['texsub(F,1*x)', 'texsub(F,1*x)', 'texsub(F,x)', '{F}_{1\,x}', '{F}_{x}'],
-        ['texsub(F,sequence(1,2))', 'texsub(F,sequence(1,2))', 'texsub(F,sequence(1,2))',
-            '{F}_{1, 2}', '{F}_{1, 2}',],
-        ['F_1-2', 'F_1-2', '!', '{F}_{1}-2', '!',
-                'How do we bind into a single subscript?  We need a display function',],
-        ['texsub(F,1-2)', 'texsub(F,1-2)', 'texsub(F,-1)', '{F}_{1-2}', '{F}_{-1}',
-                'How do we bind into a single subscript?  We need a display function',],
+        [
+            'texsub(F,sequence(1,2))', 'texsub(F,sequence(1,2))', 'texsub(F,sequence(1,2))',
+            '{F}_{1, 2}', '{F}_{1, 2}',
+        ],
+        [
+            'F_1-2', 'F_1-2', '!', '{F}_{1}-2', '!',
+            'How do we bind into a single subscript?  We need a display function',
+        ],
+        [
+            'texsub(F,1-2)', 'texsub(F,1-2)', 'texsub(F,-1)', '{F}_{1-2}', '{F}_{-1}',
+            'How do we bind into a single subscript?  We need a display function',
+        ],
         ['P_min', 'P_min', '!', '{P}_{{\it min}}', '!'],
         ['P_max', 'P_max', '!', '{P}_{{\it max}}', '!'],
         ['F_max', 'F_max', '!', '{F}_{{\it max}}', '!'],
-        ['F_net', 'F_net', '!', '{F}_{{\it net}}', '!',
-                'The function net is not known to Maxima.  In this case it has been added, ' .
-                'but in general studnets are only permitted to add known tokens with two letters.',],
+        [
+            'F_net', 'F_net', '!', '{F}_{{\it net}}', '!',
+            'The function net is not known to Maxima.  In this case it has been added, ' .
+                'but in general studnets are only permitted to add known tokens with two letters.',
+        ],
         ['omega_a', 'omega_a', '!', '{\omega}_{a}', '!'],
         ['omega_0', 'omega_0', '!', '{\omega}_{0}', '!'],
         ['omega_0^2', 'omega_0^2', '!', '{{\omega}_{0}}^2', '!'],
         ['r_1', 'r_1', '!', '{r}_{1}', '!'],
         ['r_1^2', 'r_1^2', '!', '{{r}_{1}}^2', '!'],
-        ['r_01', 'r_01', '!', '{r}_{1}', '!',
-                'Multiplication by zero here removes the leading zero.',],
+        [
+            'r_01', 'r_01', '!', '{r}_{1}', '!',
+            'Multiplication by zero here removes the leading zero.',
+        ],
         ['texsub(r,0*1)', 'texsub(r,0*1)', 'texsub(r,0)', '{r}_{0\,1}', '{r}_{0}'],
-        ['r1', 'r1', '!', 'r_{1}', '!',
-                'Maxima displays atoms with tailing numbers using subscripts.  This is not algebraically equivalent to r_1.',],
+        [
+            'r1', 'r1', '!', 'r_{1}', '!',
+            'Maxima displays atoms with tailing numbers using subscripts.  This is not algebraically equivalent to r_1.',
+        ],
         ['ab1', 'ab1', '!', '{\it ab}_{1}', '!'],
         ['Theta1', 'Theta1', '!', '\Theta_{1}', '!'],
         ['Theta_1', 'Theta_1', '!', '{\Theta}_{1}', '!'],
@@ -90,8 +102,10 @@ class stack_subscripts_test_data {
         ['texsub(texsub(a,b),c)', 'texsub(texsub(a,b),c)', '!', '{{a}_{b}}_{c}', '!'],
         ['texsub(a,texsub(b,c))', 'texsub(a,texsub(b,c))', '!', '{a}_{{b}_{c}}', '!'],
         ['a_theta1', 'a_theta1', '!', '{a}_{\theta_{1}}', '!'],
-        ['a[1]', 'a[1]', '!', 'a_{1}', '!',
-                'Elements of arrays are displayed by subscripts as well.',],
+        [
+            'a[1]', 'a[1]', '!', 'a_{1}', '!',
+            'Elements of arrays are displayed by subscripts as well.',
+        ],
         ['a[theta]', 'a[theta]', '!', 'a_{\theta}', '!'],
         ['theta[1]', 'theta[1]', '!', '\theta_{1}', '!'],
         ['theta[a]', 'theta[a]', '!', '\theta_{a}', '!'],
@@ -115,26 +129,36 @@ class stack_subscripts_test_data {
         ['texsub(a,1*x)', 'texsub(a,1*x)', 'texsub(a,x)', '{a}_{1\,x}', '{a}_{x}'],
         ['a_cm', 'a_cm', '!', '{a}_{{\it cm}}', '!', 'Do we mind about Roman typeface here for units?'],
         ['texsub(F,1*x)', 'texsub(F,1*x)', 'texsub(F,x)', '{F}_{1\,x}', '{F}_{x}'],
-        ['F_1-2', 'F_1-2', '!', '{F}_{1}-2', '!',
-            'How do we bind into a single subscript?  We need a display function',],
-        ['texsub(F,1-2)', 'texsub(F,1-2)', 'texsub(F,-1)', '{F}_{1-2}', '{F}_{-1}',
-            'How do we bind into a single subscript?  We need a display function',],
+        [
+            'F_1-2', 'F_1-2', '!', '{F}_{1}-2', '!',
+            'How do we bind into a single subscript?  We need a display function',
+        ],
+        [
+            'texsub(F,1-2)', 'texsub(F,1-2)', 'texsub(F,-1)', '{F}_{1-2}', '{F}_{-1}',
+            'How do we bind into a single subscript?  We need a display function',
+        ],
         ['P_min', 'P_min', '!', '{P}_{{\it min}}', '!'],
         ['P_max', 'P_max', '!', '{P}_{{\it max}}', '!'],
         ['F_max', 'F_max', '!', '{F}_{{\it max}}', '!'],
-        ['F_net', 'F_net', '!', '{F}_{{\it net}}', '!',
+        [
+            'F_net', 'F_net', '!', '{F}_{{\it net}}', '!',
             'The function net is not known to Maxima.  In this case it has been added, ' .
-            'but in general studnets are only permitted to add known tokens with two letters.',],
+            'but in general studnets are only permitted to add known tokens with two letters.',
+        ],
         ['omega_a', 'omega_a', '!', '{\omega}_{a}', '!'],
         ['omega_0', 'omega_0', '!', '{\omega}_{0}', '!'],
         ['omega_0^2', 'omega_0^2', '!', '{{\omega}_{0}}^2', '!'],
         ['r_1', 'r_1', '!', '{r}_{1}', '!'],
         ['r_1^2', 'r_1^2', '!', '{{r}_{1}}^2', '!'],
-        ['r_01', 'r_01', '!', '{r}_{1}', '!',
-            'Multiplication by zero here removes the leading zero.',],
+        [
+            'r_01', 'r_01', '!', '{r}_{1}', '!',
+            'Multiplication by zero here removes the leading zero.',
+        ],
         ['texsub(r,0*1)', 'texsub(r,0*1)', 'texsub(r,0)', '{r}_{0\,1}', '{r}_{0}'],
-        ['r1', 'r1', '!', '{\it r_1}', '!',
-            'Maxima displays atoms with tailing numbers using subscripts.  This is not algebraically equivalent to r_1.',],
+        [
+            'r1', 'r1', '!', '{\it r_1}', '!',
+            'Maxima displays atoms with tailing numbers using subscripts.  This is not algebraically equivalent to r_1.',
+        ],
         ['ab1', 'ab1', '!', '{\it ab_1}', '!'],
         ['Theta1', 'Theta1', '!', '{\it Theta_1}', '!'],
         ['Theta_1', 'Theta_1', '!', '{\Theta}_{1}', '!'],
@@ -152,8 +176,10 @@ class stack_subscripts_test_data {
         ['texsub(texsub(a,b),c)', 'texsub(texsub(a,b),c)', '!', '{{a}_{b}}_{c}', '!'],
         ['texsub(a,texsub(b,c))', 'texsub(a,texsub(b,c))', '!', '{a}_{{b}_{c}}', '!'],
         ['a_theta1', 'a_theta1', '!', '{a}_{{\it theta_1}}', '!'],
-        ['a[1]', 'a[1]', '!', 'a_{1}', '!',
-            'Elements of arrays are displayed by subscripts as well.',],
+        [
+            'a[1]', 'a[1]', '!', 'a_{1}', '!',
+            'Elements of arrays are displayed by subscripts as well.',
+        ],
         ['a[theta]', 'a[theta]', '!', 'a_{\theta}', '!'],
         ['theta[1]', 'theta[1]', '!', '\theta_{1}', '!'],
         ['theta[a]', 'theta[a]', '!', '\theta_{a}', '!'],
@@ -161,7 +187,7 @@ class stack_subscripts_test_data {
         // Changes in v4.3.
         ['a_1x', 'a_1x', '!', '{a}_{\text{1x}}', '!'],
         ['F_1x', 'F_1x', '!', '{F}_{\text{1x}}', '!'],
-        ];
+    ];
 
     public static function get_raw_test_data() {
         return self::$rawdata;

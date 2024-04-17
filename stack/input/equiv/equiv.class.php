@@ -187,7 +187,8 @@ class stack_equiv_input extends stack_input {
     protected function caslines_to_answer($caslines, $secrules = false) {
         $vals = [];
         // We don't use full "inputform" here as we need to keep stacklet and stackeq as is.
-        $params = ['checkinggroup' => true,
+        $params = [
+            'checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
             'nosemicolon' => true,
@@ -460,7 +461,7 @@ class stack_equiv_input extends stack_input {
             'lowestTerms'      => true,
             'sameType'         => false,
             'options'          => '',
-            ];
+        ];
     }
 
     /**
@@ -525,8 +526,10 @@ class stack_equiv_input extends stack_input {
         $feedback = stack_maths::process_lang_string($state->contentsdisplayed);
 
         if ($this->requires_validation() && '' !== $state->contents) {
-            $feedback .= html_writer::empty_tag('input', ['type' => 'hidden',
-                    'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents),]);
+            $feedback .= html_writer::empty_tag('input', [
+                'type' => 'hidden',
+                'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents),
+            ]);
         }
 
         if (self::INVALID == $state->status) {

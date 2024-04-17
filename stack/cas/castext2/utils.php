@@ -127,9 +127,11 @@ class castext2_parser_utils {
         $format // In MD-mode we need double and triple slashes.
     ): CTP_Root {
         // These are the environments considered mathmode.
-        static $mathmodeenvs = ['align', 'align*', 'alignat', 'alignat*',
+        static $mathmodeenvs = [
+            'align', 'align*', 'alignat', 'alignat*',
             'eqnarray', 'eqnarray*', 'equation', 'equation*', 'gather',
-            'gather*', 'multline', 'multline*',];
+            'gather*', 'multline', 'multline*',
+        ];
 
         // Ensure that we have the correct coding.
         $old = mb_internal_encoding();

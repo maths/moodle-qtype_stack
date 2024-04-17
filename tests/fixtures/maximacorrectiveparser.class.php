@@ -34,46 +34,70 @@ class maxima_corrective_parser_test_data {
     const EXPECTERRS  = 3; // Expected array of errors.
 
     protected static $rawdata = [
-            ['2x', '2*x', [0 => 'missing_stars'], []],
-            ['sin(x)a', 'sin(x)*a', [0 => 'missing_stars'], []],
-            ['-12(7x+1)', '-12*(7*x+1)', [0 => 'missing_stars'], []],
-            ['(5x+1)3', '(5*x+1)*3', [0 => 'missing_stars'], []],
+        ['2x', '2*x', [0 => 'missing_stars'], []],
+        ['sin(x)a', 'sin(x)*a', [0 => 'missing_stars'], []],
+        ['-12(7x+1)', '-12*(7*x+1)', [0 => 'missing_stars'], []],
+        ['(5x+1)3', '(5*x+1)*3', [0 => 'missing_stars'], []],
             // The following does not insert a * here, because this is legitimate maxima and may be forbidden
             // separately in students' input.
-            ['sin(x)(a+b)', 'sin(x)(a+b)', [], []],
-            ['2 x', '2*x', [0 => 'spaces'], []],
-            ['sin(x) a', 'sin(x)*a', [0 => 'spaces'], []],
-            ['-12 (7 x+1)', '-12*(7*x+1)', [0 => 'spaces'], []],
-            ['x%3', 'x%3', [], []],
-            ['1+3x^2+7 x', '1+3*x^2+7*x', [0 => 'missing_stars', 1 => 'spaces'],
-                    [],],
-            ["f'(x)+1", null, [0 => 'apostrophe'],
-                    [0 => 'Apostrophes are not permitted in responses.'],],
-            ['x>1 and x<4', 'x > 1 and x < 4', [], []],
-            ['x=>1 and x<4', null, [0 => 'backward_inequalities'],
-                    [0 => 'Non-strict inequalities e.g. <span class="filter_mathjaxloader_equation">' .
+        ['sin(x)(a+b)', 'sin(x)(a+b)', [], []],
+        ['2 x', '2*x', [0 => 'spaces'], []],
+        ['sin(x) a', 'sin(x)*a', [0 => 'spaces'], []],
+        ['-12 (7 x+1)', '-12*(7*x+1)', [0 => 'spaces'], []],
+        ['x%3', 'x%3', [], []],
+        [
+            '1+3x^2+7 x', '1+3*x^2+7*x', [0 => 'missing_stars', 1 => 'spaces'],
+            [],
+        ],
+        [
+            "f'(x)+1", null, [0 => 'apostrophe'],
+            [0 => 'Apostrophes are not permitted in responses.'],
+        ],
+        ['x>1 and x<4', 'x > 1 and x < 4', [], []],
+        [
+            'x=>1 and x<4', null, [0 => 'backward_inequalities'],
+            [
+                0 => 'Non-strict inequalities e.g. <span class="filter_mathjaxloader_equation">' .
                             '<span class="nolink">\( \leq \)</span></span> or ' .
                             '<span class="filter_mathjaxloader_equation"><span class="nolink">\( \geq \)</span></span>' .
                             ' must be entered as <= or >=.  You have <span class="stacksyntaxexample">=></span> ' .
-                            'in your expression, which is backwards.',],],
-            ['x>1 and x<>4', null, [0 => 'spuriousop'],
-                    [0 => 'Unknown operator: <span class="stacksyntaxexample"><></span>.'],],
-            ['x^2+2*x==1', null, [0 => 'spuriousop'],
-                    [0 => 'Unknown operator: <span class="stacksyntaxexample">==</span>.'],],
-            ['x|y', null, [0 => 'spuriousop'],
-                    [0 => 'Unknown operator: <span class="stacksyntaxexample">|</span>.'],],
-            ['x=1,2', null, [0 => 'unencapsulated_comma'],
-                    [0 => 'A comma in your expression appears in a strange way.  ' .
+                            'in your expression, which is backwards.',
+            ],
+        ],
+        [
+            'x>1 and x<>4', null, [0 => 'spuriousop'],
+            [0 => 'Unknown operator: <span class="stacksyntaxexample"><></span>.'],
+        ],
+        [
+            'x^2+2*x==1', null, [0 => 'spuriousop'],
+            [0 => 'Unknown operator: <span class="stacksyntaxexample">==</span>.'],
+        ],
+        [
+            'x|y', null, [0 => 'spuriousop'],
+            [0 => 'Unknown operator: <span class="stacksyntaxexample">|</span>.'],
+        ],
+        [
+            'x=1,2', null, [0 => 'unencapsulated_comma'],
+            [
+                0 => 'A comma in your expression appears in a strange way.  ' .
                             'Commas are used to separate items in lists, sets etc.  You need to use a decimal point, ' .
-                            'not a comma, in floating point numbers.',],],
-            ['x^', null, [0 => 'finalChar'],
-                    [0 => '\'^\' is an invalid final character in <span class="stacksyntaxexample">x^</span>'],],
-            ['2+!4*x', null, [0 => 'badpostfixop'],
-                    [0 => 'You have a bad "postfix" operator in your expression.'],],
-            ['/* Comment */', '/* Comment */', [], []],
-            ['/* Open comment', null, [0 => 'spaces', 1 => 'spuriousop'],
-                [0 => 'Unknown operator: <span class="stacksyntaxexample">/*</span>.'],],
-            ];
+                            'not a comma, in floating point numbers.',
+            ],
+        ],
+        [
+            'x^', null, [0 => 'finalChar'],
+            [0 => '\'^\' is an invalid final character in <span class="stacksyntaxexample">x^</span>'],
+        ],
+        [
+            '2+!4*x', null, [0 => 'badpostfixop'],
+            [0 => 'You have a bad "postfix" operator in your expression.'],
+        ],
+        ['/* Comment */', '/* Comment */', [], []],
+        [
+            '/* Open comment', null, [0 => 'spaces', 1 => 'spuriousop'],
+            [0 => 'Unknown operator: <span class="stacksyntaxexample">/*</span>.'],
+        ],
+    ];
 
     public static function get_raw_test_data() {
         return self::$rawdata;

@@ -128,7 +128,8 @@ class stack_textarea_input extends stack_input {
     protected function caslines_to_answer($caslines, $secrules = false) {
         $vals = [];
         // We don't use full "inputform" here as we need to keep stacklet and stackeq as is.
-        $params = ['checkinggroup' => true,
+        $params = [
+            'checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
             'nosemicolon' => true,
@@ -227,7 +228,7 @@ class stack_textarea_input extends stack_input {
                 }
                 $valid = false;
                 $row[] = [0, stack_maxima_format_casstring($this->rawcontents[$index])];
-                $row[] = [1, trim(stack_maxima_translate($cs->get_errors()) . ' ' . $fb) ];
+                $row[] = [1, trim(stack_maxima_translate($cs->get_errors()) . ' ' . $fb)];
             }
             $rows[] = $row;
         }

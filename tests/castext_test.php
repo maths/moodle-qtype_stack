@@ -90,32 +90,38 @@ class castext_test extends qtype_stack_testcase {
         $a2 = ['a:x^2)', 'b:(x+1)^2'];
 
         $cases = [
-                ['', null, true, ''],
-                ['Hello world', null, true, 'Hello world'],
-                ['$x^2$', null, true, '$x^2$'],
-                ['\(x^2\)', null, true, '\(x^2\)'],
-                ['{@x*x^2@}', null, true, '\({x^3}\)'],
-                ['{@1+2@}', null, true, '\({3}\)'],
-                ['\[{@x^2@}\]', null, true, '\[{x^2}\]'],
-                ['\[{@a@}\]', $a1, true, '\[{x^2}\]'],
-                ['{@a@}', $a1, true, '\({x^2}\)'],
-                ['{@sin(x)@}', $a1, true, '\({\sin \left( x \right)}\)'],
-                ['\[{@a*b@}\]', $a1, true, '\[{x^2\cdot {\left(x+1\right)}^2}\]'],
-                ['{@', null, true, '{@'], // The new parser allwos use of this text fragemt everywhere.
-                ['{@(x^2@}', null, false, false],
-                ['{@1/0@}', null, true,
-                    '<h3>Rendering of text content failed.</h3><ul><li>Division by zero.</li></ul>',],
-                ['\(1+{@1/0@}\)', null, true,
-                    '<h3>Rendering of text content failed.</h3><ul><li>Division by zero.</li></ul>',],
-                ['{@x^2@}', $a2, false, null],
-                ['\(\frac{@"0.10"@}{@"0.10"@}\)', null, true, '\(\frac{0.10}{0.10}\)'],
+            ['', null, true, ''],
+            ['Hello world', null, true, 'Hello world'],
+            ['$x^2$', null, true, '$x^2$'],
+            ['\(x^2\)', null, true, '\(x^2\)'],
+            ['{@x*x^2@}', null, true, '\({x^3}\)'],
+            ['{@1+2@}', null, true, '\({3}\)'],
+            ['\[{@x^2@}\]', null, true, '\[{x^2}\]'],
+            ['\[{@a@}\]', $a1, true, '\[{x^2}\]'],
+            ['{@a@}', $a1, true, '\({x^2}\)'],
+            ['{@sin(x)@}', $a1, true, '\({\sin \left( x \right)}\)'],
+            ['\[{@a*b@}\]', $a1, true, '\[{x^2\cdot {\left(x+1\right)}^2}\]'],
+            ['{@', null, true, '{@'], // The new parser allwos use of this text fragemt everywhere.
+            ['{@(x^2@}', null, false, false],
+            [
+                '{@1/0@}', null, true,
+                '<h3>Rendering of text content failed.</h3><ul><li>Division by zero.</li></ul>',
+            ],
+            [
+                '\(1+{@1/0@}\)', null, true,
+                '<h3>Rendering of text content failed.</h3><ul><li>Division by zero.</li></ul>',
+            ],
+            ['{@x^2@}', $a2, false, null],
+            ['\(\frac{@"0.10"@}{@"0.10"@}\)', null, true, '\(\frac{0.10}{0.10}\)'],
                 // This last one looks very odd.  It records a change in v4.0 where we stop supporting dollars.
-                ['$${@x^2@}$$', null, true, '$$\({x^2}\)$$'],
+            ['$${@x^2@}$$', null, true, '$$\({x^2}\)$$'],
                 // Generate a maxima error other than division by zero.
-                ['{@matrix([a],[b]).matrix([1,2],[3,4])@}', null, true,
-                    '<h3>Rendering of text content failed.</h3><ul><li>MULTIPLYMATRICES: ' .
-                    'attempt to multiply nonconformable matrices.</li></ul>',],
-                ];
+            [
+                '{@matrix([a],[b]).matrix([1,2],[3,4])@}', null, true,
+                '<h3>Rendering of text content failed.</h3><ul><li>MULTIPLYMATRICES: ' .
+                    'attempt to multiply nonconformable matrices.</li></ul>',
+            ],
+        ];
 
         foreach ($cases as $case) {
             $this->basic_castext_instantiation($case[0], $case[1], $case[2], $case[3]);
@@ -240,19 +246,19 @@ class castext_test extends qtype_stack_testcase {
                 . '[[ else ]]Delta[[/ if]]';
 
         $cases = [
-                ['[[if test="a"]]ok1[[/ if]]', $a1, true, "ok1"],
-                ['[[ if test="a" ]]ok1s[[/ if ]]', $a1, true, "ok1s"],
-                ['[[ if test="b" ]]ok2[[/ if ]]', $a1, true, ""],
-                ['[[ if test="b" ]]ok3[[else]]OK3[[/ if ]]', $a1, true, "OK3"],
-                ['[[ if test="b" ]]ok4[[elif test="c"]]Ok4[[ else ]]OK4[[/ if ]]', $a1, true, "OK4"],
-                ['[[ if test="b" ]]ok4s[[ elif test="c" ]]Ok4s[[ else ]]OK4S[[/ if ]]', $a1, true, "OK4S"],
-                ['[[ if test="b" ]]ok5[[elif test="false"]]oK5[[elif test="a"]]Ok5[[else]]OK5[[/ if ]]', $a1, true, "Ok5"],
-                ['[[ if test="a" ]][[ if test="a" ]]ok6[[/ if ]][[/ if ]]', $a1, true, "ok6"],
-                ['[[ if test="a" ]][[ if test="b" ]]ok7[[/ if ]][[/ if ]]', $a1, true, ""],
-                ['[[ if test="a" ]][[ if test="b" ]]ok8[[else]]OK8[[/ if ]][[/ if ]]', $a1, true, "OK8"],
-                ['[[if test="is(5>3)"]]OK9[[/if]]', $a1, true, "OK9"],
-                [$c . ' ' . $c, $a1, true, "Beta Beta"],
-                [$c . $c, $a1, true, "BetaBeta"],
+            ['[[if test="a"]]ok1[[/ if]]', $a1, true, "ok1"],
+            ['[[ if test="a" ]]ok1s[[/ if ]]', $a1, true, "ok1s"],
+            ['[[ if test="b" ]]ok2[[/ if ]]', $a1, true, ""],
+            ['[[ if test="b" ]]ok3[[else]]OK3[[/ if ]]', $a1, true, "OK3"],
+            ['[[ if test="b" ]]ok4[[elif test="c"]]Ok4[[ else ]]OK4[[/ if ]]', $a1, true, "OK4"],
+            ['[[ if test="b" ]]ok4s[[ elif test="c" ]]Ok4s[[ else ]]OK4S[[/ if ]]', $a1, true, "OK4S"],
+            ['[[ if test="b" ]]ok5[[elif test="false"]]oK5[[elif test="a"]]Ok5[[else]]OK5[[/ if ]]', $a1, true, "Ok5"],
+            ['[[ if test="a" ]][[ if test="a" ]]ok6[[/ if ]][[/ if ]]', $a1, true, "ok6"],
+            ['[[ if test="a" ]][[ if test="b" ]]ok7[[/ if ]][[/ if ]]', $a1, true, ""],
+            ['[[ if test="a" ]][[ if test="b" ]]ok8[[else]]OK8[[/ if ]][[/ if ]]', $a1, true, "OK8"],
+            ['[[if test="is(5>3)"]]OK9[[/if]]', $a1, true, "OK9"],
+            [$c . ' ' . $c, $a1, true, "Beta Beta"],
+            [$c . $c, $a1, true, "BetaBeta"],
         ];
 
         foreach ($cases as $case) {
@@ -339,8 +345,8 @@ class castext_test extends qtype_stack_testcase {
         $a1 = ['a:2'];
 
         $cases = [
-                ['{#a#} [[ define a="1" /]]{#a#}', $a1, true, "2 1"],
-                ['{#a#} [[ define a="a^2" /]]{#a#}', $a1, true, "2 4"],
+            ['{#a#} [[ define a="1" /]]{#a#}', $a1, true, "2 1"],
+            ['{#a#} [[ define a="a^2" /]]{#a#}', $a1, true, "2 4"],
         ];
 
         foreach ($cases as $case) {
@@ -356,11 +362,13 @@ class castext_test extends qtype_stack_testcase {
 
         $cases = [
                 // The first one is a tricky one it uses the same variable name.
-                ['{#a#} [[ foreach a="a" ]]{#a#},[[/foreach]]', $a1, true, "[1,2,3] 1,2,3,"],
-                ['[[ foreach a="b" ]]{#a#},[[/foreach]]', $a1, true, "4,5,6,7,"],
-                ['[[ foreach I="a" K="b" ]]{#I#},{#K#},[[/foreach]]', $a1, true, "1,4,2,5,3,6,"],
-                ['[[ foreach o="[[1,2],[3,4]]" ]]{[[ foreach k="o" ]]{#k#},[[/ foreach ]]}[[/foreach]]',
-                          $a1, true, "{1,2,}{3,4,}",],
+            ['{#a#} [[ foreach a="a" ]]{#a#},[[/foreach]]', $a1, true, "[1,2,3] 1,2,3,"],
+            ['[[ foreach a="b" ]]{#a#},[[/foreach]]', $a1, true, "4,5,6,7,"],
+            ['[[ foreach I="a" K="b" ]]{#I#},{#K#},[[/foreach]]', $a1, true, "1,4,2,5,3,6,"],
+            [
+                '[[ foreach o="[[1,2],[3,4]]" ]]{[[ foreach k="o" ]]{#k#},[[/ foreach ]]}[[/foreach]]',
+                $a1, true, "{1,2,}{3,4,}",
+            ],
         ];
 
         foreach ($cases as $case) {
@@ -375,12 +383,14 @@ class castext_test extends qtype_stack_testcase {
         $a1 = ['a:2'];
 
         $cases = [
-                ['{#a#} [[ define a="1" /]][[comment]] Ignore comment. [[/comment]]{#a#}', $a1, true, "2 1"],
-                ['{#a#} [[ define a="1" /]][[ comment ]] Ignore comment. [[/ comment]]{#a#}', $a1, true, "2 1"],
-                ['{#a#} [[ define a="a^2" /]][[ comment ]]Ignore[[/ comment]]{#a#}', $a1, true, "2 4"],
+            ['{#a#} [[ define a="1" /]][[comment]] Ignore comment. [[/comment]]{#a#}', $a1, true, "2 1"],
+            ['{#a#} [[ define a="1" /]][[ comment ]] Ignore comment. [[/ comment]]{#a#}', $a1, true, "2 1"],
+            ['{#a#} [[ define a="a^2" /]][[ comment ]]Ignore[[/ comment]]{#a#}', $a1, true, "2 4"],
                 // Older version of STACK used to allow /*..*/ comments in castext, but we no loner support this. Sorry.
-                ['{#a#} [[ define a="a^2" /]]/* Not ignored */ {#a#}', $a1, true,
-                    "2 /* Not ignored */ 4",],
+            [
+                '{#a#} [[ define a="a^2" /]]/* Not ignored */ {#a#}', $a1, true,
+                "2 /* Not ignored */ 4",
+            ],
         ];
 
         foreach ($cases as $case) {
@@ -1482,8 +1492,10 @@ class castext_test extends qtype_stack_testcase {
      * @covers \qtype_stack\stack_ast_container
      */
     public function test_lambda() {
-        $a2 = ['sfc: lambda([x,n],significantfigures(x,n))',
-            'n:[3.1234,1]', 'm:apply(sfc,n)',];
+        $a2 = [
+            'sfc: lambda([x,n],significantfigures(x,n))',
+            'n:[3.1234,1]', 'm:apply(sfc,n)',
+        ];
         $s2 = [];
         foreach ($a2 as $s) {
             $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1619,8 +1631,10 @@ class castext_test extends qtype_stack_testcase {
      * @covers \qtype_stack\stack_ast_container
      */
     public function test_stack_var_makelist() {
-        $a2 = ['vars0:stack_var_makelist(k, 5)',
-            'vars1:rest(stack_var_makelist(k, 6))',];
+        $a2 = [
+            'vars0:stack_var_makelist(k, 5)',
+            'vars1:rest(stack_var_makelist(k, 6))',
+        ];
         $s2 = [];
         foreach ($a2 as $s) {
             $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1644,10 +1658,12 @@ class castext_test extends qtype_stack_testcase {
      * @covers \qtype_stack\stack_ast_container
      */
     public function test_stack_simp_false_true() {
-        $a2 = ['simp:false',
+        $a2 = [
+            'simp:false',
             'p1:1+1',
             'simp:true',
-            'p2:1+1',];
+            'p2:1+1',
+        ];
         $s2 = [];
         foreach ($a2 as $s) {
             $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1672,12 +1688,14 @@ class castext_test extends qtype_stack_testcase {
      */
     public function test_stack_simp_false_true_false() {
         // In STACK v<4.3 authors often control simp within a session.
-        $a2 = ['simp:false',
-                'p1:1+1',
-                'simp:true',
-                'p2:1+1',
-                'simp:false',
-                'p3:1+1',];
+        $a2 = [
+            'simp:false',
+            'p1:1+1',
+            'simp:true',
+            'p2:1+1',
+            'simp:false',
+            'p3:1+1',
+        ];
         $s2 = [];
         foreach ($a2 as $s) {
             $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);
@@ -1729,12 +1747,13 @@ class castext_test extends qtype_stack_testcase {
      * @covers \qtype_stack\stack_ast_container
      */
     public function test_stack_beta_function_arg() {
-        $a2 = ['n:1932;',
-                'f(alfa):=block(x:ifactors(alfa), y:makelist(0,length(x)), ' .
+        $a2 = [
+            'n:1932;',
+            'f(alfa):=block(x:ifactors(alfa), y:makelist(0,length(x)), ' .
                 'for i from 1 thru length(x) do (y[i] : first(x[i])), return(y));',
-                'g(alfa,beta):=block(x:alfa*(1-1/beta[1]), ' .
+            'g(alfa,beta):=block(x:alfa*(1-1/beta[1]), ' .
                 'for i from 2 thru length(beta) do (x:x*(1-1/beta[i])), return(x));',
-            ];
+        ];
         $s2 = [];
         foreach ($a2 as $s) {
             $cs = stack_ast_container::make_from_teacher_source($s, '', new stack_cas_security(), []);

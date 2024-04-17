@@ -27,15 +27,17 @@ abstract class stack_fact_sheets {
      * two corresponding lines in the language file.
      * E.g. greek_alphabet_name and greek_alphabet_fact
      */
-    protected static $factsheets = ['greek_alphabet', 'alg_inequalities',
-                    'alg_indices', 'alg_logarithms', 'alg_quadratic_formula',
-                    'alg_partial_fractions', 'trig_degrees_radians', 'trig_standard_values',
-                    'trig_standard_identities', 'hyp_functions', 'hyp_identities',
-                    'hyp_inverse_functions', 'calc_diff_standard_derivatives',
-                    'calc_diff_linearity_rule', 'calc_product_rule', 'calc_quotient_rule',
-                    'calc_chain_rule', 'calc_rules', 'calc_int_standard_integrals',
-                    'calc_int_linearity_rule', 'calc_int_methods_substitution',
-                    'calc_int_methods_parts', 'calc_int_methods_parts_indefinite',];
+    protected static $factsheets = [
+        'greek_alphabet', 'alg_inequalities',
+        'alg_indices', 'alg_logarithms', 'alg_quadratic_formula',
+        'alg_partial_fractions', 'trig_degrees_radians', 'trig_standard_values',
+        'trig_standard_identities', 'hyp_functions', 'hyp_identities',
+        'hyp_inverse_functions', 'calc_diff_standard_derivatives',
+        'calc_diff_linearity_rule', 'calc_product_rule', 'calc_quotient_rule',
+        'calc_chain_rule', 'calc_rules', 'calc_int_standard_integrals',
+        'calc_int_linearity_rule', 'calc_int_methods_substitution',
+        'calc_int_methods_parts', 'calc_int_methods_parts_indefinite',
+    ];
 
     /**
      * Check each facts tag actually corresponds to a valid fact sheet.

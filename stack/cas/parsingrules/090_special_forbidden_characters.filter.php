@@ -40,7 +40,7 @@ class stack_ast_filter_090_special_forbidden_characters implements stack_cas_ast
         $ast->callbackRecurse($process);
 
         if (count($warned) > 0) {
-            $errors[] = stack_string('stackCas_forbiddenChar', [ 'char' => implode(", ", array_unique($warned))]);
+            $errors[] = stack_string('stackCas_forbiddenChar', ['char' => implode(", ", array_unique($warned))]);
             $answernotes[] = 'forbiddenChar';
         }
 

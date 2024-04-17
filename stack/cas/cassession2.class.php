@@ -483,8 +483,10 @@ class stack_cas_session2 {
             $usedversion = $results['values']['__stackmaximaversion'];
             $config = stack_utils::get_config();
             if ($usedversion !== $config->stackmaximaversion) {
-                $errors = [new $this->errclass(stack_string_error('healthchecksstackmaximaversionmismatch',
-                    ['fix' => '', 'usedversion' => $usedversion, 'expectedversion' => $config->stackmaximaversion]), ''),];
+                $errors = [
+                    new $this->errclass(stack_string_error('healthchecksstackmaximaversionmismatch',
+                    ['fix' => '', 'usedversion' => $usedversion, 'expectedversion' => $config->stackmaximaversion]), ''),
+                ];
                 foreach ($this->statements as $num => $statement) {
                     $statement->set_cas_status($errors, [], []);
                 }
@@ -516,7 +518,8 @@ class stack_cas_session2 {
      */
     public function get_keyval_representation($evaluatedvalues = false): string {
         $keyvals = '';
-        $params = ['checkinggroup' => true,
+        $params = [
+            'checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => false,
             'nosemicolon' => true,

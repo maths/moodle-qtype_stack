@@ -173,7 +173,8 @@ class stack_input_factory {
             'allowWords'         => 'allowwords',
             'forbidFloats'       => 'forbidfloat',
             'lowestTerms'        => 'requirelowestterms',
-            'options'            => 'options',];
+            'options'            => 'options',
+        ];
 
         $used = self::get_parameters_defaults();
         $mapping = [];
@@ -203,8 +204,10 @@ class stack_input_factory {
      * Convert a raw value as received from a fromform value into a correct datatype.
      */
     public static function convert_parameter_fromform($key, $value) {
-        $booleanparamaters = ['strictSyntax' => true, 'mustVerify' => true, 'sameType' => true,
-            'forbidFloats' => true, 'lowestTerms' => true,];
+        $booleanparamaters = [
+            'strictSyntax' => true, 'mustVerify' => true, 'sameType' => true,
+            'forbidFloats' => true, 'lowestTerms' => true,
+        ];
         if (array_key_exists($key, $booleanparamaters)) {
             $value = (bool) $value;
         }

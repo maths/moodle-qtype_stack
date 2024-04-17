@@ -152,8 +152,10 @@ class prt_test extends qtype_stack_testcase {
         $expected = 'Yeah!';
         $this->assertEquals($expected, $prtev->get_feedback());
         $this->assertEquals(['ATInt_true.', '1-0-1'], $prtev->get_answernotes());
-        $expected = ['ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
-            'prt_testprt(sans);',];
+        $expected = [
+            'ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
+            'prt_testprt(sans);',
+        ];
         $this->assertEquals($expected, $prtev->get_trace());
 
         // Test 2 - an incorrect answer.
@@ -193,8 +195,10 @@ class prt_test extends qtype_stack_testcase {
             'Well done. Boo!';
         $this->assertEquals($expected, $prtev->get_feedback());
         $this->assertEquals(['ATInt_const.', '1-0-0'], $prtev->get_answernotes());
-        $expected = ['ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
-            'prt_testprt(sans);',];
+        $expected = [
+            'ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
+            'prt_testprt(sans);',
+        ];
         $this->assertEquals($expected, $prtev->get_trace());
     }
 
@@ -241,8 +245,10 @@ class prt_test extends qtype_stack_testcase {
 
         $this->assertFalse($prt->is_formative());
         $this->assertEquals(['AlgEquiv' => true], $prt->get_answertests());
-        $expected = ['NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
-            '1-1-1' => '1-1-1', '1-1-0' => '1-1-0',];
+        $expected = [
+            'NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
+            '1-1-1' => '1-1-1', '1-1-0' => '1-1-0',
+        ];
         $this->assertEquals($expected, $prt->get_all_answer_notes());
 
         // For $inputs we only need the names of the inputs, not the full inputs.
@@ -290,8 +296,10 @@ class prt_test extends qtype_stack_testcase {
         $expected = 'Wait for it... Yeah good!';
         $this->assertEquals($expected, $prtev->get_feedback());
         $this->assertEquals(['1-0-0', '1-1-1'], $prtev->get_answernotes());
-        $expected = ['sa1:1/(2-ans1);', '/* ------------------- */', 'ATAlgEquiv(sa1,1);',
-            'ATAlgEquiv(1/(1+ans1),1/3);', '/* ------------------- */', 'prt_multiprt(ans1);',];
+        $expected = [
+            'sa1:1/(2-ans1);', '/* ------------------- */', 'ATAlgEquiv(sa1,1);',
+            'ATAlgEquiv(1/(1+ans1),1/3);', '/* ------------------- */', 'prt_multiprt(ans1);',
+        ];
         $this->assertEquals($expected, $prtev->get_trace());
     }
 
@@ -374,8 +382,10 @@ class prt_test extends qtype_stack_testcase {
         $expected = 'Yeah!';
         $this->assertEquals($expected, $prtev->get_feedback());
         $this->assertEquals(['ATInt_true.', '1-0-1'], $prtev->get_answernotes());
-        $expected = ['ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
-            'prt_testprt(sans);',];
+        $expected = [
+            'ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
+            'prt_testprt(sans);',
+        ];
         $this->assertEquals($expected, $prtev->get_trace());
     }
 }

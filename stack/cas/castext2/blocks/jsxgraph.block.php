@@ -31,13 +31,16 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
     public static $namedversions = [
         'cdn' => [
             'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.min.css',
-            'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js',],
+            'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js',
+        ],
         'cdn-1.8.0' => [
             'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.8.0/jsxgraph.min.css',
-            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.8.0/jsxgraphcore.min.js',],
+            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.8.0/jsxgraphcore.min.js',
+        ],
         'cdn-1.5.0' => [
             'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraph.min.css',
-            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraphcore.min.js',],
+            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraphcore.min.js',
+        ],
         'local' => [
             'css' => 'cors://jsxgraph.min.css',
             'js' => 'cors://jsxgraphcore.min.js',
@@ -220,8 +223,10 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
         }
 
         // NOTE! List ordered by length. For the trimming logic.
-        $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
-            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',];
+        $validunits = [
+            'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
+            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
+        ];
 
         $widthend   = false;
         $heightend  = false;
@@ -304,7 +309,8 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
                         $valids = array_merge($valids, $inputs);
                     }
                     $err[] = stack_string('stackBlock_jsxgraph_param', [
-                        'param' => implode(', ', $valids),]);
+                        'param' => implode(', ', $valids),
+                    ]);
                 }
             }
         }

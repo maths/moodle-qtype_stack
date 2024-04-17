@@ -112,9 +112,10 @@ class qtype_stack_question_test_form extends moodleform {
                 $prtpenalty = '';
             }
             $mform->getElement($prtname . 'group')->setValue([
-                    $prtname . 'score'      => $result->get_score(),
-                    $prtname . 'penalty'    => $prtpenalty,
-                    $prtname . 'answernote' => end($answernotes),]);
+                $prtname . 'score'      => $result->get_score(),
+                $prtname . 'penalty'    => $prtpenalty,
+                $prtname . 'answernote' => end($answernotes),
+            ]);
         }
     }
 

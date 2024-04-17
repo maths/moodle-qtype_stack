@@ -25,7 +25,8 @@ class stack_ast_filter_022_trig_replace_synonyms implements stack_cas_astfilter 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         // As these are invalid they do not exist in the security-map.
-        $selectednames = ['arcsin' => 'asin', 'arccos' => 'acos',
+        $selectednames = [
+            'arcsin' => 'asin', 'arccos' => 'acos',
             'arctan' => 'atan', 'arcsec' => 'asec',
             'arccot' => 'acot', 'arccsc' => 'acsc',
             'arcsinh' => 'asinh', 'arccosh' => 'acosh',

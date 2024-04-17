@@ -1501,17 +1501,19 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function validate_against_stackversion($context) {
         $errors = [];
-        $castextfields = ['questiontext', 'questionnote', 'questiondescription',
-            'specificfeedback', 'generalfeedback',];
+        $castextfields = [
+            'questiontext', 'questionnote', 'questiondescription',
+            'specificfeedback', 'generalfeedback',
+        ];
         $qfields = array_merge($castextfields, ['questionvariables']);
 
         $stackversion = (int) $this->stackversion;
 
         // Things no longer allowed in questions.
         $patterns = [
-             ['pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'],
-             ['pat' => 'texdecorate', 'ver' => 2018080600],
-             ['pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg'],
+            ['pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'],
+            ['pat' => 'texdecorate', 'ver' => 2018080600],
+            ['pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg'],
         ];
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver']) {
@@ -1529,8 +1531,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 foreach ($this->prts as $name => $prt) {
                     $kv = $prt->get_feedbackvariables_keyvals();
                     if (strstr($kv, $checkpat['pat'])) {
-                        $a = ['pat' => $checkpat['pat'], 'ver' => $checkpat['ver'],
-                             'qfield' => stack_string('feedbackvariables') . ' (' . $name . ')',];
+                        $a = [
+                            'pat' => $checkpat['pat'], 'ver' => $checkpat['ver'],
+                            'qfield' => stack_string('feedbackvariables') . ' (' . $name . ')',
+                        ];
                         $err = stack_string('stackversionerror', $a);
                         if (array_key_exists('alt', $checkpat)) {
                             $err .= ' ' . stack_string('stackversionerroralt', $checkpat['alt']);

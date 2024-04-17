@@ -72,24 +72,24 @@ class stack_numbers_test_data {
     protected static $rawdatautils = [
 
             // Scientific notation.
-            ["4.320e-3", 4, 4, 3, '"~,3e"'], // After a digit, zeros after the decimal separator are always significant.
+        ["4.320e-3", 4, 4, 3, '"~,3e"'], // After a digit, zeros after the decimal separator are always significant.
             // If no digits before a zero that zero is not significant even after the decimal separator.
-            ["0.020e3", 2, 2, 3, '"~,1e"'],
-            ["1.00e3", 3, 3, 2, '"~,2e"'],
-            ["10.0e1", 3, 3, 1, '"~,2e"'],
-            ["0.020E3", 2, 2, 3, '"~,1e"'],
-            ["1.00E3", 3, 3, 2, '"~,2e"'],
-            ["10.0E1", 3, 3, 1, '"~,2e"'],
+        ["0.020e3", 2, 2, 3, '"~,1e"'],
+        ["1.00e3", 3, 3, 2, '"~,2e"'],
+        ["10.0e1", 3, 3, 1, '"~,2e"'],
+        ["0.020E3", 2, 2, 3, '"~,1e"'],
+        ["1.00E3", 3, 3, 2, '"~,2e"'],
+        ["10.0E1", 3, 3, 1, '"~,2e"'],
             // We insist the input only has one numerical multiplier that we act on and that is the first thing in the string.
-            ["52435*mg", 5, 5, 0, '"~a"'],
-            ["-12.00*m", 4, 4, 2, '"~,2f"'],
-            ["-(12.00*m)", 4, 4, 2, '"~,2f"'],
+        ["52435*mg", 5, 5, 0, '"~a"'],
+        ["-12.00*m", 4, 4, 2, '"~,2f"'],
+        ["-(12.00*m)", 4, 4, 2, '"~,2f"'],
             // Here we know that there are 3 significant figures but can't be sure about that trailing zero.
-            ["1030*m/s", 3, 4, 0, '"~a"'],
-            ["1.23*4", 3, 3, 2, '"~,2f"'],
-            ["4*3.21", 1, 1, 0, '"~a"'],
-            ["50*3.21", 1, 2, 0, '"~a"'],
-            ["3434...34*34", 4, 4, 0, '"~a"'],
+        ["1030*m/s", 3, 4, 0, '"~a"'],
+        ["1.23*4", 3, 3, 2, '"~,2f"'],
+        ["4*3.21", 1, 1, 0, '"~a"'],
+        ["50*3.21", 1, 2, 0, '"~a"'],
+        ["3434...34*34", 4, 4, 0, '"~a"'],
     ];
 
     public static function get_raw_test_data() {

@@ -75,9 +75,11 @@ class stack_abstract_graph_svg_renderer {
         $height = ceil((0.3 + $g->max_depth()) * self::SCALE);
 
         $output = '';
-        $output .= html_writer::start_tag('svg', ['id' => $id, 'class' => 'stack_abstract_graph',
-                'width' => $width . 'px', 'height' => $height . 'px', 'version' => '1.1',
-                'xmlns' => 'http://www.w3.org/2000/svg',]);
+        $output .= html_writer::start_tag('svg', [
+            'id' => $id, 'class' => 'stack_abstract_graph',
+            'width' => $width . 'px', 'height' => $height . 'px', 'version' => '1.1',
+            'xmlns' => 'http://www.w3.org/2000/svg',
+        ]);
         $output .= $renderer->to_svg();
         $output .= html_writer::end_tag('svg');
         return $output;
@@ -162,8 +164,9 @@ class stack_abstract_graph_svg_renderer {
         $this->svg[] = html_writer::empty_tag('path', ['d' => $path, 'class' => $class]);
         if ($label) {
             $this->svg[] = html_writer::tag('text', s($label), [
-                    'x' => $labelx, 'y' => $py + self::LABEL_POS * self::NODE_RADIUS,
-                    'class' => 'edgelabel ' . $class,]);
+                'x' => $labelx, 'y' => $py + self::LABEL_POS * self::NODE_RADIUS,
+                'class' => 'edgelabel ' . $class,
+            ]);
         }
     }
 
@@ -196,14 +199,17 @@ class stack_abstract_graph_svg_renderer {
                     ' L ' . ($cx + self::CROSS_SIZE) . ' ' . ($cy - self::CROSS_SIZE);
             $this->svg[] = html_writer::empty_tag('path', ['d' => $cross, 'class' => 'cross ' . $class]);
         } else {
-            $this->svg[] = html_writer::empty_tag('circle', ['r' => self::END_RADIUS,
-                    'cx' => $cx, 'cy' => $cy, 'class' => $class,]);
+            $this->svg[] = html_writer::empty_tag('circle', [
+                'r' => self::END_RADIUS,
+                'cx' => $cx, 'cy' => $cy, 'class' => $class,
+            ]);
         }
 
         if ($label) {
             $this->svg[] = html_writer::tag('text', s($label), [
-                    'x' => $labelx, 'y' => $py + self::LABEL_POS * self::NODE_RADIUS,
-                    'class' => 'edgelabel ' . $class,]);
+                'x' => $labelx, 'y' => $py + self::LABEL_POS * self::NODE_RADIUS,
+                'class' => 'edgelabel ' . $class,
+            ]);
         }
     }
 
@@ -216,10 +222,14 @@ class stack_abstract_graph_svg_renderer {
         if ($node->url) {
             $this->svg[] = html_writer::start_tag('a', ['xlink:href' => $node->url]);
         }
-        $this->svg[] = html_writer::empty_tag('circle', ['r' => self::NODE_RADIUS,
-                'cx' => $x, 'cy' => $y, 'class' => 'node',]);
-        $this->svg[] = html_writer::tag('text', s($node->name), ['x' => $x, 'y' => $y,
-                'class' => 'nodelabel',]);
+        $this->svg[] = html_writer::empty_tag('circle', [
+            'r' => self::NODE_RADIUS,
+            'cx' => $x, 'cy' => $y, 'class' => 'node',
+        ]);
+        $this->svg[] = html_writer::tag('text', s($node->name), [
+            'x' => $x, 'y' => $y,
+            'class' => 'nodelabel',
+        ]);
         if ($node->url) {
             $this->svg[] = html_writer::end_tag('a');
         }

@@ -219,8 +219,10 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         }
 
         // NOTE! List ordered by length. For the trimming logic.
-        $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
-            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',];
+        $validunits = [
+            'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
+            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
+        ];
 
         $widthend   = false;
         $heightend  = false;

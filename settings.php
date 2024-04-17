@@ -63,21 +63,23 @@ $settings->add(new admin_setting_configselect('qtype_stack/platform',
         get_string('settingplatformtype', 'qtype_stack'),
         // Note, install.php tries to auto-detect Windows installs, and set the default appropriately.
         get_string('settingplatformtype_desc', 'qtype_stack'), null, [
-                'linux'            => get_string('settingplatformtypelinux',                'qtype_stack'),
-                'linux-optimised'  => get_string('settingplatformtypelinuxoptimised',       'qtype_stack'),
-                'win'              => get_string('settingplatformtypewin',                 'qtype_stack'),
-                'server'           => get_string('settingplatformtypeserver',              'qtype_stack'),
-                'server-proxy'     => get_string('settingplatformtypeserverproxy',         'qtype_stack'),
+            'linux'            => get_string('settingplatformtypelinux',                'qtype_stack'),
+            'linux-optimised'  => get_string('settingplatformtypelinuxoptimised',       'qtype_stack'),
+            'win'              => get_string('settingplatformtypewin',                 'qtype_stack'),
+            'server'           => get_string('settingplatformtypeserver',              'qtype_stack'),
+            'server-proxy'     => get_string('settingplatformtypeserverproxy',         'qtype_stack'),
         ]));
 
 $settings->add(new admin_setting_configselect('qtype_stack/maximaversion',
         get_string('settingcasmaximaversion', 'qtype_stack'),
         get_string('settingcasmaximaversion_desc', 'qtype_stack'), null,
-                ['5.40.0' => '5.40.0', '5.41.0' => '5.41.0', '5.42.0' => '5.42.0',
-                      '5.42.1' => '5.42.1', '5.42.2' => '5.42.2',
-                      '5.43.0' => '5.43.0', '5.43.1' => '5.43.1', '5.43.2' => '5.43.2',
-                      '5.44.0' => '5.44.0', '5.46.0' => '5.46.0', '5.47.0' => '5.47.0',
-                      'default' => 'default',]));
+                [
+                    '5.40.0' => '5.40.0', '5.41.0' => '5.41.0', '5.42.0' => '5.42.0',
+                    '5.42.1' => '5.42.1', '5.42.2' => '5.42.2',
+                    '5.43.0' => '5.43.0', '5.43.1' => '5.43.1', '5.43.2' => '5.43.2',
+                    '5.44.0' => '5.44.0', '5.46.0' => '5.46.0', '5.47.0' => '5.47.0',
+                    'default' => 'default',
+                ]));
 
 $settings->add(new admin_setting_configtext('qtype_stack/castimeout',
         get_string('settingcastimeout', 'qtype_stack'),

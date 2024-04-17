@@ -53,8 +53,10 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
         } else {
             array_shift($internal);
             $body = new MP_Operation(':', new MP_Identifier('__ct2_foreach___tmp'),
-                new MP_FunctionCall(new MP_Identifier('append'), [new MP_Identifier('__ct2_foreach___tmp'),
-                new MP_List($internal),]));
+                new MP_FunctionCall(new MP_Identifier('append'), [
+                    new MP_Identifier('__ct2_foreach___tmp'),
+                    new MP_List($internal),
+                ]));
         }
 
         if (count($this->params) > 1) {
@@ -89,8 +91,12 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
             foreach ($this->params as $key => $value) {
                 $definedbody->items[] = new MP_Operation(':', new MP_Identifier($key),
                     new MP_Indexing(new MP_Identifier('__ct2_foreach___' . $key),
-                    [new MP_List([new MP_FunctionCall(new MP_Identifier('ev'),
-                    [new MP_Identifier('__ct2_foreach___iter'), new MP_Identifier('simp')]),]),]));
+                    [
+                        new MP_List([
+                            new MP_FunctionCall(new MP_Identifier('ev'),
+                    [new MP_Identifier('__ct2_foreach___iter'), new MP_Identifier('simp')]),
+                        ]),
+                    ]));
             }
             $definedbody->items[] = $body;
 

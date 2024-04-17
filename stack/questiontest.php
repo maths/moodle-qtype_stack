@@ -258,11 +258,11 @@ class stack_question_test {
             $DB->update_record('qtype_stack_qtest_results', $existingresult);
         } else {
             $DB->insert_record('qtype_stack_qtest_results', [
-                    'questionid' => $question->id,
-                    'testcase' => $this->testcase,
-                    'seed' => $question->seed,
-                    'result' => $result->passed(),
-                    'timerun' => time(),
+                'questionid' => $question->id,
+                'testcase' => $this->testcase,
+                'seed' => $question->seed,
+                'result' => $result->passed(),
+                'timerun' => time(),
             ]);
         }
     }

@@ -219,8 +219,10 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
             $dispval = '';
         }
         $testval = self::make_from_teacher_source($dispval, '', new stack_cas_security());
-        $computedinput = $testval->ast->toString(['nounify' => 0, 'inputform' => true,
-                'qmchar' => true, 'pmchar' => 0, 'nosemicolon' => true, 'nontuples' => true,]);
+        $computedinput = $testval->ast->toString([
+            'nounify' => 0, 'inputform' => true,
+            'qmchar' => true, 'pmchar' => 0, 'nosemicolon' => true, 'nontuples' => true,
+        ]);
 
         return $computedinput;
     }

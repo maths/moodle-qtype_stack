@@ -131,8 +131,10 @@ function report($d) {
                                         $fileslinkedto[$found[0][$i]] = true;
                                     }
                                     if ('/' == substr($link, -1)) {
-                                        $a[] = [$fpath, 'E', 'Link [' . $found[0][$i] .
-                                                '] calls a directory.  This should have explicit <tt>index.md</tt> but does not.',];
+                                        $a[] = [
+                                            $fpath, 'E', 'Link [' . $found[0][$i] .
+                                                '] calls a directory.  This should have explicit <tt>index.md</tt> but does not.',
+                                        ];
                                     }
                                 }
                             }

@@ -36,7 +36,7 @@ class stack_options {
                 'values'     => ['LaTeX', 'String'],
                 'caskey'     => 'OPT_OUTPUT',
                 'castype'    => 'string',
-             ],
+            ],
             'decimals'       => [
                 'type'       => 'list',
                 'value'      => '.',
@@ -249,8 +249,8 @@ class stack_options {
      */
     public static function get_syntax_attribute_options() {
         return [
-                '0' => get_string('syntaxattributevalue', 'qtype_stack'),
-                '1' => get_string('syntaxattributeplaceholder', 'qtype_stack'),
+            '0' => get_string('syntaxattributevalue', 'qtype_stack'),
+            '1' => get_string('syntaxattributeplaceholder', 'qtype_stack'),
         ];
     }
 

@@ -218,8 +218,23 @@ stackjson_stringify(obj) := block([tmp,r,l],
  if is(obj=und) then r:"null"
  else if is(obj=false) then r:"false"
  else if is(obj=true) then r:"true"
- else if stringp(obj) then (
-  r : sconcat("\"",simplode(map(stackjson_protect_escapes, charlist(obj))),"\"")
+ else if stringp(obj) then block([char_list],
+  char_list: map(stackjson_protect_escapes, charlist(obj)),
+  buffer_size: 64,
+  r: "\"",
+  l : ev(ceiling(length(char_list)/buffer_size), simp),
+  i : 1,
+  while (ev(i <= l, simp)) do (
+    buffer: [],
+    j: 1,
+    while (ev(j <= buffer_size and not emptyp(char_list), simp)) do (
+      push(pop(char_list), buffer),
+      j: ev(j+1, simp)
+    ),
+    r: sconcat(r, apply(sconcat, reverse(buffer))),
+    i: ev(i + 1, simp)
+  ),
+  r: sconcat(r, "\"")
  ) else if is_stackmap(obj) then (
   l:[],
   for tmp in stackmap_keys(obj) do l:append(l,[sconcat(stackjson_stringify(tmp),":",stackjson_stringify(stackmap_get(obj,tmp)))]), 

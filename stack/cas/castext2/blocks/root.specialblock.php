@@ -90,7 +90,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
                     $errors[$key] = $err->get_legacy_error();
                 }
             }
-            throw new stack_exception(implode('; ', $errors));
+            $this->err = $errors;
         }
 
         $varref = maxima_parser_utils::variable_usage_finder($ast);

@@ -176,7 +176,7 @@ class stack_cas_session2 {
 
     public function get_valid(): bool {
         $valid = true;
-        foreach ($this->statements as $index => $statement) {
+        foreach ($this->statements as $statement) {
             if ($statement->get_valid() === false) {
                 $valid = false;
             }

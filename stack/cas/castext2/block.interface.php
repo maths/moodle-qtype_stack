@@ -33,6 +33,8 @@ abstract class stack_cas_castext2_block {
     public $position = null;
     // Painter detected format. TODO: remove compile-function argument for this.
     public $paintformat = null;
+    // Store any errors.
+    public $err = [];
 
     public function __construct(
         $params,
@@ -92,7 +94,7 @@ abstract class stack_cas_castext2_block {
     abstract public function validate_extract_attributes(): array;
 
     /**
-     * Validates the parameters and potenttially the contents. Whatever matter to this
+     * Validates the parameters and potentially the contents. Whatever matters to this
      * block e.g. some blocks might want all their contents to be flat-blocks.
      *
      * Note that the error array is built of `stack_cas_error` objects the specific class

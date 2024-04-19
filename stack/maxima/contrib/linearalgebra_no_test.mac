@@ -58,6 +58,16 @@ vec_convertedp(ex):= block(
   if member(c,ex_ops) or member(r,ex_ops) then return(false) else return(true)
 );
 
+col_vecp(ex):= block(
+  if not(matrixp(ex)) then return(false)
+  else return(is(second(matrix_size(ex))=1))
+);
+
+row_vecp(ex):= block(
+  if not(matrixp(ex)) then return(false)
+  else return(is(first(matrix_size(ex))=1))
+);
+
 
 /*********************************************************************************/
 /* Take the upper triangular part of a matrix, leaving the remaining entries = 0 */
@@ -276,7 +286,7 @@ remove_dep(ex):= block(
 
 subspace_equiv(ex,ta):= block(
   if setp(ex) then ex: listify(ex) else if ntuplep(ex) or safe_op(ex)="span" then ex: args(ex),
-  if setp(ta) then ex: listify(ta) else if ntuplep(ta) or safe_op(ta)="span" then ta: args(ta),
+  if setp(ta) then ta: listify(ta) else if ntuplep(ta) or safe_op(ta)="span" then ta: args(ta),
   ex: map(lambda([ex2],if matrixp(ex2) then list_matrix_entries(ex2) else ex2),ex),
   /*ex: remove_dep(ex),*/
   ta: map(lambda([ta2],if matrixp(ta2) then list_matrix_entries(ta2) else ta2),ta),

@@ -712,7 +712,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function get_expected_data() {
-        $expected = array();
+        $expected = ['step_lang' => 'raw'];
         foreach ($this->inputs as $input) {
             $expected += $input->get_expected_data();
         }

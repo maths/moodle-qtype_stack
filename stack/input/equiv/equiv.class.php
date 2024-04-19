@@ -427,7 +427,8 @@ class stack_equiv_input extends stack_input {
         // Looks odd making this true, but if there is a validity error here it will have
         // surfaced somewhere else.
         if (!($fl->get_valid())) {
-            $fl = new stack_cas_casstring('firstline:true');
+            $fl = stack_ast_container::make_from_teacher_source('firstline:true');
+            $fl->get_valid();
         }
 
         return array('calculus' => $ca, 'equivdisplay' => $an, 'equivfirstline' => $fl);

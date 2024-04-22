@@ -938,7 +938,7 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         $table = new xmldb_table('qtype_stack_options');
         $field = new xmldb_field('decimals', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, '.');
 
-        // Conditionally launch add field variantsselectionseed.
+        // Conditionally launch add field decimals.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
@@ -961,6 +961,18 @@ function xmldb_qtype_stack_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2024032401, 'qtype', 'stack');
     }
 
+    if ($oldversion < 2024042100) {
+        $table = new xmldb_table('qtype_stack_options');
+        $field = new xmldb_field('scientificnotation', XMLDB_TYPE_CHAR, '8', null, XMLDB_NOTNULL, null, '*10');
+
+        // Conditionally launch add field scientificnotation.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // STACK savepoint reached.
+        upgrade_plugin_savepoint(true, 2024042100, 'qtype', 'stack');
+    }
     // Add new upgrade blocks just above here.
 
     // Check the version of the Maxima library code that comes with this version

@@ -156,7 +156,6 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
         $question = $generator->create_question('stack', 'test3', array('category' => $cat->id));
-
         $questionid = $question->id;
         $seed = 1;
 
@@ -233,6 +232,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
       <text><![CDATA[<p>Incorrect answer.</p>]]></text>
     </prtincorrect>
     <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>
@@ -458,6 +458,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
         $expectedq->prtincorrect          = array('text' => '<p>Incorrect answer.</p>',
                                                     'format' => FORMAT_HTML, 'files' => array());;
         $expectedq->decimals              = '.';
+        $expectedq->scientificnotation    = '*10';
         $expectedq->multiplicationsign    = 'dot';
         $expectedq->sqrtsign              = 1;
         $expectedq->complexno             = 'i';

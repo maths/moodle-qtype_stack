@@ -1817,6 +1817,36 @@ class input_algebraic_test extends qtype_stack_testcase {
         $this->assertEquals('', $state->errors);
     }
 
+    public function test_decimal_output_4() {
+        $options = new stack_options();
+        $options->set_option('decimals', '.');
+        $options->set_option('scientificnotation', 'E');
+        $el = stack_input_factory::make('algebraic', 'state', '3.14000E-10', $options);
+        $el->set_parameter('forbidFloats', false);
+
+        $state = $el->validate_student_response(array('state' => '3.14000E-10'), $options, '3.14000E-10',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('3.14000E-10', $state->contentsmodified);
+        $this->assertEquals('\[ 3.14000E{-10} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
+    public function test_decimal_output_5() {
+        $options = new stack_options();
+        $options->set_option('decimals', ',');
+        $options->set_option('scientificnotation', 'E');
+        $el = stack_input_factory::make('algebraic', 'state', '3.14000E-10', $options);
+        $el->set_parameter('forbidFloats', false);
+
+        $state = $el->validate_student_response(array('state' => '3,14000E-10'), $options, '3.14000E-10',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('3.14000E-10', $state->contentsmodified);
+        $this->assertEquals('\[ 3{,}14000E{-10} \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+    }
+
     public function test_decimal_output_matrix_1() {
         $options = new stack_options();
         $options->set_option('decimals', ',');

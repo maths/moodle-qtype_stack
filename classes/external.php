@@ -89,7 +89,7 @@ class external extends \external_api {
         return [
             'input'   => $params['input'],
             'status'  => $state->status,
-            'message' => $input->render_validation($state, $qa->get_qt_field_name($params['name']))
+            'message' => $input->render_validation($state, $qa->get_qt_field_name($params['name'], $lang)),
         ];
     }
 }

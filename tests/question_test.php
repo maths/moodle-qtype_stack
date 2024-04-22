@@ -55,9 +55,10 @@ class question_test extends qtype_stack_testcase {
     public function test_get_expected_data_test3() {
         $q = $this->get_test_stack_question('test3');
         $this->assertEquals('', $q->validate_against_stackversion(context_system::instance()));
-        $this->assertEquals(array('ans1' => PARAM_RAW, 'ans1_val' => PARAM_RAW,
+        $this->assertEquals(['ans1' => PARAM_RAW, 'ans1_val' => PARAM_RAW,
                 'ans2' => PARAM_RAW, 'ans2_val' => PARAM_RAW, 'ans3' => PARAM_RAW, 'ans3_val' => PARAM_RAW,
-                'ans4' => PARAM_RAW), $q->get_expected_data());
+                'ans4' => PARAM_RAW, 'step_lang' => PARAM_RAW,
+        ], $q->get_expected_data());
     }
 
     public function test_get_correct_response_test0() {

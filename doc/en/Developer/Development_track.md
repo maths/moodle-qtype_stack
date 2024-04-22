@@ -5,6 +5,8 @@ past development history is documented on [Development history](Development_hist
 
 ## Version 4.6.0
 
+TODO: merge back in https://github.com/maths/moodle-qtype_stack/tree/add_option_scientificnotation once the code tidy is confirmed.
+
 This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 
 1. Alter list of acceptible expressions.  Unicode super/subscripts now are invalid.  Use 150_replace filter in students' input.
@@ -21,6 +23,7 @@ TODO:
 1. Major code tidy: Moodle code style now requires (i) short forms of arrays, i.e. `[]` not `array()`, and (ii) commas at the end of all list items.
 2. Fix markdown problems. See issue #420.
 3. Fix [issue #879](https://github.com/maths/moodle-qtype_stack/issues/879)
+
 
 ## Version 4.7.0
 

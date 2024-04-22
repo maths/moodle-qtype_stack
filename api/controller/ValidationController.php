@@ -67,7 +67,8 @@ class ValidationController {
                     $data["inputName"],
                     $data["answers"]
                 ),
-                $data["inputName"]
+                $data["inputName"],
+                null,
             );
 
         $validationresponse->iframes = StackIframeHolder::$iframes;

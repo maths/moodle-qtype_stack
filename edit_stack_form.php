@@ -192,7 +192,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $prtnames = $qtype->get_prt_names_from_question($this->get_current_question_text(),
                 $this->get_current_specific_feedback());
 
-        // TODO: add in warnings here.  See b764b39675 for deleted materials.
+        // TO-DO: add in warnings here.  See b764b39675 for deleted materials.
         $warnings = '';
 
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
@@ -743,7 +743,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'type'}               = $input->type;
             $question->{$inputname . 'modelans'}           = $input->tans;
             $question->{$inputname . 'boxsize'}            = $input->boxsize;
-            // TODO: remove this when we delete it from the DB.
+            // TO-DO: remove this when we delete it from the DB.
             $question->{$inputname . 'strictsyntax'}       = true;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
             $question->{$inputname . 'syntaxhint'}         = $input->syntaxhint;

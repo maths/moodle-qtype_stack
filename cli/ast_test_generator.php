@@ -161,7 +161,7 @@ $findinvalid = function($node) use(&$hasinvalid) {
 };
 
 function escp(string $string): string {
-    // TODO: for coding style we should not use double quotes unless necessary.
+    // TO-DO: for coding style we should not use double quotes unless necessary.
     $a = addslashes($string);
     if (strpos($a, "'") === false) {
         $a = str_replace('\"', '"', $a);

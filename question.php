@@ -371,7 +371,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
             // If we have units we might as well include the units declaration in the session.
             // To simplify authors work and remove the need to call that long function.
-            // TODO: Maybe add this to the preable to save lines, but for now documented here.
+            // TO-DO: Maybe add this to the preable to save lines, but for now documented here.
             if ($units) {
                 $session->add_statement(new stack_secure_loader('stack_unit_si_declare(true)',
                         'automatic unit declaration'), false);
@@ -394,7 +394,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // in a PRT, the student's answer will take these values.   If the teacher defines
             // 'ta' to be the answer, the student could type in 'ta'!  We forbid this.
 
-            // TODO: shouldn't we also protect variables used in PRT logic? Feedback vars
+            // TO-DO: shouldn't we also protect variables used in PRT logic? Feedback vars
             // and so on?
             $forbiddenkeys = [];
             if ($this->get_cached('forbiddenkeys') !== null) {
@@ -545,7 +545,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     protected function adapt_inputs() {
         foreach ($this->inputs as $name => $input) {
-            // TODO: again should we give the whole thing to the input.
+            // TO-DO: again should we give the whole thing to the input.
             $teacheranswer = '';
             if ($this->tas[$name]->is_correctly_evaluated()) {
                 $teacheranswer = $this->tas[$name]->get_value();
@@ -563,7 +563,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return stack_cas_text the castext.
      */
     public function get_hint_castext(question_hint $hint) {
-        // TODO: These are not currently cached as compiled fragments, maybe they should be.
+        // TO-DO: These are not currently cached as compiled fragments, maybe they should be.
 
         $hinttext = castext2_evaluatable::make_from_source($hint->hint, 'hint');
 
@@ -820,7 +820,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $lang = $ml->pick_lang($this->get_cached('langs'));
         }
 
-        // TODO: we should probably give the whole ast_container to the input.
+        // TO-DO: we should probably give the whole ast_container to the input.
         // Direct access to LaTeX and the AST might be handy.
         $teacheranswer = '';
         if (array_key_exists($name, $this->tas)) {
@@ -1028,7 +1028,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Once we are confident enough, we could try switching the nesting
         // of the loops to increase efficiency.
 
-        // TODO: switch the nesting, now that the eval is by response and not by PRT.
+        // TO-DO: switch the nesting, now that the eval is by response and not by PRT.
         // Current CAS-cache helps but it is wasted cycles to go to it so many times.
         $fraction = 0;
         foreach ($this->prts as $index => $prt) {
@@ -1193,7 +1193,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // If we have units we might as well include the units declaration in the session.
         // To simplify authors work and remove the need to call that long function.
-        // TODO: Maybe add this to the preable to save lines, but for now documented here.
+        // TO-DO: Maybe add this to the preable to save lines, but for now documented here.
         if ($units) {
             $session->add_statement(new stack_secure_loader('stack_unit_si_declare(true)',
                     'automatic unit declaration'), false);
@@ -1420,7 +1420,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     /**
      * Enable the renderer to access the teacher's answer in the session.
-     * TODO: should we give the whole thing?
+     * TO-DO: should we give the whole thing?
      * @param string $vname variable name.
      */
     public function get_ta_for_input(string $vname): string {
@@ -1809,7 +1809,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     stack_clear_vle_question_cache($this->id);
                 }
             } catch (stack_exception $e) {
-                // TODO: what exactly do we use here as the key
+                // TO-DO: what exactly do we use here as the key
                 // and what sort of errors does the compilation generate.
                 // CHRIS: The compilation generates errors that relate to the static validation of
                 // the question, any such errors are fatal and will be apparent on the first opening

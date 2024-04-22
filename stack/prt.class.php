@@ -77,7 +77,7 @@ class stack_potentialresponse_tree_lite {
         $this->simplify      = (bool) $prtdata->autosimplify;
         $this->feedbackstyle = (int) $prtdata->feedbackstyle;
 
-        // TODO move the scaling to other levels.
+        // TO-DO move the scaling to other levels.
         $this->value         = $value;
 
         $this->feedbackvariables = $prtdata->feedbackvariables;
@@ -562,11 +562,11 @@ class stack_potentialresponse_tree_lite {
      * Generate the complete maxima command for a single answertest in a specific node.
      */
     public static function compile_node_answertest($node) {
-        // TODO: make this saner, the way Stateful lets the tests do their own
+        // TO-DO: make this saner, the way Stateful lets the tests do their own
         // call construction might duplicate things but it does not require this
         // much knowledge about the shape of things.
         // We have no validation for these requirements.
-        // TODO: choose whether we error catch sans/tans/options separately or
+        // TO-DO: choose whether we error catch sans/tans/options separately or
         // at the whole test level. Now at test level.
         $at = 'AT' . $node->answertest . '(' . $node->sans;
 
@@ -688,7 +688,7 @@ class stack_potentialresponse_tree_lite {
             $p = '%PRT_PENALTY:' . $p;
         }
         // Now the score mode based logic, I wonder why both score and penalty use the same.
-        // TODO: trace the original logic and check how these are tied to each other.
+        // TO-DO: trace the original logic and check how these are tied to each other.
         switch ($node->truescoremode) {
             case '+':
                 $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p;
@@ -784,7 +784,7 @@ class stack_potentialresponse_tree_lite {
             $p = '%PRT_PENALTY:' . $p;
         }
         // Now the score mode based logic, I wonder why both score and penalty use the same.
-        // TODO: trace the original logic and check how these are tied to each other.
+        // TO-DO: trace the original logic and check how these are tied to each other.
         switch ($node->falsescoremode) {
             case '+':
                 $body .= ',' . $s . ',%PRT_SCORE:%PRT_SCORE+%_TMP,' . $p;
@@ -819,7 +819,7 @@ class stack_potentialresponse_tree_lite {
             } else {
                 $body .= 'simp:false,';
             }
-            // TODO: consider the format to be used here.
+            // TO-DO: consider the format to be used here.
             $ct = castext2_evaluatable::make_from_source($feedback, $context . '/ff');
             if (!$ct->get_valid($node->falsefeedbackformat, $ct2options, $security)) {
                 throw new stack_exception('Error in ' . $context . ' false-feedback. ' . $ct->get_errors(true));

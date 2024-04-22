@@ -448,7 +448,7 @@ class stack_answertest_test_data {
         ['AlgEquiv', '', '%union(oo(-inf,1),oo(-1,inf))', 'oo(-inf,inf)', 1, 'ATRealSet_true.', ''],
         ['AlgEquiv', '', 'all', 'oo(-inf,inf)', 1, 'ATRealSet_true.', ''],
 
-        // TODO: fix type checking to allow these examples.
+        // TO-DO: fix type checking to allow these examples.
         ['AlgEquiv', '', 'co(1,2)', '1 <= x nounand x<2', 0, 'ATAlgEquiv_SA_not_logic.', ''],
         ['AlgEquiv', '', '1 <= x nounand x<2', 'co(1,2)', 0, 'ATAlgEquiv_SA_not_realset.', ''],
         ['AlgEquiv', '', 'minf <= x', 'co(minf,inf)', 0, 'ATAlgEquiv_SA_not_realset.', ''],
@@ -2417,7 +2417,7 @@ class stack_answertest_test_data {
             'Units', '4', '2650*ft', '0.5*mi', 0,
             'ATNumSigFigs_WithinRange. ATNumSigFigs_VeryInaccurate. ATUnits_compatible_units in.', '',
         ],
-        ['Units', '4', '142.8*C', '415.9*K', -3, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', 'TODO'],
+        ['Units', '4', '142.8*C', '415.9*K', -3, 'ATNumSigFigs_VeryInaccurate. ATUnits_incompatible_units.', 'TO-DO'],
         // Atomic mass unit: numbers out of range.
         ['Units', '3', '520*mamu', '520*mamu', -3, 'ATUnits_SB_no_units.', ''],
         // Teacher uses stackunits in the answer, and displays nunmerical accuracy.

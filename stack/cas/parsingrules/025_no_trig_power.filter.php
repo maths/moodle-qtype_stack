@@ -91,7 +91,7 @@ class stack_ast_filter_025_no_trig_power implements stack_cas_astfilter {
                 if ($bad === true) {
                     // Those rules should not match anything else.
                     $node->position['invalid'] = true;
-                    // TODO: now that we have the whole "function call" as the $node
+                    // TO-DO: now that we have the whole "function call" as the $node
                     // the error message could print out it all, but without that star...
                     $errors[] = stack_string('stackCas_trigexp',
                         [

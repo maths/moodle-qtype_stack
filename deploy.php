@@ -122,7 +122,7 @@ if (!is_null($deployfromlist) || !is_null($deploysystematic)) {
 
     // Check the entries are all different.
     if (count($newseeds) !== count(array_flip($newseeds))) {
-        // TODO: specific feedback for each error.
+        // TO-DO: specific feedback for each error.
         $dataproblem = true;
     }
 

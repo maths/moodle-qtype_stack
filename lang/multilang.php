@@ -217,7 +217,7 @@ class stack_multilang {
      */
     public function non_trivial_content_for_check($text) {
         $text = trim(strip_tags($text));
-        // TODO: remove all equations.
+        // TO-DO: remove all equations.
         if ('' == $text) {
             return false;
         }

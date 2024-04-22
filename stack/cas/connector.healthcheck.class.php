@@ -128,7 +128,7 @@ class stack_cas_healthcheck {
                 }
             default:
                 // Server-proxy/optimised.
-                // TODO: add in any specific tests for these setups?
+                // TO-DO: add in any specific tests for these setups?
                 break;
         }
 

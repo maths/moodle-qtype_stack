@@ -1179,7 +1179,7 @@ class input_units_test extends qtype_stack_testcase {
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
         $this->assertEquals('(72.00-%i*570.37298)*ohm', $state->contentsmodified);
-        // TODO: remove the extra brackets around the i in this example.
+        // TO-DO: remove the extra brackets around the i in this example.
         $this->assertEquals('\[ \left( 72.00+\left(-\mathrm{i}\right)\, 570.37298\right)\, \Omega \]',
             $state->contentsdisplayed);
         $this->assertEquals('', $state->errors);

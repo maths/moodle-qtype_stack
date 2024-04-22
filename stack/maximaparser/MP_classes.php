@@ -208,7 +208,7 @@ class MP_Node {
 
     // Extraction of terms in operations without caring about the references.
     // Returns null if none present or we are not part of an operation.
-    /* TODO: bugs with '-a*b^c-d+e!+f/g(x+y)+z' for d.
+    /* TO-DO: bugs with '-a*b^c-d+e!+f/g(x+y)+z' for d.
     public function get_operand_on_right() {
     if ($this->parentnode === null) {
     return null;
@@ -265,7 +265,7 @@ class MP_Node {
         return null;
     }
 
-    /* TODO: bugs with '-a*b^c-d+e!+f/g(x+y)+z' for d.
+    /* TO-DO: bugs with '-a*b^c-d+e!+f/g(x+y)+z' for d.
     public function get_operator_on_right() {
         if ($this->parentnode === null) {
             return null;
@@ -938,7 +938,7 @@ class MP_Identifier extends MP_Atom {
     }
 }
 
-// TODO: remove this?  Only one occurance in the search.
+// TO-DO: remove this?  Only one occurance in the search.
 class MP_Annotation extends MP_Node {
     public $annotationtype = null;
     public $params         = null;
@@ -1165,7 +1165,7 @@ class MP_FunctionCall extends MP_Node {
             if ('' != $prefix) {
                 // Hack for stacklet.
                 if ($n == 'stacklet') {
-                    // TODO: fix parsing of let.
+                    // TO-DO: fix parsing of let.
                     return $prefix .' '. implode('=', $ar);
                 }
                 return $prefix . implode($sep, $ar);
@@ -1768,7 +1768,7 @@ class MP_If extends MP_Node {
         $total = $this->toString();
         $this->position['start'] = $offset;
         $this->position['end'] = $offset + mb_strlen($total);
-        // TODO: fill in this.
+        // TO-DO: fill in this.
     }
 
     public function toString($params = null): string {
@@ -1863,7 +1863,7 @@ class MP_Loop extends MP_Node {
         $total = $this->toString();
         $this->position['start'] = $offset;
         $this->position['end'] = $offset + mb_strlen($total);
-        // TODO: fill in this.
+        // TO-DO: fill in this.
     }
 
     public function replace($node, $with) {

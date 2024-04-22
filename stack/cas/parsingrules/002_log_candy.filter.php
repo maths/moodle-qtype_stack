@@ -166,7 +166,7 @@ class stack_ast_filter_002_log_candy implements stack_cas_astfilter {
                     $node->parentnode instanceof MP_Functioncall)) {
                     // We have ended up in a situation where there is nothing to eat.
                     $node->position['invalid'] = true;
-                    // TODO: localise, maybe include the erroneous portion.
+                    // TO-DO: localise, maybe include the erroneous portion.
                     $errors[] = 'Logarithm without an argument...';
                     return false;
                 }

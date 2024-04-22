@@ -118,7 +118,7 @@ class castext2_evaluatable implements cas_raw_value_extractor {
                 $this->source = '[[demoodle]]' . $this->source . '[[/demoodle]]';
                 break;
             case FORMAT_PLAIN:
-                // TODO... We need to have something more complex for this
+                // TO-DO... We need to have something more complex for this
                 // as the formating logic will need to also stop filtering for
                 // this. Check /lib/weblib.php in Moodle.
                 break;

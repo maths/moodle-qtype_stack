@@ -1776,7 +1776,7 @@ class cassession2_test extends qtype_stack_testcase {
             if (array_key_exists(8, $c)) {
                 $val = $c[8];
             }
-            // TODO: update prepare_actual_maths_floats for comma separated values.
+            // TO-DO: update prepare_actual_maths_floats for comma separated values.
             if ($simpdisp !== null) {
                 $this->assertEquals($simpdisp, $this->prepare_actual_maths_floats($s2[$key + 1]->get_display()));
             }

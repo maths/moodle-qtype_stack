@@ -39,7 +39,7 @@ class maxima_corrective_parser {
             ' or ' => 'STACKOR', ' and ' => 'STACKAND', 'not ' => 'STACKNOT', 'nounnot ' => 'STACKNOUNNOT',
             ' nor ' => 'STACKNOR', ' nand ' => 'STACKNAND', ' xor ' => 'STACKXOR', ' xnor ' => 'STACKXNOR',
             ' implies ' => 'STACKIMPLIES', ' nounor ' => 'STACKNOUNOR', ' nounand ' => 'STACKNOUNAND',
-         // TODO: we really need to think about keywords and whether we allow
+         // TO-DO: we really need to think about keywords and whether we allow
          // them for students in the first case. Of course none of these requires
          // spaces you can easily write 'if(foo)then(blaah)else(if(bar)then(zoo))'.
          // Well 'else if' is the exception...
@@ -480,7 +480,7 @@ class maxima_corrective_parser {
             $answernote[] = 'finalChar';
         } else if ($foundchar === '!' && ($previouschar === '' ||
                 !(ctype_alpha($previouschar) || ctype_digit($previouschar) || $previouschar === ')' || $previouschar === ']'))) {
-            // TODO: Localise... "Operator X without a valid target. Needs something in front of it".
+            // TO-DO: Localise... "Operator X without a valid target. Needs something in front of it".
             $a = ['op' => stack_maxima_format_casstring('!')];
             $errors[] = stack_string('stackCas_badpostfixop', $a);
             $answernote[] = 'badpostfixop';

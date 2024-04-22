@@ -166,7 +166,7 @@ function stack_docs_page_metadata($uri) {
     if ($meta == []) {
         throw new stack_exception('STACK docs: the metadata json file is broken!');
     }
-    // TODO: langauges.
+    // TO-DO: langauges.
     $meta = $meta['en'];
 
     // Sort out what we are looking for.

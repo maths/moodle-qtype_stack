@@ -15,7 +15,7 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 6. STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
 7. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).
 
-TODO:
+TO-DO:
 
 1. Fix issue #1160: Allow configuring the MathJax URL.
 

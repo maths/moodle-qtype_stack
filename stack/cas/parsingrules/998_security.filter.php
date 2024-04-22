@@ -374,7 +374,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         // Check for constants.
         foreach (array_keys($writtenvariables) as $name) {
             if ($identifierrules->has_feature($name, 'constant')) {
-                // TODO: decide if we set this as validity issue, might break
+                // TO-DO: decide if we set this as validity issue, might break
                 // materials where the constants redefined do not affect things.
                 $errors[] = trim(stack_string('stackCas_redefinitionOfConstant',
                         ['constant' => stack_maxima_format_casstring($name)]));

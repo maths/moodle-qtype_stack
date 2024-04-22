@@ -31,7 +31,7 @@ abstract class stack_cas_castext2_block {
     public $mathmode = false;
     // Position data from the parser.
     public $position = null;
-    // Painter detected format. TODO: remove compile-function argument for this.
+    // Painter detected format. TO-DO: remove compile-function argument for this.
     public $paintformat = null;
 
     public function __construct(

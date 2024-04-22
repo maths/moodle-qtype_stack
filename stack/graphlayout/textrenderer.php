@@ -82,7 +82,7 @@ class stack_prt_graph_text_renderer {
             }
             $html .= html_writer::tag('tr', $row) . "\n";
         }
-        // TODO: style the table with more padding.
+        // TO-DO: style the table with more padding.
         $html = html_writer::start_tag('table', ['class' => 'prttexttable']) . $html .
                 html_writer::end_tag('table');
 

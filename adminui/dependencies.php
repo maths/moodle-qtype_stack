@@ -158,7 +158,7 @@ if (data_submitted() && optional_param('jsxgraphs', false, PARAM_BOOL)) {
      * JSXGraphs are spotted from the compiled cache, finding '["jsxgraph",'
      * means that there are STACK block based JSXGraphs. '</jsxgraph>' would
      * mean that the official filter is in play, if we find "jsxgraph" in any other
-     * form then we probably have something else in play or a "TODO" note.
+     * form then we probably have something else in play or a "TO-DO" note.
      */
     $qs = $DB->get_recordset_sql('SELECT q.id as questionid FROM {question} q, {qtype_stack_options} o WHERE ' .
         'q.id = o.questionid AND ' .
@@ -209,7 +209,7 @@ if (data_submitted() && optional_param('geogebras', false, PARAM_BOOL)) {
      * GeoGebra Graphs are spotted from the compiled cache, finding '["geogebra",'
      * means that there are STACK block based GeoGebra. '</geogebra>' would
      * mean that the official filter is in play, if we find "geogebra" in any other
-     * form then we probably have something else in play or a "TODO" note.
+     * form then we probably have something else in play or a "TO-DO" note.
      */
     $qs = $DB->get_recordset_sql('SELECT q.id as questionid FROM {question} q, {qtype_stack_options} o WHERE ' .
         'q.id = o.questionid AND ' .

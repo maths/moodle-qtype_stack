@@ -150,7 +150,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
 
         // This should be handled at a higher level, but as the structure that is postprocessed
         // Still comes through so many routes this has not been cleared.
-        // TODO: once everything for this comes through the MaximaParser, make the conversion
+        // TO-DO: once everything for this comes through the MaximaParser, make the conversion
         // from its structure to the array this function eats do this.
         $r = str_replace('QMCHAR', '?', $r);
 
@@ -162,7 +162,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
     }
 
     // Creates a block from a node.
-    // TODO: pick another place for this function.
+    // TO-DO: pick another place for this function.
     public static function make(CTP_Node $node): stack_cas_castext2_block {
         if ($node instanceof CTP_IOBlock) {
             $r = new stack_cas_castext2_special_ioblock([], [], $node->

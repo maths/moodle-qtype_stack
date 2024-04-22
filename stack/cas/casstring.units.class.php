@@ -274,7 +274,7 @@ class stack_cas_casstring_units {
         if ($identifiernode->value == 'Torr') {
             $identifiernode->value = 'torr';
         } else if ($identifiernode->value == 'kgm') {
-            // TODO: Do we actually care if there is that '/s' or is that some regexp thing?
+            // TO-DO: Do we actually care if there is that '/s' or is that some regexp thing?
             if ($identifiernode->parent instanceof MP_Operation &&
                 (($identifiernode->parent->op === '/' &&
                   $identifiernode->parent->lhs === $identifiernode &&

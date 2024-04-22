@@ -264,11 +264,11 @@ class prt_evaluatable implements cas_raw_value_extractor {
     }
 
     public function get_trace(): array {
-        // TODO: Add in answer test results to the trace array?
+        // TO-DO: Add in answer test results to the trace array?
         return $this->trace;
     }
 
     public function get_debuginfo(): string {
-        return 'TODO DEBUGINFO';
+        return 'TO-DO DEBUGINFO';
     }
 }

@@ -17,7 +17,7 @@
 /**
  * Script to download the export of a single STACK question.
  *
- * TODO: Since MDL-63738 landed in Moodle 3.6, this has been a core Moodle
+ * TO-DO: Since MDL-63738 landed in Moodle 3.6, this has been a core Moodle
  * feature, so we don't really need to keep mainaining this file. We could
  * use question/exportone.php, or question/bank/exporttoxml/exportone.php,
  * as it later became, instead.

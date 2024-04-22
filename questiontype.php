@@ -195,7 +195,7 @@ class qtype_stack extends question_type {
             $input->type               = $fromform->{$inputname . 'type'};
             $input->tans               = $fromform->{$inputname . 'modelans'};
             $input->boxsize            = $fromform->{$inputname . 'boxsize'};
-            // TODO: remove this when we remove strictsyntax from the DB.
+            // TO-DO: remove this when we remove strictsyntax from the DB.
             $input->strictsyntax       = true;
             $input->insertstars        = $fromform->{$inputname . 'insertstars'};
             $input->syntaxhint         = $fromform->{$inputname . 'syntaxhint'};
@@ -2017,7 +2017,7 @@ class qtype_stack extends question_type {
                 $inputvalues[] = $cs;
             }
         }
-        // TODO: why clone when we never reuse the original...
+        // TO-DO: why clone when we never reuse the original...
         $inputsession = clone $session;
         $inputsession->add_statements($inputvalues);
         if ($inputsession->get_valid()) {
@@ -2033,7 +2033,7 @@ class qtype_stack extends question_type {
                 if (!$in->is_correctly_evaluated()) {
                     $getdebuginfo = true;
                 }
-                // TODO: Send the actual value to the input, and ask it to validate it.
+                // TO-DO: Send the actual value to the input, and ask it to validate it.
                 // For example, the matrix input type could check that the model answer is a matrix.
             }
 
@@ -2041,7 +2041,7 @@ class qtype_stack extends question_type {
                     && $inputsession->get_by_key('optionsfor' . $inputname)->get_errors() !== '') {
                 $errors[$inputname . 'options'][] = $inputsession->get_by_key('optionsfor' . $inputname)->get_errors();
             }
-            // ... else TODO: Send the actual value to the input, and ask it to validate it.
+            // ... else TO-DO: Send the actual value to the input, and ask it to validate it.
         }
 
         if ($getdebuginfo) {
@@ -2053,7 +2053,7 @@ class qtype_stack extends question_type {
             return $errors;
         }
 
-        // TODO: loop over all the PRTs in a similar manner....
+        // TO-DO: loop over all the PRTs in a similar manner....
         // Remember, to clone the inputsession as the base session for each PRT.
         // This will have all the teacher's answers instantiated.
         // Otherwise we are likley to do illigitimate things to the various inputs.
@@ -2172,7 +2172,7 @@ class qtype_stack extends question_type {
             $errors[$prtname.$field.'['.($nodename - 1).']'][] = stack_string('nodeloopdetected');
         }
 
-        // TODO: check the descriptions of all nodes are unique.
+        // TO-DO: check the descriptions of all nodes are unique.
 
         return $errors;
     }
@@ -2491,7 +2491,7 @@ class qtype_stack extends question_type {
         // at this moment it is not possible. Basically:
         // $question->get_cached('required')[$prtname].
 
-        // TODO fix this. At the moment it only considers the data from the unedited
+        // TO-DO fix this. At the moment it only considers the data from the unedited
         // question. We should take into account any changes made since the
         // form was first shown, for example adding or removing nodes, or changing
         // the things they compare. However, it is not critical.

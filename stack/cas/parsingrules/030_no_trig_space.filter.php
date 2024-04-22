@@ -41,7 +41,7 @@ class stack_ast_filter_030_no_trig_space implements stack_cas_astfilter {
                         $answernotes[] = 'trigspace';
                     }
                     $node->parentnode->position['invalid'] = true;
-                    // TODO: handle the case where we are not the lhs of the shared op.
+                    // TO-DO: handle the case where we are not the lhs of the shared op.
                 }
             }
             return true;

@@ -522,7 +522,7 @@ class stack_dropdown_input extends stack_input {
      * @param unknown_type $in
      */
     public function get_correct_response($value) {
-        // TODO: refactor this ast creation away.
+        // TO-DO: refactor this ast creation away.
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), []);
         $cs->set_nounify(0);
         $val = '';

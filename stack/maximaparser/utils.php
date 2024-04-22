@@ -358,7 +358,7 @@ class maxima_parser_utils {
             while ($root->callbackRecurse($include) !== true) {}
             // @codingStandardsIgnoreEnd
 
-            // TODO: wrap those errors into something more readable.
+            // TO-DO: wrap those errors into something more readable.
             if (count($errors) > 0) {
                 // Returning an exception because we already either return an excpetion or the root node, so why
                 // have even more types in play.
@@ -2168,7 +2168,7 @@ class maxima_parser_utils {
                             if ($arg instanceof MP_Operation && ($arg->op === '=' || $arg->op === ':')
                                     && $arg->lhs instanceof MP_Identifier) {
                                 $repl[$arg->lhs->value] = clone $arg->rhs;
-                            } // TODO: is this else condition reachable? If so tag everything as unknown.
+                            } // TO-DO: is this else condition reachable? If so tag everything as unknown.
                         }
                         foreach ($repl as $key => $value) {
                             if (!isset($output[$key])) {

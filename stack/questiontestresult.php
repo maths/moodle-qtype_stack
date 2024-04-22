@@ -366,7 +366,7 @@ class stack_question_test_result {
                 format_text($state->feedback),
                 $passedcol,
             ];
-            // TODO: reinstate debuginfo here.
+            // TO-DO: reinstate debuginfo here.
         }
 
         $html .= html_writer::table($prtstable);

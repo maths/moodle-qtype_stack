@@ -1629,7 +1629,7 @@ class stack_equiv_test_data {
                     $options = '[' . $options . ']';
                 }
 
-                // TODO: add in CAS code to support all these arguments!
+                // TO-DO: add in CAS code to support all these arguments!
                 if ('unsupported' !== $equivarg['outcome']) {
                     $answertestfixtures[] = [
                         'Equiv', $options, $equivarg['casstring'], '[]',

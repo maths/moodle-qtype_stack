@@ -186,7 +186,7 @@ class stack_cas_session2 {
     }
 
     /*
-     * TODO: set return value of : ?cas_evaluatable
+     * TO-DO: set return value of : ?cas_evaluatable
      */
     public function get_by_key(string $key) {
         // Searches from the statements the last one with a given key.

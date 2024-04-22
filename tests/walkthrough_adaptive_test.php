@@ -4146,7 +4146,7 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
 
     public function test_lang_blocks_en() {
 
-        // TODO: how do we explicitly set the user's preferences, i.e. language?
+        // TO-DO: how do we explicitly set the user's preferences, i.e. language?
         $q = \test_question_maker::make_question('stack', 'lang_blocks');
         $this->start_attempt_at_question($q, 'adaptive', 1);
         // Check the initial state.

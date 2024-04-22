@@ -212,7 +212,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
     // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
-        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        // TO-DO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
             parent::assertMatchesRegularExpression($pattern, $string, $message);
         } else {
@@ -223,7 +223,7 @@ abstract class qtype_stack_testcase extends advanced_testcase {
 
     // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void {
-        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        // TO-DO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertDoesNotMatchRegularExpression')) {
             parent::assertDoesNotMatchRegularExpression($pattern, $string, $message);
         } else {
@@ -480,7 +480,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
 
     // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public static function assertMatchesRegularExpression(string $pattern, string $string, string $message = '') : void {
-        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        // TO-DO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertMatchesRegularExpression')) {
             parent::assertMatchesRegularExpression($pattern, $string, $message);
         } else {
@@ -491,7 +491,7 @@ abstract class qtype_stack_walkthrough_test_base extends \qbehaviour_walkthrough
 
     // phpcs:ignore moodle.NamingConventions.ValidFunctionName.LowercaseMethod
     public static function assertDoesNotMatchRegularExpression(string $pattern, string $string, string $message = '') : void {
-        // TODO remove this once Moodle 3.11 is the lowest supported version.
+        // TO-DO remove this once Moodle 3.11 is the lowest supported version.
         if (method_exists('advanced_testcase', 'assertDoesNotMatchRegularExpression')) {
             parent::assertDoesNotMatchRegularExpression($pattern, $string, $message);
         } else {

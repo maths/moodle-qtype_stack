@@ -155,7 +155,7 @@ foreach (array_keys($summary) as $variant) {
     $question->start_attempt(new question_attempt_step(), $variant);
     $questionseeds[$variant] = $question->seed;
     $notesummary = $question->get_question_summary();
-    // TODO check for duplicate notes.
+    // TO-DO check for duplicate notes.
     $questionnotes[$variant] = stack_ouput_castext($notesummary);
 }
 

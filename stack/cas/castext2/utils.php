@@ -238,7 +238,7 @@ class castext2_parser_utils {
                     }
                 }
             }
-            // TODO: we might also want to handle escapes and ignore {@...@} contents.
+            // TO-DO: we might also want to handle escapes and ignore {@...@} contents.
             return true;
         };
         $ast->callbackRecurse($populateskipmap);
@@ -603,7 +603,7 @@ class castext2_parser_utils {
             }
         }
         // Case 7.
-        // TODO.
+        // TO-DO.
 
         // Not a case.
         return false;

@@ -268,7 +268,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         $this->keyless = $key;
     }
 
-    /* TODO: a more coherent system for dealing with all options such as keyless, nounify. */
+    /* TO-DO: a more coherent system for dealing with all options such as keyless, nounify. */
     public function set_nounify(int $key=1) {
         $this->nounify = $key;
     }
@@ -375,7 +375,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
 
         // @codingStandardsIgnoreStart
-        // TODO: should we check parameters are legitimate and if not?
+        // TO-DO: should we check parameters are legitimate and if not?
         // Currently MP_classes just does an isset(?) to check if the parameter exists.
         // There is no check on the legitimacy of those paraeters anywhere.  Should we
         // throw new stack_exception('stack_ast_container::ast_to_string tried to set illegal parameter ' . $key);
@@ -858,7 +858,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // Do not call this unless you are dealing with a list.
-    // TODO: ?MP_Node for return type.
+    // TO-DO: ?MP_Node for return type.
     public function get_list_element(int $index, bool $evaluated=false) {
         $root = $this->ast;
         if ($evaluated) {
@@ -938,7 +938,7 @@ class stack_ast_container_silent implements cas_evaluatable {
                 $root = $root->lhs;
                 $continue = true;
             }
-            // Take the numerator of any fraction.  TODO: What should we do about rational numbers?
+            // Take the numerator of any fraction.  TO-DO: What should we do about rational numbers?
             if ($root instanceof MP_Operation && $root->op === '/') {
                 $root = $root->lhs;
                 $continue = true;

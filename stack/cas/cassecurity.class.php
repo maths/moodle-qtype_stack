@@ -84,7 +84,7 @@ class stack_cas_security {
         ],
     ];
 
-    // TODO: remove once baselogic.class.php has been removed.
+    // TO-DO: remove once baselogic.class.php has been removed.
     public static function is_good_function(string $identifier): bool {
         // Generic tool for telling if a given identifier matches a function.
         if (self::$securitymap === null) {
@@ -140,7 +140,7 @@ class stack_cas_security {
             throw new stack_exception('stack_cas_security: forbiddenwords must be a string.');
         }
         if ($forbiddenkeys === null) {
-            // TODO: Quite common issue in tests...
+            // TO-DO: Quite common issue in tests...
             // There are functions in the chain that want arrays but do not check.
             $this->forbiddenkeys  = [];
         }
@@ -492,7 +492,7 @@ class stack_cas_security {
             }
         }
 
-        // TODO: should this be typed? i.e. return only function or variable
+        // TO-DO: should this be typed? i.e. return only function or variable
         // identifiers on demand? And should it drop forbidden items?
         $r = [];
         $l = strtolower($identifier);

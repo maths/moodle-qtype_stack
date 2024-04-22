@@ -1927,7 +1927,7 @@ class qtype_stack extends question_type {
 
         // The castext2_evaluatable-class is much simpler for validation use.
         // Could ask the utils class directly for the internal casstrings,
-        // but why when the evaluatable-class already does that.
+        // but why when the evaluatable-class already does that?
         $castext = castext2_evaluatable::make_from_source($value, 'validation-' . $fieldname);
         if (!$castext->get_valid()) {
             $errors[$fieldname][] = $castext->get_errors();

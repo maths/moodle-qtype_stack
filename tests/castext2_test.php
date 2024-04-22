@@ -698,6 +698,34 @@ class castext2_test extends qtype_stack_testcase {
         $this->assertEquals($output, $this->evaluate($input));
     }
 
+    /**
+     * @covers \qtype_stack\stack_cas_keyval
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
+    public function test_inline_castext_error() {
+        $keyval = 'S:1;T:castext(A_11);';
+        // The inline castext compilation currently only happens for keyvals, not for
+        // singular statements so we need to do something special to get this done.
+        $kv = new stack_cas_keyval($keyval);
+        $kv->get_valid();
+        $kvcode = $kv->compile('test')['statement'];
+        $statements = [new stack_secure_loader($kvcode, 'test-kv')];
+
+        $input = '{@castext(A_12)@}';
+        $output = '<h3>Rendering of text content failed.</h3><ul><li>This text content was never evaluated.</li></ul>';
+
+        $result = castext2_evaluatable::make_from_source($input, 'castext-test-case');
+        $this->assertFalse($result->get_valid());
+
+        $statements[] = $result;
+        $session = new stack_cas_session2($statements);
+        // We know this session is invalid, so don't try to instantiate it now!
+
+        $this->assertEquals('castext()-compiler, wrong argument. Only works with one direct raw string. ' .
+            'And possibly a format descriptor.', $session->get_errors());
+        $this->assertEquals($output, $result->get_rendered());
+    }
+
     // Test common string population.
     /**
      * @covers \qtype_stack\stack_cas_castext2_commonstring

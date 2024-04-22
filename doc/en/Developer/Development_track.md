@@ -14,21 +14,28 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 5. Add in the `CT:...` and `RAW:...` options for test case construction to enable tests of invalid input (e.g. missing stars).
 6. STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
 7. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).
+8. Release first version of the API for longer term support, and better support for ILIAS.
+
+TODO:
+
+1. Major code tidy: Moodle code style now requires (i) short forms of arrays, i.e. `[]` not `array()`, and (ii) commas at the end of all list items.
+2. Fix markdown problems. See issue #420.
+3. Fix [issue #879](https://github.com/maths/moodle-qtype_stack/issues/879)
+
+## Version 4.7.0
 
 TO-DO:
 
 1. Fix issue #1160: Allow configuring the MathJax URL.
+2. Release "Adapt" block. [issue #975](https://github.com/maths/moodle-qtype_stack/issues/975)
+3. Error messages: use caserror.class more fully to use user information to target error messages.
+4. Remove all "cte" code from Maxima - mostly install.
+5. Review and fix [issue #1063](https://github.com/maths/moodle-qtype_stack/issues/1063): "Extra options" set to "simp" and number of decimals shown in validation field
 
-1. Change 'core/event' to 'core_filters/events' in input.js and stackjsvle.js.
-2. Bring the API into the core of STACK for longer term support, and better support for ILIAS.
-3. Major code tidy: Moodle code style now requires (i) short forms of arrays, i.e. `[]` not `array()`, and (ii) commas at the end of all list items.
-4. Fix markdown problems. See issue #420.
-5. Error messages: use caserror.class more fully to use user information to target error messages.
-6. Remove all "cte" code from Maxima - mostly install.
 
 ## Parson's block development track
 
-Next (v 4.6.0)
+Next (v4.6.0)
 
 1. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block. E.g. input type changes html attr to readonly, sortable version disable? Note: other input types use readonly attr after submit all and finish.
 2. Use syntax hint to set up a non-empty starting point.

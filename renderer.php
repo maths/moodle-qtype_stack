@@ -143,6 +143,14 @@ class qtype_stack_renderer extends qtype_renderer {
                     ['class' => 'validationerror']);
         }
 
+        // ISS879 - Output current language
+        // to be returned by validation request and also stored in
+        // question step data on submission.
+        $fieldname = $qa->get_qt_field_name('step_lang');
+        $currentlang = stack_get_system_language();
+        $result .= html_writer::empty_tag('input', array('type' => 'hidden',
+                    'name' => $fieldname, 'value' => $currentlang));
+
         return $result;
     }
 

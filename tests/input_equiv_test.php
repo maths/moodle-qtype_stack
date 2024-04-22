@@ -119,7 +119,7 @@ class input_equiv_test extends qtype_stack_testcase {
                 '<input type="hidden" name="q140:1_ans1_val" value="[x^2-2*x+1=0]" />The variables found in your ' .
                 'answer were: <span class="filter_mathjaxloader_equation"><span class="nolink">\( \left[ x \right]\)' .
                 '</span></span> ',
-                $el->render_validation($state, 'q140:1_ans1'));
+                $el->render_validation($state, 'q140:1_ans1', 'en'));
         $this->assertEquals('', $state->note);
     }
 
@@ -231,7 +231,7 @@ class input_equiv_test extends qtype_stack_testcase {
                 '<input type="hidden" name="q140:1_ans1_val" value="[x^2-5*x+6=0,x=2 or x=3]" />' .
                 'The variables found in your answer were: <span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\( \left[ x \right]\)</span></span> ',
-                $el->render_validation($state, 'q140:1_ans1'));
+                $el->render_validation($state, 'q140:1_ans1', 'en'));
 
         // The test below does not use the LaTeX of the teacher's answer.
         // The test just confirms nounor in $val get converted to something the student should type in.

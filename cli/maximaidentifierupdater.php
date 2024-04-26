@@ -24,11 +24,7 @@ require_once($CFG->libdir . '/clilib.php');
 // @copyright  2018 Aalto University.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
-list($options, $unrecognized) = cli_get_params([
-    'help' => false, 'version' => '5.42.0',
-    'data' => '-',
-],
-    ['h' => 'help']);
+list($options, $unrecognized) = cli_get_params(['help' => false, 'version' => '5.42.0', 'data' => '-'], ['h' => 'help']);
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
     cli_error(get_string('cliunknowoption', 'admin', $unrecognized));

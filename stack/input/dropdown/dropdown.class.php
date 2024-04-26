@@ -356,10 +356,8 @@ class stack_dropdown_input extends stack_input {
         // potential confusion between keys 0 and ''.
         if ($this->nonotanswered) {
             $values = array_merge([
-                '' => [
-                    'value' => '',
-                    'display' => $this->notanswered, 'correct' => false,
-                ], 0 => null,
+                '' => ['value' => '', 'display' => $this->notanswered, 'correct' => false],
+                0 => null,
             ], $values);
         } else {
             $values = array_merge([0 => null], $values);

@@ -712,7 +712,7 @@ class stack_potentialresponse_tree_lite {
                     'prtnodeid' => $node->id,
                     'prtid' => $this->id, // For completeness sake.
                     'questionid' =>
-                    $this->question !== null && property_exists($this->question, 'id') ? $this->question->id : null,
+                        $this->question !== null && property_exists($this->question, 'id') ? $this->question->id : null,
                 ]);
             if (substr($body, -1) !== '(') {
                 // Depends on whether the score math was done.

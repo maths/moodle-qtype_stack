@@ -90,11 +90,12 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
             $definedbody = new MP_Group([]);
             foreach ($this->params as $key => $value) {
                 $definedbody->items[] = new MP_Operation(':', new MP_Identifier($key),
-                    new MP_Indexing(new MP_Identifier('__ct2_foreach___' . $key),
-                    [
+                    new MP_Indexing(new MP_Identifier('__ct2_foreach___' . $key), [
                         new MP_List([
-                            new MP_FunctionCall(new MP_Identifier('ev'),
-                    [new MP_Identifier('__ct2_foreach___iter'), new MP_Identifier('simp')]),
+                            new MP_FunctionCall(new MP_Identifier('ev'), [
+                                new MP_Identifier('__ct2_foreach___iter'),
+                                new MP_Identifier('simp'),
+                            ]),
                         ]),
                     ]));
             }

@@ -504,8 +504,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             $errors[] = trim(stack_string('stackCas_unknownVariableCase',
                                 [
                                     'forbid' => stack_maxima_format_casstring($n),
-                                    'lower' => stack_maxima_format_casstring(
-                                    implode(', ', $vars)),
+                                    'lower' => stack_maxima_format_casstring(implode(', ', $vars)),
                                 ]));
                             if (array_search('unknownVariableCase', $answernotes) === false) {
                                 $answernotes[] = 'unknownVariableCase';
@@ -528,8 +527,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                             $errors[] = trim(stack_string('stackCas_unknownVariableCase',
                                 [
                                     'forbid' => stack_maxima_format_casstring($n),
-                                    'lower' => stack_maxima_format_casstring(
-                                    implode(', ', $vars)),
+                                    'lower' => stack_maxima_format_casstring(implode(', ', $vars)),
                                 ]));
                             if (array_search('unknownVariableCase', $answernotes) === false) {
                                 $answernotes[] = 'unknownVariableCase';

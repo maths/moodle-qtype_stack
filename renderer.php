@@ -175,7 +175,7 @@ class qtype_stack_renderer extends qtype_renderer {
         // Alert a teacher to questions without tests or deployed variants.
         $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
         $links = array();
-        if (($question->has_random_variants() && count($question->deployedseeds) == 0) ||
+        if (($question->has_random_variants() && empty($question->deployedseeds)) ||
             count($testscases) == 0) {
             $links[] = html_writer::link(
                 $question->qtype->get_question_test_url($question),

@@ -34,7 +34,6 @@ let FETCH_PROMISES = {};
  * For use with `stack_js.register_external_button_listener`
  */
 let BUTTON_CALLBACKS = {};
-let BUTTON_PROMISES = {}
 
 /* A promise that will resolve when we first hear from the VLE side.
  * It is important to not send anything before we are absolutely certain that
@@ -100,7 +99,7 @@ window.addEventListener("message", (e) => {
     case 'initial-input':
         // 1. Get the input we have prepared.
         const element = document.getElementById(msg.name);
-        
+
         // 2. Set its value. But don't trigger changes.
         DISABLE_CHANGES[msg.name] = true;
         element.value = msg.value;
@@ -142,28 +141,6 @@ window.addEventListener("message", (e) => {
             // Next request will create a new fetch.
             delete FETCH_PROMISES[msg.target];
         }
-        break;    case 'initial-button':
-        // 1. Get the input we have prepared.
-        const button_elem = document.getElementById(msg.name);
-
-        // 2. Resolve the promise so that things can move forward.
-        BUTTON_PROMISES[msg.name](button_elem.id);
-
-        // 3. Remove the promise from our logic so that the timeout 
-        // logic does not trigger.
-        delete BUTTON_PROMISES[msg.name];
-        
-        break;
-    case 'clicked-button':
-        // 1. Find the input.
-        const button = document.getElementById(msg.name);
-
-        // 2. Set its value. But don't trigger changes.
-        DISABLE_CHANGES[msg.name] = true;
-        const button_c = new Event('click');
-        button.dispatchEvent(button_c);
-        DISABLE_CHANGES[msg.name] = false;
-
         break;
     case 'ping':
         clearInterval(pinger);
@@ -263,7 +240,7 @@ export const stack_js = {
                 src: FRAME_ID
             };
             if (inputevents === true) {
-                msg['track-input'] = true; 
+                msg['track-input'] = true;
             }
             if (limittoquestion !== undefined) {
                 msg['limit-to-question'] = limittoquestion;
@@ -314,56 +291,6 @@ export const stack_js = {
             src: FRAME_ID
         };
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
-    },
-
-    request_access_to_button: function(buttonname, buttonevents) {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.id = buttonname;
-        DISABLE_CHANGES[buttonname] = false;
-
-        document.body.appendChild(button);
-
-        button.addEventListener('click', (e) => {
-            if (!DISABLE_CHANGES[buttonname]) {
-                // Just send a message.
-                const msg = {
-                    version: 'STACK-JS:1.0.0',
-                    type: 'clicked-button',
-                    name: buttonname,
-                    src: FRAME_ID
-                };
-                CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
-            }
-        });
-
-        // Send the connection request.
-        CONNECTED.then((whatever) => {
-            const msg ={
-                version: 'STACK-JS:1.0.0',
-                type: 'register-button-listener', 
-                name: buttonname,
-                src: FRAME_ID
-            };
-            if (buttonevents === true) {
-                msg['track-button'] = true; 
-            }
-            window.parent.postMessage(JSON.stringify(msg), '*');
-        });
-
-        // So our promise passes that resolve onto a dict
-        // from which it will be resolved if we get 
-        // the correct message after resolving it will be
-        // removed from that dict, if not removed then when 
-        // this times out we will reject this promise.
-        return new Promise((resolve, reject) => {
-            BUTTON_PROMISES[buttonname] = resolve;
-            setTimeout(() => {
-                if (buttonname in BUTTON_PROMISES) {
-                    reject('No response to button registration of "' + buttonname + '" in 5s.');
-                }
-            }, 5000);
-        });
     },
 
     /**
@@ -462,7 +389,7 @@ export const stack_js = {
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     },
 
-    /**  
+    /** 
      * Displays an error message on the question page.
      * 
      * @param {*} errmesg 
@@ -563,4 +490,5 @@ export const stack_js = {
         CONNECTED.then(() => {window.parent.postMessage(JSON.stringify(msg), '*');});
     }
 };
-export default stack_js; 
+
+export default stack_js;

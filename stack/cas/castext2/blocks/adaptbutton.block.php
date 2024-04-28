@@ -40,21 +40,19 @@ class stack_cas_castext2_adaptbutton extends stack_cas_castext2_block {
         $body->items[] = new MP_String('<button type="button" class="btn btn-secondary" id="stack-adaptbutton-' . 
         $uid . '">' . $this->params['title'] . '</button>');
 
-        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.js') . "';\n";
-        //$code .= "var counter=0;\n";
+        $code = "\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n";
+
+        //TODO: Add a counter, amount of button clicks
         $code .= "stack_js.request_access_to_input('" . $this->params['save_state'] . "', true).then((id) => {\n";
         $code .= "const input = document.getElementById(id);\n";
         $code .= "if (input.value=='true'){ hide_and_show(); }\n";
-        $code .= "stack_js.request_access_to_button('stack-adaptbutton-". $uid . "', true).then((id) => {\n";
-        $code .= "const button = document.getElementById(id);\n";
-        $code .= "button.addEventListener('click',(e)=>{\n";
-        $code .= "input.value='true';\n";
-        //$code .= "input.value=counter++;\n";
-        $code .= "input.dispatchEvent(new Event('change'));\n";
-        $code .= "hide_and_show();\n";
-        $code .= "\n});\n"; // end of button event click
-        $code .= "});\n"; // end of button request
+        $code .= "stack_js.register_external_button_listener('stack-adaptbutton-". $uid . "', function() {";
+        $code .= 'input.value="true";';
+        $code .= 'input.dispatchEvent(new Event("change"));';
+        $code .= "hide_and_show();";
+        $code .= "});\n";
         $code .= "});\n"; // end of input request
+
         $code .= "function hide_and_show(){";
             if (isset($this->params['show_ids'])) {
                 $split_show_id = preg_split ("/[\ \n\;]+/", $this->params['show_ids']); 

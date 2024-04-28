@@ -31,10 +31,9 @@
  * @copyright  2023 Aalto University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-define(
-    "qtype_stack/stackjsvle",
-    ['core/event'], 
-    function(
+define([
+    'core_filters/events'
+], function(
     CustomEvents
 ) {
     'use strict';
@@ -49,14 +48,12 @@ define(
     /* For event handling, lists of IFRAMES listening particular inputs.
      */
     let INPUTS = {};
-    let BUTTONS = {};
 
     /* For event handling, lists of IFRAMES listening particular inputs
      * and their input events. By default we only listen to changes.
      * We report input events as changes to the other side.
      */
     let INPUTS_INPUT_EVENT = {};
-    let BUTTONS_BUTTON_EVENT = {}; 
 
     /* A flag to disable certain things. */
     let DISABLE_CHANGES = false;
@@ -233,31 +230,12 @@ define(
         }
         return null;
     }
-    //For a button with access to input (adaptbutton)
-    function vle_get_button_element(name, srciframe) {
-        let initialcandidate = document.getElementById(srciframe);
-        let iter = initialcandidate;
-        while (iter && !iter.classList.contains('formulation')) {
-            iter = iter.parentElement;
-        }
-        if (iter && iter.classList.contains('formulation')) {
-            // iter now represents the borders of the question containing
-            // this IFRAME.
-            let possible = iter.querySelector('button[id$="' + name + '"]');
-            if (possible !== null) {
-                return possible;
-            }
-        }
-        // If none found within the question itself, search everywhere.
-        let possible = document.querySelector('.formulation button[id$="' + name + '"]');
-        return possible;
-    }
+
     /**
      * Triggers any VLE specific scripting related to updates of the given
      * input element.
      *
      * @param {HTMLElement} inputelement the input element that has changed
-     * @param {HTMLElement} buttonelement the button element that has clicked
      */
     function vle_update_input(inputelement) {
         // Triggering a change event may be necessary.
@@ -269,12 +247,7 @@ define(
         if (inputelement.type === 'radio' || inputelement.type === 'checkbox') {
             const k = new Event('click');
             inputelement.dispatchEvent(k);
-        } 
-    }
-    function vle_update_button(buttonelement) {
-        // Triggering a click event may be necessary.
-        const c = new Event('click');
-        buttonelement.dispatchEvent(c);
+        }
     }
 
     /**
@@ -395,7 +368,6 @@ define(
         }
         let element = null;
         let input = null;
-        let button = null;
 
         let response = {
             version: 'STACK-JS:1.3.0'
@@ -560,82 +532,6 @@ define(
             }
 
             break;
-        case 'register-button-listener':
-            // 1. Find the button.
-            button = vle_get_button_element(msg.name, msg.src);
-
-            if (button === null) {
-                // Requested something that is not available.
-                response.type = 'error';
-                response.msg = 'Failed to connect to button: "' + msg.name + '"';
-                response.tgt = msg.src;
-                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
-                return;
-            }
-
-            response.type = 'initial-button';
-            response.name = msg.name;
-            response.tgt = msg.src;
-            response['button-type'] = 'button';
-
-            // 2. Add listener for click of this button.
-            if (button.id in BUTTONS) {
-                if (msg.src in BUTTONS[button.id]) {
-                    // DO NOT BIND TWICE!
-                    return;
-                }
-                BUTTONS[button.id].push(msg.src);
-            } else {
-                BUTTONS[button.id] = [msg.src];
-                button.addEventListener('click', () => {
-                        if (DISABLE_CHANGES) {
-                            return;
-                        }
-                        let resp = {
-                            version: 'STACK-JS:1.0.0',
-                            type: 'clicked-button',
-                            name: msg.name,
-                        };
-                        for (let tgt of BUTTONS[button.id]) {
-                            resp['tgt'] = tgt;
-                            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
-                        }
-                    });
-            }
-            if (('track-button' in msg) && msg['track-button']) {
-                if (button.id in BUTTONS_BUTTON_EVENT) {
-                    if (msg.src in BUTTONS_BUTTON_EVENT[button.id]) {
-                        // DO NOT BIND TWICE!
-                        return;
-                    }
-                    BUTTONS_BUTTON_EVENT[button.id].push(msg.src);
-                } else {
-                    BUTTONS_BUTTON_EVENT[button.id] = [msg.src];
-
-                    button.addEventListener('click', () => {
-                        if (DISABLE_CHANGES) {
-                            return;
-                        }
-                        let resp = {
-                            version: 'STACK-JS:1.0.0',
-                            type: 'clicked-button',
-                            name: msg.name
-                        };
-                        for (let tgt of BUTTONS_BUTTON_EVENT[button.id]) {
-                            resp['tgt'] = tgt;
-                            IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(resp), '*');
-                        }
-                    });
-                }
-            }
-
-            // 3. Let the requester know that we have bound things
-            //    and let it know the initial value.
-            if (!(msg.src in BUTTONS[button.id])) {
-                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(response), '*');
-            }
-                
-            break;
         case 'changed-input':
             // 1. Find the input.
             input = vle_get_input_element(msg.name, msg.src);
@@ -680,7 +576,7 @@ define(
                 }
             }
             break;
-        case 'clear-input': 
+        case 'clear-input':
             // 1. Find the input.
             input = vle_get_input_element(msg.name, msg.src);
 
@@ -756,39 +652,6 @@ define(
             });
 
             break;
-
-        case 'clicked-button':  
-            // 1. Find the button.
-            button = vle_get_button_element(msg.name, msg.src);
-
-            if (button === null) {
-                // Requested something that is not available.
-                const ret = {
-                    version: 'STACK-JS:1.0.0',
-                    type: 'error',
-                    msg: 'Failed to click button: "' + msg.name + '"',
-                    tgt: msg.src
-                };
-                IFRAMES[msg.src].contentWindow.postMessage(JSON.stringify(ret), '*');
-                return;
-            }
-
-            // Trigger VLE side actions.
-            vle_update_button(button);
-
-            // Tell all other frames, that care, about this.
-            response.type = 'clicked-button';
-            response.name = msg.name;
-
-            for (let tgt of BUTTONS[button.id]) {
-                if (tgt !== msg.src) {
-                    response.tgt = tgt;
-                    IFRAMES[tgt].contentWindow.postMessage(JSON.stringify(response), '*');
-                }
-            }
-
-            break;
- 
         case 'toggle-visibility':
             // 1. Find the element.
             element = vle_get_element(msg.target);
@@ -928,7 +791,6 @@ define(
             return;
         case 'submit-button-info':
         case 'initial-input':
-        case 'initial-button':
         case 'error':
             // These message types are for the other end.
             break;
@@ -1016,4 +878,3 @@ define(
 
     };
 });
- 

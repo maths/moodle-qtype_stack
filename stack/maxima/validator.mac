@@ -39,10 +39,7 @@ stack_validate_checkvars(sexpr, texpr, chkopt) := block([%_sansvar,%_tansvar,%_e
     return(%_errstr)
 )$
 
-stack_validate(expr, LowestTerms, TAns, fltfmt, chkopt) := block([simp:false, exs, SameType, fvs, fvs1, fvs2, chkvars],
-  /* If we have a float format, then use it. */
-  if not(is(fltfmt=false)) then
-    stackfltfmt:fltfmt,
+stack_validate(expr, LowestTerms, TAns, chkopt) := block([simp:false, exs, SameType, fvs, fvs1, fvs2, chkvars],
   /* Try to simply the expression to catch CAS errors */
   exs: errcatch(ev(expr, simp)),
   if exs = [] then (
@@ -83,10 +80,7 @@ stack_validate(expr, LowestTerms, TAns, fltfmt, chkopt) := block([simp:false, ex
 )$
 
 /* Validate an expression without type checking. Floats and mathematical errors only. */
-stack_validate_typeless(expr, LowestTerms, TAns, fltfmt, chkopt, Equiv) := block([simp:false, exs, fvs, fvs1, fvs2],
-  /* If we have a float format, then use it. */
-  if not(is(fltfmt=false)) then
-    stackfltfmt:fltfmt,
+stack_validate_typeless(expr, LowestTerms, TAns, chkopt, Equiv) := block([simp:false, exs, fvs, fvs1, fvs2],
   /* Try to simply the expression to catch CAS errors */
   exs: errcatch(ev(expr, simp)),
   if exs = [] then (

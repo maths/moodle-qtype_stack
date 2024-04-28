@@ -41,7 +41,8 @@ class stack_matrix_input extends stack_input {
         'rationalized' => false,
         'consolidatesubscripts' => false,
         'checkvars' => 0,
-        'validator' => false
+        'validator' => false,
+        'feedback' => false,
     );
 
     public function adapt_to_model_answer($teacheranswer) {
@@ -217,7 +218,7 @@ class stack_matrix_input extends stack_input {
             // @codingStandardsIgnoreEnd
             $rows = $this->modinput_tokenizer(substr($t, 7, -1));
             for ($i = 0; $i < count($rows); $i++) {
-                $row = $this->modinput_tokenizer(substr($rows[$i], 1, -1));
+                $row = $this->modinput_tokenizer(substr(trim($rows[$i]), 1, -1));
                 $tc[$i] = $row;
             }
         }
@@ -235,15 +236,16 @@ class stack_matrix_input extends stack_input {
      * @param array $contents the content array of the student's input.
      * @return array of the validity, errors strings and modified contents.
      */
-    // not for var
     protected function validate_contents($contents, $basesecurity, $localoptions) {
 
-        $valid = true;
         $errors = array();
         $notes = array();
-        $caslines = array();
+        $valid = true;
 
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
+        // Separate rules for inert display logic, which wraps floats with certain functions.
+        $secrulesd = clone $secrules;
+        $secrulesd->add_allowedwords('dispdp,displaysci');
 
         // Now validate the input as CAS code.
         $modifiedcontents = array();
@@ -252,9 +254,10 @@ class stack_matrix_input extends stack_input {
         } else {
             foreach ($contents as $row) {
                 $modifiedrow = array();
+                $inertrow = array();
                 foreach ($row as $val) {
                     $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                        array(), 'Root', $localoptions->get_option('decimals'));
+                        array(), 'Root', $this->options->get_option('decimals'));
                     if ($answer->get_valid()) {
                         $modifiedrow[] = $answer->get_inputform();
                     } else {
@@ -292,8 +295,14 @@ class stack_matrix_input extends stack_input {
         $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
+        // We don't use the decimals option below, because we've already used it above.
+        $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd,
+            array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+            array(), 'Root', '.');
+        $inertform->get_valid();
 
-        return array($valid, $errors, $notes, $answer, $caslines); 
+        $caslines = array();
+        return array($valid, $errors, $notes, $answer, $caslines, $inertform, $caslines);
     }
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -302,15 +311,23 @@ class stack_matrix_input extends stack_input {
             return $this->render_error($this->errors);
         }
 
+        // Note that at the moment, $this->boxHeight and $this->boxWidth are only
+        // used as minimums. If the current input is bigger, the box is expanded.
+        $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
         $attributes = array(
             'name'           => $fieldname,
             'id'             => $fieldname,
             'autocapitalize' => 'none',
-            'spellcheck'     => 'false'
+            'spellcheck'     => 'false',
+            'class'          => 'varmatrixinput',
+            'size'           => $this->parameters['boxWidth'] * 1.1,
+            'style'          => 'width: '.$size.'em',
         );
 
+        $attr='';
         if ($readonly) {
             $attributes['readonly'] = 'readonly';
+            $attr = ' readonly';
         }
 
         $tc = $state->contents;
@@ -343,7 +360,6 @@ class stack_matrix_input extends stack_input {
         }
 
         // Read matrix bracket style from options.
-        // The default brackets for matrices are square in options.
         $matrixbrackets = 'matrixsquarebrackets';
         $matrixparens = $this->options->get_option('matrixparens');
         if ($matrixparens == '(') {
@@ -355,8 +371,7 @@ class stack_matrix_input extends stack_input {
         }
         if ($this->get_size()=='fix') {
             // Build the html table to contain these values.
-            $xhtml = html_writer::start_div($matrixbrackets);
-            $xhtml .= '<table class="matrixtable" id="' . $fieldname .
+            $xhtml = '<div class="' . $matrixbrackets . '"><table class="matrixtable" id="' . $fieldname .
                     '_container" style="display:inline; vertical-align: middle;" ' .
                     'cellpadding="1" cellspacing="0"><tbody>';
             for ($i = 0; $i < $this->height; $i++) {
@@ -381,12 +396,10 @@ class stack_matrix_input extends stack_input {
                     if ($useplaceholder) {
                         $field = 'placeholder';
                     }
-                    $attributes['id'] = $fieldname.'_sub_'.$i.'_'.$j;
-                    $attributes['name'] = $fieldname.'_sub_'.$i.'_'.$j;
-                    $attributes[$field] = $val;
-                    $attributes['size'] = $this->parameters['boxWidth'];
-                    $input = html_writer::start_tag('input',$attributes);
-                    $xhtml .= '<td>'.$input.'</td>';
+                    $name = $fieldname.'_sub_'.$i.'_'.$j;
+                    $xhtml .= '<td><input type="text" id="'.$name.'" name="'.$name.'" '.$field.'="'.$val.'" size="'.
+                            $this->parameters['boxWidth'].'" autocapitalize="none" spellcheck="false" '.$attr.'></td>';
+    
                 }
 
                 if ($i == 0) {
@@ -403,18 +416,8 @@ class stack_matrix_input extends stack_input {
         }
 
         if ($this->get_size()=='var') {
-            // Note that at the moment, $this->boxHeight and $this->boxWidth are only
-            // used as minimums. If the current input is bigger, the box is expanded.
-            $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
-            $attributes['class'] = 'varmatrixinput';
-            $attributes['size'] = $this->parameters['boxWidth'] * 1.1;
-            $attributes['style'] = 'width: '.$size.'em';
-
             // Sort out size of text area.
             $sizecontent = $current;
-            if ($this->is_blank_response($state->contents) && $this->parameters['syntaxAttribute'] == '1') {
-                $sizecontent = $attributes['placeholder'];
-            }
             $rows = stack_utils::list_to_array($sizecontent, false);
             $attributes['rows'] = max(5, count($rows) + 1);
 
@@ -427,6 +430,43 @@ class stack_matrix_input extends stack_input {
             $xhtml = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
             return html_writer::tag('div', $xhtml, array('class' => $matrixbrackets));
         }
+    }
+
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'matrix';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['width'] = $this->width;
+        $data['height'] = $this->height;
+
+        $syntaxhint = $this->parameters['syntaxHint'];
+        $data['syntaxHint'] = null;
+        if (trim($syntaxhint) != '') {
+            $data['syntaxHint'] = $this->maxima_to_array($syntaxhint);
+        }
+        if ($this->get_size()=='var'){
+            $data['syntaxHint'] = $this->maxima_to_raw_input($syntaxhint);
+        }
+
+        // Read matrix bracket style from options.
+        $matrixbrackets = 'matrixroundbrackets';
+        $matrixparens = $this->options->get_option('matrixparens');
+        if ($matrixparens == '[') {
+            $matrixbrackets = 'matrixsquarebrackets';
+        } else if ($matrixparens == '|') {
+            $matrixbrackets = 'matrixbarbrackets';
+        } else if ($matrixparens == '') {
+            $matrixbrackets = 'matrixnobrackets';
+        }
+
+        $data['matrixbrackets'] = $matrixbrackets;
+
+        return $data;
     }
 
     /**
@@ -657,6 +697,23 @@ class stack_matrix_input extends stack_input {
         }
 
         return $out;
+    }
+
+    /**
+     * Function added for API support
+     */
+    public function get_api_solution($ta)
+    {
+        // We dont want to include the inputname in the solution, therefore we clear the name,
+        // and set it back later after saving the solution
+        $name = $this->name;
+        $this->name = '';
+
+        $solution = $this->maxima_to_response_array($ta);
+
+        $this->name = $name;
+
+        return $solution;
     }
 
     protected function caslines_to_answer($caslines, $secrules = false) {

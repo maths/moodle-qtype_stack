@@ -49,14 +49,12 @@ $title = 'Dependency checker';
 $PAGE->set_title($title);
 
 // Figure out the number of questions that can be explored.
+// In Moodle 4+ hidden questions occur when they are included in a quiz, but then are deleted from the question bank.
+// In this case the database sets the field `status` to `'hidden'` within the question versions database.
 $query = 'SELECT count(*) as notcompiled FROM {question} q, ' .
-    '{qtype_stack_options} o WHERE q.id = o.questionid AND o.compiledcache = ?;';
-// TODO: figure out about hidden questions in Moodle 4+.
-// This needs to be added to all versions below in which I've omitted this clause.
-if (stack_determine_moodle_version() < 400) {
-    $query = 'SELECT count(*) as notcompiled FROM {question} q, ' .
-        '{qtype_stack_options} o WHERE q.id = o.questionid AND q.hidden = 0 AND o.compiledcache = ?;';
-}
+    '{qtype_stack_options} o, {question_versions} v WHERE q.id = o.questionid AND q.id = v.id ' . '
+    AND NOT v.status = "hidden" AND o.compiledcache = ?;';
+
 $notcompiled = $DB->get_recordset_sql($query, ['{}']);
 
 $nnotcompiled = 0;
@@ -67,11 +65,8 @@ foreach ($notcompiled as $item) {
 $notcompiled->close();
 
 $query = 'SELECT count(*) as compiled FROM {question} q, ' .
-    '{qtype_stack_options} o WHERE q.id = o.questionid AND NOT o.compiledcache = ?;';
-if (stack_determine_moodle_version() < 400) {
-    $query = 'SELECT count(*) as compiled FROM {question} q, {qtype_stack_options} ' .
-        'o WHERE q.id = o.questionid AND q.hidden = 0 AND NOT o.compiledcache = ?;';
-}
+    '{qtype_stack_options} o, {question_versions} v WHERE q.id = o.questionid AND q.id = v.id ' . '
+    AND NOT v.status = "hidden" AND o.compiledcache = ?;';
 
 $compiled = $DB->get_recordset_sql($query, ['{}']);
 
@@ -97,6 +92,9 @@ echo $OUTPUT->single_button(
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, array('jsxgraphs' => 1, 'sesskey' => sesskey())),
     'Find "jsxgraphs"');
+echo $OUTPUT->single_button(
+    new moodle_url($PAGE->url, array('geogebras' => 1, 'sesskey' => sesskey())),
+    'Find "geogebra"');
 echo $OUTPUT->single_button(
     new moodle_url($PAGE->url, array('script' => 1, 'sesskey' => sesskey())),
     'Find "<script"');
@@ -128,12 +126,8 @@ if (data_submitted() && optional_param('includes', false, PARAM_BOOL)) {
             (isset($q->compiledcache['includes']['keyval']) && count($q->compiledcache['includes']['keyval']) > 0) ||
             (isset($q->compiledcache['includes']['castext']) && count($q->compiledcache['includes']['castext']) > 0))) {
             list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-            if (stack_determine_moodle_version() < 400) {
-                $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
-            } else {
-                $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                     null, null, null, null, $context);
-            }
             echo "<tr><td>" . $q->name . ' ' .
                 $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td>';
             echo '<td>';
@@ -179,9 +173,10 @@ if (data_submitted() && optional_param('jsxgraphs', false, PARAM_BOOL)) {
         $filter = 'false';
         $other = 'false';
         $json = json_encode($q->compiledcache);
-        if (mb_strpos($json, '[\\"jsxgraph\\",') !== false) {
+        if (mb_strpos($json, 'STACK JSXGraph') !== false && mb_strpos($json, 'JSXGRAPH_COUNT') !== false) {
             $block = 'true';
-            $json = str_replace('[\\"jsxgraph\\",', '', $json);
+            $json = str_replace('STACK JSXGraph', '', $json);
+            $json = str_replace('JSXGRAPH_COUNT', '', $json);
         }
         if (mb_strpos($json, '</jsxgraph>') !== false) {
             $filter = 'true';
@@ -189,17 +184,63 @@ if (data_submitted() && optional_param('jsxgraphs', false, PARAM_BOOL)) {
             $json = str_replace('<jsxgraph', '', $json);
         }
         if (mb_stripos($json, 'jsxgraph') !== false) {
+            // This currentyl provides false positives, as it cannot separate loaded
+            // scripts from those loaded through the block.
+            $other = 'true';
+            if ($block === 'true') {
+                $other = 'maybe';
+            }
+        }
+        // Confirm that it does have these.
+        if ($block || $filter || $other) {
+            list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
+            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+                    null, null, null, null, $context);
+            echo "<tr><td>" . $q->name . ' ' .
+                $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td>';
+            echo "<td>$block</td><td>$filter</td><td>$other</td></tr>";
+        }
+    }
+    echo '</tbody></table>';
+}
+
+if (data_submitted() && optional_param('geogebras', false, PARAM_BOOL)) {
+    /*
+     * GeoGebra Graphs are spotted from the compiled cache, finding '["geogebra",'
+     * means that there are STACK block based GeoGebra. '</geogebra>' would
+     * mean that the official filter is in play, if we find "geogebra" in any other
+     * form then we probably have something else in play or a "TODO" note.
+     */
+    $qs = $DB->get_recordset_sql('SELECT q.id as questionid FROM {question} q, {qtype_stack_options} o WHERE ' .
+        'q.id = o.questionid AND ' .
+        $DB->sql_like('o.compiledcache', ':trg', false) . ';', ['trg' => '%geogebra%']);
+    echo '<h4>Questions containing GeogGebra related terms</h4>';
+    echo '<table><thead><tr><th>Question</th>' .
+        '<th>[[geogebra]]</th><th>&lt;geogebra</th><th>Other</th></tr></thead><tbody>';
+    // Load the whole question, simpler to get the contexts correct that way.
+    foreach ($qs as $item) {
+        $q = question_bank::load_question($item->questionid);
+        $block = 'false';
+        $filter = 'false';
+        $other = 'false';
+        $json = json_encode($q->compiledcache);
+        if (mb_strpos($json, '[\\"geogebra\\",') !== false) {
+            $block = 'true';
+            $json = str_replace('[\\"geogebra\\",', '', $json);
+        }
+        if (mb_strpos($json, '</geogebra>') !== false) {
+            $filter = 'true';
+            $json = str_replace('</geogebra>', '', $json);
+            $json = str_replace('<geogebra', '', $json);
+        }
+        if (mb_stripos($json, 'geogebra') !== false) {
             $other = 'true';
         }
         // Confirm that it does have these.
         if ($block || $filter || $other) {
             list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-            if (stack_determine_moodle_version() < 400) {
-                $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
-            } else {
-                $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                     null, null, null, null, $context);
-            }
             echo "<tr><td>" . $q->name . ' ' .
                 $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td>';
             echo "<td>$block</td><td>$filter</td><td>$other</td></tr>";
@@ -221,12 +262,9 @@ if (data_submitted() && optional_param('script', false, PARAM_BOOL)) {
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-        if (stack_determine_moodle_version() < 400) {
-            $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
-        } else {
-            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+        $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                 null, null, null, null, $context);
-        }
+    
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
     }
@@ -246,12 +284,8 @@ if (data_submitted() && optional_param('PLUGINFILE', false, PARAM_BOOL)) {
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-        if (stack_determine_moodle_version() < 400) {
-            $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
-        } else {
-            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+        $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                 null, null, null, null, $context);
-        }
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
     }
@@ -271,12 +305,9 @@ if (data_submitted() && optional_param('langs', false, PARAM_BOOL)) {
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-        if (stack_determine_moodle_version() < 400) {
-            $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
-        } else {
-            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+        $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                 null, null, null, null, $context);
-        }
+
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td><td>';
         echo implode(', ', $q->get_cached('langs'));
@@ -298,12 +329,8 @@ if (data_submitted() && optional_param('todo', false, PARAM_BOOL)) {
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-        if (stack_determine_moodle_version() < 400) {
-            $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
-        } else {
-            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+        $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                 null, null, null, null, $context);
-        }
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
     }

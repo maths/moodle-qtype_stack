@@ -800,7 +800,7 @@ C:C;]]></text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>Consider the real function</p>
-<p>\[ f(x) :=\left\{ \begin{array}{ll} {@f0@} &amp; \mbox{for } x\leq {@x0@}, \\ p(x) &amp; \mbox{for } {@x0@} &lt; x &lt; {@x1@}, \\ {@f1@} &amp; \mbox{for } {@x1@}\leq x.\end{array} \right. \]</p>
+<p>\[ f(x) :=\left\{ \begin{array}{ll} {@f0@} &amp; \text{for } x\leq {@x0@}, \\ p(x) &amp; \text{for } {@x0@} &lt; x &lt; {@x1@}, \\ {@f1@} &amp; \text{for } {@x1@}\leq x.\end{array} \right. \]</p>
 <p>{@plot(pg,[x,(x0-3),(x1+3)],[y,-3,3])@}</p>
 <p>Find the cubic polynomial \(p(x)\) which makes \(f(x)\) continuously differentiable. </p>
 <p>\(p(x)=\)[[input:ans1]]</p>
@@ -1666,7 +1666,7 @@ sa2:ans3-subst(x=-x,ans3);</text>
       <text>text_7_solve_quadratic</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p></p><p>Solve {@first(ta)@}, by factoring and working line by line. &nbsp;Leave your answer in the form \({@v@}=\cdots \mbox{ or } {@v@}=\cdots\) in fully simplified form.</p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
+      <text><![CDATA[<p></p><p>Solve {@first(ta)@}, by factoring and working line by line. &nbsp;Leave your answer in the form \({@v@}=\cdots \text{ or } {@v@}=\cdots\) in fully simplified form.</p><p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
       <text><![CDATA[<p>\[ {@stack_disp_arg(ta, true)@} \]</p>]]></text>
@@ -1780,7 +1780,7 @@ foundfac2:ev(any_listp(lambda([ex], second(ATFacForm(lhs(ex),lhs(ex),x))), found
         <falsenextnode>2</falsenextnode>
         <falseanswernote>prt1-2-F</falseanswernote>
         <falsefeedback format="html">
-          <text><![CDATA[Your answer is not in the correct form, which is \({@v@}=\cdots \mbox{ or } {@v@}=\cdots\) where numbers are fully simplified.<p><br></p>]]></text>
+          <text><![CDATA[Your answer is not in the correct form, which is \({@v@}=\cdots \text{ or } {@v@}=\cdots\) where numbers are fully simplified.<p><br></p>]]></text>
         </falsefeedback>
       </node>
       <node>

@@ -1,0 +1,30 @@
+/****************************************************************/
+thm:"\\(n\\) is odd if and only if \\(n^2\\) is odd.";
+
+/****************************************************************/
+proof_steps: [
+    ["assodd",     "Assume that \\(n\\) is odd.",
+                   "This is the hypothesis in the first half of an if any only if proof"],
+    ["defn_odd",   "Then there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m+1\\)."],
+    ["alg_odd",    "\\( n^2 = (2m+1)^2 = 2(2m^2+2m)+1.\\)"],
+    ["def_M_odd",  "Define \\(M=2m^2+2m\\in\\mathbb{Z}\\) then \\(n^2=2M+1\\).",
+                   "Notice we have satisfied the algebraic definition that \\(n^2\\) is an odd number."],
+    ["conc_odd",   "Hence \\(n^2\\) is odd.",
+                   "This is the conclusion in the first half of an if any only if proof"],
+
+    ["contrapos",  "We reformulate \"\\(n^2\\) is odd \\(\\Rightarrow \\) \\(n\\) is odd \" as the contrapositive.",
+                   "This reformulation enables us to start with \\(n\\) and not start with \\(n^2\\) which is simpler."],
+    ["assnotodd",  "Assume that \\(n\\) is not odd.",
+                   "This is the reformulated hypothesis in the second half of an if any only if proof"],
+    ["even",       "Then \\(n\\) is even, and so there exists an \\(m\\in\\mathbb{Z}\\) such that \\(n=2m\\)."],
+    ["alg_even",   "\\( n^2 = (2m)^2 = 2(2m^2).\\)"],
+    ["def_M_even", "Define \\(M=2m^2\\in\\mathbb{Z}\\) then \\(n^2=2M\\)."],
+    ["conc_even",  "Hence \\(n^2\\) is even.",
+                   "This is the conclusion in the second half of an if any only if proof"
+    ]
+];
+
+/****************************************************************/
+/* This is how the teacher defines their answer, as nested proofs. */
+proof_ans:proof_iff(proof(1,2,3,4,5),proof(6,7,8,9,10,11));
+proof_ans:proof_iff(proof("assodd","defn_odd","alg_odd","def_M_odd","conc_odd"),proof("contrapos","assnotodd","even","alg_even","def_M_even","conc_even"));

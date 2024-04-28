@@ -341,6 +341,19 @@ class castext2_test extends qtype_stack_testcase {
     }
 
     /**
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     * @covers \qtype_stack\stack_options
+     */
+    public function test_latex_matrixparens_indirect_lmxchar() {
+        $input = '\[ f(x) := \left\{ {@(lmxchar:"", f)@} \right. \]';
+        $preamble = array('f:matrix([4*x+4, x<1],[-x^2-4*x-8, x>=1])');
+        $output = '\[ f(x) := \left\{ {\begin{array}{cc} 4\cdot x+4 & x < 1 \\\\ ' .
+            '-x^2-4\cdot x-8 & x\geq 1 \end{array}} \right. \]';
+        $options = new stack_options();
+        $this->assertEquals($output, $this->evaluate($input, $preamble, $options));
+    }
+
+    /**
      * Block-system "define"-block, functional requirements:
      *  1. Allow inline changes to any value.
      *  2. Handle simplification.
@@ -479,11 +492,33 @@ class castext2_test extends qtype_stack_testcase {
      *  1. Comments out itself and contents.
      *  2. Even if contents are invalid or incomplete.
      *
-     * @covers \qtype_stack\stack_cas_castext2_comment
+     * @covers \qtype_stack\stack_cas_castext2_todo
      */
     public function test_blocks_todo() {
         $input = '1[[ todo]] [[ foreach bar="foo"]] {#y@} [[/todo]]2';
         $output = '1<!--- stack_todo --->2';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_hint
+     */
+    public function test_blocks_hint() {
+        $input = "1[[hint title=\"Show solution\"]][[if test='is(1>0)']]Solution[[/if]][[/hint]]2";
+        $output = '1<details class="stack-hint"><summary class="btn btn-secondary" >Show solution</summary>' .
+                  '<div class="stack-hint-content">Solution</div></details>2';
+        $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_castext2_hint
+     */
+    public function test_blocks_hint_hint() {
+        $input = "[[hint title=\"Show solution\"]][[hint title=\"Go on....\"]]Solution[[/hint]][[/hint]]";
+        $output = '<details class="stack-hint"><summary class="btn btn-secondary" >Show solution</summary>' .
+                  '<div class="stack-hint-content">' .
+                  '<details class="stack-hint"><summary class="btn btn-secondary" >Go on....</summary>' .
+                  '<div class="stack-hint-content">Solution</div></details></div></details>';
         $this->assertEquals($output, $this->evaluate($input));
     }
 
@@ -570,9 +605,9 @@ class castext2_test extends qtype_stack_testcase {
     public function test_stackintfmt() {
         $input = '{@(stackintfmt:"~:r",a)@}, {@(stackintfmt:"~@R",a)@}';
         $preamble = array('a:1998');
-        $output = '\({\mbox{one thousand nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
+        $output = '\({\text{one thousand nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
         if ($this->adapt_to_new_maxima('5.46.0')) {
-            $output = '\({\mbox{one thousand, nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
+            $output = '\({\text{one thousand, nine hundred ninety-eighth}}\), \({MCMXCVIII}\)';
         }
         $this->assertEquals($output, $this->evaluate($input, $preamble));
     }
@@ -659,6 +694,34 @@ class castext2_test extends qtype_stack_testcase {
         $input = 'A [[castext evaluated="castext(\\"B\\")"/]] C, [[castext evaluated="castext(\\"{@sqrt(2)@}\\")"/]]';
         $output = 'A B C, \\({\\sqrt{2}}\\)';
         $this->assertEquals($output, $this->evaluate($input));
+    }
+
+    /**
+     * @covers \qtype_stack\stack_cas_keyval
+     * @covers \qtype_stack\stack_cas_castext2_latex
+     */
+    public function test_inline_castext_error() {
+        $keyval = 'S:1;T:castext(A_11);';
+        // The inline castext compilation currently only happens for keyvals, not for
+        // singular statements so we need to do something special to get this done.
+        $kv = new stack_cas_keyval($keyval);
+        $kv->get_valid();
+        $kvcode = $kv->compile('test')['statement'];
+        $statements = [new stack_secure_loader($kvcode, 'test-kv')];
+
+        $input = '{@castext(A_12)@}';
+        $output = '<h3>Rendering of text content failed.</h3><ul><li>This text content was never evaluated.</li></ul>';
+
+        $result = castext2_evaluatable::make_from_source($input, 'castext-test-case');
+        $this->assertFalse($result->get_valid());
+
+        $statements[] = $result;
+        $session = new stack_cas_session2($statements);
+        // We know this session is invalid, so don't try to instantiate it now!
+
+        $this->assertEquals('castext()-compiler, wrong argument. Only works with one direct raw string. ' .
+            'And possibly a format descriptor.', $session->get_errors());
+        $this->assertEquals($output, $result->get_rendered());
     }
 
     // Test common string population.

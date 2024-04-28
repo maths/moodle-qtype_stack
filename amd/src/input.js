@@ -36,7 +36,7 @@
  */
 define([
     'core/ajax',
-    'core/event'
+    'core_filters/events'
 ], function(
     Ajax,
     CustomEvents
@@ -53,8 +53,9 @@ define([
      * @param {String} qaid id of the question_attempt.
      * @param {String} name the name of the input we are validating.
      * @param {Object} input An object representing the input element for this input.
+     * @param {String} language display language for this attempt.
      */
-    function StackInput(validationDiv, prefix, qaid, name, input) {
+    function StackInput(validationDiv, prefix, qaid, name, input, language) {
         /** @type {number} delay between the user stopping typing, and the ajax request being sent. */
         var TYPING_DELAY = 1000;
 
@@ -118,7 +119,7 @@ define([
         function validateInput() {
             Ajax.call([{
                 methodname: 'qtype_stack_validate_input',
-                args: {qaid: qaid, name: name, input: getInputValue()},
+                args: {qaid: qaid, name: name, input: getInputValue(), lang: language},
                 done: function(response) {
                     validationReceived(response);
                 },
@@ -430,17 +431,22 @@ define([
      */
     function initInputs(questionDivId, prefix, qaid, inputs) {
         var questionDiv = document.getElementById(questionDivId);
+        var language = null;
+        var langInput = document.getElementsByName(prefix + 'step_lang');
+        if (langInput.length > 0 && langInput[0].value) {
+            language = langInput[0].value;
+        }
 
         // Initialise all inputs.
         var allok = true;
         for (var i = 0; i < inputs.length; i++) {
-            allok = initInput(questionDiv, prefix, qaid, inputs[i]) && allok;
+            allok = initInput(questionDiv, prefix, qaid, inputs[i], language) && allok;
         }
 
         // With JS With instant validation, we don't need the Check button, so hide it.
         if (allok && (questionDiv.classList.contains('dfexplicitvaildate') ||
                 questionDiv.classList.contains('dfcbmexplicitvaildate'))) {
-            questionDiv.querySelector('.im-controls input.submit').hidden = true;
+                        questionDiv.querySelector('.im-controls input.submit, .im-controls button.submit').hidden = true;
         }
     }
 
@@ -452,8 +458,9 @@ define([
      * @param {String} qaid Moodle question_attempt id.
      * @param {String} name the input to initialise.
      * @return {boolean} true if this input was successfully initialised, else false.
+     * @param {String} language display language for this attempt.
      */
-    function initInput(questionDiv, prefix, qaid, name) {
+    function initInput(questionDiv, prefix, qaid, name, language) {
         var validationDiv = document.getElementById(prefix + name + '_val');
         if (!validationDiv) {
             return false;
@@ -461,7 +468,7 @@ define([
 
         var inputTypeHandler = getInputTypeHandler(questionDiv, prefix, name);
         if (inputTypeHandler) {
-            new StackInput(validationDiv, prefix, qaid, name, inputTypeHandler);
+            new StackInput(validationDiv, prefix, qaid, name, inputTypeHandler, language);
             return true;
         } else {
             return false;

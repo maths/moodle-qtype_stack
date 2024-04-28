@@ -18,6 +18,11 @@
         "description":"Information on contributers and users of the STACK project."
         },
         {
+        "file":"License.md",
+        "title":"STACK license information",
+        "description":"Information on the STACK project license."
+        },
+        {
         "file":"Publications.md",
         "title":"Publications about STACK",
         "description":"STACK has been the subject of research, including published books and articles."
@@ -404,6 +409,21 @@
         "description":"This document provides guidelines for making sure a question will work in future updates of STACK or Moodle."
         },
         {
+        "file":"GeoGebra.md",
+        "title":"Using GeoGebra blocks in STACK questions - STACK Documentation",
+        "description":"Reference documentation for GeoGebra blocks."
+        },
+        {
+        "file":"HELM.md",
+        "title":"HELM materials in STACK",
+        "description":"Providing versions of the HELM project materials as moodle quizzes, with materials in STACK format."
+        },
+        {
+        "file":"ImportExport.md",
+        "title":"Importing and Exporting - STACK Documentation",
+        "description":"Information on importing and exporting questions in STACK."
+        },
+        {
         "file":"Inclusions.md",
         "title":"Including external content in questions",
         "description":"Advice on including external content in questions."
@@ -417,6 +437,11 @@
         "file":"JSXGraph.md",
         "title":"JSXGraph - STACK Documentation",
         "description":"JSXGraph is a useful tool for creating graphs in your STACK questions."
+        },
+        {
+        "file":"Advanced_JSXGraph.md",
+        "title":"JSXGraph advanced usage - STACK Documentation",
+        "description":"Advanced features of JSXGraph in STACK questions."
         },
         {
         "file":"Variables.md",
@@ -442,6 +467,11 @@
         "file":"Options.md",
         "title":"Options - STACK Documentation",
         "description":"Documentation for the Option section in a STACK question."
+        },
+        {
+        "file":"Parsons.md",
+        "title":"Parson's problems blocks- STACK Documentation",
+        "description":"Reference documentation for the Parson's question block."
         },
         {
         "file":"Potential_response_trees.md",
@@ -508,6 +538,11 @@
         "description":"Information on testing a STACK question."
         },
         {
+        "file":"Tidy_Tool.md",
+        "title":"Tidy Tool - STACK Documentation",
+        "description":"How to tidy up PRT node names with STACK's tidy tool."
+        },
+        {
         "file":"Trees.md",
         "title":"Trees - STACK Documentation",
         "description":"Functions for displaying the tree representation of a mathematical expression."
@@ -555,6 +590,11 @@
         "file":"Greek.md",
         "title":"The Greek Alphabet - STACK Documentation",
         "description":"Information on displaying greek letters in STACK."
+        },
+        {
+        "file":"Geometry.md",
+        "title":"Geometry related function - STACK Documentation",
+        "description":"Information on geometry related functions in STACK, particulary related to the GeoGebra input type."
         },
         {
         "file":"Inequalities.md",
@@ -653,11 +693,40 @@
       ]
       },
       {
+      "Proof":[
+        {
+        "file":"index.md",
+        "title":"Proof - STACK Documentation",
+        "description":"General discussion of assessment of proof with STACK."
+        },
+        {
+        "file":"Proof_assessment.md",
+        "title":"CAS libraries for assessing Parsons problems and proofs",
+        "description":"Reference documentation on the libraries in STACK for assessment of proofs as Parsons problems."
+        },
+        {
+        "file":"Proof_CAS_library.md",
+        "title":"CAS libraries for representing text-based proofs",
+        "description":"Reference documentation on the libraries in STACK for representing text-based proofs."
+        },
+        {
+        "file":"Proof_styles.md",
+        "title":"CSS Styles for displaying proof",
+        "description":"Reference documentation on the CSS styles in STACK for representing text-based proofs."
+        }
+      ]
+      },
+      {
       "Installation":[
         {
         "file":"index.md",
         "title":"Installation Instructions - STACK Documentation",
         "description":"Information on installing STACK on your server."
+        },
+        {
+        "file":"API.md",
+        "title":"API - STACK Documentation",
+        "description":"Information on using the stand-alone API to provide STACK questions as a web service."
         },
         {
         "file":"LTI.md",
@@ -969,6 +1038,11 @@
         "description":"Information on representing, displaying and manipulating graphs, as in graph theory rather than graph sketching."
         },
         {
+        "file":"GeoGebra.md",
+        "title":"Using GeoGebra blocks in STACK questions - STACK Documentation",
+        "description":"How to write a minimal question useing GeoGebra as a STACK input type."
+        },
+        {
         "file":"Levenshtein_distance.md",
         "title":"Levenshtein distance and strings",
         "description":"Levenshtein distance is a metric on strings which can be used to assess short (typically single word) text strings."
@@ -977,6 +1051,11 @@
         "file":"Linear_algebra.md",
         "title":"Linear Algebra - STACK Documentation",
         "description":"Information on working with linear algebra in a STACK question."
+        },
+        {
+        "file":"Parsons.md",
+        "title":"Parson's problems - STACK Documentation",
+        "description":"Documentation for writing Parson's problems in a STACK question."
         },
         {
         "file":"Proof.md",

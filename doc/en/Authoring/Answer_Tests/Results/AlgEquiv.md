@@ -316,6 +316,33 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>0.333333333333333*x^2</pre></td>
+  <td class="cell c3"><pre>x^2/3</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>0.1*(2.0*s^2+6.0*s-25.0)/s</pre></td>
+  <td class="cell c3"><pre>(2*s^2+6*s-25)/(10*s)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>0.1*(2.0*s^2+6.0*s-25.00001)/s</pre></td>
+  <td class="cell c3"><pre>(2*s^2+6*s-25)/(10*s)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>100.4-80.0</pre></td>
   <td class="cell c3"><pre>20.4</pre></td>
   <td class="cell c4"></td>
@@ -419,6 +446,15 @@ i/15))</pre></td>
   <td class="cell c3"><pre>0</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>exp(-%i)</pre></td>
+  <td class="cell c3"><pre>inf</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
   <td class="cell c6"></td>
 </tr>
 <tr class="notes">
@@ -793,6 +829,15 @@ z^2)^(3/2))</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>1/(a-b)-1/(b-a)</pre></td>
+  <td class="cell c3"><pre>1/(a-b)+1/(b-a)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>0.5*x^2+3*x-1</pre></td>
   <td class="cell c3"><pre>x^2/2+3*x-1</pre></td>
   <td class="cell c4"></td>
@@ -955,6 +1000,15 @@ y))</pre></td>
   <td class="cell c3"><pre>-sin(x)^2+3*cos(x)^2+x</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>4*x*cos(x^12/%pi)</pre></td>
+  <td class="cell c3"><pre>x*cos(x^12/%pi)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
   <td class="cell c6"></td>
 </tr>
 <tr class="pass">
@@ -1598,7 +1652,7 @@ i,i),i,8)</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{5-x > 0\,{\mbox{ and }}\, x-1 > 0 \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{5-x > 0\,{\text{ and }}\, x-1 > 0 \right \}\]</span></span></td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Equivalence for elements of sets is different from expressions: see docs.</td></td>
@@ -2181,6 +2235,42 @@ k^2+4*k-12)}</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x^2=4</pre></td>
+  <td class="cell c3"><pre>x=2 nounor x=-2</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATEquation_ratio</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x^2-5*x+6=0</pre></td>
+  <td class="cell c3"><pre>x=2 nounor x=3</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATEquation_sides</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x^2-5*x+6=0</pre></td>
+  <td class="cell c3"><pre>x=(5 #pm# sqrt(25-24))/2</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATEquation_sides</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x^2-5*x+6=0</pre></td>
+  <td class="cell c3"><pre>x=(5 #pm# sqrt(25-23))/2</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATEquation_default</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>a^3*b^3=0</pre></td>
   <td class="cell c3"><pre>a=0 or b=0</pre></td>
   <td class="cell c4"></td>
@@ -2709,7 +2799,7 @@ k^2+4*k-12)}</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>single_variable_solver_real(mi
+  <td class="cell c2"><pre>stack_single_variable_solver(mi
 nf &lt;= x)</pre></td>
   <td class="cell c3"><pre>co(minf,inf)</pre></td>
   <td class="cell c4"></td>
@@ -2719,7 +2809,7 @@ nf &lt;= x)</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>single_variable_solver_real(-i
+  <td class="cell c2"><pre>stack_single_variable_solver(-i
 nf &lt;= x)</pre></td>
   <td class="cell c3"><pre>co(minf,inf)</pre></td>
   <td class="cell c4"></td>
@@ -2729,7 +2819,7 @@ nf &lt;= x)</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>single_variable_solver_real(x 
+  <td class="cell c2"><pre>stack_single_variable_solver(x 
 &lt;= inf)</pre></td>
   <td class="cell c3"><pre>oc(minf,inf)</pre></td>
   <td class="cell c4"></td>
@@ -2739,7 +2829,7 @@ nf &lt;= x)</pre></td>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
-  <td class="cell c2"><pre>single_variable_solver_real(mi
+  <td class="cell c2"><pre>stack_single_variable_solver(mi
 nf &lt;= x)</pre></td>
   <td class="cell c3"><pre>oo(minf,inf)</pre></td>
   <td class="cell c4"></td>
@@ -3188,6 +3278,33 @@ nf &lt;= x)</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
   <td class="cell c6">ATLogic_True.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sigma&gt;1</pre></td>
+  <td class="cell c3"><pre>x&gt;1</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATInequality_solver.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>a&gt;1</pre></td>
+  <td class="cell c3"><pre>x&gt;1</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATInequality_solver.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>sigma&gt;1</pre></td>
+  <td class="cell c3"><pre>x&gt;2</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
@@ -3869,6 +3986,24 @@ x-(2/3)*(sqrt(2/3))*x^2+(4/9)*
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
 </tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>3*t*diff(q(s),s)</pre></td>
+  <td class="cell c3"><pre>3*diff(t*q(s),s)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>diff(diff(q(s),s),s)</pre></td>
+  <td class="cell c3"><pre>diff(q(s),s,2)</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Sums and products</td></td>
 </tr>
@@ -4235,7 +4370,16 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
   <td class="cell c3"><pre>x=c^2-b or x=-c^2-b</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">ATLogic_True.</td>
+  <td class="cell c6">ATEquation_sides</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">AlgEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>x=b#pm#c^2</pre></td>
+  <td class="cell c3"><pre>x=c^2-b or x=-c^2-b</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATEquation_default</td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
@@ -4329,7 +4473,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{{\rm not}\left( A \right)\,{\mbox{ or }}\, B \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{{\rm not}\left( A \right)\,{\text{ or }}\, B \right \}\]</span></span></td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">AlgEquiv</td>
@@ -4342,7 +4486,7 @@ qrt(34-2*sqrt(17))-2*sqrt(34+2
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{A\,{\mbox{ implies }}\, B \right \}\]</span></span></td></td>
+  <td class="cell c1"><td colspan="4">The following entries are incorrect, although they may appear in a simplified form from that which you actually entered. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left \{A\,{\text{ implies }}\, B \right \}\]</span></span></td></td>
 </tr>
 <tr class="notes">
   <td class="cell c0"><td colspan="6">Differential equations</td></td>

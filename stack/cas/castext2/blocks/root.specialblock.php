@@ -85,12 +85,7 @@ class stack_cas_castext2_special_root extends stack_cas_castext2_block {
         $ast = $pipeline->filter($ast, $errors, $answernotes, new stack_cas_security());
 
         if (count($errors) > 0) {
-            foreach ($errors as $key => $err) {
-                if (is_a($err, 'stack_cas_error')) {
-                    $errors[$key] = $err->get_legacy_error();
-                }
-            }
-            throw new stack_exception(implode('; ', $errors));
+            $this->err = $errors;
         }
 
         $varref = maxima_parser_utils::variable_usage_finder($ast);

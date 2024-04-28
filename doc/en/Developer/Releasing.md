@@ -35,6 +35,7 @@ Check
 
 * Run PHP [unit tests](Unit_tests.md).
 * Run code checker.
+* If needed re-build the minified Javascript (e.g. `npx grunt --root=question/type/stack`).
 
 Version numbers
 
@@ -44,16 +45,16 @@ Version numbers
  * `MATURITY_STABLE`?
  * Check both the Moodle versions, and the required number. (https://moodledev.io/general/releases)
 
-Commit all changes to git, e.g. "Update version number for the 4.4.3 release."
+Commit all changes to git, e.g. "Update version number for the 4.6.0 release."
 
 ## 2. Create new tag with version name
 
-E.g. "v4.4.3".
+E.g. "v4.6.0".
 
 * Push to GitHub.
 * Push tags to GitHub 
  * Tortoise git: pulldown from push
- * Linux: `git tag -a v4.4.3 -m "Update version number for the 4.4.3 release."`
+ * Linux: `git tag -a v4.6.0 -m "Update version number for the 4.6.0 release."`
  * Linux: `git push`
  * Linux: `git push --tags`
 
@@ -78,3 +79,9 @@ Then check updated information on the form.
 
 (don't add "master" to branch info)
 
+## 4. Releasing a new verion of the API to take advantage of the new release
+
+1. Update Geomaxima
+2. Update version numbers in `api/config_samples.txt`
+3. Update Geomaxima docker image versions in `api/docker/docker-compose.dev.yml` and  `api/docker/docker-compose.yml`
+   E.g. see `https://hub.docker.com/r/mathinstitut/goemaxima` for latest versions.

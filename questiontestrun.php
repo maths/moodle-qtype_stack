@@ -45,22 +45,21 @@ require_once(__DIR__ . '/stack/bulktester.class.php');
 $questionid = required_param('questionid', PARAM_INT);
 
 $qversion = null;
-if (stack_determine_moodle_version() >= 400) {
-    // We should always run tests on the latest version of the question.
-    // This means we can refresh/reload the page even if the question has been edited and saved in another window.
-    // When we click "edit question" button we automatically jump to the last version, and don't edit this version.
-    $query = 'SELECT qv.questionid, qv.version FROM {question_versions} qv
-                  JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
-                  WHERE qbe.id = (SELECT be.id FROM {question_bank_entries} be
-                                  JOIN {question_versions} v ON v.questionbankentryid = be.id
-                                  WHERE v.questionid = ' . $questionid . ')
-              ORDER BY qv.questionid';
-    global $DB;
-    $result = $DB->get_records_sql($query);
-    $result = end($result);
-    $qversion = $result->version;
-    $questionid = $result->questionid;
-}
+
+// We should always run tests on the latest version of the question.
+// This means we can refresh/reload the page even if the question has been edited and saved in another window.
+// When we click "edit question" button we automatically jump to the last version, and don't edit this version.
+$query = 'SELECT qv.questionid, qv.version FROM {question_versions} qv
+                JOIN {question_bank_entries} qbe ON qbe.id = qv.questionbankentryid
+                WHERE qbe.id = (SELECT be.id FROM {question_bank_entries} be
+                                JOIN {question_versions} v ON v.questionbankentryid = be.id
+                                WHERE v.questionid = ' . $questionid . ')
+            ORDER BY qv.questionid';
+global $DB;
+$result = $DB->get_records_sql($query);
+$result = end($result);
+$qversion = $result->version;
+$questionid = $result->questionid;
 
 // Load the necessary data.
 $questiondata = question_bank::load_question_data($questionid);
@@ -68,6 +67,8 @@ if (!$questiondata) {
     throw new stack_exception('questiondoesnotexist');
 }
 $question = question_bank::load_question($questionid);
+// We hard-wire decimals to be a full stop when testing questions.
+$question->options->set_option('decimals', '.');
 
 // Process any other URL parameters, and do require_login.
 list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
@@ -98,12 +99,7 @@ if (property_exists($questiondata, 'hidden') && $questiondata->hidden) {
     $qbankparams['showhidden'] = 1;
 }
 
-if (stack_determine_moodle_version() < 400) {
-    $questionbanklinkedit = new moodle_url('/question/question.php', $editparams);
-} else {
-    $questionbanklinkedit = new moodle_url('/question/bank/editquestion/question.php', $editparams);
-}
-
+$questionbanklinkedit = new moodle_url('/question/bank/editquestion/question.php', $editparams);
 $questionbanklink = new moodle_url('/question/edit.php', $qbankparams);
 $exportquestionlink = new moodle_url('/question/type/stack/exportone.php', $urlparams);
 $exportquestionlink->param('sesskey', sesskey());
@@ -120,6 +116,7 @@ if (!is_null($seed)) {
 
 $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
+question_engine::save_questions_usage_by_activity($quba);
 
 // Prepare the display options.
 $options = question_display_options();
@@ -131,26 +128,14 @@ if ($qversion !== null) {
     echo html_writer::tag('p', stack_string('version') . ' ' . $qversion);
 }
 
-// Add a link to the cas chat to facilitate editing the general feedback.
-if ($question->options->get_option('simplify')) {
-    $simp = 'on';
-} else {
-    $simp = '';
-}
-
-$questionvarsinputs = '';
-foreach ($question->get_correct_response() as $key => $val) {
-    if (substr($key, -4, 4) !== '_val') {
-        $questionvarsinputs .= "\n{$key}:{$val};";
-    }
-}
-
 // We've chosen not to send a specific seed since it is helpful to test the general feedback in a random context.
 $chatparams = $urlparams;
-$chatparams['maximavars'] = $question->questionvariables;
-$chatparams['inputs'] = $questionvarsinputs;
-$chatparams['simp'] = $simp;
-$chatparams['cas'] = $question->generalfeedback;
+// ISS-1110 Rather than send parts of the question, save the quba and
+// supply the qubaid and slot so the details can be loaded on the caschat page.
+// This avoids a long URI causing an Apache error.
+$chatparams['initialise'] = true;
+$chatparams['qubaid'] = $quba->get_id();
+$chatparams['slot'] = $slot;
 $chatlink = new moodle_url('/question/type/stack/adminui/caschat.php', $chatparams);
 
 $links = array();
@@ -253,11 +238,8 @@ $variantmatched = false;
 $variantdeployed = false;
 $questionnotes = array();
 
-if (stack_determine_moodle_version() < 400) {
-    $qurl = question_preview_url($questionid, null, null, null, null, $context);
-} else {
-    $qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
-}
+$qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
+
 if (!$question->has_random_variants()) {
     echo "\n";
     echo html_writer::tag('p', stack_string('questiondoesnotuserandomisation') . ' ' .
@@ -296,11 +278,8 @@ if (empty($question->deployedseeds)) {
                     $deployedseed, array('title' => stack_string('testthisvariant')));
         }
 
-        if (stack_determine_moodle_version() < 400) {
-            $qurl = question_preview_url($questionid, null, null, null, $key + 1, $context);
-        } else {
-            $qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, $key + 1, $context);
-        }
+        $qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, $key + 1, $context);
+        
         $choice .= ' ' . $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview')));
 
         if ($canedit) {
@@ -574,10 +553,8 @@ echo "\n";
 
 // Display the question note.
 echo $OUTPUT->heading(stack_string('questionnote'), 3);
-echo "\n";
-echo html_writer::tag('p', stack_ouput_castext($question->get_question_summary()),
-    array('class' => 'questionnote'));
-echo "\n";
+echo html_writer::tag('div', html_writer::tag('div', stack_ouput_castext($question->get_question_summary()),
+    array('class' => 'questionnote')), array('class' => 'que'));
 
 // Display the general feedback, aka "Worked solution".
 echo $OUTPUT->heading(stack_string('generalfeedback'), 3);

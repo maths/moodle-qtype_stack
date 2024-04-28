@@ -67,8 +67,6 @@ class stack_choice_input extends stack_input {
      */
     protected $teacheranswerdisplay = '';
 
-    protected $istpassiert=false;
-
     protected function internal_contruct() {
         $this->ddldisplay=$this->get_ddldisplay();
 
@@ -77,6 +75,17 @@ class stack_choice_input extends stack_input {
             $options = explode(',', $options);
             foreach ($options as $option) {
                 $option = strtolower(trim($option));
+
+                list($opt, $arg) = stack_utils::parse_option($option);
+                if (array_key_exists($opt, $this->extraoptions)) {
+                    if ($arg === '') {
+                        // Extra options with no argument set a Boolean flag.
+                        $this->extraoptions[$opt] = true;
+                    } else {
+                        $this->extraoptions[$opt] = $arg;
+                    }
+                    break;
+                }
 
                 switch($option) {
                     // Does a student see LaTeX or cassting values?
@@ -393,7 +402,8 @@ class stack_choice_input extends stack_input {
             }
         }
 
-        return array($valid, $errors, $notes, $answer, $caslines);
+        // As all inputs here are teacher sourced we can reuse the original ones for the inert ones.
+        return array($valid, $errors, $notes, $answer, $caslines, $answer, $caslines);
     }
 
     /**
@@ -453,14 +463,11 @@ class stack_choice_input extends stack_input {
             if ($readonly) {
                 $inputattributes['disabled'] = 'disabled';
             }
-    
             $notanswered = '';
             if (array_key_exists('', $values)) {
                 $notanswered = $values[''];
             }
-            if ($this->get_ddltype() == 'select') {
-                unset($values['']);
-            }
+            unset($values['']);
             $result .= html_writer::select($values, $fieldname, $select,
                 $notanswered, $inputattributes);
         } else {
@@ -502,6 +509,19 @@ class stack_choice_input extends stack_input {
         }
 
         return $result;
+    }
+
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'choice';
+        $data['options'] = $this->get_choices();
+
+        return $data;
     }
 
     /**
@@ -550,8 +570,33 @@ class stack_choice_input extends stack_input {
      * The dropdown type needs to intercept this to filter the correct answers.
      * @param unknown_type $in
      */
-    public function get_correct_response($in) {
-        $this->adapt_to_model_answer($in);
+    public function get_correct_response($value) {
+        // TODO: refactor this ast creation away.
+        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
+        $cs->set_nounify(0);
+        $val = '';
+        
+        $decimal = '.';
+        $listsep = ',';
+        if ($this->options->get_option('decimals') === ',') {
+            $decimal = ',';
+            $listsep = ';';
+        }
+        $params = array('checkinggroup' => true,
+            'qmchar' => false,
+            'pmchar' => 1,
+            'nosemicolon' => true,
+            'keyless' => true,
+            'dealias' => false, // This is needed to stop pi->%pi etc.
+            'nounify' => 1, // We need to add nouns for checkboxes, e.g. %union.
+            'nontuples' => false,
+            'decimal' => $decimal,
+            'listsep' => $listsep
+        );
+        if ($cs->get_valid()) {
+            $value = $cs->ast_to_string(null, $params);
+        }
+        $this->adapt_to_model_answer($value);
         return $this->maxima_to_response_array($this->teacheranswervalue);
     }
 
@@ -719,5 +764,21 @@ class stack_choice_input extends stack_input {
         }
     }
 
+    public function get_api_solution($tavalue) {
+        $solution = "";
+        foreach ($this->ddlvalues as $key => $value) {
+            if ($value['correct']) {
+                $solution = strval($key);
+            }
+        }
+        return array('' => $solution);
+    }
+
+    /**
+     * We return an empty value to ensure the rendering result is stable, even if the content included plots
+     */
+    public function get_api_solution_render($tadisplay) {
+        return '';
+    }
 }
  

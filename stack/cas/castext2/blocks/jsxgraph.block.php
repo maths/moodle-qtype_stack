@@ -29,10 +29,13 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
 
     /* This is not something we want people to edit in general. */
     public static $namedversions = [
-        /* TODO: make this `cdn-latest` if possible, no point in having it
-         * pointing to a particular version.
-         */
         'cdn' => [
+            'css' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.min.css',
+            'js' => 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js'],
+        'cdn-1.8.0' => [
+            'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.8.0/jsxgraph.min.css',
+            'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.8.0/jsxgraphcore.min.js'],
+        'cdn-1.5.0' => [
             'css' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraph.min.css',
             'js' => 'https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.5.0/jsxgraphcore.min.js'],
         'local' => [
@@ -121,15 +124,15 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             $height = $xpars['height'];
         }
 
-        $astyle = "width:calc($width - 3px);height:calc($height - 3px);";
+        $astyle = "width:calc(100% - 3px);height:calc(100vh - 3px);";
 
         if (array_key_exists('aspect-ratio', $xpars)) {
             $aspectratio = $xpars['aspect-ratio'];
             // Unset the undefined dimension, if both are defined then we have a problem.
             if (array_key_exists('height', $xpars)) {
-                $astyle = "height:calc($height - 3px);aspect-ratio:$aspectratio;";
+                $astyle = "height:calc(100% - 3px);aspect-ratio:$aspectratio;";
             } else if (array_key_exists('width', $xpars)) {
-                $astyle = "width:calc($width - 3px);aspect-ratio:$aspectratio;";
+                $astyle = "width:calc(100% - 3px);aspect-ratio:$aspectratio;";
             }
         }
 
@@ -272,7 +275,7 @@ class stack_cas_castext2_jsxgraph extends stack_cas_castext2_block {
             $err[] = stack_string('stackBlock_jsxgraph_underdefined_dimension');
         }
 
-        if (array_key_exists('version', $this->params) && array_key_exists($this->params['version'], self::$namedversions)) {
+        if (array_key_exists('version', $this->params) && !array_key_exists($this->params['version'], self::$namedversions)) {
             $valid    = false;
             $err[] = stack_string('stackBlock_jsxgraph_unknown_named_version');
         }

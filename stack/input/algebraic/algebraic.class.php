@@ -31,7 +31,8 @@ class stack_algebraic_input extends stack_input {
         'align' => 'left',
         'consolidatesubscripts' => false,
         'checkvars' => 0,
-        'validator' => false
+        'validator' => false,
+        'feedback' => false,
     );
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -74,6 +75,22 @@ class stack_algebraic_input extends stack_input {
         }
 
         return html_writer::empty_tag('input', $attributes);
+    }
+
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'algebraic';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['align'] = $this->extraoptions['align'] === 'right' ? 'right' : 'left';
+        $data['syntaxHint'] = $this->parameters['syntaxHint'];
+        $data['syntaxHintType'] = $this->parameters['syntaxAttribute'] == '1' ? 'placeholder' : 'value';
+
+        return $data;
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {

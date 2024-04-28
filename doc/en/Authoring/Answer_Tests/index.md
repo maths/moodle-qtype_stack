@@ -76,7 +76,7 @@ Documentation is grouped as follows.
   * [EquivFirst](../../CAS/Equivalence_reasoning.md)
   * [PropLogic](../../Topics/Propositional_Logic.md)
 
-## Pre-pocessing students' answers ##
+## Pre-processing students' answers ##
 
 You can apply functions before applying the tests using the feedback variables.  For example, to ignore case sensitivity you can apply the [Maxima commands defined by STACK](../../CAS/Maxima.md#Maxima_commands_defined_by_STACK) `exdowncase(ex)` to the arguments, before you apply one of the other answer tests. However, some tests really require the raw student's input.  E.g. the numerical decimal place test really requires the name of an input as the `SAns` field.  If you manipulate an input, you may end up dropping trailing zeros and ruining the number of decimal places in the expression.  STACK will warn you if you need to use the name of an input.
 

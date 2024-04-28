@@ -216,7 +216,7 @@ class stack_input_factory {
     }
 
     /**
-     * Convert the old value of "insert stars" (version<
+     * Convert the old value of "insert stars".
      */
     public static function convert_legacy_insert_stars($value) {
         $map = [

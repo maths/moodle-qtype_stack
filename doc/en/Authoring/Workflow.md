@@ -6,7 +6,6 @@ This document contains suggestions for effective question authoring workflow, es
 
 The first task is to create a minimal working question.  At the outset
 
-
 1. add minimal [question variables](Variables.md) to prevent repetition of information in the "Model answer" field of the inputs, and PRT nodes;
 2. use question variables for key information in the question, especially if you intend to create [random variants](../CAS/Random.md) later;
 3. add minimal feedback in the PRTs.
@@ -81,5 +80,5 @@ The question description, and descriptions within PRT nodes, can be used to desc
 
 You can use the `[[todo]]...[[/todo]]` question block to indicate unfinished questions.  Authors with the capability to use the "STACK diagnostic tools" can create a list of questions containing this block, making it easy for them to locate questions needing attention.
 
-You can use the `[[escape]]...[[/escape]]` and `[[comment]]...[[comment]]` blocks to remove broken content which is preventing a question from being saved.  Maxima code can be removed with code comments: `/* .... */`.
+You can use the `[[escape]]...[[/escape]]` and `[[comment]]...[[/comment]]` blocks to remove broken content which is preventing a question from being saved.  Maxima code can be removed with code comments: `/* .... */`, but these comments cannot be used in castext.
 

@@ -132,7 +132,7 @@ stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v,dm
   /* Change this to actual sublist as this is not the way to do it... */
   while ev(is(i<last(starts)), simp) do (nt:append(nt,[tokens[i]]), i:ev(i+1, simp)),
   if is(tokens[last(starts)]=_stackjson_tokens_list_open) then (
-   i:last(starts)+1,
+   i:ev(last(starts)+1, simp),
    while not is(tokens[i]=_stackjson_tokens_list_close) do (
     if not is(tokens[i]=_stackjson_tokens_list_sep) then r:append(r,[tokens[i]]),
     i:ev(i+1, simp)
@@ -150,7 +150,7 @@ stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v,dm
    )  
   ),
   nt:append(nt,[r]),
-  i:i+1,
+  i:ev(i+1, simp),
   /* Change this to actual sublist as this is not the way to do it... */
   while ev(is(i<length(tokens)+1), simp) do (nt:append(nt,[tokens[i]]),i:ev(i+1, simp)),
   if ev(is(length(nt)<length(tokens)), simp) then dm:0,

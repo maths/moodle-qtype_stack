@@ -171,22 +171,26 @@ class stack_question_test {
         // Turn off simplification - we need test cases to be unsimplified, even if the question option is true.
         $vars = array();
         $cs = stack_ast_container::make_from_teacher_source('simp:false' , '', new stack_cas_security());
-        $vars[] = $cs;
+        $vars['simp'] = $cs;
         // Now add the expressions we want evaluated.
         foreach ($inputs as $name => $value) {
-            // Check input still exits, could have been deleted in a question.
+            // Check the input still exits since it could have been deleted in a question.
             if ('' !== $value && array_key_exists($name, $question->inputs)) {
-                $val = 'testresponse_' . $name . ':' . $value;
                 $input = $question->inputs[$name];
-                // Except if the input simplifies, then so should the generated testcase.
-                // The input will simplify again.
-                // We may need to create test cases which will generate errors, such as makelist.
-                if ($input->get_extra_option('simp')) {
-                    $val = 'testresponse_' . $name . ':ev(' . $value .',simp)';
+                if (substr($value, 0, 3) === 'CT:') {
+                    $cs = castext2_evaluatable::make_from_source(substr($value, 3), '');
+                } else {
+                    $val = 'testresponse_' . $name . ':' . $value;
+                    // Except if the input simplifies, then so should the generated testcase.
+                    // The input will simplify again.
+                    // We may need to create test cases which will generate errors, such as makelist.
+                    if ($input->get_extra_option('simp')) {
+                        $val = 'testresponse_' . $name . ':ev(' . $value .',simp)';
+                    }
+                    $cs = stack_ast_container::make_from_teacher_source($val , '', new stack_cas_security());
                 }
-                $cs = stack_ast_container::make_from_teacher_source($val , '', new stack_cas_security());
-                if ($cs->get_valid()) {
-                    $vars[] = $cs;
+                if ($cs->get_valid() && substr($value, 0, 4) != 'RAW:') {
+                    $vars[$name] = $cs;
                 }
             }
         }
@@ -194,22 +198,28 @@ class stack_question_test {
         if ($cascontext->get_valid()) {
             $cascontext->instantiate();
         }
-
         $response = array();
-        foreach ($inputs as $name => $notused) {
-            $var = $cascontext->get_by_key('testresponse_' . $name, true);
+        foreach ($inputs as $name => $value) {
+            $var = null;
             $computedinput = '';
-            if ($var !== null && $var->is_correctly_evaluated()) {
-                $computedinput = $var->get_value();
+            if (array_key_exists($name, $vars)) {
+                $var = $vars[$name];
+                if (get_class($var) === 'stack_ast_container' && $var->is_correctly_evaluated()) {
+                    $computedinput = $var->get_dispvalue();
+                }
+                if (get_class($var) === 'castext2_evaluatable') {
+                    $computedinput = $var->get_rendered();
+                }
             }
             // In the case we start with an invalid input, and hence don't send it to the CAS.
             // We want the response to constitute the raw invalid input.
             // This permits invalid expressions in the inputs, and to compute with valid expressions.
             if ('' == $computedinput) {
                 $computedinput = $inputs[$name];
-            } else {
-                // 4.3. means the logic_nouns_sort is done through parse trees.
-                $computedinput = $cascontext->get_by_key('testresponse_' . $name)->get_dispvalue();
+            }
+            // Use any "raw" test case value.
+            if (substr($value, 0, 4) === 'RAW:') {
+                $computedinput = substr($value, 4);
             }
             if (array_key_exists($name, $question->inputs)) {
                 // Remove things like apostrophies in test case inputs so we don't create an invalid student input.

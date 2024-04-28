@@ -138,15 +138,17 @@
 
 )) ;; etc
 
-
-
 ;; Remove un-needed {}s from string output.
 ;; Chris Sangwin, 28/10/2009
 
 (defun tex-string (x)
-  (cond ((equal x "") (concatenate 'string "\\mbox{ }"))
+  (cond ((equal x "") (concatenate 'string "\\text{ }"))
     ((eql (elt x 0) #\\) x)
-    (t (concatenate 'string "\\mbox{" x "}"))))
+    (t (concatenate 'string "\\text{" x "}"))))
+
+;; Remove & from the quoted characters.
+(defun quote-% (sym)
+  (quote-chars sym "$%_"))
 
 ;; Chris Sangwin, 21/9/2010
 
@@ -294,6 +296,16 @@
                              (tex x (list "^")(cons "" r) 'mparen 'mparen)
                              (tex x (list "^{")(cons "}" r) 'mparen 'mparen)))))))
     (append l r)))
+
+;; Added by CJS, 15-2-24.  Display an aligned environmant.
+(defprop $aligned tex-aligned tex)
+
+(defun tex-aligned(x l r) ;;matrix looks like ((mmatrix)((mlist) a b) ...)
+  (append l `("\\begin{aligned}")
+      (mapcan #'(lambda(y)
+              (tex-list (cdr y) nil (list "\\cr ") "&"))
+          (cdr x))
+      '("\\end{aligned}") r))
 
 ;; Added by CJS, 10-9-16.  Display an argument.
 (defprop $argument tex-argument tex)

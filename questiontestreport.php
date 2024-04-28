@@ -71,11 +71,7 @@ if (empty($question->deployedseeds)) {
     }
 }
 
-if (stack_determine_moodle_version() < 400) {
-    $qurl = question_preview_url($questionid, null, null, null, null, $context);
-} else {
-    $qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
-}
+$qurl = qbank_previewquestion\helper::question_preview_url($questionid, null, null, null, null, $context);
 
 echo html_writer::tag('p', $out . ' ' .
     $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))));
@@ -116,19 +112,15 @@ $query = "SELECT qa.*, qas_last.*
               LEFT JOIN {user} u ON qas_last.userid = u.id
           WHERE qas_prev.timecreated IS NULL";
 
-if (stack_determine_moodle_version() < 400) {
-    $query .= " AND qa.questionid = ?";
-} else {
-    // In moodle 4 we look at all attempts at all versions.
-    // Otherwise an edit, regrade and re-analysis becomes impossible.
-    $query .= " AND qa.questionid IN (
-                    SELECT qv.questionid
-                      FROM {question_versions} qv_original
-                      JOIN {question_versions} qv ON
-                                qv.questionbankentryid = qv_original.questionbankentryid
-                    WHERE qv_original.questionid = ?)";
-}
-$query .= " ORDER BY u.username, qas_last.timecreated";
+// In moodle 4 we look at all attempts at all versions.
+// Otherwise an edit, regrade and re-analysis becomes impossible.
+$query .= " AND qa.questionid IN (
+    SELECT qv.questionid
+        FROM {question_versions} qv_original
+        JOIN {question_versions} qv ON
+                qv.questionbankentryid = qv_original.questionbankentryid
+    WHERE qv_original.questionid = ?)
+    ORDER BY u.username, qas_last.timecreated";
 
 global $DB;
 
@@ -138,7 +130,7 @@ foreach ($result as $qattempt) {
     if (!array_key_exists($qattempt->variant, $summary)) {
         $summary[$qattempt->variant] = array();
     }
-    $rsummary = trim($qattempt->responsesummary);
+    $rsummary = trim($qattempt->responsesummary ?? '');
     if ($rsummary !== '') {
         if (array_key_exists($rsummary, $summary[$qattempt->variant])) {
             $summary[$qattempt->variant][$rsummary] += 1;

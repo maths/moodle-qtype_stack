@@ -16,7 +16,7 @@ There are two ways to export STACK questions.
 
 1. The normal Moodle procedure is to export whole category of questions at one time through the Moodle question bank.  To export a selection of questions, you need to move them into a separate category.  This can be any mix of STACK and other Moodle questions.  You must choose "Moodle XML format" as the file format.
 2. To export a single STACK question as "Moodle XML format".
-   1. Preview the question.  
+   1. Preview the question.
    2. Follow the link to "Question tests & deployed variants".
    3. Export this question.
 
@@ -26,14 +26,14 @@ There are two ways to export STACK questions.
 
 STACK 4.0 has one important change in the question authoring.  [CASText](../Authoring/CASText.md) now uses `{@...@}` in include mathematics in the text.  The change from `@...@` to `{@...@}` gives us matching parentheses to parse, which is much better.  The `{..}` will not break LaTeX.
 
-You will need to update all your existing questions which include CAS calculations. This includes all fields, e.g. in the feedback as well.  To help with this process we have an automatic conversion script.  As an admin user navigate to 
+You will need to update all your existing questions which include CAS calculations. This includes all fields, e.g. in the feedback as well.  To help with this process we have an automatic conversion script.  As an admin user navigate to
 
-    Site administration -> 
+    Site administration ->
     Plugins ->
     Question Types ->
     STACK
 
-Then choose the link "The fix maths delimiters script". 
+Then choose the link "The fix maths delimiters script".
 
 ## Importing STACK 2 questions
 
@@ -56,4 +56,4 @@ There have been a number of changes between STACK 2 and STACK 3.  These are deta
   * the options which ask the student to verify and to show validation feedback.
   * question level penalty option.
 * Questions with a single potential response tree import with the PRT feedback in the specific feedback slot, not in the question text.  We envisage this will enable single part questions to respect a wider variety of Moodle question behaviours.
-* When importing question tests, the new testing mechanism in STACK 3 enables the teacher to specify a score and penalty, not just an answer note.  Since we have to set defaults on import, most question tests now fail and this information will need to be added by hand.  A good opportunity to confirm questions have imported correctly.....
+* When importing question tests, the new testing mechanism in STACK 3 enables the teacher to specify a score and penalty, not just an answer note.  Since we have to set defaults on import, most question tests now fail and this information will need to be added by hand.  A good opportunity to confirm questions have imported correctly.

@@ -2,6 +2,35 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.5.0-hf2
+
+Fix critical bug in Javascript.
+Released January 2024.
+
+## Version 4.5.0
+
+Released December 2023.
+
+Please note, this is the _last_ version of STACK which will support Moodle 3.x.
+
+1. Re-factor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
+2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TODO: possible option to change shape at the input level?)
+3. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
+4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
+5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
+6. Confirm support for PHP 8.2, (fixes issue #986).
+7. Add in a [GeoGebra block](../Authoring/GeoGebra.md), and see [GeoGebra authoring](../Topics/GeoGebra.md).  Thanks to Tim Lutz for contributing this code as part of the AuthOMath project.
+8. Add in an option `margin` to control margins around STACK-generated plots.
+9. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).  (First version, but still more to do including syntax hints, and locking after the quiz is closed.)
+
+There are also numerous minor improvements and bug fixes.
+
+## Version 4.4.6
+
+Released October 2023.
+
+This is a bug-fix release.
+
 ## Version 4.4.5
 
 Released July 2023.
@@ -37,7 +66,7 @@ Major re-working of Javascript in STACK.  Specifically
 
 1. STACK-JS a VLE agnostic JavaScript system that moves all script execution into sandbox iframes and restricts the things those scripts can do outside that sandbox. Basically, replaces the `[[jsxgraph]]`-block and provides ways for doing other scripting.
 2. Initial implementation of the `[[reveal]]`-block (#570) using the STACK-JS system.
-3. Various related blocks like `[[iframe]]`, `[[javascript]]`, `[[style]`, `[[script]]`, and `[[cors]]`
+3. Various related blocks like `[[iframe]]`, `[[javascript]]`, `[[style]]`, `[[script]]`, and `[[cors]]`
 4. This version does not yet forbide all JavaScript outside STACK-JS, but do prepare future updates to do so and start migrating existing scripts into STACK-JS.
 
 These changes are significant and we strongly recommned you test all affected questions.
@@ -212,7 +241,7 @@ New features in v4.3:
 * Add in input option 'nounits'.
 * Add in input option 'compact' to input "Show the validation" parameter.
 * Add in a [basic question use report](../Authoring/Reporting.md) page, linked from the question testing page.
-* Add in house styles to help typeset [proof](../Topics/Proof.md).
+* Add in house styles to help typeset [proof](../Proof/Proof_styles.md).
 * Add cache to help reduce parsing overhead.
 
 
@@ -247,7 +276,7 @@ Note: the behaviour of the Maxima `addrow` function has changed.  Use the bulk t
 * Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
 * Add in a version number to STACK questions.
 * Update reasoning by equivalence.  This includes the following.
-  1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \mbox{ and } b=s \mbox{ and } c=t\). See `poly_equate_coeffs` in assessment.mac
+  1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \text{ and } b=s \text{ and } c=t\). See `poly_equate_coeffs` in assessment.mac
   2. Solving simple simultaneous equations.  (Interface)
   3. Include simple calculus operations (but constant of integration needs some further thought.)
 * Refactor internal question validation away from Moodle editing, and into the question type.  Add in a "warning" system.

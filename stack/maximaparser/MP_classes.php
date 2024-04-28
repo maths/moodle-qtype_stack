@@ -1488,7 +1488,7 @@ class MP_List extends MP_Node {
             return $indent . '[' . implode(', ', $ar) . ']';
         }
 
-        return '[' . implode(',', $ar) . ']';
+        return '[' . implode($sep, $ar) . ']';
     }
 
     public function replace($node, $with) {
@@ -1672,7 +1672,7 @@ class MP_PostfixOp extends MP_Node {
 
 class MP_Indexing extends MP_Node {
     public $target = null;
-    // This is and identifier or a function call.
+    // This is an identifier or a function call.
     public $indices = null;
     // These are MP_List objects.
     public function __construct($target, $indices) {

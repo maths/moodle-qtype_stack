@@ -74,12 +74,12 @@ The following laws govern index manipulation:
 <code>[[facts:alg_logarithms]]</code>
 
 For any base \(c>0\) with \(c \neq 1\):
-\[\log_c(a) = b \mbox{, means } a = c^b\]
+\[\log_c(a) = b \text{, means } a = c^b\]
 \[\log_c(a) + \log_c(b) = \log_c(ab)\]
-\[\log_c(a) - \log_c(b) = \log_c\left(\frac{a}{c}\right)\]
+\[\log_c(a) - \log_c(b) = \log_c\left(\frac{a}{b}\right)\]
 \[n\log_c(a) = \log_c\left(a^n\right)\]
 \[\log_c(1) = 0\]
-\[\log_c(b) = 1\]
+\[\log_c(c) = 1\]
 The formula for a change of base is:
 \[\log_a(x) = \frac{\log_b(x)}{\log_b(a)}\]
 Logarithms to base \(e\), denoted \(\log_e\) or alternatively \(\ln\) are called natural logarithms.  The letter \(e\) represents the exponential constant which is approximately \(2.718\).
@@ -197,9 +197,9 @@ The similarity between the way hyperbolic and trigonometric functions behave is 
 
 <code>[[facts:hyp_inverse_functions]]</code>
 
-\[\cosh^{-1}(x)=\ln\left(x+\sqrt{x^2-1}\right) \quad \mbox{ for } x\geq 1\]
+\[\cosh^{-1}(x)=\ln\left(x+\sqrt{x^2-1}\right) \quad \text{ for } x\geq 1\]
  \[\sinh^{-1}(x)=\ln\left(x+\sqrt{x^2+1}\right)\]
- \[\tanh^{-1}(x) = \frac{1}{2}\ln\left({1+x\over 1-x}\right) \quad \mbox{ for } -1< x < 1\]
+ \[\tanh^{-1}(x) = \frac{1}{2}\ln\left({1+x\over 1-x}\right) \quad \text{ for } -1< x < 1\]
 
 
 ### Standard Derivatives
@@ -295,7 +295,7 @@ Alternatively, we can write:
 
 
 
-\[\int k\ dx = kx +c, \mbox{ where k is constant.}\]
+\[\int k\ dx = kx +c, \text{ where k is constant.}\]
 \[\int x^n\ dx  = \frac{x^{n+1}}{n+1}+c, \quad (n\ne -1)\]
 \[\int x^{-1}\ dx = \int {\frac{1}{x}}\ dx = \ln(|x|)+c = \ln(k|x|) = \left\{\matrix{\ln(x)+c & x>0\cr
 \ln(-x)+c & x<0\cr}\right.\]
@@ -307,12 +307,12 @@ Alternatively, we can write:
 |\(\sin(x)\)|\(-\cos(x)+c\)||
 |\(\tan(x)\)|\(\ln(\sec(x))+c\)|\(-\frac{\pi}{2} < x < \frac{\pi}{2}\)|
 |\(\sec x\)|\(\ln (\sec(x)+\tan(x))+c\)|\( -{\pi\over 2}< x < {\frac{\pi}{2}}\)|
-|\(\mbox{cosec}(x)\)|\(\ln (\mbox{cose}c(x)-\cot(x))+c\quad\)   |\(0 < x < \pi\)|
+|\(\text{cosec}(x)\)|\(\ln (\text{cose}c(x)-\cot(x))+c\quad\)   |\(0 < x < \pi\)|
 |cot\(\,x\)|\(\ln(\sin(x))+c\)|\(0< x< \pi\)|
 |\(\cosh(x)\)|\(\sinh(x)+c\)||
 |\(\sinh(x)\)|\(\cosh(x) + c\)||
 |\(\tanh(x)\)|\(\ln(\cosh(x))+c\)||
-|\(\mbox{coth}(x)\)|\(\ln(\sinh(x))+c \)|\(x>0\)|
+|\(\text{coth}(x)\)|\(\ln(\sinh(x))+c \)|\(x>0\)|
 |\({1\over x^2+a^2}\)|\({1\over a}\tan^{-1}{x\over a}+c\)|\(a>0\)|
 |\({1\over x^2-a^2}\)|\({1\over 2a}\ln{x-a\over x+a}+c\)|\(|x|>a>0\)|
 |\({1\over a^2-x^2}\)|\({1\over 2a}\ln{a+x\over a-x}+c\)|\(|x|\)|

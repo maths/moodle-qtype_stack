@@ -121,6 +121,37 @@ class stack_equiv_input extends stack_input {
         return $output;
     }
 
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'equiv';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+
+        $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+        $cs = stack_ast_container::make_from_teacher_source($current);
+        // The syntax hint need not be valid, but we don't want nouns.
+        if ($cs->get_valid()) {
+            $current = $cs->get_inputform();
+        }
+        // Put the first line of the value of the teacher's answer in the input.
+        if (trim($this->parameters['syntaxHint']) == 'firstline') {
+            $values = stack_utils::list_to_array($tavalue, false);
+            if (array_key_exists(0, $values) && !is_null($values[0])) {
+                $cs = stack_ast_container::make_from_teacher_source($values[0]);
+                $cs->get_valid();
+                $current = $cs->get_inputform();
+            }
+        }
+        // Remove % characters, e.g. %pi should be printed just as "pi".
+        $data['syntaxHint'] = str_replace('%', '', $current);
+
+        return $data;
+    }
+
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
@@ -238,8 +269,12 @@ class stack_equiv_input extends stack_input {
         $notes = array();
         $valid = true;
         $caslines = array();
+        $ilines = array();
 
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
+        // Separate rules for inert display logic, which wraps floats with certain functions.
+        $secrulesd = clone $secrules;
+        $secrulesd->add_allowedwords('dispdp,displaysci');
 
         foreach ($contents as $index => $val) {
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
@@ -262,13 +297,22 @@ class stack_equiv_input extends stack_input {
             $caslines[] = $answer;
             $valid = $valid && $answer->get_valid();
             $errors[] = $answer->get_errors();
+
+            // Construct inert version of that.
+            $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd, array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+                array(), 'Equivline', $this->options->get_option('decimals'));
+            $inertdisplayform->get_valid();
+            $ilines[] = $inertdisplayform;
         }
 
         // Construct one final "answer" as a single maxima object.
         $answer = $this->caslines_to_answer($caslines, $basesecurity);
         $answer->get_valid();
 
-        return array($valid, $errors, $notes, $answer, $caslines);
+        // Same for the inert version.
+        $inertdisplayform = $this->caslines_to_answer($ilines, $basesecurity);
+
+        return array($valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines);
     }
 
     /**
@@ -280,7 +324,7 @@ class stack_equiv_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
 
         if ($this->extraoptions['firstline']) {
             $foundfirstline = false;
@@ -304,7 +348,7 @@ class stack_equiv_input extends stack_input {
             $row = array();
             $fb = $cs->get_feedback();
             if ($cs->is_correctly_evaluated() && $fb == '') {
-                $row[] = '\(\displaystyle ' . $cs->get_display() . ' \)';
+                $row[] = '\(\displaystyle ' . $ilines[$index]->get_display() . ' \)';
                 if ($errors[$index]) {
                     $errorfree = false;
                     $row[] = stack_maxima_translate($errors[$index]);
@@ -383,7 +427,8 @@ class stack_equiv_input extends stack_input {
         // Looks odd making this true, but if there is a validity error here it will have
         // surfaced somewhere else.
         if (!($fl->get_valid())) {
-            $fl = new stack_cas_casstring('firstline:true');
+            $fl = stack_ast_container::make_from_teacher_source('firstline:true');
+            $fl->get_valid();
         }
 
         return array('calculus' => $ca, 'equivdisplay' => $an, 'equivfirstline' => $fl);
@@ -464,10 +509,13 @@ class stack_equiv_input extends stack_input {
      *
      * @param stack_input_state $state represents the results of the validation.
      * @param string $fieldname the field name to use in the HTML for this input.
+     * @param string $lang language of the question.
      * @return string HTML for the validation results for this input.
      */
-    public function render_validation(stack_input_state $state, $fieldname) {
-
+    public function render_validation(stack_input_state $state, $fieldname, $lang) {
+        if ($lang !== null && $lang !== '') {
+            $prevlang = force_current_language($lang);
+        }
         if (self::BLANK == $state->status) {
             return '';
         }
@@ -494,6 +542,9 @@ class stack_equiv_input extends stack_input {
             $feedback .= $this->tag_listofvariables($state->lvars);
         }
 
+        if ($lang !== null && $lang !== '') {
+            force_current_language($prevlang);
+        }
         return $feedback;
     }
 
@@ -501,5 +552,9 @@ class stack_equiv_input extends stack_input {
         $in = explode('<br>', $in);
         $in = implode("\n", $in);
         return array($this->name => $in);
+    }
+
+    public function get_api_solution($tavalue) {
+        return ['' => $this->maxima_to_raw_input($tavalue)];
     }
 }

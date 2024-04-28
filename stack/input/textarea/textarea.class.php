@@ -79,6 +79,20 @@ class stack_textarea_input extends stack_input {
         return html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
     }
 
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'textarea';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['syntaxHint'] = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+
+        return $data;
+    }
+
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
         $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
@@ -158,7 +172,7 @@ class stack_textarea_input extends stack_input {
             if (trim($val) != '') {
                 $cs = stack_ast_container::make_from_teacher_source($val);
                 if ($cs->get_valid()) {
-                    $val = $cs->get_inputform();
+                    $val = $cs->get_inputform(false, 0);
                 }
             }
             $values[$key] = $val;
@@ -194,7 +208,7 @@ class stack_textarea_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
 
         $rows = array();
         foreach ($caslines as $index => $cs) {
@@ -202,7 +216,7 @@ class stack_textarea_input extends stack_input {
             $fb = $cs->get_feedback();
             if ($cs->is_correctly_evaluated() && $fb == '') {
                 // The zero element of the array defines the display style: 0 = align center, 1 = red frame.
-                $row[] = array(0, '\(\displaystyle ' . $cs->get_display() . ' \)');
+                $row[] = array(0, '\(\displaystyle ' . $ilines[$index]->get_display() . ' \)');
                 if ($errors[$index]) {
                     $row[] = array(1, stack_maxima_translate($errors[$index]));
                 }
@@ -212,7 +226,7 @@ class stack_textarea_input extends stack_input {
                     $errors[] = $fb;
                 }
                 $valid = false;
-                $row[] = array(0, stack_maxima_format_casstring($this->rawcontents[$index]) );
+                $row[] = array(0, stack_maxima_format_casstring($this->rawcontents[$index]));
                 $row[] = array(1, trim(stack_maxima_translate($cs->get_errors()) . ' ' . $fb) );
             }
             $rows[] = $row;
@@ -309,4 +323,21 @@ class stack_textarea_input extends stack_input {
 
         return stack_string('teacheranswershow', array('value' => $value, 'display' => $display));
     }
+
+    public function get_api_solution($tavalue)
+    {
+        $values = stack_utils::list_to_array($tavalue, false);
+        foreach ($values as $key => $val) {
+            if (trim($val) !== '' ) {
+                $cs = stack_ast_container::make_from_teacher_source($val);
+                $cs->get_valid();
+                $val = $cs->get_inputform(true, 0, true);
+            }
+            $values[$key] = $val;
+        }
+
+        return array('' => implode("\n", $values));
+    }
+
+
 }

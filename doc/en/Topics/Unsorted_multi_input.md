@@ -43,15 +43,15 @@ Continuing the above example, in the PRT use
 
 ### Dealing with duplicate entries ###
 
-How do we decide partial credit when there may be duplicates, e.g. eignevalues with repetion?  If the teacher's answer is `[1,1,2]` then we can't use the above example based on sets.
+How do we decide partial credit when there may be duplicates, e.g. eigenvalues with repetition?  If the teacher's answer is `[1,1,2]` then we can't use the above example based on sets.
 
-STACK provides a maxima function `list_cancel(l1,l2)` which removes any common elements from `[l1,l2]`, with duplication.  E.g. use the following in the quesion variables.
+STACK provides a maxima function `list_cancel(l1,l2)` which removes any common elements from `[l1,l2]`, with duplication.  E.g. use the following in the question variables.
 
     sans:{ans1, ans2};
     [missing, notwanted]:list_cancel([sans, tas]);
     score:max(1-(length(missing)+length(notwanted))/(2*length(tas)),0);
 
-Note that `list_cancel` will not establish algebraic equialence and within this function two expressions are considered the same using maxima's `is(ex1=ex2))`.  Hence, some pre-processing of the lists might be needed, depending on the situation and what you consider is the "same".  For example if we have
+Note that `list_cancel` will not establish algebraic equivalence and within this function two expressions are considered the same using maxima's `is(ex1=ex2))`.  Hence, some pre-processing of the lists might be needed, depending on the situation and what you consider is the "same".  For example if we have
 
     l1:[x^2,x^3,x^2-1,x+x];
     l2:[x^2,x^4,(x-1)*(x+1),2*x];

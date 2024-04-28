@@ -176,7 +176,7 @@ class stack_cas_session2 {
 
     public function get_valid(): bool {
         $valid = true;
-        foreach ($this->statements as $index => $statement) {
+        foreach ($this->statements as $statement) {
             if ($statement->get_valid() === false) {
                 $valid = false;
             }
@@ -386,7 +386,6 @@ class stack_cas_session2 {
         $asts = array();
         $latex = array();
         $display = array();
-
         if (!isset($results['timeout']) || $results['timeout'] === true) {
             if (array_key_exists('timeoutdebug', $results)) {
                 $this->timeoutdebug = $results['timeoutdebug'];

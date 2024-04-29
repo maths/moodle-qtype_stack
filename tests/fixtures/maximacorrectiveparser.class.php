@@ -33,47 +33,71 @@ class maxima_corrective_parser_test_data {
     const EXPECTNOTES = 2; // Expected array of answer notes.
     const EXPECTERRS  = 3; // Expected array of errors.
 
-    protected static $rawdata = array(
-            array('2x', '2*x', array(0 => 'missing_stars'), array()),
-            array('sin(x)a', 'sin(x)*a', array(0 => 'missing_stars'), array()),
-            array('-12(7x+1)', '-12*(7*x+1)', array(0 => 'missing_stars'), array()),
-            array('(5x+1)3', '(5*x+1)*3', array(0 => 'missing_stars'), array()),
+    protected static $rawdata = [
+        ['2x', '2*x', [0 => 'missing_stars'], []],
+        ['sin(x)a', 'sin(x)*a', [0 => 'missing_stars'], []],
+        ['-12(7x+1)', '-12*(7*x+1)', [0 => 'missing_stars'], []],
+        ['(5x+1)3', '(5*x+1)*3', [0 => 'missing_stars'], []],
             // The following does not insert a * here, because this is legitimate maxima and may be forbidden
             // separately in students' input.
-            array('sin(x)(a+b)', 'sin(x)(a+b)', array(), array()),
-            array('2 x', '2*x', array(0 => 'spaces'), array()),
-            array('sin(x) a', 'sin(x)*a', array(0 => 'spaces'), array()),
-            array('-12 (7 x+1)', '-12*(7*x+1)', array(0 => 'spaces'), array()),
-            array('x%3', 'x%3', array(), array()),
-            array('1+3x^2+7 x', '1+3*x^2+7*x', array(0 => 'missing_stars', 1 => 'spaces'),
-                    array()),
-            array("f'(x)+1", null, array(0 => 'apostrophe'),
-                    array(0 => 'Apostrophes are not permitted in responses.')),
-            array('x>1 and x<4', 'x > 1 and x < 4', array(), array()),
-            array('x=>1 and x<4', null, array(0 => 'backward_inequalities'),
-                    array(0 => 'Non-strict inequalities e.g. <span class="filter_mathjaxloader_equation">' .
+        ['sin(x)(a+b)', 'sin(x)(a+b)', [], []],
+        ['2 x', '2*x', [0 => 'spaces'], []],
+        ['sin(x) a', 'sin(x)*a', [0 => 'spaces'], []],
+        ['-12 (7 x+1)', '-12*(7*x+1)', [0 => 'spaces'], []],
+        ['x%3', 'x%3', [], []],
+        [
+            '1+3x^2+7 x', '1+3*x^2+7*x', [0 => 'missing_stars', 1 => 'spaces'],
+            [],
+        ],
+        [
+            "f'(x)+1", null, [0 => 'apostrophe'],
+            [0 => 'Apostrophes are not permitted in responses.'],
+        ],
+        ['x>1 and x<4', 'x > 1 and x < 4', [], []],
+        [
+            'x=>1 and x<4', null, [0 => 'backward_inequalities'],
+            [
+                0 => 'Non-strict inequalities e.g. <span class="filter_mathjaxloader_equation">' .
                             '<span class="nolink">\( \leq \)</span></span> or ' .
                             '<span class="filter_mathjaxloader_equation"><span class="nolink">\( \geq \)</span></span>' .
                             ' must be entered as <= or >=.  You have <span class="stacksyntaxexample">=></span> ' .
-                            'in your expression, which is backwards.')),
-            array('x>1 and x<>4', null, array(0 => 'spuriousop'),
-                    array(0 => 'Unknown operator: <span class="stacksyntaxexample"><></span>.')),
-            array('x^2+2*x==1', null, array(0 => 'spuriousop'),
-                    array(0 => 'Unknown operator: <span class="stacksyntaxexample">==</span>.')),
-            array('x|y', null, array(0 => 'spuriousop'),
-                    array(0 => 'Unknown operator: <span class="stacksyntaxexample">|</span>.')),
-            array('x=1,2', null, array(0 => 'unencapsulated_comma'),
-                    array(0 => 'A comma in your expression appears in a strange way.  ' .
+                            'in your expression, which is backwards.',
+            ],
+        ],
+        [
+            'x>1 and x<>4', null, [0 => 'spuriousop'],
+            [0 => 'Unknown operator: <span class="stacksyntaxexample"><></span>.'],
+        ],
+        [
+            'x^2+2*x==1', null, [0 => 'spuriousop'],
+            [0 => 'Unknown operator: <span class="stacksyntaxexample">==</span>.'],
+        ],
+        [
+            'x|y', null, [0 => 'spuriousop'],
+            [0 => 'Unknown operator: <span class="stacksyntaxexample">|</span>.'],
+        ],
+        [
+            'x=1,2', null, [0 => 'unencapsulated_comma'],
+            [
+                0 => 'A comma in your expression appears in a strange way.  ' .
                             'Commas are used to separate items in lists, sets etc.  You need to use a decimal point, ' .
-                            'not a comma, in floating point numbers.')),
-            array('x^', null, array(0 => 'finalChar'),
-                    array(0 => '\'^\' is an invalid final character in <span class="stacksyntaxexample">x^</span>')),
-            array('2+!4*x', null, array(0 => 'badpostfixop'),
-                    array(0 => 'You have a bad "postfix" operator in your expression.')),
-            array('/* Comment */', '/* Comment */', array(), array()),
-            array('/* Open comment', null, array(0 => 'spaces', 1 => 'spuriousop'),
-                array(0 => 'Unknown operator: <span class="stacksyntaxexample">/*</span>.'))
-            );
+                            'not a comma, in floating point numbers.',
+            ],
+        ],
+        [
+            'x^', null, [0 => 'finalChar'],
+            [0 => '\'^\' is an invalid final character in <span class="stacksyntaxexample">x^</span>'],
+        ],
+        [
+            '2+!4*x', null, [0 => 'badpostfixop'],
+            [0 => 'You have a bad "postfix" operator in your expression.'],
+        ],
+        ['/* Comment */', '/* Comment */', [], []],
+        [
+            '/* Open comment', null, [0 => 'spaces', 1 => 'spuriousop'],
+            [0 => 'Unknown operator: <span class="stacksyntaxexample">/*</span>.'],
+        ],
+    ];
 
     public static function get_raw_test_data() {
         return self::$rawdata;
@@ -92,10 +116,10 @@ class maxima_corrective_parser_test_data {
     }
 
     public static function run_test($test) {
-        $notes      = array();
-        $errors     = array();
+        $notes      = [];
+        $errors     = [];
 
-        $ast         = maxima_corrective_parser::parse($test->rawinput, $errors, $notes, array());
+        $ast         = maxima_corrective_parser::parse($test->rawinput, $errors, $notes, []);
 
         // We don't always get an ast, to check if it is not null.
         $test->resultstr = null;

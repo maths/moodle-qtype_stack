@@ -36,7 +36,7 @@ class DownloadController {
      * @throws \Exception
      */
     public function __invoke(Request $request, Response $response, array $args): Response {
-        // TODO: Validate.
+        // TO-DO: Validate.
         $data = $request->getParsedBody();
         $name = $data['filename'];
         $tdid = $data['fileid'];

@@ -259,7 +259,7 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '(x+1)^2', 'PartFrac', '');
         $this->assertNull($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals(array(true, ''), $at->validate_atoptions('x'));
+        $this->assertEquals([true, ''], $at->validate_atoptions('x'));
     }
 
     public function test_is_true_for_completed_quadratics_compsquare() {

@@ -56,7 +56,7 @@ class external extends \external_api {
         return new \external_single_structure([
             'input' => new \external_value(PARAM_RAW, 'Input value'),
             'status' => new \external_value(PARAM_ALPHA, 'One of stack_input::BLANK, stack_input::VALID, ...'),
-            'message' => new \external_value(PARAM_RAW, 'The answer message after validation, includes svg')
+            'message' => new \external_value(PARAM_RAW, 'The answer message after validation, includes svg'),
         ]);
     }
 
@@ -89,7 +89,7 @@ class external extends \external_api {
         return [
             'input'   => $params['input'],
             'status'  => $state->status,
-            'message' => $input->render_validation($state, $qa->get_qt_field_name($params['name']), $lang)
+            'message' => $input->render_validation($state, $qa->get_qt_field_name($params['name']), $lang),
         ];
     }
 }

@@ -818,7 +818,7 @@ $string['stackCas_forbiddenVariable']       = 'Forbidden variable or constant: {
 $string['stackCas_operatorAsVariable']      = 'Operator {$a->op} interpreted as variable, check syntax.';
 $string['stackCas_redefinitionOfConstant']  = 'Redefinition of key constants is forbidden: {$a->constant}.';
 $string['stackCas_unknownFunctionCase']     = 'Input is case sensitive: {$a->forbid} is an unknown function. Did you mean {$a->lower}?';
-// TODO: the message should say that while these are valid names for variables as long as this case combination is not implicitely allowed we assume that you have typoed the known different case.
+// TO-DO: the message should say that while these are valid names for variables as long as this case combination is not implicitely allowed we assume that you have typoed the known different case.
 $string['stackCas_unknownVariableCase']     = 'Input is case sensitive: {$a->forbid} is an unknown variable. Did you mean {$a->lower}?';
 $string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: {$a->forbid}.';
 $string['stackCas_forbiddenWord']           = 'The expression {$a->forbid} is forbidden.';
@@ -1506,6 +1506,6 @@ $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
 
 
 
-//API
+// API strings.
 $string['api_no_deployed_variants'] = 'The question XML does not contain deployed variants';
 $string['api_seed_not_in_variants'] = 'The specified seed belongs to no deployed variant';

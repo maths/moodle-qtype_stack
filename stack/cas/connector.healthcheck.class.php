@@ -42,14 +42,14 @@ class stack_cas_healthcheck {
 
     protected $config = null;
 
-    protected $tests = array();
+    protected $tests = [];
 
     public function __construct($config) {
         global $CFG;
         $this->config = $config;
 
         // Record the platform in the summary.
-        $test = array();
+        $test = [];
         $test['tag'] = 'platform';
         $test['result'] = null;
         $test['summary'] = $config->platform;
@@ -61,7 +61,7 @@ class stack_cas_healthcheck {
         // The livetestcases are used below, once we have a live maxima or image ready to test.
         if (!$result) {
             $this->ishealthy = false;
-            $test = array();
+            $test = [];
             $test['tag'] = 'settingmaximalibraries';
             $test['result'] = $result;
             $test['summary'] = $message;
@@ -79,7 +79,7 @@ class stack_cas_healthcheck {
             case 'win':
                 $maximalocation = stack_cas_configuration::confirm_maxima_win_location();
                 if ('' != $maximalocation) {
-                    $test = array();
+                    $test = [];
                     $test['tag'] = 'stackmaximalibraries';
                     $test['result'] = null;
                     $test['summary'] = null;
@@ -88,7 +88,7 @@ class stack_cas_healthcheck {
                     $this->tests[] = $test;
                 } else {
                     $this->ishealthy = false;
-                    $test = array();
+                    $test = [];
                     $test['result'] = false;
                     $test['summary'] = "Could not confirm the location of Maxima";
                     $this->tests[] = $test;
@@ -98,7 +98,7 @@ class stack_cas_healthcheck {
 
                 if (!is_readable($CFG->dataroot . '/stack/maxima.bat')) {
                     $this->ishealthy = false;
-                    $test = array();
+                    $test = [];
                     $test['tag'] = 'healthcheckmaximabat';
                     $test['result'] = false;
                     $test['summary'] = stack_string('healthcheckmaximabatinfo', $CFG->dataroot);
@@ -110,7 +110,7 @@ class stack_cas_healthcheck {
             case 'linux':
                 // On a raw linux server list the versions of Maxima available.
                 $connection = stack_connection_helper::make();
-                $test = array();
+                $test = [];
                 $test['tag'] = 'healthcheckmaximaavailable';
                 $test['result'] = null;
                 $test['summary'] = null;
@@ -128,18 +128,18 @@ class stack_cas_healthcheck {
                 }
             default:
                 // Server-proxy/optimised.
-                // TODO: add in any specific tests for these setups?
+                // TO-DO: add in any specific tests for these setups?
                 break;
         }
 
         // Record the contents of the maximalocal file.
         if ($this->ishealthy) {
-            $test = array();
+            $test = [];
             $test['tag'] = 'healthcheckmaximalocal';
             $test['result'] = null;
             $test['summary'] = null;
             $test['details'] = html_writer::tag('textarea', stack_cas_configuration::generate_maximalocal_contents(),
-                array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
+                ['readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100']);
             $this->tests[] = $test;
         }
 
@@ -148,7 +148,7 @@ class stack_cas_healthcheck {
             list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
             $this->ishealthy = $result;
 
-            $test = array();
+            $test = [];
             $test['tag'] = 'healthuncached';
             $test['result'] = $result;
             $test['summary'] = $message;
@@ -180,7 +180,7 @@ class stack_cas_healthcheck {
         if ($this->ishealthy && $config->platform === 'linux') {
             list($message, $debug, $result, $commandline, $rawcommand)
                 = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
-            $test = array();
+            $test = [];
             $test['tag'] = 'healthautomaxopt';
             $test['result'] = $result;
             $test['summary'] = $message;
@@ -191,7 +191,7 @@ class stack_cas_healthcheck {
 
         if ($this->ishealthy) {
             list($message, $details, $result) = stack_connection_helper::stackmaxima_version_healthcheck();
-            $test = array();
+            $test = [];
             $test['tag'] = 'healthchecksstackmaximaversion';
             $test['result'] = $result;
             $test['summary'] = stack_string($message, $details);
@@ -202,7 +202,7 @@ class stack_cas_healthcheck {
         // Check that each library really is loaded into the current connection.
         if ($this->ishealthy) {
             // At this point everything _should_ be working so we use a regular session connection.
-            $s = array();
+            $s = [];
             foreach ($livetestcases as $lib => $test) {
                 $s[$lib] = stack_ast_container::make_from_teacher_source($test, 'test_library', new stack_cas_security());
             }
@@ -215,27 +215,27 @@ class stack_cas_healthcheck {
             $message = 'healthchecksstacklibrariesworkingok';
             $details = '';
             if ($session->is_instantiated()) {
-                $failed = array();
+                $failed = [];
                 foreach ($livetestcases as $lib => $test) {
                     // We assume the maxima expression testing each library must return true if and only if it works.
                     if ($s[$lib]->get_value() != 'true') {
                         $failed[] = $lib;
                     }
                 }
-                if ($failed != array()) {
+                if ($failed != []) {
                     $this->ishealthy = false;
                     $result = false;
                     $message = 'healthchecksstacklibrariesworkingfailed';
-                    $details = array('err' => implode(', ', $failed));
+                    $details = ['err' => implode(', ', $failed)];
                 }
             } else {
                 $this->ishealthy = false;
                 $result = false;
                 $message = 'healthchecksstacklibrariesworkingsession';
-                $details = array('err' => $session->get_errors(true));
+                $details = ['err' => $session->get_errors(true)];
             }
 
-            $test = array();
+            $test = [];
             $test['tag'] = 'healthchecksstacklibrariesworking';
             $test['result'] = $result;
             $test['summary'] = stack_string($message, $details);
@@ -243,7 +243,7 @@ class stack_cas_healthcheck {
             $this->tests[] = $test;
         }
         // List the requested maxima packages in the summary.
-        $test = array();
+        $test = [];
         $test['tag'] = 'settingmaximalibraries';
         $test['result'] = null;
         $test['summary'] = $config->maximalibraries;
@@ -251,7 +251,7 @@ class stack_cas_healthcheck {
         $this->tests[] = $test;
 
         // Record whether caching is taking place in the summary.
-        $test = array();
+        $test = [];
         $test['tag'] = 'settingcasresultscache';
         $test['result'] = null;
         $test['summary'] = stack_string('healthcheckcache_' . $config->casresultscache);
@@ -269,7 +269,7 @@ class stack_cas_healthcheck {
         $session = new stack_cas_session2([$ct]);
         $session->instantiate();
 
-        $test = array();
+        $test = [];
         $test['tag'] = $title;
         $test['result'] = null;
         $test['summary'] = null;

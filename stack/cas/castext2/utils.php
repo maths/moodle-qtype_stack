@@ -127,9 +127,11 @@ class castext2_parser_utils {
         $format // In MD-mode we need double and triple slashes.
     ): CTP_Root {
         // These are the environments considered mathmode.
-        static $mathmodeenvs = ['align', 'align*', 'alignat', 'alignat*',
+        static $mathmodeenvs = [
+            'align', 'align*', 'alignat', 'alignat*',
             'eqnarray', 'eqnarray*', 'equation', 'equation*', 'gather',
-            'gather*', 'multline', 'multline*'];
+            'gather*', 'multline', 'multline*',
+        ];
 
         // Ensure that we have the correct coding.
         $old = mb_internal_encoding();
@@ -236,7 +238,7 @@ class castext2_parser_utils {
                     }
                 }
             }
-            // TODO: we might also want to handle escapes and ignore {@...@} contents.
+            // TO-DO: we might also want to handle escapes and ignore {@...@} contents.
             return true;
         };
         $ast->callbackRecurse($populateskipmap);
@@ -493,7 +495,7 @@ class castext2_parser_utils {
     // use when you need to have pretty printed position data.
     public static function position_remap(CTP_Node $ast, string $code, array $limits = null) {
         if ($limits === null) {
-            $limits = array();
+            $limits = [];
             foreach (explode("\n", $code) as $line) {
                 $limits[] = strlen($line) + 1;
             }
@@ -559,7 +561,7 @@ class castext2_parser_utils {
             'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header', 'hr', 'html',
             'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem', 'nav', 'noframes',
             'ol', 'optgroup', 'option', 'p', 'param', 'section', 'source', 'summary', 'table',
-            'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul'
+            'tbody', 'td', 'tfoot', 'th', 'thead', 'title', 'tr', 'track', 'ul',
         ];
 
         // Case 1.
@@ -601,7 +603,7 @@ class castext2_parser_utils {
             }
         }
         // Case 7.
-        // TODO.
+        // TO-DO.
 
         // Not a case.
         return false;

@@ -31,8 +31,8 @@ $plugin->component = 'qtype_stack';
 $plugin->maturity  = MATURITY_ALPHA;
 $plugin->release   = '4.6.0 for Moodle 4.0+';
 
-$plugin->dependencies = array(
+$plugin->dependencies = [
     'qbehaviour_adaptivemultipart'     => 2020103000,
     'qbehaviour_dfexplicitvaildate'    => 2018080600,
     'qbehaviour_dfcbmexplicitvaildate' => 2018080600,
-);
+];

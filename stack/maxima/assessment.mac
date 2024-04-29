@@ -655,7 +655,7 @@ texdisp_complex(ex) := block([ps, sxr, exi, simp],
       else block(
        if not(freeof_mminusp(exi)) then block(
          ps:"-",
-         /* TODO: more subtle removal of the minus sign?! */
+         /* TO-DO: more subtle removal of the minus sign?! */
          exi:ev(-1*exi, simp)
        ),
        sconcat(sxr, ps, tex1(%i), "\\,", tex1(exi))

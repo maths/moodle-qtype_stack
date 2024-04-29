@@ -27,7 +27,7 @@ class stack_numerical_input extends stack_input {
      * This has numerous problems, and is difficult to maintain. Extra options will be in a JSON-like format.
      * @var array
      */
-    protected $extraoptions = array(
+    protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
         'nounits' => false,
@@ -48,8 +48,8 @@ class stack_numerical_input extends stack_input {
         'minsf' => false,
         'maxsf' => false,
         'align' => 'left',
-        'validator' => false
-    );
+        'validator' => false,
+    ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
@@ -58,7 +58,7 @@ class stack_numerical_input extends stack_input {
         }
 
         $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
-        $attributes = array(
+        $attributes = [
             'type'  => 'text',
             'name'  => $fieldname,
             'id'    => $fieldname,
@@ -67,7 +67,7 @@ class stack_numerical_input extends stack_input {
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
             'class'     => 'numerical',
-        );
+        ];
         if ($this->extraoptions['align'] === 'right') {
             $attributes['class'] = 'numerical-right';
         }
@@ -110,7 +110,7 @@ class stack_numerical_input extends stack_input {
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-        $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
+        $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
         $mform->setType($this->name, PARAM_RAW);
     }
@@ -121,7 +121,7 @@ class stack_numerical_input extends stack_input {
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
-        return array(
+        return [
             'mustVerify'         => true,
             'showValidation'     => 1,
             'boxWidth'           => 15,
@@ -133,7 +133,8 @@ class stack_numerical_input extends stack_input {
             'forbidFloats'       => false,
             'lowestTerms'        => true,
             'sameType'           => true,
-            'options'            => '');
+            'options'            => '',
+        ];
     }
 
     /**
@@ -163,6 +164,6 @@ class stack_numerical_input extends stack_input {
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
         $cs->set_nounify(0);
         $value = $cs->get_inputform(true, 0, true, $this->options->get_option('decimals'));
-        return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
+        return stack_string('teacheranswershow', ['value' => '<code>'.$value.'</code>', 'display' => $display]);
     }
 }

@@ -53,8 +53,10 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
         } else {
             array_shift($internal);
             $body = new MP_Operation(':', new MP_Identifier('__ct2_foreach___tmp'),
-                new MP_FunctionCall(new MP_Identifier('append'), [new MP_Identifier('__ct2_foreach___tmp'),
-                new MP_List($internal)]));
+                new MP_FunctionCall(new MP_Identifier('append'), [
+                    new MP_Identifier('__ct2_foreach___tmp'),
+                    new MP_List($internal),
+                ]));
         }
 
         if (count($this->params) > 1) {
@@ -88,9 +90,14 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
             $definedbody = new MP_Group([]);
             foreach ($this->params as $key => $value) {
                 $definedbody->items[] = new MP_Operation(':', new MP_Identifier($key),
-                    new MP_Indexing(new MP_Identifier('__ct2_foreach___' . $key),
-                    [new MP_List([new MP_FunctionCall(new MP_Identifier('ev'),
-                    [new MP_Identifier('__ct2_foreach___iter'), new MP_Identifier('simp')])])]));
+                    new MP_Indexing(new MP_Identifier('__ct2_foreach___' . $key), [
+                        new MP_List([
+                            new MP_FunctionCall(new MP_Identifier('ev'), [
+                                new MP_Identifier('__ct2_foreach___iter'),
+                                new MP_Identifier('simp'),
+                            ]),
+                        ]),
+                    ]));
             }
             $definedbody->items[] = $body;
 
@@ -100,8 +107,8 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
                 new MP_LoopBit('thru', new MP_FunctionCall(new MP_Identifier('ev'),
                     [
                         new MP_FunctionCall(new MP_Identifier('min'), $lengths),
-                        new MP_Identifier('simp')
-                    ]))
+                        new MP_Identifier('simp'),
+                    ])),
             ]);
         } else {
             // If we only iterate over one thing we can skip the min logic and assing directly.
@@ -118,7 +125,7 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
             $ast = $ev->get_commentles_primary_statement();
             $r->arguments[] = new MP_Loop($body, [
                 new MP_LoopBit('for', new MP_Identifier(array_keys($this->params)[0])),
-                new MP_LoopBit('in', new MP_FunctionCall(new MP_Identifier('listify'), [$ast]))
+                new MP_LoopBit('in', new MP_FunctionCall(new MP_Identifier('listify'), [$ast])),
             ]);
         }
 
@@ -140,7 +147,7 @@ class stack_cas_castext2_foreach extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        $r = array();
+        $r = [];
         foreach ($this->params as $key => $value) {
             $r[] = stack_ast_container_silent::make_from_teacher_source($key . ':' . $value, 'ct2:foreach',
                 new stack_cas_security());

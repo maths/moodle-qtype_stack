@@ -87,13 +87,13 @@ class qtype_stack_restore_logic_testcase extends \advanced_testcase {
         // Create a test question.
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
-        $question = $generator->create_question('stack', 'test3', array('category' => $cat->id));
+        $question = $generator->create_question('stack', 'test3', ['category' => $cat->id]);
 
         // Break one of its PRTs.
         $DB->set_field('qtype_stack_prts', 'firstnodename', -1,
-                array('questionid' => $question->id, 'name' => 'oddeven'));
+                ['questionid' => $question->id, 'name' => 'oddeven']);
         $DB->set_field('qtype_stack_prt_nodes', 'truenextnode', 7,
-                array('questionid' => $question->id, 'prtname' => 'oddeven', 'nodename' => 0));
+                ['questionid' => $question->id, 'prtname' => 'oddeven', 'nodename' => 0]);
 
         $restoreplugin = new \testable_restore_qtype_stack_plugin();
         $restoreplugin->after_execute_question();

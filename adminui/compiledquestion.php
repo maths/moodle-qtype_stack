@@ -39,7 +39,7 @@ require_login();
 $context = context_system::instance();
 require_capability('qtype/stack:usediagnostictools', $context);
 
-$urlparams = array();
+$urlparams = [];
 
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -72,7 +72,8 @@ echo '<h3>Simple details</h3>';
 $selected = [
     'units' => $q->get_cached('units'),
     'langs' => $q->get_cached('langs'),
-    'forbiddenkeys' => array_keys($q->get_cached('forbiddenkeys'))];
+    'forbiddenkeys' => array_keys($q->get_cached('forbiddenkeys')),
+];
 echo '<pre>' . htmlspecialchars(json_encode($selected, JSON_PRETTY_PRINT), ENT_COMPAT) . '</pre>';
 
 

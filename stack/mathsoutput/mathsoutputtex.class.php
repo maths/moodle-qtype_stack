@@ -37,6 +37,6 @@ class stack_maths_output_tex extends stack_maths_output_filter_base {
     }
 
     protected function make_filter() {
-        return new filter_tex(context_system::instance(), array());
+        return new filter_tex(context_system::instance(), []);
     }
 }

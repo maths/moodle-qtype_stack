@@ -34,7 +34,7 @@ class stack_equiv_input extends stack_input {
      * For examples see the numerical input.
      * @var array
      */
-    protected $extraoptions = array(
+    protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
         'nounits' => false,
@@ -53,8 +53,8 @@ class stack_equiv_input extends stack_input {
         // Sets the value of the stack_calculus variable, which affects how we deal with calulus in arguments.
         'calculus' => false,
         'consolidatesubscripts' => false,
-        'checkvars' => 0
-    );
+        'checkvars' => 0,
+    ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
         // Note that at the moment, $this->boxHeight and $this->boxWidth are only
@@ -99,7 +99,7 @@ class stack_equiv_input extends stack_input {
             $boxwidth = max($boxwidth, strlen($row));
         }
 
-        $attributes = array(
+        $attributes = [
             'class' => 'equivinput',
             'name'  => $fieldname,
             'id'    => $fieldname,
@@ -107,7 +107,7 @@ class stack_equiv_input extends stack_input {
             'cols'  => min($boxwidth, 50),
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
-        );
+        ];
         if ($placeholder) {
             $attributes['placeholder'] = $placeholder;
         }
@@ -153,7 +153,7 @@ class stack_equiv_input extends stack_input {
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-        $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
+        $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
         $mform->setType($this->name, PARAM_RAW);
     }
@@ -166,14 +166,14 @@ class stack_equiv_input extends stack_input {
      * @return string
      */
     protected function response_to_contents($response) {
-        $contents = array();
+        $contents = [];
         if (array_key_exists($this->name, $response)) {
             $sans = $response[$this->name];
             if (trim($sans) == '' && $this->get_extra_option('allowempty')) {
-                return array('EMPTYANSWER');
+                return ['EMPTYANSWER'];
             }
             $rowsin = explode("\n", $sans);
-            $rowsout = array();
+            $rowsout = [];
             foreach ($rowsin as $key => $row) {
                 $cleanrow = trim($row);
                 if ($cleanrow != '') {
@@ -185,17 +185,18 @@ class stack_equiv_input extends stack_input {
     }
 
     protected function caslines_to_answer($caslines, $secrules = false) {
-        $vals = array();
+        $vals = [];
         // We don't use full "inputform" here as we need to keep stacklet and stackeq as is.
-        $params = array('checkinggroup' => true,
+        $params = [
+            'checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
             'nosemicolon' => true,
             'keyless' => true,
             'dealias' => false, // This is needed to stop pi->%pi etc.
             'nounify' => 1,
-            'nontuples' => false
-        );
+            'nontuples' => false,
+        ];
         foreach ($caslines as $line) {
             $str = $line->ast_to_string(null, $params);
             if ($line->get_valid() || $str === 'EMPTYANSWER') {
@@ -265,11 +266,11 @@ class stack_equiv_input extends stack_input {
     protected function validate_contents($contents, $basesecurity, $localoptions) {
 
         // This input re-defines validate_contents, and so does not make use of extra_validation methods.
-        $errors = array();
-        $notes = array();
+        $errors = [];
+        $notes = [];
         $valid = true;
-        $caslines = array();
-        $ilines = array();
+        $caslines = [];
+        $ilines = [];
 
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
         // Separate rules for inert display logic, which wraps floats with certain functions.
@@ -278,7 +279,7 @@ class stack_equiv_input extends stack_input {
 
         foreach ($contents as $index => $val) {
             $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                    array(), 'Equivline', $this->options->get_option('decimals'));
+                    [], 'Equivline', $this->options->get_option('decimals'));
 
             // Is the student permitted to include comments in their answer?
             if (!$this->extraoptions['comments'] && $answer->is_string()) {
@@ -299,8 +300,9 @@ class stack_equiv_input extends stack_input {
             $errors[] = $answer->get_errors();
 
             // Construct inert version of that.
-            $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd, array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
-                array(), 'Equivline', $this->options->get_option('decimals'));
+            $inertdisplayform = stack_ast_container::make_from_student_source($val, '', $secrulesd,
+                array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+                [], 'Equivline', $this->options->get_option('decimals'));
             $inertdisplayform->get_valid();
             $ilines[] = $inertdisplayform;
         }
@@ -312,7 +314,7 @@ class stack_equiv_input extends stack_input {
         // Same for the inert version.
         $inertdisplayform = $this->caslines_to_answer($ilines, $basesecurity);
 
-        return array($valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines);
+        return [$valid, $errors, $notes, $answer, $caslines, $inertdisplayform, $ilines];
     }
 
     /**
@@ -324,7 +326,8 @@ class stack_equiv_input extends stack_input {
      * @return string any error messages describing validation failures. An empty
      *      string if the input is valid - at least according to this test.
      */
-    protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
+    protected function validation_display($answer, $lvars, $caslines, $additionalvars,
+                                            $valid, $errors, $castextprocessor, $inertdisplayform, $ilines) {
 
         if ($this->extraoptions['firstline']) {
             $foundfirstline = false;
@@ -343,9 +346,9 @@ class stack_equiv_input extends stack_input {
             }
         }
         $errorfree = true;
-        $rows = array();
+        $rows = [];
         foreach ($caslines as $index => $cs) {
-            $row = array();
+            $row = [];
             $fb = $cs->get_feedback();
             if ($cs->is_correctly_evaluated() && $fb == '') {
                 $row[] = '\(\displaystyle ' . $ilines[$index]->get_display() . ' \)';
@@ -383,7 +386,7 @@ class stack_equiv_input extends stack_input {
             }
         }
 
-        return array($valid, $errors, $display);
+        return [$valid, $errors, $display];
     }
 
 
@@ -431,7 +434,7 @@ class stack_equiv_input extends stack_input {
             $fl->get_valid();
         }
 
-        return array('calculus' => $ca, 'equivdisplay' => $an, 'equivfirstline' => $fl);
+        return ['calculus' => $ca, 'equivdisplay' => $an, 'equivfirstline' => $fl];
     }
 
     protected function get_validation_method() {
@@ -448,7 +451,7 @@ class stack_equiv_input extends stack_input {
      * @return array option => default value.
      */
     public static function get_parameters_defaults() {
-        return array(
+        return [
             'mustVerify'       => true,
             'showValidation'   => 1,
             'boxWidth'         => 25,
@@ -460,8 +463,8 @@ class stack_equiv_input extends stack_input {
             'forbidFloats'     => true,
             'lowestTerms'      => true,
             'sameType'         => false,
-            'options'          => ''
-            );
+            'options'          => '',
+        ];
     }
 
     /**
@@ -500,7 +503,7 @@ class stack_equiv_input extends stack_input {
         }
         $value = "<br/>".implode("<br/>", $values);
 
-        return stack_string('teacheranswershow', array('value' => $value, 'display' => $display));
+        return stack_string('teacheranswershow', ['value' => $value, 'display' => $display]);
     }
 
     /**
@@ -529,13 +532,15 @@ class stack_equiv_input extends stack_input {
         $feedback = stack_maths::process_lang_string($state->contentsdisplayed);
 
         if ($this->requires_validation() && '' !== $state->contents) {
-            $feedback .= html_writer::empty_tag('input', array('type' => 'hidden',
-                    'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents)));
+            $feedback .= html_writer::empty_tag('input', [
+                'type' => 'hidden',
+                'name' => $fieldname . '_val', 'value' => $this->contents_to_maxima($state->contents),
+            ]);
         }
 
         if (self::INVALID == $state->status) {
             $feedback .= html_writer::tag('div', stack_string('studentValidation_invalidAnswer'),
-                    array('class' => 'alert alert-danger stackinputerror'));
+                    ['class' => 'alert alert-danger stackinputerror']);
         }
 
         if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' || $state->lvars === '[]')) {
@@ -551,7 +556,7 @@ class stack_equiv_input extends stack_input {
     protected function ajax_to_response_array($in) {
         $in = explode('<br>', $in);
         $in = implode("\n", $in);
-        return array($this->name => $in);
+        return [$this->name => $in];
     }
 
     public function get_api_solution($tavalue) {

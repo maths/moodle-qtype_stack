@@ -41,7 +41,7 @@ raise_memory_limit(MEMORY_HUGE);
 $startfromcontextid = optional_param('startfromcontextid', 0, PARAM_INT);
 
 $skippreviouspasses = optional_param('skippreviouspasses', false, PARAM_BOOL);
-$urlparams = array();
+$urlparams = [];
 if ($skippreviouspasses) {
     $urlparams['skippreviouspasses'] = 1;
 }
@@ -63,7 +63,7 @@ require_login();
 // Create the helper class.
 $bulktester = new stack_bulk_tester();
 $allpassed = true;
-$allfailing = array();
+$allfailing = [];
 $skipping = $startfromcontextid != 0;
 
 // Release the session, so the user can do other things while this runs.
@@ -91,7 +91,7 @@ foreach ($bulktester->get_num_stack_questions_by_context() as $contextid => $num
         foreach ($failing as $key => $arrvals) {
             // Guard clause here to future proof any new fields from the bulk tester.
             if (!array_key_exists($key, $allfailing)) {
-                $allfailing[$key] = array();
+                $allfailing[$key] = [];
             }
             $allfailing[$key] = array_merge($allfailing[$key], $arrvals);
         }

@@ -25,7 +25,7 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
 
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
-        // TODO: do we maybe want to use the allowed words here also?
+        // TO-DO: do we maybe want to use the allowed words here also?
         // although then allowed words should be typed, to get the best results.
 
         // Get the list/map of protected variable names and constants.
@@ -71,7 +71,7 @@ class stack_ast_filter_410_single_char_vars implements stack_cas_astfilter {
                 if (mb_substr($node->value, 0, 1) === '_' || mb_substr($node->value, 1, 1) === '_') {
                     return true;
                 }
-                // TODO: more subtle case of ab_cd -> a*b_c*d rather than a*b_cd.
+                // TO-DO: more subtle case of ab_cd -> a*b_c*d rather than a*b_cd.
                 // This is enough for now, and doesn't break Maxima.
 
                 // If it does not start with a known identifier split the first char.

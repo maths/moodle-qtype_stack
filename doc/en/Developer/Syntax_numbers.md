@@ -84,7 +84,7 @@ Students do not type in expression termination symbols `;`, freeing up this symb
 Internally, we retain strict Maxima syntax.  _Teachers must use strict Maxima syntax, so that numbers are typed in base 10, and the decimal point (`.`) must be used by teachers as the decimal separator._   This simplifies the problem considerably, as input parsing is only required for students' answers.
 
 1. Currently the only option available is "strict".
-2. TODO: Allow student input of `matrix([3,1415;2,71]).matrix([1];[2])` this example should be parsed, but currently the system rejects this.
+2. TO-DO: Allow student input of `matrix([3,1415;2,71]).matrix([1];[2])` this example should be parsed, but currently the system rejects this.
 
 ## Practial implementation in other software
 

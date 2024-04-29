@@ -26,11 +26,11 @@ class stack_boolean_input extends stack_input {
     const NA = '';
 
     public static function get_choices() {
-        return array(
+        return [
             self::F => stack_string('false'),
             self::T => stack_string('true'),
             self::NA => stack_string('notanswered'),
-        );
+        ];
     }
 
     protected function extra_validation($contents) {
@@ -49,7 +49,7 @@ class stack_boolean_input extends stack_input {
             return $this->render_error($this->errors);
         }
 
-        $attributes = array();
+        $attributes = [];
         if ($readonly) {
             $attributes['disabled'] = 'disabled';
         }
@@ -85,10 +85,10 @@ class stack_boolean_input extends stack_input {
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
-        return array(
-                'mustVerify'      => false,
-                'showValidation'  => 0,
-                'options'            => ''
-        );
+        return [
+            'mustVerify'      => false,
+            'showValidation'  => 0,
+            'options'            => '',
+        ];
     }
 }

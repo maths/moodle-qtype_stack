@@ -40,7 +40,7 @@ require_login();
 $context = context_system::instance();
 require_capability('qtype/stack:usediagnostictools', $context);
 
-$urlparams = array();
+$urlparams = [];
 
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -87,25 +87,25 @@ echo  'Currently there are ' . $ncompiled . ' compiled questions and ' . $nnotco
     ' questions that have not been succesfully compiled.</p>';
 
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('includes' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['includes' => 1, 'sesskey' => sesskey()]),
     'Find "includes"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('jsxgraphs' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['jsxgraphs' => 1, 'sesskey' => sesskey()]),
     'Find "jsxgraphs"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('geogebras' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['geogebras' => 1, 'sesskey' => sesskey()]),
     'Find "geogebra"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('script' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['script' => 1, 'sesskey' => sesskey()]),
     'Find "<script"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('PLUGINFILE' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['PLUGINFILE' => 1, 'sesskey' => sesskey()]),
     'Find "@@PLUGINFILE@@"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('langs' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['langs' => 1, 'sesskey' => sesskey()]),
     'Find "langs"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('todo' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['todo' => 1, 'sesskey' => sesskey()]),
     'Find "todo"');
 
 if (data_submitted() && optional_param('includes', false, PARAM_BOOL)) {
@@ -158,7 +158,7 @@ if (data_submitted() && optional_param('jsxgraphs', false, PARAM_BOOL)) {
      * JSXGraphs are spotted from the compiled cache, finding '["jsxgraph",'
      * means that there are STACK block based JSXGraphs. '</jsxgraph>' would
      * mean that the official filter is in play, if we find "jsxgraph" in any other
-     * form then we probably have something else in play or a "TODO" note.
+     * form then we probably have something else in play or a "TO-DO" note.
      */
     $qs = $DB->get_recordset_sql('SELECT q.id as questionid FROM {question} q, {qtype_stack_options} o WHERE ' .
         'q.id = o.questionid AND ' .
@@ -209,7 +209,7 @@ if (data_submitted() && optional_param('geogebras', false, PARAM_BOOL)) {
      * GeoGebra Graphs are spotted from the compiled cache, finding '["geogebra",'
      * means that there are STACK block based GeoGebra. '</geogebra>' would
      * mean that the official filter is in play, if we find "geogebra" in any other
-     * form then we probably have something else in play or a "TODO" note.
+     * form then we probably have something else in play or a "TO-DO" note.
      */
     $qs = $DB->get_recordset_sql('SELECT q.id as questionid FROM {question} q, {qtype_stack_options} o WHERE ' .
         'q.id = o.questionid AND ' .
@@ -264,7 +264,6 @@ if (data_submitted() && optional_param('script', false, PARAM_BOOL)) {
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
         $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                 null, null, null, null, $context);
-    
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
     }

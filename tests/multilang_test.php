@@ -42,7 +42,7 @@ class multilang_test extends qtype_stack_testcase {
             . '</p><p>Laske summa \(C = A + B\).</p><p>Vastaus: [[input:ans1]]</p><div>[[validation:ans1]]</div></span>';
 
         $ml = new stack_multilang();
-        $this->assertEquals(array('en', 'fi'), $ml->languages_used($enfi));
+        $this->assertEquals(['en', 'fi'], $ml->languages_used($enfi));
     }
 
     public function test_get_languages_none() {
@@ -51,7 +51,7 @@ class multilang_test extends qtype_stack_testcase {
                 . '[[input:ans1]]</p><div>[[validation:ans1]]</div></span>';
 
         $ml = new stack_multilang();
-        $this->assertEquals(array(), $ml->languages_used($enfi));
+        $this->assertEquals([], $ml->languages_used($enfi));
     }
 
     public function test_filter_langs() {

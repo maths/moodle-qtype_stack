@@ -42,7 +42,7 @@ class stack_question_test {
     /**
      * @var array prt name => stack_potentialresponse_tree_state object
      */
-    public $expectedresults = array();
+    public $expectedresults = [];
 
     /**
      * Constructor
@@ -130,7 +130,7 @@ class stack_question_test {
             // Adapted from renderer.php prt_feedback_display.
             $feedback = $result->get_feedback();
             $feedback = format_text(stack_maths::process_display_castext($feedback),
-                    FORMAT_HTML, array('noclean' => true, 'para' => false));
+                    FORMAT_HTML, ['noclean' => true, 'para' => false]);
 
             $result->override_feedback($feedback);
             $results->set_prt_result($prtname, $result);
@@ -158,7 +158,7 @@ class stack_question_test {
         $localoptions = clone $question->options;
 
         // Start with the question variables (note that order matters here).
-        $cascontext = new stack_cas_session2(array(), $localoptions, $question->seed);
+        $cascontext = new stack_cas_session2([], $localoptions, $question->seed);
         $question->add_question_vars_to_session($cascontext);
 
         // Add the correct answer for all inputs.
@@ -169,7 +169,7 @@ class stack_question_test {
         }
 
         // Turn off simplification - we need test cases to be unsimplified, even if the question option is true.
-        $vars = array();
+        $vars = [];
         $cs = stack_ast_container::make_from_teacher_source('simp:false' , '', new stack_cas_security());
         $vars['simp'] = $cs;
         // Now add the expressions we want evaluated.
@@ -198,7 +198,7 @@ class stack_question_test {
         if ($cascontext->get_valid()) {
             $cascontext->instantiate();
         }
-        $response = array();
+        $response = [];
         foreach ($inputs as $name => $value) {
             $var = null;
             $computedinput = '';
@@ -249,7 +249,7 @@ class stack_question_test {
         global $DB;
 
         $existingresult = $DB->get_record('qtype_stack_qtest_results',
-                array('questionid' => $question->id, 'testcase' => $this->testcase, 'seed' => $question->seed),
+                ['questionid' => $question->id, 'testcase' => $this->testcase, 'seed' => $question->seed],
                 '*', IGNORE_MISSING);
 
         if ($existingresult) {
@@ -257,13 +257,13 @@ class stack_question_test {
             $existingresult->timerun = time();
             $DB->update_record('qtype_stack_qtest_results', $existingresult);
         } else {
-            $DB->insert_record('qtype_stack_qtest_results', array(
-                    'questionid' => $question->id,
-                    'testcase' => $this->testcase,
-                    'seed' => $question->seed,
-                    'result' => $result->passed(),
-                    'timerun' => time(),
-            ));
+            $DB->insert_record('qtype_stack_qtest_results', [
+                'questionid' => $question->id,
+                'testcase' => $this->testcase,
+                'seed' => $question->seed,
+                'result' => $result->passed(),
+                'timerun' => time(),
+            ]);
         }
     }
 }

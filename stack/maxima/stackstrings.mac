@@ -394,7 +394,7 @@ stack_csv_formatter(_data, _labels) := block([_sep,simp,_out,_rowcount,_sepcount
   )
  ),
 
- /* TODO: do we want to do padding and formatting to help reading in text-editors? */
+ /* TO-DO: do we want to do padding and formatting to help reading in text-editors? */
 
  /* Now let's join everything up. */
  _out: maplist(lambda([_row], simplode(_row, _sep)), _out),

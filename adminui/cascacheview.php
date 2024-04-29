@@ -35,7 +35,7 @@ require_login();
 $context = context_system::instance();
 require_capability('qtype/stack:usediagnostictools', $context);
 
-$urlparams = array();
+$urlparams = [];
 
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -57,7 +57,7 @@ foreach ($data as $item) {
     // Ends with $ which is bad.
     // Now can contain $ signs elsewhere as well...
     $ast = maxima_parser_utils::parse(str_replace('$', ';', $item->command));
-    $str = $ast->toString(array('pretty' => true));
+    $str = $ast->toString(['pretty' => true]);
     $str = str_replace('&', '&amp;', $str);
     $str = str_replace('<', '&lt;', $str);
     $str = str_replace('>', '&gt;', $str);

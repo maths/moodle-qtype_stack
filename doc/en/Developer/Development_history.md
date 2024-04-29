@@ -14,7 +14,7 @@ Released December 2023.
 Please note, this is the _last_ version of STACK which will support Moodle 3.x.
 
 1. Re-factor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
-2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TODO: possible option to change shape at the input level?)
+2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TO-DO: possible option to change shape at the input level?)
 3. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
 4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
 5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
@@ -597,7 +597,7 @@ Once completed we are ready for the **Beta release!**
 #### Beta testing period
 
 1. Do lots of testing, report and fix bugs.
-2. Eliminate as many TODOs from the code as possible.
+2. Eliminate as many TO-DOs from the code as possible.
 3. Add back other translations from STACK 2.0, preserving as many of the existing strings as possible. NOTE: the new format of the language strings containing parameters.  In particular, strings {$a[0]} need to be changed to {$a->m0}, etc.
 4. Add back all questions from the diagnostic quiz project as further examples.
 5. Deploy many variants at once.
@@ -616,10 +616,10 @@ Once completed we are ready for the **Beta release!**
 1. **DOES NOT HAPPEN ANY MORE** With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
 2. Images added to prt node true or false feedback do not get displayed. There is a missing call to format_text.
 3. A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
-4. Singlechar input should validate that the input is a single char. (There is a TODO in the code for this.)
-5. Dropdown input should make sure that only allowed values are submitted. (There is a TODO in the code for this.)
-6. Dropdown input element needs some unit tests. (There is a TODO in the code for this.)
-7. We need to check for and handle CAS errors in get_prt_result and grade_parts_that_can_be_graded. (There is a TODO in the code for this.)
+4. Singlechar input should validate that the input is a single char. (There is a TO-DO in the code for this.)
+5. Dropdown input should make sure that only allowed values are submitted. (There is a TO-DO in the code for this.)
+6. Dropdown input element needs some unit tests. (There is a TO-DO in the code for this.)
+7. We need to check for and handle CAS errors in get_prt_result and grade_parts_that_can_be_graded. (There is a TO-DO in the code for this.)
 8. Un-comment the throw in the matrix input.
 9. Unit tests for adaptive mode score display - and to verify nothing like that appears for other behaviours.
 10. Duplicate response detection for PRTs should consider all previous responses.

@@ -25,12 +25,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../question.php');
 
 /**
- * TODO: Rework, dont use legacy classes
+ * TO-DO: Rework, dont use legacy classes
  * Converts question xml into usable format
  */
 class StackQuestionLoader {
     public static function loadxml($xml) {
-        // TODO: Consider defaults.
+        // TO-DO: Consider defaults.
         try {
             $xmldata = new SimpleXMLElement($xml);
         } catch (\Exception $e) {

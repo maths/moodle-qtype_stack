@@ -142,7 +142,7 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
      */
     protected function find_and_process_equations($html, $callback) {
         return preg_replace_callback('~(?<!\\\\)(?<!<code>)\\\\[([](.*?)(?<!\\\\)\\\\([])])(?!</code>)~s',
-                array($this, $callback), $html);
+                [$this, $callback], $html);
     }
 
     /**

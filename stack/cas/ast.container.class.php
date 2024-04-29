@@ -173,14 +173,14 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
                     throw new stack_exception('stack_ast_container: validationmethod must one of "checktype", "typeless", ' .
                         '"units" or "unitsnegpow" or "equiv", but received "'.$validationmethod.'".');
         }
-        $this->validationcontext = array(
+        $this->validationcontext = [
             'vname'            => $vname,
             'lowestterms'      => $lowestterms,
             'tans'             => $tans,
             'validationmethod' => $validationmethod,
             'simp'             => $simp,
             'checkvars'        => $checkvars,
-        );
+        ];
     }
 
     public function get_cas_validation_context() {
@@ -191,7 +191,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
         if (null === $this->evaluated) {
             throw new stack_exception('stack_ast_container: tried to get the value from of an unevaluated casstring.');
         }
-        return $this->ast_to_string($this->evaluated, array('checkinggroup' => true));
+        return $this->ast_to_string($this->evaluated, ['checkinggroup' => true]);
     }
 
     /* This function returns something a teacher might claim a student types in.
@@ -219,8 +219,10 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
             $dispval = '';
         }
         $testval = self::make_from_teacher_source($dispval, '', new stack_cas_security());
-        $computedinput = $testval->ast->toString(array('nounify' => 0, 'inputform' => true,
-                'qmchar' => true, 'pmchar' => 0, 'nosemicolon' => true, 'nontuples' => true));
+        $computedinput = $testval->ast->toString([
+            'nounify' => 0, 'inputform' => true,
+            'qmchar' => true, 'pmchar' => 0, 'nosemicolon' => true, 'nontuples' => true,
+        ]);
 
         return $computedinput;
     }
@@ -238,9 +240,9 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
      */
     public function get_ast_test() {
         if ($this->is_correctly_evaluated()) {
-            return $this->evaluated->toString(array('flattree' => true));
+            return $this->evaluated->toString(['flattree' => true]);
         }
-        return $this->ast->toString(array('flattree' => true));
+        return $this->ast->toString(['flattree' => true]);
     }
 
     public function get_ast_clone() {
@@ -331,7 +333,7 @@ class stack_ast_container extends stack_ast_container_silent implements cas_late
             'simp-accessed' => false,
             'simp-modified' => false,
             'last-seen' => null,
-            'out-of-ev-write' => false
+            'out-of-ev-write' => false,
         ];
 
         // Ensure depth with a group.

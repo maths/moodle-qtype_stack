@@ -50,7 +50,7 @@ $PAGE->set_pagelayout('report');
 $PAGE->set_title($title);
 
 // Set up the results table.
-$columns = array(
+$columns = [
     'passed'             => stack_string('testsuitecolpassed'),
     'studentanswer'      => stack_string('studentanswer'),
     'phpvalid'           => stack_string('phpvalid'),
@@ -61,7 +61,7 @@ $columns = array(
     'casvalue'           => stack_string('casvalue'),
     'casdisplay'         => stack_string('casdisplay'),
     'caserrors'          => stack_string('cassuitecolerrors'),
-);
+];
 
 $table = new flexible_table('stack_answertests');
 $table->define_columns(array_keys($columns));
@@ -88,7 +88,7 @@ foreach ($tests as $test) {
     if ($test->notes) {
         reset($columns);
         $firstcol = key($columns);
-        $table->add_data_keyed(array($firstcol => $test->notes), 'notes');
+        $table->add_data_keyed([$firstcol => $test->notes], 'notes');
     }
 
     set_time_limit(30);
@@ -117,7 +117,7 @@ foreach ($tests as $test) {
     if ('' != $casdisplay) {
         $display = '\('.$casdisplay.'\)';
     }
-    $row = array(
+    $row = [
         'passed'             => $passedcol,
         'studentanswer'      => s($test->rawstring),
         'phpvalid'           => s($phpvalid),
@@ -129,7 +129,7 @@ foreach ($tests as $test) {
         'casdisplay'         => format_text(stack_maths::process_lang_string(s($display))) .
                 html_writer::tag('pre', s($casdisplay)) . "\n",
         'caserrors'          => $caserrors,
-    );
+    ];
     $table->add_data_keyed($row, $class);
     flush();
 }
@@ -140,9 +140,9 @@ $table->finish_output();
 $took = (microtime(true) - $start);
 $rtook = round($took, 5);
 $pertest = round($took / $notests, 5);
-echo '<p>'.stack_string('testsuitenotests', array('no' => $notests));
-echo '<br/>'.stack_string('testsuiteteststook', array('time' => $rtook));
-echo '<br/>'.stack_string('testsuiteteststookeach', array('time' => $pertest));
+echo '<p>'.stack_string('testsuitenotests', ['no' => $notests]);
+echo '<br/>'.stack_string('testsuiteteststook', ['time' => $rtook]);
+echo '<br/>'.stack_string('testsuiteteststookeach', ['time' => $pertest]);
 echo '</p>';
 
 $config = get_config('qtype_stack');

@@ -106,13 +106,13 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $split = $raw;
         if (mb_strpos($split, $startmark) === false) {
             $this->debug->log('Timedout', true);
-            return array('timeout' => true, 'debug' => $split, 'timeoutdebug' => $errmsg);
+            return ['timeout' => true, 'debug' => $split, 'timeoutdebug' => $errmsg];
         }
         $split = mb_substr($split, mb_strpos($split, $startmark) + mb_strlen($startmark));
 
         if (mb_strpos($split, $endmark) === false) {
             $this->debug->log('Timedout', 'in the middle of output');
-            return array('timeout' => true, 'debug' => $split, 'timeoutdebug' => $errmsg);
+            return ['timeout' => true, 'debug' => $split, 'timeoutdebug' => $errmsg];
         }
         $split = mb_substr($split, 0, mb_strpos($split, $endmark));
 
@@ -207,19 +207,19 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      */
     protected function unpack_raw_result($rawresult) {
         $result = '';
-        $errors = array();
+        $errors = [];
         // This adds sufficient closing brackets to make sure we have enough to match.
         $rawresult .= ']]]]';
         if ('' == trim($rawresult)) {
             $this->debug->log('Warning, empty result!', 'unpack_raw_result: completely empty result was returned by the CAS.');
-            return array();
+            return [];
         }
 
         // Check we have a STACKSTART stamp & remove everything before it.
         $ts = substr_count($rawresult, '[STACKSTART');
         if ($ts != 1) {
             $this->debug->log('', 'unpack_raw_result: no STACKSTART returned. Data returned was: '.$rawresult);
-            return array();
+            return [];
         } else {
             $result = strstr($rawresult, '[STACKSTART'); // Remove everything before the [STACKSTART.
         }
@@ -238,7 +238,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         }
 
         // Now we need to turn the (error,key,value,display) tuple into an array.
-        $locals = array();
+        $locals = [];
 
         foreach ($this->unpack_helper($uplocs) as $var => $valdval) {
             if (is_array($valdval)) {
@@ -286,8 +286,8 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         // Take the raw string from the CAS, and unpack this into an array.
         $offset = 0;
         $rawresultfragmentlen = strlen($rawresultfragment);
-        $unparsed = array();
-        $errors = array();
+        $unparsed = [];
+        $errors = [];
 
         $eqpos = strpos($rawresultfragment, '=', $offset);
         if ($eqpos) {
@@ -311,7 +311,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             $errors['PREPARSE'] = "There are no ='s in the raw output from the CAS!";
         }
 
-        if (array() != $errors) {
+        if ([] != $errors) {
             $unparsed['errors'] = $errors;
         }
 
@@ -331,7 +331,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         }
 
         $error = explode("!NEWLINE!", $errstr);
-        $errorclean = array();
+        $errorclean = [];
         foreach ($error as $err) {
             // This case arises when we use a numerical test for algebraic equivalence.
             if (strpos($err, 'STACK: ignore previous error.') !== false) {

@@ -27,7 +27,7 @@ TODO:
 
 ## Version 4.7.0
 
-TODO:
+TO-DO:
 
 1. Fix issue #1160: Allow configuring the MathJax URL.
 2. Release "Adapt" block. [issue #975](https://github.com/maths/moodle-qtype_stack/issues/975)

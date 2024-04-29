@@ -46,7 +46,7 @@ class input_textarea_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('textArea', 'ans1', null);
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" class="maxima-list" ' .
                 'rows="5" cols="20"></textarea>',
-                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'st_ans1', false, null));
     }
 
@@ -56,25 +56,25 @@ class input_textarea_test extends qtype_stack_testcase {
                 'class="maxima-list" rows="5" cols="20">' .
                 "1\n1/sum([1,3])\nmatrix([1],[2])</textarea>",
                 $el->render(new stack_input_state(
-                        stack_input::VALID, array("1", "1/sum([1,3])", "matrix([1],[2])"), '', '', '', '', ''),
+                        stack_input::VALID, ["1", "1/sum([1,3])", "matrix([1],[2])"], '', '', '', '', ''),
                         'st_ans1', false, null));
     }
 
     public function test_render_pre_syntaxhint() {
-        $el = stack_input_factory::make('textArea', 'test', null, null, array('syntaxHint' => '[y=?, z=?]'));
+        $el = stack_input_factory::make('textArea', 'test', null, null, ['syntaxHint' => '[y=?, z=?]']);
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" ' .
                 'class="maxima-list" rows="5" cols="20">' .
                     "y = ?\nz = ?</textarea>",
-        $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+        $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                             'st_ans1', false, null));
     }
 
     public function test_render_pre_syntaxhint_placeholder() {
         $el = stack_input_factory::make('textArea', 'test', null, null,
-            array('syntaxHint' => '[y=?, z=?]', 'syntaxAttribute' => 1));
+            ['syntaxHint' => '[y=?, z=?]', 'syntaxAttribute' => 1]);
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" ' .
             'class="maxima-list" placeholder="y = ?' ."\n" . 'z = ?" rows="5" cols="20"></textarea>',
-            $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+            $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                 'st_ans1', false, null));
     }
 
@@ -82,14 +82,14 @@ class input_textarea_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('textArea', 'input', null);
         $this->assertEquals('<textarea name="st_ans1" id="st_ans1" autocapitalize="none" spellcheck="false" ' .
                 'class="maxima-list" rows="5" cols="20" readonly="readonly"></textarea>',
-                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'st_ans1', true, null));
     }
 
     public function test_maxima_to_response_array_1() {
         $el = stack_input_factory::make('textArea', 'input', '[x=1,x=2]');
         $this->assertEquals($el->maxima_to_response_array('[x=1,x=2]'),
-            array('input' => "x = 1\nx = 2", 'input_val' => '[x=1,x=2]'));
+            ['input' => "x = 1\nx = 2", 'input_val' => '[x=1,x=2]']);
     }
 
     public function test_validate_student_response_single_var_chars_on() {
@@ -97,7 +97,7 @@ class input_textarea_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('textArea', 'sans1', '[x^2=-7*x,a*b=2]');
         $el->set_parameter('insertStars', 2);
-        $state = $el->validate_student_response(array('sans1' => "x^2=-7*x\nab=2"), $options, '[x^2=-7*x,a*b=2]',
+        $state = $el->validate_student_response(['sans1' => "x^2=-7*x\nab=2"], $options, '[x^2=-7*x,a*b=2]',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2 = -7*x,a*b = 2]', $state->contentsmodified);
@@ -110,7 +110,7 @@ class input_textarea_test extends qtype_stack_testcase {
                 'class="maxima-list" rows="5" cols="20">x^2=-7*x'."\n".'ab=2</textarea>',
                 $el->render($state, 'sans1', false, null));
 
-        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\nab=2", 'sans1_val' => "[x^2=-7x,ab=2]"),
+        $state = $el->validate_student_response(['sans1' => "x^2=-7x\nab=2", 'sans1_val' => "[x^2=-7x,ab=2]"],
                 $options, '[x^2=-7*x,a*b=2]', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('[x^2 = -7*x,a*b = 2]', $state->contentsmodified);
@@ -122,13 +122,13 @@ class input_textarea_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('textArea', 'sans1', '[x^2=-7*x,ab=2]');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\nab=2"), $options, '[x^2=-7*x,ab=2]',
+        $state = $el->validate_student_response(['sans1' => "x^2=-7x\nab=2"], $options, '[x^2=-7*x,ab=2]',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2 = -7*x,ab = 2]', $state->contentsmodified);
         $this->assertEquals('\( \left[ {\it ab} , x \right]\) ', $state->lvars);
 
-        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\nab=2", 'sans1_val' => "[x^2=-7x,ab=2]"),
+        $state = $el->validate_student_response(['sans1' => "x^2=-7x\nab=2", 'sans1_val' => "[x^2=-7x,ab=2]"],
                 $options, '[x^2=-7*x,ab=2]', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
         $this->assertEquals('[x^2 = -7*x,ab = 2]', $state->contentsmodified);
@@ -139,7 +139,7 @@ class input_textarea_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('textArea', 'sans1', '[x^2=-7*x,ab=2]');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\nab=2"), $options, '[x^2=-7*x,ab=2]',
+        $state = $el->validate_student_response(['sans1' => "x^2=-7x\nab=2"], $options, '[x^2=-7*x,ab=2]',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('[x^2 = -7*x,ab = 2]', $state->contentsmodified);
@@ -150,7 +150,7 @@ class input_textarea_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('textArea', 'sans1', '[x^2=-7*x,[a=1,b=2]]');
         $el->set_parameter('insertStars', 1);
-        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\n[a=1,b=2"), $options, '[x^2=-7*x,[a=1,b=2]]',
+        $state = $el->validate_student_response(['sans1' => "x^2=-7x\n[a=1,b=2"], $options, '[x^2=-7*x,[a=1,b=2]]',
                 new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         // This is now empty.
@@ -173,7 +173,7 @@ class input_textarea_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('textArea', 'sans1', '[x^2=-7*x,[a=1,b=2]]');
         $el->set_parameter('insertStars', 1);
         $el->set_parameter('showValidation', 3);
-        $state = $el->validate_student_response(array('sans1' => "x^2=-7x\n[a=1,b=2"), $options, '[x^2=-7*x,[a=1,b=2]]',
+        $state = $el->validate_student_response(['sans1' => "x^2=-7x\n[a=1,b=2"], $options, '[x^2=-7*x,[a=1,b=2]]',
                 new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         // This is now empty.
@@ -192,7 +192,7 @@ class input_textarea_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('textArea', 'sans1', '[x=1,{1}]');
         $el->set_parameter('sameType', false);
-        $state = $el->validate_student_response(array('sans1' => "x=1\n1"), $options, '[x=1,{1}]', new stack_cas_security());
+        $state = $el->validate_student_response(['sans1' => "x=1\n1"], $options, '[x=1,{1}]', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
         $this->assertEquals('', $state->note);
@@ -203,7 +203,7 @@ class input_textarea_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('textArea', 'sans1', '[x=1,{1}]');
         $el->set_parameter('sameType', false);
         // Student has more lines than the teacher, so extra lines are ignored.
-        $state = $el->validate_student_response(array('sans1' => "x=1\n1\nx=2"), $options, '[x=1,{1}]',
+        $state = $el->validate_student_response(['sans1' => "x=1\n1\nx=2"], $options, '[x=1,{1}]',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
@@ -214,7 +214,7 @@ class input_textarea_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('textArea', 'sans1', '[x=1,{1}]');
         $el->set_parameter('sameType', true);
-        $state = $el->validate_student_response(array('sans1' => "x=1\n1"), $options, '[x=1,{1}]', new stack_cas_security());
+        $state = $el->validate_student_response(['sans1' => "x=1\n1"], $options, '[x=1,{1}]', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('Your answer should be a set, but', substr($state->errors, 0, 32));
     }
@@ -223,7 +223,7 @@ class input_textarea_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('textArea', 'sans1', '[x=1,{1}]');
         $el->set_parameter('sameType', true);
-        $state = $el->validate_student_response(array('sans1' => "x=1\n{1}"), $options, '[x=1,{1}]', new stack_cas_security());
+        $state = $el->validate_student_response(['sans1' => "x=1\n{1}"], $options, '[x=1,{1}]', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
     }
@@ -233,7 +233,7 @@ class input_textarea_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('textArea', 'sans1', '[x=1,{1}]');
         $el->set_parameter('sameType', true);
         // Student has more lines than the teacher, so extra lines are ignored.
-        $state = $el->validate_student_response(array('sans1' => "x=1\n{1}\nx=2"), $options, '[x=1,{1}]',
+        $state = $el->validate_student_response(['sans1' => "x=1\n{1}\nx=2"], $options, '[x=1,{1}]',
                 new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->errors);
@@ -243,7 +243,7 @@ class input_textarea_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('textArea', 'sans1', '[x=1,x=2,x=3]');
         // Long answer than re-sizes the rendered version.
-        $state = $el->validate_student_response(array('sans1' => "x=1\nx=2\nx=3\nx=4\nx=5\nx=6\nx=7\nx=8\nx=9"),
+        $state = $el->validate_student_response(['sans1' => "x=1\nx=2\nx=3\nx=4\nx=5\nx=6\nx=7\nx=8\nx=9"],
             $options, '[x=1,x=2,x=3]', new stack_cas_security());
         $this->assertEquals('', $state->errors);
         $this->assertEquals(stack_input::VALID, $state->status);

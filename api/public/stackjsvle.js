@@ -175,7 +175,7 @@
         // the core libraries, here is one implementation that shows what we
         // are looking for.
 
-        // TODO: look into replacing this with DOMPurify or some such.
+        // TO-DO: look into replacing this with DOMPurify or some such.
 
         let parser = new DOMParser();
         let doc = parser.parseFromString(src, "text/html");
@@ -444,7 +444,7 @@
             // Disable change events.
             DISABLE_CHANGES = true;
 
-            // TODO: Radio buttons should we check that value is possible?
+            // TO-DO: Radio buttons should we check that value is possible?
             if (input.type === 'checkbox') {
                 input.checked = msg.value;
             } else {
@@ -525,7 +525,7 @@
             response.target = msg.target;
             response.content = null;
             if (element !== null) {
-                // TODO: Should we sanitise the content? Probably not as using
+                // TO-DO: Should we sanitise the content? Probably not as using
                 // this to interrogate neighbouring questions only allows
                 // messing with the other questions and not anything outside
                 // them. If we do not sanitise it we allow some interesting

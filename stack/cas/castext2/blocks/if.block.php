@@ -39,7 +39,7 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
                 $body = new MP_FunctionCall(new MP_Identifier('sconcat'), [new MP_String('')]);
             }
 
-            $items = array();
+            $items = [];
             foreach ($this->children as $item) {
                 $c = $item->compile($format, $options);
                 if ($c !== null) {
@@ -172,7 +172,7 @@ class stack_cas_castext2_if extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        $r = array();
+        $r = [];
         if (!isset($this->params['test'])) {
             return $r;
         }

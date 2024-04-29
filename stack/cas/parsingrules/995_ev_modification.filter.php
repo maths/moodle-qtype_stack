@@ -81,7 +81,8 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
                             [
                                 new MP_List([new MP_Identifier('%_sev_e')]),
                                 new MP_Operation(':', new MP_Identifier('%_sev_e'), $payload),
-                                $node]);
+                                $node,
+                            ]);
                     } else {
                         $replacement = new MP_FunctionCall(new MP_Identifier('block'),
                             [
@@ -90,7 +91,8 @@ class stack_ast_filter_995_ev_modification implements stack_cas_astfilter_parame
                                 new MP_Operation(':', new MP_Identifier('simp'), $simp),
                                 new MP_Operation(':', new MP_Identifier('%_sev_e'), $payload),
                                 new MP_Operation(':', new MP_Identifier('simp'), new MP_Identifier('%_sev_s')),
-                                $node]);
+                                $node,
+                            ]);
                     }
                     $node->replace($payload, new MP_Identifier('%_sev_e'));
                     $node->parentnode->replace($node, $replacement);

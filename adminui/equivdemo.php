@@ -40,11 +40,11 @@ if (!$questionid) {
     require_login();
     $context = context_system::instance();
     require_capability('qtype/stack:usediagnostictools', $context);
-    $urlparams = array();
+    $urlparams = [];
 
 } else {
     // Load the necessary data.
-    $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
+    $questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
     $question = question_bank::load_question($questionid);
 
     // Process any other URL parameters, and do require_login.
@@ -81,7 +81,7 @@ $options->set_site_defaults();
 $options->set_option('simplify', false);
 $options->set_option('multiplicationsign', 'none');
 
-$casstrings = array();
+$casstrings = [];
 $i = 0;
 $debug = false;
 // Set this to display only one argument.  Use the number.
@@ -101,7 +101,7 @@ if (array_key_exists('fail', $_GET)) {
 $verbose = $debug;
 /* Just consider the last in the array. */
 $sa = array_reverse($samplearguments);
-$samplearguments2 = array($sa[0]);
+$samplearguments2 = [$sa[0]];
 
 $timestart = microtime(true);
 foreach ($samplearguments as $argument) {
@@ -155,7 +155,7 @@ foreach ($samplearguments as $argument) {
 
             $cs4 = stack_ast_container::make_from_teacher_source("R1:first(S1)", '', new stack_cas_security());
 
-            $session = new stack_cas_session2(array($ap, $ar, $ac, $cs1, $cs2, $cs3, $cs4), $options);
+            $session = new stack_cas_session2([$ap, $ar, $ac, $cs1, $cs2, $cs3, $cs4], $options);
             $expected = $argument['outcome'];
             if (true === $argument['outcome']) {
                 $expected = 'true';
@@ -174,7 +174,7 @@ foreach ($samplearguments as $argument) {
             $rtook = round($took, 5);
 
             $argumentvalue = '';
-            $overall = html_writer::tag('span', 'No value returned.', array('class' => 'stacksyntaxexamplehighlight'));
+            $overall = html_writer::tag('span', 'No value returned.', ['class' => 'stacksyntaxexamplehighlight']);
             if ($cs4->is_correctly_evaluated()) {
                 $argumentvalue = $cs4->get_value();
                 $overall = "Overall the argument is {$argumentvalue}.";
@@ -182,7 +182,7 @@ foreach ($samplearguments as $argument) {
             if ('unsupported' !== $argument['outcome']) {
                 $overall .= "  We expected the argument to be {$expected}.";
                 if ($argumentvalue != $expected) {
-                    $overall = html_writer::tag('span', $overall, array('class' => 'stacksyntaxexamplehighlight'));
+                    $overall = html_writer::tag('span', $overall, ['class' => 'stacksyntaxexamplehighlight']);
                 }
             }
             if ($argumentvalue === 'fail') {
@@ -194,10 +194,10 @@ foreach ($samplearguments as $argument) {
             }
             $errs = '';
             if ($ct->get_errors() != '') {
-                $errs = html_writer::tag('span', $ct->get_errors(), array('class' => 'stacksyntaxexamplehighlight'));
+                $errs = html_writer::tag('span', $ct->get_errors(), ['class' => 'stacksyntaxexamplehighlight']);
                 $errs .= $session->get_debuginfo();
             } else if (!$session->get_valid()) {
-                $errs = html_writer::tag('span', $session->get_errors(true), array('class' => 'stacksyntaxexamplehighlight'));
+                $errs = html_writer::tag('span', $session->get_errors(true), ['class' => 'stacksyntaxexamplehighlight']);
             }
             $debuginfo = $session->get_debuginfo();
 
@@ -235,7 +235,7 @@ foreach ($samplearguments as $argument) {
             /* Use the real validation code, and also create something which can be pasted into a live input box. */
             if ($onlyarg) {
                 $teacheranswer = $cs1->get_inputform();
-                $input = new stack_equiv_input('maximavars', $teacheranswer, $options, array('options' => 'comments'));
+                $input = new stack_equiv_input('maximavars', $teacheranswer, $options, ['options' => 'comments']);
                 $response = $input->get_correct_response($teacheranswer);
                 $security = new stack_cas_security();
                 $state = $input->validate_student_response($response, $options, $teacheranswer, $security);
@@ -262,7 +262,7 @@ if ($debug) {
     }
     $script .= "simp:false;\n";
     echo html_writer::tag('textarea', $script,
-            array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
+            ['readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100']);
     echo '<hr />';
 
     // Have a second text area to facilitate pasting the arguments into separate lines in Maxima.
@@ -272,7 +272,7 @@ if ($debug) {
     }
     $script .= "\n".'disp_stack_eval_arg(A22, true, true, true, DL);';
     echo html_writer::tag('textarea', $script,
-            array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
+            ['readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100']);
     echo '<hr />';
 }
 

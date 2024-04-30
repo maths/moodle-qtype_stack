@@ -832,7 +832,23 @@ displayscitex(ex):=block([ss, n, dp, tx],
   ),
   tx
 )$
-texput(displaysci, displayscitex)$
+
+displayscitexE(ex):=block([ss, n, dp, tx],
+  [n, dp, expo]:args(ex),
+  ss:sconcat("~,", string(dp), "fE{~a}"),
+  if is(equal(dp, 0)) then ss:"~dE{~a}",
+  tx:ev(printf(false, ss, ev(float(n)), expo), simp),
+  if is(stackfltsep = ",") then (
+    tx:ssubst("\\ ", ",", tx),
+    tx:ssubst("{,}", ".", tx)
+  ),
+  tx
+)$
+
+texput_scientificnotation(ex) := block(
+  if is(ex="*10") then texput(displaysci, displayscitex),
+  if is(ex="E") then texput(displaysci, displayscitexE)
+)$
 
 make_displayscivalue(ex):= block([n, d, expo, ss],
     if atom(ex) then return(ex),

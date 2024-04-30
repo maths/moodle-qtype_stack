@@ -80,6 +80,7 @@ $CFG->logicsymbol = 'lang';
 $CFG->inversetrig = 'cos-1';
 $CFG->matrixparens = "[";
 $CFG->decimals = ".";
+$CFG->scientificnotation = "*10";
 
 $CFG->inputtype = 'algebraic';
 $CFG->inputboxsize = 30;

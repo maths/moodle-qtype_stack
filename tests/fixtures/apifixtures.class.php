@@ -415,6 +415,7 @@ class stack_api_test_data {
                 <assumepositive>1</assumepositive>
                 <assumereal>1</assumereal>
                 <decimals>,</decimals>
+                <scientificnotation>*10</scientificnotation>
                 <multiplicationsign>cross</multiplicationsign>
                 <sqrtsign>0</sqrtsign>
                 <complexno>j</complexno>
@@ -1272,6 +1273,7 @@ class stack_api_test_data {
               <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
             </prtincorrect>
             <decimals>.</decimals>
+            <scientificnotation>*10</scientificnotation>
             <multiplicationsign>dot</multiplicationsign>
             <sqrtsign>1</sqrtsign>
             <complexno>i</complexno>

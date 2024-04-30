@@ -110,6 +110,7 @@ echo "',<br>
     'itemid' => 0,<br>
 ];<br>
 \$formform->decimals = '{$fromform->decimals}';<br>
+\$formform->scientificnotation = '{$fromform->scientificnotation}';<br>
 \$formform->multiplicationsign = '{$fromform->multiplicationsign}';<br>
 \$formform->sqrtsign = '{$fromform->sqrtsign}';<br>
 \$formform->complexno = '{$fromform->complexno}';<br>
@@ -224,6 +225,7 @@ echo "<br>
                 ));<br>";
         }
         echo "\$q->options->set_option('decimals', '{$fromform->decimals}');<br>
+        \$q->options->set_option('scientificnotation', '{$fromform->scientificnotation}');<br>
         \$q->options->set_option('multiplicationsign', '{$fromform->multiplicationsign}');<br>
         \$q->options->set_option('complexno', '{$fromform->complexno}');<br>
         \$q->options->set_option('inversetrig', '{$fromform->inversetrig}');<br>

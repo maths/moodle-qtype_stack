@@ -163,6 +163,7 @@ class qtype_stack extends question_type {
                     $context, 'qtype_stack', 'prtincorrect', $fromform->id);
         $options->prtincorrectformat        = $fromform->prtincorrect['format'];
         $options->decimals                  = $fromform->decimals;
+        $options->scientificnotation        = $fromform->scientificnotation;
         $options->multiplicationsign        = $fromform->multiplicationsign;
         $options->sqrtsign                  = $fromform->sqrtsign;
         $options->complexno                 = $fromform->complexno;
@@ -477,6 +478,7 @@ class qtype_stack extends question_type {
 
         $question->options = new stack_options();
         $question->options->set_option('decimals',           $questiondata->options->decimals);
+        $question->options->set_option('scientificnotation', $questiondata->options->scientificnotation);
         $question->options->set_option('multiplicationsign', $questiondata->options->multiplicationsign);
         $question->options->set_option('complexno',          $questiondata->options->complexno);
         $question->options->set_option('inversetrig',        $questiondata->options->inversetrig);
@@ -1243,6 +1245,7 @@ class qtype_stack extends question_type {
         $output .= $this->export_xml_text($format, 'prtincorrect', $options->prtincorrect,
                         $options->prtincorrectformat, $contextid, 'prtincorrect', $questiondata->id);
         $output .= "    <decimals>{$options->decimals}</decimals>\n";
+        $output .= "    <scientificnotation>{$options->scientificnotation}</scientificnotation>\n";
         $output .= "    <multiplicationsign>{$options->multiplicationsign}</multiplicationsign>\n";
         $output .= "    <sqrtsign>{$options->sqrtsign}</sqrtsign>\n";
         $output .= "    <complexno>{$options->complexno}</complexno>\n";
@@ -1391,6 +1394,7 @@ class qtype_stack extends question_type {
         $fromform->prtincorrect          = $this->import_xml_text($xml, 'prtincorrect', $format, $fformat);
         $fromform->penalty               = $format->getpath($xml, ['#', 'penalty', 0, '#'], 0.1);
         $fromform->decimals              = $format->getpath($xml, ['#', 'decimals', 0, '#'], '.');
+        $fromform->scientificnotation    = $format->getpath($xml, ['#', 'scientificnotation', 0, '#'], 'dot');
         $fromform->multiplicationsign    = $format->getpath($xml, ['#', 'multiplicationsign', 0, '#'], 'dot');
         $fromform->sqrtsign              = $format->getpath($xml, ['#', 'sqrtsign', 0, '#'], 1);
         $fromform->complexno             = $format->getpath($xml, ['#', 'complexno', 0, '#'], 'i');
@@ -1593,6 +1597,7 @@ class qtype_stack extends question_type {
 
         $this->options = new stack_options();
         $this->options->set_option('decimals',           $fromform['decimals']);
+        $this->options->set_option('scientificnotation', $fromform['scientificnotation']);
         $this->options->set_option('multiplicationsign', $fromform['multiplicationsign']);
         $this->options->set_option('complexno',          $fromform['complexno']);
         $this->options->set_option('inversetrig',        $fromform['inversetrig']);

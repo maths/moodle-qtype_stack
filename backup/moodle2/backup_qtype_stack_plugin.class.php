@@ -49,7 +49,10 @@ class backup_qtype_stack_plugin extends backup_qtype_plugin {
                     'stackversion', 'questionvariables', 'specificfeedback', 'specificfeedbackformat',
                     'questionnote', 'questionnoteformat', 'questionsimplify', 'assumepositive', 'assumereal',
                     'prtcorrect', 'prtcorrectformat', 'prtpartiallycorrect', 'prtpartiallycorrectformat',
-                    'prtincorrect', 'prtincorrectformat', 'decimals', 'multiplicationsign', 'sqrtsign',
+                    'prtincorrect', 'prtincorrectformat',
+                    'decimals',
+                    'scientificnotation',
+                    'multiplicationsign', 'sqrtsign',
                     'complexno', 'inversetrig', 'logicsymbol', 'matrixparens', 'variantsselectionseed',
                 ]);
 

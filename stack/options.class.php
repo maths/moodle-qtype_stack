@@ -45,6 +45,14 @@ class stack_options {
                 'caskey'     => 'texput_decimal',
                 'castype'    => 'fun',
             ],
+            'scientificnotation' => [
+                'type'       => 'list',
+                'value'      => '*10',
+                'strict'     => true,
+                'values'     => array('*10', 'E'),
+                'caskey'     => 'texput_scientificnotation',
+                'castype'    => 'fun',
+            ],
             'multiplicationsign'   => [
                 'type'       => 'list',
                 'value'      => 'dot',
@@ -137,6 +145,7 @@ class stack_options {
         $stackconfig = stack_utils::get_config();
         // Display option does not match up to $stackconfig->mathsdisplay).
         $this->set_option('decimals', $stackconfig->decimals);
+        $this->set_option('scientificnotation', $stackconfig->scientificnotation);
         $this->set_option('multiplicationsign', $stackconfig->multiplicationsign);
         $this->set_option('complexno', $stackconfig->complexno);
         $this->set_option('inversetrig', $stackconfig->inversetrig);
@@ -262,6 +271,16 @@ class stack_options {
             '.'    => '.',
             ','    => ',',
         ];
+    }
+
+    /**
+     * @return array of choices for the scientific notation select menu.
+     */
+    public static function get_scientificnotation_options() {
+        return array(
+            '*10'  => get_string('scientificnotation_10', 'qtype_stack'),
+            'E'    => get_string('scientificnotation_E', 'qtype_stack'),
+        );
     }
 
     /**

@@ -5,8 +5,6 @@ past development history is documented on [Development history](Development_hist
 
 ## Version 4.6.0
 
-TODO: merge back in https://github.com/maths/moodle-qtype_stack/tree/add_option_scientificnotation once the code tidy is confirmed.
-
 This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 
 1. Alter list of acceptible expressions.  Unicode super/subscripts now are invalid.  Use 150_replace filter in students' input.
@@ -15,7 +13,7 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 4. Fix display and simplification of binomial coefficients (issue #931).
 5. Add in the `CT:...` and `RAW:...` options for test case construction to enable tests of invalid input (e.g. missing stars).
 6. STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
-7. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).
+7. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).   There is a new question option to choose between \(1.7 \times 10^{-9}\) and \(1.7E-9\).
 8. Release first version of the API for longer term support, and better support for ILIAS.
 
 TODO:

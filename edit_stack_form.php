@@ -320,6 +320,11 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault('decimals', $this->stackconfig->decimals);
         $mform->addHelpButton('decimals', 'decimals', 'qtype_stack');
 
+        $mform->addElement('select', 'scientificnotation',
+            stack_string('scientificnotation'), stack_options::get_scientificnotation_options());
+        $mform->setDefault('scientificnotation', $this->stackconfig->scientificnotation);
+        $mform->addHelpButton('scientificnotation', 'scientificnotation', 'qtype_stack');
+
         $mform->addElement('select', 'multiplicationsign',
                 stack_string('multiplicationsign'), stack_options::get_multiplication_sign_options());
         $mform->setDefault('multiplicationsign', $this->stackconfig->multiplicationsign);
@@ -716,6 +721,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $question->prtincorrect          = $this->prepare_text_field('prtincorrect',
                                             $opt->prtincorrect, $opt->prtincorrectformat, $question->id);
         $question->decimals              = $opt->decimals;
+        $question->scientificnotation    = $opt->scientificnotation;
         $question->multiplicationsign    = $opt->multiplicationsign;
         $question->complexno             = $opt->complexno;
         $question->inversetrig           = $opt->inversetrig;

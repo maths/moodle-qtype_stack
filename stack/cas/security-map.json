@@ -7757,6 +7757,10 @@
       "function": "t",
       "contextvariable": "true"
   },
+  "texput_scientificnotation": {
+      "function": "t",
+      "contextvariable": "true"
+  },
   "texsub": {
       "function": "s",
       "built-in": true

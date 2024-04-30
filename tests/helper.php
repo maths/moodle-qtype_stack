@@ -344,6 +344,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->prtpartiallycorrect = ['text' => 'Your answer is partially correct!', 'format' => '1', 'itemid' => 0];
         $formform->prtincorrect = ['text' => 'Incorrect answer :-(', 'format' => '1', 'itemid' => 0];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -1721,6 +1722,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->prtincorrect              = self::DEFAULT_INCORRECT_FEEDBACK;
         $qdata->options->prtincorrectformat        = FORMAT_HTML;
         $qdata->options->decimals                  = '.';
+        $qdata->options->scientificnotation        = '*10';
         $qdata->options->multiplicationsign        = 'dot';
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
@@ -2124,6 +2126,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->prtincorrect              = self::DEFAULT_INCORRECT_FEEDBACK;
         $qdata->options->prtincorrectformat        = FORMAT_HTML;
         $qdata->options->decimals                  = '.';
+        $qdata->options->scientificnotation        = '*10';
         $qdata->options->multiplicationsign        = 'dot';
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
@@ -2255,6 +2258,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->prtincorrect              = self::DEFAULT_INCORRECT_FEEDBACK;
         $qdata->options->prtincorrectformat        = FORMAT_HTML;
         $qdata->options->decimals                  = '.';
+        $qdata->options->scientificnotation        = '*10';
         $qdata->options->multiplicationsign        = 'dot';
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
@@ -2970,6 +2974,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 56111684,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -4095,6 +4100,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -4220,6 +4226,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -4486,6 +4493,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -4611,6 +4619,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -4771,6 +4780,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -4896,6 +4906,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -5024,6 +5035,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -5151,6 +5163,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -5296,6 +5309,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'none';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -5479,6 +5493,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -5607,6 +5622,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -5731,6 +5747,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -5857,6 +5874,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -6007,6 +6025,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -6151,6 +6170,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -6372,6 +6392,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -6496,6 +6517,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -6621,6 +6643,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -6748,6 +6771,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -6875,6 +6899,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -6999,6 +7024,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -7142,6 +7168,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -7266,6 +7293,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -7390,6 +7418,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -7514,6 +7543,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -7638,6 +7668,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -7824,6 +7855,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'itemid' => 0,
         ];
         $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';

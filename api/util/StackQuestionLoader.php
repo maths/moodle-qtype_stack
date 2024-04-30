@@ -149,6 +149,10 @@ class StackQuestionLoader {
             'decimals',
             isset($xmldata->question->decimals) ? (string) $xmldata->question->decimals : get_config('qtype_stack', 'decimals')
         );
+        $question->options->set_option(
+            'scientificnotation',
+            isset($xmldata->question->scientificnotation) ? (string) $xmldata->question->scientificnotation : get_config('qtype_stack', 'scientificnotation')
+        );
 
         $inputmap = [];
         foreach ($xmldata->question->input as $input) {

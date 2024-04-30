@@ -253,6 +253,11 @@ $settings->add(new admin_setting_configselect('qtype_stack/decimals',
         get_string('decimals_help', 'qtype_stack'), '.',
         stack_options::get_decimals_sign_options()));
 
+$settings->add(new admin_setting_configselect('qtype_stack/scientificnotation',
+    get_string('scientificnotation', 'qtype_stack'),
+    get_string('scientificnotation_help', 'qtype_stack'), '*10',
+    stack_options::get_scientificnotation_options()));
+
 $settings->add(new admin_setting_configselect('qtype_stack/multiplicationsign',
         get_string('multiplicationsign', 'qtype_stack'),
         get_string('multiplicationsign_help', 'qtype_stack'), 'dot',

@@ -1394,7 +1394,7 @@ class qtype_stack extends question_type {
         $fromform->prtincorrect          = $this->import_xml_text($xml, 'prtincorrect', $format, $fformat);
         $fromform->penalty               = $format->getpath($xml, ['#', 'penalty', 0, '#'], 0.1);
         $fromform->decimals              = $format->getpath($xml, ['#', 'decimals', 0, '#'], '.');
-        $fromform->scientificnotation    = $format->getpath($xml, ['#', 'scientificnotation', 0, '#'], 'dot');
+        $fromform->scientificnotation    = $format->getpath($xml, ['#', 'scientificnotation', 0, '#'], '*10');
         $fromform->multiplicationsign    = $format->getpath($xml, ['#', 'multiplicationsign', 0, '#'], 'dot');
         $fromform->sqrtsign              = $format->getpath($xml, ['#', 'sqrtsign', 0, '#'], 1);
         $fromform->complexno             = $format->getpath($xml, ['#', 'complexno', 0, '#'], 'i');

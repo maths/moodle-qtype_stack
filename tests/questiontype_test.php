@@ -355,6 +355,7 @@ class questiontype_test extends qtype_stack_walkthrough_test_base {
       <text><![CDATA[<p>Incorrect answer.</p>]]></text>
     </prtincorrect>
     <decimals>.</decimals>
+    <scientificnotation>*10</scientificnotation>
     <multiplicationsign>dot</multiplicationsign>
     <sqrtsign>1</sqrtsign>
     <complexno>i</complexno>

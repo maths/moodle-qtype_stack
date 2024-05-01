@@ -21,11 +21,11 @@ require_once(__DIR__ . '/../../utils.class.php');
 /**
  * AST filter that rewrites Strings so that they are safe to display through
  * LaTeX rendering.
- * 
- * Note That Maxima turns "strings" to \text{ strings } and MathJax etc will 
+ *
+ * Note That Maxima turns "strings" to \text{ strings } and MathJax etc will
  * do something with that as will the HTML rendering of the browser and we want
  * both to keep the input as it was.
- * 
+ *
  * That \mbox causes all sorts of issues and it would be better if we could make
  * the Maxima side logic produce properly escaped \text instead. But for now we
  * target some very specific cases separately.

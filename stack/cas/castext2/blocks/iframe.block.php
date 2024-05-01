@@ -48,7 +48,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
             new MP_String('iframe'),
-            new MP_String(json_encode($this->params))
+            new MP_String(json_encode($this->params)),
         ]);
 
         $opt2 = [];
@@ -163,7 +163,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         $code = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $code .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' .
             ' "http://www.w3.org/TR/xhtml1/DTD/strict.dtd">' . "\n";
-        $code .= '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' . 
+        $code .= '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' .
             stack_get_system_language() . '">';
         // Include a title to help JS debugging.
         $code .= '<head><title>' . $title . '</title>';
@@ -186,7 +186,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             json_encode($divid),
             json_encode($title),
             $scrolling ? 'true' : 'false',
-            isset($parameters['no sandbox']) && $parameters['no sandbox']
+            isset($parameters['no sandbox']) && $parameters['no sandbox'],
         ];
 
         // As the content is large we cannot simply use the js_amd_call.
@@ -219,8 +219,10 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         }
 
         // NOTE! List ordered by length. For the trimming logic.
-        $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
-            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%'];
+        $validunits = [
+            'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
+            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
+        ];
 
         $widthend   = false;
         $heightend  = false;

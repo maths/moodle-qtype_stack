@@ -223,7 +223,7 @@ s_test_case(proof_parsons_interpret("{\"used\":[\"0\",\"3\",\"5\"],\"available\"
 proof_parsons_keys_used_unused(proof_ans, proof_steps) := block([tkeys, skeys],
   tkeys:map(first, proof_steps),
   skeys:ev(proof_ans, map(lambda([ex], ex="["), proof_types), simp),
-  /* TODO: update this when we deal with trees (and have examples) */
+  /* TO-DO: update this when we deal with trees (and have examples) */
   skeys:flatten(skeys),
   return([skeys, listdifference(tkeys, ev(unique(skeys), simp))])
 );

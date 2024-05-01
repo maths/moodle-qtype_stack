@@ -36,7 +36,7 @@ class editform_test extends \qtype_stack_edit_form {
     public function __construct($questiontext, $specificfeedback) {
         global $USER;
         $syscontext = \context_system::instance();
-        $category = question_make_default_categories(array($syscontext));
+        $category = question_make_default_categories([$syscontext]);
         $fakequestion = new \stdClass();
         $fakequestion->qtype = 'stack';
         $fakequestion->category = $category->id;
@@ -83,7 +83,7 @@ class qtype_stack_edit_form_test extends \advanced_testcase {
                 \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
         $qtype = new \qtype_stack();
 
-        $this->assertEquals(array('ans1' => array(1, 1)),
+        $this->assertEquals(['ans1' => [1, 1]],
                 $qtype->get_input_names_from_question_text(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT));
     }
 
@@ -92,7 +92,7 @@ class qtype_stack_edit_form_test extends \advanced_testcase {
                 \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
         $qtype = new \qtype_stack();
 
-        $this->assertEquals(array('prt1' => 1),
+        $this->assertEquals(['prt1' => 1],
                 $qtype->get_prt_names_from_question(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
                 \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK));
     }

@@ -31,7 +31,7 @@ class stack_ast_filter_403_split_at_number_letter_boundary implements stack_cas_
         $process = function($node) use (&$answernotes) {
             if ($node instanceof MP_Identifier && !$node->is_function_name()) {
                 // First find the boundaries.
-                $splits = array();
+                $splits = [];
                 $alpha = true;
                 $last = 0;
                 for ($i = 1; $i < mb_strlen($node->value); $i++) {

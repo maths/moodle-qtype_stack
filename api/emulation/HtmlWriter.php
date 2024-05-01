@@ -520,9 +520,10 @@ class html_writer {
 
         // Explicitly assigned properties override those defined via $table->attributes.
         $table->attributes['class'] = trim($table->attributes['class']);
-        $attributes = array_merge($table->attributes, ['id' => $table->id, 'width' => $table->width,
+        $attributes = array_merge($table->attributes, [
+            'id' => $table->id, 'width' => $table->width,
             'summary' => $table->summary, 'cellpadding' => $table->cellpadding, 'cellspacing' => $table->cellspacing,
-            ]);
+        ]);
         $output = self::start_tag('table', $attributes) . "\n";
 
         $countcols = 0;
@@ -565,9 +566,10 @@ class html_writer {
                     $heading->attributes['class'] .= ' ' . $table->colclasses[$key];
                 }
                 $heading->attributes['class'] = trim($heading->attributes['class']);
-                $attributes = array_merge($heading->attributes, ['style' => $table->align[$key] . $table->size[$key] .
+                $attributes = array_merge($heading->attributes, [
+                    'style' => $table->align[$key] . $table->size[$key] .
                     $heading->style, 'scope' => $heading->scope, 'colspan' => $heading->colspan,
-                    ]);
+                ]);
 
                 $tagtype = 'td';
                 if ($heading->header === true) {
@@ -621,9 +623,10 @@ class html_writer {
                         $row->attributes['class'] .= ' lastrow';
                     }
 
-                    $output .= self::start_tag('tr', ['class' => trim($row->attributes['class']),
-                            'style' => $row->style, 'id' => $row->id,
-                            ]) . "\n";
+                    $output .= self::start_tag('tr', [
+                        'class' => trim($row->attributes['class']),
+                        'style' => $row->style, 'id' => $row->id,
+                    ]) . "\n";
                     $keys2 = array_keys($row->cells);
                     $lastkey = end($keys2);
 
@@ -658,10 +661,11 @@ class html_writer {
                         $tdstyle .= isset($table->size[$key]) ? $table->size[$key] : '';
                         $tdstyle .= isset($table->wrap[$key]) ? $table->wrap[$key] : '';
                         $cell->attributes['class'] = trim($cell->attributes['class']);
-                        $tdattributes = array_merge($cell->attributes, ['style' => $tdstyle .
+                        $tdattributes = array_merge($cell->attributes, [
+                            'style' => $tdstyle .
                             $cell->style, 'colspan' => $cell->colspan, 'rowspan' => $cell->rowspan,
                             'id' => $cell->id, 'abbr' => $cell->abbr, 'scope' => $cell->scope,
-                            ]);
+                        ]);
                         $tagtype = 'td';
                         if ($cell->header === true) {
                             $tagtype = 'th';

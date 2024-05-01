@@ -68,6 +68,8 @@ class api_stackquestionloader_test extends qtype_stack_testcase {
         $ql = new StackQuestionLoader();
         $question = $ql->loadXML($xml);
         $this->assertEquals($question->options->get_option('decimals'), get_config('qtype_stack', 'decimals'));
+        $this->assertEquals($question->options->get_option('scientificnotation'),
+                get_config('qtype_stack', 'scientificnotation'));
         $this->assertEquals($question->options->get_option('assumepos'), get_config('qtype_stack', 'assumepositive'));
         $this->assertEquals($question->options->get_option('assumereal'), get_config('qtype_stack', 'assumereal'));
         $this->assertEquals($question->options->get_option('multiplicationsign'), get_config('qtype_stack', 'multiplicationsign'));
@@ -97,6 +99,7 @@ class api_stackquestionloader_test extends qtype_stack_testcase {
         $ql = new StackQuestionLoader();
         $question = $ql->loadXML($xml);
         $this->assertEquals($question->options->get_option('decimals'), ',');
+        $this->assertEquals($question->options->get_option('scientificnotation'), '*10');
         $this->assertEquals($question->options->get_option('assumepos'), true);
         $this->assertEquals($question->options->get_option('assumereal'), true);
         $this->assertEquals($question->options->get_option('multiplicationsign'), 'cross');

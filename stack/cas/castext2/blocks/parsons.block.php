@@ -164,7 +164,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_String($importcode);
 
         // Add flip orientation listener to the orientation button.
-        // TODO: automatically set orientation based on device?
+        // TO-DO: automatically set orientation based on device?
         $r->items[] = new MP_String('add_orientation_listener("orientation", "usedList", "availableList");' . "\n");
         // Add the resize button listener.
         $r->items[] = new MP_String('document.getElementById("resize").addEventListener(
@@ -351,12 +351,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 self::$namedversions)) {
             $valid    = false;
             $validversions = ['cdn', 'local'];
-            $err[] = stack_string(
-                'stackBlock_parsons_unknown_named_version',
-                [
-                    'version' => implode(', ', $validversions),
-                ]
-            );
+            $err[] = stack_string('stackBlock_parsons_unknown_named_version', [
+                'version' => implode(', ',
+                $validversions),
+            ]);
         }
 
         // Check MathJax version is valid.
@@ -364,12 +362,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $validmjversions = ['2', '3'];
             if (!in_array($this->params['mathjax'], $validmjversions)) {
                 $valid = false;
-                $err[] = stack_string(
-                    'stackBlock_parsons_unknown_mathjax_version',
-                    [
-                        'mjversion' => implode(', ', $validmjversions),
-                    ]
-                );
+                $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', [
+                    'mjversion' => implode(', ',
+                    $validmjversions),
+                ]);
             }
         }
 
@@ -386,12 +382,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                         'width', 'height', 'aspect-ratio', 'version', 'overridecss',
                         'overridejs', 'input', 'orientation', 'clone',
                     ];
-                    $err[] = stack_string(
-                        'stackBlock_parsons_param',
-                        [
-                            'param' => implode(', ', $valids),
-                        ]
-                    );
+                    $err[] = stack_string('stackBlock_parsons_param', [
+                        'param' => implode(', ', $valids),
+                    ]);
                 }
             }
         }

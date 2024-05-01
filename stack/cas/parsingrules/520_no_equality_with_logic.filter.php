@@ -35,7 +35,7 @@ class stack_ast_filter_520_no_equality_with_logic implements stack_cas_astfilter
                 $righteq = $node->rhs instanceof MP_Operation && $node->rhs->op === '=';
 
                 if ($node->op === 'and' && ($righteq !== $lefteq)) {
-                    // TODO: maybe point out that it cannot be both at the same time?
+                    // TO-DO: maybe point out that it cannot be both at the same time?
                     $node->position['invalid'] = true;
                     if (array_search('Bad_assignment', $answernotes) === false) {
                         $answernotes[] = 'Bad_assignment';

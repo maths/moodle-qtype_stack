@@ -46,7 +46,7 @@ if (!$questionid) {
     $context = context_system::instance();
     $PAGE->set_context($context);
     require_capability('qtype/stack:usediagnostictools', $context);
-    $urlparams = array();
+    $urlparams = [];
 } else {
     // Load the necessary data.
     if ($qubaid !== '') {
@@ -57,7 +57,7 @@ if (!$questionid) {
     } else {
         $question = question_bank::load_question($questionid);
     }
-    $questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
+    $questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
 
     // Process any other URL parameters, and do require_login.
     list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
@@ -73,7 +73,7 @@ $PAGE->set_title($title);
 $displaytext = '';
 $debuginfo = '';
 $errs = '';
-$varerrs = array();
+$varerrs = [];
 
 if ($qubaid !== '' && optional_param('initialise', '', PARAM_RAW)) {
     // ISS-1110 Handle calls from questiontestrun.php.
@@ -124,14 +124,14 @@ if ($string) {
     $options->set_site_defaults();
     $options->set_option('simplify', $simp);
 
-    $session = new stack_cas_session2(array(), $options);
+    $session = new stack_cas_session2([], $options);
     if ($vars || $inps) {
         $keyvals = new stack_cas_keyval($vars . "\n" . $inps, $options, 0);
         $keyvals->get_valid();
         $varerrs = $keyvals->get_errors();
         if ($keyvals->get_valid()) {
             $kvcode = $keyvals->compile('test');
-            $statements = array();
+            $statements = [];
             if ($kvcode['contextvariables']) {
                 $statements[] = new stack_secure_loader($kvcode['contextvariables'], 'caschat');
             }
@@ -155,7 +155,7 @@ if ($string) {
         $errs = array_merge($errs, $session->get_errors(false));
         if ($errs) {
             $errs = stack_string_error('errors') . ': ' . implode(' ', array_unique($errs));
-            $errs = html_writer::tag('div', $errs, array('class' => 'error'));
+            $errs = html_writer::tag('div', $errs, ['class' => 'error']);
         } else {
             $errs = '';
         }
@@ -164,10 +164,10 @@ if ($string) {
         // Save updated data in the DB when everything is valid.
         if ($questionid && $savedb) {
             $DB->set_field('question', 'generalfeedback', $string,
-                array('id' => $questionid));
+                ['id' => $questionid]);
             $DB->set_field('qtype_stack_options', 'questionvariables', $vars,
-                array('questionid' => $questionid));
-            $DB->set_field('qtype_stack_options', 'compiledcache', null, array('questionid' => $questionid));
+                ['questionid' => $questionid]);
+            $DB->set_field('qtype_stack_options', 'compiledcache', null, ['questionid' => $questionid]);
             // Invalidate the question definition cache.
             stack_clear_vle_question_cache($questionid);
 
@@ -184,15 +184,15 @@ if ($questionid) {
 
     $qtype = new qtype_stack();
     $qtestlink = html_writer::link($qtype->get_question_test_url($question), stack_string('runquestiontests'),
-        array('class' => 'nav-link'));
-    echo html_writer::tag('nav', $qtestlink, array('class' => 'nav'));
+        ['class' => 'nav-link']);
+    echo html_writer::tag('nav', $qtestlink, ['class' => 'nav']);
 
     if ($savedmsg) {
-        echo html_writer::tag('p', $savedmsg, array('class' => 'overallresult pass'));
+        echo html_writer::tag('p', $savedmsg, ['class' => 'overallresult pass']);
     }
 
     $out = html_writer::tag('summary', stack_string('questiontext'));
-    $out .= html_writer::tag('pre', $question->questiontext, array('class' => 'questiontext'));
+    $out .= html_writer::tag('pre', $question->questiontext, ['class' => 'questiontext']);
     echo html_writer::tag('details', $out);
 }
 
@@ -207,17 +207,17 @@ $fout  = html_writer::tag('h2', stack_string('questionvariables'));
 $fout .= html_writer::tag('p', implode($varerrs));
 $varlen = substr_count($vars, "\n") + 3;
 $fout .= html_writer::tag('p', html_writer::tag('textarea', $vars,
-            array('cols' => 100, 'rows' => $varlen, 'name' => 'maximavars')));
+            ['cols' => 100, 'rows' => $varlen, 'name' => 'maximavars']));
 if ($questionid) {
     $inplen = substr_count($inps, "\n");
     $fout .= html_writer::tag('p', html_writer::tag('textarea', $inps,
-            array('cols' => 100, 'rows' => $inplen, 'name' => 'inputs')));
+            ['cols' => 100, 'rows' => $inplen, 'name' => 'inputs']));
 }
 if ($simp) {
     $fout .= stack_string('autosimplify').' '.
-        html_writer::empty_tag('input', array('type' => 'checkbox', 'checked' => $simp, 'name' => 'simp'));
+        html_writer::empty_tag('input', ['type' => 'checkbox', 'checked' => $simp, 'name' => 'simp']);
 } else {
-    $fout .= stack_string('autosimplify').' '.html_writer::empty_tag('input', array('type' => 'checkbox', 'name' => 'simp'));
+    $fout .= stack_string('autosimplify').' '.html_writer::empty_tag('input', ['type' => 'checkbox', 'name' => 'simp']);
 }
 if ($questionid) {
     $fout .= html_writer::tag('h2', stack_string('generalfeedback'));
@@ -227,16 +227,16 @@ if ($questionid) {
 $fout .= html_writer::tag('p', $errs);
 $stringlen = max(substr_count($string, "\n") + 3, 8);
 $fout .= html_writer::tag('p', html_writer::tag('textarea', $string,
-            array('cols' => 100, 'rows' => $stringlen, 'name' => 'cas')));
+            ['cols' => 100, 'rows' => $stringlen, 'name' => 'cas']));
 $fout .= html_writer::start_tag('p');
 $fout .= html_writer::empty_tag('input',
-            array('type' => 'submit', 'name' => 'action', 'value' => stack_string('chat')));
+            ['type' => 'submit', 'name' => 'action', 'value' => stack_string('chat')]);
 if ($questionid && !$varerrs) {
     $fout .= html_writer::empty_tag('input',
-        array('type' => 'submit',  'name' => 'action', 'value' => stack_string('savechat')));
+        ['type' => 'submit',  'name' => 'action', 'value' => stack_string('savechat')]);
 }
 $fout .= html_writer::end_tag('p');
-echo html_writer::tag('form', $fout, array('action' => $PAGE->url, 'method' => 'post'));
+echo html_writer::tag('form', $fout, ['action' => $PAGE->url, 'method' => 'post']);
 
 if ('' != trim($debuginfo)) {
     echo $OUTPUT->box($debuginfo);

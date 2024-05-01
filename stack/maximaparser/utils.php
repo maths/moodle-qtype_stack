@@ -45,7 +45,7 @@ class maxima_parser_utils {
         $parseoptions = [
             'startRule' => $parserule,
             'letToken' => stack_string('equiv_LET'),
-            'allowPM' => $allowpm
+            'allowPM' => $allowpm,
         ];
         if ($parserule === 'Root') {
             $cachekey = ($allowpm ? '|PM|' : '|noPM|') . $parseoptions['letToken'] . '|' . $code;
@@ -100,7 +100,7 @@ class maxima_parser_utils {
     // use when you need to have pretty printed position data.
     public static function position_remap(MP_Node $ast, string $code, array $limits = null) {
         if ($limits === null) {
-            $limits = array();
+            $limits = [];
             foreach (explode("\n", $code) as $line) {
                 $limits[] = strlen($line) + 1;
             }
@@ -198,7 +198,7 @@ class maxima_parser_utils {
     public static function strip_comments(MP_Root $ast) {
         // For now comments exist only at the top level and there are no "inline"
         // comments within statements, hopefully at some point we can go further.
-        $nitems = array();
+        $nitems = [];
         foreach ($ast->items as $node) {
             if ($node instanceof MP_Comment) {
                 continue;
@@ -358,7 +358,7 @@ class maxima_parser_utils {
             while ($root->callbackRecurse($include) !== true) {}
             // @codingStandardsIgnoreEnd
 
-            // TODO: wrap those errors into something more readable.
+            // TO-DO: wrap those errors into something more readable.
             if (count($errors) > 0) {
                 // Returning an exception because we already either return an excpetion or the root node, so why
                 // have even more types in play.
@@ -402,18 +402,18 @@ class maxima_parser_utils {
     // Tool to extract information about which variables are being used and how.
     // In a given parsed section of code. Updates a given usage list so that use
     // for example in going through a PRT tree is convenient.
-    public static function variable_usage_finder($ast, $output=array()) {
+    public static function variable_usage_finder($ast, $output=[]) {
         if (!array_key_exists('read', $output)) {
-            $output['read'] = array();
+            $output['read'] = [];
         }
         if (!array_key_exists('write', $output)) {
-            $output['write'] = array();
+            $output['write'] = [];
         }
         if (!array_key_exists('calls', $output)) {
-            $output['calls'] = array();
+            $output['calls'] = [];
         }
         if (!array_key_exists('declares', $output)) {
-            $output['declares'] = array();
+            $output['declares'] = [];
         }
         $recursion = function($node) use(&$output) {
             // Feel free to expand this to track any other types of usages,
@@ -1136,8 +1136,10 @@ class maxima_parser_utils {
                     // the three argument case as we see what we do in those cases, others
                     // stay 'unevaluated' for now.
                     if (count($node->arguments) === 3) {
-                        $r = new MP_FunctionCall(new MP_Identifier('ev'), [$node->arguments[2],
-                            new MP_Operation('=', $node->arguments[1], $node->arguments[0])]);
+                        $r = new MP_FunctionCall(new MP_Identifier('ev'), [
+                            $node->arguments[2],
+                            new MP_Operation('=', $node->arguments[1], $node->arguments[0]),
+                        ]);
                         $node->parentnode->replace($node, $r);
                         return false;
                     } else if (count($node->arguments) === 2) {
@@ -2166,7 +2168,7 @@ class maxima_parser_utils {
                             if ($arg instanceof MP_Operation && ($arg->op === '=' || $arg->op === ':')
                                     && $arg->lhs instanceof MP_Identifier) {
                                 $repl[$arg->lhs->value] = clone $arg->rhs;
-                            } // TODO: is this else condition reachable? If so tag everything as unknown.
+                            } // TO-DO: is this else condition reachable? If so tag everything as unknown.
                         }
                         foreach ($repl as $key => $value) {
                             if (!isset($output[$key])) {

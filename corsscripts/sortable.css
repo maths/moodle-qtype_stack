@@ -21,6 +21,11 @@ button {
     float: left;
     flex-shrink: 1;
     /*margin-left: 1;*/
+
+}
+
+.usedList.col-rigid > li[data-id] {
+    margin-left: 0;
 }
 
 .row {
@@ -30,7 +35,7 @@ button {
 }
 
 .col-rigid {
-    width: 100px;
+    width: 125px;
     flex: 0 0 auto;
     display: inline-block
 }
@@ -70,15 +75,17 @@ button {
 }
 
 #availableList > .header {
-    height: 50px; 
-    width: max(100%, 130px);
+    min-height: 50px;
+    height: auto; 
+    width: max(100%, 150px);
     background-color: inherit; text-align: center; border-bottom: thick solid rgb(196, 131, 10); 
     /*margin: 12px; */
     padding: 10px; display: inline-block;
 }
 
 #availableList > .index {
-    height: 50px; 
+    min-height: 50px;
+    height: auto; 
     /*width:100px; */
     background-color: inherit; text-align: left; border-right: thick solid rgb(196, 131, 10); 
     padding: 10px; margin: 12px;
@@ -119,6 +126,9 @@ button {
     display: flex;
 }
 
+.usedList.col-rigid:empty {
+    width: 100px;
+}
 /*
 .usedList > .emptyLi {
     height: 50px;

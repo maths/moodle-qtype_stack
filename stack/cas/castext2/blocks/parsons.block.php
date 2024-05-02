@@ -82,9 +82,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (isset($xpars['overridejs'])) {
             unset($xpars['overridejs']);
         }
-        if (isset($xpars['orientation'])) {
-            unset($xpars['orientation']);
-        }
 
         // Set default width and height here.
         // We want to push forward to overwrite the iframe defaults if they are not provided in the block parameters.
@@ -215,11 +212,16 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_String(";\n");
 
         // Parse steps and Sortable options separately if they exist. Invalid JSON will be identified by preprocess_steps function.
-        $code = 'var headers = {used: ["' . stack_string('stackBlock_parsons_used_header') . '"],
-        available: ["' . stack_string('stackBlock_parsons_available_header') . '"]};' . "\n";
+        if ($proofmode) {
+            $code = 'var headers = ["' . stack_string('stackBlock_parsons_used_header') . '"];' . "\n";
+        } else {
+            $code = 'var headers = [' . implode(', ', range(1, intval($columns))) . '];' . "\n";
+        }
+        $code .= 'var available_header = "' . stack_string('stackBlock_parsons_available_header') . '";' . "\n";
         $code .= 'var sortableUserOpts = {};' . "\n";
         $code .= 'var valid, index;' . "\n";
-        $code .= '[proofSteps, sortableUserOpts, headers, index, valid] = preprocess_steps(proofSteps, sortableUserOpts, headers, index);' . "\n";
+        $code .= '[proofSteps, sortableUserOpts, headers, available_header, index, valid] = 
+            preprocess_steps(proofSteps, sortableUserOpts, headers, available_header, index);' . "\n";
 
         // If the author's JSON has invalid format throw an error.
         //$code .= 'if (valid === false)
@@ -241,7 +243,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'stackSortable.add_reorientation_button();' . "\n";
         $code .= 'stackSortable.create_row_col_divs();' . "\n";
         $code .= 'if (index !== undefined) {stackSortable.add_index(index);};' . "\n";
-        $code .= 'stackSortable.add_headers(headers);' . "\n";
+        $code .= 'stackSortable.add_headers(headers, available_header);' . "\n";
         $code .= 'stackSortable.generate_used();' . "\n";
         $code .= 'stackSortable.generate_available();' . "\n";
 
@@ -276,8 +278,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $code .= 'stackSortable.add_delete_all_listener("delete-all", sortableUsed, sortableAvailable);' . "\n";
         }
 
-        // Add double-click events.
-        //$code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
+        // Add double-click events for proof.
+        if ($proofmode) {
+            $code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
+        }
 
         // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
         $code .= ($mathjaxversion === "2") ?
@@ -408,14 +412,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $valids = null;
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
-                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input' &&
-                    $key !== 'orientation' && $key !== 'clone' && $key !== 'columns' && $key !== 'rows') {
+                    $key !== 'version' && $key !== 'overridecss' && $key !== 'input' 
+                    && $key !== 'clone' && $key !== 'columns' && $key !== 'rows') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
                     $valids = [
                         'width', 'height', 'aspect-ratio', 'version', 'overridecss',
-                        'overridejs', 'input', 'orientation', 'clone', 'columns', 'rows',
+                        'overridejs', 'input', 'clone', 'columns', 'rows',
                     ];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids),

@@ -24,7 +24,7 @@ Here is a basic example of use:
 Assume the question author writes a list `proof_steps` of pairs `["key", "string"]` in Maxima (as in the examples), in the question variables with both the correct and incorrect strings.
 
 ````
-[parsons input="ans1" ]]
+[[parsons input="ans1" ]]
 {# stackjson_stringify(proof_steps) #}
 [[/parsons]]
 ````
@@ -95,6 +95,8 @@ Functionality and styling can be customised through the use of block parameters.
 7. `override-css`: string containing the location of a local CSS file contained in `question/type/stack/corsscripts/` directory in the format `cors://file-name` or a href to an external CSS stylesheet. This will override all CSS styling of the drag-and-drop listing, so it should be used with care. However, it can be used to customise the styling of the lists by writing one's own custom CSS file and passing in the location of that file to this parameter. This parameter is unset by default.
 8. `override-js`: string containing a local JavaScript library or a href to a cdn of a JavaScript library. This will overwrite the Sortable library used with the library identified by the string. This should be used if one wishes to use an updated version of the Sortable library, or adding functionality with a custom library. Note that the custom library will need to either extend or import the base Sortable functionality. Unset by default.
 9. `version`: string of the form `"local"` or `"cdn"`. Whether to use STACK's local copy of the Sortable library or whether to pull version 1.15.0 of Sortable from cdn. This is `"local"` by default.
+10. `columns` : how many vertical answer lists to display. By default, this is not used. If it is specified, then the styling will change to a grid-format with multiple vertical answer lists of unspecified length.
+11. `rows` : how many horizontal answer lists to display. By default, this is not used. If it is specified and `columns` is _not_ specified, this will change to a grid-format with multiple horizontal answer lists of unspecified width. If both `columns` and `rows` are specified then this will provide a fixed length and width grid format, where items can be dragged to any position in the grid in any order.
 
 ## Random generation of `proof_step` order
 

@@ -62,7 +62,7 @@ export const SUPPORTED_CALLBACK_FUNCTIONS = [
  *   }
  * }, {}, {});
  */
-export function preprocess_steps(proofSteps, sortableUserOpts, headers, index) {
+export function preprocess_steps(proofSteps, sortableUserOpts, headers, available_header, index) {
     // Check if proofSteps is a string and convert it to an object
     // (this occurs when proof steps are a flat list coming from a Maxima variable)
     if (typeof proofSteps === "string") {
@@ -73,11 +73,15 @@ export function preprocess_steps(proofSteps, sortableUserOpts, headers, index) {
     var valid = _validate_parsons_JSON(proofSteps);
 
     // At this point, we know proofSteps is either a flat JSON, or it's top-level keys are a subset of 
-    // ["steps", "options", "headers", "index"], and contains at least "steps". Separate these if they are present
-    if (_validate_top_level_keys_JSON(proofSteps, ["steps", "options", "headers", "index"], ["steps"])) {
+    // ["steps", "options", "headers", ""index"], and contains at least "steps". Separate these if they are present
+    if (_validate_top_level_keys_JSON(proofSteps, ["steps", "options", "headers", "index", "available_header"], ["steps"])) {
         var sortableUserOpts = proofSteps["options"];
+        // only want to replace defaults for headers if they have been provided
         if ("headers" in proofSteps) {
             headers = proofSteps["headers"];
+        }
+        if ("available_header" in proofSteps) {
+            available_header = proofSteps["available_header"];
         }
         index = proofSteps["index"];
         proofSteps = proofSteps["steps"];
@@ -88,7 +92,7 @@ export function preprocess_steps(proofSteps, sortableUserOpts, headers, index) {
         proofSteps = _stackstring_objectify(proofSteps);
     }
 
-    return [proofSteps, sortableUserOpts, headers, index, valid];
+    return [proofSteps, sortableUserOpts, headers, available_header, index, valid];
 }
 
 /**
@@ -666,14 +670,14 @@ export const stack_sortable = class {
      * @param {Object} headers - Object containing header text for used and available lists.
      * @returns {void}
      */
-    add_headers(headers) {
-        for (const [i, value] of headers.used.entries()) {
+    add_headers(headers, available_header) {
+        for (const [i, value] of headers.entries()) {
             var parentEl = document.getElementById(`usedList_${i}`);
             var header = this._create_header(value, `usedHeader_${i}`);
             parentEl.insertBefore(header, parentEl.firstChild);
         }
         var parentEl = document.getElementById("availableList");
-        parentEl.insertBefore(this._create_header(headers.available[0], "availableHeader"), parentEl.firstChild);
+        parentEl.insertBefore(this._create_header(available_header, "availableHeader"), parentEl.firstChild);
     }
 
 

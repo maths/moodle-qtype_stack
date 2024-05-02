@@ -62,7 +62,7 @@ export const SUPPORTED_CALLBACK_FUNCTIONS = [
  *   }
  * }, {}, {});
  */
-export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
+export function preprocess_steps(proofSteps, sortableUserOpts, headers, index) {
     // Check if proofSteps is a string and convert it to an object
     // (this occurs when proof steps are a flat list coming from a Maxima variable)
     if (typeof proofSteps === "string") {
@@ -72,19 +72,15 @@ export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
     // Validate the object
     var valid = _validate_parsons_JSON(proofSteps);
 
-    // Separate steps and options if they are present
-    if (JSON.stringify(Object.keys(proofSteps)) === JSON.stringify(["steps", "options"])) {
-        var userOpts = proofSteps["options"];
-        proofSteps = proofSteps["steps"];
-
-        // Process block user options for the 'header' setting
-        if (userOpts.header !== undefined) {
-            blockUserOpts = {used: {header: userOpts.header[0]}, available: {header: userOpts.header[1]}};
+    // At this point, we know proofSteps is either a flat JSON, or it's top-level keys are a subset of 
+    // ["steps", "options", "headers", "index"], and contains at least "steps". Separate these if they are present
+    if (_validate_top_level_keys_JSON(proofSteps, ["steps", "options", "headers", "index"], ["steps"])) {
+        var sortableUserOpts = proofSteps["options"];
+        if ("headers" in proofSteps) {
+            headers = proofSteps["headers"];
         }
-
-        // Split Sortable options into used and available
-        delete userOpts.header;
-        sortableUserOpts = {used: userOpts, available: userOpts};
+        index = proofSteps["index"];
+        proofSteps = proofSteps["steps"];
     }
 
     // Convert proofSteps to an object if it is still a string (occurs when the proof steps comes from a Maxima variable)
@@ -92,7 +88,7 @@ export function preprocess_steps(proofSteps, blockUserOpts, sortableUserOpts) {
         proofSteps = _stackstring_objectify(proofSteps);
     }
 
-    return [proofSteps, blockUserOpts, sortableUserOpts, valid];
+    return [proofSteps, sortableUserOpts, headers, index, valid];
 }
 
 /**
@@ -212,6 +208,13 @@ function _validate_proof_steps(proofSteps) {
     return Object.values(proofSteps).every((val) => typeof(val) == 'string');
 }
 
+function _validate_top_level_keys_JSON(JSON, validKeys, requiredKeys) {
+    const keys = Object.keys(JSON);
+    const missingRequiredKeys = requiredKeys.filter(key => !keys.includes(key));
+    const invalidKeys = keys.filter(key => !validKeys.includes(key));
+    return invalidKeys.length === 0 && missingRequiredKeys.length === 0;
+}
+
 /**
  * Flips the orientation of specified used and available lists, and the bin (if present) in the UI.
  * The function toggles between 'list-group row' and 'list-group col' classes for the specified elements.
@@ -270,6 +273,10 @@ export function add_orientation_listener(buttonId, usedId, availableId) {
  */
 export function get_iframe_height() {
     return document.documentElement.offsetHeight;
+}
+
+function _is_empty_li(li) {
+    return li.textContent.trim() === '' && li.children.length === 0;
 }
 
 /**
@@ -331,22 +338,36 @@ export const stack_sortable = class {
      *                                of form {used: UsedOptions, available: AvailableOptions} (optional).
      * @param {boolean} clone - Flag indicating whether to clone elements during sorting.
      */
-    constructor(proofSteps, availableId, usedId, inputId = null, options = null, clone = false) {
+
+    // TODO : add containerId as param
+    // TODO : be careful with default parameters, these should all be strings
+    constructor(proofSteps, inputId = null, options = null, clone = false, columns = 1, rows = null, orientation = "col", index = "", grid = false) {
         this.proofSteps = proofSteps;
         this.inputId = inputId;
-        this.state = this._generate_state(this.proofSteps, this.inputId);
+        this.orientation = orientation;
+        this.columns = (this.orientation === "col") ? columns : rows;
+        this.rows = (this.orientation === "col") ? rows : columns;
+        this.index = index;
+        this.use_index = this.index !== "";
+        this.grid = grid;
+        this.itemCSS = this.grid ? 
+            (this.orientation === "row" ? "grid-item-rigid" : "grid-item") : "list-group-item";
+        // non-null InputId causes issues in grid version, I think this is required for saving state? 
+        this.state = this._generate_state(this.proofSteps, null, Number(this.columns));
         if (inputId !== null) {
             this.input = document.getElementById(this.inputId);
             this.submitted = this.input.getAttribute("readonly") === "readonly"
         }
-        this.availableId = availableId;
-        this.available = document.getElementById(this.availableId);
-        this.usedId = usedId;
-        this.used = document.getElementById(this.usedId);
+        this.ids = this._create_ids(this.rows, this.columns);
+        this.availableId = this.ids.available;
+        //this.available = document.getElementById(this.availableId);
+        this.usedId = this.ids.used;
+        //this.used = this.usedId.map(idList => idList.map(id => document.getElementById(id)));
+        //this.used = document.getElementById(this.usedId);
         this.clone = clone;
-
-        // TO-DO : additional default options?
-        this.defaultOptions = {used: {animation: 50}, available: {animation: 50}};
+        
+        // TODO : additional default options?
+        this.defaultOptions = {used: {animation: 50, cancel: ".header"}, available: {animation: 50, cancel: ".header"}};
         // Merges user options and default, overwriting default with user options if they clash
         this.userOptions = this._set_user_options(options);
 
@@ -355,6 +376,187 @@ export const stack_sortable = class {
         // submitted.
         this.options = this._set_ghostClass_group_and_disabled_options();
     }
+
+    _create_ids(rows, columns) {
+        var colIdx = Array.from({length: columns}, (_, i) => i);
+        var rowIdx = Array.from({length: rows}, (_, j) => j);
+        this.colIds = colIdx.map((idx) => `usedList_${idx}`);
+        this.rowColIds = {}
+        colIdx.forEach((i) => this.rowColIds[this.colIds[i]] = rowIdx.map((j) => `usedList_${j}${i}`));
+        var usedIds = (rows === "") ? 
+            this.colIds.map((id) => [id]) : 
+            Object.values(this.rowColIds);
+
+        return {
+            used: usedIds,
+            available: "availableList"
+        };
+    }
+
+    create_row_col_divs() {
+        var usedClassList = (!this.grid || this.orientation === "col") ? 
+            ["list-group", this.orientation, "usedList"]:
+            [this.orientation, "usedList"];
+        var itemClass = (this.orientation === "col") ? "row" : "col";
+        var itemClassList = [itemClass, "usedList"];
+        var availClassList = (!this.grid || this.orientation === "col") ?
+            ["list-group", this.orientation] : 
+            [this.orientation];
+        var container = document.getElementById("containerRow");
+
+        if (this.use_index) {
+            var indexCol = document.createElement("div");
+            indexCol.id = "index";
+            indexCol.classList.add(...usedClassList);
+            container.append(indexCol);
+        }
+        this.colIds.forEach((id) => 
+            {
+                var colDiv = document.createElement("ul");
+                colDiv.id = id;
+                colDiv.classList.add(...usedClassList);
+                container.append(colDiv);
+            });
+        // if rows are specified then add the row divs
+        if (this.rows !== "") {
+            this.colIds.forEach((colId) => {
+                var colDiv = document.getElementById(colId);
+                colDiv.classList.add("container");
+                this.rowColIds[colId].forEach((rowColId) => {
+                    var divRowCol = document.createElement("li");
+                    divRowCol.id = rowColId;
+                    divRowCol.classList.add(...itemClassList);
+                    colDiv.append(divRowCol);
+                })
+            })
+        };
+
+        var availDiv = document.createElement("ul");
+        availDiv.id = this.ids.available;
+        availDiv.classList.add(...availClassList);
+        if (this.orientation === "col") {
+            container.append(availDiv);
+        } else {
+            container.insertBefore(availDiv, container.firstChild);
+        }
+
+        this.used = this.usedId.map(idList => idList.map(id => document.getElementById(id)));
+        this.available = document.getElementById(this.availableId);
+    }
+
+    _flip_orientation() {
+        var addClass = (this.orientation === "row") ? ["list-group", "col"] : ["row"];
+        if (this.grid) {
+            var removeClass = (this.orientation === "row") ? ["list-group", "row"] : ["list-group", "col"];
+            var gridItems = document.querySelectorAll(".grid-item");
+            gridItems.forEach((item) => {
+                item.classList.remove("grid-item");
+                item.classList.add("grid-item-rigid");
+            })
+
+            if (this.rows !== "") {
+                [].concat(...this.used).forEach((div) => {
+                    if (this.orientation === "col") {
+                        div.classList.remove("row");
+                        div.classList.add("col", "col-rigid");
+                    } else {
+                        div.classList.remove("col", "col-rigid");
+                        div.classList.add("row");
+                    }
+                })
+            }
+        } else {
+            var removeClass = (this.orientation === "row") ? ["row"] : ["col"];
+        }
+        this.colIds.forEach((colId) => {
+                var ul = document.getElementById(colId);
+                ul.classList.remove(...removeClass);
+                ul.classList.add(...addClass);
+            }
+        );
+
+        this.available.classList.remove(...removeClass);
+        this.available.classList.add(...addClass);
+        if (this.orientation === "col") {
+            this.available.parentNode.insertBefore(this.available, this.available.parentNode.firstChild);
+        } else {
+            this.available.parentNode.append(this.available);
+        }
+
+        if (this.grid) {
+            if (this.orientation === "col") {
+                document.querySelectorAll(".header").forEach((header) => {
+                    if (!header.classList.contains("index")) {
+                        header.classList.remove("header");
+                        header.classList.add("index");
+                    }
+                });
+            } else {
+                document.querySelectorAll(".index").forEach((index) => {
+                    if (!index.classList.contains("header")) {
+                        index.classList.remove("index");
+                        index.classList.add("header");
+                    }
+                })
+            }
+        };
+
+        if (this.use_index) {
+            var indexDiv = document.getElementById("index");
+            indexDiv.classList.remove(...removeClass);
+            indexDiv.classList.add(...addClass);
+            if (this.orientation === "col") {
+                document.querySelectorAll("#index > .index").forEach((idx) => {
+                    if (!idx.classList.contains("header")) {
+                        idx.classList.remove("index");
+                        idx.classList.add("header");
+                    }
+                })
+            } else {
+                document.querySelectorAll('#index > .header').forEach((header) => {
+                    if (!header.classList.contains("index")) {
+                        header.classList.remove("header");
+                        header.classList.add("index");
+                }
+            })
+        }
+    }
+
+        this.orientation = (this.orientation === "row") ? "col" : "row";
+        
+        /*var usedList = document.getElementById(usedId);
+        var availableList = document.getElementById(availableId);
+        var newClass = usedList.className == 'list-group row' ? 'list-group col' : 'list-group row';
+        usedList.setAttribute('class', newClass);
+        availableList.setAttribute('class', newClass);*/
+    }
+
+    add_reorientation_button() {
+        var btn = document.createElement("button");
+        btn.id = "orientation";
+        btn.setAttribute("class", "parsons-button");
+        var icon = document.createElement("i");
+        icon.setAttribute("class", "fa fa-refresh");
+        btn.append(icon);
+        btn.addEventListener("click", () => this._flip_orientation());
+        document.body.insertBefore(btn, document.getElementById("containerRow"));
+    }
+    /*if (orientation === "row") {
+        var availableEl = document.getElementById("availableList");
+        availableEl.classList.remove("list-group", "col");
+        availableEl.classList.add(orientation);
+        availableEl.parentNode.insertBefore(availableEl, availableList.parentNode.firstChild);
+        //document.getElementById("availableList").classList.add(orientation);
+        ids.used.forEach((idList) => {
+            document.getElementById(idList[0]).classList.remove("list-group", "col");
+            document.getElementById(idList[0]).classList.add(orientation);
+        })
+        if (use_index) {
+            var indexEl = document.getElementById("index");
+            indexEl.classList.remove("list-group", "col");
+            indexEl.classList.add("row");
+        }
+    };*/
 
     /**
      * Validate user options against a list of possible option keys.
@@ -425,6 +627,12 @@ export const stack_sortable = class {
         this.state.available.forEach(key => this.available.append(this._create_li(key)));
     }
 
+    _add_index(index, indexDOM) {
+        for (const [i, value] of index.entries()) {
+            indexDOM.append(this._create_index(value, `usedIndex${i}`));
+        }
+    }
+
     /**
      * Generates the used list based on the current state.
      *
@@ -432,7 +640,23 @@ export const stack_sortable = class {
      * @returns {void}
      */
     generate_used() {
-        this.state.used.forEach(key => this.used.append(this._create_li(key)));
+        for (const [i, value] of this.used.entries()) {
+            /*if (i === 0 && this.index !== null) {
+                this._add_index(this.index, value[0]);        
+            }*/
+            this.state.used[i].forEach(key => value.append(this._create_li(key)));
+        }
+    }
+
+    add_index(index) {
+        for (const [i, value] of index.entries()) {
+            var idx = this._create_index(value, `usedIndex_${i}`);
+            if (i === 0) {
+                var addClass = this.orientation === "col" ? "header" : "index";
+                idx.classList.add(addClass);
+            }
+            document.getElementById("index").append(idx);
+        }
     }
 
     /**
@@ -443,9 +667,15 @@ export const stack_sortable = class {
      * @returns {void}
      */
     add_headers(headers) {
-        this.used.append(this._create_header(headers.used.header, "usedHeader"));
-        this.available.append(this._create_header(headers.available.header, "availableHeader"));
+        for (const [i, value] of headers.used.entries()) {
+            var parentEl = document.getElementById(`usedList_${i}`);
+            var header = this._create_header(value, `usedHeader_${i}`);
+            parentEl.insertBefore(header, parentEl.firstChild);
+        }
+        var parentEl = document.getElementById("availableList");
+        parentEl.insertBefore(this._create_header(headers.available[0], "availableHeader"), parentEl.firstChild);
     }
+
 
     /**
      * Updates the state based on changes in the used and available lists.
@@ -456,7 +686,7 @@ export const stack_sortable = class {
      * @returns {void}
      */
     update_state(newUsed, newAvailable) {
-        var newState = {used: newUsed.toArray(), available: newAvailable.toArray()};
+        var newState = {used: newUsed.map((usedList) => usedList.map((used) => used.toArray())), available: newAvailable.toArray()};
         if (this.inputId !== null) {
             this.input.value = JSON.stringify(newState);
             this.input.dispatchEvent(new Event('change'));
@@ -507,7 +737,8 @@ export const stack_sortable = class {
      */
     add_delete_all_listener(buttonId, newUsed, newAvailable) {
         const button = document.getElementById(buttonId);
-        button.addEventListener('click', () => {this._delete_all_from_used(); this.update_state(newUsed, newAvailable);});
+        button.addEventListener('click', () => {
+            this._delete_all_from_used(); this.update_state(newUsed, newAvailable);});
     }
 
     /**
@@ -519,10 +750,10 @@ export const stack_sortable = class {
      * @param {string} inputId - ID of the input element for storing state.
      * @returns {Object} The initial state object with used and available lists.
      */
-    _generate_state(proofSteps, inputId) {
+    _generate_state(proofSteps, inputId, columns) {
         let stateStore = document.getElementById(inputId);
         if (stateStore === null) {
-            return {used: [], available: [...Object.keys(proofSteps)]};
+            return {used: Array(columns).fill().map(() => []), available: [...Object.keys(proofSteps)]};
         }
         return (stateStore.value && stateStore.value != "") ?
             JSON.parse(stateStore.value) :
@@ -579,13 +810,18 @@ export const stack_sortable = class {
      * @returns {Object} - Options containing ghostClass and group settings for both lists.
      */
     _set_ghostClass_group_and_disabled_options() {
-        var group_val = {
-            used: {
+        var group_val = {};
+        group_val.used = (this.rows === "") ?
+            {
                 name: "sortableUsed", 
                 pull: true, 
                 put: true
-            }
-        };
+            } : 
+            {
+                name: "sortableUsed", 
+                pull: true, 
+                put: (to) => to.el.children.length < 1 
+            };
         
         group_val.available = (this.clone === "true") ?
             {
@@ -669,7 +905,7 @@ export const stack_sortable = class {
         let li = document.createElement("li");
         li.innerHTML = this.proofSteps[proofKey];
         li.setAttribute("data-id", proofKey);
-        li.className = "list-group-item";
+        li.className = this.itemCSS;
         return li;
     }
 
@@ -685,7 +921,19 @@ export const stack_sortable = class {
     _create_header(innerHTML, id) {
         let i = document.createElement("i");
         i.innerHTML = innerHTML;
-        i.className = "list-group-item header";
+        var addClass = (this.orientation === "col") ? 
+            [this.itemCSS, 'header'] : [this.itemCSS, 'index'];
+        i.classList.add(...addClass);
+        i.setAttribute("id", id);
+        return i;
+    }
+
+    _create_index(innerHTML, id) {
+        let i = document.createElement("i");
+        i.innerHTML = innerHTML;
+        var addClass = (this.orientation === "col") ? 
+            [this.itemCSS, 'index'] : [this.itemCSS, 'header'];
+        i.classList.add(...addClass);
         i.setAttribute("id", id);
         return i;
     }
@@ -725,6 +973,13 @@ export const stack_sortable = class {
         return li;
     }
 
+    _deletable_li(li) {
+        return !li.matches(".header") && !li.matches(".index") && !_is_empty_li(li);
+    }
+
+    _delete_li(li) {
+        li.parentNode.removeChild(li);
+    }
     /**
      * Delete all non-header items from the "used" list.
      *
@@ -733,8 +988,8 @@ export const stack_sortable = class {
      * @returns {void}
      */
     _delete_all_from_used() {
-        const lis = document.querySelectorAll(`#${this.usedId} > .list-group-item`);
-        lis.forEach(li => {if (!li.matches(".header")) {li.parentNode.removeChild(li);}});
+        const lis = document.querySelectorAll('.usedList li[data-id]');
+        lis.forEach(li => {if (this._deletable_li(li)) {this._delete_li(li);}});
     }
 
 };

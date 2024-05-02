@@ -43,12 +43,29 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // Define iframe params.
         $xpars = [];
-        $inputs = []; // From inputname to variable name.
-        $clone = "false"; // Whether to have all keys in available list cloned.
-        $mathjaxversion = "2"; // MathJax version (either "2" or "3").
+        
+        // Input identifiers.
+        $inputs = []; 
+
+        // Whether to have all keys in available list cloned.
+        $clone = 'false'; 
+
+        // MathJax version (either "2" or "3").
+        $mathjaxversion = '2'; 
+
+        // Number of available columns.
+        $columns = null;
+
+        // Number of available rows.
+        $rows = null;
+
         foreach ($this->params as $key => $value) {
             if ($key === 'clone') {
                 $clone = $value;
+            } else if ($key === 'columns') {
+                $columns = $value;
+            } else if ($key === 'rows') {
+                $rows = $value;
             } else if ($key !== 'input') {
                 $xpars[$key] = $value;
             } else {
@@ -126,15 +143,22 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
+        // Identify default proof mode based on block header params
+        // Note that proof mode behaves the same as the general mode, but we just 
+        // need to redefine columns
+        $proofmode = ($columns === null && $rows === null);
+        $gridmode = !$proofmode;
+        $columns = $proofmode ? '1' : $columns;
         // Add correctly oriented container divs for the proof lists to be accessed by sortable.
-        $orientation = isset($this->params['orientation']) ? $this->params['orientation'] : 'horizontal';
-        $outer = $orientation === 'horizontal' ? 'row' : 'col';
+        $orientation = ($columns === null) ? 'row' : 'col';
+        /*$outer = $orientation === 'horizontal' ? 'row' : 'col';
         $inner = $orientation === 'horizontal' ? 'col' : 'row';
         $innerui = '<ul class="list-group ' . $inner . '" id="usedList"></ul>
                         <ul class="list-group ' . $inner . '" id="availableList"></ul>';
 
         $r->items[] = new MP_String("<button type='button' class='parsons-button' id='orientation'>
             <i class='fa fa-refresh'></i></button>");
+        */
         $r->items[] = new MP_String("<button type='button' class='parsons-button' id='resize'>
             <i class='fa fa-expand'></i></button>");
         if ($clone === 'true') {
@@ -144,10 +168,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             <i class="fa fa-times-circle "></i></div>');
         }
 
-        $r->items[] = new MP_String('<div class="container" id="sortableContainer" style="' . $astyle . '">
+        /*$r->items[] = new MP_String('<div class="container" id="sortableContainer" style="' . $astyle . '">
             <div class=row>' . $innerui . '
             </div>
-        </div>');
+        </div>');*/
+
+        $r->items[] = new MP_String('<div class="container row" id="containerRow" style="' . $astyle . '"></div>');
 
         // JS script.
         $r->items[] = new MP_String('<script type="module">');
@@ -156,7 +182,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $importcode .= "import {Sortable} from '" . stack_cors_link('sortable.min.js') . "';\n";
         $importcode .= "import {preprocess_steps,
                                 stack_sortable,
-                                add_orientation_listener,
                                 get_iframe_height,
                                 SUPPORTED_CALLBACK_FUNCTIONS
                 } from '" .
@@ -165,7 +190,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // Add flip orientation listener to the orientation button.
         // TO-DO: automatically set orientation based on device?
-        $r->items[] = new MP_String('add_orientation_listener("orientation", "usedList", "availableList");' . "\n");
+        //$r->items[] = new MP_String('add_orientation_listener("orientation", "usedList", "availableList");' . "\n");
         // Add the resize button listener.
         $r->items[] = new MP_String('document.getElementById("resize").addEventListener(
             "click", () => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});' . "\n");
@@ -190,15 +215,15 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_String(";\n");
 
         // Parse steps and Sortable options separately if they exist. Invalid JSON will be identified by preprocess_steps function.
-        $code = 'var headers = {used: {header: "' . stack_string('stackBlock_parsons_used_header') . '"},
-        available: {header: "' . stack_string('stackBlock_parsons_available_header') . '"}};' . "\n";
+        $code = 'var headers = {used: ["' . stack_string('stackBlock_parsons_used_header') . '"],
+        available: ["' . stack_string('stackBlock_parsons_available_header') . '"]};' . "\n";
         $code .= 'var sortableUserOpts = {};' . "\n";
-        $code .= 'var valid;' . "\n";
-        $code .= '[proofSteps, headers, sortableUserOpts, valid] = preprocess_steps(proofSteps, headers, sortableUserOpts);' . "\n";
+        $code .= 'var valid, index;' . "\n";
+        $code .= '[proofSteps, sortableUserOpts, headers, index, valid] = preprocess_steps(proofSteps, sortableUserOpts, headers, index);' . "\n";
 
         // If the author's JSON has invalid format throw an error.
-        $code .= 'if (valid === false)
-            {stack_js.display_error("' . stack_string('stackBlock_parsons_contents') . '");}' . "\n";
+        //$code .= 'if (valid === false)
+        //    {stack_js.display_error("' . stack_string('stackBlock_parsons_contents') . '");}' . "\n";
 
         // Link up to STACK inputs.
         if (count($inputs) > 0) {
@@ -210,22 +235,32 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         };
 
         // Instantiate STACK sortable helper class.
-        $code .= 'const stackSortable = new stack_sortable(proofSteps, "availableList", "usedList", id, sortableUserOpts, "' .
-                $clone .'");' . "\n";
+        $code .= 'const stackSortable = new stack_sortable(proofSteps, id, sortableUserOpts, "' .
+                $clone .'", "' . $columns .'", "' . $rows . '", "' . $orientation . '", index, "' . $gridmode . '");' . "\n";
         // Generate the two lists in HTML.
+        $code .= 'stackSortable.add_reorientation_button();' . "\n";
+        $code .= 'stackSortable.create_row_col_divs();' . "\n";
+        $code .= 'if (index !== undefined) {stackSortable.add_index(index);};' . "\n";
         $code .= 'stackSortable.add_headers(headers);' . "\n";
         $code .= 'stackSortable.generate_used();' . "\n";
         $code .= 'stackSortable.generate_available();' . "\n";
 
         // Create the Sortable objects.
         // First, instantiate with default options first in order to extract all possible options for validation.
-        $code .= 'var sortableUsed = Sortable.create(usedList);' . "\n";
-        $code .= 'var possibleOptionKeys = Object.keys(sortableUsed.options).concat(SUPPORTED_CALLBACK_FUNCTIONS);' . "\n";
+        $code .= 'var sortableUsed = 
+        stackSortable.ids.used.map((idList) => idList.map((usedId) => Sortable.create(document.getElementById(usedId), stackSortable.options.used)));' . "\n";
+        $code .= 'var possibleOptionKeys = Object.keys(sortableUsed[0][0].options).concat(SUPPORTED_CALLBACK_FUNCTIONS);' . "\n";
         // Now set appropriate options.
-        $code .= 'Object.entries(stackSortable.options.used).forEach(([key, val]) => sortableUsed.option(key, val));' . "\n";
+        
+        $code .= 'sortableUsed.forEach((usedList) => Object.entries(stackSortable.options.used).forEach(([key, val]) => usedList[0].option(key, val)));' . "\n";
         $code .= 'var sortableAvailable = Sortable.create(availableList, stackSortable.options.available);' . "\n";
         // Add the onSort option in order to link up to input and overwrite user onSort if passed.
-        $code .= 'sortableUsed.option("onSort", () => {stackSortable.update_state(sortableUsed, sortableAvailable);});' . "\n";
+        $code .= 'sortableUsed.forEach((sortableList) => 
+            sortableList.forEach((sortable) => 
+                sortable.option("onSort", () => {
+                    stackSortable.update_state(sortableUsed, sortableAvailable);})
+            )
+        );' . "\n";
         $code .= 'sortableAvailable.option("onSort", () => {stackSortable.update_state(sortableUsed, sortableAvailable);});' . "\n";
 
         // Options can now be validated since sortable objects have been instantiated, we throw warnings only.
@@ -242,7 +277,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         // Add double-click events.
-        $code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
+        //$code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
 
         // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
         $code .= ($mathjaxversion === "2") ?
@@ -374,13 +409,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         foreach ($this->params as $key => $value) {
             if ($key !== 'width' && $key !== 'height' && $key !== 'aspect-ratio' &&
                     $key !== 'version' && $key !== 'overridecss' && $key !== 'input' &&
-                    $key !== 'orientation' && $key !== 'clone') {
+                    $key !== 'orientation' && $key !== 'clone' && $key !== 'columns' && $key !== 'rows') {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
                     $valids = [
                         'width', 'height', 'aspect-ratio', 'version', 'overridecss',
-                        'overridejs', 'input', 'orientation', 'clone',
+                        'overridejs', 'input', 'orientation', 'clone', 'columns', 'rows',
                     ];
                     $err[] = stack_string('stackBlock_parsons_param', [
                         'param' => implode(', ', $valids),

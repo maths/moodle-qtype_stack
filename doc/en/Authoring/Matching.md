@@ -27,7 +27,7 @@ We emphasise that items can be re-used by setting `clone="true"` in the block he
 
 By default, answer lists in groupings and grid layouts will get default headers indexed by positive whole numbers. The available list will get a default header of "Drag from here:". These will become row indexes in **Row grouping** layout, or when the user presses the re-orient button.
 
-Headers can be changed by passing a JSON containing the headers as follows:
+Answer list headers can be changed by assigning the key `"headers"` key an an array of strings containing the new headers. The single header for the available list can be changed by assigning the `"available_header"` key to a string.
 ```
 [[parsons columns="2"]]
 {
@@ -37,15 +37,14 @@ Headers can be changed by passing a JSON containing the headers as follows:
         "quad" : "Quadratic",
         "cubic" : "Cubic",
     },
-    "headers" : {
-        used : ["Equation", "Type"],
-        available : ["Drag from here:"]
-    },
+    "headers" : ["Equation", "Type"],
+    "available_header" : "Available items"
 }
 [[\parsons]]
 ```
 
-Note that `headers.used` must be a list of the same length as the number of columns and `headers.available` must be a list of length one.
+Note that `headers.` must be a list of the same length as the number of columns and `available` must be a string. 
+Beware that long headers may overflow boxes when using several columns so it is best to keep them short.
 
 ## Index
 
@@ -59,10 +58,8 @@ To change this, one can pass an index to the JSON as follows:
         "quad" : "Quadratic",
         "cubic" : "Cubic",
     },
-    "headers" : {
-        used : ["Type"],
-        available : ["Drag from here:"]
-    },
+    "headers" : ["Type"]
+    "available_header" : "Available items"
     "index" : ["Equation", "\\(y = x^2\\)", "\\(y = x^3\\)"]
 }
 [[\parsons]]

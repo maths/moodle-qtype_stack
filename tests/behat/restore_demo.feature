@@ -8,7 +8,12 @@ Feature: Test restoring a backup including STACK questions
     Given the following "courses" exist:
       | fullname            | shortname |
       | Demonstrating STACK | STACK     |
+    And the following config values are set as admin:
+      | config | value |
+      | enableasyncbackup | true |
     And I log in as "admin"
+    And I navigate to "Courses > Asynchronous backup/restore" in site administration
+    And I click on "Save changes" "button"
     And I navigate to "Courses > Restore course" in site administration
 
   @javascript @_file_upload

@@ -768,4 +768,15 @@ class input_numerical_test extends qtype_stack_testcase {
         $this->assertEquals('Your answer should be an expression, not an equation, inequality, list, set or matrix.',
             $state->errors);
     }
+
+    public function test_validate_largenumbers() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('numerical', 'state', '123');
+        $state = $el->validate_student_response(['state' => '1.0E310'], $options, '123',
+            new stack_cas_security());
+        $this->assertEquals(stack_input::INVALID, $state->status);
+        $this->assertEquals('1.0E310', $state->contentsmodified);
+        $this->assertEquals('<span class="stacksyntaxexample">1.0E310</span>', $state->contentsdisplayed);
+        $this->assertEquals('Floating point overflow. This input expects a number.', $state->errors);
+    }
 }

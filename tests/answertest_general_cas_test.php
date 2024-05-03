@@ -259,7 +259,7 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $at = $this->stack_answertest_general_cas_builder('(x+1)^2', '(x+1)^2', 'PartFrac', '');
         $this->assertNull($at->do_test());
         $this->assertEquals(0, $at->get_at_mark());
-        $this->assertEquals(array(true, ''), $at->validate_atoptions('x'));
+        $this->assertEquals([true, ''], $at->validate_atoptions('x'));
     }
 
     public function test_is_true_for_completed_quadratics_compsquare() {
@@ -534,7 +534,7 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(1, $at->get_at_mark());
         $this->assertEquals('(EMPTYCHAR,EQUIVCHAR,EQUIVCHAR)', $at->get_at_answernote());
         $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& '.
-            '\cr \color{green}{\Leftrightarrow}&x=1\,{\mbox{ or }}\, x=-1& \cr \end{array}\]';
+            '\cr \color{green}{\Leftrightarrow}&x=1\,{\text{ or }}\, x=-1& \cr \end{array}\]';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
@@ -545,7 +545,7 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('(EMPTYCHAR,EQUIVCHAR,QMCHAR)', $at->get_at_answernote());
         $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0&'.
-            ' \cr \color{red}{?}&x=\mathrm{i}\,{\mbox{ or }}\, x=-1& \cr \end{array}\]';
+            ' \cr \color{red}{?}&x=\mathrm{i}\,{\text{ or }}\, x=-1& \cr \end{array}\]';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 
@@ -556,7 +556,7 @@ class answertest_general_cas_test extends qtype_stack_testcase {
         $this->assertEquals(0, $at->get_at_mark());
         $this->assertEquals('(EMPTYCHAR,EQUIVCHAR,EMPTYCHAR,EMPTYCHAR)', $at->get_at_answernote());
         $fbt = '\[\begin{array}{lll} &x^2-1=0& \cr \color{green}{\Leftrightarrow}&\left(x-1\right)\cdot \left(x+1\right)=0& '.
-            '\cr &\mbox{Could be}& \cr &x=\mathrm{i}\,{\mbox{ or }}\, x=-1& \cr \end{array}\]';
+            '\cr &\text{Could be}& \cr &x=\mathrm{i}\,{\text{ or }}\, x=-1& \cr \end{array}\]';
         $this->assert_content_with_maths_equals($fbt, $at->get_at_feedback());
     }
 

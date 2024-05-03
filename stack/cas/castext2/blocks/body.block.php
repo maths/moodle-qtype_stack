@@ -26,7 +26,7 @@ class stack_cas_castext2_body extends stack_cas_castext2_block {
 
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
-            new MP_String('body')
+            new MP_String('body'),
         ]);
 
         if (!isset($options['in iframe'])) {

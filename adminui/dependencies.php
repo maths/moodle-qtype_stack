@@ -40,7 +40,7 @@ require_login();
 $context = context_system::instance();
 require_capability('qtype/stack:usediagnostictools', $context);
 
-$urlparams = array();
+$urlparams = [];
 
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -49,14 +49,12 @@ $title = 'Dependency checker';
 $PAGE->set_title($title);
 
 // Figure out the number of questions that can be explored.
+// In Moodle 4+ hidden questions occur when they are included in a quiz, but then are deleted from the question bank.
+// In this case the database sets the field `status` to `'hidden'` within the question versions database.
 $query = 'SELECT count(*) as notcompiled FROM {question} q, ' .
-    '{qtype_stack_options} o WHERE q.id = o.questionid AND o.compiledcache = ?;';
-// TODO: figure out about hidden questions in Moodle 4+.
-// This needs to be added to all versions below in which I've omitted this clause.
-if (stack_determine_moodle_version() < 400) {
-    $query = 'SELECT count(*) as notcompiled FROM {question} q, ' .
-        '{qtype_stack_options} o WHERE q.id = o.questionid AND q.hidden = 0 AND o.compiledcache = ?;';
-}
+    '{qtype_stack_options} o, {question_versions} v WHERE q.id = o.questionid AND q.id = v.id ' . '
+    AND NOT v.status = "hidden" AND o.compiledcache = ?;';
+
 $notcompiled = $DB->get_recordset_sql($query, ['{}']);
 
 $nnotcompiled = 0;
@@ -67,11 +65,8 @@ foreach ($notcompiled as $item) {
 $notcompiled->close();
 
 $query = 'SELECT count(*) as compiled FROM {question} q, ' .
-    '{qtype_stack_options} o WHERE q.id = o.questionid AND NOT o.compiledcache = ?;';
-if (stack_determine_moodle_version() < 400) {
-    $query = 'SELECT count(*) as compiled FROM {question} q, {qtype_stack_options} ' .
-        'o WHERE q.id = o.questionid AND q.hidden = 0 AND NOT o.compiledcache = ?;';
-}
+    '{qtype_stack_options} o, {question_versions} v WHERE q.id = o.questionid AND q.id = v.id ' . '
+    AND NOT v.status = "hidden" AND o.compiledcache = ?;';
 
 $compiled = $DB->get_recordset_sql($query, ['{}']);
 
@@ -92,25 +87,25 @@ echo  'Currently there are ' . $ncompiled . ' compiled questions and ' . $nnotco
     ' questions that have not been succesfully compiled.</p>';
 
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('includes' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['includes' => 1, 'sesskey' => sesskey()]),
     'Find "includes"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('jsxgraphs' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['jsxgraphs' => 1, 'sesskey' => sesskey()]),
     'Find "jsxgraphs"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('geogebras' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['geogebras' => 1, 'sesskey' => sesskey()]),
     'Find "geogebra"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('script' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['script' => 1, 'sesskey' => sesskey()]),
     'Find "<script"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('PLUGINFILE' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['PLUGINFILE' => 1, 'sesskey' => sesskey()]),
     'Find "@@PLUGINFILE@@"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('langs' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['langs' => 1, 'sesskey' => sesskey()]),
     'Find "langs"');
 echo $OUTPUT->single_button(
-    new moodle_url($PAGE->url, array('todo' => 1, 'sesskey' => sesskey())),
+    new moodle_url($PAGE->url, ['todo' => 1, 'sesskey' => sesskey()]),
     'Find "todo"');
 
 if (data_submitted() && optional_param('includes', false, PARAM_BOOL)) {
@@ -131,12 +126,8 @@ if (data_submitted() && optional_param('includes', false, PARAM_BOOL)) {
             (isset($q->compiledcache['includes']['keyval']) && count($q->compiledcache['includes']['keyval']) > 0) ||
             (isset($q->compiledcache['includes']['castext']) && count($q->compiledcache['includes']['castext']) > 0))) {
             list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-            if (stack_determine_moodle_version() < 400) {
-                $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
-            } else {
-                $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                     null, null, null, null, $context);
-            }
             echo "<tr><td>" . $q->name . ' ' .
                 $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td>';
             echo '<td>';
@@ -167,7 +158,7 @@ if (data_submitted() && optional_param('jsxgraphs', false, PARAM_BOOL)) {
      * JSXGraphs are spotted from the compiled cache, finding '["jsxgraph",'
      * means that there are STACK block based JSXGraphs. '</jsxgraph>' would
      * mean that the official filter is in play, if we find "jsxgraph" in any other
-     * form then we probably have something else in play or a "TODO" note.
+     * form then we probably have something else in play or a "TO-DO" note.
      */
     $qs = $DB->get_recordset_sql('SELECT q.id as questionid FROM {question} q, {qtype_stack_options} o WHERE ' .
         'q.id = o.questionid AND ' .
@@ -203,12 +194,8 @@ if (data_submitted() && optional_param('jsxgraphs', false, PARAM_BOOL)) {
         // Confirm that it does have these.
         if ($block || $filter || $other) {
             list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-            if (stack_determine_moodle_version() < 400) {
-                $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
-            } else {
-                $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                     null, null, null, null, $context);
-            }
             echo "<tr><td>" . $q->name . ' ' .
                 $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td>';
             echo "<td>$block</td><td>$filter</td><td>$other</td></tr>";
@@ -222,7 +209,7 @@ if (data_submitted() && optional_param('geogebras', false, PARAM_BOOL)) {
      * GeoGebra Graphs are spotted from the compiled cache, finding '["geogebra",'
      * means that there are STACK block based GeoGebra. '</geogebra>' would
      * mean that the official filter is in play, if we find "geogebra" in any other
-     * form then we probably have something else in play or a "TODO" note.
+     * form then we probably have something else in play or a "TO-DO" note.
      */
     $qs = $DB->get_recordset_sql('SELECT q.id as questionid FROM {question} q, {qtype_stack_options} o WHERE ' .
         'q.id = o.questionid AND ' .
@@ -252,12 +239,8 @@ if (data_submitted() && optional_param('geogebras', false, PARAM_BOOL)) {
         // Confirm that it does have these.
         if ($block || $filter || $other) {
             list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-            if (stack_determine_moodle_version() < 400) {
-                $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
-            } else {
-                $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                     null, null, null, null, $context);
-            }
             echo "<tr><td>" . $q->name . ' ' .
                 $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td>';
             echo "<td>$block</td><td>$filter</td><td>$other</td></tr>";
@@ -279,12 +262,8 @@ if (data_submitted() && optional_param('script', false, PARAM_BOOL)) {
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-        if (stack_determine_moodle_version() < 400) {
-            $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
-        } else {
-            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+        $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                 null, null, null, null, $context);
-        }
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
     }
@@ -304,12 +283,8 @@ if (data_submitted() && optional_param('PLUGINFILE', false, PARAM_BOOL)) {
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-        if (stack_determine_moodle_version() < 400) {
-            $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
-        } else {
-            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+        $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                 null, null, null, null, $context);
-        }
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
     }
@@ -329,12 +304,9 @@ if (data_submitted() && optional_param('langs', false, PARAM_BOOL)) {
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-        if (stack_determine_moodle_version() < 400) {
-            $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
-        } else {
-            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+        $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                 null, null, null, null, $context);
-        }
+
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td><td>';
         echo implode(', ', $q->get_cached('langs'));
@@ -356,12 +328,8 @@ if (data_submitted() && optional_param('todo', false, PARAM_BOOL)) {
     foreach ($qs as $item) {
         $q = question_bank::load_question($item->questionid);
         list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($q);
-        if (stack_determine_moodle_version() < 400) {
-            $qurl = question_preview_url($item->questionid, null, null, null, null, $context);
-        } else {
-            $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
+        $qurl = qbank_previewquestion\helper::question_preview_url($item->questionid,
                 null, null, null, null, $context);
-        }
         echo "<tr><td>" . $q->name . ' ' .
             $OUTPUT->action_icon($qurl, new pix_icon('t/preview', get_string('preview'))) . '</td></tr>';
     }

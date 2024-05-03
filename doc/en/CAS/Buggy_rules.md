@@ -17,7 +17,7 @@ This is  useful if we want to compare a student's answer to the result  of havin
 `mediant(ex1,ex2)` calculates the mediant of two rational expressions.
 The mediant of two fractions
 
-\[ \mbox{mediant}\left(\frac{p_1}{q_1} , \frac{p_2}{q_2}\right)
+\[ \text{mediant}\left(\frac{p_1}{q_1} , \frac{p_2}{q_2}\right)
 := \frac{p_1+p_2}{q_1+q_2}.\]
 
 Note that both `denom` and `num` work on non-rational expressions, assuming the expression to be "over one" by implication.  Hence `mediant` will also assume the denominator is also one in such cases.

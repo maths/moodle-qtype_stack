@@ -61,7 +61,7 @@ class input_matrix_test extends qtype_stack_testcase {
                 '<td><input type="text" id="ans1_sub_1_2" name="ans1_sub_1_2" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false"></td>' .
                 '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
-                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'ans1', false, null));
     }
 
@@ -94,7 +94,7 @@ class input_matrix_test extends qtype_stack_testcase {
                       'answering. Please contact your teacher.</p>' .
                       '<p>The $first argument of the function $matrix_size must be a matrix</p></div>';
         }
-        $this->assertEquals($errmsg, $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+        $this->assertEquals($errmsg, $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'ans1', false, null));
     }
 
@@ -116,7 +116,7 @@ class input_matrix_test extends qtype_stack_testcase {
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="d" size="5" ' .
                     'autocapitalize="none" spellcheck="false"></td>' .
                 '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
-                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'ans1', false, null));
     }
 
@@ -138,7 +138,7 @@ class input_matrix_test extends qtype_stack_testcase {
             '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="d" size="5" ' .
             'autocapitalize="none" spellcheck="false"></td>' .
             '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
-            $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+            $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                 'ans1', false, null));
     }
 
@@ -161,7 +161,7 @@ class input_matrix_test extends qtype_stack_testcase {
             '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="d" size="5" ' .
             'autocapitalize="none" spellcheck="false"></td>' .
             '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
-            $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+            $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                 'ans1', false, null));
     }
 
@@ -184,7 +184,7 @@ class input_matrix_test extends qtype_stack_testcase {
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" placeholder="d" size="5" ' .
                     'autocapitalize="none" spellcheck="false"></td>' .
                 '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
-                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'ans1', false, null));
     }
 
@@ -205,7 +205,7 @@ class input_matrix_test extends qtype_stack_testcase {
                 '<td><input type="text" id="ans1_sub_1_1" name="ans1_sub_1_1" value="" size="5" ' .
                     'autocapitalize="none" spellcheck="false"></td>' .
                 '<td style="padding-bottom: 0.5em">&nbsp;</td></tr></tbody></table></div>',
-                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'ans1', false, null));
     }
 
@@ -213,7 +213,7 @@ class input_matrix_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
-        $state = $el->validate_student_response(array(), $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
+        $state = $el->validate_student_response([], $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::BLANK, $state->status);
         $this->assertEquals('', $state->contentsmodified);
         $this->assertEquals('', $state->contentsdisplayed);
@@ -223,14 +223,14 @@ class input_matrix_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
-        $inputvals = array(
+        $inputvals = [
             'ans1_sub_0_0' => '1',
             'ans1_sub_0_1' => '2',
             'ans1_sub_0_2' => '3',
             'ans1_sub_1_0' => '4',
             'ans1_sub_1_1' => 'a',
-            'ans1_sub_1_2' => 'a+b'
-        );
+            'ans1_sub_1_2' => 'a+b',
+        ];
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('matrix([1,2,3],[4,a,a+b])', $state->contentsmodified);
@@ -246,16 +246,16 @@ class input_matrix_test extends qtype_stack_testcase {
         $el->set_parameter('forbidFloats', false);
         // Teacher's answer must be in strict syntax.
         $el->adapt_to_model_answer('matrix([3.14,2.71],[4,5])');
-        $inputvals = array(
+        $inputvals = [
             'ans1_sub_0_0' => '3,14',
             'ans1_sub_0_1' => '2,71',
             'ans1_sub_1_0' => '4',
             'ans1_sub_1_1' => '5',
-        );
+        ];
         $state = $el->validate_student_response($inputvals, $options, 'matrix([3.14,2.71],[4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         // Contents are as typed by the student.
-        $this->assertEquals(array(array('3,14', '2,71'), array('4', '5')), $state->contents);
+        $this->assertEquals([['3,14', '2,71'], ['4', '5']], $state->contents);
         // Modified contents must be strict Maxima syntax.
         $this->assertEquals('matrix([3.14,2.71],[4,5])', $state->contentsmodified);
         $this->assertEquals('\[ \left[\begin{array}{cc} 3{,}14 & 2{,}71 \\\\ 4 & 5 \end{array}\right] \]',
@@ -267,12 +267,12 @@ class input_matrix_test extends qtype_stack_testcase {
         $options->set_option('matrixparens', '(');
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2],[3,4])');
-        $inputvals = array(
+        $inputvals = [
             'ans1_sub_0_0' => '1',
             'ans1_sub_0_1' => '2',
             'ans1_sub_1_0' => '4',
             'ans1_sub_1_1' => '5',
-        );
+        ];
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2],[3,4])', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
@@ -301,12 +301,12 @@ class input_matrix_test extends qtype_stack_testcase {
         $options->set_option('matrixparens', '[');
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2],[3,4])');
-        $inputvals = array(
+        $inputvals = [
             'ans1_sub_0_0' => '1',
             'ans1_sub_0_1' => '2',
             'ans1_sub_1_0' => '4',
             'ans1_sub_1_1' => '5',
-        );
+        ];
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2],[3,4])', new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('', $state->note);
@@ -334,14 +334,14 @@ class input_matrix_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
-        $inputvals = array(
+        $inputvals = [
             'ans1_sub_0_0' => '1',
             'ans1_sub_0_1' => '2',
             'ans1_sub_0_2' => '3',
             'ans1_sub_1_0' => '',
             'ans1_sub_1_1' => '5',
-            'ans1_sub_1_2' => '6'
-        );
+            'ans1_sub_1_2' => '6',
+        ];
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('qm_error', $state->note);
@@ -356,14 +356,14 @@ class input_matrix_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
-        $inputvals = array(
+        $inputvals = [
             'ans1_sub_0_0' => '1',
             'ans1_sub_0_1' => '2x',
             'ans1_sub_0_2' => '3',
             'ans1_sub_1_0' => '4',
             'ans1_sub_1_1' => '5',
-            'ans1_sub_1_2' => '6'
-        );
+            'ans1_sub_1_2' => '6',
+        ];
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars', $state->note);
@@ -377,14 +377,14 @@ class input_matrix_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
-        $inputvals = array(
+        $inputvals = [
             'ans1_sub_0_0' => '1',
             'ans1_sub_0_1' => '2x)',
             'ans1_sub_0_2' => '3',
             'ans1_sub_1_0' => '4',
             'ans1_sub_1_1' => '5',
-            'ans1_sub_1_2' => '6'
-        );
+            'ans1_sub_1_2' => '6',
+        ];
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars | missingLeftBracket', $state->note);
@@ -400,14 +400,14 @@ class input_matrix_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([1,2,3],[3,4,5])');
-        $inputvals = array(
+        $inputvals = [
             'ans1_sub_0_0' => '1',
             'ans1_sub_0_1' => '2x)',
             'ans1_sub_0_2' => '3',
             'ans1_sub_1_0' => '4',
             'ans1_sub_1_1' => '5',
-            'ans1_sub_1_2' => '6a'
-        );
+            'ans1_sub_1_2' => '6a',
+        ];
         $state = $el->validate_student_response($inputvals, $options, 'matrix([1,2,3],[3,4,5])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('missing_stars | missingLeftBracket', $state->note);
@@ -423,7 +423,7 @@ class input_matrix_test extends qtype_stack_testcase {
 
     public function test_modinput_tokenizer_1() {
         $in = '[1,2],[2,3]';
-        $out = array('[1,2]', '[2,3]');
+        $out = ['[1,2]', '[2,3]'];
 
         $el = stack_input_factory::make('matrix', 'ans1', 'M');
         $this->assertEquals($out, $el->modinput_tokenizer($in));
@@ -431,7 +431,7 @@ class input_matrix_test extends qtype_stack_testcase {
 
     public function test_modinput_tokenizer_2() {
         $in = '[1,2,3],[4,5,6]';
-        $out = array('[1,2,3]', '[4,5,6]');
+        $out = ['[1,2,3]', '[4,5,6]'];
 
         $el = stack_input_factory::make('matrix', 'ans1', 'M');
         $this->assertEquals($out, $el->modinput_tokenizer($in));
@@ -439,7 +439,7 @@ class input_matrix_test extends qtype_stack_testcase {
 
     public function test_modinput_tokenizer_row() {
         $in = '1,2,3';
-        $out = array('1', '2', '3');
+        $out = ['1', '2', '3'];
 
         $el = stack_input_factory::make('matrix', 'ans1', 'M');
         $this->assertEquals($out, $el->modinput_tokenizer($in));
@@ -447,7 +447,7 @@ class input_matrix_test extends qtype_stack_testcase {
 
     public function test_modinput_tokenizer_incomplete() {
         $in = '[1,],[,]';
-        $out = array('[1,]', '[,]');
+        $out = ['[1,]', '[,]'];
 
         $el = stack_input_factory::make('matrix', 'ans1', 'M');
         $this->assertEquals($out, $el->modinput_tokenizer($in));
@@ -455,7 +455,7 @@ class input_matrix_test extends qtype_stack_testcase {
 
     public function test_modinput_tokenizer_incomplete_row() {
         $in = '1,';
-        $out = array('1', '');
+        $out = ['1', ''];
 
         $el = stack_input_factory::make('matrix', 'ans1', 'M');
         $this->assertEquals($out, $el->modinput_tokenizer($in));
@@ -468,7 +468,7 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('<div class="matrixsquarebrackets"><table class="matrixtable" id="stack1__ans1_container" ' .
                 'style="display:inline; vertical-align: middle;" cellpadding="1" cellspacing="0"><tbody></tbody>' .
                 '</table></div>',
-                $el->render(new stack_input_state(stack_input::VALID, array(), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
                         'stack1__ans1', false, null));
     }
 
@@ -477,12 +477,12 @@ class input_matrix_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->set_parameter('options', 'allowempty');
         $el->adapt_to_model_answer('matrix([null,null],[null,null])');
-        $inputvals = array(
+        $inputvals = [
             'ans1_sub_0_0' => '',
             'ans1_sub_0_1' => '',
             'ans1_sub_1_0' => '',
             'ans1_sub_1_1' => '',
-        );
+        ];
         $state = $el->validate_student_response($inputvals, $options,
                 'matrix([null,null],[null,null])', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
@@ -497,12 +497,12 @@ class input_matrix_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([null,null],[null,null])');
-        $inputvals = array(
+        $inputvals = [
             'ans1_sub_0_0' => '',
             'ans1_sub_0_1' => '',
             'ans1_sub_1_0' => '',
             'ans1_sub_1_1' => '',
-        );
+        ];
         $state = $el->validate_student_response($inputvals, $options,
                 'matrix([null,null],[null,null])', new stack_cas_security());
         $this->assertEquals(stack_input::BLANK, $state->status);
@@ -516,12 +516,12 @@ class input_matrix_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->adapt_to_model_answer('matrix([null,null],[null,null])');
-        $inputvals = array(
+        $inputvals = [
             'ans1_sub_0_0' => '1',
             'ans1_sub_0_1' => '2',
             'ans1_sub_1_0' => 'x',
             'ans1_sub_1_1' => '',
-        );
+        ];
         $state = $el->validate_student_response($inputvals, $options,
                 'matrix([null,null],[null,null])', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
@@ -537,12 +537,12 @@ class input_matrix_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('matrix', 'ans1', 'M', $options);
         $el->set_parameter('options', 'consolidatesubscripts');
         $el->adapt_to_model_answer('matrix([null,null],[null,null])');
-        $inputvals = array(
+        $inputvals = [
             'ans1_sub_0_0' => 'a1',
             'ans1_sub_0_1' => 'a_2',
             'ans1_sub_1_0' => 'abc123',
             'ans1_sub_1_1' => 'abc_45',
-        );
+        ];
 
         $state = $el->validate_student_response($inputvals, $options,
             'matrix([a,b],[c,d])', new stack_cas_security());
@@ -555,5 +555,4 @@ class input_matrix_test extends qtype_stack_testcase {
         $this->assertEquals('\( \left[ a_{1} , a_{2} , {\it abc}_{123} , {\it abc}_{45} \right]\) ',
             $state->lvars);
     }
-
 }

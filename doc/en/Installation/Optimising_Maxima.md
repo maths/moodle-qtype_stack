@@ -123,6 +123,68 @@ See a [Maxima pool](http://github.com/maths/stack_util_maximapool) has been impl
 
 ## Optimisation results ##
 
+### 2024
+
+The following data was gathered by Sal Mercuri on 12/04/2024 using specified Maxima version and Lisp compilation, on Linux 
+Ubuntu 22.04.3.
+
+Running the PHP testing suites we have the following data, where all times are in seconds. The second line, in italics, is time per test.
+
+<table>
+  <tr>
+    <th align="left">Maxima + Lisp configuration</th>
+    <th align="left">CAS setting</th>
+    <th align="left">Answertest (2033 tests)</th>
+    <th align="left">Inputs (439 tests)</th>
+  </tr>
+  <tr>
+    <td rowspan=4>5.45.1 + GCL 2.6.12</td>
+    <td>Linux</td>
+    <td>2650.97342<br><i>1.30397</i>  </td>
+    <td>441.03543 <br> <i>1.00464</i>  </td>
+  </tr>
+  <tr>
+    <td>Mature cache <br>(with Linux)</td>
+    <td>25.65669 <br> <i>0.01262</i> </td>
+    <td>0.69035<br> <i>0.00157</i> </td>
+  </tr>
+  <tr>
+    <td>Linux (optimised)</td>
+    <td>152.87<br> <i>0.07519</i>  </td>
+    <td>13.7997<br> <i>0.03143</i>  </td>
+  </tr>
+  <tr>
+    <td>Mature cache <br>(when optimised)</td>
+    <td>14.77583<br> <i>0.00727</i> </td>
+    <td>0.57989<br> <i>0.00132</i> </td>
+  </tr>
+  <tr>
+    <td rowspan=4>5.47.0 + SBCL 2.3.2</td>
+    <td>Linux</td>
+    <td>4089.26856<br> <i>2.01145</i>  </td>
+    <td>679.26826<br> <i>1.54731</i>  </td>
+  </tr>
+  <tr>
+    <td>Mature cache <br>(with Linux)</td>
+    <td>24.67213<br> <i>0.01214</i> </td>
+    <td>0.63175<br> <i>0.00144</i> </td>
+  </tr>
+  <tr>
+    <td>Linux (optimised)</td>
+    <td>144.23283 <br> <i>0.07095</i>  </td>
+    <td>14.9878 <br> <i>0.03414 </i>  </td>
+  </tr>
+  <tr>
+    <td>Mature cache <br>(when optimised)</td>
+    <td>14.46183<br> <i>0.00711</i> </td>
+    <td>0.58733<br> <i>0.00134</i> </td>
+  </tr>
+</table>
+
+The optimised version saves a considerable amount of time in both compilations of Lisp. However, SBCL is considerably slower than GCL on the non-optimised and uncached setting. Other settings see SBCL and GCL on a par.
+
+### 2012
+
 The following data was gathered by CJS on 23/9/2012 using Maxima 5.28.0 with CLISP 2.49 (2010-07-07) on a Linux server.
 
 Running the PHP testing suites we have the following data, where all times are in seconds. The second line, in italics, is time per test.
@@ -163,8 +225,6 @@ Linux             | 1.180                  | 0.955
 Linux (optimised) | 0.215                  | 0.095
 
 The optimised version saves a considerable amount of time, representing a significant performance improvement in the critical step of just under a second per call.  Well worth the effort (& maintenance) to reward ratio.  It is likely that using a compiled version of LISP would result in further considerable savings.
-
-However, it isn't entirely clear to me at this point why the input tests with a mature cache using the default Linux connection takes over 13 seconds.  This seems anomalous.
 
 The following data was gathered by CJS on 10/10/2012 using Maxima 5.28.0 with CLISP 2.49 and SBCL 1.0.58-1.el6, both on the same Linux server.  The table gives time in seconds to run the answer tests (462 tests).
 

@@ -40,7 +40,7 @@ class stack_maths_output_mathjax extends stack_maths_output_filter_base {
         global $CFG, $PAGE;
         require_once($CFG->dirroot . '/filter/mathjaxloader/filter.php');
         $context = context_system::instance();
-        $filter = new filter_mathjaxloader($context, array());
+        $filter = new filter_mathjaxloader($context, []);
         $filter->setup($PAGE, $context);
         return $filter;
     }

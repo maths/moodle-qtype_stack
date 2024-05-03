@@ -540,7 +540,7 @@
       "variable": "f"
   },
   "agd": {
-      "function": "f"
+      "function": "s"
   },
   "airy_ai": {
       "function": "?"
@@ -680,10 +680,10 @@
       "function": "?"
   },
   "arithmetic": {
-      "function": "f"
+      "function": "s"
   },
   "arithsum": {
-      "function": "f"
+      "function": "s"
   },
   "array": {
       "function": "f"
@@ -1417,7 +1417,7 @@
       "built-in": true
   },
   "combination": {
-      "function": "f"
+      "function": "s"
   },
   "combine": {
       "function": "s"
@@ -1612,7 +1612,7 @@
       "built-in": true
   },
   "covers": {
-      "function": "f"
+      "function": "s"
   },
   "crc24sum": {
       "function": "?"
@@ -2462,7 +2462,7 @@
       "variable": "?"
   },
   "exsec": {
-      "function": "f"
+      "function": "s"
   },
   "extdiff": {
       "function": "f"
@@ -2901,7 +2901,7 @@
       "function": "s"
   },
   "gaussprob": {
-      "function": "f"
+      "function": "s"
   },
   "gcd": {
       "function": "s"
@@ -2910,7 +2910,7 @@
       "function": "s"
   },
   "gcdivide": {
-      "function": "f"
+      "function": "?"
   },
   "gcf": {
       "function": "s"
@@ -2961,7 +2961,7 @@
       "function": "f"
   },
   "geometric": {
-      "function": "f"
+      "function": "s"
   },
   "geometric_mean": {
       "function": "?"
@@ -2970,7 +2970,7 @@
       "variable": "?"
   },
   "geosum": {
-      "function": "f"
+      "function": "s"
   },
   "get": {
       "function": "f"
@@ -2989,6 +2989,10 @@
   },
   "get_plot_option": {
       "function": "f"
+  },
+  "get_safe_ops": {
+      "function": "?",
+      "built-in": true
   },
   "get_tex_environment": {
       "function": "f"
@@ -3193,7 +3197,7 @@
       "function": "?"
   },
   "harmonic": {
-      "function": "f"
+      "function": "s"
   },
   "harmonic_mean": {
       "function": "?"
@@ -4928,7 +4932,7 @@
       "function": "?"
   },
   "nonzeroandfreeof": {
-      "function": "f"
+      "function": "?"
   },
   "not": {
       "operator": "s",
@@ -5451,7 +5455,7 @@
       "function": "f"
   },
   "permutation": {
-      "function": "?"
+      "function": "s"
   },
   "permutations": {
       "function": "s"
@@ -6316,7 +6320,7 @@
       "function": "?"
   },
   "rational": {
-      "function": "f",
+      "function": "?",
       "property": "f"
   },
   "rationalize": {
@@ -6560,7 +6564,7 @@
       "function": "?"
   },
   "rempart": {
-      "function": "f"
+      "function": "?"
   },
   "remrule": {
       "function": "?"
@@ -7753,6 +7757,10 @@
       "function": "t",
       "contextvariable": "true"
   },
+  "texput_scientificnotation": {
+      "function": "t",
+      "contextvariable": "true"
+  },
   "texsub": {
       "function": "s",
       "built-in": true
@@ -7900,7 +7908,7 @@
       "globalyforbiddenfunction": true
   },
   "tracematrix": {
-      "function": "f"
+      "function": "?"
   },
   "tranform_sample": {
       "function": "?"
@@ -8253,7 +8261,7 @@
       "variable": "f"
   },
   "vers": {
-      "function": "f"
+      "function": "s"
   },
   "vertex_coloring": {
       "function": "?"
@@ -8354,7 +8362,7 @@
       "globalyforbiddenfunction": true
   },
   "wronskian": {
-      "function": "f"
+      "function": "?"
   },
   "x_voxel": {
       "variable": "f"

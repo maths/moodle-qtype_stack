@@ -168,7 +168,7 @@ function _validate_parsons_JSON(proofSteps) {
         }
         return true;
     }
-    // TODO : we are missing one case here in depth 2 case and unclear how to catch it:
+    // TO-DO : we are missing one case here in depth 2 case and unclear how to catch it:
     // if an author writes {"any string" : {#stackjson_stringify(proof_steps)#}},
     // then this should throw an error
 }
@@ -344,7 +344,7 @@ export const stack_sortable = class {
         this.used = document.getElementById(this.usedId);
         this.clone = clone;
 
-        // TODO : additional default options?
+        // TO-DO : additional default options?
         this.defaultOptions = {used: {animation: 50}, available: {animation: 50}};
         this.userOptions = this._set_user_options(options);
 

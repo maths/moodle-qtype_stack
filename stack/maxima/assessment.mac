@@ -60,6 +60,9 @@ safe_op(ex) := block([st],
     return(st)
 )$
 
+get_safe_ops(ex) := setify(flatten(get_safe_ops_helper(ex)))$
+get_safe_ops_helper(ex) := if mapatom(ex) then [] else append([safe_op(ex)], maplist(get_safe_ops_helper, args(ex)))$
+
 /* This function takes an expression ex and returns a list of coefficients of v. */
 coeff_list(ex, v) := block([deg, kloop, cl],
   cl:[],
@@ -448,7 +451,7 @@ simp_complex_number_p(ex):= block([keepfloat, trigexpand, logexpand],
     logexpand:super,
     keepfloat:true,
     /* Using full ratsimp here makes this function unacceptably slow. */
-    ex:errcatch(ev(ex, lg=logbasesimp, simp)),
+    ex:errcatch(ev(ex, lg=logbasesimp, displaydp=lambda([ex2,ex3],ex2), displaysci=lambda([ex2,ex3],ex2), simp)),
     if ex=[] then return(false),
     ex:ev(float(ex[1]),simp),
     if listofvars(ex)#[] then return(false),
@@ -527,7 +530,7 @@ scientific_notationp(ex) := block([tn],
   if not(length(args(ex))=2) then return(false),
   tn:first(args(ex)),
   if safe_op(tn)="-" then tn:first(args(tn)),
-  if not(integerp(tn) or floatnump(tn)) then return(false),
+  if not(integerp(tn) or floatnump(tn) or safe_op(tn)="displaydp" or safe_op(tn)="displaysci") then return(false),
   tn:second(args(ex)),
   /* Special edge case: 3*10 = 3*10^1. */
   if tn=10 then return(true),
@@ -652,7 +655,7 @@ texdisp_complex(ex) := block([ps, sxr, exi, simp],
       else block(
        if not(freeof_mminusp(exi)) then block(
          ps:"-",
-         /* TODO: more subtle removal of the minus sign?! */
+         /* TO-DO: more subtle removal of the minus sign?! */
          exi:ev(-1*exi, simp)
        ),
        sconcat(sxr, ps, tex1(%i), "\\,", tex1(exi))
@@ -829,7 +832,23 @@ displayscitex(ex):=block([ss, n, dp, tx],
   ),
   tx
 )$
-texput(displaysci, displayscitex)$
+
+displayscitexE(ex):=block([ss, n, dp, tx],
+  [n, dp, expo]:args(ex),
+  ss:sconcat("~,", string(dp), "fE{~a}"),
+  if is(equal(dp, 0)) then ss:"~dE{~a}",
+  tx:ev(printf(false, ss, ev(float(n)), expo), simp),
+  if is(stackfltsep = ",") then (
+    tx:ssubst("\\ ", ",", tx),
+    tx:ssubst("{,}", ".", tx)
+  ),
+  tx
+)$
+
+texput_scientificnotation(ex) := block(
+  if is(ex="*10") then texput(displaysci, displayscitex),
+  if is(ex="E") then texput(displaysci, displayscitexE)
+)$
 
 make_displayscivalue(ex):= block([n, d, expo, ss],
     if atom(ex) then return(ex),
@@ -887,6 +906,23 @@ recursemod(ex, n) := block(
 )$
 
 /* ********************************** */
+/* Binomial functions                 */
+/* ********************************** */
+
+binomial_remove(_a, _b):=block(
+  if listp(_b) then return(_a!/(apply("*", map("!",ev(sort(_b),simp))))),
+  _a!/(_b!*(_a-_b)!)
+)$
+
+binomialtex(ex) := block([al],
+  al:args(ex),
+  if is(listp(second(al))) then al[2]:apply(sequence,al[2]),
+  al:maplist(tex1, al),
+  sconcat("{{", al[1], "}\\choose{", al[2], "}}")
+  );
+texput(binomial, binomialtex);
+
+/* ********************************** */
 /* Equivalence                        */
 /* ********************************** */
 
@@ -926,9 +962,9 @@ algebraic_equivalence(SA, SB) :=
     /* Remove scientific units and displaydp from expressions. */
     SA:ev(SA, stackunits="*"),
     SB:ev(SB, stackunits="*"),
-    /* Remove binomial function from expressions. */
-    SA:subst(binomial=lambda([a,b],a!/(b!*(a-b)!)), SA),
-    SB:subst(binomial=lambda([a,b],a!/(b!*(a-b)!)), SB),
+    /* Remove binomial function from expressions in simple cases. */
+    SA:subst(binomial=binomial_remove, SA),
+    SB:subst(binomial=binomial_remove, SB),
     SA:remove_numerical_inert(SA),
     SB:remove_numerical_inert(SB),
     /* Remove logarithms to other bases from expressions. */
@@ -1692,14 +1728,14 @@ texput(CHECKMARK, "\\color{green}{\\checkmark}");
 texput(IMPLIESCHAR, "\\color{red}{\\Rightarrow}");
 texput(IMPLIEDCHAR, "\\color{red}{\\Leftarrow}");
 texput(PLUSC, "\\color{red}{\\cdots +c\\quad ?}");
-texput(EQUIVZERO, "\\color{red}{0\\quad\\mbox{(?)}}");
+texput(EQUIVZERO, "\\color{red}{0\\quad\\text{(?)}}");
 /* Here we add tags.  These are for localisation.  Dealt with on the PHP side in cassession -> instantiate. */
-texput(SAMEROOTS, "\\color{green}{\\mbox{!SAMEROOTS!}}");
-texput(ANDOR, "\\color{red}{\\mbox{!ANDOR!}}");
-texput(MISSINGVAR, "\\color{red}{\\mbox{!MISSINGVAR!}}");
-texput(ASSUMEPOSVARS, "\\color{blue}{\\mbox{!ASSUMEPOSVARS!}}");
+texput(SAMEROOTS, "\\color{green}{\\text{!SAMEROOTS!}}");
+texput(ANDOR, "\\color{red}{\\text{!ANDOR!}}");
+texput(MISSINGVAR, "\\color{red}{\\text{!MISSINGVAR!}}");
+texput(ASSUMEPOSVARS, "\\color{blue}{\\text{!ASSUMEPOSVARS!}}");
 texput(ASSUMEREALVARS, "\\color{blue}{(\\mathbb{R})}");
-texput(ASSUMEPOSREALVARS, "\\color{blue}{\\mbox{!ASSUMEPOSREALVARS!}}");
+texput(ASSUMEPOSREALVARS, "\\color{blue}{\\text{!ASSUMEPOSREALVARS!}}");
 /* For now we suppress this. */
 texput(unknown, " ");
 
@@ -1739,7 +1775,7 @@ remove_stackeq(ex) := if is(safe_op(ex)="stackeq") then first(args(ex)) else ex$
 
 /* stacklet is an inert "let" operator, e.g. let x=1. */
 stacklettex(ex):=block(
-  sconcat("\\mbox{!LET! }", tex1(first(args(ex))), " = ", tex1(second(args(ex))))
+  sconcat("\\text{!LET! }", tex1(first(args(ex))), " = ", tex1(second(args(ex))))
 );
 texput(stacklet, stacklettex);
 

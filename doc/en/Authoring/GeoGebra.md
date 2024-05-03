@@ -32,6 +32,25 @@ An example `[[geogebra]]` [question block](Question_blocks/index.md) is shown be
 
 This illustrates how the material_id is used.
 
+## Control the size of the applet
+
+There are two places where the size of the applet can be defined:
+
+Within the block, adding values to the GeoGebra parameters width and height will define the section of the applet that is to be shown.
+
+Within the block's header, adding values to the iframe parameters width and height will enlarge or reduce the size of the applet, or even distort it.
+
+```
+[[geogebra height="100px" width="175px"]]
+params["material_id"]="seehz3km";
+params["height"]=200;
+params["width"]=350;
+[[/geogebra]]
+```
+In the block's head, `width="80%" aspect-ratio="2/3"` could be used instead to define relative sizes and possible distortions if needed.
+
+If no size is defined the default is to have `width="500px" height="400px"` and these are also the dimensions used if values are missing and no aspect-ratio has been defined.
+
 ## Using the sub-tags "set", "watch" and "remember"
 
 The "set", "watch" and "remember" tags to the `[[geogebra]]` question block link Maxima values to GeoGebra objects in various ways.

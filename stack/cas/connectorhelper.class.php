@@ -108,7 +108,7 @@ abstract class stack_connection_helper {
             return self::$otherdb;
         }
 
-        $dboptions = array();
+        $dboptions = [];
         if (!empty(self::$config->cascachedbsocket)) {
             $dboptions['dbsocket'] = true;
         }
@@ -235,12 +235,12 @@ abstract class stack_connection_helper {
         $results = $connection->compute($command);
 
         if (empty($results)) {
-            return array('stackCas_allFailed', array(), false);
+            return ['stackCas_allFailed', [], false];
         }
 
         if (!isset(self::$config->stackmaximaversion)) {
             $notificationsurl = new moodle_url('/admin/index.php');
-            return array('healthchecksstackmaximanotupdated', array($notificationsurl->out()), false);
+            return ['healthchecksstackmaximanotupdated', [$notificationsurl->out()], false];
         }
 
         $usedversion = stack_string('healthchecksstackmaximatooold');
@@ -251,8 +251,10 @@ abstract class stack_connection_helper {
 
             $usedversion = $result['value'];
             if (self::$config->stackmaximaversion == $usedversion) {
-                return array('healthchecksstackmaximaversionok',
-                    array('usedversion' => $usedversion), true);
+                return [
+                    'healthchecksstackmaximaversionok',
+                    ['usedversion' => $usedversion], true,
+                ];
             } else {
                 break;
             }
@@ -261,7 +263,7 @@ abstract class stack_connection_helper {
         switch (self::$config->platform) {
             case 'linux-optimised':
                 $docsurl = new moodle_url('/question/type/stack/doc/doc.php/CAS/Optimising_Maxima.md');
-                $fix = stack_string('healthchecksstackmaximaversionfixoptimised', array('url' => $docsurl->out()));
+                $fix = stack_string('healthchecksstackmaximaversionfixoptimised', ['url' => $docsurl->out()]);
                 break;
 
             case 'server':
@@ -273,9 +275,13 @@ abstract class stack_connection_helper {
                 $fix = stack_string('healthchecksstackmaximaversionfixunknown');
         }
 
-        return array('healthchecksstackmaximaversionmismatch',
-                array('fix' => $fix, 'usedversion' => $usedversion,
-                    'expectedversion' => self::$config->stackmaximaversion), false);
+        return [
+            'healthchecksstackmaximaversionmismatch',
+            [
+                'fix' => $fix, 'usedversion' => $usedversion,
+                'expectedversion' => self::$config->stackmaximaversion,
+            ], false,
+        ];
     }
 
     /**
@@ -299,7 +305,7 @@ abstract class stack_connection_helper {
         self::$config->casdebugging = $casdebugging;
 
         $debug = $connection->get_debuginfo();
-        return array($results, $debug);
+        return [$results, $debug];
     }
 
     /**
@@ -327,7 +333,7 @@ abstract class stack_connection_helper {
         list($results, $debug) = self::stackmaxima_nocache_call($command);
 
         $success = true;
-        $message = array();
+        $message = [];
         if (empty($results)) {
             $message[] = stack_string('stackCas_allFailed');
             $success = false;
@@ -342,7 +348,7 @@ abstract class stack_connection_helper {
                 if ('CASresult' === $result['key']) {
                     if ($result['value'] != 'n*x^(n-1)') {
                         $message[] = stack_string('healthuncachedstack_CAS_calculation',
-                                array('expected' => "n*x^(n-1)", 'actual' => $result['value']));
+                                ['expected' => "n*x^(n-1)", 'actual' => $result['value']]);
                         $success = false;
                     }
                 } else if ('CAStime' === $result['key']) {
@@ -358,10 +364,10 @@ abstract class stack_connection_helper {
                     $maximaversionstr = $result['value'] . ' ('.$maximaversionum.')';
                     if ('default' == $maximaversion) {
                         $message[] = stack_string('healthuncachedstack_CAS_versionnotchecked',
-                                array('actual' => $maximaversionstr));
+                                ['actual' => $maximaversionstr]);
                     } else if ($result['value'] != '"'.$maximaversion.'"') {
                         $message[] = stack_string('healthuncachedstack_CAS_version',
-                                array('expected' => $maximaversion, 'actual' => $maximaversionstr));
+                                ['expected' => $maximaversion, 'actual' => $maximaversionstr]);
                         $success = false;
                     }
                 }
@@ -381,7 +387,7 @@ abstract class stack_connection_helper {
 
         $message = implode(" ", $message);
 
-        return array($message, $debug, $success);
+        return [$message, $debug, $success];
     }
 
     /*
@@ -426,7 +432,7 @@ abstract class stack_connection_helper {
                 if (trim($lisprun) == '') {
                     $success = false;
                     $message = stack_string('healthautomaxopt_nolisprun');
-                    return array($message, '', $success, '');
+                    return [$message, '', $success, ''];
                 }
                 $lisprun = explode("\n", $lisprun);
                 $rawcommand = $lisprun[0].' -q -M '.stack_utils::convert_slash_paths($imagename);
@@ -435,7 +441,7 @@ abstract class stack_connection_helper {
             default:
                 $success = false;
                 $message = stack_string('healthautomaxopt_nolisp');
-                return array($message, '', $success, '');
+                return [$message, '', $success, ''];
         }
 
         // Really make sure there is no cache.
@@ -446,13 +452,13 @@ abstract class stack_connection_helper {
 
         // Add the timeout command to the message.
         $commandline = 'timeout --kill-after=10s 10s '.$rawcommand;
-        $message = stack_string('healthautomaxopt_ok', array('command' => $commandline));
+        $message = stack_string('healthautomaxopt_ok', ['command' => $commandline]);
         if (!file_exists($imagename)) {
             $success = false;
             $message = stack_string('healthautomaxopt_notok');
         }
 
-        return array($message, $debug, $success, $commandline, $rawcommand);
+        return [$message, $debug, $success, $commandline, $rawcommand];
     }
 
 }

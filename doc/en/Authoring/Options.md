@@ -47,6 +47,13 @@ The design of this option is discussed further in the [developer docs](../Develo
 
 Teachers must always use strict Maxima syntax, which requires `.`, including in test case construction.
 
+### Scientific notation formal {#scientificnotation} ###
+
+Choose the format for display of scientific notation.
+
+* '*10', numbers will be displayed as \(3.14 \times 10^{3}\).
+* 'E', numbers will be displayed as \(3.14 E^{3}\).
+
 ### Multiplication Sign {#multiplication} ###
 
 * (none), e.g. \(x(x+1)\)
@@ -55,7 +62,7 @@ Teachers must always use strict Maxima syntax, which requires `.`, including in 
 * Numbers only, e.g. \(3\times 5\, x\).
 
 In practice it is very helpful to have some kind of multiplication sign displayed to the student.  The difference between
-\[ xe^x \mbox{ and } x\,e^x\]
+\[ xe^x \text{ and } x\,e^x\]
 is very subtle.  Notice the spacing?  The first means `xe^x=(xe)^x` the second is `x*e^x`.  Could be quite confusing to students if there is no multiplication sign.  Using \(x\cdot e^x\) neatly solves this problem.
 
 Internally the display of multiplication signs is controlled by the STACK function `make_multsgn(ex)`, where the argument can be one of the strings `"cross"`, `"dot"` or `"blank"`.  This can be switched part-way through a session. E.g. consider the following castext.
@@ -76,7 +83,7 @@ in the question variables.
 
 ### Logic symbols {#logicsymbol} ###
 
-How logical symbols should be displayed. The values are language, e.g. \(A \mbox{ and } B\) or symbol, e.g. \(A\land B\).
+How logical symbols should be displayed. The values are language, e.g. \(A \text{ and } B\) or symbol, e.g. \(A\land B\).
 
 ### Surd for Square Root {#surd} ###
 

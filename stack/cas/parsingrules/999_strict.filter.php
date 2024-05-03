@@ -46,22 +46,22 @@ class stack_ast_filter_999_strict implements stack_cas_astfilter_exclusion {
         // Now that those have been checked and invalidated. Lets write custom errors.
         if ($spaces === true) {
             $missingstring = $ast->toString(
-                    array('fixspaces_as_red_spaces' => true, 'qmchar' => true, 'inputform' => true));
+                    ['fixspaces_as_red_spaces' => true, 'qmchar' => true, 'inputform' => true]);
             if ($ast instanceof MP_Root) {
                 $missingstring = mb_substr($missingstring, 0, -2);
             }
-            $a = array();
+            $a = [];
             $a['expr']  = stack_maxima_format_casstring($missingstring);
             array_unshift($errors, stack_string('stackCas_spaces', $a));
         }
 
         if ($stars === true) {
-            $missingstring = $ast->toString(array('insertstars_as_red' => true, 'qmchar' => true, 'inputform' => true));
+            $missingstring = $ast->toString(['insertstars_as_red' => true, 'qmchar' => true, 'inputform' => true]);
             if ($ast instanceof MP_Root) {
                 // If MP_Root then it ads ";\n" to the string after statement.
                 $missingstring = mb_substr($missingstring, 0, -2);
             }
-            $a = array();
+            $a = [];
             $a['cmd']  = stack_maxima_format_casstring($missingstring);
             // This is an error worthy of being at the top.
             array_unshift($errors, stack_string('stackCas_MissingStars', $a));

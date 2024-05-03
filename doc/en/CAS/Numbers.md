@@ -110,8 +110,8 @@ You can also force all integers to be displayed as floating point decimals or in
 |             | `0.12`      | \(0.1200\)       |
 | `"~,5e"`    | `100.34`    | \(1.00340e+2\)   |  Output five decimal places: scientific notation.
 | `"~:d"`     | `10000000`  | \(10,000,000\)   |  Separate decimal groups of three digits with commas.
-| `~r`        | `9`         | \(\mbox{nine}\)  |  Rhetoric.
-| `~:r`       | `9`         | \(\mbox{ninth}\) |  Ordinal rhetoric.
+| `~r`        | `9`         | \(\text{nine}\)  |  Rhetoric.
+| `~:r`       | `9`         | \(\text{ninth}\) |  Ordinal rhetoric.
 | `~7r`       | `9`         | \(12\)           |  Base 7.
 | `~@r`       | `9`         | \(IX\)           |  Roman numerals.
 | `~:@r`      | `9`         | \(VIIII\)        |  Old style Roman numerals.

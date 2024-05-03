@@ -138,15 +138,17 @@
 
 )) ;; etc
 
-
-
 ;; Remove un-needed {}s from string output.
 ;; Chris Sangwin, 28/10/2009
 
 (defun tex-string (x)
-  (cond ((equal x "") (concatenate 'string "\\mbox{ }"))
+  (cond ((equal x "") (concatenate 'string "\\text{ }"))
     ((eql (elt x 0) #\\) x)
-    (t (concatenate 'string "\\mbox{" x "}"))))
+    (t (concatenate 'string "\\text{" x "}"))))
+
+;; Remove & from the quoted characters.
+(defun quote-% (sym)
+  (quote-chars sym "$%_"))
 
 ;; Chris Sangwin, 21/9/2010
 

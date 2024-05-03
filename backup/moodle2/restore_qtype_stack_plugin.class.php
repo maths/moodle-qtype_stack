@@ -47,10 +47,10 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
      */
     protected function define_question_plugin_structure() {
 
-        $paths = array();
+        $paths = [];
 
         // List the relevant paths in the XML.
-        $elements = array(
+        $elements = [
             'qtype_stack_options'        => '/stackoptions',
             'qtype_stack_input'          => '/stackinputs/stackinput',
             'qtype_stack_prt'            => '/stackprts/stackprt',
@@ -59,7 +59,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             'qtype_stack_qtest_input'    => '/stackqtests/stackqtest/stackqtestinputs/stackqtestinput',
             'qtype_stack_qtest_expected' => '/stackqtests/stackqtest/stackqtestexpecteds/stackqtestexpected',
             'qtype_stack_deployed_seed'  => '/stackdeployedseeds/stackdeployedseed',
-        );
+        ];
         foreach ($elements as $elename => $path) {
             $paths[] = new restore_path_element($elename, $this->get_pathfor($path));
         }
@@ -267,13 +267,13 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
      * Return the contents of this qtype to be processed by the links decoder
      */
     public static function define_decode_contents() {
-        return array(
+        return [
             new restore_decode_content('qtype_stack_options',
-                    array('specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect'),
+                    ['specificfeedback', 'prtcorrect', 'prtpartiallycorrect', 'prtincorrect'],
                     'qtype_stack_options'),
-            new restore_decode_content('qtype_stack_prt_nodes', array('truefeedback', 'falsefeedback'),
+            new restore_decode_content('qtype_stack_prt_nodes', ['truefeedback', 'falsefeedback'],
                     'qtype_stack_prt_nodes'),
-        );
+        ];
     }
 
     /**
@@ -284,11 +284,11 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
         global $DB;
 
         $prtswithoutfirstnode = $DB->get_records('qtype_stack_prts',
-                array('firstnodename' => -1), '', 'id, questionid, name');
+                ['firstnodename' => -1], '', 'id, questionid, name');
 
         foreach ($prtswithoutfirstnode as $prt) {
             $nodes = $DB->get_records('qtype_stack_prt_nodes',
-                    array('questionid' => $prt->questionid, 'prtname' => $prt->name), '',
+                    ['questionid' => $prt->questionid, 'prtname' => $prt->name], '',
                     'nodename, description, truenextnode, falsenextnode');
 
             // Find the root node of the PRT.
@@ -313,7 +313,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             try {
                 $graph->layout();
             } catch (coding_exception $ce) {
-                $question = $DB->get_record('question', array('id' => $prt->questionid));
+                $question = $DB->get_record('question', ['id' => $prt->questionid]);
                 $this->step->log('The PRT named "' . $prt->name .
                         '" is malformed in question id ' . $prt->questionid .
                         ' and cannot be laid out, (Question name "' . $question->name .
@@ -323,7 +323,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
 
             $roots = $graph->get_roots();
             if (count($roots) != 1 || $graph->get_broken_cycles()) {
-                $question = $DB->get_record('question', array('id' => $prt->questionid));
+                $question = $DB->get_record('question', ['id' => $prt->questionid]);
                 if (count($roots) != 1) {
                     $err = 'abnormal root count: '.count($roots).'(<>1)';
                 } else {
@@ -338,7 +338,7 @@ class restore_qtype_stack_plugin extends restore_qtype_plugin {
             $firstnode = key($roots) - 1;
 
             $DB->set_field('qtype_stack_prts', 'firstnodename', $firstnode,
-                    array('id' => $prt->id));
+                    ['id' => $prt->id]);
         }
     }
 }

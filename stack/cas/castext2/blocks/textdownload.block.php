@@ -47,7 +47,7 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
         $code = new MP_List([
             new MP_String('textdownload'),
             new MP_String($this->params['name']),
-            new MP_String('' . self::$countfiles)
+            new MP_String('' . self::$countfiles),
         ]);
 
         if (isset($options['stateful']) && $options['stateful'] === true) {
@@ -79,17 +79,25 @@ class stack_cas_castext2_textdownload extends stack_cas_castext2_block {
     }
 
     public function postprocess(array $params, castext2_processor $processor): string {
-        // Note different systems serve out through different logic.
-        if (count($params) > 3 && $params[3] === 'stateful') {
-            return (new moodle_url(
-                '/question/type/stateful/textdownload.php', ['qaid' => $processor->qa->get_database_id(),
-                'id' => $params[2], 'name' => $params[1]]))->out(false);
-        }
+        if (get_config('qtype_stack', 'stackapi')) {
+            return "javascript:download('{$params[1]}', {$params[2]});";
+        } else {
+            // Note different systems serve out through different logic.
+            if (count($params) > 3 && $params[3] === 'stateful') {
+                return (new moodle_url(
+                    '/question/type/stateful/textdownload.php', [
+                        'qaid' => $processor->qa->get_database_id(),
+                        'id' => $params[2], 'name' => $params[1],
+                    ]))->out(false);
+            }
 
-        // Simply form the URL for getting the content out.
-        return (new moodle_url(
-            '/question/type/stack/textdownload.php', ['qaid' => $processor->qa->get_database_id(),
-            'id' => $params[2], 'name' => $params[1]]))->out(false);
+            // Simply form the URL for getting the content out.
+            return (new moodle_url(
+                '/question/type/stack/textdownload.php', [
+                    'qaid' => $processor->qa->get_database_id(),
+                    'id' => $params[2], 'name' => $params[1],
+                ]))->out(false);
+        }
     }
 
 

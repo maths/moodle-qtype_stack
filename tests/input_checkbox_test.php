@@ -42,24 +42,24 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 class input_checkbox_test extends qtype_stack_testcase {
 
     protected function expected_choices() {
-        return array(
+        return [
             '' => stack_string('notanswered'),
             '1' => 'x+1',
             '2' => 'x+2',
-            '3' => 'sin(pi*n)'
-        );
+            '3' => 'sin(pi*n)',
+        ];
     }
 
     protected function expected_choices_latex() {
-        return array(
+        return [
             '' => stack_string('notanswered'),
             '1' => 'x+1',
             '2' => 'x+2',
-            '3' => 'sin(\pi*n)'
-        );
+            '3' => 'sin(\pi*n)',
+        ];
     }
 
-    protected function make_checkbox($parameters = array()) {
+    protected function make_checkbox($parameters = []) {
         $el = stack_input_factory::make('checkbox', 'ans1', $this->make_ta(), null, $parameters);
         return $el;
     }
@@ -79,7 +79,7 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<label for="stack1__ans1_2"><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(2+y\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
+                stack_input::SCORE, [''], '', '', '', '', ''), 'stack1__ans1', false, null));
         $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation">' .
                 '<span class="nolink">\(1+x\)</span></span></li></ul>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
@@ -96,7 +96,7 @@ class input_checkbox_test extends qtype_stack_testcase {
                 . '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label for="stack1__ans1_2">'
                 . '<code>2+y</code></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array(''), '', '', '', '', ''), 'stack1__ans1', false, null));
+                stack_input::SCORE, [''], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_bad_teacheranswer() {
@@ -109,7 +109,7 @@ class input_checkbox_test extends qtype_stack_testcase {
                   'answering. Please contact your teacher.</p>' .
                   '<p>The model answer field for this input is malformed: <code>[x]</code>.</p></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
+                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values() {
@@ -124,7 +124,7 @@ class input_checkbox_test extends qtype_stack_testcase {
                   'answering. Please contact your teacher.</p>' .
                   '<p>Duplicate values have been found when generating the input options.</p></div>';
          $this->assertEquals($expected, $el->render(new stack_input_state(
-                stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
+                stack_input::SCORE, ['2'], '', '', '', '', ''), 'stack1__ans1', false, null));
     }
 
     public function test_duplicate_values_ok() {
@@ -326,13 +326,13 @@ class input_checkbox_test extends qtype_stack_testcase {
         $el->adapt_to_model_answer('[[x=1 nounor x=2,true],[x=1 nounand x=2,false],[x=1 nounor x=3,false]]');
         $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" value="1" ' .
                 'id="stack1__ans1_1" /><label for="stack1__ans1_1"><span class="filter_mathjaxloader_equation">' .
-                '<span class="nolink">\(x=1\,{\mbox{ or }}\, x=2\)</span></span></label></div><div class="option">' .
+                '<span class="nolink">\(x=1\,{\text{ or }}\, x=2\)</span></span></label></div><div class="option">' .
                 '<input type="checkbox" name="stack1__ans1_2" value="2" id="stack1__ans1_2" /><label for="stack1__ans1_2">' .
-                '<span class="filter_mathjaxloader_equation"><span class="nolink">\(x=1\,{\mbox{ and }}\, x=2\)' .
+                '<span class="filter_mathjaxloader_equation"><span class="nolink">\(x=1\,{\text{ and }}\, x=2\)' .
                 '</span></span></label></div><div class="option">' .
                 '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" checked="checked" />' .
                 '<label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation"><span class="nolink">' .
-                '\(x=1\,{\mbox{ or }}\, x=3\)</span></span></label></div></div>';
+                '\(x=1\,{\text{ or }}\, x=3\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('3'), '', '', '', '', ''), 'stack1__ans1', false, null));
         $state = $el->validate_student_response(array('ans1_3' => '3'), $options, '2', new stack_cas_security());
@@ -356,7 +356,7 @@ class input_checkbox_test extends qtype_stack_testcase {
                 '<span class="nolink">\(1+1\)</span></span></label></div><div class="option">' .
                 '<input type="checkbox" name="stack1__ans1_3" value="3" id="stack1__ans1_3" />' .
                 '<label for="stack1__ans1_3"><span class="filter_mathjaxloader_equation">' .
-                '<span class="nolink">\(x=3\,{\mbox{ or }}\, x=1\)</span></span></label></div></div>';
+                '<span class="nolink">\(x=3\,{\text{ or }}\, x=1\)</span></span></label></div></div>';
         $this->assertEquals($expected, $el->render(new stack_input_state(
                 stack_input::SCORE, array('2'), '', '', '', '', ''), 'stack1__ans1', false, null));
         $state = $el->validate_student_response(array('ans1_1' => '2'), $options, '2', new stack_cas_security());

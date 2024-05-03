@@ -32,7 +32,7 @@ class stack_dropdown_input extends stack_input {
     /*
      * ddlvalues is an array of the types used.
      */
-    protected $ddlvalues = array();
+    protected $ddlvalues = [];
 
     /*
      * ddltype must be one of 'select', 'checkbox' or 'radio'.
@@ -135,7 +135,7 @@ class stack_dropdown_input extends stack_input {
 
         $this->notanswered = stack_string('notanswered');
         // We need to reset the errors here, now we have a new teacher's answer.
-        $this->errors = array();
+        $this->errors = [];
 
         /*
          * Sort out the ddlvalues.
@@ -157,17 +157,17 @@ class stack_dropdown_input extends stack_input {
             $this->errors[] = stack_string('ddl_badanswer', $teacheranswer);
             $this->teacheranswervalue = '[ERR]';
             $this->teacheranswerdisplay = '<code>'.'[ERR]'.'</code>';
-            $this->ddlvalues = array();
+            $this->ddlvalues = [];
             return false;
         }
 
         $numbercorrect = 0;
-        $correctanswer = array();
-        $correctanswerdisplay = array();
-        $duplicatevalues = array();
+        $correctanswer = [];
+        $correctanswerdisplay = [];
+        $duplicatevalues = [];
         foreach ($values as $distractor) {
             $value = stack_utils::list_to_array($distractor, false);
-            $ddlvalue = array();
+            $ddlvalue = [];
             if (is_array($value)) {
                 // Inject strings back if they exist.
                 foreach ($value as $key => $something) {
@@ -229,7 +229,7 @@ class stack_dropdown_input extends stack_input {
         }
 
         if ($this->ddldisplay === 'casstring') {
-            $correctanswerdisplay = array();
+            $correctanswerdisplay = [];
             // By default, we wrap displayed values in <code> tags.
             foreach ($ddlvalues as $key => $value) {
                 $display = trim($ddlvalues[$key]['display']);
@@ -312,7 +312,7 @@ class stack_dropdown_input extends stack_input {
             return;
         }
 
-        $teacheranswerdisplay = array();
+        $teacheranswerdisplay = [];
         // This sets display form in $this->ddlvalues.
         foreach ($ddlvalues as $key => $value) {
             // Was the original expression a string?  If so, don't use the LaTeX version.
@@ -355,10 +355,12 @@ class stack_dropdown_input extends stack_input {
         // Make sure the array keys start at 1.  This avoids
         // potential confusion between keys 0 and ''.
         if ($this->nonotanswered) {
-            $values = array_merge(array('' => array('value' => '',
-                'display' => $this->notanswered, 'correct' => false), 0 => null), $values);
+            $values = array_merge([
+                '' => ['value' => '', 'display' => $this->notanswered, 'correct' => false],
+                0 => null,
+            ], $values);
         } else {
-            $values = array_merge(array(0 => null), $values);
+            $values = array_merge([0 => null], $values);
         }
         unset($values[0]);
         // For the 'checkbox' type remove the "not answered" option.  This isn't needed.
@@ -380,8 +382,8 @@ class stack_dropdown_input extends stack_input {
     protected function validate_contents($contents, $basesecurity, $localoptions) {
         $valid = true;
         $errors = $this->errors;
-        $notes = array();
-        $caslines = array();
+        $notes = [];
+        $caslines = [];
 
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
 
@@ -399,7 +401,8 @@ class stack_dropdown_input extends stack_input {
             }
         }
 
-        return array($valid, $errors, $notes, $answer, $caslines);
+        // As all inputs here are teacher sourced we can reuse the original ones for the inert ones.
+        return [$valid, $errors, $notes, $answer, $caslines, $answer, $caslines];
     }
 
     /**
@@ -419,10 +422,10 @@ class stack_dropdown_input extends stack_input {
         $values = $this->ddlvalues;
         if (empty($values)) {
             $this->errors[] = stack_string('ddl_empty');
-            return array();
+            return [];
         }
 
-        $choices = array();
+        $choices = [];
         foreach ($values as $key => $val) {
             $choices[$key] = $val['display'];
         }
@@ -445,7 +448,7 @@ class stack_dropdown_input extends stack_input {
             $select = $selected[0];
         }
 
-        $inputattributes = array();
+        $inputattributes = [];
         if ($readonly) {
             $inputattributes['disabled'] = 'disabled';
         }
@@ -464,13 +467,26 @@ class stack_dropdown_input extends stack_input {
         return $result;
     }
 
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'dropdown';
+        $data['options'] = $this->get_choices();
+
+        return $data;
+    }
+
     /**
      * Get the input variable that this input expects to process.
      * All the variable names should start with $this->name.
      * @return array string input name => PARAM_... type constant.
      */
     public function get_expected_data() {
-        $expected = array();
+        $expected = [];
         $expected[$this->name] = PARAM_RAW;
 
         if ($this->requires_validation()) {
@@ -491,11 +507,11 @@ class stack_dropdown_input extends stack_input {
      */
     public static function get_parameters_defaults() {
 
-        return array(
+        return [
             'mustVerify'     => false,
             'showValidation' => 0,
             'options'        => '',
-        );
+        ];
     }
 
     /**
@@ -504,18 +520,19 @@ class stack_dropdown_input extends stack_input {
      * @param unknown_type $in
      */
     public function get_correct_response($value) {
-        // TODO: refactor this ast creation away.
-        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
+        // TO-DO: refactor this ast creation away.
+        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), []);
         $cs->set_nounify(0);
         $val = '';
-        
+
         $decimal = '.';
         $listsep = ',';
         if ($this->options->get_option('decimals') === ',') {
             $decimal = ',';
             $listsep = ';';
         }
-        $params = array('checkinggroup' => true,
+        $params = [
+            'checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
             'nosemicolon' => true,
@@ -524,8 +541,8 @@ class stack_dropdown_input extends stack_input {
             'nounify' => 1, // We need to add nouns for checkboxes, e.g. %union.
             'nontuples' => false,
             'decimal' => $decimal,
-            'listsep' => $listsep
-        );
+            'listsep' => $listsep,
+        ];
         if ($cs->get_valid()) {
             $value = $cs->ast_to_string(null, $params);
         }
@@ -548,7 +565,7 @@ class stack_dropdown_input extends stack_input {
      */
     public function maxima_to_response_array($in) {
         if ('' == $in) {
-            return array();
+            return [];
         }
 
         $ddlkey = $this->get_input_ddl_key($in);
@@ -568,7 +585,7 @@ class stack_dropdown_input extends stack_input {
             return '';
         }
         // Can we really ignore the $value and $display inputs here and rely on the internal state?
-        return stack_string('teacheranswershow_mcq', array('display' => $this->teacheranswerdisplay));
+        return stack_string('teacheranswershow_mcq', ['display' => $this->teacheranswerdisplay]);
     }
 
     /**
@@ -579,7 +596,7 @@ class stack_dropdown_input extends stack_input {
      * @access public
      */
     public function response_to_contents($response) {
-        $contents = array();
+        $contents = [];
         if (array_key_exists($this->name, $response)) {
             $contents[] = (int) $response[$this->name];
         }
@@ -632,5 +649,22 @@ class stack_dropdown_input extends stack_input {
         $this->errors[] = stack_string('ddl_unknown', $value);
 
         return false;
+    }
+
+    public function get_api_solution($tavalue) {
+        $solution = "";
+        foreach ($this->ddlvalues as $key => $value) {
+            if ($value['correct']) {
+                $solution = strval($key);
+            }
+        }
+        return ['' => $solution];
+    }
+
+    /**
+     * We return an empty value to ensure the rendering result is stable, even if the content included plots
+     */
+    public function get_api_solution_render($tadisplay) {
+        return '';
     }
 }

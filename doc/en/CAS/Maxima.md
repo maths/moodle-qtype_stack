@@ -18,7 +18,7 @@ Everything in Maxima is either an _atom_ or an _expression_. Atoms are either an
 Maxima is a very weakly typed language.  However, in STACK we need the following "types" of expression:
 
   1. equations, i.e. an expression in which the top operation is an equality sign;
-  2. inequalities, for example \( x<1\mbox{, or }x\leq 1\);
+  2. inequalities, for example \( x<1\text{, or }x\leq 1\);
   3. sets, for example, \(\{1,2,3\}\);
   4. lists, for example, \([1,2,3]\).   In Maxima ordered lists are entered using square brackets, for example as `p:[1,1,2,x^2]`.
     An element is accessed using the syntax `p[1]`.
@@ -64,6 +64,8 @@ To overcome these problems STACK has a command
     safe_op(ex)
 
 This always returns a string.  For an atom this is empty, i.e. `""`.  It also sorts out some unary minus problems.
+
+We also have a function `get_safe_ops(ex)` which returns a set of "`safe_op`s" in the expression.  Atoms are ignored.
 
 ### `get_ops(ex)` - all operators
 

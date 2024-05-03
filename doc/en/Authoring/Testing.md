@@ -48,6 +48,10 @@ In this way, the teacher can record, within the question itself, how they expect
     4. Add a totally incorrect answer.
 9. If you leave the penalty field blank it will assume you mean the default penalty for the question.
 
+If you start your test case with the tag `RAW:` (case sensitive) then the remainder of your input will be used as a raw string.  E.g. if your test case is `RAW:2 x` then your input test case will be `2 x`.  Note, this feature does _not_ evaluate the expression further, and values of question variables will not be used.
+
+If you start your test case with the tag `CT:` (case sensitive) then the remainder of your input will be evaluated as a castext string.  E.g. if your test case is  `CT:{#a#}{#v#}` then the castext `{#a#}{#v#}` will be evaluated, and the values of variables `a` and `v` placed next to each other to create an input string. This feature can be used to test input settings, such as insert stars, is working leading to a "score" state rather than an invalid state.
+
 On the question testing page is a "Send to CAS" button.  Pressing this sends the question variables and general feedback to a special page which enables more efficient authoring of the feedback in the context of the values of the variables.  You still need to copy this by hand into the question edit form when you are satisfied.
 
 A Moodle administrator can run all of the questions tests within a particular course, or across the whole site by following the links on the STACK admin page.  It is useful to do this after upgrading the STACK code on the server to identify any test cases which have changed.

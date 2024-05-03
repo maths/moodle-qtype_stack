@@ -223,7 +223,7 @@ s_test_case(proof_parsons_interpret("{\"used\":[\"0\",\"3\",\"5\"],\"available\"
 proof_parsons_keys_used_unused(proof_ans, proof_steps) := block([tkeys, skeys],
   tkeys:map(first, proof_steps),
   skeys:ev(proof_ans, map(lambda([ex], ex="["), proof_types), simp),
-  /* TODO: update this when we deal with trees (and have examples) */
+  /* TO-DO: update this when we deal with trees (and have examples) */
   skeys:flatten(skeys),
   return([skeys, listdifference(tkeys, ev(unique(skeys), simp))])
 );
@@ -376,7 +376,7 @@ dispproof([ex]) := block([ex1],
   Returns the process of getting from s to t.
   Original author Achim Eichhorn Achim.Eichhorn(at)hs-esslingen.de modified by Chris Sangwin to track process.
 */
-proof_damerau_levenstein(s, t) := block([m, n, XY, XYaction, i, j, d, temp, L, lm, li, dl_tags, simp],
+proof_damerau_levenstein(s, t) := block([c, m, n, XY, XYaction, i, j, d, temp, L, lm, li, dl_tags, simp],
     simp:true,
     if(s=t) then return([0,[]]), /* Equal strings result in 0, nothing to do. */
     m:length(s),

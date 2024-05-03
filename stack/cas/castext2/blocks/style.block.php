@@ -31,7 +31,7 @@ class stack_cas_castext2_style extends stack_cas_castext2_block {
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
             new MP_String('style'),
-            new MP_String(json_encode($this->params))
+            new MP_String(json_encode($this->params)),
         ]);
 
         if (!isset($options['in iframe'])) {

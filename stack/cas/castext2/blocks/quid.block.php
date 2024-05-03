@@ -35,16 +35,16 @@ class stack_cas_castext2_quid extends stack_cas_castext2_block {
     }
 
     public function postprocess(array $params, castext2_processor $processor): string {
-     	$id = $params[1];
-     	// Use the input field naming to get the question usage level id.
-     	// Add some extra chars to avoid likely collisions with inputs, those cannot
-     	// have the `-`-char in their names.
+        $id = $params[1];
+        // Use the input field naming to get the question usage level id.
+        // Add some extra chars to avoid likely collisions with inputs, those cannot
+        // have the `-`-char in their names.
         $content = $processor->qa->get_qt_field_name('-quid_' . $id);
         return $content;
     }
 
     public function validate_extract_attributes(): array {
-        return array();
+        return [];
     }
 
     public function validate(&$errors=[], $options=[]): bool {

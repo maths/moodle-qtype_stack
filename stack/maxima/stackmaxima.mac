@@ -86,7 +86,7 @@ stack_reset(true);
 /* Make sure this is at least defined. */
 debug:false;
 
-/* TODO: remove this from install process.                               */
+/* TO-DO: remove this from install process.                               */
 /* ********************************************************************* */
 /*  Evaluate variables are return errors, display, and content forms.    */
 /* ********************************************************************* */
@@ -169,6 +169,7 @@ load("stackunits.mac");
 load("stacktex.lisp");
 load("stackstrings.mac");
 load("fboundp.mac");
+load("functs");
 
 load("stacktex.lisp");
 /* Ensure back compatability with versions before 5.41.0. */
@@ -249,15 +250,15 @@ multsgnonlyfornumbers(e) := block([arglist, resstr, a, lastisnum, isnum, multsgn
 
 make_logic(OPT_LOGIC) := block(
     if OPT_LOGIC = "lang" then block(
-        texput("and", "\\,{\\mbox{ !AND! }}\\, ", nary),
-        texput("nounand", "\\,{\\mbox{ !AND! }}\\, ", nary),
-        texput("or", "\\,{\\mbox{ !OR! }}\\, ", nary),
-        texput("nounor", "\\,{\\mbox{ !OR! }}\\, ", nary),
-        texput("nand", "\\,{\\mbox{ !NAND! }}\\, ", nary),
-        texput("nor", "\\,{\\mbox{ !NOR! }}\\, ", nary),
-        texput("xor", "\\,{\\mbox{ !XOR! }}\\, ", nary),
-        texput("xnor", "\\,{\\mbox{ !XNOR! }}\\, ", nary),
-        texput("implies", "\\,{\\mbox{ !IMPLIES! }}\\, ", nary),
+        texput("and", "\\,{\\text{ !AND! }}\\, ", nary),
+        texput("nounand", "\\,{\\text{ !AND! }}\\, ", nary),
+        texput("or", "\\,{\\text{ !OR! }}\\, ", nary),
+        texput("nounor", "\\,{\\text{ !OR! }}\\, ", nary),
+        texput("nand", "\\,{\\text{ !NAND! }}\\, ", nary),
+        texput("nor", "\\,{\\text{ !NOR! }}\\, ", nary),
+        texput("xor", "\\,{\\text{ !XOR! }}\\, ", nary),
+        texput("xnor", "\\,{\\text{ !XNOR! }}\\, ", nary),
+        texput("implies", "\\,{\\text{ !IMPLIES! }}\\, ", nary),
         texput("not", "{\\rm !NOT!}", prefix),
         texput("nounnot", "{\\rm !NOT!}", prefix)
     ),
@@ -776,7 +777,7 @@ texput_decimal(ex):= stackfltsep:ex$
         tx:ev(printf(false, stackfltfmt, x), simp)
     ) else if ev(integerp(x),simp) then (
         if (is(stackintfmt="~r") or is(stackintfmt="~:r")) then
-            tx:sconcat("\\mbox{",ev(printf(false, stackintfmt, x), simp),"}")
+            tx:sconcat("\\text{",ev(printf(false, stackintfmt, x), simp),"}")
         else
             tx:ev(printf(false, stackintfmt, x), simp)
     ) else
@@ -1418,6 +1419,12 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, Rationalex1, Rat
     if algebraic_equivalence(lhs(SB),0) then SB:rhs(SB)=0,
 
     /* Trap edge cases.                                                              */
+    /* If we have empty equations we should bail now.                                */
+    if ATEquation_emptyp(lhs(SB)-rhs(SB)) then
+        if ATEquation_emptyp(lhs(SA)-rhs(SA)) then
+             return([true, true, "ATEquation_empty", ""])
+        else return([true, false, "ATEquation_empty_fail", ""]),
+
     edgecase:false,
     if logic_edgep(SA) or logic_edgep(SB) then edgecase:true,
 
@@ -1440,10 +1447,6 @@ ATEquation(SA, SB) := block([keepfloat, RawMark, SA1, SB1, SB2, Rationalex1, Rat
         if ATEquation_zerop(Rationalex1) then
              return([true, true, "ATEquation_zero", ""])
         else return([true, false, "ATEquation_zero_fail", ""]),
-    if ATEquation_emptyp(lhs(SB)-rhs(SB)) then
-        if ATEquation_emptyp(lhs(SA)-rhs(SA)) then
-             return([true, true, "ATEquation_empty", ""])
-        else return([true, false, "ATEquation_empty_fail", ""]),
     if numberp(float(abs(Rationalex1/Rationalex2))) then
         return([true, true, "", ""]),    Rationalex1:num(ratsimp(Rationalex1)),
     Rationalex2:num(ratsimp(Rationalex2)),
@@ -1597,7 +1600,7 @@ ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SB
         if retnew[2] = false then AddFeedBack:true
     ),
     if AddFeedBack = true then block(
-        /* TODO: better answernotes for matrices */
+        /* TO-DO: better answernotes for matrices */
         ret[3]:StackAddNote("", "ATMatrix_wrongentries"),
         ret[4]:StackAddFeedback("", "ATMatrix_wrongentries", stack_disp(SA, "d"))
     ),
@@ -3347,4 +3350,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2024032401$
+stackmaximaversion:2024043000$

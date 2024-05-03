@@ -56,7 +56,7 @@ When STACK displays the "teacher's answer", e.g. after a quiz is due, this will 
 
 If you need "none of these" you must include this as an explicit option, and not rely on the student not checking any boxes in the checkbox type.  Indeed, it would be impossible to distinguish the active selection of "none of these" from a passive failure to respond to the question.
 
-If one of the responses is \(x=1 \mbox{ or } x=2\) then it is probably best to use `nounor` which is commutative and associative.  Do not use `or` which always simplifies its arguments.  In this example `x=1 or x=2` evaluates to `false`.
+If one of the responses is \(x=1 \text{ or } x=2\) then it is probably best to use `nounor` which is commutative and associative.  Do not use `or` which always simplifies its arguments.  In this example `x=1 or x=2` evaluates to `false`.
 
 HTML dropdowns cannot display LaTeX within the options.  This is a restriction of HTML/MathJax (not of STACK).  You can use HTML-entities within a string field.  For example
 

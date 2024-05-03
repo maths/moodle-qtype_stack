@@ -221,6 +221,11 @@ $string['insertstarsspacessinglechar'] = 'Insert stars assuming single-character
 $string['decimals'] = 'Decimal separator';
 $string['decimals_help'] = 'Choose the symbol, and options, for the decimal separator.';
 $string['decimals_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#decimals';
+$string['scientificnotation'] = 'Scientific notation';
+$string['scientificnotation_help'] = 'Choose the format of scientific notation.';
+$string['scientificnotation_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#scientificnotation';
+$string['scientificnotation_10'] = 'n * 10^m';
+$string['scientificnotation_E'] = 'n E m';
 $string['multcross'] = 'Cross';
 $string['multdot'] = 'Dot';
 $string['multonlynumbers'] = 'Only numbers';
@@ -732,7 +737,7 @@ $string['healthuncachedstack_CAS_version'] = 'Expected Maxima version : "{$a->ex
 $string['healthuncachedstack_CAS_versionnotchecked'] = 'You have chosen the "default" version of Maxima, so no Maxima version checking is being done.  Your raw connection is actually using version {$a->actual}.';
 $string['healthuncachedstack_CAS_calculation'] = 'Expected CAS calculation : {$a->expected}.  Actual CAS calculation: {$a->actual}.';
 $string['healthuncachedstack_CAS_trigsimp'] = 'The function "trigsimp" is not working.  Perhaps you need to install the maxima-share package on your system as well?';
-$string['healthunabletolistavail'] = 'Platform type not currently set to "linux", so unable to list available versions of Maxima.';
+$string['healthunabletolistavail'] = 'Platform type not currently set to "linux", without DB cache, so unable to list available versions of Maxima.';
 $string['healthautomaxopt'] = 'Automatically create an optimised Maxima image';
 $string['healthautomaxoptintro'] = 'For best performance we need to optimize maxima on a linux machine.  Use the plugin "healthcheck" page and see the documentation on this issue.';
 $string['healthautomaxopt_succeeded'] = 'Create Optimised Maxima Image SUCCEEDED';
@@ -818,7 +823,7 @@ $string['stackCas_forbiddenVariable']       = 'Forbidden variable or constant: {
 $string['stackCas_operatorAsVariable']      = 'Operator {$a->op} interpreted as variable, check syntax.';
 $string['stackCas_redefinitionOfConstant']  = 'Redefinition of key constants is forbidden: {$a->constant}.';
 $string['stackCas_unknownFunctionCase']     = 'Input is case sensitive: {$a->forbid} is an unknown function. Did you mean {$a->lower}?';
-// TODO: the message should say that while these are valid names for variables as long as this case combination is not implicitely allowed we assume that you have typoed the known different case.
+// TO-DO: the message should say that while these are valid names for variables as long as this case combination is not implicitely allowed we assume that you have typoed the known different case.
 $string['stackCas_unknownVariableCase']     = 'Input is case sensitive: {$a->forbid} is an unknown variable. Did you mean {$a->lower}?';
 $string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: {$a->forbid}.';
 $string['stackCas_forbiddenWord']           = 'The expression {$a->forbid} is forbidden.';
@@ -1275,7 +1280,7 @@ $string['alg_indices_fact'] = 'The following laws govern index manipulation:
 
 $string['alg_logarithms_name'] = 'The Laws of Logarithms';
 $string['alg_logarithms_fact'] = 'For any base \(c>0\) with \(c \neq 1\):
-\[\log_c(a) = b \mbox{, means } a = c^b\]
+\[\log_c(a) = b \text{, means } a = c^b\]
 \[\log_c(a) + \log_c(b) = \log_c(ab)\]
 \[\log_c(a) - \log_c(b) = \log_c\left(\frac{a}{b}\right)\]
 \[n\log_c(a) = \log_c\left(a^n\right)\]
@@ -1366,9 +1371,9 @@ $string['hyp_identities_fact'] = 'The similarity between the way hyperbolic and 
   \[\sinh^2(x)={\cosh(2x)-1\over 2}\]';
 
 $string['hyp_inverse_functions_name'] = 'Inverse Hyperbolic Functions';
-$string['hyp_inverse_functions_fact'] = '\[\cosh^{-1}(x)=\ln\left(x+\sqrt{x^2-1}\right) \quad \mbox{ for } x\geq 1\]
+$string['hyp_inverse_functions_fact'] = '\[\cosh^{-1}(x)=\ln\left(x+\sqrt{x^2-1}\right) \quad \text{ for } x\geq 1\]
  \[\sinh^{-1}(x)=\ln\left(x+\sqrt{x^2+1}\right)\]
- \[\tanh^{-1}(x) = \frac{1}{2}\ln\left({1+x\over 1-x}\right) \quad \mbox{ for } -1< x < 1\]';
+ \[\tanh^{-1}(x) = \frac{1}{2}\ln\left({1+x\over 1-x}\right) \quad \text{ for } -1< x < 1\]';
 
 $string['calc_diff_standard_derivatives_name'] = 'Standard Derivatives';
 $string['calc_diff_standard_derivatives_fact'] = 'The following table displays the derivatives of some standard functions.  It is useful to learn these standard derivatives as they are used frequently in calculus.
@@ -1436,7 +1441,7 @@ Alternatively, we can write:
 $string['calc_int_standard_integrals_name'] = 'Standard Integrals';
 $string['calc_int_standard_integrals_fact'] = '
 
-\[\int k\ dx = kx +c, \mbox{ where k is constant.}\]
+\[\int k\ dx = kx +c, \text{ where k is constant.}\]
 \[\int x^n\ dx  = \frac{x^{n+1}}{n+1}+c, \quad (n\ne -1)\]
 \[\int x^{-1}\ dx = \int {\frac{1}{x}}\ dx = \ln(|x|)+c = \ln(k|x|) = \left\{\matrix{\ln(x)+c & x>0\cr
 \ln(-x)+c & x<0\cr}\right.\]
@@ -1448,12 +1453,12 @@ $string['calc_int_standard_integrals_fact'] = '
 |\(\sin(x)\)|\(-\cos(x)+c\)||
 |\(\tan(x)\)|\(\ln(\sec(x))+c\)|\(-\frac{\pi}{2} < x < \frac{\pi}{2}\)|
 |\(\sec x\)|\(\ln (\sec(x)+\tan(x))+c\)|\( -{\pi\over 2}< x < {\frac{\pi}{2}}\)|
-|\(\mbox{cosec}(x)\)|\(\ln (\mbox{cose}c(x)-\cot(x))+c\quad\)   |\(0 < x < \pi\)|
+|\(\text{cosec}(x)\)|\(\ln (\text{cose}c(x)-\cot(x))+c\quad\)   |\(0 < x < \pi\)|
 |cot\(\,x\)|\(\ln(\sin(x))+c\)|\(0< x< \pi\)|
 |\(\cosh(x)\)|\(\sinh(x)+c\)||
 |\(\sinh(x)\)|\(\cosh(x) + c\)||
 |\(\tanh(x)\)|\(\ln(\cosh(x))+c\)||
-|\(\mbox{coth}(x)\)|\(\ln(\sinh(x))+c \)|\(x>0\)|
+|\(\text{coth}(x)\)|\(\ln(\sinh(x))+c \)|\(x>0\)|
 |\({1\over x^2+a^2}\)|\({1\over a}\tan^{-1}{x\over a}+c\)|\(a>0\)|
 |\({1\over x^2-a^2}\)|\({1\over 2a}\ln{x-a\over x+a}+c\)|\(|x|>a>0\)|
 |\({1\over a^2-x^2}\)|\({1\over 2a}\ln{a+x\over a-x}+c\)|\(|x|\)|
@@ -1502,3 +1507,10 @@ $string['castext_debug_no_vars'] = 'This question has no question variables to d
 
 $string['castext_error_header'] = 'Rendering of text content failed.';
 $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
+
+
+
+
+// API strings.
+$string['api_no_deployed_variants'] = 'The question XML does not contain deployed variants';
+$string['api_seed_not_in_variants'] = 'The specified seed belongs to no deployed variant';

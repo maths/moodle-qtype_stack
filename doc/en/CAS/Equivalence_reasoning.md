@@ -1,6 +1,6 @@
 # Reasoning by equivalence
 
-__NOTE: Reasoning by equivalence was introduced in STACK 3.6.  This area of STACK is still under active development, and features and behaviour may change significantly in future versions, subject to trials with students and feedback from colleagues.__
+__NOTE: Reasoning by equivalence is still under active development. Features and behaviour may change in future versions, subject to trials with students and feedback from colleagues.__
 
 We currently provide support for 
 
@@ -118,6 +118,26 @@ For example, constants of integration are not currently checked by this currentl
 
 If the syntax hint is just the keyword `firstline` then the first line of the *value* of the teacher's answer will appear as a syntax hint.  
 This enables a randomly generated syntax hint to appear in the box.
+
+### "let" ###
+
+Students can assigne a value to a variable by typing `let v=a`.  This value will be used in all subsequent working.
+
+For example, try the following in the equiv-reasoning input.
+
+    x^2=a^2
+    let a=2
+    (x-2)*(x+2)=0
+
+Internally there is a special function `stacklet(v,a)` which is used to indicate the variable `v` should have the value `a` within equivalence reasoning.
+
+To find all assignments in a student's answer, such as `ans1`, you can filter on the `stacklet` function within the feedback variables.  Note, the student's answer will be a list..
+
+    L1:sublist(ans1,lambda([ex],safe_op(ex)="stacklet"));
+
+Then `L1` will be a list of the assignments.  If you want to turn this into a list of equations then
+
+    L1:ev(L1,stacklet="=");
 
 # Answer tests
 

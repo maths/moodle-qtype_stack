@@ -37,7 +37,7 @@ class caskeyval_exception_test extends qtype_stack_testcase {
 
     public function test_exception_1() {
         $this->expectException(stack_exception::class);
-        $at1 = new stack_cas_keyval(array(), false, false);
+        $at1 = new stack_cas_keyval([], false, false);
     }
 
     public function test_exception_2() {

@@ -33,6 +33,6 @@ $functions = [
         'type' => 'read',
         'ajax' => true,
         'capabilities' => '',
-        'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE, 'local_mobile']
-    ]
+        'services' => [MOODLE_OFFICIAL_MOBILE_SERVICE, 'local_mobile'],
+    ],
 ];

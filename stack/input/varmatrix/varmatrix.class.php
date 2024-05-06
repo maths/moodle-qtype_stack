@@ -23,7 +23,7 @@
  */
 class stack_varmatrix_input extends stack_input {
 
-    protected $extraoptions = array(
+    protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
         'simp' => false,
@@ -32,10 +32,10 @@ class stack_varmatrix_input extends stack_input {
         'checkvars' => 0,
         'validator' => false,
         'monospace' => false,
-    );
+    ];
 
     protected function is_blank_response($contents) {
-        if ($contents == array('EMPTYANSWER')) {
+        if ($contents == ['EMPTYANSWER']) {
             return true;
         }
         $allblank = true;
@@ -58,7 +58,7 @@ class stack_varmatrix_input extends stack_input {
         }
 
         $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
-        $attributes = array(
+        $attributes = [
             'name'           => $fieldname,
             'id'             => $fieldname,
             'autocapitalize' => 'none',
@@ -66,7 +66,7 @@ class stack_varmatrix_input extends stack_input {
             'class'          => 'varmatrixinput',
             'size'           => $this->parameters['boxWidth'] * 1.1,
             'style'          => 'width: '.$size.'em',
-        );
+        ];
 
         if ($this->extraoptions['monospace']) {
             $attributes['class'] .= ' input-monospace';
@@ -79,7 +79,7 @@ class stack_varmatrix_input extends stack_input {
                 $current = '';
             }
         } else {
-            $current = array();
+            $current = [];
             foreach ($state->contents as $row) {
                 $current[] = implode(" ", $row);
             }
@@ -119,11 +119,38 @@ class stack_varmatrix_input extends stack_input {
         }
 
         $xhtml = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
-        return html_writer::tag('div', $xhtml, array('class' => $matrixbrackets));
+        return html_writer::tag('div', $xhtml, ['class' => $matrixbrackets]);
+    }
+
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'varmatrix';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['syntaxHint'] = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+
+        // Read matrix bracket style from options.
+        $matrixbrackets = 'matrixroundbrackets';
+        $matrixparens = $this->options->get_option('matrixparens');
+        if ($matrixparens == '[') {
+            $matrixbrackets = 'matrixsquarebrackets';
+        } else if ($matrixparens == '|') {
+            $matrixbrackets = 'matrixbarbrackets';
+        } else if ($matrixparens == '') {
+            $matrixbrackets = 'matrixnobrackets';
+        }
+
+        $data['matrixbrackets'] = $matrixbrackets;
+
+        return $data;
     }
 
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-        $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
+        $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
         $mform->setType($this->name, PARAM_RAW);
     }
@@ -136,7 +163,7 @@ class stack_varmatrix_input extends stack_input {
      * @return array
      */
     protected function response_to_contents($response) {
-        $contents = array();
+        $contents = [];
         if (array_key_exists($this->name, $response)) {
             $sans = $response[$this->name];
             $rowsin = explode("\n", $sans);
@@ -157,20 +184,20 @@ class stack_varmatrix_input extends stack_input {
 
         foreach ($contents as $key => $row) {
             // Pad out short rows.
-            $padrow = array();
+            $padrow = [];
             for ($i = 0; $i < ($maxlen - count($row)); $i++) {
                 $padrow[] = '?';
             }
             $contents[$key] = array_merge($row, $padrow);
         }
-        if ($contents == array() && $this->get_extra_option('allowempty')) {
-            $contents = array('EMPTYANSWER');
+        if ($contents == [] && $this->get_extra_option('allowempty')) {
+            $contents = ['EMPTYANSWER'];
         }
         return $contents;
     }
 
     protected function caslines_to_answer($caslines, $secrules = false) {
-        $vals = array();
+        $vals = [];
         foreach ($caslines as $line) {
             if ($line->get_valid()) {
                 $vals[] = $line->get_inputform();
@@ -193,10 +220,10 @@ class stack_varmatrix_input extends stack_input {
      * @return string
      */
     public function contents_to_maxima($contents) {
-        if ($contents == array('EMPTYANSWER')) {
+        if ($contents == ['EMPTYANSWER']) {
             return 'matrix(EMPTYCHAR)';
         }
-        $matrix = array();
+        $matrix = [];
         foreach ($contents as $row) {
             $matrix[] = '['.implode(',', $row).']';
         }
@@ -209,8 +236,8 @@ class stack_varmatrix_input extends stack_input {
      */
     protected function validate_contents($contents, $basesecurity, $localoptions) {
 
-        $errors = array();
-        $notes = array();
+        $errors = [];
+        $notes = [];
         $valid = true;
         list ($secrules, $filterstoapply) = $this->validate_contents_filters($basesecurity);
         // Separate rules for inert display logic, which wraps floats with certain functions.
@@ -218,15 +245,15 @@ class stack_varmatrix_input extends stack_input {
         $secrulesd->add_allowedwords('dispdp,displaysci');
 
         // Now validate the input as CAS code.
-        $modifiedcontents = array();
-        if ($contents == array('EMPTYANSWER')) {
+        $modifiedcontents = [];
+        if ($contents == ['EMPTYANSWER']) {
             $modifiedcontents = $contents;
         } else {
             foreach ($contents as $row) {
-                $modifiedrow = array();
+                $modifiedrow = [];
                 foreach ($row as $val) {
                     $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                        array(), 'Root', $localoptions->get_option('decimals'));
+                        [], 'Root', $localoptions->get_option('decimals'));
                     if ($answer->get_valid()) {
                         $modifiedrow[] = $answer->get_inputform();
                     } else {
@@ -265,12 +292,13 @@ class stack_varmatrix_input extends stack_input {
         $answer = stack_ast_container::make_from_teacher_source($value, '', $secrules);
         $answer->get_valid();
 
-        $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd, array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
-            array(), 'Root', $this->options->get_option('decimals'));
+        $inertform = stack_ast_container::make_from_student_source($value, '', $secrulesd,
+            array_merge($filterstoapply, ['910_inert_float_for_display', '912_inert_string_for_display']),
+            [], 'Root', $this->options->get_option('decimals'));
         $inertform->get_valid();
 
-        $caslines = array();
-        return array($valid, $errors, $notes, $answer, $caslines, $inertform, $caslines);
+        $caslines = [];
+        return [$valid, $errors, $notes, $answer, $caslines, $inertform, $caslines];
     }
 
     /**
@@ -286,7 +314,8 @@ class stack_varmatrix_input extends stack_input {
             $decimal = ',';
             $listsep = ';';
         }
-        $tostringparams = array('inputform' => true,
+        $tostringparams = [
+            'inputform' => true,
             'qmchar' => true,
             'pmchar' => 0,
             'nosemicolon' => true,
@@ -295,8 +324,8 @@ class stack_varmatrix_input extends stack_input {
             'nontuples' => false,
             'varmatrix' => true,
             'decimal' => $decimal,
-            'listsep' => $listsep
-        );
+            'listsep' => $listsep,
+        ];
         $cs = stack_ast_container::make_from_teacher_source($in);
         return $cs->ast_to_string(null, $tostringparams);
     }
@@ -306,14 +335,15 @@ class stack_varmatrix_input extends stack_input {
         if (trim($value) == 'EMPTYANSWER' || $value === null) {
             $value = '';
         }
-        // TODO: refactor this ast creation away.
-        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), array());
+        // TO-DO: refactor this ast creation away.
+        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security(), []);
         $cs->set_nounify(0);
 
         // Hard-wire to strict Maxima syntax.
         $decimal = '.';
         $listsep = ',';
-        $params = array('checkinggroup' => true,
+        $params = [
+            'checkinggroup' => true,
             'qmchar' => false,
             'pmchar' => 1,
             'nosemicolon' => true,
@@ -322,8 +352,8 @@ class stack_varmatrix_input extends stack_input {
             'nounify' => 0,
             'nontuples' => false,
             'decimal' => $decimal,
-            'listsep' => $listsep
-        );
+            'listsep' => $listsep,
+        ];
         if ($cs->get_valid()) {
             $value = $cs->ast_to_string(null, $params);
         }
@@ -333,7 +363,7 @@ class stack_varmatrix_input extends stack_input {
     protected function ajax_to_response_array($in) {
         $in = explode('<br>', $in);
         $in = implode("\n", $in);
-        return array($this->name => $in);
+        return [$this->name => $in];
     }
 
     /**
@@ -357,7 +387,7 @@ class stack_varmatrix_input extends stack_input {
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
-        return array(
+        return [
             'mustVerify'         => true,
             'showValidation'     => 1,
             'boxWidth'           => 5,
@@ -370,7 +400,8 @@ class stack_varmatrix_input extends stack_input {
             'lowestTerms'        => true,
             // This looks odd, but the teacher's answer is a list and the student's a matrix.
             'sameType'           => false,
-            'options'            => '');
+            'options'            => '',
+        ];
     }
 
     /**
@@ -385,6 +416,16 @@ class stack_varmatrix_input extends stack_input {
                 break;
         }
         return $valid;
+    }
+
+    public function get_api_solution($tavalue) {
+        // We clear the name, and then restore its original value,
+        // to not include the prefix in the api solution.
+        $name = $this->name;
+        $this->name = '';
+        $sol = $this->maxima_to_response_array($tavalue);
+        $this->name = $name;
+        return $sol;
     }
 
 }

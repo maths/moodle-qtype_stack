@@ -20,6 +20,8 @@ require_once(__DIR__ . '/../block.interface.php');
 require_once(__DIR__ . '/../../../utils.class.php');
 require_once(__DIR__ . '/../../../../vle_specific.php');
 
+use api\util\StackIframeHolder;
+
 /**
  * A block for providing means for creating IFRAMES.
  *
@@ -46,7 +48,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
     public function compile($format, $options): ?MP_Node {
         $r = new MP_List([
             new MP_String('iframe'),
-            new MP_String(json_encode($this->params))
+            new MP_String(json_encode($this->params)),
         ]);
 
         $opt2 = [];
@@ -161,7 +163,7 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         $code = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         $code .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"' .
             ' "http://www.w3.org/TR/xhtml1/DTD/strict.dtd">' . "\n";
-        $code .= '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' . 
+        $code .= '<html xmlns="http://www.w3.org/TR/xhtml1/strict" lang="' .
             stack_get_system_language() . '">';
         // Include a title to help JS debugging.
         $code .= '<head><title>' . $title . '</title>';
@@ -170,8 +172,13 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         $code .= '</head><body style="margin:0px;">' . $content . '</body></html>';
 
         // Ensure plots get their full URL at this point.
-        $code = str_replace('!ploturl!',
+        if (get_config('qtype_stack', 'stackapi')) {
+            $code = str_replace('!ploturl!',
+            '/plots/', $code);
+        } else {
+            $code = str_replace('!ploturl!',
             moodle_url::make_file_url('/question/type/stack/plot.php', '/'), $code);
+        }
         // Escape some JavaScript strings.
         $args = [
             json_encode($frameid),
@@ -179,13 +186,18 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
             json_encode($divid),
             json_encode($title),
             $scrolling ? 'true' : 'false',
-            isset($parameters['no sandbox']) && $parameters['no sandbox']
+            isset($parameters['no sandbox']) && $parameters['no sandbox'],
         ];
 
         // As the content is large we cannot simply use the js_amd_call.
-        $PAGE->requires->js_amd_inline(
-            'require(["qtype_stack/stackjsvle"], '
-            . 'function(stackjsvle,){stackjsvle.create_iframe(' . implode(',', $args). ');});');
+        if (get_config('qtype_stack', 'stackapi')) {
+            StackIframeHolder::add_iframe($args);
+        } else {
+            $PAGE->requires->js_amd_inline(
+                'require(["qtype_stack/stackjsvle"], '
+                . 'function(stackjsvle,){stackjsvle.create_iframe(' . implode(',', $args). ');});'
+            );
+        }
 
         self::$counters['///IFRAME_COUNT///'] = self::$counters['///IFRAME_COUNT///'] + 1;
 
@@ -207,8 +219,10 @@ class stack_cas_castext2_iframe extends stack_cas_castext2_block {
         }
 
         // NOTE! List ordered by length. For the trimming logic.
-        $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
-            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%'];
+        $validunits = [
+            'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
+            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
+        ];
 
         $widthend   = false;
         $heightend  = false;

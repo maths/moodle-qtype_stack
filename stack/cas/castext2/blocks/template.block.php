@@ -37,11 +37,11 @@ class stack_cas_castext2_template extends stack_cas_castext2_block {
             }
 
             $r = new MP_If([
-                new MP_FunctionCall(new MP_Identifier('fboundp'), [new MP_Identifier('ctt_' . $this->params['name'])])
-                ], [
-                    new MP_FunctionCall(new MP_Identifier('ctt_' . $this->params['name']), [new MP_Integer(0)]),
-                    $result
-                ]);
+                new MP_FunctionCall(new MP_Identifier('fboundp'), [new MP_Identifier('ctt_' . $this->params['name'])]),
+            ], [
+                new MP_FunctionCall(new MP_Identifier('ctt_' . $this->params['name']), [new MP_Integer(0)]),
+                $result,
+            ]);
 
             return $r;
         }
@@ -57,11 +57,11 @@ class stack_cas_castext2_template extends stack_cas_castext2_block {
         // Either use the body or override by something else.
         if (array_key_exists('mode', $this->params) && $this->params['mode'] === 'default') {
             $r = new MP_If([
-                new MP_FunctionCall(new MP_Identifier('fboundp'), [new MP_Identifier('ctt_' . $this->params['name'])])
-                ], [
-                    new MP_FunctionCall(new MP_Identifier('ctt_' . $this->params['name']), [new MP_Integer(0)]),
-                    $body
-                ]);
+                new MP_FunctionCall(new MP_Identifier('fboundp'), [new MP_Identifier('ctt_' . $this->params['name'])]),
+            ], [
+                new MP_FunctionCall(new MP_Identifier('ctt_' . $this->params['name']), [new MP_Integer(0)]),
+                $body,
+            ]);
             return $r;
         }
 
@@ -69,7 +69,7 @@ class stack_cas_castext2_template extends stack_cas_castext2_block {
         return new MP_Group([
             new MP_Operation(':=', new MP_FunctionCall(new MP_Identifier('ctt_' . $this->params['name']),
                 [new MP_Identifier('%dummyvariable')]), $body),
-            new MP_String('')
+            new MP_String(''),
         ]);
     }
 

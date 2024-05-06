@@ -52,6 +52,6 @@ class stack_maths_output_maths extends stack_maths_output_filter_base {
         }
 
         require_once($CFG->dirroot . '/filter/maths/filter.php');
-        return new filter_maths(context_system::instance(), array());
+        return new filter_maths(context_system::instance(), []);
     }
 }

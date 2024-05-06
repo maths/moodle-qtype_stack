@@ -33,11 +33,11 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 class fact_sheets_test extends qtype_stack_testcase {
 
     public function test_basic_castext_instantiation() {
-        $this->assertEquals(array(), stack_fact_sheets::get_unrecognised_tags('Hello world'));
+        $this->assertEquals([], stack_fact_sheets::get_unrecognised_tags('Hello world'));
     }
 
     public function test_trap_bad_fact_sheet_names() {
-        $this->assertEquals(array(0 => 'bad_hint', 1 => 'badder_hint'),
+        $this->assertEquals([0 => 'bad_hint', 1 => 'badder_hint'],
                 stack_fact_sheets::get_unrecognised_tags(
                         "This is some CAStext with a [[facts:bad_hint]] " .
                         "and yet another [[facts:badder_hint]]"));

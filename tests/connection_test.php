@@ -37,8 +37,12 @@ class connection_test extends qtype_stack_testcase {
         $strin = 'cab:block([],print("[STACKSTART Locals= [ 0=[ error= ["), cte("p",errcatch(diff(x^n,x))),'
                 .' print("] ]"), return(true));';
         $return = $connection->compute($strin);
-        $expected = array( 0 => array('key' => 'p', 'value' => 'n*x^(n-1)', 'dispvalue' => 'n*x^(n-1)', 'display' => 'n\,x^{n-1}',
-                'error' => ''));
+        $expected = [
+            0 => [
+                'key' => 'p', 'value' => 'n*x^(n-1)', 'dispvalue' => 'n*x^(n-1)', 'display' => 'n\,x^{n-1}',
+                'error' => '',
+            ],
+        ];
         $this->assertEquals($expected, $return);
     }
 
@@ -47,8 +51,12 @@ class connection_test extends qtype_stack_testcase {
         $strin = 'cab:block([],print("[STACKSTART Locals= [ 0=[ error= ["), cte("p",errcatch(dispdp(1,3))),'
         .' print("] ]"), return(true));';
         $return = $connection->compute($strin);
-        $expected = array( 0 => array('key' => 'p', 'value' => 'displaydp(1.0,3)', 'dispvalue' => '1.000',
-                'display' => '1.000', 'error' => ''));
+        $expected = [
+            0 => [
+                'key' => 'p', 'value' => 'displaydp(1.0,3)', 'dispvalue' => '1.000',
+                'display' => '1.000', 'error' => '',
+            ],
+        ];
         $this->assertEquals($expected, $return);
     }
 
@@ -57,8 +65,12 @@ class connection_test extends qtype_stack_testcase {
         $strin = 'cab:block([],print("[STACKSTART Locals= [ 0=[ error= ["), cte("p",errcatch(stackunits(dispsf(30,4),kg))),'
         .' print("] ]"), return(true));';
         $return = $connection->compute($strin);
-        $expected = array( 0 => array('key' => 'p', 'value' => 'stackunits(displaydp(30,2),kg)',
-                'dispvalue' => '30.00*kg', 'display' => '30.00\, {\it kg}', 'error' => ''));
+        $expected = [
+            0 => [
+                'key' => 'p', 'value' => 'stackunits(displaydp(30,2),kg)',
+                'dispvalue' => '30.00*kg', 'display' => '30.00\, {\it kg}', 'error' => '',
+            ],
+        ];
         $this->assertEquals($expected, $return);
     }
 
@@ -70,7 +82,7 @@ class connection_test extends qtype_stack_testcase {
         // This will induce a timeout on the CAS because we don't have a well formed CAS statement.
         $strin = 'cab:block([],print("[STACKSTART ;';
         $return = $connection->compute($strin);
-        $expected = array();
+        $expected = [];
         $this->assertEquals($expected, $return);
     }
 }

@@ -23,7 +23,7 @@
  */
 class stack_geogebra_input extends stack_input {
 
-    protected $extraoptions = array(
+    protected $extraoptions = [
         'hideanswer' => true,
         'simp' => false,
         'rationalized' => false,
@@ -31,8 +31,8 @@ class stack_geogebra_input extends stack_input {
         'nounits' => false,
         'align' => 'left',
         'consolidatesubscripts' => false,
-        'checkvars' => 0
-    );
+        'checkvars' => 0,
+    ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
@@ -41,7 +41,7 @@ class stack_geogebra_input extends stack_input {
         }
 
         $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
-        $attributes = array(
+        $attributes = [
             'type'  => 'text',
             'name'  => $fieldname,
             'id'    => $fieldname,
@@ -49,8 +49,8 @@ class stack_geogebra_input extends stack_input {
             'style' => 'width: '.$size.'em',
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
-            'class' => 'geogebra'
-        );
+            'class' => 'geogebra',
+        ];
         if ($this->extraoptions['align'] === 'right') {
             $attributes['class'] = 'geogebra-right';
         }
@@ -76,8 +76,13 @@ class stack_geogebra_input extends stack_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
+    public function render_api_data($tavalue) {
+        // Dummy function to allow code to run. GeoGebra not currently functional in API.
+        throw new stack_exception("Usage of geogebra is currently not supported.");
+    }
+
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-        $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
+        $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
         $mform->setType($this->name, PARAM_RAW);
     }
@@ -88,19 +93,20 @@ class stack_geogebra_input extends stack_input {
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
-        return array(
-          'mustVerify'         => true,
-          'showValidation'     => 0,
-          'boxWidth'           => 15,
-          'insertStars'        => 0,
-          'syntaxHint'         => '',
-          'syntaxAttribute'    => 0,
-          'forbidWords'        => '',
-          'allowWords'         => '',
-          'forbidFloats'       => false,
-          'lowestTerms'        => true,
-          'sameType'           => true,
-          'options'            => '');
+        return [
+            'mustVerify'         => true,
+            'showValidation'     => 0,
+            'boxWidth'           => 15,
+            'insertStars'        => 0,
+            'syntaxHint'         => '',
+            'syntaxAttribute'    => 0,
+            'forbidWords'        => '',
+            'allowWords'         => '',
+            'forbidFloats'       => false,
+            'lowestTerms'        => true,
+            'sameType'           => true,
+            'options'            => '',
+        ];
     }
 
     /**
@@ -130,6 +136,6 @@ class stack_geogebra_input extends stack_input {
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
         $cs->set_nounify(0);
         $value = $cs->get_inputform(true, 0, true);
-        return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
+        return stack_string('teacheranswershow', ['value' => '<code>'.$value.'</code>', 'display' => $display]);
     }
 }

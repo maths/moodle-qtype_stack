@@ -39,7 +39,7 @@ class qtype_stack_admin_setting_maths_display_method extends admin_setting_confi
             return true;
         }
 
-        $this->choices = array('mathjax' => get_string('settingmathsdisplay_mathjax', 'qtype_stack'));
+        $this->choices = ['mathjax' => get_string('settingmathsdisplay_mathjax', 'qtype_stack')];
 
         // Remove this if statement once we no longer need to support Moodle 2.5.x.
         if (class_exists('core_component') && method_exists('core_component', 'get_plugin_list_with_file')) {

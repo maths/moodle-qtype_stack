@@ -724,6 +724,11 @@
         "description":"Information on installing STACK on your server."
         },
         {
+        "file":"API.md",
+        "title":"API - STACK Documentation",
+        "description":"Information on using the stand-alone API to provide STACK questions as a web service."
+        },
+        {
         "file":"LTI.md",
         "title":"LTI - STACK Documentation",
         "description":"Information on using LTI to provide STACK quizzes to learning systems where STACK is not installed."

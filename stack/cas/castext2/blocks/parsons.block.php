@@ -34,8 +34,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         ],
         'local' => [
             'css' => 'cors://sortable.min.css',
-            'js' => 'cors://sortable.min.js'
-        ]
+            'js' => 'cors://sortable.min.js',
+        ],
     ];
 
     public function compile($format, $options):  ? MP_Node {
@@ -102,14 +102,15 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $mathjax = ($mathjaxversion === "2") ? stack_get_mathjax_url() : stack_get_mathjax3_url();
         $r->items[] = new MP_List([
             new MP_String('script'),
-            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))]);
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax])),
+        ]);
         $r->items[] = new MP_List([
             new MP_String('style'),
-            new MP_String(json_encode(['href' => $css]))
+            new MP_String(json_encode(['href' => $css])),
         ]);
         $r->items[] = new MP_List([
             new MP_String('script'),
-            new MP_String(json_encode(['type' => 'module', 'src' => $js]))
+            new MP_String(json_encode(['type' => 'module', 'src' => $js])),
         ]);
 
         // We need to define a size for the inner content.
@@ -163,7 +164,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_String($importcode);
 
         // Add flip orientation listener to the orientation button.
-        // TODO: automatically set orientation based on device?
+        // TO-DO: automatically set orientation based on device?
         $r->items[] = new MP_String('add_orientation_listener("orientation", "usedList", "availableList");' . "\n");
         // Add the resize button listener.
         $r->items[] = new MP_String('document.getElementById("resize").addEventListener(
@@ -290,8 +291,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $height = array_key_exists('height', $this->params) ? $this->params['height'] : '400px';
 
         // NOTE! List ordered by length. For the trimming logic.
-        $validunits = ['vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
-            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%'];
+        $validunits = [
+            'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
+            'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
+        ];
 
         $widthend   = false;
         $heightend  = false;
@@ -348,8 +351,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 self::$namedversions)) {
             $valid    = false;
             $validversions = ['cdn', 'local'];
-            $err[] = stack_string('stackBlock_parsons_unknown_named_version', ['version' => implode(', ',
-                $validversions)]);
+            $err[] = stack_string('stackBlock_parsons_unknown_named_version', [
+                'version' => implode(', ',
+                $validversions),
+            ]);
         }
 
         // Check MathJax version is valid.
@@ -357,8 +362,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $validmjversions = ['2', '3'];
             if (!in_array($this->params['mathjax'], $validmjversions)) {
                 $valid = false;
-                $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', ['mjversion' => implode(', ',
-                    $validmjversions)]);
+                $err[] = stack_string('stackBlock_parsons_unknown_mathjax_version', [
+                    'mjversion' => implode(', ',
+                    $validmjversions),
+                ]);
             }
         }
 
@@ -371,10 +378,13 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                 $err[] = "Unknown parameter '$key' for Parson's block.";
                 $valid    = false;
                 if ($valids === null) {
-                    $valids = ['width', 'height', 'aspect-ratio', 'version', 'overridecss',
-                        'overridejs', 'input', 'orientation', 'clone'];
+                    $valids = [
+                        'width', 'height', 'aspect-ratio', 'version', 'overridecss',
+                        'overridejs', 'input', 'orientation', 'clone',
+                    ];
                     $err[] = stack_string('stackBlock_parsons_param', [
-                        'param' => implode(', ', $valids)]);
+                        'param' => implode(', ', $valids),
+                    ]);
                 }
             }
         }

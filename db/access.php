@@ -24,16 +24,16 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
+$capabilities = [
 
     // Users with this in the system context can use the tools like the CAS chat
     // script and the answer test and input tests.
-    'qtype/stack:usediagnostictools' => array(
+    'qtype/stack:usediagnostictools' => [
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
+        'archetypes' => [
             'manager' => CAP_ALLOW,
-        ),
-    ),
-);
+        ],
+    ],
+];
 

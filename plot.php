@@ -30,7 +30,7 @@ $filename = clean_filename(get_file_argument());
 $filenamesplit = explode('.', $filename);
 $filetype = end($filenamesplit);
 
-$permittedtypes = array('png' => true, 'svg' => true);
+$permittedtypes = ['png' => true, 'svg' => true];
 if (!array_key_exists($filetype, $permittedtypes)) {
     header('HTTP/1.0 404 Not Found');
     header('Content-Type: text/plain;charset=UTF-8');

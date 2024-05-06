@@ -24,7 +24,7 @@ class stack_cas_castext2_special_ioblock extends stack_cas_castext2_block {
     public $channel;
     public $variable;
 
-    public function __construct($params, $children=array(), $mathmode=false, $channel='', $variable='') {
+    public function __construct($params, $children=[], $mathmode=false, $channel='', $variable='') {
         parent::__construct($params, $children, $mathmode);
         $this->channel = $channel;
         $this->variable = $variable;
@@ -45,7 +45,7 @@ class stack_cas_castext2_special_ioblock extends stack_cas_castext2_block {
     }
 
     public function validate_extract_attributes(): array {
-        return array();
+        return [];
     }
 
     // Might seem odd to postprocess this but this is a hook that others connect to.

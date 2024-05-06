@@ -15,9 +15,9 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 defined('MOODLE_INTERNAL') || die();
-
+global $CFG;
 // This file defines question_display_options which the next class extends.
-require_once(__DIR__.'/../../../lib/questionlib.php');
+require_once($CFG->libdir . '/questionlib.php');
 require_once('questiondisplayoptions.php');
 
 /**
@@ -183,15 +183,19 @@ function stack_determine_moodle_version() {
  * modifies headers or a direct link.
  */
 function stack_cors_link(string $filename): string {
-    return (new moodle_url(
-            '/question/type/stack/corsscripts/cors.php', ['name' => $filename]))->out(false);
+    if (get_config('qtype_stack', 'stackapi')) {
+        return '/cors.php?name=' . $filename;
+    } else {
+        return (new moodle_url(
+                '/question/type/stack/corsscripts/cors.php', ['name' => $filename]))->out(false);
+    }
 }
 
 /*
  * Gets the URL used for MathJax, might be VLE local.
  */
 function stack_get_mathjax_url(): string {
-    // TODO: figure out how to support VLE local with CORS.
+    // TO-DO: figure out how to support VLE local with CORS.
     return 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
 }
 

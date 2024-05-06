@@ -47,6 +47,13 @@ The design of this option is discussed further in the [developer docs](../Develo
 
 Teachers must always use strict Maxima syntax, which requires `.`, including in test case construction.
 
+### Scientific notation formal {#scientificnotation} ###
+
+Choose the format for display of scientific notation.
+
+* '*10', numbers will be displayed as \(3.14 \times 10^{3}\).
+* 'E', numbers will be displayed as \(3.14 E^{3}\).
+
 ### Multiplication Sign {#multiplication} ###
 
 * (none), e.g. \(x(x+1)\)

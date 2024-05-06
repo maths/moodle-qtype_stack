@@ -223,6 +223,11 @@ $string['insertstarsspacessinglechar'] = 'Insert stars assuming single-character
 $string['decimals'] = 'Decimal separator';
 $string['decimals_help'] = 'Choose the symbol, and options, for the decimal separator.';
 $string['decimals_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#decimals';
+$string['scientificnotation'] = 'Scientific notation';
+$string['scientificnotation_help'] = 'Choose the format of scientific notation.';
+$string['scientificnotation_link'] = '%%WWWROOT%%/question/type/stack/doc/doc.php/Authoring/Options.md#scientificnotation';
+$string['scientificnotation_10'] = 'n * 10^m';
+$string['scientificnotation_E'] = 'n E m';
 $string['multcross'] = 'Cross';
 $string['multdot'] = 'Dot';
 $string['multonlynumbers'] = 'Only numbers';
@@ -820,7 +825,7 @@ $string['stackCas_forbiddenVariable']       = 'Forbidden variable or constant: {
 $string['stackCas_operatorAsVariable']      = 'Operator {$a->op} interpreted as variable, check syntax.';
 $string['stackCas_redefinitionOfConstant']  = 'Redefinition of key constants is forbidden: {$a->constant}.';
 $string['stackCas_unknownFunctionCase']     = 'Input is case sensitive: {$a->forbid} is an unknown function. Did you mean {$a->lower}?';
-// TODO: the message should say that while these are valid names for variables as long as this case combination is not implicitely allowed we assume that you have typoed the known different case.
+// TO-DO: the message should say that while these are valid names for variables as long as this case combination is not implicitely allowed we assume that you have typoed the known different case.
 $string['stackCas_unknownVariableCase']     = 'Input is case sensitive: {$a->forbid} is an unknown variable. Did you mean {$a->lower}?';
 $string['stackCas_unsupportedKeyword']      = 'Unsupported keyword: {$a->forbid}.';
 $string['stackCas_forbiddenWord']           = 'The expression {$a->forbid} is forbidden.';
@@ -1504,3 +1509,10 @@ $string['castext_debug_no_vars'] = 'This question has no question variables to d
 
 $string['castext_error_header'] = 'Rendering of text content failed.';
 $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
+
+
+
+
+// API strings.
+$string['api_no_deployed_variants'] = 'The question XML does not contain deployed variants';
+$string['api_seed_not_in_variants'] = 'The specified seed belongs to no deployed variant';

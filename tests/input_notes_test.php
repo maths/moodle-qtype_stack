@@ -45,7 +45,7 @@ class input_notes_test extends qtype_stack_testcase {
         $el->adapt_to_model_answer('Hello world');
         $this->assertEquals('<textarea name="ans1" id="ans1" rows="3" cols="50"></textarea>' .
                 '<div class="clearfix"></div>',
-                $el->render(new stack_input_state(stack_input::BLANK, array(), '', '', '', '', ''),
+                $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
                         'ans1', false, null));
     }
 
@@ -53,7 +53,7 @@ class input_notes_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('notes', 'sans1', 'true');
         $ans1 = 'This input gives an instant rendering of LaTeX e.g. \[ \sum_{n=1}^\infty \frac{1}{n^2}=\frac{\pi^2}{6}.\]';
-        $state = $el->validate_student_response(array('sans1' => $ans1), $options, 'true', new stack_cas_security());
+        $state = $el->validate_student_response(['sans1' => $ans1], $options, 'true', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->contentsmodified);
@@ -99,8 +99,8 @@ class input_notes_test extends qtype_stack_testcase {
               '$$</span></p><p class="stackinputnotice">(This input is not assessed automatically by STACK.)' .
               '</p></div></span></div>';
         // We don't require intervals to have real numbers in them.
-        $state = $el->validate_student_response(array('sans1' => $sa), $options, '%union({3,4,5})',
-                new stack_cas_security(false, '', '', array('ta')));
+        $state = $el->validate_student_response(['sans1' => $sa], $options, '%union({3,4,5})',
+                new stack_cas_security(false, '', '', ['ta']));
         $this->assertEquals($state->status, stack_input::INVALID);
         $this->assertEquals('', $state->note);
         $this->assertEquals('', $state->errors);
@@ -113,7 +113,7 @@ class input_notes_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = stack_input_factory::make('notes', 'state', 'Euler');
         $el->set_parameter('options', 'hideanswer');
-        $state = $el->validate_student_response(array('state' => 'Blah Blah Blah'), $options, 'Euler',
+        $state = $el->validate_student_response(['state' => 'Blah Blah Blah'], $options, 'Euler',
                 new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
         $this->assertEquals('', $state->contentsmodified);

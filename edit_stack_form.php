@@ -518,6 +518,11 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), ['size' => 20]);
         $mform->setType($inputname . 'options', PARAM_RAW);
+        $input_class = 'stack_' . $this->stackconfig->inputtype . '_input';
+        $input_defaults = $input_class::get_parameters_defaults();
+        if (isset($input_defaults['options'])) {
+            $mform->setDefault($inputname . 'options', $input_defaults['options']);
+        }
         $mform->addHelpButton($inputname . 'options', 'inputextraoptions', 'qtype_stack');
     }
 

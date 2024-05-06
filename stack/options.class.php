@@ -359,9 +359,40 @@ class stack_options {
      */
     public static function get_monospace_options() {
         return array(
-            '0' => get_string('inputtypenumerical', 'qtype_stack'),
-            '1' => get_string('inputtypeunits', 'qtype_stack'),
-            '2' => get_string('inputtypevarmatrix', 'qtype_stack'),
+            // Options will appear in order listed, not key order.
+            // Keys need to match is_monospace() below.
+            '0' => get_string('inputtypealgebraic', 'qtype_stack'),
+            '1' => get_string('inputtypenumerical', 'qtype_stack'),
+            '2' => get_string('inputtypeunits', 'qtype_stack'),
+            '3' => get_string('inputtypevarmatrix', 'qtype_stack'),
         );
+    }
+
+    /**
+     * @return bool Get the monospace default for supplied input class.
+     */
+    public static function is_monospace($class) {
+        $options = [
+            // These need to match get_monospace_options above.
+            '0' => 'algebraic',
+            '1' => 'numerical',
+            '2' => 'units',
+            '3' => 'varmatrix',
+        ];
+        $optionkey = array_search(explode('_', $class)[1], $options);
+        if ($optionkey === false) {
+            // This type of input not allowed to be monospace.
+            return false;
+        }
+
+        $monoinputkeys = explode(',', get_config('qtype_stack', 'inputmonospace'));
+
+        $key = array_search(strval($optionkey), $monoinputkeys, true);
+
+        if ($key === false) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

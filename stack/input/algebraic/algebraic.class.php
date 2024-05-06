@@ -33,6 +33,7 @@ class stack_algebraic_input extends stack_input {
         'checkvars' => 0,
         'validator' => false,
         'feedback' => false,
+        'monospace' => false,
     ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -54,6 +55,9 @@ class stack_algebraic_input extends stack_input {
         ];
         if ($this->extraoptions['align'] === 'right') {
             $attributes['class'] = 'algebraic-right';
+        }
+        if ($this->extraoptions['monospace']) {
+            $attributes['class'] .= ' input-monospace';
         }
 
         $value = $this->contents_to_maxima($state->contents);
@@ -117,7 +121,7 @@ class stack_algebraic_input extends stack_input {
             'forbidFloats'       => true,
             'lowestTerms'        => true,
             'sameType'           => true,
-            'options'            => '',
+            'options'            => 'monospace:default',
         ];
     }
 

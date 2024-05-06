@@ -188,8 +188,18 @@ abstract class stack_input {
                     if ($arg === '') {
                         // Extra options with no argument set a Boolean flag.
                         $this->extraoptions[$option] = true;
-                    } else if ($arg === 'off' && in_array($option, ['monospace'])) {
+                    } else if ($arg === 'false') {
                         $this->extraoptions[$option] = false;
+                    } else if ($arg === 'true') {
+                        $this->extraoptions[$option] = true;
+                    } else if ($arg === 'default') {
+                        switch ($option) {
+                            case 'monospace':
+                                $this->extraoptions[$option] = stack_options::is_monospace(get_class($this));
+                                break;
+                            default:
+                                $this->extraoptions[$option] = false;
+                        }
                     } else {
                         $this->extraoptions[$option] = $arg;
                     }

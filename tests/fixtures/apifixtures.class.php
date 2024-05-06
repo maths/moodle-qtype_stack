@@ -21,8 +21,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
 class stack_api_test_data {
     protected static array $questiondata = [
         'matrices' =>
@@ -1166,7 +1164,8 @@ class stack_api_test_data {
               </span> Your answer is partially correct.]]></text>
             </prtpartiallycorrect>
             <prtincorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+              <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i>
+              </span> Incorrect answer.]]></text>
             </prtincorrect>
             <multiplicationsign>dot</multiplicationsign>
             <sqrtsign>1</sqrtsign>
@@ -1310,7 +1309,8 @@ class stack_api_test_data {
               <i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
             </prtpartiallycorrect>
             <prtincorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
+              <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span>
+              Incorrect answer.]]></text>
             </prtincorrect>
             <decimals>.</decimals>
             <scientificnotation>*10</scientificnotation>

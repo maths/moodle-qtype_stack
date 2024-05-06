@@ -279,9 +279,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         }
 
         // Add double-click events for proof.
-        if ($proofmode) {
-            $code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
-        }
+        //if ($proofmode) {
+        //    $code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
+        //}
 
         // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
         $code .= ($mathjaxversion === "2") ?

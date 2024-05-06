@@ -212,9 +212,9 @@ s_test_case(proof_alternatives(proof_iff(proof(proof_opt(A), B),C)), [proof_iff(
  */
 proof_parsons_interpret(st) := block([pf],
   pf:stackjson_parse(st),
-  pf:apply(proof, stackmap_get(pf, "used"))
+  pf:apply(proof, first(first(stackmap_get(pf, "used"))))
 );
-s_test_case(proof_parsons_interpret("{\"used\":[\"0\",\"3\",\"5\"],\"available\":[\"1\",\"2\",\"4\",\"6\",\"7\"]}"), proof("0","3","5"));
+s_test_case(proof_parsons_interpret("{\"used\":[[[\"0\",\"3\",\"5\"]]],\"available\":[\"1\",\"2\",\"4\",\"6\",\"7\"]}"), proof("0","3","5"));
 
 /*
  * Takes a proof, and proof steps list and returns the keys not used in the proof_steps.
@@ -233,7 +233,7 @@ proof_parsons_key_json(proof_ans, proof_steps) := block([pkeys],
   /* Ensure all keys are string keys. */
   if not(emptyp(proof_steps)) then proof_ans:proof_keys_sub(proof_ans, proof_steps),
   pkeys:proof_parsons_keys_used_unused(proof_ans, proof_steps),
-  sconcat("{\"used\":", stackjson_stringify(first(pkeys)), ", \"available\":", stackjson_stringify(second(pkeys)), "}")
+  sconcat("{\"used\":", stackjson_stringify([[first(pkeys)]]), ", \"available\":", stackjson_stringify(second(pkeys)), "}")
 );
 
 /******************************************************************/

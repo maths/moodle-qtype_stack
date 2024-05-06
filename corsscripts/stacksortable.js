@@ -356,8 +356,8 @@ export const stack_sortable = class {
         this.grid = grid;
         this.itemCSS = this.grid ? 
             (this.orientation === "row" ? "grid-item-rigid" : "grid-item") : "list-group-item";
-        // non-null InputId causes issues in grid version, I think this is required for saving state? 
-        this.state = this._generate_state(this.proofSteps, null, Number(this.columns));
+
+        this.state = this._generate_state(this.proofSteps, inputId, Number(this.columns));
         if (inputId !== null) {
             this.input = document.getElementById(this.inputId);
             this.submitted = this.input.getAttribute("readonly") === "readonly"
@@ -644,11 +644,12 @@ export const stack_sortable = class {
      * @returns {void}
      */
     generate_used() {
-        for (const [i, value] of this.used.entries()) {
+        for (const [i, value] of this.state.used.entries()) {
             /*if (i === 0 && this.index !== null) {
                 this._add_index(this.index, value[0]);        
             }*/
-            this.state.used[i].forEach(key => value.append(this._create_li(key)));
+            value[0].forEach(key => this.used[i][0].append(this._create_li(key)));
+            //this.used[i][0].append(this._create_li(key[0]));
         }
     }
 
@@ -712,15 +713,15 @@ export const stack_sortable = class {
                 // get highest-level parent
                 var li = this._get_moveable_parent_li(e.target);
                 li = (this.clone === "true") ? li.cloneNode(true) : this.available.removeChild(li);
-                this.used.append(li);
+                this.used[0].append(li);
                 this.update_state(newUsed, newAvailable);
             }
         });
-        this.used.addEventListener('dblclick', (e) => {
+        this.used[0].addEventListener('dblclick', (e) => {
             if (this._double_clickable(e.target)) {
                 // get highest-level parent
                 var li = this._get_moveable_parent_li(e.target);
-                this.used.removeChild(li);
+                this.used[0].removeChild(li);
                 if (this.clone !== "true") {
                     this.available.insertBefore(li, this.available.children[1]);
                 }
@@ -757,11 +758,11 @@ export const stack_sortable = class {
     _generate_state(proofSteps, inputId, columns) {
         let stateStore = document.getElementById(inputId);
         if (stateStore === null) {
-            return {used: Array(columns).fill().map(() => []), available: [...Object.keys(proofSteps)]};
+            return {used: Array(columns).fill().map(() => [[]]), available: [...Object.keys(proofSteps)]};
         }
         return (stateStore.value && stateStore.value != "") ?
             JSON.parse(stateStore.value) :
-            {used: [], available: [...Object.keys(proofSteps)]};
+            {used: Array(columns).fill().map(() => [[]]), available: [...Object.keys(proofSteps)]};
     }
 
     /**

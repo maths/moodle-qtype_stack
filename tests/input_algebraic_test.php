@@ -1826,7 +1826,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'state', '3.14000E-10', $options);
         $el->set_parameter('forbidFloats', false);
 
-        $state = $el->validate_student_response(array('state' => '3.14000E-10'), $options, '3.14000E-10',
+        $state = $el->validate_student_response(['state' => '3.14000E-10'], $options, '3.14000E-10',
             new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('3.14000E-10', $state->contentsmodified);
@@ -1841,7 +1841,7 @@ class input_algebraic_test extends qtype_stack_testcase {
         $el = stack_input_factory::make('algebraic', 'state', '3.14000E-10', $options);
         $el->set_parameter('forbidFloats', false);
 
-        $state = $el->validate_student_response(array('state' => '3,14000E-10'), $options, '3.14000E-10',
+        $state = $el->validate_student_response(['state' => '3,14000E-10'], $options, '3.14000E-10',
             new stack_cas_security());
         $this->assertEquals(stack_input::VALID, $state->status);
         $this->assertEquals('3.14000E-10', $state->contentsmodified);

@@ -31,7 +31,7 @@ require_once(__DIR__ . '/../edit_stack_form.php');
  * @group qtype_stack
  * @covers \qtype_stack_edit_form
  */
-class editform_test extends \qtype_stack_edit_form {
+class editform_test_class extends \qtype_stack_edit_form {
 
     public function __construct($questiontext, $specificfeedback) {
         global $USER;
@@ -69,13 +69,13 @@ class editform_test extends \qtype_stack_edit_form {
  * @group qtype_stack
  * @covers \qtype_stack_edit_form
  */
-class qtype_stack_edit_form_test extends \advanced_testcase {
+class editform_test extends \advanced_testcase {
 
     protected function get_form($questiontext, $specificfeedback) {
         $this->setAdminUser();
         $this->resetAfterTest();
 
-        return new \qtype_stack_edit_form_testable($questiontext, $specificfeedback);
+        return new editform_test_class($questiontext, $specificfeedback);
     }
 
     public function test_get_input_names_from_question_text_default() {

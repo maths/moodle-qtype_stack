@@ -202,7 +202,7 @@ class stack_notes_input extends stack_input {
         $contents = $state->contents;
         $render = '';
         if (array_key_exists(0, $contents)) {
-            $render .= html_writer::tag('p', htmlentities($contents[0]));
+            $render .= html_writer::tag('p', htmlentities($contents[0], ENT_COMPAT));
         }
         $render .= html_writer::tag('p', stack_string('studentValidation_notes'), ['class' => 'stackinputnotice']);
         if ($lang !== null && $lang !== '') {

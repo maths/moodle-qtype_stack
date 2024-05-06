@@ -36,7 +36,8 @@ class stack_api_test_data {
                 <p> [[input:ans1]] [[validation:ans1]]</p>]]></text>
                     </questiontext>
                     <generalfeedback format="html">
-                    <text><![CDATA[<p>To multiply matrices \(A\) and \(B\) we need to remember that the \((i,j)\)th entry is the scalar product of the \(i\)th row of \(A\) with the \(j\)th column of \(B\).</p>
+                    <text><![CDATA[<p>To multiply matrices \(A\) and \(B\) we need to remember that the \((i,j)\)th entry
+                    is the scalar product of the \(i\)th row of \(A\) with the \(j\)th column of \(B\).</p>
                 <p>\[ {@A@}.{@B@} = {@C@} = {@D@}.\]</p>]]></text>
                     </generalfeedback>
                     <defaultgrade>5.0000000</defaultgrade>
@@ -52,7 +53,8 @@ class stack_api_test_data {
                 TB:ev(A*B,simp);
                 BT:transpose(B);
                 C:zeromatrix (first(matrix_size(A)), second(matrix_size(A)));
-                S:for a:1 thru first(matrix_size(A)) do for b:1 thru second(matrix_size(A)) do C[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",A[ev(a,simp)],BT[ev(b,simp)]));
+                S:for a:1 thru first(matrix_size(A)) do for b:1 thru second(matrix_size(A)) do
+                C[ev(a,simp),ev(b,simp)]:apply("+",zip_with("*",A[ev(a,simp)],BT[ev(b,simp)]));
                 D:ev(C,simp);
                 C:C;]]></text>
                     </questionvariables>
@@ -143,7 +145,8 @@ class stack_api_test_data {
                         <truenextnode>-1</truenextnode>
                         <trueanswernote>1-1-T </trueanswernote>
                         <truefeedback format="html">
-                        <text><![CDATA[<p>Remember, you do not multiply matrices by multiplying the corresponding entries! A quite different process is needed.</p>]]></text>
+                        <text><![CDATA[<p>Remember, you do not multiply matrices by multiplying the
+                        corresponding entries! A quite different process is needed.</p>]]></text>
                         </truefeedback>
                         <falsescoremode>=</falsescoremode>
                         <falsescore>0.0000000</falsescore>
@@ -246,7 +249,9 @@ class stack_api_test_data {
                  <text><![CDATA[<p>Find \[ \int {@p@} d{@v@}\] [[input:ans1]] [[validation:ans1]]</p>]]></text>
                </questiontext>
                <generalfeedback format="html">
-                 <text><![CDATA[<p>We can either do this question by inspection (i.e. spot the answer) or in a more formal manner by using the substitution \[ u = ({@v@}-{@a@}).\] Then, since \(\frac{d}{d{@v@}}u=1\) we have \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]</p>]]></text>
+                 <text><![CDATA[<p>We can either do this question by inspection (i.e. spot the answer) or in a
+                 more formal manner by using the substitution \[ u = ({@v@}-{@a@}).\] Then, since \(\frac{d}{d{@v@}}u=1\)
+                 we have \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]</p>]]></text>
                </generalfeedback>
                <defaultgrade>1.0000000</defaultgrade>
                <penalty>0.1000000</penalty>
@@ -381,7 +386,10 @@ class stack_api_test_data {
                 <text><![CDATA[<p>Find \[ \int {@p@} d{@v@}\] [[input:ans1]] [[validation:ans1]]</p>]]></text>
                 </questiontext>
                 <generalfeedback format="html">
-                <text><![CDATA[<p>We can either do this question by inspection (i.e. spot the answer) or in a more formal manner by using the substitution \[ u = ({@v@}-{@a@}).\] Then, since \(\frac{d}{d{@v@}}u=1\) we have \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]</p>]]></text>
+                <text><![CDATA[<p>We can either do this question by inspection (i.e. spot the answer)
+                or in a more formal manner by using the substitution \[ u = ({@v@}-{@a@}).\] Then,
+                since \(\frac{d}{d{@v@}}u=1\) we have \[ \int {@p@} d{@v@} = \int u^{@n@}
+                du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]</p>]]></text>
                 </generalfeedback>
                 <defaultgrade>1.0000000</defaultgrade>
                 <penalty>0.1000000</penalty>
@@ -535,12 +543,14 @@ class stack_api_test_data {
             <questiontext format="html">
               <text><![CDATA[<p></p>
 
-        <p>a) Two straight lines \(g\) and \(h\) are given by \(g:\ x+y=1\) and \(h:\ x-y=1\). What applies to the positional relationship of these lines?</p>
+        <p>a) Two straight lines \(g\) and \(h\) are given by \(g:\ x+y=1\) and \(h:\ x-y=1\).
+        What applies to the positional relationship of these lines?</p>
         <p>[[input:ans1]] [[validation:ans1]][[feedback:prt1]]</p>
 
         <hr>
 
-        <p style="margin-top:1em;">b) Now two straight lines \(\tilde g\) and \(\tilde h\) are given by \(\tilde g:\ t\,x+y=1,\quad \tilde h:\ x+t\,y=1\) with a real parameter \(t\).</p>
+        <p style="margin-top:1em;">b) Now two straight lines \(\tilde g\) and \(\tilde h\) are given by
+        \(\tilde g:\ t\,x+y=1,\quad \tilde h:\ x+t\,y=1\) with a real parameter \(t\).</p>
         <p> Determine the parameter \(t\) for the following cases.</p>
 
         <p style="margin-top: 1.5em">The lines are identical for \(t=\) [[input:ans2]] [[validation:ans2]][[feedback:prt2]]</p>
@@ -561,7 +571,9 @@ class stack_api_test_data {
             <questionvariables>
               <text><![CDATA[/*Stephan Bach, OTH Amberg-Weiden*/
 
-        ta1:[[a,false,"The lines are identical."], [b,false,"The lines are parallel (but not identical)."],[c,true,"The lines are perpendicular to each other."],[d,false,"The lines intersect but are not perpendicular to each other."]];
+        ta1:[[a,false,"The lines are identical."], [b,false,"The lines are parallel (but not identical)."],
+        [c,true,"The lines are perpendicular to each other."],[d,false,"The lines
+        intersect but are not perpendicular to each other."]];
         ta2:1;
         ta3:-1;
         ta4:0;]]></text>
@@ -579,13 +591,18 @@ class stack_api_test_data {
             <assumepositive>0</assumepositive>
             <assumereal>0</assumereal>
             <prtcorrect format="html">
-              <text><![CDATA[<p><img alt="Richtig" title="Richtig" src="https://moodle.oth-aw.de/theme/image.php/clean/core/1554451383/i/grade_correct">Correct answer, well done!</p>]]></text>
+              <text><![CDATA[<p><img alt="Richtig" title="Richtig"
+              src="https://moodle.oth-aw.de/theme/image.php/clean/core/1554451383/i/grade_correct">Correct
+              answer, well done!</p>]]></text>
             </prtcorrect>
             <prtpartiallycorrect format="html">
-              <text><![CDATA[<p><span style="font-size:24px;color:grey;">! </span>Your answer is partially correct.</p>]]></text>
+              <text><![CDATA[<p><span style="font-size:24px;color:grey;">!
+              </span>Your answer is partially correct.</p>]]></text>
             </prtpartiallycorrect>
             <prtincorrect format="html">
-              <text><![CDATA[<p><img alt="Falsch" title="Falsch" src="https://moodle.oth-aw.de/theme/image.php/clean/core/1554451383/i/grade_incorrect"> Wrong answer.</p>]]></text>
+              <text><![CDATA[<p><img alt="Falsch" title="Falsch"
+              src="https://moodle.oth-aw.de/theme/image.php/clean/core/1554451383/i/grade_incorrect">
+              Wrong answer.</p>]]></text>
             </prtincorrect>
             <multiplicationsign>dot</multiplicationsign>
             <sqrtsign>1</sqrtsign>
@@ -947,7 +964,9 @@ class stack_api_test_data {
 
         /*Plots*/
         gcol:[blue,red,red,red,red];
-        p:makelist( plot(g[i], [x,xmin,xmax], [y,ymin,ymax], [axes,solid], [box,false], [xtics,xmax+1,0,xmax+1],[ytics,ymax+1,0,ymax+1], [label,["x",xmax-dx,-dy], ["y",-dx,ymax-dy]], [color,gcol[i]]),i,1,5);
+        p:makelist( plot(g[i], [x,xmin,xmax], [y,ymin,ymax], [axes,solid], [box,false],
+        [xtics,xmax+1,0,xmax+1],[ytics,ymax+1,0,ymax+1], [label,["x",xmax-dx,-dy],
+        ["y",-dx,ymax-dy]], [color,gcol[i]]),i,1,5);
 
         /*Model answer*/
         ta:[[a,true,p[2]],[b,false,p[3]],[c,false,p[4]],[d,false,p[5]]];
@@ -956,7 +975,8 @@ class stack_api_test_data {
 
         /*For the answer note:*/
         gcol2:[blue,green,red,red,red];
-        p2:makelist( plot(g[i], [x,xmin,xmax], [y,ymin,ymax], [axes,solid], [box,false], [xtics,xmax+1,0,xmax+1],[ytics,ymax+1,0,ymax+1],[color,gcol2[i]], [size,200,200]),i,1,5);
+        p2:makelist( plot(g[i], [x,xmin,xmax], [y,ymin,ymax], [axes,solid], [box,false],
+        [xtics,xmax+1,0,xmax+1],[ytics,ymax+1,0,ymax+1],[color,gcol2[i]], [size,200,200]),i,1,5);
         p2:append([p2[1]], makelist(p2[n[i]+1],i,1,4) );]]></text>
             </questionvariables>
             <specificfeedback format="html">
@@ -990,13 +1010,17 @@ class stack_api_test_data {
             <assumepositive>0</assumepositive>
             <assumereal>0</assumereal>
             <prtcorrect format="html">
-              <text><![CDATA[<p><img alt="Richtig" title="Richtig" src="https://moodle.oth-aw.de/theme/image.php/clean/core/1554451383/i/grade_correct">Correct answer, well done!</p>]]></text>
+              <text><![CDATA[<p><img alt="Richtig" title="Richtig"
+              src="https://moodle.oth-aw.de/theme/image.php/clean/core/1554451383/i/grade_correct">Correct answer,
+              well done!</p>]]></text>
             </prtcorrect>
             <prtpartiallycorrect format="html">
               <text></text>
             </prtpartiallycorrect>
             <prtincorrect format="html">
-              <text><![CDATA[<p><img alt="Falsch" title="Falsch" src="https://moodle.oth-aw.de/theme/image.php/clean/core/1554451383/i/grade_incorrect"> Wrong answer.</p>]]></text>
+              <text><![CDATA[<p><img alt="Falsch" title="Falsch"
+              src="https://moodle.oth-aw.de/theme/image.php/clean/core/1554451383/i/grade_incorrect">
+              Wrong answer.</p>]]></text>
             </prtincorrect>
             <multiplicationsign>dot</multiplicationsign>
             <sqrtsign>1</sqrtsign>
@@ -1086,16 +1110,27 @@ class stack_api_test_data {
               <text>Interactivity: Drag points to be increasing</text>
             </name>
             <questiontext format="html">
-              <text><![CDATA[<p>Drag the points \(u_1,\ldots, u_8\) so that they show the first 8 terms of an increasing sequence.</p>
+              <text><![CDATA[<p>Drag the points \(u_1,\ldots, u_8\) so that
+              they show the first 8 terms of an increasing sequence.</p>
         <p style="display:none">[[input:da_ans1]] [[validation:da_ans1]]</p>
-        [[jsxgraph width="360px" height="360px" input-ref-da_ans1="inputans1"]] JXG.Options.axis.ticks.minorTicks = 0; var board = JXG.JSXGraph.initBoard(divid, { boundingbox: [-1, 10, 9, -10], axis: true, grid: true, showNavigation: false, showCopyright: false
-        }); /* State represented as a JS-object, first define default then try loading the stored values. */ var state = [1,1,1,1,1,1,1,1]; var stateInput = document.getElementById(inputans1); if (stateInput.value) {
+        [[jsxgraph width="360px" height="360px" input-ref-da_ans1="inputans1"]] JXG.Options.axis.ticks.minorTicks = 0;
+        var board = JXG.JSXGraph.initBoard(divid, { boundingbox: [-1, 10, 9, -10], axis: true,
+          grid: true, showNavigation: false, showCopyright: false
+        }); /* State represented as a JS-object, first define default then try loading the
+        stored values. */ var state = [1,1,1,1,1,1,1,1]; var stateInput =
+        document.getElementById(inputans1); if (stateInput.value) {
           if(stateInput.value != \'\') {
             state = JSON.parse(stateInput.value);
           }
-        } /* create a group of vertical lines x=i with a draggable point on each one */ var vline = []; var answer = []; for (let i of [1, 2, 3, 4, 5, 6, 7, 8]) { vline.push(board.create(\'line\', [i, -1, 0] /* given [c,a,b] plot ax+by+c=0
-        */ , { visible: false })); /* create the draggable points, each constrained to lie on one of the vertical lines, and using the existing state for the y-coordinate */ answer.push(board.create(\'glider\', [i, state[i-1], vline[i - 1]], { color: \'#003399\',
-        name: "u" + i, showInfobox: false })); } /* update the stored state when things change */ board.on(\'update\', function() { var vals = []; for (let pts of answer) { vals.push(pts.Y()); }; stateInput.value = "[" + vals + "]"; }); [[/jsxgraph]]]]></text>
+        } /* create a group of vertical lines x=i with a draggable point on each one */ var vline = [];
+        var answer = []; for (let i of [1, 2, 3, 4, 5, 6, 7, 8]) { vline.push(board.create(\'line\', [i, -1, 0] /*
+          given [c,a,b] plot ax+by+c=0
+        */ , { visible: false })); /* create the draggable points, each constrained to lie on one of the vertical lines,
+        and using the existing state for the y-coordinate */ answer.push(board.create(\'glider\',
+        [i, state[i-1], vline[i - 1]], { color: \'#003399\',
+        name: "u" + i, showInfobox: false })); } /* update the stored state when things change */
+        board.on(\'update\', function() { var vals = []; for (let pts of answer) { vals.push(pts.Y()); };
+        stateInput.value = "[" + vals + "]"; }); [[/jsxgraph]]]]></text>
             </questiontext>
             <generalfeedback format="html">
               <text></text>
@@ -1123,10 +1158,12 @@ class stack_api_test_data {
             <assumepositive>0</assumepositive>
             <assumereal>0</assumereal>
             <prtcorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+              <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i>
+              </span> Correct answer, well done.]]></text>
             </prtcorrect>
             <prtpartiallycorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+              <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i>
+              </span> Your answer is partially correct.]]></text>
             </prtpartiallycorrect>
             <prtincorrect format="html">
               <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>
@@ -1231,7 +1268,8 @@ class stack_api_test_data {
             <questiontext format="html">
               <text><![CDATA[[[comment]]Use them like this in the question-text.[[/comment]]
         <p>Load the data from
-        <a href="[[textdownload name="data.csv"]]{@stack_csv_formatter(data,lab)@}[[/textdownload]]">this file</a> and calculate the mean of data set \(A\).</p>
+        <a href="[[textdownload name="data.csv"]]{@stack_csv_formatter(data,lab)@}[[/textdownload]]">this file</a>
+        and calculate the mean of data set \(A\).</p>
         <p>[[input:ans1]] [[validation:ans1]]</p>]]></text>
             </questiontext>
             <generalfeedback format="moodle_auto_format">
@@ -1264,10 +1302,12 @@ class stack_api_test_data {
             <assumepositive>0</assumepositive>
             <assumereal>0</assumereal>
             <prtcorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
+              <text><![CDATA[<span style="font-size: 1.5em; color:green;">
+              <i class="fa fa-check"></i></span> Correct answer, well done.]]></text>
             </prtcorrect>
             <prtpartiallycorrect format="html">
-              <text><![CDATA[<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
+              <text><![CDATA[<span style="font-size: 1.5em; color:orange;">
+              <i class="fa fa-adjust"></i></span> Your answer is partially correct.]]></text>
             </prtpartiallycorrect>
             <prtincorrect format="html">
               <text><![CDATA[<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.]]></text>

@@ -49,7 +49,7 @@ class stack_options {
                 'type'       => 'list',
                 'value'      => '*10',
                 'strict'     => true,
-                'values'     => array('*10', 'E'),
+                'values'     => ['*10', 'E'],
                 'caskey'     => 'texput_scientificnotation',
                 'castype'    => 'fun',
             ],
@@ -277,10 +277,10 @@ class stack_options {
      * @return array of choices for the scientific notation select menu.
      */
     public static function get_scientificnotation_options() {
-        return array(
+        return [
             '*10'  => get_string('scientificnotation_10', 'qtype_stack'),
             'E'    => get_string('scientificnotation_E', 'qtype_stack'),
-        );
+        ];
     }
 
     /**

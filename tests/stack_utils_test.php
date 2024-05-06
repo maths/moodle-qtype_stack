@@ -217,7 +217,7 @@ class stack_utils_test extends qtype_stack_testcase {
      *
      * @return array of test cases.
      */
-    public function count_missing_alttext_cases(): array {
+    public static function count_missing_alttext_cases(): array {
         return [
             [0, 'random <img alt="Hello world!" src="https://nowhere.com/images/image0.png" > stuff'],
             [0, 'random <IMG alt="Hello world!" src="https://nowhere.com/images/image0.png" > stuff'],

@@ -48,7 +48,7 @@ class stack_numerical_input extends stack_input {
         'minsf' => false,
         'maxsf' => false,
         'align' => 'left',
-        'validator' => false,,
+        'validator' => false,
         'monospace' => false,
     ];
 

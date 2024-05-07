@@ -184,4 +184,16 @@ class stack_string_input extends stack_algebraic_input {
     public function get_api_solution_render($tadisplay) {
         return stack_utils::maxima_string_strip_mbox($tadisplay);
     }
+
+    /**
+     * Return the default values for the parameters.
+     * Parameters are options a teacher might set.
+     * @return array parameters` => default value.
+     */
+    public static function get_parameters_defaults() {
+        $parameters = parent::get_parameters_defaults();
+        // String input is not monospaced.
+        $parameters['options'] = '';
+        return $parameters;
+    }
 }

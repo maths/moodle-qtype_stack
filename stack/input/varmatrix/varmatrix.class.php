@@ -400,7 +400,7 @@ class stack_varmatrix_input extends stack_input {
             'lowestTerms'        => true,
             // This looks odd, but the teacher's answer is a list and the student's a matrix.
             'sameType'           => false,
-            'options'            => 'monospace:default',
+            'options'            => '',
         ];
     }
 

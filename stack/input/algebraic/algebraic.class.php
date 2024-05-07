@@ -121,7 +121,7 @@ class stack_algebraic_input extends stack_input {
             'forbidFloats'       => true,
             'lowestTerms'        => true,
             'sameType'           => true,
-            'options'            => 'monospace:default',
+            'options'            => '',
         ];
     }
 

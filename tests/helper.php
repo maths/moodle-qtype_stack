@@ -2286,7 +2286,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->checkanswertype    = 0;
         $input->mustverify         = 1;
         $input->showvalidation     = 1;
-        $input->options            = 'monospace:default';
+        $input->options            = '';
         $qdata->inputs['ans1'] = $input;
 
         $input = new stdClass();
@@ -2307,7 +2307,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->checkanswertype    = 0;
         $input->mustverify         = 1;
         $input->showvalidation     = 1;
-        $input->options            = 'monospace:default';
+        $input->options            = '';
         $qdata->inputs['ans2'] = $input;
 
         $input = new stdClass();
@@ -2328,7 +2328,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $input->checkanswertype    = 0;
         $input->mustverify         = 1;
         $input->showvalidation     = 1;
-        $input->options            = 'monospace:default';
+        $input->options            = '';
         $qdata->inputs['ans3'] = $input;
 
         $input = new stdClass();

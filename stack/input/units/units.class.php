@@ -136,7 +136,7 @@ class stack_units_input extends stack_input {
             // The answer is essantially required to be a number and units, other types are rejected.
             'sameType'        => false,
             // Currently this can only be "negpow", or "mul".
-            'options'            => 'monospace:default',
+            'options'            => '',
         ];
     }
 

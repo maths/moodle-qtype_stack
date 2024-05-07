@@ -178,6 +178,7 @@ abstract class stack_input {
      */
     protected function internal_construct() {
         $options = $this->get_parameter('options');
+        $setoptions = [];
         if (trim($options ?? '') != '') {
             $options = explode(',', $options);
             foreach ($options as $option) {
@@ -192,23 +193,36 @@ abstract class stack_input {
                         $this->extraoptions[$option] = false;
                     } else if ($arg === 'true') {
                         $this->extraoptions[$option] = true;
-                    } else if ($arg === 'default') {
-                        switch ($option) {
-                            case 'monospace':
-                                $this->extraoptions[$option] = stack_options::is_monospace(get_class($this));
-                                break;
-                            default:
-                                $this->extraoptions[$option] = false;
-                        }
                     } else {
                         $this->extraoptions[$option] = $arg;
                     }
+                    $setoptions[] = $option;
                 } else {
                     $this->errors[] = stack_string('inputoptionunknown', $option);
                 }
             }
         }
+        $this->set_defaults($setoptions);
         $this->validate_extra_options();
+    }
+    
+    /**
+     * Set extra options with defaults to the default if they have not been explicitly set.
+     *
+     * @param [] $setoptions - array of options that have been explicity set
+     * @return void
+     */
+    protected function set_defaults($setoptions) {
+        $optionswithdefaults = ['monospace'];
+        foreach ($optionswithdefaults as $currentoption) {
+            if (!array_key_exists($currentoption, $this->extraoptions) || array_search($currentoption, $setoptions) !== false) {
+                // Option not available for this input type or has been explicitly set.
+                continue;
+            }
+
+            $functionname = "is_{$currentoption}"; 
+            $this->extraoptions[$currentoption] = stack_options::$functionname(get_class($this));
+        }
     }
 
     /**

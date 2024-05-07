@@ -151,7 +151,8 @@ class StackQuestionLoader {
         );
         $question->options->set_option(
             'scientificnotation',
-            isset($xmldata->question->scientificnotation) ? (string) $xmldata->question->scientificnotation : get_config('qtype_stack', 'scientificnotation')
+            isset($xmldata->question->scientificnotation) ?
+                                (string) $xmldata->question->scientificnotation : get_config('qtype_stack', 'scientificnotation')
         );
 
         $inputmap = [];

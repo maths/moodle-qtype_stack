@@ -50,7 +50,7 @@ class answertest_general_fixtures_test extends qtype_stack_testcase {
         $this->assertTrue($passed, $anomalynote);
     }
 
-    public function answertest_fixtures() {
+    public static function answertest_fixtures():array {
 
         $tests = stack_answertest_test_data::get_all();
         $testdata = [];

@@ -4,7 +4,7 @@ The drag-and-drop functionality developed for [Parson's problems for proof](Pars
 
 The combinations of these two parameters define four possible layout configurations as follows:
 1. **Proof** (`[[parsons]] [[/parsons]]`) : if both `columns` and `rows` are unspecified then this will give the traditional Parson's proof layout with an answer list that users must drag to and an available list that users must drag from. Refer to [the guide](Parsons.md) for writing Parson's proof questions.
-2. **Column grouping** (`[[parsons columns="n"]] [[\parsons]]`) : If `columns="n"` is specified and `rows` is unspecified, this will lay out `n` _vertically arranged_ answer lists that items must be dragged to and an additional vertical available list that items must be dragged from. In this case, the lists can be arbitrary length and must be grown from the top downwards just as in the **Proof** layout.
+2. **Column grouping** (`[[parsons columns="n"]] [[/parsons]]`) : If `columns="n"` is specified and `rows` is unspecified, this will lay out `n` _vertically arranged_ answer lists that items must be dragged to and an additional vertical available list that items must be dragged from. In this case, the lists can be arbitrary length and must be grown from the top downwards just as in the **Proof** layout.
 3. **Row grouping** (`[[parsons rows="m"]] [[/parsons]]`) : If `columns` is unspecified and `rows="m"` is specified, then this will lay out `m` _horizontally arranged_ answer lists that items must be dragged to and an additional horizontal available list that items must be dragged from. In this case, the lists can be arbitrary length and must be grown from the left rightwards. Note that the user can also switch between column grouping and row grouping modes through the reorientation button.
 4. **Grid** (`[[parsons columns="n" rows="m"]] [[/parsons]]`) : If both `columns="n"` and `rows="m"` are specified, then this will lay out an `m` by `n` answer grid that items must be dragged to and a vertical available list that items must be dragged from. In this case, individual items can be passed to any position in the grid. The user also has the option to re-orient the grid to have `m` columns and `n` rows via the reorientation button.
 
@@ -17,7 +17,7 @@ The basic usage of all four modes are the exact same as [the Proof case](Parsons
     "quad" : "Quadratic",
     "cubic" : "Cubic",
 }
-[[\parsons]]
+[[/parsons]]
 ```
 ## Clone mode
 
@@ -40,7 +40,7 @@ Answer list headers can be changed by assigning the key `"headers"` key an an ar
     "headers" : ["Equation", "Type"],
     "available_header" : "Available items"
 }
-[[\parsons]]
+[[/parsons]]
 ```
 
 Note that `headers.` must be a list of the same length as the number of columns and `available` must be a string. 
@@ -62,7 +62,7 @@ To change this, one can pass an index to the JSON as follows:
     "available_header" : "Available items"
     "index" : ["Equation", "\\(y = x^2\\)", "\\(y = x^3\\)"]
 }
-[[\parsons]]
+[[/parsons]]
 ```
 
 Note that the length of the index must be the same as `rows + 1`. You can simply pass an empty string to the first position if no index header is required. 
@@ -115,7 +115,7 @@ might have, at a given time, a state that looks like:
     "quad" : "Quadratic",
     "cubic" : "Cubic",
 }
-[[\parsons]]
+[[/parsons]]
 ```
 might have, at a given time, a state that looks like:
 ```
@@ -143,7 +143,7 @@ might have, at a given time, a state that looks like:
     "cubic" : "Cubic",
     "quart" : "Quartic"
 }
-[[\parsons]]
+[[/parsons]]
 ```
 might have, at a given time, a state that looks like:
 ```

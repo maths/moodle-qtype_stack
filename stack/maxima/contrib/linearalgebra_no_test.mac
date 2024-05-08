@@ -381,7 +381,8 @@ lgcd(ex):= block([ex_gcd,ii],
 integerify(v):= block([v_op],
   v_op: "list",
   if vectorp(v) then (v_op: "matrix", v: list_matrix_entries(v)),
-  v: ev(v/lgcd(v),simp),
+  tmp: ev(lgcd(v),simp),
+  if ev(is(tmp#0),simp) then v: ev(v/tmp,simp),
   if ev(every(lambda([ex],is(signum(ex)=-1)),v),simp) then v: ev(-v,simp),
   if is(v_op="matrix") then return(transpose(v)) else return(v)
 );

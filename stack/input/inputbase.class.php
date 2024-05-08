@@ -1172,7 +1172,7 @@ abstract class stack_input {
     protected function validation_display($answer, $lvars, $caslines, $additionalvars, $valid, $errors,
                 $castextprocessor, $inertdisplayform, $ilines) {
 
-        $display = stack_maxima_format_casstring(htmlentities($this->contents_to_maxima($this->rawcontents)));
+        $display = stack_maxima_format_casstring(htmlentities($this->contents_to_maxima($this->rawcontents), ENT_COMPAT));
         if ($answer->is_correctly_evaluated()) {
             $display = '\[ ' . $inertdisplayform->get_display() . ' \]';
             if ($this->get_parameter('showValidation', 1) == 3) {
@@ -1631,7 +1631,7 @@ abstract class stack_input {
      * Returns the definition of this input as it should appear in an API response
      * @return array
      */
-    public abstract function render_api_data($tavalue);
+    abstract public function render_api_data($tavalue);
 
     /**
      * Returns the solution in the format used by the api

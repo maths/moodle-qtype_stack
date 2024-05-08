@@ -32,7 +32,10 @@ require_once(__DIR__ . '/vle_specific.php');
  * @copyright 2012 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+// @codingStandardsIgnoreStart
+// There's a matching class name in the API.
 class qtype_stack_renderer extends qtype_renderer {
+// @codingStandardsIgnoreEnd
 
     public function formulation_and_controls(question_attempt $qa, question_display_options $options) {
         /* Return type should be @var qtype_stack_question $question. */

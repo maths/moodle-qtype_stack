@@ -49,7 +49,10 @@ require_once(__DIR__ . '/../stack/cas/ast.container.class.php');
 class subscript_test extends qtype_stack_testcase {
 
     /**
+     * @codingStandardsIgnoreStart
+     * Provider in another class/file throws false code check error.
      * @dataProvider stack_subscripts_test_data::get_raw_test_data
+     * @codingStandardsIgnoreEnd
      */
     public function test_subscripts() {
         $this->skip_if_old_maxima('5.40.0');
@@ -84,7 +87,10 @@ class subscript_test extends qtype_stack_testcase {
     }
 
     /**
+     * @codingStandardsIgnoreStart
+     * Provider in another class/file throws false code check error.
      * @dataProvider stack_subscripts_test_data::get_raw_test_data_legacy
+     * @codingStandardsIgnoreEnd
      */
     public function test_subscripts_legacy_maxima() {
         $this->skip_if_new_maxima('5.40.0');

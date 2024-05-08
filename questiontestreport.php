@@ -436,7 +436,7 @@ foreach (array_keys($summary) as $variant) {
             foreach ($prtreportinputs[$variant][$prt][$dat] as $inputsummary => $inum) {
                 $sumout .= str_pad($inum, strlen((string) $pad) + 1) . '(' .
                     str_pad(number_format((float) 100 * $inum / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
-                    '%); ' . $inputsummary . "\n";
+                    '%); ' . htmlentities($inputsummary, ENT_COMPAT) . "\n";
             }
             $sumout .= "\n";
         }
@@ -466,7 +466,7 @@ foreach (array_keys($summary) as $variant) {
                 foreach ($data as $dat => $num) {
                     $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
                         str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
-                        '%); ' . $dat . "\n";
+                        '%); ' . htmlentities($dat, ENT_COMPAT) . "\n";
                 }
                 $sumouti .= "\n";
             }
@@ -498,7 +498,7 @@ foreach ($inputreportsummary as $input => $idata) {
             foreach ($data as $dat => $num) {
                 $sumouti .= str_pad($num, strlen((string) $pad) + 1) . '(' .
                         str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
-                        '%); ' . $dat . "\n";
+                        '%); ' . htmlentities($dat, ENT_COMPAT) . "\n";
             }
             $sumouti .= "\n";
         }
@@ -526,7 +526,7 @@ foreach ($summary as $variant => $vdata) {
         foreach ($vdata as $dat => $num) {
             $sumout .= str_pad($num, strlen((string) $pad) + 1) . '(' .
                     str_pad(number_format((float) 100 * $num / $tot, 2, '.', ''), 6, ' ', STR_PAD_LEFT) .
-                    '%); ' . $dat . "\n";
+                    '%); ' . htmlentities($dat, ENT_COMPAT) . "\n";
         }
     }
 }

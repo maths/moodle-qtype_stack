@@ -1,0 +1,122 @@
+/*  Author Salvatore Mercuri
+    University of Edinburgh
+    Copyright (C) 2024 Salvatore Mercuri
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/******************************************************************/
+/*  Functions for extracting data from matching problems          */
+/*  in STACK to a format that can be assessed by the author.      */
+/*  Should be used when providing model answers and writing       */
+/*  PRTs for matching problems using the `parsons` block.         */
+/*                                                                */
+/*  Salvatore Mercuri, <smercuri@ed.ac.uk>                        */
+/*  V1.0 May 2024                                                 */
+/*                                                                */
+/******************************************************************/
+
+/* To use these functions load the library via one of the following 
+two commands inside `Question variables`.
+
+stack_include("https://raw.githubusercontent.com/maths/moodle-qtype_stack/proof-builder/stack/maxima/contrib/matchlib.mac");
+stack_include("contribl://matchlib.mac");
+*/
+
+/******************************************************************/
+/*                                                                */
+/*  Assessment helper functions                                   */
+/*                                                                */
+/******************************************************************/
+
+/*
+ * Use this to extract an answer from the student's input of desirable format
+ * for assessing.
+ *
+ * Take the JSON from STACK Parson's block when using `columns` and/or 
+ * `rows` header parameter, and returns a three-dimensional array containing
+ * the answer keys in the JSON. This will be of shape `(columns, 1, ?)` if 
+ * only `columns` is used, where `?` represents variable dimension; or it will 
+ * be of shape `(columns, rows, 1)` if both `columns` and `rows` are specified.
+ */
+parsons_match_interpret(st) := block([js],
+    js: stackjson_parse(st),
+    return(stackmap_get(js, "used")));
+
+/*
+ * Auxiliary function.
+ *
+ * Takes a list of matched keys and returns the keys not used.
+ * Needed to create a "teacher's answer" in JSON format, including unused text.
+ */
+parsons_match_keys_used_unused(ans, steps) := block([tkeys],
+  tkeys:map(first, steps),
+  return([ans, listdifference(tkeys, ev(unique(flatten(ans)), simp))])
+);
+
+/*
+ * Use this to transform the teacher's answer into the shape expected by the Parson's block.
+ * 
+ * For use when only `columns` is specified. This takes a two-dimensional teacher's 
+ * answer of shape `(columns, ?)` and formats it to the expected three-dimensional 
+ * array of shape `(columns, 1, ?)`. 
+ */
+parsons_column_ans(ans, steps) := block([tkeys, akeys],
+  tkeys: parsons_match_keys_used_unused(ans, steps),
+  akeys: map(lambda([keys], [keys]), first(tkeys)),
+  return([akeys, second(tkeys)])
+);
+
+/*
+ * Use this to transform the teacher's answer into the shape expected by the Parson's block.
+ * 
+ * For use when both `columns` and `rows` are specified. This takes a two-dimensional teacher's 
+ * answer of shape `(columns, rows)` and formats it to the expected three-dimensional 
+ * array of shape `(columns, rows, 1)`. 
+ */
+parsons_grid_ans(ans, steps) := block([tkeys, akeys],
+  tkeys: parsons_match_keys_used_unused(ans, steps),
+  akeys: map(lambda([keys], map(lambda([k], [k]), keys)), first(tkeys)),
+  return([akeys, second(tkeys)])
+);
+
+/*
+ * Use this to transform the teacher's answer into the JSON format expected by the `Model answer` field.
+ * 
+ * For use when only `columns` is specified. This takes a two-dimensional teacher's 
+ * answer of shape `(columns, ?)` and formats it to a JSON. 
+ */
+parsons_column_json(ans, steps) := block([akeys, ukeys],
+  [akeys, ukeys]: parsons_column_ans(ans, steps),
+  sconcat("{\"used\":", stackjson_stringify(akeys), ", \"available\":", stackjson_stringify(ukeys), "}")
+);
+
+/*
+ * Use this to transform the teacher's answer into the JSON format expected by the `Model answer` field.
+ * 
+ * For use when both `columns` and `rows` are specified. This takes a two-dimensional teacher's 
+ * answer of shape `(columns, rows)` and formats it to a JSON.
+ */
+parsons_grid_json(ans, steps) := block([akeys, ukeys],
+  [akeys, ukeys]: parsons_grid_ans(ans, steps),
+  sconcat("{\"used\":", stackjson_stringify(akeys), ", \"available\":", stackjson_stringify(ukeys), "}")
+);
+
+/*
+ * Use this to turn a row-grouped answer into a column-grouped answer and vice-versa.
+ * 
+ * Note that model answers for matching problems in STACK should always be written by grouping 
+ * the columns, that is they should be a two-dimensional array of shape `(columns, rows)`. Authors 
+ * may prefer to use the row-grouped answer in PRTs. This function will move between them.
+ */
+parsons_match_transpose(ans) := block(
+    return(args(transpose(apply(matrix, ans))))
+);

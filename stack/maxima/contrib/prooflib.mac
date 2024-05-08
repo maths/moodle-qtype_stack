@@ -236,37 +236,6 @@ proof_parsons_key_json(proof_ans, proof_steps) := block([pkeys],
   sconcat("{\"used\":", stackjson_stringify([[first(pkeys)]]), ", \"available\":", stackjson_stringify(second(pkeys)), "}")
 );
 
-grid_parsons_keys_used_unused(ans, steps) := block([tkeys],
-  tkeys:map(first, steps),
-  return([ans, listdifference(tkeys, ev(unique(flatten(ans)), simp))])
-);
-
-group_parsons_ans(ans, steps) := block([tkeys, akeys],
-  tkeys: grid_parsons_keys_used_unused(ans, steps),
-  akeys: map(lambda([keys], [keys]), first(tkeys)),
-  return([akeys, second(tkeys)]));
-
-group_parsons_json(ans, steps) := block([akeys, ukeys],
-  [akeys, ukeys]: group_parsons_ans(ans, steps),
-  sconcat("{\"used\":", stackjson_stringify(akeys), ", \"available\":", stackjson_stringify(ukeys), "}")
-);
-
-grid_parsons_interpret(st) := block([js],
-    js: stackjson_parse(st),
-    return(stackmap_get(js, "used")));
-
-grid_parsons_ans(ans, steps) := block([tkeys, akeys],
-  tkeys: grid_parsons_keys_used_unused(ans, steps),
-  akeys: map(lambda([keys], map(lambda([k], [k]), keys)), first(tkeys)),
-  return([akeys, second(tkeys)]));
-
-grid_parsons_json(ans, steps) := block([akeys, ukeys],
-  [akeys, ukeys]: grid_parsons_ans(ans, steps),
-  sconcat("{\"used\":", stackjson_stringify(akeys), ", \"available\":", stackjson_stringify(ukeys), "}")
-);
-
-
-
 /******************************************************************/
 /*                                                                */
 /*  Display functions                                             */

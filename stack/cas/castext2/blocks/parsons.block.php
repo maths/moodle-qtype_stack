@@ -34,8 +34,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         ],
         'local' => [
             'css' => 'cors://sortable.min.css',
-            'js' => 'cors://sortable.min.js',,
-        ],,
+            'js' => 'cors://sortable.min.js',
+        ],
     ];
 
     public function compile($format, $options):  ? MP_Node {
@@ -103,15 +103,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax])),
-        ,
         ]);
         $r->items[] = new MP_List([
             new MP_String('style'),
-            new MP_String(json_encode(['href' => $css])),,
+            new MP_String(json_encode(['href' => $css])),
         ]);
         $r->items[] = new MP_List([
             new MP_String('script'),
-            new MP_String(json_encode(['type' => 'module', 'src' => $js])),,
+            new MP_String(json_encode(['type' => 'module', 'src' => $js])),
         ]);
 
         // We need to define a size for the inner content.
@@ -296,7 +295,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             
             'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
             'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
-        ,
         ];
 
         $widthend   = false;

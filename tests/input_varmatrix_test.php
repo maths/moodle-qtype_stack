@@ -92,6 +92,26 @@ class input_varmatrix_test extends qtype_stack_testcase {
                 'ans1', false, null));
     }
 
+    public function test_render_monospace() {
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
+        $el->set_parameter('options', 'monospace:true');
+        $this->assertEquals('<div class="matrixsquarebrackets"><textarea name="ans1" id="ans1" autocapitalize="none" ' .
+                'spellcheck="false" class="varmatrixinput input-monospace" size="5.5" style="width: 4.6em" rows="5" cols="5">' .
+                '</textarea></div>',
+                $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
+                        'ans1', false, null));
+    }
+
+    public function test_render_no_monospace_default_on() {
+        set_config('inputmonospace', '3', 'qtype_stack');
+        $el = stack_input_factory::make('varmatrix', 'ans1', 'M');
+        $this->assertEquals('<div class="matrixsquarebrackets"><textarea name="ans1" id="ans1" autocapitalize="none" ' .
+                'spellcheck="false" class="varmatrixinput input-monospace" size="5.5" style="width: 4.6em" rows="5" cols="5">' .
+                '</textarea></div>',
+                $el->render(new stack_input_state(stack_input::BLANK, [], '', '', '', '', ''),
+                        'ans1', false, null));
+    }
+
     public function test_validate_student_response_na() {
         $options = new stack_options();
         $el = stack_input_factory::make('varmatrix', 'ans1', 'M');

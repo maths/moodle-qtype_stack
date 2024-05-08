@@ -369,11 +369,17 @@ class stack_options {
     }
 
     /**
-     * @return bool Get the monospace default for supplied input class.
+     * Get the monospace default for supplied input class.
+     * @return bool
+     * 
+     * We have a class name in format 'stack_XXXX_input' where 'XXXX' is the input type.
+     * The monospace default config setting is a string in format '0,2,4' where the integers are
+     * the array keys from the option selection in get_monospace_options().
+     * We have to convert the input type to an integer and then check if it's in the config string.  
      */
     public static function is_monospace($class) {
         $options = [
-            // These need to match get_monospace_options above.
+            // These need to match get_monospace_options() above.
             '0' => 'algebraic',
             '1' => 'numerical',
             '2' => 'units',

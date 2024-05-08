@@ -76,6 +76,28 @@ class input_units_test extends qtype_stack_testcase {
                         'stack1__input', true, null));
     }
 
+    public function test_render_monospace_with_align() {
+        $el = stack_input_factory::make('units', 'input', '9.81*m/s^2');
+        $el->set_parameter('options', 'align:right, monospace:true');
+        $this->assertEquals(
+                '<input type="text" name="stack1__input" id="stack1__input" size="16.5" style="width: 13.6em" '
+                .'autocapitalize="none" spellcheck="false" class="algebraic-units-right input-monospace" value="9.81*m/s^2" '
+                .'readonly="readonly" />',
+                $el->render(new stack_input_state(stack_input::VALID, ['9.81*m/s^2'], '', '', '', '', ''),
+                        'stack1__input', true, null));
+    }
+
+    public function test_render_no_monospace_default_on() {
+        set_config('inputmonospace', '2', 'qtype_stack');
+        $el = stack_input_factory::make('units', 'input', '9.81*m/s^2');
+        $this->assertEquals(
+                '<input type="text" name="stack1__input" id="stack1__input" size="16.5" style="width: 13.6em" '
+                .'autocapitalize="none" spellcheck="false" class="algebraic-units input-monospace" value="9.81*m/s^2" '
+                .'readonly="readonly" />',
+                $el->render(new stack_input_state(stack_input::VALID, ['9.81*m/s^2'], '', '', '', '', ''),
+                        'stack1__input', true, null));
+    }
+
     public function test_render_different_size() {
         $el = stack_input_factory::make('units', 'input', '-9.81*m/s^2');
         $el->set_parameter('boxWidth', 30);

@@ -651,6 +651,25 @@ class input_numerical_test extends qtype_stack_testcase {
                         'stack1__sans1', false, null));
     }
 
+    public function test_render_monospace_with_align() {
+        $el = stack_input_factory::make('numerical', 'ans1', '2');
+        $el->set_parameter('options', 'align:right, monospace:true');
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
+                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
+                'class="numerical-right input-monospace" value="" />',
+                $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
+                        'stack1__ans1', false, null));
+    }
+
+    public function test_render_no_monospace_default_on() {
+        set_config('inputmonospace', '1', 'qtype_stack');
+        $el = stack_input_factory::make('numerical', 'ans1', '2');
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" '
+                .'style="width: 13.6em" autocapitalize="none" spellcheck="false" class="numerical input-monospace" value="" />',
+                $el->render(new stack_input_state(stack_input::VALID, [], '', '', '', '', ''),
+                        'stack1__ans1', false, null));
+    }
+
     public function test_validate_student_letters_only() {
         $options = new stack_options();
         $el = stack_input_factory::make('numerical', 'sans1', '3.14159');

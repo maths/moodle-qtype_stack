@@ -49,6 +49,7 @@ class stack_numerical_input extends stack_input {
         'maxsf' => false,
         'align' => 'left',
         'validator' => false,
+        'monospace' => false,
     ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
@@ -70,6 +71,9 @@ class stack_numerical_input extends stack_input {
         ];
         if ($this->extraoptions['align'] === 'right') {
             $attributes['class'] = 'numerical-right';
+        }
+        if ($this->extraoptions['monospace']) {
+            $attributes['class'] .= ' input-monospace';
         }
 
         $value = $this->contents_to_maxima($state->contents);

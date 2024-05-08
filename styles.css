@@ -102,6 +102,9 @@ textarea[name=maximavars] {
     max-width: 100%;
     text-align: right;
 }
+.que.stack .input-monospace {
+    font-family: monospace;
+}
 
 .que.stack .formulation .stackprtfeedback {
     background: #fcf8e3;

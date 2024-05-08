@@ -1135,6 +1135,172 @@ class input_algebraic_test extends qtype_stack_testcase {
                 $el->render($state, 'stack1__ans1', false, null));
     }
 
+    public function test_validate_student_response_with_monospace() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('options', 'align:right, monospace');
+        $state = $el->validate_student_response(['sans1' => 'sin(x)'], $options, '3.14', new stack_cas_security());
+        // In this case empty responses jump straight to score.
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('sin(x)', $state->contentsmodified);
+        $this->assertEquals('\[ \sin \left( x \right) \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\[ \[ \sin \left( x \right) \]</span></span> \), which can be typed as <code>sin(x)</code>,' .
+                ' would be correct.',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
+                'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
+                'class="algebraic-right input-monospace" value="sin(x)" />',
+                $el->render($state, 'stack1__ans1', false, null));
+    }
+
+    public function test_validate_student_response_with_no_monospace_default_on() {
+        $options = new stack_options();
+        set_config('inputmonospace', '0,1,2', 'qtype_stack');
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('options', 'align:right');
+        $state = $el->validate_student_response(['sans1' => 'sin(x)'], $options, '3.14', new stack_cas_security());
+        // In this case empty responses jump straight to score.
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('sin(x)', $state->contentsmodified);
+        $this->assertEquals('\[ \sin \left( x \right) \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\[ \[ \sin \left( x \right) \]</span></span> \), which can be typed as <code>sin(x)</code>,' .
+                ' would be correct.',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
+                'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
+                'class="algebraic-right input-monospace" value="sin(x)" />',
+                $el->render($state, 'stack1__ans1', false, null));
+    }
+
+    public function test_validate_student_response_with_no_monospace_single_default_on() {
+        $options = new stack_options();
+        set_config('inputmonospace', '0', 'qtype_stack');
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('options', 'align:right');
+        $state = $el->validate_student_response(['sans1' => 'sin(x)'], $options, '3.14', new stack_cas_security());
+        // In this case empty responses jump straight to score.
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('sin(x)', $state->contentsmodified);
+        $this->assertEquals('\[ \sin \left( x \right) \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\[ \[ \sin \left( x \right) \]</span></span> \), which can be typed as <code>sin(x)</code>,' .
+                ' would be correct.',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
+                'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
+                'class="algebraic-right input-monospace" value="sin(x)" />',
+                $el->render($state, 'stack1__ans1', false, null));
+    }
+
+    public function test_validate_student_response_with_no_monospace_default_off() {
+        $options = new stack_options();
+        set_config('inputmonospace', '1,2', 'qtype_stack');
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('options', 'align:right');
+        $state = $el->validate_student_response(['sans1' => 'sin(x)'], $options, '3.14', new stack_cas_security());
+        // In this case empty responses jump straight to score.
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('sin(x)', $state->contentsmodified);
+        $this->assertEquals('\[ \sin \left( x \right) \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\[ \[ \sin \left( x \right) \]</span></span> \), which can be typed as <code>sin(x)</code>,' .
+                ' would be correct.',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
+                'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
+                'class="algebraic-right" value="sin(x)" />',
+                $el->render($state, 'stack1__ans1', false, null));
+    }
+
+    public function test_validate_student_response_with_monospace_true_default_off() {
+        $options = new stack_options();
+        set_config('inputmonospace', '1,2', 'qtype_stack');
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('options', 'monospace:true, align:right');
+        $state = $el->validate_student_response(['sans1' => 'sin(x)'], $options, '3.14', new stack_cas_security());
+        // In this case empty responses jump straight to score.
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('sin(x)', $state->contentsmodified);
+        $this->assertEquals('\[ \sin \left( x \right) \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\[ \[ \sin \left( x \right) \]</span></span> \), which can be typed as <code>sin(x)</code>,' .
+                ' would be correct.',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
+                'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
+                'class="algebraic-right input-monospace" value="sin(x)" />',
+                $el->render($state, 'stack1__ans1', false, null));
+    }
+
+    public function test_validate_student_response_with_monospace_false_default_on() {
+        $options = new stack_options();
+        set_config('inputmonospace', '0,1,2', 'qtype_stack');
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('options', 'align:right, monospace:false');
+        $state = $el->validate_student_response(['sans1' => 'sin(x)'], $options, '3.14', new stack_cas_security());
+        // In this case empty responses jump straight to score.
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('sin(x)', $state->contentsmodified);
+        $this->assertEquals('\[ \sin \left( x \right) \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\[ \[ \sin \left( x \right) \]</span></span> \), which can be typed as <code>sin(x)</code>,' .
+                ' would be correct.',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
+                'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
+                'class="algebraic-right" value="sin(x)" />',
+                $el->render($state, 'stack1__ans1', false, null));
+    }
+
+    public function test_validate_student_response_with_monospace_false_default_off() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('options', 'align:right, monospace:false');
+        $state = $el->validate_student_response(['sans1' => 'sin(x)'], $options, '3.14', new stack_cas_security());
+        // In this case empty responses jump straight to score.
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('sin(x)', $state->contentsmodified);
+        $this->assertEquals('\[ \sin \left( x \right) \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\[ \[ \sin \left( x \right) \]</span></span> \), which can be typed as <code>sin(x)</code>,' .
+                ' would be correct.',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
+                'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
+                'class="algebraic-right" value="sin(x)" />',
+                $el->render($state, 'stack1__ans1', false, null));
+    }
+
+    public function test_validate_student_response_with_monospace_default_on() {
+        $options = new stack_options();
+        set_config('inputmonospace', '0', 'qtype_stack');
+        $el = stack_input_factory::make('algebraic', 'sans1', '1/2');
+        $el->set_parameter('options', 'monospace:true, align:right');
+        $state = $el->validate_student_response(['sans1' => 'sin(x)'], $options, '3.14', new stack_cas_security());
+        // In this case empty responses jump straight to score.
+        $this->assertEquals(stack_input::VALID, $state->status);
+        $this->assertEquals('sin(x)', $state->contentsmodified);
+        $this->assertEquals('\[ \sin \left( x \right) \]', $state->contentsdisplayed);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals('The answer <span class="filter_mathjaxloader_equation"><span class="nolink">' .
+                '\[ \[ \sin \left( x \right) \]</span></span> \), which can be typed as <code>sin(x)</code>,' .
+                ' would be correct.',
+                $el->get_teacher_answer_display($state->contentsmodified, $state->contentsdisplayed));
+        $this->assertEquals('<input type="text" name="stack1__ans1" id="stack1__ans1" size="16.5" ' .
+                'style="width: 13.6em" autocapitalize="none" spellcheck="false" ' .
+                'class="algebraic-right input-monospace" value="sin(x)" />',
+                $el->render($state, 'stack1__ans1', false, null));
+    }
+
     public function test_validate_student_response_noununits() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '9.81*m/s');

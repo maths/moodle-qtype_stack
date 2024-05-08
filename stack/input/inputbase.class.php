@@ -178,6 +178,7 @@ abstract class stack_input {
      */
     protected function internal_construct() {
         $options = $this->get_parameter('options');
+        $setoptions = [];
         if (trim($options ?? '') != '') {
             $options = explode(',', $options);
             foreach ($options as $option) {
@@ -188,15 +189,40 @@ abstract class stack_input {
                     if ($arg === '') {
                         // Extra options with no argument set a Boolean flag.
                         $this->extraoptions[$option] = true;
+                    } else if ($arg === 'false') {
+                        $this->extraoptions[$option] = false;
+                    } else if ($arg === 'true') {
+                        $this->extraoptions[$option] = true;
                     } else {
                         $this->extraoptions[$option] = $arg;
                     }
+                    $setoptions[] = $option;
                 } else {
                     $this->errors[] = stack_string('inputoptionunknown', $option);
                 }
             }
         }
+        $this->set_defaults($setoptions);
         $this->validate_extra_options();
+    }
+
+    /**
+     * Set extra options with defaults to the default if they have not been explicitly set.
+     *
+     * @param [] $setoptions - array of options that have been explicity set
+     * @return void
+     */
+    protected function set_defaults($setoptions) {
+        $optionswithdefaults = ['monospace'];
+        foreach ($optionswithdefaults as $currentoption) {
+            if (!array_key_exists($currentoption, $this->extraoptions) || array_search($currentoption, $setoptions) !== false) {
+                // Option not available for this input type or has been explicitly set.
+                continue;
+            }
+
+            $functionname = "is_{$currentoption}";
+            $this->extraoptions[$currentoption] = stack_options::$functionname(get_class($this));
+        }
     }
 
     /**
@@ -353,6 +379,12 @@ abstract class stack_input {
                 case 'align':
                     if ($arg !== 'left' && $arg !== 'right') {
                         $this->errors[] = stack_string('inputopterr', ['opt' => $option, 'val' => $arg]);
+                    }
+                    break;
+
+                case 'monospace':
+                    if (!(is_bool($arg))) {
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 

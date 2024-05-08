@@ -357,7 +357,7 @@ export const stack_sortable = class {
         this.itemCSS = this.grid ? 
             (this.orientation === "row" ? "grid-item-rigid" : "grid-item") : "list-group-item";
 
-        this.state = this._generate_state(this.proofSteps, inputId, Number(this.columns));
+        this.state = this._generate_state(this.proofSteps, inputId, Number(this.columns), Number(this.rows));
         if (inputId !== null) {
             this.input = document.getElementById(this.inputId);
             this.submitted = this.input.getAttribute("readonly") === "readonly"
@@ -452,10 +452,12 @@ export const stack_sortable = class {
         var addClass = (this.orientation === "row") ? ["list-group", "col"] : ["row"];
         if (this.grid) {
             var removeClass = (this.orientation === "row") ? ["list-group", "row"] : ["list-group", "col"];
-            var gridItems = document.querySelectorAll(".grid-item");
+            var currGridClass = (this.orientation === "row") ? "grid-item-rigid" : "grid-item";
+            var gridAddClass = (this.orientation === "row") ? "grid-item" : "grid-item-rigid"
+            var gridItems = document.querySelectorAll(`.${currGridClass}`);
             gridItems.forEach((item) => {
-                item.classList.remove("grid-item");
-                item.classList.add("grid-item-rigid");
+                item.classList.remove(currGridClass);
+                item.classList.add(gridAddClass);
             })
 
             if (this.rows !== "") {
@@ -648,8 +650,13 @@ export const stack_sortable = class {
             /*if (i === 0 && this.index !== null) {
                 this._add_index(this.index, value[0]);        
             }*/
-            value[0].forEach(key => this.used[i][0].append(this._create_li(key)));
-            //this.used[i][0].append(this._create_li(key[0]));
+            if (this.rows !== "" && this.columns !== "") {
+                for (const [j, val] of value.entries()) {
+                    val.forEach(key => this.used[i][j].append(this._create_li(key)));
+                }
+            } else {
+                value[0].forEach(key => this.used[i][0].append(this._create_li(key)));
+            }
         }
     }
 
@@ -755,14 +762,17 @@ export const stack_sortable = class {
      * @param {string} inputId - ID of the input element for storing state.
      * @returns {Object} The initial state object with used and available lists.
      */
-    _generate_state(proofSteps, inputId, columns) {
+    _generate_state(proofSteps, inputId, columns, rows) {
+        const usedState = (rows === 0 || columns === 0) ? 
+                Array(columns).fill().map(() => [[]]) : 
+                Array(columns).fill().map(() => Array(rows).fill([]));
         let stateStore = document.getElementById(inputId);
         if (stateStore === null) {
-            return {used: Array(columns).fill().map(() => [[]]), available: [...Object.keys(proofSteps)]};
+            return {used: usedState, available: [...Object.keys(proofSteps)]};
         }
         return (stateStore.value && stateStore.value != "") ?
             JSON.parse(stateStore.value) :
-            {used: Array(columns).fill().map(() => [[]]), available: [...Object.keys(proofSteps)]};
+            {used: usedState, available: [...Object.keys(proofSteps)]};
     }
 
     /**

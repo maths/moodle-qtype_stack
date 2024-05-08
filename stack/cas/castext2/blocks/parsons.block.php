@@ -292,6 +292,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // NOTE! List ordered by length. For the trimming logic.
         $validunits = [
+            
             'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
             'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
         ];

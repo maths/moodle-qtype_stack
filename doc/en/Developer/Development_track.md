@@ -36,12 +36,10 @@ TO-DO:
 
 Next (v4.6.0)
 
-1. Add in an option "fixed".  When we have "submit all and finish" we don't want to allow users to then drag things.  This is an edge case for after the quiz.  I think we can achive this by adding in an argument to the JSON in the student's input "fixed", and this will get sent to the block. E.g. input type changes html attr to readonly, sortable version disable? Note: other input types use readonly attr after submit all and finish.
+1. Grid arrangement, e.g. fill in a 2*2 grid (for matching problems).
 2. Use syntax hint to set up a non-empty starting point.
-3. Check sortable for keyboard accessibility (SM: Not built-in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4)
+3. Nested lists (flat list vs. nested/tree)
 4. CSS styling fix for automated feedback
-5. Other arrangements, e.g. fill in a 2*2 grid (for matching problems)
-   Nested lists (flat list vs. nested/tree)
 
 Later
 
@@ -56,6 +54,7 @@ Later
 9. Alternative styling/signalling for clone mode?
 10. Better support (and documentation) for bespoke grading functions.
 11. Hashing keys
+12. Check sortable for keyboard accessibility (SM: Not built-in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4)
 
 
 ## For "inputs 2"?

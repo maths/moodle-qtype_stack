@@ -205,7 +205,7 @@ abstract class stack_input {
         $this->set_defaults($setoptions);
         $this->validate_extra_options();
     }
-    
+
     /**
      * Set extra options with defaults to the default if they have not been explicitly set.
      *
@@ -220,7 +220,7 @@ abstract class stack_input {
                 continue;
             }
 
-            $functionname = "is_{$currentoption}"; 
+            $functionname = "is_{$currentoption}";
             $this->extraoptions[$currentoption] = stack_options::$functionname(get_class($this));
         }
     }
@@ -384,7 +384,7 @@ abstract class stack_input {
 
                 case 'monospace':
                     if (!(is_bool($arg))) {
-                        $this->errors[] = stack_string('numericalinputoptboolerr', array('opt' => $option, 'val' => $arg));
+                        $this->errors[] = stack_string('numericalinputoptboolerr', ['opt' => $option, 'val' => $arg]);
                     }
                     break;
 

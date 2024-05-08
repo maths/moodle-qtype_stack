@@ -42,14 +42,24 @@ stack_include("contribl://matchlib.mac");
  * for assessing.
  *
  * Take the JSON from STACK Parson's block when using `columns` and/or 
- * `rows` header parameter, and returns a three-dimensional array containing
- * the answer keys in the JSON. This will be of shape `(columns, 1, ?)` if 
- * only `columns` is used, where `?` represents variable dimension; or it will 
- * be of shape `(columns, rows, 1)` if both `columns` and `rows` are specified.
+ * `rows` header parameter, and returns a two-dimensional array corresponding to 
+ * the answer keys in the JSON. 
+ * 
+ * If only `columns` has been specified in the `parsons` block, then use 
+ * this function as `match_interpret(ans1)`. This will return an 
+ * array of shape `(columns, ?)` if, where `?` represents variable dimension.
+ *
+ * If both `rows` and `columns` have been specified in the `parson` block, then 
+ * use this function as `match_interpret(ans1, true)`. This will 
+ * return an array of shape `(columns, rows)`.
  */
-parsons_match_interpret(st) := block([js],
+match_interpret(st, [rows]) := block([js, arr],
     js: stackjson_parse(st),
-    return(stackmap_get(js, "used")));
+    arr: stackmap_get(js, "used"),
+    if rows=[] then arr:map(lambda([keys], first(keys)), arr) 
+      else arr:map(lambda([keys], map(lambda([k], first(k)), keys)), arr),
+    return(arr)
+);
 
 /*
  * Auxiliary function.
@@ -57,56 +67,43 @@ parsons_match_interpret(st) := block([js],
  * Takes a list of matched keys and returns the keys not used.
  * Needed to create a "teacher's answer" in JSON format, including unused text.
  */
-parsons_match_keys_used_unused(ans, steps) := block([tkeys],
+match_keys_used_unused(ans, steps) := block([tkeys],
   tkeys:map(first, steps),
   return([ans, listdifference(tkeys, ev(unique(flatten(ans)), simp))])
 );
 
 /*
  * Use this to transform the teacher's answer into the shape expected by the Parson's block.
+ * Returns an array of `[answer_keys, unused_keys]`, where `unused_keys` is always a flat
+ * list of keys that are in the question but not inside `ans`.
  * 
- * For use when only `columns` is specified. This takes a two-dimensional teacher's 
- * answer of shape `(columns, ?)` and formats it to the expected three-dimensional 
- * array of shape `(columns, 1, ?)`. 
+ * If only `columns` has been specified in the `parsons` block, then use 
+ * this function as `match_reshape(ans1)`. This will return `answer_keys` as an 
+ * array of shape `(columns, 1, ?)` if, where `?` represents variable dimension.
+ *
+ * If both `rows` and `columns` have been specified in the `parson` block, then 
+ * use this function as `match_interpret(ans1, true)`. This will 
+ * return `answer_keys` as an array of shape `(columns, rows, 1)`.
  */
-parsons_column_ans(ans, steps) := block([tkeys, akeys],
-  tkeys: parsons_match_keys_used_unused(ans, steps),
-  akeys: map(lambda([keys], [keys]), first(tkeys)),
-  return([akeys, second(tkeys)])
-);
-
-/*
- * Use this to transform the teacher's answer into the shape expected by the Parson's block.
- * 
- * For use when both `columns` and `rows` are specified. This takes a two-dimensional teacher's 
- * answer of shape `(columns, rows)` and formats it to the expected three-dimensional 
- * array of shape `(columns, rows, 1)`. 
- */
-parsons_grid_ans(ans, steps) := block([tkeys, akeys],
-  tkeys: parsons_match_keys_used_unused(ans, steps),
-  akeys: map(lambda([keys], map(lambda([k], [k]), keys)), first(tkeys)),
+match_reshape(ans, steps, [rows]) := block([tkeys, akeys],
+  tkeys: match_keys_used_unused(ans, steps),
+  if rows=[] then akeys: map(lambda([keys], [keys]), first(tkeys)) 
+    else akeys:map(lambda([keys], map(lambda([k], [k]), keys)), first(tkeys)),
   return([akeys, second(tkeys)])
 );
 
 /*
  * Use this to transform the teacher's answer into the JSON format expected by the `Model answer` field.
  * 
- * For use when only `columns` is specified. This takes a two-dimensional teacher's 
- * answer of shape `(columns, ?)` and formats it to a JSON. 
+ * If only `columns` has been specified in the `parsons` block, then use 
+ * this function as `match_correct(ans1)`. 
+ *
+ * If both `rows` and `columns` have been specified in the `parson` block, then 
+ * use this function as `match_correct(ans1, true)`. 
  */
-parsons_column_json(ans, steps) := block([akeys, ukeys],
-  [akeys, ukeys]: parsons_column_ans(ans, steps),
-  sconcat("{\"used\":", stackjson_stringify(akeys), ", \"available\":", stackjson_stringify(ukeys), "}")
-);
-
-/*
- * Use this to transform the teacher's answer into the JSON format expected by the `Model answer` field.
- * 
- * For use when both `columns` and `rows` are specified. This takes a two-dimensional teacher's 
- * answer of shape `(columns, rows)` and formats it to a JSON.
- */
-parsons_grid_json(ans, steps) := block([akeys, ukeys],
-  [akeys, ukeys]: parsons_grid_ans(ans, steps),
+match_correct(ans, steps, [rows]) := block([akeys, ukeys],
+  if rows=[] then [akeys, ukeys]: match_reshape(ans, steps)
+    else [akeys, ukeys]: match_reshape(ans, steps, rows),
   sconcat("{\"used\":", stackjson_stringify(akeys), ", \"available\":", stackjson_stringify(ukeys), "}")
 );
 
@@ -117,6 +114,6 @@ parsons_grid_json(ans, steps) := block([akeys, ukeys],
  * the columns, that is they should be a two-dimensional array of shape `(columns, rows)`. Authors 
  * may prefer to use the row-grouped answer in PRTs. This function will move between them.
  */
-parsons_match_transpose(ans) := block(
+match_transpose(ans) := block(
     return(args(transpose(apply(matrix, ans))))
 );

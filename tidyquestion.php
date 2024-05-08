@@ -32,7 +32,7 @@ require_once(__DIR__ . '/vle_specific.php');
 $questionid = required_param('questionid', PARAM_INT);
 
 // Load the necessary data.
-$questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
+$questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
@@ -88,7 +88,7 @@ if ($form->is_cancelled()) {
     $transaction = $DB->start_delegated_transaction();
 
     // Rename the inputs.
-    $inputrenames = array();
+    $inputrenames = [];
     foreach ($question->inputs as $inputname => $notused) {
         $inputrenames[$inputname] = $data->{'inputname_' . $inputname};
     }
@@ -98,7 +98,7 @@ if ($form->is_cancelled()) {
 
     // Rename the PRT nodes.
     foreach ($question->prts as $prtname => $prt) {
-        $noderenames = array();
+        $noderenames = [];
         foreach ($prt->get_nodes_summary() as $nodekey => $notused) {
             $noderenames[$nodekey] = $data->{'nodename_' . $prtname . '_' . $nodekey} - 1;
         }
@@ -108,7 +108,7 @@ if ($form->is_cancelled()) {
     }
 
     // Rename the PRTs. Much easier to do this after the nodes.
-    $prtrenames = array();
+    $prtrenames = [];
     foreach ($question->prts as $prtname => $notused) {
         $prtrenames[$prtname] = $data->{'prtname_' . $prtname};
     }

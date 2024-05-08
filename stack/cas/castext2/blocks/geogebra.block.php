@@ -52,7 +52,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         $iparams['title'] = 'STACK GeoGebra ' . self::$countgraphs;
         self::$countgraphs = self::$countgraphs + 1;
 
-        // TODO:
+        // TO-DO:
         // 1. Do we need to load some CSS as well?
 
         // The bits of code we construct. We could simply output these into
@@ -68,7 +68,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         // Start by identifying the inputs we deal with.
         $inputmapping = [];
         foreach ($this->params as $key => $value) {
-            // TODO: are these actually a thing?
+            // TO-DO: are these actually a thing?
             if (substr($key, 0, 10) === 'input-ref-') {
                 $inputname = substr($key, 10);
                 $inputmapping[$value] = $inputname;
@@ -133,7 +133,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
                 }
             }
         }
-        // TODO: as there was no dynamic content inside that loop might as well
+        // TO-DO: as there was no dynamic content inside that loop might as well
         // directly generate as a singular MP_String, on the other hand
         // the simplifier during compilation will turn that to a string and
         // writing it like this makes it simpler to add any dynamic bits needed
@@ -317,16 +317,16 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         $r->items[] = new MP_List([
             new MP_String('script'),
             new MP_String(json_encode(['type' => 'text/x-mathjax-config'])),
-            new MP_String('MathJax.Hub.Config({messageStyle: "none"});')
+            new MP_String('MathJax.Hub.Config({messageStyle: "none"});'),
         ]);
         $r->items[] = new MP_List([
             new MP_String('script'),
-            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax]))
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => $mathjax])),
         ]);
         // Naturally having GeoGebra loaded is important, we load it from our CORS source.
         $r->items[] = new MP_List([
             new MP_String('script'),
-            new MP_String(json_encode(['type' => 'text/javascript', 'src' => 'cors://geogebracore.js']))
+            new MP_String(json_encode(['type' => 'text/javascript', 'src' => 'cors://geogebracore.js'])),
         ]);
 
         // Then lets start building up the contents of the body.
@@ -334,7 +334,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
             '"><div class="geogebrabox" id="geogebrabox" style="width:100%;height:100%;"></div></div><script type="module">');
         // For binding we need to import the binding libraries.
         $r->items[] = new MP_String("\nimport {stack_js} from '" . stack_cors_link('stackjsiframe.min.js') . "';\n");
-        // TODO: minify.
+        // TO-DO: minify.
         $r->items[] = new MP_String("import {stack_geogebra} from '" . stack_cors_link('stackgeogebra.js') . "';\n");
 
         // Lets define the common bits of code.
@@ -457,7 +457,7 @@ class stack_cas_castext2_geogebra extends stack_cas_castext2_block {
         // So we should return the nosuffix versions here for checking.
         // Not a major issue as the security system will stop any calls and
         // I really do not consider the reads possible through this as serious enough.
-        // TODO: not bothering now.
+        // TO-DO: not bothering now.
         return [];
     }
 

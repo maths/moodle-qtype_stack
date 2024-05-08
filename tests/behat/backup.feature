@@ -19,10 +19,16 @@ Feature: Test duplicating a quiz containing STACK questions
       | quiz       | Test quiz | C1     | quiz     |
     And quiz "Test quiz" contains the following questions:
       | Dropdown (shuffle)  | 1 |
+    And the following config values are set as admin:
+    | config | value |
+    | enableasyncbackup | true |
 
   @javascript
   Scenario: Backup and restore a course containing a STACK question
-    When I am on the "Course 1" course page logged in as admin
+    When I am logged in as admin
+    And I navigate to "Courses > Asynchronous backup/restore" in site administration
+    And I click on "Save changes" "button"
+    And I am on the "Course 1" course page logged in as admin
     And I backup "Course 1" course using this options:
       | Confirmation | Filename | test_backup.mbz |
     And I restore "test_backup.mbz" backup into a new course using this options:

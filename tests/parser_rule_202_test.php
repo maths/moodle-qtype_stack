@@ -40,10 +40,10 @@ class parser_rule_202_test extends qtype_stack_testcase {
         $filter = new stack_ast_filter_202_decimal_places_validation();
         $filter->set_filter_parameters([
             'min' => $min,
-            'max' => $max
+            'max' => $max,
         ]);
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $ast = $filter->filter($ast, $errs, $note, $security);
@@ -62,7 +62,7 @@ class parser_rule_202_test extends qtype_stack_testcase {
             'output' => $ast->toString(['nosemicolon' => true]),
             'notes' => $note,
             'errors' => $errs,
-            'valid' => !$hasinvalid
+            'valid' => !$hasinvalid,
         ];
         return $r;
     }

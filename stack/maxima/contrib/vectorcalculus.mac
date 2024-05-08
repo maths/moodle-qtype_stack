@@ -31,7 +31,7 @@ return_vect: true;
 grad(f, [vars]):= block([grad_vec],
     vars: flatten(vars),
     if emptyp(vars) then vars: listofvars(f),
-    /* TODO: confirm grad should always simplify? */
+    /* TO-DO: confirm grad should always simplify? */
     grad_vec: map(lambda([ex], ev(diff(f,vars[ex]), simp)), ev(makelist(ii,ii,1,length(vars)), simp)),
     if return_vect then return(transpose(matrix(grad_vec))) else return(grad_vec)
 );
@@ -53,7 +53,7 @@ div(u, [vars]):= block([div_vec],
     if matrixp(u) then funcs: list_matrix_entries(u) else funcs: flatten(u),
     vars: flatten(vars),
     if emptyp(vars) then vars: listofvars(u),
-    /* TODO: confirm div should always simplify? */
+    /* TO-DO: confirm div should always simplify? */
     div_vec: map(lambda([ex], ev(diff(funcs[ex],vars[ex]), simp)), ev(makelist(ii,ii,1,length(vars)), simp)),
     return(apply("+", div_vec))
 );

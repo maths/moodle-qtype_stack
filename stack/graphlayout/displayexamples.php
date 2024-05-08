@@ -124,7 +124,7 @@ $graph6->add_node(8, '', null, 9, '+0.1', '-0.1');
 $graph6->add_node(9, '', 10, 10, '+0.1', '-0.1');
 $graph6->add_node(10, '', null, null, '+0.1', '-0.1');
 
-$examples = array(
+$examples = [
     $broken,
     $broken2,
     $tree,
@@ -136,7 +136,7 @@ $examples = array(
     $graph4,
     $graph5,
     $graph6,
-);
+];
 foreach ($examples as $example) {
     $example->layout();
 }

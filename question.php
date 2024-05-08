@@ -110,12 +110,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     /**
      * @var stack_input[] STACK specific: string name as it appears in the question text => stack_input
      */
-    public $inputs = array();
+    public $inputs = [];
 
     /**
      * @var stack_potentialresponse_tree_lite[] STACK specific: respones tree number => ...
      */
-    public $prts = array();
+    public $prts = [];
 
     /**
      * @var stack_options STACK specific: question-level options.
@@ -208,7 +208,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @var array Errors generated at runtime.
      * Any errors are stored as the keys to prevent duplicates.  Values are ignored.
      */
-    public $runtimeerrors = array();
+    public $runtimeerrors = [];
 
     /**
      * The next three fields cache the results of some expensive computations.
@@ -228,12 +228,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @var stack_input_state[] input name => stack_input_state.
      * This caches the results of validate_student_response for $lastresponse.
      */
-    protected $inputstates = array();
+    protected $inputstates = [];
 
     /**
      * @var array prt name => result of evaluate_response, if known.
      */
-    protected $prtresults = array();
+    protected $prtresults = [];
 
     /**
      * @var array set of expensive to evaluate but static things.
@@ -273,8 +273,8 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Clear the cache.
         $this->lastresponse = $response;
         $this->lastacceptvalid = $acceptvalid;
-        $this->inputstates = array();
-        $this->prtresults = array();
+        $this->inputstates = [];
+        $this->prtresults = [];
     }
 
     /**
@@ -371,7 +371,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
             // If we have units we might as well include the units declaration in the session.
             // To simplify authors work and remove the need to call that long function.
-            // TODO: Maybe add this to the preable to save lines, but for now documented here.
+            // TO-DO: Maybe add this to the preable to save lines, but for now documented here.
             if ($units) {
                 $session->add_statement(new stack_secure_loader('stack_unit_si_declare(true)',
                         'automatic unit declaration'), false);
@@ -394,9 +394,9 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // in a PRT, the student's answer will take these values.   If the teacher defines
             // 'ta' to be the answer, the student could type in 'ta'!  We forbid this.
 
-            // TODO: shouldn't we also protect variables used in PRT logic? Feedback vars
+            // TO-DO: shouldn't we also protect variables used in PRT logic? Feedback vars
             // and so on?
-            $forbiddenkeys = array();
+            $forbiddenkeys = [];
             if ($this->get_cached('forbiddenkeys') !== null) {
                 $forbiddenkeys = $this->get_cached('forbiddenkeys');
             }
@@ -481,19 +481,19 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $this->questiontextinstantiated        = $questiontext;
             if ($questiontext->get_errors()) {
                 $s = stack_string('runtimefielderr',
-                    array('field' => stack_string('questiontext'), 'err' => $questiontext->get_errors()));
+                    ['field' => stack_string('questiontext'), 'err' => $questiontext->get_errors()]);
                 $this->runtimeerrors[$s] = true;
             }
             $this->specificfeedbackinstantiated    = $feedbacktext;
             if ($feedbacktext->get_errors()) {
                 $s = stack_string('runtimefielderr',
-                    array('field' => stack_string('specificfeedback'), 'err' => $feedbacktext->get_errors()));
+                    ['field' => stack_string('specificfeedback'), 'err' => $feedbacktext->get_errors()]);
                 $this->runtimeerrors[$s] = true;
             }
             $this->questionnoteinstantiated        = $notetext;
             if ($notetext->get_errors()) {
                 $s = stack_string('runtimefielderr',
-                    array('field' => stack_string('questionnote'), 'err' => $notetext->get_errors()));
+                    ['field' => stack_string('questionnote'), 'err' => $notetext->get_errors()]);
                 $this->runtimeerrors[$s] = true;
             }
             $this->prtcorrectinstantiated          = $prtcorrect;
@@ -502,7 +502,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $this->session = $sessiontokeep;
             if ($sessiontokeep->get_errors()) {
                 $s = stack_string('runtimefielderr',
-                    array('field' => stack_string('questionvariables'), 'err' => $sessiontokeep->get_errors(true)));
+                    ['field' => stack_string('questionvariables'), 'err' => $sessiontokeep->get_errors(true)]);
                 $this->runtimeerrors[$s] = true;
             }
 
@@ -515,7 +515,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             // For example, if one of the question variables is 1/0.
             // This should not be a show stopper.
             // Something has gone wrong here, and the student will be shown nothing.
-            $s = html_writer::tag('span', stack_string('runtimeerror'), array('class' => 'stackruntimeerrror'));
+            $s = html_writer::tag('span', stack_string('runtimeerror'), ['class' => 'stackruntimeerrror']);
             $errmsg = '';
             foreach ($this->runtimeerrors as $key => $val) {
                 $errmsg .= html_writer::tag('li', $key);
@@ -545,7 +545,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     protected function adapt_inputs() {
         foreach ($this->inputs as $name => $input) {
-            // TODO: again should we give the whole thing to the input.
+            // TO-DO: again should we give the whole thing to the input.
             $teacheranswer = '';
             if ($this->tas[$name]->is_correctly_evaluated()) {
                 $teacheranswer = $this->tas[$name]->get_value();
@@ -563,7 +563,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * @return stack_cas_text the castext.
      */
     public function get_hint_castext(question_hint $hint) {
-        // TODO: These are not currently cached as compiled fragments, maybe they should be.
+        // TO-DO: These are not currently cached as compiled fragments, maybe they should be.
 
         $hinttext = castext2_evaluatable::make_from_source($hint->hint, 'hint');
 
@@ -712,7 +712,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function get_expected_data() {
-        $expected = array();
+        $expected = ['step_lang' => 'raw'];
         foreach ($this->inputs as $input) {
             $expected += $input->get_expected_data();
         }
@@ -730,7 +730,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     public function summarise_response(array $response) {
         // Provide seed information on student's version via the normal moodle quiz report.
-        $bits = array('Seed: ' . $this->seed);
+        $bits = ['Seed: ' . $this->seed];
         foreach ($this->inputs as $name => $input) {
             $state = $this->get_input_state($name, $response);
             if (stack_input::BLANK != $state->status) {
@@ -764,7 +764,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     // Used in reporting - needs to return an array.
     public function summarise_response_data(array $response) {
-        $bits = array();
+        $bits = [];
         foreach ($this->inputs as $name => $input) {
             $state = $this->get_input_state($name, $response);
             $bits[$name] = $state->status;
@@ -773,7 +773,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function get_correct_response() {
-        $teacheranswer = array();
+        $teacheranswer = [];
         if ($this->runtimeerrors || $this->get_cached('units') === null) {
             return [];
         }
@@ -820,7 +820,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $lang = $ml->pick_lang($this->get_cached('langs'));
         }
 
-        // TODO: we should probably give the whole ast_container to the input.
+        // TO-DO: we should probably give the whole ast_container to the input.
         // Direct access to LaTeX and the AST might be handy.
         $teacheranswer = '';
         if (array_key_exists($name, $this->tas)) {
@@ -957,7 +957,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 $fraction += $results->get_fraction();
             }
         }
-        return array($fraction, question_state::graded_state_for_fraction($fraction));
+        return [$fraction, question_state::graded_state_for_fraction($fraction)];
     }
 
     protected function is_same_prt_input($index, $prtinput1, $prtinput2) {
@@ -970,7 +970,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function get_parts_and_weights() {
-        $weights = array();
+        $weights = [];
         foreach ($this->prts as $index => $prt) {
             if (!$prt->is_formative()) {
                 $weights[$index] = $prt->get_value();
@@ -980,7 +980,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function grade_parts_that_can_be_graded(array $response, array $lastgradedresponses, $finalsubmit) {
-        $partresults = array();
+        $partresults = [];
 
         // At the moment, this method is not written as efficiently as it might
         // be in terms of caching. For now I will be happy it computes the right score.
@@ -1002,7 +1002,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             if (array_key_exists($index, $lastgradedresponses)) {
                 $lastresponse = $lastgradedresponses[$index];
             } else {
-                $lastresponse = array();
+                $lastresponse = [];
             }
 
             $lastinput = $this->get_prt_input($index, $lastresponse, $finalsubmit);
@@ -1028,7 +1028,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Once we are confident enough, we could try switching the nesting
         // of the loops to increase efficiency.
 
-        // TODO: switch the nesting, now that the eval is by response and not by PRT.
+        // TO-DO: switch the nesting, now that the eval is by response and not by PRT.
         // Current CAS-cache helps but it is wasted cycles to go to it so many times.
         $fraction = 0;
         foreach ($this->prts as $index => $prt) {
@@ -1037,7 +1037,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             }
 
             $accumulatedpenalty = 0;
-            $lastinput = array();
+            $lastinput = [];
             $penaltytoapply = null;
             $results = new stdClass();
             $results->fraction = 0;
@@ -1123,7 +1123,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             throw new stack_exception ("get_prt_input called for PRT " . $index ." which does not exist in question " . $msg);
         }
         $prt = $this->prts[$index];
-        $prtinput = array();
+        $prtinput = [];
         foreach ($this->get_cached('required')[$prt->get_name()] as $name => $ignore) {
             $state = $this->get_input_state($name, $response);
             if (stack_input::SCORE == $state->status || ($acceptvalid && stack_input::VALID == $state->status)) {
@@ -1157,7 +1157,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Alternatively we have a question that could not be compiled.
         if (!array_key_exists($index, $this->prts) || $this->get_cached('units') === null) {
             // Bail here with an empty state to avoid a later exception which prevents question test editing.
-            return new prt_evaluatable('prt_' . $index . '(???)', 1, new castext2_static_replacer([]), array());
+            return new prt_evaluatable('prt_' . $index . '(???)', 1, new castext2_static_replacer([]), []);
         }
 
         // If we do not have inputs for this then no need to continue.
@@ -1193,7 +1193,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // If we have units we might as well include the units declaration in the session.
         // To simplify authors work and remove the need to call that long function.
-        // TODO: Maybe add this to the preable to save lines, but for now documented here.
+        // TO-DO: Maybe add this to the preable to save lines, but for now documented here.
         if ($units) {
             $session->add_statement(new stack_secure_loader('stack_unit_si_declare(true)',
                     'automatic unit declaration'), false);
@@ -1253,7 +1253,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Generate, cache and instantiate the results.
         foreach ($this->prts as $name => $prt) {
             // Put the input string map in the trace.
-            $trace = array_merge(array($is . '$', '/* ------------------- */'), $this->get_cached('prt-trace')[$name]);
+            $trace = array_merge([$is . '$', '/* ------------------- */'], $this->get_cached('prt-trace')[$name]);
             $p = new prt_evaluatable($this->get_cached('prt-signature')[$name],
                 $prt->get_value(), new castext2_static_replacer($this->get_cached('static-castext-strings')),
                 $trace);
@@ -1279,7 +1279,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             return $newvalue;
         }
 
-        $newarray = array();
+        $newarray = [];
         foreach ($arrayorscalar as $key => $value) {
             $newarray[$key] = $this->set_value_in_nested_arrays($value, $newvalue);
         }
@@ -1352,12 +1352,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             return $options->feedback;
 
         } else if ($component == 'qtype_stack' && in_array($filearea,
-                array('prtcorrect', 'prtpartiallycorrect', 'prtincorrect'))) {
+                ['prtcorrect', 'prtpartiallycorrect', 'prtincorrect'])) {
             // This is a bit lax, but anything else is computationally very expensive.
             return $options->feedback;
 
         } else if ($component == 'qtype_stack' && in_array($filearea,
-                array('prtnodefalsefeedback', 'prtnodetruefeedback'))) {
+                ['prtnodefalsefeedback', 'prtnodetruefeedback'])) {
             // This is a bit lax, but anything else is computationally very expensive.
             return $options->feedback;
 
@@ -1420,7 +1420,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     /**
      * Enable the renderer to access the teacher's answer in the session.
-     * TODO: should we give the whole thing?
+     * TO-DO: should we give the whole thing?
      * @param string $vname variable name.
      */
     public function get_ta_for_input(string $vname): string {
@@ -1443,7 +1443,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
     }
 
     public function classify_response(array $response) {
-        $classification = array();
+        $classification = [];
 
         foreach ($this->prts as $index => $prt) {
             if ($prt->is_formative()) {
@@ -1500,24 +1500,26 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      * This checks if questions use features which have changed.
      */
     public function validate_against_stackversion($context) {
-        $errors = array();
-        $castextfields = array('questiontext', 'questionnote', 'questiondescription',
-            'specificfeedback', 'generalfeedback');
-        $qfields = array_merge($castextfields, array('questionvariables'));
+        $errors = [];
+        $castextfields = [
+            'questiontext', 'questionnote', 'questiondescription',
+            'specificfeedback', 'generalfeedback',
+        ];
+        $qfields = array_merge($castextfields, ['questionvariables']);
 
         $stackversion = (int) $this->stackversion;
 
         // Things no longer allowed in questions.
-        $patterns = array(
-             array('pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'),
-             array('pat' => 'texdecorate', 'ver' => 2018080600),
-             array('pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg')
-        );
+        $patterns = [
+            ['pat' => 'addrow', 'ver' => 2018060601, 'alt' => 'rowadd'],
+            ['pat' => 'texdecorate', 'ver' => 2018080600],
+            ['pat' => 'logbase', 'ver' => 2019031300, 'alt' => 'lg'],
+        ];
         foreach ($patterns as $checkpat) {
             if ($stackversion < $checkpat['ver']) {
                 foreach ($qfields as $field) {
                     if (strstr($this->$field ?? '', $checkpat['pat'])) {
-                        $a = array('pat' => $checkpat['pat'], 'ver' => $checkpat['ver'], 'qfield' => stack_string($field));
+                        $a = ['pat' => $checkpat['pat'], 'ver' => $checkpat['ver'], 'qfield' => stack_string($field)];
                         $err = stack_string('stackversionerror', $a);
                         if (array_key_exists('alt', $checkpat)) {
                             $err .= ' ' . stack_string('stackversionerroralt', $checkpat['alt']);
@@ -1529,8 +1531,10 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                 foreach ($this->prts as $name => $prt) {
                     $kv = $prt->get_feedbackvariables_keyvals();
                     if (strstr($kv, $checkpat['pat'])) {
-                        $a = array('pat' => $checkpat['pat'], 'ver' => $checkpat['ver'],
-                             'qfield' => stack_string('feedbackvariables') . ' (' . $name . ')');
+                        $a = [
+                            'pat' => $checkpat['pat'], 'ver' => $checkpat['ver'],
+                            'qfield' => stack_string('feedbackvariables') . ' (' . $name . ')',
+                        ];
                         $err = stack_string('stackversionerror', $a);
                         if (array_key_exists('alt', $checkpat)) {
                             $err .= ' ' . stack_string('stackversionerroralt', $checkpat['alt']);
@@ -1566,13 +1570,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             $pat = '~/\*.*?\*/~s';
             foreach ($castextfields as $field) {
                 if (preg_match($pat, $this->$field)) {
-                    $errors[] = stack_string('stackversioncomment', array('qfield' => stack_string($field)));
+                    $errors[] = stack_string('stackversioncomment', ['qfield' => stack_string($field)]);
                 }
             }
             // Look inside the PRT feedback variables.  Should probably check the feedback as well.
             foreach ($this->prts as $name => $prt) {
                 if (preg_match($pat, $prt->get_feedback_test())) {
-                    $errors[] = stack_string('stackversioncomment', array('qfield' => $name));
+                    $errors[] = stack_string('stackversioncomment', ['qfield' => $name]);
                 }
             }
         }
@@ -1587,12 +1591,12 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Check files use match the files in the question.
         $fs = get_file_storage();
         $pat = '/@@PLUGINFILE@@([^@"])*[\'"]/';
-        $fields = array('questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription');
+        $fields = ['questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription'];
         foreach ($fields as $field) {
             $text = $this->$field;
             $filesexpected = preg_match($pat, $text ?? '');
             $filesfound    = $fs->get_area_files($context->id, 'question', $field, $this->id);
-            if (!$filesexpected && $filesfound != array()) {
+            if (!$filesexpected && $filesfound != []) {
                 $errors[] = stack_string('stackfileuseerror', stack_string($field));
             }
         }
@@ -1609,13 +1613,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
      */
     public function validate_warnings($errors = false) {
 
-        $warnings = array();
+        $warnings = [];
 
         // 1. Answer tests which require raw inputs actually have SAns a calculated value.
         foreach ($this->prts as $prt) {
             foreach ($prt->get_raw_sans_used() as $key => $sans) {
                 if (!array_key_exists(trim($sans), $this->inputs)) {
-                    $warnings[] = stack_string_error('AT_raw_sans_needed', array('prt' => $key));
+                    $warnings[] = stack_string_error('AT_raw_sans_needed', ['prt' => $key]);
                 }
             }
             foreach ($prt->get_raw_arguments_used() as $name => $ans) {
@@ -1629,7 +1633,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
         // 2. Check alt-text exists.
         // Reminder: previous approach in Oct 2021 tried to use libxml_use_internal_errors, but this was a dead end.
-        $tocheck = array();
+        $tocheck = [];
         $text = '';
         if ($this->questiontextinstantiated !== null) {
             $text = trim($this->questiontextinstantiated->get_rendered());
@@ -1656,13 +1660,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
             $missingalt = stack_utils::count_missing_alttext($text);
             if ($missingalt > 0) {
-                $warnings[] = stack_string_error('alttextmissing', array('field' => $field, 'num' => $missingalt));
+                $warnings[] = stack_string_error('alttextmissing', ['field' => $field, 'num' => $missingalt]);
             }
         }
 
         // 3. Check for todo blocks.
-        $tocheck = array();
-        $fields = array('questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription');
+        $tocheck = [];
+        $fields = ['questiontext', 'specificfeedback', 'generalfeedback', 'questiondescription'];
         foreach ($fields as $field) {
             $tocheck[stack_string($field)] = $this->$field;
         }
@@ -1675,7 +1679,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $pat = '/\[\[todo/';
         foreach ($tocheck as $field => $text) {
             if (preg_match($pat, $text ?? '')) {
-                $warnings[] = stack_string_error('todowarning', array('field' => $field));
+                $warnings[] = stack_string_error('todowarning', ['field' => $field]);
             }
         }
 
@@ -1685,19 +1689,19 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         $ml = new stack_multilang();
         $qlangs = $ml->languages_used($this->questiontext);
         asort($qlangs);
-        if ($qlangs != array() && !$errors) {
+        if ($qlangs != [] && !$errors) {
             $warnings['questiontext'] = stack_string('questiontextlanguages', implode(', ', $qlangs));
         }
 
         // Language tags don't exist.
-        if ($qlangs == array()) {
+        if ($qlangs == []) {
             return $warnings;
         }
 
         $problems = false;
-        $missinglang = array();
-        $extralang = array();
-        $fields = array('specificfeedback', 'generalfeedback');
+        $missinglang = [];
+        $extralang = [];
+        $fields = ['specificfeedback', 'generalfeedback'];
         foreach ($fields as $field) {
             $text = $this->$field;
             // Strip out feedback tags (to help non-trivial content check)..
@@ -1750,11 +1754,11 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         foreach ($missinglang as $lang => $missing) {
             $warnings[] = stack_string('languageproblemsmissing',
-                array('lang' => $lang, 'missing' => implode(', ', $missing)));
+                ['lang' => $lang, 'missing' => implode(', ', $missing)]);
         }
         foreach ($extralang as $field => $langs) {
             $warnings[] = stack_string('languageproblemsextra',
-                array('field' => $field, 'langs' => implode(', ', $langs)));
+                ['field' => $field, 'langs' => implode(', ', $langs)]);
         }
 
         return $warnings;
@@ -1805,7 +1809,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
                     stack_clear_vle_question_cache($this->id);
                 }
             } catch (stack_exception $e) {
-                // TODO: what exactly do we use here as the key
+                // TO-DO: what exactly do we use here as the key
                 // and what sort of errors does the compilation generate.
                 // CHRIS: The compilation generates errors that relate to the static validation of
                 // the question, any such errors are fatal and will be apparent on the first opening
@@ -1990,15 +1994,15 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         // Do some pluginfile mapping. Note that the PRT-nodes are mapped in PRT-compiler.
         $questiontext = stack_castext_file_filter($questiontext, [
             'questionid' => $id,
-            'field' => 'questiontext'
+            'field' => 'questiontext',
         ]);
         $generalfeedback = stack_castext_file_filter($generalfeedback, [
             'questionid' => $id,
-            'field' => 'generalfeedback'
+            'field' => 'generalfeedback',
         ]);
         $specificfeedback = stack_castext_file_filter($specificfeedback, [
             'questionid' => $id,
-            'field' => 'specificfeedback'
+            'field' => 'specificfeedback',
         ]);
         // Legacy questions may have a null description before being saved/compiled.
         if ($questiondescription === null) {
@@ -2006,23 +2010,23 @@ class qtype_stack_question extends question_graded_automatically_with_countback
         }
         $questiondescription = stack_castext_file_filter($questiondescription, [
             'questionid' => $id,
-            'field' => 'questiondescription'
+            'field' => 'questiondescription',
         ]);
         $questionnote = stack_castext_file_filter($questionnote, [
             'questionid' => $id,
-            'field' => 'questionnote'
+            'field' => 'questionnote',
         ]);
         $prtcorrect = stack_castext_file_filter($prtcorrect, [
             'questionid' => $id,
-            'field' => 'prtcorrect'
+            'field' => 'prtcorrect',
         ]);
         $prtpartiallycorrect = stack_castext_file_filter($prtpartiallycorrect, [
             'questionid' => $id,
-            'field' => 'prtpartiallycorrect'
+            'field' => 'prtpartiallycorrect',
         ]);
         $prtincorrect = stack_castext_file_filter($prtincorrect, [
             'questionid' => $id,
-            'field' => 'prtincorrect'
+            'field' => 'prtincorrect',
         ]);
 
         // Compile the castext fragments.
@@ -2030,7 +2034,7 @@ class qtype_stack_question extends question_graded_automatically_with_countback
             'bound-vars' => $forbiddenkeys,
             'prt-names' => array_flip(array_keys($prts)),
             'io-blocks-as-raw' => 'pre-input2',
-            'static string extractor' => $map
+            'static string extractor' => $map,
         ];
         $ct = castext2_evaluatable::make_from_source($questiontext, '/qt');
         if (!$ct->get_valid($questiontextformat, $ctoptions, $sec)) {

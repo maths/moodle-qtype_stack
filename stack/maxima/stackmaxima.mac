@@ -81,7 +81,7 @@ stack_reset(true);
 /* Make sure this is at least defined. */
 debug:false;
 
-/* TODO: remove this from install process.                               */
+/* TO-DO: remove this from install process.                               */
 /* ********************************************************************* */
 /*  Evaluate variables are return errors, display, and content forms.    */
 /* ********************************************************************* */
@@ -1584,7 +1584,7 @@ ATMatrix(SA, SB) := block([RawMark, FeedBack, AnswerNote, str, ret, SAr, SAc, SB
         if retnew[2] = false then AddFeedBack:true
     ),
     if AddFeedBack = true then block(
-        /* TODO: better answernotes for matrices */
+        /* TO-DO: better answernotes for matrices */
         ret[3]:StackAddNote("", "ATMatrix_wrongentries"),
         ret[4]:StackAddFeedback("", "ATMatrix_wrongentries", stack_disp(SA, "d"))
     ),
@@ -3334,4 +3334,4 @@ is_lang(code):=ev(is(%_STACK_LANG=code),simp=true)$
 
 /* Stack expects some output with the version number the output happens at */
 /* maximalocal.mac after additional library loading */
-stackmaximaversion:2024032401$
+stackmaximaversion:2024043000$

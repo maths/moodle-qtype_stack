@@ -25,12 +25,12 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../question.php');
 
 /**
- * TODO: Rework, dont use legacy classes
+ * TO-DO: Rework, dont use legacy classes
  * Converts question xml into usable format
  */
 class StackQuestionLoader {
     public static function loadxml($xml) {
-        // TODO: Consider defaults.
+        // TO-DO: Consider defaults.
         try {
             $xmldata = new SimpleXMLElement($xml);
         } catch (\Exception $e) {
@@ -148,6 +148,11 @@ class StackQuestionLoader {
         $question->options->set_option(
             'decimals',
             isset($xmldata->question->decimals) ? (string) $xmldata->question->decimals : get_config('qtype_stack', 'decimals')
+        );
+        $question->options->set_option(
+            'scientificnotation',
+            isset($xmldata->question->scientificnotation) ?
+                                (string) $xmldata->question->scientificnotation : get_config('qtype_stack', 'scientificnotation')
         );
 
         $inputmap = [];

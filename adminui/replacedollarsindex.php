@@ -51,7 +51,7 @@ echo html_writer::tag('p', stack_string('replacedollarsindexintro'));
 
 echo html_writer::start_tag('ul');
 foreach ($counts as $contextid => $numstackquestions) {
-    $params = array('contextid' => $contextid);
+    $params = ['contextid' => $contextid];
     if (!$preview) {
         $params['preview'] = 0;
     }

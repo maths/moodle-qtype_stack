@@ -28,7 +28,7 @@ require_once(__DIR__ . '/mathsoutputbase.class.php');
  */
 class stack_maths {
     /** @var array output name => instance. */
-    protected static $outputs = array();
+    protected static $outputs = [];
 
     /**
      * Do the necessary processing on equations in a language string, before it

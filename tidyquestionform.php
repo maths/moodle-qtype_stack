@@ -45,7 +45,7 @@ class qtype_stack_tidy_question_form extends moodleform {
 
         foreach ($question->inputs as $inputname => $input) {
             $mform->addElement('text', 'inputname_' . $inputname,
-                    stack_string('newnameforx', $inputname), array('size' => 20));
+                    stack_string('newnameforx', $inputname), ['size' => 20]);
             $mform->setDefault('inputname_' . $inputname, $inputname);
             $mform->setType('inputname_' . $inputname, PARAM_RAW); // Validated in the validation method.
         }
@@ -55,7 +55,7 @@ class qtype_stack_tidy_question_form extends moodleform {
 
         foreach ($question->prts as $prtname => $prt) {
             $mform->addElement('text', 'prtname_' . $prtname,
-                    stack_string('newnameforx', $prtname), array('size' => 20));
+                    stack_string('newnameforx', $prtname), ['size' => 20]);
             $mform->setDefault('prtname_' . $prtname, $prtname);
             $mform->setType('prtname_' . $prtname, PARAM_RAW); // Validated in the validation method.
         }
@@ -74,7 +74,7 @@ class qtype_stack_tidy_question_form extends moodleform {
             uasort($nodes, fn($a, $b) => $a->nodename - $b->nodename);
             foreach ($nodes as $nodekey => $notused) {
                 $mform->addElement('text', 'nodename_' . $prtname . '_' . $nodekey,
-                        stack_string('newnameforx', $nodekey + 1), array('size' => 20));
+                        stack_string('newnameforx', $nodekey + 1), ['size' => 20]);
                 $mform->setDefault('nodename_' . $prtname . '_' . $nodekey, $newnames[$nodekey + 1]);
                 $mform->setType('nodename_' . $prtname . '_' . $nodekey, PARAM_INT);
             }
@@ -114,7 +114,7 @@ class qtype_stack_tidy_question_form extends moodleform {
         $question = $this->_customdata;
 
         // Inputs.
-        $inputnames = array();
+        $inputnames = [];
         foreach ($question->inputs as $inputname => $notused) {
             $field = 'inputname_' . $inputname;
             $proposedname = $data[$field];
@@ -131,7 +131,7 @@ class qtype_stack_tidy_question_form extends moodleform {
         }
 
         // PRTs.
-        $prtnames = array();
+        $prtnames = [];
         foreach ($question->prts as $prtname => $notused) {
             $field = 'prtname_' . $prtname;
             $proposedname = $data[$field];
@@ -148,7 +148,7 @@ class qtype_stack_tidy_question_form extends moodleform {
         }
 
         foreach ($question->prts as $prtname => $prt) {
-            $nodenames = array();
+            $nodenames = [];
             $nodes = $prt->get_nodes_summary();
             foreach ($nodes as $nodekey => $notused) {
                 $field = 'nodename_' . $prtname . '_' . $nodekey;

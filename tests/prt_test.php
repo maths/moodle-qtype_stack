@@ -103,20 +103,20 @@ class prt_test extends qtype_stack_testcase {
         $prt = new stack_potentialresponse_tree_lite($newprt, 5);
 
         $this->assertFalse($prt->is_formative());
-        $this->assertEquals(array('Int' => true), $prt->get_answertests());
-        $expected = array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0');
+        $this->assertEquals(['Int' => true], $prt->get_answertests());
+        $expected = ['NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0'];
         $this->assertEquals($expected, $prt->get_all_answer_notes());
 
         // For $inputs we only need the names of the inputs, not the full inputs.
-        $inputs = array('sans' => true);
-        $boundvars = array();
+        $inputs = ['sans' => true];
+        $boundvars = [];
         $defaultpenalty = 0.1;
         $security = new stack_cas_security();
         $pathprefix = '/p/' . '0';
         $sig = $prt->compile($inputs, $boundvars, $defaultpenalty, $security, $pathprefix, null);
 
         // Test 1 - a correct answer.
-        $inputs = array('sans' => '(x+1)^3/3+c');
+        $inputs = ['sans' => '(x+1)^3/3+c'];
 
         $session = new stack_cas_session2([], new stack_options(), 123);
         // Add preamble from PRTs as well.
@@ -147,17 +147,19 @@ class prt_test extends qtype_stack_testcase {
         $session->add_statement($prtev);
         $session->instantiate();
 
-        $this->assertEquals(array(), $prtev->get_errors(''));
+        $this->assertEquals([], $prtev->get_errors(''));
         $this->assertEquals(1, $prtev->get_score());
         $expected = 'Yeah!';
         $this->assertEquals($expected, $prtev->get_feedback());
-        $this->assertEquals(array('ATInt_true.', '1-0-1'), $prtev->get_answernotes());
-        $expected = array('ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
-            'prt_testprt(sans);');
+        $this->assertEquals(['ATInt_true.', '1-0-1'], $prtev->get_answernotes());
+        $expected = [
+            'ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
+            'prt_testprt(sans);',
+        ];
         $this->assertEquals($expected, $prtev->get_trace());
 
         // Test 2 - an incorrect answer.
-        $inputs = array('sans' => '(x+1)^3/3');
+        $inputs = ['sans' => '(x+1)^3/3'];
 
         $session = new stack_cas_session2([], new stack_options(), 123);
         // Add preamble from PRTs as well.
@@ -192,9 +194,11 @@ class prt_test extends qtype_stack_testcase {
         $expected = 'You need to add a constant of integration, otherwise this appears to be correct. ' .
             'Well done. Boo!';
         $this->assertEquals($expected, $prtev->get_feedback());
-        $this->assertEquals(array('ATInt_const.', '1-0-0'), $prtev->get_answernotes());
-        $expected = array('ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
-            'prt_testprt(sans);');
+        $this->assertEquals(['ATInt_const.', '1-0-0'], $prtev->get_answernotes());
+        $expected = [
+            'ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
+            'prt_testprt(sans);',
+        ];
         $this->assertEquals($expected, $prtev->get_trace());
     }
 
@@ -240,21 +244,23 @@ class prt_test extends qtype_stack_testcase {
         $prt = new stack_potentialresponse_tree_lite($newprt, 5);
 
         $this->assertFalse($prt->is_formative());
-        $this->assertEquals(array('AlgEquiv' => true), $prt->get_answertests());
-        $expected = array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
-            '1-1-1' => '1-1-1', '1-1-0' => '1-1-0');
+        $this->assertEquals(['AlgEquiv' => true], $prt->get_answertests());
+        $expected = [
+            'NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0',
+            '1-1-1' => '1-1-1', '1-1-0' => '1-1-0',
+        ];
         $this->assertEquals($expected, $prt->get_all_answer_notes());
 
         // For $inputs we only need the names of the inputs, not the full inputs.
-        $inputs = array('ans1' => true);
-        $boundvars = array();
+        $inputs = ['ans1' => true];
+        $boundvars = [];
         $defaultpenalty = 0.1;
         $security = new stack_cas_security();
         $pathprefix = '/p/' . '0';
         $sig = $prt->compile($inputs, $boundvars, $defaultpenalty, $security, $pathprefix, null);
 
         // Test 1 - a correct answer.
-        $inputs = array('ans1' => '2');
+        $inputs = ['ans1' => '2'];
 
         $session = new stack_cas_session2([], new stack_options(), 123);
         // Add preamble from PRTs as well.
@@ -285,13 +291,15 @@ class prt_test extends qtype_stack_testcase {
         $session->add_statement($prtev);
         $session->instantiate();
 
-        $this->assertEquals(array(), $prtev->get_errors(''));
+        $this->assertEquals([], $prtev->get_errors(''));
         $this->assertEquals(0.7, $prtev->get_score());
         $expected = 'Wait for it... Yeah good!';
         $this->assertEquals($expected, $prtev->get_feedback());
-        $this->assertEquals(array('1-0-0', '1-1-1'), $prtev->get_answernotes());
-        $expected = array('sa1:1/(2-ans1);', '/* ------------------- */', 'ATAlgEquiv(sa1,1);',
-            'ATAlgEquiv(1/(1+ans1),1/3);', '/* ------------------- */', 'prt_multiprt(ans1);');
+        $this->assertEquals(['1-0-0', '1-1-1'], $prtev->get_answernotes());
+        $expected = [
+            'sa1:1/(2-ans1);', '/* ------------------- */', 'ATAlgEquiv(sa1,1);',
+            'ATAlgEquiv(1/(1+ans1),1/3);', '/* ------------------- */', 'prt_multiprt(ans1);',
+        ];
         $this->assertEquals($expected, $prtev->get_trace());
     }
 
@@ -324,20 +332,20 @@ class prt_test extends qtype_stack_testcase {
         $prt = new stack_potentialresponse_tree_lite($newprt, 5);
 
         $this->assertFalse($prt->is_formative());
-        $this->assertEquals(array('Int' => true), $prt->get_answertests());
-        $expected = array('NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0');
+        $this->assertEquals(['Int' => true], $prt->get_answertests());
+        $expected = ['NULL' => 'NULL', '1-0-1' => '1-0-1', '1-0-0' => '1-0-0'];
         $this->assertEquals($expected, $prt->get_all_answer_notes());
 
         // For $inputs we only need the names of the inputs, not the full inputs.
-        $inputs = array('sans' => true);
-        $boundvars = array();
+        $inputs = ['sans' => true];
+        $boundvars = [];
         $defaultpenalty = 0.1;
         $security = new stack_cas_security();
         $pathprefix = '/p/' . '0';
         $sig = $prt->compile($inputs, $boundvars, $defaultpenalty, $security, $pathprefix, null);
 
         // A correct answer should generate a runtime error.
-        $inputs = array('sans' => '(x+1)^3/3+c');
+        $inputs = ['sans' => '(x+1)^3/3+c'];
 
         $session = new stack_cas_session2([], new stack_options(), 123);
         // Add preamble from PRTs as well.
@@ -369,13 +377,15 @@ class prt_test extends qtype_stack_testcase {
         $session->instantiate();
 
         $this->assertEquals(0, $prtev->get_score());
-        $expected = array('The score was not fully evaluated to a numerical value (check variable names).');
+        $expected = ['The score was not fully evaluated to a numerical value (check variable names).'];
         $this->assertEquals($expected, $prtev->get_errors());
         $expected = 'Yeah!';
         $this->assertEquals($expected, $prtev->get_feedback());
-        $this->assertEquals(array('ATInt_true.', '1-0-1'), $prtev->get_answernotes());
-        $expected = array('ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
-            'prt_testprt(sans);');
+        $this->assertEquals(['ATInt_true.', '1-0-1'], $prtev->get_answernotes());
+        $expected = [
+            'ATInt(sans,(x+1)^3/3+c,ev(x,simp));', '/* ------------------- */',
+            'prt_testprt(sans);',
+        ];
         $this->assertEquals($expected, $prtev->get_trace());
     }
 }

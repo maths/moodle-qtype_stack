@@ -41,7 +41,7 @@ class stack_secure_loader implements cas_evaluatable {
         }
         $this->context = $fromwhere;
         $this->code = $securedcode;
-        $this->errors = array();
+        $this->errors = [];
     }
 
     public function get_valid(): bool {

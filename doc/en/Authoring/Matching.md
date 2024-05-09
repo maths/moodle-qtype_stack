@@ -1,11 +1,10 @@
 # Authoring drag-and-drop matching and grid problems
 
-The drag-and-drop functionality developed for [Parson's problems for proof](Parsons.md) has been extended to be used for general matching and grid problems. To author these, use the `[[parsons]] ... [[/parsons]]` block as one would for Parson's problems, but specify at least one the number of columns or the number rows through the respective parameters `columns` and `rows`, which will set up a drag-and-drop grouping or grid layout with the number columns and/or rows as specified.
+The drag-and-drop functionality developed for [Parson's problems for proof](Parsons.md) has been extended to be used for general matching and grid problems. To author these, use the `[[parsons]] ... [[/parsons]]` block as one would for Parson's problems, but specify either `columns = "n"` or `columns="n"` _and_ `rows="m"`, which will set up a drag-and-drop grouping or grid layout with the number columns and rows as specified. You cannot specify `rows` without specifying `columns`.
 
-The combinations of these two parameters define four possible layout configurations as follows:
+The combinations of these two parameters define three possible layout configurations as follows:
 1. **Proof** (`[[parsons]] [[/parsons]]`) : if both `columns` and `rows` are unspecified then this will give the traditional Parson's proof layout with an answer list that users must drag to and an available list that users must drag from. Refer to [the guide](Parsons.md) for writing Parson's proof questions.
-2. **Column grouping** (`[[parsons columns="n"]] [[/parsons]]`) : If `columns="n"` is specified and `rows` is unspecified, this will lay out `n` _vertically arranged_ answer lists that items must be dragged to and an additional vertical available list that items must be dragged from. In this case, the lists can be arbitrary length and must be grown from the top downwards just as in the **Proof** layout.
-3. **Row grouping** (`[[parsons rows="m"]] [[/parsons]]`) : If `columns` is unspecified and `rows="m"` is specified, then this will lay out `m` _horizontally arranged_ answer lists that items must be dragged to and an additional horizontal available list that items must be dragged from. In this case, the lists can be arbitrary length and must be grown from the left rightwards. Note that the user can also switch between column grouping and row grouping modes through the reorientation button.
+2. **Column grouping** (`[[parsons columns="n"]] [[/parsons]]`) : If `columns="n"` is specified and `rows` is unspecified, this will lay out `n` _vertically arranged_ answer lists that items must be dragged to and an additional vertical available list that items must be dragged from. In this case, the lists can be arbitrary length and must be grown from the top downwards just as in the **Proof** layout. Via the reorientation button, the student is able to switch orientation between this and a row grouping setting (where answer lists are arranged as rows that are arbitrary length and grow from the left rightwards).
 4. **Grid** (`[[parsons columns="n" rows="m"]] [[/parsons]]`) : If both `columns="n"` and `rows="m"` are specified, then this will lay out an `m` by `n` answer grid that items must be dragged to and a vertical available list that items must be dragged from. In this case, individual items can be passed to any position in the grid. The user also has the option to re-orient the grid to have `m` columns and `n` rows via the reorientation button.
 
 The basic usage of all four modes are the exact same as [the Proof case](Parsons.md#authoring-json-within-the-question-text-itself), one can just modify the block parameters as specified. For example
@@ -22,6 +21,10 @@ The basic usage of all four modes are the exact same as [the Proof case](Parsons
 ## Clone mode
 
 We emphasise that items can be re-used by setting `clone="true"` in the block header (as in `[[parsons columns="n" clone="true"]][[/parsons]]`). This is more likely to be needed for grouping and grid setups.
+
+## Transposing on load
+
+The re-orientation button allows the student to switch between vertical and horizontal orientation as they wish, but on load the default is for the columns to be displayed vertically. Using `transpose="true"` in the header (as in `[[parsons columns="n" transpose="true"]][[/parsons]]`) will change this so that the horizontal orientation will display on load.
 
 ## Headers
 

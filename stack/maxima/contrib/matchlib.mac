@@ -117,3 +117,27 @@ match_correct(ans, steps, [rows]) := block([akeys, ukeys],
 match_transpose(ans) := block(
     return(args(transpose(apply(matrix, ans))))
 );
+
+/*
+ * Use this on both the model answer and the student input 
+ * when you do not care about the order within a column.
+ * Combine with `match_transpose` if you do not care about the order
+ * within a row.
+ * 
+ * It will turn `[[a, b], [c, d]]` into `[{a, b}, {c, d}]`.
+ */
+match_column_setify(ans) := block(
+    return(map(lambda([col], apply(set, col)), ans))
+);
+
+/*
+ * Use this on both the model answer and the student input 
+ * when you do not care about the order between columns.
+ * Combine with `match_transpose` if you do not care about 
+ * the order between rows.
+ * 
+ * It will turn `[[a, b], [c, d]]` into `{[a, b], [c, d]}`.
+ */
+match_setify(ans) := block(
+    return(apply(set, ans))
+);

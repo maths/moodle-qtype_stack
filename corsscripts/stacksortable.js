@@ -345,7 +345,7 @@ export const stack_sortable = class {
 
     // TODO : add containerId as param
     // TODO : be careful with default parameters, these should all be strings
-    constructor(proofSteps, inputId = null, options = null, clone = false, columns = 1, rows = null, orientation = "col", index = "", grid = false) {
+    constructor(proofSteps, inputId = null, options = null, clone = false, columns = 1, rows = null, orientation = "col", index = "", grid = false, item_height = null, item_width = null) {
         this.proofSteps = proofSteps;
         this.inputId = inputId;
         this.orientation = orientation;
@@ -354,9 +354,17 @@ export const stack_sortable = class {
         this.index = index;
         this.use_index = this.index !== "";
         this.grid = grid;
-        this.itemCSS = this.grid ? 
+        this.item_class = this.grid ? 
             (this.orientation === "row" ? "grid-item-rigid" : "grid-item") : "list-group-item";
+        this.item_height_width = {'style' : ''};
+        for (const [key, val] of [['height', item_height], ['width', item_width]]) {
+            if (val !== '') {this.item_height_width['style'] += `${key}:${val}px;`};
+        };
+        this.item_height_width = (this.item_height_width['style'] === '') ? {} : this.item_height_width;
+        this.item_height = (item_height !== '') ? {'style' : `height:${item_height}px;`} : {};
+        this.item_width = (item_width !== '') ? {'style' : `width:${item_width}px;`} : {};
 
+        this.container_height_width = (this.item_height_width['style'] !== '') ? {'style' : this.item_height_width['style'] + 'margin: 12px;'} : {};
         this.state = this._generate_state(this.proofSteps, inputId, Number(this.columns), Number(this.rows));
         if (inputId !== null) {
             this.input = document.getElementById(this.inputId);
@@ -630,12 +638,12 @@ export const stack_sortable = class {
      * @returns {void}
      */
     generate_available() {
-        this.state.available.forEach(key => this.available.append(this._create_li(key)));
+        this.state.available.forEach(key => this.available.append(this._create_li(key, this.item_height_width)));
     }
 
     _add_index(index, indexDOM) {
         for (const [i, value] of index.entries()) {
-            indexDOM.append(this._create_index(value, `usedIndex${i}`));
+            indexDOM.append(this._create_index(value, `usedIndex${i}`, this.item_height_width));
         }
     }
 
@@ -652,20 +660,23 @@ export const stack_sortable = class {
             }*/
             if (this.rows !== "" && this.columns !== "") {
                 for (const [j, val] of value.entries()) {
-                    val.forEach(key => this.used[i][j].append(this._create_li(key)));
+                    this._apply_attrs(this.used[i][j], this.container_height_width);
+                    val.forEach(key => this.used[i][j].append(this._create_li(key, this.item_height_width)));
                 }
             } else {
-                value[0].forEach(key => this.used[i][0].append(this._create_li(key)));
+                value[0].forEach(key => this.used[i][0].append(this._create_li(key, this.item_height_width)));
             }
         }
     }
 
     add_index(index) {
         for (const [i, value] of index.entries()) {
-            var idx = this._create_index(value, `usedIndex_${i}`);
             if (i === 0) {
+                var idx = this._create_index(value, `usedIndex_${i}`, this.item_height_width);
                 var addClass = this.orientation === "col" ? "header" : "index";
                 idx.classList.add(addClass);
+            } else {
+                var idx = this._create_index(value, `usedIndex_${i}`, this.item_height_width);
             }
             document.getElementById("index").append(idx);
         }
@@ -681,11 +692,11 @@ export const stack_sortable = class {
     add_headers(headers, available_header) {
         for (const [i, value] of headers.entries()) {
             var parentEl = document.getElementById(`usedList_${i}`);
-            var header = this._create_header(value, `usedHeader_${i}`);
+            var header = this._create_header(value, `usedHeader_${i}`, this.item_height_width);
             parentEl.insertBefore(header, parentEl.firstChild);
         }
         var parentEl = document.getElementById("availableList");
-        parentEl.insertBefore(this._create_header(available_header, "availableHeader"), parentEl.firstChild);
+        parentEl.insertBefore(this._create_header(available_header, "availableHeader", this.item_height_width), parentEl.firstChild);
     }
 
 
@@ -916,12 +927,18 @@ export const stack_sortable = class {
      * @param {string} proofKey - The key associated with the proof content in 'proofSteps'.
      * @returns {HTMLElement} - The created list item element.
      */
-    _create_li(proofKey) {
+    _create_li(proofKey, opts) {
         let li = document.createElement("li");
         li.innerHTML = this.proofSteps[proofKey];
-        li.setAttribute("data-id", proofKey);
-        li.className = this.itemCSS;
+        this._apply_attrs(li, {...{"data-id" : proofKey}, ...opts});
+        li.className = this.item_class;
         return li;
+    }
+
+    _apply_attrs(el, opts) {
+        for (const [key, value] of Object.entries(opts)) {
+            el.setAttribute(key, value);
+        }
     }
 
     /**
@@ -933,23 +950,23 @@ export const stack_sortable = class {
      * @param {string} id - ID of the header element.
      * @returns {HTMLElement} The created header element.
      */
-    _create_header(innerHTML, id) {
+    _create_header(innerHTML, id, opts) {
         let i = document.createElement("i");
         i.innerHTML = innerHTML;
         var addClass = (this.orientation === "col") ? 
-            [this.itemCSS, 'header'] : [this.itemCSS, 'index'];
+            [this.item_class, 'header'] : [this.item_class, 'index'];
         i.classList.add(...addClass);
-        i.setAttribute("id", id);
+        this._apply_attrs(i, {...{"id" : id}, ...opts});
         return i;
     }
 
-    _create_index(innerHTML, id) {
+    _create_index(innerHTML, id, opts) {
         let i = document.createElement("i");
         i.innerHTML = innerHTML;
         var addClass = (this.orientation === "col") ? 
-            [this.itemCSS, 'index'] : [this.itemCSS, 'header'];
+            [this.item_class, 'index'] : [this.item_class, 'header'];
         i.classList.add(...addClass);
-        i.setAttribute("id", id);
+        this._apply_attrs(i, {...{"id" : id}, ...opts});
         return i;
     }
 

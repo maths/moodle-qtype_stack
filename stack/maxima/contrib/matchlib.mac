@@ -121,23 +121,40 @@ match_transpose(ans) := block(
 /*
  * Use this on both the model answer and the student input 
  * when you do not care about the order within a column.
- * Combine with `match_transpose` if you do not care about the order
- * within a row.
  * 
- * It will turn `[[a, b], [c, d]]` into `[{a, b}, {c, d}]`.
+ * It will turn `[[a, b], [c, d], [e, f]]` into `[{a, b}, {c, d}, {e, f}]`.
  */
-match_column_setify(ans) := block(
+match_column_set(ans) := block(
     return(map(lambda([col], apply(set, col)), ans))
 );
 
 /*
  * Use this on both the model answer and the student input 
- * when you do not care about the order between columns.
- * Combine with `match_transpose` if you do not care about 
- * the order between rows.
+ * when you do not care about the order within a row.
  * 
- * It will turn `[[a, b], [c, d]]` into `{[a, b], [c, d]}`.
+ * It will turn `[[a, b], [c, d], [e, f]]` into `[{a, c, e}, {b, d, f}]`.
  */
-match_setify(ans) := block(
+match_row_set(ans) := block(
+    return(match_column_set(match_transpose(ans)))
+);
+
+/*
+ * Use this on both the model answer and the student input 
+ * when you do not care about the order between columns.
+ * 
+ * It will turn `[[a, b], [c, d], [e, f]]` into `{[a, b], [c, d], [e, f]}`.
+ */
+match_set_column(ans) := block(
     return(apply(set, ans))
 );
+
+/*
+ * Use this on both the model answer and the student input 
+ * when you do not care about the order between rows.
+ * 
+ * It will turn `[[a, b], [c, d], [e, f]]` into `{[a, c, e], [b, d, f]}`.
+ */
+match_set_row(ans) := block(
+    return(match_set_column(match_transpose(ans)))
+);
+

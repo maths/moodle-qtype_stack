@@ -25,74 +25,74 @@ export const SUPPORTED_CALLBACK_FUNCTIONS = [
 ];
 
 /**
- * Preprocess and validate proof steps, block user options, and sortable user options ready for use in `stack_sortable` class.
+ * Preprocess and validate steps, sortable user options, headers and indices ready for use in `stack_sortable` class.
  *
- * The function takes proof steps in the form of a Parson's JSON or Maxima string variable, along with block user options
+ * The function takes steps in the form of a Parson's JSON or Maxima string variable, along with block user options
  * and sortable user options. It performs the following tasks:
- * 1. If `proofSteps` is a Maxima string of expected format, it converts it to an object using `_stackstring_objectify`.
+ * 1. If `steps` is a Maxima string of expected format, it converts it to an object using `_stackstring_objectify`.
  * 2. It validates the structure of the Parson's JSON using `_validate_parsons_JSON`.
- * 3. If the Parsons JSON contains "steps" and "options," it separates them.
- *    - If "header" is present in options, it separates this away from Sortable options into `blockUserOpts`.
- *    - It splits Sortable options into "used" and "available" and passes to `sortableUserOpts`.
- * 4. If `proofSteps` is a Maxima string (after separation), it converts it to an object.
+ * 3. If the Parsons JSON is of depth two with a valid set of top-level keys it separates them.
+ * 4. If `steps` is a Maxima string (after separation), it converts it to an object.
  *
- * @param {string|Object} proofSteps - The proof steps to be preprocessed. Either a JSON of expected format
- * or
- * @param {Object} blockUserOpts - Block user options for the 'header' setting, should be passed as an empty Object.
- * @param {Object} sortableUserOpts - Sortable user options split into used and available, should be passed as an empty Object.
- * @returns {Array} - An array containing preprocessed proof steps, block user options,
- * sortable user options, and a boolean indicating the validity of the proof steps structure.
+ * @param {Object|string} steps - The steps object or string representation of steps.
+ * @param {Object} sortableUserOpts - Options for the sortable plugin.
+ * @param {Array} headers - Headers for the answer lists.
+ * @param {Array} available_header - Header for the available list.
+ * @param {Array} index - Index column.
+ * @returns {Array} - An array containing preprocessed steps, options, headers, available header, and index in that order.
  *
  * @example
  * // Returns [
- * //   { step1: "Proof step 1", step2: "Proof step 2" },
- * //   { used: { header: "Header 1" }, available: { header: "Header 2" } },
- * //   { used: { option1: "Value 1" }, available: { option2: "Value 2" } },
+ * //   { step1: "step 1 text", step2: "step 2 text" },
+ * //   { option1: "Value 1", option2: "Value 2" },
+ * //   ["header 1", "header 2"],
+ * //   ["Drag from here:"],
+ * //   null,
  * //   true
  * // ]
  * preprocess_steps({
  *   steps: {
- *     step1: "Proof step 1",
- *     step2: "Proof step 2"
+ *     step1: "step 1 text",
+ *     step2: "step 2 text"
  *   },
  *   options: {
- *     header: ["Header 1", "Header 2"],
  *     option1: "Value 1",
  *     option2: "Value 2"
  *   }
- * }, {}, {});
+ * }, ["header 1", "header 2"], ["Drag from here:"], null);
  */
-export function preprocess_steps(proofSteps, sortableUserOpts, headers, available_header, index) {
-    // Check if proofSteps is a string and convert it to an object
-    // (this occurs when proof steps are a flat list coming from a Maxima variable)
-    if (typeof proofSteps === "string") {
-        proofSteps = _stackstring_objectify(proofSteps);
+export function preprocess_steps(steps, sortableUserOpts, headers, available_header, index) {
+    // Check if steps is a string and convert it to an object
+    // (this occurs when the steps are a flat list coming from a Maxima variable)
+    if (typeof steps === "string") {
+        steps = _stackstring_objectify(steps);
     }
 
     // Validate the object
-    var valid = _validate_parsons_JSON(proofSteps);
+    var valid = _validate_parsons_JSON(steps);
 
-    // At this point, we know proofSteps is either a flat JSON, or it's top-level keys are a subset of 
-    // ["steps", "options", "headers", ""index"], and contains at least "steps". Separate these if they are present
-    if (_validate_top_level_keys_JSON(proofSteps, ["steps", "options", "headers", "index", "available_header"], ["steps"])) {
-        var sortableUserOpts = proofSteps["options"];
+    // At this point, we know steps is either a flat JSON, or it's top-level keys are a subset of 
+    // ["steps", "options", "headers", "available_header", "index"], and contains at least "steps". 
+    // Separate these if they are present.
+    if (_validate_top_level_keys_JSON(steps, ["steps", "options", "headers", "index", "available_header"], ["steps"])) {
+        var sortableUserOpts = steps["options"];
         // only want to replace defaults for headers if they have been provided
-        if ("headers" in proofSteps) {
-            headers = proofSteps["headers"];
+        if ("headers" in steps) {
+            headers = steps["headers"];
         }
-        if ("available_header" in proofSteps) {
-            available_header = proofSteps["available_header"];
+        if ("available_header" in steps) {
+            available_header = steps["available_header"];
         }
-        index = proofSteps["index"];
-        proofSteps = proofSteps["steps"];
+        index = steps["index"];
+        steps = steps["steps"];
     }
 
-    // Convert proofSteps to an object if it is still a string (occurs when the proof steps comes from a Maxima variable)
-    if (typeof proofSteps === "string") {
-        proofSteps = _stackstring_objectify(proofSteps);
+    // Convert steps to an object if it is still a string (occurs when the steps comes from a Maxima variable)
+    if (typeof steps === "string") {
+        steps = _stackstring_objectify(steps);
     }
 
-    return [proofSteps, sortableUserOpts, headers, available_header, index, valid];
+    return [steps, sortableUserOpts, headers, available_header, index, valid];
 }
 
 /**
@@ -111,30 +111,31 @@ function _stackstring_objectify(stackjson_array_string) {
 }
 
 /**
- * Validate the structure of Parson's JSON for proof steps.
+ * Validate the structure of Parson's JSON `steps`.
  *
- * The function checks the structure of the provided Parson's JSON (`proofSteps`)
+ * The function checks the structure of the provided Parson's JSON (`steps`)
  * to ensure it follows specific patterns:
- * 1. If the JSON has depth 1, it should be a valid proofStep JSON (i.e., should have string values).
- * 2. If the JSON has depth 2, the top-level keys should be ["steps", "options"], and the value for "steps"
- *    should be a valid proofStep JSON. Options are not validated here.
+ * 1. If the JSON has depth 1, it should be a valid flat JSON (i.e., should have string values).
+ * 2. If the JSON has depth 2, the top-level keys should be a subset of 
+ *    `["steps", "options", "headers", "index", "available_header"]`, and must contain `"steps"`. 
+ *    The value for "steps" should be a valid flat JSON. Options are not validated here.
  *
- * @param {Object} proofSteps - The Parson's JSON to be validated.
+ * @param {Object} steps - The Parson's JSON to be validated.
  * @returns {boolean} - Returns true if the provided Parsons JSON follows the expected structure, false otherwise.
  *
  * @example
  * // Returns true
  * _validate_parsons_JSON({
- *   "step1": "proof step 1",
- *   "step2": "proof step 2"
+ *   "step1": "step 1 text",
+ *   "step2": "step 2 text"
  * });
  *
  * @example
  * // Returns true
  * _validate_parsons_JSON({
  *   "steps": {
- *     "step1": "proof step 1",
- *     "step2": "proof step 2"
+ *     "step1": "step 1 text",
+ *     "step2": "step 2 text"
  *   },
  *   "options": {
  *     "option1": "value1",
@@ -146,128 +147,84 @@ function _stackstring_objectify(stackjson_array_string) {
  * // Returns false
  * _validate_parsons_JSON({
  *   "invalidKey": {
- *     "step1": "proof step 1",
- *     "step2": "proof step 2"
+ *     "step1": "step 1 text",
+ *     "step2": "step 2 text"
  *   }
  * });
  */
-function _validate_parsons_JSON(proofSteps) {
-    // If the JSON has depth 1 then it should be a valid proofStep JSON (i.e., should have string values)
-    if (Object.values(proofSteps).every((val) => !(typeof(val) == 'object'))) {
-        return _validate_proof_steps(proofSteps);
+function _validate_parsons_JSON(steps) {
+    // If the JSON has depth 1 then it should be a valid flat JSON (i.e., should have string values).
+    if (Object.values(steps).every((val) => !(typeof(val) == 'object'))) {
+        return _validate_flat_steps(steps);
     }
-    // Else the top-level of the JSON should have keys ["steps", "options"].
-    // The value for "keys" should be a valid proofStep JSON
-    // We do not validate options here
-    if (Object.values(proofSteps).some((val) => typeof(val) == "object")) {
-        if (JSON.stringify(Object.keys(proofSteps)) !== JSON.stringify(["steps", "options"])) {
+    // Else the top-level of the JSON should have keys that are a subset of ["steps", "options", "headers", "index", "available_header"]
+    // and a superset of ["steps"].
+    // The value for "steps" should be a valid flat JSON.
+    // We do not validate options here.
+    if (Object.values(steps).some((val) => typeof(val) == "object")) {
+        if (!_validate_top_level_keys_JSON(steps, ["steps", "options", "headers", "index", "available_header"], ["steps"])) {
             return false;
         }
-        if (!_validate_proof_steps(proofSteps["steps"])) {
+        if (!_validate_flat_steps(steps["steps"])) {
             return false;
         }
         return true;
     }
-    // TO-DO : we are missing one case here in depth 2 case and unclear how to catch it:
-    // if an author writes {"any string" : {#stackjson_stringify(proof_steps)#}},
-    // then this should throw an error
 }
 
 /**
- * Validate the structure of proof steps.
+ * Validate the structure of a flat steps JSON.
  *
- * The function checks the structure of the provided proof steps (`proofSteps`)
+ * The function checks the structure of the provided steps (`steps`)
  * to ensure that all values are strings.
  *
- * If the proof steps are provided as a Maxima variable (string of form '[["key", "value"], ...]'), they are converted
+ * If the steps are provided as a Maxima variable (string of form '[["key", "value"], ...]'), they are converted
  * to a JSON object using the `_stackstring_objectify` function before validation.
  *
- * @param {string|Object} proofSteps - The proof steps to be validated. If a string,
+ * @param {string|Object} steps - The flat JSON to be validated. If a string,
  * it is assumed to be a Maxima variable and will be converted to a JSON object.
- * @returns {boolean} - Returns true if all values in the proof steps are strings, false otherwise.
+ * @returns {boolean} - Returns true if all values in `steps` are strings, false otherwise.
  *
  * @example
  * // Returns true
- * _validate_proof_steps({
- *   step1: "Proof step 1",
- *   step2: "Proof step 2"
+ * _validate_flat_steps({
+ *   step1: "step 1 text",
+ *   step2: "step 2 text"
  * });
  *
  * @example
  * // Returns true
- * _validate_proof_steps('["step1", "Proof step 1"], ["step2", "Proof step 2"]]');
+ * _validate_flat_steps('["step1", "step 1 text"], ["step2", "step 2 text"]]');
  *
  * @example
  * // Returns false
- * _validate_proof_steps({
- *   step1: "Proof step 1",
+ * _validate_flat_steps({
+ *   step1: "step 1 text",
  *   step2: 123 // Not a string
  * });
  */
-function _validate_proof_steps(proofSteps) {
-    // Case when proof steps are coming from a Maxima variable: convert to a JSON
-    if (typeof(proofSteps) == 'string') {
-        proofSteps = _stackstring_objectify(proofSteps);
+function _validate_flat_steps(steps) {
+    // Case when steps are coming from a Maxima variable: convert to a JSON
+    if (typeof(steps) == 'string') {
+        steps = _stackstring_objectify(steps);
     }
-    return Object.values(proofSteps).every((val) => typeof(val) == 'string');
+    return Object.values(steps).every((val) => typeof(val) == 'string');
 }
 
+/**
+ * Validates the top-level keys of a JSON object by checking they are a subset of `validKeys` 
+ * and a superset of `requiredKeys`.
+ * 
+ * @param {Object} JSON - The JSON object to validate.
+ * @param {Array} validKeys - An array of valid top-level keys.
+ * @param {Array} requiredKeys - An array of top-level keys that are required.
+ * @returns {boolean} - True if the JSON object passes validation, otherwise false.
+ */
 function _validate_top_level_keys_JSON(JSON, validKeys, requiredKeys) {
     const keys = Object.keys(JSON);
     const missingRequiredKeys = requiredKeys.filter(key => !keys.includes(key));
     const invalidKeys = keys.filter(key => !validKeys.includes(key));
     return invalidKeys.length === 0 && missingRequiredKeys.length === 0;
-}
-
-/**
- * Flips the orientation of specified used and available lists, and the bin (if present) in the UI.
- * The function toggles between 'list-group row' and 'list-group col' classes for the specified elements.
- * The bin element (if present) is expected to have ID 'bin'.
- *
- * @param {string} usedId - The ID of the used list element.
- * @param {string} availableId - The ID of the available list element.
- * @returns {void}
- *
- * @example
- * // HTML structure:
- * // <div id="usedList" class="list-group row">...</div>
- * // <div id="availableList" class="list-group row">...</div>
- * // <div id="bin" class="list-group row">...</div>
- *
- * // JavaScript usage:
- * _flip_orientation('usedList', 'availableList');
- */
-function _flip_orientation(usedId, availableId) {
-    var usedList = document.getElementById(usedId);
-    var availableList = document.getElementById(availableId);
-    var newClass = usedList.className == 'list-group row' ? 'list-group col' : 'list-group row';
-    usedList.setAttribute('class', newClass);
-    availableList.setAttribute('class', newClass);
-}
-
-/**
- * Adds an event listener to a button element with the specified ID to trigger the flipping
- * of orientation between 'list-group row' and 'list-group col' classes for specified UI elements.
- * This event will also change the orientation of the bin element (if present), which is expected
- * to have ID 'bin'.
- *
- * @param {string} buttonId - The ID of the button element to which the event listener is added.
- * @param {string} usedId - The ID of the used list element.
- * @param {string} availableId - The ID of the available list element.
- * @returns {void}
- *
- * @example
- * // HTML structure:
- * // <button id="toggleButton">Toggle Orientation</button>
- * // <div id="usedList" class="list-group row">...</div>
- * // <div id="availableList" class="list-group row">...</div>
- *
- * // JavaScript usage:
- * add_orientation_listener('toggleButton', 'usedList', 'availableList');
- */
-export function add_orientation_listener(buttonId, usedId, availableId) {
-    const button = document.getElementById(buttonId);
-    button.addEventListener('click', () => _flip_orientation(usedId, availableId));
 }
 
 /**
@@ -279,22 +236,18 @@ export function get_iframe_height() {
     return document.documentElement.offsetHeight;
 }
 
-function _is_empty_li(li) {
-    return li.textContent.trim() === '' && li.children.length === 0;
-}
-
 /**
- * Class for for managing Sortable lists for Parson's proof questions in STACK.
+ * Class for for managing Sortable lists for Parson's block questions in STACK.
  *
  * @class
- * @param {Object} proofSteps - Object containing proof steps.
+ * @param {Object} steps - Object containing flat steps JSON.
  * @param {string} availableId - ID of the available list element.
  * @param {string} usedId - ID of the used list element.
  * @param {string|null} inputId - ID of the input element for storing state (optional).
  * @param {Object|null} options - Custom options for sortable lists (optional).
  * @param {boolean} clone - Flag indicating whether to clone elements during drag-and-drop.
  *
- * @property {Object} proofSteps - Object containing proof steps.
+ * @property {Object} steps - Object containing all steps.
  * @property {string} inputId - ID of the input element for storing state (optional).
  * @property {Object} state - Current state of used and available items.
  * @property {Object} userOptions - User-defined options merged with default options.
@@ -334,7 +287,7 @@ export const stack_sortable = class {
      * Constructor for the StackSortable class.
      *
      * @constructor
-     * @param {Object} proofSteps - Object containing proof steps.
+     * @param {Object} steps - Object containing the flat steps JSON.
      * @param {string} availableId - ID of the available list element.
      * @param {string} usedId - ID of the used list element.
      * @param {string|null} inputId - ID of the input element for storing state (optional).
@@ -342,11 +295,18 @@ export const stack_sortable = class {
      *                                of form {used: UsedOptions, available: AvailableOptions} (optional).
      * @param {boolean} clone - Flag indicating whether to clone elements during sorting.
      */
-
-    // TODO : add containerId as param
-    // TODO : be careful with default parameters, these should all be strings
-    constructor(proofSteps, inputId = null, options = null, clone = false, columns = 1, rows = null, orientation = "col", index = "", grid = false, item_height = null, item_width = null) {
-        this.proofSteps = proofSteps;
+    constructor(steps, 
+            inputId = null, 
+            options = null, 
+            clone = false, 
+            columns = 1, 
+            rows = null, 
+            orientation = "col", 
+            index = "", 
+            grid = false, 
+            item_height = null, 
+            item_width = null) {
+        this.steps = steps;
         this.inputId = inputId;
         this.orientation = orientation;
         this.columns = (this.orientation === "col") ? columns : rows;
@@ -363,22 +323,17 @@ export const stack_sortable = class {
         this.item_height_width = (this.item_height_width['style'] === '') ? {} : this.item_height_width;
         this.item_height = (item_height !== '') ? {'style' : `height:${item_height}px;`} : {};
         this.item_width = (item_width !== '') ? {'style' : `width:${item_width}px;`} : {};
-
         this.container_height_width = (this.item_height_width['style'] !== '') ? {'style' : this.item_height_width['style'] + 'margin: 12px;'} : {};
-        this.state = this._generate_state(this.proofSteps, inputId, Number(this.columns), Number(this.rows));
+        this.state = this._generate_state(this.steps, inputId, Number(this.columns), Number(this.rows));
         if (inputId !== null) {
             this.input = document.getElementById(this.inputId);
             this.submitted = this.input.getAttribute("readonly") === "readonly"
         }
         this.ids = this._create_ids(this.rows, this.columns);
         this.availableId = this.ids.available;
-        //this.available = document.getElementById(this.availableId);
         this.usedId = this.ids.used;
-        //this.used = this.usedId.map(idList => idList.map(id => document.getElementById(id)));
-        //this.used = document.getElementById(this.usedId);
         this.clone = clone;
         
-        // TODO : additional default options?
         this.defaultOptions = {used: {animation: 50, cancel: ".header"}, available: {animation: 50, cancel: ".header"}};
         // Merges user options and default, overwriting default with user options if they clash
         this.userOptions = this._set_user_options(options);
@@ -389,22 +344,118 @@ export const stack_sortable = class {
         this.options = this._set_ghostClass_group_and_disabled_options();
     }
 
-    _create_ids(rows, columns) {
-        var colIdx = Array.from({length: columns}, (_, i) => i);
-        var rowIdx = Array.from({length: rows}, (_, j) => j);
-        this.colIds = colIdx.map((idx) => `usedList_${idx}`);
-        this.rowColIds = {}
-        colIdx.forEach((i) => this.rowColIds[this.colIds[i]] = rowIdx.map((j) => `usedList_${j}${i}`));
-        var usedIds = (rows === "") ? 
-            this.colIds.map((id) => [id]) : 
-            Object.values(this.rowColIds);
-
-        return {
-            used: usedIds,
-            available: "availableList"
-        };
+    /**
+     * Adds double-click listeners to move items upon double-click and updates the state accordingly.
+     * Only supported for proofmode
+     * TODO : fix this
+     *
+     * @method
+     * @param {Object} newUsed - Updated used list.
+     * @param {Object} newAvailable - Updated available list.
+     * @returns {void}
+     */
+    add_dblclick_listeners(newUsed, newAvailable) {
+        this.available.addEventListener('dblclick', (e) => {
+            if (this._double_clickable(e.target)) {
+                // get highest-level parent
+                var li = this._get_moveable_parent_li(e.target);
+                li = (this.clone === "true") ? li.cloneNode(true) : this.available.removeChild(li);
+                this.used[0].append(li);
+                this.update_state(newUsed, newAvailable);
+            }
+        });
+        this.used[0].addEventListener('dblclick', (e) => {
+            if (this._double_clickable(e.target)) {
+                // get highest-level parent
+                var li = this._get_moveable_parent_li(e.target);
+                this.used[0].removeChild(li);
+                if (this.clone !== "true") {
+                    this.available.insertBefore(li, this.available.children[1]);
+                }
+                this.update_state(newUsed, newAvailable);
+            }
+        });
     }
 
+    /**
+     * Add a click event listener to a button to delete all items from the "used" list and
+     * updates the state accordingly.
+     *
+     * @method
+     * @param {string} buttonId - ID of the button element to attach the listener.
+     * @param {Object} newUsed - Updated "used" list.
+     * @param {Object} newAvailable - Updated "available" list.
+     * @returns {void}
+     */
+    add_delete_all_listener(buttonId, newUsed, newAvailable) {
+        const button = document.getElementById(buttonId);
+        button.addEventListener('click', () => {
+            this._delete_all_from_used(); this.update_state(newUsed, newAvailable);});
+    }
+
+    /**
+     * Adds header elements to the used and available lists.
+     *
+     * @method
+     * @param {Object} headers - Object containing header text for used and available lists.
+     * @returns {void}
+     */
+    add_headers(headers, available_header) {
+        for (const [i, value] of headers.entries()) {
+            var parentEl = document.getElementById(`usedList_${i}`);
+            var header = this._create_header(value, `usedHeader_${i}`, this.item_height_width);
+            parentEl.insertBefore(header, parentEl.firstChild);
+        }
+        var parentEl = document.getElementById("availableList");
+        parentEl.insertBefore(this._create_header(available_header, "availableHeader", this.item_height_width), parentEl.firstChild);
+    }
+
+    /**
+     * Adds index elements to the DOM based on the provided index array.
+     * 
+     * @param {Array} index - The array containing index values to be added.
+     */
+    add_index(index) {
+        for (const [i, value] of index.entries()) {
+            // Deal with the item in both header and index separately
+            if (i === 0) {
+                var idx = this._create_index(value, `usedIndex_${i}`, this.item_height_width);
+                var addClass = this.orientation === "col" ? "header" : "index";
+                idx.classList.add(addClass);
+            } else {
+                var idx = this._create_index(value, `usedIndex_${i}`, this.item_height_width);
+            }
+            document.getElementById("index").append(idx);
+        }
+    }
+
+    /**
+     * Adds a reorientation button to the document body.
+     * 
+     * The button allows users to change the orientation of sortable lists between vertical 
+     * and horizontal.
+     */
+    add_reorientation_button() {
+        var btn = document.createElement("button");
+        btn.id = "orientation";
+        btn.setAttribute("class", "parsons-button");
+        var icon = document.createElement("i");
+        icon.setAttribute("class", "fa fa-refresh");
+        btn.append(icon);
+        btn.addEventListener("click", () => this._flip_orientation());
+        document.body.insertBefore(btn, document.getElementById("containerRow"));
+    }
+
+    /**
+     * Populates the DOM with row and column div elements to the document based 
+     * on how many columns and rows are being passed to the instance.
+     * 
+     * How this occurs depends on various configurations.
+     * - Lists should contain the `"row"` or `"col"` class according to the orientation.
+     * - If the class is being used for proof (i.e., `this.grid === false`), then the list class should
+     *   also contain `"list-group"`.
+     * - Items class depends only on the orientation.
+     */
     create_row_col_divs() {
         var usedClassList = (!this.grid || this.orientation === "col") ? 
             ["list-group", this.orientation, "usedList"]:
@@ -456,6 +507,270 @@ export const stack_sortable = class {
         this.available = document.getElementById(this.availableId);
     }
 
+    /**
+     * Generates the available list based on the current state.
+     *
+     * @method
+     * @returns {void}
+     */
+    generate_available() {
+        this.state.available.forEach(key => this.available.append(this._create_li(key, this.item_height_width)));
+    }
+
+    /**
+     * Generates the used list based on the current state.
+     *
+     * @method
+     * @returns {void}
+     */
+    generate_used() {
+        for (const [i, value] of this.state.used.entries()) {
+            if (this.rows !== "" && this.columns !== "") {
+                for (const [j, val] of value.entries()) {
+                    this._apply_attrs(this.used[i][j], this.container_height_width);
+                    val.forEach(key => this.used[i][j].append(this._create_li(key, this.item_height_width)));
+                }
+            } else {
+                value[0].forEach(key => this.used[i][0].append(this._create_li(key, this.item_height_width)));
+            }
+        }
+    }
+
+    /**
+     * Updates the state based on changes in the used and available lists.
+     *
+     * @method
+     * @param {Object} newUsed - Updated used list.
+     * @param {Object} newAvailable - Updated available list.
+     * @returns {void}
+     */
+    update_state(newUsed, newAvailable) {
+        var newState = {used: newUsed.map((usedList) => usedList.map((used) => used.toArray())), available: newAvailable.toArray()};
+        if (this.inputId !== null) {
+            this.input.value = JSON.stringify(newState);
+            this.input.dispatchEvent(new Event('change'));
+        }
+        this.state = newState;
+    }
+
+    /**
+     * Validate user options against a list of possible option keys.
+     *
+     * This method checks the provided user options against a list of possible
+     * option keys. It verifies if each key is recognized and throws warnings if
+     * there are unknown keys or if certain keys are being overwritten.
+     *
+     * @method
+     * @param {string[]} possibleOptionKeys - List of possible option keys.
+     * @param {string} unknownErr - Error message for unknown option keys.
+     * @param {string} overwrittenErr - Error message for overwritten option keys.
+     * @returns {void}
+     *
+     * @throws {warningMessage} If there are unknown option keys or if certain keys are being overwritten, a warning
+     * will appear on the question page.
+     */
+    validate_options(possibleOptionKeys, unknownErr, overwrittenErr) {
+        var err = '';
+        var keysRecognised = true;
+        var invalidKeys = [];
+        // If option is not recognised warn user
+        Object.keys(this.options.used).forEach(key => {
+            if (!this._validate_option_key(key, possibleOptionKeys)) {
+                keysRecognised = false;
+                if (!invalidKeys.includes(key)) {
+                    invalidKeys.push(key);
+                }
+            }
+        });
+        Object.keys(this.options.available).forEach(key => {
+            if (!this._validate_option_key(key, possibleOptionKeys)) {
+                keysRecognised = false;
+                if (!invalidKeys.includes(key)) {
+                    invalidKeys.push(key);
+                }
+            }
+        });
+        if (!keysRecognised) {
+            err += unknownErr+ invalidKeys.join(", ") + ". ";
+        }
+        // If option is overwritten warn user (we have to use this.userOptions as this.options will contain these keys)
+        var overwrittenKeys = [];
+        var keysPreserved = true;
+        ["ghostClass", "group", "onSort"].forEach(key =>
+            {if (Object.keys(this.userOptions.used).includes(key) || Object.keys(this.userOptions.available).includes(key))
+                {
+                    keysPreserved = false;
+                    overwrittenKeys.push(key);
+                }
+            }
+        );
+        if (!keysPreserved) {
+            err += overwrittenErr + overwrittenKeys.join(", ") + ".";
+        }
+        if (!keysRecognised || !keysPreserved) {
+            this._display_warning(err);
+        }
+    }
+
+    /**
+     * Applies attributes to an HTML element.
+     * 
+     * @param {HTMLElement} el - The HTML element to which attributes will be applied.
+     * @param {Object} opts - An object containing attribute-value pairs to be applied.
+     */
+    _apply_attrs(el, opts) {
+        for (const [key, value] of Object.entries(opts)) {
+            el.setAttribute(key, value);
+        }
+    }
+
+    /**
+     * Creates a header element with specified inner HTML, ID, and other attributes.
+     * 
+     * @param {string} innerHTML - The inner HTML content of the header element.
+     * @param {string} id - The ID attribute of the header element.
+     * @param {Object} attrs - An object containing additional attributes for the header element.
+     * @returns {HTMLElement} - The created header element.
+     */
+    _create_header(innerHTML, id, attrs) {
+        let i = document.createElement("i");
+        i.innerHTML = innerHTML;
+        var addClass = (this.orientation === "col") ? 
+            [this.item_class, 'header'] : [this.item_class, 'index'];
+        i.classList.add(...addClass);
+        this._apply_attrs(i, {...{"id" : id}, ...attrs});
+        return i;
+    }
+
+    /**
+     * Creates and organizes identifiers for rows and columns. If only columns are passed, then 
+     * the used IDs will just be a flat list `["usedList_0", ..., "usedList_n"]`, where `columns = "n + 1"`.
+     * If both rows and columns have non-null values, then this will be a two-dimensional array
+     * `[["usedList_00", "usedList_01", ..., "usedList_0n"], ["usedList_10", ...], ...]`. 
+     * In the two-dimensional case, a mapping between the column IDs `["usedList_0", ...]` and the 
+     * two-dimensional array of item IDs is contained in the object `this.rowColIds`, that is 
+     * `this.rowColIds["usedList_0"] = ["usedList_00", "usedList_01", ...]`.
+     * 
+     * @param {number} rows - The number of rows.
+     * @param {number} columns - The number of columns.
+     * @returns {Object} - An object containing identifiers for used and available elements.
+     */
+    _create_ids(rows, columns) {
+        var colIdx = Array.from({length: columns}, (_, i) => i);
+        var rowIdx = Array.from({length: rows}, (_, j) => j);
+        this.colIds = colIdx.map((idx) => `usedList_${idx}`);
+        this.rowColIds = {}
+        colIdx.forEach((i) => this.rowColIds[this.colIds[i]] = rowIdx.map((j) => `usedList_${j}${i}`));
+        var usedIds = (rows === "") ? 
+            this.colIds.map((id) => [id]) : 
+            Object.values(this.rowColIds);
+
+        return {
+            used: usedIds,
+            available: "availableList"
+        };
+    }
+
+    /**
+     * Creates an index element with specified inner HTML, ID, and additional attributes.
+     * 
+     * @param {string} innerHTML - The inner HTML content of the index element.
+     * @param {string} id - The ID attribute of the index element.
+     * @param {Object} attrs - An object containing additional attributes for the index element.
+     * @returns {HTMLElement} - The created index element.
+     */
+    _create_index(innerHTML, id, attrs) {
+        let i = document.createElement("i");
+        i.innerHTML = innerHTML;
+        var addClass = (this.orientation === "col") ? 
+            [this.item_class, 'index'] : [this.item_class, 'header'];
+        i.classList.add(...addClass);
+        this._apply_attrs(i, {...{"id" : id}, ...attrs});
+        return i;
+    }
+
+    /**
+     * Creates a list item (li) element containing the value of the specified key from `this.steps` and attributes.
+     * 
+     * @param {string} stepKey - The key whose HTML to get from `this.steps`.
+     * @param {Object} attrs - An object containing additional attributes for the list item element.
+     * @returns {HTMLElement} - The created list item (li) element.
+     */
+    _create_li(stepKey, attrs) {
+        let li = document.createElement("li");
+        li.innerHTML = this.steps[stepKey];
+        this._apply_attrs(li, {...{"data-id" : stepKey}, ...attrs});
+        li.className = this.item_class;
+        return li;
+    }
+
+    /**
+     * Checks if a list item (li) is deletable.
+     * 
+     * @param {HTMLElement} li - The list item (li) element to check.
+     * @returns {boolean} - True if the list item is deletable, otherwise false.
+     */
+    _deletable_li(li) {
+        return !li.matches(".header") && !li.matches(".index") && !this._is_empty_li(li);
+    }
+
+    /**
+     * Delete all non-header items from the "used" list.
+     *
+     * @method
+     * @private
+     * @returns {void}
+     */
+    _delete_all_from_used() {
+        const lis = document.querySelectorAll('.usedList li[data-id]');
+        lis.forEach(li => {if (this._deletable_li(li)) {this._delete_li(li);}});
+    }
+
+    /**
+     * Deletes a list item (li) from its parent node.
+     * 
+     * @param {HTMLElement} li - The list item (li) element to delete.
+     */
+    _delete_li(li) {
+        li.parentNode.removeChild(li);
+    }
+
+    /**
+     * Display a warning message on the question page.
+     *
+     * @method
+     * @private
+     * @param {string} msg - The message to be displayed in the warning.
+     * @returns {void}
+     */
+    _display_warning(msg) {
+        var warning = document.createElement("div");
+        warning.className = "sortable-warning";
+        var exclamation = document.createElement("i");
+        exclamation.className = "icon fa fa-exclamation-circle text-danger fa-fw";
+        warning.append(exclamation);
+        var warningMessage = document.createElement("span");
+        warningMessage.textContent = msg;
+        warning.append(warningMessage);
+        document.body.insertBefore(warning, document.getElementById("sortableContainer"));
+    }
+
+    /**
+     * TODO: fix this, it should not be an index or grid-item or grid-item-rigid
+     * Check if an HTML element is double-clickable (i.e., it is not a header element).
+     *
+     * This private method is called on items inside the used or available list.
+     *
+     * @method
+     * @private
+     * @param {HTMLElement} item - The HTML element to check for double-clickability.
+     * @returns {boolean} - Returns true if the element is double-clickable, false otherwise.
+     */
+    _double_clickable(item) {
+        return !item.matches(".header");
+    }
+
+    /* TODO : simplify this */
     _flip_orientation() {
         var addClass = (this.orientation === "row") ? ["list-group", "col"] : ["row"];
         if (this.grid) {
@@ -535,292 +850,62 @@ export const stack_sortable = class {
             })
         }
     }
-
         this.orientation = (this.orientation === "row") ? "col" : "row";
-        
-        /*var usedList = document.getElementById(usedId);
-        var availableList = document.getElementById(availableId);
-        var newClass = usedList.className == 'list-group row' ? 'list-group col' : 'list-group row';
-        usedList.setAttribute('class', newClass);
-        availableList.setAttribute('class', newClass);*/
-    }
-
-    add_reorientation_button() {
-        var btn = document.createElement("button");
-        btn.id = "orientation";
-        btn.setAttribute("class", "parsons-button");
-        var icon = document.createElement("i");
-        icon.setAttribute("class", "fa fa-refresh");
-        btn.append(icon);
-        btn.addEventListener("click", () => this._flip_orientation());
-        document.body.insertBefore(btn, document.getElementById("containerRow"));
-    }
-    /*if (orientation === "row") {
-        var availableEl = document.getElementById("availableList");
-        availableEl.classList.remove("list-group", "col");
-        availableEl.classList.add(orientation);
-        availableEl.parentNode.insertBefore(availableEl, availableList.parentNode.firstChild);
-        //document.getElementById("availableList").classList.add(orientation);
-        ids.used.forEach((idList) => {
-            document.getElementById(idList[0]).classList.remove("list-group", "col");
-            document.getElementById(idList[0]).classList.add(orientation);
-        })
-        if (use_index) {
-            var indexEl = document.getElementById("index");
-            indexEl.classList.remove("list-group", "col");
-            indexEl.classList.add("row");
-        }
-    };*/
-
-    /**
-     * Validate user options against a list of possible option keys.
-     *
-     * This method checks the provided user options against a list of possible
-     * option keys. It verifies if each key is recognized and throws warnings if
-     * there are unknown keys or if certain keys are being overwritten.
-     *
-     * @method
-     * @param {string[]} possibleOptionKeys - List of possible option keys.
-     * @param {string} unknownErr - Error message for unknown option keys.
-     * @param {string} overwrittenErr - Error message for overwritten option keys.
-     * @returns {void}
-     *
-     * @throws {warningMessage} If there are unknown option keys or if certain keys are being overwritten, a warning
-     * will appear on the question page.
-     */
-    validate_options(possibleOptionKeys, unknownErr, overwrittenErr) {
-        var err = '';
-        var keysRecognised = true;
-        var invalidKeys = [];
-        // If option is not recognised warn user
-        Object.keys(this.options.used).forEach(key => {
-            if (!this._validate_option_key(key, possibleOptionKeys)) {
-                keysRecognised = false;
-                if (!invalidKeys.includes(key)) {
-                    invalidKeys.push(key);
-                }
-            }
-        });
-        Object.keys(this.options.available).forEach(key => {
-            if (!this._validate_option_key(key, possibleOptionKeys)) {
-                keysRecognised = false;
-                if (!invalidKeys.includes(key)) {
-                    invalidKeys.push(key);
-                }
-            }
-        });
-        if (!keysRecognised) {
-            err += unknownErr+ invalidKeys.join(", ") + ". ";
-        }
-        // If option is overwritten warn user (we have to use this.userOptions as this.options will contain these keys)
-        var overwrittenKeys = [];
-        var keysPreserved = true;
-        ["ghostClass", "group", "onSort"].forEach(key =>
-            {if (Object.keys(this.userOptions.used).includes(key) || Object.keys(this.userOptions.available).includes(key))
-                {
-                    keysPreserved = false;
-                    overwrittenKeys.push(key);
-                }
-            }
-        );
-        if (!keysPreserved) {
-            err += overwrittenErr + overwrittenKeys.join(", ") + ".";
-        }
-        if (!keysRecognised || !keysPreserved) {
-            this._display_warning(err);
-        }
     }
 
     /**
-     * Generates the available list based on the current state.
-     *
-     * @method
-     * @returns {void}
-     */
-    generate_available() {
-        this.state.available.forEach(key => this.available.append(this._create_li(key, this.item_height_width)));
-    }
-
-    _add_index(index, indexDOM) {
-        for (const [i, value] of index.entries()) {
-            indexDOM.append(this._create_index(value, `usedIndex${i}`, this.item_height_width));
-        }
-    }
-
-    /**
-     * Generates the used list based on the current state.
-     *
-     * @method
-     * @returns {void}
-     */
-    generate_used() {
-        for (const [i, value] of this.state.used.entries()) {
-            /*if (i === 0 && this.index !== null) {
-                this._add_index(this.index, value[0]);        
-            }*/
-            if (this.rows !== "" && this.columns !== "") {
-                for (const [j, val] of value.entries()) {
-                    this._apply_attrs(this.used[i][j], this.container_height_width);
-                    val.forEach(key => this.used[i][j].append(this._create_li(key, this.item_height_width)));
-                }
-            } else {
-                value[0].forEach(key => this.used[i][0].append(this._create_li(key, this.item_height_width)));
-            }
-        }
-    }
-
-    add_index(index) {
-        for (const [i, value] of index.entries()) {
-            if (i === 0) {
-                var idx = this._create_index(value, `usedIndex_${i}`, this.item_height_width);
-                var addClass = this.orientation === "col" ? "header" : "index";
-                idx.classList.add(addClass);
-            } else {
-                var idx = this._create_index(value, `usedIndex_${i}`, this.item_height_width);
-            }
-            document.getElementById("index").append(idx);
-        }
-    }
-
-    /**
-     * Adds header elements to the used and available lists.
-     *
-     * @method
-     * @param {Object} headers - Object containing header text for used and available lists.
-     * @returns {void}
-     */
-    add_headers(headers, available_header) {
-        for (const [i, value] of headers.entries()) {
-            var parentEl = document.getElementById(`usedList_${i}`);
-            var header = this._create_header(value, `usedHeader_${i}`, this.item_height_width);
-            parentEl.insertBefore(header, parentEl.firstChild);
-        }
-        var parentEl = document.getElementById("availableList");
-        parentEl.insertBefore(this._create_header(available_header, "availableHeader", this.item_height_width), parentEl.firstChild);
-    }
-
-
-    /**
-     * Updates the state based on changes in the used and available lists.
-     *
-     * @method
-     * @param {Object} newUsed - Updated used list.
-     * @param {Object} newAvailable - Updated available list.
-     * @returns {void}
-     */
-    update_state(newUsed, newAvailable) {
-        var newState = {used: newUsed.map((usedList) => usedList.map((used) => used.toArray())), available: newAvailable.toArray()};
-        if (this.inputId !== null) {
-            this.input.value = JSON.stringify(newState);
-            this.input.dispatchEvent(new Event('change'));
-        }
-        this.state = newState;
-    }
-
-    /**
-     * Adds double-click listeners to move items upon double-click and updates the state accordingly.
-     *
-     * @method
-     * @param {Object} newUsed - Updated used list.
-     * @param {Object} newAvailable - Updated available list.
-     * @returns {void}
-     */
-    add_dblclick_listeners(newUsed, newAvailable) {
-        this.available.addEventListener('dblclick', (e) => {
-            if (this._double_clickable(e.target)) {
-                // get highest-level parent
-                var li = this._get_moveable_parent_li(e.target);
-                li = (this.clone === "true") ? li.cloneNode(true) : this.available.removeChild(li);
-                this.used[0].append(li);
-                this.update_state(newUsed, newAvailable);
-            }
-        });
-        this.used[0].addEventListener('dblclick', (e) => {
-            if (this._double_clickable(e.target)) {
-                // get highest-level parent
-                var li = this._get_moveable_parent_li(e.target);
-                this.used[0].removeChild(li);
-                if (this.clone !== "true") {
-                    this.available.insertBefore(li, this.available.children[1]);
-                }
-                this.update_state(newUsed, newAvailable);
-            }
-        });
-    }
-
-    /**
-     * Add a click event listener to a button to delete all items from the "used" list and
-     * updates the state accordingly.
-     *
-     * @method
-     * @param {string} buttonId - ID of the button element to attach the listener.
-     * @param {Object} newUsed - Updated "used" list.
-     * @param {Object} newAvailable - Updated "available" list.
-     * @returns {void}
-     */
-    add_delete_all_listener(buttonId, newUsed, newAvailable) {
-        const button = document.getElementById(buttonId);
-        button.addEventListener('click', () => {
-            this._delete_all_from_used(); this.update_state(newUsed, newAvailable);});
-    }
-
-    /**
-     * Generates the initial state of used and available items based on the provided proof steps and input ID.
+     * Generates the initial state of used and available items based on the provided steps, input ID,
+     * and number of columns and rows used. The shape of the used state will be `(1, 1, ?)` if in proof 
+     * mode, `(n, 1, ?)` if `n` columns are specified and `(n, m, 1)` if `n` columns and `m` rows are specified.
      *
      * @method
      * @private
-     * @param {Object} proofSteps - Object containing proof steps.
+     * @param {Object} steps - Object containing steps.
      * @param {string} inputId - ID of the input element for storing state.
      * @returns {Object} The initial state object with used and available lists.
      */
-    _generate_state(proofSteps, inputId, columns, rows) {
+    _generate_state(steps, inputId, columns, rows) {
         const usedState = (rows === 0 || columns === 0) ? 
                 Array(columns).fill().map(() => [[]]) : 
                 Array(columns).fill().map(() => Array(rows).fill([]));
         let stateStore = document.getElementById(inputId);
         if (stateStore === null) {
-            return {used: usedState, available: [...Object.keys(proofSteps)]};
+            return {used: usedState, available: [...Object.keys(steps)]};
         }
         return (stateStore.value && stateStore.value != "") ?
             JSON.parse(stateStore.value) :
-            {used: usedState, available: [...Object.keys(proofSteps)]};
+            {used: usedState, available: [...Object.keys(steps)]};
     }
 
     /**
-     * Validate if a given option key is among the possible option keys.
+     * Get the nearest moveable parent list item for a given HTML element.
+     *
+     * This private method traverses the DOM hierarchy starting from the provided HTML
+     * element and finds the nearest parent list item with the class ".list-group-item".
+     * It is useful for identifying the moveable parent when doubling clicking on child
+     * elements (for example MathJax display elements) inside list items.
      *
      * @method
      * @private
-     * @param {string} key - The option key to validate.
-     * @param {string[]} possibleOptionKeys - List of possible option keys.
-     * @returns {boolean} - Returns true if the option key is valid, false otherwise.
+     * @param {HTMLElement} target - The HTML element for which to find the moveable parent list item.
+     * @returns {HTMLElement|null} - The nearest parent list item with class ".list-group-item", or null if not found.
      */
-    _validate_option_key(key, possibleOptionKeys) {
-        return possibleOptionKeys.includes(key);
-    }
-
-    /**
-     * Set and merge user-provided options with default options.
-     *
-     * This private method sets user options for both "used" and "available" lists
-     * by merging the provided options with the default options. If no options are
-     * provided, it returns the default options.
-     *
-     * @method
-     * @private
-     * @param {Object|null} options - Custom options for sortable lists
-     *                                of form {used: UsedOptions, available: AvailableOptions} (optional).
-     * @returns {Object} - Merged user options for "used" and "available" lists.
-     */
-    _set_user_options(options) {
-        var userOptions;
-        if (options === null) {
-            userOptions = this.defaultOptions;
-        } else {
-            userOptions = {used: Object.assign(this.defaultOptions.used, options.used),
-                available: Object.assign(this.defaultOptions.available, options.available)};
+    _get_moveable_parent_li(target) {
+        var li = target;
+        while (!li.matches(".list-group-item")) {
+            li = li.parentNode;
         }
-        return userOptions;
+        return li;
+    }
+
+    /**
+     * Checks if a list item (li) element is empty.
+     * 
+     * @param {HTMLElement} li - The list item (li) element to check.
+     * @returns {boolean} - True if the list item is empty, otherwise false.
+     */
+    _is_empty_li(li) {
+        return li.textContent.trim() === '' && li.children.length === 0;
     }
 
     /**
@@ -900,130 +985,41 @@ export const stack_sortable = class {
     }
 
     /**
-     * Display a warning message on the question page.
+     * Set and merge user-provided options with default options.
+     *
+     * This private method sets user options for both "used" and "available" lists
+     * by merging the provided options with the default options. If no options are
+     * provided, it returns the default options.
      *
      * @method
      * @private
-     * @param {string} msg - The message to be displayed in the warning.
-     * @returns {void}
+     * @param {Object|null} options - Custom options for sortable lists
+     *                                of form {used: UsedOptions, available: AvailableOptions} (optional).
+     * @returns {Object} - Merged user options for "used" and "available" lists.
      */
-    _display_warning(msg) {
-        var warning = document.createElement("div");
-        warning.className = "sortable-warning";
-        var exclamation = document.createElement("i");
-        exclamation.className = "icon fa fa-exclamation-circle text-danger fa-fw";
-        warning.append(exclamation);
-        var warningMessage = document.createElement("span");
-        warningMessage.textContent = msg;
-        warning.append(warningMessage);
-        document.body.insertBefore(warning, document.getElementById("sortableContainer"));
-    }
-
-    /**
-     * Create an HTML list item element based on keys in `this.proofSteps`.
-     *
-     * @method
-     * @private
-     * @param {string} proofKey - The key associated with the proof content in 'proofSteps'.
-     * @returns {HTMLElement} - The created list item element.
-     */
-    _create_li(proofKey, opts) {
-        let li = document.createElement("li");
-        li.innerHTML = this.proofSteps[proofKey];
-        this._apply_attrs(li, {...{"data-id" : proofKey}, ...opts});
-        li.className = this.item_class;
-        return li;
-    }
-
-    _apply_attrs(el, opts) {
-        for (const [key, value] of Object.entries(opts)) {
-            el.setAttribute(key, value);
+    _set_user_options(options) {
+        var userOptions;
+        if (options === null) {
+            userOptions = this.defaultOptions;
+        } else {
+            userOptions = {used: Object.assign(this.defaultOptions.used, options.used),
+                available: Object.assign(this.defaultOptions.available, options.available)};
         }
+        return userOptions;
     }
 
     /**
-     * Creates a header element.
+     * Validate if a given option key is among the possible option keys.
      *
      * @method
      * @private
-     * @param {string} innerHTML - Inner HTML content of the header.
-     * @param {string} id - ID of the header element.
-     * @returns {HTMLElement} The created header element.
+     * @param {string} key - The option key to validate.
+     * @param {string[]} possibleOptionKeys - List of possible option keys.
+     * @returns {boolean} - Returns true if the option key is valid, false otherwise.
      */
-    _create_header(innerHTML, id, opts) {
-        let i = document.createElement("i");
-        i.innerHTML = innerHTML;
-        var addClass = (this.orientation === "col") ? 
-            [this.item_class, 'header'] : [this.item_class, 'index'];
-        i.classList.add(...addClass);
-        this._apply_attrs(i, {...{"id" : id}, ...opts});
-        return i;
+    _validate_option_key(key, possibleOptionKeys) {
+        return possibleOptionKeys.includes(key);
     }
-
-    _create_index(innerHTML, id, opts) {
-        let i = document.createElement("i");
-        i.innerHTML = innerHTML;
-        var addClass = (this.orientation === "col") ? 
-            [this.item_class, 'index'] : [this.item_class, 'header'];
-        i.classList.add(...addClass);
-        this._apply_attrs(i, {...{"id" : id}, ...opts});
-        return i;
-    }
-
-    /**
-     * Check if an HTML element is double-clickable (i.e., it is not a header element).
-     *
-     * This private method is called on items inside the used or available list.
-     *
-     * @method
-     * @private
-     * @param {HTMLElement} item - The HTML element to check for double-clickability.
-     * @returns {boolean} - Returns true if the element is double-clickable, false otherwise.
-     */
-    _double_clickable(item) {
-        return !item.matches(".header");
-    }
-
-    /**
-     * Get the nearest moveable parent list item for a given HTML element.
-     *
-     * This private method traverses the DOM hierarchy starting from the provided HTML
-     * element and finds the nearest parent list item with the class ".list-group-item".
-     * It is useful for identifying the moveable parent when doubling clicking on child
-     * elements (for example MathJax display elements) inside list items.
-     *
-     * @method
-     * @private
-     * @param {HTMLElement} target - The HTML element for which to find the moveable parent list item.
-     * @returns {HTMLElement|null} - The nearest parent list item with class ".list-group-item", or null if not found.
-     */
-    _get_moveable_parent_li(target) {
-        var li = target;
-        while (!li.matches(".list-group-item")) {
-            li = li.parentNode;
-        }
-        return li;
-    }
-
-    _deletable_li(li) {
-        return !li.matches(".header") && !li.matches(".index") && !_is_empty_li(li);
-    }
-
-    _delete_li(li) {
-        li.parentNode.removeChild(li);
-    }
-    /**
-     * Delete all non-header items from the "used" list.
-     *
-     * @method
-     * @private
-     * @returns {void}
-     */
-    _delete_all_from_used() {
-        const lis = document.querySelectorAll('.usedList li[data-id]');
-        lis.forEach(li => {if (this._deletable_li(li)) {this._delete_li(li);}});
-    }
-
 };
 
 export default {stack_sortable};

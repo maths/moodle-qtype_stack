@@ -347,7 +347,6 @@ export const stack_sortable = class {
     /**
      * Adds double-click listeners to move items upon double-click and updates the state accordingly.
      * Only supported for proofmode
-     * TODO : fix this
      *
      * @method
      * @param {Object} newUsed - Updated used list.
@@ -360,15 +359,15 @@ export const stack_sortable = class {
                 // get highest-level parent
                 var li = this._get_moveable_parent_li(e.target);
                 li = (this.clone === "true") ? li.cloneNode(true) : this.available.removeChild(li);
-                this.used[0].append(li);
+                this.used[0][0].append(li);
                 this.update_state(newUsed, newAvailable);
             }
         });
-        this.used[0].addEventListener('dblclick', (e) => {
+        this.used[0][0].addEventListener('dblclick', (e) => {
             if (this._double_clickable(e.target)) {
                 // get highest-level parent
                 var li = this._get_moveable_parent_li(e.target);
-                this.used[0].removeChild(li);
+                this.used[0][0].removeChild(li);
                 if (this.clone !== "true") {
                     this.available.insertBefore(li, this.available.children[1]);
                 }

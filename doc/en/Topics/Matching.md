@@ -139,7 +139,7 @@ ans: [
 Here we should:
 - Write the question text itself.
 - Open the `parsons` block with `input` and `columns` header parameters.
-- Transfer the variables from `Question variables` into a JSON inside the `parsons` block as appropriate.
+- Transfer the variables from _Question variables_ into a JSON inside the `parsons` block as appropriate.
 - Close the `parsons` block.
 - Set `style="display:none"` in the input div to hide the messy state from the student.
 
@@ -214,7 +214,7 @@ You will use the `"<ID>"` string to write solutions and assess student inputs; t
 - The headers that will appear on top of the answer columns.
 - The correct answer as a two-dimensional array. This should always be column grouped.
 
-For our example, the `Question variables` field looks as follows.
+For our example, the _Question variables_ field looks as follows.
 ```
 stack_include("contribl://matchlib.mac");
 
@@ -247,7 +247,7 @@ ans: [
 Here we should:
 - Write the question text itself.
 - Open the `parsons` block with `input`, `columns` and `rows` header parameters.
-- Transfer the variables from `Question variables` into a JSON inside the `parsons` block as appropriate.
+- Transfer the variables from _Question variables_ into a JSON inside the `parsons` block as appropriate.
 - Close the `parsons` block.
 - Set `style="display:none"` in the input div to hide the messy state from the student.
 

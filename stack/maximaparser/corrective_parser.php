@@ -262,7 +262,7 @@ class maxima_corrective_parser {
     public static function handle_parse_error($exception, $string, &$errors, &$answernote, $decimals) {
         // @codingStandardsIgnoreStart
         // We also disallow backticks.
-        static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>';
+        static $disallowedfinalchars = '/+*^#~=,_&`;:$-.<>%';
         // @codingStandardsIgnoreEnd
 
         /**

@@ -2844,6 +2844,58 @@ class cassession2_test extends qtype_stack_testcase {
 
     }
 
+    public function test_use_at() {
+
+        // This testcase arose as issue #762.
+        $cases = [
+            'k1:4',
+            'k2:5',
+            'k3:2',
+            'f1:x2^2-k1*u',
+            'f2:k2*x1-k3*x2+u',
+            'f3:x_1',
+            'u0: 1',
+            'f10:at(f1,[u=u0])',
+            'f20:at(f2,[u=u0])',
+            'eq1:f10=0',
+            'eq2:f20=0',
+            'sol:solve([eq1,eq2],[x1,x2])',
+            's1:sol[1]',
+            's2:sol[2]',
+            'x11:rhs(s1[1])',
+            'x12:rhs(s1[2])',
+            'x21:rhs(s2[1])',
+            'x22:rhs(s2[2])',
+            'P1:matrix([x11],[x12])',
+            'P2: matrix([x21],[x22])',
+            'var:[x1, x2]',
+            'inp:[u]',
+            'sys:[f1, f2]',
+            'A:jacobian(sys,var)',
+            'B:jacobian(sys, inp)',
+            'A1:at(A,[x1=x11,x2=x12, u=u0])',
+            'B1:at(B,[x1=x11,x2=x12, u=u0])',
+            'A2:at(A,[x1=x21, x2=x22, u=u0])',
+            'B2:at(B,[x1=x21, x2=x22, u=u0])',
+        ];
+
+        $s1 = [];
+        foreach ($cases as $case) {
+            $s1[] = stack_ast_container::make_from_teacher_source($case, '', new stack_cas_security(), []);
+        }
+        $options = new stack_options();
+        $options->set_option('simplify', true);
+        $session = new stack_cas_session2($s1, $options, 0);
+        $this->assertTrue($session->get_valid());
+
+        $session->instantiate();
+        $this->assertTrue($session->is_instantiated());
+        $v3 = $session->get_by_key('A2');
+        $this->assertEquals('matrix([0,4],[5,-2])', $v3->get_value());
+        $t1 = $session->get_by_key('B2');
+        $this->assertEquals('matrix([-4],[1])', $t1->get_value());
+    }
+
     public function test_s_test() {
 
         $cases = ['t1:s_assert(a,b)'];

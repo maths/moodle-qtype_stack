@@ -28,7 +28,7 @@ require_once($CFG->dirroot . '/question/type/stack/backup/moodle2/restore_qtype_
  * @copyright  2017 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class restore_logic_test extends \restore_qtype_stack_plugin {
+class restore_logic_test_class extends \restore_qtype_stack_plugin {
     private $log = '';
 
     public function __construct() {
@@ -77,7 +77,7 @@ class restore_logic_test extends \restore_qtype_stack_plugin {
  * @group qtype_stack
  * @covers \qtype_stack
  */
-class qtype_stack_restore_logic_testcase extends \advanced_testcase {
+class restore_logic_test extends \advanced_testcase {
 
     public function test_fix_prt_roots() {
         global $DB;
@@ -95,7 +95,7 @@ class qtype_stack_restore_logic_testcase extends \advanced_testcase {
         $DB->set_field('qtype_stack_prt_nodes', 'truenextnode', 7,
                 ['questionid' => $question->id, 'prtname' => 'oddeven', 'nodename' => 0]);
 
-        $restoreplugin = new \testable_restore_qtype_stack_plugin();
+        $restoreplugin = new restore_logic_test_class();
         $restoreplugin->after_execute_question();
 
         $this->assertStringContainsString('The PRT named "oddeven" is malformed', $restoreplugin->get_log());

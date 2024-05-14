@@ -2004,6 +2004,10 @@ class stack_answertest_test_data {
         ['NumSigFigs', '2', '5.3e21', '5.3e21', 1, '', ''],
         ['NumSigFigs', '2', '5.3e22', '5.3e22', 1, '', ''],
         ['NumSigFigs', '2', '5.3e20', '5.3e22', 0, 'ATNumSigFigs_VeryInaccurate.', ''],
+        // The next test cases were raised in issue #1108, but it's not a bug.
+        ['NumSigFigs', '2', '9.8', '10', 1, '', ''],
+        ['NumSigFigs', '2', '9.5', '10', 0, 'ATNumSigFigs_Inaccurate.', ''],
+        ['NumSigFigs', '2', '10.0', '10', 0, 'ATNumSigFigs_WrongDigits.', ''],
         ['NumSigFigs', '9', '6.02214086e23', '6.02214086e23', 1, '', ''],
         ['NumSigFigs', '9', '6.0221409e23', '6.02214086e23', 0, 'ATNumSigFigs_WrongDigits. ATNumSigFigs_Inaccurate.', ''],
         ['NumSigFigs', '9', '6.02214087e23', '6.02214086e23', 0, 'ATNumSigFigs_Inaccurate.', ''],

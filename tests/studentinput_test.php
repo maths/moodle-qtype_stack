@@ -40,7 +40,10 @@ require_once(__DIR__ . '/fixtures/inputfixtures.class.php');
 class studentinput_test extends qtype_stack_testcase {
 
     /**
+     * @codingStandardsIgnoreStart
+     * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data
+     * @codingStandardsIgnoreEnd
      */
     public function test_studentinput() {
         $test = stack_inputvalidation_test_data::test_from_raw(func_get_args(), 'typeless');
@@ -52,7 +55,10 @@ class studentinput_test extends qtype_stack_testcase {
     }
 
     /**
+     * @codingStandardsIgnoreStart
+     * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_units
+     * @codingStandardsIgnoreEnd
      */
     public function test_studentinput_units() {
         $test = stack_inputvalidation_test_data::test_from_raw(func_get_args(), 'units');
@@ -64,7 +70,10 @@ class studentinput_test extends qtype_stack_testcase {
     }
 
     /**
+     * @codingStandardsIgnoreStart
+     * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_decimals
+     * @codingStandardsIgnoreEnd
      */
     public function test_studentinput_decimals_british() {
         $test = stack_inputvalidation_test_data::test_decimals_from_raw(func_get_args(), 1);
@@ -76,7 +85,10 @@ class studentinput_test extends qtype_stack_testcase {
     }
 
     /**
+     * @codingStandardsIgnoreStart
+     * Provider in another class/file throws false code check error.
      * @dataProvider stack_inputvalidation_test_data::get_raw_test_data_decimals
+     * @codingStandardsIgnoreEnd
      */
     public function test_studentinput_decimals_continental() {
         $test = stack_inputvalidation_test_data::test_decimals_from_raw(func_get_args(), 2);

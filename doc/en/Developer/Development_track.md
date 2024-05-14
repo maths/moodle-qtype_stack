@@ -14,14 +14,12 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 5. Add in the `CT:...` and `RAW:...` options for test case construction to enable tests of invalid input (e.g. missing stars).
 6. STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
 7. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).   There is a new question option to choose between \(1.7 \times 10^{-9}\) and \(1.7E-9\).
-8. Release first version of the API for longer term support, and better support for ILIAS.
 
 TODO:
 
-1. Major code tidy: Moodle code style now requires (i) short forms of arrays, i.e. `[]` not `array()`, and (ii) commas at the end of all list items.
-2. Fix markdown problems. See issue #420.
-3. Fix [issue #879](https://github.com/maths/moodle-qtype_stack/issues/879)
-
+1. Fix markdown problems. See issue #420.
+2. Fix [issue #879](https://github.com/maths/moodle-qtype_stack/issues/879)
+3. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406) (possibly for 4.7.0).
 
 ## Version 4.7.0
 

@@ -97,6 +97,8 @@ class stack_inputvalidation_test_data {
         ['3E2', 'php_true', 'displaysci(3,0,2)', 'cas_true', '3 \times 10^{2}', '', ""],
         ['3e2', 'php_true', 'displaysci(3,0,2)', 'cas_true', '3 \times 10^{2}', '', ""],
         ['3e-2', 'php_true', 'displaysci(3,0,-2)', 'cas_true', '3 \times 10^{-2}', '', ""],
+        ['52%', 'php_false', '52%', '', '', 'finalChar', ""],
+        ['5.20%', 'php_false', '5.20%', '', '', 'finalChar', ""],
         ['3.67x10^2', 'php_true', 'dispdp(3.67,2)*x*10^2', 'cas_true', '3.67\cdot x\cdot 10^2', 'missing_stars', ""],
         ['1+i', 'php_true', '1+i', 'cas_true', '1+\mathrm{i}', '', ""],
         ['3-i', 'php_true', '3-i', 'cas_true', '3-\mathrm{i}', '', ""],

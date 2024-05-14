@@ -208,6 +208,11 @@ $settings->add(new admin_setting_configselect('qtype_stack/inputshowvalidation',
         get_string('showvalidation_help', 'qtype_stack'), '1',
         stack_options::get_showvalidation_options()));
 
+$settings->add(new admin_setting_configmultiselect('qtype_stack/inputmonospace',
+        get_string('inputmonospace', 'qtype_stack'),
+        get_string('inputmonospace_help', 'qtype_stack'), [],
+        stack_options::get_monospace_options()));
+
 // Options for new questions.
 $settings->add(new admin_setting_heading('questionoptionsheading',
         get_string('settingdefaultquestionoptions', 'qtype_stack'),

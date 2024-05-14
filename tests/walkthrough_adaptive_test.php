@@ -4292,8 +4292,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_input_validator() {
-
+        global $USER;
         $this->resetAfterTest();
+        $USER->lang = '';
         set_config('lang', 'en');
 
         $q = test_question_maker::make_question('stack', 'validator');
@@ -4374,8 +4375,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_input_validator_jp() {
+        global $USER;
         // This language is not in the question, so should default back to English.
         $this->resetAfterTest();
+        $USER->lang = '';
         set_config('lang', 'jp');
 
         $q = test_question_maker::make_question('stack', 'validator');
@@ -4456,8 +4459,10 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_input_validator_fi() {
+        global $USER;
         // This language is in the question.
         $this->resetAfterTest();
+        $USER->lang = '';
         set_config('lang', 'fi');
 
         $q = test_question_maker::make_question('stack', 'validator');
@@ -4674,8 +4679,9 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
     }
 
     public function test_input_validator_texput() {
-
+        global $USER;
         $this->resetAfterTest();
+        $USER->lang = '';
         set_config('lang', 'en');
 
         $q = test_question_maker::make_question('stack', 'validator');

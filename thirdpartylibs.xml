@@ -18,5 +18,11 @@
         <version>As for STACK</version>
         <license>MIT License</license>
     </library>
+    <library>
+        <location>corsscripts/sortablecore.min.js</location>
+        <name>Sortable</name>
+        <version>1.15.0</version>
+        <license>MIT License</license>
+    </library>
 </libraries>
 

@@ -490,4 +490,30 @@ class input_checkbox_test extends qtype_stack_testcase {
             '\left( 2,\, 3\right)\)</span></span></li></ul>';
         $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
     }
+
+    public function test_noundiff() {
+        $options = new stack_options();
+        $ta = '[[noundiff(f,x),true],[nounint(f,t),false]]';
+        $el = stack_input_factory::make('checkbox', 'ans1', $ta, null, array('options' => ''));
+
+        $expected = '<div class="answer"><div class="option"><input type="checkbox" name="stack1__ans1_1" ' .
+            'value="1" id="stack1__ans1_1" checked="checked" /><label for="stack1__ans1_1"><span ' .
+            'class="filter_mathjaxloader_equation"><span class="nolink">\(\frac{\mathrm{d} f}{\mathrm{d} x}\)' .
+            '</span></span></label></div><div class="option"><input type="checkbox" name="stack1__ans1_2" ' .
+            'value="2" id="stack1__ans1_2" /><label for="stack1__ans1_2"><span class="filter_mathjaxloader_equation">' .
+            '<span class="nolink">\(\int {f}{\;\mathrm{d}t}\)</span></span></label></div></div>';
+        $this->assertEquals($expected, $el->render(new stack_input_state(
+            stack_input::SCORE, array('1'), '', '', '', '', ''), 'stack1__ans1', false, array()));
+        $state = $el->validate_student_response(array('ans1_1' => '1'),
+            $options, $ta, new stack_cas_security());
+
+        $this->assertEquals(stack_input::SCORE, $state->status);
+        $this->assertEquals(array('1'), $state->contents);
+        $this->assertEquals('[noundiff(f,x)]', $state->contentsmodified);
+        $this->assertEquals($ta, $el->get_teacher_answer());
+        $el->adapt_to_model_answer($ta);
+        $expected = 'A correct answer is: <ul><li><span class="filter_mathjaxloader_equation"><span class="nolink">' .
+            '\(\frac{\mathrm{d} f}{\mathrm{d} x}\)</span></span></li></ul>';
+        $this->assertEquals($expected, $el->get_teacher_answer_display(false, false));
+    }
 }

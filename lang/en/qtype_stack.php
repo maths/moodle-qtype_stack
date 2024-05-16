@@ -949,9 +949,20 @@ $string['stackBlock_parsons_unknown_named_version'] = 'The Parson\'s block only 
 $string['stackBlock_parsons_unknown_mathjax_version'] = 'The Parson\'s block only supports MathJax versions {$a->mjversion} for the mathjax parameter.';
 $string['stackBlock_parsons_ref']         = 'The Parson\'s block only supports referencing inputs present in the same CASText section \'{$a->var}\' does not exist here.';
 $string['stackBlock_parsons_param']       = 'The Parson\'s block supports only these parameters in this context: \'{$a->param}\'.';
-$string['stackBlock_parsons_contents']    = 'The contents of a Parson\'s block must be a JSON of the form {#stackjson_stringify(proof_steps)#}. If you are passing custom objects then the Parson\'s block contents should be a JSON of the form {steps: {#stackjson_stringify(proof_steps)#}, options: {JSON containing Sortable options}}. Alternatively, the contents of the Parsons block may contain raw JSON equivalents. Make sure that the proof_steps Maxima variable is of the correct format. Note that all proof steps must be strings. See the documentation for details.';
+$string['stackBlock_parsons_contents']    = 'The contents of a Parson\'s block must be a either a JSON of the form {#stackjson_stringify(steps)#}, where `steps` is the two-dimensional Maxima array containing key, value pairs of items, or of the form {\'steps\' : {#stackjson_stringify(steps)#}, \'options\' : {JSON containing Sortable options}, \'header\' : [List of headers], \'available_header\' : \'string containing header for the available list\', \'index\' : [List containing the index]}, where the \'options\', \'header\', \'available_header\', and \'index\' keys are optional. Alternatively, the contents of the Parsons block may contain raw JSON equivalents. Make sure that the `steps` Maxima variable is of the correct format. Note that all steps must be strings. See the https://docs.stack-assessment.org/en/Authoring/Parsons/ for details.';
+$string['stackBlock_incorrect_header_length'] = 'The list of headers should have the same length as the number of columns passed to the block header.';
+$string['stackBlock_incorrect_available_header_length'] = 'The list containing the header for the available list must have only one element.';
+$string['stackBlock_incorrect_index_length'] = 'The length of the index should be one more than the number of rows passed to the block header. An item in the top-left corner should always go in the index';
+$string['stackBlock_incorrect_index_type'] = 'Index should be an array.';
+$string['stackBlock_incorrect_header_type'] = 'Headers should be an array.';
+$string['stackBlock_parsons_invalid_columns_value'] = 'The value of `columns` in the Parson\'s block header should be a string containing a positive integer.';
+$string['stackBlock_parsons_invalid_rows_value'] = 'The value of `rows` in the Parson\'s block header should be a string containing a positive integer.';
 $string['stackBlock_unknown_sortable_option'] = 'Unknown Sortable options found, the following are being ignored: ';
 $string['stackBlock_overwritten_sortable_option'] = 'Unchangeable Sortable options found, the following are being ignored: ';
+$string['stackBlock_parsons_unknown_transpose_value'] = 'Transpose must be one of \'true\' or \'false\'.';
+$string['stackBlock_parsons_underdefined_grid'] = 'When defining `rows` for a Parson\'s block one must also define `columns`.';
+$string['stackBlock_proof_mode_index'] = 'The use of \'index\' is not supported when using the Parson\'s block for proof assessment.';
+$string['stackBlock_proof_incorrect_header_length'] = 'Headers should be an array containing a single header; use \'available_header\' to update the header for the available list.';
 
 // Define the stackBlock GeoGebra strings.
 $string['stackBlock_geogebra_width']       = 'The width of a GeoGebra Applet must use a known CSS-length unit.';

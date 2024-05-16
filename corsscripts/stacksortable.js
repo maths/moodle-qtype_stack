@@ -33,6 +33,11 @@ export const SUPPORTED_CALLBACK_FUNCTIONS = [
  * 2. It validates the structure of the Parson's JSON using `_validate_parsons_JSON`.
  * 3. If the Parsons JSON is of depth two with a valid set of top-level keys it separates them.
  * 4. If `steps` is a Maxima string (after separation), it converts it to an object.
+ * 
+ * NB: there is a rare case in which this causes issues: if the author happens to only use a subset of 
+ * ["steps", "options", "headers", "available_header", "index"] as the keys inside their `steps` Question variable.
+ * This will cause improper validation in the call of `_validate_parsons_JSON` but it will also cause
+ * functional issues in the question because we will extract the values of those keys from the object.
  *
  * @param {Object|string} steps - The steps object or string representation of steps.
  * @param {Object} sortableUserOpts - Options for the sortable plugin.
@@ -119,6 +124,12 @@ function _stackstring_objectify(stackjson_array_string) {
  * 2. If the JSON has depth 2, the top-level keys should be a subset of
  *    `["steps", "options", "headers", "index", "available_header"]`, and must contain `"steps"`.
  *    The value for "steps" should be a valid flat JSON. Options are not validated here.
+ * 
+ * NB: The separation of depth 1 and depth 2 cases only really works when raw JSON are written by the author. 
+ * This does not work in cases where they are pulled through from Maxima variables using `{# ... #}`. This is 
+ * because we check JSON depth by checking if any of the values is an object, and in the Maxima case, this isn't true as the
+ * item causing "depth 2" is now a string containing a two-dimensional array. Not clear how to circumvent this, 
+ * it just means there's a gap in validation currently but does not break any functionality.
  *
  * @param {Object} steps - The Parson's JSON to be validated.
  * @returns {boolean} - Returns true if the provided Parsons JSON follows the expected structure, false otherwise.
@@ -371,8 +382,7 @@ export const stack_sortable = class stack_sortable {
         this.availableId = this.ids.available;
         this.usedId = this.ids.used;
         this.clone = clone;
-
-        this.defaultOptions = {used: {animation: 50, cancel: ".header"}, available: {animation: 50, cancel: ".header"}};
+        this.defaultOptions = {used: {animation: 50}, available: {animation: 50}};
         // Merges user options and default, overwriting default with user options if they clash
         this.userOptions = this._set_user_options(options);
 

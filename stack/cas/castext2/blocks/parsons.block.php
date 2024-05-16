@@ -163,9 +163,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $columns = $proofmode ? '1' : $columns;
         // Add correctly oriented container divs for the proof lists to be accessed by sortable.
         $orientation = $transpose ? 'row' : 'col';
-        $tmprows = $transpose ? $columns : $rows;
-        $columns = $transpose ? $rows : $columns;
-        $rows = $tmprows;
+        $ogcolumns = $columns;
+        $ogrows = $rows;
+        $columns = $transpose ? $ogrows : $ogcolumns;
+        $rows = $transpose ? $ogcolumns : $ogrows;
 
         $r->items[] = new MP_String("<button type='button' class='parsons-button' id='resize'>
             <i class='fa fa-expand'></i></button>");
@@ -229,9 +230,43 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= '[proofSteps, sortableUserOpts, headers, available_header, index, valid] =
             preprocess_steps(proofSteps, sortableUserOpts, headers, available_header, index);' . "\n";
 
-        // If the author's JSON has invalid format throw an error.
+        // If the author's JSON has invalid structure throw an error.
         $code .= 'if (valid === false)
             {stack_js.display_error("' . stack_string('stackBlock_parsons_contents') . '");}' . "\n";
+        
+        // More specific pieces of validation
+        // Check typing of headers, it should be an array
+        $code .= 'if (!Array.isArray(headers)) 
+            {stack_js.display_error("' . stack_string('stackBlock_incorrect_header_type') . '");}' . "\n";
+
+        // If the length of headers does not match the number of columns expected throw an error.
+        // Error is different for proof vs. matching
+        $code .= 'if (headers.length !== ' . $ogcolumns . ') {stack_js.display_error("';
+        if ($proofmode) {
+            $code .= stack_string('stackBlock_proof_incorrect_header_length') . '");}' . "\n";
+        } else {
+            $code .= stack_string('stackBlock_incorrect_header_length') . '");}' . "\n";
+        }
+
+        // If the length of the available headers is not equal to one, throw an error
+        $code .= 'if (typeof(available_header) !== "string")
+            {stack_js.display_error("' . stack_string('stackBlock_incorrect_available_header_length') . '");}' . "\n";
+
+        // If index is passed then it should be an array
+        $code .= 'if (index !== undefined && !Array.isArray(index))
+            {stack_js.display_error("' . stack_string('stackBlock_incorrect_index_type') . '");}' . "\n";
+
+        // If rows and index are passed then the length of index should match the value of rows + 1
+        if ($ogrows !== null) {
+            $code .= 'if (index !== undefined && index.length !== ' . $ogrows + 1 . ')
+                {stack_js.display_error("' . stack_string('stackBlock_incorrect_index_length') . '");}' . "\n";
+        }
+
+        // Index cannot be used in proof mode due to styling issues
+        if ($proofmode) {
+            $code .= 'if (index !== undefined) 
+                {stack_js.display_error("' . stack_string('stackBlock_proof_mode_index') . '");}' . "\n";
+        }
 
         // Link up to STACK inputs.
         if (count($inputs) > 0) {
@@ -332,11 +367,6 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         &$errors = [],
         $options = []
     ): bool {
-        // TO-DO : matching validations: (1) check values of transpose ('true' or 'false'); (2) check values of rows/columns
-        // (only string containing ints); (3) check rows is not passed without columns; (4) check length of headers
-        // matches columns (think this has to be in js); (5) check index length matches length of rows if rows passed
-        // (again js probably).
-
         // Basically, check that the dimensions have units we know.
         // Also that the references make sense.
         $valid  = true;
@@ -344,8 +374,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $height = array_key_exists('height', $this->params) ? $this->params['height'] : '400px';
 
         // NOTE! List ordered by length. For the trimming logic.
-        $validunits = [
-            
+        $validunits = [   
             'vmin', 'vmax', 'rem', 'em', 'ex', 'px', 'cm', 'mm',
             'in', 'pt', 'pc', 'ch', 'vh', 'vw', '%',
         ];
@@ -421,6 +450,36 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
                     $validmjversions),
                 ]);
             }
+        }
+
+        // Check value of transpose is only "true" or "false"
+        if (array_key_exists('transpose', $this->params)) {
+            if (!in_array($this->params['transpose'], ['true', 'false'])) {
+                $valid = false;
+                $err[] = stack_string('stackBlock_parsons_unknown_transpose_value');
+            }
+        }
+
+        // Check value of columns is a string containing a numeric integer
+        if (array_key_exists("columns", $this->params)) {
+            if (!(preg_match('/^\d+$/', $this->params["columns"]) && intval($this->params["columns"]) > 0)) {
+                $valid = false;
+                $err[] = stack_string("stackBlock_parsons_invalid_columns_value");
+            }
+        }
+        
+        // Check value of rows is a string containing a numeric integer
+        if (array_key_exists("rows", $this->params)) {
+            if (!(preg_match('/^\d+$/', $this->params["rows"]) && intval($this->params["rows"]) > 0)) {
+                $valid = false;
+                $err[] = stack_string("stackBlock_parsons_invalid_rows_value");
+            }
+        }
+
+        // Check we cannot have rows specified without columns
+        if (array_key_exists("rows", $this->params) && !array_key_exists("columns", $this->params)) {
+            $valid = false;
+            $err[] = stack_string("stackBlock_parsons_underdefined_grid");
         }
 
         // Check that only valid parameters are passed to block header.

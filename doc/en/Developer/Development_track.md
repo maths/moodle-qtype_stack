@@ -36,14 +36,11 @@ TO-DO:
 
 Next (v4.6.0)
 
-1. Grid arrangement, e.g. fill in a 2*2 grid (for matching problems).
 2. Use syntax hint to set up a non-empty starting point.
-3. Nested lists (flat list vs. nested/tree)
-4. CSS styling fix for automated feedback
 
 Later
 
-1. Different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
+1. Nested lists (flat list vs. nested/tree) and different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
 2. Create templates from the start for different proof types
 3. Restrict blocks to fixed number of steps
 4. Allow student to select proof style (e.g. iff, contradiction) and pre-structure answer list accordingly

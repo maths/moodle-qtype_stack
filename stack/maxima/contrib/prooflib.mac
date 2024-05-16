@@ -436,7 +436,7 @@ proof_assessment_display(saa, pf) := block([st, k],
   /* Turn the st list of lists into a string to display. */
     st:dl_disp(st),
   for k:1 thru length(saa) do block(
-     st[k]:proof_line_disp(proof_column_disp(first(st[k])), proof_column_disp2(second(st[k])))
+     st[k]:proof_line_disp(proof_column_disp(first(st[k])), proof_column_disp(second(st[k])))
   ),
   st:apply(sconcat, st),  
   sconcat("<div class='proof'>", st, "</div>")

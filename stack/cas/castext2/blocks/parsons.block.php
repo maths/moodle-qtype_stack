@@ -219,7 +219,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if ($proofmode) {
             $code = 'var headers = ["' . stack_string('stackBlock_parsons_used_header') . '"];' . "\n";
         } else {
-            $code = 'var headers = [' . implode(', ', range(1, intval($columns))) . '];' . "\n";
+            $code = 'var headers = [' . implode(', ', range(1, intval($ogcolumns))) . '];' . "\n";
         }
         $code .= 'var available_header = "' . stack_string('stackBlock_parsons_available_header') . '";' . "\n";
 
@@ -237,7 +237,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         
         // More specific pieces of validation
         // Check typing of headers, it should be an array containing strings.
-        $code .= 'if (!(Array.isArray(headers) && headers.every((header) => typeof(header) === "string"))) 
+        $code .= 'if (!(Array.isArray(headers))) 
             {stack_js.display_error("' . stack_string('stackBlock_incorrect_header_type') . '");}' . "\n";
 
         // If the length of headers does not match the number of columns expected throw an error.

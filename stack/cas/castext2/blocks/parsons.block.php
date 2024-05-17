@@ -302,8 +302,10 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'var possibleOptionKeys = Object.keys(sortableUsed[0][0].options).concat(SUPPORTED_CALLBACK_FUNCTIONS);' . "\n";
         // Now set appropriate options.
 
-        $code .= 'sortableUsed.forEach((usedList) => Object.entries(stackSortable.options.used).forEach(
-            ([key, val]) => usedList[0].option(key, val)));' . "\n";
+        $code .= 'sortableUsed.forEach((sortableList) => 
+            sortableList.forEach((sortable) => 
+                Object.entries(stackSortable.options.used).forEach(
+            ([key, val]) => sortable.option(key, val))));' . "\n";
         $code .= 'var sortableAvailable = Sortable.create(availableList, stackSortable.options.available);' . "\n";
         // Add the onSort option in order to link up to input and overwrite user onSort if passed.
         $code .= 'sortableUsed.forEach((sortableList) =>

@@ -525,9 +525,11 @@ export const stack_sortable = class stack_sortable {
             {
                 var colDiv = document.createElement("ul");
                 colDiv.id = id;
+                // In matching mode, we need to add rigid styles to colDivs if orientation === "row"
                 colDiv.classList.add(...usedClassList);
                 container.append(colDiv);
             });
+
         // if rows are specified then add the row divs
         if (this.rows !== "") {
             this.colIds.forEach((colId) => {
@@ -536,7 +538,12 @@ export const stack_sortable = class stack_sortable {
                 this.rowColIds[colId].forEach((rowColId) => {
                     var divRowCol = document.createElement("li");
                     divRowCol.id = rowColId;
-                    divRowCol.classList.add(...itemClassList);
+                    // In matching mode, we need to add rigid styles to colDivs if orientation === "row"
+                    if (this.orientation === "row") {
+                        divRowCol.classList.add(...itemClassList, ...["col-rigid"]);
+                    } else {
+                        divRowCol.classList.add(...itemClassList);
+                    }
                     colDiv.append(divRowCol);
                 })
             })

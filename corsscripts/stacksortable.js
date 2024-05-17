@@ -80,7 +80,7 @@ export function preprocess_steps(steps, sortableUserOpts, headers, available_hea
     // ["steps", "options", "headers", "available_header", "index"], and contains at least "steps".
     // Separate these if they are present.
     if (_validate_top_level_keys_JSON(steps, ["steps", "options", "headers", "index", "available_header"], ["steps"])) {
-        var sortableUserOpts = steps["options"];
+        var sortableUserOpts = {used: steps["options"], available: steps["options"]};
         // only want to replace defaults for headers if they have been provided
         if ("headers" in steps) {
             headers = steps["headers"];
@@ -683,8 +683,8 @@ export const stack_sortable = class stack_sortable {
     _create_header(innerHTML, id, attrs) {
         let i = document.createElement("i");
         i.innerHTML = innerHTML;
-        var addClass = (this.orientation === "col") ?
-            [this.item_class, "header"] : [this.item_class, "index"];
+        var addClass = (this.grid && this.orientation !== "col") ?
+            [this.item_class, "index"] : [this.item_class, "header"];
         i.classList.add(...addClass);
         this._apply_attrs(i, {...{"id" : id}, ...attrs});
         return i;
@@ -800,7 +800,7 @@ export const stack_sortable = class stack_sortable {
         var warningMessage = document.createElement("span");
         warningMessage.textContent = msg;
         warning.append(warningMessage);
-        document.body.insertBefore(warning, document.getElementById("sortableContainer"));
+        document.body.insertBefore(warning, document.getElementById("containerRow"));
     }
 
     /**

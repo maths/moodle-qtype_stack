@@ -78,6 +78,19 @@ The final JSON key allowed inside the `parsons` block is `"options"` whose value
 
 See [the Parsons authoring guide](Parsons.md#block-parameters) for a full list of supported block parameters.
 
+## Troubleshooting
+
+If your matching problem is not displaying properly, in particular if the all the items are displayed in a single yellow block, then
+double-check that you have spelled the keys of the JSON inside the Parsons block correctly as described below. They should be a subset of 
+```
+{"steps", "options", "headers", "available_header", "index"}
+```
+and a superset of 
+```
+{"steps"}
+```
+For technical reasons this is one error that we are unable to validate currently.
+
 ## State
 
 The state of the problem at any given point in time during question answer takes on the following format:

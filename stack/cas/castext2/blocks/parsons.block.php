@@ -227,6 +227,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Invalid JSON will be identified by preprocess_steps function.
         $code .= 'var sortableUserOpts = {};' . "\n";
         $code .= 'var valid, index;' . "\n";
+
         $code .= '[proofSteps, sortableUserOpts, headers, available_header, index, valid] =
             preprocess_steps(proofSteps, sortableUserOpts, headers, available_header, index);' . "\n";
 
@@ -235,8 +236,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             {stack_js.display_error("' . stack_string('stackBlock_parsons_contents') . '");}' . "\n";
         
         // More specific pieces of validation
-        // Check typing of headers, it should be an array
-        $code .= 'if (!Array.isArray(headers)) 
+        // Check typing of headers, it should be an array containing strings.
+        $code .= 'if (!(Array.isArray(headers) && headers.every((header) => typeof(header) === "string"))) 
             {stack_js.display_error("' . stack_string('stackBlock_incorrect_header_type') . '");}' . "\n";
 
         // If the length of headers does not match the number of columns expected throw an error.
@@ -248,12 +249,16 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $code .= stack_string('stackBlock_incorrect_header_length') . '");}' . "\n";
         }
 
-        // If the length of the available headers is not equal to one, throw an error
-        $code .= 'if (typeof(available_header) !== "string")
-            {stack_js.display_error("' . stack_string('stackBlock_incorrect_available_header_length') . '");}' . "\n";
+        // Validate available headers. It 
+        // is either a string or an array containing a single string. 
+        $code .= 'if (!(typeof(available_header) === "string" ||
+        (Array.isArray(available_header) && available_header.length === 1 && typeof(available_header[0]) === "string")))
+            {stack_js.display_error("' . stack_string('stackBlock_incorrect_available_header_type') . '");}' . "\n";
+        // Extract available header if it is an array containing a single string
+        $code .= 'if (Array.isArray(available_header)) {available_header = available_header[0]};' . "\n";
 
-        // If index is passed then it should be an array
-        $code .= 'if (index !== undefined && !Array.isArray(index))
+        // If index is passed then it should be an array containing strings.
+        $code .= 'if (index !== undefined && !(Array.isArray(index) && index.every((idx) => typeof(idx) === "string")))
             {stack_js.display_error("' . stack_string('stackBlock_incorrect_index_type') . '");}' . "\n";
 
         // If rows and index are passed then the length of index should match the value of rows + 1
@@ -293,7 +298,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // First, instantiate with default options first in order to extract all possible options for validation.
         $code .= 'var sortableUsed =
         stackSortable.ids.used.map((idList) =>
-            idList.map((usedId) => Sortable.create(document.getElementById(usedId), stackSortable.options.used)));' . "\n";
+            idList.map((usedId) => Sortable.create(document.getElementById(usedId))));' . "\n";
         $code .= 'var possibleOptionKeys = Object.keys(sortableUsed[0][0].options).concat(SUPPORTED_CALLBACK_FUNCTIONS);' . "\n";
         // Now set appropriate options.
 
@@ -460,7 +465,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
 
-        // Check value of columns is a string containing a numeric integer
+        // Check value of columns is a string containing a numeric positive integer
         if (array_key_exists("columns", $this->params)) {
             if (!(preg_match('/^\d+$/', $this->params["columns"]) && intval($this->params["columns"]) > 0)) {
                 $valid = false;
@@ -468,7 +473,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             }
         }
         
-        // Check value of rows is a string containing a numeric integer
+        // Check value of rows is a string containing a numeric positive integer
         if (array_key_exists("rows", $this->params)) {
             if (!(preg_match('/^\d+$/', $this->params["rows"]) && intval($this->params["rows"]) > 0)) {
                 $valid = false;
@@ -480,6 +485,22 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         if (array_key_exists("rows", $this->params) && !array_key_exists("columns", $this->params)) {
             $valid = false;
             $err[] = stack_string("stackBlock_parsons_underdefined_grid");
+        }
+
+        // Check value of `item-height` is a string containing a positive integer
+        if (array_key_exists("item-height", $this->params)) {
+            if (!(preg_match('/^\d+$/', $this->params["item-height"]) && intval($this->params["item-height"]) > 0)) {
+                $valid = false;
+                $err[] = stack_string("stackBlock_parsons_invalid_item-height_value");
+            }
+        }
+
+        // Check value of `item-width` is a string containing a positive integer
+        if (array_key_exists("item-width", $this->params)) {
+            if (!(preg_match('/^\d+$/', $this->params["item-width"]) && intval($this->params["item-width"]) > 0)) {
+                $valid = false;
+                $err[] = stack_string("stackBlock_parsons_invalid_item-width_value");
+            }
         }
 
         // Check that only valid parameters are passed to block header.

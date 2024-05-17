@@ -16,6 +16,19 @@ The main difference between them is that **Grid** allows the student to drag any
 of whether the item above it has been filled; **Grouping** on the other hand only allows students to drag items to the 
 end of the list within a column.
 
+## Troubleshooting
+
+If your matching problem is not displaying properly, in particular if the all the items are displayed in a single yellow block, then
+double-check that you have spelled the keys of the JSON inside the Parsons block correctly as described below. They should be a subset of 
+```
+{"steps", "options", "headers", "available_header", "index"}
+```
+and a superset of 
+```
+{"steps"}
+```
+For technical reasons this is one error that we are unable to validate currently.
+
 ## Switching orientation
 
 Parsons blocks will display columns vertically by default. 

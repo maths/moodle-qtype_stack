@@ -55,10 +55,8 @@ The `[[parsons]]` block is a wrapper for the javascript library "Sortable.js", o
 ````
 [[parsons input="ans1"]]
 { "steps": {# stackjson_stringify(proof_steps) #},
-  "options": {"header" : ["Custom header for the answer list", "Custom header for the available steps"],
-              "sortable option 1" : value,
-              ...
-              "sortable option n" : value}
+  "options": {"sortable option 1" : value, ..., "sortable option n" : value},
+  "headers" : ["Custom header for the answer list"], 
 }
 [[/parsons]]
 ````
@@ -72,15 +70,28 @@ A list of all Sortable.js options can be found [here](https://github.com/Sortabl
 ````
 Most other Sortable options can be modified, except for `ghostClass`, `group` and `onSort` as these are required to be set for basic functionality.
 
-The only non-Sortable option that may currently be customised is the `header` option. The default for these are:
+Note that if you enter an unknown sortable option or if an attempt to pass `ghostClass`, `group`, or `onSort` is made, then these will simply be ignored. A warning will be displayed on the question page to signify this situation.
+
+The default for "headers" and "available_header" are:
 ````
 {
-    "header": ["Construct your solution here:", "Drag from here:"]
+    "headers": ["Construct your solution here:"], 
+    "available_header": ["Drag from here:"]
 }
 ````
-To modify these pass an array of length two, with first entry corresponding to the header for the answer list and the second entry corresponding to the header for the list of available steps.
 
-Note that if you enter an unknown sortable option or if an attempt to pass `ghostClass`, `group`, or `onSort` is made, then these will simply be ignored. A warning will be displayed on the question page to signify this situation.
+#### Troubleshooting
+
+If your Parson's problem is not displaying properly, in particular if the all the items are displayed in a single yellow block, then
+double-check that you have spelled the keys of the JSON inside the Parsons block correctly as described above. They should be a subset of 
+```
+{"steps", "options", "headers", "available_header"}
+```
+and a superset of 
+```
+{"steps"}
+```
+For technical reasons this is one error that we are unable to validate currently.
 
 ### Block parameters
 

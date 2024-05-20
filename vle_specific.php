@@ -196,19 +196,19 @@ function stack_cors_link(string $filename): string {
  */
 function stack_get_mathjax_url(): string {
     // TO-DO: figure out how to support VLE local with CORS.
-    $mathjax_config_url = get_config('filter_mathjaxloader', 'httpsurl');
-    if ($mathjax_config_url) {
-        $urlArray = parse_url($mathjax_config_url);
-        if (isset($urlArray['query'])) {
-            $queryString = $urlArray['query'];
-            parse_str($queryString, $queryParams);
+    $mathjaxconfigurl = get_config('filter_mathjaxloader', 'httpsurl');
+    if ($mathjaxconfigurl) {
+        $urlarray = parse_url($mathjaxconfigurl);
+        if (isset($urlarray['query'])) {
+            $querystring = $urlarray['query'];
+            parse_str($querystring, $queryparams);
         } else {
-            $queryParams = [];
+            $queryparams = [];
         }
-        $queryParams = array_merge(['config' => 'TeX-AMS-MML_HTMLorMML'], $queryParams);
-        $urlArray['query'] = http_build_query($queryParams, null, '&', PHP_QUERY_RFC3986);
+        $queryparams = array_merge(['config' => 'TeX-AMS-MML_HTMLorMML'], $queryparams);
+        $urlarray['query'] = http_build_query($queryparams, null, '&', PHP_QUERY_RFC3986);
 
-        $url = $urlArray['scheme'].'://'.$urlArray['host'].$urlArray['path'].'?'.$urlArray['query'];
+        $url = $urlarray['scheme'].'://'.$urlarray['host'].$urlarray['path'].'?'.$urlarray['query'];
         return $url;
     } else {
         return 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';

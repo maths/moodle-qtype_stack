@@ -198,17 +198,18 @@ function stack_get_mathjax_url(): string {
     // TO-DO: figure out how to support VLE local with CORS.
     $mathjaxconfigurl = get_config('filter_mathjaxloader', 'httpsurl');
     if ($mathjaxconfigurl) {
-        $urlarray = parse_url($mathjaxconfigurl);
-        if (isset($urlarray['query'])) {
-            $querystring = $urlarray['query'];
+        $questionpos = strpos($mathjaxconfigurl, '?');
+        if ($questionpos !== false) {
+            $querystring = substr($mathjaxconfigurl, $questionpos + 1);
+            $urlstring = substr($mathjaxconfigurl, 0, $questionpos);
             parse_str($querystring, $queryparams);
+            $queryparams = array_merge(['config' => 'TeX-AMS-MML_HTMLorMML'], $queryparams);
+            $querystring = http_build_query($queryparams, null, '&', PHP_QUERY_RFC3986);
+            $url = $urlstring . '?' . $querystring;
         } else {
-            $queryparams = [];
+            $url = $mathjaxconfigurl . '?config=TeX-AMS-MML_HTMLorMML';
         }
-        $queryparams = array_merge(['config' => 'TeX-AMS-MML_HTMLorMML'], $queryparams);
-        $urlarray['query'] = http_build_query($queryparams, null, '&', PHP_QUERY_RFC3986);
 
-        $url = $urlarray['scheme'].'://'.$urlarray['host'].$urlarray['path'].'?'.$urlarray['query'];
         return $url;
     } else {
         return 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';

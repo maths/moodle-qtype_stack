@@ -63,6 +63,7 @@ class stack_ans_test_controller {
         'LowestTerms'          => 'stackOptions_AnsTest_values_LowestTerms',
         'Diff'                 => 'stackOptions_AnsTest_values_Diff',
         'Int'                  => 'stackOptions_AnsTest_values_Int',
+        'Antidiff'             => 'stackOptions_AnsTest_values_Antidiff',
         'String'               => 'stackOptions_AnsTest_values_String',
         'StringSloppy'         => 'stackOptions_AnsTest_values_StringSloppy',
         'Levenshtein'          => 'stackOptions_AnsTest_values_Levenshtein',
@@ -111,6 +112,7 @@ class stack_ans_test_controller {
         'LowestTerms'          => [false, false, false, false],
         'Diff'                 => [true, true, false, false],
         'Int'                  => [true, true, false, false],
+        'Antidiff'             => [true, true, false, false],
         'String'               => [false, false, false, false],
         'StringSloppy'         => [false, false, false, false],
         'Levenshtein'          => [true, true, true, false],
@@ -153,6 +155,7 @@ class stack_ans_test_controller {
             case 'PropLogic':
             case 'Diff':
             case 'Int':
+            case 'Antidiff':
             case 'GT':
             case 'GTE':
             case 'UnitsAbsolute':

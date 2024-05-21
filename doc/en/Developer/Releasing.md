@@ -19,7 +19,7 @@ Unless you want to discuss something confidential with the developers, please do
 
 ## 1. Pre-release checks
 
-Check 
+### Check
 
 * Readme.md
 * Check docs 
@@ -37,13 +37,17 @@ Check
 * Run code checker.
 * If needed re-build the minified Javascript (e.g. `npx grunt --root=question/type/stack`).
 
-Version numbers
+
+### Version numbers
 
  * version.php
  * stackmaxima.mac
  * Run `php cli/getversionstring.php` and add output to `doc/en/Installation/STACK_versions.md`.
  * `MATURITY_STABLE`?
  * Check both the Moodle versions, and the required number. (https://moodledev.io/general/releases)
+ * Update version numbers in the API in anticipation of a new Goemaxima image `api/config_samples.txt`
+ * Update Goemaxima docker image versions in `api/docker/docker-compose.dev.yml` and  `api/docker/docker-compose.yml`
+   E.g. see `https://hub.docker.com/r/mathinstitut/goemaxima` for latest versions.
 
 Commit all changes to git, e.g. "Update version number for the 4.6.0 release."
 
@@ -79,9 +83,7 @@ Then check updated information on the form.
 
 (don't add "master" to branch info)
 
-## 4. Releasing a new verion of the API to take advantage of the new release
+### 4. Releasing a new verion of the API to take advantage of the new release
 
-1. Update Geomaxima
-2. Update version numbers in `api/config_samples.txt`
-3. Update Geomaxima docker image versions in `api/docker/docker-compose.dev.yml` and  `api/docker/docker-compose.yml`
-   E.g. see `https://hub.docker.com/r/mathinstitut/goemaxima` for latest versions.
+Prompt to update Geomaxima image.
+

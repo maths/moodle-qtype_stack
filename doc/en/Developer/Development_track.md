@@ -3,6 +3,8 @@
 Requests for features and ideas for developing STACK are all recorded in [Future plans](Future_plans.md). The
 past development history is documented on [Development history](Development_history.md).
 
+We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/issues) to track "milestones".
+
 ## Version 4.6.0
 
 This version will require moodle 4.0+. Moodle 3.x is no longer supported.
@@ -14,27 +16,23 @@ This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 5. Add in the `CT:...` and `RAW:...` options for test case construction to enable tests of invalid input (e.g. missing stars).
 6. STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
 7. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).   There is a new question option to choose between \(1.7 \times 10^{-9}\) and \(1.7E-9\).
+8. Add in support for drag and drop [matching problems](../Authoring/Matching.md).
 
-TODO:
-
-1. Fix markdown problems. See issue #420.
-2. Fix [issue #879](https://github.com/maths/moodle-qtype_stack/issues/879)
-3. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406) (possibly for 4.7.0).
 
 ## Version 4.7.0
 
-TO-DO:
+Issues with [github milestone 4.7.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.7.0) include
 
-1. Fix issue #1160: Allow configuring the MathJax URL.
+1. Fix [issue #1160](https://github.com/maths/moodle-qtype_stack/issues/879) Allow configuring the MathJax URL
 2. Release "Adapt" block. [issue #975](https://github.com/maths/moodle-qtype_stack/issues/975)
-3. Error messages: use caserror.class more fully to use user information to target error messages.
-4. Remove all "cte" code from Maxima - mostly install.
-5. Review and fix [issue #1063](https://github.com/maths/moodle-qtype_stack/issues/1063): "Extra options" set to "simp" and number of decimals shown in validation field
-
+3. Fix [issue #406](https://github.com/maths/moodle-qtype_stack/issues/406)
+4. Error messages: use caserror.class more fully to use user information to target error messages.
+5. Remove all "cte" code from Maxima - mostly install.
+6. Review and fix [issue #1063](https://github.com/maths/moodle-qtype_stack/issues/1063): "Extra options" set to "simp" and number of decimals shown in validation field
 
 ## Parson's block development track
 
-Next (v4.7.0)
+For v4.7.0:
 
 1. Nested lists (flat list vs. nested/tree) and different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
 2. Use syntax hint to set up a non-empty starting point.
@@ -65,9 +63,4 @@ Later
 
 ## Other
 
-* Better install code (see #332).
-* Move find_units_synonyms into the parser more fully?
-* 1st version of API.
-* Enable individual questions to load Maxima libraries.  (See issue #305)
-* Markdown support?
 * SBCL on the continuous integration does not seem to have support for unicode.  There are examples in the inputs fixtures and walkthrough adapctive tests.  Search for SBCL.

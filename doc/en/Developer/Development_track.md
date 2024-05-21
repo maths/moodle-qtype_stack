@@ -34,27 +34,24 @@ TO-DO:
 
 ## Parson's block development track
 
-Next (v4.6.0)
+Next (v4.7.0)
 
-1. Grid arrangement, e.g. fill in a 2*2 grid (for matching problems).
+1. Nested lists (flat list vs. nested/tree) and different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
 2. Use syntax hint to set up a non-empty starting point.
-3. Nested lists (flat list vs. nested/tree)
-4. CSS styling fix for automated feedback
+3. Create templates from the start for different proof types
 
 Later
 
-1. Different proof types -- iff, induction, etc. how do we indicate the different scaffolding for this?
-2. Create templates from the start for different proof types
-3. Restrict blocks to fixed number of steps
-4. Allow student to select proof style (e.g. iff, contradiction) and pre-structure answer list accordingly
-5. Allow some strings in the correct answer to be optional. Allow authors to input a weight for each item and use weighted D-L distance, e.g., weight of 0 indicates that a step is not required, but will not be considered incorrect if included.
-6. Making use of third item in other ways? Hover over a proof step to reveal more information (e.g., this could come from the third item in the list and give a hint/definition)
-7. Allow students to mark items (e.g. as used or unneeded) or tick used items
-8. Confirmation for delete all?
-9. Alternative styling/signalling for clone mode?
-10. Better support (and documentation) for bespoke grading functions.
-11. Hashing keys
-12. Check sortable for keyboard accessibility (SM: Not built-in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4)
+1. Restrict blocks to fixed number of steps
+2. Allow student to select proof style (e.g. iff, contradiction) and pre-structure answer list accordingly
+3. Allow some strings in the correct answer to be optional. Allow authors to input a weight for each item and use weighted D-L distance, e.g., weight of 0 indicates that a step is not required, but will not be considered incorrect if included.
+4. Making use of third item in other ways? Hover over a proof step to reveal more information (e.g., this could come from the third item in the list and give a hint/definition)
+5. Allow students to mark items (e.g. as used or unneeded) or tick used items
+6. Confirmation for delete all?
+7. Alternative styling/signalling for clone mode?
+8. Better support (and documentation) for bespoke grading functions.
+9. Hashing keys
+10. Check sortable for keyboard accessibility (SM: Not built-in to Sortable currently: https://github.com/SortableJS/Sortable/issues/1951; however, it looks like it is do-able with some work https://robbymacdonell.medium.com/refactoring-a-sortable-list-for-keyboard-accessibility-2176b34a07f4)
 
 
 ## For "inputs 2"?

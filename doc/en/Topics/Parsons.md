@@ -33,6 +33,19 @@ Notes
 * Lists are a special case of a tree with one root (the list creation function) and an arbitrary number of nodes in order.  Hence our design explicitly includes traditional Parson's problems as a special case.
 * Teachers who do not want to scaffold explicit block structures (e.g. signal types of proof blocks) can choose to restrict students to (i) flat lists, or (ii) lists of lists.
 
+## Troubleshooting
+
+If your Parson's problem is not displaying properly, in particular if the all the items are displayed in a single yellow block, then
+double-check that you have spelled the keys of the JSON inside the Parsons block correctly as described below. They should be a subset of 
+```
+{"steps", "options", "headers", "available_header"}
+```
+and a superset of 
+```
+{"steps"}
+```
+For technical reasons this is one error that we are unable to validate currently.
+
 # Example 1: a minimal Parson's question
 
 The following is a minimal Parson's question where there student is expected to create a list in one and only one order.

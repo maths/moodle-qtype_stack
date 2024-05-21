@@ -42,12 +42,14 @@ Unless you want to discuss something confidential with the developers, please do
 
  * version.php
  * stackmaxima.mac
- * Run `php cli/getversionstring.php` and add output to `doc/en/Installation/STACK_versions.md`.
- * `MATURITY_STABLE`?
- * Check both the Moodle versions, and the required number. (https://moodledev.io/general/releases)
  * Update version numbers in the API in anticipation of a new Goemaxima image `api/config_samples.txt`
  * Update Goemaxima docker image versions in `api/docker/docker-compose.dev.yml` and  `api/docker/docker-compose.yml`
    E.g. see `https://hub.docker.com/r/mathinstitut/goemaxima` for latest versions.
+
+
+ * Run `php cli/getversionstring.php` and add output to `doc/en/Installation/STACK_versions.md`.
+ * Change to `MATURITY_STABLE` in version.php
+ * Check both the Moodle versions, and the required number. (https://moodledev.io/general/releases)  Update `Installation/index.md`
 
 Commit all changes to git, e.g. "Update version number for the 4.6.0 release."
 

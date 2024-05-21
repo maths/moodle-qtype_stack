@@ -68,6 +68,8 @@ define([
         /** @type {String} the last value that we sent to be validated. */
         var lastValidatedValue = getInputValue();
 
+        var checkButton = document.getElementById(prefix + '-submit');
+
         /**
          * Cancel any typing pause timer.
          */
@@ -100,6 +102,9 @@ define([
             if (getInputValue() === lastValidatedValue) {
                 cancelTypingDelay();
                 validationDiv.classList.remove('waiting');
+                if (checkButton) {
+                    checkButton.disabled = false;
+                }
             }
         }
 
@@ -230,6 +235,9 @@ define([
         function showWaiting() {
             removeAllClasses();
             validationDiv.classList.add('waiting');
+            if (checkButton) {
+                checkButton.disabled = true;
+            }
         }
 
         /**
@@ -240,6 +248,9 @@ define([
             validationDiv.classList.remove('error');
             validationDiv.classList.remove('loading');
             validationDiv.classList.remove('waiting');
+            if (checkButton) {
+                checkButton.disabled = false;
+            }
         }
     }
 
@@ -465,7 +476,6 @@ define([
         if (!validationDiv) {
             return false;
         }
-
         var inputTypeHandler = getInputTypeHandler(questionDiv, prefix, name);
         if (inputTypeHandler) {
             new StackInput(validationDiv, prefix, qaid, name, inputTypeHandler, language);

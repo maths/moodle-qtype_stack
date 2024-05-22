@@ -1733,21 +1733,21 @@ class stack_answertest_test_data {
         ['Int', '[x,NOCONST]', 'ln(x)', 'ln(x)', 1, 'ATInt_const_condone.', ''],
         ['Int', 'x', 'ln(x)+c', 'ln(x)+c', 1, 'ATInt_true_equiv.', ''],
         ['Int', 'x', 'ln(k*x)', 'ln(x)+c', 1, 'ATInt_true_equiv.', ''],
-        ['Int', 'x', 'ln(x)', 'ln(abs(x))+c', 0, 'ATInt_EqFormalDiff.', 'Fussy logs (teacher uses abs(x) )'],
-        ['Int', 'x', 'ln(x)+c', 'ln(abs(x))+c', 0, 'ATInt_EqFormalDiff.', ''],
-        ['Int', '[x, NOCONST]', 'ln(x)', 'ln(abs(x))+c', 0, 'ATInt_EqFormalDiff.', ''],
+        ['Int', 'x', 'ln(x)', 'ln(abs(x))+c', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', 'Fussy logs (teacher uses abs(x) )'],
+        ['Int', 'x', 'ln(x)+c', 'ln(abs(x))+c', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''],
+        ['Int', '[x, NOCONST]', 'ln(x)', 'ln(abs(x))+c', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''],
         ['Int', 'x', 'ln(abs(x))', 'ln(abs(x))+c', 0, 'ATInt_const.', ''],
         ['Int', 'x', 'ln(abs(x))+c', 'ln(abs(x))+c', 1, 'ATInt_true_equiv.', ''],
-        ['Int', 'x', 'ln(k*x)', 'ln(abs(x))+c', 0, 'ATInt_EqFormalDiff.', ''],
+        ['Int', 'x', 'ln(k*x)', 'ln(abs(x))+c', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''],
         ['Int', 'x', 'ln(k*abs(x))', 'ln(abs(x))+c', 1, 'ATInt_true_equiv.', ''],
         ['Int', 'x', 'ln(abs(k*x))', 'ln(abs(x))+c', 1, 'ATInt_true_equiv.', ''],
-        ['Int', 'x', 'ln(x)', 'ln(k*abs(x))', 0, 'ATInt_EqFormalDiff.', 'Teacher uses ln(k*abs(x))'],
-        ['Int', 'x', 'ln(x)+c', 'ln(k*abs(x))', 0, 'ATInt_EqFormalDiff.', ''],
+        ['Int', 'x', 'ln(x)', 'ln(k*abs(x))', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', 'Teacher uses ln(k*abs(x))'],
+        ['Int', 'x', 'ln(x)+c', 'ln(k*abs(x))', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''],
         ['Int', 'x', 'ln(abs(x))', 'ln(k*abs(x))', 0, 'ATInt_const.', ''],
         ['Int', 'x', 'ln(abs(x))+c', 'ln(k*abs(x))', 1, 'ATInt_true_equiv.', ''],
-        ['Int', 'x', 'ln(k*x)', 'ln(k*abs(x))', 0, 'ATInt_EqFormalDiff.', ''],
+        ['Int', 'x', 'ln(k*x)', 'ln(k*abs(x))', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''],
         ['Int', 'x', 'ln(k*abs(x))', 'ln(k*abs(x))', 1, 'ATInt_true_equiv.', ''],
-        ['Int', 'x', 'ln(x)+ln(a)', 'ln(k*abs(x+a))', 0, 'ATInt_generic.', 'Other logs'],
+        ['Int', 'x', 'ln(x)+ln(a)', 'ln(k*abs(x+a))', 0, 'ATInt_generic. ATInt_logabs.', 'Other logs'],
         ['Int', 'x', 'log(x)^2-2*log(c)*log(x)+k', 'ln(c/x)^2', 0, 'ATInt_EqFormalDiff.', ''],
         ['Int', 'x', 'log(x)^2-2*log(c)*log(x)+k', 'ln(abs(c/x))^2', 0, 'ATInt_generic.', ''],
         ['Int', 'x', 'c-(log(2)-log(x))^2/2', '-1/2*log(2/x)^2', 1, 'ATInt_true_equiv.', ''],
@@ -1769,14 +1769,14 @@ class stack_answertest_test_data {
         ],
         // These examples have an irreducible quadratic: x^2+7*x+7.
         ['Int', '[x,NOCONST]', 'ln(x^2+7*x+7)', 'ln(x^2+7*x+7)', 1, 'ATInt_const_condone.', 'Irreducible quadratic'],
-        ['Int', '[x,NOCONST]', 'ln(x^2+7*x+7)', 'ln(abs(x^2+7*x+7))', 0, 'ATInt_EqFormalDiff.', ''],
+        ['Int', '[x,NOCONST]', 'ln(x^2+7*x+7)', 'ln(abs(x^2+7*x+7))', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''],
         ['Int', 'x', 'ln(x^2+7*x+7)+c', 'ln(x^2+7*x+7)+c', 1, 'ATInt_true_equiv.', ''],
         ['Int', 'x', 'ln(k*(x^2+7*x+7))', 'ln(x^2+7*x+7)+c', 1, 'ATInt_true_equiv.', ''],
-        ['Int', 'x', 'ln(x^2+7*x+7)', 'ln(abs(x^2+7*x+7))+c', 0, 'ATInt_EqFormalDiff.', ''],
-        ['Int', 'x', 'ln(x^2+7*x+7)+c', 'ln(abs(x^2+7*x+7))+c', 0, 'ATInt_EqFormalDiff.', ''],
+        ['Int', 'x', 'ln(x^2+7*x+7)', 'ln(abs(x^2+7*x+7))+c', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''],
+        ['Int', 'x', 'ln(x^2+7*x+7)+c', 'ln(abs(x^2+7*x+7))+c', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''],
         [
             'Int', 'x', '-2*log(x)-(10*x^6)/3+x^3/3+5*log(x^4)+c',
-            '-2*log(abs(x))+(10*x^6)/3-x^3/3-5/x^3+c', 0, 'ATInt_generic.', '',
+            '-2*log(abs(x))+(10*x^6)/3-x^3/3-5/x^3+c', 0, 'ATInt_generic. ATInt_logabs.', '',
         ],
         ['Int', 'x', 'ln(abs(x^2+7*x+7))+c', 'ln(abs(x^2+7*x+7))+c', 1, 'ATInt_true_equiv.', ''],
         ['Int', 'x', 'ln(k*abs(x^2+7*x+7))', 'ln(abs(x^2+7*x+7))+c', 1, 'ATInt_true_equiv.', ''],
@@ -1788,8 +1788,8 @@ class stack_answertest_test_data {
         ['Int', 'x', 'log(abs(x-3))+log(abs(x+3))+c', 'log(x-3)+log(x+3)', 1, 'ATInt_true_equiv.', ''],
         ['Int', 'x', 'log(x-3)+log(x+3)', 'log(x-3)+log(x+3)', 0, 'ATInt_const.', ''],
         ['Int', 'x', 'log(x-3)+log(x+3)+c', 'log(x-3)+log(x+3)', 1, 'ATInt_true_equiv.', ''],
-        ['Int', 'x', 'log(x-3)+log(x+3)', 'log(abs(x-3))+log(abs(x+3))', 0, 'ATInt_EqFormalDiff.', ''],
-        ['Int', 'x', 'log(x-3)+log(x+3)+c', 'log(abs(x-3))+log(abs(x+3))', 0, 'ATInt_EqFormalDiff.', ''],
+        ['Int', 'x', 'log(x-3)+log(x+3)', 'log(abs(x-3))+log(abs(x+3))', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''],
+        ['Int', 'x', 'log(x-3)+log(x+3)+c', 'log(abs(x-3))+log(abs(x+3))', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', ''],
         ['Int', 'x', 'log(abs((x-3)*(x+3)))+c', 'log(abs(x-3))+log(abs(x+3))', 1, 'ATInt_true_equiv.', ''],
         ['Int', 'x', 'log(abs((x^2-9)))+c', 'log(abs(x-3))+log(abs(x+3))', 0, 'ATInt_EqFormalDiff.', ''],
         // This comes from the integral of x^3+2*x^2-3*x-2)/(x^2-4).
@@ -1820,7 +1820,7 @@ class stack_answertest_test_data {
         ],
         [
             'Int', 'x', '2*log((x-2))-log(abs(x+2))+(x^2+4*x)/2',
-            '-log(abs(x+2))+2*log(abs(x-2))+(x^2+4*x)/2', 0, 'ATInt_EqFormalDiff. ATInt_logabs_inconsistent.', '',
+            '-log(abs(x+2))+2*log(abs(x-2))+(x^2+4*x)/2', 0, 'ATInt_EqFormalDiff. ATInt_logabs. ATInt_logabs_inconsistent.', '',
         ],
         [
             'Int', 't', '2*(sqrt(t)-5)-10*log((sqrt(t)-5))+c',
@@ -1832,7 +1832,7 @@ class stack_answertest_test_data {
         ],
         [
             'Int', 't', '2*(sqrt(t)-5)-10*log((sqrt(t)-5))+c',
-            '2*(sqrt(t)-5)-10*log(abs(sqrt(t)-5))+c', 0, 'ATInt_EqFormalDiff.', '',
+            '2*(sqrt(t)-5)-10*log(abs(sqrt(t)-5))+c', 0, 'ATInt_EqFormalDiff. ATInt_logabs.', '',
         ],
         [
             'Int', 't', '2*(sqrt(t))-10*log(abs(sqrt(t)-5))+c',
@@ -1879,7 +1879,7 @@ class stack_answertest_test_data {
         ['Int', 'x', '-acoth(x/a)/a+c', 'log(abs(x-a))/(2*a)-log(abs(x+a))/(2*a)', 1, 'ATInt_true.', ''],
         [
             'Int', 'x', 'log(x-a)/(2*a)-log(x+a)/(2*a)+c', 'log(abs(x-a))/(2*a)-log(abs(x+a))/(2*a)', 0,
-            'ATInt_EqFormalDiff.', '',
+            'ATInt_EqFormalDiff. ATInt_logabs.', '',
         ],
 
         ['Int', 'x', 'log(x-3)/6-log(x+3)/6+c', '-acoth(x/3)/3', 1, 'ATInt_true.', ''],
@@ -1895,7 +1895,7 @@ class stack_answertest_test_data {
             'Int', 'x', '2/3*sqrt(3)*(atan(sin(x)/(sqrt(3)*(cos(x)+1)))-(atan(sin(x)/(cos(x)+1))))+x/sqrt(3)',
             '2*atan(sin(x)/(sqrt(3)*(cos(x)+1)))/sqrt(3)', -3, 'ATInt_const.', 'Stoutemyer (currently fails)',
         ],
-
+        
         // This list is based on the test cases for ATInt
         ['Antidiff', '', '1/0', '1', -1, 'STACKERROR_OPTION.', ''],
         ['Antidiff', 'x', '1/0', '1', -1, 'ATAntidiff_STACKERROR_SAns.', ''],

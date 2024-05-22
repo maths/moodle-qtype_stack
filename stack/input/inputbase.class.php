@@ -1430,7 +1430,7 @@ abstract class stack_input {
         if ($feedbackerr != '') {
             // Bespoke validation messages might contain maths, which needs to be processed.
             $feedbackerr = stack_ouput_castext($feedbackerr);
-            $feedback .= html_writer::tag('div', $feedbackerr, ['class' => 'alert alert-danger stackinputerror']);
+            $feedback .= html_writer::tag('span', $feedbackerr, ['class' => 'alert alert-danger stackinputerror']);
         }
 
         if ($this->get_parameter('showValidation', 1) == 1 && !($state->lvars === '' || $state->lvars === '[]')) {
@@ -1579,12 +1579,14 @@ abstract class stack_input {
             $class .= ' empty';
         }
 
-        if ($rightanswer) {
-            $feedback .= html_writer::tag('div', $this->get_teacher_answer_display($rightanswer[0], $rightanswer[1]),
-                    array('class' => 'rightanswer'));
-        }
         $feedback = html_writer::tag($divspan, $feedback,
             ['class' => $class, 'id' => $fieldname.'_val', 'aria-live' => 'assertive']);
+
+        if ($rightanswer) {
+            $feedback .= html_writer::tag('div', $this->get_teacher_answer_display($rightanswer[0], $rightanswer[1]),
+                    ['class' => 'rightanswer']);
+        }
+
         $response = str_replace("[[validation:{$name}]]", $feedback, $questiontext);
 
         return $response;

@@ -90,7 +90,7 @@ class qtype_stack_renderer extends qtype_renderer {
             $ta = $question->get_ta_for_input($name);
             $tavalue = '';
             $talatex = '';
-            if ($ta->is_correctly_evaluated()) {
+            if ($ta && $ta->is_correctly_evaluated()) {
                 $tavalue = $ta->get_value();
                 $talatex = $ta->get_latex();
             }
@@ -103,7 +103,7 @@ class qtype_stack_renderer extends qtype_renderer {
                     $questiontext);
 
             $rightanswer = false;
-            if ($options->rightanswer && $ta->is_correctly_evaluated()) {
+            if ($options->rightanswer && $ta && $ta->is_correctly_evaluated()) {
                 $rightanswer = array($tavalue, $talatex);
             }
             $questiontext = $input->replace_validation_tags($state, $fieldname, $questiontext, $rightanswer);

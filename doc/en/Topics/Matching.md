@@ -127,8 +127,8 @@ steps : [
     ["sq", "\\(f(x) = x^2\\)"],
     ["sin", "\\(f(x) = \\sin(x)\\)"],
     ["abs", "\\(f(x) = |x|\\)"],
-    ["sqrt", "\\(f(x) = \\sqrt(x)\\)"],
-    ["rec", "\\(f(x) = 1/x\\)"],
+    ["sqrt", "\\(f(x) = \\sqrt{|x|}\\)"],
+    ["rec", "\\(f(x) = \\left\{\\begin{array}{ll}1/x &, x\\neq 0 \\\\ 0&, x=0\\end{array}\\right.\\)"],
     ["sgn", "\\(f(x) = \\text{sgn}(x)\\)"]
 ];
 
@@ -158,8 +158,8 @@ Here we should:
 
 ```
 <p>Recall that a function may be differentiable, continuous but 
-not differentiable, or discontinuous. Drag the functions 
-to their appropriate category. </p>
+not differentiable, or discontinuous. The following expressions define functions \(f:\mathbb{R}\rightarrow\mathbb{R}\).
+Drag the functions to their appropriate category. </p>
 [[parsons input="ans1" columns="3"]]
 {
     "steps" : {#stackjson_stringify(steps)#},
@@ -179,7 +179,7 @@ A question note is required due to the random permutation of `steps`. We use:
 ### Input: ans1
 
 1. The _Input type_ field should be **String**.
-2. The _Model answer_ field should construct a JSON object from the teacher's answer `ta` using `match_correct(ans, steps)`.
+2. The _Model answer_ field should construct a JSON object from the teacher's answer `ans` using `match_correct(ans, steps)`.
 3. Set the option _Student must verify_ to "no".
 4. Set the option _Show the validation_ to "no".
 5. Add `hideanswer` to _Extra options_.

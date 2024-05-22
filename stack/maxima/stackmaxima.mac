@@ -3162,7 +3162,9 @@ ATAntidiff(sa, sb, so) := block([oldsimp, var, sbdisp],
     if ev(algebraic_equivalence(SAd, SBd), simp) then return([true, true, StackAddNote("", "ATAntidiff_true"),""]),
 
     /* Did the student differentiate instead of integrating? */
-    if ev(algebraic_equivalence(sa, ev(diff(SBd, var), simp)), simp) and ev(algebraic_equivalence(exp(x), SBd), simp)#true then return([false, false, StackAddNote("", "ATAntidiff_diff"), ""]),
+    SABd : ev(fullratsimp(sa - ev(diff(SBd, var), simp)), simp),
+    if debug then print(["Simplified difference:", SABd]),
+    if ev(diff(SABd,var),simp)=0 and ev(algebraic_equivalence(exp(x), SBd), simp)#true then return([false, false, StackAddNote("", "ATAntidiff_diff"), ""]),
 
     /* if not, we fail the test generically */
     ret:[false, false, StackAddNote("", "ATAntidiff_generic"), ""],

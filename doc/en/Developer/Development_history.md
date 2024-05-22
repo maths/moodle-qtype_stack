@@ -2,6 +2,22 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.6.0
+
+Released May 2024.
+
+This version will require moodle 4.0+. Moodle 3.x is no longer supported.
+
+1. Alter list of acceptible expressions.  Unicode super/subscripts now are invalid.  Use 150_replace filter in students' input.
+2. Add in the extra input option `feedback` to run in parallel with validators to give opportunities for bespoke messages.
+3. Load the `functs` Maxima package, i.e. `load("functs");` to give access to some useful functions.
+4. Fix display and simplification of binomial coefficients (issue #931).
+5. Add in the `CT:...` and `RAW:...` options for test case construction to enable tests of invalid input (e.g. missing stars).
+6. STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
+7. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).   There is a new question option to choose between \(1.7 \times 10^{-9}\) and \(1.7E-9\).
+8. Add in support for drag and drop [matching problems](../Authoring/Matching.md).
+
+
 ## Version 4.5.0-hf2
 
 Fix critical bug in Javascript.

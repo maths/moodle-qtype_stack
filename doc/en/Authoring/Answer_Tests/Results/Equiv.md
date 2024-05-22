@@ -314,6 +314,34 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">Equiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[3=0,2=sqrt(-5),2=0,2=sqrt(5),
+2=0,2=sqrt(-5),3=0]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &3=0& \cr \color{green}{\Leftrightarrow}&2=\sqrt{-5}& \cr \color{green}{\Leftrightarrow}&2=0& \cr \color{green}{\Leftrightarrow}&2=\sqrt{5}& \cr \color{green}{\Leftrightarrow}&2=0& \cr \color{green}{\Leftrightarrow}&2=\sqrt{-5}& \cr \color{green}{\Leftrightarrow}&3=0& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[3=0,2=sqrt(-5),2=0,2=sqrt(5),
+2=0,2=sqrt(-5),3=0]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"><pre>[assumereal]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(ASSUMEREALVARS, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll}\color{blue}{(\mathbb{R})}&3=0& \cr \color{green}{\Leftrightarrow}&2=\sqrt{-5}& \cr \color{green}{\Leftrightarrow}&2=0& \cr \color{green}{\Leftrightarrow}&2=\sqrt{5}& \cr \color{green}{\Leftrightarrow}&2=0& \cr \color{green}{\Leftrightarrow}&2=\sqrt{-5}& \cr \color{green}{\Leftrightarrow}&3=0& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x=1,X=1]</pre></td>
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
@@ -884,11 +912,11 @@ sqrt(91^2-4*14*140))/(2*14),x=
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
-  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">(EMPTYCHAR,SAMEROOTS, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &2\cdot \left(x-3\right)=5\cdot x-3\cdot \left(x+1\right)& \cr \color{green}{\Leftrightarrow}&2\cdot x-6=2\cdot x-3& \cr \color{green}{\Leftrightarrow}&0=3& \cr \color{green}{\Leftrightarrow}&\left \{ \right \}& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &2\cdot \left(x-3\right)=5\cdot x-3\cdot \left(x+1\right)& \cr \color{green}{\text{(Same roots)}}&2\cdot x-6=2\cdot x-3& \cr \color{green}{\Leftrightarrow}&0=3& \cr \color{green}{\Leftrightarrow}&\left \{ \right \}& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -1094,6 +1122,20 @@ qrt(18)]</pre></td>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>[(x-4)*(x-7)=-3*(x-4),x-7=-3,x
+=4]</pre></td>
+  <td class="cell c3"><pre>[]</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">(EMPTYCHAR,SAMEROOTS, EQUIVCHAR)</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\left(x-4\right)\cdot \left(x-7\right)=-3\cdot \left(x-4\right)& \cr \color{green}{\text{(Same roots)}}&x-7=-3& \cr \color{green}{\Leftrightarrow}&x=4& \cr \end{array}\]</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">Equiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>[x^2+2*a*x = 0, x*(x+2*a)=0, (
 x+a-a)*(x+a+a)=0, (x+a)^2-a^2=
 0]</pre></td>
@@ -1208,11 +1250,11 @@ sqrt(x+2),x^2-2*x+1 = 4*x+8,x^
   <td class="cell c3"><pre>[]</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">0</td>
-  <td class="cell c6">(EMPTYCHAR,IMPLIESCHAR, EQUIVCHAR,IMPLIESCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
+  <td class="cell c6">(EMPTYCHAR, EQUIVCHAR, EQUIVCHAR,IMPLIESCHAR, EQUIVCHAR, EQUIVCHAR, EQUIVCHAR)</td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\sqrt{3\cdot x+4}=2+\sqrt{x+2}&{\color{blue}{{x \in {\left[ -\frac{4}{3},\, \infty \right)}}}}\cr \color{red}{\Rightarrow}&3\cdot x+4=4+4\cdot \sqrt{x+2}+\left(x+2\right)&{\color{blue}{{x \in {\left[ -2,\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}&x-1=2\cdot \sqrt{x+2}&{\color{blue}{{x \in {\left[ -2,\, \infty \right)}}}}\cr \color{red}{\Rightarrow}&x^2-2\cdot x+1=4\cdot x+8& \cr \color{green}{\Leftrightarrow}&x^2-6\cdot x-7=0& \cr \color{green}{\Leftrightarrow}&\left(x-7\right)\cdot \left(x+1\right)=0& \cr \color{green}{\Leftrightarrow}&x=7\,{\text{ or }}\, x=-1& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &\sqrt{3\cdot x+4}=2+\sqrt{x+2}&{\color{blue}{{x \in {\left[ -\frac{4}{3},\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}&3\cdot x+4=4+4\cdot \sqrt{x+2}+\left(x+2\right)&{\color{blue}{{x \in {\left[ -2,\, \infty \right)}}}}\cr \color{green}{\Leftrightarrow}&x-1=2\cdot \sqrt{x+2}&{\color{blue}{{x \in {\left[ -2,\, \infty \right)}}}}\cr \color{red}{\Rightarrow}&x^2-2\cdot x+1=4\cdot x+8& \cr \color{green}{\Leftrightarrow}&x^2-6\cdot x-7=0& \cr \color{green}{\Leftrightarrow}&\left(x-7\right)\cdot \left(x+1\right)=0& \cr \color{green}{\Leftrightarrow}&x=7\,{\text{ or }}\, x=-1& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>
@@ -1921,7 +1963,7 @@ um(log(x_i),i,1,n))]</pre></td>
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &{{n}\choose{k}}+{{n}\choose{k+1}}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k\right)!}+\frac{n!}{\left(k+1\right)!\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k\right)\cdot \left(n-k-1\right)!}+\frac{n!}{\left(k+1\right)!\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{1}{n-k}+\frac{1}{k+1}\right)& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{n+1}{\left(n-k\right)\cdot \left(k+1\right)}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)\cdot n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{1}{\left(k+1\right)\cdot \left(n-k\right)}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)\cdot n!}{\left(k+1\right)\cdot k!\cdot \left(n-k\right)\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)!}{\left(k+1\right)!}\cdot \left(\frac{1}{\left(n-k\right)\cdot \left(n-k-1\right)!}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)!}{\left(k+1\right)!\cdot \left(n-k\right)!}& \cr \color{green}{\checkmark}&={{n+1}\choose{k+1}}& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &{{n}\choose{k}}+{{n}\choose{k+1}}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k\right)!}+\frac{n!}{\left(k+1\right)!\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k\right)\cdot \left(n-k-1\right)!}+\frac{n!}{\left(k+1\right)!\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{1}{n-k}+\frac{1}{k+1}\right)&{\color{blue}{{n \not\in {\left \{4 \right \}}}}}\cr \color{green}{\checkmark}&=\frac{n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{n+1}{\left(n-k\right)\cdot \left(k+1\right)}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)\cdot n!}{k!\cdot \left(n-k-1\right)!}\cdot \left(\frac{1}{\left(k+1\right)\cdot \left(n-k\right)}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)\cdot n!}{\left(k+1\right)\cdot k!\cdot \left(n-k\right)\cdot \left(n-k-1\right)!}& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)!}{\left(k+1\right)!}\cdot \left(\frac{1}{\left(n-k\right)\cdot \left(n-k-1\right)!}\right)& \cr \color{green}{\checkmark}&=\frac{\left(n+1\right)!}{\left(k+1\right)!\cdot \left(n-k\right)!}& \cr \color{green}{\checkmark}&={{n+1}\choose{k+1}}& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">Equiv</td>

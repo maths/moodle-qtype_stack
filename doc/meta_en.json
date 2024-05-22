@@ -454,6 +454,11 @@
         "description":"Information on writing STACK questions for several languages."
         },
         {
+        "file":"Matching.md",
+        "title":"Matching problems - STACK Documentation",
+        "description":"Documentation for writing drag and drop matching problems in a STACK question."
+        },
+        {
         "file":"Multiple_choice_questions.md",
         "title":"Multiple Choice Questions - STACK Documentation",
         "description":"Information on creating and manipulating multiple choice questions in STACk."
@@ -842,6 +847,11 @@
         "description":"Information on STACK's documentation system and how to contribute to the STACK documentation."
         },
         {
+        "file":"Extracting_test_questions.md",
+        "title":"Extracting questions to make into PHP/BEHAT unit test questions",
+        "description":"Notes on how to create a question within Moodle and export XML to create a question within a unit test."
+        },
+        {
         "file":"Future_input_processing.md",
         "title":"Description of one possible future input processing pipeline",
         "description":"Suggestions for re-designing the input processing."
@@ -915,6 +925,11 @@
         "file":"Updating_JSXGraph.md",
         "title":"Updating JSXGraph - STACK Documentation",
         "description":"How to obtain, edit and minify the JSXGraph javascript."
+        },
+        {
+        "file":"Optimising_STACK_for_large_Maxima_variables.md",
+        "title":"Optimising STACK for large Maxima variables",
+        "description":"Records design efforts to optimise STACK for processing large Maxima variables."
         },
         {
         "file":"Website.md",
@@ -1051,6 +1066,11 @@
         "file":"Linear_algebra.md",
         "title":"Linear Algebra - STACK Documentation",
         "description":"Information on working with linear algebra in a STACK question."
+        },
+        {
+        "file":"Matching.md",
+        "title":"Matching problems - STACK Documentation",
+        "description":"Documentation for writing drag and drop matching problems in a STACK question."
         },
         {
         "file":"Parsons.md",

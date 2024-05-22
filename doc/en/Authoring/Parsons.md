@@ -24,7 +24,7 @@ Here is a basic example of use:
 Assume the question author writes a list `proof_steps` of pairs `["key", "string"]` in Maxima (as in the examples), in the question variables with both the correct and incorrect strings.
 
 ````
-[parsons input="ans1" ]]
+[[parsons input="ans1" ]]
 {# stackjson_stringify(proof_steps) #}
 [[/parsons]]
 ````
@@ -55,10 +55,8 @@ The `[[parsons]]` block is a wrapper for the javascript library "Sortable.js", o
 ````
 [[parsons input="ans1"]]
 { "steps": {# stackjson_stringify(proof_steps) #},
-  "options": {"header" : ["Custom header for the answer list", "Custom header for the available steps"],
-              "sortable option 1" : value,
-              ...
-              "sortable option n" : value}
+  "options": {"sortable option 1" : value, ..., "sortable option n" : value},
+  "headers" : ["Custom header for the answer list"], 
 }
 [[/parsons]]
 ````
@@ -72,15 +70,28 @@ A list of all Sortable.js options can be found [here](https://github.com/Sortabl
 ````
 Most other Sortable options can be modified, except for `ghostClass`, `group` and `onSort` as these are required to be set for basic functionality.
 
-The only non-Sortable option that may currently be customised is the `header` option. The default for these are:
+Note that if you enter an unknown sortable option or if an attempt to pass `ghostClass`, `group`, or `onSort` is made, then these will simply be ignored. A warning will be displayed on the question page to signify this situation.
+
+The default for "headers" and "available_header" are:
 ````
 {
-    "header": ["Construct your solution here:", "Drag from here:"]
+    "headers": ["Construct your solution here:"], 
+    "available_header": ["Drag from here:"]
 }
 ````
-To modify these pass an array of length two, with first entry corresponding to the header for the answer list and the second entry corresponding to the header for the list of available steps.
 
-Note that if you enter an unknown sortable option or if an attempt to pass `ghostClass`, `group`, or `onSort` is made, then these will simply be ignored. A warning will be displayed on the question page to signify this situation.
+#### Troubleshooting
+
+If your Parson's problem is not displaying properly, in particular if the all the items are displayed in a single yellow block, then
+double-check that you have spelled the keys of the JSON inside the Parsons block correctly as described above. They should be a subset of 
+```
+{"steps", "options", "headers", "available_header"}
+```
+and a superset of 
+```
+{"steps"}
+```
+For technical reasons this is one error that we are unable to validate currently.
 
 ### Block parameters
 
@@ -91,10 +102,12 @@ Functionality and styling can be customised through the use of block parameters.
 3. `width`: string containing a positive float + a valid CSS unit (e.g.`"480px"`, `"100%"`, ...).  Default is `"100%"`. This fixes the width of the window containing the drag-and-drop lists.
 4. `aspect-ratio`: string, containing a float between 0 and 1. This can be used with `height`/`length` _or_ `width` (not both) and automatically determines the value of the un-used parameter in accordance with the value of `aspect-ratio`; unset by default. An error will occur if one sets values for `aspect-ratio`, `width`, `height` _or_ `aspect-ratio`, `width`, `length`.
 5. `clone`: string of the form `"true"` or `"false"`. It is `"false"` by default. When `"false"` there are two lists and each proof step is "single-use", here the author must write all necessary proof steps even if they repeat; when `"true"` all proof steps are re-usable with no restrictions on how many times they are used, steps can only be dragged from the available list into the answer list, and there is a bin to tidy up steps.
-6. `orientation`: string of the form `"horizontal"` or `"vertical"`. This can be used to fix the initial orientation shown to the user, `"horizontal"` will show lists side-by-side and `"vertical"` will show lists on top of each other. Note that there is a button on the page in which the user may switch the orientation to their preference while answering the question, so the `"orientation"` block parameter only determines the initial layout. It is `"horizontal"` by default.
-7. `override-css`: string containing the location of a local CSS file contained in `question/type/stack/corsscripts/` directory in the format `cors://file-name` or a href to an external CSS stylesheet. This will override all CSS styling of the drag-and-drop listing, so it should be used with care. However, it can be used to customise the styling of the lists by writing one's own custom CSS file and passing in the location of that file to this parameter. This parameter is unset by default.
-8. `override-js`: string containing a local JavaScript library or a href to a cdn of a JavaScript library. This will overwrite the Sortable library used with the library identified by the string. This should be used if one wishes to use an updated version of the Sortable library, or adding functionality with a custom library. Note that the custom library will need to either extend or import the base Sortable functionality. Unset by default.
-9. `version`: string of the form `"local"` or `"cdn"`. Whether to use STACK's local copy of the Sortable library or whether to pull version 1.15.0 of Sortable from cdn. This is `"local"` by default.
+6. `override-css`: string containing the location of a local CSS file contained in `question/type/stack/corsscripts/` directory in the format `cors://file-name` or a href to an external CSS stylesheet. This will override all CSS styling of the drag-and-drop listing, so it should be used with care. However, it can be used to customise the styling of the lists by writing one's own custom CSS file and passing in the location of that file to this parameter. This parameter is unset by default.
+7. `override-js`: string containing a local JavaScript library or a href to a cdn of a JavaScript library. This will overwrite the Sortable library used with the library identified by the string. This should be used if one wishes to use an updated version of the Sortable library, or adding functionality with a custom library. Note that the custom library will need to either extend or import the base Sortable functionality. Unset by default.
+8. `version`: string of the form `"local"` or `"cdn"`. Whether to use STACK's local copy of the Sortable library or whether to pull version 1.15.0 of Sortable from cdn. This is `"local"` by default.
+9. `columns` : string containing an integer `"n"`. How many vertical answer lists to display. By default, this is not used. If it is specified, then the styling will change to a grid-format with multiple vertical answer lists of unspecified length.
+10. `rows` : string containing an integer `"m"`. How many horizontal answer lists to display. By default, this is not used. If it is specified and `columns` is _not_ specified, this will change to a grid-format with multiple horizontal answer lists of unspecified width. If both `columns` and `rows` are specified then this will provide a fixed length and width grid format, where items can be dragged to any position in the grid in any order. You cannot specify `rows` without specifying `columns`.
+11. `transpose` : `"true"` or `"false"`; `"false"` by default. While the student is able to re-orient between vertical and horizontal as they wish, the default on load is for columns to be vertical. If you wish them to default to being horizontal, then pass `transpose="true"`.
 
 ## Random generation of `proof_step` order
 

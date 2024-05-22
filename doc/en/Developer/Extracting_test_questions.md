@@ -1,5 +1,5 @@
 
-# Extracting questions to make into test questions
+# Extracting questions to make into PHP/BEHAT unit test questions
 
 It's easier to create a question within Moodle and export XML than create a question within a test. The question then
 needs to be converted into a format useable by the tests, however, and put in the helper.php file.

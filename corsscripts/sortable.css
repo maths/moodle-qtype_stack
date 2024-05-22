@@ -11,18 +11,32 @@ button {
 } 
 
 .container {
-    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-#usedList:empty { 
-    height:50px; background-color: floralwhite; border: 2px solid rgb(155, 199, 206); 
-}
-
-#usedList > li {
+.usedList > li[data-id] {
     background-color:rgb(176, 221, 228); border-left: thick solid rgb(155, 199, 206);
     float: left;
+    flex-shrink: 1;
 }
-            
+
+.usedList.col-rigid > li[data-id] {
+    margin-left: 0;
+}
+
+.row {
+    margin-right: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+}
+
+.col-rigid {
+    width: 175px;
+    flex: 0 0 auto;
+    display: inline-block
+}
+
 #availableList > li {
     background-color:rgb(243, 189, 88);
     float: left;
@@ -36,16 +50,72 @@ button {
     box-shadow:0px 0px 0px 3px rgb(226, 150, 9) inset;
 }
 
-#usedList > .sortable-chosen {
+.usedList > .sortable-chosen {
     box-shadow:0px 0px 0px 3px rgb(155, 199, 206) inset;
 }
 
-#usedList > .header {
-    background-color: inherit; text-align: center; border-bottom: thick solid; 
+.usedList > .header {
+    height: 50px; 
+     background-color: inherit; text-align: center; border-bottom: thick solid; padding: 10px; 
+     display: inline-block;
+}
+
+.usedList > .index {
+    background-color: inherit; text-align: left; border-right: thick solid; display: inline-block; 
+    margin-right: 12px;
 }
 
 #availableList > .header {
-    background-color: inherit; text-align: center; border-bottom: thick solid rgb(196, 131, 10);
+    min-height: 50px;
+    height: auto; 
+    width: max(100%, 150px);
+    background-color: inherit; text-align: center; border-bottom: thick solid rgb(196, 131, 10); 
+    padding: 10px; display: inline-block;
+}
+
+#availableList > .index {
+    min-height: 50px;
+    height: auto; 
+    background-color: inherit; text-align: left; border-right: thick solid rgb(196, 131, 10); 
+    padding: 10px; margin: 12px;
+}
+
+.grid-item {
+	height: 50px;
+	background-color: #fff;
+	border: solid 1px rgb(0,0,0,0.2);
+	padding: 10px;
+	margin: 12px;
+    display: flex;
+    text-align: center;
+}
+
+.grid-item-rigid {
+	height: 50px;
+    width: 150px;
+	background-color: #fff;
+	border: solid 1px rgb(0,0,0,0.2);
+	padding: 10px;
+	margin: 12px;
+    display: flex;
+    text-align: center;
+}
+
+#availableList > .grid-item-rigid.index {
+    width: 150px;
+}
+
+.usedList:empty { 
+    height: 50px;
+    background-color: floralwhite; border: 1px solid rgb(155, 199, 206); 
+    padding: 10px;
+	margin: 12px;
+    text-align: center;
+    display: flex;
+}
+
+.usedList.col-rigid:empty {
+    width: 150px;
 }
 
 .parsons-button {

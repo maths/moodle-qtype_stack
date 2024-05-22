@@ -225,7 +225,7 @@ define([
             // this IFRAME.
             // In Moodle inputs that are behaviour variables use `-` as a separator
             // for the name and usage id.
-            let possible = iter.querySelector('input[id$="-submit"][type=submit]');
+            let possible = iter.querySelector('.im-controls *[id$="-submit"][type=submit]');
             return possible;
         }
         return null;
@@ -779,6 +779,16 @@ define([
         case 'relabel-submit-button':
             input = vle_get_submit_button(msg.src);
             if (input !== null) {
+                if (input.childNodes.length > 1) {
+                    // If we happen to have some extra SR stuff...
+                    input.childNodes.forEach((n) => {
+                        if (n.nodeName == '#text') {
+                            n.textContent = msg.name;
+                        }
+                    });
+                } else {
+                    input.innerHTML = msg.name;
+                }
                 input.value = msg.name;
             } else {
                 // We generate this error just to push people to properly check if

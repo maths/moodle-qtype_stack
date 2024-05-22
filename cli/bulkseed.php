@@ -37,6 +37,7 @@ define('CLI_SCRIPT', true);
 require(__DIR__ . '/../../../../config.php');
 require_once($CFG->libdir.'/clilib.php');
 require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/../vle_specific.php');
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/bulktester.class.php');
@@ -58,7 +59,7 @@ $context = context_system::instance();
 
 
 // We process every single question, even those that wait for cron to clean up things.
-$questions = $DB->get_records('question', array('qtype' => 'stack'), 'id', 'id');
+$questions = $DB->get_records('question', ['qtype' => 'stack'], 'id', 'id');
 
 cli_heading('Processing ' . count($questions) . ' questions');
 
@@ -67,16 +68,16 @@ $c = 1;
 function cat_to_course($catid) {
     global $DB;
     // Why are the contexts so hard, where are the utility functions to map them...
-    static $map = array();
+    static $map = [];
     if (isset($map[$catid])) {
         return $map[$catid];
     }
-    $cat = $DB->get_record('question_categories', array('id' => $catid), 'contextid, parent');
+    $cat = $DB->get_record('question_categories', ['id' => $catid], 'contextid, parent');
     if ($cat->contextid == 0) {
         return cat_to_course($cat->parent);
     }
 
-    $context = $DB->get_record('context', array('id' => $cat->contextid), '*');
+    $context = $DB->get_record('context', ['id' => $cat->contextid], '*');
     if ($context->contextlevel == 50) {
         $map[$catid] = $context->instanceid;
         return $context->instanceid;
@@ -99,7 +100,7 @@ function cat_to_course($catid) {
         if ($path === '') {
             break;
         }
-        $context = $DB->get_record('context', array('path' => $path), '*');
+        $context = $DB->get_record('context', ['path' => $path], '*');
     }
     if ($context->contextlevel == 50) {
         $map[$catid] = $context->instanceid;
@@ -115,11 +116,13 @@ foreach ($questions as $id) {
     }
     $c++;
     $questiondata = question_bank::load_question_data($id->id);
-    $urlparams = array('qperpage' => 1000,
+    $urlparams = [
+        'qperpage' => 1000,
         'category' => $questiondata->category,
         'lastchanged' => $id->id,
-        'courseid' => cat_to_course($questiondata->category));
-    if ($questiondata->hidden) {
+        'courseid' => cat_to_course($questiondata->category),
+    ];
+    if (property_exists($questiondata, 'hidden') && $questiondata->hidden) {
         $urlparams['showhidden'] = 1;
     }
 
@@ -130,7 +133,7 @@ foreach ($questions as $id) {
         $urlparams['category'] .= ',' . $question->contextid;
         $questionbanklink = (new moodle_url('/question/edit.php', $urlparams))->out(false);
         $question->seed = 0;
-        if ($question->validate_against_stackversion() !== '') {
+        if ($question->validate_against_stackversion($context) !== '') {
             cli_writeln(' Upgrade issues in ' . $id->id . ': ' . $question->name);
             $fails = true;
         }
@@ -155,10 +158,8 @@ foreach ($questions as $id) {
         }
 
         // Prepare the display options.
-        $options = new question_display_options();
-        $options->readonly = true;
-        $options->flags = question_display_options::HIDDEN;
-        $options->suppressruntestslink = true;
+        $options = question_display_options();
+        $question->castextprocessor = new castext2_qa_processor($quba->get_question_attempt($slot));
 
         // Create the question text, question note and worked solutions.
         // This involves instantiation, which may fail.
@@ -171,7 +172,7 @@ foreach ($questions as $id) {
         try {
             if (trim($question->generalfeedback) !== '') {
                 $workedsolution = $question->get_generalfeedback_castext();
-                $workedsolution->get_display_castext();
+                $workedsolution->get_rendered($question->castextprocessor);
             }
         } catch (Exception $erendersolution) {
             cli_writeln(' Solution render issues in ' . $id->id . ': ' . $question->name);
@@ -201,7 +202,7 @@ foreach ($questions as $id) {
         }
     } catch (Exception $eload) {
         // We do not have the context-id...
-        $cat = $DB->get_record('question_categories', array('id' => $questiondata->category), 'contextid');
+        $cat = $DB->get_record('question_categories', ['id' => $questiondata->category], 'contextid');
         $urlparams['category'] .= ',' . $cat->contextid;
         $questionbanklink = (new moodle_url('/question/edit.php', $urlparams))->out(false);
 
@@ -209,10 +210,6 @@ foreach ($questions as $id) {
         cli_writeln($questionbanklink);
     }
 }
-
-
-
-
 
 echo "\n\n";
 exit(0);

@@ -51,17 +51,17 @@ class stack_ast_container_silent implements cas_evaluatable {
     /**
      * Errors collected from various sources of validation.
      */
-    protected $errors = array();
+    protected $errors = [];
 
     /**
      * Answernotes collected from various sources of validation.
      */
-    protected $answernotes = array();
+    protected $answernotes = [];
 
     /**
      * Feedback collected from various sources of validation and processing.
      */
-    protected $feedback = array();
+    protected $feedback = [];
 
     /**
      * The backreference to the location in the question model from which this
@@ -100,10 +100,18 @@ class stack_ast_container_silent implements cas_evaluatable {
     /**
      * These strings might occur as errors or notes and need to be tided up.
      */
-    protected static $maximastrings = array('DivisionZero', 'CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
-                'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression',
-                'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units',
-                'Units_SA_errorbounds_invalid', 'Variable_function', 'Bad_assignment');
+    protected static $maximastrings = [
+        'DivisionZero', 'CommaError', 'Illegal_floats', 'Lowest_Terms', 'SA_not_matrix',
+        'SA_not_list', 'SA_not_equation', 'SA_not_inequality', 'SA_not_set', 'SA_not_expression',
+        'Units_SA_excess_units', 'Units_SA_no_units', 'Units_SA_only_units', 'Units_SA_bad_units',
+        'Units_SA_errorbounds_invalid', 'Variable_function', 'Bad_assignment',
+    ];
+
+    /**
+     * @var string the name of the error-wrapper-class, tunable for use in
+     * other contexts, e.g. Stateful.
+     */
+    public $errclass = 'stack_cas_error';
 
     /*
      * NOTES:
@@ -119,19 +127,26 @@ class stack_ast_container_silent implements cas_evaluatable {
      */
 
     public static function make_from_student_source(string $raw, string $context,
-            stack_cas_security $securitymodel, array $filterstoapply = array(),
-            array $filteroptions = array(), string $grammar = 'Root') {
+            stack_cas_security $securitymodel, array $filterstoapply = [],
+            array $filteroptions = [], string $grammar = 'Root', string $decimals = '.') {
 
-        $errors = array();
-        $answernotes = array();
-        $parseroptions = array('startRule' => $grammar,
-                               'letToken' => stack_string('equiv_LET'));
+        $errors = [];
+        $answernotes = [];
+        $parseroptions = [
+            'startRule' => $grammar,
+            'letToken' => stack_string('equiv_LET'),
+            'decimals' => $decimals,
+        ];
 
         // Force the security filter to use 's'.
         if (isset($filteroptions['998_security'])) {
             $filteroptions['998_security']['security'] = 's';
         } else {
-            $filteroptions['998_security'] = array('security' => 's');
+            $filteroptions['998_security'] = ['security' => 's'];
+        }
+        // If the call modification filter is not included include it.
+        if (array_search('996_call_modification', $filterstoapply) === false) {
+            $filterstoapply[] = '996_call_modification';
         }
         // If security filter is not included include it.
         if (array_search('998_security', $filterstoapply) === false) {
@@ -158,7 +173,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         $astc->errors = $errors;
         $astc->answernotes = $answernotes;
         $astc->valid = null;
-        $astc->feedback = array();
+        $astc->feedback = [];
         // Always add nouns to student input.
         $astc->nounify = 1;
 
@@ -170,10 +185,12 @@ class stack_ast_container_silent implements cas_evaluatable {
         // If you wonder why the security model is in play for teachers it
         // is here to bring in the information on whether units are constants
         // or not and thus affect the teachers ability to write into them.
-        $errors = array();
-        $answernotes = array();
-        $parseroptions = array('startRule' => 'Root',
-                               'letToken' => stack_string('equiv_LET'));
+        $errors = [];
+        $answernotes = [];
+        $parseroptions = [
+            'startRule' => 'Root',
+            'letToken' => stack_string('equiv_LET'),
+        ];
 
         if ($securitymodel === null) {
             $securitymodel = new stack_cas_security();
@@ -190,11 +207,14 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
 
         // As we take no filter options for teachers sourced stuff lets build them from scratch.
-        $filteroptions = array('998_security' => array('security' => 't'));
+        $filteroptions = ['998_security' => ['security' => 't'], '995_ev_modification' => ['flags' => true]];
 
         // Get the filter pipeline. Now we only want the core filtters and
         // append the strict syntax check to the end.
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('998_security', '999_strict'), $filteroptions, true);
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
+            '995_ev_modification', '996_call_modification', '998_security',
+            '999_strict',
+        ], $filteroptions, true);
 
         if ($ast !== null) {
             $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
@@ -209,7 +229,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         $astc->errors = $errors;
         $astc->answernotes = $answernotes;
         $astc->valid = null;
-        $astc->feedback = array();
+        $astc->feedback = [];
         return $astc;
     }
 
@@ -219,10 +239,14 @@ class stack_ast_container_silent implements cas_evaluatable {
         // as there one already has an AST representing multiple casstring
         // and can just split it to pieces.
 
-        $errors = array();
-        $answernotes = array();
-        $filteroptions = array('998_security' => array('security' => 't'));
-        $pipeline = stack_parsing_rule_factory::get_filter_pipeline(array('998_security', '999_strict'), $filteroptions, true);
+        $errors = [];
+        $answernotes = [];
+        $filteroptions = ['998_security' => ['security' => 't']];
+
+        $pipeline = stack_parsing_rule_factory::get_filter_pipeline([
+            '998_security',
+            '999_strict',
+        ], $filteroptions, true);
         $ast = $pipeline->filter($ast, $errors, $answernotes, $securitymodel);
 
         $astc = new static;
@@ -233,7 +257,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         $astc->errors = $errors;
         $astc->answernotes = $answernotes;
         $astc->valid = null;
-        $astc->feedback = array();
+        $astc->feedback = [];
         return $astc;
     }
 
@@ -244,7 +268,7 @@ class stack_ast_container_silent implements cas_evaluatable {
         $this->keyless = $key;
     }
 
-    /* TODO: a more coherent system for dealing with all options such as keyless, nounify. */
+    /* TO-DO: a more coherent system for dealing with all options such as keyless, nounify. */
     public function set_nounify(int $key=1) {
         $this->nounify = $key;
     }
@@ -255,6 +279,12 @@ class stack_ast_container_silent implements cas_evaluatable {
             if ($this->ast === null) {
                 // In case parsing was impossible we store the errors in this class.
                 $this->valid = false;
+                // All errors are traditional strings at this point. Turn them to the new objects.
+                $errors = [];
+                foreach ($this->errors as $err) {
+                    $errors[] = new $this->errclass($err, $this->context);
+                }
+                $this->errors = $errors;
                 return false;
             }
 
@@ -270,6 +300,13 @@ class stack_ast_container_silent implements cas_evaluatable {
             $this->ast->callbackRecurse($findinvalid, false);
 
             $this->valid = !$hasinvalid;
+
+            // All errors are traditional strings at this point. Turn them to the new objects.
+            $errors = [];
+            foreach ($this->errors as $err) {
+                $errors[] = new $this->errclass($err, $this->context);
+            }
+            $this->errors = $errors;
         }
         return $this->valid;
     }
@@ -281,30 +318,45 @@ class stack_ast_container_silent implements cas_evaluatable {
         if (false === $this->get_valid()) {
             throw new stack_exception('stack_ast_container: tried to get the evaluation form of an invalid casstring.');
         }
-        $params = array('pmchar' => 1);
+        $params = ['pmchar' => 1];
         return $this->ast_to_string($this->ast, $params);
     }
 
     // This returns the fully filtered AST as it should be inputted were it inputted perfectly.
-    public function get_inputform(bool $keyless = false, $nounify = null): string {
+    public function get_inputform(bool $keyless = false, $nounify = null, $nontuples = false,
+            $decimals = '.'): string {
         if (!($nounify === null || is_int($nounify))) {
             throw new stack_exception('stack_ast_container: nounify must be null or an integer.');
         }
-        $params = array('inputform' => true,
-                'qmchar' => true,
-                'pmchar' => 0,
-                'nosemicolon' => true,
-                'keyless' => $keyless,
-                'dealias' => false, // This is needed to stop pi->%pi etc.
-                'nounify' => $nounify
-                );
+        if (!($decimals === '.' || $decimals === ',')) {
+            throw new stack_exception('stack_ast_container: decimal option must be "." or ",".');
+        }
+        $decimal = '.';
+        $listsep = ',';
+        if ($decimals == ',') {
+            $decimal = ',';
+            $listsep = ';';
+        }
+
+        $params = [
+            'inputform' => true,
+            'qmchar' => true,
+            'pmchar' => 0,
+            'nosemicolon' => true,
+            'keyless' => $keyless,
+            'dealias' => false, // This is needed to stop pi->%pi etc.
+            'nounify' => $nounify,
+            'nontuples' => $nontuples,
+            'decimal' => $decimal,
+            'listsep' => $listsep,
+        ];
         return $this->ast_to_string($this->ast, $params);
     }
 
     /*
      * Top-level function for turning AST into a string representation.
      */
-    public function ast_to_string($root = null, $parameters = array()) : string {
+    public function ast_to_string($root = null, $parameters = []) : string {
 
         if ($root === null) {
             $root = $this->ast;
@@ -323,15 +375,17 @@ class stack_ast_container_silent implements cas_evaluatable {
         }
 
         // @codingStandardsIgnoreStart
-        // TODO: should we check parameters are legitimate and if not?
+        // TO-DO: should we check parameters are legitimate and if not?
         // Currently MP_classes just does an isset(?) to check if the parameter exists.
         // There is no check on the legitimacy of those paraeters anywhere.  Should we
         // throw new stack_exception('stack_ast_container::ast_to_string tried to set illegal parameter ' . $key);
         // We should document available parameters: 'pretty', 'nosemicolon', 'keyless', 'qmchar'.
         // @codingStandardsIgnoreEnd
-        $params = array('nounify' => $this->nounify,
-                        'dealias' => true,
-                        'inputform' => false);
+        $params = [
+            'nounify' => $this->nounify,
+            'dealias' => true,
+            'inputform' => false,
+        ];
         foreach ($parameters as $key => $val) {
             $params[$key] = $val;
         }
@@ -372,7 +426,7 @@ class stack_ast_container_silent implements cas_evaluatable {
      */
     public function get_debug_print() {
         $ast = $this->ast;
-        return $ast->debugPrint($ast->toString(array('nosemicolon' => true)));
+        return $ast->debugPrint($ast->toString(['nosemicolon' => true]));
     }
 
     public function set_cas_status(array $errors, array $answernotes, array $feedback) {
@@ -402,9 +456,11 @@ class stack_ast_container_silent implements cas_evaluatable {
         if (count($errors) > 0) {
             $errs = array_merge($this->errors, $errors);
             foreach ($errs as $value) {
-                if ($value !== '' && $value !== null) {
+                if ($value->get_legacy_error() !== '' && $value->get_legacy_error() !== null) {
                     $this->valid = false;
-                    $this->errors[] = $this->decode_maxima_errors($value, false);
+                    // Hmm what is the point of this? Maybe do this filtering in the error class?
+                    $this->errors[] = new $this->errclass($this->decode_maxima_errors($value->get_legacy_error(), false),
+                        $value->get_context());
                 }
             }
         }
@@ -427,6 +483,10 @@ class stack_ast_container_silent implements cas_evaluatable {
 
     public function get_securitymodel(): stack_cas_security {
         return $this->securitymodel;
+    }
+
+    public function set_securitymodel(stack_cas_security $sec) {
+        $this->securitymodel = $sec;
     }
 
     public function get_source_context(): string {
@@ -458,14 +518,33 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // General accessors.
+
+    // When asking for errors the default is to implode them into a string.
+    // One can also have an array of strings or objects depending on which
+    // is more convenient.
     public function get_errors($raw = 'implode') {
         if (null === $this->valid) {
             $this->get_valid();
         }
-        if ($raw === 'implode') {
-            return implode(' ', array_unique($this->errors));
+
+        $errors = [];
+        if ($raw === 'objects') {
+            return $this->errors;
+        } else {
+            foreach ($this->errors as $err) {
+                if ($err instanceof stack_cas_error) {
+                    $errors[] = $err->get_legacy_error();
+                } else {
+                    $errors[] = $err;
+                }
+            }
+            $errors = array_unique($errors);
         }
-        return $this->errors;
+
+        if ($raw === 'implode') {
+            return implode(' ', $errors);
+        }
+        return $errors;
     }
 
     public function get_answernote($raw = 'implode') {
@@ -478,15 +557,15 @@ class stack_ast_container_silent implements cas_evaluatable {
         return $this->answernotes;
     }
 
-    public function get_variable_usage(array $updatearray = array()): array {
+    public function get_variable_usage(array $updatearray = []): array {
         if (!array_key_exists('read', $updatearray)) {
-            $updatearray['read'] = array();
+            $updatearray['read'] = [];
         }
         if (!array_key_exists('write', $updatearray)) {
-            $updatearray['write'] = array();
+            $updatearray['write'] = [];
         }
         if (!array_key_exists('calls', $updatearray)) {
-            $updatearray['calls'] = array();
+            $updatearray['calls'] = [];
         }
         // Find out which identifiers are being written to and which are being red from.
         // Simply go through the AST if it exists.
@@ -501,7 +580,7 @@ class stack_ast_container_silent implements cas_evaluatable {
             $this->get_valid();
         }
         if ($raw === 'implode') {
-            $feedback = array();
+            $feedback = [];
             // Ensure feedback is given only once and translate it.
             foreach ($this->feedback as $fb) {
                 $feedback[trim(stack_maxima_translate($fb))] = true;
@@ -516,12 +595,7 @@ class stack_ast_container_silent implements cas_evaluatable {
      *  */
     public function decode_maxima_errors(string $error, bool $feedback=false) {
         $foundone = false;
-        $fixed = $error;
-        if (strpos($error, '0 to a negative exponent') !== false) {
-            $fixed = stack_string('Maxima_DivisionZero');
-        } else if (strpos($error, 'args: argument must be a non-atomic expression;') !== false) {
-            $fixed = stack_string('Maxima_Args');
-        }
+        $fixed = stack_utils::maxima_translate_string($error);
 
         foreach (self::$maximastrings as $s) {
             if (false !== strpos($fixed, $s)) {
@@ -714,6 +788,40 @@ class stack_ast_container_silent implements cas_evaluatable {
         return false;
     }
 
+    public function is_toplevel_property($prop): bool {
+        $root = $this->ast;
+        if ($root instanceof MP_Root) {
+            if (array_key_exists(0, $root->items)) {
+                $root = $root->items[0];
+            }
+        }
+        if ($root instanceof MP_Statement) {
+            if (count($root->flags) > 0) {
+                // No matter what it is if there are flags its not pure anything.
+                return false;
+            }
+            $root = $root->statement;
+        }
+        if ($root instanceof MP_Group) {
+            $r0 = $root->items[0];
+            if ($r0 instanceof MP_FunctionCall && $r0->name->value = '%_C') {
+                $root = $root->items[1];
+            }
+        }
+
+        $op = '';
+        if ($root instanceof MP_Operation) {
+            $op = $root->op;
+        }
+        if ($root instanceof MP_FunctionCall) {
+            $op = $root->name->value;
+        }
+        if (stack_cas_security::get_feature($op, $prop) !== null) {
+            return true;
+        }
+        return false;
+    }
+
     public function is_matrix(bool $evaluated=false): bool {
         $root = $this->ast;
         if ($evaluated) {
@@ -736,6 +844,11 @@ class stack_ast_container_silent implements cas_evaluatable {
             $root->lhs instanceof MP_Identifier) {
             $root = $root->rhs;
         }
+        if ($root instanceof MP_Group) {
+            if (array_key_exists(0, $root->items)) {
+                $root = end($root->items);
+            }
+        }
         if ($root instanceof MP_Functioncall &&
             $root->name instanceof MP_Identifier &&
             $root->name->value === 'matrix') {
@@ -745,7 +858,7 @@ class stack_ast_container_silent implements cas_evaluatable {
     }
 
     // Do not call this unless you are dealing with a list.
-    // TODO: ?MP_Node for return type.
+    // TO-DO: ?MP_Node for return type.
     public function get_list_element(int $index, bool $evaluated=false) {
         $root = $this->ast;
         if ($evaluated) {
@@ -780,7 +893,7 @@ class stack_ast_container_silent implements cas_evaluatable {
      */
     public function get_decimal_digits(bool $evaluated = false) {
 
-        $ret = array('lowerbound' => 0, 'upperbound' => 0, 'decimalplaces' => 0, 'fltfmt' => '"~a"');
+        $ret = ['lowerbound' => 0, 'upperbound' => 0, 'decimalplaces' => 0, 'fltfmt' => '"~a"'];
 
         $leadingzeros = 0;
         $indefinitezeros = 0;
@@ -825,7 +938,7 @@ class stack_ast_container_silent implements cas_evaluatable {
                 $root = $root->lhs;
                 $continue = true;
             }
-            // Take the numerator of any fraction.  TODO: What should we do about rational numbers?
+            // Take the numerator of any fraction.  TO-DO: What should we do about rational numbers?
             if ($root instanceof MP_Operation && $root->op === '/') {
                 $root = $root->lhs;
                 $continue = true;
@@ -850,7 +963,12 @@ class stack_ast_container_silent implements cas_evaluatable {
                 $decimalplaces++;
             }
             if (strtolower($c) == 'e') {
-                $scientificnotation = true;
+                if (($meaningfulldigits + $leadingzeros + $indefinitezeros) > 0) {
+                    $scientificnotation = true;
+                } else {
+                    // If it is an `e` that exists before some numbers skip it.
+                    continue;
+                }
             }
             if ($c == '0') {
                 if ($meaningfulldigits == 0) {
@@ -875,7 +993,8 @@ class stack_ast_container_silent implements cas_evaluatable {
             } else if (ctype_digit($c)) {
                 $meaningfulldigits += $indefinitezeros + 1;
                 $indefinitezeros = 0;
-            } else {
+            } else if ($meaningfulldigits + $leadingzeros + $indefinitezeros > 0) {
+                // If we have seen any digits, before seeing something unexpected, we stop.
                 break;
             }
         }

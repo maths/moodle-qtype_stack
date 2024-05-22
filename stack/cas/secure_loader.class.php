@@ -41,7 +41,7 @@ class stack_secure_loader implements cas_evaluatable {
         }
         $this->context = $fromwhere;
         $this->code = $securedcode;
-        $this->errors = array();
+        $this->errors = [];
     }
 
     public function get_valid(): bool {
@@ -63,10 +63,18 @@ class stack_secure_loader implements cas_evaluatable {
     }
 
     public function get_errors($raw = 'implode') {
-        if ($raw === 'implode') {
-            return implode(' ', array_unique($this->errors));
+        if ($raw === 'objects') {
+            return $this->errors;
         }
-        return $this->errors;
+        $errors = [];
+        foreach ($this->errors as $err) {
+            $errors[] = $err->get_legacy_error();
+        }
+
+        if ($raw === 'implode') {
+            return implode(' ', array_unique($errors));
+        }
+        return $errors;
     }
 
     public function get_key(): string {

@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use maxima_parser_utils;
+use qtype_stack_testcase;
+use stack_ast_filter_410_single_char_vars;
+use stack_cas_security;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
@@ -24,21 +31,22 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/410_single_char_vars.filter.p
  * Unit tests for {@link stack_ast_filter_410_single_char_vars}.
  * @group qtype_stack
  * @group qtype_stack_ast_filters
+ * @covers \ast_filter_410_single_char_vars_auto_generated_test
  */
-class stack_parser_rule_410_test extends qtype_stack_testcase {
+class parser_rule_410_test extends qtype_stack_testcase {
 
     public function test_nothing_to_do() {
         $teststring = '2*a*b;';
         $result     = $teststring . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_410_single_char_vars();
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array());
-        $this->assertEquals($note, array());
+        $this->assertEquals($errs, []);
+        $this->assertEquals($note, []);
         $this->assertEquals($ast->toString(), $result);
     }
 
@@ -47,13 +55,13 @@ class stack_parser_rule_410_test extends qtype_stack_testcase {
         $result     = '2*a*b;' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_410_single_char_vars();
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array());
-        $this->assertEquals($note, array('missing_stars'));
+        $this->assertEquals($errs, []);
+        $this->assertEquals($note, ['missing_stars']);
         $this->assertEquals($ast->toString(), $result);
     }
 
@@ -62,13 +70,13 @@ class stack_parser_rule_410_test extends qtype_stack_testcase {
         $result     = 'n*alpha+sin(pi*n);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_410_single_char_vars();
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array());
-        $this->assertEquals($note, array('missing_stars'));
+        $this->assertEquals($errs, []);
+        $this->assertEquals($note, ['missing_stars']);
         $this->assertEquals($ast->toString(), $result);
     }
 }

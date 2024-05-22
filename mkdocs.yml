@@ -1,0 +1,30 @@
+site_name: STACK Docs
+site_url: https://docs.stack-assessment.org/
+extra_javascript: 
+    - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+
+
+theme:
+    name: material
+    logo: content/logo_large.png
+    favicon: ../content/logo_sm.png
+    custom_dir: site_overrides
+    highlightjs: false
+    palette:
+        primary: white
+docs_dir: 'doc'
+extra_css:
+    - custom.css
+    - 'https://cdn.jsdelivr.net/gh/maths/moodle-qtype_stack@master/styles.css'
+markdown_extensions:
+    - mdx_math
+    - extra
+plugins:
+    - search
+    - exclude:
+        glob:
+            - de/*
+            - en/Site_map.md
+    - redirects:
+        redirect_maps:
+            'index.md': 'en/index.md'

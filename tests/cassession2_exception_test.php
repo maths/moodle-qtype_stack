@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use TypeError;
+use qtype_stack_testcase;
+use stack_cas_session2;
+use stack_exception;
+use stack_options;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
@@ -24,43 +32,34 @@ require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_cas_session2
  */
-class stack_cas_session2_exception_test extends qtype_stack_testcase {
+class cassession2_exception_test extends qtype_stack_testcase {
 
-    /**
-     * @expectedException TypeError
-     */
     public function test_exception_1() {
+        $this->expectException(TypeError::class);
         $at1 = new stack_cas_session2("x=1", false, false);
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_exception_2() {
-        $at1 = new stack_cas_session2(array(), null, false);
+        $this->expectException(stack_exception::class);
+        $at1 = new stack_cas_session2([], null, false);
         $at1->get_valid();
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_exception_3() {
-        $at1 = new stack_cas_session2(array(1, 2, 3), null, false);
+        $this->expectException(stack_exception::class);
+        $at1 = new stack_cas_session2([1, 2, 3], null, false);
     }
 
-    /**
-     * @expectedException TypeError
-     */
     public function test_exception_4() {
+        $this->expectException(TypeError::class);
         $at1 = new stack_cas_session2(null, 123, false);
     }
 
-    /**
-     * @expectedException TypeError
-     */
     public function test_exception_5() {
         $pref = new stack_options();
+        $this->expectException(TypeError::class);
         $at1 = new stack_cas_session2(null, $pref, 'abc');
     }
 }

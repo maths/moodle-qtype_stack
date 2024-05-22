@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -27,32 +29,37 @@ require_once(__DIR__ . '/../edit_stack_form.php');
 
 /**
  * @group qtype_stack
+ * @covers \qtype_stack_edit_form
  */
-class qtype_stack_edit_form_testable extends qtype_stack_edit_form {
+class editform_test_class extends \qtype_stack_edit_form {
 
     public function __construct($questiontext, $specificfeedback) {
         global $USER;
-        $syscontext = context_system::instance();
-        $category = question_make_default_categories(array($syscontext));
-        $fakequestion = new stdClass();
+        $syscontext = \context_system::instance();
+        $category = question_make_default_categories([$syscontext]);
+        $fakequestion = new \stdClass();
         $fakequestion->qtype = 'stack';
         $fakequestion->category = $category->id;
         $fakequestion->contextid = $syscontext->id;
         $fakequestion->createdby = $USER->id;
         $fakequestion->modifiedby = $USER->id;
         $fakequestion->questiontext = $questiontext;
-        $fakequestion->options = new stdClass();
+        $fakequestion->options = new \stdClass();
         $fakequestion->options->specificfeedback = $specificfeedback;
-        $fakequestion->formoptions = new stdClass();
+        $fakequestion->formoptions = new \stdClass();
         $fakequestion->formoptions->movecontext = null;
         $fakequestion->formoptions->repeatelements = true;
         $fakequestion->inputs = null;
-        parent::__construct(new moodle_url('/'), $fakequestion, $category,
-                new question_edit_contexts($syscontext));
+        // Support both Moodle 4.x and 3.x.
+        if (class_exists('\core_question\local\bank\question_edit_contexts')) {
+            $contexts = new \core_question\local\bank\question_edit_contexts($syscontext);
+        } else {
+            $contexts = new \question_edit_contexts($syscontext);
+        }
+        parent::__construct(new \moodle_url('/'), $fakequestion, $category, $contexts);
     }
 
 }
-
 
 /**
  * Unit tests for Stack question editing form.
@@ -60,32 +67,33 @@ class qtype_stack_edit_form_testable extends qtype_stack_edit_form {
  * @copyright  2012 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @group qtype_stack
+ * @covers \qtype_stack_edit_form
  */
-class qtype_stack_edit_form_test extends advanced_testcase {
+class editform_test extends \advanced_testcase {
 
     protected function get_form($questiontext, $specificfeedback) {
         $this->setAdminUser();
         $this->resetAfterTest();
 
-        return new qtype_stack_edit_form_testable($questiontext, $specificfeedback);
+        return new editform_test_class($questiontext, $specificfeedback);
     }
 
     public function test_get_input_names_from_question_text_default() {
-        $form = $this->get_form(qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
-                qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
-        $qtype = new qtype_stack();
+        $form = $this->get_form(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
+                \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
+        $qtype = new \qtype_stack();
 
-        $this->assertEquals(array('ans1' => array(1, 1)),
-                $qtype->get_input_names_from_question_text(qtype_stack_edit_form::DEFAULT_QUESTION_TEXT));
+        $this->assertEquals(['ans1' => [1, 1]],
+                $qtype->get_input_names_from_question_text(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT));
     }
 
     public function test_get_prt_names_from_question_default() {
-        $form = $this->get_form(qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
-                qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
-        $qtype = new qtype_stack();
+        $form = $this->get_form(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
+                \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK);
+        $qtype = new \qtype_stack();
 
-        $this->assertEquals(array('prt1' => 1),
-                $qtype->get_prt_names_from_question(qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
-                qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK));
+        $this->assertEquals(['prt1' => 1],
+                $qtype->get_prt_names_from_question(\qtype_stack_edit_form::DEFAULT_QUESTION_TEXT,
+                \qtype_stack_edit_form::DEFAULT_SPECIFIC_FEEDBACK));
     }
 }

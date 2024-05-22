@@ -28,7 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/question/type/edit_question_form.php');
 require_once($CFG->dirroot . '/question/type/stack/question.php');
 require_once($CFG->dirroot . '/question/type/stack/questiontype.php');
-
+require_once($CFG->dirroot . '/question/type/stack/stack/prt.class.php');
+require_once($CFG->dirroot . '/question/type/stack/stack/potentialresponsetreestate.class.php');
 
 /**
  * Stack question editing form definition.
@@ -103,7 +104,7 @@ class qtype_stack_edit_form extends question_edit_form {
             return $this->questiontext;
         }
 
-        $submitted = optional_param_array('questiontext', array(), PARAM_RAW);
+        $submitted = optional_param_array('questiontext', [], PARAM_RAW);
 
         if (array_key_exists('text', $submitted)) {
             $this->questiontext = $submitted['text'];
@@ -124,7 +125,7 @@ class qtype_stack_edit_form extends question_edit_form {
             return $this->specificfeedback;
         }
 
-        $submitted = optional_param_array('specificfeedback', array(), PARAM_RAW);
+        $submitted = optional_param_array('specificfeedback', [], PARAM_RAW);
         if (array_key_exists('text', $submitted)) {
             $this->specificfeedback = $submitted['text'];
         } else if (isset($this->question->options->specificfeedback)) {
@@ -154,6 +155,7 @@ class qtype_stack_edit_form extends question_edit_form {
     }
 
     protected function definition_inner(/* MoodleQuickForm */ $mform) {
+        global $OUTPUT;
 
         // Load the configuration.
         $this->stackconfig = stack_utils::get_config();
@@ -169,26 +171,29 @@ class qtype_stack_edit_form extends question_edit_form {
         $defaultstr  = stack_string($answertests[$default]);
         unset($answertests[$default]);
 
-        $this->answertestchoices = array();
+        $this->answertestchoices = [];
         foreach ($answertests as $test => $string) {
             $this->answertestchoices[$test] = stack_string($string);
         }
         stack_utils::sort_array($this->answertestchoices);
-        $this->answertestchoices = array_merge(array($default => $defaultstr),
+        $this->answertestchoices = array_merge([$default => $defaultstr],
                 $this->answertestchoices);
 
         // Prepare score mode choices.
-        $this->scoremodechoices = array(
-                    '=' => '=',
-                    '+' => '+',
-                    '-' => '-',
-        );
+        $this->scoremodechoices = [
+            '=' => '=',
+            '+' => '+',
+            '-' => '-',
+        ];
 
         $qtype = new qtype_stack();
         // Note, the following methods have side-effects in $qtype stack, setting up internal data.
         $inputnames = $qtype->get_input_names_from_question_text($this->get_current_question_text());
         $prtnames = $qtype->get_prt_names_from_question($this->get_current_question_text(),
                 $this->get_current_specific_feedback());
+
+        // TO-DO: add in warnings here.  See b764b39675 for deleted materials.
+        $warnings = '';
 
         // Note that for the editor elements, we are using $mform->getElement('prtincorrect')->setValue(...); instead
         // of setDefault, because setDefault does not work for editors.
@@ -201,35 +206,60 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setType('stackversion', PARAM_RAW);
 
         $qvars = $mform->createElement('textarea', 'questionvariables',
-                stack_string('questionvariables'), array('rows' => 5, 'cols' => 80));
+                stack_string('questionvariables'), ['rows' => 5, 'cols' => 80]);
         $mform->insertElementBefore($qvars, 'questiontext');
         $mform->addHelpButton('questionvariables', 'questionvariables', 'qtype_stack');
 
         if (isset($this->question->id)) {
+            $out = stack_string('runquestiontests');
+            if (empty($this->question->deployedseeds) &&
+                    qtype_stack_question::random_variants_check($this->question->options->questionvariables)) {
+                $out = stack_string_error('questionnotdeployedyet');
+            }
             $qtestlink = html_writer::link($qtype->get_question_test_url($this->question),
-                    stack_string('runquestiontests'), array('target' => '_blank'));
-            $qtlink = $mform->createElement('static', 'qtestlink', '', $qtestlink);
+                    $out, ['target' => '_blank']) . ' ' . $OUTPUT->help_icon('runquestiontests', 'qtype_stack');
+            $qtlink = $mform->createElement('static', 'runquestiontests', '', $qtestlink);
             $mform->insertElementBefore($qtlink, 'questionvariables');
         }
 
         $seed = $mform->createElement('text', 'variantsselectionseed',
-                stack_string('variantsselectionseed'), array('size' => 50));
+                stack_string('variantsselectionseed'), ['size' => 50]);
         $mform->insertElementBefore($seed, 'questiontext');
         $mform->setType('variantsselectionseed', PARAM_RAW);
         $mform->addHelpButton('variantsselectionseed', 'variantsselectionseed', 'qtype_stack');
 
+        // Question warnings, if there are any.
+        if ('' != $warnings) {
+            $qwarn = $mform->createElement('static', 'questionwarnings', '', $warnings);
+            $mform->insertElementBefore($qwarn, 'questiontext');
+            $mform->addHelpButton('questionwarnings', 'questionwarnings', 'qtype_stack');
+        }
+
         $sf = $mform->createElement('editor', 'specificfeedback',
-                get_string('specificfeedback', 'question'), array('rows' => 10), $this->editoroptions);
+                get_string('specificfeedback', 'question'), ['rows' => 10], $this->editoroptions);
         $mform->insertElementBefore($sf, 'generalfeedback');
 
-        $mform->getElement('specificfeedback')->setValue(array('text' => self::DEFAULT_SPECIFIC_FEEDBACK));
+        $mform->getElement('specificfeedback')->setValue(['text' => self::DEFAULT_SPECIFIC_FEEDBACK]);
         $mform->addHelpButton('specificfeedback', 'specificfeedback', 'qtype_stack');
 
         $mform->addHelpButton('generalfeedback', 'generalfeedback', 'qtype_stack');
 
-        $mform->addElement('textarea', 'questionnote',
-                stack_string('questionnote'), array('rows' => 2, 'cols' => 80));
+        // Originally this was the textarea, to keep the form shorter, but teaching colleagues to use STACK this
+        // inconsistency with which fields are castext was confusing people.
+        // We need to use $fromform['questionnote']['text'], and
+        // we need to use the text when we update the DB.
+        $mform->addElement('editor', 'questionnote',
+                stack_string('questionnote'), ['rows' => 2], $this->editoroptions);
         $mform->addHelpButton('questionnote', 'questionnote', 'qtype_stack');
+        $mform->getElement('questionnote')->setValue(['text' => '']);
+
+        $qdec = $mform->createElement('editor', 'questiondescription',
+            stack_string('questiondescription', 'question'), ['rows' => 10], $this->editoroptions);
+        $mform->insertElementBefore($qdec, 'questionnote');
+
+        // Set default value as empty.
+        $mform->getElement('questiondescription')->setValue(['text' => '']);
+        $mform->addHelpButton('questiondescription', 'questiondescription', 'qtype_stack');
 
         $mform->addElement('submit', 'verify', stack_string('verifyquestionandupdate'));
         $mform->registerNoSubmitButton('verify');
@@ -266,21 +296,34 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $mform->addElement('editor', 'prtcorrect',
                 stack_string('prtcorrectfeedback'),
-                array('rows' => 1), $this->editoroptions);
-        $mform->getElement('prtcorrect')->setValue(array(
-                'text' => $this->stackconfig->prtcorrect));
+                ['rows' => 2], $this->editoroptions);
+        $mform->getElement('prtcorrect')->setValue([
+            'text' => $this->stackconfig->prtcorrect,
+        ]);
 
         $mform->addElement('editor', 'prtpartiallycorrect',
                 stack_string('prtpartiallycorrectfeedback'),
-                array('rows' => 1), $this->editoroptions);
-        $mform->getElement('prtpartiallycorrect')->setValue(array(
-                        'text' => $this->stackconfig->prtpartiallycorrect));
+                ['rows' => 2], $this->editoroptions);
+        $mform->getElement('prtpartiallycorrect')->setValue([
+            'text' => $this->stackconfig->prtpartiallycorrect,
+        ]);
 
         $mform->addElement('editor', 'prtincorrect',
                 stack_string('prtincorrectfeedback'),
-                array('rows' => 1), $this->editoroptions);
-        $mform->getElement('prtincorrect')->setValue(array(
-                        'text' => $this->stackconfig->prtincorrect));
+                ['rows' => 2], $this->editoroptions);
+        $mform->getElement('prtincorrect')->setValue([
+            'text' => $this->stackconfig->prtincorrect,
+        ]);
+
+        $mform->addElement('select', 'decimals',
+            stack_string('decimals'), stack_options::get_decimals_sign_options());
+        $mform->setDefault('decimals', $this->stackconfig->decimals);
+        $mform->addHelpButton('decimals', 'decimals', 'qtype_stack');
+
+        $mform->addElement('select', 'scientificnotation',
+            stack_string('scientificnotation'), stack_options::get_scientificnotation_options());
+        $mform->setDefault('scientificnotation', $this->stackconfig->scientificnotation);
+        $mform->addHelpButton('scientificnotation', 'scientificnotation', 'qtype_stack');
 
         $mform->addElement('select', 'multiplicationsign',
                 stack_string('multiplicationsign'), stack_options::get_multiplication_sign_options());
@@ -319,12 +362,54 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->removeElement('multitriesheader');
         $mform->removeElement('penalty');
 
-        $pen = $mform->createElement('text', 'penalty', stack_string('penalty'), array('size' => 5));
+        $pen = $mform->createElement('text', 'penalty', stack_string('penalty'), ['size' => 5]);
         $mform->insertElementBefore($pen, 'generalfeedback');
         $mform->setType('penalty', PARAM_FLOAT);
         $mform->addHelpButton('penalty', 'penalty', 'qtype_stack');
         $mform->setDefault('penalty', 0.1000000);
         $mform->addRule('penalty', null, 'required', null, 'client');
+
+        // Search for the need of GeoGebra specific edit-fields.
+        $geogebracount = substr_count($this->get_current_question_text(), "[[/geogebra]]");
+        if ($geogebracount > 0) {
+            // GeoGebra specific edit-fields should be displayed.
+            // Add heading to GeoGebra related edit-form entries.
+            $geogebraheading = $mform->createElement('static', 'stackBlock_geogebra_heading',
+                stack_string('stackBlock_geogebra_heading'));
+            $mform->insertElementBefore($geogebraheading, 'questiontext');
+
+            // Add function to get GeoGebra material_ids in STACK questiontext.
+            function get_geogebra_material_ids($str) {
+                $start = "material_id:\"";
+                $end = "\"";
+                $materialids = [];
+                $startlen = strlen($start);
+                $endlen = strlen($end);
+                $startf = $cons = $conend = 0;
+                while (false !== ($cons = strpos($str, $start, $startf))) {
+                    $cons += $startlen;
+                    $conend = strpos($str, $end, $cons);
+                    if (false === $conend) {
+                        break;
+                    }
+                    $materialids[] = substr($str, $cons, $conend - $cons);
+                    $startf = $conend + $endlen;
+                }
+                return $materialids;
+            }
+            $listofmaterialids = get_geogebra_material_ids($this->get_current_question_text());
+
+            // Use the existing material_ids to dynamically display links in edit-form to geogebra.org.
+            $listofmaterialidslen = count($listofmaterialids);
+            for ($i = 0; $i < $listofmaterialidslen; $i++) {
+                $outmaterial = stack_string('stackBlock_geogebra_link') . ": " . $listofmaterialids[$i];
+                $qgeogebralink = html_writer::link("https://www.geogebra.org/m/" . $listofmaterialids[$i],
+                    $outmaterial, ['target' => 'popup']);
+                $qglinks[$i] = $mform->createElement('static', 'stackBlock_geogebra_link'. $i , '', $qgeogebralink);
+                $mform->insertElementBefore($qglinks[$i], 'questiontext');
+                $mform->addHelpButton('stackBlock_geogebra_link'. $i , 'stackBlock_geogebra_link', 'qtype_stack');
+            }
+        }
     }
 
     /**
@@ -349,73 +434,89 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setDefault($inputname . 'type', $this->stackconfig->inputtype);
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
 
-        $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), array('size' => 20));
+        $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), ['size' => 20]);
         $mform->setType($inputname . 'modelans', PARAM_RAW);
         $mform->addHelpButton($inputname . 'modelans', 'teachersanswer', 'qtype_stack');
         // We don't make modelans a required field in the formslib sense, because
-        // That stops the input sections collapsing by default. Instead, we enforce
+        // that stops the input sections collapsing by default. Instead, we enforce
         // that it is non-blank in the server-side validation.
 
-        $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), array('size' => 3));
+        $mform->addElement('text', $inputname . 'boxsize', stack_string('boxsize'), ['size' => 3]);
         $mform->setDefault($inputname . 'boxsize', $this->stackconfig->inputboxsize);
         $mform->setType($inputname . 'boxsize', PARAM_INT);
         $mform->addHelpButton($inputname . 'boxsize', 'boxsize', 'qtype_stack');
-
-        $mform->addElement('selectyesno', $inputname . 'strictsyntax',
-                stack_string('strictsyntax'));
-        $mform->setDefault($inputname . 'strictsyntax', $this->stackconfig->inputstrictsyntax);
-        $mform->addHelpButton($inputname . 'strictsyntax', 'strictsyntax', 'qtype_stack');
+        $mform->hideIf($inputname . 'boxsize', $inputname . 'type', 'in',
+            ['radio', 'checkbox', 'dropdown', 'boolean']);
 
         $mform->addElement('select', $inputname . 'insertstars',
                 stack_string('insertstars'), stack_options::get_insert_star_options());
         $mform->setDefault($inputname . 'insertstars', $this->stackconfig->inputinsertstars);
         $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
+        $mform->hideIf($inputname . 'insertstars', $inputname . 'type', 'in',
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes'] );
 
-        $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), array('size' => 20));
+        $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), ['size' => 20]);
         $mform->setType($inputname . 'syntaxhint', PARAM_RAW);
+        $mform->setDefault($inputname . 'syntaxhint', '');
         $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
+        $mform->hideIf($inputname . 'syntaxhint', $inputname . 'type', 'in',
+            ['radio', 'checkbox', 'dropdown', 'boolean']);
 
         $mform->addElement('select', $inputname . 'syntaxattribute',
                 stack_string('syntaxattribute'), stack_options::get_syntax_attribute_options());
         $mform->setDefault($inputname . 'syntaxattribute', '0');
         $mform->addHelpButton($inputname . 'syntaxattribute', 'syntaxattribute', 'qtype_stack');
+        $mform->hideIf($inputname . 'syntaxattribute', $inputname . 'type', 'in',
+            ['radio', 'checkbox', 'dropdown', 'boolean']);
 
-        $mform->addElement('text', $inputname . 'forbidwords', stack_string('forbidwords'), array('size' => 20));
+        $mform->addElement('text', $inputname . 'forbidwords', stack_string('forbidwords'), ['size' => 20]);
         $mform->setType($inputname . 'forbidwords', PARAM_RAW);
         $mform->setDefault($inputname . 'forbidwords', $this->stackconfig->inputforbidwords);
         $mform->addHelpButton($inputname . 'forbidwords', 'forbidwords', 'qtype_stack');
+        $mform->hideIf($inputname . 'forbidwords', $inputname . 'type', 'in',
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes']);
 
-        $mform->addElement('text', $inputname . 'allowwords', stack_string('allowwords'), array('size' => 20));
+        $mform->addElement('text', $inputname . 'allowwords', stack_string('allowwords'), ['size' => 20]);
         $mform->setType($inputname . 'allowwords', PARAM_RAW);
         $mform->setDefault($inputname . 'allowwords', '');
         $mform->addHelpButton($inputname . 'allowwords', 'allowwords', 'qtype_stack');
+        $mform->hideIf($inputname . 'allowwords', $inputname . 'type', 'in',
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes']);
 
         $mform->addElement('selectyesno', $inputname . 'forbidfloat',
                 stack_string('forbidfloat'));
         $mform->setDefault($inputname . 'forbidfloat', $this->stackconfig->inputforbidfloat);
         $mform->addHelpButton($inputname . 'forbidfloat', 'forbidfloat', 'qtype_stack');
+        $mform->hideIf($inputname . 'forbidfloat', $inputname . 'type', 'in',
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes']);
 
         $mform->addElement('selectyesno', $inputname . 'requirelowestterms',
                 stack_string('requirelowestterms'));
         $mform->setDefault($inputname . 'requirelowestterms', $this->stackconfig->inputrequirelowestterms);
         $mform->addHelpButton($inputname . 'requirelowestterms', 'requirelowestterms', 'qtype_stack');
+        $mform->hideIf($inputname . 'requirelowestterms', $inputname . 'type', 'in',
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes']);
 
         $mform->addElement('selectyesno', $inputname . 'checkanswertype',
                 stack_string('checkanswertype'));
         $mform->setDefault($inputname . 'checkanswertype', $this->stackconfig->inputcheckanswertype);
         $mform->addHelpButton($inputname . 'checkanswertype', 'checkanswertype', 'qtype_stack');
+        $mform->hideIf($inputname . 'checkanswertype', $inputname . 'type', 'in',
+            ['radio', 'checkbox', 'dropdown', 'boolean', 'textarea', 'equiv', 'string', 'notes']);
 
         $mform->addElement('selectyesno', $inputname . 'mustverify',
                 stack_string('mustverify'));
         $mform->setDefault($inputname . 'mustverify', $this->stackconfig->inputmustverify);
         $mform->addHelpButton($inputname . 'mustverify', 'mustverify', 'qtype_stack');
+        $mform->hideIf($inputname . 'mustverify', $inputname . 'type', 'in', []);
 
         $mform->addElement('select', $inputname . 'showvalidation',
                 stack_string('showvalidation'), stack_options::get_showvalidation_options());
         $mform->setDefault($inputname . 'showvalidation', $this->stackconfig->inputshowvalidation);
         $mform->addHelpButton($inputname . 'showvalidation', 'showvalidation', 'qtype_stack');
+        $mform->hideIf($inputname . 'showvalidation', $inputname . 'type', 'in', []);
 
-        $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), array('size' => 20));
+        $mform->addElement('text', $inputname . 'options', stack_string('inputextraoptions'), ['size' => 20]);
         $mform->setType($inputname . 'options', PARAM_RAW);
         $mform->addHelpButton($inputname . 'options', 'inputextraoptions', 'qtype_stack');
     }
@@ -437,7 +538,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $mform->setExpanded($prtname . 'header');
         }
 
-        $mform->addElement('text', $prtname . 'value', stack_string('questionvalue'), array('size' => 3));
+        $mform->addElement('text', $prtname . 'value', stack_string('questionvalue'), ['size' => 3]);
         $mform->setType($prtname . 'value', PARAM_FLOAT);
         $mform->setDefault($prtname . 'value', 1);
 
@@ -447,22 +548,31 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addHelpButton($prtname . 'autosimplify', 'autosimplifyprt', 'qtype_stack');
 
         $mform->addElement('select', $prtname . 'feedbackstyle',
-                stack_string('feedbackstyle'), stack_potentialresponse_tree::get_feedbackstyle_options());
+                stack_string('feedbackstyle'), stack_potentialresponse_tree_lite::get_feedbackstyle_options());
         $mform->setDefault($prtname . 'feedbackstyle', $this->stackconfig->feedbackstyle);
         $mform->addHelpButton($prtname . 'feedbackstyle', 'feedbackstyle', 'qtype_stack');
 
         $mform->addElement('textarea', $prtname . 'feedbackvariables',
-                stack_string('feedbackvariables'), array('rows' => 3, 'cols' => 80));
+                stack_string('feedbackvariables'), ['rows' => 3, 'cols' => 80]);
         $mform->addHelpButton($prtname . 'feedbackvariables', 'feedbackvariables', 'qtype_stack');
 
         $inputnames = implode(', ', $inputnames);
         $mform->addElement('static', $prtname . 'inputsnote', '',
                 stack_string('prtwillbecomeactivewhen', html_writer::tag('b', $inputnames)));
 
-        $mform->addElement('static', $prtname . 'graph', '',
-                stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg'));
+        $tablerow = [
+            stack_abstract_graph_svg_renderer::render($graph, $prtname . 'graphsvg'),
+            stack_prt_graph_text_renderer::render($graph),
+        ];
+        $html = '';
+        foreach ($tablerow as $td) {
+            $html .= html_writer::tag('td', $td);
+        }
+        $html = html_writer::tag('tr', $html);
+        $html = html_writer::tag('table', $html);
+        $mform->addElement('static', $prtname . 'graph', '', $html);
 
-        $nextnodechoices = array('-1' => stack_string('stop'));
+        $nextnodechoices = ['-1' => stack_string('stop')];
         foreach ($graph->get_nodes() as $node) {
             $nextnodechoices[$node->name - 1] = stack_string('nodex', $node->name);
         }
@@ -490,18 +600,25 @@ class qtype_stack_edit_form extends question_edit_form {
 
         unset($nextnodechoices[$nodekey]);
 
-        $nodegroup = array();
+        $nodegroup = [];
+        $nodegroup[] = $mform->createElement('text', $prtname . 'description[' . $nodekey . ']',
+            stack_string('description'), ['size' => 35]);
+
         $nodegroup[] = $mform->createElement('select', $prtname . 'answertest[' . $nodekey . ']',
                 stack_string('answertest'), $this->answertestchoices);
 
         $nodegroup[] = $mform->createElement('text', $prtname . 'sans[' . $nodekey . ']',
-                stack_string('sans'), array('size' => 15));
+                stack_string('sans'), ['size' => 15]);
 
         $nodegroup[] = $mform->createElement('text', $prtname . 'tans[' . $nodekey . ']',
-                stack_string('tans'), array('size' => 15));
+                stack_string('tans'), ['size' => 15]);
 
         $nodegroup[] = $mform->createElement('text', $prtname . 'testoptions[' . $nodekey . ']',
-                stack_string('testoptions'), array('size' => 5));
+                stack_string('testoptions'), ['size' => 5]);
+
+        $anstestswithoutoptions = stack_ans_test_controller::get_ans_tests_without_options();
+        $mform->hideIf($prtname . 'testoptions[' . $nodekey . ']', $prtname . 'answertest[' . $nodekey . ']', 'in',
+            $anstestswithoutoptions );
 
         $nodegroup[] = $mform->createElement('selectyesno', $prtname . 'quiet[' . $nodekey . ']',
                 stack_string('quiet'));
@@ -510,13 +627,14 @@ class qtype_stack_edit_form extends question_edit_form {
                 html_writer::tag('b', stack_string('nodex', $name)),
                 null, false);
         $mform->addHelpButton($prtname . 'node[' . $nodekey . ']', 'nodehelp', 'qtype_stack');
+        $mform->setType($prtname . 'description[' . $nodekey . ']', PARAM_RAW);
         $mform->setType($prtname . 'sans[' . $nodekey . ']', PARAM_RAW);
         $mform->setType($prtname . 'tans[' . $nodekey . ']', PARAM_RAW);
         $mform->setType($prtname . 'testoptions[' . $nodekey . ']', PARAM_RAW);
 
         // Create the section of the form for each node - the branches.
-        foreach (array('true', 'false') as $branch) {
-            $branchgroup = array();
+        foreach (['true', 'false'] as $branch) {
+            $branchgroup = [];
 
             $branchgroup[] = $mform->createElement('select', $prtname . $branch . 'scoremode[' . $nodekey . ']',
                     stack_string('scoremode'), $this->scoremodechoices);
@@ -529,19 +647,19 @@ class qtype_stack_edit_form extends question_edit_form {
             }
 
             $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'score[' . $nodekey . ']',
-                    stack_string('score'), array('size' => 2));
+                    stack_string('score'), ['size' => 2]);
             $mform->setDefault($prtname . $branch . 'score[' . $nodekey . ']', (int) ($branch === 'true' && $nodekey == 0));
 
             $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'penalty[' . $nodekey . ']',
-                    stack_string('penalty'), array('size' => 2));
+                    stack_string('penalty'), ['size' => 2]);
 
             $branchgroup[] = $mform->createElement('select', $prtname . $branch . 'nextnode[' . $nodekey . ']',
                     stack_string('next'), $nextnodechoices);
 
             $branchgroup[] = $mform->createElement('text', $prtname . $branch . 'answernote[' . $nodekey . ']',
-                    stack_string('answernote'), array('size' => 10));
+                    stack_string('answernote'), ['size' => 10]);
             $mform->setDefault($prtname . $branch . 'answernote[' . $nodekey . ']',
-                    stack_string('answernotedefault' . $branch, array('prtname' => $prtname, 'nodename' => $name)));
+                    stack_string('answernotedefault' . $branch, ['prtname' => $prtname, 'nodename' => $name]));
 
             $mform->addGroup($branchgroup, $prtname . 'nodewhen' . $branch . '[' . $nodekey . ']',
                     stack_string('nodexwhen' . $branch, $name), null, false);
@@ -551,7 +669,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $mform->setType($prtname . $branch . 'answernote[' . $nodekey . ']', PARAM_RAW);
 
             $mform->addElement('editor', $prtname . $branch . 'feedback[' . $nodekey . ']',
-                    stack_string('nodex' . $branch . 'feedback', $name), array('rows' => 1), $this->editoroptions);
+                    stack_string('nodex' . $branch . 'feedback', $name), ['rows' => 2], $this->editoroptions);
             $mform->addHelpButton($prtname . $branch . 'feedback[' . $nodekey . ']', 'branchfeedback', 'qtype_stack');
         }
 
@@ -590,7 +708,10 @@ class qtype_stack_edit_form extends question_edit_form {
 
         $question->questionvariables     = $opt->questionvariables;
         $question->variantsselectionseed = $opt->variantsselectionseed;
-        $question->questionnote          = $opt->questionnote;
+        $question->questionnote          = $this->prepare_text_field('questionnote',
+                                            $opt->questionnote, $opt->questionnoteformat, $question->id);
+        $question->questiondescription   = $this->prepare_text_field('questiondescription',
+                                            $opt->questiondescription, $opt->questiondescriptionformat, $question->id);
         $question->specificfeedback      = $this->prepare_text_field('specificfeedback',
                                             $opt->specificfeedback, $opt->specificfeedbackformat, $question->id);
         $question->prtcorrect            = $this->prepare_text_field('prtcorrect',
@@ -599,6 +720,8 @@ class qtype_stack_edit_form extends question_edit_form {
                                             $opt->prtpartiallycorrect, $opt->prtpartiallycorrectformat, $question->id);
         $question->prtincorrect          = $this->prepare_text_field('prtincorrect',
                                             $opt->prtincorrect, $opt->prtincorrectformat, $question->id);
+        $question->decimals              = $opt->decimals;
+        $question->scientificnotation    = $opt->scientificnotation;
         $question->multiplicationsign    = $opt->multiplicationsign;
         $question->complexno             = $opt->complexno;
         $question->inversetrig           = $opt->inversetrig;
@@ -626,7 +749,8 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'type'}               = $input->type;
             $question->{$inputname . 'modelans'}           = $input->tans;
             $question->{$inputname . 'boxsize'}            = $input->boxsize;
-            $question->{$inputname . 'strictsyntax'}       = $input->strictsyntax;
+            // TO-DO: remove this when we delete it from the DB.
+            $question->{$inputname . 'strictsyntax'}       = true;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
             $question->{$inputname . 'syntaxhint'}         = $input->syntaxhint;
             $question->{$inputname . 'syntaxattribute'}    = $input->syntaxattribute;
@@ -690,20 +814,16 @@ class qtype_stack_edit_form extends question_edit_form {
     protected function data_preprocessing_node($question, $prtname, $node) {
         $nodename = $node->nodename;
 
-        $question->{$prtname . 'answertest' }[$nodename] = $node->answertest;
-        $question->{$prtname . 'sans'       }[$nodename] = $node->sans;
-        $question->{$prtname . 'tans'       }[$nodename] = $node->tans;
-        $question->{$prtname . 'testoptions'}[$nodename] = $node->testoptions;
-        $question->{$prtname . 'quiet'      }[$nodename] = $node->quiet;
+        $question->{$prtname . 'answertest'  }[$nodename] = $node->answertest;
+        $question->{$prtname . 'description' }[$nodename] = $node->description;
+        $question->{$prtname . 'sans'        }[$nodename] = $node->sans;
+        $question->{$prtname . 'tans'        }[$nodename] = $node->tans;
+        $question->{$prtname . 'testoptions' }[$nodename] = $node->testoptions;
+        $question->{$prtname . 'quiet'       }[$nodename] = $node->quiet;
 
-        // 0 + bit is to eliminate excessive decimal places from the DB.
         $question->{$prtname . 'truescoremode' }[$nodename] = $node->truescoremode;
-        $question->{$prtname . 'truescore'     }[$nodename] = 0 + $node->truescore;
-        $penalty = $node->truepenalty;
-        if ('' != trim($penalty)) {
-            $penalty = 0 + $penalty;
-        }
-        $question->{$prtname . 'truepenalty'   }[$nodename] = $penalty;
+        $question->{$prtname . 'truescore'     }[$nodename] = stack_utils::fix_trailing_zeros($node->truescore);
+        $question->{$prtname . 'truepenalty'   }[$nodename] = stack_utils::fix_trailing_zeros($node->truepenalty);
         $question->{$prtname . 'truenextnode'  }[$nodename] = $node->truenextnode;
         $question->{$prtname . 'trueanswernote'}[$nodename] = $node->trueanswernote;
         $question->{$prtname . 'truefeedback'  }[$nodename] = $this->prepare_text_field(
@@ -711,12 +831,8 @@ class qtype_stack_edit_form extends question_edit_form {
                 $node->truefeedbackformat, $node->id, 'prtnodetruefeedback');
 
         $question->{$prtname . 'falsescoremode' }[$nodename] = $node->falsescoremode;
-        $question->{$prtname . 'falsescore'     }[$nodename] = 0 + $node->falsescore;
-        $penalty = $node->falsepenalty;
-        if ('' != trim($penalty)) {
-            $penalty = 0 + $penalty;
-        }
-        $question->{$prtname . 'falsepenalty'   }[$nodename] = $penalty;
+        $question->{$prtname . 'falsescore'     }[$nodename] = stack_utils::fix_trailing_zeros($node->falsescore);
+        $question->{$prtname . 'falsepenalty'   }[$nodename] = stack_utils::fix_trailing_zeros($node->falsepenalty);
         $question->{$prtname . 'falsenextnode'  }[$nodename] = $node->falsenextnode;
         $question->{$prtname . 'falseanswernote'}[$nodename] = $node->falseanswernote;
         $question->{$prtname . 'falsefeedback'  }[$nodename] = $this->prepare_text_field(
@@ -748,7 +864,7 @@ class qtype_stack_edit_form extends question_edit_form {
             $filearea = $field;
         }
 
-        $data = array();
+        $data = [];
         $data['itemid'] = file_get_submitted_draft_itemid($field);
         $data['text'] = file_prepare_draft_area($data['itemid'], $this->context->id,
                 'qtype_stack', $filearea, $itemid, $this->fileoptions, $text);
@@ -760,8 +876,7 @@ class qtype_stack_edit_form extends question_edit_form {
         $errors = parent::validation($fromform, $files);
 
         $qtype = new qtype_stack();
-        list($errors, $warnings) = $qtype->validate_fromform($fromform, $errors);
-        return $errors;
+        return $qtype->validate_fromform($fromform, $errors);
     }
 
     public function qtype() {

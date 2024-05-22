@@ -14,6 +14,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_walkthrough_test_base;
+use stack_ast_container;
+use stack_boolean_input;
+use stack_input_factory;
+use stack_potentialresponse_node;
+use stack_potentialresponse_tree;
+use question_state;
+use question_pattern_expectation;
+
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -31,12 +43,13 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * @group qtype_stack
+ * @covers \qtype_stack
  */
-class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_base {
+class walkthrough_deferred_feedback_test extends qtype_stack_walkthrough_test_base {
 
     public function test_test3_save_answers_to_all_parts_and_stubmit() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
 
         // Check the right behaviour is used.
@@ -60,7 +73,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         );
 
         // Save a partially correct response.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false'));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false']);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -108,7 +121,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
 
     public function test_test3_save_answers_to_all_parts_confirm_valid_and_stubmit() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
 
         // Check the initial state.
@@ -129,7 +142,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         );
 
         // Save a partially correct response.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false'));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false']);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -151,8 +164,10 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         );
 
         // Save a confirmation this is valid.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
-                                        'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x', ));
+        $this->process_submission([
+            'ans1' => 'x^3', 'ans2' => 'x^2', 'ans3' => 'x', 'ans4' => 'false',
+            'ans1_val' => 'x^3', 'ans2_val' => 'x^2', 'ans3_val' => 'x',
+        ]);
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
@@ -200,7 +215,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
 
     public function test_test3_save_partially_complete_and_partially_invalid_response_then_stubmit() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
 
         // Check the initial state.
@@ -221,7 +236,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         );
 
         // Save a partially correct response.
-        $this->process_submission(array('ans1' => 'x^3', 'ans2' => '(x +', 'ans3' => '', 'ans4' => 'true'));
+        $this->process_submission(['ans1' => 'x^3', 'ans2' => '(x +', 'ans3' => '', 'ans4' => 'true']);
 
         $this->check_current_state(question_state::$invalid);
         $this->check_current_mark(null);
@@ -269,7 +284,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
 
     public function test_test3_save_completely_blank_response_then_stubmit() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
 
         // Check the initial state.
@@ -290,7 +305,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         );
 
         // Try to save a blank response. This should not even create a new step..
-        $this->process_submission(array('ans1' => '', 'ans2' => '', 'ans3' => '', 'ans4' => ''));
+        $this->process_submission(['ans1' => '', 'ans2' => '', 'ans3' => '', 'ans4' => '']);
 
         $this->assertEquals(1, $this->quba->get_question_attempt($this->slot)->get_num_steps());
 
@@ -315,7 +330,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
 
     public function test_test3_save_partial_purely_invalid_response_then_stubmit() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'test3');
+        $q = \test_question_maker::make_question('stack', 'test3');
         $this->start_attempt_at_question($q, 'deferredfeedback', 4);
 
         // Check the initial state.
@@ -336,7 +351,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         );
 
         // Save a partially correct response.
-        $this->process_submission(array('ans1' => '(x+', 'ans2' => '', 'ans3' => '', 'ans4' => ''));
+        $this->process_submission(['ans1' => '(x+', 'ans2' => '', 'ans3' => '', 'ans4' => '']);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
@@ -382,21 +397,11 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
     public function test_test0_no_validation_required() {
         // Create a stack question - we use test0, then replace the input with
         // a dropdown, to get a question that does not require validation.
-        $q = test_question_maker::make_question('stack', 'test0');
+        $q = \test_question_maker::make_question('stack', 'test0');
         // @codingStandardsIgnoreStart
         $q->inputs['ans1'] = stack_input_factory::make(
                 'dropdown', 'ans1', '[[1,false],[2,true]]');
         // @codingStandardsIgnoreEnd
-
-        // Dropdowns always return a list, so adapt the PRT to take the first element of ans1.
-        $sans = stack_ast_container::make_from_teacher_source('ans1');
-        $sans->get_valid();
-        $tans = stack_ast_container::make_from_teacher_source('2');
-        $tans->get_valid();
-        $node = new stack_potentialresponse_node($sans, $tans, 'EqualComAss');
-        $node->add_branch(0, '=', 0, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-F');
-        $node->add_branch(1, '=', 1, $q->penalty, -1, '', FORMAT_HTML, 'firsttree-1-T');
-        $q->prts['firsttree'] = new stack_potentialresponse_tree('firsttree', '', false, 1, null, array($node), '0', 1);
 
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 
@@ -412,14 +417,14 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans1',
-                        array('' => stack_string('notanswered'), '1' => '1', '2' => '2'), null, true),
+                        ['' => stack_string('notanswered'), '1' => '1', '2' => '2'], null, true),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
 
         // Save a partially correct response.
-        $this->process_submission(array('ans1' => '2'));
+        $this->process_submission(['ans1' => '2']);
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
@@ -429,7 +434,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans1',
-                        array('' => stack_string('notanswered'), '1' => '1', '2' => '2'), '2', true),
+                        ['' => stack_string('notanswered'), '1' => '1', '2' => '2'], '2', true),
                 $this->get_does_not_contain_feedback_expectation(),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
@@ -446,7 +451,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->check_output_does_not_contain_stray_placeholders();
         $this->check_current_output(
                 $this->get_contains_select_expectation('ans1',
-                        array('' => stack_string('notanswered'), '1' => '1', '2' => '2'), '2', false),
+                        ['' => stack_string('notanswered'), '1' => '1', '2' => '2'], '2', false),
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
         );
@@ -454,7 +459,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
 
     public function test_divide_by_0() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', 'divide');
+        $q = \test_question_maker::make_question('stack', 'divide');
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 
         // Check the initial state.
@@ -473,7 +478,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         );
 
         // Validate the response 0.
-        $this->process_submission(array('ans1' => '0', '-submit' => 1));
+        $this->process_submission(['ans1' => '0', '-submit' => 1]);
 
         $this->check_current_state(question_state::$todo);
         $this->check_current_mark(null);
@@ -503,7 +508,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
 
     public function test_1input2prts_specific_feedback_handling() {
         // Create a stack question.
-        $q = test_question_maker::make_question('stack', '1input2prts');
+        $q = \test_question_maker::make_question('stack', '1input2prts');
         $this->start_attempt_at_question($q, 'deferredfeedback', 1);
 
         // Check the right behaviour is used.
@@ -524,7 +529,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         );
 
         // Save the correct response.
-        $this->process_submission(array('ans1' => '12', 'ans1_val' => '12'));
+        $this->process_submission(['ans1' => '12', 'ans1_val' => '12']);
 
         $this->check_current_state(question_state::$complete);
         $this->check_current_mark(null);
@@ -549,7 +554,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
         $this->check_output_contains_input_validation('ans1');
         $this->check_output_contains_prt_feedback(); // Since there is no feedback for right.
         $this->check_output_does_not_contain_stray_placeholders();
-        $this->assertRegExp('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
+        $this->assertMatchesRegularExpression('~' . preg_quote($q->prtcorrect, '~') . '~', $this->currentoutput);
         $this->check_current_output(
                 $this->get_does_not_contain_num_parts_correct(),
                 $this->get_no_hint_visible_expectation()
@@ -561,7 +566,7 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
 
         // Create a stack question - we use test0, then change the question text
         // to show a particular bug.
-        $q = test_question_maker::make_question('stack', 'test0');
+        $q = \test_question_maker::make_question('stack', 'test0');
 
         // Comment out the following line, and the test passes.
         $q->questionvariables = 'PrintVect(v):= sconcat("\\,\\!",ssubst("\\mathbf{j}","YY",   ' .
@@ -574,9 +579,9 @@ class qtype_stack_walkthrough_deferred_feedback_test extends qtype_stack_walkthr
 
         // Check how the image is rendered.
         $this->render();
-        $this->assertNotRegExp('~PLUGINFILE~', $this->currentoutput,
+        $this->assertDoesNotMatchRegularExpression('~PLUGINFILE~', $this->currentoutput,
                 'Embedded image not displayed correctly in ' . $this->currentoutput);
-        $this->assertRegExp('~' . preg_quote($CFG->wwwroot) . '/pluginfile.php/~', $this->currentoutput,
+        $this->assertMatchesRegularExpression('~' . preg_quote($CFG->wwwroot) . '/pluginfile.php/~', $this->currentoutput,
                 'Embedded image not displayed correctly in ' . $this->currentoutput);
     }
 }

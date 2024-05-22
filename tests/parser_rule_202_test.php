@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use maxima_parser_utils;
+use qtype_stack_testcase;
+use stack_ast_filter_202_decimal_places_validation;
+use stack_cas_security;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
@@ -24,18 +31,19 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/202_decimal_places_validation
  * Unit tests for {@link 202_decimal_places_validation}.
  * @group qtype_stack
  * @group qtype_stack_ast_filters
+ * @covers \ast_filter_201_sig_figs_validation_auto_generated_test
  */
-class stack_parser_rule_202_test extends qtype_stack_testcase {
+class parser_rule_202_test extends qtype_stack_testcase {
 
     public function filter(string $input, int $min = -1, int $max = -1): array {
         $ast = maxima_parser_utils::parse($input);
         $filter = new stack_ast_filter_202_decimal_places_validation();
         $filter->set_filter_parameters([
             'min' => $min,
-            'max' => $max
+            'max' => $max,
         ]);
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $ast = $filter->filter($ast, $errs, $note, $security);
@@ -54,7 +62,7 @@ class stack_parser_rule_202_test extends qtype_stack_testcase {
             'output' => $ast->toString(['nosemicolon' => true]),
             'notes' => $note,
             'errors' => $errs,
-            'valid' => !$hasinvalid
+            'valid' => !$hasinvalid,
         ];
         return $r;
     }

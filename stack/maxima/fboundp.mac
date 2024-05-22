@@ -1,0 +1,99 @@
+/* fboundp.mac -- detect different kinds of functions in Maxima
+ * copyright 2020 by Robert Dodier
+ * I release this work under terms of the GNU General Public License
+ *
+ * See https://github.com/maxima-project-on-github/maxima-packages/blob/master/robert-dodier/fboundp/fboundp.mac
+ *
+ * Examples:
+ *
+   /* Name of an operator: */
+   fboundp("+");
+   true;
+   fboundp_operator("+");
+   true;
+
+   infix("//") $
+   fboundp("//");
+   false;
+   fboundp_operator("//");
+   false;
+   x // y := y - x $
+   fboundp("//");
+   true;
+   fboundp_operator("//");
+   true;
+
+   /* Simplifying function defined in Lisp: */
+   fboundp(sin);
+   true;
+   fboundp_simplifying(sin);
+   true;
+
+   /* DEFUN (ordinary argument-evaluating) function defined in Lisp: */
+   fboundp(expand);
+   true;
+   fboundp_ordinary_lisp(expand);
+   true;
+
+   /* DEFMSPEC (argument-quoting) function defined in Lisp: */
+   fboundp(kill);
+   true;
+   fboundp_quoting(kill);
+   true;
+
+   /* Maxima ordinary function: */
+   (kill(foo),
+    foo(x) := x,
+    fboundp(foo));
+   true;
+   fboundp_ordinary_maxima(foo);
+   true;
+
+   /* Maxima array function: */
+   (kill(bar),
+    bar[x](y) := x*y,
+    fboundp(bar));
+   true;
+   fboundp_array_function(bar);
+   true;
+
+   /* Maxima macro: */
+   (kill(baz),
+    baz(x) ::= buildq([x], x),
+    fboundp(baz));
+   true;
+   fboundp_maxima_macro(baz);
+   true;
+ *
+ */
+
+fboundp(a) :=
+    fboundp_operator(a)
+ or fboundp_simplifying(a)
+ or fboundp_ordinary_lisp(a)
+ or fboundp_quoting(a)
+ or fboundp_ordinary_maxima(a)
+ or fboundp_array_function(a)
+ or fboundp_maxima_macro(a);
+
+fboundp_operator(a) :=
+  stringp(a) and fboundp (verbify (a));
+
+fboundp_simplifying(a) :=
+  symbolp(a) and ?get(a, ?operators) # false;
+
+fboundp_ordinary_lisp(a) :=
+  symbolp(a) and ?fboundp(a) # false;
+
+fboundp_quoting(a) :=
+  symbolp(a) and ?get(a, ?mfexpr\*) # false;
+
+fboundp_ordinary_maxima(a) :=
+  symbolp(a) and ?mget(a, ?mexpr) # false;
+
+fboundp_array_function(a) :=
+  symbolp(a) and ?mget(a, ?aexpr) # false;
+
+fboundp_maxima_macro(a) :=
+  symbolp(a) and ?mget(a, ?mmacro) # false;
+

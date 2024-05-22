@@ -1,0 +1,21 @@
+version: "4.0"
+services:
+  maxima:
+    image: mathinstitut/goemaxima:2024052100-latest
+    tmpfs:
+      - "/tmp"
+    restart: unless-stopped
+    cap_add:
+      - SETGID
+      - SETUID
+    cap_drop:
+      - ALL
+    environment:
+      GOEMAXIMA_QUEUE_LEN: 32
+    read_only: true
+  stack:
+    # Location of published STACK API image goes here.
+    image: 
+    restart: unless-stopped
+    ports:
+      - '3080:80'

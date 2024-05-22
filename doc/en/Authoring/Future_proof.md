@@ -1,6 +1,6 @@
 # Guidelines for ensuring that a question works in the future
 
-Creating a great STACK question takes effort and often people worry about how updating STACK or Moodle or other components running those questions might affect their questions. While there are no guarantees you can increase the ongoing reliability of your questions by taking the following things into account. 
+Creating a great STACK question takes effort and often people worry about how updating STACK or Moodle or other components running those questions might affect their questions. While there are no guarantees you can increase the ongoing reliability of your questions by taking the following things into account.
 
 In some parts of this document we mention "Abacus". The Abacus project is a STACK material sharing organisation that seeks to develop high-quality materials to be implemented following these guidelines. This document ends with additional guidelines adopted by Abacus.  This is both good practice, and will be relevant if you ever intend to join Abacus.
 
@@ -21,11 +21,11 @@ To ease parsing of CASText you should ensure that you are writing valid (X)HTML 
 
 To ensure consistent presentation you should avoid using inline CSS styles in your CASText, as the styles of the surrounding system may change and cause conflicts. In general all styles are bad with the sole exception being `text-align` in the context of table cells. Otherwise:
 
-* If at all possible remove all styles and the `<span>` tags related to them from the CASText. Most WYSIWYG editors have some **clear formatting** feature to do just that.
+* If at all possible remove all styles and the `<span>` tags related to them from the CASText. Most WYSIWYG editors have some **clear formatting** feature to do just that. You cannot have block level HTML elements inside a span tag, which is an inline element.
 * You should not define `font-size` anywhere. If you need a heading with big text then use the `<hX>...</hX>` tags, but not with too small or large values of X. *In Abacus `<h3>` and `<h4>` are recommended especially in model solutions.*
 * Likewise all other font stylings should be left to the surrounding system but feel free to use `<i>`, `<b>`, `<em>`, and `<strong>` if you need and assume that the surrounding system handles them correctly.
 * You can use the `<code>` tag to explain how to type in answers.
-* Paragraphs are your friends use `<p>...</p>` tags and do not leave your content as raw text. The top level of your CASText document should consist of `<p>`, `<table>`, `<div>`, or CASText block elements not of raw text.
+* The top level of your CASText document should consist of `<p>`, `<table>`, `<div>`, or CASText block elements not of raw text. For the PRT be careful about using `<p>` tags (which editors hide).  If you use the compact PRT style then STACK then puts this into span tags, and you cannot have block level HTML elements such as `<p>` inside a span tag.
 * In the case of tables and images you may use a bit of styling, e.g. borders, paddings, margins, and sizes, but you should always use relative units when describing those sizes. Scale to match the current font-size or maybe to the width of the viewport or even to the maximum dimension of the display not to pixels as pixels have very different actual sizes on different screens and we cannot assume that the software displaying things will make the same scaling assumptions for them in the future.
 * STACK now uses SVG, and this is preferred if you can embed this within the CASText.
 * Only use supported JavaScript libraries, like JSXGraph.
@@ -33,7 +33,9 @@ To ensure consistent presentation you should avoid using inline CSS styles in yo
 
 If your CASText document contains scripts like JSXGraph content definitions you should ensure that if they require some external files to be evaluated you include those files with the question as links to external files will be broken at some point or the external files themselves change. In the case of JSXGraph use the `jsxgraph` CASText block which will handle the scripts at STACK level.
 
-__All external files/links are bad!__ If you have images or other documents related to the question they should be included in the question. Avoid embedded frames, applets and other interactive content. To test inclusion you should be able to export the question and import it to a freshly installed raw system on a computer not connected to the internet and those questions should work. *There is nothing wrong with internal files of any type, as long as they come with the question.*
+__All external files/links are bad!__ If you have images or other documents related to the question they should be included in the question. Avoid embedded frames, applets and other interactive content. To test inclusion you should be able to export the question and import it to a freshly installed raw system on a computer not connected to the internet and those questions should work. *There is nothing wrong with internal files of any type, as long as they come with the question.* Use of the [include](Inclusions.md) feature from 4.4 is also a bad thing, but you can make it less bad if the included file is present on a public server and if it is versioned so that one can link to a version that never changes.
+
+STACK does provide the option for [inclusions](Inclusions.md) within questions.  If you regularly use `stack_inlude` in your questions please consider contributing your libraries to the STACK core code.  Contributing tested libraries is the best way to ensure longer term maintenance!
 
 ## Writing CAS code
 
@@ -64,7 +66,7 @@ Please note that the system administrator has access to a "bulk test" script whi
 
 There have been some changes, which have created broken questions between versions.
 
-* List instantiation in Maxima is now required by Maxima and writing to an uninstantiated list gives errors like 'ARRSTORE: use_fast_arrays=false; allocate a new property hash table'. Basically, this means that you cannot say `TAns[1]:x;` without first saying `TAns:[];`. So do not assume that Maxima knows you want to create a list by simply assigning to an index on an undefined variable.
+* List instantiation in Maxima is now required by Maxima and writing to an un-instantiated list gives errors like 'ARRSTORE: use_fast_arrays=false; allocate a new property hash table'. Basically, this means that you cannot say `TAns[1]:x;` without first saying `TAns:[];`. So do not assume that Maxima knows you want to create a list by simply assigning to an index on an undefined variable.
 * Maxima has its own `addrow` command, that differs from STACKs version. Please check any questions using `addrow`. Eventually, a conversion will be made that will switch the arguments of function calls in old questions using the old STACK version of that function but the change process will be long.
 
 
@@ -108,8 +110,8 @@ It is perfectly acceptable to place the PRT-feedback marker within the question 
 
 ### CAS Code & input and PRT naming
 
-Abacus materials should aim to use English names for the CAS variables, inputs and PRTs to ease debugging by other members. Realistically, when generating new localisations for an existing question the variables should be renamed at the same time unless they are already in English. 
+Abacus materials should aim to use English names for the CAS variables, inputs and PRTs to ease debugging by other members. Realistically, when generating new localisations for an existing question the variables should be renamed at the same time unless they are already in English.
 
 If a variable name could cause confusion you should describe the variable in inline comments. You should use verbose internal variable names but not too verbose, try to aim for less than 10 characters. PascalCase/camelCase is the recommended way of dealing with multi word verbose names.
 
-Naming of PRTs is highly recommended, even `partA` and `partB` will be more descriptive names than `prt1` and `prt2`, naming of PRTs happens when you create them i.e. when you create that PRT-feedback marker.
+Naming of PRTs is highly recommended, even `partA` and `partB` will be more descriptive names than `prt1` and `prt2`, naming of PRTs happens when you create them i.e. when you create that PRT-feedback marker. 

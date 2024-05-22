@@ -31,8 +31,8 @@ require_once(__DIR__ . '/../stack/cas/connector.dbcache.class.php');
 require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
 
 // Now get cli options.
-list($options, $unrecognized) = cli_get_params(array('help' => false),
-    array('h' => 'help'));
+list($options, $unrecognized) = cli_get_params(['help' => false],
+    ['h' => 'help']);
 
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
@@ -59,7 +59,8 @@ cli_heading('Trying to generate maxima_opt_auto');
 list($ok, $message) = stack_cas_configuration::create_auto_maxima_image();
 
 if ($ok) {
-    cli_heading($message);
+    cli_heading("DONE.");
+    cli_write($message . "\n");
 } else {
     cli_error($message);
 }

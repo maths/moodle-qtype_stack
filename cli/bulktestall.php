@@ -35,8 +35,11 @@ require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 require_once(__DIR__ . '/../stack/bulktester.class.php');
 
+$start = microtime(true);
+
 // Get cli options.
-list($options, $unrecognized) = cli_get_params(['help' => false], ['h' => 'help']);
+list($options, $unrecognized) = cli_get_params(['help' => false, 'id' => false, 'remote' => false],
+    ['h' => 'help']);
 
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
@@ -46,38 +49,80 @@ if ($unrecognized) {
 if ($options['help']) {
     echo "This script runs all the quesion tests for all deployed versions of all
 questions in all contexts in the Moodle site. This is intended for regression
-testing, before you release a new version of STACK to your site.";
+testing, before you release a new version of STACK to your site.\n
+Use with --id=n to start generation from question id is n.\n";
     exit(0);
+}
+
+if ($options['remote']) {
+    if (!$DB = moodle_database::get_driver_instance($CFG->dbtype, $CFG->dblibrary)) {
+        throw new dml_exception('dbdriverproblem', "Unknown driver $CFG->dblibrary/$CFG->dbtype");
+    }
+    // @codingStandardsIgnoreStart
+    //$DB->connect('live.database.host.name', 'read_only_user', 'pa55w0rd', 'live_database_name', 'mdl_', $CFG->dboptions);
+    // @codingStandardsIgnoreEnd
 }
 
 $context = context_system::instance();
 // Create the helper class.
 $bulktester = new stack_bulk_tester();
 $allpassed = true;
-$allfailing = array();
+$allfailing = [];
 
 // Run the tests.
 $testno = 0;
-foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstackquestions) {
+$contexts = $bulktester->get_stack_questions_by_context();
+
+// Take only the contexts from the one containing the question id.
+$partialcontext = false;
+if ($options['id']) {
+    $usecontexts = [];
+    $found = false;
+    foreach ($contexts as $contextid => $numstackquestions) {
+        $testcontext = context::instance_by_id($contextid);
+
+        $categories = qbank_managecategories\helper::question_category_options([$context]);
+        $categories = reset($categories);
+        foreach ($categories as $key => $category) {
+            list($categoryid) = explode(',', $key);
+            $questions = $bulktester->get_stack_questions($categoryid);
+            if (array_key_exists($options['id'], $questions)) {
+                $found = true;
+                $partialcontext = $contextid;
+            }
+        }
+        if ($found) {
+            $usecontexts[$contextid] = $numstackquestions;
+        }
+    }
+    $contexts = $usecontexts;
+}
+
+foreach ($contexts as $contextid => $numstackquestions) {
 
     $testcontext = context::instance_by_id($contextid);
 
     echo "\n\n# " . $contextid . ": " . stack_string('bulktesttitle', $testcontext->get_context_name());
 
-    list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, 'cli');
+    if ($partialcontext === $contextid) {
+        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, null, 'cli', (int) $options['id']);
+    } else {
+        list($passed, $failing) = $bulktester->run_all_tests_for_context($testcontext, null, 'cli', false);
+    }
+
+    $allpassed = $allpassed && $passed;
 
     echo "\n";
-    if ($allpassed) {
+    if ($passed) {
         echo "** " . stack_string('stackInstall_testsuite_pass');
     } else {
         echo "** " . stack_string('stackInstall_testsuite_fail');
     }
     echo "\n";
 
-    $allpassed = $allpassed && $passed;
     echo "\n";
     foreach ($failing as $key => $arrvals) {
-        if ($arrvals !== array()) {
+        if ($arrvals !== []) {
             echo "\n* " . stack_string('stackInstall_testsuite_' . $key) . "\n";
             echo implode("\n", $arrvals);
         }
@@ -85,4 +130,18 @@ foreach ($bulktester->get_stack_questions_by_context() as $contextid => $numstac
 }
 
 echo "\n\n";
+
+if ($allpassed) {
+    echo "** " . stack_string('stackInstall_testsuite_pass');
+} else {
+    echo "** " . stack_string('stackInstall_testsuite_fail');
+}
+echo "\n";
+
+$took = (microtime(true) - $start);
+$rtook = round($took, 5);
+
+echo "Time taken: " . $rtook;
+echo "\n\n";
+
 exit(0);

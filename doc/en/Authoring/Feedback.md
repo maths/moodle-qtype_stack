@@ -1,4 +1,4 @@
-# Feedback #
+# Feedback
 
 The purpose of STACK is to assess students' answers to mathematical questions,
 and on the basis of the properties we establish to assign _feedback_.
@@ -81,7 +81,7 @@ To be specific
 1. Let \( (s_i,p_i) \) for \(i=1,\cdots n\) be the list of scores and penalties for a particular potential response tree, for each different valid attempt.
 2. The score for attempt \(k\) is defined to be
 
-\[ \mbox{Question value} \times \max\left\{ s_i-\sum_{j=1}^i p_j,\ i=1,\cdots k \right\}.\]
+\[ \text{Question value} \times \max\left\{ s_i-\sum_{j=1}^i p_j,\ i=1,\cdots k \right\}.\]
 
 Notice that this is purely a function of a list of (score, penalty) pairs.
 
@@ -91,6 +91,6 @@ The score for that attempt is the sum of the marks for each potential response t
 
 The text-based feedback for students is a concatenation of the following elements.
 
-* *Answer test feedback.* Many of the [answer tests](Answer_tests.md) generate feedback of their own. This can be suppressed using the quiet option. While this feedback is often not needed, it would be very difficult for the teacher to re-create this.
+* *Answer test feedback.* Many of the [answer tests](Answer_Tests/index.md) generate feedback of their own. This can be suppressed using the quiet option. While this feedback is often not needed, it would be very difficult for the teacher to re-create this.
 * *Bespoke feedback.* Each branch of the [potential response trees](Potential_response_trees.md) generates some feedback.
 * *Generic feedback.* Once the [potential response trees](Potential_response_trees.md) has been traversed and all feedback assigned, the score is used to generate some generic feedback. If the raw score equals \(0\) then the default feedback is _Incorrect answer_.   If the raw score equals \(1\) then the default feedback is _Correct answer, well done_. Otherwise the generic feedback is _Your answer is partially correct_.  These strings can be modified in the [options](Options.md).

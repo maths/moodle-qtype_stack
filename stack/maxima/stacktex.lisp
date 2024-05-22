@@ -79,7 +79,6 @@
 (defprop $texcolorplain tex-texcolorplain tex)
 
 ;; Changed log to ln, and other things.
-;; If changes are made here, then we also need to update arccos.lisp
 
 (mapc #'tex-setup
       '(
@@ -139,15 +138,17 @@
 
 )) ;; etc
 
-
-
 ;; Remove un-needed {}s from string output.
 ;; Chris Sangwin, 28/10/2009
 
 (defun tex-string (x)
-  (cond ((equal x "") (concatenate 'string "\\mbox{ }"))
+  (cond ((equal x "") (concatenate 'string "\\text{ }"))
     ((eql (elt x 0) #\\) x)
-    (t (concatenate 'string "\\mbox{" x "}"))))
+    (t (concatenate 'string "\\text{" x "}"))))
+
+;; Remove & from the quoted characters.
+(defun quote-% (sym)
+  (quote-chars sym "$%_"))
 
 ;; Chris Sangwin, 21/9/2010
 
@@ -209,6 +210,7 @@
 
 ;; Change the display of integrals to be consistent with derivatives.
 ;; Chris Sangwin, 8/6/2015.
+(defprop %int tex-int tex)
 (defprop %integrate tex-int tex)
 (defun tex-int (x l r)
   (let ((s1 (tex (cadr x) nil nil 'mparen 'mparen)) ;;integran, at the request of the OU delims / & d
@@ -235,6 +237,12 @@
                      '("}"))))
     (append l front back r)))
 
+;; Powers of functions are displayed by tex as f^2(x), not f(x)^2.
+;; This list is an exception, e.g. conjugate(x)^2.
+;; We use this list because tex-mexpt is also defined in stacktex40.lisp for earlier versions of Maxima.
+(defvar tex-mexpt-fnlist '(%sum %product %derivative %integrate %at $conjugate $texsub $lg $logbase %sqrt
+                                         %lsum %limit $pderivop $#pm#))
+
 ;; insert left-angle-brackets for mncexpt. a^<n> is how a^^n looks.
 (defun tex-mexpt (x l r)
   (let((nc (eq (caar x) 'mncexpt))) ; true if a^^b rather than a^b
@@ -257,8 +265,8 @@
                         f ; there is such a function
                         (member (get-first-char f) '(#\% #\$)) ;; insist it is a % or $ function
                         (not (member 'array (cdar fx) :test #'eq)) ; fix for x[i]^2
-                        (not (member f '(%sum %product %derivative %integrate %at $texsub
-                                         %lsum %limit $pderivop $#pm#) :test #'eq)) ;; what else? what a hack...
+                        ;; Unlike core Maxima we have alist of functions.
+                        (not (member f tex-mexpt-fnlist :test #'eq))
                         (or (and (atom expon) (not (numberp expon))) ; f(x)^y is ok
                             (and (atom expon) (numberp expon) (> expon 0))))))
                                         ; f(x)^3 is ok, but not f(x)^-1, which could
@@ -268,14 +276,15 @@
                      (setq l (tex `((mexpt) ,f ,expon) l nil 'mparen 'mparen))
                      (if (and (null (cdr bascdr))
                               (eq (get f 'tex) 'tex-prefix))
-                         (setq r (tex (car bascdr) nil r f 'mparen))
+                         (setq r (tex (cons '(mprogn) bascdr) nil r f 'mparen))
                          (setq r (tex (cons '(mprogn) bascdr) nil r 'mparen 'mparen))))
                     (t nil))))) ; won't doit. fall through
       (t (setq l (cond ((or ($bfloatp (cadr x))
                             (and (numberp (cadr x)) (numneedsparen (cadr x))))
                         ; ACTUALLY THIS TREATMENT IS NEEDED WHENEVER (CAAR X) HAS GREATER BINDING POWER THAN MTIMES ...
                         (tex (cadr x) (append l '("\\left(")) '("\\right)") lop (caar x)))
-                       (t (tex (cadr x) l nil lop (caar x))))
+                       ((atom (cadr x)) (tex (cadr x) l nil lop (caar x)))
+                       (t (tex (cadr x) (append l '("{")) '("}") lop (caar x))))
                r (if (mmminusp (setq x (nformat (caddr x))))
                      ;; the change in base-line makes parens unnecessary
                      (if nc
@@ -287,6 +296,16 @@
                              (tex x (list "^")(cons "" r) 'mparen 'mparen)
                              (tex x (list "^{")(cons "}" r) 'mparen 'mparen)))))))
     (append l r)))
+
+;; Added by CJS, 15-2-24.  Display an aligned environmant.
+(defprop $aligned tex-aligned tex)
+
+(defun tex-aligned(x l r) ;;matrix looks like ((mmatrix)((mlist) a b) ...)
+  (append l `("\\begin{aligned}")
+      (mapcan #'(lambda(y)
+              (tex-list (cdr y) nil (list "\\cr ") "&"))
+          (cdr x))
+      '("\\end{aligned}") r))
 
 ;; Added by CJS, 10-9-16.  Display an argument.
 (defprop $argument tex-argument tex)
@@ -442,3 +461,72 @@
            (setq nl (append nl (tex (car y) l sym lop rop))
              y (cdr y)
              l nil))))))
+
+;; *************************************************************************************************
+;; Added 4 May 2023.
+;; Print all brackets with simp:false;
+
+;; This is WIP for printing brackets in (a+b)+c.  Creates lots of other problems with unary minus.
+;; (defun tex (x l r lop rop)
+;;   ;; x is the expression of interest; l is the list of strings to its
+;;   ;; left, r to its right. lop and rop are the operators on the left
+;;   ;; and right of x in the tree, and will determine if parens must
+;;   ;; be inserted
+;;   (setq x (nformat x))
+;;   (cond ((atom x) (tex-atom x l r))
+;;       ((or (<= (tex-lbp (caar x)) (tex-rbp lop)) (>= (tex-lbp rop) (tex-rbp
+;;           (caar x))))
+;;       (tex-paren x l r))
+;;       ;; special check needed because macsyma notates arrays peculiarly
+;;       ((member 'array (cdar x) :test #'eq) (tex-array x l r))
+;;       ;; dispatch for object-oriented tex-ifiying
+;;       ((get (caar x) 'tex) (funcall (get (caar x) 'tex) x l r))
+;;       (t (tex-function x l r nil))))
+
+;; *************************************************************************************************
+;; Added 27 June 2020.
+;; Localise some Maxmia-generated strings
+
+(defprop $true  "\\mathbf{!BOOLTRUE!}"  texword)
+(defprop $false "\\mathbf{!BOOLFALSE!}" texword)
+
+
+;; *************************************************************************************************
+;; Added 20 Feb 2022.
+;; Remove %_C and %_E for display purposes.  The Maxima function %_ce_rem is defined in utils.mac
+
+(defmfun $tex1 (x) (reduce #'strcat (tex ($%_ce_rem x) nil nil 'mparen 'mparen)))
+
+;; *************************************************************************************************
+;; Added 30 May 2022.
+;; Allow Maxima to interigate the texword database directly, for words or function names.
+;; Copied directly from tex-atom.
+(defmfun $get_texword (x) (or (get x 'texword) (get (get x 'reversealias) 'texword)))
+
+(defmfun $get_texsym (x) (car (or (get x 'texsym) (get x 'strsym) (get x 'dissym) (stripdollar x))))
+
+;; *************************************************************************************************
+;; Added 20 Feb 2022.
+;; 
+;; Change the list separation on tex output when commas are used for decimal separators.
+;;
+;; Code below makes the list separator a normal "texput" concern. 
+;; E.g. in maxima: texput(stacklistsep, " ; ");
+;; (defprop $stacklistsep " , " texword)
+;;
+;;(defun tex-matchfix (x l r)
+;;  (setq l (append l (car (texsym (caar x))))
+;;    ;; car of texsym of a matchfix operator is the lead op
+;;    r (append (list (nth 1 (texsym (caar x)))) r)
+;;    ;; cdr is the trailing op
+;;    x (tex-list (cdr x) nil r (or (nth 2 (texsym (caar x))) (get '$stacklistsep 'texword))))
+;;  (append l x))
+
+(defun tex-matchfix (x l r)
+  (setq l (append l (car (texsym (caar x))))
+    ;; car of texsym of a matchfix operator is the lead op
+    r (append (list (nth 1 (texsym (caar x)))) r)
+    ;; cdr is the trailing op
+    x (tex-list (cdr x) nil r (or (nth 2 (texsym (caar x))) (if (string= $stackfltsep '",") '" ; " '" , "))))
+  (append l x))
+

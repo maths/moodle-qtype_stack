@@ -31,11 +31,12 @@ require_once(__DIR__ . '/locallib.php');
 $questionid = required_param('questionid', PARAM_INT);
 
 // Load the necessary data.
-$questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
+$questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
 list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
+$PAGE->set_context($context);
 
 // Check permissions.
 question_require_capability_on($questiondata, 'edit');
@@ -77,6 +78,72 @@ if (!is_null($undeploy) && $question->deployedseeds) {
     redirect($nexturl);
 }
 
+// Process undeployall if applicable.
+$deployfromlist = optional_param('deployfromlist', null, PARAM_INT);
+$deploysystematic = optional_param('deploysystematic', null, PARAM_INT);
+if (!is_null($deployfromlist) || !is_null($deploysystematic)) {
+
+    // Check data integrity.
+    $dataproblem = false;
+
+    if (!is_null($deployfromlist)) {
+        $deploytxt = optional_param('deployfromlist', null, PARAM_TEXT);
+        $baseseeds = explode("\n", trim($deploytxt));
+    } else {
+        $baseseeds = range(1, $deploysystematic);
+    }
+    $newseeds = [];
+    foreach ($baseseeds as $newseed) {
+        // Now also explode over commas.
+        $newseed = explode(",", trim($newseed));
+        foreach ($newseed as $seed) {
+            // Clean up whitespace.
+            // Force the entry to be a positive integer.
+            if (trim($seed) !== '') {
+                $seed = (int) (trim($seed));
+                if ($seed <= 0) {
+                    $dataproblem = true;
+                } else {
+                    $newseeds[] = (string) ($seed);
+                }
+            }
+        }
+    }
+
+    // No action to take?
+    if ($newseeds === $question->deployedseeds) {
+        redirect($nexturl);
+    }
+
+    if (count($newseeds) > 100) {
+        $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', ['err' => count($newseeds)]));
+        redirect($nexturl);
+    }
+
+    // Check the entries are all different.
+    if (count($newseeds) !== count(array_flip($newseeds))) {
+        // TO-DO: specific feedback for each error.
+        $dataproblem = true;
+    }
+
+    if ($dataproblem) {
+        $nexturl->param('deployfeedbackerr', stack_string('deployfromlisterror'));
+        redirect($nexturl);
+    }
+
+    // Undeploy all existing variants.
+    if ($question->deployedseeds) {
+        foreach ($question->deployedseeds as $seed) {
+            $question->undeploy_variant($seed);
+        }
+    }
+    // Deploy all new variants.
+    foreach ($newseeds as $seed) {
+        $question->deploy_variant($seed);
+    }
+    redirect($nexturl);
+}
+
 $deploy = optional_param('deploymany', null, PARAM_INT);
 $deploytxt = optional_param('deploymany', null, PARAM_TEXT);
 $starttime = time();
@@ -91,7 +158,7 @@ gc_collect_cycles(); // Because PHP's default memory management is rubbish.
 if (!is_null($deploy)) {
 
     if (0 == $deploy) {
-        $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', array('err' => $deploytxt)));
+        $nexturl->param('deployfeedbackerr', stack_string('deploymanyerror', ['err' => $deploytxt]));
         redirect($nexturl);
     }
 
@@ -146,13 +213,13 @@ if (!is_null($deploy)) {
             // Load the list of test cases.
             $testscases = question_bank::get_qtype('stack')->load_question_tests($question->id);
             // Exectue the tests.
-            $testresults = array();
+            $testresults = [];
             $allpassed = true;
             foreach ($testscases as $key => $testcase) {
                 $testresults[$key] = $testcase->test_question($questionid, $seed, $context);
                 if (!$testresults[$key]->passed()) {
                     $nexturl->param('seed', $seed);
-                    $nexturl->param('deployfeedback', stack_string('deploymanysuccess', array('no' => $numberdeployed)));
+                    $nexturl->param('deployfeedback', stack_string('deploymanysuccess', ['no' => $numberdeployed]));
                     $nexturl->param('deployfeedbackerr', stack_string('stackInstall_testsuite_fail'));
                     redirect($nexturl);
                 }
@@ -177,7 +244,7 @@ if (!is_null($deploy)) {
         $pbar->update($a['total'], $a['total'], get_string('deployedprogress', 'qtype_stack', $a));
     }
 
-    $message = stack_string('deploymanysuccess', array('no' => $numberdeployed));
+    $message = stack_string('deploymanysuccess', ['no' => $numberdeployed]);
     $nexturl->param('deployfeedback', $message);
     $nexturl->param('seed', $seed);
 
@@ -192,7 +259,7 @@ if (!is_null($deploy)) {
     }
     if (time() - $starttime >= $maxtime) {
         $allok = false;
-        $errmessage = stack_string('deployoutoftime', array('time' => time() - $starttime));
+        $errmessage = stack_string('deployoutoftime', ['time' => time() - $starttime]);
         $nexturl->param('deployfeedbackerr', $errmessage);
         if ($deploy < $numforprogressbar) {
             redirect($nexturl);
@@ -200,9 +267,9 @@ if (!is_null($deploy)) {
     }
 
     if ($deploy >= $numforprogressbar) {
-        \core\notification::success(stack_string('deploymanysuccess', array('no' => $numberdeployed)));
+        \core\notification::success(stack_string('deploymanysuccess', ['no' => $numberdeployed]));
         if (!$allok) {
-            echo html_writer::tag('p', $errmessage, array('class' => 'overallresult fail'));
+            echo html_writer::tag('p', $errmessage, ['class' => 'overallresult fail']);
         }
         echo $OUTPUT->continue_button($nexturl);
         echo $OUTPUT->footer();

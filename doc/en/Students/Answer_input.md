@@ -80,7 +80,7 @@ If you type `a+b/c+d`, then STACK will think that you mean
 
 Think carefully about the expression `a/b/c`.  What do you think this means?  There are two options
 
-\[\frac{a}{b}\cdot\frac{1}{c} = \frac{a}{bc}\quad\mbox{or}\quad\frac{a}{\frac{b}{c}}=\frac{ac}{b}.\]
+\[\frac{a}{b}\cdot\frac{1}{c} = \frac{a}{bc}\quad\text{or}\quad\frac{a}{\frac{b}{c}}=\frac{ac}{b}.\]
 
 Maxima interprets this as \(\frac{a}{bc}\).  If in doubt use brackets.
 
@@ -91,7 +91,7 @@ Note that in this context you should always use ordinary round bracket (like (a+
 
 ### Scientific units  ###
 
-You may be asked to answer a question in which the answer has units.  E.g. \( 9.81\mbox{m}\mbox{s}^{-2} \).  To enter units you must use multiplication, so this is entered as either `9.81*m/s^2` or `9.81*m*s^(-2)`.  Don't use a space, or another symbol such as `+`.
+You may be asked to answer a question in which the answer has units.  E.g. \( 9.81\text{m}\text{s}^{-2} \).  To enter units you must use multiplication, so this is entered as either `9.81*m/s^2` or `9.81*m*s^(-2)`.  Don't use a space, or another symbol such as `+`.
 
 ### Subscripts  ###
 
@@ -112,7 +112,7 @@ Use the underscore character to denote a subscript.  For example, \(a_b\) should
 * **Modulus function**: The modulus function, sometimes called the absolute value of _x_,
   is written as |_x_| in traditional notation. This must be entered as `abs(x)`.
 
-### **Trigonometrical functions**  ###
+### Trigonometrical functions  ###
 
 Things to remember:
 
@@ -126,7 +126,7 @@ Things to remember:
   This traditional notation is really rather unfortunate and is not used by the CAS; instead,
   \(\sin^{-1}(x)\) should be entered as `asin(x)`. Similarly, \(\tan^{-1}(x)\) should be entered as `atan(x)` and so on.
 
-### **Exponentials** and **Logarithms** ###
+### Exponentials and Logarithms ###
 
 * To enter the exponential function type `exp(x)`. Typing `e^x` should work in STACK, but gets you into bad habits when using a CAS later!
 * Type `ln(x)` or `log(x)` to enter the _natural logarithm_ of \(x\) with base \(e\approx 2.71\cdots\). Note that both of these start with a lower case l for logarithm, not a capital I (`i`).
@@ -154,6 +154,8 @@ Equations can be entered using the equals sign. For example, to enter the equati
 Inequalities can be entered using the greater than and less than signs on the keyboard.
 Notice that there are four possibilities for you to choose from: `<` or `>` or `<=` or `>=`.
 Note there is no space between these symbols, and the equality must come second when it is used, i.e. you cannot use `=<`.
+
+You can enter "not equals to" using the `#` symbol.  E.g. `x#1` is interpreted as \(x\neq 1\).
 
 Sometimes you will need to connect inequalities together as `x>1 and x<=5`.  You must use the logical connectives `and` and `or`.  "Chained inequalities" such as \(1<x<5\) are not permitted as input syntax.  You should enter this as `1<x and x<5`.
 

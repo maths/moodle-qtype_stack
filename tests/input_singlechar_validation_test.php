@@ -14,6 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_cas_security;
+use stack_input;
+use stack_input_factory;
+use stack_options;
+
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/fixtures/test_base.php');
@@ -26,26 +35,27 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_singlechar_input
  */
-class stack_singlechar_input_validation_test extends qtype_stack_testcase {
+class input_singlechar_validation_test extends qtype_stack_testcase {
     public function test_validate_student_response_true() {
         $options = new stack_options();
         $el = stack_input_factory::make('singleChar', 'sans1', 'true');
-        $state = $el->validate_student_response(array('sans1' => 'x'), $options, 'true', new stack_cas_security());
+        $state = $el->validate_student_response(['sans1' => 'x'], $options, 'true', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
 
     public function test_validate_student_response_false() {
         $options = new stack_options();
         $el = stack_input_factory::make('singleChar', 'sans1', 'true');
-        $state = $el->validate_student_response(array('sans1' => ''), $options, 'true', new stack_cas_security());
+        $state = $el->validate_student_response(['sans1' => ''], $options, 'true', new stack_cas_security());
         $this->assertEquals(stack_input::BLANK, $state->status);
     }
 
     public function test_validate_student_response_na() {
         $options = new stack_options();
         $el = stack_input_factory::make('singlechar', 'sans1', 'true');
-        $state = $el->validate_student_response(array('sans1' => 'xx'), $options, 'true', new stack_cas_security());
+        $state = $el->validate_student_response(['sans1' => 'xx'], $options, 'true', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
     }
 }

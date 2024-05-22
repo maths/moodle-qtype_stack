@@ -2,11 +2,11 @@
 
 Options affect the behaviour of each question.
 
-### Question Level Simplify  ###
+### Question Level Simplify ###
 
 See the entry on [simplification](../CAS/Simplification.md).  Default is `true`.
 
-### Assume Positive  ### {#Assume_Positive}
+### Assume Positive {#Assume_Positive} ###
 
 This option sets the value of [Maxima](../CAS/Maxima.md)'s
 
@@ -20,7 +20,7 @@ asksign queries, such as may arise from integrate or other computations
 
 Default is False
 
-### Question Penalty ### {#Question_penalty}
+### Question Penalty {#Question_penalty} ###
 
 This is the percentage of the marks deducted from each different and valid attempt which is not
 completely correct, when the penalty mark modification scheme is in use.
@@ -32,25 +32,60 @@ then the extra digits will automatically be added. The exact range affected is t
 any penalty \(\ge 0.33\) and \(\le 0.34\) is changed to \(0.3333333\), and
 any penalty \(\ge 0.66\) and \(\le 0.67\) is changed to \(0.6666667\).
 
-## Output  ##
+## Output ##
 
 The following options affect how mathematics is displayed.
 
-### Multiplication Sign ### {#multiplication}
+### Decimal separator {#decimals} ###
+
+Choose the symbol for the decimal separator used by student input.  There are currently two choices.
+
+* `.`, the British decimal point.
+* `,`, the comma, as used in much of Europe.
+
+The design of this option is discussed further in the [developer docs](../Developer/Syntax_numbers.md).
+
+Teachers must always use strict Maxima syntax, which requires `.`, including in test case construction.
+
+### Scientific notation formal {#scientificnotation} ###
+
+Choose the format for display of scientific notation.
+
+* '*10', numbers will be displayed as \(3.14 \times 10^{3}\).
+* 'E', numbers will be displayed as \(3.14 E^{3}\).
+
+### Multiplication Sign {#multiplication} ###
 
 * (none), e.g. \(x(x+1)\)
 * Dot, e.g. \(x\cdot(x+1)\)
 * Cross, e.g. \(x\times (x+1)\)
+* Numbers only, e.g. \(3\times 5\, x\).
 
 In practice it is very helpful to have some kind of multiplication sign displayed to the student.  The difference between
-\[ xe^x \mbox{ and } x\,e^x\]
-is very subtle.  Notice the spacing?  The first means `xe^x=(xe)^x` the second is `x*e^x`.  Could be quite confusing to students if there is no multiplication sign.  Using \(x\dot e^x\) neatly solves this problem.
+\[ xe^x \text{ and } x\,e^x\]
+is very subtle.  Notice the spacing?  The first means `xe^x=(xe)^x` the second is `x*e^x`.  Could be quite confusing to students if there is no multiplication sign.  Using \(x\cdot e^x\) neatly solves this problem.
 
-### Logic symbols ### {#logicsymbol}
+Internally the display of multiplication signs is controlled by the STACK function `make_multsgn(ex)`, where the argument can be one of the strings `"cross"`, `"dot"` or `"blank"`.  This can be switched part-way through a session. E.g. consider the following castext.
 
-How logical symbols should be displayed. The values are language, e.g. \(A \mbox{ and } B\) or symbol, e.g. \(A\land B\).
+    Default: {@a*b@}.
+    Switch to cross: {@(make_multsgn("cross"), a*b)@}.
+    Cross remains: {@a*b@}.
 
-### Surd for Square Root ### {#surd}
+The expression `(make_multsgn("cross"), a*b)` uses parentheses as an abbreviation for Maxima's `block` command.  So, the first expression `make_multsgn("cross")` is evaluated which changes the display option to a cross.  Then the second expression is evaluated and displayed as \(a\times b\).  The new option persists in the next expression.
+
+The value of this option `onum` will only put a multiplication sign between numbers.  This means you will see \(3\times 5\, x\) and not \(3\, 5\, x\) as you would if you have "none".
+
+There is a special atom which controls the multiplication symbol.  If you would like a dot then define
+
+    texput(multsgnonlyfornumberssym, "\\times");
+
+in the question variables.
+
+### Logic symbols {#logicsymbol} ###
+
+How logical symbols should be displayed. The values are language, e.g. \(A \text{ and } B\) or symbol, e.g. \(A\land B\).
+
+### Surd for Square Root {#surd} ###
 
 This option sets the value of [Maxima](../CAS/Maxima.md)'s
 
@@ -66,11 +101,19 @@ In  Maxima 5.19.1 we get:
     (%i2) 6*sqrt(2);
     (%o2) 3*2^(3/2)
 
-The discussion of this issue can be followed on the
-[Maxima mailing list](http://www.math.utexas.edu/pipermail/maxima/2009/018460.html).
-Do you really want to continue using \(\sqrt{}\) in your teaching?
+Do you really want to continue using \(\sqrt{}\) in your teaching?  In his *Elements of Algebra*, L. Euler wrote the following.
 
-### sqrt(-1) {#sqrt_minus_one}
+> \(\S 200\) We may therefore entirely reject the radical signs at present made use of, and employ in their stead
+> the fractional exponents which we have just explained: but as we have been long accustomed to
+> those signs, and meet with them in most books of Algebra, it might be wrong to banish them entirely from 
+> calculations; there is, however, sufficient reason also to employ, as is now frequently done, the other method of 
+> notation, because it manifestly corresponds with the nature of the thing. In fact we see immediately
+> that \(a^\frac12\) is the square root of \(a\), because we know that the square of \(a^\frac12\), that is to say 
+> \(a^\frac12\) multiplied by \(a^\frac12\) is equal to \(a^1\), or \(a\).
+
+A lot of elementary mathematics involves converting from one form to another and back again.  Sometimes these forms have important differences of use, e.g. factored form or completed square form for a quadratic.  However, sometimes these equivalent forms are more customary than because it *"manifestly corresponds with the nature of the thing"* in question.  I digress...
+
+### sqrt(-1) {#sqrt_minus_one} ###
 
 In Maxima `%i` is the complex unit satisfying `%i^2=-1`.  However, students would
 like to type `i` and physicists and engineers `j`.
@@ -89,11 +132,11 @@ and affects the way they are displayed.
 
 Note the use of both Roman and italic symbols in this table.
 
-### Matrix parentheses
+### Matrix parentheses ###
 
 See the entry on [matrices](../CAS/Matrix.md#matrixparens).
 
-### Inline and displayed fractions.
+### Inline and displayed fractions. ###
 
 The display of fractions can take two forms: inline \( 1/x \) and displayed \( \frac{1}{x} \).
 

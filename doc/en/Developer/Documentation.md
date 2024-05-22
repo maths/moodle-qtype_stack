@@ -7,7 +7,6 @@ for people wishing to write, edit and translate the documentation.
 ## Markdown language
 
 * The [markdown](http://daringfireball.net/projects/markdown/) project external site.
-* [A cheat sheet](http://scottboms.com/-/downloads/documentation/markdown_cheatsheet.pdf) is available for quick reference.
 
 **Warning:** markdown uses whitespace and formatting to give meaning.  The number of spaces at the beginning and the ends of lines convey specific meaning in markdown.  An example is the way code blocks are included, which is useful for including fragments of Maxima code.
 
@@ -47,17 +46,15 @@ Markdown does not have *categories* in the way that MediaWiki does.  Instead, we
 The directory `/doc/content/` is for static content which is served by the documentation.
 If you want to serve content from the docs please place it in this directory.
 
-When writing links the shortcut '\%CONTENT' can be used.  This string is automatically assigned to the following value:
+When writing links use direct relative links to
 
     $CFG->wwwroot . "/question/type/stack/doc/content";
 
-Currently `\%CONTENT` is converted to `%CONTENT`. E.g.
+E.g. in `About/Logo.md` use
 
-    ![STACK Logo](\%CONTENT/logo.png)
+    ![STACK Logo](../../content/logo.png)
 
-renders to
-
-![STACK Logo](%CONTENT/logo.png)
+The text in square brackets is the alt text, which is important for visually impaired users reading the documentation. There are many great [guides for writing good alt text](https://webaim.org/techniques/alttext/).
 
 ## Adding a link to video in the documentation
 
@@ -93,6 +90,13 @@ An example:
     \[ \frac{\int_a^b f(t) \textrm{d} t }{b - a} \]
 
 \[ \frac{\int_a^b f(t) \textrm{d} t}{b - a} \]
+
+## Compatibility with the online docs {#Website}
+
+The STACK docs are made available online on [docs.stack-assessment.org](https://docs.stack-assessment.org). For more information on how this is achieved, see the [Website documentation](Website.md). However this places certain limitations on the sort of elements that can be included in the documentation:
+
+* You can only have relative links to files within the `doc` directory. This means you should not link relatively to, for example, one of the stack .php files. If you want to demonstrate a behaviour of one of STACKs files, it is better to do a direct link to that file on GitHub or on the STACK demo.
+* You cannot use HTML text areas to display LaTeX Math, as that will display poorly. Please use multiline code blocks instead.
 
 # Examples {#Examples}
 

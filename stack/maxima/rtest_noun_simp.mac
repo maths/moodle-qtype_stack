@@ -1,0 +1,208 @@
+zeroAdd(x);
+x$
+zeroAdd(0+x);
+x$
+zeroAdd(0+0+x);
+x$
+zeroAdd(x+0);
+x$
+zeroAdd(0*x);
+0*x$
+zeroAdd(x*0);
+x*0$
+zeroAdd(0^x);
+0^x$
+zeroAdd(x^0);
+x^0$
+
+zeroMul(x);
+x$
+zeroMul(x+0);
+x+0$
+zeroMul(0*x);
+0$
+zeroMul(x*0);
+0$
+zeroMul(0^x);
+0^x$
+zeroMul(x^0);
+x^0$
+zeroMul(0*0*x);
+0$
+zeroMul(sin(0*x));
+sin(0*x)$
+
+oneMul(x);
+x$
+oneMul(x+1);
+x+1$
+oneMul(1*x);
+x$
+oneMul(x*1);
+x$
+oneMul(1^x);
+1^x$
+oneMul(x^1);
+x^1$
+oneMul(1*1*x);
+x$
+oneMul(sin(1*x));
+sin(1*x)$
+
+
+onePow(1);
+1$
+onePow(x^1);
+x^1$
+onePow(1^x);
+1$
+onePow((1+x)^1);
+(1+x)^1$
+onePow(0^1);
+0^1$
+onePow(1^0);
+1$
+
+idPow(1);
+1$
+idPow(x^1);
+x$
+idPow(1^x);
+1^x$
+idPow((1+x)^1);
+(1+x)$
+idPow(0^1);
+0$
+
+zeroPow(1);
+1$
+zeroPow(x^0);
+x^0$
+zeroPow(0^x);
+0$
+zeroPow(0^0);
+0^0$
+zeroPow(1+x);
+1+x$
+zeroPow(0^(x-x));
+0$
+
+zPow(1);
+1$
+zPow(x^0);
+1$
+zPow(0^x);
+0^x$
+zPow(0^0);
+0^0$
+zPow(1+x);
+1+x$
+
+assAdd((a+b)+c);
+a+b+c$
+assAdd(a+(b+c));
+a+b+c$
+assAdd((a+b)+(c+d));
+a+b+c+d$
+
+assMul((a*b)*c);
+a*b*c$
+
+comMul(x);
+x$
+comMul(1);
+1$
+comMul(2*x*3);
+2*3*x$
+comMul(2*3.0*%pi);
+2*3.0*%pi$
+
+
+intAddp(3 nounadd UNARY_MINUS nounmul 2);
+true$
+
+intAdd(1+2);
+3$
+intAdd(1+x+2);
+3+x$
+
+intMul(2*3);
+6$
+intMul(2*x*3);
+6*x$
+intMul(UNARY_MINUS nounmul 2 nounmul UNARY_MINUS nounmul 6);
+12 nounmul UNARY_MINUS nounmul UNARY_MINUS$
+
+intPow(2^3);
+8$
+intPow(2^x);
+2^x$
+intPow(0^0);
+0^0;
+
+intFac(7);
+7$
+intFac(18);
+2 nounmul 3 nounpow 2$
+
+equals_commute_prepare((a/b)/c);
+a nounmul (UNARY_RECIP(b)) nounmul (UNARY_RECIP(c))$
+equals_commute_prepare(a/(b/c));
+a nounmul UNARY_RECIP(b nounmul UNARY_RECIP(c))$
+
+divDivp(a nounmul UNARY_RECIP(b nounmul UNARY_RECIP(c)))$
+true$
+divDivp(UNARY_RECIP(UNARY_RECIP(b)));
+true$
+divDivp(a nounmul UNARY_RECIP(UNARY_RECIP(b)));
+true$
+divDivp(a nounmul (UNARY_RECIP(b)) nounmul (UNARY_RECIP(c)));
+false;
+divDivp(UNARY_RECIP(b));
+false$
+divDivp(UNARY_RECIP(b nounmul c));
+false$
+
+divDiv(UNARY_RECIP(UNARY_RECIP(b)));
+b$
+divDiv(a nounmul UNARY_RECIP(UNARY_RECIP(b)));
+a nounmul b$
+divDiv(a nounmul UNARY_RECIP(b nounmul UNARY_RECIP(c)));
+a nounmul c nounmul UNARY_RECIP(b)$
+divDiv(a nounmul UNARY_RECIP(b nounmul B nounmul UNARY_RECIP(c)));
+a nounmul c nounmul UNARY_RECIP(b nounmul B)$
+divDiv(A nounmul a nounmul (UNARY_RECIP(b nounmul UNARY_RECIP(c))) nounmul (UNARY_RECIP(B nounmul UNARY_RECIP(C))));
+A nounmul a nounmul (UNARY_RECIP(B nounmul UNARY_RECIP(C))) nounmul c nounmul UNARY_RECIP(b)$
+
+divDiv(a nounmul (UNARY_RECIP(b)) nounmul (UNARY_RECIP(c)));
+a nounmul (UNARY_RECIP(b)) nounmul (UNARY_RECIP(c))$
+divDiv(UNARY_RECIP(b));
+UNARY_RECIP(b)$
+divDiv(UNARY_RECIP(b nounmul c));
+UNARY_RECIP(b nounmul c)$
+
+divCancel(a nounmul b nounmul UNARY_RECIP(a nounmul c));
+b nounmul UNARY_RECIP(c)$
+divCancel(a nounmul UNARY_RECIP(a nounmul c));
+UNARY_RECIP(c)$
+divCancel((a nounadd b) nounmul UNARY_RECIP(a nounadd c));
+(a nounadd b) nounmul UNARY_RECIP(a nounadd c)$
+divCancel(A nounmul (a nounadd b) nounmul UNARY_RECIP(a nounadd b));
+A$
+divCancel(UNARY_MINUS nounmul a nounmul UNARY_RECIP(UNARY_MINUS nounmul b));
+a nounmul UNARY_RECIP(b)$
+
+negDist(UNARY_MINUS nounmul x nounmul (UNARY_MINUS nounmul x nounadd 1));
+(UNARY_MINUS nounmul (UNARY_MINUS nounmul x) nounadd UNARY_MINUS nounmul 1) nounmul x$
+
+negOrd(a+UNARY_MINUS nounmul b);
+a + UNARY_MINUS nounmul b$
+
+negOrd(b+UNARY_MINUS nounmul a);
+UNARY_MINUS nounmul (UNARY_MINUS nounmul b+a)$
+
+negOrd(b+UNARY_MINUS nounmul 3 nounmul a);
+b+UNARY_MINUS nounmul 3 nounmul a$
+
+negOrd(b+UNARY_MINUS nounmul a+c);
+UNARY_MINUS nounmul (UNARY_MINUS nounmul b+a+UNARY_MINUS nounmul c)$

@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Connection to Maxima for Windows systems.
  *
@@ -40,10 +38,11 @@ class stack_cas_connection_windows extends stack_cas_connection_base {
         set_time_limit(0); // Note, some users may not want this!
         $ret = false;
 
-        $descriptors = array(
-            0 => array('pipe', 'r'),
-            1 => array('pipe', 'w'),
-            2 => array('file', $this->logs . "cas_errors.txt", 'a'));
+        $descriptors = [
+            0 => ['pipe', 'r'],
+            1 => ['pipe', 'w'],
+            2 => ['file', $this->logs . "cas_errors.txt", 'a'],
+        ];
 
         $cmd = '"'.$this->command.'"';
         $this->debug->log('Command line', $cmd);

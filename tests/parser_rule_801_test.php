@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use maxima_parser_utils;
+use qtype_stack_testcase;
+use stack_ast_filter_801_singleton_numeric;
+use stack_cas_security;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
@@ -24,8 +31,9 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/801_singleton_numeric.filter.
  * Unit tests for {@link stack_ast_filter_801_singleton_numeric}.
  * @group qtype_stack
  * @group qtype_stack_ast_filters
+ * @covers \ast_filter_801_singleton_numeric_auto_generated_test
  */
-class stack_parser_rule_801_test extends qtype_stack_testcase {
+class parser_rule_801_test extends qtype_stack_testcase {
 
     public function filter(string $input, bool $floats = true, bool $ints = true, bool $power = true,
             string $convert = 'none'): array {
@@ -35,10 +43,10 @@ class stack_parser_rule_801_test extends qtype_stack_testcase {
             'integer' => $ints,
             'float' => $floats,
             'power' => $power,
-            'convert' => $convert
+            'convert' => $convert,
         ]);
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $ast = $filter->filter($ast, $errs, $note, $security);
@@ -57,7 +65,7 @@ class stack_parser_rule_801_test extends qtype_stack_testcase {
             'output' => $ast->toString(['nosemicolon' => true]),
             'notes' => $note,
             'errors' => $errs,
-            'valid' => !$hasinvalid
+            'valid' => !$hasinvalid,
         ];
         return $r;
     }

@@ -14,6 +14,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use maxima_corrective_parser_test_data;
+use qtype_stack_testcase;
+
 defined('MOODLE_INTERNAL') || die();
 
 // Unit tests for verious AST filters.
@@ -29,11 +34,15 @@ require_once(__DIR__ . '/fixtures/maximacorrectiveparser.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \maxima_corrective_parser
  */
-class stack_maxima_corrective_parser_test extends qtype_stack_testcase {
+class maxima_corrective_parser_test extends qtype_stack_testcase {
 
     /**
+     * @codingStandardsIgnoreStart
+     * Provider in another class/file throws false code check error.
      * @dataProvider maxima_corrective_parser_test_data::get_raw_test_data
+     * @codingStandardsIgnoreEnd
      */
     public function test_maxima_corrective_parser() {
 

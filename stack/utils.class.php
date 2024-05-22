@@ -23,7 +23,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 /**
  * Interface for a class that stores debug information (or not).
  *
@@ -116,7 +115,7 @@ class stack_utils {
     protected static $config = null;
 
     /** @var A list of mathematics environments we search for, from AMSmath package 2.0. */
-    protected static $mathdelimiters = array('equation', 'align', 'gather', 'flalign', 'multline', 'alignat', 'split');
+    protected static $mathdelimiters = ['equation', 'align', 'gather', 'flalign', 'multline', 'alignat', 'split'];
 
     /**
      * @var string fragment of regular expression that matches valid PRT and
@@ -145,21 +144,8 @@ class stack_utils {
     }
 
     /**
-     * Checks for matching pairs of characters in a string. Eg there are a even
-     * number of '@' chars in 'blah @blah@ blah'
-     *
-     * @param string $string the string to test
-     * @param string $char the character to test.
-     * @return bool whether there are an even number of $chars in $string.
-     */
-    public static function check_matching_pairs($string, $char) {
-        // Check the number of occurences are even.
-        return (substr_count($string, $char) % 2) == 0;
-    }
-
-    /**
      * Check whether the number of left and right substrings match, for example
-     * whether every <html> has a matching </html>.
+     * whether every 'left' has a matching 'right'.
      * Returns true if equal, 'left' left is missing, 'right' if right is missing.
      *
      * @param string $string the string to test.
@@ -191,7 +177,7 @@ class stack_utils {
      * @return boolean true if all brackets match and are nested properly.
      */
     public static function check_nested_bookends($string, $lefts = '([{', $rights = ')]}') {
-        $openstack = array();
+        $openstack = [];
         $length = strlen($string);
         for ($i = 0; $i < $length; $i++) {
             $char = $string[$i];
@@ -226,14 +212,14 @@ class stack_utils {
 
         $start = strpos($string, $left, $start);
         if ($start === false) {
-            return array('', -1, 0);
+            return ['', -1, 0];
         }
 
         if ($left == $right) {
             // Left and right are the same.
             $end = strpos($string, $right, $start + 1); // Just go for the next one.
             if ($end === false) {
-                return array('', $start, -1);
+                return ['', $start, -1];
             }
             $end += 1;
 
@@ -252,11 +238,11 @@ class stack_utils {
             }
 
             if ($nesting > 0) {
-                return array('', -1, -1);
+                return ['', -1, -1];
             }
         }
 
-        return array(substr($string, $start, $end - $start), $start, $end - 1);
+        return [substr($string, $start, $end - $start), $start, $end - 1];
     }
 
     /**
@@ -276,7 +262,7 @@ class stack_utils {
 
         $char = str_split($string);
         $length = count($char);
-        $var = array();
+        $var = [];
         $j = 0;
         $i = 0;
         $start = false;
@@ -381,7 +367,7 @@ class stack_utils {
      * @param array (Optional) additional characters to convert to underscores.
      * @return string with characters replaced.
      */
-    public static function underscore($string, $toreplace = array()) {
+    public static function underscore($string, $toreplace = []) {
         $toreplace[] = '-';
         $toreplace[] = ' ';
         return str_replace($toreplace, '_', $string);
@@ -417,140 +403,6 @@ class stack_utils {
         }
     }
 
-
-    /**
-     * Ensures that all elements within this text that need to be in math mode, are so.
-     * Specifically, CAS elements and inline input macros.
-     * @param string
-     * @return string
-     */
-    public static function delimit($text) {
-        return preg_replace_callback('/@([^@]*)@/', array('stack_utils', 'delimit_callback'), $text);
-    }
-
-    public static function delimit_callback($matches) {
-        if (!empty($matches[1])) {
-            return '\(@' . $matches[1] . '@\)';
-        } else {
-            return '@@';
-        }
-    }
-
-    /**
-     * Returns the first position of an opening math delimiter in $text from the $offset.
-     * Helper function for wrap_around().
-     */
-    public static function math_start($text, $offset = 0) {
-        $delimiters = array('$', '$$', '\(', '\[');
-        foreach (self::$mathdelimiters as $delim) {
-            $delimiters[] = '\begin{'.$delim.'}';
-            $delimiters[] = '\begin{'.$delim.'*}';
-        }
-        $at = false; // Not yet found.
-        foreach ($delimiters as $d) {
-            $pos = strpos($text, $d, $offset);
-            if ($pos !== false) { // Found one.
-                if (($at === false || $pos <= $at)) {// take earliest ($$ taken over $)
-                    $at = $pos; // Take earliest.
-                }
-            }
-        }
-        return $at;
-    }
-
-    /**
-     * Returns the position of the character following a closing math delimiter in $text from the $offset.
-     * Helper function for wrap_around().
-     */
-    public static function math_length($text, $start) {
-        $delimiters = array('$', '$$', '\)', '\]');
-        foreach (self::$mathdelimiters as $delim) {
-            $delimiters[] = '\end{'.$delim.'}';
-            $delimiters[] = '\end{'.$delim.'*}';
-        }
-        $at = false;
-        $ender = '';
-        $len = strlen($text);
-
-        // Handle case where less than 3 chars to consider.
-        if ($len <= $start + 2) {
-            return $len - $start;
-        }
-
-        foreach ($delimiters as $d) {
-            $pos = strpos($text, $d, $start + 2); // Check long enough.
-            if ($pos !== false) { // Found one.
-                if ($at === false || $pos <= $at) { // Take earliest ($$ taken over $).
-                    $at = $pos;
-                    $ender = $d;
-                }
-            }
-        }
-        if ($ender == '') {
-            return strlen($text - $start);
-            // Math mode to the end.
-        } else {
-            return $at - $start + strlen($ender);
-        }
-    }
-
-    /**
-     * Replaces @blah@ with \(@blah@\) if the castext is not otherwise enclosed by mathematics environments.
-     * @param string
-     * @return string
-     */
-    public static function wrap_around($text) {
-        $mathstart = self::math_start($text);
-        if ($mathstart !== false) { // We have some maths ahead.
-            $pre = substr($text, 0, $mathstart); // Get previous text.
-            $for = self::math_length($text, $mathstart);
-            $maths = substr($text, $mathstart, $for);
-            $rest = substr($text, $mathstart + $for);
-            return self::delimit($pre).$maths.self::wrap_around($rest);
-        } else { // No math sections left.
-            return self::delimit($text);
-        }
-    }
-
-    /**
-     * Removes any whitespace, ';' ':' or '$' signs from the end of cas command.
-     *
-     * @return string out
-     * @access public
-     */
-    public static function trim_commands($string) {
-        $in = trim($string);
-        $length = strlen($in);
-        $lastchar = $in[($length - 1)];
-
-        if (($lastchar == '$') || ($lastchar == ';') || ($lastchar == ':')) {
-            $out = substr($in, 0, ($length - 1));
-            return $out;
-        } else {
-            return $in;
-        }
-    }
-
-
-    /**
-     * Removes C style block comments from a string,
-     *
-     * @access private
-     * @return string
-     */
-    public static function remove_comments($string) {
-        if (strstr($string, '/*')) {
-            $out = $string;
-            preg_match_all('|/\*(.*)\*/|U', $out, $htmlmatch);
-            foreach ($htmlmatch[0] as $val) {
-                $out = str_replace($val, '', $out);
-            }
-            return $out;
-        } else {
-            return $string;
-        }
-    }
-
     /**
      * Extracts double quoted strings with \-escapes, extracts only the content
      * not the quotes.
@@ -559,7 +411,7 @@ class stack_utils {
      * @return array
      */
     public static function all_substring_strings($string) {
-        $strings = array();
+        $strings = [];
         $i = 0;
         $lastslash = false;
         $instring = false;
@@ -685,7 +537,7 @@ class stack_utils {
         // Delimited by next comma at same degree of nesting.
         $startdelimiter = "[({";
         $enddelimiter   = "])}";
-        $nesting = array(0 => 0, 1 => 0, 2 => 0); // Stores nesting for delimiters above.
+        $nesting = [0 => 0, 1 => 0, 2 => 0]; // Stores nesting for delimiters above.
         for ($i = 0; $i < strlen($list); $i++) {
             $startchar = strpos($startdelimiter, $list[$i]); // Which start delimiter.
             $endchar = strpos($enddelimiter, $list[$i]); // Which end delimiter (if any).
@@ -710,7 +562,7 @@ class stack_utils {
     }
 
     private static function list_to_array_workhorse($list, $rec = true) {
-        $array = array();
+        $array = [];
         $list = trim($list);
         $list = substr($list, 1, strlen($list) - 2); // Trims outermost [] only.
         $e = self::next_element($list);
@@ -768,7 +620,7 @@ class stack_utils {
         preg_match_all('~\[\[\s*' . $type . '\s*:(\s*' . self::VALID_NAME_REGEX . ')\s*\]\]~',
                 $text, $matches2);
 
-        $ret = array();
+        $ret = [];
         foreach ($matches2[1] as $key => $name) {
             if (!in_array(trim($name), $matches1[1])) {
                 $ret[] = $matches2[0][$key];
@@ -814,8 +666,8 @@ class stack_utils {
      */
     public static function decompose_rename_operation(array $renamemap) {
 
-        $nontrivialmap = array();
-        $usednames = array();
+        $nontrivialmap = [];
+        $usednames = [];
         foreach ($renamemap as $from => $to) {
             $usednames[(string) $from] = 1;
             $usednames[(string) $to] = 1;
@@ -825,13 +677,13 @@ class stack_utils {
         }
 
         if (empty($nontrivialmap)) {
-            return array();
+            return [];
         }
 
         // First we deal with all renames that are not part of cycles.
         // This bit is O(n^2) and it ought to be possible to do better,
         // but it does not seem worth the effort.
-        $saferenames = array();
+        $saferenames = [];
         $todocount = count($nontrivialmap) + 1;
         while (count($nontrivialmap) < $todocount) {
             $todocount = count($nontrivialmap);
@@ -858,7 +710,7 @@ class stack_utils {
             // Extract the first cycle.
             reset($nontrivialmap);
             $current = $cyclestart = (string) key($nontrivialmap);
-            $cycle = array();
+            $cycle = [];
             do {
                 $cycle[] = $current;
                 $next = $nontrivialmap[$current];
@@ -929,6 +781,7 @@ class stack_utils {
         $converted = str_replace("\"", "\\\"", $converted);
         return '"' . $converted . '"';
     }
+
     /**
      * Converts a PHP string object containing a Maxima string as presented by the grind command to a PHP string object.
      * @param a string that contains ""-quotes around the content.
@@ -941,6 +794,36 @@ class stack_utils {
     }
 
     /**
+     * Remove redundant "mbox" environments from Latex equations strings containing just strings.
+     * @param a string that contains ""-quotes around the content.
+     * @return a string without those quotes.
+     */
+    public static function maxima_string_strip_mbox($string) {
+        $converted = trim($string);
+        if (substr($converted, 0, 2) == '\(' || substr($converted, 0, 2) == '\[') {
+            $converted = substr($converted, 2, -2);
+        }
+        if (substr(trim($converted), 0, 6) == '\text{') {
+            return substr(trim($converted), 6, -1);
+        }
+        return $string;
+    }
+
+    /**
+     * Translate some strings from Maxima.
+     * @param string $string
+     */
+    public static function maxima_translate_string(string $string) {
+        $fixed = $string;
+        if (strpos($string, '0 to a negative exponent') !== false) {
+            $fixed = stack_string('Maxima_DivisionZero');
+        } else if (strpos($string, 'args: argument must be a non-atomic expression;') !== false) {
+            $fixed = stack_string('Maxima_Args');
+        }
+        return $fixed;
+    }
+
+    /**
      * Find a rational approximation to $n
      * @param float $n
      * @param int $accuracy Stop when we get within this many decimal places of $n
@@ -950,7 +833,7 @@ class stack_utils {
 
         $i = floor($n);
         if ($i == $n) { // If n is an integer, its rational representation is obvious.
-            return array($n, 1);
+            return [$n, 1];
         }
 
         // Take away the integer part of n.
@@ -964,7 +847,7 @@ class stack_utils {
         $denx = 1;
         $denc = 0;
 
-        $frac = array(); // Continued fraction coefficients.
+        $frac = []; // Continued fraction coefficients.
         $diff = $n - $i; // Difference between current approximation and n.
 
         $steps = 0;
@@ -987,14 +870,14 @@ class stack_utils {
             $onum = 0;
             $oden = 1;
             foreach ($frac as $c) {
-                list($oden, $onum) = array($oden * $c + $onum, $oden);
+                list($oden, $onum) = [$oden * $c + $onum, $oden];
             }
             $diff = $n - $onum / $oden;
 
             // Subtract i from our working, and then take its reciprocal.
-            list($numx, $numc, $denx, $denc) = array($denx, $denc, $numx - $denx * $i, $numc - $denc * $i);
+            list($numx, $numc, $denx, $denc) = [$denx, $denc, $numx - $denx * $i, $numc - $denc * $i];
         }
-        return array($nint * $oden + $onum, $oden);
+        return [$nint * $oden + $onum, $oden];
     }
 
     public static function fix_to_continued_fraction($n, $accuracy) {
@@ -1006,17 +889,21 @@ class stack_utils {
      * Change fraction marks close to 1/3 or 2/3 to the values exact to 7 decimal places.
      *
      * Moodle rounds fractional marks close to 1/3 (0.33 <= x <= 0.34) or 2/3
-     * (0.66 <= x <= 0.67) to exactly 0.3333333 and 0.6666667, for example whe @author tjh238
+     * (0.66 <= x <= 0.67) to exactly 0.3333333 and 0.6666667, for example when @author tjh238
      * course is backed up and restored. Some of the fractional marks that STACK
-     * uses are affected by this, and others are not. Thereofore, after a course
+     * uses are affected by this, and others are not. Therefore, after a course
      * is backed up and restored, some question tests start failing.
      *
-     * Therefore, this fucntion is used to match Moodle's logic.
+     * Therefore, this function is used to match Moodle's logic.
      *
      * @param float $fraction a fractional mark between 0 and 1.
      * @return float $fraction, except that values close to 1/3 or 2/3 are returned to 7 decimal places.
      */
     public static function fix_approximate_thirds($fraction) {
+        if (!is_numeric($fraction)) {
+            return $fraction;
+        }
+        $fraction = (float) $fraction;
         if ($fraction >= 0.33 && $fraction <= 0.34) {
             return 0.3333333;
         } else if ($fraction >= 0.66 && $fraction <= 0.67) {
@@ -1024,6 +911,19 @@ class stack_utils {
         } else {
             return $fraction;
         }
+    }
+
+    /**
+     * Remove trailing zeros from numbers.
+     *
+     * @param string $str Some kind of score/penalty string..
+     * @return float $str, Fixed if we have lots of trailing zeros.
+     */
+    public static function fix_trailing_zeros($str) {
+        if (!is_numeric($str)) {
+            return $str;
+        }
+        return 0 + $str;
     }
 
     /*
@@ -1037,6 +937,52 @@ class stack_utils {
             $option = $ops[0];
             $arg = trim($ops[1]);
         }
-        return(array($option, $arg));
+        return([$option, $arg]);
+    }
+
+    /*
+     * This function takes html and counts the number of img fields
+     * with missing or empty alt text.
+     */
+    public static function count_missing_alttext($text) {
+        $missingalt = 0;
+        // Yes, regular expressions can't parse html, but this should be good-enough to help users for now.
+        $matchentireimagetags = '
+                /
+                <img\b   # Start of an image tag.
+                [^>]+    # Any other characters until the closing >.
+                >        # Closing >.
+                /imx';
+        $matchkeyattributes = '
+                /
+                \b(alt|title|src)  # The attributes we care about (captured).
+                \s*                # Possibly some whitespace.
+                =                  # Equals sign.
+                \s*                # Possibly more whitespace.
+                ([\'"])            # Opening quote.
+                \s*                # Possibly some whitespace.
+                (?!\2|\s).         # One character which is not the closing quote or a space.
+                (?:(?!\2).)*       # More characters which are not a matching quote.
+                \2                 # Then the matching quote.
+                /imx';
+
+        preg_match_all($matchentireimagetags, $text, $imgtags);
+        foreach ($imgtags[0] as $imgtag) {
+
+            preg_match_all($matchkeyattributes, $imgtag, $attributes);
+
+            $missingaltlocal = true;
+            foreach ($attributes[1] as $attribute) {
+                if (strtolower($attribute) === 'alt') {
+                    $missingaltlocal = false;
+                }
+            }
+
+            if ($missingaltlocal) {
+                $missingalt += 1;
+            }
+        }
+
+        return $missingalt;
     }
 }

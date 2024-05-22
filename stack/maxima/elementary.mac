@@ -14,62 +14,23 @@
     along with this program. If not, see <http://www.gnu.org/licenses/>. */
 
 
-
 /* THIS IS EXPERIMENTAL CODE */
-/* Currently this is under development by CJS and is not connected to the main STACK codebase */
-/* It sits here because the long-term goal is to incorporate it */
+/* Most of the code is now in noun_simp.mac.  This is the remainder. */
 
-/* http://www.ncl.ac.uk/math/numbas/manual.pdf and
-https://github.com/numbas/Numbas/blob/master/runtime/scripts/jme-display.js#L749
-
- unitDenominator transform x/1 to x 
- zeroPower transform x^0 to 1
- simplifyFractions transform (a*b)/(a*c) to b/c 
- zeroBase transform 0^x to 0 
- sqrtProduct simplify sqrt(a)*sqrt(b) to sqrt(a*b) 
- sqrtDivision simplify sqrt(a)/sqrt(b) to sqrt(a/b)
- sqrtSquare simplify sqrt(x^2) to x 
- trig simplify various trigonometric values e.g. sin(n*pi) to 0 
- otherNumbers simplify 2^3 to 8 
- fractionNumbers display all numbers as fractions instead of decimals
-*/
-
-/* NOTE: all these operations really need three separate
-things, as with zeroAdd:
-
-zeroAddp - the predicate which matches to the pattern zeroAdd -
-perform the rule on the top level. zeroAddr - recurse over the
-whole expression applying the rule.
-
-What about working through to the first occurance of the
-pattern?
-
-What about identifying the first occurance of where a rule is
-satisfied?
-
-*/
 
 /*******************************************/
 /* Control functions                       */
 /*******************************************/
 
-/* List of all available rules */
-ID_TRANS:["zeroAdd","zeroMul","oneMul","onePow","idPow","zeroPow","zPow"]$
-ALG_TRANS:["assAdd","assMul","unaryAdd","unaryMul","comAdd","comMul"]$
-NEG_TRANS:["negZero","negDef","negNeg","negInt","negMinusOne","negDistAdd","negProdA","negProdB"]$
-INT_ARITH:["intAdd","intMul","intPow"]$
-DIV_TRANS:["oneDiv","idDiv","divDivA","divDivB","recipDef","recipNeg","recipMul"]$
 DIS_TRANS:["disAddMul"]$
 POW_TRANS:["powLaw"]$
-ALL_TRANS:append(ALG_TRANS,ID_TRANS,INT_ARITH,NEG_TRANS,DIV_TRANS,DIS_TRANS,POW_TRANS)$
-
 BUG_RULES:["buggyPow","buggyNegDistAdd"]$
 
 /* Is the rule applicable at the top level? */
 trans_topp(ex,rl):=apply(parse_string(sconcat(rl,"p")),[ex])$
 
 /* Is the rule applicable anywhere in the expression? */
-trans_anyp(ex,rl):=block(
+trans_anyp(ex, rl):=block(
   if atom(ex) then return(trans_topp(ex,rl)),
   if trans_topp(ex,rl) then return(true),
   apply("or",maplist(lambda([ex2],trans_anyp(ex2,rl)),args(ex)))    
@@ -81,23 +42,6 @@ trans_top(ex):=sublist(ALL_TRANS, lambda([ex2],trans_topp(ex,ex2)))$
 /* Identify applicable rules */
 trans_any(ex):=sublist(ALL_TRANS, lambda([ex2],trans_anyp(ex,ex2)))$
 
-
-/* Transform recursively accross an expression*/
-transr(ex,rl):=block(
-  if atom(ex) then return(ex),
-  if listp(rl) then error("transr: only apply one rule using transr"),
-  if trans_topp(ex,rl) then 
-      /* If applying the rule changes the expression then do so */
-      block([ex2], ex2:apply(parse_string(rl),[ex]), if ex=ex2 then ex else transr(ex2,rl) ) 
-  else return(map(lambda([ex2],transr(ex2,rl)),ex))
-)$
-
-/* Apply a list of rules recursively, in order, once each */
-transl(ex,rll):=block(
-  if atom(ex) or not(listp(rll)) or emptyp(rll) then return(ex),
-  return(transl(transr(ex,first(rll)),rest(rll)))  
-)$
- 
 /*******************************************/
 /* Higher level control functions          */
 /*******************************************/
@@ -135,131 +79,27 @@ step_through3(ex):=block([rls],
  step_through3(transr(ex,first(rls)))
 )$
 
+/* removes elements of l1 from l2. */
+removeoncelist(l1,l2):=block(
+ if listp(l2)#true or emptyp(l2) then return([]),
+ if listp(l1)#true or emptyp(l1) then return(l2),
+ if element_listp(first(l1),l2) then return(removeoncelist(rest(l1),removeonce(first(l1),l2))),
+ removeoncelist(rest(l1),l2)
+)$
+
+/* A special function.
+   If a\in l1 is also in l2 then remove a and -a from l2.  
+   Used on negDef  */
+removeoncelist_negDef(l1,l2):=block(
+ if listp(l2)#true or emptyp(l2) then return([]),
+ if listp(l1)#true or emptyp(l1) then return(l2),
+ if element_listp(first(l1),l2) then return(removeoncelist_negDef(rest(l1),removeonce("-"(first(l1)),removeonce(first(l1),l2)))),
+ removeoncelist_negDef(rest(l1),l2)
+)$
 
 /*******************************************/
-/* Transformation rules                    */
+/* Transformation rules  (not used)        */
 /*******************************************/
-
-/* 0+x -> x */ /* Strictly zero at the first part */
-zeroAddp(ex):= block(
-  if safe_op(ex)="+" and is(part(ex,1)=0) then true else false
-)$
-
-zeroAdd(ex) := block(
-  if zeroAddp(ex) then
-    return( block([ex2],ex2:rest(args(ex)), if equal(length(ex2),1) then return(part(ex,2)) else return(apply("+",rest(args(ex)))))),
-  return(ex)
-)$
-
-/* zeroMul transform 0*x to 0 */ 
-zeroMulp(ex) := block(
-  if safe_op(ex)="*" and is(part(ex,1)=0) then true else false
-)$
-
-zeroMul(ex) := block(
-  if zeroMulp(ex) then return(0) else return (ex)
-)$
-
-/* oneMul transform 1*x to x */ 
-oneMulp(ex) := block([ex2],
-  if safe_op(ex)="*" and is(part(ex,1)=1) then true else false
-)$
-
-oneMul(ex) := block([ex2],
-  if oneMulp(ex) then
-    return(block([ex2],ex2:rest(args(ex)), if equal(length(ex2),1) then return(part(ex,2)) else return(apply("*",rest(args(ex))))))
-  else return(ex)
-)$
-
-/* 1^x -> 1 */
-onePowp(ex):=block(
-  if safe_op(ex)="^" and is(part(ex,1)=1) then true else false
-)$
-
-onePow(ex):= if onePowp(ex) then 1 else ex$
-
-/* x^1 -> x */
-idPowp(ex):=block(
-  if safe_op(ex)="^" and is(part(ex,2)=1) then true else false
-)$
-
-idPow(ex):= if idPowp(ex) then part(ex,1) else ex$
-
-/* 0^x -> 0*/
-zeroPowp(ex):=block(
-  if safe_op(ex)#"^" or is(part(ex,2)=0) then return(false),
-  if is(part(ex,1)=0) then true else false
-)$
-
-zeroPow(ex):= if zeroPowp(ex) then 0 else ex$
-
-/* x^0 -> 1*/
-zPowp(ex):=block(
-  if safe_op(ex)#"^" or is(part(ex,1)=0) then return(false),
-  if is(part(ex,2)=0) then true else false
-)$
-
-zPow(ex):= if zPowp(ex) then 1 else ex$
-
-/* "+"(x) -> x. (Probably not needed, but we may end up with sums of lists of length 1.)*/
-unaryAddp(ex):= block(
-  if safe_op(ex)="+" and length(args(ex))=1 then true else false
-)$
-
-unaryAdd(ex):= if unaryAddp(ex) then first(args(ex)) else ex$
-
-/* "*"(x) -> x. (Probably not needed.)*/
-unaryMulp(ex):= block(
-  if safe_op(ex)="*" and length(args(ex))=1 then true else false
-)$
-
-unaryMul(ex):= if unaryMulp(ex) then first(args(ex)) else ex$
-
-
-/*****************************************/
-
-/* These functions "flatten" sums or products by removing uncessary parentheses
-   i.e. it enforces associativity */
-/* Note that the predicates only return true if the rule changes the expression */
-assAddp(ex):= if safe_op(ex)="+" and flatten(ex)#ex then true else false$
-assAdd(ex) := if assAddp(ex) then flatten(ex) else ex$
-
-assMulp(ex):= if safe_op(ex)="*" and flatten(ex)#ex then true else false$
-assMul(ex) := if assMulp(ex) then flatten(ex) else ex$
-
-/* Define a predicate to sort elements, NEG at the front, RECIP at the end. */
-orderelementaryp(exa,exb):=block(
- if exa=NEG then return(true),
- if exb=NEG then return(false),
- if safe_op(exa)="RECIP" and safe_op(exb)="RECIP" then return(orderlessp(part(exa,1),part(exb,1))),
- if safe_op(exa)="RECIP" then return(false),
- return(orderlessp(exa,exb))
-)$
-
-/* sort(args(ex),orderelementaryp) does not work :-(  */
-elsort(l):=block([l1,l2,la],
-  la:sublist(l, lambda([ex],atom(ex))),
-  l1:sublist(l, lambda([ex],not(atom(ex)) and safe_op(ex)#"RECIP")),
-  l2:sublist(l, lambda([ex],not(atom(ex)) and safe_op(ex)="RECIP")),
-  append(sort(la,orderelementaryp),sort(l1,orderelementaryp),sort(l2,orderelementaryp))  
-)$
-
-/* Sort out the order of elements, i.e. commutativity */
-/* NOTE: sort(args(ex), orderelementaryp)) should work but does not... */
-comAddp(ex):= if safe_op(ex)="+" and apply("+",elsort(args(ex)))#ex then true else false$
-comAdd(ex) := if comAddp(ex) then apply("+",elsort(args(ex))) else ex$
-
-comMulp(ex):= if safe_op(ex)="*" and apply("*",elsort(args(ex)))#ex then true else false$
-comMul(ex) := if comMulp(ex) then apply("*",elsort(args(ex))) else ex$
-
-/*******************************************/
-/* Double negation -(-(a)) */ 
-negNegp(ex):=block(
-  if safe_op(ex)#"-" then return(false),
-  if safe_op(part(ex,1))="-" then return(true) else return(false)
-)$
-
-negNeg(ex):=if negNegp(ex) then part(ex,1,1) else ex$
 
 /* -1*x -> -x */
 negMinusOnep(ex):=block(
@@ -270,41 +110,6 @@ negMinusOnep(ex):=block(
 negMinusOne(ex):=block(
   if negMinusOnep(ex)#true then return(ex),
   if length(args(ex))>2 then "-"(apply("*",rest(args(ex)))) else -second(args(ex))
-)$
-
-/* Negation of zero -0 -> 0 */ 
-negZerop(ex):=block(
-  if safe_op(ex)#"-" then return(false),
-  if is(part(ex,1)=0) then return(true) else return(false)
-)$
-
-negZero(ex):=if negZerop(ex) then 0 else ex$
-
-/* Turns the negation of an integer into an actual integer "-"(n) -> -n */ 
-negIntp(ex):=block(
-  if safe_op(ex)#"-" then return(false),
-  if integerp(part(ex,1)) then return(true) else return(false)
-)$
-
-negInt(ex):=if negIntp(ex) then ev(ex,simp) else ex$
-
-/* Turns unary minus in a product into a special symbol NEG */
-negProdAp(ex):=block(
-  if safe_op(ex)#"*" then return(false),
-  return(any_listp(lambda([ex],if safe_op(ex)="-" then true else false),args(ex)))
-)$
-
-negProdA(ex):=block(
- if negProdAp(ex)=false then return(ex),
- apply("*",maplist(lambda([ex],if safe_op(ex)="-" then NEG*first(args(ex)) else ex),args(ex)))
-)$
-
-/* matches up to NEG*... and turns this back into unary minus... */
-negProdBp(ex):=if safe_op(ex)="*" and first(args(ex))=NEG then true else false$
-
-negProdB(ex):=block(
- if negProdBp(ex)=false then return(ex),
- -apply("*",rest(args(ex)))
 )$
 
 /* a-a -> 0 */
@@ -328,32 +133,6 @@ negDef(ex):=block([a0,a1,a2,a3],
   if emptyp(a3) then 0 else apply("+",a3)
 )$
 
-
-/* removes the first occurance of ex from the list l */
-removeonce(ex,l):=block(
- if listp(l)#true or emptyp(l)  then return([]),
- if first(l)=ex then return(rest(l)),
- append([first(l)],removeonce(ex,rest(l)))
-)$
-
-/* removes elements of l1 from l2. */
-removeoncelist(l1,l2):=block(
- if listp(l2)#true or emptyp(l2) then return([]),
- if listp(l1)#true or emptyp(l1) then return(l2),
- if element_listp(first(l1),l2) then return(removeoncelist(rest(l1),removeonce(first(l1),l2))),
- removeoncelist(rest(l1),l2)
-)$
-
-/* A special function.
-   If a\in l1 is also in l2 then remove a and -a from l2.  
-   Used on negDef  */
-removeoncelist_negDef(l1,l2):=block(
- if listp(l2)#true or emptyp(l2) then return([]),
- if listp(l1)#true or emptyp(l1) then return(l2),
- if element_listp(first(l1),l2) then return(removeoncelist_negDef(rest(l1),removeonce("-"(first(l1)),removeonce(first(l1),l2)))),
- removeoncelist_negDef(rest(l1),l2)
-)$
-
 /* Distributes "-" over addition */
 negDistAddp(ex):=block(
   if safe_op(ex)#"-" then return(false),
@@ -364,95 +143,14 @@ negDistAdd(ex):=block(
   if negDistAddp(ex) then map("-",part((ex),1)) else ex
 )$
 
-/*******************************************/
-/* Warning, this is not safe on non-atoms, it evaluates them! */ 
-notintegerp(ex):= if atom(ex) then not(integerp(ex)) else true$
 
-/* Evaluate integer arithmetic */
-intAddp(ex):=block(
-  if safe_op(ex)#"+" then return(false),
-  if length(sublist(args(ex), integerp))>1 then return(true) else return(false)
-)$
-
-intAdd(ex):=block([a1,a2], 
-  if intAddp(ex)=false then return(ex),
-  a1:sublist(args(ex), integerp),
-  a1:ev(apply("+",a1),simp),
-  a2:sublist(args(ex), notintegerp),
-  if length(a2)=0 then a1 
-  else if length(a2)=1 then a1+first(a2)
-  else a1+apply("+",a2)
-)$
-
-intMulp(ex):=block(
-  if safe_op(ex)#"*" then return(false),
-  if length(sublist(args(ex), integerp))>1 then return(true) else return(false)
-)$
-
-intMul(ex):=block([a1,a2], 
-  if intMulp(ex)=false then return(ex),
-  a1:sublist(args(ex), integerp),
-  a1:ev(apply("*",a1),simp),
-  a2:sublist(args(ex), notintegerp),
-  if length(a2)=0 then a1 
-  else if length(a2)=1 then a1*first(a2)
-  else apply("*",append([a1],a2))
-)$
-
-intPowp(ex):=block(
-  if safe_op(ex)#"^" then return(false),
-  if integerp(part((ex),1)) and part((ex),1)#0 and integerp(part((ex),2)) and part((ex),2)#0 then return(true) else return(false)
-)$
-
-intPow(ex):=block([a1,a2], 
-  if intPowp(ex)=false then return(ex),
-  ev(ex,simp)
-)$
 
 /*******************************************/
 /* Division rules */
 
-/* a/1 -> a */
-oneDivp(ex):= if safe_op(ex)="/" and part(ex,2)=1 then true else false$
-oneDiv(ex) := if oneDivp(ex) then part(ex,1) else ex$
-
 /* a/a -> 1 */
 idDivp(ex):= if safe_op(ex)="/" and part(ex,1)=part(ex,2) and part(ex,2)#0 then true else false$
 idDiv(ex) := if idDivp(ex) then 1 else ex$
-
-/* a/(b/c)-> a*(c/b) */
-divDivAp(ex) := if safe_op(ex)="/" and safe_op(part(ex,2))="/" then true else false$
-divDivA(ex)  := if divDivAp(ex) then part(ex,1)*(part(ex,2,2)/part(ex,2,1)) else ex$
-
-/* (a/b)/c-> a/(c*b) */
-divDivBp(ex) := if safe_op(ex)="/" and safe_op(part(ex,1))="/" then true else false$
-divDivB(ex)  := if divDivBp(ex) then part(ex,1,1)/(part(ex,1,2)*part(ex,2)) else ex$
-
-/*******************************************/
-/* RECIP */
-
-/* re-write a/b as RECIP */
-
-recipDefp(ex) := if safe_op(ex)="/" then true else false$
-recipDef(ex)  := if recipDefp(ex) then part(ex,1)*RECIP(part(ex,2))$
-
-/* RECIP(-x) -> -RECIP(x) */
-recipNegp(ex) := if safe_op(ex)="RECIP" and safe_op(part(ex,1))="-" then true else false$
-recipNeg(ex)  := if recipNegp(ex) then -RECIP(part(ex,1,1)) else ex$
-
-/* a*RECP(b)*RECIP(c) -> a*RECIP(b*c) */
-recipMulp(ex) := block([l],
-  if safe_op(ex)#"*" then return(false),
-  if length(args(ex))=1 then return(false),
-  l:reverse(args(ex)),
-  if safe_op(first(l))="RECIP" and safe_op(second(l))="RECIP" then true else false
-)$
-
-recipMul(ex) := block([p1,p2],
-  if recipMulp(ex)#true then return(ex),
-  l:reverse(args(ex)),
-  apply("*",append(reverse(rest(rest(l))),[RECIP(part(second(l),1)*part(first(l),1))]))
-)$
 
 /*******************************************/
 /* Distribution  rules                     */
@@ -494,28 +192,4 @@ powLaw(ex):= block([B,l1,l2],
    if length(l2)=1 then l2:first(l2) else l2:apply("*",l2),
    return(B^apply("+",l1)*l2)
 );
-
-/*******************************************/
-/* Buggy rules */
-
-/* (a+b)^n -> a^n+b^n */
-buggyPowp(ex):=block(
-  if safe_op(ex)#"^" then return(false),
-  if safe_op(part(ex,1))="+" then true else false
-)$
-
-buggyPow(ex):= if buggyPowp(ex) then apply("+",map(lambda([ex2],ex2^part(ex,2)),args(part(ex,1)))) else ex$
-
-/* -(a+b) -> -a+b */
-buggyNegDistAddp(ex) := negDistAddp(ex)$
-buggyNegDistAdd(ex)  := if buggyNegDistAddp(ex) then apply("+",append([-first(args(part(ex,1)))],rest(args(part((ex),1))))) else ex$
-
-
-/*******************************************/
-/* Testing */ 
-simp:false; 
-/*STT:batch("rtest_elementary.mac", test);*/
-simp:false; 
-
-
 

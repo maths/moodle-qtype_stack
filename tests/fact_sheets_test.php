@@ -14,25 +14,30 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_fact_sheets;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
 require_once(__DIR__ . '/fixtures/test_base.php');
-require_once(__DIR__ . '/../stack/cas/castext.class.php');
 
 // Unit tests for {@link stack_fact_sheets}.
 
 /**
  * @group qtype_stack
+ * @covers \stack_fact_sheets
  */
-class stack_fact_sheets_test extends qtype_stack_testcase {
+class fact_sheets_test extends qtype_stack_testcase {
 
     public function test_basic_castext_instantiation() {
-        $this->assertEquals(array(), stack_fact_sheets::get_unrecognised_tags('Hello world'));
+        $this->assertEquals([], stack_fact_sheets::get_unrecognised_tags('Hello world'));
     }
 
     public function test_trap_bad_fact_sheet_names() {
-        $this->assertEquals(array(0 => 'bad_hint', 1 => 'badder_hint'),
+        $this->assertEquals([0 => 'bad_hint', 1 => 'badder_hint'],
                 stack_fact_sheets::get_unrecognised_tags(
                         "This is some CAStext with a [[facts:bad_hint]] " .
                         "and yet another [[facts:badder_hint]]"));

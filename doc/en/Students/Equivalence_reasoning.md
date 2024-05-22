@@ -14,7 +14,7 @@ You can copy and paste from one line to the next and modify the line if this hel
 
 This might be displayed as follows
 
-\[ \begin{array}{ccc} \  & x^2-4 x-5=0 & \mbox{ } \\ \color{green}{\Leftrightarrow} & \left(x+1\right) \left(x-5\right)=0 & \mbox{ } \\ \color{green}{\Leftrightarrow} & x=-1\lor x=5 & \mbox{ } \end{array} \]
+\[ \begin{array}{ccc} \  & x^2-4 x-5=0 & \text{ } \\ \color{green}{\Leftrightarrow} & \left(x+1\right) \left(x-5\right)=0 & \text{ } \\ \color{green}{\Leftrightarrow} & x=-1\lor x=5 & \text{ } \end{array} \]
 
 Whether this feedback is available to you or not immediately depends on your question.  This feedback indicates that STACK considers that each line is equivalent to the previous line.  The last line of working is your final answer, although the whole argument is considered as well.
 
@@ -50,9 +50,9 @@ Some general advice for solving equations when reasoning by equivalence is
 ## Avoid taking roots.
 
 Do not take the square root of both sides of an equation.
-\[ \mbox{ If } a=b \mbox{ then } a^2=b^2.\]
+\[ \text{ If } a=b \text{ then } a^2=b^2.\]
 However, 
-\[ \mbox{ if } a^2=b^2 \mbox{ then } a=b \mbox{ or } a=-b.\]
+\[ \text{ if } a^2=b^2 \text{ then } a=b \text{ or } a=-b.\]
 So, if you take the square root of both sides of an equation to transform \(a^2=b^2\) into \(a=b\) you might miss a root!
 
 To avoid this problem use the *difference of two squares* in the following way.
@@ -62,14 +62,14 @@ To avoid this problem use the *difference of two squares* in the following way.
     (a-b)*(a+b)=0
     a=b or a=-b
 
-\[ \begin{array}{ccc} \  & a^2=b^2 & \mbox{ } \\ \color{green}{\Leftrightarrow} & a^2-b^2=0 & \mbox{ } \\ \color{green}{\Leftrightarrow} & \left(a-b\right) \left(a+b\right)=0 & \mbox{ } \\ \color{green}{\Leftrightarrow} & a=b\lor a=-b & \mbox{ } \end{array} \]
+\[ \begin{array}{ccc} \  & a^2=b^2 & \text{ } \\ \color{green}{\Leftrightarrow} & a^2-b^2=0 & \text{ } \\ \color{green}{\Leftrightarrow} & \left(a-b\right) \left(a+b\right)=0 & \text{ } \\ \color{green}{\Leftrightarrow} & a=b\lor a=-b & \text{ } \end{array} \]
 
 ## Edge cases
 
 Sometimes you will have an equation with no solutions.  You can express the fact there are no solutions in the following ways
 
 1. `false`.  This is because sometimes you end up with a contradiction such as \(1=2\), since this equation is false you can type that as the final line in your argument.
-2. `none`.  The special keyword `none` is used to signify that any values of the variables satisfy the equation.
+2. `none`.  The special keyword `none` is used to signify that no values of the variables satisfy the equation.
 2. `{}`.  The empty set indicates there are no solutions.
 
 Sometimes you will have an equation in which every number is a solution, such as \(x=x\).  You can express the fact every number is a solution in the following ways

@@ -14,10 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_answertest_test_data;
+
 defined('MOODLE_INTERNAL') || die();
 
 // Add in all the tests from answertestsfixtures.class into the unit testing framework.
-// These are exposed to users as documentation and Travis integration should also run all the tests.
+// These are exposed to users as documentation and google-ci should also run all the tests.
 //
 // @copyright  2016 The University of Edinburgh.
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
@@ -30,8 +35,10 @@ require_once(__DIR__ . '/fixtures/answertestfixtures.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_answertest_general_cas
+ * @covers \stack_anstest
  */
-class stack_answertest_fixtures_cas_testcase extends qtype_stack_testcase {
+class answertest_general_fixtures_test extends qtype_stack_testcase {
 
     /**
      * @dataProvider answertest_fixtures
@@ -43,17 +50,17 @@ class stack_answertest_fixtures_cas_testcase extends qtype_stack_testcase {
         $this->assertTrue($passed, $anomalynote);
     }
 
-    public function answertest_fixtures() {
+    public static function answertest_fixtures():array {
 
         $tests = stack_answertest_test_data::get_all();
-        $testdata = array();
+        $testdata = [];
         foreach ($tests as $test) {
             $testname = 'AT' . $test->name .
                     '( ' . $test->studentanswer . ', ' . $test->teacheranswer. ')';
             if ($test->options != '') {
                 $testname .= ' Options: ' . $test->options;
             }
-            $testdata[] = array($testname, $test);
+            $testdata[] = [$testname, $test];
         }
         return $testdata;
     }

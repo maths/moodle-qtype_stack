@@ -34,7 +34,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
 
         // First extract things of interest from the tree, i.e. function calls,
         // variable references and operations.
-        $ofinterest = array();
+        $ofinterest = [];
 
         // If this is a student sourced thing, it may include a teacher
         // identifier in the form of the assignment to input-variable.
@@ -61,7 +61,12 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         $brackets = false;
         $braces = false;
         $evflags = false;
-        $extraction = function($node) use (&$ofinterest, &$commas, &$parenthesis, &$brackets, &$braces, &$evflags, $protected){
+        $nestedfunction = false;
+        $extraction = function($node) use (&$ofinterest, &$commas, &$parenthesis, &$brackets, &$braces, &$evflags, $protected) {
+            // Only the last item in a checking group should be checked.
+            if ($node instanceof MP_Group && $node->isSynthetic()) {
+                $node = end($node->items);
+            }
             if ($node instanceof MP_Identifier ||
                 $node instanceof MP_FunctionCall ||
                 $node instanceof MP_Operation ||
@@ -69,7 +74,9 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 $node instanceof MP_PostfixOp) {
                 if ($protected === false || ($node !== $protected && ($node->parentnode !== $protected ||
                         $node->parentnode->lhs !== $node))) {
-                    $ofinterest[] = $node;
+                    if (!isset($node->position['ev-check'])) {
+                        $ofinterest[] = $node;
+                    }
                 }
             }
             if (!$parenthesis && ($node instanceof MP_FunctionCall || $node instanceof MP_Group)) {
@@ -93,7 +100,12 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                     $evflags = true;
                 }
             }
-
+            if ($node instanceof MP_Operation && $node->op === ':=') {
+                $types = $node->rhs->type_count();
+                if (isset($types['ops'][':='])) {
+                    $nestedfunction = true;
+                }
+            }
             return true;
         };
         // We can actually skip the invalid portions as in most
@@ -109,12 +121,19 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             $errors[] = stack_string('stackCas_unencpsulated_comma');
         }
 
+        // Nested function declarations are now forbidden. If you need to switch functions on the fly rename them.
+        if ($nestedfunction) {
+            $valid = false;
+            $answernotes[] = 'nested_function_declaration';
+            $errors[] = stack_string('stackCas_nested_function_declaration');
+        }
+
         // Separate the identifiers we meet for latter use. Not the nodes
         // the string identifiers. Key is the value so unique from the start.
-        $functionnames = array();
-        $writtenvariables = array();
-        $variables = array();
-        $operators = array();
+        $functionnames = [];
+        $writtenvariables = [];
+        $variables = [];
+        $operators = [];
 
         // If we had commas in play add them to the operators.
         if ($commas) {
@@ -137,15 +156,36 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         // Now loop over the initially found things of interest. Note that
         // the list may grow as we go forward and unwrap things.
         $i = 0;
+        $processedfuns = []; // To stop specific loops.
+
+        // Some focusing to avoid pointles checks.
+        $ctx = $identifierrules->get_context();
+
         while ($i < count($ofinterest)) {
             $node = $ofinterest[$i];
             $i = $i + 1;
+
+            // Add a limit, hiding behing nested mappings and definitions can be used as DOS.
+            if ($i > 5000) {
+                $errors[] = trim(stack_string('stackCas_overrecursivesignatures'));
+                $valid = false;
+                break;
+            }
 
             if ($node instanceof MP_Operation || $node instanceof MP_PrefixOp || $node instanceof MP_PostfixOp) {
                 // We could just strip these out in the recurse but maybe we want
                 // to check something in the future.
                 $operators[$node->op] = true;
-            } else if ($node instanceof MP_Identifier && !$node->is_function_name()) {
+                if ($node->op == ':=' && $node->lhs instanceof MP_FunctionCall) {
+                    if ($node->lhs->name instanceof MP_String || $node->lhs->name instanceof MP_Identifier) {
+                        if ($identifierrules->has_feature($node->lhs->name->value, 'built-in')) {
+                            $node->position['invalid'] = true;
+                            $errors[] = trim(stack_string('stackCas_redefine_built_in', ['name' => $node->lhs->name->value]));
+                            $valid = false;
+                        }
+                    }
+                }
+            } else if ($node instanceof MP_Identifier && !$node->is_function_name() && !isset($node->position['call-id'])) {
                 $variables[$node->value] = true;
                 if ($node->is_being_written_to()) {
                     // This can be used to check if someone tries to redefine
@@ -155,62 +195,56 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             } else if ($node instanceof MP_FunctionCall) {
                 $notsafe = true;
                 if ($node->name instanceof MP_Identifier || $node->name instanceof MP_String) {
-                    $notsafe = false;
-                    $functionnames[$node->name->value] = true;
-                    $safemap = false;
-                    if ($identifierrules->has_feature($node->name->value, 'mapfunction')) {
+                    if (!isset($node->name->position['call-id'])) {
+                        $functionnames[$node->name->value] = true;
+                    }
+                    if ($identifierrules->has_feature($node->name->value, 'mapfunction') && !isset($node->position['virtual'])) {
+                        // Do not track nested maps.
+
                         // If it is an apply or map function throw it in for
                         // validation.
                         switch ($node->name->value) {
                             case 'apply':
                             case 'funmake':
-                                $safemap = true;
-
-                                // TODO: add errors about applying to wrong types
-                                // of things and check them. For the other map
-                                // functions to allow more to be done.
-
                             default:
                                 // NOTE: this is a correct virtual form for only
                                 // 'apply' and 'funmake' others will need to be
-                                // written out as multiplce calls. And are
-                                // therefore still unsafe atleast untill we do
-                                // the writing out...
+                                // written out as multiple calls. And are
+                                // therefore somewhat inaccurate, but good enough
+                                // approximations.
                                 $fname = $node->arguments[0];
                                 if ($fname instanceof MP_PrefixOp && $fname->op === "'") {
                                     $fname = $fname->rhs;
                                 }
                                 $virtualfunction = new MP_FunctionCall($fname, array_slice($node->arguments, 1));
                                 $virtualfunction->position['virtual'] = true;
-                                $ofinterest[] = $virtualfunction;
+                                if (!isset($processedfuns[$virtualfunction->toString()])) {
+                                    if (!isset($node->arguments[0]->position['ev-check'])) {
+                                        $ofinterest[] = $virtualfunction;
+                                        $processedfuns[$virtualfunction->toString()] = true;
+                                    }
+                                }
                                 break;
-                        }
-                        if (isset($node->position['virtual']) && !$safemap) {
-                            // TODO: localise "Function application through mapping
-                            // functions has depth limits as it hides things."
-                            $errors[] = trim(stack_string('stackCas_deepmap'));
-                            if (array_search('deepmap', $answernotes) === false) {
-                                $answernotes[] = 'deepmap';
-                            }
-                            $valid = false;
                         }
                     }
 
                     // The sublist case.
                     if ($identifierrules->has_feature($node->name->value, 'argumentasfunction')) {
                         foreach (stack_cas_security::get_feature($node->name->value, 'argumentasfunction') as $ind) {
-                            $virtualfunction = new MP_FunctionCall($node->arguments[$ind], array($node->arguments[0]));
+                            $virtualfunction = new MP_FunctionCall(clone $node->arguments[$ind], [clone $node->arguments[0]]);
                             $virtualfunction->position['virtual'] = true;
-                            $ofinterest[] = $virtualfunction;
+                            if (!isset($processedfuns[$virtualfunction->toString()])) {
+                                $ofinterest[] = $virtualfunction;
+                                $processedfuns[$virtualfunction->toString()] = true;
+                            }
                         }
                     }
-
                 } else if ($node->name instanceof MP_FunctionCall) {
                     $outter = $node->name;
                     if (($outter->name instanceof MP_Identifier || $outter->name instanceof MP_String)
                         && $outter->name->value === 'lambda') {
                         // This is safe, but we will not go out of our way to identify the function from further.
-                        $notsafe = false;
+                        $donthing = true;
                     } else if (($outter->name instanceof MP_Identifier || $outter->name instanceof MP_String)
                             && $outter->name->value === 'rand'
                             && count($outter->arguments) === 1
@@ -218,26 +252,19 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         // @codingStandardsIgnoreStart
                         // Something like rand(["-","+"]) or rand(["cos","sin"]) applied to something.
                         // @codingStandardsIgnoreEnd
-                        $notsafe = false;
                         foreach ($outter->arguments[0]->items as $name) {
                             // Name can be whatever the iteration will react to unsuitable things on the later loops.
                             $virtualfunction = new MP_FunctionCall($name, $node->arguments);
                             $virtualfunction->position['virtual'] = true;
-                            $ofinterest[] = $virtualfunction;
+                            if (!isset($processedfuns[$virtualfunction->toString()])) {
+                                $ofinterest[] = $virtualfunction;
+                                $processedfuns[$virtualfunction->toString()] = true;
+                            }
                         }
-                    } else {
-                        // Calling the result of a function that is not lambda.
-                        $errors[] = trim(stack_string('stackCas_callingasfunction',
-                                                      array('problem' => stack_maxima_format_casstring($node->toString()))));
-                        if (array_search('forbiddenWord', $answernotes) === false) {
-                            $answernotes[] = 'forbiddenWord';
-                        }
-                        $valid = false;
                     }
                 } else if ($node->name instanceof MP_Group) {
                     $outter = $node->name->items[count($node->name->items) - 1];
                     // We do this due to this (1,(cos,sin))(x) => sin(x).
-                    $notsafe = false;
                     $virtualfunction = new MP_FunctionCall($outter, $node->arguments);
                     $virtualfunction->position['virtual'] = true;
                     $ofinterest[] = $virtualfunction;
@@ -249,28 +276,23 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         }
                         if ($ind >= 0 && $ind < count($node->name->target->items)) {
                             // We do this due to this because of examples such as [1,(cos,sin)][2](x) => sin(x).
-                            $notsafe = false;
                             $virtualfunction = new MP_FunctionCall($node->name->target->items[$ind], $node->arguments);
                             $virtualfunction->position['virtual'] = true;
-                            $ofinterest[] = $virtualfunction;
+                            if (!isset($processedfuns[$virtualfunction->toString()])) {
+                                $ofinterest[] = $virtualfunction;
+                                $processedfuns[$virtualfunction->toString()] = true;
+                            }
                         } else {
-                            $notsafe = false;
                             foreach ($node->name->target->items as $id) {
                                 $virtualfunction = new MP_FunctionCall($id, $node->arguments);
                                 $virtualfunction->position['virtual'] = true;
-                                $ofinterest[] = $virtualfunction;
+                                if (!isset($processedfuns[$virtualfunction->toString()])) {
+                                    $ofinterest[] = $virtualfunction;
+                                    $processedfuns[$virtualfunction->toString()] = true;
+                                }
                             }
                         }
                     }
-                }
-                if ($notsafe) {
-                    // As in not safe identification of the function to be called.
-                    $errors[] = trim(stack_string('stackCas_applyingnonobviousfunction',
-                                                  array('problem' => $node->toString())));
-                    if (array_search('forbiddenWord', $answernotes) === false) {
-                        $answernotes[] = 'forbiddenWord';
-                    }
-                    $valid = false;
                 }
             }
         }
@@ -292,7 +314,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 $valid = false;
             } else if (!$identifierrules->is_allowed_as_operator($this->source, $op)) {
                 $errors[] = trim(stack_string('stackCas_forbiddenOperator',
-                        array('forbid' => stack_maxima_format_casstring($op))));
+                        ['forbid' => stack_maxima_format_casstring($op)]));
                 if (array_search('forbiddenOp', $answernotes) === false) {
                     $answernotes[] = 'forbiddenOp';
                 }
@@ -315,29 +337,47 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             } else if ($this->source === 's' && count($vars) > 0 && array_search($name, $vars) === false) {
                 // Case sensitivity issues.
                 $errors[] = trim(stack_string('stackCas_unknownFunctionCase',
-                    array('forbid' => stack_maxima_format_casstring($name),
-                          'lower' => stack_maxima_format_casstring(implode(', ', $vars)))));
+                    [
+                        'forbid' => stack_maxima_format_casstring($name),
+                        'lower' => stack_maxima_format_casstring(implode(', ', $vars)),
+                    ]));
                 if (array_search('unknownFunctionCase', $answernotes) === false) {
                     $answernotes[] = 'unknownFunctionCase';
                 }
                 $valid = false;
             } else if (!$identifierrules->is_allowed_to_call($this->source, $name)) {
-                $errors[] = trim(stack_string('stackCas_forbiddenFunction',
-                        array('forbid' => stack_maxima_format_casstring($name))));
+                if ($name === 'ntuple') {
+                    $errors[] = stack_string('stackCas_forbiddenntuple');
+                } else {
+                    $errors[] = trim(stack_string('stackCas_forbiddenFunction',
+                        ['forbid' => stack_maxima_format_casstring($name)]));
+                }
                 if (array_search('forbiddenFunction', $answernotes) === false) {
                     $answernotes[] = 'forbiddenFunction';
                 }
                 $valid = false;
+            }
+            if (isset($ctx[$name])) {
+                foreach ($ctx[$name] as $key => $value) {
+                    if ($key === -2) {
+                        if ($this->source === 's') {
+                            $errors[] = trim(stack_string('stackCas_reserved_function', ['name' => $name]));
+                        } else {
+                            $errors[] = trim(stack_string('stackCas_studentInputAsFunction'));
+                        }
+                        $valid = false;
+                    }
+                }
             }
         }
 
         // Check for constants.
         foreach (array_keys($writtenvariables) as $name) {
             if ($identifierrules->has_feature($name, 'constant')) {
-                // TODO: decide if we set this as validity issue, might break
+                // TO-DO: decide if we set this as validity issue, might break
                 // materials where the constants redefined do not affect things.
                 $errors[] = trim(stack_string('stackCas_redefinitionOfConstant',
-                        array('constant' => stack_maxima_format_casstring($name))));
+                        ['constant' => stack_maxima_format_casstring($name)]));
                 if (array_search('writingToConstant', $answernotes) === false) {
                     $answernotes[] = 'writingToConstant';
                 }
@@ -347,7 +387,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
         }
 
         if ($this->source === 's') {
-            $emptyfungroup = array();
+            $emptyfungroup = [];
             $checkemptyfungroup = function($node) use (&$emptyfungroup) {
                 // A function call with no arguments.
                 if ($node instanceof MP_FunctionCall && count($node->arguments) === 0 ) {
@@ -362,7 +402,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             $ast->callbackRecurse($checkemptyfungroup);
             if (count($emptyfungroup) > 0) {
                 $errors[] = trim(stack_string('stackCas_forbiddenWord',
-                            array('forbid' => stack_maxima_format_casstring('()'))));
+                            ['forbid' => stack_maxima_format_casstring('()')]));
                 if (array_search('emptyParens', $answernotes) === false) {
                     $answernotes[] = 'emptyParens';
                 }
@@ -394,7 +434,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             // things have gone wrong.
             if ($identifierrules->has_feature($name, 'operator')) {
                 $errors[] = trim(stack_string('stackCas_operatorAsVariable',
-                    array('op' => stack_maxima_format_casstring($name))));
+                    ['op' => stack_maxima_format_casstring($name)]));
                 if (array_search('operatorPlacement', $answernotes) === false) {
                     $answernotes[] = 'operatorPlacement';
                 }
@@ -429,7 +469,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
             if ($identifierrules->has_feature($name, 'globalyforbiddenvariable')) {
                 // Very bad!
                 $errors[] = trim(stack_string('stackCas_forbiddenWord',
-                    array('forbid' => stack_maxima_format_casstring($name))));
+                    ['forbid' => stack_maxima_format_casstring($name)]));
                 if (array_search('forbiddenWord', $answernotes) === false) {
                     $answernotes[] = 'forbiddenWord';
                 }
@@ -437,13 +477,12 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                 continue;
             }
 
-            // TODO: Did I understand the split by underscores right?
-            // Could we do that split on the PHP side to ensure security
-            // covering any possible construction of function calls?
-            $keys = array($name => true);
+            // Split by underscores on the PHP side to ensure security
+            // covering any possible construction of function calls.
+            $keys = [$name => true];
             // If the whole thing is allowed no need to split it down.
             if ($this->source === 's' && !$identifierrules->is_allowed_to_read($this->source, $name)) {
-                $keys = array();
+                $keys = [];
                 foreach (explode("_", $name) as $kw) {
                     $keys[$kw] = true;
                 }
@@ -454,7 +493,7 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         ($name !== $n && $identifierrules->is_allowed_to_call($this->source, $n)))) {
                     if ($this->source === 't') {
                         $errors[] = trim(stack_string('stackCas_forbiddenWord',
-                            array('forbid' => stack_maxima_format_casstring($n))));
+                            ['forbid' => stack_maxima_format_casstring($n)]));
                         if (array_search('forbiddenWord', $answernotes) === false) {
                             $answernotes[] = 'forbiddenWord';
                         }
@@ -463,16 +502,17 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         $vars = $identifierrules->get_case_variants($n, 'variable');
                         if (count($vars) > 0 && array_search($n, $vars) === false) {
                             $errors[] = trim(stack_string('stackCas_unknownVariableCase',
-                                array('forbid' => stack_maxima_format_casstring($n),
-                                'lower' => stack_maxima_format_casstring(
-                                    implode(', ', $vars)))));
+                                [
+                                    'forbid' => stack_maxima_format_casstring($n),
+                                    'lower' => stack_maxima_format_casstring(implode(', ', $vars)),
+                                ]));
                             if (array_search('unknownVariableCase', $answernotes) === false) {
                                 $answernotes[] = 'unknownVariableCase';
                             }
                             $valid = false;
                         } else {
                             $errors[] = trim(stack_string('stackCas_forbiddenVariable',
-                                array('forbid' => stack_maxima_format_casstring($n))));
+                                ['forbid' => stack_maxima_format_casstring($n)]));
                             if (array_search('forbiddenVariable', $answernotes) === false) {
                                 $answernotes[] = 'forbiddenVariable';
                             }
@@ -485,9 +525,10 @@ class stack_ast_filter_998_security implements stack_cas_astfilter_parametric {
                         $vars = $identifierrules->get_case_variants($n, 'variable');
                         if (count($vars) > 0 && array_search($n, $vars) === false) {
                             $errors[] = trim(stack_string('stackCas_unknownVariableCase',
-                                array('forbid' => stack_maxima_format_casstring($n),
-                                'lower' => stack_maxima_format_casstring(
-                                    implode(', ', $vars)))));
+                                [
+                                    'forbid' => stack_maxima_format_casstring($n),
+                                    'lower' => stack_maxima_format_casstring(implode(', ', $vars)),
+                                ]));
                             if (array_search('unknownVariableCase', $answernotes) === false) {
                                 $answernotes[] = 'unknownVariableCase';
                             }

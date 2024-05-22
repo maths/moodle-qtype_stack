@@ -1,8 +1,16 @@
 # Author FAQ
 
+## Which version of STACK do I have? ##
+
+If you navigate to the front page of the STACK documentation _on your server_ then you can find the version number of the STACK plugin at the bottom of the page.  If your site is `https://maths.assessment/site` then the URL of the STACK documentation is probably `https://maths.assessment/site/question/type/stack/doc/doc.php`.  We distribute the documentation with the source code so you can check the STACK features you have available on your site by referring to this version of the documentation (rather than the docs on [https://docs.stack-assessment.org/](https://docs.stack-assessment.org/) which documents the latest release.).
+
+The version number is given in the form used by all Moodle plugins, e.g. `2022052300` which is basically a release date of the plugin you are using.
+
 ## How can I report a bug or make a suggestion? ##
 
-Please read this page first!  Contributions are very welcome.  Please see the [community](../About/Community.md) page for more specific details.
+General community discussion takes place on [https://stack-assessment.zulipchat.com/](https://stack-assessment.zulipchat.com/)
+
+The source code, and development discussion, is on [github](http://github.com/maths/moodle-qtype_stack/issues), with an additional [ILIAS](https://github.com/ilifau/assStackQuestion/) site.
 
 ## Can I write questions in multiple languages?
 
@@ -28,6 +36,10 @@ The Simple Venn sample question demonstrates using the [Google charts](http://co
 
 ![](http://chart.apis.google.com/chart?cht=v&chs=200x100&chd=t:100,100,0,50&chdl=A|B)
 
+## How can I test out STACK specific functions in a Maxima session? ##
+
+Details of how to load STACK functions into a command line Maxima session are given in the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md).
+
 ## Why does a Maxima function not work in STACK? ##
 
 Not all Maxima functions are enabled by STACK, for obvious security reasons.
@@ -45,31 +57,7 @@ This is a job for a developer.  Please contact us.
 
 ## How can I use subscripts in STACK ##
 
-Note that normally a maxima atom `theta2` is displayed by Maxima as `{\it theta_2}`. This is problematic as the Greek letter is not rendered as LaTeX `\theta`, and the subscript is in italic which is wrong.
-
-Maxima "atoms" with a subscript will be displayed using subscripts.  For example
-
-    theta_2
-
-will be displayed as \(\theta_2\).  Both teachers and students can use this mechanism.  However, this relies on the expression being a Maxima atom.  (See the maxima manual).
-
-Teachers can create an inert function which displays using subscripts.
-
-    texsub(a,b)
-
-is typeset as \({a}_{b}\) i.e. `{a}_{b}` in LaTeX.  This enables subscripts to be displayed with non-atomic things like
-
-    texsub(F,1-2)
-
-with simplification off will be displayed as \({F}_{1-2}\).  The complex expression in the subscript cannot form an atomic Maxima expression.
-
-Note however there is a subtle (and perhaps confusing) difference in the display between the Maxima atoms `a1` and `a_1` in STACK.  The atom `a1` will follow the Maxima default and generate the LaTeX `{\it a_1}` and so the numeral 1 will be in italic, which some people consider incorrect.  The atom `a_1` will use the `texsub` function as an intermediate and generate the LaTeX `{a}_{1}` and so the normal LaTeX rules will render the numeral 1 in Roman, which is correct.  
-
-Note that the process of converting `theta_07` into the intermediate `texsub` form internally results in the `texsub(theta,7)` which removes the leading zero.  This is a known issue, for which a workaround is to directly use `texsub(theta,"07")`.  This does not produce optimal LaTeX.
-
-## How can I test out STACK specific functions in a Maxima session? ##
-
-Details of how to load STACK functions into a command line Maxima session are given in the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md).
+More information on subscripts is given in the atoms and subscripts section of the more general [Maxima](../CAS/Maxima.md) documentation.  Also see the inputs extra option [consolidatesubscripts](Inputs.md).
 
 ## How can I confirm my student's answer is fully simplified? ##
 
@@ -82,7 +70,7 @@ Simplify is often taken implicitly to mean "the shortest equivalent expression",
 
 To avoid these problems, STACK expects teachers to specify the properties they want.  For example, if you want the factored form you should test for this, not describe it as "simplified".
 
-In STACK a very useful test is equivalence up to [associativity and commutativity](Answer_tests.md#EqualComAss) of the basic arithmetic operations of addition and multiplication.  This is often what teachers need in this case.
+In STACK a very useful test is equivalence up to [associativity and commutativity](Answer_Tests/index.md#EqualComAss) of the basic arithmetic operations of addition and multiplication.  This is often what teachers need in this case.
 
 ## Why doesn't Maxima give `int(1/x,x)=log(abs(x))`?
 
@@ -93,6 +81,8 @@ Because \( \int \frac{1}{x}dx = \log(|x|) \) is OK on either the negative or pos
 
     (%i200) integrate(1/x,x), logabs : true;
     (%o200) log(abs(x))
+
+Furthermore, the [integration answer test](Answer_Tests/index.md#Int) will allow teachers to accept either `log(x)` or `log(abs(x))` (or both) from a student.
 
 ## Why don't I get anything back from the CAS?
 
@@ -108,10 +98,6 @@ Then, you should get error reporting.  As an example navigate to
 
     Site administration -> Plugins -> Question types -> STACK -> Healthcheck
 
-There you can see an example of an expression sent to Maxima.  Namely:
-
-    cab:block([ RANDOM_SEED, OPT_NoFloats, sqrtdispflag, simp, assume_pos, caschat0, caschat1], stack_randseed(0), make_multsgn(dot), make_complexJ(i), OPT_NoFloats:true, sqrtdispflag:true, simp:true, assume_pos:false, print("[STACKSTART Locals= [ ") , print("0=[ error= ["), cte("caschat0",errcatch(caschat0:plot([x^4/(1+x^4),diff(x^4/(1+x^4),x)],[x,-3,3]))) , print("1=[ error= ["), cte("caschat1",errcatch(caschat1:plot([sin(x),x,x^2,x^3],[x,-3,3],[y,-3,3]))) , print("] ]") , return(true) );
-
-Expressions such as this can be copied into the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md) and evaluated.  The errors returned here might help track down the problem.
+There you can see an example of an expression sent to Maxima.  Expressions such as this can be copied into the [STACK-Maxima sandbox](../CAS/STACK-Maxima_sandbox.md) and evaluated.  The errors returned here might help track down the problem.
 
 The issue is normally that you have tried to create a _syntactically invalid_ maxima command.  For example `[a,,b]` will crash Maxima.  Since we have not created a full parser, all syntax errors like this are not yet trapped.

@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Answer test base class.
  *
@@ -57,6 +55,12 @@ class stack_anstest {
     protected $options;
 
     /**
+     * Special variables in the question which should be exposed to the answer test.
+     * @var cas_evaluatable[]
+     */
+    protected $contextsession = [];
+
+    /**
      * @var    float
      */
     protected $atmark;
@@ -92,9 +96,11 @@ class stack_anstest {
      * @param  string $sanskey
      * @param  string $tanskey
      */
-    public function __construct(stack_ast_container $sans, stack_ast_container $tans, $options = null, $atoption = null) {
+    public function __construct(stack_ast_container $sans, stack_ast_container $tans, $options = null, $atoption = null,
+            $contextsession = []) {
         $this->sanskey = $sans;
         $this->tanskey = $tans;
+        $this->contextsession = $contextsession;
 
         if (!(null === $options || is_a($options, 'stack_options'))) {
             throw new stack_exception('stack_anstest: options must be stack_options or null.');
@@ -106,7 +112,9 @@ class stack_anstest {
             $this->options = null;
         }
 
-        $this->atoption = $atoption;
+        if (is_a($atoption, 'stack_ast_container')) {
+            $this->atoption = $atoption;
+        }
     }
 
     /**
@@ -185,6 +193,7 @@ class stack_anstest {
 
     /**
      * Returns an intelligible trace of an executed answer test.
+     * This should strip out any internal functions like _C(..).
      *
      * @return string
      * @access public
@@ -193,7 +202,7 @@ class stack_anstest {
 
         if ($this->tanskey && $this->tanskey->get_valid()) {
             $ta = $this->tanskey->ast_to_string(null,
-                array('logicnoun' => true, 'keyless' => true));
+                ['logicnoun' => true, 'keyless' => true, 'checkinggroup' => true]);
             if ($this->tanskey->is_correctly_evaluated()) {
                 $ta = $this->tanskey->get_value();
             }
@@ -202,25 +211,31 @@ class stack_anstest {
         }
         if ($this->sanskey && $this->sanskey->get_valid()) {
             $sa = $this->sanskey->ast_to_string(null,
-                array('logicnoun' => true, 'keyless' => true));
+                ['logicnoun' => true, 'keyless' => true, 'checkinggroup' => true]);
             if ($this->sanskey->is_correctly_evaluated()) {
                 $sa = $this->sanskey->get_value();
             }
         } else {
             return '';
         }
-        $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ')';
-        if (stack_ans_test_controller::required_atoptions($this->atname)) {
-            $atopt = '';
-            if ($this->atoption->get_valid()) {
-                $atopt = $this->atoption->ast_to_string(null,
-                    array('logicnoun' => true, 'keyless' => true));
-            }
-            if ($this->atoption->is_correctly_evaluated()) {
-                $atopt = $this->atoption->get_value();
-            }
-            $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ', '. $atopt .')';
+        $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta;
+        $atopt = '';
+        if ($this->atoption && $this->atoption->get_valid()) {
+            $atopt = $this->atoption->ast_to_string(null,
+                ['logicnoun' => true, 'keyless' => true, 'checkinggroup' => true]);
         }
+        if ($this->atoption && $this->atoption->is_correctly_evaluated()) {
+            $atopt = $this->atoption->get_value();
+        }
+        if ($atopt != '') {
+            $traceline = $this->get_casfunction() . '(' . $sa . ', ' . $ta . ', '. $atopt;
+        }
+        if (stack_ans_test_controller::required_raw($this->atname)) {
+            // This code is copied from the at_general_cas.class, rather than just using $sa above.
+            $raw = stack_utils::php_string_to_maxima_string($this->sanskey->get_inputform(true, 1));
+            $traceline .= ', '. $raw;
+        }
+        $traceline .= ')';
         if ($includeresult) {
             $traceline .= ' = ['.$this->atmark. ', "' . $this->atansnote .'"];';
         } else {

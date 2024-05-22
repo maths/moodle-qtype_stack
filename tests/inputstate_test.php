@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use stack_exception;
+use stack_input;
+use stack_input_state;
+use basic_testcase;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/input/inputbase.class.php');
@@ -25,32 +32,29 @@ require_once(__DIR__ . '/../stack/input/inputbase.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_input_state
  */
-class stack_input_state_test extends basic_testcase {
+class inputstate_test extends basic_testcase {
 
     public function test_create_and_get() {
-        $state = new stack_input_state(stack_input::INVALID, array('frog'),
+        $state = new stack_input_state(stack_input::INVALID, ['frog'],
                 'frog', 'frog', 'Your answer is not an expression.', 'CASError', '');
         $this->assertEquals(stack_input::INVALID, $state->status);
-        $this->assertEquals(array('frog'), $state->contents);
+        $this->assertEquals(['frog'], $state->contents);
         $this->assertEquals('frog', $state->contentsdisplayed);
         $this->assertEquals('Your answer is not an expression.', $state->errors);
         $this->assertEquals('CASError', $state->note);
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_constructor() {
+        $this->expectException(stack_exception::class);
         $state = new stack_input_state(stack_input::INVALID, 'frog',
                 'frog', 'frog', 'Your answer is not an expression.', '', '');
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_unrecognised_property() {
-        $state = new stack_input_state(stack_input::INVALID, array('frog'),
+        $this->expectException(stack_exception::class);
+        $state = new stack_input_state(stack_input::INVALID, ['frog'],
                 'frog', 'frog', 'Your answer is not an expression.', '', '');
         $x = $state->unknownproperty;
     }

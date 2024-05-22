@@ -1,15 +1,16 @@
-# Random objects #
+# Random objects
 
 STACK can generate structured random objects.  STACK provides a [Maxima](Maxima.md) function `rand()` which can be used in the question and answer variables.
 
 STACK creates pseudo-random numbers from a definite seed.
 This ensures that when a particular student returns they see the same variant of the question.
-(Note to site maintainers: if you upgrade your Maxima version mid-way through an academic cycle, then there is no gurantee that the random numbers will remain the same.  It is unlikley Maxima will change its random number generation between versions, but if it important to you please check first!)
+(Note to site maintainers: if you upgrade your Maxima version mid-way through an academic cycle, then there is no gurantee that the random numbers will remain the same.  It is unlikely Maxima will change its random number generation between versions, but if it important to you please check first!)
 
-For the purposes of learning and teaching, we do not need an algorithm which is statistically perfect.
-We are much more interested in simplicity, efficiency and reproducibility across platforms.
-Hence, we adopt a linear recurrence method of generating pseudo-random numbers.
+For the purposes of learning and teaching, we do not need an algorithm which is statistically perfect. We are much more interested in simplicity, efficiency and reproducibility across platforms. Hence, we adopt pseudo-random numbers.
 
+It is very important to test each random version a student is likely to see and not to leave this to chance.  To pre-generate and test random variants see the separate documentation on [deploying random variants](../Authoring/Deploying.md).
+
+Users may also [systematically deploy](Systematic_deployment.md) all variants of a question in a simple manner.
 
 ## rand() {#rand}
 
@@ -19,7 +20,16 @@ STACK provides its own function `rand()`.
 * `rand(n.0)` generates a floating point number between \(0\) and \(n\).  It is probably more useful to use something like a=float(rand(1000)/1000)
   to obtain an accurate number of decimal places.  An alternative is to use the [Maxima](Maxima.md) function `round()`
 * `rand([a,b,...,z])` makes a random selection from a list.
+* `rand({a,b,...,z})` makes a random selection from a set.
 * `rand(matrix(..))` applies rand to each element of the matrix.
+
+STACK provides the following functions for random generation of sets.
+
+* `random_subset(u)` returns a random subset of `u`.
+* `random_subset_n(u,n)` returns a random subset of `u` with `n` elements (if possible).
+* `random_ne_subset(u)` returns a non-empty random subset of `u`.
+
+There are also Maxima's random functions.  For example, to create a random list use `random_permutation`.
 
 It is probably much better **not** to use conditional statements when creating random objects.
 For example, if you would like to create a random small prime number, try
@@ -27,12 +37,6 @@ For example, if you would like to create a random small prime number, try
     p : rand([2,3,5,7,11,13,17,19]);
 
 This might not appear to be the neatest mathematical solution, but it is probably the most reliable.
-Usually we need to combine `rand()` with some code to generate objects.
-For example, if you want a matrix with integer elements in the range -5..5 you need something like
-
-    A:matrix([5,5],[5,5])-rand(matrix([11,11],[11,11]));
-
-There are also Maxima's random functions.  For example, to create a random list use `random_permutation`.
 
 ### rand_with_step(lower,upper,step) ###
 
@@ -59,9 +63,17 @@ This can be used with matrices, to generate a matrix with non-zero entries for e
 
     matrixmap(lambda([ex],rand_with_prohib(-5,5,[0])),zeromatrix(5,5));
 
+To create a matrix of a random size you can use Maxima's `makelist` function, e.g.
+
+    M1:apply(matrix, makelist(makelist(2^n/3^m, n,1,4), m,1,3));
+
 ### rand_selection(ex, n) ###
 
-Returns a list containing a random selection of `n` different items from the list `ex`.  If `ex` contains duplicates, then the result may also contain duplicates.
+Returns a list containing a random selection of `n` different items from the list/set `ex`.  If `ex` contains duplicates, then the result may also contain duplicates.
+
+### rand_selection_with_replacement(ex, n) ###
+
+Returns a list containing a random selection of `n` items from the list/set `ex`.
 
 ## Generating random polynomials
 
@@ -98,6 +110,14 @@ The question text can then be
     A pendulum is located on {@p@}. What length should the pendulum have in order to have a period of {@t@}s?
 
 This indexing with the variable `idx` is quite robust.  Note that indexes in Maxima start at \(1\), whereas `rand(n)` could return zero.
+
+Another option is to use `rand()` on a list of lists, allowing to group the information of an object in a slick way:
+
+    t:rand(5)+3;
+    [p, g] : rand([["Mercury",3.61], ["Earth",9.81], ["Mars",3.75]]);
+    ta:t*g/(4*%pi^2);
+
+Here, `rand()` will return one random list of the given lists, say `["Earth",9.81]`. The assignment `[p, g] : ["Earth",9.81]` then works as one would expect, namely just as `p : "Earth"; g : 9.81;` would.
 
 ## Random objects satisfying a condition
 

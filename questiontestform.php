@@ -28,7 +28,7 @@ require_once($CFG->libdir . '/formslib.php');
 
 
 /**
- * The editing form for editing question tests.
+ * The editing form for editing STACK question tests.
  *
  * @copyright 2012 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -39,6 +39,9 @@ class qtype_stack_question_test_form extends moodleform {
         $mform = $this->_form;
         $question = $this->_customdata['question'];
 
+        $mform->addElement('text', 'description', stack_string('description'), ['size' => 64]);
+        $mform->setType('description', PARAM_RAW);
+
         // Inputs.
         $mform->addElement('header', 'inputsheader', stack_string('testinputs'));
 
@@ -47,6 +50,8 @@ class qtype_stack_question_test_form extends moodleform {
             $input->add_to_moodleform_testinput($mform);
         }
 
+        $mform->addElement('submit', 'teacher', stack_string('teacheranswercase'));
+        $mform->registerNoSubmitButton('teacher');
         $mform->addElement('submit', 'complete', stack_string('completetestcase'));
         $mform->registerNoSubmitButton('complete');
 
@@ -55,17 +60,17 @@ class qtype_stack_question_test_form extends moodleform {
 
         $allinputs = array_keys($question->inputs);
         foreach ($question->prts as $prtname => $prt) {
-            $inputsused = $prt->get_required_variables($allinputs);
+            $inputsused = array_keys($question->get_cached('required')[$prtname]);
             $inputsused = ': [' . implode(', ' , $inputsused) . ']';
 
-            $elements = array(
+            $elements = [
                 $mform->createElement('text', $prtname . 'score',
-                    stack_string('score'), array('size' => 2)),
+                    stack_string('score'), ['size' => 2]),
                 $mform->createElement('text', $prtname . 'penalty',
-                    stack_string('penalty'), array('size' => 2)),
+                    stack_string('penalty'), ['size' => 2]),
                 $mform->createElement('select', $prtname . 'answernote',
                     stack_string('answernote'), $prt->get_all_answer_notes()),
-            );
+            ];
             $mform->addGroup($elements, $prtname . 'group', $prtname . $inputsused, ' ', false);
             $mform->setType($prtname . 'score', PARAM_RAW);
             $mform->setType($prtname . 'penalty', PARAM_RAW);
@@ -80,6 +85,9 @@ class qtype_stack_question_test_form extends moodleform {
         if ($this->_form->exportValue('complete')) {
             $this->complete_passing_testcase();
         }
+        if ($this->_form->exportValue('teacher')) {
+            $this->complete_teacher_testcase();
+        }
     }
 
     protected function complete_passing_testcase() {
@@ -87,7 +95,7 @@ class qtype_stack_question_test_form extends moodleform {
         $mform = $this->_form;
         $question = $this->_customdata['question'];
 
-        $inputs = array();
+        $inputs = [];
         foreach ($question->inputs as $inputname => $input) {
             $inputs[$inputname] = $mform->exportValue($inputname);
         }
@@ -96,11 +104,30 @@ class qtype_stack_question_test_form extends moodleform {
 
         foreach ($question->prts as $prtname => $prt) {
             $result = $question->get_prt_result($prtname, $response, false);
-            $answernotes = $result->answernotes;
-            $mform->getElement($prtname . 'group')->setValue(array(
-                    $prtname . 'score'      => $result->score,
-                    $prtname . 'penalty'    => $result->penalty,
-                    $prtname . 'answernote' => end($answernotes)));
+            $answernotes = $result->get_answernotes();
+            // In automatic test case generation set penalties as the default unless they differ.
+            // If they are the same as the detault, and you want this, you can change it later.
+            $prtpenalty = $result->get_penalty();
+            if ($prtpenalty == $question->penalty) {
+                $prtpenalty = '';
+            }
+            $mform->getElement($prtname . 'group')->setValue([
+                $prtname . 'score'      => $result->get_score(),
+                $prtname . 'penalty'    => $prtpenalty,
+                $prtname . 'answernote' => end($answernotes),
+            ]);
+        }
+    }
+
+    protected function complete_teacher_testcase() {
+
+        $mform = $this->_form;
+        $question = $this->_customdata['question'];
+
+        $inputs = [];
+        foreach ($question->inputs as $inputname => $input) {
+            $ta = $input->get_teacher_answer_testcase();
+            $mform->getElement($inputname)->setValue($ta);
         }
     }
 

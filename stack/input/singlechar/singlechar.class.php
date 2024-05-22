@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Input that accepts a single character.
  *
@@ -24,10 +22,13 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_singlechar_input extends stack_input {
 
-    protected $extraoptions = array(
+    protected $extraoptions = [
+        'hideanswer' => false,
+        'allowempty' => false,
         'nounits' => true,
-        'allowempty' => false
-    );
+        'validator' => false,
+        'feedback' => false,
+    ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
@@ -35,7 +36,7 @@ class stack_singlechar_input extends stack_input {
             return $this->render_error($this->errors);
         }
 
-        $attributes = array(
+        $attributes = [
             'type'      => 'text',
             'name'      => $fieldname,
             'id'        => $fieldname,
@@ -44,13 +45,25 @@ class stack_singlechar_input extends stack_input {
             'value'     => $this->contents_to_maxima($state->contents),
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
-        );
+        ];
 
         if ($readonly) {
             $attributes['readonly'] = 'readonly';
         }
 
         return html_writer::empty_tag('input', $attributes);
+    }
+
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'singlechar';
+
+        return $data;
     }
 
     protected function extra_validation($contents) {
@@ -70,8 +83,9 @@ class stack_singlechar_input extends stack_input {
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
-        return array(
+        return [
             'mustVerify'      => false,
-            'showValidation'  => 0);
+            'showValidation'  => 0,
+        ];
     }
 }

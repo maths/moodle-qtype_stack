@@ -17,6 +17,12 @@ stackmap_get(m, k) := block([],
  return(assoc(k,rest(m,1),und))
 )$
 
+/* Either take the value from the map, or use the value of the atom. */
+stackmap_get_ifexists(m, k) := block([],
+ if not is_stackmap(m) then return(m),
+ return(assoc(k,rest(m,1),und))
+)$
+
 stackmap_set(m, k, v) := block([],
  /* If we are given anything else than a map as the map we make a new map. */
  if not is_stackmap(m) then return(["stack_map",[k,v]]),
@@ -57,14 +63,14 @@ stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v,dm
  tmp:strim(sconcat(ascii(32),ascii(9),ascii(10),ascii(11),ascii(12),ascii(13)),json),
  if is(tmp="") then return(und),
 
- /* easy ones */
+ /* Easy ones. */
  if is(tmp="true") then return(true),
  if is(tmp="false") then return(false),
  if is(tmp="null") then return(und),
  if is(tmp="[]") then return([]),
  if is(tmp="{}") then return(["stack_map"]),
 
- /* Not easy, do some tokenising */
+ /* Not easy, do some tokenising. */
  mode:"raw", /* In a string or not, maybe number */
  i:0,
  tokens:[],
@@ -126,7 +132,7 @@ stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v,dm
   /* Change this to actual sublist as this is not the way to do it... */
   while ev(is(i<last(starts)), simp) do (nt:append(nt,[tokens[i]]), i:ev(i+1, simp)),
   if is(tokens[last(starts)]=_stackjson_tokens_list_open) then (
-   i:last(starts)+1,
+   i:ev(last(starts)+1, simp),
    while not is(tokens[i]=_stackjson_tokens_list_close) do (
     if not is(tokens[i]=_stackjson_tokens_list_sep) then r:append(r,[tokens[i]]),
     i:ev(i+1, simp)
@@ -144,7 +150,7 @@ stackjson_parse(json) := block([r,tmp,tokens,mode,i,lastslash,c,starts,nt,k,v,dm
    )  
   ),
   nt:append(nt,[r]),
-  i:i+1,
+  i:ev(i+1, simp),
   /* Change this to actual sublist as this is not the way to do it... */
   while ev(is(i<length(tokens)+1), simp) do (nt:append(nt,[tokens[i]]),i:ev(i+1, simp)),
   if ev(is(length(nt)<length(tokens)), simp) then dm:0,
@@ -197,6 +203,14 @@ stack_string_parse_number(somestring) := block([c, b, phase, neg,nege, tmp, i],
  return(c)
 )$
 
+stackjson_protect_escapes(c) := if c = "\\" then "\\\\"
+                           else if c = "\"" then "\\\""
+                           else if c = ascii(8) then "\\b"
+                           else if c = ascii(9) then "\\t"
+                           else if c = ascii(10) then "\\n"
+                           else if c = ascii(12) then "\\f"
+                           else if c = ascii(13) then "\\r"
+                           else c$
 
 /* Takes pretty much anything and turns it to a JSON string */
 stackjson_stringify(obj) := block([tmp,r,l],
@@ -204,35 +218,60 @@ stackjson_stringify(obj) := block([tmp,r,l],
  if is(obj=und) then r:"null"
  else if is(obj=false) then r:"false"
  else if is(obj=true) then r:"true"
- else if stringp(obj) then (
-  tmp:ssubst("\\\\","\\",obj),
-  tmp:ssubst("\\\"","\"",tmp),
-  tmp:ssubst("\\b",ascii(8),tmp),
-  tmp:ssubst("\\t",ascii(9),tmp),
-  tmp:ssubst("\\n",ascii(10),tmp),
-  tmp:ssubst("\\f",ascii(12),tmp),
-  tmp:ssubst("\\r",ascii(13),tmp),
-  r:sconcat("\"",tmp,"\"")
+ /* In the string case we do the following.*/
+ /*     1. Create a character list and protect escapes on each character. */
+ /*     2. Split the character list into batches of size 64 (maximum function argument limit in GCL). */
+ /*     3. Loop through each batch. */
+ /*           3a. Pass each batch to `sconcat` to create a batch string of length 64. */
+ /*         3b. Successively `sconcat` each batch on to the result string. */
+ /* Note that this can be achieved in a simpler way by using `simplode`, which was the case in the prior code. */
+ /* Prior code: `r : sconcat("\"",simplode(map(stackjson_protect_escapes, charlist(obj))),"\"")` */
+ /* However, there is evidence showing that this code is quadratic and that the batch optimisation helps to alleviate this. */
+ /* See here: https://docs.stack-assessment.org/en/Developer/Optimising_STACK_for_large_Maxima_variables/ for more details. */
+ else if stringp(obj) then block([char_list],
+  /* Create character list with escapes protected */
+  char_list: map(stackjson_protect_escapes, charlist(obj)),
+  /* Set batch size to 64, which is inferred from the maximum function argument limit in GCL-compiled Lisp. Other compilations (e.g., SBCL) are less limited in this respect. */
+  batch_size: 64,
+  /* Start the return string */
+  r: "\"",
+  /* Calculate the number of batches */
+  l : ev(ceiling(length(char_list)/batch_size), simp),
+  /* Loop through the batches */
+  i : 1,
+  while (ev(i <= l, simp)) do (
+    batch: [],
+    j: 1,
+    /* Create the batch by looping through the character list and push-popping */
+    while (ev(j <= batch_size and not emptyp(char_list), simp)) do (
+      push(pop(char_list), batch),
+      j: ev(j+1, simp)
+    ),
+    /* Pass the batch to sconcat, and then append the resultant batch string to the return string */
+    /* Note that reverse is required due to the push-popping when creating the batch */
+    r: sconcat(r, apply(sconcat, reverse(batch))),
+    i: ev(i + 1, simp)
+  ),
+  /* End the return string */
+  r: sconcat(r, "\"")
  ) else if is_stackmap(obj) then (
   l:[],
   for tmp in stackmap_keys(obj) do l:append(l,[sconcat(stackjson_stringify(tmp),":",stackjson_stringify(stackmap_get(obj,tmp)))]), 
   r:sconcat("{",simplode(l,","),"}")
  ) else if listp(obj) and length(obj) > 0 then r:sconcat("[",simplode(makelist(stackjson_stringify(x),x,obj),","),"]")
  else if listp(obj) then r:"[]"
- else if integerp(obj) then r:string(obj)
- else if numberp(obj) then r:string(float(obj))
+ else if integerp(ev(obj,simp)) then r:string(ev(obj,simp))
+ else if numberp(ev(float(obj),simp)) then r:string(float(ev(float(obj),simp)))
  else r:stackjson_stringify(string(obj)),
  return(r)
 )$
 
 
 /**
- * Special tools for dealing with CASText2, absolutely no use
- * if you are not running a system with CASText2.
+ * Special tools for dealing with CASText2.
  *
- * Even if you have CASText2 enabled system these tools are very
- * advanced and probably not for a novice author. Essenttially,
- * these are useful if one generates CASText2 values inside
+ * These tools are very advanced and probably not for a novice author.
+ * Essentially, these are useful if one generates CASText2 values inside
  * keyval-fields and/or stores them into the state in Stateful.
  * The only real use for a raw CASText2 value is to be outputted
  * by the castext-block within castext itself.
@@ -255,8 +294,9 @@ castext_simplify(ct2) := block([_r,_i,_t,_redo],
   if is(ct2[1]="%root") then _i:2,
   /* We especially want to try to simplify jsxgraph-block content. 
    * It is likely to be highly fragmented with plenty of injections.
+   * That block now maps to the `iframe` block.
    */
-  if is(ct2[1]="jsxgraph") then (_i:3, _r: append(_r,[castext_simplify(ct2[3])])),
+  if is(ct2[1]="iframe") then (_i:3, _r: append(_r,[castext_simplify(ct2[3])])),
   if is(_i>0) then (
     if listp(last(_r)) and is(last(_r)[1]="%root") then (
       _redo: true,
@@ -288,9 +328,153 @@ castext_simplify(ct2) := block([_r,_i,_t,_redo],
 /**
  * A concat for castext2. If you need to concat more terms lreduce...
  */
-castext_concat(a, b) := block([_tmp,_a,_b],
+castext_concat(a, b) := block([_tmp, _a, _b],
  _a: castext_simplify(a),
  _b: castext_simplify(b),
- if stringp(_a) and stringp(_b) then return(sconcat(_a,_b)),
+ if stringp(_a) and stringp(_b) then return(sconcat(_a, _b)),
  return(castext_simplify(["%root", _a, _b]))
 )$
+
+/**
+ * For now we include this as a predicate function not a full answer test.
+ */
+regex_match_exactp(regex, str) := block([l1, bool1],
+  l1:regex_match(regex, str),
+  bool1:listp(l1), 
+  if bool1 then block([strmatch],
+    strmatch:first(l1),
+    bool1:sequal(str, strmatch)
+  ),
+return(bool1))$
+
+/* STACK csv-helpper special tool for file output generation.
+ * Generates a string in CSV format of a list of lists or a matrix
+ * with an optional list of labels
+ * Will use normal grind/string style value form output but will return a castext list ["%root", ...]
+ * with values without Maxima style escapes. Special handling for pure float
+ * values, with them will use `stackfltfmt` to tune display.
+ * Uses "-wrapped strings when need be and picks , or ; as the separator
+ * based on how many values would need to be wrapped.
+ * We could do this with numericalio but we like to have that float formatting there.
+ */
+stack_csv_formatter(_data, _labels) := block([_sep,simp,_out,_rowcount,_sepcount1,_sepcount2],
+ _out:args(_data),
+ _sepcount1:0, /* for , */
+ _sepcount2:0, /* for ; */
+ /* Start by joining the values to labels if any */
+ if (listp(_labels)) then (
+  _out: append([_labels], _out)
+ ),
+
+ /* Render */
+ for _rowcount:1 thru length(_out) do (
+  _out[_rowcount]:maplist(lambda([_v],block([_tmp,_wrap],
+   _tmp: "NULL",
+   if (stringp(_v)) then (
+    _tmp: _v
+   ) else if ev(numberp(_v) and not integerp(_v), simp) then (
+    /* Those special floats, simp for the unary minus. */
+    _tmp: stack_disp(_v, "")
+   ) else (
+    _tmp: string(_v)
+   ),
+   _wrap: false,
+   if (integerp(sposition("\"", _tmp))) then (
+    _wrap: true,
+    /* Tricky bit we need to replace " with "" here, so ssubst just won't do. */
+    _tmp: simplode(maplist(lambda([c],if is(c="\"") then "\"\"" else c), charlist(_tmp)))
+   ),
+   /* If any line changes are in play wrap. */
+   if (integerp(sposition("
+", _tmp))) then _wrap: true,
+   /* If we have special whitespace at the ends of the value we need that wrapping. */
+   /* NOTE that the tab on the next line matters. */
+   if is(_tmp#strim("   
+",_tmp)) then _wrap:true,
+
+   /* Check the separator situation */
+   if (not _wrap) then (
+    if (integerp(sposition(",", _tmp))) then _sepcount1: _sepcount1+1,
+    if (integerp(sposition(";", _tmp))) then _sepcount2: _sepcount2+1
+   ),
+
+
+   if (_wrap) then (
+    _tmp: sconcat("\"", _tmp, "\"")
+   ),
+   _tmp
+  )),_out[_rowcount])
+ ),
+
+ _sep:"fail",
+ /* Pick the separator. */
+ if _sepcount1 = 0 then (
+  _sep: ","
+ ) else if _sepcount2 = 0 then (
+  _sep: ";"
+ ),
+
+ if sep = "fail" then (
+  /* We need to wrap things to allow the use of our separator. */
+  _sep: ",",
+  for _rowcount:1 thru length(_out) do (
+   _out[_rowcount]:maplist(lambda([_v],block([_tmp],
+    _tmp: _v,
+    if not integerp(sposition("\"", _tmp)) then (
+     if integerp(strpos(_sep, _tmp)) then _tmp: sconcat("\"", _tmp, "\"")
+    ),
+    _tmp
+   )),_out[_rowcount])
+  )
+ ),
+
+ /* TO-DO: do we want to do padding and formatting to help reading in text-editors? */
+
+ /* Now let's join everything up. */
+ _out: maplist(lambda([_row], simplode(_row, _sep)), _out),
+ _out: simplode(_out,"
+"),
+ /* We might want to add a line change to the end. */
+ return(["%root", _out])
+)$
+
+
+
+/** 
+ * The logic for turning {@%_val@} to a string, this exists to simplify
+ * castext2 compilation results.
+ * %_mode has the following values:
+ *  "i" => sconcat("\({",...,"}\)") or ... for strings
+ *  "im" => sconcat("\\\\\\({",str_to_md(...),"}\\\\\\)") or str_to_md(...) for strings
+ *  "" => ...
+ *  "m" => str_to_md(...)
+ * Basically the mode tells if we are to wrap things in math-delimiters and if we are in 
+ * markdown mode.
+ */
+ct2_latex(%_val, %_mode, %_simp):=block([%_tmp,simp],
+ simp:false,
+ %_tmp: %_val,
+ /* Strings */
+ if stringp(%_tmp) then (
+   /* If in math-mode, i.e. not requesting wrapping wrap with braces. */
+   if %_mode = "" or %_mode = "m" then %_tmp: sconcat("{", %_tmp, "}"),
+   if %_mode = "m" or %_mode = "im" then %_tmp: str_to_md(%_tmp),
+   return(["smlt", %_tmp])
+ ) else if listp(%_tmp) and length(%_tmp) > 0 and is(%_tmp[1] = "%root") then (
+   /* If we receive inline CASText then pass it through. */
+   if is(length(%_tmp) = 2) then
+      return(%_tmp[2]), /* Unwrap it as it does not need that wrapping anymore. Unfortunately can only do this for the single elemetn case here. */
+   return(%_tmp)
+ ) else (
+   simp: %_simp,
+   %_tmp: stack_disp(%_tmp, ""), /* Do our own wrapping. */
+   %_tmp: sconcat("{", strimr(" ", %_tmp), "}"),
+   if %_mode = "i" or %_mode = "im" then %_tmp: sconcat("\\(", %_tmp, "\\)")
+ ),
+ if %_mode = "m" or %_mode = "im" then (
+  %_tmp: str_to_md(%_tmp)
+ ),
+ /* Finally give it to PHP side translations. Maybe move them here as well? */
+ return(["smlt", %_tmp])
+)$
+

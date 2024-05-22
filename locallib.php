@@ -36,7 +36,7 @@ class stack_exception extends moodle_exception {
  */
 function stack_ouput_castext($castext) {
     return format_text(stack_maths::process_display_castext($castext),
-            FORMAT_HTML, array('noclean' => true));
+            FORMAT_HTML, ['noclean' => true]);
 }
 
 /**
@@ -51,6 +51,19 @@ function stack_string($key, $a = null) {
 }
 
 /**
+ * Equivalent to get_string($key, 'qtype_stack', $a), but this method ensure that
+ * any equations in the string are displayed properly and that this message is formatted as an error.
+ * @param string $key the string name.
+ * @param mixed $a (optional) any values to interpolate into the string.
+ * @return string the language string
+ */
+function stack_string_error($key, $a = null) {
+    $key = stack_maths::process_lang_string(get_string($key, 'qtype_stack', $a));
+    return '<i class="icon fa fa-exclamation-circle text-danger fa-fw " title="' . $key . '" aria-label="' .
+            $key . '"></i>' . $key;
+}
+
+/**
  * Private helper used by the next function.
  *
  * @return array search => replace strings.
@@ -62,25 +75,27 @@ function get_stack_maxima_latex_replacements() {
     $lang = current_language();
     if (!isset($replacements[$lang])) {
         $replacements[$lang] = [
-                'QMCHAR' => '?',
-                '!LEFTSQ!' => '\left[',
-                '!LEFTR!' => '\left(',
-                '!RIGHTSQ!' => '\right]',
-                '!RIGHTR!' => '\right)',
-                '!ANDOR!' => stack_string('equiv_ANDOR'),
-                '!SAMEROOTS!' => stack_string('equiv_SAMEROOTS'),
-                '!MISSINGVAR!' => stack_string('equiv_MISSINGVAR'),
-                '!ASSUMEPOSVARS!' => stack_string('equiv_ASSUMEPOSVARS'),
-                '!ASSUMEPOSREALVARS!' => stack_string('equiv_ASSUMEPOSREALVARS'),
-                '!LET!' => stack_string('equiv_LET'),
-                '!AND!' => stack_string('equiv_AND'),
-                '!OR!' => stack_string('equiv_OR'),
-                '!NOT!' => stack_string('equiv_NOT'),
-                '!NAND!' => stack_string('equiv_NAND'),
-                '!NOR!' => stack_string('equiv_NOR'),
-                '!XOR!' => stack_string('equiv_XOR'),
-                '!XNOR!' => stack_string('equiv_XNOR'),
-                '!IMPLIES!' => stack_string('equiv_IMPLIES'),
+            'QMCHAR' => '?',
+            '!LEFTSQ!' => '\left[',
+            '!LEFTR!' => '\left(',
+            '!RIGHTSQ!' => '\right]',
+            '!RIGHTR!' => '\right)',
+            '!ANDOR!' => stack_string('equiv_ANDOR'),
+            '!SAMEROOTS!' => stack_string('equiv_SAMEROOTS'),
+            '!MISSINGVAR!' => stack_string('equiv_MISSINGVAR'),
+            '!ASSUMEPOSVARS!' => stack_string('equiv_ASSUMEPOSVARS'),
+            '!ASSUMEPOSREALVARS!' => stack_string('equiv_ASSUMEPOSREALVARS'),
+            '!LET!' => stack_string('equiv_LET'),
+            '!AND!' => stack_string('equiv_AND'),
+            '!OR!' => stack_string('equiv_OR'),
+            '!NOT!' => stack_string('equiv_NOT'),
+            '!NAND!' => stack_string('equiv_NAND'),
+            '!NOR!' => stack_string('equiv_NOR'),
+            '!XOR!' => stack_string('equiv_XOR'),
+            '!XNOR!' => stack_string('equiv_XNOR'),
+            '!IMPLIES!' => stack_string('equiv_IMPLIES'),
+            '!BOOLTRUE!' => stack_string('true'),
+            '!BOOLFALSE!' => stack_string('false'),
         ];
     }
     return $replacements[$lang];
@@ -123,7 +138,7 @@ function stack_maxima_translate($rawfeedback) {
         $rawfeedback = str_replace('\n', '', $rawfeedback);
         $rawfeedback = str_replace('!quot!', '"', $rawfeedback);
 
-        $translated = array();
+        $translated = [];
         preg_match_all('/stack_trans\(.*?\);/', $rawfeedback, $matches);
         $feedback = $matches[0];
         foreach ($feedback as $fb) {
@@ -137,7 +152,7 @@ function stack_maxima_translate($rawfeedback) {
                 $arg = substr($fb, strpos($fb, "' , \"") + 5, -2);
                 $args = explode('"  , "', $arg);
 
-                $a = array();
+                $a = [];
                 for ($i = 0; $i < count($args); $i++) {
                     $a["m{$i}"] = $args[$i];
                 }
@@ -150,7 +165,41 @@ function stack_maxima_translate($rawfeedback) {
 }
 
 function stack_maxima_format_casstring($str) {
-    return html_writer::tag('span', $str, array('class' => 'stacksyntaxexample'));
+    // Santise the output, E.g. '>' -> '&gt;'.
+    $str = stack_string_sanitise($str);
+    $str = str_replace('[[syntaxexamplehighlight]', '<span class="stacksyntaxexamplehighlight">', $str);
+    $str = str_replace('[syntaxexamplehighlight]]', '</span>', $str);
+
+    return html_writer::tag('span', $str, ['class' => 'stacksyntaxexample']);
+}
+
+function stack_string_sanitise($str) {
+    // Students may not input strings containing specific LaTeX
+    // i.e. no math-modes due to us being unable to decide if
+    // it is safe.
+    $str = str_replace('\\[', '\\&#8203;[', $str);
+    $str = str_replace('\\]', '\\&#8203;]', $str);
+    $str = str_replace('\\(', '\\&#8203;(', $str);
+    $str = str_replace('\\)', '\\&#8203;)', $str);
+    $str = str_replace('$$', '$&#8203;$', $str);
+    // Also any script tags need to be disabled.
+    $str = str_ireplace('<script', '&lt;&#8203;script', $str);
+    $str = str_ireplace('</script>', '&lt;&#8203;/script&gt;', $str);
+    $str = str_ireplace('<iframe', '&lt;&#8203;iframe', $str);
+    $str = str_ireplace('</iframe>', '&lt;&#8203;/iframe&gt;', $str);
+    $str = str_ireplace('<style', '&lt;&#8203;style', $str);
+    $str = str_ireplace('</style>', '&lt;&#8203;/style&gt;', $str);
+    $str = str_ireplace('<div', '&lt;&#8203;div', $str);
+    $str = str_ireplace('</div>', '&lt;&#8203;/div&gt;', $str);
+    $str = str_ireplace('/>', '/&gt;', $str);
+    $str = str_ireplace('</', '&lt;/', $str);
+    $str = str_ireplace('<!--', '&lt;!--', $str);
+    $str = str_ireplace('-->', '--&gt;', $str);
+
+    $pat = ['/(on)([a-z]+[ ]*)(=)/i', '/(href)([ ]*)(=)/i', '/(src)([ ]*)(=)/i'];
+    $rep = ['on&#0;$2&#0;&#61;', 'href&#0;$2&#61;', 'src&#0;$2&#61;'];
+    $str = preg_replace($pat, $rep, $str);
+    return $str;
 }
 
 /**
@@ -159,10 +208,8 @@ function stack_maxima_format_casstring($str) {
  * @return array page context, selected seed (or null), and URL parameters.
  */
 function qtype_stack_setup_question_test_page($question) {
-    global $PAGE;
-
     $seed = optional_param('seed', null, PARAM_INT);
-    $urlparams = array('questionid' => $question->id);
+    $urlparams = ['questionid' => $question->id];
     if (!is_null($seed) && $question->has_random_variants()) {
         $urlparams['seed'] = $seed;
     }
@@ -181,11 +228,37 @@ function qtype_stack_setup_question_test_page($question) {
         $urlparams['courseid'] = $courseid;
 
     } else {
-        require_login();
         $context = $question->get_context();
-        $PAGE->set_context($context);
-        // Note that in the other cases, require_login will set the correct page context.
+        if ($context->contextlevel == CONTEXT_MODULE) {
+            $urlparams['cmid'] = $context->instanceid;
+        } else if ($context->contextlevel == CONTEXT_COURSE) {
+            $urlparams['courseid'] = $context->instanceid;
+        } else {
+            $urlparams['courseid'] = SITEID;
+        }
     }
 
-    return array($context, $seed, $urlparams);
+    return [$context, $seed, $urlparams];
+}
+
+/* This class is needed to ignore requests for pluginfile rewrites in the bulk tester
+ * and possibly elsewhere, e.g. API.
+ */
+class stack_outofcontext_process {
+
+    public function __construct() {
+    }
+
+    /**
+     * Calls {@link question_rewrite_question_urls()} with appropriate parameters
+     * for content belonging to this question.
+     * @param string $text the content to output.
+     * @param string $component the component name (normally 'question' or 'qtype_...')
+     * @param string $filearea the name of the file area.
+     * @param int $itemid the item id.
+     * @return string the content with the URLs rewritten.
+     */
+    public function rewrite_pluginfile_urls($text, $component, $filearea, $itemid) {
+        return $text;
+    }
 }

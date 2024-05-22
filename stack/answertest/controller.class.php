@@ -28,89 +28,94 @@ require_once(__DIR__ . '/../cas/connector.class.php');
 require_once(__DIR__ . '/../cas/ast.container.class.php');
 
 class stack_ans_test_controller {
-    protected static $types = array(
-              'AlgEquiv'             => 'stackOptions_AnsTest_values_AlgEquiv',
-              'AlgEquivNouns'        => 'stackOptions_AnsTest_values_AlgEquivNouns',
-              'EqualComAss'          => 'stackOptions_AnsTest_values_EqualComAss',
-              'CasEqual'             => 'stackOptions_AnsTest_values_CasEqual',
-              'SameType'             => 'stackOptions_AnsTest_values_SameType',
-              'SubstEquiv'           => 'stackOptions_AnsTest_values_SubstEquiv',
-              'SysEquiv'             => 'stackOptions_AnsTest_values_SysEquiv',
-              'Sets'                 => 'stackOptions_AnsTest_values_Sets',
-              'Expanded'             => 'stackOptions_AnsTest_values_Expanded',
-              'FacForm'              => 'stackOptions_AnsTest_values_FacForm',
-              'SingleFrac'           => 'stackOptions_AnsTest_values_SingleFrac',
-              'PartFrac'             => 'stackOptions_AnsTest_values_PartFrac',
-              'CompSquare'           => 'stackOptions_AnsTest_values_CompSquare',
-              'PropLogic'            => 'stackOptions_AnsTest_values_PropLogic',
-              'Equiv'                => 'stackOptions_AnsTest_values_Equiv',
-              'EquivFirst'           => 'stackOptions_AnsTest_values_EquivFirst',
-              'GT'                   => 'stackOptions_AnsTest_values_GT',
-              'GTE'                  => 'stackOptions_AnsTest_values_GTE',
-              'SigFigsStrict'        => 'stackOptions_AnsTest_values_SigFigsStrict',
-              'NumAbsolute'          => 'stackOptions_AnsTest_values_NumAbsolute',
-              'NumRelative'          => 'stackOptions_AnsTest_values_NumRelative',
-              'NumSigFigs'           => 'stackOptions_AnsTest_values_NumSigFigs',
-              'NumDecPlaces'         => 'stackOptions_AnsTest_values_NumDecPlaces',
-              'NumDecPlacesWrong'    => 'stackOptions_AnsTest_values_NumDecPlacesWrong',
-              'Units'                => 'stackOptions_AnsTest_values_UnitsSigFigs',
-              'UnitsStrict'          => 'stackOptions_AnsTest_values_UnitsStrictSigFigs',
-              'UnitsAbsolute'        => 'stackOptions_AnsTest_values_UnitsAbsolute',
-              'UnitsStrictAbsolute'  => 'stackOptions_AnsTest_values_UnitsStrictAbsolute',
-              'UnitsRelative'        => 'stackOptions_AnsTest_values_UnitsRelative',
-              'UnitsStrictRelative'  => 'stackOptions_AnsTest_values_UnitsStrictRelative',
-              'LowestTerms'          => 'stackOptions_AnsTest_values_LowestTerms',
-              'Diff'                 => 'stackOptions_AnsTest_values_Diff',
-              'Int'                  => 'stackOptions_AnsTest_values_Int',
-              'String'               => 'stackOptions_AnsTest_values_String',
-              'StringSloppy'         => 'stackOptions_AnsTest_values_StringSloppy',
-              'SRegExp'              => 'stackOptions_AnsTest_values_SRegExp',
-    );
+    protected static $types = [
+        'AlgEquiv'             => 'stackOptions_AnsTest_values_AlgEquiv',
+        'AlgEquivNouns'        => 'stackOptions_AnsTest_values_AlgEquivNouns',
+        'EqualComAss'          => 'stackOptions_AnsTest_values_EqualComAss',
+        'EqualComAssRules'     => 'stackOptions_AnsTest_values_EqualComAssRules',
+        'CasEqual'             => 'stackOptions_AnsTest_values_CasEqual',
+        'SameType'             => 'stackOptions_AnsTest_values_SameType',
+        'SubstEquiv'           => 'stackOptions_AnsTest_values_SubstEquiv',
+        'SysEquiv'             => 'stackOptions_AnsTest_values_SysEquiv',
+        'Sets'                 => 'stackOptions_AnsTest_values_Sets',
+        'Expanded'             => 'stackOptions_AnsTest_values_Expanded',
+        'FacForm'              => 'stackOptions_AnsTest_values_FacForm',
+        'SingleFrac'           => 'stackOptions_AnsTest_values_SingleFrac',
+        'PartFrac'             => 'stackOptions_AnsTest_values_PartFrac',
+        'CompSquare'           => 'stackOptions_AnsTest_values_CompSquare',
+        'PropLogic'            => 'stackOptions_AnsTest_values_PropLogic',
+        'Equiv'                => 'stackOptions_AnsTest_values_Equiv',
+        'EquivFirst'           => 'stackOptions_AnsTest_values_EquivFirst',
+        'GT'                   => 'stackOptions_AnsTest_values_GT',
+        'GTE'                  => 'stackOptions_AnsTest_values_GTE',
+        'SigFigsStrict'        => 'stackOptions_AnsTest_values_SigFigsStrict',
+        'NumAbsolute'          => 'stackOptions_AnsTest_values_NumAbsolute',
+        'NumRelative'          => 'stackOptions_AnsTest_values_NumRelative',
+        'NumSigFigs'           => 'stackOptions_AnsTest_values_NumSigFigs',
+        'NumDecPlaces'         => 'stackOptions_AnsTest_values_NumDecPlaces',
+        'NumDecPlacesWrong'    => 'stackOptions_AnsTest_values_NumDecPlacesWrong',
+        'Units'                => 'stackOptions_AnsTest_values_UnitsSigFigs',
+        'UnitsStrict'          => 'stackOptions_AnsTest_values_UnitsStrictSigFigs',
+        'UnitsAbsolute'        => 'stackOptions_AnsTest_values_UnitsAbsolute',
+        'UnitsStrictAbsolute'  => 'stackOptions_AnsTest_values_UnitsStrictAbsolute',
+        'UnitsRelative'        => 'stackOptions_AnsTest_values_UnitsRelative',
+        'UnitsStrictRelative'  => 'stackOptions_AnsTest_values_UnitsStrictRelative',
+        'LowestTerms'          => 'stackOptions_AnsTest_values_LowestTerms',
+        'Diff'                 => 'stackOptions_AnsTest_values_Diff',
+        'Int'                  => 'stackOptions_AnsTest_values_Int',
+        'String'               => 'stackOptions_AnsTest_values_String',
+        'StringSloppy'         => 'stackOptions_AnsTest_values_StringSloppy',
+        'Levenshtein'          => 'stackOptions_AnsTest_values_Levenshtein',
+        'SRegExp'              => 'stackOptions_AnsTest_values_SRegExp',
+    ];
 
     /*
      * Does this test require options [0] and are these evaluated by the CAS [1] ?
      * In [2] we have the value of simp in the CAS session.
+     * Does the test require the raw value of the student's answer as a string [3] ?
      *
      * Note, the options are currently always simplified in the node class.
      */
-    protected static $pops = array(
-        'AlgEquiv'             => array(false, false, true),
-        'AlgEquivNouns'        => array(false, false, false),
-        'EqualComAss'          => array(false, false, false),
-        'CasEqual'             => array(false, false, false),
-        'SameType'             => array(false, false, true),
-        'SubstEquiv'           => array(false, false, true),
-        'SysEquiv'             => array(false, false, true),
-        'Sets'                 => array(false, false, false),
-        'Expanded'             => array(false, false, true),
-        'FacForm'              => array(true, true, false),
-        'SingleFrac'           => array(false, false, false),
-        'PartFrac'             => array(true, true, true),
-        'CompSquare'           => array(true, true, true),
-        'PropLogic'            => array(false, false, true),
-        'Equiv'                => array(false, true, false),
-        'EquivFirst'           => array(false, true, false),
-        'GT'                   => array(false, false, true),
-        'GTE'                  => array(false, false, true),
-        'SigFigsStrict'        => array(true, true, true),
-        'NumAbsolute'          => array(true, true, true),
-        'NumRelative'          => array(true, true, true),
-        'NumSigFigs'           => array(true, true, false),
-        'NumDecPlaces'         => array(true, true, null),
-        'NumDecPlacesWrong'    => array(true, true, null),
-        'Units'                => array(true, true, false),
-        'UnitsStrict'          => array(true, true, false),
-        'UnitsAbsolute'        => array(true, true, false),
-        'UnitsStrictAbsolute'  => array(true, true, false),
-        'UnitsRelative'        => array(true, true, false),
-        'UnitsStrictRelative'  => array(true, true, false),
-        'LowestTerms'          => array(false, false, false),
-        'Diff'                 => array(true, true, false),
-        'Int'                  => array(true, true, false),
-        'String'               => array(false, false, null),
-        'StringSloppy'         => array(false, false, null),
-        'SRegExp'              => array(false, false, true),
-    );
+    protected static $pops = [
+        'AlgEquiv'             => [false, false, true, false],
+        'AlgEquivNouns'        => [false, false, false, false],
+        'EqualComAss'          => [false, false, false, false],
+        'EqualComAssRules'     => [true, true, false, false],
+        'CasEqual'             => [false, false, false, false],
+        'SameType'             => [false, false, true, false],
+        'SubstEquiv'           => ['optional', true, true, false],
+        'SysEquiv'             => [false, false, true, false],
+        'Sets'                 => [false, false, false, false],
+        'Expanded'             => [false, false, true, false],
+        'FacForm'              => [true, true, false, false],
+        'SingleFrac'           => [false, false, false, false],
+        'PartFrac'             => [true, true, true, false],
+        'CompSquare'           => [true, true, true, false],
+        'PropLogic'            => [false, false, true, false],
+        'Equiv'                => ['optional', true, false, false],
+        'EquivFirst'           => ['optional', true, false, false],
+        'GT'                   => [false, false, true, false],
+        'GTE'                  => [false, false, true, false],
+        'SigFigsStrict'        => [true, true, true, true],
+        'NumAbsolute'          => [true, true, true, false],
+        'NumRelative'          => [true, true, true, false],
+        'NumSigFigs'           => [true, true, false, true],
+        'NumDecPlaces'         => [true, true, false, true],
+        'NumDecPlacesWrong'    => [true, true, false, false],
+        'Units'                => [true, true, false, true],
+        'UnitsStrict'          => [true, true, false, true],
+        'UnitsAbsolute'        => [true, true, false, false],
+        'UnitsStrictAbsolute'  => [true, true, false, false],
+        'UnitsRelative'        => [true, true, false, false],
+        'UnitsStrictRelative'  => [true, true, false, false],
+        'LowestTerms'          => [false, false, false, false],
+        'Diff'                 => [true, true, false, false],
+        'Int'                  => [true, true, false, false],
+        'String'               => [false, false, false, false],
+        'StringSloppy'         => [false, false, false, false],
+        'Levenshtein'          => [true, true, true, false],
+        'SRegExp'              => [false, false, true, false],
+    ];
 
     /**
      * The answertest object that the functions call.
@@ -130,15 +135,15 @@ class stack_ans_test_controller {
      * @access public
      */
     public function __construct(string $anstest, stack_ast_container $sans, stack_ast_container $tans, $casoption = null,
-            $options = null) {
+            $options = null, $contextsession = []) {
 
         switch($anstest) {
             case 'AlgEquiv':
             case 'AlgEquivNouns':
             case 'EqualComAss':
+            case 'EqualComAssRules':
             case 'CasEqual':
             case 'SameType':
-            case 'SubstEquiv':
             case 'Sets':
             case 'Expanded':
             case 'FacForm':
@@ -157,74 +162,48 @@ class stack_ans_test_controller {
             case 'LowestTerms':
             case 'SysEquiv':
             case 'SRegExp':
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
+            case 'NumSigFigs':
+            case 'SigFigsStrict':
+            case 'Units':
+            case 'UnitsStrict':
+            case 'NumDecPlaces':
+            case 'NumDecPlacesWrong':
+            case 'Levenshtein':
+                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, $contextsession);
                 break;
 
-            case 'Equiv':
-                if ($casoption === null || '' == $casoption->ast_to_string()) {
-                    $opts = stack_ast_container::make_from_teacher_source('null', '', new stack_cas_security());
-                    // Note the *string* 'null' here is not mistake: this is passed to Maxima.
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options);
+            case 'SubstEquiv':
+                if ($casoption === null || '' == $casoption->ast_to_string() || 'null' == $casoption->ast_to_string()) {
+                    $opts = stack_ast_container::make_from_teacher_source('[]', '', new stack_cas_security());
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options, $contextsession);
                 } else {
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, $contextsession);
                 }
                 break;
 
+            case 'Equiv':
             case 'EquivFirst':
                 if ($casoption === null || '' == $casoption->ast_to_string()) {
                     $opts = stack_ast_container::make_from_teacher_source('null', '', new stack_cas_security());
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $opts, $options, $contextsession);
                 } else {
-                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
+                    $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, $contextsession);
                 }
                 break;
 
             case 'NumAbsolute':
-                if ($casoption === null || !$casoption->get_valid() || '' == $casoption->ast_to_string()) {
-                    $casoption = stack_ast_container::make_from_teacher_source('0.05', '', new stack_cas_security());
-                }
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
-                break;
-
             case 'NumRelative':
                 if ($casoption === null || !$casoption->get_valid() || '' == $casoption->ast_to_string()) {
                     $casoption = stack_ast_container::make_from_teacher_source('0.05', '', new stack_cas_security());
                 }
-                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options);
-                break;
-
-            case 'SigFigsStrict':
-            case 'NumSigFigs':
-            case 'Units':
-            case 'UnitsStrict':
-                require_once(__DIR__ . '/atnumsigfigs.class.php');
-                $this->at = new stack_anstest_atnumsigfigs($sans, $tans, $anstest, $casoption, $options);
-                break;
-
-            case 'NumDecPlaces':
-                require_once(__DIR__ . '/atdecplaces.class.php');
-                $this->at = new stack_anstest_atdecplaces($sans, $tans, $options, $casoption);
-                break;
-
-            case 'NumDecPlacesWrong':
-                require_once(__DIR__ . '/atdecplaceswrong.class.php');
-                $this->at = new stack_anstest_atdecplaceswrong($sans, $tans, $options, $casoption);
+                $this->at = new stack_answertest_general_cas($sans, $tans, $anstest, $casoption, $options, $contextsession);
                 break;
 
             case 'String':
-                require_once(__DIR__ . '/atstring.class.php');
-                $this->at = new stack_anstest_atstring($sans, $tans, $options, $casoption);
-                break;
-
             case 'StringSloppy':
-                require_once(__DIR__ . '/stringsloppy.class.php');
-                $this->at = new stack_anstest_stringsloppy($sans, $tans, $options, $casoption);
-                break;
-
             case 'RegExp':
-                // Don't break everything until people have a chance to edit existing questions.
-                require_once(__DIR__ . '/atstring.class.php');
-                $this->at = new stack_anstest_atstring($sans, $tans, $options, $casoption);
+                require_once(__DIR__ . '/at_general_cas_preprepare.class.php');
+                $this->at = new stack_answertest_general_cas_preprepare($sans, $tans, $anstest, $options, $casoption);
                 break;
 
             default:
@@ -302,17 +281,6 @@ class stack_ans_test_controller {
     }
 
     /**
-     * Returns whether the testops should be processed by the CAS for this AnswerTest
-     *
-     * @return bool
-     * @access public
-     */
-    public static function process_atoptions($atest) {
-        $op = self::$pops[$atest];
-        return $op[1];
-    }
-
-    /**
      * Returns whether the testops are required for this test.
      *
      * @return bool
@@ -324,6 +292,33 @@ class stack_ans_test_controller {
     }
 
     /**
+     * Returns a list of the answer tests who do not require test options
+     *
+     * @return array
+     * @access public
+     */
+    public static function get_ans_tests_without_options() {
+        $anstests = [];
+        foreach (self::$pops as $key => $value) {
+            if ($value[0] === false) {
+                $anstests[] = $key;
+            }
+        }
+        return $anstests;
+    }
+
+    /**
+     * Returns whether the testops should be processed by the CAS for this AnswerTest
+     *
+     * @return bool
+     * @access public
+     */
+    public static function process_atoptions($atest) {
+        $op = self::$pops[$atest];
+        return $op[1];
+    }
+
+    /**
      * Returns whether the session needs simplification.
      *
      * @return bool
@@ -332,6 +327,17 @@ class stack_ans_test_controller {
     public static function simp($atest) {
         $op = self::$pops[$atest];
         return $op[2];
+    }
+
+    /**
+     * Returns whether the test requires the raw input of the student's answer.
+     *
+     * @return bool
+     * @access public
+     */
+    public static function required_raw($atest) {
+        $op = self::$pops[$atest];
+        return $op[3];
     }
 
     /**

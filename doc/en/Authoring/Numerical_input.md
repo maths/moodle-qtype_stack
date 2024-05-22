@@ -2,7 +2,9 @@
 
 This is documentation for the numerical [input type](Inputs.md).
 
-This input type _requires_ the student to type in a number of some kind.  Any expression with a variable will be rejected as invalid.
+This input type _requires_ the student to type in a number of some kind.
+
+* Any expression with a variable will be rejected as invalid.
 
 While variable names are forbidden, by default function names are not forbidden.  `sin(pi/2)` represents a number.  If you actually want the student to type in `1` you need to forbid `sin` in the normal way using the forbidden words.
 
@@ -16,6 +18,8 @@ Note, some things (like forbid floats) can be applied to any numbers in an algeb
 The "Extra options" field on the input must be a comma separated list of the following tags.  Note, these options may not depend on the question variables.
 
 `floatnum`:  requires the student's answer to be a floating-point number, as judged by Maxima's `floatnump` predicate.  E.g. to use this and other Boolean options type `floatnum:true` etc. as a comma separated list in the extra options field.
+
+`intnum`:  requires the student's answer to be an explicit integer.  E.g. `6` is valid, but `2*3`, `12/2` etc. are invalid.
 
 `rationalnum`:  requires the student's answer to be a rational number (i.e. a fraction), as judged by STACK's `rational_numberp` predicate.  Integers are excluded here!
 

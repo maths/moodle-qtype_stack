@@ -11,7 +11,339 @@
     <idnumber></idnumber>
   </question>
 
-<!-- question: 4552  -->
+<!-- question: 7543  -->
+  <question type="description">
+    <name>
+      <text>Style check: HELM</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>HELM style check</h1>
+
+<p><code>HELM_keypoint</code> div class.</p>
+<div class="HELM_keypoint">
+<h4>Key Point</h4>
+<p>This should be in a box.</p>
+</div>
+
+<p><code>HELM_example</code> h4 class.</p>
+<h4 class="HELM_example">Example</h4>
+<p>Just the h4 heading above is in a different style.</p>
+
+<p><code>HELM_solution</code> h4 class.</p>
+<h4 class="HELM_solution">Solution</h4>
+<p>Just the h4 heading above is in a different style.</p>
+
+<hr>
+<h4 class="HELM_example">Example</h4>
+<p>Identify the index and base in the following expressions. </p>
+<ol class="HELM_parts_inline">
+<li> Ex 1. </li>
+<li> Ex 2. </li>
+<li> Ex 3. </li>
+</ol>
+
+<h4 class="HELM_solution">Solution</h4>
+<ol class="HELM_parts">
+  <li>In the expression ..., 8 is the base and 11 is the index.</li>
+  <li>In the expression ..., -2 is the base and 5 is the index.</li>
+  <li>In the expression ..., p is the base and -q is the index.<p>
+  </p><p>The interpretation of a negative index will be given
+  in sub-section 4 which starts on page 31.</p></li>
+</ol>
+
+<p class="HELM_exercise">Exercise</p>
+<p>Just the paragraph above is in a different style.</p>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+  </question>
+
+<!-- question: 7544  -->
+  <question type="description">
+    <name>
+      <text>Style check: proof.</text>
+    </name>
+    <questiontext format="html">
+      <text><![CDATA[<h1>Check of proof styles</h1>
+
+<p>From STACK 4.3 we support the following CSS styles to enable consistent display of mathematical proof, and arguments in general.</p>
+
+<h3>&lt;div class=&quot;proof&quot;&gt;</h3>
+
+<p>This is typical question style, from the Moodle theme, containing the following proof.</p>
+<div class="proof">
+<p>Let P(n) be the statement [...] </p>
+<p>From which we see that.</p>
+</div>
+<p>Back to the typical Moodle style.</p>
+
+<h3>&lt;div class=&quot;proof-block&quot;&gt;</h3>
+
+<p>This class allows the teacher to highlight sub-components of a proof.  It is intended to be a nested sub-proof block of a main proof.</p>
+
+This is typical question style, from the Moodle theme, containing the following proof.
+<div class="proof">
+This proof has two cases.
+<div class="proof-block">
+<p>If n is odd then we have</p>
+<p>[...]</p>
+<p>and so ...</p>
+</div>
+<div class="proof-block">
+<p>If n is even then we have</p>
+<div class="proof-block">
+<p>a. even more subcases.</p>
+</div>
+<div class="proof-block">
+<p>b. even more subcases.</p>
+</div>
+<p>and so ...</p>
+</div>
+<p>From which we see that in all cases the proof holds.</p>
+</div>
+<p>Back to the typical Moodle style.</p>
+
+<h3>&lt;div class=&quot;proof-line&quot;&gt;, &lt;div class=&quot;proof-num&quot;&gt;, &lt;div class=&quot;proof-step&quot;&gt;, `&lt;div class=&quot;proof-comment&quot;&gt;</h3>
+
+<p>A typical proof consists of individual lines. Each line is numbered, so we can refer to them later.  The main "meat" of the line is the "proof step" and there is an optional comment.  The proof comment is designed for a comment, to allow an input to ask a question or to act as the second column in a two column proof.<p>
+
+Consider the following proof by induction. \(P(n)\)
+<div class="proof">
+<div class="proof-block">
+<div class="proof-line">
+ <div class="proof-num">1.</div>
+ <div class="proof-step">Let \(P(n)\) be the statement</div>
+ <div class="proof-comment">The first block of an induction proof must be a clear statement of the "induction hypothesis".</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">2.</div>
+ <div class="proof-step">.... some maths ....</div>
+ <div class="proof-comment">Notice, in this case, we have a purely algebraic induction hypothesis.</div>
+</div>
+</div>
+<div class="proof-block">
+<div class="proof-line">
+ <div class="proof-num">3.</div>
+ <div class="proof-step">Since</div>
+ <div class="proof-comment">This block is known as the "base case".</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">4.</div>
+ <div class="proof-step">Something profound and something else</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">5.</div>
+ <div class="proof-step">it follows that P(1) is true.</div>
+</div>
+</div>
+<div class="proof-block">
+<div class="proof-line">
+ <div class="proof-num">6.</div>
+ <div class="proof-step">Assume that P(n) is true.</div>
+ <div class="proof-comment">This block is known as the "induction step".</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">7.</div>
+ <div class="proof-step">.... lots of complex working ....</div>
+ <div class="proof-comment">We just consider the sum which occurs in P(n+1) and start to rearrange this.</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">8.</div>
+ <div class="proof-step">More working</div>
+ <div class="proof-comment">We are assuming P(n) is true, and here we use this fact.</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">9.</div>
+ <div class="proof-step">More working.</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">10.</div>
+ <div class="proof-step">Which gives us what we want</div>
+ <div class="proof-comment">Notice we have rearranged the algebra to give us the right hand side of P(n+1).</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">11.</div>
+ <div class="proof-step">Hence P(n+1) is true.</div>
+ <div class="proof-comment">This block is the conclusion of the proof.</div>
+</div>
+</div>
+<div class="proof-block">
+<div class="proof-line">
+ <div class="proof-num">12.</div>
+ <div class="proof-step">Since P(1) and P(n) implies P(n+1) it follows that P(n) is true for all n by the principal of mathematical induction.</div>
+</div>
+</div>
+</div>
+
+<h3>&lt;div class=&quot;proof-column&quot;&gt;, &lt;div class=&quot;proof-column-2&quot;&gt;</h3>
+
+<p>Alternatively, you can use columns, which are fixed at a width of 48%.  The design assumes two columns and line numbers. Additionally, `proof-column-2` has a different visual style for emphasis.</p>
+
+<p>Here is a proof of the great and wonderful theorem.</p>
+ <div class="proof">
+  The proof has two cases.
+  <div class="proof-block">
+   <div class="proof-line">
+    <div class="proof-num">1.</div>
+    <div class="proof-column">The proof itself is in the first column.</div>
+    <div class="proof-column-2">The second column can contain comments, here in <code>proof-column-2</code> style. </div>
+   </div>
+   <div class="proof-line">
+    <div class="proof-num">2.</div>
+    <div class="proof-column">The proof continues.</div>
+    <div class="proof-column-2">With further comments.</div>
+   </div>
+  </div>
+  <div class="proof-block">
+   <div class="proof-line">
+    <div class="proof-num">3.</div>
+    <div class="proof-column">The second case of the proof.</div>
+    <div class="proof-column">The second column can contain comments, here in <code>proof-column</code> style. </div>
+   </div>
+   <div class="proof-line">
+    <div class="proof-num">4.</div>
+    <div class="proof-column">The proof continues.</div>
+    <div class="proof-column">With further comments.</div>
+   </div>
+   <div class="proof-block">
+    <div class="proof-line">
+     <div class="proof-num">5.</div>
+     <div class="proof-column">The proof continues.</div>
+     <div class="proof-column">With further comments.</div>
+    </div>
+    <div class="proof-line">
+     <div class="proof-num">6.</div>
+     <div class="proof-column">The proof continues, without comment.</div>
+    </div>
+   </div>
+  </div>
+ </div>
+
+<h3>&lt;div class=&quot;proof-column&quot;&gt;</h3>
+
+<div class="proof-line">
+ <div class="proof-column">Lines don't need to have <code>proof-num</code> or <code>proof-block</code></div>
+ <div class="proof-column">With further comments.</div>
+</div>
+<div class="proof-line">
+ <div class="proof-column">The proof continues.</div>
+ <div class="proof-column-2">With further comments.</div>
+</div>
+<div class="proof-line">
+ <div class="proof-column">This concludes the proof.</div>
+</div>
+
+<p>It is possible to use `proof-column-2` style in the first column, but this looks odd and is not recommended.  The `proof-column-2` style is intended for only the second column.  The `proof-column` style is intended to be used in both columns.</p>
+
+<p>Consider the following proof by induction. \(P(n)\)</p>
+<div class="proof">
+<div class="proof-block">
+<div class="proof-line">
+ <div class="proof-num">1.</div>
+ <div class="proof-column">Let P(n) be the statement</div>
+ <div class="proof-column-2">The first block of an induction proof must be a clear statement of the "induction hypothesis".</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">2.</div>
+ <div class="proof-column">.... some maths ....</div>
+ <div class="proof-column-2">Notice, in this case, we have a purely algebraic induction hypothesis.</div>
+</div>
+</div>
+<div class="proof-block">
+<div class="proof-line">
+ <div class="proof-num">3.</div>
+ <div class="proof-column">Since</div>
+ <div class="proof-column-2">This block is known as the "base case".</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">4.</div>
+ <div class="proof-column">Something profound and something else</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">5.</div>
+ <div class="proof-column">it follows that P(1) is true.</div>
+</div>
+</div>
+<div class="proof-block">
+<div class="proof-line">
+ <div class="proof-num">6.</div>
+ <div class="proof-column">Assume that P(n) is true.</div>
+ <div class="proof-column-2">This block is known as the "induction step".</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">7.</div>
+ <div class="proof-column">.... lots of complex working ....</div>
+ <div class="proof-column-2">We just consider the sum which occurs in P(n+1) and start to rearrange this.</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">8.</div>
+ <div class="proof-column">More working</div>
+ <div class="proof-column-2">We are assuming P(n) is true, and here we use this fact.</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">9.</div>
+ <div class="proof-column">More working.</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">10.</div>
+ <div class="proof-column">Which gives us what we want</div>
+ <div class="proof-column-2">Notice we have rearranged the algebra to give us the right hand side of P(n+1).</div>
+</div>
+<div class="proof-line">
+ <div class="proof-num">11.</div>
+ <div class="proof-column">Hence P(n+1) is true.</div>
+ <div class="proof-column-2">This block is the conclusion of the proof.</div>
+</div>
+</div>
+<div class="proof-block">
+<div class="proof-line">
+ <div class="proof-num">12.</div>
+ <div class="proof-column">Since P(1) and P(n) implies P(n+1) it follows that P(n) is true for all n by the principal of mathematical induction.</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<h3>&lt;ol class=&quot;proof-steps&quot;&gt;</h3>
+
+<p>This class enables ordered lists to have connected numbered statements.</p>
+
+<ol class="proof-steps">
+<li>Let A be an n by n matrix and let R be the reduced row echelon form of A.</li>
+<li>We will show first that det(A) is not zero if and only if det(R) is not zero.</li>
+<li>Let <ol>
+<li>E1,</li>
+<li>E2,</li>
+</ol> ... Er be the elementary matrices corresponding to the elementary row operations that reduce A to R.</li>
+<li>Then Er ... E1 A = [[input:ans1]]]</li>
+<li>Taking determinants of both sides, we obtain: det(Er) ... det(E_1) det(A) = det(R).</li>
+<li>The determinants of all the elementary matrices are all [[input:ansdropdown]]]</li>
+<li>We conclude that det(A) is not zero if and only if det(R) is not zero.</li>
+<li>Now suppose that A is invertible.
+ <ol class="proof-steps">
+ <li>Then R =  [[input:ans4]]</li>
+ <li>Thus, det(R) = [[input:ans3]] and hence det(A) is not zero.</li>
+ </ol></li>
+<li>Conversely, if det(A) is not zero then det(R) is not zero, so R cannot have a zero row.</li>
+<li>Thus R = I and A is invertible as required. </li>
+</ol>]]></text>
+    </questiontext>
+    <generalfeedback format="moodle_auto_format">
+      <text></text>
+    </generalfeedback>
+    <defaultgrade>0.0000000</defaultgrade>
+    <penalty>0.0000000</penalty>
+    <hidden>0</hidden>
+    <idnumber></idnumber>
+  </question>
+
+<!-- question: 7545  -->
   <question type="stack">
     <name>
       <text>Algebraic input</text>
@@ -21,14 +353,14 @@
 <p>(Note, this assumes single variable variable names)</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
-      <text></text>
+      <text>There are various options for typing in multiplication within STACK.</text>
     </generalfeedback>
     <defaultgrade>1.0000000</defaultgrade>
     <penalty>0.1000000</penalty>
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2020012700</text>
+      <text>2020123000</text>
     </stackversion>
     <questionvariables>
       <text>ta:a*b</text>
@@ -137,7 +469,7 @@
     </qtest>
   </question>
 
-<!-- question: 4553  -->
+<!-- question: 7546  -->
   <question type="stack">
     <name>
       <text>Algebraic input (align to the right)</text>
@@ -276,7 +608,7 @@
     </qtest>
   </question>
 
-<!-- question: 4554  -->
+<!-- question: 7547  -->
   <question type="stack">
     <name>
       <text>Algebraic input (answer box sizes test)</text>
@@ -573,7 +905,7 @@
     </qtest>
   </question>
 
-<!-- question: 4555  -->
+<!-- question: 7548  -->
   <question type="stack">
     <name>
       <text>Algebraic input (compact)</text>
@@ -699,7 +1031,7 @@
     </qtest>
   </question>
 
-<!-- question: 4556  -->
+<!-- question: 7549  -->
   <question type="stack">
     <name>
       <text>Algebraic input (empty answer permitted)</text>
@@ -900,7 +1232,7 @@
     </qtest>
   </question>
 
-<!-- question: 4557  -->
+<!-- question: 7550  -->
   <question type="stack">
     <name>
       <text>Algebraic input (with simplification)</text>
@@ -1040,7 +1372,7 @@
     </qtest>
   </question>
 
-<!-- question: 4558  -->
+<!-- question: 7551  -->
   <question type="stack">
     <name>
       <text>Checkbox</text>
@@ -1172,7 +1504,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 4559  -->
+<!-- question: 7552  -->
   <question type="stack">
     <name>
       <text>Checkbox (no body LaTeX)</text>
@@ -1275,6 +1607,7 @@ ta:append(ta,[tao]);]]></text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>972840190</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -1303,13 +1636,13 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 4560  -->
+<!-- question: 7553  -->
   <question type="stack">
     <name>
       <text>Checkbox (plots in options)</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p class="noindent">Which of the following functions are invertible?<br></p>  
+      <text><![CDATA[<p class="noindent">Which of the following functions are invertible?<br></p>
  [[input:ans1]] [[validation:ans1]]
 <p>(This question is to test auto-generated images appear in MCQ options.)</p>]]></text>
     </questiontext>
@@ -1321,7 +1654,7 @@ ta:append(ta,[tao]);]]></text>
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2020020101</text>
+      <text>2020123000</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[cfn1:x^3;
@@ -1384,7 +1717,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
       <type>checkbox</type>
       <tans>ta1</tans>
       <boxsize>15</boxsize>
-      <strictsyntax>0</strictsyntax>
+      <strictsyntax>1</strictsyntax>
       <insertstars>0</insertstars>
       <syntaxhint></syntaxhint>
       <syntaxattribute>0</syntaxattribute>
@@ -1478,6 +1811,8 @@ incorr1:mcq_incorrect(ta1);]]></text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>473610050</deployedseed>
+    <deployedseed>808241651</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -1523,14 +1858,14 @@ incorr1:mcq_incorrect(ta1);]]></text>
     </tags>
   </question>
 
-<!-- question: 4561  -->
+<!-- question: 7554  -->
   <question type="stack">
     <name>
       <text>Checkbox (Show teacher's answer)</text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>Which method would you use to find \(\int\sin(x)\cos(x)\mathrm{d} x\)?</p>
-<p>[[input:ans1]][[validation:ans1]]</p> 
+<p>[[input:ans1]][[validation:ans1]]</p>
 <p>(The purpose of this question is to test the "teacher's answer" display is the string shown, not the value returned to Maxima).</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
@@ -1541,7 +1876,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2020020301</text>
+      <text>2020123000</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[ta1:[A, true, "Integration by parts"];
@@ -1631,7 +1966,7 @@ ta:[ta1,ta2,ta3,ta4,ta0];]]></text>
       <testcase>1</testcase>
       <testinput>
         <name>ans1</name>
-        <value>[2*cos(2*x)]</value>
+        <value>mcq_correct(ta)</value>
       </testinput>
       <expected>
         <name>prt1</name>
@@ -1655,7 +1990,7 @@ ta:[ta1,ta2,ta3,ta4,ta0];]]></text>
     </qtest>
   </question>
 
-<!-- question: 4562  -->
+<!-- question: 7555  -->
   <question type="stack">
     <name>
       <text>Dropdown (shuffle)</text>
@@ -1671,7 +2006,7 @@ ta:[ta1,ta2,ta3,ta4,ta0];]]></text>
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2018080600</text>
+      <text>2020123000</text>
     </stackversion>
     <questionvariables>
       <text><![CDATA[/* Create a list of potential answers. */
@@ -1761,6 +2096,8 @@ ta:append(ta,[tao]);]]></text>
         </falsefeedback>
       </node>
     </prt>
+    <deployedseed>1859965311</deployedseed>
+    <deployedseed>526091359</deployedseed>
     <qtest>
       <testcase>1</testcase>
       <testinput>
@@ -1802,7 +2139,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 4563  -->
+<!-- question: 7556  -->
   <question type="stack">
     <name>
       <text>Equiv input test (compact)</text>
@@ -1916,7 +2253,7 @@ ta:[p,x=(4-7)/3,x=-1]</text>
     </qtest>
   </question>
 
-<!-- question: 4564  -->
+<!-- question: 7557  -->
   <question type="stack">
     <name>
       <text>Equiv input test (let, or +-)</text>
@@ -2055,7 +2392,7 @@ p:first(tal);</text>
     </qtest>
   </question>
 
-<!-- question: 4565  -->
+<!-- question: 7558  -->
   <question type="stack">
     <name>
       <text>Matrix</text>
@@ -2180,7 +2517,7 @@ p:first(tal);</text>
     </qtest>
   </question>
 
-<!-- question: 4550  -->
+<!-- question: 7559  -->
   <question type="stack">
     <name>
       <text>Matrix (varmatrix)</text>
@@ -2203,8 +2540,7 @@ p:first(tal);</text>
     <questionvariables>
       <text>M1:matrix([1,0],[0,1]);
 TA1:matrix([1, 0, 0, 0],[0,1,0,0]);
-TA2:matrix([1,0],[0,1],[0,0],[0,0]);
-</text>
+TA2:matrix([1,0],[0,1],[0,0],[0,0]);</text>
     </questionvariables>
     <specificfeedback format="html">
       <text>[[feedback:prt1]]</text>
@@ -2274,8 +2610,7 @@ TA2:matrix([1,0],[0,1],[0,0],[0,0]);
       <feedbackstyle>1</feedbackstyle>
       <feedbackvariables>
         <text>sz1:matrix_size(ans1);
-sz2:matrix_size(ans2);
-</text>
+sz2:matrix_size(ans2);</text>
       </feedbackvariables>
       <node>
         <name>0</name>
@@ -2410,7 +2745,7 @@ sz2:matrix_size(ans2);
     </qtest>
   </question>
 
-<!-- question: 4566  -->
+<!-- question: 7560  -->
   <question type="stack">
     <name>
       <text>Matrix-multi</text>
@@ -2564,7 +2899,7 @@ M2:matrix([a,b],[c,d]);</text>
     </qtest>
   </question>
 
-<!-- question: 4567  -->
+<!-- question: 7561  -->
   <question type="stack">
     <name>
       <text>Notes</text>
@@ -2676,7 +3011,7 @@ M2:matrix([a,b],[c,d]);</text>
     </qtest>
   </question>
 
-<!-- question: 4568  -->
+<!-- question: 7562  -->
   <question type="stack">
     <name>
       <text>Numerical input (min sf)</text>
@@ -2801,7 +3136,7 @@ M2:matrix([a,b],[c,d]);</text>
     </qtest>
   </question>
 
-<!-- question: 4569  -->
+<!-- question: 7563  -->
   <question type="stack">
     <name>
       <text>Radio</text>
@@ -2920,7 +3255,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 4570  -->
+<!-- question: 7564  -->
   <question type="stack">
     <name>
       <text>Radio (compact)</text>
@@ -3039,7 +3374,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 4571  -->
+<!-- question: 7565  -->
   <question type="stack">
     <name>
       <text>Single char</text>
@@ -3164,7 +3499,7 @@ ta:append(ta,[tao]);]]></text>
     </qtest>
   </question>
 
-<!-- question: 4572  -->
+<!-- question: 7566  -->
   <question type="stack">
     <name>
       <text>String input</text>
@@ -3172,7 +3507,7 @@ ta:append(ta,[tao]);]]></text>
     <questiontext format="html">
       <text><![CDATA[This input is sent to the CAS:
 <p>[[input:ans1]] [[validation:ans1]]</p>
-This input is not, perhaps it is used to store JSXGraph state?
+This input is not, perhaps it is used to store JSXGraph state? or GeoGebra state?
 <p>[[input:ans2]] [[validation:ans2]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
@@ -3301,7 +3636,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 4573  -->
+<!-- question: 7567  -->
   <question type="stack">
     <name>
       <text>Textarea test</text>
@@ -3413,7 +3748,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 4574  -->
+<!-- question: 7568  -->
   <question type="stack">
     <name>
       <text>Textarea test (compact)</text>
@@ -3525,7 +3860,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 4575  -->
+<!-- question: 7569  -->
   <question type="stack">
     <name>
       <text>True/false</text>
@@ -3650,7 +3985,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     </qtest>
   </question>
 
-<!-- question: 4576  -->
+<!-- question: 7570  -->
   <question type="stack">
     <name>
       <text>Units</text>
@@ -3666,7 +4001,7 @@ This input is not, perhaps it is used to store JSXGraph state?
     <hidden>0</hidden>
     <idnumber></idnumber>
     <stackversion>
-      <text>2018080600</text>
+      <text>2020123000</text>
     </stackversion>
     <questionvariables>
       <text>ta:9.81*m*s^-2</text>
@@ -3675,7 +4010,7 @@ This input is not, perhaps it is used to store JSXGraph state?
       <text>[[feedback:prt1]]</text>
     </specificfeedback>
     <questionnote>
-      <text></text>
+      <text>This question just calls for factual recall, but with scientific units attached!</text>
     </questionnote>
     <questionsimplify>1</questionsimplify>
     <assumepositive>0</assumepositive>

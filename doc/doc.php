@@ -52,10 +52,6 @@ if (!file_exists($docsroot.'/index.md')) {
 
 $docsurl = $CFG->wwwroot . '/question/type/stack/doc/doc.php';
 
-// The URL to the directory for static content to be served by the docs
-// access this string in the docs with %CONTENT.
-$docscontent = $CFG->wwwroot . '/question/type/stack/doc/content';
-
 $context = context_system::instance();
 $PAGE->set_context($context);
 $PAGE->set_url('/question/type/stack/doc/doc.php');
@@ -73,27 +69,27 @@ $lastseg = $segs[count($segs) - 1];
 // Links for the end of the page.
 if ($uri == '/') {
     // The docs front page at .../doc.php/.
-    $linkurls = array();
+    $linkurls = [];
     $sitemapurl = '<a href = "' . $docsurl . '/Site_map' .'">'
         . stack_string('stackDoc_siteMap') . '</a>';
 
 } else if ('/Site_map' == $uri) {
-    $linkurls = array(
-        $docsurl               => stack_string('stackDoc_home')
-    );
+    $linkurls = [
+        $docsurl               => stack_string('stackDoc_home'),
+    ];
 
 } else {
-    $linkurls = array(
+    $linkurls = [
         $docsurl               => stack_string('stackDoc_home'),
         './'                   => stack_string('stackDoc_index'),
-        $docsurl . '/Site_map' => stack_string('stackDoc_siteMap')
-    );
+        $docsurl . '/Site_map' => stack_string('stackDoc_siteMap'),
+    ];
     if (current_language() != 'en') {
         $linkurls[$docsurl . '/Site_map_en'] = stack_string('stackDoc_siteMap_en');
     }
 }
 
-$links = array();
+$links = [];
 foreach ($linkurls as $url => $link) {
     $links[] = '<a href="' . $url . '">' . $link . '</a>';
 }
@@ -107,23 +103,22 @@ if ('Site_map' == $lastseg) {
         $meta = stack_docs_page_metadata('Site_map.md');
 } else {
     if ('' == $lastseg) {
-        $file = $docsroot . $uri . 'index.md';
-        $fileen = $docsrooten . $uri . 'index.md';
+        $file = $docsroot . $uri . '/index.md';
+        $fileen = $docsrooten . $uri . '/index.md';
     } else {
         $file = $docsroot . $uri;
         $fileen = $docsrooten . $uri;
     }
-
     if (file_exists($file)) {
-        $body = stack_docs_page($links, $file, $docscontent);
+        $body = stack_docs_page($links, $file);
         $meta = stack_docs_page_metadata($uri);
     } else if (file_exists($fileen)) {
         // Default to English.
-        $body = stack_docs_page($links, $fileen, $docscontent);
+        $body = stack_docs_page($links, $fileen);
         $meta = stack_docs_page_metadata($uri);
     } else {
         $body = stack_docs_no_found($links);
-        $meta = array();
+        $meta = [];
     }
 }
 
@@ -161,4 +156,10 @@ if (array_key_exists('description', $meta)) {
 }
 echo $header;
 echo $body;
+
+$webpix  = $CFG->wwwroot . '/question/type/stack/doc/content/by-sa.png';
+$ccbysa = '<img width="88" alt="' . stack_string('stackDoc_licence_alt') . '" src="' . $webpix .
+    '" style="margin-right: 10px;" />' . stack_string('stackDoc_licence');
+echo '<p>' . $ccbysa . '</p>';
+
 echo $OUTPUT->footer();

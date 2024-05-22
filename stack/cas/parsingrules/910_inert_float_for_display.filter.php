@@ -34,6 +34,7 @@ require_once(__DIR__ . '/../../utils.class.php');
  * sense. This is for representation.
  */
 class stack_ast_filter_910_inert_float_for_display implements stack_cas_astfilter {
+
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
         $floats = function($node) use (&$answernotes, &$errors) {
             if ($node instanceof MP_Float) {

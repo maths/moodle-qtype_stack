@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * A basic text-field input.
  *
@@ -24,13 +22,19 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_algebraic_input extends stack_input {
 
-    protected $extraoptions = array(
+    protected $extraoptions = [
+        'hideanswer' => false,
+        'allowempty' => false,
         'simp' => false,
         'rationalized' => false,
-        'allowempty' => false,
         'nounits' => false,
-        'align' => 'left'
-    );
+        'align' => 'left',
+        'consolidatesubscripts' => false,
+        'checkvars' => 0,
+        'validator' => false,
+        'feedback' => false,
+        'monospace' => false,
+    ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
@@ -39,7 +43,7 @@ class stack_algebraic_input extends stack_input {
         }
 
         $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
-        $attributes = array(
+        $attributes = [
             'type'  => 'text',
             'name'  => $fieldname,
             'id'    => $fieldname,
@@ -48,9 +52,12 @@ class stack_algebraic_input extends stack_input {
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
             'class' => 'algebraic',
-        );
+        ];
         if ($this->extraoptions['align'] === 'right') {
             $attributes['class'] = 'algebraic-right';
+        }
+        if ($this->extraoptions['monospace']) {
+            $attributes['class'] .= ' input-monospace';
         }
 
         $value = $this->contents_to_maxima($state->contents);
@@ -74,8 +81,24 @@ class stack_algebraic_input extends stack_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'algebraic';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['align'] = $this->extraoptions['align'] === 'right' ? 'right' : 'left';
+        $data['syntaxHint'] = $this->parameters['syntaxHint'];
+        $data['syntaxHintType'] = $this->parameters['syntaxAttribute'] == '1' ? 'placeholder' : 'value';
+
+        return $data;
+    }
+
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-        $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
+        $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
         $mform->setType($this->name, PARAM_RAW);
     }
@@ -86,11 +109,10 @@ class stack_algebraic_input extends stack_input {
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
-        return array(
+        return [
             'mustVerify'         => true,
             'showValidation'     => 1,
             'boxWidth'           => 15,
-            'strictSyntax'       => false,
             'insertStars'        => 0,
             'syntaxHint'         => '',
             'syntaxAttribute'    => 0,
@@ -99,7 +121,8 @@ class stack_algebraic_input extends stack_input {
             'forbidFloats'       => true,
             'lowestTerms'        => true,
             'sameType'           => true,
-            'options'            => '');
+            'options'            => '',
+        ];
     }
 
     /**
@@ -120,12 +143,15 @@ class stack_algebraic_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        if ($this->extraoptions['hideanswer']) {
+            return '';
+        }
         if (trim($value) == 'EMPTYANSWER') {
             return stack_string('teacheranswerempty');
         }
         $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
         $cs->set_nounify(0);
-        $value = $cs->get_inputform(true, 0, 0);
-        return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
+        $value = $cs->get_inputform(true, 0, true, $this->options->get_option('decimals'));
+        return stack_string('teacheranswershow', ['value' => '<code>'.$value.'</code>', 'display' => $display]);
     }
 }

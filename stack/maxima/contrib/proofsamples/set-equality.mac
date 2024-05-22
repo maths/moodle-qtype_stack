@@ -1,0 +1,20 @@
+/****************************************************************/
+thm:"Let \\(f: X \\to Y\\) be a function, and assume that \\(A,B \\subset X\\), and \\(C,D \\subset Y\\) are all non-empty. Then \\(f^{-1}(Y \\setminus C) = X \\setminus f^{-1}(C)\\).";
+
+/****************************************************************/
+proof_steps: [
+    ["defn_eq",  "To prove set equality \\(V=W\\) we have to prove two cases: (i) \\(V\\subseteq W\\), and (ii) \\(W\\subseteq V\\)."],
+    ["assume_A", "Let \\( x\\in f^{-1}(Y\\setminus C) \\)."],
+    ["step_a",   "Then \\( f(x)\\in Y\\setminus C \\)."],
+    ["step_b",   "This implies \\( f(x)\\not\\in C \\)."],
+    ["step_c",   "Hence \\( x\\not\\in f^{-1}(C) \\)."],
+    ["conc_A",   "Hence \\(x\\in  X \\setminus f^{-1}(C)\\)."],
+    ["assume_B", "Let \\( x\\in X \\setminus f^{-1}(C)\\)."],
+    ["conc_B",   "Hence \\(x\\in  f^{-1}(Y \\setminus C)\\)."]
+];
+
+/****************************************************************/
+/* This is how the teacher defines their answer, as nested proofs. */
+proof_ans:proof_cases(1,proof(2,3,4,5,6),proof(7,5,4,3,8));
+proof_cases("defn_eq",proof("assume_A","step_a","step_b","step_c","conc_A"),proof("assume_B","step_c","step_b","step_a","conc_B"));
+ 

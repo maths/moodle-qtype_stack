@@ -53,9 +53,7 @@ We give each parser rule a name, numbered in the approximate appropriate order i
 There are two separate classes of expressions which need to be protected as "nouns".
 
 1. The Maxima Boolean functions do not respect `simp:false`.  So, we have parallel operators such as `A nounand B`.  These should always be used when connecting to Maxima.  Evaluation/simplification of Boolean expressions such as `true and false` is done on the Maxima side.  Teachers and students should use `and`, etc. and these are always translated into an evaluation form.
-2. With `simp:false` we still have evaluation of expressions such as `diff(x^3,x)` to `3*x^2`.  To protect student's answers ("Your last answer was..") we  have parallel noun forms such as `noundiff` and `nounint`.  Note, some of these also change the display of expressions.
-3. Maxima uses the apostophie to create noun forms, e.g. `'diff(x^3,x)`.  From STACK 4.3, teachers are able to use this.
-
-
+2. Maxima uses the apostophie to create noun forms, e.g. `'diff(x^3,x)`.  Teachers are able to use this, and it is the preferred route.
+3. We retain parallel noun forms such as `noundiff` and `nounint` for back-compatibility.  Note, some of these also change the display of expressions.
 
 

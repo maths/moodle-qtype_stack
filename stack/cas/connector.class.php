@@ -106,13 +106,13 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $split = $raw;
         if (mb_strpos($split, $startmark) === false) {
             $this->debug->log('Timedout', true);
-            return array('timeout' => true, 'debug' => $split, 'timeouterrmessage' => $errmsg);
+            return ['timeout' => true, 'debug' => $split, 'timeoutdebug' => $errmsg];
         }
         $split = mb_substr($split, mb_strpos($split, $startmark) + mb_strlen($startmark));
 
         if (mb_strpos($split, $endmark) === false) {
             $this->debug->log('Timedout', 'in the middle of output');
-            return array('timeout' => true, 'debug' => $split, 'timeouterrmessage' => $errmsg);
+            return ['timeout' => true, 'debug' => $split, 'timeoutdebug' => $errmsg];
         }
         $split = mb_substr($split, 0, mb_strpos($split, $endmark));
 
@@ -134,13 +134,13 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         return $this->debug->get_log();
     }
 
-    /* On a Unix system list the versions of maxima available for use. */
+    /* On a Linux system list the versions of maxima available for use. */
     public function get_maxima_available() {
-        if ('unix' != stack_connection_helper::get_platform()) {
+        if ('linux' != stack_connection_helper::get_platform()) {
             return stack_string('healthunabletolistavail');
         }
         $this->command = 'maxima --list-avail';
-        $rawresult = $this->call_maxima('');
+        $rawresult = $this->call_maxima('maxima --list-avail');
         return $rawresult;
     }
 
@@ -150,7 +150,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      * @param string $path the path to the stack workspace folder.
      * @return string Maxima executable name.
      */
-    protected abstract function guess_maxima_command($path);
+    abstract protected function guess_maxima_command($path);
 
     /**
      * Connect directly to the CAS, and return the raw string result.
@@ -158,7 +158,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      * @param string $command The string of CAS commands to be processed.
      * @return string|boolean The converted HTML string or FALSE if there was an error.
      */
-    protected abstract function call_maxima($command);
+    abstract protected function call_maxima($command);
 
     /**
      * Constructor.
@@ -174,9 +174,13 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         $initcommand = str_replace("\\", "/", $initcommand);
         $initcommand .= "\n";
 
-        if ('' != trim($settings->maximacommand)) {
-            $cmd = $settings->maximacommand;
-        } else {
+        $cmd = $settings->maximacommand;
+        if ($settings->platform == 'linux-optimised') {
+            $cmd = $settings->maximacommandopt;
+        } else if (in_array($settings->platform, ['server', 'server-proxy'])) {
+            $cmd = $settings->maximacommandserver;
+        }
+        if ('' === trim($cmd)) {
             $cmd = $this->guess_maxima_command($path);
         }
 
@@ -203,19 +207,19 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
      */
     protected function unpack_raw_result($rawresult) {
         $result = '';
-        $errors = false;
+        $errors = [];
         // This adds sufficient closing brackets to make sure we have enough to match.
         $rawresult .= ']]]]';
         if ('' == trim($rawresult)) {
             $this->debug->log('Warning, empty result!', 'unpack_raw_result: completely empty result was returned by the CAS.');
-            return array();
+            return [];
         }
 
         // Check we have a STACKSTART stamp & remove everything before it.
         $ts = substr_count($rawresult, '[STACKSTART');
         if ($ts != 1) {
             $this->debug->log('', 'unpack_raw_result: no STACKSTART returned. Data returned was: '.$rawresult);
-            return array();
+            return [];
         } else {
             $result = strstr($rawresult, '[STACKSTART'); // Remove everything before the [STACKSTART.
         }
@@ -234,7 +238,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         }
 
         // Now we need to turn the (error,key,value,display) tuple into an array.
-        $locals = array();
+        $locals = [];
 
         foreach ($this->unpack_helper($uplocs) as $var => $valdval) {
             if (is_array($valdval)) {
@@ -265,12 +269,6 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             // If there are plots in the output.
             $plot = isset($local['display']) ? substr_count($local['display'], '!ploturl!') : 0;
             if ($plot > 0) {
-                // @codingStandardsIgnoreStart
-                // For latex mode, remove the mbox.
-                // This handles forms: \mbox{image} and (earlier?) \mbox{{} {image} {}}.
-                // @codingStandardsIgnoreEnd
-                $local['display'] = preg_replace("|\\\mbox{({})? (<html>.+</html>) ({})?}|", "$2", $local['display']);
-
                 if ($this->wwwroothasunderscores) {
                     $local['display'] = str_replace($this->wwwrootfixupfind,
                             $this->wwwrootfixupreplace, $local['display']);
@@ -288,8 +286,8 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         // Take the raw string from the CAS, and unpack this into an array.
         $offset = 0;
         $rawresultfragmentlen = strlen($rawresultfragment);
-        $unparsed = array();
-        $errors = '';
+        $unparsed = [];
+        $errors = [];
 
         $eqpos = strpos($rawresultfragment, '=', $offset);
         if ($eqpos) {
@@ -313,7 +311,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             $errors['PREPARSE'] = "There are no ='s in the raw output from the CAS!";
         }
 
-        if ('' != $errors) {
+        if ([] != $errors) {
             $unparsed['errors'] = $errors;
         }
 
@@ -333,7 +331,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         }
 
         $error = explode("!NEWLINE!", $errstr);
-        $errorclean = array();
+        $errorclean = [];
         foreach ($error as $err) {
             // This case arises when we use a numerical test for algebraic equivalence.
             if (strpos($err, 'STACK: ignore previous error.') !== false) {

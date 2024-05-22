@@ -54,25 +54,30 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
      * @param bool $valid
      * @param bool $errors
      */
-    public function expect(string $input, string $result, $notes=array(),
+    public function expect(string $input, string $result, $notes=[],
                            $valid=true, $errors=false) {
-        // We currently ignore these but lets collect them.
-        $parsererrors = array();
-        $parsernotes = array();
+        // We currently ignore these but let's collect them.
+        $parsererrors = [];
+        $parsernotes = [];
 
         // Parse it, remember that these tests only act on parseable strings.
         $ast = maxima_corrective_parser::parse($input, $parsererrors, $parsernotes,
-                                               array('startRule' => 'Root',
-                                               'letToken' => stack_string('equiv_LET')));
+                                               [
+                                                   'startRule' => 'Root',
+                                                   'letToken' => stack_string('equiv_LET'),
+                                               ]);
 
-        $filtererrors = array();
-        $filternotes = array();
+        $filtererrors = [];
+        $filternotes = [];
 
         $filtered = $this->filter->filter($ast, $filtererrors,
                                           $filternotes, $this->security);
 
         // What notes we expect there to be.
-        $this->assertArraySubset($notes, $filternotes);
+        foreach ($notes as $key => $value) {
+            $this->assertArrayHasKey($key, $filternotes);
+            $this->assertSame($value, $filternotes[$key]);
+        }
 
         // If it is supposed to become invalid.
         if ($valid === true) {
@@ -89,7 +94,7 @@ abstract class qtype_stack_ast_testcase extends basic_testcase {
         }
 
         // Finally, check that the result string is equivalent.
-        $this->assertEquals($result, $filtered->toString(array('nosemicolon' => true)));
+        $this->assertEquals($result, $filtered->toString(['nosemicolon' => true]));
     }
 
     /**

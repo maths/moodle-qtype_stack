@@ -309,26 +309,26 @@ This test seeks to establish whether two expressions are the same when the basic
 
 The first step is to replace all arithmetic operations by a pseudo-noun form as follows.
 
-@deffn {Function} noun+ (@var{[ex]})
+@deffn {Function} nounadd (@var{[ex]})
 This is a commutative, associative, nary operator.  Normal addition is replaced by this operator when we are testing for equivalence up to associativity and commutativity.
 @end deffn
 
-@deffn {Function} noun* (@var{[ex]})
+@deffn {Function} nounmul (@var{[ex]})
 This is a commutative, associative, nary operator.  Normal multiplication is replaced by this operator when we are testing for equivalence up to associativity and commutativity.
 @end deffn
 
-@deffn {Function} noun^ (@var{a},@var{b})
+@deffn {Function} nounpow (@var{a},@var{b})
 This is a binary infix operator.  Normal exponentiation is replaced by this operator when we are testing for equivalence up to associativity and commutativity.
 @end deffn
 
-@deffn {Function} noun- (@var{ex})
-This is a prefix operator.  This is to match unary minus when we are testing for equivalence up to associativity and commutativity.  However, in practice unary minus, @code{"-"(ex)}, is replaced by @code{UNARY_MINUS noun* ex} so that it correctly commutes with multiplication.
+@deffn {Function} nounsub (@var{ex})
+This is a prefix operator.  This is to match unary minus when we are testing for equivalence up to associativity and commutativity.  However, in practice unary minus, @code{"-"(ex)}, is replaced by @code{UNARY_MINUS nounmul ex} so that it correctly commutes with multiplication.
 @end deffn
 
 We need functions which will transform expressions between these forms.
 
 @deffn {Function} noun_arith (@var{ex})
-All operations are replaced with their noun forms.  Note that unary minus function, @code{"-"(ex)} is replaced by @code{UNARY_MINUS noun* ex} so that it correctly commutes with multiplication.  Similarly, @code{ex1/ex2} is replaced by @code{ex1 noun* (UNARY_RECIP ex2)}.
+All operations are replaced with their noun forms.  Note that unary minus function, @code{"-"(ex)} is replaced by @code{UNARY_MINUS nounmul ex} so that it correctly commutes with multiplication.  Similarly, @code{ex1/ex2} is replaced by @code{ex1 nounmul (UNARY_RECIP ex2)}.
 @end deffn
 
 @deffn {Function} verb_arith (@var{ex})

@@ -14,12 +14,10 @@ Feature: Test importing STACK questions from Moodle XML files.
     And the following "course enrolments" exist:
       | user    | course | role           |
       | teacher | C1     | editingteacher |
-    And I log in as "teacher"
-    And I am on "Course 1" course homepage
 
   @javascript @_file_upload
   Scenario: import a STACK question from a Moodle XML file
-    When I navigate to "Question bank > Import" in current page administration
+    When I am on the "Course 1" "core_question > course question import" page logged in as "teacher"
     And I set the field "id_format_xml" to "1"
     And I upload "question/type/stack/samplequestions/sample_questions.xml" file to "Import" filemanager
     And I press "id_submitbutton"
@@ -30,8 +28,7 @@ Feature: Test importing STACK questions from Moodle XML files.
     And I should see "test_5_cubic_spline"
 
     # Now export again.
-    And I am on "Course 1" course homepage
-    And I navigate to "Question bank > Export" in current page administration
+    And I am on the "Course 1" "core_question > course question export" page
     And I set the field "id_format_xml" to "1"
     And I press "Export questions to file"
     And following "click here" should download between "50000" and "70000" bytes
@@ -39,4 +36,23 @@ Feature: Test importing STACK questions from Moodle XML files.
     # into the situation where the download page causes a http redirect but behat
     # has already conducted its reset (generating an error). By putting a logout
     # step we avoid behat doing the reset until we are off that page.
+    And I log out
+
+  @javascript @_file_upload
+  Scenario: import an old STACK question from a Moodle XML file
+    When I am on the "Course 1" "core_question > course question import" page logged in as "teacher"
+    And I set the field "id_format_xml" to "1"
+    And I upload "question/type/stack/tests/behat/old_question.xml" file to "Import" filemanager
+    And I press "id_submitbutton"
+    Then I should see "Parsing questions from import file."
+    And I should see "Importing 1 questions from file"
+    And I should see "Find \[ \int {@p@} d{@v@}\] [[input:ans1]] [[validation:ans1]]"
+    And I press "Continue"
+    And I should see "Question without format fields"
+
+    # Now export again.
+    And I am on the "Course 1" "core_question > course question export" page
+    And I set the field "id_format_xml" to "1"
+    And I press "Export questions to file"
+    And following "click here" should download between "5000" and "6000" bytes
     And I log out

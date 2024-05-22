@@ -31,7 +31,7 @@ require_once($CFG->dirroot . '/question/type/stack/stack/cas/cassession2.class.p
 require_once($CFG->dirroot . '/question/type/stack/stack/cas/connector.dbcache.class.php');
 
 // Get cli options.
-list($options, $unrecognized) = cli_get_params(['help' => false], ['h' => 'help']);
+list($options, $unrecognized) = cli_get_params(['help' => false, 'ccc' => false], ['h' => 'help']);
 
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
@@ -41,13 +41,35 @@ if ($unrecognized) {
 if ($options['help']) {
     echo "This script clears the STACK CAS cache. This can safely be done at any time,
 but afterwards STACK questions will run a bit slower for a while.
+
+With the additional option --ccc one can also clear the compiled cache, which
+can also be done at any time but is not necessary unless one modifies STACK.
+Clearing the compiled cache during production use is not recommended as
+regenerating it is much more expensive.
 ";
     exit(0);
 }
+
 
 echo "Clearing the CAS cache, which contains " .
         stack_cas_connection_db_cache::entries_count($DB) .
         " entries.\n";
 stack_cas_connection_db_cache::clear_cache($DB);
 echo "\nCache cleared successfully.\n\n";
+
+if (isset($options['ccc']) && $options['ccc']) {
+    echo "Clearing compiled cache.\n";
+    // First make absolutely certain that none of these are present in the
+    // question-cache.
+    $rs = $DB->get_records_sql('SELECT questionid FROM {qtype_stack_options} WHERE NOT compiledcache = ?;', ["{}"]);
+    $c = 0;
+    foreach ($rs as $item) {
+        cache::make('core', 'questiondata')->delete($item->questionid);
+        $c = $c + 1;
+    }
+    // Then clear the compiledcache.
+    $DB->execute('UPDATE {qtype_stack_options} SET compiledcache = ?', ['{}']);
+    echo "\nCompiled cache cleared, $c questions require recompilation and have beeen removed from Moodles caches.\n\n";
+}
+
 exit(0);

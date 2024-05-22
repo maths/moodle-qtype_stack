@@ -14,8 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_exception;
+use stack_options;
+
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/../locallib.php');
+require_once(__DIR__ . '/fixtures/test_base.php');
 require_once(__DIR__ . '/../stack/options.class.php');
 
 // Unit tests for stack_options.
@@ -25,46 +33,37 @@ require_once(__DIR__ . '/../stack/options.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_options
  */
-class stack_options_set_exception_test extends basic_testcase {
+class stack_options_test extends qtype_stack_testcase {
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_set_exception_1() {
         $opts = new stack_options();
+        $this->expectException(stack_exception::class);
         $opts->set_option('nonoption', false);
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_set_exception_2() {
         $opts = new stack_options();
+        $this->expectException(stack_exception::class);
         $opts->set_option('floats', 0);
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_set_exception_3() {
         $opts = new stack_options();
+        $this->expectException(stack_exception::class);
         $opts->set_option('floats', null);
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_set_exception_4() {
         $opts = new stack_options();
+        $this->expectException(stack_exception::class);
         $opts->set_option('display', false);
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_set_exception_5() {
         $opts = new stack_options();
+        $this->expectException(stack_exception::class);
         $opts->set_option('display', 'latex');
     }
 }

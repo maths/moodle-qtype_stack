@@ -17,6 +17,11 @@
 /**
  * Script to download the export of a single STACK question.
  *
+ * TO-DO: Since MDL-63738 landed in Moodle 3.6, this has been a core Moodle
+ * feature, so we don't really need to keep mainaining this file. We could
+ * use question/exportone.php, or question/bank/exporttoxml/exportone.php,
+ * as it later became, instead.
+ *
  * @copyright 2015 the Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -30,13 +35,17 @@ require_once(__DIR__ . '/locallib.php');
 $questionid = required_param('questionid', PARAM_INT);
 
 // Load the necessary data.
-$questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
-get_question_options($questiondata);
+$questiondata = question_bank::load_question_data($questionid);
 $question = question_bank::load_question($questionid);
 
 // Process any other URL parameters, and do require_login.
 list($context, $seed, $urlparams) = qtype_stack_setup_question_test_page($question);
-$contexts = new question_edit_contexts($context);
+        // Support both Moodle 4.x and 3.x.
+if (class_exists('\core_question\local\bank\question_edit_contexts')) {
+    $contexts = new \core_question\local\bank\question_edit_contexts($context);
+} else {
+    $contexts = new question_edit_contexts($context);
+}
 
 // Check permissions.
 question_require_capability_on($questiondata, 'edit');
@@ -56,7 +65,7 @@ $filename = question_default_export_filename($COURSE, $questiondata) .
         $qformat->export_file_extension();
 $qformat->setContexts($contexts->having_one_edit_tab_cap('export'));
 $qformat->setCourse($COURSE);
-$qformat->setQuestions(array($questiondata));
+$qformat->setQuestions([$questiondata]);
 $qformat->setCattofile(false);
 $qformat->setContexttofile(false);
 

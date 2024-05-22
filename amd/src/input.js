@@ -30,13 +30,13 @@
  *     - StackMatrixInput
  *    objects of these types need to implement the two methods addEventHandlers and getValue().
  *
- * @package    qtype_stack
+ * @module     qtype_stack/input
  * @copyright  2018 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 define([
     'core/ajax',
-    'core/event'
+    'core_filters/events'
 ], function(
     Ajax,
     CustomEvents
@@ -53,8 +53,9 @@ define([
      * @param {String} qaid id of the question_attempt.
      * @param {String} name the name of the input we are validating.
      * @param {Object} input An object representing the input element for this input.
+     * @param {String} language display language for this attempt.
      */
-    function StackInput(validationDiv, prefix, qaid, name, input) {
+    function StackInput(validationDiv, prefix, qaid, name, input, language) {
         /** @type {number} delay between the user stopping typing, and the ajax request being sent. */
         var TYPING_DELAY = 1000;
 
@@ -118,7 +119,7 @@ define([
         function validateInput() {
             Ajax.call([{
                 methodname: 'qtype_stack_validate_input',
-                args: {qaid: qaid, name: name, input: getInputValue()},
+                args: {qaid: qaid, name: name, input: getInputValue(), lang: language},
                 done: function(response) {
                     validationReceived(response);
                 },
@@ -409,38 +410,43 @@ define([
             for (var i = 0; i < numrow; i++) {
                 values[i] = new Array(numcol);
             }
-	     container.querySelectorAll('input[type=text]').forEach(function(element) {
+            container.querySelectorAll('input[type=text]').forEach(function(element) {
                 if (element.name.slice(0, idPrefix.length + 5) !== idPrefix + '_sub_') {
                     return;
                 }
                 var bits = element.name.substring(idPrefix.length + 5).split('_');
                 values[bits[0]][bits[1]] = element.value.replace(/^\s+|\s+$/g, '');
             });
-            return 'matrix([' + values.join('],[') + '])';
+            return JSON.stringify(values);
         };
-    };
+    }
 
     /**
      * Initialise all the inputs in a STACK question.
      *
-     * @param {String} questionDivId id of the outer dic of the question.
+     * @param {String} questionDivId id of the outer div of the question.
      * @param {String} prefix prefix added to the input names for this question.
      * @param {String} qaid Moodle question_attempt id.
      * @param {String[]} inputs names of all the inputs that should have instant validation.
      */
     function initInputs(questionDivId, prefix, qaid, inputs) {
         var questionDiv = document.getElementById(questionDivId);
+        var language = null;
+        var langInput = document.getElementsByName(prefix + 'step_lang');
+        if (langInput.length > 0 && langInput[0].value) {
+            language = langInput[0].value;
+        }
 
         // Initialise all inputs.
         var allok = true;
         for (var i = 0; i < inputs.length; i++) {
-            allok = initInput(questionDiv, prefix, qaid, inputs[i]) && allok;
+            allok = initInput(questionDiv, prefix, qaid, inputs[i], language) && allok;
         }
 
         // With JS With instant validation, we don't need the Check button, so hide it.
         if (allok && (questionDiv.classList.contains('dfexplicitvaildate') ||
                 questionDiv.classList.contains('dfcbmexplicitvaildate'))) {
-            questionDiv.querySelector('.im-controls input.submit').remove();
+                        questionDiv.querySelector('.im-controls input.submit, .im-controls button.submit').hidden = true;
         }
     }
 
@@ -452,8 +458,9 @@ define([
      * @param {String} qaid Moodle question_attempt id.
      * @param {String} name the input to initialise.
      * @return {boolean} true if this input was successfully initialised, else false.
+     * @param {String} language display language for this attempt.
      */
-    function initInput(questionDiv, prefix, qaid, name) {
+    function initInput(questionDiv, prefix, qaid, name, language) {
         var validationDiv = document.getElementById(prefix + name + '_val');
         if (!validationDiv) {
             return false;
@@ -461,7 +468,7 @@ define([
 
         var inputTypeHandler = getInputTypeHandler(questionDiv, prefix, name);
         if (inputTypeHandler) {
-            new StackInput(validationDiv, prefix, qaid, name, inputTypeHandler);
+            new StackInput(validationDiv, prefix, qaid, name, inputTypeHandler, language);
             return true;
         } else {
             return false;

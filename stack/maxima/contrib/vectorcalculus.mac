@@ -1,0 +1,75 @@
+/*  Author Luke Longworth
+    University of Canterbury
+    Copyright (C) 2024 Luke Longworth
+
+    This program is free software: you can redistribute it or modify
+    it under the terms of the GNU General Public License version two.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>. */
+
+/****************************************************************/
+/*  Vector calculus functions for STACK                         */
+/*                                                              */
+/*  V2.0 March 2024                                             */
+/*                                                              */
+/****************************************************************/
+
+/* A flag used throughout the file. */
+/* If return_vect is true, then vector answers are returned as an nx1 matrix. */
+/* If return_vect is false, then vector answers are returned as a list. */
+return_vect: true;
+
+/****************************************************************/
+/* Calculate the gradient vector of a multivariate function     */
+/****************************************************************/
+grad(f, [vars]):= block([grad_vec],
+    vars: flatten(vars),
+    if emptyp(vars) then vars: listofvars(f),
+    /* TO-DO: confirm grad should always simplify? */
+    grad_vec: map(lambda([ex], ev(diff(f,vars[ex]), simp)), ev(makelist(ii,ii,1,length(vars)), simp)),
+    if return_vect then return(transpose(matrix(grad_vec))) else return(grad_vec)
+);
+
+/****************************************************************/
+/* Calculate the divergence of a vector-valued function         */
+/****************************************************************/
+div(u, [vars]):= block([div_vec],
+    if matrixp(u) then funcs: list_matrix_entries(u) else funcs: flatten(u),
+    vars: flatten(vars),
+    if emptyp(vars) then vars: listofvars(u),
+    /* TO-DO: confirm div should always simplify? */
+    div_vec: map(lambda([ex], ev(diff(funcs[ex],vars[ex]), simp)), ev(makelist(ii,ii,1,length(vars)), simp)),
+    return(apply("+", div_vec))
+);
+
+/****************************************************************/
+/* Calculate the curl of a vector-valued function               */
+/****************************************************************/
+curl(u, [vars]):= block([cux, cuy, cuz],
+    if matrixp(u) then [ux,uy,uz]: list_matrix_entries(u) else [ux,uy,uz]: flatten(u),
+    vars: flatten(vars),
+    if emptyp(vars) then vars: listofvars(u),
+    cux: diff(uz,vars[2]) - diff(uy,vars[3]),
+    cuy: diff(ux,vars[3]) - diff(uz,vars[1]),
+    cuz: diff(uy,vars[1]) - diff(ux,vars[2]),
+    if return_vect then return(transpose(matrix([cux,cuy,cuz]))) else return([cux,cuy,cuz])
+);
+
+/*******************************************************************/
+/* Calculate the directional derivative of a multivariate function */
+/*******************************************************************/
+dir_deriv(f, u, [vars]):= block([unit_u, der],
+    if matrixp(u) then u: list_matrix_entries(u),
+    vars: flatten(vars),
+    if emptyp(vars) then vars: listofvars(f),
+    unit_u: u/sqrt(u . u),
+    der: ev(flatten(args(grad(f, vars))) . unit_u,simp),
+    return(der)
+);
+

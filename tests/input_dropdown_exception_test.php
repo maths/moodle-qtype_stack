@@ -14,6 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_cas_security;
+use stack_exception;
+use stack_input_factory;
+use stack_options;
+
 defined('MOODLE_INTERNAL') || die();
 
 global $CFG;
@@ -28,10 +36,11 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_dropdown_input
  */
-class stack_dropdown_input_exception_test extends basic_testcase {
+class input_dropdown_exception_test extends qtype_stack_testcase {
 
-    protected function make_dropdown($parameters = array()) {
+    protected function make_dropdown($parameters = []) {
         $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), null, $parameters);
         return $el;
     }
@@ -40,19 +49,15 @@ class stack_dropdown_input_exception_test extends basic_testcase {
         return '[[x+1,true],[x+2,false],[sin(pi*n),false]]';
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_validate_student_response_error() {
         $options = new stack_options();
         $el = $this->make_dropdown();
-        $state = $el->validate_student_response(array('ans1' => '4'), $options, '1', new stack_cas_security());
+        $this->expectException(stack_exception::class);
+        $state = $el->validate_student_response(['ans1' => '4'], $options, '1', new stack_cas_security());
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_type_question_options() {
+        $this->expectException(stack_exception::class);
         $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), 'parameters');
     }
 }

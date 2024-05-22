@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use stack_maths;
+use stack_maths_output_maths;
+use stack_utils;
+use advanced_testcase;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../stack/mathsoutput/mathsoutput.class.php');
@@ -27,8 +34,9 @@ require_once(__DIR__ . '/../doc/docslib.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_maths_output_maths
  */
-class stack_maths_maths_test extends advanced_testcase {
+class mathsoutputmaths_test extends advanced_testcase {
 
     public function test_maths_rendering() {
         if (!stack_maths_output_maths::filter_is_installed()) {
@@ -49,18 +57,19 @@ class stack_maths_maths_test extends advanced_testcase {
         filter_set_global_state('mathjaxloader', TEXTFILTER_DISABLED);
 
         // Test language string.
-        $this->assertRegExp('~^Your answer needs to be a single fraction of the form <a .*alt="a over b".*</a>\. $~',
+        $this->assertMatchesRegularExpression('~^Your answer needs to be a single fraction of the form ' .
+                '<a .*alt="a over b".*</a>\. $~',
                 stack_string('ATSingleFrac_part'));
 
         // Test docs - make sure maths inside <code> is not rendered.
-        $this->assertRegExp('~^<p><code>\\\\\(x\^2\\\\\)</code> gives <a .*alt="x squared".*</a>\.</p>\n$~',
-                stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).', ''));
+        $this->assertMatchesRegularExpression('~^<p><code>\\\\\(x\^2\\\\\)</code> gives <a .*alt="x squared".*</a>\.</p>\n$~',
+                stack_docs_render_markdown('<code>\(x^2\)</code> gives \(x^2\).'));
 
         // Test docs - make sure maths inside <textarea> is not rendered.
-        $this->assertRegExp('~^<p><textarea readonly="readonly" rows="3" cols="50">\n' .
+        $this->assertMatchesRegularExpression('~^<p><textarea readonly="readonly" rows="3" cols="50">\n' .
                         'Differentiate \\\\\[x\^2 \+ y\^2\\\\\] with respect to \\\\\(x\\\\\).</textarea></p>\n$~',
                 stack_docs_render_markdown('<textarea readonly="readonly" rows="3" cols="50">' . "\n" .
-                        'Differentiate \[x^2 + y^2\] with respect to \(x\).</textarea>', ''));
+                        'Differentiate \[x^2 + y^2\] with respect to \(x\).</textarea>'));
 
         // Test CAS text with inline maths.
         $this->assertEquals('What is &lt;tex mode="inline"&gt;x^2&lt;/tex&gt;?',

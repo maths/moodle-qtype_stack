@@ -14,6 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use maxima_parser_utils;
+use qtype_stack_testcase;
+use stack_ast_filter_541_no_unknown_functions;
+use stack_cas_security;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
@@ -25,21 +32,22 @@ require_once(__DIR__ . '/../stack/cas/parsingrules/541_no_unknown_functions.filt
  * Unit tests for {@link stack_ast_filter_541_no_unknown_functions}.
  * @group qtype_stack
  * @group qtype_stack_ast_filters
+ * @covers \ast_filter_541_no_unknown_functions_auto_generated_test
  */
-class stack_parser_rule_541_test extends qtype_stack_testcase {
+class parser_rule_541_test extends qtype_stack_testcase {
 
     public function test_no_functions_0() {
         $teststring = '1+x^2/2!-x^3/3!;';
         $result     = $teststring . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_541_no_unknown_functions();
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array());
-        $this->assertEquals($note, array());
+        $this->assertEquals($errs, []);
+        $this->assertEquals($note, []);
         $this->assertEquals($ast->toString(), $result);
     }
 
@@ -48,13 +56,13 @@ class stack_parser_rule_541_test extends qtype_stack_testcase {
         $result     = $teststring . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_541_no_unknown_functions();
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array());
-        $this->assertEquals($note, array());
+        $this->assertEquals($errs, []);
+        $this->assertEquals($note, []);
         $this->assertEquals($ast->toString(), $result);
     }
 
@@ -64,14 +72,16 @@ class stack_parser_rule_541_test extends qtype_stack_testcase {
         $result     = '1+2*f(x^2);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_541_no_unknown_functions();
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array(0 => 'Unknown function: <span class="stacksyntaxexample">f</span> ' .
-                'in the term <span class="stacksyntaxexample">f(x^2)</span>.'));
-        $this->assertEquals($note, array(0 => 'unknownFunction'));
+        $this->assertEquals($errs, [
+            0 => 'Unknown function: <span class="stacksyntaxexample">f</span> ' .
+                'in the term <span class="stacksyntaxexample">f(x^2)</span>.',
+        ]);
+        $this->assertEquals($note, [0 => 'unknownFunction']);
         $this->assertEquals($ast->toString(), $result);
     }
 
@@ -81,14 +91,16 @@ class stack_parser_rule_541_test extends qtype_stack_testcase {
         $result     = '1-2*foo(x^2-1)+sin(x)/7;' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_541_no_unknown_functions();
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array(0 => 'Unknown function: <span class="stacksyntaxexample">foo</span> in the term ' .
-                '<span class="stacksyntaxexample">foo(x^2-1)</span>.'));
-        $this->assertEquals($note, array(0 => 'unknownFunction'));
+        $this->assertEquals($errs, [
+            0 => 'Unknown function: <span class="stacksyntaxexample">foo</span> in the term ' .
+                '<span class="stacksyntaxexample">foo(x^2-1)</span>.',
+        ]);
+        $this->assertEquals($note, [0 => 'unknownFunction']);
         $this->assertEquals($ast->toString(), $result);
     }
 
@@ -98,16 +110,18 @@ class stack_parser_rule_541_test extends qtype_stack_testcase {
         $result     = '1+x(t(3)+1);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_541_no_unknown_functions();
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array(0 => 'Unknown function: <span class="stacksyntaxexample">x</span> in the term ' .
+        $this->assertEquals($errs, [
+            0 => 'Unknown function: <span class="stacksyntaxexample">x</span> in the term ' .
                     '<span class="stacksyntaxexample">x(t(3)+1)</span>.',
-                1 => 'Unknown function: <span class="stacksyntaxexample">t</span> in the term ' .
-                    '<span class="stacksyntaxexample">t(3)</span>.'));
-        $this->assertEquals($note, array(0 => 'unknownFunction'));
+            1 => 'Unknown function: <span class="stacksyntaxexample">t</span> in the term ' .
+                    '<span class="stacksyntaxexample">t(3)</span>.',
+        ]);
+        $this->assertEquals($note, [0 => 'unknownFunction']);
         $this->assertEquals($ast->toString(), $result);
     }
 }

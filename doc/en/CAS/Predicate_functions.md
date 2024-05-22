@@ -11,7 +11,7 @@ functions.  Some are described here, others are in the relevant specific section
 Since establishing mathematical properties are all about predicates they are particularly important for STACK.
 
 You can use predicate functions directly in the [potential response tree](../Authoring/Potential_response_trees.md) by comparing the result with `true` using the
-[answer test](../Authoring/Answer_tests.md) AlgEquiv.
+[answer test](../Authoring/Answer_Tests/index.md) AlgEquiv.
 
 # Maxima type predicate functions #
 
@@ -32,6 +32,7 @@ The following type predicates are defined by STACK.
 
 | Function                   | Predicate
 | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| `variablep(ex)`            | Determines if \(ex\) is a variable, that is an atom but not a real number, \(i\) or a string.
 | `equationp(ex)`            | Determines if \(ex\) is an equation.
 | `functionp(ex)`            | Determines if \(ex\) is a function definition, using the operator `:=`.
 | `inequalityp(ex)`          | Determines if \(ex\) is an inequality.
@@ -40,7 +41,7 @@ The following type predicates are defined by STACK.
 | `simp_numberp(ex)`         | Determines if \(ex\) is a number when `simp:false`.
 | `simp_integerp(ex)`        | Determines if \(ex\) is an integer when `simp:false`.
 | `real_numberp(ex)`         | Determines if \(ex\) is a real number.
-| `rational_numberp(ex)`     | Determines if \(ex\) is a rational number.
+| `rational_numberp(ex)`     | Determines if \(ex\) is written as a fraction.  For a true mathematical rational number use `rational_numberp(ex) or simp_integerp(ex)`
 | `lowesttermsp(ex)`         | Determines if a fraction \(ex\) is in lowest terms.
 | `complex_exponentialp(ex)` | Determines if \(ex\) is written in complex exponential form, \(r e^{i\theta} \).  Needs `simp:false`.
 | `imag_numberp(ex)`         | Determines if \(ex\) is a purely imaginary number.
@@ -63,11 +64,36 @@ The following are defined by STACK.
 | Function                  | Predicate
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | `expandp(ex)`             | true if \(ex\) equals its expanded form.
-| `factorp(ex) `            | true if \(ex\) equals its factored form.  Note, if you would like to know if an expression is factored you need to use the [FacForm](../Authoring/Answer_tests.md#Form) answer test.  See the notes on this for more details.
+| `factorp(ex) `            | true if \(ex\) equals its factored form.  Note, if you would like to know if an expression is factored you need to use the [FacForm](../Authoring/Answer_Tests/index.md#Form) answer test.  Prime integers equal their factored form, composite integers do not.
 | `continuousp(ex,v,xp) `   | true if \(ex\) is continuous with respect to \(v\) at \(xp\) (unreliable).
 | `diffp(ex,v,xp,[n]) `     | true if \(ex\) is (optionally \(n\) times) differentiable with respect to \(v\) at \(xp\) (unreliable).
 
 The last two functions rely on Maxima's `limit` command and hence are not robust.
+
+# Establishing form #
+
+A lot of what teachers do is try to establish if a student's answer "looks right" that is, in an appropriate form.
+
+`linear_term_p(ex, p)` establishes that the expression `ex` is a simple product of one expression for which the predicate `p` is true and zero or more real numbers.
+
+`linear_combination_p(ex, p)` establishes that the expression `ex` is a linear combination of terms for which `p` is true.
+
+The teacher can then use this function to build more complex predicates such as the following
+
+    fouriertermp(ex) := if ((safe_op(ex)="cos" or safe_op(ex)="sin") and linear_term_p(first(args(ex)), variablep)) then true else false$
+
+This predicate function decides if we have a term of the form \(\sin(n\, v)\) or \(\cos(n\, v)\) where \(n\) is any product of real numbers (e.g. \(3\pi/2\)) and \(v\) is any variable.  A teacher might prefer to specify a particular variable.
+
+    fouriertermp(ex) := if ((safe_op(ex)="cos" or safe_op(ex)="sin") and linear_term_p(first(args(ex)), lambda([ex2], ex2=t))) then true else false$
+
+So, if you want to decide if the student's answer looks like \( \sum_{k=1}{n} a_k\cos(k\pi t) + a_k\cos(k\pi t) \) the combined predicate `linear_combination_p(ex, fouriertermp)` can be used.
+
+Testing for form in this way is probably more reliable that the `substequiv` answer test which fails to match up expressions like \(A\sin(t)+B\cos(t)\) with \(A\sin(t)-B\cos(t)\).  As every, the minus sign is a problem.  However, the following predicate will work.
+
+    simpletrigp(ex) := if (ex=cos(t) or ex=sin(t)) then true else false$
+
+and the test `linear_combination_p(ex, simpletrigp)` will be able to do this.
+
 
 # Related functions #
 

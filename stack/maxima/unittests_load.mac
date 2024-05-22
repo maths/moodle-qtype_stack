@@ -6,12 +6,14 @@
 /* If we want to fix this we'll need to write your own approx-alike function.                      */
 /* C:\Program Files\Maxima-5.22.1\share\maxima\5.22.1\src                                          */
 
-if featurep(all,constant) then remove(all, constant);
+if featurep(all,constant) then remove(all,constant);
 kill(all);
+
 LOADDIR:"stackmaxima.mac"$
 print("Working from: ")$
 print(LOADDIR)$
 load(LOADDIR)$
+load("stackunits.mac")$
 
 no_fails:0$ all_pass:true$
 
@@ -34,5 +36,3 @@ print(STB);
 print("************ simp is false.");
 print(SFF);
 print(SFB);
-
-

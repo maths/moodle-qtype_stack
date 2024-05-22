@@ -23,10 +23,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
-defined('MOODLE_INTERNAL') || die();
-
-
 /**
  * Used by {@link stack_abstract_graph} during the layout algorithm.
  * This represents a group of nodes that have been laid out relative to each other.
@@ -36,13 +32,13 @@ defined('MOODLE_INTERNAL') || die();
  */
 class stack_abstract_graph_node_clump {
     /** @var array stack_abstract_graph_node. */
-    public $nodes = array();
+    public $nodes = [];
 
     /** @var array depth => x-coordinate of the left-most node in the clump at this depth. */
-    public $leftedge = array();
+    public $leftedge = [];
 
     /** @var array depth => y-coordinate of the right-most node in the clump at this depth. */
-    public $rightedge = array();
+    public $rightedge = [];
 
     /**
      * Constructor.
@@ -135,7 +131,7 @@ class stack_abstract_graph_node_clump {
                 }
             }
         }
-        return array($leftneighbour, $rightneighbour);
+        return [$leftneighbour, $rightneighbour];
     }
 
     /**
@@ -201,7 +197,7 @@ class stack_abstract_graph_node_clump {
      * @param float $gap
      */
     public function comput_offset(stack_abstract_graph_node_clump $otherclump, $gap) {
-        $requiredshifts = array();
+        $requiredshifts = [];
         foreach ($this->rightedge as $depth => $right) {
             if (array_key_exists($depth, $otherclump->leftedge)) {
                 $requiredshifts[] = $right + $gap - $otherclump->leftedge[$depth];

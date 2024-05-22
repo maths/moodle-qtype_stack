@@ -39,13 +39,14 @@ require_once(__DIR__ . '/../stack/mathsoutput/fact_sheets.class.php');
  */
 function stack_docs_index($dir, $relpath = '') {
     // Write a list describing the directory structure, recursive, discriminates for .md files.
-    $exclude = array('index.md', 'Site_map.md');
+    $exclude = ['index.md', 'Site_map.md'];
+    $details = ['AbInitio', 'Results', 'Developer', 'Reference', 'Installation'];
 
     if (!is_dir($dir)) {
         return '';
     }
 
-    $items = array();
+    $items = [];
     foreach (glob($dir . '/*') as $filepath) {
         $filename = basename($filepath);
 
@@ -55,8 +56,16 @@ function stack_docs_index($dir, $relpath = '') {
 
         $title = stack_docs_title_from_filename($filename);
         if (is_dir($filepath)) {
-            $items[$title] = "<li><a href=\"$relpath/$filename/\">" . $title . "</a>" .
-                    stack_docs_index($filepath, "$relpath/$filename") . '</li>';
+            if (in_array($title, $details)) {
+                // I'd like to make more of the details/summary tag but behat testing breaks as it can't find links.
+                $items[$title] = "<li><details>" .
+                    "<summary><a id=\"" . $title . "\" href=\"$relpath/$filename/\">" . $title . "</a></summary>" .
+                    stack_docs_index($filepath, "$relpath/$filename") . "</details></li>";
+            } else {
+                $items[$title] = "<li>\n" .
+                    "<a id=\"" . $title . "\" href=\"$relpath/$filename/\">" . $title . "</a>\n" .
+                    stack_docs_index($filepath, "$relpath/$filename") . "</li>";
+            }
         } else {
             if (substr($filename, -2) === 'md') {
                 $items[$title] = "<li><a href=\"$relpath/$filename\">" . $title . '</a></li>';
@@ -67,7 +76,6 @@ function stack_docs_index($dir, $relpath = '') {
     if (empty($items)) {
         return '';
     }
-
     stack_utils::sort_array_by_key($items);
     return '<ul class="dir">' . implode('', $items) . '</ul>';
 }
@@ -78,7 +86,7 @@ function stack_docs_index($dir, $relpath = '') {
  * @return string the corresponding title.
  */
 function stack_docs_title_from_filename($filename) {
-    return str_replace(array('_', '.md'), array(' ', ''), $filename);
+    return str_replace(['_', '.md'], [' ', ''], $filename);
 }
 
 /**
@@ -113,14 +121,18 @@ function stack_docs_no_found($links) {
  * Generate a page of the documentation from the source in a file.
  * @param string $links menu of links to show.
  * @param string $file path to the file to display.
- * @param string $docscontent base URL for linking to images etc.
  * @return string HTML page body.
  */
-function stack_docs_page($links, $file, $docscontent) {
+function stack_docs_page($links, $file) {
+    $preprocess = true;
+    // This auto-generated file does not need maths processing.
+    if (strpos($file, 'Answer_tests_results') !== false) {
+        $preprocess = false;
+    }
     $body = '';
     $body .= $links;
     $body .= "\n<hr/>\n";
-    $body .= stack_docs_render_markdown(file_get_contents($file), $docscontent);
+    $body .= stack_docs_render_markdown(file_get_contents($file), $preprocess);
     $body .= "\n<hr/>\n";
     $body .= $links;
     return $body;
@@ -128,19 +140,17 @@ function stack_docs_page($links, $file, $docscontent) {
 
 /**
  * @param string $page countent in Markdown format.
- * @param string $docscontent base URL for linking to images etc.
+ * @param boolean $preprocess Do we need to process the maths in this page?.
  * @return string HTML content.
  */
-function stack_docs_render_markdown($page, $docscontent) {
+function stack_docs_render_markdown($page, $preprocess = true) {
 
     // Put in links to images etc.
-    $page = preg_replace('~(?<!\\\\)%CONTENT~', $docscontent, $page);
-    $page = str_replace('\%CONTENT', '%CONTENT', $page);
-    $page = stack_maths::pre_process_docs_page($page);
-    if (strpos($page, '[[ALL_FACTS]]') > 0) {
-        $page = str_replace('[[ALL_FACTS]]', stack_fact_sheets::generate_docs(), $page);
+    if ($preprocess) {
+        // Don't process the auto-generated answer test output.
+        $page = stack_maths::pre_process_docs_page($page);
     }
-    $page = format_text($page, FORMAT_MARKDOWN, array('filter' => false, 'noclean' => true));
+    $page = format_text($page, FORMAT_MARKDOWN, ['filter' => false]);
     $page = stack_maths::post_process_docs_page($page);
     return $page;
 }
@@ -153,16 +163,16 @@ function stack_docs_page_metadata($uri) {
 
     $metafile = file_get_contents("meta_en.json");
     $meta = json_decode($metafile, true);
-    if ($meta == array()) {
+    if ($meta == []) {
         throw new stack_exception('STACK docs: the metadata json file is broken!');
     }
-    // TODO: langauges.
+    // TO-DO: langauges.
     $meta = $meta['en'];
 
     // Sort out what we are looking for.
     $file = explode('/', substr(trim($uri), 0));
     $endfile = 'index.md';
-    $pathtofile = array();
+    $pathtofile = [];
     foreach ($file as $f) {
         $f = trim($f);
         if ($f !== '') {
@@ -183,7 +193,7 @@ function stack_docs_page_metadata($uri) {
         }
     }
 
-    $metadata = array();
+    $metadata = [];
     foreach ($meta as $dat) {
         if (array_key_exists('file', $dat) && trim($dat['file']) == $endfile) {
             $metadata = $dat;

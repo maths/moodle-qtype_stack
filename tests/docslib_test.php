@@ -14,6 +14,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+
 defined('MOODLE_INTERNAL') || die();
 
 // Unit tests for the documentation library functions.
@@ -26,8 +30,9 @@ require_once(__DIR__ . '/fixtures/test_base.php');
 
 /**
  * @group qtype_stack
+ * @covers \qtype_stack
  */
-class stack_docslib_test extends qtype_stack_testcase {
+class docslib_test extends qtype_stack_testcase {
 
     public function test_stack_docs_title_from_filename() {
         $this->assertEquals('About', stack_docs_title_from_filename('About'));
@@ -40,11 +45,18 @@ class stack_docslib_test extends qtype_stack_testcase {
         global $CFG;
 
         $this->assertEquals(str_replace('WWWROOT', $CFG->wwwroot, '<ul class="dir">' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/API.md">API</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/LTI.md">' .
                         'LTI</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Mathjax.md">' .
                         'Mathjax</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Maxima.md">Maxima</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Migration.md">Migration</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Optimising_Maxima.md">' .
+                        'Optimising Maxima</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Release_notes_4_4_x.md">' .
+                        'Release notes 4 4 x</a></li>' .
+                '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/STACK_versions.md">STACK versions</a></li>' .
                 '<li><a href="WWWROOT/question/type/stack/doc.php/Installation/Testing_installation.md">' .
                         'Testing installation</a></li></ul>'),
                 stack_docs_index($CFG->dirroot . '/question/type/stack/doc/en/Installation',
@@ -65,17 +77,11 @@ class stack_docslib_test extends qtype_stack_testcase {
     public function test_stack_docs_render_markdown() {
 
         $this->assertEquals("<p>Test</p>\n",
-                stack_docs_render_markdown('Test', '.../doc/content'));
-
-        $this->assertEquals('<p><a href=".../doc/content/readme.txt">Readme</a></p>' . "\n",
-                stack_docs_render_markdown('[Readme](%CONTENT/readme.txt)', '.../doc/content'));
-
-        $this->assertEquals("<p>Literal %CONTENT</p>\n",
-                stack_docs_render_markdown('Literal \%CONTENT', '.../doc/content'));
+                stack_docs_render_markdown('Test'));
 
         // @codingStandardsIgnoreStart
         $this->assert_content_with_maths_equals("<p><code>\\(x^2\\)</code> gives \\(x^2\\).</p>\n",
-                stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).', '.../doc/content'));
+                stack_docs_render_markdown('`\(x^2\)` gives \(x^2\).'));
         // @codingStandardsIgnoreEnd
     }
 }

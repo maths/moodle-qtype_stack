@@ -1,3 +1,16 @@
+/* Style for hint question block */
+details.stack-hint {
+    padding: 2px;
+    display: block;
+    border: 1px solid #ccc;
+    background-color: #f2f2f2;
+    width: fit-content;
+}
+
+div.stack-hint-content {
+    padding: 10px;
+}
+
 /* Styles used when questions are being attempted. */
 .que.stack .stackruntimeerrror {
     color: #c02200;
@@ -9,6 +22,9 @@
     font-family: monospace;
     font-size: 100%;
     font-weight: bold;
+}
+.que.stack .stacksyntaxexamplehighlight {
+    color: #f00;
 }
 .que.stack .stackinputfeedback.standard {
     border: 1px solid #fff;
@@ -26,13 +42,18 @@
 .que.stack .stackinputfeedback.compact {
     margin: 3px 3px 3px;
     display: inline-block;
+    vertical-align: top;
     background-color: white;
     border: 1px solid #ccc;
     padding: 0.3em;
 }
+.stackinputfeedback .MathJax_Display {
+    margin: 0.5em 0;
+}
 .que.stack .stackinputerror {
     padding: 0.2em 0.2em 0.2em;
     margin: 3px 3px 3px;
+    display: block;
 }
 .que.stack .stackinputnotice {
     font-size: x-small;
@@ -59,14 +80,30 @@
     max-width: 100%;
     resize: both;
 }
+#id_questionvariables,
+textarea[id*=feedbackvariables],
+textarea[name=maximavars] {
+    min-width: 100%;
+    font-family: monospace;
+}
+.que.stack input[type=checkbox] {
+    margin-right: 0.4em;
+}
+.que.stack input[type=radio] {
+    margin-right: 0.4em;
+}
 .que.stack input[type=text] {
     max-width: 100%;
 }
+.que.stack .geogebra-right,
 .que.stack .numerical-right,
 .que.stack .algebraic-right,
 .que.stack .algebraic-units-right {
     max-width: 100%;
     text-align: right;
+}
+.que.stack .input-monospace {
+    font-family: monospace;
 }
 
 .que.stack .formulation .stackprtfeedback {
@@ -74,16 +111,18 @@
     margin: 0.2em -0.2em 0.5em;
     padding: 0.2em 0.5em 0.2em 0.2em;
     display: inline-block;
+    vertical-align: top;
 }
 .que.stack .formulation .stackprtfeedback .correct,
 .que.stack .formulation .stackprtfeedback .partiallycorrect,
 .que.stack .formulation .stackprtfeedback .incorrect {
     background: transparent;
+    font-weight: 700;
 }
 .que.stack .formulation .questiontestslink {
     float: right;
-    font-size: 0.7em;
-    margin: -1.3em -3em;
+    font-size: 0.8em;
+    margin: -0.3em -0.3em;
 }
 body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     display: none;
@@ -102,10 +141,7 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     border: 0;
     border-left: 2px solid #000;
     border-right: 2px solid #000;
-    border-top-left-radius: 1em;
-    border-top-right-radius: 1em;
-    border-bottom-left-radius: 1em;
-    border-bottom-right-radius: 1em;
+    border-radius: 1em;
     padding: 0.5em;
 }
 
@@ -146,6 +182,23 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     width: 3rem;
     height: 3rem;
     outline: none;
+    direction: ltr;
+    unicode-bidi: plaintext;
+}
+
+.que.stack textarea.equivinput {
+    overflow: hidden;
+    white-space: pre;
+    outline: none;
+    direction: ltr;
+    unicode-bidi: plaintext;
+}
+
+body.path-question-type-stack-doc blockquote {
+    border-left: 5px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 1em 10px .1em 10px;
+    quotes: "\201C""\201D""\2018""\2019";
 }
 
 /* Support for proof. */
@@ -156,10 +209,7 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 3px;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    margin-right: 4px;
-    margin-left: 4px;
+    margin: 2px 4px;
     overflow: hidden;
 }
 .proof-block {
@@ -214,6 +264,70 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     }
 }
 
+/* Style some proofs as numbered steps. */
+ol.proof-steps {
+    counter-reset: li;
+    margin-left: 0;
+    padding-left: 0;
+    margin-top: 0;
+}
+ol.proof-steps > li {
+    position: relative;
+    margin-left: 2em;
+    padding: 0.5em;
+    list-style: none;
+    line-height: 1.5em;
+}
+ol.proof-steps > li > p {
+    margin: 0;
+}
+ol.proof-steps > li:before {
+    content: counter(li);
+    counter-increment: li;
+    position: absolute;
+    top: 7px;
+    left: -2em;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 1.5em;
+    height: 1.5em;
+    margin-right: .2em;
+    margin-top: 0;
+    border-style: none;
+    border-radius: 50%;
+    line-height: 1.4em;
+    text-align: center;
+    z-index: 2;
+    background-color: #039;
+    color: white;
+    font-weight: 600;
+    vertical-align: middle;
+    padding-top: 1px;
+}
+
+ol.proof-steps > li:after {
+    position: absolute;
+    left: -19px;
+    top: 10px;
+    content: "";
+    height: 100%;
+    width: 0;
+    border-left: 3px solid #039;
+    z-index: 1;
+}
+ol.proof-steps > li:last-of-type:after {
+    border: none;
+}
+ol.proof-steps > li:before {
+    content: counter(li, decimal);
+}
+ol.proof-steps ol.proof-steps > li:before {
+    content: counter(li, lower-latin);
+}
+ol.proof-steps ol.proof-steps ol.proof-steps > li:before {
+    content: counter(li, lower-roman);
+}
+
 /* Styles for the editing form. */
 body#page-question-type-stack .fitem_fgroup .accesshide,
 body#page-question-type-stack-questiontestedit .fitem_fgroup .accesshide {
@@ -253,7 +367,6 @@ body.path-question-type-stack dd {
 }
 body#page-question-type-stack-healthcheck textarea {
     font-family: monospace;
-    font-size: 0.8em;
     width: 100%;
     white-space: pre;
 }
@@ -287,7 +400,22 @@ body.path-question-type-stack table.stacktestsuite .expectedfail td {
     background-color: #ffd;
 }
 body.path-question-type-stack table.stacktestsuite pre {
-    font-size: 0.7em;
+    font-size: 0.8em;
+    background: #fff9;
+    padding: 0.25rem;
+    max-width: 60em;
+}
+body.path-question-type-stack .stacktestsuite td {
+    padding: 0.3rem;
+}
+body.path-question-type-stack .stacktestsuite .MathJax_Display {
+    margin: 0;
+}
+body.path-question-type-stack .stacktestsuite {
+    margin-bottom: 0.5rem;
+}
+.questionvariables pre {
+    white-space: pre-wrap;
 }
 body.path-question-type-stack h2.fail,
 body.path-question-type-stack h3 span.fail {
@@ -388,16 +516,16 @@ body.ie:not(.ie11) .stack_abstract_graph {
     stroke-linecap: round;
 }
 .stack_abstract_graph text {
-    font-family: Verdana, Sans-Serif;
+    font-family: Verdana, sans-serif;
 }
 .stack_abstract_graph text.nodelabel {
-    font-size: 14px;
+    font-size: 0.8em;
     fill: #fff;
     alignment-baseline: middle;
     text-anchor: middle;
 }
 .stack_abstract_graph text.edgelabel {
-    font-size: 10px;
+    font-size: 0.8em;
     fill: #000;
     alignment-baseline: middle;
 }
@@ -491,7 +619,6 @@ body.ie:not(.ie11) .stack_abstract_graph {
     left: 0;
     position: absolute;
     opacity: 0;
-    filter: alpha(Opacity=0); /* support: IE8 */
 }
 
 .ui-front {
@@ -739,7 +866,6 @@ a.ui-button:active,
 .ui-widget-overlay {
     background: #aaa;
     opacity: .3;
-    filter: alpha(Opacity=30); /* support: IE8 */
 }
 .ui-widget-shadow {
     -webkit-box-shadow: 0 0 5px #666;
@@ -798,6 +924,152 @@ a.ui-button:active,
     height: 1px;
 }
 
+/*****************************************
+                   HELM
+*****************************************/
+.HELM_exercise {
+    font-weight: bold;
+    font-size: 110%;
+}
+.HELM_exercise:before {
+    font-family: "FontAwesome";
+    content: "\f040";
+    padding-right: 0.5rem;
+    font-size: 120%;
+    display: inline-block;
+}
+h4.HELM_example,
+.HELM_example {
+    font-size: 95%;
+    background: #1e92cc;
+    color: #fff;
+    text-shadow: none;
+    padding: 0.5em;
+    display: inline-block;
+    margin: -0.5em -0.5em 0.5em 0;
+    border-radius: 0.2em;
+}
+h4.HELM_example:before,
+.HELM_example:before {
+    font-family: "FontAwesome";
+    content: "\f046";
+    display: inline-block;
+    padding-right: 0.5em;
+    vertical-align: middle;
+    font-weight: 500;
+    font-size: 120%;
+}
+.HELM_solution {
+    font-size: 95%;
+    color: #1e92cc;
+}
+.HELM_part {
+    background: #1e92cc;
+    color: #fff;
+    text-shadow: none;
+    border-radius: 0.2em;
+    padding: 0.3rem;
+    margin-left: 1em;
+}
+ol.HELM_parts {
+    list-style: none;
+    counter-reset: helm-parts;
+    float: left;
+    width: 100%;
+}
+ol.HELM_parts li {
+    counter-increment: helm-parts;
+    margin-bottom: 1.5rem;
+}
+
+ol.HELM_parts li:before {
+    content: "(" counter(helm-parts, lower-alpha) ")";
+    margin-left: -2.2rem;
+    margin-top: -0.3rem;
+    background: #1e92cc;
+    border-radius: 0.2rem;
+    color: white;
+    text-shadow: none;
+    padding: 0.3rem;
+    text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
+    float: left;
+    clear: left;
+}
+
+ol.HELM_parts_inline {
+    list-style: none;
+    padding: 0;
+    counter-reset: helm-parts;
+    float: left;
+    width: 100%;
+}
+ol.HELM_parts_inline > li {
+    counter-increment: helm-parts;
+    display: inline;
+    margin-left: -2.2rem;
+}
+ol.HELM_parts_inline > li::before {
+    content: "(" counter(helm-parts, lower-alpha) ")";
+    margin-right: 1ex;
+    margin-top: -0.3rem;
+    background: #1e92cc;
+    border-radius: 0.2rem;
+    color: white;
+    text-shadow: none;
+    padding: 0.3rem;
+    text-align: center;
+    display: inline-block;
+    box-sizing: border-box;
+}
+ol.HELM_parts_inline > li:not(:last-child)::after {
+    content: "";
+    margin-right: 4rem;
+}
+/* Make ordered lists within ordered lists display in lower-roman (i) style. */
+ol.HELM_parts > li > ol.HELM_parts > li:before {
+    content: "(" counter(helm-parts, lower-roman) ")";
+}
+
+div.HELM_keypoint {
+    border: 1px solid #1e92cc;
+    border-left-width: 3px;
+    padding: 0.2rem 1rem;
+}
+.HELM_keypoint h4 {
+    font-size: 110%;
+    color: #1e92cc;
+}
+.HELM_keypoint h4:before {
+    font-family: "FontAwesome";
+    content: "\f0a9";
+    padding-right: 0.5rem;
+    font-size: 120%;
+    display: inline-block;
+}
+
+/* Define HELM table styling. */
+table.HELM_table {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+table.HELM_table th {
+    border-bottom: 1px solid black;
+}
+table.HELM_table td,
+table.HELM_table th {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-right: 1px solid black;
+}
+table.HELM_table td:last-child,
+table.HELM_table th:last-child {
+    border-right: 0;
+}
+
 /* RTL support */
 
 /* Student answer form fields */
@@ -807,6 +1079,9 @@ a.ui-button:active,
 .que.stack .maxima-string,
 .que.stack .maxima-list,
 .que.stack .equiv,
+.que.stack .equivinput,
+.que.stack .varmatrixinput,
+.que.stack .matrixtable,
 /* Question authoring form */
 #page-question-type-stack textarea#id_questionvariables,
 #page-question-type-stack input#id_variantsselectionseed,
@@ -822,4 +1097,122 @@ a.ui-button:active,
 /* Properly display inversetrig values, in RTL mode */
 #page-question-type-stack #id_inversetrig option {
     unicode-bidi: plaintext;
+}
+
+/* Trees: https://codepen.io/ross-angus/pen/jwxMjL
+Copyright (c) 2022 by Ross Angus (https://codepen.io/ross-angus/pen/jwxMjL)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+and associated documentation files (the "Software"), to deal in the Software without restriction,
+including without limitation the rights to use, copy, modify, merge, publish, distribute,
+sublicense, and/or sell copies of the Software, and to permit persons to whom the Software
+is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or
+substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/* It's supposed to look like a tree diagram. */
+.algebratree,
+.algebratree ul,
+.algebratree li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.algebratree {
+    margin: 0 0 1em;
+    text-align: center;
+}
+.algebratree,
+.algebratree ul {
+    display: table;
+}
+.algebratree ul {
+    width: 100%;
+}
+.algebratree li {
+    display: table-cell;
+    padding: .5em 0;
+    vertical-align: top;
+}
+/* _________ */
+.algebratree li:before {
+    outline: solid 1px #666;
+    content: "";
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.algebratree li:first-child:before {
+    left: 50%;
+}
+.algebratree li:last-child:before {
+    right: 50%;
+}
+.algebratree span.atom,
+.algebratree span.op,
+.algebratree span.cell,
+.algebratree code {
+    border: solid .1em #666;
+    border-radius: .2em;
+    display: inline-block;
+    margin: 0 .2em .5em;
+    padding: .2em .5em;
+    position: relative;
+}
+/* If the tree represents DOM structure. */
+.algebratree span.atom {
+    border-radius: .5em;
+    color: DarkRed;
+    background-color: LightCyan;
+}
+.algebratree code,
+.algebratree span.op {
+    border-radius: .2em;
+    color: Red;
+    background-color: LemonChiffon;
+}
+/* | */
+.algebratree ul:before,
+.algebratree span.atom:before,
+.algebratree span.op:before,
+.algebratree span.cell:before,
+.algebratree code:before {
+    outline: solid 1px #666;
+    content: "";
+    height: .5em;
+    left: 50%;
+    position: absolute;
+}
+.algebratree ul:before {
+    top: -.5em;
+}
+.algebratree span.atom:before,
+.algebratree span.op:before,
+.algebratree span.cell:before,
+.algebratree code:before {
+    top: -.55em;
+}
+/* The root node doesn't connect upwards. */
+.algebratree > li {
+    margin-top: 0;
+}
+.algebratree > li:before,
+.algebratree > li:after,
+.algebratree > li > span.atom:before,
+.algebratree > li > span.op:before,
+.algebratree > li > span.cell:before,
+.algebratree > li > code:before {
+    outline: none;
 }

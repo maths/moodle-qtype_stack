@@ -32,6 +32,6 @@ to worry about it. Unless you are creating a new filter, in that case:
 
  800-899 is a placeholder for final changes to the AST.
 
- 900-999 are the absolutely no modification style filters that check 
+ 900-999 are the normally no modifications, rather this style of filters check 
    the result of all earlier ones and decide whether the final AST is valid or 
    invalid, and generate errors if need be.

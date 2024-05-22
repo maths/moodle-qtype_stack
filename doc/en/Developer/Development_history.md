@@ -2,15 +2,225 @@
 
 For current and future plans, see [Development track](Development_track.md) and [Future plans](Future_plans.md).
 
+## Version 4.6.0
+
+Released May 2024.
+
+This version will require moodle 4.0+. Moodle 3.x is no longer supported.
+
+1. Alter list of acceptible expressions.  Unicode super/subscripts now are invalid.  Use 150_replace filter in students' input.
+2. Add in the extra input option `feedback` to run in parallel with validators to give opportunities for bespoke messages.
+3. Load the `functs` Maxima package, i.e. `load("functs");` to give access to some useful functions.
+4. Fix display and simplification of binomial coefficients (issue #931).
+5. Add in the `CT:...` and `RAW:...` options for test case construction to enable tests of invalid input (e.g. missing stars).
+6. STACK now has an [API](../Installation/API.md) to provide STACK questions as a web service.
+7. Improve the display of floats.  Numbers of decimal places are now respected in all parts of expressions, and floats such as `1.7E-9` are displayed at \(1.7 \times 10^{-9}\).   There is a new question option to choose between \(1.7 \times 10^{-9}\) and \(1.7E-9\).
+8. Add in support for drag and drop [matching problems](../Authoring/Matching.md).
+
+
+## Version 4.5.0-hf2
+
+Fix critical bug in Javascript.
+Released January 2024.
+
+## Version 4.5.0
+
+Released December 2023.
+
+Please note, this is the _last_ version of STACK which will support Moodle 3.x.
+
+1. Re-factor the healthcheck scripts, especially to make unicode requirements for maxima more prominent.
+2. Shape of brackets surrounding matrix/var matrix input types now matches question level option for matrix parentheses.  (TO-DO: possible option to change shape at the input level?)
+3. Allow users to [systematically deploy](../CAS/Systematic_deployment.md) all variants of a question in a simple manner.
+4. Tag inputs with 'aria-live' is 'assertive' for better screen reader support.
+5. Add an option to support the use of a [comma as the decimal separator](Syntax_numbers.md).
+6. Confirm support for PHP 8.2, (fixes issue #986).
+7. Add in a [GeoGebra block](../Authoring/GeoGebra.md), and see [GeoGebra authoring](../Topics/GeoGebra.md).  Thanks to Tim Lutz for contributing this code as part of the AuthOMath project.
+8. Add in an option `margin` to control margins around STACK-generated plots.
+9. Add in better support for proof as [Parson's problems](../Authoring/Parsons.md).  (First version, but still more to do including syntax hints, and locking after the quiz is closed.)
+
+There are also numerous minor improvements and bug fixes.
+
+## Version 4.4.6
+
+Released October 2023.
+
+This is a bug-fix release.
+
+## Version 4.4.5
+
+Released July 2023.
+
+1. Add in the `s_assert` function to allow teachers to unit-test individual question variable values.
+2. Add in the `[[hint]]` [question block](../Authoring/Question_blocks/Dynamic_blocks.md).  Fixes issue #968, thanks to Michael Kallweit.
+3. Add in the `stack_include_contrib()` for easier inclusion of libraries.
+4. Add in the `[[todo]]` [question block](../Authoring/Question_blocks/Static_blocks.md).
+5. Caschat page now saves question variables and general feedback back into the question.  Fixes issue #984.
+6. Confirm support for Maxima 5.46.0 and 5.47.0.
+7. All inputs now "allowempty" and "hideanswer" as extra options.  Fixes issue #997.
+
+## Version 4.4.4
+
+Released June 2023.
+
+This is a bug-fix release.
+
+## Version 4.4.3
+
+Released May 2023.
+
+__Action required__ Check that all your materials using `[[jsxgraph]]` continue to work with this version.  See the section on identifying questions using particular blocks in the [Maintaining questions](../Maintaining/index.md) section.
+
+1. Rename testing page as "STACK question dashboard" and make it much easier to add a test case based on the teacher's answer.
+2. Better cleaning of unicode from students' input strings.
+3. Add link to the dependency checker to the plugin page.
+4. Add in descriptions to the question (castext), the PRT nodes and the question tests.
+5. Add in the input extra option `validator` to allow user-defined validation functions.
+6. Reorganise the [answer test](../Authoring/Answer_Tests/index.md) documentation.
+
+Major re-working of Javascript in STACK.  Specifically
+
+1. STACK-JS a VLE agnostic JavaScript system that moves all script execution into sandbox iframes and restricts the things those scripts can do outside that sandbox. Basically, replaces the `[[jsxgraph]]`-block and provides ways for doing other scripting.
+2. Initial implementation of the `[[reveal]]`-block (#570) using the STACK-JS system.
+3. Various related blocks like `[[iframe]]`, `[[javascript]]`, `[[style]]`, `[[script]]`, and `[[cors]]`
+4. This version does not yet forbide all JavaScript outside STACK-JS, but do prepare future updates to do so and start migrating existing scripts into STACK-JS.
+
+These changes are significant and we strongly recommned you test all affected questions.
+
+## Version 4.4.2
+
+Released January 2023.
+
+This is mainly a bug fix version.
+
+1. Add in functionality to display Maxima expressions as [trees](../Authoring/Trees.md) with CSS using  `disptree`.
+2. Load the `diag` package for better linear algebra support.
+3. Better layout on the question testing page.
+4. Question variables and feedback variables are now in monospace.
+5. Add in the `onum` option, i.e. `make_multsgn("onum")` in the [options](../Authoring/Options.md).
+
+## Version 4.4.1
+
+Released August 2022.
+
+This is mainly a bug fix version.  Version 4.4.0 has a number of major re-writes and also supports Moodle 4.0.
+
+## Version 4.4.0
+
+Released July 2022.
+
+Major rewrite of the PRT and CASText systems, focus on performance and limitations of the previous systems.  This release has changed/tightened up some question authoring causing some problems with existing questions.  For this reason we have written dedicated [release notes](../Installation/Release_notes_4_4_x.md) for v4.4.0.
+
+1. Release documentation under CC-BY-SA.
+2. Caching validation.
+3. Compiled PRTs, which are now true `if`-statements in the CAS and issue #150 is now handled.
+4. The marks and penalty fields in the PRTs can be numbers, or other variables defined elsewhere in the question.
+5. Change behaviour of UnitsAbsolute in response to discussion of issue #448.
+6. CASText2 is the new [CASText-system](../Authoring/Question_blocks/index.md) and it supports mixed formats and provides new blocks for declaring formats.
+7. Markdown is now a supportted format and value injections into it will get correctly escaped. Use triple slashes for math-mode...
+8. There are now means of [including external](../Authoring/Inclusions.md) code and CASText fragments from an URL.
+9. One can now generate [text-files for download](../Authoring/Serving_out_data.md) with a special block in the question-text. CSV:s of student specific random data etc.
+10. Inline CASText is now a feature, it will become more relevant in the future input-system. For now you may [use it in MCQ labels](../Authoring/Multiple_choice_questions.md#castextlabels).
+11. A new CASText block `[[jsstring]]` for generating JavaScript strings to be used in scripting is now available. It should help when one wants to construct complex values.
+12. There now exists a built in [language localisation system](../Authoring/Languages.md), that allows access to the language setting over at the CAS side. This mixes well with inline castext and allows localisation of MCQ labels.
+13. The number of CAS-evaluation sessions has been cut down significantly. Conversely, the amount of things happening in a single CAS-session has grown significantly. This may affect your Maxima load and the size of the CAS-cache. You may need to retune your operation if you have fine tuned it based on those details. This will also affect cache keys and values so tuning caching may also matter if one tunes everything.
+14. The security system now does runtime checks and no longer tries to catch evil things through static analysis in advance.
+15. Added `checkvars` option to inputs.
+16. Add in support for the [Damerau-Levenshtein distance](../Topics/Levenshtein_distance.md).
+17. Add in suppprt for the display of [Complex Numbers](../CAS/Complex_numbers.md).
+18. Add in basic solving of expressions with the not equals.  E.g. `x-1#0` is now considered equivalent to `x#1`.
+19. Add in support for Moodle 4.0.
+
+## Version 4.3.11
+
+Released June 2022.
+
+1. This release contains an update of JSXGraph (in advance of the forthcoming 4.4 release) to facilitate immediate materials development.
+2. Adopt moodle-ci.
+
+## Version 4.3.10
+
+Released December 2021.
+
+1. Add in filter `420_consolidate_subscripts` to consolidate students' input with subscripts from `M_1` to `M1`.
+2. Support [variant matching](../Moodle/Variant_matching.md).
+3. Add in the option `arccos(x)/arcosh(x)` for display of trig.  This notation exists becase `arcsin` gives the arc length on the unit circle for a given y-coordinate. `arsinh` gives an area enclosed by a hyperbola and two rays from the origin for a given y-coordinate.
+4. Allow students to type `arccos` etc. and treat these as synonyms of the trig functions.
+5. Substantially improve the basic question usage report.
+
+## Version 4.3.9
+
+Released July 2021.
+
+Mostly minor bug fixes.
+
+* Add in additional cache `compiledcache` to reduce validation overheads by compiling questions.
+* Improve checking of teacher's code for better security, this requires a new admin setting `caspreparse` for back compatibility.
+* Add in local.mac for site specific code.
+* Move STACK admin UI scripts to `adminui`.
+* Add in ATEqualComAssRules
+* Filter student's input so groups are turned into `ntuple` inert functions.  At last students can type in coordinates as `(x,y)` as input!
+* Add in warnings of language mismatch in parts of a question.
+* Add in warnings where the answer test needs a raw input but appears to get a calculated value.
+* Expand `rand` to accept sets and make a random selection from sets.  Add `rand_selection_with_replacement`.
+
+## Version 4.3.8
+
+Released December 2020.
+
+* Introduce "context variables" which propagate throughout a question, enabling `texput` to operate in inputs as well as general castext.
+* Autoload `trigtools` to provide better simplification options for trig expressions and fix long-standing bug with `trigrat`.
+* Make it much easier for colleagues to construct a test case using the "teacher's answer" input values as test case inputs.
+* Allow users to modify the `notanswered` message in dropdown and radio inputs.
+* Move all answer tests to Maxima.
+* Separate out Maxima commands in the install process.
+
+
+## Version 4.3.7
+
+Released October 2020.
+
+Bug fixes and minor improvements.
+
+## Version 4.3.6
+
+Released October 2020.
+
+Bug fixes and minor improvements.
+
+## Version 4.3.5
+
+* Add in the [HELM](../Reference/HELM.md) styles.
+
+## Version 4.3.5
+
+Released August 2020.
+
+Bug fixes and minor improvements.
+
+* Remove all strictSyntax functionality (DB, import/export functions remain).
+* Add in further styles for proof with numbered lists.
+
+## Version 4.3.4
+
+Released June 2020.
+
+Bug fixes and minor improvements to units.
+
+## Version 4.3.3
+
+Released May 2020.
+
+Bug fixes and documentation.
 
 ## Version 4.3.2
 
 Released May 2020.
 
 * Document and support for simple manipulation of [real intervals](../CAS/Real_Intervals.md) which Maxima does not have a library for.
-* Document and support for simple manipulation of [propositional logic](../CAS/Propositional_Logic.md) based on Maxima's logic package.
+* Document and support for simple manipulation of [propositional logic](../Topics/Propositional_Logic.md) based on Maxima's logic package.
 * Document and support for simple manipulation of [tables](../Authoring/Tables.md) mainly to support easy display of truth tables in logic..
-* Better support for [semi-automatic marking](../Authoring/Semi-automatic_Marking.md).
+* Better support for [semi-automatic marking](../Moodle/Semi-automatic_Marking.md).
 * Add in the resizable matrix input type (varmatrix).
 * Fixed bug with javascript on pages with more than one matrix.
 
@@ -47,7 +257,7 @@ New features in v4.3:
 * Add in input option 'nounits'.
 * Add in input option 'compact' to input "Show the validation" parameter.
 * Add in a [basic question use report](../Authoring/Reporting.md) page, linked from the question testing page.
-* Add in house styles to help typeset [proof](../Authoring/Proof.md).
+* Add in house styles to help typeset [proof](../Proof/Proof_styles.md).
 * Add cache to help reduce parsing overhead.
 
 
@@ -82,7 +292,7 @@ Note: the behaviour of the Maxima `addrow` function has changed.  Use the bulk t
 * Add support for using JSXGraph  `http://jsxgraph.org` for better support of interactive graphics, and as part of an input type.  See [JSXGraph](../Authoring/JSXGraph.md)
 * Add in a version number to STACK questions.
 * Update reasoning by equivalence.  This includes the following.
-  1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \mbox{ and } b=s \mbox{ and } c=t\). See `poly_equate_coeffs` in assessment.mac
+  1. Equating coefficients as a step in reasoning by equivalence. E.g. \( a x^2+b x+c=r x^2+s x+t \leftrightarrow a=r \text{ and } b=s \text{ and } c=t\). See `poly_equate_coeffs` in assessment.mac
   2. Solving simple simultaneous equations.  (Interface)
   3. Include simple calculus operations (but constant of integration needs some further thought.)
 * Refactor internal question validation away from Moodle editing, and into the question type.  Add in a "warning" system.
@@ -137,7 +347,7 @@ STACK 4.0 includes the block features and other important changes in CASText.
 
 * To generate the LaTeX displayed form of a CAS variable in CASText you must use `{@...@}`.  Note the curly braces which now must be used.  We have an upgrade script for existing questions.
 * To generate the Maxima value of a CAS variable in CASText you can use `{#...#}`. This is useful when interfacing with other software, or showing examples to students.
-* CASText now supports conditional statements and adaptive blocks. See [question blocks](../Authoring/Question_blocks.md).
+* CASText now supports conditional statements and adaptive blocks. See [question blocks](../Authoring/Question_blocks/index.md).
 
 Other changes.
 
@@ -189,7 +399,7 @@ Released August 2016.
 Numerous minor bug fixes and improvements, particularly with numerical tests and scientific units.
 
 1. Expose functionality of `printf` to better control the display of integers and floats.
-2. Expand the "units" answer test to allow authors to use other numerical answer tests, see [units](../Authoring/Units.md).
+2. Expand the "units" answer test to allow authors to use other numerical answer tests, see [units](../Topics/Units.md).
 3. Add a mechanism to allow spaces in inputs.  Trial functionality, which might change.
 4. Improve the mechanism to create a Maxima image and update the options in one go.
 5. Numerous options for units and the display of fractions.
@@ -206,7 +416,7 @@ Numerous minor bug fixes and improvements.
 5. Add the `NOCONST` option to the ATInt answertest.
 6. Added support for optional Maxima packages through the config settings.
 7. Added the dropdown, radio and checkbox input types.
-8. Added basic support for scientific [units](../Authoring/Units.md), including a new input type and science answer tests.
+8. Added basic support for scientific [units](../Topics/Units.md), including a new input type and science answer tests.
 
 ## Version 3.4
 
@@ -220,7 +430,7 @@ This contains numerous minor bug fixes and improvements.
 4. Support for the stats package added.
 5. Change in the behaviour of the CASEqual answer test.  Now we always assume `simp:false`.
 6. Add support for more AMS mathematics environments, including `\begin{align}...\end{align}`, `\begin{align*}...\end{align*}` etc.
-7. STACK tried to automatically write an optimised image for Linux.  This should help installs where Unix access is difficult.
+7. STACK tried to automatically write an optimised image for Linux.
 
 
 ## Version 3.3
@@ -229,7 +439,7 @@ Released September 2014.
 
 This contains numerous minor bug fixes and improvements.
 
- 1. Added in the [Question blocks](../Authoring/Question_blocks.md)
+ 1. Added in the [Question blocks](../Authoring/Question_blocks/index.md)
  2. Changes to validation of casstrings. We now *allow* syntax such as 3e2 to represent floating point numbers.  The strict syntax settings still flag 3e2 as "missing stars".
  3. Improvements to catching common syntax errors with trig functions, e.g. sin^-1(x) or cos[x]
  4. Refactored the numerical tests.  This means they are now standard Maxima tests, not using PHP.
@@ -300,7 +510,7 @@ Changes since 3.0:
 
 * Fix instant validation for text-area inputs.
 * With "Check the type of the response" set to "Yes", if an expression is given and an equation is entered, the error generated is: "Your answer is an equation, but the expression to which it is being compared is not. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." This might confuse students. They don't know what " the expression to which it is being compared" is! Perhaps this warning could be reworded something like: "You have entered an equation, but an equation is not expected here. You may have typed something like "y=2*x+1" when you only needed to type "2*x+1"." We should have more messages for each type of failed situation....
-* Alt tags in images generated by plots has changed.  The default value now includes a string representation of the function plotted.  See [plots](../CAS/Plots.md#alttext) for more details.
+* Alt tags in images generated by plots has changed.  The default value now includes a string representation of the function plotted.  See [plots](../Plots/Plots.md#alttext) for more details.
 * Assorted other accessibility fixes.
 * Standard PRT feedback options are now processed as CAS text.
 * There was a bug where clearing the CAS cache broke images in the question text. Now fixed.
@@ -403,7 +613,7 @@ Once completed we are ready for the **Beta release!**
 #### Beta testing period
 
 1. Do lots of testing, report and fix bugs.
-2. Eliminate as many TODOs from the code as possible.
+2. Eliminate as many TO-DOs from the code as possible.
 3. Add back other translations from STACK 2.0, preserving as many of the existing strings as possible. NOTE: the new format of the language strings containing parameters.  In particular, strings {$a[0]} need to be changed to {$a->m0}, etc.
 4. Add back all questions from the diagnostic quiz project as further examples.
 5. Deploy many variants at once.
@@ -422,10 +632,10 @@ Once completed we are ready for the **Beta release!**
 1. **DOES NOT HAPPEN ANY MORE** With a question like test-3, if all the inputs were valid, and then you change the value for some inputs, the corresponding PRTs output the 'Standard feedback for incorrect' when showing the new inputs for the purpose of validation.
 2. Images added to prt node true or false feedback do not get displayed. There is a missing call to format_text.
 3. A button on the create test-case form, to fill in the expected results to automatically make a passing test-case.
-4. Singlechar input should validate that the input is a single char. (There is a TODO in the code for this.)
-5. Dropdown input should make sure that only allowed values are submitted. (There is a TODO in the code for this.)
-6. Dropdown input element needs some unit tests. (There is a TODO in the code for this.)
-7. We need to check for and handle CAS errors in get_prt_result and grade_parts_that_can_be_graded. (There is a TODO in the code for this.)
+4. Singlechar input should validate that the input is a single char. (There is a TO-DO in the code for this.)
+5. Dropdown input should make sure that only allowed values are submitted. (There is a TO-DO in the code for this.)
+6. Dropdown input element needs some unit tests. (There is a TO-DO in the code for this.)
+7. We need to check for and handle CAS errors in get_prt_result and grade_parts_that_can_be_graded. (There is a TO-DO in the code for this.)
 8. Un-comment the throw in the matrix input.
 9. Unit tests for adaptive mode score display - and to verify nothing like that appears for other behaviours.
 10. Duplicate response detection for PRTs should consider all previous responses.
@@ -459,8 +669,8 @@ Released: Easter 2010 session.
 
 Key features
 
-* [Precision](../Authoring/Answer_tests.md#Precision) answer test added to allow significant to be checked.
-* [Form](../Authoring/Answer_tests.md#Form) answer test added to test if an expression is in completed square form.
+* [Precision](../Authoring/Answer_Tests/index.md#Precision) answer test added to allow significant to be checked.
+* [Form](../Authoring/Answer_Tests/index.md#Form) answer test added to test if an expression is in completed square form.
 * List interaction element expanded to include checkboxes.  See [List](../Authoring/Inputs.md#List).
 * Move to Maxima's `random()` function, rather than generate our own pseudo random numbers
 * [Conditionals in CASText](https://sourceforge.net/tracker/?func=detail&aid=2888054&group_id=119224&atid=683351)

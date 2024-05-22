@@ -14,6 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
+namespace qtype_stack;
+
+use qtype_stack_testcase;
+use stack_cas_keyval;
+use stack_exception;
+
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../locallib.php');
@@ -25,47 +31,38 @@ require_once(__DIR__ . '/../stack/cas/keyval.class.php');
 
 /**
  * @group qtype_stack
+ * @covers \stack_cas_keyval
  */
-class stack_cas_keyval_exception_test extends basic_testcase {
-    /**
-     * @expectedException stack_exception
-     */
+class caskeyval_exception_test extends qtype_stack_testcase {
+
     public function test_exception_1() {
-        $at1 = new stack_cas_keyval(array(), false, false);
+        $this->expectException(stack_exception::class);
+        $at1 = new stack_cas_keyval([], false, false);
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_exception_2() {
+        $this->expectException(stack_exception::class);
         $at1 = new stack_cas_keyval(1, false, false);
     }
 
-    /**
-     * @expectedException stack_exception
-     */
+
     public function test_exception_3() {
+        $this->expectException(stack_exception::class);
         $at1 = new stack_cas_keyval('x=1', false, false);
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_exception_4() {
+        $this->expectException(stack_exception::class);
         $at1 = new stack_cas_keyval('x=1', null, false);
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_exception_5() {
+        $this->expectException(stack_exception::class);
         $at1 = new stack_cas_keyval('x=1', 'z', false);
     }
 
-    /**
-     * @expectedException stack_exception
-     */
     public function test_exception_7() {
+        $this->expectException(stack_exception::class);
         $at1 = new stack_cas_keyval('x=1', 't', false);
     }
 }

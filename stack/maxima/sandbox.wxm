@@ -1,78 +1,98 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 13.04.2 ] */
-
+/* [ Created with wxMaxima version 20.12.1 ] */
 /* [wxMaxima: title   start ]
 STACK Sandbox
    [wxMaxima: title   end   ] */
 
-/* [wxMaxima: comment start ]
-This document loads the extra files needed for STACK.
-See https://github.com/maths/moodle-qtype_stack
 
-1. Set your operation system in the variable maximaplatform. For Windows set it to "win".
-2. If needed, set the stacklocation variable to the location of this sandbox file and the needed maxima and lisp files.
-3. Specify a directory for temporary working files, e.g. /tmp or C:/tmp
+/* [wxMaxima: comment start ]
+This workbook allows you to use the STACK libraries with desktop Maxima.
+See https://docs.stack-assessment.org/en/CAS/STACK-Maxima_sandbox
+The source code is at https://github.com/maths/moodle-qtype_stack
+
+1. Clone/downlod the source code of STACK.  E.g. https://github.com/maths/moodle-qtype_stack/archive/master.zip
+2. Set your operating system with the variable maximaplatform. For Windows set it to "win".
+3. Set the stacklocation variable below to the location of the STACK source code you downloaded, e.g. c:/tmp/stackroot
+4. Specify a directory for temporary working files, e.g. /tmp or C:/tmp
+
 [Directories in 2 & 3 can be the same if you don't mind clutter.]
 
-Note, that plots *will not work* in this sandbox.
+Note that plots *will not work* in this sandbox.
    [wxMaxima: comment end   ] */
 
+
 /* [wxMaxima: input   start ] */
-/* No trailing slash. */
-maximaplatform:"linux"$
+/* For MS platforms you normally need to explicitly set the path.
+   This assumes you have cloned/downloaed the STACK code into c:/tmp/stackroot
+   E.g. this file must exist c:/tmp/stackroot/stackmaxima.mac 
+
+   Use the forward slash as a directory seperator.
+   No trailing slash.
+*/
+maximaplatform:"win"$
+stacklocation:"c:/tmp/stackroot"$
+stacktmplocation:"c:/tmp"$
+
+/*maximaplatform:"linux"$
 stacklocation:"."$
 stacktmplocation:"/tmp"$
-
-/* For MS platforms you normally need to explicitly set the path.
-   Use the forward slash as a directory seperator.
-   You have cloned your code into c:/tmp/stackroot   
 */
-/*
-maximaplatform:"win"$
-stacklocation:"c:/tmp/stackroot/stack"$
-*/
-
 
 /****************************************************
    There should be no need to edit below this line.  
    
    These commands add the location to Maxima's search path. 
 */
-file_search_maxima:append( [sconcat(stacklocation, "/maxima/###.{mac,mc}")] , file_search_maxima)$
-file_search_lisp:append( [sconcat(stacklocation, "/maxima/###.{lisp}")] , file_search_lisp)$
+file_search_maxima:append( [sconcat(stacklocation, "/stack/maxima/###.{mac,mc}")] , file_search_maxima)$
+file_search_lisp:append( [sconcat(stacklocation, "/stack/maxima/###.{lisp}")] , file_search_lisp)$
+file_search_maxima:append( [sconcat(stacklocation, "/stack/maxima/contrib/###.{mac,mc}")] , file_search_maxima)$
+file_search_lisp:append( [sconcat(stacklocation, "/stack/maxima/contrib/###.{lisp}")] , file_search_lisp)$
 file_search_maxima:append( [sconcat(stacktmplocation, "/###.{mac,mc}")] , file_search_maxima)$
 file_search_lisp:append( [sconcat(stacktmplocation, "/###.{lisp}")] , file_search_lisp)$
 
+/* 
+   The following command may be slightly different on your particular server.
+   There is normally no need to change this.  You can see this function on the STACK healtcheck page (moodle admin access only).
+*/
 STACK_SETUP(ex):=block(
-    MAXIMA_VERSION_NUM_EXPECTED:41.0,
+    MAXIMA_VERSION_NUM_EXPECTED:0,
     MAXIMA_PLATFORM:maximaplatform,
     maxima_tempdir:"",
     IMAGE_DIR:"",
     PLOT_SIZE:[450,300],
     PLOT_TERMINAL:"svg",
-    PLOT_TERM_OPT:"dynamic font \\\",11\\\" linewidth 1.2",
-    DEL_CMD:"del",
-    GNUPLOT_CMD:"C:\\bin\\moodle\\server\\moodledata\\stack\\wgnuplot.exe",
-    MAXIMA_VERSION_EXPECTED:"5.42.0",
+    PLOT_TERM_OPT:"dynamic font \",11\" linewidth 1.2",
+    DEL_CMD:"rm",
+    GNUPLOT_CMD:"gnuplot",
+    MAXIMA_VERSION_EXPECTED:"default",
     URL_BASE:"!ploturl!",
     /* Define units available in STACK. */
     stack_unit_si_prefix_code:[y, z, a, f, p, n, u, m, c, d, da, h, k, M, G, T, P, E, Z, Y],
     stack_unit_si_prefix_multiplier:[10^-24, 10^-21, 10^-18, 10^-15, 10^-12, 10^-9, 10^-6, 10^-3, 10^-2, 10^-1, 10, 10^2, 10^3, 10^6, 10^9, 10^12, 10^15, 10^18, 10^21, 10^24],
     stack_unit_si_prefix_tex:["\\mathrm{y}", "\\mathrm{z}", "\\mathrm{a}", "\\mathrm{f}", "\\mathrm{p}", "\\mathrm{n}", "\\mu ", "\\mathrm{m}", "\\mathrm{c}", "\\mathrm{d}", "\\mathrm{da}", "\\mathrm{h}", "\\mathrm{k}", "\\mathrm{M}", "\\mathrm{G}", "\\mathrm{T}", "\\mathrm{P}", "\\mathrm{E}", "\\mathrm{Z}", "\\mathrm{Y}"],
-    stack_unit_si_unit_code:[m, l, L, g, s, h, Hz, Bq, cd, N, Pa, cal, Cal, Btu, eV, J, W, A, ohm, C, V, F, S, Wb, T, H, Gy, rem, Sv, lx, mol, M, kat, rad],
-    stack_unit_si_unit_conversions:[m, m^3/1000, m^3/1000, kg/1000, s, s*3600, 1/s, 1/s, cd, (kg*m)/s^2, kg/(m*s^2), 4.2*J, 4200*J, 1055*J, 1.602177e-19*J, (kg*m^2)/s^2, (kg*m^2)/s^3, A, (kg*m^2)/(s^3*A^2), s*A, (kg*m^2)/(s^3*A), (s^4*A^2)/(kg*m^2), (s^3*A^2)/(kg*m^2), (kg*m^2)/(s^2*A), kg/(s^2*A), (kg*m^2)/(s^2*A^2), m^2/s^2, 0.01*Sv, m^2/s^2, cd/m^2, mol, mol/(m^3/1000), mol/s, rad],
-    stack_unit_si_unit_tex:["\\mathrm{m}", "\\mathrm{l}", "\\mathrm{L}", "\\mathrm{g}", "\\mathrm{s}", "\\mathrm{h}", "\\mathrm{Hz}", "\\mathrm{Bq}", "\\mathrm{cd}", "\\mathrm{N}", "\\mathrm{Pa}", "\\mathrm{cal}", "\\mathrm{cal}", "\\mathrm{Btu}", "\\mathrm{eV}", "\\mathrm{J}", "\\mathrm{W}", "\\mathrm{A}", "\\Omega", "\\mathrm{C}", "\\mathrm{V}", "\\mathrm{F}", "\\mathrm{S}", "\\mathrm{Wb}", "\\mathrm{T}", "\\mathrm{H}", "\\mathrm{Gy}", "\\mathrm{rem}", "\\mathrm{Sv}", "\\mathrm{lx}", "\\mathrm{mol}", "\\mathrm{M}", "\\mathrm{kat}", "\\mathrm{rad}"],
-    stack_unit_other_unit_code:[min, amu, u, mmHg, bar, cc, gal, mbar, atm, torr, rev, deg, rpm, K, day, year, in, ft, mi],
-    stack_unit_other_unit_conversions:[s*60, amu, amu, 133.322387415*Pa, 10^5*Pa, m^3*10^(-6), 3.785*l, 10^2*Pa, 101325*Pa, 101325/760*Pa, 2*pi*rad, pi*rad/180, pi*rad/(30*s), K, 86400*s, 3.156e7*s, in, 12*in, 5280*12*in],
-    stack_unit_other_unit_tex:["\\mathrm{min}", "\\mathrm{amu}", "\\mathrm{u}", "\\mathrm{mmHg}", "\\mathrm{bar}", "\\mathrm{cc}", "\\mathrm{gal}", "\\mathrm{mbar}", "\\mathrm{atm}", "\\mathrm{torr}", "\\mathrm{rev}", "\\mathrm{{}^{o}}", "\\mathrm{rpm}", "\\mathrm{K}", "\\mathrm{day}", "\\mathrm{year}", "\\mathrm{in}", "\\mathrm{ft}", "\\mathrm{mi}"],
+    stack_unit_si_unit_code:[m, l, L, g, t, s, h, Hz, Bq, cd, N, Pa, cal, Cal, Btu, eV, J, W, Wh, A, ohm, C, V, F, S, Wb, T, H, Gy, rem, Sv, lx, lm, mol, M, kat, rad, sr, K, VA, eV, Ci],
+    stack_unit_si_unit_conversions:[m, m^3/1000, m^3/1000, kg/1000, 1000*kg, s, s*3600, 1/s, 1/s, cd, (kg*m)/s^2, kg/(m*s^2), 4.2*J, 4200*J, 1055*J, 1.602177e-19*J, (kg*m^2)/s^2, (kg*m^2)/s^3, 3600*(kg*m^2)/s^2, A, (kg*m^2)/(s^3*A^2), s*A, (kg*m^2)/(s^3*A), (s^4*A^2)/(kg*m^2), (s^3*A^2)/(kg*m^2), (kg*m^2)/(s^2*A), kg/(s^2*A), (kg*m^2)/(s^2*A^2), m^2/s^2, 0.01*Sv, m^2/s^2, cd/m^2, cd, mol, mol/(m^3/1000), mol/s, rad, sr, K, (kg*m^2)/(s^3), 1.602176634E-19*J, Ci],
+    stack_unit_si_unit_tex:["\\mathrm{m}", "\\mathrm{l}", "\\mathrm{L}", "\\mathrm{g}", "\\mathrm{t}", "\\mathrm{s}", "\\mathrm{h}", "\\mathrm{Hz}", "\\mathrm{Bq}", "\\mathrm{cd}", "\\mathrm{N}", "\\mathrm{Pa}", "\\mathrm{cal}", "\\mathrm{cal}", "\\mathrm{Btu}", "\\mathrm{eV}", "\\mathrm{J}", "\\mathrm{W}", "\\mathrm{Wh}", "\\mathrm{A}", "\\Omega", "\\mathrm{C}", "\\mathrm{V}", "\\mathrm{F}", "\\mathrm{S}", "\\mathrm{Wb}", "\\mathrm{T}", "\\mathrm{H}", "\\mathrm{Gy}", "\\mathrm{rem}", "\\mathrm{Sv}", "\\mathrm{lx}", "\\mathrm{lm}", "\\mathrm{mol}", "\\mathrm{M}", "\\mathrm{kat}", "\\mathrm{rad}", "\\mathrm{sr}", "\\mathrm{K}", "\\mathrm{VA}", "\\mathrm{eV}", "\\mathrm{Ci}"],
+    stack_unit_other_unit_code:[min, amu, u, mmHg, bar, ha, cc, gal, mbar, atm, torr, rev, deg, rpm, au, Da, Np, B, dB, day, year, hp, in, ft, yd, mi, lb],
+    stack_unit_other_unit_conversions:[s*60, amu, amu, 133.322387415*Pa, 10^5*Pa, 10^4*m^2, m^3*10^(-6), 3.785*l, 10^2*Pa, 101325*Pa, 101325/760*Pa, 2*pi*rad, pi*rad/180, pi*rad/(30*s), 149597870700*m, 1.660539040E-27*kg, Np, B, dB, 86400*s, 3.156e7*s, 746*W, in, 12*in, 36*in, 5280*12*in, 4.4482*N],
+    stack_unit_other_unit_tex:["\\mathrm{min}", "\\mathrm{amu}", "\\mathrm{u}", "\\mathrm{mmHg}", "\\mathrm{bar}", "\\mathrm{ha}", "\\mathrm{cc}", "\\mathrm{gal}", "\\mathrm{mbar}", "\\mathrm{atm}", "\\mathrm{torr}", "\\mathrm{rev}", "\\mathrm{{}^{o}}", "\\mathrm{rpm}", "\\mathrm{au}", "\\mathrm{Da}", "\\mathrm{Np}", "\\mathrm{B}", "\\mathrm{dB}", "\\mathrm{day}", "\\mathrm{year}", "\\mathrm{hp}", "\\mathrm{in}", "\\mathrm{ft}", "\\mathrm{yd}", "\\mathrm{mi}", "\\mathrm{lb}"],
     true)$
+
 /* Load the main libraries. */
 load("stackmaxima.mac")$
 load("stats")$
 load("distrib")$
 load("descriptive")$
+alias(stack_include_contrib, load)$
+
 print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$
 /* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+
+/* [wxMaxima: input   end   ] */
+
 
 /* [wxMaxima: input   start ] */
 /* Optional but useful. */
@@ -81,5 +101,7 @@ simp:false;
 debug:true;
 /* [wxMaxima: input   end   ] */
 
-/* Maxima can't load/batch files which end with a comment! */
-"Created with wxMaxima"$
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 20.12.1"$

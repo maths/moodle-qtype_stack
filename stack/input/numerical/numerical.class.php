@@ -14,8 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * A basic text-field input.
  *
@@ -29,14 +27,18 @@ class stack_numerical_input extends stack_input {
      * This has numerous problems, and is difficult to maintain. Extra options will be in a JSON-like format.
      * @var array
      */
-    protected $extraoptions = array(
+    protected $extraoptions = [
+        'hideanswer' => false,
+        'allowempty' => false,
         'nounits' => false,
         'simp' => false,
         // Forbid variables.  Always true for numerical inputs.
         'novars' => true,
         // Is a student required to type in a float?
         'floatnum' => false,
-         // Is the demoninator of any fractions in the student's answer to be free of surds?
+        // Is a student required to type in an explicit integer?
+        'intnum' => false,
+        // Is the demoninator of any fractions in the student's answer to be free of surds?
         'rationalnum' => false,
         'rationalized' => false,
         // Require min/max number of decimal places?
@@ -45,9 +47,10 @@ class stack_numerical_input extends stack_input {
         // Require min/max number of significant figures?
         'minsf' => false,
         'maxsf' => false,
-        'allowempty' => false,
-        'align' => 'left'
-    );
+        'align' => 'left',
+        'validator' => false,
+        'monospace' => false,
+    ];
 
     public function render(stack_input_state $state, $fieldname, $readonly, $tavalue) {
 
@@ -56,7 +59,7 @@ class stack_numerical_input extends stack_input {
         }
 
         $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
-        $attributes = array(
+        $attributes = [
             'type'  => 'text',
             'name'  => $fieldname,
             'id'    => $fieldname,
@@ -65,9 +68,12 @@ class stack_numerical_input extends stack_input {
             'autocapitalize' => 'none',
             'spellcheck'     => 'false',
             'class'     => 'numerical',
-        );
+        ];
         if ($this->extraoptions['align'] === 'right') {
             $attributes['class'] = 'numerical-right';
+        }
+        if ($this->extraoptions['monospace']) {
+            $attributes['class'] .= ' input-monospace';
         }
 
         $value = $this->contents_to_maxima($state->contents);
@@ -91,8 +97,24 @@ class stack_numerical_input extends stack_input {
         return html_writer::empty_tag('input', $attributes);
     }
 
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'numerical';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['align'] = $this->extraoptions['align'] === 'right' ? 'right' : 'left';
+        $data['syntaxHint'] = $this->parameters['syntaxHint'];
+        $data['syntaxHintType'] = $this->parameters['syntaxAttribute'] == '1' ? 'placeholder' : 'value';
+
+        return $data;
+    }
+
     public function add_to_moodleform_testinput(MoodleQuickForm $mform) {
-        $mform->addElement('text', $this->name, $this->name, array('size' => $this->parameters['boxWidth']));
+        $mform->addElement('text', $this->name, $this->name, ['size' => $this->parameters['boxWidth']]);
         $mform->setDefault($this->name, $this->parameters['syntaxHint']);
         $mform->setType($this->name, PARAM_RAW);
     }
@@ -103,12 +125,10 @@ class stack_numerical_input extends stack_input {
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
-        return array(
+        return [
             'mustVerify'         => true,
             'showValidation'     => 1,
             'boxWidth'           => 15,
-            // The option strictSyntax as true means we don't insert *s into 192.3e3 etc.
-            'strictSyntax'       => true,
             'insertStars'        => 0,
             'syntaxHint'         => '',
             'syntaxAttribute'    => 0,
@@ -117,24 +137,8 @@ class stack_numerical_input extends stack_input {
             'forbidFloats'       => false,
             'lowestTerms'        => true,
             'sameType'           => true,
-            'options'            => '');
-    }
-
-    /**
-     * Get the value of one of the parameters.
-     * @param string $parameter the parameter name
-     * @param mixed $default the default to return if this parameter is not set.
-     */
-    public function get_parameter($parameter, $default = null) {
-        // We always want strict syntax for this input type.
-        if ($parameter == 'strictSyntax') {
-            return true;
-        }
-        if (array_key_exists($parameter, $this->parameters)) {
-            return $this->parameters[$parameter];
-        } else {
-            return $default;
-        }
+            'options'            => '',
+        ];
     }
 
     /**
@@ -155,13 +159,15 @@ class stack_numerical_input extends stack_input {
      * @return string the teacher's answer, displayed to the student in the general feedback.
      */
     public function get_teacher_answer_display($value, $display) {
+        if ($this->extraoptions['hideanswer']) {
+            return '';
+        }
         if (trim($value) == 'EMPTYANSWER') {
             return stack_string('teacheranswerempty');
         }
-        return stack_string('teacheranswershow', array('value' => '<code>'.$value.'</code>', 'display' => $display));
-    }
-
-    protected function get_validation_method() {
-        return 'numerical';
+        $cs = stack_ast_container::make_from_teacher_source($value, '', new stack_cas_security());
+        $cs->set_nounify(0);
+        $value = $cs->get_inputform(true, 0, true, $this->options->get_option('decimals'));
+        return stack_string('teacheranswershow', ['value' => '<code>'.$value.'</code>', 'display' => $display]);
     }
 }

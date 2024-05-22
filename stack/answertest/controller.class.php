@@ -113,6 +113,7 @@ class stack_ans_test_controller {
         'Diff'                 => [true, true, false, false],
         'Int'                  => [true, true, false, false],
         'Antidiff'             => [true, true, false, false],
+        'AddConst'             => [true, true, false, false],
         'String'               => [false, false, false, false],
         'StringSloppy'         => [false, false, false, false],
         'Levenshtein'          => [true, true, true, false],
@@ -156,6 +157,7 @@ class stack_ans_test_controller {
             case 'Diff':
             case 'Int':
             case 'Antidiff':
+            case 'AddConst':
             case 'GT':
             case 'GTE':
             case 'UnitsAbsolute':

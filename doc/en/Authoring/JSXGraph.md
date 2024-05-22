@@ -469,4 +469,4 @@ In one of your PRTs, you place an empty span with an id like for example `feedba
 
 The function `stack_js.get_content(id)` looks for an element in the DOM of the parent document and returns a promise that will resolve to the content of that element. If the content is not `null`, that means it found the element somewhere in the question. As this operation is async, you will always have to use a callback using `.then()`.
 
-If you want to know more about STACK-JS and the functions provided for interacting with the STACK question content (change inputs, switch content, toggle the visibility of content), then you can have a look at [STACK-JS](../developer/STACK-JS.md).
+If you want to know more about STACK-JS and the functions provided for interacting with the STACK question content (change inputs, switch content, toggle the visibility of content), then you can have a look at [STACK-JS](../Developer/STACK-JS.md).

@@ -263,7 +263,7 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
 
         // If rows and index are passed then the length of index should match the value of rows + 1
         if ($ogrows !== null) {
-            $code .= 'if (index !== undefined && index.length !== ' . $ogrows + 1 . ')
+            $code .= 'if (index !== undefined && index.length !== ' . ($ogrows + 1) . ')
                 {stack_js.display_error("' . stack_string('stackBlock_incorrect_index_length') . '");}' . "\n";
         }
 

@@ -95,12 +95,14 @@ class RenderController {
         $inputs = [];
         foreach ($question->inputs as $name => $input) {
             $apiinput = new StackRenderInput();
-
-            $apiinput->samplesolution = $input->get_api_solution($question->get_ta_for_input($name));
+            // ISS460 - get_ta_for_input() now returns the whole thing not just the value.
+            $ta = $question->get_ta_for_input($name);
+            $tavalue = ($ta) ? $ta->get_value() : '';
+            $apiinput->samplesolution = $input->get_api_solution($tavalue);
             $apiinput->samplesolutionrender = $input->get_api_solution_render($question->get_ta_render_for_input($name));
 
             $apiinput->validationtype = $input->get_parameter('showValidation', 1);
-            $apiinput->configuration = $input->render_api_data($question->get_ta_for_input($name));
+            $apiinput->configuration = $input->render_api_data($tavalue);
 
             if (array_key_exists('options', $apiinput->configuration)) {
                 foreach ($apiinput->configuration['options'] as $key => &$option) {
@@ -111,7 +113,6 @@ class RenderController {
             $inputs[$name] = $apiinput;
 
             if ($data['renderInputs']) {
-                $tavalue = $question->get_ta_for_input($name);
                 $fieldname = $data['renderInputs'] . $name;
                 $state = $question->get_input_state($name, []);
                 $render = $input->render($state, $fieldname, $data['readOnly'], $tavalue);

@@ -1430,6 +1430,9 @@ abstract class stack_input {
         if ($feedbackerr != '') {
             // Bespoke validation messages might contain maths, which needs to be processed.
             $feedbackerr = stack_ouput_castext($feedbackerr);
+            // ISS460 - Change from div to span. Gives different layout for compact validation but the new layout
+            // is probably the correct one! More importantly, avoids having a div in span which breaks
+            // subsequent maths displays.
             $feedback .= html_writer::tag('span', $feedbackerr, ['class' => 'alert alert-danger stackinputerror']);
         }
 

@@ -1420,11 +1420,13 @@ class qtype_stack_question extends question_graded_automatically_with_countback
 
     /**
      * Enable the renderer to access the teacher's answer in the session.
-     * TO-DO: should we give the whole thing?
      * @param string $vname variable name.
      */
     public function get_ta_for_input(string $vname) {
-        return $this->tas[$vname];
+        if (isset($this->tas[$vname]) && $this->tas[$vname]->is_correctly_evaluated()) {
+            return $this->tas[$vname];
+        }
+        return null;
     }
 
     /**

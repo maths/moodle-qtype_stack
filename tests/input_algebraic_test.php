@@ -197,11 +197,11 @@ class input_algebraic_test extends qtype_stack_testcase {
         $vr = '<div class="stackinputfeedback standard" id="sans1_val" aria-live="assertive">' .
                 '<p>Your last answer was interpreted as follows: ' .
                 '<span class="stacksyntaxexample">2x(1+x^2)</span></p>' .
-                '<input type="hidden" name="sans1_val" value="2x(1+x^2)" /><div class="alert alert-danger stackinputerror">' .
+                '<input type="hidden" name="sans1_val" value="2x(1+x^2)" /><span class="alert alert-danger stackinputerror">' .
                 'This answer is invalid. You seem to be missing * characters. ' .
                 'Perhaps you meant to type <span class="stacksyntaxexample">2' .
                 '<span class="stacksyntaxexamplehighlight">*</span>x' .
-                '<span class="stacksyntaxexamplehighlight">*</span>(1+x^2)</span>.</div></div>';
+                '<span class="stacksyntaxexamplehighlight">*</span>(1+x^2)</span>.</span></div>';
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
     }
 
@@ -1473,11 +1473,11 @@ class input_algebraic_test extends qtype_stack_testcase {
               '<p>Your last answer was interpreted as follows: ' .
               '<span class="filter_mathjaxloader_equation"><span class="nolink">\[ \left( 1,\, 2\right] \]</span></span>' .
               '</p><input type="hidden" name="sans1_val" value="oc(1,2,3)" />' .
-              '<div class="alert alert-danger stackinputerror">' .
+              '<span class="alert alert-danger stackinputerror">' .
               '<span class="filter_mathjaxloader_equation">' .
               'This answer is invalid. Interval construction must have ' .
               'exactly two arguments, so this must be an error: <span class="filter_mathjaxloader_equation">' .
-              '<span class="nolink"><span class="nolink">\(\text{oc(1,2,3)}\)</span></span></span>.</span></div></div>';
+              '<span class="nolink"><span class="nolink">\(\text{oc(1,2,3)}\)</span></span></span>.</span></span></div>';
         $this->assertEquals($vr, $el->replace_validation_tags($state, 'sans1', '[[validation:sans1]]'));
 
         $state = $el->validate_student_response(['sans1' => 'oc(3,2)'], $options, '%union({3,4,5})',

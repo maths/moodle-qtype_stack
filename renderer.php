@@ -85,6 +85,19 @@ class qtype_stack_renderer extends qtype_renderer {
             throw new coding_exception('Inconsistent placeholders. Possibly due to multi-lang filtter not being active.');
         }
 
+        // ISS460: Displaying the correct answers next to the question. We only want to do this
+        // if there are multiple visible answers otherwise we get the correct answer twice
+        // for no reason - once from us and once from Moodle. This looks particularly
+        // odd for Parsons blocks.
+        $answercount = 0;
+        if ($options->rightanswer) {
+            foreach ($question->inputs as $name => $input) {
+                if (!$input->get_extra_option('hideanswer')) {
+                    $answercount++;
+                }
+            }
+        }
+
         foreach ($question->inputs as $name => $input) {
             // Get the actual value of the teacher's answer at this point.
             $ta = $question->get_ta_for_input($name);
@@ -103,7 +116,7 @@ class qtype_stack_renderer extends qtype_renderer {
                     $questiontext);
 
             $rightanswer = false;
-            if ($options->rightanswer && $ta && $ta->is_correctly_evaluated()) {
+            if ($answercount > 1 && $options->rightanswer && $ta && $ta->is_correctly_evaluated()) {
                 $rightanswer = array($tavalue, $talatex);
             }
             $questiontext = $input->replace_validation_tags($state, $fieldname, $questiontext, $rightanswer);

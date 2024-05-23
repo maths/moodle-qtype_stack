@@ -64,6 +64,7 @@ class stack_ans_test_controller {
         'Diff'                 => 'stackOptions_AnsTest_values_Diff',
         'Int'                  => 'stackOptions_AnsTest_values_Int',
         'Antidiff'             => 'stackOptions_AnsTest_values_Antidiff',
+        'AddConst'             => 'stackOptions_AnsTest_values_AddConst',
         'String'               => 'stackOptions_AnsTest_values_String',
         'StringSloppy'         => 'stackOptions_AnsTest_values_StringSloppy',
         'Levenshtein'          => 'stackOptions_AnsTest_values_Levenshtein',

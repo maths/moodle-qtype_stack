@@ -194,9 +194,13 @@ body.pagelayout-embedded .que.stack .formulation .questiontestslink {
     unicode-bidi: plaintext;
 }
 
-.que.stack .rightanswer {
+.que.stack .stack-rightanswer {
     color: #8e662e;
     background-color: #fcefdc;
+    border-color: #fbe8cd;
+    padding: 5px;
+    width: fit-content;
+    margin: 0 0 0 1em;
 }
 
 body.path-question-type-stack-doc blockquote {

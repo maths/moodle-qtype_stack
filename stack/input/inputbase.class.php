@@ -1584,7 +1584,7 @@ abstract class stack_input {
 
         if ($rightanswer) {
             $feedback .= html_writer::tag('div', $this->get_teacher_answer_display($rightanswer[0], $rightanswer[1]),
-                    ['class' => 'rightanswer']);
+                    ['class' => 'stack-rightanswer ui-corner-all']);
         }
 
         $response = str_replace("[[validation:{$name}]]", $feedback, $questiontext);

@@ -105,7 +105,7 @@ button {
     width: 150px;
 }
 
-.usedList:empty { 
+.usedList.empty { 
     height: 50px;
     background-color: floralwhite; border: 1px solid rgb(155, 199, 206); 
     padding: 10px;

@@ -342,8 +342,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Resize the outer iframe if the author does not pre-define width. Method depends on MathJax 2 or MathJax 3.
         if (!$existsuserheight) {
             $code .= ($mathjaxversion === "2") ?
-                'MathJax.Hub.Queue(() => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' :
-                'mathJaxPromise.then(() => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});';
+                'MathJax.Hub.Queue(() => {
+                    stackSortable.resize_grid_items(); 
+                    stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' :
+                'mathJaxPromise.then(() => {
+                    stackSortable.resize_grid_items(); 
+                    stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});';
             $code .= "\n";
         }
 

@@ -292,6 +292,7 @@ export function get_iframe_height() {
  * @method generate_available - Generates the available list based on the current state.
  * @method generate_used - Generates the used list based on the current state.
  * @method update_state - Updates the state based on changes in the used and available lists.
+ * @method resize_grid_items - Resizes the height of divs with `grid-item` class according to the max height across grid items.
  * @method validate_options - Validates the sortable user options.
  *
  * @example
@@ -371,7 +372,7 @@ export const stack_sortable = class stack_sortable {
             if (val !== "") {this.item_height_width["style"] += `${key}:${val}px;`};
         };
         this.item_height_width = (this.item_height_width["style"] === "") ? {} : this.item_height_width;
-        this.container_height_width = (this.item_height_width["style"] !== "") ?
+        this.container_height_width = (Object.keys(this.item_height_width).length !== 0) ?
             {"style" : this.item_height_width["style"] + "margin: 12px;"} : {};
         this.state = this._generate_state(this.steps, inputId, Number(this.columns), Number(this.rows));
         if (inputId !== null) {
@@ -540,9 +541,9 @@ export const stack_sortable = class stack_sortable {
                     divRowCol.id = rowColId;
                     // In matching mode, we need to add rigid styles to colDivs if orientation === "row"
                     if (this.orientation === "row") {
-                        divRowCol.classList.add(...itemClassList, ...["col-rigid"]);
+                        divRowCol.classList.add(...itemClassList, ...["empty", "col-rigid"]);
                     } else {
-                        divRowCol.classList.add(...itemClassList);
+                        divRowCol.classList.add(...itemClassList, ...["empty"]);
                     }
                     colDiv.append(divRowCol);
                 })
@@ -592,6 +593,31 @@ export const stack_sortable = class stack_sortable {
     }
 
     /**
+     * Resizes all grid-item heights according to the maximum content height across all grid-items, adding an extra `10px` padding.
+     * Avoids affecting proof mode by virtue of grid-item and grid-item-rigid classes not being used there.
+     *
+     * @method
+     * @returns {void}
+     */
+    resize_grid_items() {
+            const allGridItems = document.querySelectorAll('.grid-item, .grid-item-rigid');
+            const maxHeight = Math.max(...[...allGridItems].map((item) => item.scrollHeight));
+            const maxWidth = Math.max(...[...allGridItems].map((item) => item.clientWidth));
+            // In grid fixed grid mode we also need to resize the individual item containers.
+            if (this.rows !== "" && this.columns !== "") {
+                for (const [i, value] of this.state.used.entries()) 
+                    for (const [j, val] of value.entries()) {
+                        this._apply_attrs(this.used[i][j], {'style' : 'height: ' + `${maxHeight + 10}px;` + 'margin: 12px;'});
+                    }
+                }
+            // In all cases resize all grid-item or grid-item-rigid divs.
+            allGridItems.forEach((item) => {
+                item.style.height = `${maxHeight + 10}px`;
+                //item.style.width = `${maxWidth + 10}px`; 
+            });
+    }
+
+    /**
      * Updates the state based on changes in the used and available lists.
      *
      * @method
@@ -606,6 +632,13 @@ export const stack_sortable = class stack_sortable {
             this.input.dispatchEvent(new Event("change"));
         }
         this.state = newState;
+
+        const empties = document.querySelectorAll('.empty');
+        empties.forEach((div) => {if (!this._is_empty(div)) {
+            div.classList.remove('empty');
+            div.style.height = '';
+            div.style.margin = '';
+        }})
     }
 
     /**
@@ -766,7 +799,7 @@ export const stack_sortable = class stack_sortable {
      * @returns {boolean} - True if the list item is deletable, otherwise false.
      */
     _deletable_li(li) {
-        return !li.matches(".header") && !li.matches(".index") && !this._is_empty_li(li);
+        return !li.matches(".header") && !li.matches(".index") && !this._is_empty(li);
     }
 
     /**
@@ -975,13 +1008,13 @@ export const stack_sortable = class stack_sortable {
     }
 
     /**
-     * Checks if a list item (li) element is empty.
+     * Checks if an element is empty.
      *
-     * @param {HTMLElement} li - The list item (li) element to check.
-     * @returns {boolean} - True if the list item is empty, otherwise false.
+     * @param {HTMLElement} el - The element to check.
+     * @returns {boolean} - True if the element is empty, otherwise false.
      */
-    _is_empty_li(li) {
-        return li.textContent.trim() === "" && li.children.length === 0;
+    _is_empty(el) {
+        return el.textContent.trim() === "" && el.children.length === 0;
     }
 
     /**

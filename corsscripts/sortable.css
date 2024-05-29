@@ -77,7 +77,8 @@ button {
     min-height: 50px;
     height: auto; 
     background-color: inherit; text-align: left; border-right: thick solid rgb(196, 131, 10); 
-    padding: 10px; margin: 12px;
+    padding: 10px; 
+    margin: 6px;
 }
 
 .grid-item {
@@ -85,7 +86,7 @@ button {
 	background-color: #fff;
 	border: solid 1px rgb(0,0,0,0.2);
 	padding: 10px;
-	margin: 12px;
+	margin: 6px;
     display: flex;
     text-align: center;
 }
@@ -96,7 +97,7 @@ button {
 	background-color: #fff;
 	border: solid 1px rgb(0,0,0,0.2);
 	padding: 10px;
-	margin: 12px;
+	margin: 6px;
     display: flex;
     text-align: center;
 }
@@ -109,7 +110,7 @@ button {
     height: 50px;
     background-color: floralwhite; border: 1px solid rgb(155, 199, 206); 
     padding: 10px;
-	margin: 12px;
+	margin: 6px;
     text-align: center;
     display: flex;
 }

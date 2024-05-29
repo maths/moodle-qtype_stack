@@ -276,6 +276,8 @@ export function get_iframe_height() {
  * @property {boolean} use_index - Whether an index has been passed to the constructor or not.
  * @property {boolean} grid - Whether grid styling is to be applied (i.e., false if using for proof).
  * @property {string} item_class - The style class to use, different for proof vs. matching.
+ * @property {boolean} override_item_height - Whether a custom item height has been passed.
+ * @property {boolean} override_item_width - Whether a custom item width has been passed.
  * @property {Object} item_height_width - If item_height and item_width are passed to the constructor, object containing them.
  * @property {Object} container_height_width - Add padding to this.item_height_width to allow custom heights/widths to work.
  * @property {Object} ids - Contains DOM ids for used and available lists.
@@ -292,7 +294,8 @@ export function get_iframe_height() {
  * @method generate_available - Generates the available list based on the current state.
  * @method generate_used - Generates the used list based on the current state.
  * @method update_state - Updates the state based on changes in the used and available lists.
- * @method resize_grid_items - Resizes the height of divs with `grid-item` class according to the max height across grid items.
+ * @method update_grid_css - Updates the CSS styling of grid-items.
+ * @method resize_grid_items - Resizes the height and widths of elements with `grid-item` class according to the max values across grid items.
  * @method validate_options - Validates the sortable user options.
  *
  * @example
@@ -367,13 +370,14 @@ export const stack_sortable = class stack_sortable {
         this.item_class = (
             this.grid ? (this.orientation === "row" ? "grid-item-rigid" : "grid-item") : "list-group-item"
         );
+        this.override_item_height = (item_height !== "");
+        this.override_item_width = (item_width !== "");
         this.item_height_width = {"style" : ""};
-        for (const [key, val] of [["height", item_height], ["width", item_width]]) {
-            if (val !== "") {this.item_height_width["style"] += `${key}:${val}px;`};
-        };
+        if (this.override_item_height) {this.item_height_width["style"] += `height:${item_height}px;`}
+        if (this.override_item_width) {this.item_height_width["style"] += `width:${item_width}px;`}
         this.item_height_width = (this.item_height_width["style"] === "") ? {} : this.item_height_width;
         this.container_height_width = (Object.keys(this.item_height_width).length !== 0) ?
-            {"style" : this.item_height_width["style"] + "margin: 12px;"} : {};
+            {"style" : this.item_height_width["style"]} : {};
         this.state = this._generate_state(this.steps, inputId, Number(this.columns), Number(this.rows));
         if (inputId !== null) {
             this.input = document.getElementById(this.inputId);
@@ -593,8 +597,13 @@ export const stack_sortable = class stack_sortable {
     }
 
     /**
-     * Resizes all grid-item heights according to the maximum content height across all grid-items, adding an extra `10px` padding.
+     * Resizes all grid-item heights and widths according to the maximum content height across all grid-items.
+     * Only resizes widths if in "row" orientation, where we have to fix widths witht the grid-item-rigid class.
+     * Otherwise widths are already automatically resized.
      * Avoids affecting proof mode by virtue of grid-item and grid-item-rigid classes not being used there.
+     * 
+     * If `item_height` parameter has been passed, then heights will not be autoresized.
+     * Likewise, if `item_width` parameter has been passed, then widths will not be autoresized.
      *
      * @method
      * @returns {void}
@@ -602,19 +611,34 @@ export const stack_sortable = class stack_sortable {
     resize_grid_items() {
             const allGridItems = document.querySelectorAll('.grid-item, .grid-item-rigid');
             const maxHeight = Math.max(...[...allGridItems].map((item) => item.scrollHeight));
-            const maxWidth = Math.max(...[...allGridItems].map((item) => item.clientWidth));
+            const maxWidth = Math.max(...[...allGridItems].map((item) => item.scrollWidth));
+
+            // Resize all grid-item or grid-item-rigid divs heights.
+            allGridItems.forEach((item) => {
+                item.style.height = (this.override_item_height)? this.item_height_width['style']['height'] : `${maxHeight}px`;
+                // If the orientation is horizontal, then we also need to adjust widths due to rigid styles.
+                if (this.orientation === "row") {
+                    item.style.width = (this.override_item_width)? this.item_height_width['style']['width'] : `${maxWidth}px`; 
+                } else {
+                    // Reset the width to default if switching from horizontal to vertical.
+                    item.style.width = (this.override_item_width)? this.item_height_width['style']['width'] : '';
+                }
+            });
+
             // In grid fixed grid mode we also need to resize the individual item containers.
             if (this.rows !== "" && this.columns !== "") {
                 for (const [i, value] of this.state.used.entries()) 
                     for (const [j, val] of value.entries()) {
-                        this._apply_attrs(this.used[i][j], {'style' : 'height: ' + `${maxHeight + 10}px;` + 'margin: 12px;'});
+                        this.used[i][j].style.height = (this.override_item_height)? this.item_height_width['style']['height'] : `${maxHeight + 12}px`;
+                        // For horizontal orientaion, also adjust width.
+                        if (this.orientation === "row") {
+                            this.used[i][j].style.width = (this.override_item_width)? this.item_height_width['style']['width'] : `${maxWidth + 12}px`; 
+                        } else {
+                            // Reset the width to default if switching from horizontal to vertical.
+                            this.used[i][j].style.width = (this.override_item_width)? this.item_height_width['style']['width'] : '';
+                        }
                     }
                 }
-            // In all cases resize all grid-item or grid-item-rigid divs.
-            allGridItems.forEach((item) => {
-                item.style.height = `${maxHeight + 10}px`;
-                //item.style.width = `${maxWidth + 10}px`; 
-            });
     }
 
     /**
@@ -632,13 +656,33 @@ export const stack_sortable = class stack_sortable {
             this.input.dispatchEvent(new Event("change"));
         }
         this.state = newState;
+    }
 
+    /**
+     * Updates empty class elements according as whether they are no longer empty or become empty.
+     * Also updates the autosizing of all grid-item and grid-item-rigid elements.
+     * This should be passed to `onSort` option of sortables so that every time an element is dragged, 
+     * the CSS updates accordingly.
+     *
+     * @method
+     * @returns {void}
+     */
+    update_grid_css() {
+        // Remove empty class if no longer empty.
         const empties = document.querySelectorAll('.empty');
-        empties.forEach((div) => {if (!this._is_empty(div)) {
-            div.classList.remove('empty');
-            div.style.height = '';
-            div.style.margin = '';
+        empties.forEach((el) => {if (!this._is_empty(el)) {
+            el.classList.remove('empty');
+            el.style.height = '';
+            el.style.margin = '';
         }})
+
+        // re-assign empty class if empty
+        const usedLists = document.querySelectorAll('.usedList');
+        usedLists.forEach((el) => {if (this._is_empty(el)) {
+            el.classList.add('empty');
+        }})
+
+        this.resize_grid_items();
     }
 
     /**
@@ -960,6 +1004,9 @@ export const stack_sortable = class stack_sortable {
 
         // Keep track of current orientation.
         this.orientation = (this.orientation === "row") ? "col" : "row";
+
+        // Resize the grid-items as appropriate
+        this.resize_grid_items();
     }
 
     /**

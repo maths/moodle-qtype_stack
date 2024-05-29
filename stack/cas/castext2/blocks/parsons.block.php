@@ -311,10 +311,14 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'sortableUsed.forEach((sortableList) =>
             sortableList.forEach((sortable) =>
                 sortable.option("onSort", () => {
-                    stackSortable.update_state(sortableUsed, sortableAvailable);})
+                    stackSortable.update_state(sortableUsed, sortableAvailable);
+                    stackSortable.update_grid_css();})
             )
         );' . "\n";
-        $code .= 'sortableAvailable.option("onSort", () => {stackSortable.update_state(sortableUsed, sortableAvailable);});' . "\n";
+        $code .= 'sortableAvailable.option("onSort", 
+            () => {
+                stackSortable.update_state(sortableUsed, sortableAvailable);
+                stackSortable.update_grid_css();});' . "\n";
 
         // Options can now be validated since sortable objects have been instantiated, we throw warnings only.
         $code .= 'stackSortable.validate_options(

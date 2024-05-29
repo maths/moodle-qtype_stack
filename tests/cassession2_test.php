@@ -2690,6 +2690,7 @@ class cassession2_test extends qtype_stack_testcase {
             '\left( 1+\mathrm{i} \right)\cdot x^2+\left( 1-\mathrm{i} \right)',
         ];
         $cases[] = ['disp_select(a+b)+c', '\color{red}{\underline{a+b}}+c'];
+        $cases[] = ['disp_select(a+b)^3', '{\color{red}{\underline{a+b}}}^3'];
         $cases[] = ['remove_disp(disp_select(a+b)+c)', 'a+b+c'];
 
         $s1 = [];

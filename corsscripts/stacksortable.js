@@ -294,8 +294,8 @@ export function get_iframe_height() {
  * @method generate_available - Generates the available list based on the current state.
  * @method generate_used - Generates the used list based on the current state.
  * @method update_state - Updates the state based on changes in the used and available lists.
- * @method update_grid_css - Updates the CSS styling of grid-items.
- * @method resize_grid_items - Resizes the height and widths of elements with `grid-item` class according to the max values across grid items.
+ * @method update_grid_empty_css - Updates the CSS styling of grid-items.
+ * @method resize_grid_items - Auto-resizes the height and widths of elements with grid-item and grid-item-rigids. 
  * @method validate_options - Validates the sortable user options.
  *
  * @example
@@ -597,10 +597,10 @@ export const stack_sortable = class stack_sortable {
     }
 
     /**
-     * Resizes all grid-item heights and widths according to the maximum content height across all grid-items.
-     * Only resizes widths if in "row" orientation, where we have to fix widths witht the grid-item-rigid class.
+     * Resizes the heights and widths of all grid-item and grid-item-rigid elements according to the maximum content height across all such items.
+     * Only resizes widths if in "row" orientation, where we have to fix widths with the grid-item-rigid class.
      * Otherwise widths are already automatically resized.
-     * Avoids affecting proof mode by virtue of grid-item and grid-item-rigid classes not being used there.
+     * Avoids affecting proof mode by virtue of that mode avoiding grid-item classes entirely.
      * 
      * If `item_height` parameter has been passed, then heights will not be autoresized.
      * Likewise, if `item_width` parameter has been passed, then widths will not be autoresized.
@@ -609,36 +609,16 @@ export const stack_sortable = class stack_sortable {
      * @returns {void}
      */
     resize_grid_items() {
-            const allGridItems = document.querySelectorAll('.grid-item, .grid-item-rigid');
-            const maxHeight = Math.max(...[...allGridItems].map((item) => item.scrollHeight));
-            const maxWidth = Math.max(...[...allGridItems].map((item) => item.scrollWidth));
+            const maxHeight = this._resize_compute_max_height('.grid-item, .grid-item-rigid');
+            const maxWidth = this._resize_compute_max_width('.grid-item, .grid-item-rigid');
 
-            // Resize all grid-item or grid-item-rigid divs heights.
-            allGridItems.forEach((item) => {
-                item.style.height = (this.override_item_height)? this.item_height_width['style']['height'] : `${maxHeight}px`;
-                // If the orientation is horizontal, then we also need to adjust widths due to rigid styles.
-                if (this.orientation === "row") {
-                    item.style.width = (this.override_item_width)? this.item_height_width['style']['width'] : `${maxWidth}px`; 
-                } else {
-                    // Reset the width to default if switching from horizontal to vertical.
-                    item.style.width = (this.override_item_width)? this.item_height_width['style']['width'] : '';
-                }
-            });
+            // Resize the heights for both grid-item and grid-item-rigid
+            this._resize_heights('.grid-item, .grid-item-rigid', maxHeight);
 
-            // In grid fixed grid mode we also need to resize the individual item containers.
-            if (this.rows !== "" && this.columns !== "") {
-                for (const [i, value] of this.state.used.entries()) 
-                    for (const [j, val] of value.entries()) {
-                        this.used[i][j].style.height = (this.override_item_height)? this.item_height_width['style']['height'] : `${maxHeight + 12}px`;
-                        // For horizontal orientaion, also adjust width.
-                        if (this.orientation === "row") {
-                            this.used[i][j].style.width = (this.override_item_width)? this.item_height_width['style']['width'] : `${maxWidth + 12}px`; 
-                        } else {
-                            // Reset the width to default if switching from horizontal to vertical.
-                            this.used[i][j].style.width = (this.override_item_width)? this.item_height_width['style']['width'] : '';
-                        }
-                    }
-                }
+            // Additionally resize the width of grid-item-rigid
+            this._resize_widths('.grid-item-rigid', maxWidth);
+            this._resize_grid_container_heights(maxHeight);
+            this._resize_grid_container_widths(maxWidth);
     }
 
     /**
@@ -660,14 +640,15 @@ export const stack_sortable = class stack_sortable {
 
     /**
      * Updates empty class elements according as whether they are no longer empty or become empty.
-     * Also updates the autosizing of all grid-item and grid-item-rigid elements.
+     * This is not used by proof or grouping mode because the lists are never empty (they contain headers).
+     * This only affects the case in grid mode, where there are empty placeholders.
      * This should be passed to `onSort` option of sortables so that every time an element is dragged, 
      * the CSS updates accordingly.
      *
      * @method
      * @returns {void}
      */
-    update_grid_css() {
+    update_grid_empty_css() {
         // Remove empty class if no longer empty.
         const empties = document.querySelectorAll('.empty');
         empties.forEach((el) => {if (!this._is_empty(el)) {
@@ -676,13 +657,13 @@ export const stack_sortable = class stack_sortable {
             el.style.margin = '';
         }})
 
-        // re-assign empty class if empty
+        // re-assign empty class if empty.
         const usedLists = document.querySelectorAll('.usedList');
         usedLists.forEach((el) => {if (this._is_empty(el)) {
             el.classList.add('empty');
+            // We need to auto-resize the height again in this case. 
+            this._resize_set_height(el, this._resize_compute_max_height('.grid-item, .grid-item-rigid'));
         }})
-
-        this.resize_grid_items();
     }
 
     /**
@@ -1005,7 +986,12 @@ export const stack_sortable = class stack_sortable {
         // Keep track of current orientation.
         this.orientation = (this.orientation === "row") ? "col" : "row";
 
-        // Resize the grid-items as appropriate
+        // CSS resizing of grid-items
+        // --------------------------
+        // Reset heights and widths of grid items.
+        document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.width = '');
+        document.querySelectorAll('.grid-item, .grid-item-rigid').forEach((item) => item.style.height = '');
+        // Then update the CSS accordingly.
         this.resize_grid_items();
     }
 
@@ -1062,6 +1048,116 @@ export const stack_sortable = class stack_sortable {
      */
     _is_empty(el) {
         return el.textContent.trim() === "" && el.children.length === 0;
+    }
+
+    /**
+     * Computes the maximum height of all items as specified by the CSS selector.
+     * 
+     * @method
+     * @returns {void}
+     */
+    _resize_compute_max_height(selector) {
+        const selectedItems = document.querySelectorAll(selector);
+        return Math.max(...[...selectedItems].map((item) => item.scrollHeight));
+    }
+
+    /**
+     * Computes the maximum width of all items as specified by the CSS selector.
+     * 
+     * @method
+     * @returns {void}
+     */
+    _resize_compute_max_width(selector) {
+        const selectedItems = document.querySelectorAll(selector);
+        return Math.max(...[...selectedItems].map((item) => item.scrollWidth));
+    }
+
+    /**
+     * Resizes the height of an element in `px`.
+     * 
+     * If `item_height` parameter has been passed, then height will be overriden by the value in that parameter.
+     *
+     * @method
+     * @returns {void}
+     */
+    _resize_set_height(el, height) {
+        el.style.height = (this.override_item_height) ? this.item_height_width['style']['height'] : `${height}px`;
+    }
+
+    /**
+     * Resizes the width of an element in `px`.
+     * 
+     * If `item_width` parameter has been passed, then width will be overriden by the value in that parameter.
+     *
+     * @method
+     * @returns {void}
+     */
+    _resize_set_width(el, width) {
+        el.style.width = (this.override_item_width) ? this.item_height_width['style']['width'] : `${width}px`;
+    }
+
+    /**
+     * Resizes the heights of items specified by the CSS selector.
+     * 
+     * If `item_height` parameter has been passed, then heights will be overriden by the value in that parameter.
+     *
+     * @method
+     * @returns {void}
+     */
+    _resize_heights(selector, height) {
+        document.querySelectorAll(selector).forEach((item) => this._resize_set_height(item, height));
+    }
+
+    /**
+     * Resizes the widths of items specified by the CSS selector.
+     * 
+     * If `item_width` parameter has been passed, then widths will be overriden by the value in that parameter.
+     *
+     * @method
+     * @returns {void}
+     */
+    _resize_widths(selector, width) {
+        document.querySelectorAll(selector).forEach((item) => this._resize_set_width(item, width));
+    }
+
+    /**
+     * Resizes the heights of all containers containing placeholder lists in grid mode. Adds some extra to account for margin.
+     * 
+     * If `item_height` parameter has been passed, then the heights will be overriden by the value in that parameter.
+     *
+     * @method
+     * @returns {void}
+     */
+    _resize_grid_container_heights(height) {
+        if (this.rows !== "" && this.columns !== "") {
+            for (const [i, value] of this.state.used.entries()) 
+                for (const [j, _] of value.entries()) {
+                    this._resize_set_height(this.used[i][j], height + 12);
+            }
+        }
+    }
+
+    /**
+     * Resizes the widths of all containers containing placeholder lists in grid mode. Adds some extra to account for margin.
+     * 
+     * If `item_width` parameter has been passed, then the widths will be overriden by the value in that parameter.
+     *
+     * @method
+     * @returns {void}
+     */
+    _resize_grid_container_widths(width) {
+        if (this.rows !== "" && this.columns !== "") {
+            for (const [i, value] of this.state.used.entries()) 
+                for (const [j, _] of value.entries()) {
+                    // Adjust the width if in horizontal orientation.
+                    if (this.orientation === "row") {
+                        this._resize_set_width(this.used[i][j], width + 12);
+                    } else {
+                        // Else, set to inherit or override.
+                        this.used[i][j].style.width = (this.override_item_width) ? this.item_height_width['style']['width'] : '';
+                    }
+            }
+        }
     }
 
     /**

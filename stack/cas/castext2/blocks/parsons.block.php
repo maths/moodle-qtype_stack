@@ -293,6 +293,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'stackSortable.add_headers(headers, available_header);' . "\n";
         $code .= 'stackSortable.generate_used();' . "\n";
         $code .= 'stackSortable.generate_available();' . "\n";
+        // Update the empty placeholders in grid mode, which is required for non-empty start or fill in correct responses.
+        $code .= 'stackSortable.update_grid_empty_css();' . "\n";
 
         // Create the Sortable objects.
         // First, instantiate with default options first in order to extract all possible options for validation.

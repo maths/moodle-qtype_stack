@@ -54,8 +54,9 @@ define([
      * @param {String} name the name of the input we are validating.
      * @param {Object} input An object representing the input element for this input.
      * @param {String} language display language for this attempt.
+     * @param {Set} validationsInProgress names of inputs being validated for this question.
      */
-    function StackInput(validationDiv, prefix, qaid, name, input, language) {
+    function StackInput(validationDiv, prefix, qaid, name, input, language, validationsInProgress) {
         /** @type {number} delay between the user stopping typing, and the ajax request being sent. */
         var TYPING_DELAY = 1000;
 
@@ -67,6 +68,8 @@ define([
 
         /** @type {String} the last value that we sent to be validated. */
         var lastValidatedValue = getInputValue();
+        /** @type {HTMLElement} the 'Check' button for this question if it exists. */
+        var checkButton = document.getElementById(prefix + '-submit');
 
         /**
          * Cancel any typing pause timer.
@@ -100,6 +103,12 @@ define([
             if (getInputValue() === lastValidatedValue) {
                 cancelTypingDelay();
                 validationDiv.classList.remove('waiting');
+                if (checkButton) {
+                    validationsInProgress.delete(name);
+                    if (validationsInProgress.size === 0) {
+                        checkButton.disabled = false;
+                    }
+                }
             }
         }
 
@@ -230,6 +239,10 @@ define([
         function showWaiting() {
             removeAllClasses();
             validationDiv.classList.add('waiting');
+            if (checkButton) {
+                validationsInProgress.add(name);
+                checkButton.disabled = true;
+            }
         }
 
         /**
@@ -240,6 +253,12 @@ define([
             validationDiv.classList.remove('error');
             validationDiv.classList.remove('loading');
             validationDiv.classList.remove('waiting');
+            if (checkButton) {
+                validationsInProgress.delete(name);
+                if (validationsInProgress.size === 0) {
+                    checkButton.disabled = false;
+                }
+            }
         }
     }
 
@@ -431,6 +450,7 @@ define([
      */
     function initInputs(questionDivId, prefix, qaid, inputs) {
         var questionDiv = document.getElementById(questionDivId);
+        var validationsInProgress = new Set();
         var language = null;
         var langInput = document.getElementsByName(prefix + 'step_lang');
         if (langInput.length > 0 && langInput[0].value) {
@@ -440,7 +460,7 @@ define([
         // Initialise all inputs.
         var allok = true;
         for (var i = 0; i < inputs.length; i++) {
-            allok = initInput(questionDiv, prefix, qaid, inputs[i], language) && allok;
+            allok = initInput(questionDiv, prefix, qaid, inputs[i], language, validationsInProgress) && allok;
         }
 
         // With JS With instant validation, we don't need the Check button, so hide it.
@@ -459,16 +479,16 @@ define([
      * @param {String} name the input to initialise.
      * @return {boolean} true if this input was successfully initialised, else false.
      * @param {String} language display language for this attempt.
+     * @param {Set} validationsInProgress names of inputs being validated for this question.
      */
-    function initInput(questionDiv, prefix, qaid, name, language) {
+    function initInput(questionDiv, prefix, qaid, name, language, validationsInProgress) {
         var validationDiv = document.getElementById(prefix + name + '_val');
         if (!validationDiv) {
             return false;
         }
-
         var inputTypeHandler = getInputTypeHandler(questionDiv, prefix, name);
         if (inputTypeHandler) {
-            new StackInput(validationDiv, prefix, qaid, name, inputTypeHandler, language);
+            new StackInput(validationDiv, prefix, qaid, name, inputTypeHandler, language, validationsInProgress);
             return true;
         } else {
             return false;

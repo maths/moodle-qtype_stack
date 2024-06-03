@@ -1,7 +1,7 @@
 version: "4.0"
 services:
   maxima:
-    image: mathinstitut/goemaxima:2024060300-latest
+    image: mathinstitut/goemaxima:2024060301-latest
     tmpfs:
       - "/tmp"
     restart: unless-stopped

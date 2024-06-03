@@ -82,22 +82,22 @@ button {
 }
 
 .grid-item {
-	height: 50px;
-	background-color: #fff;
-	border: solid 1px rgb(0,0,0,0.2);
-	padding: 10px;
-	margin: 6px;
+    height: 50px;
+    background-color: #fff;
+    border: solid 1px rgb(0,0,0,0.2);
+    padding: 10px;
+    margin: 6px;
     display: flex;
     text-align: center;
 }
 
 .grid-item-rigid {
-	height: 50px;
+    height: 50px;
     width: 150px;
-	background-color: #fff;
-	border: solid 1px rgb(0,0,0,0.2);
-	padding: 10px;
-	margin: 6px;
+    background-color: #fff;
+    border: solid 1px rgb(0,0,0,0.2);
+    padding: 10px;
+    margin: 6px;
     display: flex;
     text-align: center;
 }
@@ -110,7 +110,7 @@ button {
     height: 50px;
     background-color: floralwhite; border: 1px solid rgb(155, 199, 206); 
     padding: 10px;
-	margin: 6px;
+    margin: 6px;
     text-align: center;
     display: flex;
 }

@@ -4,7 +4,7 @@ For current and future plans, see [Development track](Development_track.md) and 
 
 ## Version 4.6.0
 
-Released May 2024.
+Released June 2024.
 
 This version will require moodle 4.0+. Moodle 3.x is no longer supported.
 

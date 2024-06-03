@@ -293,6 +293,8 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'stackSortable.add_headers(headers, available_header);' . "\n";
         $code .= 'stackSortable.generate_used();' . "\n";
         $code .= 'stackSortable.generate_available();' . "\n";
+        // Update the empty placeholders in grid mode, which is required for non-empty start or fill in correct responses.
+        $code .= 'stackSortable.update_grid_empty_css();' . "\n";
 
         // Create the Sortable objects.
         // First, instantiate with default options first in order to extract all possible options for validation.
@@ -311,10 +313,15 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         $code .= 'sortableUsed.forEach((sortableList) =>
             sortableList.forEach((sortable) =>
                 sortable.option("onSort", () => {
-                    stackSortable.update_state(sortableUsed, sortableAvailable);})
+                    stackSortable.update_state(sortableUsed, sortableAvailable);
+                    stackSortable.update_grid_empty_css();})
             )
         );' . "\n";
-        $code .= 'sortableAvailable.option("onSort", () => {stackSortable.update_state(sortableUsed, sortableAvailable);});' . "\n";
+
+        $code .= 'sortableAvailable.option("onSort", 
+            () => {
+                stackSortable.update_state(sortableUsed, sortableAvailable);
+                stackSortable.update_grid_empty_css();});' . "\n";
 
         // Options can now be validated since sortable objects have been instantiated, we throw warnings only.
         $code .= 'stackSortable.validate_options(
@@ -334,6 +341,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
         }
 
+        // Resize grid-items if window size is changed.
+        $code .= 'window.addEventListener("resize", () => stackSortable.resize_grid_items())' . "\n";
+
         // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
         $code .= ($mathjaxversion === "2") ?
             'MathJax.Hub.Queue(["Typeset", MathJax.Hub]);' :
@@ -342,8 +352,12 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
         // Resize the outer iframe if the author does not pre-define width. Method depends on MathJax 2 or MathJax 3.
         if (!$existsuserheight) {
             $code .= ($mathjaxversion === "2") ?
-                'MathJax.Hub.Queue(() => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' :
-                'mathJaxPromise.then(() => {stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});';
+                'MathJax.Hub.Queue(() => {
+                    stackSortable.resize_grid_items(); 
+                    stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");})' :
+                'mathJaxPromise.then(() => {
+                    stackSortable.resize_grid_items(); 
+                    stack_js.resize_containing_frame("' . $width . '", get_iframe_height() + "px");});';
             $code .= "\n";
         }
 

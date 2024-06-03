@@ -341,6 +341,9 @@ class stack_cas_castext2_parsons extends stack_cas_castext2_block {
             $code .= 'stackSortable.add_dblclick_listeners(sortableUsed, sortableAvailable);' . "\n";
         }
 
+        // Resize grid-items if window size is changed.
+        $code .= 'window.addEventListener("resize", () => stackSortable.resize_grid_items())' . "\n";
+
         // Typeset MathJax. MathJax 2 uses Queue, whereas 3 works with promises.
         $code .= ($mathjaxversion === "2") ?
             'MathJax.Hub.Queue(["Typeset", MathJax.Hub]);' :

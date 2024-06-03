@@ -442,7 +442,7 @@ export const stack_sortable = class stack_sortable {
     add_delete_all_listener(buttonId, newUsed, newAvailable) {
         const button = document.getElementById(buttonId);
         button.addEventListener("click", () => {
-            this._delete_all_from_used(); this.update_state(newUsed, newAvailable);});
+            this._delete_all_from_used(); this.update_state(newUsed, newAvailable); this.update_grid_empty_css();});
     }
 
     /**
@@ -662,7 +662,7 @@ export const stack_sortable = class stack_sortable {
         usedLists.forEach((el) => {if (this._is_empty(el)) {
             el.classList.add('empty');
             // We need to auto-resize the height again in this case. 
-            this._resize_set_height(el, this._resize_compute_max_height('.grid-item, .grid-item-rigid'));
+            this._resize_set_height(el, this._resize_compute_max_height('.grid-item, .grid-item-rigid') + 12);
         }})
     }
 

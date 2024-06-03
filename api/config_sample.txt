@@ -100,3 +100,5 @@ $CFG->version = "2024052100";
 $CFG->mathsdisplay = 'api';
 
 $CFG->libdir = $CFG->dirroot . '/emulation/libdir';
+
+$CFG->mathjaxurl = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';

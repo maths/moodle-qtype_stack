@@ -89,13 +89,6 @@ function require_login() {
     return;
 }
 
-/*
- * Gets the URL used for MathJax in iframes.
- */
-function stack_get_mathjax_url(): string {
-    return get_config(null, 'mathjaxurl');
-}
-
 // Specialized emulations.
 require_once('Constants.php');
 require_once('Localization.php');

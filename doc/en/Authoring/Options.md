@@ -113,6 +113,8 @@ Do you really want to continue using \(\sqrt{}\) in your teaching?  In his *Elem
 
 A lot of elementary mathematics involves converting from one form to another and back again.  Sometimes these forms have important differences of use, e.g. factored form or completed square form for a quadratic.  However, sometimes these equivalent forms are more customary than because it *"manifestly corresponds with the nature of the thing"* in question.  I digress...
 
+STACK defines an \(n\)th root function `root(x,n)` which is a noun form for \(\sqrt[n](x)\).  This can be used by students, but if teachers wish to use this in question variables etc. then they must prefix this with the apostophie to create the nounform `'root(x,n)` to prevent immediate evaluation to `x^(1/n)`.
+
 ### sqrt(-1) {#sqrt_minus_one} ###
 
 In Maxima `%i` is the complex unit satisfying `%i^2=-1`.  However, students would

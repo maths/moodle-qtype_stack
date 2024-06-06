@@ -6708,7 +6708,12 @@
       "globalyforbiddenfunction": true
   },
   "root": {
-      "function": "s"
+      "function": "s",
+      "nounfunction": "'root"
+  },
+  "'root": {
+      "function": "t",
+      "nounfunctionfor": "root"
   },
   "rootsconmode": {
       "variable": "s"

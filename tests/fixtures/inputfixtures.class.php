@@ -459,8 +459,8 @@ class stack_inputvalidation_test_data {
             "There is an option to display this as \(x^{1/2}|\).",
         ],
         ['root(x)', 'php_true', 'root(x)', 'cas_true', '\sqrt{x}', '', ''],
-        ['root(x,3)', 'php_true', 'root(x,3)', 'cas_true', 'x^{\frac{1}{3}}', '', ''],
-        ['root(2,-3)', 'php_true', 'root(2,-3)', 'cas_true', '2^{\frac{1}{-3}}', '', ''],
+        ['root(x,3)', 'php_true', 'root(x,3)', 'cas_true', '\sqrt[3]{x}', '', ''],
+        ['root(2,-3)', 'php_true', 'root(2,-3)', 'cas_true', '\sqrt[-3]{2}', '', ''],
         // Parser rules in 4.3, identify cases where known functions (cf) are prefixed with single letter variables.
         ['bsin(t)', 'php_true', 'b*sin(t)', 'cas_true', 'b\cdot \sin \left( t \right)', 'missing_stars', ""],
         // So we have added gcf as a function so it is not g*cf...

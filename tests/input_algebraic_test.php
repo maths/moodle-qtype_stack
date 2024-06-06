@@ -1555,6 +1555,22 @@ class input_algebraic_test extends qtype_stack_testcase {
                 '\[ \left( a,\, b\right] \]');
     }
 
+    public function test_validate_student_response_root() {
+        $options = new stack_options();
+        $el = stack_input_factory::make('algebraic', 'sans1', 'x^(1/n)');
+        $el->set_parameter('sameType', true);
+
+        // We don't require intervals to have real numbers in them.
+        $state = $el->validate_student_response(['sans1' => 'root(x,n)'], $options, 'x^(1/n)',
+            new stack_cas_security(false, '', '', ['ta']));
+        $this->assertEquals($state->status, stack_input::VALID);
+        $this->assertEquals('', $state->note);
+        $this->assertEquals('', $state->errors);
+        $this->assertEquals($state->contentsmodified, '\'root(x,n)');
+        $this->assertEquals($state->contentsdisplayed,
+            '\[ \sqrt[n]{x} \]');
+    }
+
     public function test_validate_student_response_tex() {
         $options = new stack_options();
         $el = stack_input_factory::make('algebraic', 'sans1', '{}');

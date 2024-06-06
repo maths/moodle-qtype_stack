@@ -114,6 +114,9 @@ class stack_answertest_test_data {
 
         ['AlgEquiv', '', 'x^(1/2)', 'sqrt(x)', 1, '', 'Powers and roots'],
         ['AlgEquiv', '', 'x', 'sqrt(x^2)', 0, '', ''],
+        ['AlgEquiv', '', '\'root(x)', 'x^(1/2)', 1, '', ''],
+        ['AlgEquiv', '', '\'root(x,m)', 'x^(1/m)', 1, '', ''],
+        ['AlgEquiv', '', 'x', '\'root(x^2)', 0, '', ''],
         ['AlgEquiv', '', 'abs(x)', 'sqrt(x^2)', 1, '', ''],
         ['AlgEquiv', '', '1/abs(x)^(1/3)', '(abs(x)^(1/3)/abs(x))^(1/2)', 1, '', ''],
         ['AlgEquiv', '', 'sqrt((x-3)*(x-5))', 'sqrt(x-3)*sqrt(x-5)', 0, '', ''],

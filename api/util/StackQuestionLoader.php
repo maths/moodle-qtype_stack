@@ -23,6 +23,8 @@ namespace api\util;
 use SimpleXMLElement;
 defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/../../question.php');
+require_once(__DIR__ . '/../../stack/questiontest.php');
+require_once(__DIR__ . '/../../stack/potentialresponsetreestate.class.php');
 
 /**
  * TO-DO: Rework, dont use legacy classes
@@ -267,6 +269,24 @@ class StackQuestionLoader {
         }
 
         $question->deployedseeds = $deployedseeds;
+        // TO-DO Only load when running tests.
+        $testcases = [];
+        foreach ($xmldata->question->qtest as $test) {
+            $testinputs = [];
+            foreach($test->testinput as $testinput) {
+                $testinputs[(string) $testinput->name] = (string) $testinput->value;
+            }
+            $testcase = new \stack_question_test((string) $test->description, $testinputs, (string) $test->testcase);
+            foreach ($test->expected as $expected) {
+                $testcase->add_expected_result((string) $expected->name,
+                        new \stack_potentialresponse_tree_state(1, true,
+                                (string) $expected->expectedscore, (string) $expected->expectedpenalty,
+                                '', [(string) $expected->expectedanswernote]));
+            }
+            $testcases[] = $testcase;
+        }
+
+        $question->testcases = $testcases;
 
         return $question;
     }

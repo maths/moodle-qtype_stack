@@ -89,6 +89,13 @@ function require_login() {
     return;
 }
 
+function get_file_storage() {
+    $storage = new class {
+        public function get_area_files($x, $y, $z, $a) {return [];}
+    };
+    return $storage;
+}
+
 // Specialized emulations.
 require_once('Constants.php');
 require_once('Localization.php');

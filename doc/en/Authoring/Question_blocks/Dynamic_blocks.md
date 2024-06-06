@@ -65,6 +65,10 @@ In an adaptbutton block you can refer to this id in the attributes `show_id` and
 [[adaptbutton title="Click me for task 2" show_id="task2" hide_id="task1"]] [[/adaptbutton]]
 ```
 
+To do: 
+1. New block `[[adaptforce show_id="task2" hide_id="task1"]] [[/adaptforce]]` which will execute whenever it appears on the page.  E.g. a PRT could contain this to hide/show the adapt blocks.
+2. New block `[[adaptdelay show_id="task2" hide_id="task1" delay="3s"]] [[/adaptdelay]]` which will execute whenever it appears on the page, with a time delay.
+
 
 ## JSXGraph block ##
 

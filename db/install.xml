@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="question/type/stack/db" VERSION="20230421" COMMENT="XMLDB file for Moodle question/type/stack"
+<XMLDB PATH="question/type/stack/db" VERSION="20240324" COMMENT="XMLDB file for Moodle question/type/stack"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
 >
@@ -13,6 +13,7 @@
         <FIELD NAME="specificfeedback" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text for the specific feedback for the question."/>
         <FIELD NAME="specificfeedbackformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The FORMAT_... for the specific feedback"/>
         <FIELD NAME="questionnote" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="CAS text. This should be a short summary of which random variant of the question the student saw."/>
+        <FIELD NAME="questionnoteformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The FORMAT_... for the question note"/>
         <FIELD NAME="questiondescription" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="CAS text. This field is used to store a description/nararive about the question itself."/>
         <FIELD NAME="questiondescriptionformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The FORMAT_... for the question description"/>
         <FIELD NAME="questionsimplify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to simplify expressions in the question text, question variables, etc."/>
@@ -24,6 +25,8 @@
         <FIELD NAME="prtpartiallycorrectformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Text format for the prtpartiallycorrect field."/>
         <FIELD NAME="prtincorrect" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Standard feedback displayed for any PRT that returns a score of 0."/>
         <FIELD NAME="prtincorrectformat" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Text format for the prtincorrect field."/>
+        <FIELD NAME="decimals" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="." SEQUENCE="false" COMMENT="The symbol to use for the decimal separator."/>
+        <FIELD NAME="scientificnotation" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="*10" SEQUENCE="false" COMMENT="Controls display of numbers written in scientific notation."/>
         <FIELD NAME="multiplicationsign" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="dot" SEQUENCE="false" COMMENT="The symbol to use for multiplication."/>
         <FIELD NAME="sqrtsign" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to display square roots as surds."/>
         <FIELD NAME="complexno" TYPE="char" LENGTH="8" NOTNULL="true" DEFAULT="i" SEQUENCE="false" COMMENT="How complex numbers should be displayed and represented."/>

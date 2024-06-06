@@ -1,0 +1,36 @@
+/****************************************************************/
+thm:"\\(\\log_2(3)\\) is irrational.";
+
+/****************************************************************/
+proof_steps: [
+    ["assume",    "Assume, for a contradiction, that \\(\\log_2(3)\\) is rational."],
+    ["defn_rat",  "Then \\(\\log_2(3) = \\frac{p}{q}>0\\) where "],
+    ["defn_rat2", "\\(p\\) and \\(q\\neq 0\\) are positive integers.",
+                  "This is the definition of rational number."],
+    ["defn_log",  "Using the definition of logarithm:",
+                  "Recall that \\(\\log_a(b)=x \\Leftrightarrow a^x=b\\)."],
+    ["defn_log2", "\\( 3 = 2^{\\frac{p}{q}}\\)"],
+    ["con",       "if and only if"],
+    ["alg",       "\\( 3^q = 2^p\\)"],
+    ["alg_int",   "The left hand side is always odd and the right hand side is always even."],
+    ["contra",    "This is a contradiction.",
+                  "Notice this is a genuine contradiction, making it difficult to reformulate as a contrapositive."],
+    ["conc",      "Hence \\(\\log_2(3)\\) is irrational."]
+];
+
+/****************************************************************/
+/* It is possible to add in extra, unnecessary.                 */
+/****************************************************************/
+wrong_steps:[
+    ["assume2",   "Assume, for a contradiction, that \\(\\log_2(3)\\) is irrational."],
+    ["defn_log3", "\\( 2 = 3^{\\frac{p}{q}}\\)"],
+    ["alg2",      "\\( 2^q = 3^p\\)"],
+    ["alg_int2",  "The right hand side is always odd and the left hand side is always even."]
+];
+/* Remove this comment to use them!
+proof_steps:append(proof_steps,wrong_steps);
+*/
+
+/****************************************************************/
+proof_ans:proof("assume","defn_rat","defn_rat2","defn_log","defn_log2","con","alg","alg_int","contra","conc");
+

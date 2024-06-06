@@ -24,6 +24,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/autogen/parser.mbstring.php');
 // Also needs stack_string().
 require_once(__DIR__ . '/../../locallib.php');
+require_once(__DIR__ . '/../../vle_specific.php');
 require_once(__DIR__ . '/../utils.class.php');
 require_once(__DIR__ . '/MP_classes.php');
 
@@ -44,7 +45,7 @@ class maxima_parser_utils {
         $parseoptions = [
             'startRule' => $parserule,
             'letToken' => stack_string('equiv_LET'),
-            'allowPM' => $allowpm
+            'allowPM' => $allowpm,
         ];
         if ($parserule === 'Root') {
             $cachekey = ($allowpm ? '|PM|' : '|noPM|') . $parseoptions['letToken'] . '|' . $code;
@@ -99,7 +100,7 @@ class maxima_parser_utils {
     // use when you need to have pretty printed position data.
     public static function position_remap(MP_Node $ast, string $code, array $limits = null) {
         if ($limits === null) {
-            $limits = array();
+            $limits = [];
             foreach (explode("\n", $code) as $line) {
                 $limits[] = strlen($line) + 1;
             }
@@ -197,7 +198,7 @@ class maxima_parser_utils {
     public static function strip_comments(MP_Root $ast) {
         // For now comments exist only at the top level and there are no "inline"
         // comments within statements, hopefully at some point we can go further.
-        $nitems = array();
+        $nitems = [];
         foreach ($ast->items as $node) {
             if ($node instanceof MP_Comment) {
                 continue;
@@ -247,8 +248,6 @@ class maxima_parser_utils {
     // Generates errors if inclusions within inclusions or inclusions in unexpected places.
     // Returns either the AST or some form of an exception.
     public static function parse_and_insert_missing_semicolons_with_includes($str) {
-        static $remotes = [];
-
         $root = self::parse_and_insert_missing_semicolons($str);
         if ($root instanceof MP_Root) {
             if (isset($root->position['fixedsemicolons'])) {
@@ -259,9 +258,9 @@ class maxima_parser_utils {
             // Ok now seek for the inclusions if any are there.
             $includecount = 0;
             $errors = [];
-            $include = function($node) use (&$includecount, &$errors, &$remotes) {
+            $include = function($node) use (&$includecount, &$errors) {
                 if ($node instanceof MP_FunctionCall && $node->name instanceof MP_Atom &&
-                    $node->name->value === 'stack_include') {
+                    ($node->name->value === 'stack_include' || $node->name->value === 'stack_include_contrib')) {
                     // Now the first requirement for this is that this must be a top level item
                     // in this statement, this statement may not have flags or anythign else.
                     if ($node->parentnode instanceof MP_Statement) {
@@ -271,17 +270,16 @@ class maxima_parser_utils {
                                 $includecount = $includecount + 1;
                                 $srccode = '1';
                                 // Various repeated validation steps may lead to multiple fetches for a single
-                                // request, lets not do those, lets save some bandwith for those that share
+                                // request, let's not do those, let's save some bandwith for those that share
                                 // such stuff.
-                                if (isset($remotes[$node->arguments[0]->value])) {
-                                    $srccode = $remotes[$node->arguments[0]->value];
-                                } else {
-                                    $srccode = file_get_contents($node->arguments[0]->value);
-                                    $remotes[$node->arguments[0]->value] = $srccode;
+                                $remoteurl = $node->arguments[0]->value;
+                                if ($node->name->value === 'stack_include_contrib') {
+                                    $remoteurl = 'contrib://' . $remoteurl;
                                 }
+                                $srccode = stack_fetch_included_content($remoteurl);
                                 if ($srccode === false) {
                                     // Do not give the address in the output.
-                                    $errors[] = 'stack_include, could not retrieve: #' . $includecount;
+                                    $errors[] = 'stack_include or stack_include_contrib, could not retrieve: ' . $remoteurl;
                                     $node->name->value = 'failed_stack_include';
                                     $node->position['invalid'] = true;
                                     return true;
@@ -360,7 +358,7 @@ class maxima_parser_utils {
             while ($root->callbackRecurse($include) !== true) {}
             // @codingStandardsIgnoreEnd
 
-            // TODO: wrap those errors into something more readable.
+            // TO-DO: wrap those errors into something more readable.
             if (count($errors) > 0) {
                 // Returning an exception because we already either return an excpetion or the root node, so why
                 // have even more types in play.
@@ -404,18 +402,18 @@ class maxima_parser_utils {
     // Tool to extract information about which variables are being used and how.
     // In a given parsed section of code. Updates a given usage list so that use
     // for example in going through a PRT tree is convenient.
-    public static function variable_usage_finder($ast, $output=array()) {
+    public static function variable_usage_finder($ast, $output=[]) {
         if (!array_key_exists('read', $output)) {
-            $output['read'] = array();
+            $output['read'] = [];
         }
         if (!array_key_exists('write', $output)) {
-            $output['write'] = array();
+            $output['write'] = [];
         }
         if (!array_key_exists('calls', $output)) {
-            $output['calls'] = array();
+            $output['calls'] = [];
         }
         if (!array_key_exists('declares', $output)) {
-            $output['declares'] = array();
+            $output['declares'] = [];
         }
         $recursion = function($node) use(&$output) {
             // Feel free to expand this to track any other types of usages,
@@ -1138,8 +1136,10 @@ class maxima_parser_utils {
                     // the three argument case as we see what we do in those cases, others
                     // stay 'unevaluated' for now.
                     if (count($node->arguments) === 3) {
-                        $r = new MP_FunctionCall(new MP_Identifier('ev'), [$node->arguments[2],
-                            new MP_Operation('=', $node->arguments[1], $node->arguments[0])]);
+                        $r = new MP_FunctionCall(new MP_Identifier('ev'), [
+                            $node->arguments[2],
+                            new MP_Operation('=', $node->arguments[1], $node->arguments[0]),
+                        ]);
                         $node->parentnode->replace($node, $r);
                         return false;
                     } else if (count($node->arguments) === 2) {
@@ -1342,8 +1342,7 @@ class maxima_parser_utils {
             if (($node instanceof MP_List && (!($node->parentnode instanceof MP_Indexing)
                     || $node->parentnode->target === $node)) || $node instanceof MP_Set) {
                 // This aims to cut down rands and matrices present in the AST.
-                // Note that while stack_expression_list is a thing we do not create
-                // them here.
+                // Note that while stack_expression_list is a thing, we do not create them here.
                 $types = $node->type_count();
                 if (!isset($types['MP_Identifier']) && !isset($types['MP_String']) && !isset($types['MP_FunctionCall'])
                         && !(isset($types['ops']) && isset($types['ops'][':']))) {
@@ -2169,7 +2168,7 @@ class maxima_parser_utils {
                             if ($arg instanceof MP_Operation && ($arg->op === '=' || $arg->op === ':')
                                     && $arg->lhs instanceof MP_Identifier) {
                                 $repl[$arg->lhs->value] = clone $arg->rhs;
-                            } // TODO: is this else condition reachable? If so tag everything as unknown.
+                            } // TO-DO: is this else condition reachable? If so tag everything as unknown.
                         }
                         foreach ($repl as $key => $value) {
                             if (!isset($output[$key])) {

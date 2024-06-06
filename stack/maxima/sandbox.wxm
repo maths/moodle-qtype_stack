@@ -1,5 +1,5 @@
 /* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
-/* [ Created with wxMaxima version 19.05.7 ] */
+/* [ Created with wxMaxima version 20.12.1 ] */
 /* [wxMaxima: title   start ]
 STACK Sandbox
    [wxMaxima: title   end   ] */
@@ -45,6 +45,8 @@ stacktmplocation:"/tmp"$
 */
 file_search_maxima:append( [sconcat(stacklocation, "/stack/maxima/###.{mac,mc}")] , file_search_maxima)$
 file_search_lisp:append( [sconcat(stacklocation, "/stack/maxima/###.{lisp}")] , file_search_lisp)$
+file_search_maxima:append( [sconcat(stacklocation, "/stack/maxima/contrib/###.{mac,mc}")] , file_search_maxima)$
+file_search_lisp:append( [sconcat(stacklocation, "/stack/maxima/contrib/###.{lisp}")] , file_search_lisp)$
 file_search_maxima:append( [sconcat(stacktmplocation, "/###.{mac,mc}")] , file_search_maxima)$
 file_search_lisp:append( [sconcat(stacktmplocation, "/###.{lisp}")] , file_search_lisp)$
 
@@ -81,7 +83,14 @@ load("stackmaxima.mac")$
 load("stats")$
 load("distrib")$
 load("descriptive")$
+alias(stack_include_contrib, load)$
+
 print(sconcat("[ STACK-Maxima started, library version ", stackmaximaversion, " ]"))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+
 /* [wxMaxima: input   end   ] */
 
 
@@ -95,4 +104,4 @@ debug:true;
 
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
-"Created with wxMaxima 19.05.7"$
+"Created with wxMaxima 20.12.1"$

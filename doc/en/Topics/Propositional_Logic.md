@@ -4,7 +4,7 @@ STACK loads the "logic" package from Maxima.
 
 ## Boolean functions
 
-Maxima has Boolean operators `and`, `or`, and `not`.  These rely on the underlying LISP implementation and as a result the `simp:false` is ignored.  
+Maxima has Boolean operators `and`, `or`, and `not`.  These rely on the underlying LISP implementation and as a result the `simp:false` is ignored.
 To illustrate the problem, try the following.
 
     simp:false$
@@ -21,15 +21,15 @@ which would be a natural way to express the solution to a quadratic equation.
 
 To solve this problem STACK has introduced `nounand` and `nounor` which are commutative and associative operators.
 
-Students do *not* need to use `nounand` and `nounor` in answers.  
+Students do *not* need to use `nounand` and `nounor` in answers.
 Any `and` and `or` operators occurring in their answers are always automatically converted into these noun forms.
 
-Teachers *always* need to use `nounand` and `nounor` in CAS expressions when they want to write non-simplifying expressions.  
-For example, when defining the "teacher's answer" they should use the noun forms as appropriate.  
+Teachers *always* need to use `nounand` and `nounor` in CAS expressions when they want to write non-simplifying expressions.
+For example, when defining the "teacher's answer" they should use the noun forms as appropriate.
 Teachers often need to use Boolean logic, and so need to consciously separate the difference between these operators and concepts.
 
-Note, the answer tests do *not* convert noun forms to the Maxima forms.  
-Otherwise both `x=1 or x=2` and `x=1 or x=3` would be evaluated to `false` and a teacher could not tell that they are different!  
+Note, the answer tests do *not* convert noun forms to the Maxima forms.
+Otherwise both `x=1 or x=2` and `x=1 or x=3` would be evaluated to `false` and a teacher could not tell that they are different!
 To replace all `nounand` (etc) operators and replace them with the Maxima equivalent, use `noun_logic_remove(ex)`.
 
 ## Operators and notes
@@ -45,7 +45,7 @@ To replace all `nounand` (etc) operators and replace them with the Maxima equiva
 
 Notes
 
-* There is no support for symbolic logic symbol input currently and students cannot type `&`, `*` for `and`, and similarly students cannot type `+` for `or`.
+* If you would like to accept `*` for `and` and `+` for `or` then you can use the feedback variables to replace operators.  E.g. by using `sa:subst(["*"="nounand", "+"="nounor","!"="nounnot"], ans1);`. Note that students cannot type `&` or an apostrophe as part of their input.  In the above example we use the post-fix factorial operator `!` is used for logical negation.
 * There is no existential operator (not that this is propositional logic, but for the record) or an interpretation of '?' as there exits, and there is no universal operator (which some people type in as `!`).
 * To change between language or symbols for logic, use the Logic symbols [option](../Authoring/Tables.md). The default behaviour is to use language.
 
@@ -53,7 +53,7 @@ The function `verb_logic(ex)` will remove the noun forms such as `nounand` and s
 
 ## Answer tests
 
-The answer tests protect the logical operators.  This behaviour is to prevent evaluation of expressions such as `x=1` as a boolean predicate fuction.  I.e. the default behaviour is to give priority to the assumption an arbitary expression is an algebraic expression, or a set of equations, inequalities etc.
+The answer tests protect the logical operators.  This behaviour is to prevent evaluation of expressions such as `x=1` as a boolean predicate function.  I.e. the default behaviour is to give priority to the assumption an arbitrary expression is an algebraic expression, or a set of equations, inequalities etc.
 
 The answer test `PropLogic` replaces all noun logical expressions with the Maxima versions, and then tests two expressions using the function `logic_equiv` from Maxima's logic package.  This answer test does not support sets, lists, etc.
 

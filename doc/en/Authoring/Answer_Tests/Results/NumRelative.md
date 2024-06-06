@@ -403,4 +403,20 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c4"><pre>0.1</pre></td>
   <td class="cell c5">1</td>
   <td class="cell c6"></td>
+</tr>
+<tr class="notes">
+  <td class="cell c0"><td colspan="6">Complex numbers</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">NumRelative</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>0.99*%i</pre></td>
+  <td class="cell c3"><pre>%i</pre></td>
+  <td class="cell c4"><pre>0.1</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATNumerical_SA_not_number.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer should be a floating point number, but is not.</td></td>
 </tr></tbody></table></div>

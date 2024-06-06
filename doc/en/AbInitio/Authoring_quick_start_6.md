@@ -77,7 +77,7 @@ STACK creates three potential response trees by detecting the feedback tags auto
 
 ### Stage 1: a working potential response tree
 
-The first stage is to include the simplest potential response trees.  These will simply ensure that answers are "correct".  In each potential response tree, make sure to test that \(\mbox{ans}_i\) is algebraically equivalent to \(\mbox{ta}_i\), for \(i=1,2,3\).  At this stage we have a working question.  Save it and preview the question.  For reference, the correct answers are
+The first stage is to include the simplest potential response trees.  These will simply ensure that answers are "correct".  In each potential response tree, make sure to test that \(\text{ans}_i\) is algebraically equivalent to \(\text{ta}_i\), for \(i=1,2,3\).  At this stage we have a working question.  Save it and preview the question.  For reference, the correct answers are
 
 ```
  ta1 = 3*x^2-4*x+1

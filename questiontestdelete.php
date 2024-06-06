@@ -34,9 +34,9 @@ $questionid = required_param('questionid', PARAM_INT);
 $testcase = required_param('testcase', PARAM_INT);
 
 // Load the necessary data.
-$questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
+$questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
-$DB->get_record('qtype_stack_qtests', array('questionid' => $question->id, 'testcase' => $testcase),
+$DB->get_record('qtype_stack_qtests', ['questionid' => $question->id, 'testcase' => $testcase],
         '*', MUST_EXIST); // Just to verify that the record exists.
 
 // Process any other URL parameters, and do require_login.
@@ -50,7 +50,7 @@ $backurl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams
 $urlparams['testcase'] = $testcase;
 $PAGE->set_url('/question/type/stack/questiontestdelete.php', $urlparams);
 $title = stack_string('deletetestcase',
-        array('no' => $testcase, 'question' => format_string($question->name)));
+        ['no' => $testcase, 'question' => format_string($question->name)]);
 
 require_login();
 
@@ -67,7 +67,7 @@ $PAGE->set_pagelayout('popup');
 echo $OUTPUT->header();
 
 echo $OUTPUT->confirm(stack_string('deletetestcaseareyousure',
-        array('no' => $testcase, 'question' => format_string($question->name))),
-        new moodle_url($PAGE->url, array('sesskey' => sesskey())), $backurl);
+        ['no' => $testcase, 'question' => format_string($question->name)]),
+        new moodle_url($PAGE->url, ['sesskey' => sesskey()]), $backurl);
 
 echo $OUTPUT->footer();

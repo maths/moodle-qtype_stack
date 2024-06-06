@@ -43,13 +43,13 @@ class cassession2_exception_test extends qtype_stack_testcase {
 
     public function test_exception_2() {
         $this->expectException(stack_exception::class);
-        $at1 = new stack_cas_session2(array(), null, false);
+        $at1 = new stack_cas_session2([], null, false);
         $at1->get_valid();
     }
 
     public function test_exception_3() {
         $this->expectException(stack_exception::class);
-        $at1 = new stack_cas_session2(array(1, 2, 3), null, false);
+        $at1 = new stack_cas_session2([1, 2, 3], null, false);
     }
 
     public function test_exception_4() {

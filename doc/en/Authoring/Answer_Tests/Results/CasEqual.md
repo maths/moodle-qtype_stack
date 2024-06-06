@@ -98,6 +98,18 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c6">ATCASEqual (AlgEquiv-true).</td>
 </tr>
 <tr class="notes">
+  <td class="cell c0"><td colspan="6">Unary plus</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">CasEqual</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>+1-2</pre></td>
+  <td class="cell c3"><pre>1-2</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATCASEqual (AlgEquiv-true).</td>
+</tr>
+<tr class="notes">
   <td class="cell c0"><td colspan="6">Powers</td></td>
 </tr>
 <tr class="pass">
@@ -411,6 +423,46 @@ i/6))</pre></td>
   <td class="cell c4"></td>
   <td class="cell c5">1</td>
   <td class="cell c6">ATCASEqual_true.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">CasEqual</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>complex_exponentialp(3*exp(-%i
+*%pi/6))</pre></td>
+  <td class="cell c3"><pre>true</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATCASEqual_true.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">CasEqual</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>complex_exponentialp(-3*exp(%i
+*%pi/6))</pre></td>
+  <td class="cell c3"><pre>true</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATCASEqual_true.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">CasEqual</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>complex_exponentialp(-(3*exp(%
+i*%pi/6)))</pre></td>
+  <td class="cell c3"><pre>true</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATCASEqual_true.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">CasEqual</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>complex_exponentialp(-(r*exp(i
+*atan(bb/aa))))</pre></td>
+  <td class="cell c3"><pre>true</pre></td>
+  <td class="cell c4"></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATCASEqual_false.</td>
 </tr>
 <tr class="pass">
   <td class="cell c0">CasEqual</td>

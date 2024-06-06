@@ -138,15 +138,17 @@
 
 )) ;; etc
 
-
-
 ;; Remove un-needed {}s from string output.
 ;; Chris Sangwin, 28/10/2009
 
 (defun tex-string (x)
-  (cond ((equal x "") (concatenate 'string "\\mbox{ }"))
+  (cond ((equal x "") (concatenate 'string "\\text{ }"))
     ((eql (elt x 0) #\\) x)
-    (t (concatenate 'string "\\mbox{" x "}"))))
+    (t (concatenate 'string "\\text{" x "}"))))
+
+;; Remove & from the quoted characters.
+(defun quote-% (sym)
+  (quote-chars sym "$%_"))
 
 ;; Chris Sangwin, 21/9/2010
 
@@ -239,7 +241,7 @@
 ;; This list is an exception, e.g. conjugate(x)^2.
 ;; We use this list because tex-mexpt is also defined in stacktex40.lisp for earlier versions of Maxima.
 (defvar tex-mexpt-fnlist '(%sum %product %derivative %integrate %at $conjugate $texsub $lg $logbase %sqrt
-                                         %lsum %limit $pderivop $#pm#))
+                                         %lsum %limit $pderivop $#pm# $disp_select))
 
 ;; insert left-angle-brackets for mncexpt. a^<n> is how a^^n looks.
 (defun tex-mexpt (x l r)
@@ -294,6 +296,16 @@
                              (tex x (list "^")(cons "" r) 'mparen 'mparen)
                              (tex x (list "^{")(cons "}" r) 'mparen 'mparen)))))))
     (append l r)))
+
+;; Added by CJS, 15-2-24.  Display an aligned environmant.
+(defprop $aligned tex-aligned tex)
+
+(defun tex-aligned(x l r) ;;matrix looks like ((mmatrix)((mlist) a b) ...)
+  (append l `("\\begin{aligned}")
+      (mapcan #'(lambda(y)
+              (tex-list (cdr y) nil (list "\\cr ") "&"))
+          (cdr x))
+      '("\\end{aligned}") r))
 
 ;; Added by CJS, 10-9-16.  Display an argument.
 (defprop $argument tex-argument tex)
@@ -492,3 +504,29 @@
 (defmfun $get_texword (x) (or (get x 'texword) (get (get x 'reversealias) 'texword)))
 
 (defmfun $get_texsym (x) (car (or (get x 'texsym) (get x 'strsym) (get x 'dissym) (stripdollar x))))
+
+;; *************************************************************************************************
+;; Added 20 Feb 2022.
+;; 
+;; Change the list separation on tex output when commas are used for decimal separators.
+;;
+;; Code below makes the list separator a normal "texput" concern. 
+;; E.g. in maxima: texput(stacklistsep, " ; ");
+;; (defprop $stacklistsep " , " texword)
+;;
+;;(defun tex-matchfix (x l r)
+;;  (setq l (append l (car (texsym (caar x))))
+;;    ;; car of texsym of a matchfix operator is the lead op
+;;    r (append (list (nth 1 (texsym (caar x)))) r)
+;;    ;; cdr is the trailing op
+;;    x (tex-list (cdr x) nil r (or (nth 2 (texsym (caar x))) (get '$stacklistsep 'texword))))
+;;  (append l x))
+
+(defun tex-matchfix (x l r)
+  (setq l (append l (car (texsym (caar x))))
+    ;; car of texsym of a matchfix operator is the lead op
+    r (append (list (nth 1 (texsym (caar x)))) r)
+    ;; cdr is the trailing op
+    x (tex-list (cdr x) nil r (or (nth 2 (texsym (caar x))) (if (string= $stackfltsep '",") '" ; " '" , "))))
+  (append l x))
+

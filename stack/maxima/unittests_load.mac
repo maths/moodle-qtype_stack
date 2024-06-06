@@ -13,6 +13,7 @@ LOADDIR:"stackmaxima.mac"$
 print("Working from: ")$
 print(LOADDIR)$
 load(LOADDIR)$
+load("stackunits.mac")$
 
 no_fails:0$ all_pass:true$
 

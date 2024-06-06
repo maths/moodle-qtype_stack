@@ -33,7 +33,7 @@ class qtype_stack_test_helper extends question_test_helper {
     const DEFAULT_INCORRECT_FEEDBACK        = '<p>Incorrect answer.</p>';
 
     public function get_test_questions() {
-        return array(
+        return [
             'test0', // One input, one PRT, not randomised. 1 + 1 = 2.
             'test1', // One input, one PRT, randomised. Integrate (v - a) ^ n, a, n small random ints.
             'test2', // Two inputs, one PRT, not randomises. Expand (x - 2)(x - 3).
@@ -50,6 +50,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'numdpsfeedbackvars',   // Two numerical inputs, one PRT, uses ATNumDPs and feedback variables (illustrates problem).
             '1input2prts',  // Contrived example with one input, 2 prts, all feedback in the specific feedback area.
             'information',  // Neither inputs nor PRTs.
+            'variable_grade', // Variables in grade.
             'survey',       // Inputs, but no PRTs.
             'single_char_vars',   // Tests the insertion of * symbols between letter names.
             'runtime_prt_err',    // This generates an error in the PRT at runtime.  With and without guard clause.
@@ -59,6 +60,7 @@ class qtype_stack_test_helper extends question_test_helper {
             'unitsoptions',       // This question has units inputs, and a numerical test with the accuracy in a variable.
             'equiv_quad',         // This question uses equivalence reasoning to solve a quadratic equation.
             'checkbox_all_empty', // Creates a checkbox input with none checked as the correct answer: edge case.
+            'checkbox_union',     // Creates a checkbox input with %union functions: noun edge case.
             'addrow',             // This question has addrows, in an older version.
             'mul',                // This question has mul in the options which is no longer permitted.
             'contextvars',        // This question makes use of the context variables.
@@ -66,9 +68,39 @@ class qtype_stack_test_helper extends question_test_helper {
             'sregexp',            // Uses the SRegExp answer test, and string input.
             'feedbackstyle',      // Test the various feedbackstyle options.
             'multilang',          // Check for mismatching languages.
+            'lang_blocks',        // Check for mismatching languages using STACK's [[lang...]] block mechanism.
             'block_locals',       // Make sure local variables within a block are still permitted student input.
-            'validator'           // Test teacher-defined input validators.
-        );
+            'validator',          // Test teacher-defined input validators and language.
+            'feedback',           // Test teacher-defined input feedback and complex numbers.
+            // Test questions for all the various input types.
+            'algebraic_input',
+            'algebraic_input_right',
+            'algebraic_input_size',
+            'algebraic_input_compact',
+            'algebraic_input_empty',
+            'algebraic_input_simpl',
+            'checkbox_input',
+            'checkbox_input_no_latex',
+            'checkbox_input_plots',
+            'checkbox_show_tans',
+            'dropdown_input',
+            'equiv_input_compact',
+            'equiv_input',
+            'matrix_input',
+            'varmatrix_input',
+            'matrix_multi_input',
+            'notes_input',
+            'numerical_input',
+            'radio_input',
+            'radio_input_compact',
+            'single_char_input',
+            'string_input',
+            'textarea_input',
+            'textarea_input_compact',
+            'true_false_input',
+            'units_input',
+            'jsx_graph_input',
+        ];
     }
 
     /**
@@ -100,13 +132,14 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->prtincorrectformat = FORMAT_HTML;
         $q->generalfeedback = '';
         $q->variantsselectionseed = '';
-        $q->compiledcache = array();
+        $q->compiledcache = [];
 
-        $q->inputs = array();
-        $q->prts = array();
+        $q->inputs = [];
+        $q->prts = [];
 
         $q->options = new stack_options();
         $q->questionnote = '';
+        $q->questionnoteformat = FORMAT_HTML;
 
         return $q;
     }
@@ -119,7 +152,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->stackversion = '2019072900';
         $q->name = 'test-0';
-        $q->questionvariables = 'a:1+1;';
+        $q->questionvariables = "stack_reset_vars(true);\na:1+1;";
         $q->questiontext = 'What is {@a@}? [[input:ans1]]
                            [[validation:ans1]]';
         $q->questiondescription = 'This is a great and wonderful question!';
@@ -128,9 +161,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', null, array('boxWidth' => 5));
+                'algebraic', 'ans1', '2', null, ['boxWidth' => 5]);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -199,7 +232,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'ta+c', null,
-                array('boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin'));
+                ['boxWidth' => 20, 'forbidWords' => 'int, [[BASIC-ALGEBRA]]', 'allowWords' => 'popup, boo, Sin']);
 
         // By making the input to the answer test differ from ans1 in a trivial way, we use the "value" of this variable
         // and not the raw student input.  This is to make sure the student's answer is evaluated in the context of
@@ -231,32 +264,40 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->stackversion = get_config('qtype_stack', 'version');
         $formform->questionvariables = 'n : rand(5)+3; a : rand(5)+3; v : x; p : (v-a)^n; ta : (x-7)^4/4; ta1 : ta';
         $formform->variantsselectionseed = '';
-        $formform->questiontext = array(
+        $formform->questiontext = [
             'text' => 'Find
                        \[ \int {@p@} d{@v@}\]
                        [[input:ans1]]
                        [[validation:ans1]]',
             'format' => '1',
-            'itemid' => 0);
+            'itemid' => 0,
+        ];
         $formform->defaultmark = 4;
-        $formform->specificfeedback = array(
+        $formform->specificfeedback = [
             'text' => '[[feedback:PotResTree_1]]',
             'format' => '1',
-            'itemid' => 0);
+            'itemid' => 0,
+        ];
         $formform->penalty = 0.40000000000000002;
-        $formform->generalfeedback = array(
+        $formform->generalfeedback = [
             'text' => 'We can either do this question by inspection (i.e. spot the answer)
                                or in a more formal manner by using the substitution
                                \[ u = ({@v@}-{@a@}).\]
                                Then, since $\frac{d}{d{@v@}}u=1$ we have
                                \[ \int {@p@} d{@v@} = \int u^{@n@} du = \frac{u^{@n+1@}}{@n+1@}+c = {@ta@}+c.\]',
             'format' => '1',
-            'itemid' => 0);
-        $formform->questionnote = '{@p@}, {@ta@}.';
-        $formform->questiondescription = array(
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '{@p@}, {@ta@}.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
             'text' => 'This is a basic test question.',
             'format' => '1',
-            'itemid' => 0);
+            'itemid' => 0,
+        ];
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'ta+c';
         $formform->ans1boxsize = 20;
@@ -277,31 +318,33 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->PotResTree_1autosimplify = '1';
         $formform->PotResTree_1feedbackstyle     = 1;
         $formform->PotResTree_1feedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
-        $formform->PotResTree_1answertest = array(0 => 'Int');
-        $formform->PotResTree_1description = array(0 => 'Anti-derivative test');
-        $formform->PotResTree_1sans = array(0 => 'ans1+0');
-        $formform->PotResTree_1tans = array(0 => 'ta');
-        $formform->PotResTree_1testoptions = array(0 => 'x');
-        $formform->PotResTree_1quiet = array(0 => '0');
-        $formform->PotResTree_1truescoremode = array(0 => '=');
-        $formform->PotResTree_1truescore = array(0 => '1');
-        $formform->PotResTree_1truepenalty = array(0 => '');
-        $formform->PotResTree_1truenextnode = array(0 => '-1');
-        $formform->PotResTree_1trueanswernote = array(0 => 'PotResTree_1-1-T');
-        $formform->PotResTree_1truefeedback = array(0 => array('text' => '', 'format' => '1', 'itemid' => 0));
-        $formform->PotResTree_1falsescoremode = array(0 => '=');
-        $formform->PotResTree_1falsescore = array(0 => '0');
-        $formform->PotResTree_1falsepenalty = array(0 => '');
-        $formform->PotResTree_1falsenextnode = array(0 => '-1');
-        $formform->PotResTree_1falseanswernote = array(0 => 'PotResTree_1-1-F');
-        $formform->PotResTree_1falsefeedback = array(0 => array('text' => '', 'format' => '1', 'itemid' => 0));
+        $formform->PotResTree_1answertest = [0 => 'Int'];
+        $formform->PotResTree_1description = [0 => 'Anti-derivative test'];
+        $formform->PotResTree_1sans = [0 => 'ans1+0'];
+        $formform->PotResTree_1tans = [0 => 'ta'];
+        $formform->PotResTree_1testoptions = [0 => 'x'];
+        $formform->PotResTree_1quiet = [0 => '0'];
+        $formform->PotResTree_1truescoremode = [0 => '='];
+        $formform->PotResTree_1truescore = [0 => '1'];
+        $formform->PotResTree_1truepenalty = [0 => ''];
+        $formform->PotResTree_1truenextnode = [0 => '-1'];
+        $formform->PotResTree_1trueanswernote = [0 => 'PotResTree_1-1-T'];
+        $formform->PotResTree_1truefeedback = [0 => ['text' => '', 'format' => '1', 'itemid' => 0]];
+        $formform->PotResTree_1falsescoremode = [0 => '='];
+        $formform->PotResTree_1falsescore = [0 => '0'];
+        $formform->PotResTree_1falsepenalty = [0 => ''];
+        $formform->PotResTree_1falsenextnode = [0 => '-1'];
+        $formform->PotResTree_1falseanswernote = [0 => 'PotResTree_1-1-F'];
+        $formform->PotResTree_1falsefeedback = [0 => ['text' => '', 'format' => '1', 'itemid' => 0]];
 
         $formform->questionsimplify = '1';
         $formform->assumepositive = '0';
         $formform->assumereal = '0';
-        $formform->prtcorrect = array('text' => 'Correct answer, well done!', 'format' => '1', 'itemid' => 0);
-        $formform->prtpartiallycorrect = array('text' => 'Your answer is partially correct!', 'format' => '1', 'itemid' => 0);
-        $formform->prtincorrect = array('text' => 'Incorrect answer :-(', 'format' => '1', 'itemid' => 0);
+        $formform->prtcorrect = ['text' => 'Correct answer, well done!', 'format' => '1', 'itemid' => 0];
+        $formform->prtpartiallycorrect = ['text' => 'Your answer is partially correct!', 'format' => '1', 'itemid' => 0];
+        $formform->prtincorrect = ['text' => 'Incorrect answer :-(', 'format' => '1', 'itemid' => 0];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -309,9 +352,10 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->logicsymbol = 'lang';
         $formform->matrixparens = '[';
         $formform->numhints = 2;
-        $formform->hint = array(
-            0 => array('text' => 'Hint 1<br>', 'format' => '1', 'itemid' => '0'),
-            1 => array('text' => '<p>Hint 2<br></p>', 'format' => '1', 'itemid' => '0'));
+        $formform->hint = [
+            0 => ['text' => 'Hint 1<br>', 'format' => '1', 'itemid' => '0'],
+            1 => ['text' => '<p>Hint 2<br></p>', 'format' => '1', 'itemid' => '0'],
+        ];
         $formform->qtype = 'stack';
 
         return $formform;
@@ -334,9 +378,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->specificfeedback = '[[feedback:PotResTree_1]]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                    'algebraic', 'ans1', '5', null, array('boxWidth' => 3));
+                    'algebraic', 'ans1', '5', null, ['boxWidth' => 3]);
         $q->inputs['ans2'] = stack_input_factory::make(
-                    'algebraic', 'ans2', '6', null, array('boxWidth' => 3));
+                    'algebraic', 'ans2', '6', null, ['boxWidth' => 3]);
 
         $prt = json_decode('{"name":"PotResTree_1","id":"0","value":1,"feedbackstyle":1,"autosimplify":true,
             "feedbackvariables":"",
@@ -386,11 +430,11 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $options = new stack_options();
         $q->inputs['ans1'] = stack_input_factory::make('algebraic', 'ans1', 'x^3', $options,
-                        array('boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false));
+                        ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]);
         $q->inputs['ans2'] = stack_input_factory::make('algebraic', 'ans2', 'x^4', $options,
-                        array('boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false));
+                        ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]);
         $q->inputs['ans3'] = stack_input_factory::make('algebraic', 'ans3', '0', $options,
-                        array('boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false));
+                        ['boxWidth' => 15, 'lowestTerms' => false, 'sameType' => false]);
         $q->inputs['ans4'] = stack_input_factory::make('boolean', 'ans4', 'true', $options);
         $q->prts = [];
 
@@ -566,12 +610,12 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $q->hints = array(
+        $q->hints = [
             new question_hint(1, 'Hint 1', FORMAT_HTML),
             new question_hint(2, 'Hint 2', FORMAT_HTML),
-        );
+        ];
 
-        $q->deployedseeds = array();
+        $q->deployedseeds = [];
 
         return $q;
     }
@@ -603,11 +647,11 @@ class qtype_stack_test_helper extends question_test_helper {
                                   [[feedback:unique]]</p>';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'x^3', null, array('boxWidth' => 15));
+                        'algebraic', 'ans1', 'x^3', null, ['boxWidth' => 15]);
         $q->inputs['ans2'] = stack_input_factory::make(
-                        'algebraic', 'ans2', 'x^4', null, array('boxWidth' => 15));
+                        'algebraic', 'ans2', 'x^4', null, ['boxWidth' => 15]);
         $q->inputs['ans3'] = stack_input_factory::make(
-                        'algebraic', 'ans3', '0', null, array('boxWidth' => 15));
+                        'algebraic', 'ans3', '0', null, ['boxWidth' => 15]);
         $q->inputs['ans4'] = stack_input_factory::make(
                         'boolean',   'ans4', 'true');
 
@@ -787,12 +831,12 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
-        $q->hints = array(
+        $q->hints = [
             new question_hint(1, 'Hint 1', FORMAT_HTML),
             new question_hint(2, 'Hint 2', FORMAT_HTML),
-        );
+        ];
 
-        $q->deployedseeds = array();
+        $q->deployedseeds = [];
 
         return $q;
     }
@@ -815,7 +859,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->qtype = question_bank::get_qtype('stack');
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', 'x^2', null, array('boxWidth' => 15));
+                        'algebraic', 'ans1', 'x^2', null, ['boxWidth' => 15]);
 
         $prt = new stdClass;
         $prt->name              = 'plots';
@@ -874,7 +918,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make('boolean', 'ans1', 'ta');
 
-        $q->options->questionsimplify = 1;
+        $q->options->set_option('simplify', true);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -922,9 +966,9 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->stackversion = '2019072900';
         $q->name = 'test-8';
-        $q->questionvariables = "n : rand(2)+3; " .
-                                "p : rand(3)+2; " .
-                                "ta : setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n))";
+        $q->questionvariables = "n : 3; " .
+                                "p : 4; " .
+                                "ta : setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n));";
         $q->questiontext = '<p>Find all the complex solutions of the equation \[ z^{@n@}={@p^n@}.\]
                             Enter your answer as a set of numbers.
                             [[input:ans1]]</p>
@@ -935,7 +979,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
                         'algebraic', 'ans1', 'ta', null,
-                        array('boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}'));
+                        ['boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}']);
 
         $feedbackvars = 'a1 : listify(ans1);' .
                         'a1 : maplist(lambda([x],x^n-p^n),a1);' .
@@ -1042,8 +1086,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questiontext = '<p>Let $f(x)$ be a real function defined on the interval $[-1,1]$ by the following formula.</p>
                             \[
                             f(x) = \left\{ \begin{array}{ll}
-                            {@p@} & \mbox{if }x<0, \\
-                            a_1 e^{a_2\ x} & \mbox{if }x\geq 0.
+                            {@p@} & \text{if }x<0, \\
+                            a_1 e^{a_2\ x} & \text{if }x\geq 0.
                             \end{array}
                             \right.
                             \]
@@ -1065,8 +1109,8 @@ class qtype_stack_test_helper extends question_test_helper {
                                 <p>Hence the full answer is
                                 \[
                                 f(x) = \left\{ \begin{array}{ll}
-                                {@p@} & \mbox{if }x<0, \\
-                                {@ta1@} e^{{@ta2@} x} & \mbox{if }x\geq 0.
+                                {@p@} & \text{if }x<0, \\
+                                {@ta1@} e^{{@ta2@} x} & \text{if }x\geq 0.
                                 \end{array}
                                 \right.
                                 \]</p>
@@ -1076,9 +1120,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '\[ a_1={@ta1@},\ a_2={@ta2@}.\]';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                                    'algebraic', 'ans1', 'ta1', null, array('boxWidth' => 4));
+                                    'algebraic', 'ans1', 'ta1', null, ['boxWidth' => 4]);
         $q->inputs['ans2'] = stack_input_factory::make(
-                                    'algebraic', 'ans2', 'ta2', null, array('boxWidth' => 4));
+                                    'algebraic', 'ans2', 'ta2', null, ['boxWidth' => 4]);
 
         $prt = new stdClass;
         $prt->name              = 'prt1';
@@ -1134,7 +1178,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3333333;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '1/2', null, array('boxWidth' => 5));
+                'algebraic', 'ans1', '1/2', null, ['boxWidth' => 5]);
 
         $prt = new stdClass;
         $prt->name              = 'prt1';
@@ -1192,9 +1236,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.1;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '3.14', null, array('boxWidth' => 5, 'forbidFloats' => false));
+                'algebraic', 'ans1', '3.14', null, ['boxWidth' => 5, 'forbidFloats' => false]);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1250,9 +1294,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'numerical', 'ans1', '0.040', null, array('boxWidth' => 5, 'forbidFloats' => false));
+                'numerical', 'ans1', '0.040', null, ['boxWidth' => 5, 'forbidFloats' => false]);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1308,9 +1352,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-            'numerical', 'ans1', '0.356', null, array('boxWidth' => 5));
+            'numerical', 'ans1', '0.356', null, ['boxWidth' => 5]);
         $q->inputs['ans2'] = stack_input_factory::make(
-            'numerical', 'ans2', '3.14', null, array('boxWidth' => 5));
+            'numerical', 'ans2', '3.14', null, ['boxWidth' => 5]);
 
         $feedbackvars = new stack_cas_keyval('sa:min(ans1,ans2);', null, null);
 
@@ -1369,9 +1413,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'units', 'ans1', '9.81*m/s^2', null, array('boxWidth' => 5, 'forbidFloats' => false));
+                'units', 'ans1', '9.81*m/s^2', null, ['boxWidth' => 5, 'forbidFloats' => false]);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1429,9 +1473,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'units', 'ans1', '9.81*m/s^2', null, array('boxWidth' => 5, 'forbidFloats' => false));
+                'units', 'ans1', '9.81*m/s^2', null, ['boxWidth' => 5, 'forbidFloats' => false]);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1489,9 +1533,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.2; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'equiv', 'ans1', 'ta', null, array('boxWidth' => 20, 'forbidFloats' => false));
+                'equiv', 'ans1', 'ta', null, ['boxWidth' => 20, 'forbidFloats' => false]);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1550,7 +1594,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.25;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                        'algebraic', 'ans1', '6', null, array('boxWidth' => 15));
+                        'algebraic', 'ans1', '6', null, ['boxWidth' => 15]);
 
         $prt = new stdClass;
         $prt->name              = 'prt1';
@@ -1645,6 +1689,120 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * @return qtype_stack_question with variable grades
+     */
+    public static function get_stack_question_data_variable_grade() {
+        question_bank::load_question_definition_classes('stack');
+        $qdata = new stdClass();
+        test_question_maker::initialise_question_data($qdata);
+
+        $qdata->qtype = 'stack';
+        $qdata->name = 'test-0';
+        $qdata->questiontext = 'What is $1+1$? [[input:ans1]]
+                                [[validation:ans1]]';
+        $qdata->generalfeedback = '';
+
+        $qdata->options = new stdClass();
+        $qdata->options->id                        = 0;
+        $qdata->options->stackversion              = get_config('qtype_stack', 'version');
+        $qdata->options->questionvariables         = '';
+        $qdata->options->specificfeedback          = '[[feedback:firsttree]]';
+        $qdata->options->specificfeedbackformat    = FORMAT_HTML;
+        $qdata->options->questionnote              = '';
+        $qdata->options->questionnoteformat        = FORMAT_HTML;
+        $qdata->options->questiondescription       = 'This is a rather wonderful question!';
+        $qdata->options->questiondescriptionformat = FORMAT_HTML;
+        $qdata->options->questionsimplify          = 1;
+        $qdata->options->assumepositive            = 0;
+        $qdata->options->assumereal                = 0;
+        $qdata->options->prtcorrect                = self::DEFAULT_CORRECT_FEEDBACK;
+        $qdata->options->prtcorrectformat          = FORMAT_HTML;
+        $qdata->options->prtpartiallycorrect       = self::DEFAULT_PARTIALLYCORRECT_FEEDBACK;
+        $qdata->options->prtpartiallycorrectformat = FORMAT_HTML;
+        $qdata->options->prtincorrect              = self::DEFAULT_INCORRECT_FEEDBACK;
+        $qdata->options->prtincorrectformat        = FORMAT_HTML;
+        $qdata->options->decimals                  = '.';
+        $qdata->options->scientificnotation        = '*10';
+        $qdata->options->multiplicationsign        = 'dot';
+        $qdata->options->sqrtsign                  = 1;
+        $qdata->options->complexno                 = 'i';
+        $qdata->options->inversetrig               = 'cos-1';
+        $qdata->options->logicsymbol               = 'lang';
+        $qdata->options->matrixparens              = '[';
+        $qdata->options->variantsselectionseed     = '';
+        $qdata->options->compiledcache             = null;
+
+        $input = new stdClass();
+        $input->name               = 'ans1';
+        $input->id                 = 0;
+        $input->questionid         = 0;
+        $input->type               = 'algebraic';
+        $input->tans               = '2';
+        $input->boxsize            = 5;
+        $input->strictsyntax       = 1;
+        $input->insertstars        = 0;
+        $input->syntaxhint         = '';
+        $input->syntaxattribute    = 0;
+        $input->forbidwords        = '';
+        $input->allowwords         = '';
+        $input->forbidfloat        = 1;
+        $input->requirelowestterms = 0;
+        $input->checkanswertype    = 0;
+        $input->mustverify         = 1;
+        $input->showvalidation     = 1;
+        $input->options            = '';
+        $qdata->inputs['ans1'] = $input;
+
+        $prt = new stdClass();
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->id                = '0';
+        $prt->questionid        = '0';
+        $prt->value             = 1;
+        $prt->autosimplify      = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = 'grade: 1 nograde: 0';
+        $prt->firstnodename     = '0';
+
+        $node = new stdClass();
+        $node->id                  = 0;
+        $node->questionid          = 0;
+        $node->prtname             = 'firsttree';
+        $node->nodename            = '0';
+        $node->description         = '';
+        $node->answertest          = 'EqualComAss';
+        $node->sans                = 'ans1';
+        $node->tans                = '2';
+        $node->testoptions         = '';
+        $node->quiet               = 0;
+        $node->truescoremode       = '=';
+        $node->truescore           = 'grade';
+        $node->truepenalty         = 0;
+        $node->truenextnode        = -1;
+        $node->trueanswernote      = 'firsttree-1-T';
+        $node->truefeedback        = '';
+        $node->truefeedbackformat  = FORMAT_HTML;
+        $node->falsescoremode      = '=';
+        $node->falsescore          = 'nograde';
+        $node->falsepenalty        = 0;
+        $node->falsenextnode       = -1;
+        $node->falseanswernote     = 'firsttree-1-F';
+        $node->falsefeedback       = '';
+        $node->falsefeedbackformat = FORMAT_HTML;
+        $prt->nodes['0'] = $node;
+        $qdata->prts['firsttree'] = $prt;
+
+        $qdata->deployedseeds = ['12345'];
+
+        $qtest = new stack_question_test('Basic test of question', ['ans1' => '2']);
+        $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
+                1, true, 1, 0, '', ['firsttree-1-T']));
+        $qdata->testcases[1] = $qtest;
+
+        return $qdata;
+    }
+
+    /**
      * @return qtype_stack_question a 'survey' item. Inputs, but no grading.
      */
     public static function make_stack_question_survey() {
@@ -1660,7 +1818,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->defaultmark = 0;
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', null, array('boxWidth' => 15, 'sameType' => false));
+                'algebraic', 'ans1', '2', null, ['boxWidth' => 15, 'sameType' => false]);
 
         return $q;
     }
@@ -1681,9 +1839,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                    'algebraic', 'ans1', '2', null, array('boxWidth' => 5, 'insertStars' => 2));
+                    'algebraic', 'ans1', '2', null, ['boxWidth' => 5, 'insertStars' => 2]);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -1736,7 +1894,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '[x+y=1,x-y=1]', null, array('boxWidth' => 25));
+                'algebraic', 'ans1', '[x+y=1,x-y=1]', null, ['boxWidth' => 25]);
 
         // This will generate a runtime error in the feedback variables.
         $feedbackvars = new stack_cas_keyval('');
@@ -1841,7 +1999,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'ta', null, array('boxWidth' => 25));
+                'algebraic', 'ans1', 'ta', null, ['boxWidth' => 25]);
 
         $prt = new stdClass;
         $prt->name              = 'Result';
@@ -1894,7 +2052,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->questionnote = '';
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'ta', null, array('boxWidth' => 25));
+                'algebraic', 'ans1', 'ta', null, ['boxWidth' => 25]);
 
         $prt = new stdClass;
         $prt->name              = 'Result';
@@ -1955,6 +2113,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->specificfeedback          = '[[feedback:firsttree]]';
         $qdata->options->specificfeedbackformat    = FORMAT_HTML;
         $qdata->options->questionnote              = '';
+        $qdata->options->questionnoteformat        = FORMAT_HTML;
         $qdata->options->questiondescription       = 'This is a rather wonderful question!';
         $qdata->options->questiondescriptionformat = FORMAT_HTML;
         $qdata->options->questionsimplify          = 1;
@@ -1966,6 +2125,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->prtpartiallycorrectformat = FORMAT_HTML;
         $qdata->options->prtincorrect              = self::DEFAULT_INCORRECT_FEEDBACK;
         $qdata->options->prtincorrectformat        = FORMAT_HTML;
+        $qdata->options->decimals                  = '.';
+        $qdata->options->scientificnotation        = '*10';
         $qdata->options->multiplicationsign        = 'dot';
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
@@ -2035,11 +2196,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes['0'] = $node;
         $qdata->prts['firsttree'] = $prt;
 
-        $qdata->deployedseeds = array('12345');
+        $qdata->deployedseeds = ['12345'];
 
-        $qtest = new stack_question_test('Basic test of question', array('ans1' => '2'));
+        $qtest = new stack_question_test('Basic test of question', ['ans1' => '2']);
         $qtest->add_expected_result('firsttree', new stack_potentialresponse_tree_state(
-                1, true, 1, 0, '', array('firsttree-1-T')));
+                1, true, 1, 0, '', ['firsttree-1-T']));
         $qdata->testcases[1] = $qtest;
 
         return $qdata;
@@ -2085,6 +2246,7 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->questiondescription       = '';
         $qdata->options->questiondescriptionformat = FORMAT_HTML;
         $qdata->options->questionnote              = '';
+        $qdata->options->questionnoteformat        = FORMAT_HTML;
         $qdata->options->questionsimplify          = 1;
         $qdata->options->assumepositive            = 0;
         $qdata->options->assumereal                = 0;
@@ -2095,6 +2257,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $qdata->options->prtpartiallycorrectformat = FORMAT_HTML;
         $qdata->options->prtincorrect              = self::DEFAULT_INCORRECT_FEEDBACK;
         $qdata->options->prtincorrectformat        = FORMAT_HTML;
+        $qdata->options->decimals                  = '.';
+        $qdata->options->scientificnotation        = '*10';
         $qdata->options->multiplicationsign        = 'dot';
         $qdata->options->sqrtsign                  = 1;
         $qdata->options->complexno                 = 'i';
@@ -2370,13 +2534,13 @@ class qtype_stack_test_helper extends question_test_helper {
         $prt->nodes['0'] = $node;
         $qdata->prts['unique'] = $prt;
 
-        $qdata->deployedseeds = array();
-        $qdata->testcases = array();
+        $qdata->deployedseeds = [];
+        $qdata->testcases = [];
 
-        $qdata->hints = array(
+        $qdata->hints = [
             1 => new question_hint(1, 'Hint 1', FORMAT_HTML),
             2 => new question_hint(2, 'Hint 2', FORMAT_HTML),
-        );
+        ];
 
         return $qdata;
     }
@@ -2391,8 +2555,8 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->stackversion = get_config('qtype_stack', 'version');
         $formform->questionvariables = '';
         $formform->variantsselectionseed = '';
-        $formform->questiontext = array(
-                'text' => '<p>1. Give an example of an odd function by typing
+        $formform->questiontext = [
+            'text' => '<p>1. Give an example of an odd function by typing
                                  an expression which represents it.
                                  $f_1(x)=$ [[input:ans1]].
                                  [[validation:ans1]]
@@ -2409,23 +2573,31 @@ class qtype_stack_test_helper extends question_test_helper {
                                  (Or are there many different possibilities.)
                                  [[validation:ans4]]
                                  [[feedback:unique]]</p>',
-                'format' => '1',
-                'itemid' => 815759888);
+            'format' => '1',
+            'itemid' => 815759888,
+        ];
         $formform->defaultmark = 4;
-        $formform->specificfeedback = array(
-                'text' => '',
-                'format' => '1',
-                'itemid' => 137873291);
+        $formform->specificfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 137873291,
+        ];
         $formform->penalty = 0.40000000000000002;
-        $formform->generalfeedback = array(
-                'text' => '',
-                'format' => '1',
-                'itemid' => 250226104);
-        $formform->questionnote = '';
-        $formform->questiondescription = array(
-                'text' => '',
-                'format' => '1',
-                'itemid' => 25022610);
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 250226104,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 12346789,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 25022610,
+        ];
         $formform->ans1type = 'algebraic';
         $formform->ans1modelans = 'x^3';
         $formform->ans1boxsize = 15;
@@ -2491,236 +2663,318 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->ans4options = '';
 
         $formform->oddvalue = 1;
-        $formform->odddescription = array(
-            0 => '');
+        $formform->odddescription = [
+            0 => '',
+        ];
         $formform->oddautosimplify = '1';
         $formform->oddfeedbackstyle     = 1;
         $formform->oddfeedbackvariables = 'sa:subst(x=-x,ans1)+ans1';
-        $formform->oddanswertest = array(
-                0 => 'AlgEquiv');
-        $formform->oddsans = array(
-                0 => 'sa');
-        $formform->oddtans = array(
-                0 => '0');
-        $formform->oddtestoptions = array(
-                0 => '');
-        $formform->oddquiet = array(
-                0 => '0');
-        $formform->oddtruescoremode = array(
-                0 => '=');
-        $formform->oddtruescore = array(
-                0 => '1');
-        $formform->oddtruepenalty = array(
-                0 => '');
-        $formform->oddtruenextnode = array(
-                0 => '-1');
-        $formform->oddtrueanswernote = array(
-                0 => 'odd-1-T');
-        $formform->oddtruefeedback = array(
-                0 => array(
-                        'text' => '',
-                        'format' => '1',
-                        'itemid' => 251659256,
-                ));
-        $formform->oddfalsescoremode = array(
-                0 => '=');
-        $formform->oddfalsescore = array(
-                0 => '0');
-        $formform->oddfalsepenalty = array(
-                0 => '');
-        $formform->oddfalsenextnode = array(
-                0 => '-1');
-        $formform->oddfalseanswernote = array(
-                0 => 'odd-1-F');
-        $formform->oddfalsefeedback = array(
-                0 => array(
-                        'text' => 'Your answer is not an odd function. Look, \\[ f(x)+f(-x)={@sa@} \\neq 0.\\]<br>',
-                        'format' => '1',
-                        'itemid' => 352216298,
-                ));
+        $formform->oddanswertest = [
+            0 => 'AlgEquiv',
+        ];
+        $formform->oddsans = [
+            0 => 'sa',
+        ];
+        $formform->oddtans = [
+            0 => '0',
+        ];
+        $formform->oddtestoptions = [
+            0 => '',
+        ];
+        $formform->oddquiet = [
+            0 => '0',
+        ];
+        $formform->oddtruescoremode = [
+            0 => '=',
+        ];
+        $formform->oddtruescore = [
+            0 => '1',
+        ];
+        $formform->oddtruepenalty = [
+            0 => '',
+        ];
+        $formform->oddtruenextnode = [
+            0 => '-1',
+        ];
+        $formform->oddtrueanswernote = [
+            0 => 'odd-1-T',
+        ];
+        $formform->oddtruefeedback = [
+            0 => [
+                'text' => '',
+                'format' => '1',
+                'itemid' => 251659256,
+            ],
+        ];
+        $formform->oddfalsescoremode = [
+            0 => '=',
+        ];
+        $formform->oddfalsescore = [
+            0 => '0',
+        ];
+        $formform->oddfalsepenalty = [
+            0 => '',
+        ];
+        $formform->oddfalsenextnode = [
+            0 => '-1',
+        ];
+        $formform->oddfalseanswernote = [
+            0 => 'odd-1-F',
+        ];
+        $formform->oddfalsefeedback = [
+            0 => [
+                'text' => 'Your answer is not an odd function. Look, \\[ f(x)+f(-x)={@sa@} \\neq 0.\\]<br>',
+                'format' => '1',
+                'itemid' => 352216298,
+            ],
+        ];
 
         $formform->evenvalue = 1;
-        $formform->evendescription = array(
-            0 => '');
+        $formform->evendescription = [
+            0 => '',
+        ];
         $formform->evenautosimplify = '1';
         $formform->evenfeedbackstyle     = 1;
         $formform->evenfeedbackvariables = 'sa:subst(x=-x,ans2)-ans2';
-        $formform->evenanswertest = array(
-                0 => 'AlgEquiv');
-        $formform->evensans = array(
-                0 => 'sa');
-        $formform->eventans = array(
-                0 => '0');
-        $formform->eventestoptions = array(
-                0 => '');
-        $formform->evenquiet = array(
-                0 => '0');
-        $formform->eventruescoremode = array(
-                0 => '=');
-        $formform->eventruescore = array(
-                0 => '1');
-        $formform->eventruepenalty = array(
-                0 => '');
-        $formform->eventruenextnode = array(
-                0 => '-1');
-        $formform->eventrueanswernote = array(
-                0 => 'even-1-T');
-        $formform->eventruefeedback = array(
-                0 => array(
-                        'text' => '',
-                        'format' => '1',
-                        'itemid' => 374097881,
-                ));
-        $formform->evenfalsescoremode = array(
-                0 => '=');
-        $formform->evenfalsescore = array(
-                0 => '0');
-        $formform->evenfalsepenalty = array(
-                0 => '');
-        $formform->evenfalsenextnode = array(
-                0 => '-1');
-        $formform->evenfalseanswernote = array(
-                0 => 'even-1-F');
-        $formform->evenfalsefeedback = array(
-                0 => array(
-                        'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)={@sa@} \\neq 0.\\]<br></p>',
-                        'format' => '1',
-                        'itemid' => 880424514,
-                ));
+        $formform->evenanswertest = [
+            0 => 'AlgEquiv',
+        ];
+        $formform->evensans = [
+            0 => 'sa',
+        ];
+        $formform->eventans = [
+            0 => '0',
+        ];
+        $formform->eventestoptions = [
+            0 => '',
+        ];
+        $formform->evenquiet = [
+            0 => '0',
+        ];
+        $formform->eventruescoremode = [
+            0 => '=',
+        ];
+        $formform->eventruescore = [
+            0 => '1',
+        ];
+        $formform->eventruepenalty = [
+            0 => '',
+        ];
+        $formform->eventruenextnode = [
+            0 => '-1',
+        ];
+        $formform->eventrueanswernote = [
+            0 => 'even-1-T',
+        ];
+        $formform->eventruefeedback = [
+            0 => [
+                'text' => '',
+                'format' => '1',
+                'itemid' => 374097881,
+            ],
+        ];
+        $formform->evenfalsescoremode = [
+            0 => '=',
+        ];
+        $formform->evenfalsescore = [
+            0 => '0',
+        ];
+        $formform->evenfalsepenalty = [
+            0 => '',
+        ];
+        $formform->evenfalsenextnode = [
+            0 => '-1',
+        ];
+        $formform->evenfalseanswernote = [
+            0 => 'even-1-F',
+        ];
+        $formform->evenfalsefeedback = [
+            0 => [
+                'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)={@sa@} \\neq 0.\\]<br></p>',
+                'format' => '1',
+                'itemid' => 880424514,
+            ],
+        ];
 
         $formform->oddevenvalue = 1;
-        $formform->oddevendescription = array(
-            0 => '', 1 => '');
+        $formform->oddevendescription = [
+            0 => '', 1 => '',
+        ];
         $formform->oddevenautosimplify = '1';
         $formform->oddevenfeedbackstyle     = 1;
         $formform->oddevenfeedbackvariables = 'sa1:ans3+subst(x=-x,ans3); sa2:ans3-subst(x=-x,ans3)';
-        $formform->oddevenanswertest = array(
-                0 => 'AlgEquiv',
-                1 => 'AlgEquiv');
-        $formform->oddevensans = array(
-                0 => 'sa1',
-                1 => 'sa2');
-        $formform->oddeventans = array(
-                0 => '0',
-                1 => '0');
-        $formform->oddeventestoptions = array(
-                0 => '',
-                1 => '');
-        $formform->oddevenquiet = array(
-                0 => '0',
-                1 => '0');
-        $formform->oddeventruescoremode = array(
-                0 => '=',
-                1 => '+');
-        $formform->oddeventruescore = array(
-                0 => '0.5',
-                1 => '0.5');
-        $formform->oddeventruepenalty = array(
-                0 => '',
-                1 => '');
-        $formform->oddeventruenextnode = array(
-                0 => '1',
-                1 => '-1');
-        $formform->oddeventrueanswernote = array(
-                0 => 'oddeven-1-T',
-                1 => 'oddeven-2-T');
-        $formform->oddeventruefeedback = array(
-                0 => array(
-                        'text' => '',
-                        'format' => '1',
-                        'itemid' => 90882068),
-                1 => array(
-                        'text' => '',
-                        'format' => '1',
-                        'itemid' => 201325868));
-        $formform->oddevenfalsescoremode = array(
-                0 => '=',
-                1 => '+');
-        $formform->oddevenfalsescore = array(
-                0 => '0',
-                1 => '0');
-        $formform->oddevenfalsepenalty = array(
-                0 => '',
-                1 => '');
-        $formform->oddevenfalsenextnode = array(
-                0 => '1',
-                1 => '-1');
-        $formform->oddevenfalseanswernote = array(
-                0 => 'oddeven-1-F',
-                1 => 'oddeven-2-F');
-        $formform->oddevenfalsefeedback = array(
-                0 => array(
-                        'text' => '<p>Your answer is not an odd function. Look, \\[ f(x)+f(-x)={@sa1@} \\neq 0.\\]<br></p>',
-                        'format' => '1',
-                        'itemid' => 387904086),
-                1 => array(
-                        'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)={@sa2@} \\neq 0.\\]<br></p>',
-                        'format' => '1',
-                        'itemid' => 212217540));
+        $formform->oddevenanswertest = [
+            0 => 'AlgEquiv',
+            1 => 'AlgEquiv',
+        ];
+        $formform->oddevensans = [
+            0 => 'sa1',
+            1 => 'sa2',
+        ];
+        $formform->oddeventans = [
+            0 => '0',
+            1 => '0',
+        ];
+        $formform->oddeventestoptions = [
+            0 => '',
+            1 => '',
+        ];
+        $formform->oddevenquiet = [
+            0 => '0',
+            1 => '0',
+        ];
+        $formform->oddeventruescoremode = [
+            0 => '=',
+            1 => '+',
+        ];
+        $formform->oddeventruescore = [
+            0 => '0.5',
+            1 => '0.5',
+        ];
+        $formform->oddeventruepenalty = [
+            0 => '',
+            1 => '',
+        ];
+        $formform->oddeventruenextnode = [
+            0 => '1',
+            1 => '-1',
+        ];
+        $formform->oddeventrueanswernote = [
+            0 => 'oddeven-1-T',
+            1 => 'oddeven-2-T',
+        ];
+        $formform->oddeventruefeedback = [
+            0 => [
+                'text' => '',
+                'format' => '1',
+                'itemid' => 90882068,
+            ],
+            1 => [
+                'text' => '',
+                'format' => '1',
+                'itemid' => 201325868,
+            ],
+        ];
+        $formform->oddevenfalsescoremode = [
+            0 => '=',
+            1 => '+',
+        ];
+        $formform->oddevenfalsescore = [
+            0 => '0',
+            1 => '0',
+        ];
+        $formform->oddevenfalsepenalty = [
+            0 => '',
+            1 => '',
+        ];
+        $formform->oddevenfalsenextnode = [
+            0 => '1',
+            1 => '-1',
+        ];
+        $formform->oddevenfalseanswernote = [
+            0 => 'oddeven-1-F',
+            1 => 'oddeven-2-F',
+        ];
+        $formform->oddevenfalsefeedback = [
+            0 => [
+                'text' => '<p>Your answer is not an odd function. Look, \\[ f(x)+f(-x)={@sa1@} \\neq 0.\\]<br></p>',
+                'format' => '1',
+                'itemid' => 387904086,
+            ],
+            1 => [
+                'text' => '<p>Your answer is not an even function. Look, \\[ f(x)-f(-x)={@sa2@} \\neq 0.\\]<br></p>',
+                'format' => '1',
+                'itemid' => 212217540,
+            ],
+        ];
 
         $formform->uniquevalue = 1;
-        $formform->uniquedescription = array(
-            0 => '');
+        $formform->uniquedescription = [
+            0 => '',
+        ];
         $formform->uniqueautosimplify = '1';
         $formform->uniquefeedbackstyle     = 1;
         $formform->uniquefeedbackvariables = '';
-        $formform->uniqueanswertest = array(
-                0 => 'AlgEquiv');
-        $formform->uniquesans = array(
-                0 => 'ans4');
-        $formform->uniquetans = array(
-                0 => 'true');
-        $formform->uniquetestoptions = array(
-                0 => '');
-        $formform->uniquequiet = array(
-                0 => '0');
-        $formform->uniquetruescoremode = array(
-                0 => '=');
-        $formform->uniquetruescore = array(
-                0 => '1');
-        $formform->uniquetruepenalty = array(
-                0 => '');
-        $formform->uniquetruenextnode = array(
-                0 => '-1');
-        $formform->uniquetrueanswernote = array(
-                0 => 'unique-1-T');
-        $formform->uniquetruefeedback = array(
-                0 => array(
-                        'text' => '',
-                        'format' => '1',
-                        'itemid' => 692993996));
-        $formform->uniquefalsescoremode = array(
-                0 => '=');
-        $formform->uniquefalsescore = array(
-                0 => '0');
-        $formform->uniquefalsepenalty = array(
-                0 => '');
-        $formform->uniquefalsenextnode = array(
-                0 => '-1');
-        $formform->uniquefalseanswernote = array(
-                0 => 'unique-1-F');
-        $formform->uniquefalsefeedback = array(
-                0 => array(
-                        'text' => '',
-                        'format' => '1',
-                        'itemid' => 55631697,
-                ));
+        $formform->uniqueanswertest = [
+            0 => 'AlgEquiv',
+        ];
+        $formform->uniquesans = [
+            0 => 'ans4',
+        ];
+        $formform->uniquetans = [
+            0 => 'true',
+        ];
+        $formform->uniquetestoptions = [
+            0 => '',
+        ];
+        $formform->uniquequiet = [
+            0 => '0',
+        ];
+        $formform->uniquetruescoremode = [
+            0 => '=',
+        ];
+        $formform->uniquetruescore = [
+            0 => '1',
+        ];
+        $formform->uniquetruepenalty = [
+            0 => '',
+        ];
+        $formform->uniquetruenextnode = [
+            0 => '-1',
+        ];
+        $formform->uniquetrueanswernote = [
+            0 => 'unique-1-T',
+        ];
+        $formform->uniquetruefeedback = [
+            0 => [
+                'text' => '',
+                'format' => '1',
+                'itemid' => 692993996,
+            ],
+        ];
+        $formform->uniquefalsescoremode = [
+            0 => '=',
+        ];
+        $formform->uniquefalsescore = [
+            0 => '0',
+        ];
+        $formform->uniquefalsepenalty = [
+            0 => '',
+        ];
+        $formform->uniquefalsenextnode = [
+            0 => '-1',
+        ];
+        $formform->uniquefalseanswernote = [
+            0 => 'unique-1-F',
+        ];
+        $formform->uniquefalsefeedback = [
+            0 => [
+                'text' => '',
+                'format' => '1',
+                'itemid' => 55631697,
+            ],
+        ];
 
         $formform->questionsimplify = '1';
         $formform->assumepositive = '0';
         $formform->assumereal = '0';
-        $formform->prtcorrect = array(
-                'text' => 'Correct answer, well done!',
-                'format' => '1',
-                'itemid' => 847867102);
-        $formform->prtpartiallycorrect = array(
-                'text' => 'Your answer is partially correct!',
-                'format' => '1',
-                'itemid' => 698828552);
-        $formform->prtincorrect = array(
-                'text' => 'Incorrect answer :-(',
-                'format' => '1',
-                'itemid' => 56111684);
+        $formform->prtcorrect = [
+            'text' => 'Correct answer, well done!',
+            'format' => '1',
+            'itemid' => 847867102,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => 'Your answer is partially correct!',
+            'format' => '1',
+            'itemid' => 698828552,
+        ];
+        $formform->prtincorrect = [
+            'text' => 'Incorrect answer :-(',
+            'format' => '1',
+            'itemid' => 56111684,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
         $formform->multiplicationsign = 'dot';
         $formform->sqrtsign = '1';
         $formform->complexno = 'i';
@@ -2728,15 +2982,18 @@ class qtype_stack_test_helper extends question_test_helper {
         $formform->logicsymbol = 'lang';
         $formform->matrixparens = '[';
         $formform->numhints = 2;
-        $formform->hint = array(
-                0 => array(
-                        'text' => 'Hint 1<br>',
-                        'format' => '1',
-                        'itemid' => '83894244'),
-                1 => array(
-                        'text' => '<p>Hint 2<br></p>',
-                        'format' => '1',
-                        'itemid' => '34635511'));
+        $formform->hint = [
+            0 => [
+                'text' => 'Hint 1<br>',
+                'format' => '1',
+                'itemid' => '83894244',
+            ],
+            1 => [
+                'text' => '<p>Hint 2<br></p>',
+                'format' => '1',
+                'itemid' => '34635511',
+            ],
+        ];
         $formform->qtype = 'stack';
 
         return $formform;
@@ -2763,7 +3020,67 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->inputs['ans1'] = stack_input_factory::make(
                 'checkbox', 'ans1', '[[x^2+1<0,false],[A,false,"Generalizations are false"],[clcr(a,b), false]]', null, null);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = false;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = '[]';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-1-F';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question a checkbox question using %union, which was problematic
+     */
+    public static function make_stack_question_checkbox_union() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'test-checkbox-union';
+        $q->questionvariables = 'ta:[[%union(oo(-inf,0),oo(0,inf)),true],[%union({1},{2}),false],' .
+            '[union({1},{4}),false],[A,false,%union({1},{3})]];';
+        $q->questiontext = 'Which of these are is the domain? [[input:ans1]]
+                           [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.3; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'checkbox', 'ans1', 'ta', null, null);
+
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -2822,9 +3139,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.3; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', '2', null, array('boxWidth' => 5));
+                'algebraic', 'ans1', '2', null, ['boxWidth' => 5]);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -2882,9 +3199,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.5; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'units', 'ans1', 'stackunits(9.81,m*s^-2)', null, array('boxWidth' => 5, 'options' => 'mul'));
+                'units', 'ans1', 'stackunits(9.81,m*s^-2)', null, ['boxWidth' => 5, 'options' => 'mul']);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -2942,9 +3259,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'string', 'ans1', 'ta1', null, array('boxWidth' => 25));
+                'string', 'ans1', 'ta1', null, ['boxWidth' => 25]);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -3027,9 +3344,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'string', 'ans1', 'ta', null, array('boxWidth' => 25));
+                'string', 'ans1', 'ta', null, ['boxWidth' => 25]);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -3091,11 +3408,11 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.4; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'x^3', null, array('boxWidth' => 10, 'showValidation' => 3));
+                'algebraic', 'ans1', 'x^3', null, ['boxWidth' => 10, 'showValidation' => 3]);
         $q->inputs['ans2'] = stack_input_factory::make(
-                'algebraic', 'ans2', 'sin(x)', null, array('boxWidth' => 10, 'showValidation' => 3));
+                'algebraic', 'ans2', 'sin(x)', null, ['boxWidth' => 10, 'showValidation' => 3]);
 
-        $q->options->questionsimplify = 1;
+        $q->options->set_option('simplify', true);
 
         $prt = new stdClass;
         $prt->name              = 'prt1';
@@ -3227,9 +3544,9 @@ class qtype_stack_test_helper extends question_test_helper {
         $q->penalty = 0.35; // Non-zero and not the default.
 
         $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'blob', null, array('boxWidth' => 5, 'allowWords' => 'blob'));
+                'algebraic', 'ans1', 'blob', null, ['boxWidth' => 5, 'allowWords' => 'blob']);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', true);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -3319,9 +3636,9 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
             'matrix', 'ans1', 'ta', new stack_options(),
-            array('boxWidth' => 5, 'allowWords' => 'blob'));
+            ['boxWidth' => 5, 'allowWords' => 'blob']);
 
-        $q->options->questionsimplify = 0;
+        $q->options->set_option('simplify', false);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -3388,6 +3705,72 @@ class qtype_stack_test_helper extends question_test_helper {
     }
 
     /**
+     * @return qtype_stack_question a question which tests language blocks.
+     */
+    public static function make_stack_question_lang_blocks() {
+        $q = self::make_a_stack_question();
+
+        $q->stackversion = '2020112300';
+        $q->name = 'langblocks';
+        $q->questionvariables = "pt:5;ta2:(x-pt)^2";
+
+        $q->questiontext = '[[lang code="en,other"]] Give an example of a function \(f(x)\) with a stationary point ' .
+            'at \(x={@pt@}\).[[/lang]][[lang code="da"]] Giv et eksempel på en funktion \(f(x)\) med et stationært ' .
+            'punkt ved \(x={@pt@}\). [[/lang]] [[input:ans1]][[validation:ans1]][[feedback:prt1]]';
+
+        $q->specificfeedback = '';
+        $q->penalty = 0.35; // Non-zero and not the default.
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'ta2', new stack_options(),
+            ['boxWidth' => 5, 'allowWords' => '']);
+
+        $q->options->set_option('simplify', true);
+
+        $prt = new stdClass;
+        $prt->name              = 'prt1';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'subst(x=pt,diff(ans1,x))';
+        $newnode->tans                = '0';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = '[[lang code="en,other"]]At a stationary point, \\(f\'(x)\\) ' .
+                'should be zero. However, in your answer, \\(f\'({@pt@})={@subst(x=pt,diff(ans1,x))@}\\).[[/lang]]' .
+                '[[lang code="da"]]Ved et stationært punkt skal \\(f\'(x)\\) være nul. Men i dit svar er ' .
+                '\\(f\'({@pt@})={@subst(x=pt,diff(ans2,x))@}\\).[[/lang]]';
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'prt1-1-F';
+        $newnode->falsenextnode       = '1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = '';
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'prt1-1-T';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
      * @return qtype_stack_question.
      */
     public static function make_stack_question_block_locals() {
@@ -3406,7 +3789,7 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->inputs['ans1'] = stack_input_factory::make(
                 'algebraic', 'ans1', 'p^2+p+1', null,
-                array('boxWidth' => 20, 'forbidWords' => '', 'allowWords' => ''));
+                ['boxWidth' => 20, 'forbidWords' => '', 'allowWords' => '']);
 
         $prt = new stdClass;
         $prt->name              = 'firsttree';
@@ -3456,38 +3839,144 @@ class qtype_stack_test_helper extends question_test_helper {
 
         $q->name = 'validator';
         // We need to check that local variable names within the block are not invalid for student's input.
-        $q->questionvariables = 'ta:phi^2-1;myvalidityidea(ex):=block(if ev(subsetp(setify(listofvars(ex)),' .
+        // We need to chack mathematics within the castext is correctly displayed.
+        $q->questionvariables = 'texput(foo,lambda([e],[a,b]:args(e), sconcat("\\\\frac{", tex1(a), "}{", tex1(b), "}")));' .
+            'ta:phi^2-1;myvalidityidea(ex):=block(if ev(subsetp(setify(listofvars(ex)),' .
             'setify(listofvars(ta))), simp) then return(""),castext("[[lang code=\'fi\']]Vastauksesi sisältää ' .
-            'vääriä muuttujia.[[/lang]][[lang code=\'en\']]Your answer contains the wrong variables.[[/lang]]"));';
-        $q->questiontext = 'Type in the input {@ta@}.'
-            . '<p>[[input:ans1]]</p><div>[[validation:ans1]]</div>';
-            $q->generalfeedback = '';
-            $q->questionnote = '';
+            'vääriä muuttujia.[[/lang]][[lang code=\'en,other\']]Your answer {@ex@} contains the wrong variables.[[/lang]]"));';
+        // This question is also used to test the lang blocks at the top level.
+        $q->questiontext = "[[lang code='en,other']] What is {@ta@}? [[/lang]]<br>" .
+                           "[[lang code='de']] Was ist {@ta@}? [[/lang]]<br>" .
+                           "[[lang code='fi']] Mikä on {@ta@}? [[/lang]]<br>" .
+                           "[[input:ans1]] [[validation:ans1]]";
+        $q->generalfeedback = '';
+        $q->questionnote = '';
 
-            $q->specificfeedback = '[[feedback:firsttree]]';
-            $q->penalty = 0.25; // Non-zero and not the default.
+        $q->specificfeedback = '[[feedback:firsttree]]';
+        $q->penalty = 0.25; // Non-zero and not the default.
 
-            $q->inputs['ans1'] = stack_input_factory::make(
-                'algebraic', 'ans1', 'ta', null,
-                array('boxWidth' => 20, 'forbidWords' => '', 'allowWords' => '',
-                      'options' => 'validator:myvalidityidea'));
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'ta', null,
+            [
+                'boxWidth' => 20, 'forbidWords' => '', 'allowWords' => 'foo',
+                'options' => 'validator:myvalidityidea',
+            ]);
+
+        $prt = new stdClass;
+        $prt->name              = 'firsttree';
+        $prt->id                = 0;
+        $prt->value             = 1;
+        $prt->feedbackstyle     = 1;
+        $prt->feedbackvariables = '';
+        $prt->firstnodename     = '0';
+        $prt->nodes             = [];
+        $prt->autosimplify      = true;
+
+        $newnode = new stdClass;
+        $newnode->id                  = '0';
+        $newnode->nodename            = '0';
+        $newnode->description         = '';
+        $newnode->sans                = 'ans1';
+        $newnode->tans                = 'ta';
+        $newnode->answertest          = 'AlgEquiv';
+        $newnode->testoptions         = '';
+        $newnode->quiet               = false;
+        $newnode->falsescore          = '0';
+        $newnode->falsescoremode      = '=';
+        $newnode->falsepenalty        = $q->penalty;
+        $newnode->falsefeedback       = "[[lang code='en,other']] wrong [[/lang]]<br> [[lang code='de']] falsch [[/lang]]" .
+            "<br> [[lang code='fi']] väärä [[/lang]]";
+        $newnode->falsefeedbackformat = '1';
+        $newnode->falseanswernote     = 'firsttree-0-0';
+        $newnode->falsenextnode       = '-1';
+        $newnode->truescore           = '1';
+        $newnode->truescoremode       = '=';
+        $newnode->truepenalty         = $q->penalty;
+        $newnode->truefeedback        = "[[lang code='en,other']] true answer [[/lang]]<br> [[lang code='de']] richtig [[/lang]]" .
+            "<br> [[lang code='fi']] oikea [[/lang]]";
+        $newnode->truefeedbackformat  = '1';
+        $newnode->trueanswernote      = 'firsttree-0-1';
+        $newnode->truenextnode        = '-1';
+        $prt->nodes[] = $newnode;
+
+        $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
+
+        return $q;
+    }
+
+    /**
+     * @return qtype_stack_question.
+     */
+    public static function make_stack_question_feedback() {
+        $q = self::make_a_stack_question();
+
+        $q->name = 'feedback';
+        // We need to check that local variable names within the block are not invalid for student's input.
+        // We need to chack mathematics within the castext is correctly displayed.
+        $q->questionvariables = 'feedback_fn(ex) := "Remember to enter sets!"' .
+            "n : rand(2)+3; " .
+            "p : rand(3)+2; " .
+            "ta : setify(makelist(p*%e^(2*%pi*%i*k/n),k,1,n))" .
+            "sc2:0.3";
+        $q->questiontext = '<p>Find all the complex solutions of the equation \[ z^{@n@}={@p^n@}.\]
+                            Enter your answer as a set of numbers.
+                            [[input:ans1]]</p>
+                            [[validation:ans1]]';
+
+        $q->specificfeedback = '[[feedback:ans]]';
+        $q->questionnote = '{@ta@}';
+
+        $q->inputs['ans1'] = stack_input_factory::make(
+            'algebraic', 'ans1', 'ta', null,
+            [
+                'boxWidth' => 20, 'syntaxHint' => '{?,?,...,?}',
+                'options' => 'feedback:feedback_fn',
+            ]
+            );
+
+            $feedbackvars = 'a1 : listify(ans1);' .
+                'a1 : maplist(lambda([x],x^n-p^n),a1);' .
+                'a1 : setify(a1)';
 
             $prt = new stdClass;
-            $prt->name              = 'firsttree';
+            $prt->name              = 'ans';
             $prt->id                = 0;
             $prt->value             = 1;
             $prt->feedbackstyle     = 1;
-            $prt->feedbackvariables = '';
+            $prt->feedbackvariables = $feedbackvars;
             $prt->firstnodename     = '0';
             $prt->nodes             = [];
             $prt->autosimplify      = true;
-
             $newnode = new stdClass;
             $newnode->id                  = '0';
             $newnode->nodename            = '0';
             $newnode->description         = '';
             $newnode->sans                = 'ans1';
             $newnode->tans                = 'ta';
+            $newnode->answertest          = 'Sets';
+            $newnode->testoptions         = '';
+            $newnode->quiet               = false;
+            $newnode->falsescore          = '0';
+            $newnode->falsescoremode      = '=';
+            $newnode->falsepenalty        = $q->penalty;
+            $newnode->falsefeedback       = '';
+            $newnode->falsefeedbackformat = '1';
+            $newnode->falseanswernote     = 'ans-0-F';
+            $newnode->falsenextnode       = '1';
+            $newnode->truescore           = '1';
+            $newnode->truescoremode       = '=';
+            $newnode->truepenalty         = $q->penalty;
+            $newnode->truefeedback        = '';
+            $newnode->truefeedbackformat  = '1';
+            $newnode->trueanswernote      = 'ans-0-T';
+            $newnode->truenextnode        = '-1';
+            $prt->nodes[] = $newnode;
+            $newnode = new stdClass;
+            $newnode->id                  = '1';
+            $newnode->nodename            = '1';
+            $newnode->description         = '';
+            $newnode->sans                = 'ans1';
+            $newnode->tans                = '{p}';
             $newnode->answertest          = 'AlgEquiv';
             $newnode->testoptions         = '';
             $newnode->quiet               = false;
@@ -3496,19 +3985,3951 @@ class qtype_stack_test_helper extends question_test_helper {
             $newnode->falsepenalty        = $q->penalty;
             $newnode->falsefeedback       = '';
             $newnode->falsefeedbackformat = '1';
-            $newnode->falseanswernote     = 'firsttree-0-0';
-            $newnode->falsenextnode       = '-1';
-            $newnode->truescore           = '1';
+            $newnode->falseanswernote     = 'ans-1-F';
+            $newnode->falsenextnode       = '2';
+            $newnode->truescore           = 'sc2';
             $newnode->truescoremode       = '=';
             $newnode->truepenalty         = $q->penalty;
-            $newnode->truefeedback        = '';
+            $newnode->truefeedback        = '<p>There are more answers that just the single real number.
+                 Please consider complex solutions to this problem!</p>';
             $newnode->truefeedbackformat  = '1';
-            $newnode->trueanswernote      = 'firsttree-0-1';
+            $newnode->trueanswernote      = 'ans-1-T';
             $newnode->truenextnode        = '-1';
             $prt->nodes[] = $newnode;
-
+            $newnode = new stdClass;
+            $newnode->id                  = '2';
+            $newnode->nodename            = '2';
+            $newnode->description         = '';
+            $newnode->sans                = 'a1';
+            $newnode->tans                = '{0}';
+            $newnode->answertest          = 'AlgEquiv';
+            $newnode->testoptions         = '';
+            $newnode->quiet               = true;
+            $newnode->falsescore          = '0';
+            $newnode->falsescoremode      = '=';
+            $newnode->falsepenalty        = $q->penalty;
+            $newnode->falsefeedback       = '';
+            $newnode->falsefeedbackformat = '1';
+            $newnode->falseanswernote     = 'ans-2-F';
+            $newnode->falsenextnode       = '-1';
+            $newnode->truescore           = 'sc2';
+            $newnode->truescoremode       = '=';
+            $newnode->truepenalty         = $q->penalty;
+            $newnode->truefeedback        =
+            'All your answers satisfy the equation. But, you have missed some of the solutions.';
+            $newnode->truefeedbackformat  = '1';
+            $newnode->trueanswernote      = 'ans-2-T';
+            $newnode->truenextnode        = '-1';
+            $prt->nodes[] = $newnode;
             $q->prts[$prt->name] = new stack_potentialresponse_tree_lite($prt, $prt->value, $q);
 
             return $q;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for an algebraic input question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_algebraic_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Algebraic input';
+        $formform->questionvariables = 'ta:a*b';
+        $formform->questiontext = [
+            'text' => '<p>Type in {@ta@}.</p><p>[[input:ans1]] [[validation:ans1]]</p>
+                <p>(Note, this assumes single variable variable names)</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => 'There are various options for typing in multiplication within STACK.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'algebraic';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '2';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = 'solve';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '1';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'ta';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Algebraic input (align to the right) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_algebraic_input_right() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Algebraic input (align to the right)';
+        $formform->questionvariables = 'ta:sin(x^2)';
+        $formform->questiontext = [
+            'text' => '<p>Type in {@ta@}.<br></p><p>[[input:ans1]] [[validation:ans1]]</p>
+                <p>(Note, this assumes single variable variable names)</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'algebraic';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '2';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = 'solve';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '1';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = 'align:right';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'ta';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Algebraic input (answer box sizes test) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_algebraic_input_size() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Algebraic input (answer box sizes test)';
+        $formform->questionvariables = '';
+        $formform->questiontext = [
+            'text' => '<p>This question just tests answer boxes of multiple sizes, and styles of input.</p>
+                <p>Standard: [[input:ans1]] [[validation:ans1]]</p> <p>No variable list: [[input:ans2]]
+                [[validation:ans2]]</p> <p>Compact [[input:ans3]] [[validation:ans3]]
+                (all following are compact)</p> <p>[[input:ans4]] [[validation:ans4]]</p>
+                <p>[[input:ans5]] [[validation:ans5]]</p> <p>[[input:ans7]] [[validation:ans7]]</p>
+                <p>[[input:ans10]] [[validation:ans10]]</p> <p>[[input:ans15]] [[validation:ans15]]</p>
+                <p>[[input:ans20]] [[validation:ans20]]</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'algebraic';
+        $formform->ans1modelans = 'a';
+        $formform->ans1boxsize = '1';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = 'a';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+        $formform->ans2type = 'algebraic';
+        $formform->ans2modelans = '2*x';
+        $formform->ans2type = 'algebraic';
+        $formform->ans2modelans = '2*x';
+        $formform->ans2boxsize = '2';
+        $formform->ans2strictsyntax = '';
+        $formform->ans2insertstars = '0';
+        $formform->ans2syntaxhint = '2*x';
+        $formform->ans2syntaxattribute = '0';
+        $formform->ans2forbidwords = '';
+        $formform->ans2allowwords = '';
+        $formform->ans2forbidfloat = '1';
+        $formform->ans2requirelowestterms = '0';
+        $formform->ans2checkanswertype = '0';
+        $formform->ans2mustverify = '1';
+        $formform->ans2showvalidation = '2';
+        $formform->ans2options = '';
+        $formform->ans3type = 'algebraic';
+        $formform->ans3modelans = 'x^2';
+        $formform->ans3type = 'algebraic';
+        $formform->ans3modelans = 'x^2';
+        $formform->ans3boxsize = '3';
+        $formform->ans3strictsyntax = '';
+        $formform->ans3insertstars = '0';
+        $formform->ans3syntaxhint = 'x^2';
+        $formform->ans3syntaxattribute = '0';
+        $formform->ans3forbidwords = '';
+        $formform->ans3allowwords = '';
+        $formform->ans3forbidfloat = '1';
+        $formform->ans3requirelowestterms = '0';
+        $formform->ans3checkanswertype = '0';
+        $formform->ans3mustverify = '1';
+        $formform->ans3showvalidation = '3';
+        $formform->ans3options = '';
+        $formform->ans4type = 'algebraic';
+        $formform->ans4modelans = '2';
+        $formform->ans4type = 'algebraic';
+        $formform->ans4modelans = '2';
+        $formform->ans4boxsize = '4';
+        $formform->ans4strictsyntax = '';
+        $formform->ans4insertstars = '0';
+        $formform->ans4syntaxhint = '2222';
+        $formform->ans4syntaxattribute = '0';
+        $formform->ans4forbidwords = '';
+        $formform->ans4allowwords = '';
+        $formform->ans4forbidfloat = '1';
+        $formform->ans4requirelowestterms = '0';
+        $formform->ans4checkanswertype = '0';
+        $formform->ans4mustverify = '1';
+        $formform->ans4showvalidation = '3';
+        $formform->ans4options = '';
+        $formform->ans5type = 'algebraic';
+        $formform->ans5modelans = '2';
+        $formform->ans5type = 'algebraic';
+        $formform->ans5modelans = '2';
+        $formform->ans5boxsize = '5';
+        $formform->ans5strictsyntax = '';
+        $formform->ans5insertstars = '0';
+        $formform->ans5syntaxhint = '22222';
+        $formform->ans5syntaxattribute = '0';
+        $formform->ans5forbidwords = '';
+        $formform->ans5allowwords = '';
+        $formform->ans5forbidfloat = '1';
+        $formform->ans5requirelowestterms = '0';
+        $formform->ans5checkanswertype = '0';
+        $formform->ans5mustverify = '1';
+        $formform->ans5showvalidation = '3';
+        $formform->ans5options = '';
+        $formform->ans7type = 'algebraic';
+        $formform->ans7modelans = '2';
+        $formform->ans7type = 'algebraic';
+        $formform->ans7modelans = '2';
+        $formform->ans7boxsize = '7';
+        $formform->ans7strictsyntax = '';
+        $formform->ans7insertstars = '0';
+        $formform->ans7syntaxhint = '2222222';
+        $formform->ans7syntaxattribute = '0';
+        $formform->ans7forbidwords = '';
+        $formform->ans7allowwords = '';
+        $formform->ans7forbidfloat = '1';
+        $formform->ans7requirelowestterms = '0';
+        $formform->ans7checkanswertype = '0';
+        $formform->ans7mustverify = '1';
+        $formform->ans7showvalidation = '3';
+        $formform->ans7options = '';
+        $formform->ans10type = 'algebraic';
+        $formform->ans10modelans = '2';
+        $formform->ans10type = 'algebraic';
+        $formform->ans10modelans = '2';
+        $formform->ans10boxsize = '10';
+        $formform->ans10strictsyntax = '';
+        $formform->ans10insertstars = '0';
+        $formform->ans10syntaxhint = '2222222222';
+        $formform->ans10syntaxattribute = '0';
+        $formform->ans10forbidwords = '';
+        $formform->ans10allowwords = '';
+        $formform->ans10forbidfloat = '1';
+        $formform->ans10requirelowestterms = '0';
+        $formform->ans10checkanswertype = '0';
+        $formform->ans10mustverify = '1';
+        $formform->ans10showvalidation = '3';
+        $formform->ans10options = '';
+        $formform->ans15type = 'algebraic';
+        $formform->ans15modelans = '2';
+        $formform->ans15type = 'algebraic';
+        $formform->ans15modelans = '2';
+        $formform->ans15boxsize = '15';
+        $formform->ans15strictsyntax = '';
+        $formform->ans15insertstars = '0';
+        $formform->ans15syntaxhint = '222222222222222';
+        $formform->ans15syntaxattribute = '0';
+        $formform->ans15forbidwords = '';
+        $formform->ans15allowwords = '';
+        $formform->ans15forbidfloat = '1';
+        $formform->ans15requirelowestterms = '0';
+        $formform->ans15checkanswertype = '0';
+        $formform->ans15mustverify = '1';
+        $formform->ans15showvalidation = '3';
+        $formform->ans15options = '';
+        $formform->ans20type = 'algebraic';
+        $formform->ans20modelans = '2';
+        $formform->ans20type = 'algebraic';
+        $formform->ans20modelans = '2';
+        $formform->ans20boxsize = '20';
+        $formform->ans20strictsyntax = '';
+        $formform->ans20insertstars = '0';
+        $formform->ans20syntaxhint = '12345123451234512345';
+        $formform->ans20syntaxattribute = '0';
+        $formform->ans20forbidwords = '';
+        $formform->ans20allowwords = '';
+        $formform->ans20forbidfloat = '1';
+        $formform->ans20requirelowestterms = '0';
+        $formform->ans20checkanswertype = '0';
+        $formform->ans20mustverify = '1';
+        $formform->ans20showvalidation = '3';
+        $formform->ans20options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'a';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '<p>This just takes account of the first answer box!<br></p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '<p>This just takes account of the first answer box!</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Algebraic input (compact) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_algebraic_input_compact() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Algebraic input (compact)';
+        $formform->questionvariables = 'ta:n*(n+1)/2';
+        $formform->questiontext = [
+            'text' => '<p>What is \(\sum_{k=1}^n k = \) [[validation:ans1]] [[input:ans1]]
+                [[feedback:prt1]]</p> <p>(Note, this input has compact validation and PRT.)</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'algebraic';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '2';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = 'solve';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '1';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '3';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '2';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'ta';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Algebraic input (empty answer permitted) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_algebraic_input_empty() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Algebraic input (empty answer permitted)';
+        $formform->questionvariables = '';
+        $formform->questiontext = [
+            'text' => '<p>Type in \(\sin(x)\), \(\cos(x)\) and leave one input blank.</p>
+                <p>[[input:ans1]] [[validation:ans1]]</p> <p>[[input:ans2]] [[validation:ans2]]</p>
+                <p>[[input:ans3]] [[validation:ans3]]</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'algebraic';
+        $formform->ans1modelans = 'sin(x)';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = 'allowempty';
+        $formform->ans2type = 'algebraic';
+        $formform->ans2modelans = 'cos(x)';
+        $formform->ans2type = 'algebraic';
+        $formform->ans2modelans = 'cos(x)';
+        $formform->ans2boxsize = '15';
+        $formform->ans2strictsyntax = '';
+        $formform->ans2insertstars = '0';
+        $formform->ans2syntaxhint = '';
+        $formform->ans2syntaxattribute = '0';
+        $formform->ans2forbidwords = '';
+        $formform->ans2allowwords = '';
+        $formform->ans2forbidfloat = '1';
+        $formform->ans2requirelowestterms = '0';
+        $formform->ans2checkanswertype = '0';
+        $formform->ans2mustverify = '1';
+        $formform->ans2showvalidation = '1';
+        $formform->ans2options = 'allowempty';
+        $formform->ans3type = 'algebraic';
+        $formform->ans3modelans = 'EMPTYANSWER';
+        $formform->ans3type = 'algebraic';
+        $formform->ans3modelans = 'EMPTYANSWER';
+        $formform->ans3boxsize = '15';
+        $formform->ans3strictsyntax = '';
+        $formform->ans3insertstars = '0';
+        $formform->ans3syntaxhint = '';
+        $formform->ans3syntaxattribute = '0';
+        $formform->ans3forbidwords = '';
+        $formform->ans3allowwords = '';
+        $formform->ans3forbidfloat = '1';
+        $formform->ans3requirelowestterms = '0';
+        $formform->ans3checkanswertype = '0';
+        $formform->ans3mustverify = '1';
+        $formform->ans3showvalidation = '1';
+        $formform->ans3options = 'allowempty';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = 'sa:setdifference({ans1,ans2,ans3},{EMPTYANSWER})';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'sa';
+        $formform->prt1tans[0] = '{sin(x),cos(x)}';
+        $formform->prt1answertest[0] = 'Sets';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Algebraic input (with simplification) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_algebraic_input_simpl() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Algebraic input (with simplification)';
+        $formform->questionvariables = 'ta:makelist(k^2,k,1,8)';
+        $formform->questiontext = [
+            'text' => '<p>Type in {@ta@}</p> <p>[[input:ans1]] [[validation:ans1]]</p>
+                <p>Hint: use <code>makelist(k^2,k,1,8)</code></p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'algebraic';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = 'simp';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = 'sa:ev(ans1,simp);';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'sa';
+        $formform->prt1tans[0] = 'ta';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Checkbox question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_checkbox_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Checkbox';
+        $formform->questionvariables = '/* Create a list of potential answers. */ p:sin(2*x);
+                ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+                /* The actual correct answer. */ tac:diff(p,x) /* Add in a "None of these" to the end
+                of the list. The Maxima value is the atom null. */
+                tao:[null, false, "None of these"]; ta:append(ta,[tao]);';
+        $formform->questiontext = [
+            'text' => '<p>Differentiate {@p@} with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'checkbox';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '2';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = 'ansmod:apply("and",maplist(lambda([ex],second(ATDiff(ex,diff(p,x),x))),ans1));';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ansmod';
+        $formform->prt1tans[0] = 'true';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Checkbox (no body LaTeX) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_checkbox_input_no_latex() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Checkbox (no body LaTeX)';
+        $formform->questionvariables = '/* Create a list of potential answers.
+                */ p:sin(2*x); ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+                /* The actual correct answer. */ tac:diff(p,x) tao:[null, true, "Something random"]; ta:append(ta,[tao]);';
+        $formform->questiontext = [
+            'text' => '<p>This question has no LaTeX in the body, to test display of LaTeX only appearing in the input.</p>
+                <p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '{@ta@}',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'checkbox';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '2';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = '[diff(p,x),null]';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Checkbox (plots in options)  question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_checkbox_input_plots() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Checkbox (plots in options)';
+        $formform->questionvariables = 'cfn1:x^3; cfn2:atan(x); cfn3:(1/2)^x; cfn4:-x^5; wfn1:x^2-1; wfn2:(x-1)*x*(x+1);
+                wfn3:1/x^2; wfn4:cos(x); xmax:3;
+                ymax:3; cplot1:plot(cfn1,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+                cplot2:plot(cfn2,[x,-xmax,xmax],[y,-%pi/2,%pi/2],[box, false],[yx_ratio, 1],[axes, solid]);
+                cplot3:plot(cfn3,[x,-xmax,xmax],[y,0,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+                cplot4:plot(cfn4,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+                wplot1:plot(wfn1,[x,-xmax,xmax],[y,-1,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+                wplot2:plot(wfn2,[x,-xmax,xmax],[y,-ymax,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+                wplot3:plot(wfn3,[x,-xmax,xmax],[y,0,ymax],[box, false],[yx_ratio, 1],[axes, solid]);
+                wplot4:plot(wfn4,[x,-xmax,xmax],[y,-1,1],[box, false],[yx_ratio, 1],[axes, solid]);
+                corbase:[cplot1,cplot2,cplot3,cplot4]; wrongbase:[wplot1,wplot2,wplot3,wplot4];
+                /* code lifted and adapted from multiselqnalpha */
+                sel_cor: maplist(lambda([ex], [ex, true]), rand_selection(corbase, 2));
+                sel_incorr: maplist(lambda([ex], [ex, false]), rand_selection(wrongbase, 2));
+                opts: random_permutation(append(sel_cor,sel_incorr));
+                talab: ev(makelist(sconcat("(",ascii(96+i),")"), i, 1, length(opts)), simp);
+                ta1:zip_with(lambda([ex1, ex2], [ex1, ex2[2], sconcat("", ex1, " ", ex2[1])]), talab, opts);
+                version: map(first, opts); corr1:mcq_correct(ta1); incorr1:mcq_incorrect(ta1);';
+        $formform->questiontext = [
+            'text' => '<p class="noindent">Which of the following functions are invertible?<br></p>
+                [[input:ans1]] [[validation:ans1]]
+                <p>(This question is to test auto-generated images appear in MCQ options.)</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '<p>A function is invertible if and only if it takes each value in its range precisely once.&nbsp;
+                The functions that are not invertible here are not invertible
+                because they take some values more than once.<br></p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '{@f@} {#version#}',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'checkbox';
+        $formform->ans1modelans = 'ta1';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '1';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '0';
+        $formform->ans1showvalidation = '0';
+        $formform->ans1options = 'LaTeX';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'none';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '0';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'setify(ans1)';
+        $formform->prt1tans[0] = 'setify(corr1)';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '1';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '0.1';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-0-F';
+        $formform->prt1falsenextnode[0] = '1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '0';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-0-T';
+        $formform->prt1truenextnode[0] = '-1';
+        $formform->prt1description[1] = '';
+        $formform->prt1sans[1] = 'subsetp(setify(ans1),setify(corr1))';
+        $formform->prt1tans[1] = 'true';
+        $formform->prt1answertest[1] = 'AlgEquiv';
+        $formform->prt1testoptions[1] = '';
+        $formform->prt1quiet[1] = '0';
+        $formform->prt1falsescore[1] = '0';
+        $formform->prt1falsescoremode[1] = '-';
+        $formform->prt1falsepenalty[1] = '';
+        $formform->prt1falsefeedback[1] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[1] = 'prt1-2-F';
+        $formform->prt1falsenextnode[1] = '2';
+        $formform->prt1truescore[1] = '0.5';
+        $formform->prt1truescoremode[1] = '+';
+        $formform->prt1truepenalty[1] = '';
+        $formform->prt1truefeedback[1] = [
+            'text' => '<p>You have correctly identified one of the correct answers, but missed
+                \({@setdifference(setify(corr1),setify(ans1))@}\).<br></p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[1] = 'prt1-2-T';
+        $formform->prt1truenextnode[1] = '-1';
+        $formform->prt1description[2] = '';
+        $formform->prt1sans[2] = 'cardinality(ev(intersection(setify(incorr1),setify(ans1)),simp))';
+        $formform->prt1tans[2] = '0';
+        $formform->prt1answertest[2] = 'CasEqual';
+        $formform->prt1testoptions[2] = '';
+        $formform->prt1quiet[2] = '0';
+        $formform->prt1falsescore[2] = '0';
+        $formform->prt1falsescoremode[2] = '-';
+        $formform->prt1falsepenalty[2] = '';
+        $formform->prt1falsefeedback[2] = [
+            'text' => '<p>You incorrectly selected {@(setdifference(setify(ans1),setify(corr1)))@}<br></p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[2] = 'prt1-3-F';
+        $formform->prt1falsenextnode[2] = '-1';
+        $formform->prt1truescore[2] = '0';
+        $formform->prt1truescoremode[2] = '+';
+        $formform->prt1truepenalty[2] = '';
+        $formform->prt1truefeedback[2] = [
+            'text' => '<p><br></p><p>{@setify(ans1)@}<br></p><p>{@(intersection(setify(incorr),setify(ans1)))@}
+                <br></p><p>{@cardinality(intersection(setify(incorr),setify(ans1)))@}</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[2] = 'prt1-3-T';
+        $formform->prt1truenextnode[2] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Checkbox (Show teacher's answer) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_checkbox_show_tans() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = "Checkbox (Show teacher's answer)";
+        $formform->questionvariables = 'ta1:[A, true, "Integration by parts"]; ta2:[B, true, "Integration by substitution"];
+                ta3:[C, true, "Apply a trig formula to remove product"];
+                ta4:[D, true, "Remove trig with complex exponentials, then integrate"];
+                ta0:[X, false, "None of the other options"]; ta:[ta1,ta2,ta3,ta4,ta0];';
+        $formform->questiontext = [
+            'text' => '<p>Which method would you use to find \(\int\sin(x)\cos(x)\mathrm{d} x\)?</p>
+                <p>[[input:ans1]][[validation:ans1]]</p> <p>(The purpose of this question is to test the "teacher\'s answer"
+                display is the string shown, not the value returned to Maxima).</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '<p>Indeed, all four methods can be readily used on this integration problem!</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'checkbox';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '0';
+        $formform->ans1showvalidation = '0';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = '[A,B,C,D]';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Dropdown (shuffle) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_dropdown_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Dropdown (shuffle)';
+        $formform->questionvariables = '/* Create a list of potential answers. */ p:sin(2*x);
+                ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+                /* The actual correct answer. */ tac:diff(p,x) /* Randomly shuffle the list "ta". */
+                ta:random_permutation(ta); /* Add in a "None of these" to the end of the list.
+                The Maxima value is the atom null. */ tao:[null, false, "None of these"]; ta:append(ta,[tao]);';
+        $formform->questiontext = [
+            'text' => '<p>Differentiate {@p@} with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '{@ta@}',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'dropdown';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '2';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'tac';
+        $formform->prt1answertest[0] = 'Diff';
+        $formform->prt1testoptions[0] = 'x';
+        $formform->prt1quiet[0] = '1';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Equiv input test (compact) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_equiv_input_compact() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Equiv input test (compact)';
+        $formform->questionvariables = 'v:x p:3*v+7=4 ta:[p,x=(4-7)/3,x=-1]';
+        $formform->questiontext = [
+            'text' => '<p>Solve {@p@}.</p><p>[[input:ans1]] [[validation:ans1]]</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '<p>sangwinc<br></p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'equiv';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '5';
+        $formform->ans1syntaxhint = 'firstline';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '1';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '3';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '0';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'last(ans1)';
+        $formform->prt1tans[0] = 'last(ta)';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Equiv input test (let, or +-) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_equiv_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Equiv input test (let, or +-)';
+        $formform->questionvariables = 'tal:[(x-a)^2=4,x-a= #pm#2,x=a#pm#2,x=a+2 nounor x=a-2,stacklet(a,1),x=3 nounor x=-1];
+                p:first(tal);';
+        $formform->questiontext = [
+            'text' => '<p>Solve {@p@} and let \(a=1\).</p> <p>[[input:ans1]] [[validation:ans1]]</p>
+                <p>(This tests "let", "or" and "+-".)</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '{@tal@}',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'equiv';
+        $formform->ans1modelans = 'tal';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '5';
+        $formform->ans1syntaxhint = 'firstline';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '1';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '0';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'tal';
+        $formform->prt1answertest[0] = 'EquivFirst';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '1';
+        $formform->prt1description[1] = '';
+        $formform->prt1sans[1] = 'last(ans1)';
+        $formform->prt1tans[1] = 'last(tal)';
+        $formform->prt1answertest[1] = 'EqualComAss';
+        $formform->prt1testoptions[1] = '';
+        $formform->prt1quiet[1] = '0';
+        $formform->prt1falsescore[1] = '0';
+        $formform->prt1falsescoremode[1] = '-';
+        $formform->prt1falsepenalty[1] = '';
+        $formform->prt1falsefeedback[1] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[1] = 'prt1-2-F';
+        $formform->prt1falsenextnode[1] = '-1';
+        $formform->prt1truescore[1] = '0';
+        $formform->prt1truescoremode[1] = '+';
+        $formform->prt1truepenalty[1] = '';
+        $formform->prt1truefeedback[1] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[1] = 'prt1-2-T';
+        $formform->prt1truenextnode[1] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Matrix question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_matrix_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Matrix';
+        $formform->questionvariables = 'M:matrix([1,2],[3,4])';
+        $formform->questiontext = [
+            'text' => '<p>Type in {@M@}<br></p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'matrix';
+        $formform->ans1modelans = 'M';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '1';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'M';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Matrix (varmatrix) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_varmatrix_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Matrix (varmatrix)';
+        $formform->questionvariables = 'M1:matrix([1,0],[0,1]); TA1:matrix([1, 0, 0, 0],[0,1,0,0]);
+                TA2:matrix([1,0],[0,1],[0,0],[0,0]);';
+        $formform->questiontext = [
+            'text' => '<p>Find two non-square matrices which solve the following equation.</p>
+                <p>[[input:ans1]] \(\times\) [[input:ans2]] = {@M1@}</p>
+                <p> [[validation:ans1]] \(\times\) [[validation:ans2]] \( = ? \) </p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '0',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => 'Plenty of ways of adding additional information which is not needed by extending the matrices.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '0',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'varmatrix';
+        $formform->ans1modelans = 'TA1';
+        $formform->ans1boxsize = '3';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '3';
+        $formform->ans1options = '';
+        $formform->ans2type = 'varmatrix';
+        $formform->ans2modelans = 'TA2';
+        $formform->ans2type = 'varmatrix';
+        $formform->ans2modelans = 'TA2';
+        $formform->ans2boxsize = '3';
+        $formform->ans2strictsyntax = '';
+        $formform->ans2insertstars = '0';
+        $formform->ans2syntaxhint = '';
+        $formform->ans2syntaxattribute = '0';
+        $formform->ans2forbidwords = '';
+        $formform->ans2allowwords = '';
+        $formform->ans2forbidfloat = '1';
+        $formform->ans2requirelowestterms = '0';
+        $formform->ans2checkanswertype = '0';
+        $formform->ans2mustverify = '1';
+        $formform->ans2showvalidation = '3';
+        $formform->ans2options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'symbol';
+        $formform->matrixparens = '(';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = 'sz1:matrix_size(ans1); sz2:matrix_size(ans2);';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'first(sz1)';
+        $formform->prt1tans[0] = 'second(sz1)';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '1';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => 'Your first matrix should not be square!',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '1';
+        $formform->prt1description[1] = '';
+        $formform->prt1sans[1] = 'first(sz2)';
+        $formform->prt1tans[1] = 'second(sz2)';
+        $formform->prt1answertest[1] = 'AlgEquiv';
+        $formform->prt1testoptions[1] = '';
+        $formform->prt1quiet[1] = '0';
+        $formform->prt1falsescore[1] = '0';
+        $formform->prt1falsescoremode[1] = '-';
+        $formform->prt1falsepenalty[1] = '';
+        $formform->prt1falsefeedback[1] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[1] = 'prt1-2-F';
+        $formform->prt1falsenextnode[1] = '2';
+        $formform->prt1truescore[1] = '0';
+        $formform->prt1truescoremode[1] = '+';
+        $formform->prt1truepenalty[1] = '';
+        $formform->prt1truefeedback[1] = [
+            'text' => 'Your second matrix should not be square!',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[1] = 'prt1-2-T';
+        $formform->prt1truenextnode[1] = '2';
+        $formform->prt1description[2] = '';
+        $formform->prt1sans[2] = 'second(sz1)';
+        $formform->prt1tans[2] = 'first(sz2)';
+        $formform->prt1answertest[2] = 'AlgEquiv';
+        $formform->prt1testoptions[2] = '';
+        $formform->prt1quiet[2] = '0';
+        $formform->prt1falsescore[2] = '0';
+        $formform->prt1falsescoremode[2] = '=';
+        $formform->prt1falsepenalty[2] = '';
+        $formform->prt1falsefeedback[2] = [
+            'text' => 'It is impossible to multiply {@ans1@} with {@ans2@}!',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[2] = 'prt1-3-F';
+        $formform->prt1falsenextnode[2] = '-1';
+        $formform->prt1truescore[2] = '0';
+        $formform->prt1truescoremode[2] = '+';
+        $formform->prt1truepenalty[2] = '';
+        $formform->prt1truefeedback[2] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[2] = 'prt1-3-T';
+        $formform->prt1truenextnode[2] = '3';
+        $formform->prt1description[3] = '';
+        $formform->prt1sans[3] = 'ans1.ans2';
+        $formform->prt1tans[3] = 'M1';
+        $formform->prt1answertest[3] = 'AlgEquiv';
+        $formform->prt1testoptions[3] = '';
+        $formform->prt1quiet[3] = '0';
+        $formform->prt1falsescore[3] = '0';
+        $formform->prt1falsescoremode[3] = '-';
+        $formform->prt1falsepenalty[3] = '';
+        $formform->prt1falsefeedback[3] = [
+            'text' => '\[ {@ans1@}{@ans2@} = {@ans1.ans2@} \neq {@M1@} \]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[3] = 'prt1-4-F';
+        $formform->prt1falsenextnode[3] = '-1';
+        $formform->prt1truescore[3] = '1';
+        $formform->prt1truescoremode[3] = '=';
+        $formform->prt1truepenalty[3] = '';
+        $formform->prt1truefeedback[3] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[3] = 'prt1-4-T';
+        $formform->prt1truenextnode[3] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Matrix-multi question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_matrix_multi_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Matrix-multi';
+        $formform->questionvariables = 'M1:matrix([1,2],[3,4]); M2:matrix([a,b],[c,d]);';
+        $formform->questiontext = [
+            'text' => '<p>Don\'t type in the same matrix twice! Well, this question is to help confirm instant
+                validation works with more than one matrix in a given question.</p> <p>[[input:ans1]] \(\neq \)
+                [[input:ans2]] </p> <p>[[validation:ans1]] [[validation:ans2]]</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '0',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => 'Just about anything random should do here! I chose \[ {@M1@} \neq {@M2@}.\]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '0',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'matrix';
+        $formform->ans1modelans = 'M1';
+        $formform->ans1boxsize = '3';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+        $formform->ans2type = 'matrix';
+        $formform->ans2modelans = 'M2';
+        $formform->ans2type = 'matrix';
+        $formform->ans2modelans = 'M2';
+        $formform->ans2boxsize = '3';
+        $formform->ans2strictsyntax = '';
+        $formform->ans2insertstars = '0';
+        $formform->ans2syntaxhint = '';
+        $formform->ans2syntaxattribute = '0';
+        $formform->ans2forbidwords = '';
+        $formform->ans2allowwords = '';
+        $formform->ans2forbidfloat = '1';
+        $formform->ans2requirelowestterms = '0';
+        $formform->ans2checkanswertype = '0';
+        $formform->ans2mustverify = '1';
+        $formform->ans2showvalidation = '1';
+        $formform->ans2options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'ans2';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '1';
+        $formform->prt1falsescore[0] = '1';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '0';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Notes question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_notes_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Notes';
+        $formform->questionvariables = '';
+        $formform->questiontext = [
+            'text' => '<p>Show your working in this box!<br></p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'notes';
+        $formform->ans1modelans = 'true';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'true';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Numerical input (min sf) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_numerical_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Numerical input (min sf)';
+        $formform->questionvariables = '';
+        $formform->questiontext = [
+            'text' => '<p></p><p>Type in \(\pi\) to at least \(3\) significant
+                    figures</p><p>[[input:ans1]] [[validation:ans1]]</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'numerical';
+        $formform->ans1modelans = 'significantfigures(pi,5)';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '0';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '2';
+        $formform->ans1options = 'minsf:3';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'pi';
+        $formform->prt1answertest[0] = 'NumAbsolute';
+        $formform->prt1testoptions[0] = '0.01';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Radio question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_radio_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Radio';
+        $formform->questionvariables = '/* Create a list of potential answers. */ p:sin(2*x);
+                ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+                /* The actual correct answer. */ tac:diff(p,x) /* Add in a "None of these" to the end of the list.
+                The Maxima value is the atom null. */ tao:[null, false, "None of these"]; ta:append(ta,[tao]);';
+        $formform->questiontext = [
+            'text' => '<p>Differentiate {@p@} with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'radio';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'diff(p,x)';
+        $formform->prt1answertest[0] = 'Diff';
+        $formform->prt1testoptions[0] = 'x';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Radio (compact) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_radio_input_compact() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Radio (compact)';
+        $formform->questionvariables = '/* Create a list of potential answers. */ p:sin(2*x);
+                ta:[[diff(p,x),true],[p,false],[int(p,x),false],[cos(2*x)+c,false]];
+                /* The actual correct answer. */ tac:diff(p,x) /* Add in a "None of these" to the end of the list.
+                The Maxima value is the atom null. */ tao:[null, false, "None of these"]; ta:append(ta,[tao]);';
+        $formform->questiontext = [
+            'text' => '<p>Differentiate {@p@} with respect to \(x\).</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'radio';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '3';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'diff(p,x)';
+        $formform->prt1answertest[0] = 'Diff';
+        $formform->prt1testoptions[0] = 'x';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Single char question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_single_char_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Single char';
+        $formform->questionvariables = '';
+        $formform->questiontext = [
+            'text' => '<p>Type in \(x\)<br></p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'singlechar';
+        $formform->ans1modelans = 'x';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'x';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for String test question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_string_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'String input';
+        $formform->questionvariables = '';
+        $formform->questiontext = [
+            'text' => 'This input is sent to the CAS: <p>[[input:ans1]] [[validation:ans1]]</p>
+                This input is not, perhaps it is used to store JSXGraph state? or GeoGebra state?
+                <p>[[input:ans2]] [[validation:ans2]]</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'string';
+        $formform->ans1modelans = '"Hello world"';
+        $formform->ans1boxsize = '25';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+        $formform->ans2type = 'string';
+        $formform->ans2modelans = '"Some JSON stuff"';
+        $formform->ans2type = 'string';
+        $formform->ans2modelans = '"Some JSON stuff"';
+        $formform->ans2boxsize = '15';
+        $formform->ans2strictsyntax = '';
+        $formform->ans2insertstars = '0';
+        $formform->ans2syntaxhint = '';
+        $formform->ans2syntaxattribute = '0';
+        $formform->ans2forbidwords = '';
+        $formform->ans2allowwords = '';
+        $formform->ans2forbidfloat = '1';
+        $formform->ans2requirelowestterms = '0';
+        $formform->ans2checkanswertype = '0';
+        $formform->ans2mustverify = '0';
+        $formform->ans2showvalidation = '0';
+        $formform->ans2options = 'hideanswer';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = '"Hello world"';
+        $formform->prt1answertest[0] = 'StringSloppy';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Textarea test question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_textarea_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Textarea test';
+        $formform->questionvariables = 'ta:[x=1#pm#a,x=2 nounor x=-2];';
+        $formform->questiontext = [
+            'text' => 'Dummy maths input:&nbsp; \({@ta@}\).<br>[[input:ans1]] [[validation:ans1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => 'vendor/bin/phpunit --group qtype_stack',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'textarea';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '1';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'ta';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Textarea test (compact) question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_textarea_input_compact() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Textarea test (compact)';
+        $formform->questionvariables = 'ta:[x=1,x=2]';
+        $formform->questiontext = [
+            'text' => 'Dummy maths input:&nbsp; \({@ta@}\).<p>[[input:ans1]] [[validation:ans1]]</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'textarea';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '1';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '3';
+        $formform->ans1options = 'simp';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'ta';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for True/false question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_true_false_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'True/false';
+        $formform->questionvariables = '';
+        $formform->questiontext = [
+            'text' => '<p>All generalizations are false: [[input:ans1]] [[validation:ans1]]</p><p><br></p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'boolean';
+        $formform->ans1modelans = 'false';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = '';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'false';
+        $formform->prt1answertest[0] = 'AlgEquiv';
+        $formform->prt1testoptions[0] = '';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0.5';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '<p>Who knows!<br></p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '0.5';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '<p>Who knows!</p>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for Units question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_units_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'Units';
+        $formform->questionvariables = 'ta:9.81*m*s^-2';
+        $formform->questiontext = [
+            'text' => '<p>What is the force of gravity?</p><p>[[input:ans1]]</p><div>[[validation:ans1]]</div>',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => 'This question just calls for factual recall, but with scientific units attached!',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'units';
+        $formform->ans1modelans = 'ta';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '1';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '1';
+        $formform->ans1showvalidation = '1';
+        $formform->ans1options = 'mindp:2';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = 'ta';
+        $formform->prt1answertest[0] = 'Units';
+        $formform->prt1testoptions[0] = '3';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '1';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '-1';
+        return $formform;
+    }
+
+    /**
+     * Make the data what would be received from the editing form for JSX graph question.
+     *
+     * @return stdClass the data that would be returned by $form->get_data();
+     */
+    public static function get_stack_question_form_data_jsx_graph_input() {
+        $formform = new stdClass();
+        $formform->stackversion = '2024032401';
+        $formform->name = 'JSX behat test';
+        $formform->questionvariables = '';
+        $formform->questiontext = [
+            'text' => "<table> <tbody><tr> <td>Element1 location: [[input:ans1]] [[validation:ans1]]<br>
+                Element 2 location: [[input:ans2]] [[validation:ans2]]<br> Element1 id: [[input:element1]]<br>
+                [[validation:element1]]<br> Element2 id: [[input:element2]]<br>[[validation:element2]]<br></td>
+                <td> [[jsxgraph width='400px' height='400px' input-ref-ans1='ans1Ref' input-ref-ans2='ans2Ref'
+                input-ref-element1='element1Ref' input-ref-element2='element2Ref']]
+                var board = JXG.JSXGraph.initBoard(divid, {boundingbox: [-4.5, 4.5, 4.5, -4.5], showNavigation:false, grid:true});
+                var p2 = board.create('point', [-2, -2], {size: 8}); var p = board.create('point', [4, 3]);
+                var element1Ref = document.getElementById(element1Ref); element1Ref.value = p.id;
+                element1Ref.dispatchEvent(new Event('change')); stack_jxg.bind_point(ans1Ref, p);
+                var element2Ref = document.getElementById(element2Ref); element2Ref.value = p2.id;
+                element2Ref.dispatchEvent(new Event('change')); stack_jxg.bind_point(ans2Ref, p2);
+                board.update(); [[/jsxgraph]] </td> </tr> </tbody></table>",
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questiondescription = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->specificfeedback = [
+            'text' => '[[feedback:prt1]]',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->generalfeedback = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->questionnote = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->penalty = 0.1;
+        $formform->variantsselectionseed = '';
+        $formform->defaultmark = '1';
+        $formform->ans1type = 'algebraic';
+        $formform->ans1modelans = '[0,0]';
+        $formform->ans1boxsize = '15';
+        $formform->ans1strictsyntax = '';
+        $formform->ans1insertstars = '0';
+        $formform->ans1syntaxhint = '';
+        $formform->ans1syntaxattribute = '0';
+        $formform->ans1forbidwords = '';
+        $formform->ans1allowwords = '';
+        $formform->ans1forbidfloat = '0';
+        $formform->ans1requirelowestterms = '0';
+        $formform->ans1checkanswertype = '0';
+        $formform->ans1mustverify = '0';
+        $formform->ans1showvalidation = '0';
+        $formform->ans1options = '';
+        $formform->ans2type = 'algebraic';
+        $formform->ans2modelans = '[0,0]';
+        $formform->ans2type = 'algebraic';
+        $formform->ans2modelans = '[0,0]';
+        $formform->ans2boxsize = '15';
+        $formform->ans2strictsyntax = '';
+        $formform->ans2insertstars = '0';
+        $formform->ans2syntaxhint = '';
+        $formform->ans2syntaxattribute = '0';
+        $formform->ans2forbidwords = '';
+        $formform->ans2allowwords = '';
+        $formform->ans2forbidfloat = '0';
+        $formform->ans2requirelowestterms = '0';
+        $formform->ans2checkanswertype = '0';
+        $formform->ans2mustverify = '0';
+        $formform->ans2showvalidation = '0';
+        $formform->ans2options = '';
+        $formform->element1type = 'string';
+        $formform->element1modelans = '""';
+        $formform->element1type = 'string';
+        $formform->element1modelans = '""';
+        $formform->element1boxsize = '10';
+        $formform->element1strictsyntax = '';
+        $formform->element1insertstars = '0';
+        $formform->element1syntaxhint = '';
+        $formform->element1syntaxattribute = '0';
+        $formform->element1forbidwords = '';
+        $formform->element1allowwords = '';
+        $formform->element1forbidfloat = '0';
+        $formform->element1requirelowestterms = '0';
+        $formform->element1checkanswertype = '0';
+        $formform->element1mustverify = '0';
+        $formform->element1showvalidation = '0';
+        $formform->element1options = 'hideanswer';
+        $formform->element2type = 'string';
+        $formform->element2modelans = '""';
+        $formform->element2type = 'string';
+        $formform->element2modelans = '""';
+        $formform->element2boxsize = '10';
+        $formform->element2strictsyntax = '';
+        $formform->element2insertstars = '0';
+        $formform->element2syntaxhint = '';
+        $formform->element2syntaxattribute = '0';
+        $formform->element2forbidwords = '';
+        $formform->element2allowwords = '';
+        $formform->element2forbidfloat = '0';
+        $formform->element2requirelowestterms = '0';
+        $formform->element2checkanswertype = '0';
+        $formform->element2mustverify = '0';
+        $formform->element2showvalidation = '0';
+        $formform->element2options = 'hideanswer';
+        $formform->questionsimplify = '1';
+        $formform->assumepositive = '';
+        $formform->assumereal = '0';
+        $formform->prtcorrect = [
+            'text' => '<span style="font-size: 1.5em; color:green;"><i class="fa fa-check"></i></span> Correct answer, well done.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtpartiallycorrect = [
+            'text' => '<span style="font-size: 1.5em; color:orange;"><i class="fa fa-adjust"></i></span>
+                Your answer is partially correct.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prtincorrect = [
+            'text' => '<span style="font-size: 1.5em; color:red;"><i class="fa fa-times"></i></span> Incorrect answer.',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->decimals = '.';
+        $formform->scientificnotation = '*10';
+        $formform->multiplicationsign = 'dot';
+        $formform->sqrtsign = '1';
+        $formform->complexno = 'i';
+        $formform->inversetrig = 'cos-1';
+        $formform->logicsymbol = 'lang';
+        $formform->matrixparens = '[';
+        $formform->qtype = 'stack';
+        $formform->numhints = 2;
+        $formform->hint = [
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+            [
+                'text' => '',
+                'format' => '1',
+            ],
+        ];
+        $formform->prt1value = 1;
+        $formform->prt1feedbackstyle = '1';
+        $formform->prt1feedbackvariables = '';
+        $formform->prt1autosimplify = '1';
+        $formform->prt1description[0] = '';
+        $formform->prt1sans[0] = 'ans1';
+        $formform->prt1tans[0] = '[0,0]';
+        $formform->prt1answertest[0] = 'NumAbsolute';
+        $formform->prt1testoptions[0] = '0.05';
+        $formform->prt1quiet[0] = '0';
+        $formform->prt1falsescore[0] = '0';
+        $formform->prt1falsescoremode[0] = '=';
+        $formform->prt1falsepenalty[0] = '';
+        $formform->prt1falsefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[0] = 'prt1-1-F';
+        $formform->prt1falsenextnode[0] = '-1';
+        $formform->prt1truescore[0] = '0';
+        $formform->prt1truescoremode[0] = '=';
+        $formform->prt1truepenalty[0] = '';
+        $formform->prt1truefeedback[0] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[0] = 'prt1-1-T';
+        $formform->prt1truenextnode[0] = '1';
+        $formform->prt1description[1] = '';
+        $formform->prt1sans[1] = 'ans2';
+        $formform->prt1tans[1] = '[0,0]';
+        $formform->prt1answertest[1] = 'NumAbsolute';
+        $formform->prt1testoptions[1] = '0.05';
+        $formform->prt1quiet[1] = '0';
+        $formform->prt1falsescore[1] = '0';
+        $formform->prt1falsescoremode[1] = '-';
+        $formform->prt1falsepenalty[1] = '';
+        $formform->prt1falsefeedback[1] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1falseanswernote[1] = 'prt1-2-F';
+        $formform->prt1falsenextnode[1] = '-1';
+        $formform->prt1truescore[1] = '1';
+        $formform->prt1truescoremode[1] = '=';
+        $formform->prt1truepenalty[1] = '';
+        $formform->prt1truefeedback[1] = [
+            'text' => '',
+            'format' => '1',
+            'itemid' => 0,
+        ];
+        $formform->prt1trueanswernote[1] = 'prt1-2-T';
+        $formform->prt1truenextnode[1] = '-1';
+        return $formform;
     }
 }

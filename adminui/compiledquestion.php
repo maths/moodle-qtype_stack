@@ -39,7 +39,7 @@ require_login();
 $context = context_system::instance();
 require_capability('qtype/stack:usediagnostictools', $context);
 
-$urlparams = array();
+$urlparams = [];
 
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -72,8 +72,9 @@ echo '<h3>Simple details</h3>';
 $selected = [
     'units' => $q->get_cached('units'),
     'langs' => $q->get_cached('langs'),
-    'forbiddenkeys' => array_keys($q->get_cached('forbiddenkeys'))];
-echo '<pre>' . htmlspecialchars(json_encode($selected, JSON_PRETTY_PRINT)) . '</pre>';
+    'forbiddenkeys' => array_keys($q->get_cached('forbiddenkeys')),
+];
+echo '<pre>' . htmlspecialchars(json_encode($selected, JSON_PRETTY_PRINT), ENT_COMPAT) . '</pre>';
 
 
 echo '<h3>Question variables</h3>';
@@ -81,19 +82,19 @@ echo '<h3>Question variables</h3>';
 if ($q->get_cached('preamble-qv') !== null) {
     echo '<p>Preamble:</p>';
     echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('preamble-qv'))->
-        toString(['pretty' => true])) . '</pre>';
+        toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
 }
 
 if ($q->get_cached('contextvariables-qv') !== null) {
     echo '<p>Contextvariables:</p>';
     echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('contextvariables-qv'))->
-        toString(['pretty' => true])) . '</pre>';
+        toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
 }
 
 if ($q->get_cached('statement-qv') !== null) {
     echo '<p>Question variables:</p>';
     echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('statement-qv'))->
-        toString(['pretty' => true])) . '</pre>';
+        toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
 } else {
     echo '<p>No actual question variables.</p>';
 }
@@ -111,22 +112,20 @@ foreach ($q->prts as $prt) {
             $q->get_cached('prt-preamble')[$prt->get_name()] !== null) {
         echo '<p>PRT-preamble:</p>';
         echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-preamble')[$prt->get_name()])->
-            toString(['pretty' => true])) . '</pre>';
+            toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
     }
 
     if (isset($q->get_cached('prt-contextvariables')[$prt->get_name()]) &&
             $q->get_cached('prt-contextvariables')[$prt->get_name()] !== null) {
         echo '<p>PRT-contextvariables:</p>';
         echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-contextvariables')[$prt->get_name()])->
-            toString(['pretty' => true])) . '</pre>';
+            toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
     }
 
     echo '<p>PRT-logic:</p>';
     echo '<pre>' . htmlspecialchars(maxima_parser_utils::parse($q->get_cached('prt-definition')[$prt->get_name()])->
-        toString(['pretty' => true])) . '</pre>';
-
+        toString(['pretty' => true]), ENT_COMPAT) . '</pre>';
 }
-
 
 echo '<h3>Various text fragments</h3>';
 
@@ -135,7 +134,7 @@ echo '<table><tr><th>Part</th><th>Compiled CASText code</th></tr>';
 foreach ($q->compiledcache as $key => $value) {
     if (strpos($key, 'castext-') === 0) {
         echo '<tr><td>'. $key . '</td><td><pre>';
-        echo htmlspecialchars(maxima_parser_utils::parse($value)->toString(['pretty' => true]));
+        echo htmlspecialchars(maxima_parser_utils::parse($value)->toString(['pretty' => true]), ENT_COMPAT);
         echo '</pre></td></tr>';
     }
 }
@@ -150,7 +149,7 @@ echo '<p>These were extracted to avoid sending these to the CAS and back.</p>';
 echo '<table><tr><th>key</th><th>value</th></tr>';
 
 foreach ($q->get_cached('static-castext-strings') as $key => $value) {
-    echo '<tr><td><pre>' . $key . '</pre></td><td><pre>' . htmlspecialchars($value) . '</pre></td></tr>';
+    echo '<tr><td><pre>' . $key . '</pre></td><td><pre>' . htmlspecialchars($value, ENT_COMPAT) . '</pre></td></tr>';
 }
 
 echo '</table>';

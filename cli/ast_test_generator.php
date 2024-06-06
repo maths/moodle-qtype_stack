@@ -36,18 +36,20 @@ require_once(__DIR__ . '/../stack/maximaparser/corrective_parser.php');
 require_once(__DIR__ . '/../stack/utils.class.php');
 
 
-$devnull = array(); // We really do not care about what goes here.
+$devnull = []; // We really do not care about what goes here.
 
 // Load the test-inputs.
 $inputs = json_decode(file_get_contents(__DIR__ . '/../tests/fixtures/test_strings.json'), true);
 $inputs = array_unique($inputs);
 
 // Ensure that the inputs are parseable.
-$okinputs = array();
+$okinputs = [];
 foreach ($inputs as $input) {
     $test = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, array('startRule' => 'Root',
-            'letToken' => stack_string('equiv_LET')));
+            $devnull, $devnull, [
+                'startRule' => 'Root',
+                'letToken' => stack_string('equiv_LET'),
+            ]);
     if ($test !== null) {
         $okinputs[] = $input;
     }
@@ -55,13 +57,13 @@ foreach ($inputs as $input) {
 $inputs = $okinputs;
 
 // The filters to test.
-$filters = array();
+$filters = [];
 foreach (stack_parsing_rule_factory::list_filters() as $filter) {
     $filters[$filter] = stack_parsing_rule_factory::get_by_common_name($filter);
 }
 
 // Add the core set as a separate filter.
-$filters['000_099_common_core'] = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);
+$filters['000_099_common_core'] = stack_parsing_rule_factory::get_filter_pipeline([], [], true);
 
 // The security settings tested.
 $secunits = new stack_cas_security(true);
@@ -77,18 +79,22 @@ $total = 0;
 $start = microtime(true);
 
 // ASTs.
-$asts = array('units' => array(), 'no units' => array());
+$asts = ['units' => [], 'no units' => []];
 foreach ($filters as $key => $filter) {
-    $asts['units'][$key] = array();
-    $asts['no units'][$key] = array();
+    $asts['units'][$key] = [];
+    $asts['no units'][$key] = [];
     foreach ($inputs as $input) {
         $ast = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, array('startRule' => 'Root',
-            'letToken' => stack_string('equiv_LET')));
+            $devnull, $devnull, [
+                'startRule' => 'Root',
+                'letToken' => stack_string('equiv_LET'),
+            ]);
         $asts['units'][$key][$input] = $ast;
         $ast = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, array('startRule' => 'Root',
-            'letToken' => stack_string('equiv_LET')));
+            $devnull, $devnull, [
+                'startRule' => 'Root',
+                'letToken' => stack_string('equiv_LET'),
+            ]);
         $asts['no units'][$key][$input] = $ast;
         $total = $total + 2;
     }
@@ -104,23 +110,23 @@ cli_writeln('');
 cli_heading('Executing filters');
 
 // Evaluate all.
-$filtertimes = array();
-$errors = array('units' => array(), 'no units' => array());
-$notes = array('units' => array(), 'no units' => array());
+$filtertimes = [];
+$errors = ['units' => [], 'no units' => []];
+$notes = ['units' => [], 'no units' => []];
 foreach ($filters as $key => $filter) {
-    $errors['units'][$key] = array();
-    $errors['no units'][$key] = array();
-    $notes['units'][$key] = array();
-    $notes['no units'][$key] = array();
+    $errors['units'][$key] = [];
+    $errors['no units'][$key] = [];
+    $notes['units'][$key] = [];
+    $notes['no units'][$key] = [];
     $start = microtime(true);
     foreach ($inputs as $input) {
-        $err = array();
-        $nos = array();
+        $err = [];
+        $nos = [];
         $asts['units'][$key][$input] = $filter->filter($asts['units'][$key][$input], $err, $nos, $secunits);
         $errors['units'][$key][$input] = $err;
         $notes['units'][$key][$input] = $nos;
-        $err = array();
-        $nos = array();
+        $err = [];
+        $nos = [];
         $asts['no units'][$key][$input] = $filter->filter($asts['no units'][$key][$input], $err, $nos, $secnounits);
         $errors['no units'][$key][$input] = $err;
         $notes['no units'][$key][$input] = $nos;
@@ -155,7 +161,7 @@ $findinvalid = function($node) use(&$hasinvalid) {
 };
 
 function escp(string $string): string {
-    // TODO: for coding style we should not use double quotes unless necessary.
+    // TO-DO: for coding style we should not use double quotes unless necessary.
     $a = addslashes($string);
     if (strpos($a, "'") === false) {
         $a = str_replace('\"', '"', $a);
@@ -167,7 +173,7 @@ function escp(string $string): string {
 }
 
 // Place to store all the code.
-$generatedcode = array();
+$generatedcode = [];
 foreach ($filters as $key => $filter) {
     $code = '<?' . 'php' . $nl;
     $code .= <<<ESCAPE
@@ -226,27 +232,29 @@ ESCAPE;
             '\');' . $nl . $nl;
     } else {
         $testactiveunits .= $indent2 .
-            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl . $nl;
         $testpassiveunits .= $indent2 .
-            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl . $nl;
         $testactivenounits .= $indent2 .
-            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl . $nl;
         $testpassivenounits .= $indent2 .
-            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline(array(), array(), true);' . $nl . $nl;
+            '$this->filter = stack_parsing_rule_factory::get_filter_pipeline([], [], true);' . $nl . $nl;
     }
 
 
     foreach ($inputs as $input) {
         // What does it look if nothing changes.
         $base = maxima_corrective_parser::parse($input,
-            $devnull, $devnull, array('startRule' => 'Root',
-            'letToken' => stack_string('equiv_LET')));
-        $basestring = $base->toString(array('nosemicolon' => true));
+            $devnull, $devnull, [
+                'startRule' => 'Root',
+                'letToken' => stack_string('equiv_LET'),
+            ]);
+        $basestring = $base->toString(['nosemicolon' => true]);
 
         // Check with units.
         $affects = false;
-        $args = array($input);
-        $args[] = $asts['units'][$key][$input]->toString(array('nosemicolon' => true));
+        $args = [$input];
+        $args[] = $asts['units'][$key][$input]->toString(['nosemicolon' => true]);
         if ($args[1] !== $basestring) {
             $affects = true;
         }
@@ -267,13 +275,13 @@ ESCAPE;
 
         $item = $indent2 . '$this->expect(' . escp($args[0]) .',' . $nl;
         $item .= $indent2 . '              ' . escp($args[1]) . ',' . $nl;
-        $item .= $indent2 . '              array(';
+        $item .= $indent2 . '              [';
         $nos = array_map('trim', $args[2]);
         $nos = array_map('escp', $nos);
         if (!empty($nos)) {
             $item .= implode(', ', $nos);
         }
-        $item .= '),' . $nl;
+        $item .= '],' . $nl;
         $item .= $indent2 . '              ' . ($args[3] === true ? 'true' : 'false') .
             ', ' . ($args[4] === true ? 'true' : 'false') . ');' . $nl;
         if ($affects) {
@@ -284,8 +292,8 @@ ESCAPE;
 
         // No units.
         $affects = false;
-        $args = array($input);
-        $args[] = $asts['no units'][$key][$input]->toString(array('nosemicolon' => true));
+        $args = [$input];
+        $args[] = $asts['no units'][$key][$input]->toString(['nosemicolon' => true]);
         if ($args[1] !== $basestring) {
             $affects = true;
         }
@@ -306,13 +314,13 @@ ESCAPE;
 
         $item = $indent2 . '$this->expect(' . escp($args[0]) .',' . $nl;
         $item .= $indent2 . '              ' . escp($args[1]) . ',' . $nl;
-        $item .= $indent2 . '              array(';
+        $item .= $indent2 . '              [';
         $nos = array_map('trim', $args[2]);
         $nos = array_map('escp', $nos);
         if (!empty($nos)) {
             $item .= implode(', ', $nos);
         }
-        $item .= '),' . $nl;
+        $item .= '],' . $nl;
         $item .= $indent2 . '              ' . ($args[3] === true ? 'true' : 'false') .
             ', ' . ($args[4] === true ? 'true' : 'false') . ');' . $nl;
         if ($affects) {

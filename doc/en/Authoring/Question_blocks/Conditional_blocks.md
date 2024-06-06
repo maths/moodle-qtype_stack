@@ -62,7 +62,7 @@ the lists or set be shorter/smaller the iteration will stop when the first one e
 
 Because the foreach block needs to evaluate the lists/sets before it can do the iteration, using foreach blocks will require one
 additional CAS evaluation for each nested level of foreach blocks. This has not applied since 4.4. no additional cost is related
-to this block and it is recommended that any repeption that can be removed is removed using this block.
+to this block and it is recommended that any repetition that can be removed is removed using this block.
 
 ## Define block {#define-block}
 

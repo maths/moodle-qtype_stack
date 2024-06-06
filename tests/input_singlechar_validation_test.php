@@ -41,21 +41,21 @@ class input_singlechar_validation_test extends qtype_stack_testcase {
     public function test_validate_student_response_true() {
         $options = new stack_options();
         $el = stack_input_factory::make('singleChar', 'sans1', 'true');
-        $state = $el->validate_student_response(array('sans1' => 'x'), $options, 'true', new stack_cas_security());
+        $state = $el->validate_student_response(['sans1' => 'x'], $options, 'true', new stack_cas_security());
         $this->assertEquals(stack_input::SCORE, $state->status);
     }
 
     public function test_validate_student_response_false() {
         $options = new stack_options();
         $el = stack_input_factory::make('singleChar', 'sans1', 'true');
-        $state = $el->validate_student_response(array('sans1' => ''), $options, 'true', new stack_cas_security());
+        $state = $el->validate_student_response(['sans1' => ''], $options, 'true', new stack_cas_security());
         $this->assertEquals(stack_input::BLANK, $state->status);
     }
 
     public function test_validate_student_response_na() {
         $options = new stack_options();
         $el = stack_input_factory::make('singlechar', 'sans1', 'true');
-        $state = $el->validate_student_response(array('sans1' => 'xx'), $options, 'true', new stack_cas_security());
+        $state = $el->validate_student_response(['sans1' => 'xx'], $options, 'true', new stack_cas_security());
         $this->assertEquals(stack_input::INVALID, $state->status);
     }
 }

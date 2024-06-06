@@ -32,40 +32,25 @@ jobs:
       matrix: # I don't know why, but mariadb is much slower, so mostly use pgsql.
         # We use a mix of SBCL and GCL, but mostly prefer SBCL as it is faster.
         include:
-          - php: '8.1'
+          - php: '8.2'
             moodle-branch: 'master'
             database: 'pgsql'
             maxima: 'SBCL'
-          - php: '8.0'
-            moodle-branch: 'master'
-            database: 'pgsql'
-            maxima: 'SBCL'
-          - php: '8.1'
-            moodle-branch: 'MOODLE_402_STABLE'
-            database: 'pgsql'
-            maxima: 'SBCL'
-          - php: '8.1'
-            moodle-branch: 'MOODLE_402_STABLE'
-            database: 'mariadb'
-            maxima: 'SBCL'
-          - php: '8.0'
-            moodle-branch: 'MOODLE_402_STABLE'
-            database: 'pgsql'
-            maxima: 'SBCL'
-          - php: '7.4'
-            moodle-branch: 'MOODLE_401_STABLE'
-            database: 'pgsql'
-            maxima: 'SBCL'
-          - php: '7.4'
-            moodle-branch: 'MOODLE_400_STABLE'
+          - php: '8.2'
+            moodle-branch: 'MOODLE_404_STABLE'
             database: 'pgsql'
             maxima: 'GCL'
-          - php: '7.3'
-            moodle-branch: 'MOODLE_311_STABLE'
+          - php: '8.1'
+            moodle-branch: 'MOODLE_402_STABLE'
             database: 'pgsql'
-            maxima: 'SBCL'
-          - php: '7.2'
-            moodle-branch: 'MOODLE_39_STABLE'
+            maxima: 'GCL'
+          # Edinburgh is planning to run the setup below for 2023-24.
+          - php: '7.4'
+            moodle-branch: 'MOODLE_401_STABLE'
+            database: 'mariadb'
+            maxima: 'GCL'
+          - php: '7.4'
+            moodle-branch: 'MOODLE_400_STABLE'
             database: 'pgsql'
             maxima: 'SBCL'
 
@@ -76,9 +61,13 @@ jobs:
           wget http://mirrors.kernel.org/ubuntu/pool/main/r/readline/libreadline7_7.0-3_amd64.deb \
                https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.42.2-Linux/maxima-common_5.42.2-1_all.deb \
                https://sourceforge.net/projects/maxima/files/Maxima-Linux/5.42.2-Linux/maxima-${maxima}_5.42.2-1_amd64.deb
+
+          sudo locale-gen en_AU.UTF-8
           sudo apt-get install libtinfo5
           sudo dpkg -i libreadline7_7.0-3_amd64.deb maxima-common_5.42.2-1_all.deb maxima-${maxima}_5.42.2-1_amd64.deb
 
+          echo "LANG=en_AU.UTF-8" >> $GITHUB_ENV
+          echo "adjust_external_format();" | maxima
           echo "diff(x^2,x);" | maxima
           echo "build_info();" | maxima
 
@@ -127,7 +116,7 @@ jobs:
  
           cp ${{ github.workspace }}/moodledata/phpu_moodledata/stack/maxima_opt_auto ${{ github.workspace }}/maxima_opt_auto
           # Try a command on the command line.
-          # echo "1+1; quit();" | timeout --kill-after=10s 10s ${{ github.workspace }}/maxima_opt_auto -eval '(cl-user::run)' 
+          # echo "1+1; quit();" | timeout --kill-after=100s 100s ${{ github.workspace }}/maxima_opt_auto -eval '(cl-user::run)' 
 
 
         env:
@@ -171,7 +160,7 @@ jobs:
         run: moodle-plugin-ci mustache
 
       - name: Grunt
-        if: ${{ matrix.moodle-branch == 'MOODLE_311_STABLE' }}
+        if: ${{ matrix.moodle-branch == 'MOODLE_401_STABLE' }}
         run: moodle-plugin-ci grunt
 
       - name: PHPUnit tests

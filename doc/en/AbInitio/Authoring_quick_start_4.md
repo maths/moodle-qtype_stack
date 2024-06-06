@@ -21,7 +21,7 @@ ta: int(exp,x)+c;
 
 We defined two local variables `exp` and `ta`, and used these values in other places such as the question text, input and potential response tree. 
 
-We are now in a position to generate a random question. To do this, modify the [question variables](/Authoring/Variables.md#Question_variables) to be
+We are now in a position to generate a random question. To do this, modify the [question variables](../Authoring/Variables.md#Question_variables) to be
 
 ```
 a1 : 1+rand(6);

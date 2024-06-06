@@ -43,7 +43,7 @@ class stack_abstract_graph {
     const RIGHT = 1;
 
     /** @var array node name => stack_abstract_graph_node the nodes of the graph. */
-    protected $nodes = array();
+    protected $nodes = [];
 
     /**
      * @var array array node name => stack_abstract_graph_node once the graph
@@ -56,16 +56,18 @@ class stack_abstract_graph {
      * find a cycle in the graph we break it at an arbitrary point, and record
      * that fact here, then carry on. Therefore, in a sense, this is a list of errors.
      */
-    protected $brokenloops = array();
+    protected $brokenloops = [];
 
     /** @var array depth => array stack_abstract_graph_node. */
-    protected $nodesbydepth = array();
+    protected $nodesbydepth = [];
 
     /**
      * @var array of node names that have been visited on the path from root
      * that is currently being explored in the depth-first search.
      */
-    protected $stack = array();
+    protected $stack = [];
+
+    protected $clumps = null;
 
     /**
      * Add a node to the graph.
@@ -130,7 +132,7 @@ class stack_abstract_graph {
     public function layout() {
         // First we assign a depth to each node, to ensure that ercs always go
         // from one depth to a deeper one.
-        $this->stack = array();
+        $this->stack = [];
         $this->roots = $this->nodes;
         while (true) {
             $firstnode = null;
@@ -147,7 +149,7 @@ class stack_abstract_graph {
         }
 
         // Next, but build arrays listing the nodes at each depth.
-        $this->nodesbydepth = array();
+        $this->nodesbydepth = [];
         foreach ($this->nodes as $node) {
             $this->nodesbydepth[$node->depth][] = $node;
         }
@@ -165,11 +167,11 @@ class stack_abstract_graph {
             $node->heuristicxs = null;
         }
         foreach ($this->nodesbydepth as $depth => $nodes) {
-            uasort($this->nodesbydepth[$depth], array('stack_abstract_graph', 'compare_node_x_coords'));
+            uasort($this->nodesbydepth[$depth], ['stack_abstract_graph', 'compare_node_x_coords']);
         }
 
         // Now, working from the bottom, we stick nodes together to form clumps.
-        $this->clumps = array();
+        $this->clumps = [];
         foreach ($this->nodesbydepth as $depth => $nodes) {
             foreach ($nodes as $node) {
                 if (is_null($node->left) && is_null($node->right)) {
@@ -225,7 +227,7 @@ class stack_abstract_graph {
 
         // Now sort each row by level by x-coordinate.
         foreach ($this->nodesbydepth as $depth => $nodes) {
-            uasort($this->nodesbydepth[$depth], array('stack_abstract_graph', 'compare_node_x_coords'));
+            uasort($this->nodesbydepth[$depth], ['stack_abstract_graph', 'compare_node_x_coords']);
         }
         ksort($this->nodesbydepth);
 
@@ -355,6 +357,8 @@ class stack_abstract_graph {
      * @return array node name => stack_abstract_graph_node the list of all nodes.
      */
     public function get_nodes() {
+        // ISS-1041 Fix issue with nodes being retrieved with names sorted as strings.
+        uasort($this->nodes, fn($a, $b) => $a->name - $b->name);
         return $this->nodes;
     }
 
@@ -409,7 +413,7 @@ class stack_abstract_graph {
                 $maxx = max($maxx, $node->x);
             }
         }
-        return array($minx, $maxx);
+        return [$minx, $maxx];
     }
 
     /**
@@ -440,8 +444,8 @@ class stack_abstract_graph {
      * @return array old node name => new node name.
      */
     public function get_suggested_node_names() {
-        $rawresults = $this->suggested_names_worker(array(), reset($this->roots));
-        $newnames = array();
+        $rawresults = $this->suggested_names_worker([], reset($this->roots));
+        $newnames = [];
         foreach ($rawresults as $newkey => $oldname) {
             $newnames[$oldname] = $newkey + 1;
         }

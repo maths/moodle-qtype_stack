@@ -61,7 +61,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2=4& \cr \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=-2& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2=4& \cr \color{green}{\Leftrightarrow}&x=2\,{\text{ or }}\, x=-2& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EquivFirst</td>
@@ -101,7 +101,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2=4& \cr \color{green}{\Leftrightarrow}&x^2-4=0& \cr \color{green}{\Leftrightarrow}&\left(x-2\right)\cdot \left(x+2\right)=0& \cr \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=-2& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2=4& \cr \color{green}{\Leftrightarrow}&x^2-4=0& \cr \color{green}{\Leftrightarrow}&\left(x-2\right)\cdot \left(x+2\right)=0& \cr \color{green}{\Leftrightarrow}&x=2\,{\text{ or }}\, x=-2& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EquivFirst</td>
@@ -114,7 +114,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2=4& \cr \color{green}{\Leftrightarrow}&x= \pm 2& \cr \color{green}{\Leftrightarrow}&x=2\,{\mbox{ or }}\, x=-2& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2=4& \cr \color{green}{\Leftrightarrow}&x= \pm 2& \cr \color{green}{\Leftrightarrow}&x=2\,{\text{ or }}\, x=-2& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EquivFirst</td>
@@ -127,7 +127,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2-6\cdot x+9=0& \cr \color{green}{\mbox{(Same roots)}}&x=3& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll} &x^2-6\cdot x+9=0& \cr \color{green}{\text{(Same roots)}}&x=3& \cr \end{array}\]</td></td>
 </tr>
 <tr class="pass">
   <td class="cell c0">EquivFirst</td>
@@ -140,7 +140,7 @@ This page exposes the results of running answer tests on STACK test cases.  This
 </tr>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
-  <td class="cell c1"><td colspan="4">\[\begin{array}{lll}\color{blue}{\mbox{Assume +ve vars}}&x^2=4& \cr \color{green}{\Leftrightarrow}&x=2& \cr \end{array}\]</td></td>
+  <td class="cell c1"><td colspan="4">\[\begin{array}{lll}\color{blue}{\text{Assume +ve vars}}&x^2=4& \cr \color{green}{\Leftrightarrow}&x=2& \cr \end{array}\]</td></td>
 </tr>
 <tr class="emptyrow">
   <td class="cell c0"></td>

@@ -5,6 +5,7 @@ More details of our development history are given in the [development track](../
 * [Chris Sangwin](http://www.maths.ed.ac.uk/~csangwin/) of the University of Edinburgh. STACK is the brainchild of Chris Sangwin.
 * [Tim Hunt](http://tjhunt.blogspot.co.uk/) and [Tim Lowe](mailto:tim.lowe@open.ac.uk) of the Open University.
 * Matti Harjula of Aalto University, Finland.
+* [Tim Lutz](https://tim-lutz.de/) of the University of Edinburgh and the University of Education Heidelberg.
 
 Previous developers have included
 
@@ -30,7 +31,7 @@ STACK is released in many languages, using Moodle's ATOS language system.
   * FI: Finnish, by Matti Pauna
   * SV: Swedish, by Mikael Kurula
   * DA: Danish, by Malthe Sporring
-  * ES: Spanish, by Victor Hugo Huerta 
+  * ES: Spanish, by Victor Hugo Huerta
   * JA: Japanese, by Yasuyuki Nakamura and Takahiro Nakahara  
 
 German documentation was added in Jan 2019 by Eva Mix and Mario Josupeit of University of Cologne, Germany.
@@ -99,4 +100,3 @@ IDEMS International
 
 ETH Zürich, Switzerland
 : Contact [Meike Akveld](mailto:meike.akveld@math.ethz.ch), [George Ionita](mailto:georgeionut.ionita@math.ethz.ch), [Andreas Steiger](mailto:andreas.steiger@math.ethz.ch)
-

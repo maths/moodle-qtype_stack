@@ -8,7 +8,7 @@ The answer is that there is no limit to how far it can lean!  A physical model i
 
 ![A model of the STACK logo](../../content/logoJB.jpg)
 
-Model made by Dr John Bryant.
+This model was made by Dr John Bryant.
 
 ## The mathematics of this problem
 
@@ -26,13 +26,13 @@ the left pushes the centre of mass over the edge of the bottom domino -
 which has width \(2\). The new centre of mass of the whole stack of \(n+1\)
 dominoes will be \(c_{n+1}\) from the left of the bottom domino where
 
-\[ c_{n+1} = \frac{(\delta_n+c_n)n+1}{n+1} \mbox{ with } c_1=1.\]
+\[ c_{n+1} = \frac{(\delta_n+c_n)n+1}{n+1} \text{ with } c_1=1.\]
 
 Using the first inequality the maximum displacement without toppling is
 \(\delta_n=s-c_n\). Combining this with the formula for \(c_{n+1}\) and solving for
 \(\delta_n\) gives
 
-\[ \delta_{n+1} = 2-c_{n+1} = 2-\frac{(\delta_n+c_n)n+1}{n+1} = 2-\frac{(\delta_n+2-\delta_n)n+1}{n+1} = \frac{1}{n+1} \mbox{ with } \delta_1=1. \]
+\[ \delta_{n+1} = 2-c_{n+1} = 2-\frac{(\delta_n+c_n)n+1}{n+1} = 2-\frac{(\delta_n+2-\delta_n)n+1}{n+1} = \frac{1}{n+1} \text{ with } \delta_1=1. \]
 
 So that for all \(n\), \(\delta_n = \frac{1}{n}\).
 

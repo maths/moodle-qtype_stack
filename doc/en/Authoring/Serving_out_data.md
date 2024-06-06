@@ -1,6 +1,6 @@
 # Serving out data
 
-In some contexts one wants to generate random data for the students to act on, depending on the ammount of data and whether one expects the students to transfer it to other tools for processing the methods used for serving that data data out vary. Here are some examples.
+In some contexts one wants to generate random data for the students to act on, depending on the amount of data and whether one expects the students to transfer it to other tools for processing the methods used for serving that data data out vary. Here are some examples.
 
 ## HTML-tables
 
@@ -32,7 +32,7 @@ If you only have a small amount of data you may simply print out a table of it a
 
 ## Raw Maxima code
 
-Should you want to just give out Maxima code for use in Maxima or similar enough syntax you may simply use the `{#...#}` injection instead of `{@...@}` and it will output the raw form which is again copy-pastable. However, this does not work well with large amounts of data as the line may become quite long and even selecting it may prove problematic.
+Should you want to just give out Maxima code for use in Maxima or similar enough syntax you may simply use the `{#...#}` injection instead of `{@...@}` and it will output the raw form which can be used for copy-paste. However, this does not work well with large amounts of data as the line may become quite long and even selecting it may prove problematic.
 
 ## File transfer
 
@@ -50,7 +50,7 @@ data: makelist([rand(322)/100.0,rand(600)/100.0,rand(300)/100.0], i, 50);
 
 ```
 [[comment]]Use them like this in the question-text.[[/comment]]
-Load the data from 
+Load the data from
 <a href="[[textdownload name="data.csv"]]{@stack_csv_formatter(data,lab)@}[[/textdownload]]">this file</a> and ...
 ```
 That function returns a string and it takes in the data as a matrix or a list of lists and labels as a list. If no labels are necessary use `false`. Also you can use `stackfltfmt` to control the representation of pure floats in the data. Just in case you meet trouble `labels` is a keyword that cannot be used which is a shame when defining labels.

@@ -64,6 +64,7 @@ require_once(__DIR__ . '/801_singleton_numeric.filter.php');
 require_once(__DIR__ . '/802_singleton_units.filter.php');
 require_once(__DIR__ . '/901_remove_comments.filter.php');
 require_once(__DIR__ . '/910_inert_float_for_display.filter.php');
+require_once(__DIR__ . '/912_inert_string_for_display.filter.php');
 require_once(__DIR__ . '/990_no_fixing_spaces.filter.php');
 require_once(__DIR__ . '/991_no_fixing_stars.filter.php');
 require_once(__DIR__ . '/995_ev_modification.filter.php');
@@ -79,7 +80,7 @@ require_once(__DIR__ . '/999_strict.filter.php');
  */
 class stack_parsing_rule_factory {
 
-    private static $singletons = array();
+    private static $singletons = [];
 
     private static function build_from_name(string $name): stack_cas_astfilter {
         // Might as well do the require once here, but better limit to
@@ -175,6 +176,8 @@ class stack_parsing_rule_factory {
                 return new stack_ast_filter_901_remove_comments();
             case '910_inert_float_for_display':
                 return new stack_ast_filter_910_inert_float_for_display();
+            case '912_inert_string_for_display':
+                return new stack_ast_filter_912_inert_string_for_display();
             case '990_no_fixing_spaces':
                 return new stack_ast_filter_990_no_fixing_spaces();
             case '991_no_fixing_stars':
@@ -195,43 +198,46 @@ class stack_parsing_rule_factory {
     public static function get_by_common_name(string $name): stack_cas_astfilter {
         if (empty(self::$singletons)) {
             // If the static set has not been initialised do so.
-            foreach (array('001_fix_call_of_a_group_or_function', '002_log_candy',
-                           '003_no_dot_dot', '005_i_is_never_a_function',
-                           '022_trig_replace_synonyms',
-                           '025_no_trig_power',
-                           '030_no_trig_space', '031_no_trig_brackets',
-                           '050_no_chained_inequalities',
-                           '090_special_forbidden_characters',
-                           '101_no_floats', '102_no_strings',
-                           '103_no_lists', '104_no_sets',
-                           '105_no_grouppings', '106_no_control_flow',
-                           '120_no_arc',
-                           '150_replace_unicode_letters',
-                           '180_char_based_superscripts',
-                           '201_sig_figs_validation',
-                           '202_decimal_places_validation',
-                           '210_x_used_as_multiplication',
-                           '402_split_prefix_from_common_function_name',
-                           '403_split_at_number_letter_boundary',
-                           '404_split_at_number_letter_number_boundary',
-                           '406_split_implied_variable_names',
-                           '410_single_char_vars',
-                           '420_consolidate_subscripts',
-                           '441_split_unknown_functions',
-                           '442_split_all_functions', '450_split_floats',
-                           '502_replace_pm',
-                           '504_insert_tuples_for_groups',
-                           '505_no_evaluation_groups',
-                           '520_no_equality_with_logic',
-                           '541_no_unknown_functions', '542_no_functions_at_all',
-                           '601_castext', '602_castext_simplifier', '680_gcl_sconcat',
-                           '610_castext_static_string_extractor',
-                           '801_singleton_numeric', '802_singleton_units', '901_remove_comments',
-                           '910_inert_float_for_display',
-                           '990_no_fixing_spaces', '991_no_fixing_stars',
-                           '995_ev_modification', '996_call_modification',
-                           '997_string_security',
-                           '998_security', '999_strict') as $name) {
+            foreach ([
+                '001_fix_call_of_a_group_or_function', '002_log_candy',
+                '003_no_dot_dot', '005_i_is_never_a_function',
+                '022_trig_replace_synonyms',
+                '025_no_trig_power',
+                '030_no_trig_space', '031_no_trig_brackets',
+                '050_no_chained_inequalities',
+                '090_special_forbidden_characters',
+                '101_no_floats', '102_no_strings',
+                '103_no_lists', '104_no_sets',
+                '105_no_grouppings', '106_no_control_flow',
+                '120_no_arc',
+                '150_replace_unicode_letters',
+                '180_char_based_superscripts',
+                '201_sig_figs_validation',
+                '202_decimal_places_validation',
+                '210_x_used_as_multiplication',
+                '402_split_prefix_from_common_function_name',
+                '403_split_at_number_letter_boundary',
+                '404_split_at_number_letter_number_boundary',
+                '406_split_implied_variable_names',
+                '410_single_char_vars',
+                '420_consolidate_subscripts',
+                '441_split_unknown_functions',
+                '442_split_all_functions', '450_split_floats',
+                '502_replace_pm',
+                '504_insert_tuples_for_groups',
+                '505_no_evaluation_groups',
+                '520_no_equality_with_logic',
+                '541_no_unknown_functions', '542_no_functions_at_all',
+                '601_castext', '602_castext_simplifier', '680_gcl_sconcat',
+                '610_castext_static_string_extractor',
+                '801_singleton_numeric', '802_singleton_units', '901_remove_comments',
+                '910_inert_float_for_display',
+                '912_inert_string_for_display',
+                '990_no_fixing_spaces', '991_no_fixing_stars',
+                '995_ev_modification', '996_call_modification',
+                '997_string_security',
+                '998_security', '999_strict',
+            ] as $name) {
                 self::$singletons[$name] = self::build_from_name($name);
             }
         }
@@ -239,7 +245,7 @@ class stack_parsing_rule_factory {
     }
 
     public static function get_filter_pipeline(array $activefilters, array $settings, bool $includecore=true): stack_cas_astfilter {
-        $tobeincluded = array();
+        $tobeincluded = [];
         if ($includecore === true) {
             if (empty(self::$singletons)) {
                 // If not generated generate the list.

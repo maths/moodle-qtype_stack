@@ -52,33 +52,39 @@ class stack_cas_security {
      * They should be lower case, because Maxima is lower case, and these correspond to Maxima names.
      * Actually, not lower case, Maxima is not case insensitive just check "ModeMatrix" for an example.
      */
-    public static $keywordlists = array(
-            '[[basic-algebra]]' => array('coeff' => true, 'conjugate' => true, 'cspline' => true, 'disjoin' => true,
-                    'divisors' => true, 'ev' => true, 'eliminate' => true, 'equiv_classes' => true, 'expand' => true,
-                    'expandwrt' => true, 'facsum' => true, 'factor' => true, 'find_root' => true, 'fullratsimp' => true,
-                    'gcd' => true, 'gfactor' => true, 'imagpart' => true, 'intersection' => true, 'lcm' => true,
-                    'logcontract' => true, 'logexpand' => true, 'member' => true, 'nroots' => true, 'nthroot' => true,
-                    'numer' => true, 'partfrac' => true, 'polarform' => true, 'polartorect' => true, 'ratexpand' => true,
-                    'ratsimp' => true, 'realpart' => true, 'round' => true, 'radcan' => true, 'num' => true, 'denom' => true,
-                    'trigsimp' => true, 'trigreduce' => true, 'solve' => true, 'allroots' => true,
-                    'simp' => true, 'setdifference' => true, 'sort' => true, 'subst' => true,
-                    'trigexpand' => true, 'trigexpandplus' => true, 'trigexpandtimes' => true, 'triginverses' => true,
-                    'trigrat' => true, 'trigreduce' => true, 'trigsign' => true,
-                    'trigsimp' => true, 'truncate' => true, 'decimalplaces' => true, 'simplify' => true),
-            '[[basic-calculus]]' => array('defint' => true, 'diff' => true, 'int' => true, 'integrate' => true,
-                    'limit' => true, 'partial' => true, 'desolve' => true, 'express' => true, 'taylor' => true),
-            '[[basic-matrix]]' => array('addmatrices' => true, 'adjoin' => true, 'augcoefmatrix' => true,
-                    'blockmatrixp' => true, 'charpoly' => true,
-                    'coefmatrix' => true, 'col' => true, 'columnop' => true, 'columnspace' => true, 'columnswap' => true,
-                    'covect' => true, 'ctranspose' => true,
-                    'determinant' => true, ' diag_matrix' => true, 'diagmatrix' => true, 'dotproduct' => true,
-                    'echelon' => true, 'eigenvalues' => true,
-                    'eigenvectors' => true, 'eivals' => true, 'eivects' => true, 'ematrix' => true, 'invert' => true,
-                    'matrix_element_add' => true, 'matrix_element_mult' => true, 'matrix_element_transpose' => true,
-                    'nullspace' => true, 'resultant' => true, 'rowop' => true, 'rowswap' => true, 'transpose' => true)
-    );
+    public static $keywordlists = [
+        '[[basic-algebra]]' => [
+            'coeff' => true, 'conjugate' => true, 'cspline' => true, 'disjoin' => true,
+            'divisors' => true, 'ev' => true, 'eliminate' => true, 'equiv_classes' => true, 'expand' => true,
+            'expandwrt' => true, 'facsum' => true, 'factor' => true, 'find_root' => true, 'fullratsimp' => true,
+            'gcd' => true, 'gfactor' => true, 'imagpart' => true, 'intersection' => true, 'lcm' => true,
+            'logcontract' => true, 'logexpand' => true, 'member' => true, 'nroots' => true, 'nthroot' => true,
+            'numer' => true, 'partfrac' => true, 'polarform' => true, 'polartorect' => true, 'ratexpand' => true,
+            'ratsimp' => true, 'realpart' => true, 'round' => true, 'radcan' => true, 'num' => true, 'denom' => true,
+            'solve' => true, 'allroots' => true,
+            'simp' => true, 'setdifference' => true, 'sort' => true, 'subst' => true,
+            'trigexpand' => true, 'trigexpandplus' => true, 'trigexpandtimes' => true, 'triginverses' => true,
+            'trigrat' => true, 'trigreduce' => true, 'trigsign' => true,
+            'trigsimp' => true, 'truncate' => true, 'decimalplaces' => true, 'simplify' => true,
+        ],
+        '[[basic-calculus]]' => [
+            'defint' => true, 'diff' => true, 'int' => true, 'integrate' => true,
+            'limit' => true, 'partial' => true, 'desolve' => true, 'express' => true, 'taylor' => true,
+        ],
+        '[[basic-matrix]]' => [
+            'addmatrices' => true, 'adjoin' => true, 'augcoefmatrix' => true,
+            'blockmatrixp' => true, 'charpoly' => true,
+            'coefmatrix' => true, 'col' => true, 'columnop' => true, 'columnspace' => true, 'columnswap' => true,
+            'covect' => true, 'ctranspose' => true,
+            'determinant' => true, ' diag_matrix' => true, 'diagmatrix' => true, 'dotproduct' => true,
+            'echelon' => true, 'eigenvalues' => true,
+            'eigenvectors' => true, 'eivals' => true, 'eivects' => true, 'ematrix' => true, 'invert' => true,
+            'matrix_element_add' => true, 'matrix_element_mult' => true, 'matrix_element_transpose' => true,
+            'nullspace' => true, 'resultant' => true, 'rowop' => true, 'rowswap' => true, 'transpose' => true,
+        ],
+    ];
 
-    // TODO: remove once baselogic.class.php has been removed.
+    // TO-DO: remove once baselogic.class.php has been removed.
     public static function is_good_function(string $identifier): bool {
         // Generic tool for telling if a given identifier matches a function.
         if (self::$securitymap === null) {
@@ -112,7 +118,7 @@ class stack_cas_security {
         return null;
     }
 
-    public function __construct($units = false, $allowedwords = '', $forbiddenwords = '', $forbiddenkeys = array()) {
+    public function __construct($units = false, $allowedwords = '', $forbiddenwords = '', $forbiddenkeys = []) {
         if (self::$securitymap === null) {
             // Initialise the map.
             $data = file_get_contents(__DIR__ . '/security-map.json');
@@ -134,9 +140,9 @@ class stack_cas_security {
             throw new stack_exception('stack_cas_security: forbiddenwords must be a string.');
         }
         if ($forbiddenkeys === null) {
-            // TODO: Quite common issue in tests...
+            // TO-DO: Quite common issue in tests...
             // There are functions in the chain that want arrays but do not check.
-            $this->forbiddenkeys  = array();
+            $this->forbiddenkeys  = [];
         }
         if (!is_array($this->forbiddenkeys)) {
             throw new stack_exception('stack_cas_security: forbiddenkeys must be an array.');
@@ -150,6 +156,16 @@ class stack_cas_security {
 
     public function set_allowedwords(string $allowedwords) {
         $this->allowedwords = $allowedwords;
+        $this->allowedwordsasmap = null;
+    }
+
+    public function add_allowedwords(string $allowedwords) {
+        // We now add things like "dispdp" to existing allowedwords.
+        if ($this->allowedwords === '') {
+            $this->allowedwords = $allowedwords;
+        } else {
+            $this->allowedwords .= ',' . $allowedwords;
+        }
         $this->allowedwordsasmap = null;
     }
 
@@ -177,7 +193,7 @@ class stack_cas_security {
         // Check for keyword-lists.
         // They should not exists here as this is used to check for teacher reserved words.
         // But they do exist in tests.
-        $real = array();
+        $real = [];
         foreach ($this->forbiddenkeys as $key => $duh) {
             if (isset(self::$keywordlists[strtolower($key)])) {
                 foreach (self::$keywordlists[strtolower($key)] as $k => $v) {
@@ -465,20 +481,20 @@ class stack_cas_security {
     public function get_case_variants(string $identifier, string $type='variable'): array {
         static $cache = null;
         if ($cache === null) {
-            $cache = array();
+            $cache = [];
             foreach (self::$securitymap as $key => $duh) {
                 $k = strtolower($key);
                 if (isset($cache[$k])) {
                     $cache[$k][] = $key;
                 } else {
-                    $cache[$k] = array($key);
+                    $cache[$k] = [$key];
                 }
             }
         }
 
-        // TODO: should this be typed? i.e. return only function or variable
+        // TO-DO: should this be typed? i.e. return only function or variable
         // identifiers on demand? And should it drop forbidden items?
-        $r = array();
+        $r = [];
         $l = strtolower($identifier);
         if (isset($cache[$l])) {
             foreach ($cache[$l] as $key) {
@@ -529,11 +545,11 @@ class stack_cas_security {
     // Takes a string form allowed/forbiddenwords list and turns it into an array.
     public static function list_to_map(string $list): array {
         // Probably called often, why waste time repeating the loops.
-        static $cache = array();
+        static $cache = [];
         if (isset($cache[$list])) {
             return $cache[$list];
         }
-        $result = array();
+        $result = [];
 
         $list = str_replace('\,', 'COMMA_TAG', $list);
 
@@ -603,9 +619,9 @@ class stack_cas_security {
 
     // Returns all identifiers with a given feature as long as the feature is not valued 'f'.
     public static function get_all_with_feature(string $feature, bool $units = false): array {
-        static $cache = array();
+        static $cache = [];
         if (!isset($cache[$units ? 'true' : 'false'])) {
-            $cache[$units ? 'true' : 'false'] = array();
+            $cache[$units ? 'true' : 'false'] = [];
         }
         if (isset($cache[$units ? 'true' : 'false'][$feature])) {
             return $cache[$units ? 'true' : 'false'][$feature];
@@ -616,7 +632,7 @@ class stack_cas_security {
             $data = file_get_contents(__DIR__ . '/security-map.json');
             self::$securitymap = json_decode($data, true);
         }
-        $r = array();
+        $r = [];
         if ($units === true && $feature === 'constant') {
             foreach (stack_cas_casstring_units::get_permitted_units(0) as $key => $duh) {
                 $r[$key] = $key;

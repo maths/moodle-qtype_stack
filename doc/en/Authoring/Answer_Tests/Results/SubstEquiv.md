@@ -386,6 +386,28 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>y=A+B</pre></td>
+  <td class="cell c3"><pre>x=a+b</pre></td>
+  <td class="cell c4"><pre>[x]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATEquation_default</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">SubstEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>y=A+B</pre></td>
+  <td class="cell c3"><pre>x=a+b</pre></td>
+  <td class="cell c4"><pre>[z]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATSubstEquiv_Subst [A = a,B = b,y = x].</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer would be correct if you used the following substitution of variables. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left[ A=a , B=b , y=x \right] \]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">SubstEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A*cos(t)+B*sin(t)</pre></td>
   <td class="cell c3"><pre>P*cos(t)+Q*sin(t)</pre></td>
   <td class="cell c4"></td>
@@ -415,6 +437,19 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">SubstEquiv</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>A*cos(x)+B*sin(x)</pre></td>
+  <td class="cell c3"><pre>P*cos(x)+Q*sin(x)</pre></td>
+  <td class="cell c4"><pre>[x]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATSubstEquiv_Subst [A = P,B = Q].</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer would be correct if you used the following substitution of variables. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left[ A=P , B=Q \right] \]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">SubstEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>A*cos(t)+B*sin(t)</pre></td>
   <td class="cell c3"><pre>P*cos(x)+Q*sin(x)</pre></td>
   <td class="cell c4"><pre>[x]</pre></td>
@@ -427,6 +462,15 @@ This page exposes the results of running answer tests on STACK test cases.  This
   <td class="cell c2"><pre>A*cos(t)+B*sin(t)</pre></td>
   <td class="cell c3"><pre>P*cos(x)+Q*sin(x)</pre></td>
   <td class="cell c4"><pre>[t]</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">SubstEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>A*cos(t)+B*sin(t)</pre></td>
+  <td class="cell c3"><pre>P*cos(x)+Q*sin(x)</pre></td>
+  <td class="cell c4"><pre>[z]</pre></td>
   <td class="cell c5">1</td>
   <td class="cell c6">ATSubstEquiv_Subst [A = P,B = Q,t = x].</td>
 </tr>
@@ -474,4 +518,64 @@ n(2*x)+S*cos(2*x)</pre></td>
 <tr class="pass">
   <td class="cell c0"><td colspan="2"></td></td>
   <td class="cell c1"><td colspan="4">Your answer would be correct if you used the following substitution of variables. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left[ y=x \right] \]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">SubstEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>C1*%e^x*sin(4*x)+C2*%e^x*cos(4
+*x)+C4*x*%e^-x+C3*%e^-x</pre></td>
+  <td class="cell c3"><pre>e^(x)*A*cos(4*x)+B*e^(x)*sin(4
+*x)+C*e^(-x)+D*x*e^(-x)</pre></td>
+  <td class="cell c4"><pre>[x]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATSubstEquiv_Subst [C1 = B,C2 = A,C3 = C,C4 = D].</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer would be correct if you used the following substitution of variables. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left[ C_{1}=B , C_{2}=A , C_{3}=C , C_{4}=D \right] \]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">SubstEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>C1*%e^x*sin(4*x)+C2*%e^x*cos(4
+*x)+C4*x*%e^-x+C3*%e^-x</pre></td>
+  <td class="cell c3"><pre>C4*x*e^(-x)+e^(x)*C1*cos(4*x)+
+C2*e^(x)*sin(4*x)+C3*e^(-x)</pre></td>
+  <td class="cell c4"><pre>[x]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATSubstEquiv_Subst [C1 = C2,C2 = C1,C3 = C3,C4 = C4].</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer would be correct if you used the following substitution of variables. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left[ C_{1}=C_{2} , C_{2}=C_{1} , C_{3}=C_{3} , C_{4}=C_{4} \right] \]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">SubstEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>C1*%e^x*sin(4*x)+C2*%e^x*cos(4
+*x)+C4*x*%e^-x+C3*%e^-x</pre></td>
+  <td class="cell c3"><pre>A*x*e^(-x)+e^(x)*B*cos(4*x)+C*
+e^(x)*sin(4*x)+D*e^(-x)</pre></td>
+  <td class="cell c4"><pre>[x]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATSubstEquiv_Subst [C1 = C,C2 = B,C3 = D,C4 = A].</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer would be correct if you used the following substitution of variables. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left[ C_{1}=C , C_{2}=B , C_{3}=D , C_{4}=A \right] \]</span></span></td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">SubstEquiv</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>C1*%e^x*sin(4*x)+C2*%e^x*cos(4
+*x)+C4*x*%e^-x+C3*%e^-x</pre></td>
+  <td class="cell c3"><pre>e^(x)*C1*cos(4*x)+C2*e^(x)*sin
+(4*x)+C3*e^(-x)+C4*x*e^(-x)</pre></td>
+  <td class="cell c4"><pre>[x]</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6">ATSubstEquiv_Subst [C1 = C2,C2 = C1,C3 = C3,C4 = C4].</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer would be correct if you used the following substitution of variables. <span class="filter_mathjaxloader_equation"><span class="nolink">\[\left[ C_{1}=C_{2} , C_{2}=C_{1} , C_{3}=C_{3} , C_{4}=C_{4} \right] \]</span></span></td></td>
 </tr></tbody></table></div>

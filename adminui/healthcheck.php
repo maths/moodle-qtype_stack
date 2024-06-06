@@ -28,15 +28,8 @@ define('NO_OUTPUT_BUFFERING', true);
 require_once(__DIR__.'/../../../../config.php');
 require_once($CFG->dirroot .'/course/lib.php');
 require_once($CFG->libdir .'/filelib.php');
-
 require_once(__DIR__ . '/../locallib.php');
-require_once(__DIR__ . '/../stack/utils.class.php');
-require_once(__DIR__ . '/../stack/options.class.php');
-require_once(__DIR__ . '/../stack/cas/cassession2.class.php');
-require_once(__DIR__ . '/../stack/cas/castext2/castext2_evaluatable.class.php');
-require_once(__DIR__ . '/../stack/cas/connector.dbcache.class.php');
-require_once(__DIR__ . '/../stack/cas/installhelper.class.php');
-
+require_once(__DIR__ . '/../stack/cas/connector.healthcheck.class.php');
 
 // Check permissions.
 require_login();
@@ -49,22 +42,11 @@ $PAGE->set_url('/question/type/stack/adminui/healthcheck.php');
 $title = stack_string('healthcheck');
 $PAGE->set_title($title);
 
+$config = stack_utils::get_config();
+
 // Start output.
 echo $OUTPUT->header();
 echo $OUTPUT->heading($title);
-
-$config = stack_utils::get_config();
-
-// This array holds summary info, for a table at the end of the pager.
-$summary = array();
-$summary[] = array('', $config->platform );
-
-// Mbstring.
-if (!extension_loaded('mbstring')) {
-    echo $OUTPUT->heading(stack_string('healthchecknombstring'), 3);
-    echo $OUTPUT->footer();
-    exit;
-}
 
 // Clear the cache if requested.
 if (data_submitted() && optional_param('clearcache', false, PARAM_BOOL)) {
@@ -85,17 +67,69 @@ if (data_submitted() && optional_param('createmaximaimage', false, PARAM_BOOL)) 
     if ($ok) {
         \core\notification::success(stack_string('healthautomaxopt_succeeded'));
     } else {
-        \core\notification::error(stack_string('healthautomaxopt_failed', array('errmsg' => $errmsg)));
+        \core\notification::error(stack_string('healthautomaxopt_failed', ['errmsg' => $errmsg]));
     }
     echo $OUTPUT->continue_button($PAGE->url);
     echo $OUTPUT->footer();
     exit;
 }
 
-// LaTeX.
+// From this point do all health-related actions.
+
+// Mbstring.  This is an install requirement, rather than a CAS healtcheck.
+if (!extension_loaded('mbstring')) {
+    echo $OUTPUT->heading(stack_string('healthchecknombstring'), 3);
+    echo $OUTPUT->footer();
+    exit;
+}
+
+
+// Maxima config.
+$healthcheck = new stack_cas_healthcheck($config);
+$tab = '';
+foreach ($healthcheck->get_test_results() as $test) {
+    $tl   = '';
+    if (true === $test['result']) {
+        $tl  .= html_writer::tag('td', stack_string('testsuitepass'));
+    } else if (false === $test['result']) {
+        $tl  .= html_writer::tag('td', stack_string('testsuitefail'));
+    } else {
+        $tl  .= html_writer::tag('td', ' ');
+    }
+    $tl  .= html_writer::tag('td', $test['summary']);
+    $tab .= html_writer::tag('tr', $tl)."\n";
+}
+echo html_writer::tag('table', $tab);
+if ($healthcheck->get_overall_result()) {
+    echo html_writer::tag('p', stack_string('healthcheckpass'), ['class' => 'overallresult pass']);
+} else {
+    echo html_writer::tag('p', stack_string('healthcheckfail'), ['class' => 'overallresult fail']);
+}
+echo html_writer::tag('p', get_string('healthcheckfaildocs', 'qtype_stack',
+    ['link' => (string) new moodle_url('/question/type/stack/doc/doc.php/Installation/Testing_installation.md')])
+    );
+
+// State of the cache.
+if ('db' == $config->casresultscache) {
+    echo html_writer::tag('p', stack_string('healthcheckcachestatus',
+        stack_cas_connection_db_cache::entries_count($DB)));
+    echo $OUTPUT->single_button(
+        new moodle_url($PAGE->url, ['clearcache' => 1, 'sesskey' => sesskey()]),
+        stack_string('clearthecache'));
+}
+
+// Option to auto-create the Maxima image and store the results.
+if ($config->platform != 'win') {
+    echo $OUTPUT->single_button(
+        new moodle_url($PAGE->url, ['createmaximaimage' => 1, 'sesskey' => sesskey()]),
+        stack_string('healthcheckcreateimage'));
+}
+
+echo '<hr />';
+// LaTeX. This is an install requirement, rather than a CAS healtcheck.
 echo $OUTPUT->heading(stack_string('healthchecklatex'), 3);
 echo html_writer::tag('p', stack_string('healthcheckmathsdisplaymethod',
-        stack_maths::configured_output_name()));
+    stack_maths::configured_output_name()));
 echo html_writer::tag('p', stack_string('healthchecklatexintro'));
 
 echo html_writer::tag('dt', stack_string('texdisplaystyle'));
@@ -109,156 +143,20 @@ if ($config->mathsdisplay === 'mathjax') {
 } else {
     $settingsurl = new moodle_url('/admin/filters.php');
     echo html_writer::tag('p', stack_string('healthcheckfilters',
-            array('filter' => stack_maths::configured_output_name(), 'url' => $settingsurl->out())));
+        ['filter' => stack_maths::configured_output_name(), 'url' => $settingsurl->out()]));
 }
 
-// Maxima config.
-echo $OUTPUT->heading(stack_string('healthcheckconfig'), 3);
-
-// Try to list available versions of Maxima (linux only, without the DB).
-if ($config->platform !== 'win') {
-    $connection = stack_connection_helper::make();
-    if (is_a($connection, 'stack_cas_connection_linux')) {
-        echo html_writer::tag('pre', $connection->get_maxima_available());
+// Output details.
+foreach ($healthcheck->get_test_results() as $test) {
+    if ($test['details'] !== null) {
+        echo '<hr />';
+        $heading = stack_string($test['tag']);
+        if ($test['result'] === false) {
+            $heading = stack_string('testsuitefail') . ' ' . $heading;
+        }
+        echo $OUTPUT->heading($heading, 3);
+        echo $test['details'];
     }
 }
-
-// Check for location of Maxima.
-$maximalocation = stack_cas_configuration::confirm_maxima_win_location();
-if ('' != $maximalocation) {
-    $message = stack_string('healthcheckconfigintro1').' '.html_writer::tag('tt', $maximalocation);
-    echo html_writer::tag('p', $message);
-    $summary[] = array(null, $message);
-}
-
-// Check if the current options for library packages are permitted (maximalibraries).
-list($valid, $message) = stack_cas_configuration::validate_maximalibraries();
-if (!$valid) {
-    echo html_writer::tag('p', $message);
-    $summary[] = array(false, $message);
-}
-
-// Try to connect to create maxima local.
-echo html_writer::tag('p', stack_string('healthcheckconfigintro2'));
-stack_cas_configuration::create_maximalocal();
-
-echo html_writer::tag('textarea', stack_cas_configuration::generate_maximalocal_contents(),
-        array('readonly' => 'readonly', 'wrap' => 'virtual', 'rows' => '32', 'cols' => '100'));
-
-// Maxima config.
-if (stack_cas_configuration::maxima_bat_is_missing()) {
-    echo $OUTPUT->heading(stack_string('healthcheckmaximabat'), 3);
-    $message = stack_string('healthcheckmaximabatinfo', $CFG->dataroot);
-    echo html_writer::tag('p', $message);
-    $summary[] = array(false, $message);
-}
-
-// Test an *uncached* call to the CAS.  I.e. a genuine call to the process.
-echo $OUTPUT->heading(stack_string('healthuncached'), 3);
-echo html_writer::tag('p', stack_string('healthuncachedintro'));
-list($message, $genuinedebug, $result) = stack_connection_helper::stackmaxima_genuine_connect();
-$summary[] = array($result, $message);
-echo html_writer::tag('p', $message);
-echo output_debug(stack_string('debuginfo'), $genuinedebug);
-$genuinecascall = $result;
-
-// Test Maxima connection.
-// Intentionally use get_string for the sample CAS and plots, so we don't render
-// the maths too soon.
-output_cas_text(stack_string('healthcheckconnect'),
-        stack_string('healthcheckconnectintro'), get_string('healthchecksamplecas', 'qtype_stack'));
-
-// If we have a linux machine, and we are testing the raw connection then we should
-// attempt to automatically create an optimized maxima image on the system.
-if ($config->platform === 'linux' && $genuinecascall) {
-    echo $OUTPUT->heading(stack_string('healthautomaxopt'), 3);
-    echo html_writer::tag('p', stack_string('healthautomaxoptintro'));
-    list($message, $debug, $result, $commandline, $rawcommand)
-        = stack_connection_helper::stackmaxima_auto_maxima_optimise($genuinedebug);
-    $summary[] = array($result, $message);
-    echo html_writer::tag('p', $message);
-    echo output_debug(stack_string('debuginfo'), $debug);
-}
-
-
-// Test the version of the STACK libraries that Maxima is using.
-// When Maxima is being run pre-compiled (maxima-optimise) or on a server,
-// it is possible for the version of the Maxima libraries to get out of synch
-// with the qtype_stack code.
-
-echo $OUTPUT->heading(stack_string('healthchecksstackmaximaversion'), 3);
-list($message, $details, $result) = stack_connection_helper::stackmaxima_version_healthcheck();
-$summary[] = array($result, stack_string($message, $details));
-$summary[] = array(null, stack_string('settingmaximalibraries') . ' ' . $config->maximalibraries);
-echo html_writer::tag('p', stack_string($message, $details));
-
-// Test plots.
-output_cas_text(stack_string('healthcheckplots'),
-        stack_string('healthcheckplotsintro'), get_string('healthchecksampleplots', 'qtype_stack'));
-
-// State of the cache.
-echo $OUTPUT->heading(stack_string('settingcasresultscache'), 3);
-$message = stack_string('healthcheckcache_' . $config->casresultscache);
-$summary[] = array(null, $message);
-echo html_writer::tag('p', $message);
-if ('db' == $config->casresultscache) {
-    echo html_writer::tag('p', stack_string('healthcheckcachestatus',
-            stack_cas_connection_db_cache::entries_count($DB)));
-    echo $OUTPUT->single_button(
-            new moodle_url($PAGE->url, array('clearcache' => 1, 'sesskey' => sesskey())),
-            stack_string('clearthecache'));
-}
-
-// Option to auto-create the Maxima image and store the results.
-if ($config->platform != 'win') {
-    echo $OUTPUT->single_button(
-        new moodle_url($PAGE->url, array('createmaximaimage' => 1, 'sesskey' => sesskey())),
-        stack_string('healthcheckcreateimage'));
-}
-
-
-echo '<hr />';
-$tab = '';
-foreach ($summary as $line) {
-    $tl   = '';
-    if (true === $line[0]) {
-        $tl  .= html_writer::tag('td', '<span class="ok">OK</span>');
-    } else if (false === $line[0]) {
-        $tl  .= html_writer::tag('td', '<span class="error">FAILED</span>');
-    } else {
-        $tl  .= html_writer::tag('td', ' ');
-
-    }
-    $tl  .= html_writer::tag('td', $line[1]);
-    $tab .= html_writer::tag('tr', $tl)."\n";
-}
-echo html_writer::tag('table', $tab);
 
 echo $OUTPUT->footer();
-
-function output_cas_text($title, $intro, $castext) {
-    global $OUTPUT;
-
-    echo $OUTPUT->heading($title, 3);
-    echo html_writer::tag('p', $intro);
-    echo html_writer::tag('pre', s($castext));
-
-    $ct = castext2_evaluatable::make_from_source($castext, 'healthcheck');
-    $session = new stack_cas_session2([$ct]);
-    $session->instantiate();
-
-    echo html_writer::tag('p', stack_ouput_castext($ct->get_rendered()));
-    echo output_debug(stack_string('errors'), $ct->get_errors());
-    echo output_debug(stack_string('debuginfo'), $session->get_debuginfo());
-}
-
-
-function output_debug($title, $message) {
-    global $OUTPUT;
-
-    if (!$message) {
-        return;
-    }
-
-    return $OUTPUT->box($OUTPUT->heading($title) . $message);
-}

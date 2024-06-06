@@ -28,17 +28,18 @@ class stack_ast_filter_120_no_arc implements stack_cas_astfilter {
     public function filter(MP_Node $ast, array &$errors, array &$answernotes, stack_cas_security $identifierrules): MP_Node {
 
         // As these are invalid they do not exist in the security-map.
-        $selectednames = array('arcsin' => 'asin', 'arccos' => 'acos',
-             'arctan' => 'atan', 'arcsec' => 'asec',
-             'arccot' => 'acot', 'arccsc' => 'acsc',
-             'arcsinh' => 'asinh', 'arccosh' => 'acosh',
-             'arctanh' => 'atanh', 'arcsech' => 'asech',
-             'arccoth' => 'acoth', 'arccsch' => 'acsch',
-             'arccosec' => 'acsc',
-             'arsinh' => 'asinh', 'arcosh' => 'acosh',
-             'artanh' => 'atanh', 'arsech' => 'asech',
-             'arcoth' => 'acoth', 'arcsch' => 'acsch'
-        );
+        $selectednames = [
+            'arcsin' => 'asin', 'arccos' => 'acos',
+            'arctan' => 'atan', 'arcsec' => 'asec',
+            'arccot' => 'acot', 'arccsc' => 'acsc',
+            'arcsinh' => 'asinh', 'arccosh' => 'acosh',
+            'arctanh' => 'atanh', 'arcsech' => 'asech',
+            'arccoth' => 'acoth', 'arccsch' => 'acsch',
+            'arccosec' => 'acsc',
+            'arsinh' => 'asinh', 'arcosh' => 'acosh',
+            'artanh' => 'atanh', 'arsech' => 'asech',
+            'arcoth' => 'acoth', 'arcsch' => 'acsch',
+        ];
 
         $process = function($node) use (&$errors, &$answernotes, $selectednames) {
             if ($node instanceof MP_Functioncall &&
@@ -47,8 +48,10 @@ class stack_ast_filter_120_no_arc implements stack_cas_astfilter {
                     $node->position['invalid'] = true;
 
                     $errors[] = stack_string('stackCas_triginv',
-                        array('badinv' => stack_maxima_format_casstring($node->name->value),
-                              'goodinv' => stack_maxima_format_casstring($selectednames[$node->name->value])));
+                        [
+                            'badinv' => stack_maxima_format_casstring($node->name->value),
+                            'goodinv' => stack_maxima_format_casstring($selectednames[$node->name->value]),
+                        ]);
                     if (array_search('triginv', $answernotes) === false) {
                         $answernotes[] = 'triginv';
                     }

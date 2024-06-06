@@ -280,6 +280,41 @@ This page exposes the results of running answer tests on STACK test cases.  This
 <tr class="pass">
   <td class="cell c0">NumSigFigs</td>
   <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>9.8</pre></td>
+  <td class="cell c3"><pre>10</pre></td>
+  <td class="cell c4"><pre>2</pre></td>
+  <td class="cell c5">1</td>
+  <td class="cell c6"></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">NumSigFigs</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>9.5</pre></td>
+  <td class="cell c3"><pre>10</pre></td>
+  <td class="cell c4"><pre>2</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATNumSigFigs_Inaccurate.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">The accuracy of your answer is not correct. Either you have not rounded correctly, or you have rounded an intermediate answer which propagates an error.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">NumSigFigs</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
+  <td class="cell c2"><pre>10.0</pre></td>
+  <td class="cell c3"><pre>10</pre></td>
+  <td class="cell c4"><pre>2</pre></td>
+  <td class="cell c5">0</td>
+  <td class="cell c6">ATNumSigFigs_WrongDigits.</td>
+</tr>
+<tr class="pass">
+  <td class="cell c0"><td colspan="2"></td></td>
+  <td class="cell c1"><td colspan="4">Your answer contains the wrong number of significant digits.</td></td>
+</tr>
+<tr class="pass">
+  <td class="cell c0">NumSigFigs</td>
+  <td class="cell c1"><span style="color:green;"><i class="fa fa-check"></i></span></td>
   <td class="cell c2"><pre>6.02214086e23</pre></td>
   <td class="cell c3"><pre>6.02214086e23</pre></td>
   <td class="cell c4"><pre>9</pre></td>

@@ -26,6 +26,7 @@ The authoring documentation also covers topics on:
 * [Fact Sheets](Fact_sheets.md),
 * [Question blocks](Question_blocks/index.md),
 * [Using JSXGraph](JSXGraph.md).
+* [Using GeoGebra](GeoGebra.md).
 
 #### [Input types](Inputs.md)
 
@@ -48,7 +49,7 @@ The authoring documentation also covers topics on:
 
 #### [Mathematics topics](../Topics/index.md)
 
-* [Proof](../Topics/Proof.md)
+* [Proof](../Proof/index.md)
 * [Curve sketching](../Topics/Curve_sketching.md).
 
 #### Other
@@ -61,7 +62,7 @@ The authoring documentation also covers topics on:
 
 If you cannot find documentation on the topic you are looking for, it may be located in the [CAS](../CAS/index.md) section of the documentation. This includes documentation on working with Maxima in a question, and so covers topics like
 
-* [Inequalities](/CAS/Inequalities.md),
-* [Randomisation](/CAS/Random.md),
-* [Plotting graphs](/CAS/Plots.md),
-* [Simplification](/CAS/Simplification.md).
+* [Inequalities](../CAS/Inequalities.md),
+* [Randomisation](../CAS/Random.md),
+* [Plotting graphs](../Plots/Plots.md),
+* [Simplification](../CAS/Simplification.md).

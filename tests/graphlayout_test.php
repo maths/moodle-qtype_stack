@@ -109,7 +109,7 @@ class graphlayout_test extends basic_testcase {
         $this->assertEquals(1, $n->depth);
         $this->assertEquals(0, $n->x);
 
-        $this->assertEquals(array('1|-1' => true, '1|1' => true),
+        $this->assertEquals(['1|-1' => true, '1|1' => true],
                 $graph->get_broken_cycles());
 
         $roots = $graph->get_roots();
@@ -136,7 +136,7 @@ class graphlayout_test extends basic_testcase {
         $this->assertEquals(2, $n->x);
 
         $this->assertEmpty($graph->get_broken_cycles());
-        $this->assertSame(array(1, 2), array_keys($graph->get_roots()));
+        $this->assertSame([1, 2], array_keys($graph->get_roots()));
     }
 
     /**
@@ -166,6 +166,6 @@ class graphlayout_test extends basic_testcase {
         $graph->layout();
 
         $newnames = $graph->get_suggested_node_names();
-        $this->assertEquals(array(1 => 1, 3 => 2, 2 => 3, 7 => 4, 4 => 5, 5 => 6, 9 => 7, 6 => 8), $newnames);
+        $this->assertEquals([1 => 1, 3 => 2, 2 => 3, 7 => 4, 4 => 5, 5 => 6, 9 => 7, 6 => 8], $newnames);
     }
 }

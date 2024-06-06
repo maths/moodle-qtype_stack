@@ -50,12 +50,12 @@ class stack_cas_connection_linux extends stack_cas_connection_base {
 
     protected function call_maxima($command) {
         // For unicode support, we need to add something like 'LANG' => 'en_GB.UTF-8' to the environment below.
-        $env = array('PATH' => getenv('PATH'));
+        $env = ['PATH' => getenv('PATH')];
 
-        $descriptors = array(
-            0 => array('pipe', 'r'),
-            1 => array('pipe', 'w'),
-        );
+        $descriptors = [
+            0 => ['pipe', 'r'],
+            1 => ['pipe', 'w'],
+        ];
         $casprocess = proc_open($this->command . ' 2>&1', $descriptors, $pipes, null, $env);
 
         if (!is_resource($casprocess)) {

@@ -16,8 +16,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir . '/filterlib.php');
-require_once($CFG->dirroot . '/filter/tex/filter.php');
+if (!isset($CFG->stackapi)) {
+    require_once($CFG->libdir . '/filterlib.php');
+    require_once($CFG->dirroot . '/filter/tex/filter.php');
+}
 
 /**
  * Base class for STACK maths output methods that use a Moodle text filter to do the work.
@@ -140,7 +142,7 @@ abstract class stack_maths_output_filter_base extends stack_maths_output {
      */
     protected function find_and_process_equations($html, $callback) {
         return preg_replace_callback('~(?<!\\\\)(?<!<code>)\\\\[([](.*?)(?<!\\\\)\\\\([])])(?!</code>)~s',
-                array($this, $callback), $html);
+                [$this, $callback], $html);
     }
 
     /**

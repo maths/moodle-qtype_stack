@@ -11,7 +11,7 @@ Feature: STACK has built-in documentation.
 
   @javascript
   Scenario: Navigate to the documentation
-    When I follow "Documentation for STACK"
+    When I follow "documentation for STACK"
     Then I should see "STACK is the world-leading open-source (GPL) automatic assessment system for mathematics, science and related disciplines."
     When I follow "Site map"
     Then I should see "Directory structure"

@@ -40,7 +40,7 @@ require_once(__DIR__ . '/../stack/input/factory.class.php');
  */
 class input_dropdown_exception_test extends qtype_stack_testcase {
 
-    protected function make_dropdown($parameters = array()) {
+    protected function make_dropdown($parameters = []) {
         $el = stack_input_factory::make('dropdown', 'ans1', $this->make_ta(), null, $parameters);
         return $el;
     }
@@ -53,7 +53,7 @@ class input_dropdown_exception_test extends qtype_stack_testcase {
         $options = new stack_options();
         $el = $this->make_dropdown();
         $this->expectException(stack_exception::class);
-        $state = $el->validate_student_response(array('ans1' => '4'), $options, '1', new stack_cas_security());
+        $state = $el->validate_student_response(['ans1' => '4'], $options, '1', new stack_cas_security());
     }
 
     public function test_type_question_options() {

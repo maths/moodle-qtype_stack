@@ -40,13 +40,13 @@ class parser_rule_410_test extends qtype_stack_testcase {
         $result     = $teststring . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_410_single_char_vars();
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array());
-        $this->assertEquals($note, array());
+        $this->assertEquals($errs, []);
+        $this->assertEquals($note, []);
         $this->assertEquals($ast->toString(), $result);
     }
 
@@ -55,13 +55,13 @@ class parser_rule_410_test extends qtype_stack_testcase {
         $result     = '2*a*b;' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_410_single_char_vars();
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array());
-        $this->assertEquals($note, array('missing_stars'));
+        $this->assertEquals($errs, []);
+        $this->assertEquals($note, ['missing_stars']);
         $this->assertEquals($ast->toString(), $result);
     }
 
@@ -70,13 +70,13 @@ class parser_rule_410_test extends qtype_stack_testcase {
         $result     = 'n*alpha+sin(pi*n);' . "\n";
         $ast = maxima_parser_utils::parse($teststring);
         $filter = new stack_ast_filter_410_single_char_vars();
-        $errs = array();
-        $note = array();
+        $errs = [];
+        $note = [];
         $security = new stack_cas_security();
 
         $filter->filter($ast, $errs, $note, $security);
-        $this->assertEquals($errs, array());
-        $this->assertEquals($note, array('missing_stars'));
+        $this->assertEquals($errs, []);
+        $this->assertEquals($note, ['missing_stars']);
         $this->assertEquals($ast->toString(), $result);
     }
 }

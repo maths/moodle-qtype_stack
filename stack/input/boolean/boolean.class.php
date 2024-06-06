@@ -26,17 +26,12 @@ class stack_boolean_input extends stack_input {
     const NA = '';
 
     public static function get_choices() {
-        return array(
+        return [
             self::F => stack_string('false'),
             self::T => stack_string('true'),
             self::NA => stack_string('notanswered'),
-        );
+        ];
     }
-
-    protected $extraoptions = array(
-        'hideanswer' => false,
-        'allowempty' => false
-    );
 
     protected function extra_validation($contents) {
         $validation = $contents[0];
@@ -54,7 +49,7 @@ class stack_boolean_input extends stack_input {
             return $this->render_error($this->errors);
         }
 
-        $attributes = array();
+        $attributes = [];
         if ($readonly) {
             $attributes['disabled'] = 'disabled';
         }
@@ -65,6 +60,18 @@ class stack_boolean_input extends stack_input {
         }
         return html_writer::select(self::get_choices(), $fieldname,
                 $value, '', $attributes);
+    }
+
+    public function render_api_data($tavalue) {
+        if ($this->errors) {
+            throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
+        }
+
+        $data = [];
+
+        $data['type'] = 'boolean';
+
+        return $data;
     }
 
 
@@ -78,10 +85,10 @@ class stack_boolean_input extends stack_input {
      * @return array parameters` => default value.
      */
     public static function get_parameters_defaults() {
-        return array(
-                'mustVerify'      => false,
-                'showValidation'  => 0,
-                'options'            => ''
-        );
+        return [
+            'mustVerify'      => false,
+            'showValidation'  => 0,
+            'options'            => '',
+        ];
     }
 }

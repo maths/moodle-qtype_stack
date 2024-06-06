@@ -40,11 +40,11 @@ class stack_ast_filter_990_no_fixing_spaces implements stack_cas_astfilter_exclu
         // Now that those have been checked and invalidated. Let's write custom errors.
         if ($spaces === true) {
             $missingstring = $ast->toString(
-                    array('fixspaces_as_red_spaces' => true, 'qmchar' => true, 'inputform' => true));
+                    ['fixspaces_as_red_spaces' => true, 'qmchar' => true, 'inputform' => true]);
             if ($ast instanceof MP_Root) {
                 $missingstring = mb_substr($missingstring, 0, -2);
             }
-            $a = array();
+            $a = [];
             $a['expr']  = stack_maxima_format_casstring($missingstring);
             array_unshift($errors, stack_string('stackCas_spaces', $a));
         }

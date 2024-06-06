@@ -1642,7 +1642,7 @@ ta:append(ta,[tao]);]]></text>
       <text>Checkbox (plots in options)</text>
     </name>
     <questiontext format="html">
-      <text><![CDATA[<p class="noindent">Which of the following functions are invertible?<br></p>  
+      <text><![CDATA[<p class="noindent">Which of the following functions are invertible?<br></p>
  [[input:ans1]] [[validation:ans1]]
 <p>(This question is to test auto-generated images appear in MCQ options.)</p>]]></text>
     </questiontext>
@@ -1865,7 +1865,7 @@ incorr1:mcq_incorrect(ta1);]]></text>
     </name>
     <questiontext format="html">
       <text><![CDATA[<p>Which method would you use to find \(\int\sin(x)\cos(x)\mathrm{d} x\)?</p>
-<p>[[input:ans1]][[validation:ans1]]</p> 
+<p>[[input:ans1]][[validation:ans1]]</p>
 <p>(The purpose of this question is to test the "teacher's answer" display is the string shown, not the value returned to Maxima).</p>]]></text>
     </questiontext>
     <generalfeedback format="html">
@@ -3507,7 +3507,7 @@ ta:append(ta,[tao]);]]></text>
     <questiontext format="html">
       <text><![CDATA[This input is sent to the CAS:
 <p>[[input:ans1]] [[validation:ans1]]</p>
-This input is not, perhaps it is used to store JSXGraph state?
+This input is not, perhaps it is used to store JSXGraph state? or GeoGebra state?
 <p>[[input:ans2]] [[validation:ans2]]</p>]]></text>
     </questiontext>
     <generalfeedback format="html">

@@ -24,6 +24,7 @@
 require_once(__DIR__.'/../../../config.php');
 
 require_once($CFG->libdir . '/questionlib.php');
+require_once(__DIR__ . '/vle_specific.php');
 require_once(__DIR__ . '/locallib.php');
 require_once(__DIR__ . '/questiontestform.php');
 require_once(__DIR__ . '/stack/questiontest.php');
@@ -36,8 +37,10 @@ $testcase = optional_param('testcase', null, PARAM_INT);
 $confirmthistestcase = optional_param('confirmthistestcase', null, PARAM_INT);
 
 // Load the necessary data.
-$questiondata = $DB->get_record('question', array('id' => $questionid), '*', MUST_EXIST);
+$questiondata = $DB->get_record('question', ['id' => $questionid], '*', MUST_EXIST);
 $question = question_bank::load_question($questionid);
+// We hard-wire decimals to be a full stop when testing questions.
+$question->options->set_option('decimals', '.');
 if ($testcase || $confirmthistestcase) {
     $qtest = question_bank::get_qtype('stack')->load_question_test($questionid, $testcase);
 }
@@ -51,7 +54,7 @@ question_require_capability_on($questiondata, 'edit');
 // Work out whether we are adding or editing.
 if (!is_null($testcase)) {
     $title = stack_string('editingtestcase',
-            array('no' => $testcase, 'question' => format_string($question->name)));
+            ['no' => $testcase, 'question' => format_string($question->name)]);
     $submitlabel = get_string('savechanges');
 } else {
     $title = stack_string('addingatestcase', format_string($question->name));
@@ -70,7 +73,6 @@ if (!is_null($seed)) {
 $slot = $quba->add_question($question, $question->defaultmark);
 $quba->start_question($slot);
 
-
 // Initialise $PAGE.
 $backurl = new moodle_url('/question/type/stack/questiontestrun.php', $urlparams);
 if (!is_null($testcase)) {
@@ -86,7 +88,7 @@ require_login();
 
 // Create the editing form.
 $mform = new qtype_stack_question_test_form($PAGE->url,
-        array('submitlabel' => $submitlabel, 'question' => $question));
+        ['submitlabel' => $submitlabel, 'question' => $question]);
 
 // Send current data to the form.
 if ($testcase) {
@@ -119,19 +121,18 @@ if ($mform->is_cancelled()) {
     unset($urlparams['testcase']);
     redirect($backurl);
 } else if ($confirmthistestcase) {
-    $inputs = array();
+    $inputs = [];
     foreach ($qtest->inputs as $name => $value) {
         $inputs[$name] = $value;
     }
     $qtest = new stack_question_test($qtest->description, $inputs);
-
     $response = stack_question_test::compute_response($question, $inputs);
 
     foreach ($question->prts as $prtname => $prt) {
         $result = $question->get_prt_result($prtname, $response, false);
         // For testing purposes we just take the last note.
         $answernotes = $result->get_answernotes();
-        $answernote = array(end($answernotes));
+        $answernote = [end($answernotes)];
         $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
             1, true, $result->get_score(), $result->get_penalty(), '', $answernote));
     }
@@ -139,7 +140,7 @@ if ($mform->is_cancelled()) {
     redirect($backurl);
 } else if ($data = $mform->get_data()) {
     // Process form submission.
-    $inputs = array();
+    $inputs = [];
     foreach ($question->inputs as $inputname => $notused) {
         $inputs[$inputname] = $data->$inputname;
     }
@@ -148,17 +149,14 @@ if ($mform->is_cancelled()) {
     foreach ($question->prts as $prtname => $notused) {
         $qtest->add_expected_result($prtname, new stack_potentialresponse_tree_state(
                 1, true, $data->{$prtname . 'score'}, $data->{$prtname . 'penalty'},
-                '', array($data->{$prtname . 'answernote'})));
+                '', [$data->{$prtname . 'answernote'}]));
     }
     question_bank::get_qtype('stack')->save_question_test($questionid, $qtest, $testcase);
     redirect($backurl);
 }
 
 // Prepare the display options.
-$options = new question_display_options();
-$options->readonly = true;
-$options->flags = question_display_options::HIDDEN;
-$options->suppressruntestslink = true;
+$options = question_display_options();
 
 // Display the page.
 echo $OUTPUT->header();
@@ -168,12 +166,12 @@ echo $quba->render_question($slot, $options);
 
 // Display the question variables.
 echo $OUTPUT->heading(stack_string('questionvariables'), 3);
-echo html_writer::start_tag('div', array('class' => 'questionvariables'));
+echo html_writer::start_tag('div', ['class' => 'questionvariables']);
 echo html_writer::tag('pre', $question->questionvariables);
 echo html_writer::end_tag('div');
 
 echo $OUTPUT->heading(stack_string('questionvariablevalues'), 3);
-echo html_writer::start_tag('div', array('class' => 'questionvariables'));
+echo html_writer::start_tag('div', ['class' => 'questionvariables']);
 echo html_writer::tag('pre', $question->get_question_session_keyval_representation());
 echo html_writer::end_tag('div');
 
@@ -181,7 +179,7 @@ echo html_writer::end_tag('div');
 // We need this as well as the rendered view above so that teachers can see the names of variables used.
 // This helps when writing question tests using those variables to reflect randomization.
 echo $OUTPUT->heading(stack_string('questiontext'), 3);
-echo html_writer::tag('pre', $question->questiontext, array('class' => 'questiontext'));
+echo html_writer::tag('pre', $question->questiontext, ['class' => 'questiontext']);
 
 echo html_writer::tag('p', stack_string('testinputsimpwarning'));
 

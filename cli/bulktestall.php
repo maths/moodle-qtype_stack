@@ -38,8 +38,8 @@ require_once(__DIR__ . '/../stack/bulktester.class.php');
 $start = microtime(true);
 
 // Get cli options.
-list($options, $unrecognized) = cli_get_params(array('help' => false, 'id' => false, 'remote' => false),
-    array('h' => 'help'));
+list($options, $unrecognized) = cli_get_params(['help' => false, 'id' => false, 'remote' => false],
+    ['h' => 'help']);
 
 if ($unrecognized) {
     $unrecognized = implode("\n  ", $unrecognized);
@@ -67,7 +67,7 @@ $context = context_system::instance();
 // Create the helper class.
 $bulktester = new stack_bulk_tester();
 $allpassed = true;
-$allfailing = array();
+$allfailing = [];
 
 // Run the tests.
 $testno = 0;
@@ -76,16 +76,12 @@ $contexts = $bulktester->get_stack_questions_by_context();
 // Take only the contexts from the one containing the question id.
 $partialcontext = false;
 if ($options['id']) {
-    $usecontexts = array();
+    $usecontexts = [];
     $found = false;
     foreach ($contexts as $contextid => $numstackquestions) {
         $testcontext = context::instance_by_id($contextid);
 
-        if (stack_determine_moodle_version() < 400) {
-            $categories = question_category_options(array($context));
-        } else {
-            $categories = qbank_managecategories\helper::question_category_options(array($context));
-        }
+        $categories = qbank_managecategories\helper::question_category_options([$context]);
         $categories = reset($categories);
         foreach ($categories as $key => $category) {
             list($categoryid) = explode(',', $key);
@@ -126,7 +122,7 @@ foreach ($contexts as $contextid => $numstackquestions) {
 
     echo "\n";
     foreach ($failing as $key => $arrvals) {
-        if ($arrvals !== array()) {
+        if ($arrvals !== []) {
             echo "\n* " . stack_string('stackInstall_testsuite_' . $key) . "\n";
             echo implode("\n", $arrvals);
         }

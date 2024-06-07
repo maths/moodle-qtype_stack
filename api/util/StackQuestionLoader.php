@@ -281,7 +281,10 @@ class StackQuestionLoader {
             foreach ($test->expected as $expected) {
                 $testcase->add_expected_result((string) $expected->name,
                         new \stack_potentialresponse_tree_state(1, true,
-                                (float) $expected->expectedscore, (float) $expected->expectedpenalty,
+                            isset($expected->expectedscore) && $expected->expectedscore != '' ?
+                                (float) $expected->expectedscore : null,
+                            isset($expected->expectedpenalty) && $expected->expectedpenalty != '' ?
+                                (float) $expected->expectedpenalty : null,
                                 '', [(string) $expected->expectedanswernote]));
             }
             $testcases[] = $testcase;

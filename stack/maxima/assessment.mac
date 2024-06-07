@@ -557,7 +557,11 @@ commonfaclist(l) := block([i, a, ret],
   else ret:"fail",
  return(ret) )$
 
-/* Returns a list of factors of ex without multiplicities. */
+/*
+ * Returns a list of factors of ex without multiplicities. 
+ * @param[scalar expression] ex, expression to be factored.
+ * @return[list] the list of factors, without multiplicities.
+ */
 factorlist(ex) := block([simp:false, ret:"", ex2],
   ex:ev(factor(ex), simp),
   if mapatom(ex) then return([ex]),

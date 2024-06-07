@@ -45,8 +45,6 @@ class TestController {
         StackSeedHelper::initialize_seed($question, $data["seed"]);
 
         $question->initialise_question_from_seed();
-        //$response->getBody()->write(json_encode($question));
-        //return $response->withHeader('Content-Type', 'application/json');
         $question->castextprocessor = new \castext2_qa_processor(new \stack_outofcontext_process());
 
         $testresponse = new StackTestResponse();
@@ -67,8 +65,6 @@ class TestController {
                     'messages' => [$upgradeerrors],
                 ]
             ];
-            $response->getBody()->write(json_encode($testresponse));
-            return $response->withHeader('Content-Type', 'application/json');
         }
 
         if (trim($question->generalfeedback) !== '') {
@@ -90,8 +86,6 @@ class TestController {
 
        if (empty($question->deployedseeds)) {
             try {
-                $response->getBody()->write(json_encode($this->qtype_stack_test_question($question, null)));
-                return $response->withHeader('Content-Type', 'application/json');
                 $testresponse->results = [
                     'noseed' => $this->qtype_stack_test_question($question, null)
                 ];
@@ -146,15 +140,33 @@ class TestController {
         foreach ($question->testcases as $testcase) {
             $results = new \stack_question_test_result($testcase);
             $results->set_questionpenalty($question->penalty);
-            foreach ($testcase->inputs as $inputname => $inputvalue) {
-                $answers[$inputname] = $inputvalue;
+            $response = \stack_question_test::compute_response($question, $testcase->inputs);
+            foreach ($this->inputs as $inputname => $notused) {
+                // Check input still exits, could have been deleted in a question.
+                if (array_key_exists($inputname, $question->inputs)) {
+                    $inputstate = $question->get_input_state($inputname, $response);
+                    // The _val below is a hack.  Not all inputnames exist explicitly in
+                    // the response, but the _val does. Some inputs, e.g. matrices have
+                    // many entries in the response so none match $response[$inputname].
+                    // Of course, a teacher may have left a test case blank in which case the input isn't there either.
+                    $inputresponse = '';
+                    if (array_key_exists($inputname, $response)) {
+                        $inputresponse = $response[$inputname];
+                    } else if (array_key_exists($inputname.'_val', $response)) {
+                        $inputresponse = $response[$inputname.'_val'];
+                    }
+                    if ($inputresponse != '') {
+                        $emptytestcase = false;
+                    }
+                    $results->set_input_state($inputname, $inputresponse, $inputstate->contentsmodified,
+                        $inputstate->contentsdisplayed, $inputstate->status, $inputstate->errors);
+                }
             }
             foreach ($testcase->expectedresults as $prtname => $expected) {
                 if (implode(' | ', $expected->answernotes) !== 'NULL') {
                     $emptytestcase = false;
                 }
-                $result = $question->get_prt_result($prtname, $answers, true);
-                // return $result;
+                $result = $question->get_prt_result($prtname, $response, true);
                 $feedback = $result->get_feedback();
                 $feedback = format_text(\stack_maths::process_display_castext($feedback),
                         FORMAT_HTML, ['noclean' => true, 'para' => false]);
@@ -162,6 +174,7 @@ class TestController {
                 $result->override_feedback($feedback);
                 $results->set_prt_result($prtname, $result);
                 $results->emptytestcase = $emptytestcase;
+
                 if ($results->passed()) {
                     $passes += 1;
                 } else {

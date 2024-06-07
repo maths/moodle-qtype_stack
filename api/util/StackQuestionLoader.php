@@ -242,7 +242,8 @@ class StackQuestionLoader {
 
                 $newnode->truescoremode = isset($node->truescoremode) ? (string) $node->truescoremode : 'add';
                 $newnode->truescore = isset($node->truescore) ? (float) $node->truescore : 1.0;
-                $newnode->truepenalty = isset($node->truepenalty) ? (float) $node->truepenalty : 0.0;
+                // TO-DO How many other places are interpreting <element /> as <element>0</element> by just using isset?
+                $newnode->truepenalty = isset($node->truepenalty) && $node->truepenalty != '' ? (float) $node->truepenalty : null;
                 $newnode->truenextnode = isset($node->truenextnode) ? (string) $node->truenextnode : '-1';
                 $newnode->trueanswernote = (string) $node->trueanswernote;
                 $newnode->truefeedback = (string) $node->truefeedback->text;
@@ -250,7 +251,7 @@ class StackQuestionLoader {
 
                 $newnode->falsescoremode = isset($node->falsescoremode) ? (string) $node->falsescoremode : 'equals';
                 $newnode->falsescore = isset($node->falsescore) ? (float) $node->falsescore : 0.0;
-                $newnode->falsepenalty = isset($node->falsepenalty) ? (float) $node->falsepenalty : 0.0;
+                $newnode->falsepenalty = isset($node->falsepenalty)  && $node->falsepenalty != '' ? (float) $node->falsepenalty : null;
                 $newnode->falsenextnode = isset($node->falsenextnode) ? (string) $node->falsenextnode : '-1';
                 $newnode->falseanswernote = (string) $node->falseanswernote;
                 $newnode->falsefeedback = (string) $node->falsefeedback->text;
@@ -280,7 +281,7 @@ class StackQuestionLoader {
             foreach ($test->expected as $expected) {
                 $testcase->add_expected_result((string) $expected->name,
                         new \stack_potentialresponse_tree_state(1, true,
-                                (string) $expected->expectedscore, (string) $expected->expectedpenalty,
+                                (float) $expected->expectedscore, (float) $expected->expectedpenalty,
                                 '', [(string) $expected->expectedanswernote]));
             }
             $testcases[] = $testcase;

@@ -221,6 +221,80 @@ diag_entries(M):= block([],
   return(map(lambda([ex], M[ex,ex]),ev(makelist(ii,ii,1,lmin(matrix_size(M))),simp)))
 );
 
+/* We have setelmx by default to set M[i,j]: el, and we can use M[i]: r
+   to set a row of M, but columns and diagonals require a bit more thought. 
+   To match setelmx, here are setrowmx, setcolmx, and setdiagmx. They
+   have the added advantage of allowing either a replacement list or a 
+   number that is to be repeated in the relevant part of the matrix. */
+
+/**
+ * Replace row i of matrix M with r.
+ * If r is a list or a matrix, replace the row exactly. Nothing will happen if r does not conform.
+ * If r is a number, fill row i with the value r.
+ * Companion to setelmx
+ *
+ * @param[number, list or matrix] r the replacement row (or value that will be repeated in the row)
+ * @param[integer] i the index of the row that will be replaced
+ * @param[matrix] M the matrix whose row is being replaced
+ * @return[matrix] The matrix M with row i replaced by r.
+ */
+setrowmx(r,i,M):= block([rows],
+  rows: args(copymatrix(M)),
+  if matrixp(r) then r: list_matrix_entries(r),
+  if numberp(r) then r: ev(makelist(r,ii,1,second(matrix_size(M))),simp),
+  if listp(r) then rows[i]: r,
+  errcatch(M: apply(matrix,rows)),
+  return(M)
+);
+
+/**
+ * Replace column i of matrix M with c.
+ * If c is a list or a matrix, replace the column exactly. Nothing will happen if c does not conform.
+ * If c is a number, fill row i with the value c.
+ * Companion to setelmx
+ *
+ * @param[number, list or matrix] c the replacement column (or value that will be repeated in the column)
+ * @param[integer] i the index of the column that will be replaced
+ * @param[matrix] M the matrix whose column is being replaced
+ * @return[matrix] The matrix M with column i replaced by c.
+ */
+setcolmx(c,i,M):= block([cols],
+  cols: args(copymatrix(transpose(M))),
+  if matrixp(c) then c: list_matrix_entries(c),
+  if numberp(c) then c: ev(makelist(c,ii,1,first(matrix_size(M))),simp),
+  if listp(c) then cols[i]: c,
+  errcatch(M: transpose(apply(matrix,cols))),
+  return(M)
+);
+
+/**
+ * Replace diagonal k of matrix M with L.
+ * If L is a list, replace the diagonal exactly.
+ * If L is too short to fill the diagonal, then any remaining diagonal entries are untouched
+ * If L is too long for the diagonal, then only the first l entries of L are used, where l is the length of the diagonal.
+ * If L is a number, fill the diagonal with the value L.
+ * If the optional argument k is given, then choose the kth diagonal. For example, setdiagmx(L,M,1) will adjust the values one entry above the primary diagonal.
+ * Companion to setelmx
+ *
+ * @param[number or list] L the replacement diagonal (or value that will be repeated in the diagonal)
+ * @param[matrix] M the matrix whose column is being replaced
+ * @param[integer] Optional: k the diagonal offset. 
+ * @return[matrix] The matrix M with diagonal k replaced by L.
+ */
+setdiagmx(L,M,[k]):= block([m,n,ii,jj],
+  [m, n]: matrix_size(M),
+  if emptyp(k) then k: 0 else k: first(k),
+  if not(listp(L)) then L: ev(makelist(L,ii,1,max(m,n)),simp),
+  for ii: 1 thru m do block(
+    ii: ev(ii,simp),
+    for jj: 1 thru n do block(
+      jj: ev(jj,simp),
+      if ev(is(ii+k=jj),simp) then errcatch(M[ii,jj]: L[ev(min(ii,jj),simp)])
+    )
+  ),
+  return(M)
+);
+
 /*********************************************************************************/
 /* Predicate functions for matrices                                              */
 /*********************************************************************************/
@@ -799,6 +873,40 @@ rowspace(M):= ev(columnspace(transpose(M)),simp);
  * @return[span] A span of column vectors
  */
 nullTspace(M):= ev(nullspace(transpose(M)),simp);
+
+/* We have rowswap, rowop, columnswap, columnop, but no scaling versions. 
+   I do acknowledge that you can recreate these with rowop, but this is 
+   non-intuitive, so it's nice to have these functions lying around. */
+/**
+ * Scales row i of matrix A by alpha.
+ * A companion to rowop and rowswap.
+ * R_i <- alpha*R_i
+ *
+ * @param[matrix] M The matrix whose row you are scaling
+ * @param[integer] i The row you are scaling
+ * @param[number] alpha The amount you are scaling the row.
+ * @return[matrix] R_i <- alpha*R_i
+ */
+rowscale(M,i,alpha):= block([],
+  M[i]: map(lambda([ex],alpha*ex),M[i]),
+  return(M)
+);
+
+/**
+ * Scales column i of matrix A by alpha.
+ * A companion to columnop and columnswap.
+ * C_i <- alpha*C_i
+ *
+ * @param[matrix] M The matrix whose column you are scaling
+ * @param[integer] i The column you are scaling
+ * @param[number] alpha The amount you are scaling the column.
+ * @return[matrix] C_i <- alpha*C_i
+ */
+columnscale(M,i,alpha):= block([MT],
+  MT: transpose(M),
+  MT[i]: map(lambda([ex],alpha*ex),MT[i]),
+  return(transpose(MT))
+);
 
 /**
  * Compute the algebraic multiplicity of an eigenvalue. 

@@ -50,7 +50,7 @@ The application can also be installed manually, although this variant has only u
 
 The STACK service implemented in this repository provides a stateless REST-API with three distinct routes, which all expect and produce `application/json` requests/responses:
 
-- POST /render: Render a stack question
+- POST /render: Render a STACK question
 - POST /grade: Grade user input for a question
 - POST /validate: Validate a user's input
 
@@ -262,7 +262,7 @@ To be accessible directly, the following property/method visibility have been pr
 #### Minor changes in STACK 4.6.0
 
 - Some new language keys have been added.
-- Some imports inside the `question.php` and `mathsoutputfilterbase.class.php` files have been wrapped inside an if statement, to only be performed in non api contexts.
+- Some imports inside the `question.php` and `mathsoutputfilterbase.class.php` files have been wrapped inside an if statement, to only be performed in non-API contexts.
 - A new `get_ta_render_for_input` function has been added to the `qtype_stack_question` class.
 - A new `pluginfiles` property has been added to the `qtype_stack_question` class.
 - `iframe.block.php` handles plot URLs and iframe creation conditional on context (i.e API vs not API).

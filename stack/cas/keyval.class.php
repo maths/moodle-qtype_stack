@@ -104,9 +104,8 @@ class stack_cas_keyval {
 
         $str = str_replace('?', 'QMCHAR', $str);
 
-        // CAS keyval may not contain @ or $ outside strings.
-        // We should certainly prevent the $ to make sure statements are separated by ;, although Maxima does allow $.
-        if (strpos($str, '@') !== false || strpos($str, '$') !== false) {
+        // CAS keyval may not contain @ outside strings.
+        if (strpos($str, '@') !== false) {
             $this->errors[] = new $this->errclass(stack_string('illegalcaschars'), $this->context);
             $this->valid = false;
             return false;

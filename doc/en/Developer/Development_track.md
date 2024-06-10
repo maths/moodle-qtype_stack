@@ -10,6 +10,7 @@ We use the [github issue tracker](https://github.com/maths/moodle-qtype_stack/is
 DONE
 
 1. Fix [issue #1160](https://github.com/maths/moodle-qtype_stack/issues/879) Allow configuring the MathJax URL
+2. Allow Maxima code in keyvals to terminate expressions with a `$` (as in Maxima).  This will allow better copy/paste to and from desktop maxima.
 
 
 Issues with [github milestone 4.7.0](https://github.com/maths/moodle-qtype_stack/issues?q=is%3Aissue+milestone%3A4.7.0) include

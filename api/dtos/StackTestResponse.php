@@ -25,6 +25,8 @@
 namespace api\dtos;
 
 class StackTestResponse {
+    /** @var string */
+    public $name = '';
     /** @var bool */
     public $isupgradeerror = false;
     /** @var bool */

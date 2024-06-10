@@ -31,7 +31,7 @@ require_once(__DIR__ . '/../../stack/potentialresponsetreestate.class.php');
  * Converts question xml into usable format
  */
 class StackQuestionLoader {
-    public static function loadxml($xml) {
+    public static function loadxml($xml, $includetests=false) {
         // TO-DO: Consider defaults.
         try {
             $xmldata = new SimpleXMLElement($xml);
@@ -270,29 +270,28 @@ class StackQuestionLoader {
         }
 
         $question->deployedseeds = $deployedseeds;
-        // TO-DO Only load when running tests.
         $testcases = [];
-        foreach ($xmldata->question->qtest as $test) {
-            $testinputs = [];
-            foreach($test->testinput as $testinput) {
-                $testinputs[(string) $testinput->name] = (string) $testinput->value;
+        if ($includetests) {
+            foreach ($xmldata->question->qtest as $test) {
+                $testinputs = [];
+                foreach($test->testinput as $testinput) {
+                    $testinputs[(string) $testinput->name] = (string) $testinput->value;
+                }
+                $testcase = new \stack_question_test((string) $test->description, $testinputs, (string) $test->testcase);
+                foreach ($test->expected as $expected) {
+                    $testcase->add_expected_result((string) $expected->name,
+                            new \stack_potentialresponse_tree_state(1, true,
+                                isset($expected->expectedscore) && $expected->expectedscore != '' ?
+                                    (float) $expected->expectedscore : null,
+                                isset($expected->expectedpenalty) && $expected->expectedpenalty != '' ?
+                                    (float) $expected->expectedpenalty : null,
+                                    '', [(string) $expected->expectedanswernote]));
+                }
+                $testcases[] = $testcase;
             }
-            $testcase = new \stack_question_test((string) $test->description, $testinputs, (string) $test->testcase);
-            foreach ($test->expected as $expected) {
-                $testcase->add_expected_result((string) $expected->name,
-                        new \stack_potentialresponse_tree_state(1, true,
-                            isset($expected->expectedscore) && $expected->expectedscore != '' ?
-                                (float) $expected->expectedscore : null,
-                            isset($expected->expectedpenalty) && $expected->expectedpenalty != '' ?
-                                (float) $expected->expectedpenalty : null,
-                                '', [(string) $expected->expectedanswernote]));
-            }
-            $testcases[] = $testcase;
         }
 
-        $question->testcases = $testcases;
-
-        return $question;
+        return ['question'=>$question, 'testcases'=>$testcases];
     }
 
     private static function handlefiles(\SimpleXMLElement $files) {

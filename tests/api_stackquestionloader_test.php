@@ -40,7 +40,7 @@ class api_stackquestionloader_test extends qtype_stack_testcase {
     public function test_question_loader() {
         $xml = stack_api_test_data::get_question_string('matrices');
         $ql = new StackQuestionLoader();
-        $question = $ql->loadXML($xml);
+        $question = $ql->loadXML($xml)['question'];
 
         // Testing a representative selection of fields.
         $this->assertEquals('test_3_matrix', $question->name);
@@ -66,7 +66,7 @@ class api_stackquestionloader_test extends qtype_stack_testcase {
         global $CFG;
         $xml = stack_api_test_data::get_question_string('usedefaults');
         $ql = new StackQuestionLoader();
-        $question = $ql->loadXML($xml);
+        $question = $ql->loadXML($xml)['question'];
         $this->assertEquals($question->options->get_option('decimals'), get_config('qtype_stack', 'decimals'));
         $this->assertEquals($question->options->get_option('scientificnotation'),
                 get_config('qtype_stack', 'scientificnotation'));
@@ -97,7 +97,7 @@ class api_stackquestionloader_test extends qtype_stack_testcase {
         global $CFG;
         $xml = stack_api_test_data::get_question_string('optionset');
         $ql = new StackQuestionLoader();
-        $question = $ql->loadXML($xml);
+        $question = $ql->loadXML($xml)['question'];
         $this->assertEquals($question->options->get_option('decimals'), ',');
         $this->assertEquals($question->options->get_option('scientificnotation'), '*10');
         $this->assertEquals($question->options->get_option('assumepos'), true);

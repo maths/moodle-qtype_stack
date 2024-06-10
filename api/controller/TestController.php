@@ -41,13 +41,14 @@ class TestController {
         // TO-DO: Validate.
         $data = $request->getParsedBody();
 
-        $question = StackQuestionLoader::loadxml($data["questionDefinition"]);
+        list('question' => $question, 'testcases' => $testcases) = StackQuestionLoader::loadxml($data["questionDefinition"], true);
         StackSeedHelper::initialize_seed($question, $data["seed"]);
 
         $question->initialise_question_from_seed();
         $question->castextprocessor = new \castext2_qa_processor(new \stack_outofcontext_process());
 
         $testresponse = new StackTestResponse();
+        $testresponse->name = $question->name;
 
         if (!empty($question->runtimeerrors)) {
             // The question has not been instantiated successfully, at this level it is likely
@@ -79,15 +80,14 @@ class TestController {
             $testresponse->israndomvariants = true;
         }
 
-        $tests = $question->testcases;
-        if ($tests) {
+        if ($testcases) {
             $testresponse->istests = true;
         }
 
        if (empty($question->deployedseeds)) {
             try {
                 $testresponse->results = [
-                    'noseed' => $this->qtype_stack_test_question($question, null)
+                    'noseed' => $this->qtype_stack_test_question($question, $testcases, null)
                 ];
             } catch (stack_exception $e) {
                 $testresponse->results = [
@@ -102,7 +102,7 @@ class TestController {
             foreach ($question->deployedseeds as $seed) {
                 // TO-DO Skipped test for when there's no test?
                 try {
-                    $testresponse->results[$seed] = $this->qtype_stack_test_question($question, $seed);
+                    $testresponse->results[$seed] = $this->qtype_stack_test_question($question, $testcases, $seed);
                 } catch (stack_exception $e) {
                     $testresponse->results[$seed] = [
                         'passes' => null,
@@ -125,7 +125,7 @@ class TestController {
      *              bool true if the tests passed, else false.
      *              sring message summarising the number of passes and fails.
      */
-    public function qtype_stack_test_question($question, $seed = null) {
+    public function qtype_stack_test_question($question, $testcases, $seed = null) {
         flush(); // Force output to prevent timeouts and to make progress clear.
         gc_collect_cycles(); // Because PHP's default memory management is rubbish.
 
@@ -137,7 +137,7 @@ class TestController {
         $passes = 0;
         $fails = 0;
 
-        foreach ($question->testcases as $testcase) {
+        foreach ($testcases as $testcase) {
             $results = new \stack_question_test_result($testcase);
             $results->set_questionpenalty($question->penalty);
             $response = \stack_question_test::compute_response($question, $testcase->inputs);
@@ -174,12 +174,11 @@ class TestController {
                 $result->override_feedback($feedback);
                 $results->set_prt_result($prtname, $result);
                 $results->emptytestcase = $emptytestcase;
-
-                if ($results->passed()) {
-                    $passes += 1;
-                } else {
-                    $fails += 1;
-                }
+            }
+            if ($results->passed()) {
+                $passes += 1;
+            } else {
+                $fails += 1;
             }
         }
 

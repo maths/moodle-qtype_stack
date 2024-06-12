@@ -33,14 +33,16 @@ require_login();
         background-color: #fcf2d4;
         border-radius: 4px;
         border: 1px solid #7d5a2933;
-        display: inline-block;
+        width: max-content;
         padding: 5px;
       }
       .passed {
         background-color: lightgreen;
+        color: black;
       }
       .failed {
-        background-color: lightred;
+        background-color: pink;
+        color: black;
       }
       .seed {
         color: darkblue;
@@ -69,16 +71,21 @@ require_login();
               } else {
                 let resultHtml = '<h3>' + json.name + '</h3>';
                 resultHtml += (json.isgeneneralfeedback) ? '' : '<p class="feedback"><?=stack_string('bulktestnogeneralfeedback')?></p>';
-                resultHtml += (json.isupgradeerror) ? '<p>' + json.results['noseed'].message + '</p>' : '';
-                resultHtml += (json.istests) ? '' : '<p><?=stack_string('bulktestnotests')?></p>';
-                resultHtml += (json.israndomvariants && !json.isdeployedseeds) ? '<p><?=stack_string('bulktestnodeployedseeds')?></p>' : '';
+                resultHtml += (json.isupgradeerror) ? '<p class="feedback">' + json.results['noseed'].message + '</p>' : '';
+                resultHtml += (json.istests) ? '' : '<p class="feedback"><?=stack_string('bulktestnotests')?></p>';
+                resultHtml += (json.israndomvariants && !json.isdeployedseeds) ? '<p class="feedback"><?=stack_string('bulktestnodeployedseeds')?></p>' : '';
                 for (seed in json.results) {
                   if (seed !== 'noseed') {
                     resultHtml += '<h5 class="seed">Seed ' + seed + '</h5>';
                   }
-                  resultHtml += '<p class="' + ((json.results[seed].fails === 0) ? 'passed' : 'failed') +  '">' + json.results[seed].passes + ' passes and ' + json.results[seed].fails + ' failures.</p>';
-                  resultDiv.innerHTML = resultHtml;
+                  if (json.istests && json.results[seed].passes !== null) {
+                    resultHtml += '<p class="feedback' + ((json.results[seed].fails === 0) ? ' passed' : ' failed') +  '">' + json.results[seed].passes + ' passes and ' + json.results[seed].fails + ' failures.</p>';
+                  }
+                  if (json.results[seed].messages) {
+                    resultHtml += '<p>' + json.results[seed].messages + '</p>';
+                  }
                 }
+                resultDiv.innerHTML = resultHtml;
               }
             } catch(e) {
               resultDiv.innerText = http.responseText;
@@ -101,6 +108,7 @@ require_login();
       }
 
       function testFolder() {
+        document.getElementById('output').innerHTML = '';
         const files = document.getElementById('local-folder').files;
         for (const file of files) {
           if (file.type === 'application/xml' || file.type === 'text/xml')

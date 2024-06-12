@@ -246,6 +246,33 @@ class stack_question_test_result {
     }
 
     /**
+     * @return array whether the test passed successfully + reasons for failure.
+     */
+    public function passed_with_reasons() {
+        $passed = true;
+        $reason = '';
+        $outcomes = [];
+        if ($this->emptytestcase) {
+            $passed = false;
+            $reason = stack_string('questiontestempty');
+        } else {
+            foreach ($this->get_prt_states() as $prt_name => $state) {
+                $outcomes[$prt_name] = [
+                    'outcome' => $state->testoutcome,
+                    'score' => $state->score,
+                    'penalty' => $state->penalty,
+                    'answernote' => $state->answernote,
+                    'expectedscore' => $state->expectedscore,
+                    'expectedpenalty' => $state->expectedpenalty,
+                    'expectedanswernote' => $state->expectedanswernote,
+                    'feedback' => $state->feddback,
+                ];
+            }
+        }
+        return ['passed' => $passed, 'reason' => $reason, 'outcomes' => $outcomes];
+    }
+
+    /**
      * Create an HTML output of the test result.
      */
     public function html_output($question, $key = null) {

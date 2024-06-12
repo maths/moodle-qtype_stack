@@ -42,9 +42,6 @@ class TestController {
         $data = $request->getParsedBody();
 
         list('question' => $question, 'testcases' => $testcases) = StackQuestionLoader::loadxml($data["questionDefinition"], true);
-        StackSeedHelper::initialize_seed($question, $data["seed"]);
-
-        $question->initialise_question_from_seed();
         $question->castextprocessor = new \castext2_qa_processor(new \stack_outofcontext_process());
 
         $testresponse = new StackTestResponse();
@@ -86,10 +83,12 @@ class TestController {
 
        if (empty($question->deployedseeds)) {
             try {
+                StackSeedHelper::initialize_seed($question, $data["seed"]);
+                $question->initialise_question_from_seed();
                 $testresponse->results = [
                     'noseed' => $this->qtype_stack_test_question($question, $testcases, null)
                 ];
-            } catch (stack_exception $e) {
+            } catch (\stack_exception $e) {
                 $testresponse->results = [
                     'noseed' => [
                         'passes' => null,
@@ -99,11 +98,13 @@ class TestController {
                 ];
             }
         } else {
+            StackSeedHelper::initialize_seed($question, $data["seed"]);
+            $question->initialise_question_from_seed();
             foreach ($question->deployedseeds as $seed) {
                 // TO-DO Skipped test for when there's no test?
                 try {
                     $testresponse->results[$seed] = $this->qtype_stack_test_question($question, $testcases, $seed);
-                } catch (stack_exception $e) {
+                } catch (\stack_exception $e) {
                     $testresponse->results[$seed] = [
                         'passes' => null,
                         'fails' => null,
@@ -136,6 +137,8 @@ class TestController {
         // Execute the tests.
         $passes = 0;
         $fails = 0;
+        $message = '';
+        $outcomes = [];
 
         foreach ($testcases as $testcase) {
             $results = new \stack_question_test_result($testcase);
@@ -173,12 +176,15 @@ class TestController {
 
                 $result->override_feedback($feedback);
                 $results->set_prt_result($prtname, $result);
-                $results->emptytestcase = $emptytestcase;
+                $results->emptytestcase = false;
             }
-            if ($results->passed()) {
+            $summary = $results->passed_with_reasons();
+            $outcomes[$testcase->testcase] = $summary;
+            if ($summary['passed']) {
                 $passes += 1;
             } else {
                 $fails += 1;
+                $message .= $summary['reason'];
             }
         }
 
@@ -203,6 +209,7 @@ class TestController {
             'passes' => $passes,
             'fails' => $fails,
             'messages' => $message,
+            'outcomes' => $outcomes,
         ];
     }
 }

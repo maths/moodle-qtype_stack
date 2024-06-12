@@ -54,21 +54,45 @@ require_login();
   </head>
   <body>
     <script>
-      // Display rendered question and solution.
-      function send($questionxml) {
+      function send(filepath, questionxml) {
         const http = new XMLHttpRequest();
         const url = "http://localhost:3080/test";
         http.open("POST", url, true);
         http.setRequestHeader('Content-Type', 'application/json');
+        const pathArray = filepath.split('/');
+        let currentDiv = '';
+        for (const part of pathArray) {
+          let prevDiv = currentDiv;
+          currentDiv += (currentDiv) ? '/' : '';
+          currentDiv += part;
+          if (!document.getElementById(currentDiv)) {
+            const newDivEl = document.createElement("div");
+            newDivEl.setAttribute('id', currentDiv);
+            newDivEl.innerHTML = '<h5>' + currentDiv + '</h5>';
+            if (prevDiv) {
+              const prevDivEl = document.getElementById(prevDiv);
+              newDivEl.setAttribute('style', 'margin-left: 10px;');
+              prevDivEl.appendChild(newDivEl);
+            } else {
+              document.getElementById('output').appendChild(newDivEl);
+            }
+          }
+        }
         http.onreadystatechange = function() {
           if(http.readyState == 4) {
             const resultDiv = document.createElement("div");
+            resultDiv.setAttribute('style', 'margin-left: 10px;');
             try {
               const json = JSON.parse(http.responseText);
               if (json.error) {
-                resultDiv.innerText = http.responseText;
+                resultDiv.innerText = json.error + ' - JSON: ' + http.responseText;
+                resultDiv.innerHTML += '<br><br>';
+                document.getElementById('errors').appendChild(resultDiv);
+                document.getElementById('errors').removeAttribute('hidden');
               } else {
                 let resultHtml = '<h3>' + json.name + '</h3>';
+                resultDiv.setAttribute('id', json.name);
+
                 resultHtml += (json.isgeneneralfeedback) ? '' : '<p class="feedback"><?=stack_string('bulktestnogeneralfeedback')?></p>';
                 resultHtml += (json.isupgradeerror) ? '<p class="feedback">' + json.results['noseed'].message + '</p>' : '';
                 resultHtml += (json.istests) ? '' : '<p class="feedback"><?=stack_string('bulktestnotests')?></p>';
@@ -85,30 +109,35 @@ require_login();
                   }
                 }
                 resultDiv.innerHTML = resultHtml;
+                const parentDivEl = document.getElementById(json.filepath);
+                parentDivEl.appendChild(resultDiv);
+                parentDivEl.replaceChildren(...Array.from(parentDivEl.children).sort((a,b) => a.id.localeCompare(b.id)));
               }
             } catch(e) {
-              resultDiv.innerText = http.responseText;
-            } finally {
-              document.getElementById('output').appendChild(resultDiv);
+              resultDiv.innerText = e.message + ' - JSON: ' + http.responseText;
+              resultDiv.innerHTML += '<br><br>';
+              document.getElementById('errors').appendChild(resultDiv);
+              document.getElementById('errors').removeAttribute('hidden');
             }
           }
         };
-        http.send(JSON.stringify({'questionDefinition': $questionxml}));
+        http.send(JSON.stringify({'questionDefinition': questionxml, 'filepath': filepath}));
       }
 
-      function getLocalQuestionFile(filepath) {
-        if (filepath) {
+      function getLocalQuestionFile(file) {
+        if (file) {
           const reader = new FileReader();
-          reader.readAsText(filepath, "UTF-8");
+          reader.readAsText(file, "UTF-8");
           reader.onload = function (evt) {
-            sendQuestionsFromFile(evt.target.result);
+            sendQuestionsFromFile(file.webkitRelativePath, evt.target.result);
           }
         }
       }
 
       function testFolder() {
         document.getElementById('output').innerHTML = '';
-        const files = document.getElementById('local-folder').files;
+        let files = document.getElementById('local-folder').files;
+        files = Array.from(files).sort((a,b) => a.webkitRelativePath.localeCompare(b.webkitRelativePath))
         for (const file of files) {
           if (file.type === 'application/xml' || file.type === 'text/xml')
             getLocalQuestionFile(file);
@@ -116,12 +145,13 @@ require_login();
         }
       }
 
-      function sendQuestionsFromFile(fileContents) {
+      function sendQuestionsFromFile(filepath, fileContents) {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(fileContents, "text/xml");
-        for (const question of xmlDoc.getElementsByTagName("question")) {
+        let questions = xmlDoc.getElementsByTagName("question");
+        for (const question of questions) {
           if (question.getAttribute('type').toLowerCase() === 'stack') {
-            send('<quiz>\n' + question.outerHTML + '\n</quiz>');
+            send(filepath, '<quiz>\n' + question.outerHTML + '\n</quiz>');
           }
         }
       }
@@ -149,6 +179,12 @@ require_login();
       </div>
       <br>
       <div id='output'>
+      </div>
+      <div id='errors' class= 'feedback failed'hidden>
+        <h1>
+          Errors
+        </h1>
+        <br>
       </div>
     <br>
 

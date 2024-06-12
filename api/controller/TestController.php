@@ -46,6 +46,7 @@ class TestController {
 
         $testresponse = new StackTestResponse();
         $testresponse->name = $question->name;
+        $testresponse->filepath = $data['filepath'];
 
         if (!empty($question->runtimeerrors)) {
             // The question has not been instantiated successfully, at this level it is likely

@@ -133,51 +133,15 @@ class TestController {
         if (!is_null($seed)) {
             $question->seed = (int) $seed;
         }
-        $emptytestcase = true;
         // Execute the tests.
         $passes = 0;
         $fails = 0;
         $message = '';
         $outcomes = [];
-
+        $question->options->set_option('decimals', '.');
         foreach ($testcases as $testcase) {
-            $results = new \stack_question_test_result($testcase);
-            $results->set_questionpenalty($question->penalty);
             $response = \stack_question_test::compute_response($question, $testcase->inputs);
-            foreach ($this->inputs as $inputname => $notused) {
-                // Check input still exits, could have been deleted in a question.
-                if (array_key_exists($inputname, $question->inputs)) {
-                    $inputstate = $question->get_input_state($inputname, $response);
-                    // The _val below is a hack.  Not all inputnames exist explicitly in
-                    // the response, but the _val does. Some inputs, e.g. matrices have
-                    // many entries in the response so none match $response[$inputname].
-                    // Of course, a teacher may have left a test case blank in which case the input isn't there either.
-                    $inputresponse = '';
-                    if (array_key_exists($inputname, $response)) {
-                        $inputresponse = $response[$inputname];
-                    } else if (array_key_exists($inputname.'_val', $response)) {
-                        $inputresponse = $response[$inputname.'_val'];
-                    }
-                    if ($inputresponse != '') {
-                        $emptytestcase = false;
-                    }
-                    $results->set_input_state($inputname, $inputresponse, $inputstate->contentsmodified,
-                        $inputstate->contentsdisplayed, $inputstate->status, $inputstate->errors);
-                }
-            }
-            foreach ($testcase->expectedresults as $prtname => $expected) {
-                if (implode(' | ', $expected->answernotes) !== 'NULL') {
-                    $emptytestcase = false;
-                }
-                $result = $question->get_prt_result($prtname, $response, true);
-                $feedback = $result->get_feedback();
-                $feedback = format_text(\stack_maths::process_display_castext($feedback),
-                        FORMAT_HTML, ['noclean' => true, 'para' => false]);
-
-                $result->override_feedback($feedback);
-                $results->set_prt_result($prtname, $result);
-                $results->emptytestcase = false;
-            }
+            $results = $testcase->process_results($question, $response);
             $summary = $results->passed_with_reasons();
             $outcomes[$testcase->testcase] = $summary;
             if ($summary['passed']) {

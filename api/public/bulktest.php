@@ -29,20 +29,19 @@ require_login();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <style>
       .feedback {
-        color: #7d5a29;
+        color: black;
         background-color: #fcf2d4;
         border-radius: 4px;
         border: 1px solid #7d5a2933;
-        width: max-content;
-        padding: 5px;
+        padding: 10px;
+        margin-left: 10px;
+        width: fit-content;
       }
       .passed {
         background-color: lightgreen;
-        color: black;
       }
       .failed {
         background-color: pink;
-        color: black;
       }
       .seed {
         color: darkblue;
@@ -82,7 +81,7 @@ require_login();
                     resultHtml += '<p class="feedback' + ((json.results[seed].fails === 0) ? ' passed' : ' failed') +  '">' + json.results[seed].passes + ' passes and ' + json.results[seed].fails + ' failures.</p>';
                   }
                   if (json.results[seed].messages) {
-                    resultHtml += '<p>' + json.results[seed].messages + '</p>';
+                    resultHtml += '<p class="feedback failed">' + json.results[seed].messages + '</p>';
                   }
                 }
                 resultDiv.innerHTML = resultHtml;

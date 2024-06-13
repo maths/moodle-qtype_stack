@@ -1527,5 +1527,23 @@ $string['castext_error_unevaluated'] = 'This text content was never evaluated.';
 
 
 // API strings.
+$string['api_choose_file'] = 'Please select a question file';
+$string['api_choose_folder'] = 'Choose a STACK folder';
+$string['api_choose_q'] = 'Choose a STACK sample file';
+$string['api_correct'] = 'Correct answers';
+$string['api_display'] = 'Display Question';
+$string['api_errors'] = 'Errors';
+$string['api_failures'] = 'failures';
+$string['api_local_file'] = 'Or select a file of your own';
+$string['api_marks_sub'] = 'Marks for this submission';
 $string['api_no_deployed_variants'] = 'The question XML does not contain deployed variants';
+$string['api_out_of'] = 'out of';
+$string['api_passes'] = 'passes';
+$string['api_q_select'] = 'Select a question';
+$string['api_q_xml'] = 'Question XML';
+$string['api_read_only'] = 'Read Only';
+$string['api_response'] = 'Response summary';
 $string['api_seed_not_in_variants'] = 'The specified seed belongs to no deployed variant';
+$string['api_submit'] = 'Submit Answers';
+$string['api_valid_all_parts'] = 'Please enter valid answers for all parts of the question.';
+$string['api_which_typed'] = 'which can be typed as follows';

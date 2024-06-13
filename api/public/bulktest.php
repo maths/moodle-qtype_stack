@@ -33,7 +33,7 @@ require_login();
         background-color: #fcf2d4;
         border-radius: 4px;
         border: 1px solid #7d5a2933;
-        padding: 10px;
+        padding: 5px;
         margin-left: 10px;
         width: fit-content;
       }
@@ -46,6 +46,12 @@ require_login();
       .seed {
         color: darkblue;
       }
+      .question-title {
+        margin-top: 20px;
+      }
+      .path-title {
+        color: grey;
+      }
       a.nav-link:link, a.nav-link:visited, a.nav-link:hover, a.nav-link:active {
         color:black;
         text-decoration:none;
@@ -54,8 +60,18 @@ require_login();
   </head>
   <body>
     <script>
+      var requests = [];
+      var noFeedbackArray = [];
+      var noTestsArray = [];
+      var upgradeIssueArray = [];
+      var noDeployedSeedsArray = [];
+      var failedTestsArray = [];
+      var generalErrorArray = [];
+
       function send(filepath, questionxml) {
         const http = new XMLHttpRequest();
+        requests.push(http);
+        document.getElementById('bulktest_button').setAttribute('disabled', true);
         const url = "http://localhost:3080/test";
         http.open("POST", url, true);
         http.setRequestHeader('Content-Type', 'application/json');
@@ -68,7 +84,7 @@ require_login();
           if (!document.getElementById(currentDiv)) {
             const newDivEl = document.createElement("div");
             newDivEl.setAttribute('id', currentDiv);
-            newDivEl.innerHTML = '<h5>' + currentDiv + '</h5>';
+            newDivEl.innerHTML = '<h5 class="path-title">' + currentDiv + '</h5>';
             if (prevDiv) {
               const prevDivEl = document.getElementById(prevDiv);
               newDivEl.setAttribute('style', 'margin-left: 10px;');
@@ -89,35 +105,60 @@ require_login();
                 resultDiv.innerHTML += '<br><br>';
                 document.getElementById('errors').appendChild(resultDiv);
                 document.getElementById('errors').removeAttribute('hidden');
+                generalErrorArray.push(filepath);
               } else {
-                let resultHtml = '<h3>' + json.name + '</h3>';
+                let resultHtml = '<h3 class="question-title">' + json.name + '</h3>';
                 resultDiv.setAttribute('id', json.name);
 
-                resultHtml += (json.isgeneneralfeedback) ? '' : '<p class="feedback"><?=stack_string('bulktestnogeneralfeedback')?></p>';
-                resultHtml += (json.isupgradeerror) ? '<p class="feedback">' + json.results['noseed'].message + '</p>' : '';
+                resultHtml += (json.isgeneralfeedback) ? '' : '<p class="feedback"><?=stack_string('bulktestnogeneralfeedback')?></p>';
                 resultHtml += (json.istests) ? '' : '<p class="feedback"><?=stack_string('bulktestnotests')?></p>';
                 resultHtml += (json.israndomvariants && !json.isdeployedseeds) ? '<p class="feedback"><?=stack_string('bulktestnodeployedseeds')?></p>' : '';
+                resultHtml += (json.israndomvariants && json.isdeployedseeds) ? '<div style="margin-left: 20px">' : '';
                 for (seed in json.results) {
                   if (seed !== 'noseed') {
-                    resultHtml += '<h5 class="seed">Seed ' + seed + '</h5>';
+                    resultHtml += '<h5 class="seed"><?=stack_string('seedx', '')?>' + seed + '</h5>';
                   }
                   if (json.istests && json.results[seed].passes !== null) {
-                    resultHtml += '<p class="feedback' + ((json.results[seed].fails === 0) ? ' passed' : ' failed') +  '">' + json.results[seed].passes + ' passes and ' + json.results[seed].fails + ' failures.</p>';
+                    resultHtml += '<p class="feedback' + ((json.results[seed].fails === 0) ? ' passed' : ' failed') +  '">' + json.results[seed].passes + ' <?=stack_string('api_passes')?>, ' + json.results[seed].fails + ' <?=stack_string('api_failures')?>.</p>';
+                    if ((json.results[seed].fails !== 0)) {
+                      failedTestsArray.push({'name': json.name, 'seed': seed, 'filepath': json.filepath});
+                    }
                   }
                   if (json.results[seed].messages) {
                     resultHtml += '<p class="feedback failed">' + json.results[seed].messages + '</p>';
                   }
                 }
+                resultHtml += (json.israndomvariants && json.isdeployedseeds) ? '</div>' : '';
+                resultHtml += (json.messages) ? '<p class="feedback failed">' + json.messages + '</p>' : '';
                 resultDiv.innerHTML = resultHtml;
                 const parentDivEl = document.getElementById(json.filepath);
                 parentDivEl.appendChild(resultDiv);
                 parentDivEl.replaceChildren(...Array.from(parentDivEl.children).sort((a,b) => a.id.localeCompare(b.id)));
+
+                const overallUpdate = [
+                                  [!json.istests, noTestsArray],
+                                  [!json.isgeneralfeedback, noFeedbackArray],
+                                  [json.israndomvariants && !json.isdeployedseeds, noDeployedSeedsArray],
+                                  [json.isupgradeerror, upgradeIssueArray],
+                                  [json.message && !json.isupgradeerror, generalErrorArray],
+                                ]
+                for (const update of overallUpdate) {
+                  if (update[0] === true) {
+                    update[1].push({'name': json.name, 'filepath': json.filepath})
+                  }
+                }
               }
             } catch(e) {
               resultDiv.innerText = e.message + ' - JSON: ' + http.responseText;
               resultDiv.innerHTML += '<br><br>';
               document.getElementById('errors').appendChild(resultDiv);
               document.getElementById('errors').removeAttribute('hidden');
+              generalErrorArray.push(filepath);
+            }
+
+            requests = requests.filter(req => req !== http);
+            if (requests.length === 0) {
+              document.getElementById('bulktest_button').removeAttribute('disabled');
             }
           }
         };
@@ -135,13 +176,20 @@ require_login();
       }
 
       function testFolder() {
+        document.getElementById('bulktest_button').setAttribute('disabled', true);
         document.getElementById('output').innerHTML = '';
+        requests = [];
+        noFeedbackArray = [];
+        noTestsArray = [];
+        upgradeIssueArray = [];
+        noDeployedSeedsArray = [];
+        failedTestsArray = [];
+        generalErrorArray = [];
         let files = document.getElementById('local-folder').files;
         files = Array.from(files).sort((a,b) => a.webkitRelativePath.localeCompare(b.webkitRelativePath))
         for (const file of files) {
           if (file.type === 'application/xml' || file.type === 'text/xml')
             getLocalQuestionFile(file);
-
         }
       }
 
@@ -171,20 +219,40 @@ require_login();
             </span>
           </a>
         </div>
-        Choose a STACK folder:
+          <?=stack_string('api_choose_folder')?>:
         <input type="file" id="local-folder" accept=".xml" name="local-folder" webkitdirectory directory multiple/>
         <div>
-          <input type="button" onclick="testFolder()" class="btn btn-primary" value="Test"/>
+          <input id='bulktest_button' type="button" onclick="testFolder()" class="btn btn-primary" value="Test"/>
         </div>
       </div>
       <br>
       <div id='output'>
       </div>
-      <div id='errors' class= 'feedback failed'hidden>
+      <div id='errors' class= 'feedback failed' hidden>
         <h1>
-          Errors
+          <?=stack_string('api_errors')?>
         </h1>
         <br>
+      </div>
+      <div id="overall-results" hidden>
+        <h2>Overall Results</h2>
+        <div id="overall-result">
+        </div>
+        <div id="failed-tests">
+          <h3><?=stack_string('stackInstall_testsuite_failingtests')?></h3>
+        </div>
+        <div id="upgrade-fail">
+          <h3><?=stack_string('stackInstall_testsuite_failingupgrades')?></h3>
+        </div>
+        <div id="no-tests">
+          <h3><?=stack_string('stackInstall_testsuite_notests')?></h3>
+        </div>
+        <div id="no-feedback">
+          <h3><?=stack_string('stackInstall_testsuite_nogeneralfeedback')?></h3>
+        </div>
+        <div id="no-deployed-seeds">
+          <h3><?=stack_string('stackInstall_testsuite_nodeployedseeds')?></h3>
+        </div>
       </div>
     <br>
 

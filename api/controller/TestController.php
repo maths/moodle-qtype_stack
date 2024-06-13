@@ -48,24 +48,6 @@ class TestController {
         $testresponse->name = $question->name;
         $testresponse->filepath = $data['filepath'];
 
-        if (!empty($question->runtimeerrors)) {
-            // The question has not been instantiated successfully, at this level it is likely
-            // a failure at compilation and that means invalid teacher code.
-            throw new \stack_exception(implode("\n", array_keys($question->runtimeerrors)));
-        }
-
-        $upgradeerrors = $question->validate_against_stackversion(null);
-        if ($upgradeerrors != '') {
-            $testresponse->isupgradeerror = true;
-            $testresponse->results = [
-                'noseed' => [
-                    'passes' => null,
-                    'fails' => null,
-                    'messages' => [$upgradeerrors],
-                ]
-            ];
-        }
-
         if (trim($question->generalfeedback) !== '') {
             $testresponse->isgeneralfeedback = true;
         }
@@ -82,35 +64,40 @@ class TestController {
             $testresponse->istests = true;
         }
 
-       if (empty($question->deployedseeds)) {
+        if ($testresponse->israndomvariants && !$testresponse->isdeployedseeds) {
+            $testresponse->results = [];
+            $response->getBody()->write(json_encode($testresponse));
+            return $response->withHeader('Content-Type', 'application/json');
+        } else {
+            StackSeedHelper::initialize_seed($question, $data["seed"]);
+            $question->initialise_question_from_seed();
+        }
+
+        $upgradeerrors = $question->validate_against_stackversion(null);
+        if ($upgradeerrors != '') {
+            $testresponse->isupgradeerror = true;
+            $testresponse->messages = $upgradeerrors;
+            $testresponse->results = [];
+            $response->getBody()->write(json_encode($testresponse));
+            return $response->withHeader('Content-Type', 'application/json');
+        }
+
+        if (empty($question->deployedseeds)) {
             try {
-                StackSeedHelper::initialize_seed($question, $data["seed"]);
-                $question->initialise_question_from_seed();
                 $testresponse->results = [
                     'noseed' => $this->qtype_stack_test_question($question, $testcases, null)
                 ];
             } catch (\stack_exception $e) {
-                $testresponse->results = [
-                    'noseed' => [
-                        'passes' => null,
-                        'fails' => null,
-                        'messages' => stack_string('errors') . ' : ' . $e,
-                    ]
-                ];
+                $testresponse->messages = stack_string('errors') . ' : ' . $e;
+                $testresponse->results = [];
             }
         } else {
-            StackSeedHelper::initialize_seed($question, $data["seed"]);
-            $question->initialise_question_from_seed();
             foreach ($question->deployedseeds as $seed) {
-                // TO-DO Skipped test for when there's no test?
                 try {
                     $testresponse->results[$seed] = $this->qtype_stack_test_question($question, $testcases, $seed);
                 } catch (\stack_exception $e) {
-                    $testresponse->results[$seed] = [
-                        'passes' => null,
-                        'fails' => null,
-                        'messages' => stack_string('errors') . ' : ' . $e,
-                    ];
+                    $testresponse->messages = stack_string('errors') . ' : ' . $e;
+                    $testresponse->results = [];
                 }
             }
         }

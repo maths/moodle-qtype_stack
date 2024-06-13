@@ -29,6 +29,8 @@ class StackTestResponse {
     public $name = '';
     /** @var string */
     public $filepath = '';
+    /** @var string */
+    public $messages = '';
     /** @var bool */
     public $isupgradeerror = false;
     /** @var bool */

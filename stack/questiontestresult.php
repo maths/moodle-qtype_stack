@@ -265,8 +265,12 @@ class stack_question_test_result {
                     'expectedscore' => $state->expectedscore,
                     'expectedpenalty' => $state->expectedpenalty,
                     'expectedanswernote' => $state->expectedanswernote,
-                    'feedback' => $state->feddback,
+                    'feedback' => $state->feedback,
+                    'reason' => $state->reason,
                 ];
+                if (!$state->testoutcome) {
+                    $passed = false;
+                }
             }
         }
         return ['passed' => $passed, 'reason' => $reason, 'outcomes' => $outcomes];

@@ -71,7 +71,8 @@ require_login();
       function send(filepath, questionxml) {
         const http = new XMLHttpRequest();
         requests.push(http);
-        document.getElementById('bulktest_button').setAttribute('disabled', true);
+        document.getElementById('bulktest-button').setAttribute('disabled', true);
+        document.getElementById('bulktest-spinner').removeAttribute('hidden');
         const url = "http://localhost:3080/test";
         http.open("POST", url, true);
         http.setRequestHeader('Content-Type', 'application/json');
@@ -101,10 +102,9 @@ require_login();
             try {
               const json = JSON.parse(http.responseText);
               if (json.error) {
-                resultDiv.innerText = json.error + ' - JSON: ' + http.responseText;
-                resultDiv.innerHTML += '<br><br>';
-                document.getElementById('errors').appendChild(resultDiv);
-                document.getElementById('errors').removeAttribute('hidden');
+                resultDiv.innerHTML = '<p class="feedback failed">' + json.error + ' - JSON: ' + http.responseText + '</p>';
+                const parentDivEl = document.getElementById(filepath);
+                parentDivEl.appendChild(resultDiv);
                 generalErrorArray.push(filepath);
               } else {
                 let resultHtml = '<h3 class="question-title">' + json.name + '</h3>';
@@ -121,7 +121,13 @@ require_login();
                   if (json.istests && json.results[seed].passes !== null) {
                     resultHtml += '<p class="feedback' + ((json.results[seed].fails === 0) ? ' passed' : ' failed') +  '">' + json.results[seed].passes + ' <?=stack_string('api_passes')?>, ' + json.results[seed].fails + ' <?=stack_string('api_failures')?>.</p>';
                     if ((json.results[seed].fails !== 0)) {
-                      failedTestsArray.push({'name': json.name, 'seed': seed, 'filepath': json.filepath});
+                      failedTestsArray.push({'name': json.name, 'seed': seed, 'filepath': json.filepath, 'passes': json.results[seed].passes, 'fails': json.results[seed].fails});
+                      for (const testname in json.results[seed].outcomes) {
+                        const outcome = json.results[seed].outcomes[testname];
+                        if (!outcome.passed && !outcome.reason) {
+                          resultHtml += '<p>' + testname + ' : ' + JSON.stringify(outcome.outcomes) + '</p>';
+                        }
+                      }
                     }
                   }
                   if (json.results[seed].messages) {
@@ -158,7 +164,42 @@ require_login();
 
             requests = requests.filter(req => req !== http);
             if (requests.length === 0) {
-              document.getElementById('bulktest_button').removeAttribute('disabled');
+              let overallPass = true;
+              document.getElementById('bulktest-button').removeAttribute('disabled');
+              document.getElementById('bulktest-spinner').setAttribute('hidden', true);
+              document.getElementById('overall-results').removeAttribute('hidden');
+              const displayUpdate = [
+                                    [noTestsArray, 'no-tests'],
+                                    [noFeedbackArray, 'no-feedback'],
+                                    [upgradeIssueArray, 'upgrade-fail'],
+                                    [noDeployedSeedsArray, 'no-deployed-seeds'],
+                                    [failedTestsArray, 'failed-tests'],
+                                    [generalErrorArray, 'general-error'],
+                                  ]
+              for (const update of displayUpdate) {
+                const targetTitle = document.getElementById(update[1] + '-title')
+                if (update[0].length === 0) {
+                  targetTitle.setAttribute('hidden', true);
+                  continue;
+                }
+                overallPass = false;
+                targetTitle.removeAttribute('hidden');
+                const targetDiv = document.getElementById(update[1]);
+                targetDiv.innerHTML = '';
+                const listEl = document.createElement('ul');
+                for (const issue of update[0]) {
+                  const itemEl = document.createElement('li');
+                  itemEl.innerHTML = issue.filepath
+                  itemEl.innerHTML += (issue.name !== undefined) ? ' : ' + issue.name : '';
+                  itemEl.innerHTML += (issue.seed !== undefined && issue.seed !== 'noseed') ? ' : <?=stack_string('seedx', '')?>' + issue.seed : '';
+                  itemEl.innerHTML += (issue.passes !== undefined) ? ' - (' + issue.passes + ' <?=stack_string('api_passes')?>, ' + issue.fails + ' <?=stack_string('api_failures')?>)' : '';
+                  listEl.appendChild(itemEl);
+                }
+                listEl.replaceChildren(...Array.from(listEl.children).sort((a,b) => a.innerHTML.localeCompare(b.innerHTML)));
+                targetDiv.appendChild(listEl);
+                document.getElementById('overall-result').innerHTML = (overallPass) ?
+                    '<div class="feedback passed"><?=stack_string('stackInstall_testsuite_pass')?></div><br>' : '<div class="feedback failed"><?=stack_string('stackInstall_testsuite_fail')?></div><br>';
+              }
             }
           }
         };
@@ -176,7 +217,11 @@ require_login();
       }
 
       function testFolder() {
-        document.getElementById('bulktest_button').setAttribute('disabled', true);
+        document.getElementById('bulktest-button').setAttribute('disabled', true);
+        document.getElementById('bulktest-spinner').removeAttribute('hidden');
+        document.getElementById('overall-results').setAttribute('hidden', true);
+        document.getElementById('errors').setAttribute('hidden', true);
+        document.getElementById('errors').innerHTML = '<h1><?=stack_string('api_errors')?></h1><br>';
         document.getElementById('output').innerHTML = '';
         requests = [];
         noFeedbackArray = [];
@@ -196,6 +241,15 @@ require_login();
       function sendQuestionsFromFile(filepath, fileContents) {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(fileContents, "text/xml");
+        const errorNode = xmlDoc.querySelector("parsererror");
+        if (errorNode) {
+          const resultDiv = document.createElement("div");
+          resultDiv.innerHTML += '<p class="feedback failed">' + filepath + ': ' + errorNode.innerHTML + '</p><br><br>';
+          document.getElementById('errors').appendChild(resultDiv);
+          document.getElementById('errors').removeAttribute('hidden');
+          generalErrorArray.push(filepath);
+          return;
+        }
         let questions = xmlDoc.getElementsByTagName("question");
         for (const question of questions) {
           if (question.getAttribute('type').toLowerCase() === 'stack') {
@@ -222,36 +276,39 @@ require_login();
           <?=stack_string('api_choose_folder')?>:
         <input type="file" id="local-folder" accept=".xml" name="local-folder" webkitdirectory directory multiple/>
         <div>
-          <input id='bulktest_button' type="button" onclick="testFolder()" class="btn btn-primary" value="Test"/>
+          <button id="bulktest-button" onclick="testFolder()"  class="btn btn-primary" type="button">
+            <span id="bulktest-spinner" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" hidden></span>
+            Test
+          </button>
         </div>
       </div>
       <br>
       <div id='output'>
       </div>
-      <div id='errors' class= 'feedback failed' hidden>
-        <h1>
-          <?=stack_string('api_errors')?>
-        </h1>
-        <br>
+      <div id='errors' hidden>
       </div>
+      <br><br>
       <div id="overall-results" hidden>
-        <h2>Overall Results</h2>
+        <h1>Overall Results</h1>
         <div id="overall-result">
         </div>
+        <h3 id="failed-tests-title"><?=stack_string('stackInstall_testsuite_failingtests')?></h3>
         <div id="failed-tests">
-          <h3><?=stack_string('stackInstall_testsuite_failingtests')?></h3>
         </div>
+        <h3 id="upgrade-fail-title"><?=stack_string('stackInstall_testsuite_failingupgrades')?></h3>
         <div id="upgrade-fail">
-          <h3><?=stack_string('stackInstall_testsuite_failingupgrades')?></h3>
         </div>
+        <h3 id="no-tests-title"><?=stack_string('stackInstall_testsuite_notests')?></h3>
         <div id="no-tests">
-          <h3><?=stack_string('stackInstall_testsuite_notests')?></h3>
         </div>
+        <h3 id="no-feedback-title"><?=stack_string('stackInstall_testsuite_nogeneralfeedback')?></h3>
         <div id="no-feedback">
-          <h3><?=stack_string('stackInstall_testsuite_nogeneralfeedback')?></h3>
         </div>
+        <h3 id="no-deployed-seeds-title"><?=stack_string('stackInstall_testsuite_nodeployedseeds')?></h3>
         <div id="no-deployed-seeds">
-          <h3><?=stack_string('stackInstall_testsuite_nodeployedseeds')?></h3>
+        </div>
+        <h3 id="general-error-title"><?=stack_string('api_general_errors')?></h3>
+        <div id="general-error">
         </div>
       </div>
     <br>

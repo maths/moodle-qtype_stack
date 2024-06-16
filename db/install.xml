@@ -58,10 +58,14 @@
         <FIELD NAME="forbidfloat" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether floating point numbers should be rejected in this input."/>
         <FIELD NAME="requirelowestterms" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether any fractions in the input must be given in lowest terms."/>
         <FIELD NAME="checkanswertype" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Whether the type of the students answer (expression, list, ...) should be validated to ensure it is the same as tans."/>
+        <FIELD NAME="displaytype" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="How Boolean should be displayed."/>
+        <FIELD NAME="choicetype" TYPE="int" LENGTH="3" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="Which type the input should have."/>
+        <FIELD NAME="matrixsize" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="If matrix has fixed or variable size."/>
+        <FIELD NAME="buttontitles" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="What the title of the button should be."/>
         <FIELD NAME="mustverify" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the interpretation of this input must be verified by the student before it is graded."/>
         <FIELD NAME="showvalidation" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="Whether the validation results for this input should be displayed."/>
         <FIELD NAME="options" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Extra options that are interpreted in an input-specific way."/>
-      </FIELDS>
+      </FIELDS> 
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="questionid" TYPE="foreign" FIELDS="questionid" REFTABLE="question" REFFIELDS="id"/>

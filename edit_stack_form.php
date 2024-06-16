@@ -433,6 +433,23 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->addElement('select', $inputname . 'type', stack_string('inputtype'), $this->typechoices);
         $mform->setDefault($inputname . 'type', $this->stackconfig->inputtype);
         $mform->addHelpButton($inputname . 'type', 'inputtype', 'qtype_stack');
+        
+        $mform->addElement('select', $inputname . 'displaytype', stack_string('displaytype') ,stack_options::get_displaytype_options());
+        $mform->setDefault($inputname . 'displaytype', $this->stackconfig->inputdisplaytype);
+        $mform->hideIf($inputname . 'displaytype', $inputname . 'type', 'neq','boolean');  
+
+        $mform->addElement('text', $inputname . 'buttontitles', stack_string('buttontitles') , ['size' => 20]);
+        $mform->setType($inputname . 'buttontitles', PARAM_RAW);
+        $mform->setDefault($inputname . 'buttontitles', '');
+        $mform->hideIf($inputname . 'buttontitles', $inputname . 'type', 'neq', 'boolean');
+
+        $mform->addElement('select', $inputname . 'choicetype', stack_string('choicetype') ,stack_options::get_choicetype_options());
+        $mform->setDefault($inputname . 'choicetype', $this->stackconfig->inputchoicetype);
+        $mform->hideIf($inputname . 'choicetype', $inputname . 'type', 'neq', 'choice'); 
+
+        $mform->addElement('select', $inputname . 'matrixsize', stack_string('matrixsize') ,stack_options::get_matrixsize_options());
+        $mform->setDefault($inputname . 'matrixsize', $this->stackconfig->inputmatrixsize);
+        $mform->hideIf($inputname . 'matrixsize', $inputname . 'type', 'neq', 'matrix'); 
 
         $mform->addElement('text', $inputname . 'modelans', stack_string('teachersanswer'), ['size' => 20]);
         $mform->setType($inputname . 'modelans', PARAM_RAW);
@@ -446,63 +463,63 @@ class qtype_stack_edit_form extends question_edit_form {
         $mform->setType($inputname . 'boxsize', PARAM_INT);
         $mform->addHelpButton($inputname . 'boxsize', 'boxsize', 'qtype_stack');
         $mform->hideIf($inputname . 'boxsize', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean']);
+            ['choice', 'boolean']);
 
         $mform->addElement('select', $inputname . 'insertstars',
                 stack_string('insertstars'), stack_options::get_insert_star_options());
         $mform->setDefault($inputname . 'insertstars', $this->stackconfig->inputinsertstars);
         $mform->addHelpButton($inputname . 'insertstars', 'insertstars', 'qtype_stack');
         $mform->hideIf($inputname . 'insertstars', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes'] );
+            ['choice', 'boolean', 'string', 'notes'] );
 
         $mform->addElement('text', $inputname . 'syntaxhint', stack_string('syntaxhint'), ['size' => 20]);
         $mform->setType($inputname . 'syntaxhint', PARAM_RAW);
         $mform->setDefault($inputname . 'syntaxhint', '');
         $mform->addHelpButton($inputname . 'syntaxhint', 'syntaxhint', 'qtype_stack');
         $mform->hideIf($inputname . 'syntaxhint', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean']);
+            ['choice', 'boolean']);
 
         $mform->addElement('select', $inputname . 'syntaxattribute',
                 stack_string('syntaxattribute'), stack_options::get_syntax_attribute_options());
         $mform->setDefault($inputname . 'syntaxattribute', '0');
         $mform->addHelpButton($inputname . 'syntaxattribute', 'syntaxattribute', 'qtype_stack');
         $mform->hideIf($inputname . 'syntaxattribute', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean']);
+            ['choice', 'boolean']);
 
         $mform->addElement('text', $inputname . 'forbidwords', stack_string('forbidwords'), ['size' => 20]);
         $mform->setType($inputname . 'forbidwords', PARAM_RAW);
         $mform->setDefault($inputname . 'forbidwords', $this->stackconfig->inputforbidwords);
         $mform->addHelpButton($inputname . 'forbidwords', 'forbidwords', 'qtype_stack');
         $mform->hideIf($inputname . 'forbidwords', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes']);
+            ['choice', 'boolean', 'string', 'notes']);
 
         $mform->addElement('text', $inputname . 'allowwords', stack_string('allowwords'), ['size' => 20]);
         $mform->setType($inputname . 'allowwords', PARAM_RAW);
         $mform->setDefault($inputname . 'allowwords', '');
         $mform->addHelpButton($inputname . 'allowwords', 'allowwords', 'qtype_stack');
         $mform->hideIf($inputname . 'allowwords', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes']);
+            ['choice', 'boolean', 'string', 'notes']);
 
         $mform->addElement('selectyesno', $inputname . 'forbidfloat',
                 stack_string('forbidfloat'));
         $mform->setDefault($inputname . 'forbidfloat', $this->stackconfig->inputforbidfloat);
         $mform->addHelpButton($inputname . 'forbidfloat', 'forbidfloat', 'qtype_stack');
         $mform->hideIf($inputname . 'forbidfloat', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes']);
+            ['choice', 'boolean', 'string', 'notes']);
 
         $mform->addElement('selectyesno', $inputname . 'requirelowestterms',
                 stack_string('requirelowestterms'));
         $mform->setDefault($inputname . 'requirelowestterms', $this->stackconfig->inputrequirelowestterms);
         $mform->addHelpButton($inputname . 'requirelowestterms', 'requirelowestterms', 'qtype_stack');
         $mform->hideIf($inputname . 'requirelowestterms', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'string', 'notes']);
+            ['choice', 'boolean', 'string', 'notes']);
 
         $mform->addElement('selectyesno', $inputname . 'checkanswertype',
                 stack_string('checkanswertype'));
         $mform->setDefault($inputname . 'checkanswertype', $this->stackconfig->inputcheckanswertype);
         $mform->addHelpButton($inputname . 'checkanswertype', 'checkanswertype', 'qtype_stack');
         $mform->hideIf($inputname . 'checkanswertype', $inputname . 'type', 'in',
-            ['radio', 'checkbox', 'dropdown', 'boolean', 'textarea', 'equiv', 'string', 'notes']);
+            ['choice', 'boolean', 'textarea', 'equiv', 'string', 'notes']);
 
         $mform->addElement('selectyesno', $inputname . 'mustverify',
                 stack_string('mustverify'));
@@ -749,7 +766,11 @@ class qtype_stack_edit_form extends question_edit_form {
             $question->{$inputname . 'type'}               = $input->type;
             $question->{$inputname . 'modelans'}           = $input->tans;
             $question->{$inputname . 'boxsize'}            = $input->boxsize;
-            // TO-DO: remove this when we delete it from the DB.
+            // TODO: remove this when we delete it from the DB.
+            $question->{$inputname . 'displaytype'}        = $input->displaytype;
+            $question->{$inputname . 'choicetype'}         = $input->choicetype;
+            $question->{$inputname . 'matrixsize'}         = $input->matrixsize;
+            $question->{$inputname . 'buttontitles'}       = $input->buttontitles;
             $question->{$inputname . 'strictsyntax'}       = true;
             $question->{$inputname . 'insertstars'}        = $input->insertstars;
             $question->{$inputname . 'syntaxhint'}         = $input->syntaxhint;
@@ -883,3 +904,4 @@ class qtype_stack_edit_form extends question_edit_form {
         return 'stack';
     }
 }
+ 

@@ -401,4 +401,37 @@ class stack_options {
             return true;
         }
     }
+
+    /**
+     * @return array of choices for the button display type select menu.
+     */
+    public static function get_displaytype_options() {
+        return [
+            '0' => get_string('displaytypedropdown', 'qtype_stack'),
+            '1' => get_string('displaytypeclickbutton', 'qtype_stack'),
+            '2' => get_string('displaytypetogglebutton', 'qtype_stack'),
+        ];
+    }
+
+    /**
+     * @return array of choices for the auswahl display type select menu.
+     */
+    public static function get_choicetype_options() {
+        return [
+            '0' => get_string('choicetypedropdown', 'qtype_stack'),
+            '1' => get_string('choicetypecheckbox', 'qtype_stack'),
+            '2' => get_string('choicetyperadiobuttons', 'qtype_stack'),
+        ];
+    }
+
+    /**
+     * @return array of choices for the auswahl display type select menu.
+     */
+    public static function get_matrixsize_options() {
+        return [
+            '0' => get_string('matrixsizevar', 'qtype_stack'),
+            '1' => get_string('matrixsizefix', 'qtype_stack'),
+        ];
+    }
 }
+ 

@@ -200,6 +200,10 @@ class qtype_stack extends question_type {
             $input->strictsyntax       = true;
             $input->insertstars        = $fromform->{$inputname . 'insertstars'};
             $input->syntaxhint         = $fromform->{$inputname . 'syntaxhint'};
+            $input->displaytype        = $fromform->{$inputname . 'displaytype'};
+            $input->choicetype         = $fromform->{$inputname . 'choicetype'};
+            $input->matrixsize         = $fromform->{$inputname . 'matrixsize'};
+            $input->buttontitles       = $fromform->{$inputname . 'buttontitles'};
             $input->syntaxattribute    = $fromform->{$inputname . 'syntaxattribute'};
             $input->forbidwords        = $fromform->{$inputname . 'forbidwords'};
             $input->allowwords         = $fromform->{$inputname . 'allowwords'};
@@ -416,7 +420,7 @@ class qtype_stack extends question_type {
                 ['questionid' => $question->id], 'name',
                 'name, id, questionid, type, tans, boxsize, strictsyntax, insertstars, ' .
                 'syntaxhint, syntaxattribute, forbidwords, allowwords, forbidfloat, requirelowestterms, ' .
-                'checkanswertype, mustverify, showvalidation, options');
+                'checkanswertype, displaytype, choicetype, matrixsize, buttontitles, mustverify, showvalidation, options');
 
         $question->prts = $DB->get_records('qtype_stack_prts',
                 ['questionid' => $question->id], 'name',
@@ -503,6 +507,10 @@ class qtype_stack extends question_type {
                 'forbidFloats'    => (bool) $inputdata->forbidfloat,
                 'lowestTerms'     => (bool) $inputdata->requirelowestterms,
                 'sameType'        => (bool) $inputdata->checkanswertype,
+                'displayType'     => (int) $inputdata->displaytype,
+                'choiceType'     => (int) $inputdata->choicetype,
+                'matrixSize'     => (int) $inputdata->matrixsize,
+                'buttonTitles'    => $inputdata->buttontitles,
                 'mustVerify'      => (bool) $inputdata->mustverify,
                 'showValidation'  => $inputdata->showvalidation,
                 'options'         => $inputdata->options,
@@ -1269,6 +1277,10 @@ class qtype_stack extends question_type {
             $output .= "      <forbidfloat>{$input->forbidfloat}</forbidfloat>\n";
             $output .= "      <requirelowestterms>{$input->requirelowestterms}</requirelowestterms>\n";
             $output .= "      <checkanswertype>{$input->checkanswertype}</checkanswertype>\n";
+            $output .= "      <displaytype>{$input->displaytype}</displaytype>\n";
+            $output .= "      <choicetype>{$input->choicetype}</choicetype>\n";
+            $output .= "      <matrixsize>{$input->matrixsize}</matrixsize>\n";
+            $output .= "      <buttontitles>{$input->buttontitles}</buttontitles>\n";
             $output .= "      <mustverify>{$input->mustverify}</mustverify>\n";
             $output .= "      <showvalidation>{$input->showvalidation}</showvalidation>\n";
             $output .= "      <options>{$input->options}</options>\n";
@@ -1469,21 +1481,25 @@ class qtype_stack extends question_type {
     protected function import_xml_input($xml, $fromform, qformat_xml $format) {
         $name = $format->getpath($xml, ['#', 'name', 0, '#'], null, false, 'Missing input name in the XML.');
 
-        $fromform->{$name . 'type'}               = $format->getpath($xml, ['#', 'type', 0, '#'], '');
-        $fromform->{$name . 'modelans'}           = $format->getpath($xml, ['#', 'tans', 0, '#'], '');
-        $fromform->{$name . 'boxsize'}            = $format->getpath($xml, ['#', 'boxsize', 0, '#'], 15);
-        $fromform->{$name . 'strictsyntax'}       = $format->getpath($xml, ['#', 'strictsyntax', 0, '#'], 1);
-        $fromform->{$name . 'insertstars'}        = $format->getpath($xml, ['#', 'insertstars', 0, '#'], 0);
-        $fromform->{$name . 'syntaxhint'}         = $format->getpath($xml, ['#', 'syntaxhint', 0, '#'], '');
-        $fromform->{$name . 'syntaxattribute'}    = $format->getpath($xml, ['#', 'syntaxattribute', 0, '#'], 0);
-        $fromform->{$name . 'forbidwords'}        = $format->getpath($xml, ['#', 'forbidwords', 0, '#'], '');
-        $fromform->{$name . 'allowwords'}         = $format->getpath($xml, ['#', 'allowwords', 0, '#'], '');
-        $fromform->{$name . 'forbidfloat'}        = $format->getpath($xml, ['#', 'forbidfloat', 0, '#'], 1);
-        $fromform->{$name . 'requirelowestterms'} = $format->getpath($xml, ['#', 'requirelowestterms', 0, '#'], 0);
-        $fromform->{$name . 'checkanswertype'}    = $format->getpath($xml, ['#', 'checkanswertype', 0, '#'], 0);
-        $fromform->{$name . 'mustverify'}         = $format->getpath($xml, ['#', 'mustverify', 0, '#'], 1);
-        $fromform->{$name . 'showvalidation'}     = $format->getpath($xml, ['#', 'showvalidation', 0, '#'], 1);
-        $fromform->{$name . 'options'}            = $format->getpath($xml, ['#', 'options', 0, '#'], '');
+        $fromform->{$name . 'type'}               = $format->getpath($xml, array('#', 'type', 0, '#'), '');
+        $fromform->{$name . 'modelans'}           = $format->getpath($xml, array('#', 'tans', 0, '#'), '');
+        $fromform->{$name . 'boxsize'}            = $format->getpath($xml, array('#', 'boxsize', 0, '#'), 15);
+        $fromform->{$name . 'strictsyntax'}       = $format->getpath($xml, array('#', 'strictsyntax', 0, '#'), 1);
+        $fromform->{$name . 'insertstars'}        = $format->getpath($xml, array('#', 'insertstars', 0, '#'), 0);
+        $fromform->{$name . 'syntaxhint'}         = $format->getpath($xml, array('#', 'syntaxhint', 0, '#'), '');
+        $fromform->{$name . 'syntaxattribute'}    = $format->getpath($xml, array('#', 'syntaxattribute', 0, '#'), 0);
+        $fromform->{$name . 'forbidwords'}        = $format->getpath($xml, array('#', 'forbidwords', 0, '#'), '');
+        $fromform->{$name . 'allowwords'}         = $format->getpath($xml, array('#', 'allowwords', 0, '#'), '');
+        $fromform->{$name . 'forbidfloat'}        = $format->getpath($xml, array('#', 'forbidfloat', 0, '#'), 1);
+        $fromform->{$name . 'requirelowestterms'} = $format->getpath($xml, array('#', 'requirelowestterms', 0, '#'), 0);
+        $fromform->{$name . 'checkanswertype'}    = $format->getpath($xml, array('#', 'checkanswertype', 0, '#'), 0);
+        $fromform->{$name . 'displaytype'}        = $format->getpath($xml, array('#', 'displaytype', 0, '#'), 0);
+        $fromform->{$name . 'choicetype'}         = $format->getpath($xml, array('#', 'choicetype', 0, '#'), 0);
+        $fromform->{$name . 'matrixsize'}         = $format->getpath($xml, array('#', 'matrixsize', 0, '#'), 0);
+        $fromform->{$name . 'buttontitles'}       = $format->getpath($xml, array('#', 'buttontitles', 0, '#'), '');
+        $fromform->{$name . 'mustverify'}         = $format->getpath($xml, array('#', 'mustverify', 0, '#'), 1);
+        $fromform->{$name . 'showvalidation'}     = $format->getpath($xml, array('#', 'showvalidation', 0, '#'), 1);
+        $fromform->{$name . 'options'}            = $format->getpath($xml, array('#', 'options', 0, '#'), '');
     }
 
     /**
@@ -2523,3 +2539,4 @@ class qtype_stack extends question_type {
         return array_keys($compile['required']);
     }
 }
+ 

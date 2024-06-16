@@ -58,10 +58,94 @@ class stack_boolean_input extends stack_input {
         if ($value === 'EMPTYANSWER') {
             $value = '';
         }
-        return html_writer::select(self::get_choices(), $fieldname,
-                $value, '', $attributes);
-    }
 
+        switch ($this->parameters['displayType']) {
+            case 0:
+                //Default settings
+                $element_complete=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
+                break;
+            case 1: 
+                // 'Click me'-Button
+                $attributes['hidden']='hidden';
+                $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
+
+                array_pop($attributes);
+                $element_button_id = $fieldname . "-button";
+                $attributes['id'] = $element_button_id;
+                $attributes['class'] = 'stack-button stack-clickme-button no-answer hovered';
+                $attributes['type'] = 'button';
+                $attributes['onclick'] = '         
+                    var selectElem = document.getElementsByName("' . $fieldname . '")[0];
+
+                    if (document.getElementById("' . $fieldname . '-button").classList.contains("no-answer")) {
+                        document.getElementById("' . $fieldname . '-button").classList.remove("no-answer");
+                    }
+                    if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
+                        document.getElementsByName("' . $fieldname . '")[0].value = "false";
+                        document.getElementById("' . $fieldname . '-button").classList.remove("boolean-pressed");
+                    } else {
+                        document.getElementsByName("' . $fieldname . '")[0].value = "true";
+                        document.getElementById("' . $fieldname . '-button").classList.add("boolean-pressed");
+                    }';
+                $button_script= '
+                    if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
+                        document.getElementById("' . $fieldname . '-button").classList.remove("no-answer");
+                    }
+                    if (document.getElementsByName("' . $fieldname . '")[0].value == "true") {
+                        document.getElementById("' . $fieldname . '-button").classList.add("boolean-pressed");
+                    }
+                    if (document.getElementById("' . $fieldname . '-button").disabled) {
+                        document.getElementById("' . $fieldname . '-button").classList.remove("hovered");
+                    }
+                ';
+                $element_script = html_writer::tag('script',$button_script);
+                $title = (empty($this->parameters['buttonTitles'])) ? 'Click me' : $this->parameters['buttonTitles'];
+                $element_button = html_writer::tag('button', $title, $attributes); 
+                
+                $element_complete=html_writer::div($element_select . $element_button . $element_script,'stack-parent-toggle-button');
+                break;
+            case 2:
+                //Toggle-Button
+                $attributes['hidden']='hidden';
+                $element_select=html_writer::select(self::get_choices(), $fieldname, $value, '', $attributes);
+
+                array_pop($attributes);
+                $element_button_id = $fieldname . "-button";
+                $attributes['id'] = $element_button_id;
+                $attributes['class'] = 'stack-input-toggle-button';
+                $attributes['type'] = 'checkbox';
+                $attributes['onclick'] = '
+                    if (document.getElementById("stack-button-' . $fieldname . '").classList.contains("no-answer")) {
+                        document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
+                    }
+                    if (document.getElementsByName("' . $fieldname . '")[0].value=="true") {
+                        document.getElementsByName("' . $fieldname . '")[0].value = "false";
+                    } else {
+                        document.getElementsByName("' . $fieldname . '")[0].value = "true";
+                    };
+                ';
+                $button_script= '
+                    if (document.getElementsByName("' . $fieldname . '")[0].value !== "") {
+                        document.getElementById("stack-button-' . $fieldname . '").classList.remove("no-answer");
+                    }
+                    if (document.getElementsByName("' . $fieldname . '")[0].value == "true") {
+                     document.getElementById("' . $fieldname . '-button").checked=true;
+                    }
+                ';
+                $element_script = html_writer::tag('script',$button_script);
+                $element_button = html_writer::tag('input', "<span class='slider'></span><span class='slider-labels' data-on='True' data-off='False'></span>", $attributes);
+                
+                $attributes = [];
+                $attributes['id'] = 'stack-button-'.$fieldname;
+                $attributes['class'] = 'stack-button stack-toggle-button no-answer';
+                $element_label = html_writer::tag('label',$element_button,$attributes);
+                $element_complete=html_writer::div($element_select . $element_label . $element_script,'stack-parent-toggle-button');
+                break;
+            default:
+                echo "This type is not set."; break;
+        }
+        return $element_complete ;
+    }
     public function render_api_data($tavalue) {
         if ($this->errors) {
             throw new stack_exception("Error rendering input: " . implode(',', $this->errors));
@@ -86,9 +170,12 @@ class stack_boolean_input extends stack_input {
      */
     public static function get_parameters_defaults() {
         return [
+            'displayType'     => 0,
+            'buttonTitles'    => '',
             'mustVerify'      => false,
             'showValidation'  => 0,
-            'options'            => '',
+            'options'         => '',
         ];
     }
+
 }

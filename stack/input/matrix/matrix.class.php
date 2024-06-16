@@ -21,14 +21,24 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class stack_matrix_input extends stack_input {
+
     protected $width;
     protected $height;
+
+    protected function get_size(){
+        switch ($this->parameters['matrixSize']){
+            case 0: return 'var'; 
+            case 1: return 'fix';
+            default: echo 'Error: unknown type.'; break;
+        }
+    }
 
     protected $extraoptions = [
         'hideanswer' => false,
         'allowempty' => false,
         'nounits' => false,
         'simp' => false,
+        'rationalized' => false,
         'consolidatesubscripts' => false,
         'checkvars' => 0,
         'validator' => false,
@@ -36,33 +46,39 @@ class stack_matrix_input extends stack_input {
     ];
 
     public function adapt_to_model_answer($teacheranswer) {
+        if ($this->get_size()=='fix'){
+            // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
+            $cs = stack_ast_container::make_from_teacher_source('matrix_size(' . $teacheranswer . ')');
+            $cs->get_valid();
+            $at1 = new stack_cas_session2([$cs], null, 0);
+            $at1->instantiate();
 
-        // Work out how big the matrix should be from the INSTANTIATED VALUE of the teacher's answer.
-        $cs = stack_ast_container::make_from_teacher_source('matrix_size(' . $teacheranswer . ')');
-        $cs->get_valid();
-        $at1 = new stack_cas_session2([$cs], null, 0);
-        $at1->instantiate();
+            if ('' != $at1->get_errors()) {
+                $this->errors[] = $at1->get_errors();
+                return;
+            }
 
-        if ('' != $at1->get_errors()) {
-            $this->errors[] = $at1->get_errors();
-            return;
+            // These are ints...
+            $this->height = $cs->get_list_element(0, true)->value;
+            $this->width = $cs->get_list_element(1, true)->value;
         }
-
-        // These are ints...
-        $this->height = $cs->get_list_element(0, true)->value;
-        $this->width = $cs->get_list_element(1, true)->value;
+        // By default, do nothing.
     }
 
     public function get_expected_data() {
         $expected = [];
 
-        // All the matrix elements.
-        for ($i = 0; $i < $this->height; $i++) {
-            for ($j = 0; $j < $this->width; $j++) {
-                $expected[$this->name . '_sub_' . $i . '_' . $j] = PARAM_RAW;
+        if ($this->get_size()=='fix'){
+            // All the matrix elements.
+            for ($i = 0; $i < $this->height; $i++) {
+                for ($j = 0; $j < $this->width; $j++) {
+                    $expected[$this->name . '_sub_' . $i . '_' . $j] = PARAM_RAW;
+                }
             }
+        } else {
+            // Default
+            $expected[$this->name] = PARAM_RAW; 
         }
-
         // The valdiation will write one CAS string in a
         // hidden input, that is the combination of all the separate inputs.
         if ($this->requires_validation()) {
@@ -79,6 +95,9 @@ class stack_matrix_input extends stack_input {
      *      string if the input is valid - at least according to this test.
      */
     protected function is_blank_response($contents) {
+        if ($contents == ['EMPTYANSWER']) {
+            return true;
+        }
         $allblank = true;
         foreach ($contents as $row) {
             foreach ($row as $val) {
@@ -91,50 +110,89 @@ class stack_matrix_input extends stack_input {
     }
 
     /**
-     * Converts the input passed in via many input elements into a raw Maxima matrix
+     * Converts the input passed in via many input elements into a raw Maxima matrix for fixed size
      *
-     * @param string $in
+     * Transforms the student's response input into an array. For variable size
+     * Most return the same as went in.
+     * 
+     * @param array|string $in
      * @return string
      * @access public
      */
     public function response_to_contents($response) {
-        // At the start of an attempt we will have a completely blank matrix.
-        // This must be spotted and a blank attempt returned.
         $allblank = true;
-
         $matrix = [];
-        for ($i = 0; $i < $this->height; $i++) {
-            $row = [];
-            for ($j = 0; $j < $this->width; $j++) {
-                $element = '';
-                if (array_key_exists($this->name . '_sub_' . $i . '_' . $j, $response)) {
-                    $element = trim($response[$this->name . '_sub_' . $i . '_' . $j]);
-                }
-                if ('' == $element) {
-                    $element = '?';  // Ensures all matrix elements have something non-empty.
-                } else {
-                    $allblank = false;
-                }
-                $row[] = $element;
-            }
-            $matrix[] = $row;
-        }
 
-        // We need to build a special definitely blank matrix of the correct shape.
-        if ($allblank && $this->get_extra_option('allowempty')) {
-            $matrix = [];
+        if ($this->get_size()=='fix') {
+            // At the start of an attempt we will have a completely blank matrix.
+            // This must be spotted and a blank attempt returned.
             for ($i = 0; $i < $this->height; $i++) {
                 $row = [];
                 for ($j = 0; $j < $this->width; $j++) {
-                    $row[] = 'null';
+                    $element = '';
+                    if (array_key_exists($this->name . '_sub_' . $i . '_' . $j, $response)) {
+                        $element = trim($response[$this->name . '_sub_' . $i . '_' . $j]);
+                    }
+                    if ('' == $element) {
+                        $element = '?';  // Ensures all matrix elements have something non-empty.
+                    } else {
+                        $allblank = false;
+                    }
+                    $row[] = $element;
                 }
                 $matrix[] = $row;
+            }
+
+            // We need to build a special definitely blank matrix of the correct shape.
+            if ($allblank && $this->get_extra_option('allowempty')) {
+                $matrix = [];
+                for ($i = 0; $i < $this->height; $i++) {
+                    $row = [];
+                    for ($j = 0; $j < $this->width; $j++) {
+                        $row[] = 'null';
+                    }
+                    $matrix[] = $row;
+                }
+            }
+        } 
+        if ($this->get_size()=='var') {
+            if (array_key_exists($this->name, $response)) {
+                $sans = $response[$this->name];
+                $rowsin = explode("\n", $sans);
+                foreach ($rowsin as $key => $row) {
+                    $cleanrow = trim($row);
+                    if ($cleanrow !== '') {
+                        $matrix[] = $cleanrow;
+                    }
+                }
+            }
+            // Transform into lists.
+            $maxlen = 0;
+            foreach ($matrix as $key => $row) {
+                $entries = preg_split('/\s+/', $row);
+                $maxlen = max(count($entries), $maxlen);
+                $matrix[$key] = $entries;
+            }
+
+            foreach ($matrix as $key => $row) {
+                // Pad out short rows.
+                $padrow = [];
+                for ($i = 0; $i < ($maxlen - count($row)); $i++) {
+                    $row[] = '?';
+                }
+                $matrix[$key] = array_merge($row, $padrow);
+            }
+            if ($matrix == [] && $this->get_extra_option('allowempty')) {
+                $matrix = ['EMPTYANSWER'];
             }
         }
         return $matrix;
     }
 
     public function contents_to_maxima($contents) {
+        if ($contents == ['EMPTYANSWER']) {
+            return 'matrix(EMPTYCHAR)';
+        }
         $matrix = [];
         foreach ($contents as $row) {
             $matrix[] = '['.implode(',', $row).']';
@@ -191,27 +249,31 @@ class stack_matrix_input extends stack_input {
 
         // Now validate the input as CAS code.
         $modifiedcontents = [];
-        foreach ($contents as $row) {
-            $modifiedrow = [];
-            $inertrow = [];
-            foreach ($row as $val) {
-                $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
-                    [], 'Root', $this->options->get_option('decimals'));
-                if ($answer->get_valid()) {
-                    $modifiedrow[] = $answer->get_inputform();
-                } else {
-                    $modifiedrow[] = 'EMPTYANSWER';
-                }
-                $valid = $valid && $answer->get_valid();
-                $errors[] = $answer->get_errors();
-                $note = $answer->get_answernote(true);
-                if ($note) {
-                    foreach ($note as $n) {
-                        $notes[$n] = true;
+        if ($contents == ['EMPTYANSWER']) {
+            $modifiedcontents = $contents;
+        } else {
+            foreach ($contents as $row) {
+                $modifiedrow = [];
+                $inertrow = [];
+                foreach ($row as $val) {
+                    $answer = stack_ast_container::make_from_student_source($val, '', $secrules, $filterstoapply,
+                        [], 'Root', $this->options->get_option('decimals'));
+                    if ($answer->get_valid()) {
+                        $modifiedrow[] = $answer->get_inputform();
+                    } else {
+                        $modifiedrow[] = 'EMPTYCHAR';
+                    }
+                    $valid = $valid && $answer->get_valid();
+                    $errors[] = $answer->get_errors();
+                    $note = $answer->get_answernote(true);
+                    if ($note) {
+                        foreach ($note as $n) {
+                            $notes[$n] = true;
+                        }
                     }
                 }
+                $modifiedcontents[] = $modifiedrow;
             }
-            $modifiedcontents[] = $modifiedrow;
         }
         // Construct one final "answer" as a single maxima object.
         // In the case of matrices (where $caslines are empty) create the object directly here.
@@ -249,23 +311,52 @@ class stack_matrix_input extends stack_input {
             return $this->render_error($this->errors);
         }
 
+        // Note that at the moment, $this->boxHeight and $this->boxWidth are only
+        // used as minimums. If the current input is bigger, the box is expanded.
+        $size = $this->parameters['boxWidth'] * 0.9 + 0.1;
+        $attributes = [
+            'name'           => $fieldname,
+            'id'             => $fieldname,
+            'autocapitalize' => 'none',
+            'spellcheck'     => 'false',
+            'class'          => 'varmatrixinput',
+            'size'           => $this->parameters['boxWidth'] * 1.1,
+            'style'          => 'width: '.$size.'em',
+        ];
+
+        $attr='';
+        if ($readonly) {
+            $attributes['readonly'] = 'readonly';
+            $attr = ' readonly';
+        }
+
         $tc = $state->contents;
         $blank = $this->is_blank_response($state->contents);
         $useplaceholder = false;
         if ($blank) {
-            $syntaxhint = $this->parameters['syntaxHint'];
-            if (trim($syntaxhint) != '') {
-                $tc = $this->maxima_to_array($syntaxhint);
-                if ($this->parameters['syntaxAttribute'] == '1') {
-                    $useplaceholder = true;
+            if ($this->get_size()=='fix') {
+                $syntaxhint = $this->parameters['syntaxHint'];
+                if (trim($syntaxhint) != '') {
+                    $tc = $this->maxima_to_array($syntaxhint);
+                    if ($this->parameters['syntaxAttribute'] == '1') {
+                        $useplaceholder = true;
+                    }
+                    $blank = false;
                 }
-                $blank = false;
+            } 
+            if ($this->get_size()=='var') {
+                $current = $this->maxima_to_raw_input($this->parameters['syntaxHint']);
+                if ($this->parameters['syntaxAttribute'] == '1') {
+                    $attributes['placeholder'] = $current;
+                    $current = '';
+                }
+            } 
+        } elseif ($this->get_size()=='var') {
+            $current = [];
+            foreach ($state->contents as $row) {
+                $current[] = implode(" ", $row);
             }
-        }
-
-        $attr = ' autocapitalize="none" spellcheck="false"';
-        if ($readonly) {
-            $attr .= ' readonly="readonly"';
+            $current = implode("\n", $current);
         }
 
         // Read matrix bracket style from options.
@@ -278,49 +369,67 @@ class stack_matrix_input extends stack_input {
         } else if ($matrixparens == '') {
             $matrixbrackets = 'matrixnobrackets';
         }
-        // Build the html table to contain these values.
-        $xhtml = '<div class="' . $matrixbrackets . '"><table class="matrixtable" id="' . $fieldname .
-                '_container" style="display:inline; vertical-align: middle;" ' .
-                'cellpadding="1" cellspacing="0"><tbody>';
-        for ($i = 0; $i < $this->height; $i++) {
-            $xhtml .= '<tr>';
-            if ($i == 0) {
-                $xhtml .= '<td style="padding-top: 0.5em">&nbsp;</td>';
-            } else if ($i == ($this->height - 1)) {
-                $xhtml .= '<td>&nbsp;</td>';
-            } else {
-                $xhtml .= '<td>&nbsp;</td>';
-            }
-
-            for ($j = 0; $j < $this->width; $j++) {
-                $val = '';
-                if (!$blank) {
-                    $val = trim($tc[$i][$j]);
+        if ($this->get_size()=='fix') {
+            // Build the html table to contain these values.
+            $xhtml = '<div class="' . $matrixbrackets . '"><table class="matrixtable" id="' . $fieldname .
+                    '_container" style="display:inline; vertical-align: middle;" ' .
+                    'cellpadding="1" cellspacing="0"><tbody>';
+            for ($i = 0; $i < $this->height; $i++) {
+                $xhtml .= '<tr>';
+                if ($i == 0) {
+                    $xhtml .= '<td style="padding-top: 0.5em">&nbsp;</td>';
+                } else if ($i == ($this->height - 1)) {
+                    $xhtml .= '<td>&nbsp;</td>';
+                } else {
+                    $xhtml .= '<td>&nbsp;</td>';
                 }
-                if ($val === 'null' || $val === 'EMPTYANSWER') {
+
+                for ($j = 0; $j < $this->width; $j++) {
                     $val = '';
+                    if (!$blank) {
+                        $val = trim($tc[$i][$j]);
+                    }
+                    if ($val === 'null' || $val === 'EMPTYANSWER') {
+                        $val = '';
+                    }
+                    $field = 'value';
+                    if ($useplaceholder) {
+                        $field = 'placeholder';
+                    }
+                    $name = $fieldname.'_sub_'.$i.'_'.$j;
+                    $xhtml .= '<td><input type="text" id="'.$name.'" name="'.$name.'" '.$field.'="'.$val.'" size="'.
+                            $this->parameters['boxWidth'].'" autocapitalize="none" spellcheck="false" '.$attr.'></td>';
+    
                 }
-                $field = 'value';
-                if ($useplaceholder) {
-                    $field = 'placeholder';
-                }
-                $name = $fieldname.'_sub_'.$i.'_'.$j;
-                $xhtml .= '<td><input type="text" id="'.$name.'" name="'.$name.'" '.$field.'="'.$val.'" size="'.
-                        $this->parameters['boxWidth'].'"'.$attr.'></td>';
-            }
 
-            if ($i == 0) {
-                $xhtml .= '<td style="padding-top: 0.5em">&nbsp;</td>';
-            } else if ($i == ($this->height - 1)) {
-                $xhtml .= '<td style="padding-bottom: 0.5em">&nbsp;</td>';
-            } else {
-                $xhtml .= '<td>&nbsp;</td>';
+                if ($i == 0) {
+                    $xhtml .= '<td style="padding-top: 0.5em">&nbsp;</td>';
+                } else if ($i == ($this->height - 1)) {
+                    $xhtml .= '<td style="padding-bottom: 0.5em">&nbsp;</td>';
+                } else {
+                    $xhtml .= '<td>&nbsp;</td>';
+                }
+                $xhtml .= '</tr>';
             }
-            $xhtml .= '</tr>';
+            $xhtml .= '</tbody></table></div>';
+            return $xhtml;
         }
-        $xhtml .= '</tbody></table></div>';
 
-        return $xhtml;
+        if ($this->get_size()=='var') {
+            // Sort out size of text area.
+            $sizecontent = $current;
+            $rows = stack_utils::list_to_array($sizecontent, false);
+            $attributes['rows'] = max(5, count($rows) + 1);
+
+            $boxwidth = $this->parameters['boxWidth'];
+            foreach ($rows as $row) {
+                $boxwidth = max($boxwidth, strlen($row) + 5);
+            }
+            $attributes['cols'] = $boxwidth;
+
+            $xhtml = html_writer::tag('textarea', htmlspecialchars($current, ENT_COMPAT), $attributes);
+            return html_writer::tag('div', $xhtml, ['class' => $matrixbrackets]);
+        }
     }
 
     public function render_api_data($tavalue) {
@@ -331,11 +440,17 @@ class stack_matrix_input extends stack_input {
         $data = [];
 
         $data['type'] = 'matrix';
+        $data['boxWidth'] = $this->parameters['boxWidth'];
+        $data['width'] = $this->width;
+        $data['height'] = $this->height;
 
         $syntaxhint = $this->parameters['syntaxHint'];
         $data['syntaxHint'] = null;
         if (trim($syntaxhint) != '') {
             $data['syntaxHint'] = $this->maxima_to_array($syntaxhint);
+        }
+        if ($this->get_size()=='var'){
+            $data['syntaxHint'] = $this->maxima_to_raw_input($syntaxhint);
         }
 
         // Read matrix bracket style from options.
@@ -350,9 +465,6 @@ class stack_matrix_input extends stack_input {
         }
 
         $data['matrixbrackets'] = $matrixbrackets;
-        $data['boxWidth'] = $this->parameters['boxWidth'];
-        $data['width'] = $this->width;
-        $data['height'] = $this->height;
 
         return $data;
     }
@@ -367,17 +479,21 @@ class stack_matrix_input extends stack_input {
     public function maxima_to_response_array($in) {
         $response = [];
         $tc = $this->maxima_to_array($in);
-
-        for ($i = 0; $i < $this->height; $i++) {
-            for ($j = 0; $j < $this->width; $j++) {
-                $val = trim($tc[$i][$j]);
-                if ('?' == $val) {
-                    $val = '';
+        
+        if ($this->get_size()=='fix') {
+            for ($i = 0; $i < $this->height; $i++) {
+                for ($j = 0; $j < $this->width; $j++) {
+                    $val = trim($tc[$i][$j]);
+                    if ('?' == $val) {
+                        $val = '';
+                    }
+                    $response[$this->name.'_sub_'.$i.'_'.$j] = $val;
                 }
-                $response[$this->name.'_sub_'.$i.'_'.$j] = $val;
             }
         }
-
+        if ($this->get_size()=='var') {
+            $response[$this->name] = $this->maxima_to_raw_input($in);
+        }
         if ($this->requires_validation()) {
             $response[$this->name . '_val'] = $in;
         }
@@ -407,8 +523,10 @@ class stack_matrix_input extends stack_input {
             'allowWords'         => '',
             'forbidFloats'       => true,
             'lowestTerms'        => true,
-            'sameType'           => true,
+            // This looks odd, but the teacher's answer is a list and the student's a matrix.
+            'sameType'           => false, 
             'options'            => '',
+            'matrixSize'         => 0,
         ];
     }
 
@@ -455,25 +573,16 @@ class stack_matrix_input extends stack_input {
         }
         $response = $this->maxima_to_response_array($value);
 
-        // Once we have the correct array, within the array, use the correct decimal separator.
-        $decimal = '.';
-        $listsep = ',';
-        if ($this->options->get_option('decimals') === ',') {
-            $decimal = ',';
-            $listsep = ';';
+        if ($this->get_size()=='var') {
+            return $response;
         }
-        $params = [
-            'checkinggroup' => true,
-            'qmchar' => false,
-            'pmchar' => 1,
-            'nosemicolon' => true,
-            'keyless' => true,
-            'dealias' => false, // This is needed to stop pi->%pi etc.
-            'nounify' => 0,
-            'nontuples' => false,
-            'decimal' => $decimal,
-            'listsep' => $listsep,
-        ];
+
+        // Once we have the correct array, within the array, use the correct decimal separator.
+        if ($this->options->get_option('decimals') === ',') {
+            $params['decimal'] = ',';
+            $params['listsep'] = ';';
+        }
+
         foreach ($response as $ckey => $cell) {
             $cs = stack_ast_container::make_from_teacher_source($cell, '', new stack_cas_security(), []);
             $cs->set_nounify(0);
@@ -495,22 +604,26 @@ class stack_matrix_input extends stack_input {
      * @return array
      */
     protected function ajax_to_response_array($in) {
-
-        $tc = json_decode($in);
-        for ($i = 0; $i < $this->height; $i++) {
-            for ($j = 0; $j < $this->width; $j++) {
-                $val = trim($tc[$i][$j]);
-                if ('?' == $val) {
-                    $val = '';
+        if ($this->get_size()=='fix') {
+            $tc = json_decode($in);
+            for ($i = 0; $i < $this->height; $i++) {
+                for ($j = 0; $j < $this->width; $j++) {
+                    $val = trim($tc[$i][$j]);
+                    if ('?' == $val) {
+                        $val = '';
+                    }
+                    $response[$this->name.'_sub_'.$i.'_'.$j] = $val;
                 }
-                $response[$this->name.'_sub_'.$i.'_'.$j] = $val;
             }
-        }
 
-        if ($this->requires_validation()) {
-            $response[$this->name . '_val'] = $in;
+            if ($this->requires_validation()) {
+                $response[$this->name . '_val'] = $in;
+            }
+            return $response;
         }
-        return $response;
+        $in = explode('<br>', $in);
+        $in = implode("\n", $in);
+        return [$this->name => $in];
     }
 
     /**
@@ -602,4 +715,59 @@ class stack_matrix_input extends stack_input {
 
         return $solution;
     }
+
+    protected function caslines_to_answer($caslines, $secrules = false) {
+        if ($this->get_size()=='fix') {
+            //do default 
+            if (array_key_exists(0, $caslines)) {
+                return $caslines[0];
+            }
+            throw new stack_exception('caslines_to_answer could not create the answer.');
+        }
+        $vals = [];
+        foreach ($caslines as $line) {
+            if ($line->get_valid()) {
+                $vals[] = $line->get_inputform();
+            } else {
+                // This is an empty place holder for an invalid expression.
+                $vals[] = 'EMPTYCHAR';
+            }
+        }
+        $s = 'matrix('.implode(',', $vals).')';
+        if (!$secrules) {
+            $secrules = $caslines[0]->get_securitymodel();
+        }
+        return stack_ast_container::make_from_student_source($s, '', $secrules);
+    }
+
+    /**
+     * Transforms a Maxima list into raw input.
+     *
+     * @param string $in
+     * @return string
+     */
+    private function maxima_to_raw_input($in) {
+        $decimal = '.';
+        $listsep = ',';
+        if ($this->options->get_option('decimals') === ',') {
+            $decimal = ',';
+            $listsep = ';';
+        }
+        $tostringparams = [
+            'inputform' => true,
+            'qmchar' => true,
+            'pmchar' => 0,
+            'nosemicolon' => true,
+            'dealias' => false, // This is needed to stop pi->%pi etc.
+            'nounify' => true,
+            'nontuples' => false,
+            'varmatrix' => true,
+            'decimal' => $decimal,
+            'listsep' => $listsep
+        ];
+        $cs = stack_ast_container::make_from_teacher_source($in);
+        return $cs->ast_to_string(null, $tostringparams);
+    }
+
 }
+ 

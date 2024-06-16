@@ -110,6 +110,17 @@ But this question text causes no issues:
     <div>[[validation:ans1]]</div>
     <div>[[validation:ans2]]</div>
 
+### multilang in PRTs with several nodes
+
+The multilang filter also works for the feedback texts in PRT nodes. However, as reported in [Issue #940](https://github.com/maths/moodle-qtype_stack/issues/940), STACK simply concatenates these texts, such that multiple multilang instructions from different PRT nodes can end up right next to each other. In such a situation, the multilang filter cannot determine that the author meant all of them to be printed. For the Moodle multilang filter, what STACK returns will look like this:
+
+    <span lang="en" class="multilang">English feedback from PRT node 1</span>
+    <span lang="de" class="multilang">German feedback from PRT node 1</span>
+    <span lang="en" class="multilang">English feedback from PRT node 2</span>
+    <span lang="de" class="multilang">German feedback from PRT node 2</span>
+
+The multilang filter will assume all of these belong together and will only display the feedback from PRT node 2. To fix this, you can use anything which tells the multilang filter to start a new block, like enclosing the `<span>` tag in a paragraph (`<p>`), using a line break (`<br>`), a non-breaking space (`&nbsp;`), or a zero-width space (`&#x200b0;`).
+
 ### Changing STACK's language
 
 If you have written a multilingual question, and a student wants to see it in a certain language, they have to change their preferred language. In Moodle, this is done by clicking on their profile, and then going to `Preferences`, ` Preferred language` and selecting the language. This will not only change the language of all question text (where multilingual blocks have been used), but also the language of the default Moodle and STACK interface (if this translation is available). The specific language pack has to be installed on your server by the server administrator to allow this. More information is available in the developer docs under [Translating STACK](../Developer/Language_packs.md).

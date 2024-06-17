@@ -204,7 +204,7 @@ tril(M):= block([imax,jmax],
  * @param[matrix] M An mxn matrix
  * @return[matrix] The same matrix with all off-diagonal entries set to 0
  */
-get_diag(M):= block([imax,jmax],
+diagonal(M):= block([imax,jmax],
   if not(matrixp(M)) then return(M),
   [imax, jmax]: ev(matrix_size(M),simp),
   return(genmatrix(lambda([ii, jj], if is(ii=jj) then M[ii,jj] else 0), imax, jmax))
@@ -430,7 +430,7 @@ diagonalisablep(M):= if squarep(M) then ev(diagp(dispJordan(jordan(M))),simp) el
  * @param[matrix] M a matrix
  * @return[boolean] Is M a symmetric matrix?
  */
-sym_p(M):= if squarep(M) then is(M = ev(transpose(M),simp)) else false; 
+symp(M):= if squarep(M) then is(M = ev(transpose(M),simp)) else false; 
 
 /** 
  * Is a given object an invertible matrix?
@@ -551,7 +551,7 @@ lin_indp(ex):= block(
  * @param[matrix] ta a mxn matrix
  * @return[boolean] Are ex and ta row equivalent?
  */
-row_equiv(ex,ta):= block(
+row_equivp(ex,ta):= block(
   if matrixp(ex) and matrixp(ta) then (
     return(is(ev(rref(ex),simp) = ev(rref(ta),simp)))
   )
@@ -565,7 +565,7 @@ row_equiv(ex,ta):= block(
  * @param[matrix] ta a mxn matrix
  * @return[boolean] Are ex and ta column equivalent?
  */
-col_equiv(ex,ta):= row_equiv(transpose(ex),transpose(ta));
+col_equivp(ex,ta):= row_equivp(transpose(ex),transpose(ta));
 
 /**
  * Given two lists of lists, determine whether they span the same subspace.
@@ -576,7 +576,7 @@ col_equiv(ex,ta):= row_equiv(transpose(ex),transpose(ta));
  * @param[list] ta A list of lists. Each sub-list must be the same length
  * @return[boolean] Do the two lists of vectors span the same subspace?
  */
-subspace_equiv(ex,ta):= block([ex_rref,ta_rref],
+subspace_equivp(ex,ta):= block([ex_rref,ta_rref],
   ex_rref: errcatch(ev(sublist(args(rref(apply(matrix,ex))),lambda([ex2],not(every(lambda([ex3],is(ex3=0)),ex2)))),simp)),
   if emptyp(ex_rref) then return(false) else ex_rref: first(ex_rref),
   ta_rref: errcatch(ev(sublist(args(rref(apply(matrix,ta))),lambda([ta2],not(every(lambda([ta3],is(ta3=0)),ta2)))),simp)),
@@ -660,7 +660,7 @@ get_eigenvector(L,M,[orthonormalise]):= block([evals,evects,ii],
   ii:ev(first(sublist_indices(first(evals),lambda([ex],is(ex=L)))),simp),
   vecs: evects[ii],
   if orthonormalise then vecs: ev(map(lambda([ex],ex/sqrt(ex.ex)),gramschmidt(vecs)),simp)
-  else vecs: map(integerify,vecs),
+  else vecs: map(scale_nicely,vecs),
   return( map(transpose,vecs) )
 );
 
@@ -826,13 +826,8 @@ basisify(M,[orth]):= block([ex_op,m,n,vecs,new_vecs,ii],
  * @param[list] ex A list of numbers
  * @return[number] The greatest common divisor of all elements in ex
  */
-lgcd(ex):= block([ex_gcd,ii],
-  ex_gcd: first(ex),
-  for ii: 2 thru length(ex) do block(
-    ii: ev(ii,simp),
-    ex_gcd: gcd(ex_gcd,ex[ii])
-  ),
-  return(ex_gcd)
+lgcd(ex):= block([],
+  return(lreduce(lambda([ex1,ex2],gcd(ex1,ex2)),ex))
 );
 
 /**
@@ -843,7 +838,7 @@ lgcd(ex):= block([ex_gcd,ii],
  * @param[matrix or list] v a list or a Mx1 or 1xN matrix
  * @return[matrix or list] v, but scaled by a constant such that all entries are the smallest possible integers
  */
-integerify(v):= block([v_op],
+scale_nicely(v):= block([v_op],
   v_op: "list",
   if vectorp(v) then (v_op: "matrix", v: list_matrix_entries(v)),
   tmp: ev(lgcd(v),simp),
@@ -1014,6 +1009,43 @@ vector_parametric_display(parts):= block([simp],
   return(sconcat(tex1(cons_vec),"+",tex1(apply("+", zip_with("*", vars, dir_vecs)))))
 );
 
+/**
+ * Is a given point in a given affine subspace (e.g. a line, plane, etc)?
+ * Intended for use with vector_parametric_parts function
+ * 
+ * @param[matrix] p The point of interest
+ * @param[list] parts The output of vector_parametric_parts. This is a three-element list of the form [constant_vector, [list of direction vectors], [list of parameters]]. All vectors should be mx1 matrices. The third element can be omitted if building the list manually.
+ * @return[boolean] Is p in the affine subspace?
+ */
+point_in_affine_spacep(p,parts):= block([simp:true],
+  cons_vec: first(parts),
+  dir_vecs: second(parts),
+  if is(length(parts)>2) then vars: third(parts) else vars: rest(stack_var_makelist(tmp,length(dir_vecs))),
+  errcatch(
+    eqns: list_matrix_entries(cons_vec - p + apply("+", zip_with("*", vars, dir_vecs))),
+    soln: linsolve(eqns,vars)
+  ), 
+  if listp(soln) then if is(length(soln)>0) then return(true) else return(false)
+);
+
+/**
+ * Is a given vector in a given subspace?
+ * If v is a zero vector, returns false by default as the intended use case is determining whether a given DIRECTION vector is in a subspace.
+ * 
+ * @param[matrix] v The vector of interest
+ * @param[list] dir_vecs A list of mx1 matrices that span the subspace. Does not need to be a basis.
+ * @param[boolean] allow_zero Optional: If given true, then the zero vector will return true, otherwise zero vectors will return false
+ * @return[boolean] Is v in the subspace?
+ */
+vector_in_spacep(v,dir_vecs,[allow_zero]):= block([simp:true,is_dep:false],
+  if emptyp(allow_zero) then allow_zero: false else allow_zero: first(allow_zero),
+  if zeromatrixp(v) then return(allow_zero),
+  errcatch(
+    is_dep: is(rank(mat_unblocker(matrix(dir_vecs)))=rank(mat_unblocker(matrix(append(dir_vecs,[v])))))
+  ),
+  return(is_dep)
+); 
+
 /*********************************************************************************/
 /* Matrix factorisations                                                         */
 /*********************************************************************************/
@@ -1074,7 +1106,7 @@ get_Jordan_form(M):= block([jordan_info,J,P],
 diagonalise(M):= block([P,D],
   if not(squarep(M)) then return([]),
   [P, D]: get_Jordan_form(M),
-  if sym_p(M) then P: ev(transpose(apply(matrix,map(lambda([ex],ex/sqrt(ex.ex)),args(transpose(P))))),simp),
+  if symp(M) then P: ev(transpose(apply(matrix,map(lambda([ex],ex/sqrt(ex.ex)),args(transpose(P))))),simp),
   if diagp(D) then return([P,D]) else return([])
 );
 

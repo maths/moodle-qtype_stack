@@ -254,6 +254,9 @@
       "function": "s",
       "variable": "s"
   },
+  "EMPTYANSWER": {
+      "variable": "s"
+  },
   "EMPTYCHAR": {
       "variable": "s"
   },

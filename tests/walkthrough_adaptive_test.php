@@ -4723,4 +4723,67 @@ class walkthrough_adaptive_test extends qtype_stack_walkthrough_test_base {
         // This vaidation output is the result of a texput command with a lambda function.
         $this->assert_content_with_maths_contains('\\frac{x}{y}', $this->currentoutput);
     }
+
+    public function test_input_validator_ordergreat() {
+        $q = test_question_maker::make_question('stack', 'ordergreat');
+        $this->start_attempt_at_question($q, 'adaptive', 1);
+
+        // Check the initial state.
+        $this->check_current_state(question_state::$todo);
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+        $this->check_output_contains_text_input('ansq');
+        $this->check_output_does_not_contain_input_validation();
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->check_current_output(
+            new question_pattern_expectation('/What is/'),
+            $this->get_does_not_contain_feedback_expectation(),
+            $this->get_does_not_contain_num_parts_correct(),
+            $this->get_no_hint_visible_expectation()
+            );
+        $this->assert_content_with_maths_contains('\({3\cdot x+5\cdot y=1}\)', $this->currentoutput);
+
+        // Process a validate request.
+        $ia = '7*y+3*x=1';
+        $this->process_submission(['ansq' => $ia, '-submit' => 1]);
+
+        $this->check_current_mark(null);
+        $this->check_prt_score('firsttree', null, null);
+        $this->render();
+
+        // Check order of variables in validation of answer matches what students type.
+        $expected = 'Seed: 1; ansq: 7*y+3*x=1 [valid]; firsttree: !';
+        $this->check_response_summary($expected);
+        $this->check_output_contains_text_input('ansq', $ia);
+        $this->check_output_contains_input_validation('ansq');
+        $this->check_output_does_not_contain_prt_feedback();
+        $this->check_output_does_not_contain_stray_placeholders();
+        $this->assert_content_with_maths_contains('\[ 7\cdot y+3\cdot x=1', $this->currentoutput);
+        // Checks {@pi@} is the value of the constant.
+        $this->assert_content_with_maths_contains('\({3.1416}\)', $this->currentoutput);
+
+        // Jump to score requests for different answers.
+        $ia = '7*y+3*x=1';
+        $this->process_submission(['ansq' => $ia, 'ansq_val' => $ia, '-submit' => 1]);
+        $this->render();
+        $this->assert_content_with_maths_contains('\[ 7\cdot y+3\cdot x=1', $this->currentoutput);
+        $expected = 'Seed: 1; ansq: 7*y+3*x=1 [score]; firsttree: # = 0 | ATCASEqual_false. | firsttree-0-0';
+        $this->check_response_summary($expected);
+
+        $ia = '5*y+3*x=1';
+        $this->process_submission(['ansq' => $ia, 'ansq_val' => $ia, '-submit' => 1]);
+        $this->render();
+        $this->assert_content_with_maths_contains('\[ 5\cdot y+3\cdot x=1', $this->currentoutput);
+        $expected = 'Seed: 1; ansq: 5*y+3*x=1 [score]; firsttree: # = 0 | ATCASEqual (AlgEquiv-true)ATEquation_sides. | firsttree-0-0';
+        $this->check_response_summary($expected);
+
+        $ia = '3*x+5*y=1';
+        $this->process_submission(['ansq' => $ia, 'ansq_val' => $ia, '-submit' => 1]);
+        $this->render();
+        $this->assert_content_with_maths_contains('\[ 3\cdot x+5\cdot y=1', $this->currentoutput);
+        $expected = 'Seed: 1; ansq: 3*x+5*y=1 [score]; firsttree: # = 1 | ATCASEqual_true. | firsttree-0-1';
+        $this->check_response_summary($expected);
+    }
 }

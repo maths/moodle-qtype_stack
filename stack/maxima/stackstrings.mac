@@ -228,7 +228,7 @@ stackjson_stringify(obj) := block([tmp,r,l],
  /* Prior code: `r : sconcat("\"",simplode(map(stackjson_protect_escapes, charlist(obj))),"\"")` */
  /* However, there is evidence showing that this code is quadratic and that the batch optimisation helps to alleviate this. */
  /* See here: https://docs.stack-assessment.org/en/Developer/Optimising_STACK_for_large_Maxima_variables/ for more details. */
- else if stringp(obj) then block([char_list],
+ else if stringp(obj) then block([char_list, batch_size, i, j],
   /* Create character list with escapes protected */
   char_list: map(stackjson_protect_escapes, charlist(obj)),
   /* Set batch size to 64, which is inferred from the maximum function argument limit in GCL-compiled Lisp. Other compilations (e.g., SBCL) are less limited in this respect. */

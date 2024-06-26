@@ -47,6 +47,7 @@ stack_reset(not_used) := block(
   Pi: %pi,
   PI: %pi,
   pi() := %pi,         /* Why does Excel do this?! */
+  i:%i,
   /* Display of matrixes */
   lmxchar: "[",
   /* Sets up randomization, using Maxima's internal random command. */
@@ -199,16 +200,15 @@ declare ("#", commutative);
 simplify(ex) := ev(fullratsimp(ex), simp);      /* Allows simplify to be something. */
 degree(ex, v) := ev(hipow(expand(ex), v), simp); /* See notes on hipow.              */
 
-
 make_complexJ(OPT_COMPLEXJ) := block(
   if OPT_COMPLEXJ = "i" then
-    (i:%i,texput(%i,"\\mathrm{i}"))
-  else if OPT_COMPLEXJ = "j" then
-    (%j:%i,j:%i,texput(%i,"\\mathrm{j}"))
-  else if OPT_COMPLEXJ = "symi" then
     (texput(%i,"\\mathrm{i}"))
+  else if OPT_COMPLEXJ = "j" then
+    (kill(i),%j:%i,j:%i,texput(%i,"\\mathrm{j}"))
+  else if OPT_COMPLEXJ = "symi" then
+    (kill(i),texput(%i,"\\mathrm{i}"))
   else if OPT_COMPLEXJ = "symj" then
-    (texput(%i,"\\mathrm{j}"))
+    (kill(i),texput(%i,"\\mathrm{j}"))
   else true
 )$
 

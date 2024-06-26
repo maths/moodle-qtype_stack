@@ -132,6 +132,9 @@ if ($string) {
         if ($keyvals->get_valid()) {
             $kvcode = $keyvals->compile('test');
             $statements = [];
+            if ($kvcode['blockexternal']) {
+                $statements[] = new stack_secure_loader($kvcode['blockexternal'], 'caschat', 'blockexternal');
+            }
             if ($kvcode['contextvariables']) {
                 $statements[] = new stack_secure_loader($kvcode['contextvariables'], 'caschat');
             }

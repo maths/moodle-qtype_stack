@@ -5195,16 +5195,14 @@
   },
   "ordergreat": {
       "function": "s",
-      "blockexternal": "true",
-      "contextvariable": "true"
+      "blockexternal": "true"
   },
   "ordergreatp": {
       "function": "s"
   },
   "orderless": {
       "function": "s",
-      "blockexternal": "true",
-      "contextvariable": "true"
+      "blockexternal": "true"
   },
   "orderlessp": {
       "function": "s"
@@ -7311,8 +7309,7 @@
   },
   "stack_reset_vars": {
       "function": "?",
-      "blockexternal": "true",
-      "contextvariable": "true"
+      "blockexternal": "true"
   },
   "stack_validate": {
       "function": "s"

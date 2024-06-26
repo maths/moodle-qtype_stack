@@ -2493,10 +2493,12 @@ class cassession2_test extends qtype_stack_testcase {
         $s1 = [];
         $t1 = [];
         // Block external commands, such as ordergreat, are pulled out the front.
-        $t1[] = ['f:x*y*z', 'z*y*x'];
-        $t1[] = ['ordergreat(x,y,z)', 'done'];
-        $t1[] = ['g:x*y*z', 'z*y*x'];
-        $t1[] = ['h:exdowncase(X*Y*Z)', 'z*y*x'];
+        // So they apply to the whole session.
+        $t1[] = ['f:x*y*z+a', 'y*z*x+a'];
+        $t1[] = ['ordergreat(x,z,y)', '__s1'];
+        $t1[] = ['g:x*y*z+1', 'y*z*x+1'];
+        $t1[] = ['h:exdowncase(X*Y*Z)', 'y*z*x'];
+        $t1[] = ['k:ev(exdowncase(X*Y*Z),simp)', 'y*z*x'];
         $t1[] = ['ATAlgEquiv(exdowncase(x),x)', '[true,true,"",""]'];
 
         foreach ($t1 as $i => $case) {
@@ -2511,7 +2513,8 @@ class cassession2_test extends qtype_stack_testcase {
         foreach ($s->get_contextvariables() as $i => $v) {
             $a[$i] = $v->get_evaluationform();
         }
-        $this->assertEquals(['(%_C(ordergreat),ordergreat(x,y,z))'], $a);
+        // Note that ordergreat is no longer a context variable.  It's in the preamble.
+        $this->assertEquals([], $a);
 
         foreach ($t1 as $i => $t) {
             $this->assertEquals($t[1], $s1[$i]->get_value());

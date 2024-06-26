@@ -318,4 +318,24 @@ class caskeyval_test extends qtype_stack_testcase {
         ];
         $this->assertEquals($expected, $kv->get_errors());
     }
+
+    public function test_stack_compile() {
+        $tests = 'stack_reset_vars(true);ordergreat(i,j,k);p:matrix([-7],[2],[-3]);' .
+                 'q:matrix([i],[j],[k]);v:dotproduct(p,q);';
+        $kv = new stack_cas_keyval($tests);
+        $this->assertTrue($kv->get_valid());
+        $expected = [
+        ];
+        $compiled = $kv->compile('kv-test');
+
+        $expected = '(_EC(errcatch(stack_reset_vars(true)),"kv-test/1:1-1:2"),' .
+                    '_EC(errcatch(ordergreat(i,j,k)),"kv-test/1:24-1:2"),true)';
+        $this->assertEquals($expected, $compiled['blockexternal']);
+        $expected = '(_EC(errcatch(p:(%_C(matrix),matrix([-7],[2],[-3]))),"kv-test/1:42-1:2"),' .
+                    '_EC(errcatch(q:(%_C(matrix),matrix([i],[j],[k]))),"kv-test/1:66-1:2"),' .
+                    '_EC(errcatch(v:(%_C(dotproduct),dotproduct(p,q))),"kv-test/1:88-1:2"),true)';
+        $this->assertEquals($expected, $compiled['statement']);
+        $expected = null;
+        $this->assertEquals($expected, $compiled['contextvariables']);
+    }
 }

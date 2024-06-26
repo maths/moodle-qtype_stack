@@ -332,7 +332,7 @@ class stack_cas_session2 {
             $line .= stack_utils::php_string_to_maxima_string($statement->get_source_context());
             $line .= ')';
 
-            if ((method_exists($statement, 'stack_secure_loader') && $statement->get_blockexternal()) ||
+            if (($statement instanceof stack_secure_loader && $statement->get_blockexternal()) ||
                 (method_exists($statement, 'is_toplevel_property') && $statement->is_toplevel_property('blockexternal'))) {
                 $preblock .= 'errcatch(' . $ef . ")$\n";
             } else {

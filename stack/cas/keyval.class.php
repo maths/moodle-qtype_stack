@@ -387,12 +387,16 @@ class stack_cas_keyval {
                 if ($item->statement instanceof MP_FunctionCall) {
                     $op = $item->statement->name->value;
                 }
-                if (stack_cas_security::get_feature($op, 'blockexternal') !== null) {
-                    $bestatements[] = $statement;
-                }
-                // Note that stack_reet_vars needs to be both blockexternal and a contextvariable.
+                // Notes on ordergreat and stack_reset_vars.
+                // We must have ordergreat/orderless outside the main block, so we need blockexternals.
+                // If we use stack_reset_vars after an ordergreat it "kills" the effects of the order change.
+                // Hence, we can't have stack_reset_vars in both the context variables and the blockexternals.
+                // This is the edge case where we re-order i,j,k to be i+j+k, not the Maxima default k+j+i.
                 if (stack_cas_security::get_feature($op, 'contextvariable') !== null) {
                     $contextvariables[] = $statement;
+                } 
+                if (stack_cas_security::get_feature($op, 'blockexternal') !== null) {
+                    $bestatements[] = $statement;
                 } else {
                     $statements[] = $statement;
                 }
@@ -412,7 +416,6 @@ class stack_cas_keyval {
         if (count($bestatements) == 0) {
             $bestatements = null;
         } else {
-            // These statement groups always end with a 'true' to ensure minimal output.
             $bestatements = '(' . implode(',', $bestatements) . ',true)';
         }
         if (count($statements) == 0) {

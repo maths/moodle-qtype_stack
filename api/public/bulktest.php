@@ -125,20 +125,27 @@ require_login();
                 resultDiv.setAttribute('id', json.name);
 
                 // Display issues based on returned flags.
-                resultHtml += (json.isgeneralfeedback) ? '' : '<p class="feedback"><?=stack_string('bulktestnogeneralfeedback')?></p>';
-                resultHtml += (json.istests) ? '' : '<p class="feedback"><?=stack_string('bulktestnotests')?></p>';
-                resultHtml += (json.israndomvariants && !json.isdeployedseeds) ? '<p class="feedback"><?=stack_string('bulktestnodeployedseeds')?></p>' : '';
-                resultHtml += (json.israndomvariants && json.isdeployedseeds) ? '<div style="margin-left: 20px">' : ''; // Open div for seeds.
+                resultHtml += (json.isgeneralfeedback) ?
+                    '' : '<p class="feedback"><?php echo stack_string('bulktestnogeneralfeedback')?></p>';
+                resultHtml += (json.istests) ? '' : '<p class="feedback"><?php echo stack_string('bulktestnotests')?></p>';
+                resultHtml += (json.israndomvariants && !json.isdeployedseeds) ?
+                    '<p class="feedback"><?php echo stack_string('bulktestnodeployedseeds')?></p>' : '';
+                resultHtml += (json.israndomvariants && json.isdeployedseeds) ?
+                    '<div style="margin-left: 20px">' : ''; // Open div for seeds.
                 for (seed in json.results) {
                   // If there are no random variants, there should be one result indexed as 'noseed'.
                   if (seed !== 'noseed') {
-                    resultHtml += '<h5 class="seed"><?=stack_string('seedx', '')?>' + seed + '</h5>';
+                    resultHtml += '<h5 class="seed"><?php echo stack_string('seedx', '')?>' + seed + '</h5>';
                   }
                   if (json.istests && json.results[seed].passes !== null) {
                     // If tests have been run, displays number of passes and fails.
-                    resultHtml += '<p class="feedback' + ((json.results[seed].fails === 0) ? ' passed' : ' failed') +  '">' + json.results[seed].passes + ' <?=stack_string('api_passes')?>, ' + json.results[seed].fails + ' <?=stack_string('api_failures')?>.</p>';
+                    resultHtml += '<p class="feedback' + ((json.results[seed].fails === 0) ? ' passed' :' failed') +  '">'
+                        + json.results[seed].passes + ' <?php echo stack_string('api_passes')?>, '
+                        + json.results[seed].fails + ' <?php echo stack_string('api_failures')?>.</p>';
                     if ((json.results[seed].fails !== 0) || json.results[seed].messages) {
-                      failedTestsArray.push({'name': json.name, 'seed': seed, 'filepath': json.filepath, 'passes': json.results[seed].passes, 'fails': json.results[seed].fails, 'message': json.results[seed].messages});
+                      failedTestsArray.push({'name': json.name, 'seed': seed, 'filepath': json.filepath,
+                          'passes': json.results[seed].passes, 'fails': json.results[seed].fails,
+                          'message': json.results[seed].messages});
                       for (const testname in json.results[seed].outcomes) {
                         const outcome = json.results[seed].outcomes[testname];
                         // Display outcomes of failed tests if available. There should be a reason if not.
@@ -237,15 +244,19 @@ require_login();
             const itemEl = document.createElement('li');
             itemEl.innerHTML = issue.filepath
             itemEl.innerHTML += (issue.name !== undefined) ? ' : ' + issue.name : '';
-            itemEl.innerHTML += (issue.seed !== undefined && issue.seed !== 'noseed') ? ' : <?=stack_string('seedx', '')?>' + issue.seed : '';
-            itemEl.innerHTML += (issue.passes !== undefined) ? ' - (' + issue.passes + ' <?=stack_string('api_passes')?>, ' + issue.fails + ' <?=stack_string('api_failures')?>)' : '';
+            itemEl.innerHTML += (issue.seed !== undefined && issue.seed !== 'noseed') ?
+                ' : <?php echo stack_string('seedx', '')?>' + issue.seed : '';
+            itemEl.innerHTML += (issue.passes !== undefined) ?
+                ' - (' + issue.passes + ' <?php echo stack_string('api_passes')?>, ' +
+                issue.fails + ' <?php echo stack_string('api_failures')?>)' : '';
             itemEl.innerHTML += (issue.message !== undefined) ? '<br>' + issue.message : '';
             listEl.appendChild(itemEl);
           }
           listEl.replaceChildren(...Array.from(listEl.children).sort((a,b) => a.innerHTML.localeCompare(b.innerHTML)));
           targetDiv.appendChild(listEl);
           document.getElementById('overall-result').innerHTML = (overallPass) ?
-              '<div class="feedback passed"><?=stack_string('stackInstall_testsuite_pass')?></div><br>' : '<div class="feedback failed"><?=stack_string('stackInstall_testsuite_fail')?></div><br>';
+              '<div class="feedback passed"><?php echo stack_string('stackInstall_testsuite_pass')?></div><br>' :
+              '<div class="feedback failed"><?php echo stack_string('stackInstall_testsuite_fail')?></div><br>';
         }
       }
 
@@ -261,7 +272,7 @@ require_login();
         document.getElementById('bulktest-spinner').removeAttribute('hidden');
         document.getElementById('overall-results').setAttribute('hidden', true);
         document.getElementById('errors').setAttribute('hidden', true);
-        document.getElementById('errors').innerHTML = '<h1><?=stack_string('api_errors')?></h1><br>';
+        document.getElementById('errors').innerHTML = '<h1><?php echo stack_string('api_errors')?></h1><br>';
         document.getElementById('output').innerHTML = '';
         requests = [];
         filesToProcess = [];
@@ -344,7 +355,7 @@ require_login();
             </span>
           </a>
         </div>
-          <?=stack_string('api_choose_folder')?>:
+          <?php echo stack_string('api_choose_folder')?>:
         <input type="file" id="local-folder" accept=".xml" name="local-folder" webkitdirectory directory multiple/>
         <div>
           <button id="bulktest-button" onclick="testFolder()"  class="btn btn-primary" type="button">
@@ -363,22 +374,22 @@ require_login();
         <h1>Overall Results</h1>
         <div id="overall-result">
         </div>
-        <h3 id="failed-tests-title"><?=stack_string('stackInstall_testsuite_failingtests')?></h3>
+        <h3 id="failed-tests-title"><?php echo stack_string('stackInstall_testsuite_failingtests')?></h3>
         <div id="failed-tests">
         </div>
-        <h3 id="upgrade-fail-title"><?=stack_string('stackInstall_testsuite_failingupgrades')?></h3>
+        <h3 id="upgrade-fail-title"><?php echo stack_string('stackInstall_testsuite_failingupgrades')?></h3>
         <div id="upgrade-fail">
         </div>
-        <h3 id="no-tests-title"><?=stack_string('stackInstall_testsuite_notests')?></h3>
+        <h3 id="no-tests-title"><?php echo stack_string('stackInstall_testsuite_notests')?></h3>
         <div id="no-tests">
         </div>
-        <h3 id="no-feedback-title"><?=stack_string('stackInstall_testsuite_nogeneralfeedback')?></h3>
+        <h3 id="no-feedback-title"><?php echo stack_string('stackInstall_testsuite_nogeneralfeedback')?></h3>
         <div id="no-feedback">
         </div>
-        <h3 id="no-deployed-seeds-title"><?=stack_string('stackInstall_testsuite_nodeployedseeds')?></h3>
+        <h3 id="no-deployed-seeds-title"><?php echo stack_string('stackInstall_testsuite_nodeployedseeds')?></h3>
         <div id="no-deployed-seeds">
         </div>
-        <h3 id="general-error-title"><?=stack_string('api_general_errors')?></h3>
+        <h3 id="general-error-title"><?php echo stack_string('api_general_errors')?></h3>
         <div id="general-error">
         </div>
       </div>

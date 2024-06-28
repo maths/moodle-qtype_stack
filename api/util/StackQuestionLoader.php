@@ -274,7 +274,7 @@ class StackQuestionLoader {
         if ($includetests) {
             foreach ($xmldata->question->qtest as $test) {
                 $testinputs = [];
-                foreach($test->testinput as $testinput) {
+                foreach ($test->testinput as $testinput) {
                     $testinputs[(string) $testinput->name] = (string) $testinput->value;
                 }
                 $testcase = new \stack_question_test((string) $test->description, $testinputs, (string) $test->testcase);
@@ -291,7 +291,7 @@ class StackQuestionLoader {
             }
         }
 
-        return ['question'=>$question, 'testcases'=>$testcases];
+        return ['question' => $question, 'testcases' => $testcases];
     }
 
     private static function handlefiles(\SimpleXMLElement $files) {

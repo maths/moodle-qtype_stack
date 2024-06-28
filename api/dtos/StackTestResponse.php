@@ -15,12 +15,11 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- *  Response to a question test request
+ * Response to a question test request
  *
- *  @copyright  2024 Uuniversity of Edinburgh
- *  @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
+ * @copyright  2024 Uuniversity of Edinburgh
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
-
 
 namespace api\dtos;
 

@@ -100,7 +100,7 @@ class TestController {
         if (empty($question->deployedseeds)) {
             try {
                 $testresponse->results = [
-                    'noseed' => $this->qtype_stack_test_question($question, $testcases, null)
+                    'noseed' => $this->qtype_stack_test_question($question, $testcases, null),
                 ];
             } catch (\stack_exception $e) {
                 $testresponse->results['noseed'] = [

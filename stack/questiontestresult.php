@@ -270,8 +270,8 @@ class stack_question_test_result {
 
             }
 
-            foreach ($this->get_prt_states() as $prt_name => $state) {
-                $outcomes[$prt_name] = [
+            foreach ($this->get_prt_states() as $prtname => $state) {
+                $outcomes[$prtname] = [
                     'outcome' => $state->testoutcome,
                     'score' => $state->score,
                     'penalty' => $state->penalty,

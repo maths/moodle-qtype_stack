@@ -91,7 +91,9 @@ function require_login() {
 
 function get_file_storage() {
     $storage = new class {
-        public function get_area_files($x, $y, $z, $a) {return [];}
+        public function get_area_files($x, $y, $z, $a) {
+            return [];
+        }
     };
     return $storage;
 }

@@ -101,5 +101,5 @@ $CFG->mathsdisplay = 'api';
 
 $CFG->libdir = $CFG->dirroot . '/emulation/libdir';
 
-// MathJax URL
+// MathJax URL.
 $CFG->httpsurl = 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML';

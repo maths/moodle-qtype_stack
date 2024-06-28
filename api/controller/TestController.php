@@ -86,7 +86,9 @@ class TestController {
 
         // Check for upgrade errors and return response immediately if so.
         // Errors will be listed in overall response messages.
-        $upgradeerrors = $question->validate_against_stackversion(null);
+        $dummycontext = new \stdClass(); // Required for unit tests.
+        $dummycontext->id = 0;
+        $upgradeerrors = $question->validate_against_stackversion($dummycontext);
         if ($upgradeerrors != '') {
             $testresponse->isupgradeerror = true;
             $testresponse->messages = $upgradeerrors;

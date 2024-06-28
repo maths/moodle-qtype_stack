@@ -60,7 +60,10 @@ require_login();
   </head>
   <body>
     <script>
+      // Keep track of all requests sent to the server so we can check they're all complete.
       var requests = [];
+      var filesToProcess = [];
+      // Keep an array for which questions have failed for each reason for easy display of summary.
       var noFeedbackArray = [];
       var noTestsArray = [];
       var upgradeIssueArray = [];
@@ -68,6 +71,10 @@ require_login();
       var failedTestsArray = [];
       var generalErrorArray = [];
 
+      /**
+      * Send a question to the server for testing. Filepath required
+      * for ordering the output by folder.
+      */
       function send(filepath, questionxml) {
         const http = new XMLHttpRequest();
         requests.push(http);
@@ -76,6 +83,10 @@ require_login();
         const url = "http://localhost:3080/test";
         http.open("POST", url, true);
         http.setRequestHeader('Content-Type', 'application/json');
+
+        // Create nested <div>s with ids and titles representing the file structure in
+        // preparation for displaying results.
+        // Files being sent in sorted order so we don't need to sort again.
         const pathArray = filepath.split('/');
         let currentDiv = '';
         for (const part of pathArray) {
@@ -97,9 +108,12 @@ require_login();
         }
         http.onreadystatechange = function() {
           if(http.readyState == 4) {
+            // Create div to show results of an individual question.
             const resultDiv = document.createElement("div");
             resultDiv.setAttribute('style', 'margin-left: 10px;');
             try {
+              // If there's a JSON error, display output then this whole question has a problem somewhere.
+              // Add to general erros and give up.
               const json = JSON.parse(http.responseText);
               if (json.error) {
                 resultDiv.innerHTML = '<p class="feedback failed">' + json.error + ' - JSON: ' + http.responseText + '</p>';
@@ -110,44 +124,58 @@ require_login();
                 let resultHtml = '<h3 class="question-title">' + json.name + '</h3>';
                 resultDiv.setAttribute('id', json.name);
 
+                // Display issues based on returned flags.
                 resultHtml += (json.isgeneralfeedback) ? '' : '<p class="feedback"><?=stack_string('bulktestnogeneralfeedback')?></p>';
                 resultHtml += (json.istests) ? '' : '<p class="feedback"><?=stack_string('bulktestnotests')?></p>';
                 resultHtml += (json.israndomvariants && !json.isdeployedseeds) ? '<p class="feedback"><?=stack_string('bulktestnodeployedseeds')?></p>' : '';
-                resultHtml += (json.israndomvariants && json.isdeployedseeds) ? '<div style="margin-left: 20px">' : '';
+                resultHtml += (json.israndomvariants && json.isdeployedseeds) ? '<div style="margin-left: 20px">' : ''; // Open div for seeds.
                 for (seed in json.results) {
+                  // If there are no random variants, there should be one result indexed as 'noseed'.
                   if (seed !== 'noseed') {
                     resultHtml += '<h5 class="seed"><?=stack_string('seedx', '')?>' + seed + '</h5>';
                   }
                   if (json.istests && json.results[seed].passes !== null) {
+                    // If tests have been run, displays number of passes and fails.
                     resultHtml += '<p class="feedback' + ((json.results[seed].fails === 0) ? ' passed' : ' failed') +  '">' + json.results[seed].passes + ' <?=stack_string('api_passes')?>, ' + json.results[seed].fails + ' <?=stack_string('api_failures')?>.</p>';
-                    if ((json.results[seed].fails !== 0)) {
-                      failedTestsArray.push({'name': json.name, 'seed': seed, 'filepath': json.filepath, 'passes': json.results[seed].passes, 'fails': json.results[seed].fails});
+                    if ((json.results[seed].fails !== 0) || json.results[seed].messages) {
+                      failedTestsArray.push({'name': json.name, 'seed': seed, 'filepath': json.filepath, 'passes': json.results[seed].passes, 'fails': json.results[seed].fails, 'message': json.results[seed].messages});
                       for (const testname in json.results[seed].outcomes) {
                         const outcome = json.results[seed].outcomes[testname];
-                        if (!outcome.passed && !outcome.reason) {
-                          resultHtml += '<p>' + testname + ' : ' + JSON.stringify(outcome.outcomes) + '</p>';
+                        // Display outcomes of failed tests if available. There should be a reason if not.
+                        if (!outcome.passed) {
+                          if (outcome.reason) {
+                            resultHtml += '<p>' + testname + ' : ' + outcome.reason + '</p>';
+                          } else {
+                            resultHtml += '<p>' + testname + ' : ' + JSON.stringify(outcome.inputs) + '</p>';
+                            resultHtml += '<p>' + testname + ' : ' + JSON.stringify(outcome.outcomes) + '</p>';
+                          }
                         }
                       }
                     }
                   }
+                  // Display seed level messages - will be exceptions.
                   if (json.results[seed].messages) {
                     resultHtml += '<p class="feedback failed">' + json.results[seed].messages + '</p>';
                   }
                 }
-                resultHtml += (json.israndomvariants && json.isdeployedseeds) ? '</div>' : '';
+                resultHtml += (json.israndomvariants && json.isdeployedseeds) ? '</div>' : '';  // Close div for seeds.
+                // Display question level messages. (Upgrade errors).
                 resultHtml += (json.messages) ? '<p class="feedback failed">' + json.messages + '</p>' : '';
                 resultDiv.innerHTML = resultHtml;
+                // Append result to correct div then sort questions by name. (Calls are async so we may not
+                // get the results back in the correct order).
                 const parentDivEl = document.getElementById(json.filepath);
                 parentDivEl.appendChild(resultDiv);
                 parentDivEl.replaceChildren(...Array.from(parentDivEl.children).sort((a,b) => a.id.localeCompare(b.id)));
 
+                // Update the lists of failed tests in each category.
                 const overallUpdate = [
-                                  [!json.istests, noTestsArray],
-                                  [!json.isgeneralfeedback, noFeedbackArray],
-                                  [json.israndomvariants && !json.isdeployedseeds, noDeployedSeedsArray],
-                                  [json.isupgradeerror, upgradeIssueArray],
-                                  [json.message && !json.isupgradeerror, generalErrorArray],
-                                ]
+                          [!json.istests, noTestsArray],
+                          [!json.isgeneralfeedback, noFeedbackArray],
+                          [json.israndomvariants && !json.isdeployedseeds, noDeployedSeedsArray],
+                          [json.isupgradeerror, upgradeIssueArray],
+                          [json.message && !json.isupgradeerror, generalErrorArray],
+                ]
                 for (const update of overallUpdate) {
                   if (update[0] === true) {
                     update[1].push({'name': json.name, 'filepath': json.filepath})
@@ -155,6 +183,7 @@ require_login();
                 }
               }
             } catch(e) {
+              // Something has gone very wrong.
               resultDiv.innerText = e.message + ' - JSON: ' + http.responseText;
               resultDiv.innerHTML += '<br><br>';
               document.getElementById('errors').appendChild(resultDiv);
@@ -162,60 +191,71 @@ require_login();
               generalErrorArray.push(filepath);
             }
 
+            // Remove current request from pending array
             requests = requests.filter(req => req !== http);
-            if (requests.length === 0) {
-              let overallPass = true;
-              document.getElementById('bulktest-button').removeAttribute('disabled');
-              document.getElementById('bulktest-spinner').setAttribute('hidden', true);
-              document.getElementById('overall-results').removeAttribute('hidden');
-              const displayUpdate = [
-                                    [noTestsArray, 'no-tests'],
-                                    [noFeedbackArray, 'no-feedback'],
-                                    [upgradeIssueArray, 'upgrade-fail'],
-                                    [noDeployedSeedsArray, 'no-deployed-seeds'],
-                                    [failedTestsArray, 'failed-tests'],
-                                    [generalErrorArray, 'general-error'],
-                                  ]
-              for (const update of displayUpdate) {
-                const targetTitle = document.getElementById(update[1] + '-title')
-                if (update[0].length === 0) {
-                  targetTitle.setAttribute('hidden', true);
-                  continue;
-                }
-                overallPass = false;
-                targetTitle.removeAttribute('hidden');
-                const targetDiv = document.getElementById(update[1]);
-                targetDiv.innerHTML = '';
-                const listEl = document.createElement('ul');
-                for (const issue of update[0]) {
-                  const itemEl = document.createElement('li');
-                  itemEl.innerHTML = issue.filepath
-                  itemEl.innerHTML += (issue.name !== undefined) ? ' : ' + issue.name : '';
-                  itemEl.innerHTML += (issue.seed !== undefined && issue.seed !== 'noseed') ? ' : <?=stack_string('seedx', '')?>' + issue.seed : '';
-                  itemEl.innerHTML += (issue.passes !== undefined) ? ' - (' + issue.passes + ' <?=stack_string('api_passes')?>, ' + issue.fails + ' <?=stack_string('api_failures')?>)' : '';
-                  listEl.appendChild(itemEl);
-                }
-                listEl.replaceChildren(...Array.from(listEl.children).sort((a,b) => a.innerHTML.localeCompare(b.innerHTML)));
-                targetDiv.appendChild(listEl);
-                document.getElementById('overall-result').innerHTML = (overallPass) ?
-                    '<div class="feedback passed"><?=stack_string('stackInstall_testsuite_pass')?></div><br>' : '<div class="feedback failed"><?=stack_string('stackInstall_testsuite_fail')?></div><br>';
-              }
+            if (requests.length === 0 && filesToProcess.length === 0) {
+              displayOverallResults();
             }
           }
         };
         http.send(JSON.stringify({'questionDefinition': questionxml, 'filepath': filepath}));
       }
 
-      function getLocalQuestionFile(file) {
-        if (file) {
-          const reader = new FileReader();
-          reader.readAsText(file, "UTF-8");
-          reader.onload = function (evt) {
-            sendQuestionsFromFile(file.webkitRelativePath, evt.target.result);
+      /**
+       * Display the overall pass/fail message and the collections of failed
+       * tests by category of failure. We need to have processed all the files
+       * and got a response to all the requests before running this.
+       *
+       * @return void
+       */
+      function displayOverallResults() {
+        // All done. Display final lists of failed questions by category.
+        let overallPass = true;
+        document.getElementById('bulktest-button').removeAttribute('disabled');
+        document.getElementById('bulktest-spinner').setAttribute('hidden', true);
+        document.getElementById('overall-results').removeAttribute('hidden');
+        const displayUpdate = [
+                [noTestsArray, 'no-tests'],
+                [noFeedbackArray, 'no-feedback'],
+                [upgradeIssueArray, 'upgrade-fail'],
+                [noDeployedSeedsArray, 'no-deployed-seeds'],
+                [failedTestsArray, 'failed-tests'],
+                [generalErrorArray, 'general-error'],
+        ]
+        for (const update of displayUpdate) {
+          const targetTitle = document.getElementById(update[1] + '-title')
+          if (update[0].length === 0) {
+            targetTitle.setAttribute('hidden', true);
+            continue;
           }
+          overallPass = false;
+          targetTitle.removeAttribute('hidden');
+          const targetDiv = document.getElementById(update[1]);
+          targetDiv.innerHTML = '';
+          const listEl = document.createElement('ul');
+          for (const issue of update[0]) {
+            const itemEl = document.createElement('li');
+            itemEl.innerHTML = issue.filepath
+            itemEl.innerHTML += (issue.name !== undefined) ? ' : ' + issue.name : '';
+            itemEl.innerHTML += (issue.seed !== undefined && issue.seed !== 'noseed') ? ' : <?=stack_string('seedx', '')?>' + issue.seed : '';
+            itemEl.innerHTML += (issue.passes !== undefined) ? ' - (' + issue.passes + ' <?=stack_string('api_passes')?>, ' + issue.fails + ' <?=stack_string('api_failures')?>)' : '';
+            itemEl.innerHTML += (issue.message !== undefined) ? '<br>' + issue.message : '';
+            listEl.appendChild(itemEl);
+          }
+          listEl.replaceChildren(...Array.from(listEl.children).sort((a,b) => a.innerHTML.localeCompare(b.innerHTML)));
+          targetDiv.appendChild(listEl);
+          document.getElementById('overall-result').innerHTML = (overallPass) ?
+              '<div class="feedback passed"><?=stack_string('stackInstall_testsuite_pass')?></div><br>' : '<div class="feedback failed"><?=stack_string('stackInstall_testsuite_fail')?></div><br>';
         }
       }
 
+      /**
+       * Initialise output and sort selected files.
+       * Keeps track of files processed so far to avoid race condition possibility
+       * between the calls to the server and the reading/parsing of a long file.
+       *
+       * @return void
+       */
       function testFolder() {
         document.getElementById('bulktest-button').setAttribute('disabled', true);
         document.getElementById('bulktest-spinner').removeAttribute('hidden');
@@ -224,20 +264,51 @@ require_login();
         document.getElementById('errors').innerHTML = '<h1><?=stack_string('api_errors')?></h1><br>';
         document.getElementById('output').innerHTML = '';
         requests = [];
+        filesToProcess = [];
         noFeedbackArray = [];
         noTestsArray = [];
         upgradeIssueArray = [];
         noDeployedSeedsArray = [];
         failedTestsArray = [];
         generalErrorArray = [];
+        readingFile = true;
         let files = document.getElementById('local-folder').files;
-        files = Array.from(files).sort((a,b) => a.webkitRelativePath.localeCompare(b.webkitRelativePath))
+        files = Array.from(files).sort((a,b) => a.webkitRelativePath.localeCompare(b.webkitRelativePath));
         for (const file of files) {
-          if (file.type === 'application/xml' || file.type === 'text/xml')
+          filesToProcess.push(file.webkitRelativePath);
+        }
+        for (const file of files) {
+          if (file.type === 'application/xml' || file.type === 'text/xml') {
             getLocalQuestionFile(file);
+          } else {
+            filesToProcess = filesToProcess.filter(item => item !== file.webkitRelativePath);
+          }
         }
       }
 
+      /**
+       * Read a file
+       */
+      function getLocalQuestionFile(file) {
+        if (file) {
+          const reader = new FileReader();
+          reader.readAsText(file, "UTF-8");
+          reader.onload = function (evt) {
+            sendQuestionsFromFile(file.webkitRelativePath, evt.target.result);
+            filesToProcess = filesToProcess.filter(item => item !== file.webkitRelativePath);
+            // Maybe we're done. Check if so and display the results if appropriate.
+            // This is unlikely but maybe we finished with a large file with no
+            // STACK questions and so all the requests are already complete.
+            if (requests.length === 0 && filesToProcess.length === 0) {
+              displayOverallResults();
+            }
+          }
+        }
+      }
+
+      /**
+       * Parse an XML file, chop into stack questions and send test requests for each one.
+       */
       function sendQuestionsFromFile(filepath, fileContents) {
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(fileContents, "text/xml");

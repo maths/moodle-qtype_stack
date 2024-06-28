@@ -14,9 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-// This script handles the various deploy/undeploy actions from questiontestrun.php.
+// This script handles the running of question tests for a supplied question
 //
-// @copyright  2023 RWTH Aachen
+// @copyright  2024 University of Edinburgh
 // @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
 
 namespace api\controller;
@@ -32,6 +32,13 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use api\dtos\StackTestResponse;
 
+/**
+ * Handles the running of question tests for a supplied question
+ *
+ * Based heavily on bulktester.class.php and questiontest.php but they rely on
+ * Moodle context and create HTML. Here we're just getting test results and
+ * leaving display for the front end.
+ */
 class TestController {
     /**
      * @throws \stack_exception
@@ -48,6 +55,8 @@ class TestController {
         $testresponse->name = $question->name;
         $testresponse->filepath = $data['filepath'];
 
+        // We want to flag if the question is missing general feedback, has deployed seeds,
+        // has random variants and/or has tests. It's up to the front end to decide what to do with that info.
         if (trim($question->generalfeedback) !== '') {
             $testresponse->isgeneralfeedback = true;
         }
@@ -64,6 +73,8 @@ class TestController {
             $testresponse->istests = true;
         }
 
+        // If the question uses random variants but has no deployed seeds we can't even initialise
+        // the question so return response.
         if ($testresponse->israndomvariants && !$testresponse->isdeployedseeds) {
             $testresponse->results = [];
             $response->getBody()->write(json_encode($testresponse));
@@ -73,6 +84,8 @@ class TestController {
             $question->initialise_question_from_seed();
         }
 
+        // Check for upgrade errors and return response immediately if so.
+        // Errors will be listed in overall response messages.
         $upgradeerrors = $question->validate_against_stackversion(null);
         if ($upgradeerrors != '') {
             $testresponse->isupgradeerror = true;
@@ -82,22 +95,32 @@ class TestController {
             return $response->withHeader('Content-Type', 'application/json');
         }
 
+        // Create test results for each deployed seed. If no random variants, then use 'noseed' as
+        // array index.
         if (empty($question->deployedseeds)) {
             try {
                 $testresponse->results = [
                     'noseed' => $this->qtype_stack_test_question($question, $testcases, null)
                 ];
             } catch (\stack_exception $e) {
-                $testresponse->messages = stack_string('errors') . ' : ' . $e;
-                $testresponse->results = [];
+                $testresponse->results['noseed'] = [
+                        'passes' => null,
+                        'fails' => null,
+                        'messages' => stack_string('errors') . ' : ' . $e,
+                        'outcomes' => null,
+                    ];
             }
         } else {
             foreach ($question->deployedseeds as $seed) {
                 try {
                     $testresponse->results[$seed] = $this->qtype_stack_test_question($question, $testcases, $seed);
                 } catch (\stack_exception $e) {
-                    $testresponse->messages = stack_string('errors') . ' : ' . $e;
-                    $testresponse->results = [];
+                    $testresponse->results[$seed] = [
+                        'passes' => null,
+                        'fails' => null,
+                        'messages' => stack_string('errors') . ' : ' . $e,
+                        'outcomes' => null,
+                    ];
                 }
             }
         }
@@ -109,19 +132,23 @@ class TestController {
      * Run the tests for one variant of one question and display the results.
      *
      * @param \qtype_stack_question $question the question to test.
+     * @param array $testcases the questions tests.
      * @param int|null $seed if we want to force a particular version.
-     * @return array with two elements:
-     *              bool true if the tests passed, else false.
-     *              sring message summarising the number of passes and fails.
+     * @return array with elements:
+     *              int passes - number of tests passed.
+     *              int fails - number of tests failed.
+     *              string messages - error messages.
+     *              array outcomes - detailed info on the outcomes of the test.
+     *                  (See stack_question_test_result->passed_with_reasons.
+     *                   TO-DO Is it worth creating a class for this?)
      */
     public function qtype_stack_test_question($question, $testcases, $seed = null) {
-        flush(); // Force output to prevent timeouts and to make progress clear.
-        gc_collect_cycles(); // Because PHP's default memory management is rubbish.
-
         if (!is_null($seed)) {
             $question->seed = (int) $seed;
         }
-        // Execute the tests.
+        // Execute the tests for each seed.
+        // Return number of passed tests, number of failed tests, any error messages
+        // and outcomes - an array of summaries of the test results.
         $passes = 0;
         $fails = 0;
         $message = '';
@@ -154,8 +181,6 @@ class TestController {
                 implode(' ', array_keys($question->runtimeerrors));
             $message .= $s;
         }
-
-        flush(); // Force output to prevent timeouts and to make progress clear.
 
         return [
             'passes' => $passes,

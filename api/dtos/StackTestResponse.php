@@ -42,7 +42,7 @@ class StackTestResponse {
     /** @var bool */
     public $istests = false;
     /** @var array
-     * Array keyed by seed (or 'noseed'). Subarrays have 'passes' , 'fails', 'messages[]'.
+     * Array keyed by seed (or 'noseed'). Subarrays have 'passes' , 'fails', 'messages[]', 'outcomes'.
      */
     public $results = [];
 }

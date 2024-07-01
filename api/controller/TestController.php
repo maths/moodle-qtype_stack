@@ -53,7 +53,6 @@ class TestController {
 
         $testresponse = new StackTestResponse();
         $testresponse->name = $question->name;
-        $testresponse->filepath = $data['filepath'];
 
         // We want to flag if the question is missing general feedback, has deployed seeds,
         // has random variants and/or has tests. It's up to the front end to decide what to do with that info.
@@ -166,6 +165,26 @@ class TestController {
             } else {
                 $fails += 1;
                 $message .= $summary['reason'];
+            }
+        }
+
+        // If we don't have any tests, check to see if the model answers give a score of 1.
+        if (count($testcases) === 0) {
+            $inputs = [];
+            foreach ($question->inputs as $inputname => $input) {
+                $inputs[$inputname] = $input->get_teacher_answer_testcase();
+            }
+            $response = \stack_question_test::compute_response($question, $inputs);
+
+            foreach ($question->prts as $prtname => $prt) {
+                $result = $question->get_prt_result($prtname, $response, false);
+                $result->get_answernotes();
+                if ($result->get_score() !== 1) {
+                    $message = stack_string('default_test_fail');
+                    $fails = 1;
+                } else {
+                    $passes = 1;
+                }
             }
         }
 

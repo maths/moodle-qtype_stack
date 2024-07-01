@@ -115,7 +115,7 @@ require_login();
               // If there's a JSON error, display output then this whole question has a problem somewhere.
               // Add to general erros and give up.
               const json = JSON.parse(http.responseText);
-              if (json.error) {
+              if (json.message) {
                 resultDiv.innerHTML = '<p class="feedback failed">' + json.error + ' - JSON: ' + http.responseText + '</p>';
                 const parentDivEl = document.getElementById(filepath);
                 parentDivEl.appendChild(resultDiv);
@@ -143,7 +143,7 @@ require_login();
                         + json.results[seed].passes + ' <?php echo stack_string('api_passes')?>, '
                         + json.results[seed].fails + ' <?php echo stack_string('api_failures')?>.</p>';
                     if ((json.results[seed].fails !== 0) || json.results[seed].messages) {
-                      failedTestsArray.push({'name': json.name, 'seed': seed, 'filepath': json.filepath,
+                      failedTestsArray.push({'name': json.name, 'seed': seed, 'filepath': filepath,
                           'passes': json.results[seed].passes, 'fails': json.results[seed].fails,
                           'message': json.results[seed].messages});
                       for (const testname in json.results[seed].outcomes) {
@@ -164,6 +164,12 @@ require_login();
                   if (json.results[seed].messages) {
                     resultHtml += '<p class="feedback failed">' + json.results[seed].messages + '</p>';
                   }
+                  // If we've got no tests but a failed test, then our fallback test of using the teacher's
+                  // answer and expecting a score of 1 has failed.
+                  if (!json.istests && json.results[seed].fails) {
+                    failedTestsArray.push({'name': json.name, 'seed': seed, 'filepath': filepath,
+                          'message': json.results[seed].messages});
+                  }
                 }
                 resultHtml += (json.israndomvariants && json.isdeployedseeds) ? '</div>' : '';  // Close div for seeds.
                 // Display question level messages. (Upgrade errors).
@@ -171,7 +177,7 @@ require_login();
                 resultDiv.innerHTML = resultHtml;
                 // Append result to correct div then sort questions by name. (Calls are async so we may not
                 // get the results back in the correct order).
-                const parentDivEl = document.getElementById(json.filepath);
+                const parentDivEl = document.getElementById(filepath);
                 parentDivEl.appendChild(resultDiv);
                 parentDivEl.replaceChildren(...Array.from(parentDivEl.children).sort((a,b) => a.id.localeCompare(b.id)));
 
@@ -185,7 +191,7 @@ require_login();
                 ]
                 for (const update of overallUpdate) {
                   if (update[0] === true) {
-                    update[1].push({'name': json.name, 'filepath': json.filepath})
+                    update[1].push({'name': json.name, 'filepath': filepath})
                   }
                 }
               }
@@ -205,7 +211,7 @@ require_login();
             }
           }
         };
-        http.send(JSON.stringify({'questionDefinition': questionxml, 'filepath': filepath}));
+        http.send(JSON.stringify({'questionDefinition': questionxml}));
       }
 
       /**

@@ -149,10 +149,9 @@ require_login();
                       for (const testname in json.results[seed].outcomes) {
                         const outcome = json.results[seed].outcomes[testname];
                         // Display outcomes of failed tests if available. There should be a reason if not.
+                        // Reason will be displayed as part of messages.
                         if (!outcome.passed) {
-                          if (outcome.reason) {
-                            resultHtml += '<p>' + testname + ' : ' + outcome.reason + '</p>';
-                          } else {
+                          if (!outcome.reason) {
                             resultHtml += '<p>' + testname + ' : ' + JSON.stringify(outcome.inputs) + '</p>';
                             resultHtml += '<p>' + testname + ' : ' + JSON.stringify(outcome.outcomes) + '</p>';
                           }

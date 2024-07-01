@@ -132,7 +132,7 @@ class TestController {
     /**
      * Run the tests for one variant of one question and display the results.
      *
-     * @param \qtype_stack_question $question the question to test.
+     * @param object $question the question to test.
      * @param array $testcases the questions tests.
      * @param int|null $seed if we want to force a particular version.
      * @return array with elements:
@@ -174,17 +174,27 @@ class TestController {
             foreach ($question->inputs as $inputname => $input) {
                 $inputs[$inputname] = $input->get_teacher_answer_testcase();
             }
+            $qtest = new \stack_question_test(stack_string('autotestcase'), $inputs);
             $response = \stack_question_test::compute_response($question, $inputs);
 
             foreach ($question->prts as $prtname => $prt) {
                 $result = $question->get_prt_result($prtname, $response, false);
-                $result->get_answernotes();
-                if ($result->get_score() !== 1) {
-                    $message = stack_string('default_test_fail');
-                    $fails = 1;
-                } else {
-                    $passes = 1;
-                }
+                // We could just check if score === 1 at this point but by creating
+                // a test and running it we get the full outcomes in the same
+                // format as above.
+                $answernotes = $result->get_answernotes();
+                $answernote = [end($answernotes)];
+                $qtest->add_expected_result($prtname, new \stack_potentialresponse_tree_state(
+                    1, true, 1, 0, '', $answernote));
+            }
+            $results = $qtest->process_results($question, $response);
+            $summary = $results->passed_with_reasons();
+            $outcomes[$qtest->testcase] = $summary;
+            if ($summary['passed']) {
+                $passes = 1;
+            } else {
+                $fails = 1;
+                $message = stack_string('default_test_fail');
             }
         }
 
